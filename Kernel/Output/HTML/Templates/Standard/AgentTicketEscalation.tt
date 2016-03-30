@@ -22,7 +22,7 @@
 [% RenderBlockEnd("TicketEscalationUpdateTimeOver") %]
 [% RenderBlockStart("TicketEscalationUpdateTimeWillBeOver") %]
 <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]">
-    [% Translate("Ticket %s: update time will be over in %s/%s", Data.TicketNumber, Data.UpdateTimeHuman, Localize(Data.UpdateTimeDestinationDate, "TimeShort")) | html %]
+    [% Translate("Ticket %s: update time will be over in %s/%s!", Data.TicketNumber, Data.UpdateTimeHuman, Localize(Data.UpdateTimeDestinationDate, "TimeShort")) | html %]
 </a>
 [% RenderBlockEnd("TicketEscalationUpdateTimeWillBeOver") %]
 [% RenderBlockStart("TicketEscalationSolutionTimeOver") %]

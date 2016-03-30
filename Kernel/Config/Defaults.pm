@@ -377,7 +377,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # authentication settings                             #
     # (enable what you need, auth against otrs db,        #
-    # against LDAP directory, against HTTP basic auth      #
+    # against LDAP directory, against HTTP basic auth     #
     # or against Radius server)                           #
     # --------------------------------------------------- #
     # This is the auth. module against the otrs db

@@ -5541,7 +5541,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Title>HTML Reference</Title>
+                <Title Translatable="1">HTML Reference</Title>
                 <Group>users</Group>
                 <GroupRo>users</GroupRo>
                 <Description Translatable="1">HTML Reference.</Description>

@@ -8467,8 +8467,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>AgentCustomerSearch</Description>
-                <Title>AgentCustomerSearch</Title>
+                <Description Translatable="1">Agent Customer Search.</Description>
+                <Title Translatable="1">Agent Customer Search</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8479,8 +8479,8 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>AgentUserSearch</Description>
-                <Title>AgentUserSearch</Title>
+                <Description Translatable="1">Agent User Search.</Description>
+                <Title Translatable="1">Agent User Search</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8547,7 +8547,7 @@
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>compat module for AgentZoom to AgentTicketZoom</Description>
+                <Description Translatable="1">Compat module for AgentZoom to AgentTicketZoom.</Description>
                 <NavBarName>Ticket</NavBarName>
                 <Title></Title>
             </FrontendModuleReg>
@@ -8675,7 +8675,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Description Translatable="1">Ticket Lock.</Description>
-                <Title>Lock</Title>
+                <Title Translatable="1">Lock</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -8905,7 +8905,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Description Translatable="1">Ticket bulk module.</Description>
-                <Title>Bulk-Action</Title>
+                <Title Translatable="1">Bulk Action</Title>
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
@@ -8920,7 +8920,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Access Control Lists (ACL)</Title>
                 <NavBarName>Admin</NavBarName>
                 <Loader>
@@ -8944,7 +8944,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -8964,7 +8964,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -8984,7 +8984,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Templates &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9004,7 +9004,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Auto Responses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9024,7 +9024,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Auto Responses &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9044,7 +9044,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Attachments</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9064,7 +9064,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Attachments &lt;-&gt; Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9084,7 +9084,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Salutations</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9104,7 +9104,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Signatures</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9124,7 +9124,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Email Addresses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9144,7 +9144,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Ticket Notifications</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9168,7 +9168,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9188,7 +9188,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Service Level Agreements</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9208,7 +9208,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Types</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9228,7 +9228,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">States</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9248,7 +9248,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Priorities</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9268,7 +9268,7 @@
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">GenericAgent</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -9548,7 +9548,7 @@
                     <Prio>100</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description Translatable="1">My Tickets</Description>
+                    <Description Translatable="1">My Tickets.</Description>
                     <Name Translatable="1">My Tickets</Name>
                     <Block></Block>
                     <Type>Submenu</Type>
@@ -9559,7 +9559,7 @@
                     <Prio>110</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description Translatable="1">Company Tickets</Description>
+                    <Description Translatable="1">Company Tickets.</Description>
                     <Name Translatable="1">Company Tickets</Name>
                     <Block></Block>
                     <Type>Submenu</Type>
@@ -9582,7 +9582,7 @@
                 <NavBarName>Ticket</NavBarName>
                 <Title Translatable="1">New Ticket</Title>
                 <NavBar>
-                    <Description Translatable="1">Create new Ticket</Description>
+                    <Description Translatable="1">Create new Ticket.</Description>
                     <Name Translatable="1">New Ticket</Name>
                     <Block></Block>
                     <Type>Submenu</Type>
@@ -10505,7 +10505,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields GUI</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
@@ -10556,7 +10556,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Text Backend GUI</Title>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
@@ -10572,7 +10572,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Checkbox Backend GUI</Title>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
@@ -10587,7 +10587,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Drop-down Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
@@ -10604,7 +10604,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Date Time Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
@@ -10622,7 +10622,7 @@ Thanks for your help!
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
-                <Description>Admin</Description>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
                 <Title Translatable="1">Dynamic Fields Multiselect Backend GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
