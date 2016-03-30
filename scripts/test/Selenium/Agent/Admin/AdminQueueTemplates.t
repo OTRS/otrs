@@ -125,7 +125,7 @@ $Selenium->RunTest(
 
         # change test Queue relation for the first Template
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$Templates[0]->{TemplateID}' )]")
-            ->click();
+            ->VerifiedClick();
         $Selenium->find_element("//input[\@value='$QueueID'][\@type='checkbox']")->click();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
