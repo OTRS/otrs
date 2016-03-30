@@ -1189,7 +1189,7 @@ sub ListConfigItem {
             }
         }
         my $Translate = 1;
-        if ( $Item->{Option}->[1]->{Location} ) {
+        if ( $Option->{Location} ) {
             # Entries coming from the file system should not be translated.
             $Translate = 0;
         }
