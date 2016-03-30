@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.825511945392492;
+    $Self->{Completeness}        = 0.830454254638516;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -985,6 +985,7 @@ sub Data {
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             'Wollen Sie dieses dynamische Feld wirklich löschen? Alle darin enthaltenen Daten werden GELÖSCHT!',
         'Delete field' => 'Feld löschen',
+        'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dynamische Felder',
@@ -1094,8 +1095,8 @@ sub Data {
         'Schedule days' => 'Ausführen an Tag(en)',
         'Currently this generic agent job will not run automatically.' =>
             'Derzeit würde dieser GenericAgent-Job nicht automatisch ausgeführt werden.',
-        'To enable automatic execution select at least one value from minutes, hours or days!' =>
-            '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' =>
+            'Um ihn automatisch auszuführen, muss mindestens je ein Wert von Minuten, Stunden und Tagen ausgewählt werden!',
         'Event based execution (single ticket)' => 'Event-gesteuerte Ausführung (einzelnes Ticket)',
         'Event Triggers' => 'Event-Trigger',
         'List of all configured events' => 'Alle konfigurierten Events anzeigen',
@@ -1588,8 +1589,8 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikels).',
         'Attributes of the current customer user data' => 'Attribute des aktuellen Kundenbenutzer-Datensatzes',
-        'Attributes of the current ticket owner user data' => 'Attribute der Nutzerdaten des aktuellen Ticket Besitzers',
-        'Attributes of the current ticket responsible user data' => 'Attribute der Nutzerdaten des aktuellen Ticket Verantwortlichem',
+        'Attributes of the current ticket owner user data' => 'Attribute der Nutzerdaten des aktuellen Ticket-Besitzers',
+        'Attributes of the current ticket responsible user data' => 'Attribute der Nutzerdaten des aktuellen Ticket-Verantwortlichem',
         'Attributes of the current agent user who requested this action' =>
             'Attribute der Benutzerdaten des Agenten, der die Aktion ausgelöst hat',
         'Attributes of the recipient user for the notification' => 'Attribute der Benutzerdaten des Empfängers der Benachrichtigung',
@@ -1671,14 +1672,14 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'PGP-Verwaltung',
-        'PGP support is disabled' => '',
-        'To be able to use PGP in OTRS, you have to enable it first.' => '',
-        'Enable PGP support' => '',
-        'Faulty PGP configuration' => '',
+        'PGP support is disabled' => 'Unterstützung für PGP ist deaktiviert',
+        'To be able to use PGP in OTRS, you have to enable it first.' => 'Um PGP in OTRS verwenden zu können, müssen Sie es zuerst aktivieren.',
+        'Enable PGP support' => 'PGP-Unterstützung aktivieren',
+        'Faulty PGP configuration' => 'Fehlerhafte PGP-Konfiguration',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
-            '',
-        'Configure it here!' => '',
-        'Check PGP configuration' => '',
+            'PGP-Unterstützung ist aktiviert, aber die Konfiguration ist fehlerhaft. Bitte überprüfen Sie die Konfiguration mit dem untenstehenden Knopf.',
+        'Configure it here!' => 'Hier konfigurieren!',
+        'Check PGP configuration' => 'PGP-Konfiguration überprüfen',
         'Add PGP key' => 'PGP-Schlüssel hinzufügen',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Über diesen Weg kann man den Schlüsselring (konfiguriert in SysConfig) direkt bearbeiten.',
@@ -1803,7 +1804,7 @@ sub Data {
         'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
             'Möchten Sie von Prozessen profitieren, die von Experten erstellt wurden? Upgraden Sie auf %s um einige ausgefeilte Beispielprozesse importieren zu können.',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
-            'Um einen neuen Prozess zu erstellen können Sie entweder einen Prozess aus einem anderen System importieren oder einen ganz neuen erstellen.',
+            'Um einen neuen Prozess zu erstellen, können Sie entweder einen Prozess aus einem anderen System importieren, oder einen ganz neuen erstellen.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
         'Processes' => 'Prozesse',
@@ -1834,7 +1835,7 @@ sub Data {
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
-            'Veränderungen an diesem ActivityDialog werden sich auf folgende Activities auswirken',
+            'Veränderungen an diesem Aktivitäts-Dialog werden sich auf folgende Aktivitäten auswirken',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
             'Bitte beachten Sie, dass Kundenbenutzer die folgenden Felder nicht sehen oder benutzen können: Besitzer (Owner), Verantwortlicher (Responsible), Sperre (Lock), Warten bis (PendingTime) und Kundennummer (CustomerID).',
         'The Queue field can only be used by customers when creating a new ticket.' =>
@@ -1846,7 +1847,7 @@ sub Data {
         'Description (long)' => 'Beschreibung (lang)',
         'The selected permission does not exist.' => 'Die ausgewählte Berechtigung existiert nicht.',
         'Required Lock' => 'Erforderliche Sperre',
-        'The selected required lock does not exist.' => 'Die ausgewählte Sperre existiert nicht',
+        'The selected required lock does not exist.' => 'Die ausgewählte Sperre existiert nicht.',
         'Submit Advice Text' => 'Hinweistext beim Absenden',
         'Submit Button Text' => 'Hinweistext für den Absendeknopf',
         'Fields' => 'Felder',
@@ -1876,9 +1877,9 @@ sub Data {
         'Activities' => 'Aktivitäten',
         'Filter Activities...' => 'Aktivitäten filtern...',
         'Create New Activity' => 'Neue Aktivität erstellen',
-        'Filter Activity Dialogs...' => 'Aktivitäts-Dialoge filtern',
+        'Filter Activity Dialogs...' => 'Aktivitäts-Dialoge filtern...',
         'Transitions' => 'Übergänge',
-        'Filter Transitions...' => 'Übergänge filtern',
+        'Filter Transitions...' => 'Übergänge filtern...',
         'Create New Transition' => 'Neuen Übergang erstellen',
         'Filter Transition Actions...' => 'Übergangs-Aktionen filtern...',
 
@@ -1891,7 +1892,7 @@ sub Data {
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             'Die in der Seitenleiste aufgelisteten Elemente können mit der Maus in den Zeichenbereich gezogen werden.',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
-            'Sie können Aktivitäten im Zeichenbereich platzieren, um diese Aktivitäten dem Prozess zuzuordnen',
+            'Sie können Aktivitäten im Zeichenbereich platzieren, um diese Aktivitäten dem Prozess zuzuordnen.',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             'Aktivitäts-Dialoge können Sie einer Aktivität zuweisen, indem Sie diese aus der Seitenleiste über die Aktivität im Zeichenbereich ziehen.',
         'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
@@ -1919,8 +1920,8 @@ sub Data {
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Möchten Sie diesen Übergang wirklich von der Zeichenfläche entfernen? Das kann nur rückgängig gemacht werden, wenn Sie dieses Fenster ohne Speichern verlassen.',
         'Hide EntityIDs' => 'EntityIDs ausblenden',
-        'Delete Entity' => 'Entität löschen',
-        'Remove Entity from canvas' => 'Entität entfernen',
+        'Delete Entity' => 'Eintrag löschen',
+        'Remove Entity from canvas' => 'Eintrag entfernen',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Diese Aktivität wird bereits im Prozess verwendet. Sie können sie nicht erneut hinzufügen!',
         'This Activity cannot be deleted because it is the Start Activity.' =>
@@ -1965,7 +1966,7 @@ sub Data {
         'Type of Linking' => 'Typ der Verknüpfung',
         'Add a new Field' => 'Neues Feld hinzufügen',
         'Remove this Field' => 'Feld entfernen',
-        'And can\'t be repeated on the same condition.' => 'Und können nicht innerhalb der selben Abfrage verwendet werden.',
+        'And can\'t be repeated on the same condition.' => 'Und können nicht innerhalb derselben Abfrage verwendet werden.',
         'Add New Condition' => 'Neue Bedingung hinzufügen',
 
         # Template: AdminProcessManagementTransitionAction
@@ -2314,7 +2315,7 @@ sub Data {
         'Elements' => 'Elemente',
 
         # Template: AdminSysConfigEdit
-        'Edit Config Settings' => 'Konfigurationseinstellungen bearbeiten',
+        'Edit Config Settings in %s → %s' => '',
         'This setting is read only.' => 'Dies Einstellungen sind nur lesbar.',
         'This config item is only available in a higher config level!' =>
             'Diese Einstellung ist nur in einem höheren Konfigurationslevel verfügbar!',
@@ -2425,7 +2426,7 @@ sub Data {
         'Switch to agent' => 'Wechseln zu Agent',
         'Add Agent' => 'Agent hinzufügen',
         'Edit Agent' => 'Agent bearbeiten',
-        'Title or salutation' => '',
+        'Title or salutation' => 'Titel oder Anrede',
         'Firstname' => 'Vorname',
         'Lastname' => 'Nachname',
         'A user with this username already exists!' => 'Es existiert bereits ein Nuter mit diesem Benutzernamen!',
@@ -2663,7 +2664,7 @@ sub Data {
         'Link together' => 'Zusammen verlinken',
         'Link to parent' => 'Mit Eltern verknüpfen',
         'Unlock tickets' => 'Tickets entsperren',
-        'Execute Bulk Action' => '',
+        'Execute Bulk Action' => 'Sammelaktion ausführen',
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s' => 'Antwort für %s%s verfassen',
@@ -3140,7 +3141,7 @@ sub Data {
 
         # Template: Motd
         'Message of the Day' => 'Nachricht des Tages',
-        'This is the message of the day. You can edit this in %s.' => '',
+        'This is the message of the day. You can edit this in %s.' => 'Das ist die Nachricht des Tages. Sie können diese in %s bearbeiten.',
 
         # Template: NoPermission
         'Insufficient Rights' => 'Nicht ausreichende Rechte',
@@ -3185,7 +3186,7 @@ sub Data {
             '',
 
         # Template: RichTextEditor
-        'Remove Quote' => '',
+        'Remove Quote' => 'Zitat entfernen',
 
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Rechtevergabe',
@@ -3462,17 +3463,17 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => '',
-        'Customer Interface' => '',
-        'Agent and Customer Interface' => '',
-        'Do not show Field' => '',
-        'Show Field' => '',
-        'Show Field As Mandatory' => '',
+        'Agent Interface' => 'Agenten-Oberfläche',
+        'Customer Interface' => 'Kunden-Oberfläche',
+        'Agent and Customer Interface' => 'Agenten- und Kunden-Oberfläche',
+        'Do not show Field' => 'Feld nicht anzeigen',
+        'Show Field' => 'Feld anzeigen',
+        'Show Field As Mandatory' => 'Als Pflichtfeld anzeigen',
         'fax' => 'Fax',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
-        'Need %s!' => '',
-        'Edit Path' => '',
+        'Need %s!' => 'Benötige %s!',
+        'Edit Path' => 'Pfad bearbeiten',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
         'There was an error generating a new EntityID for this Transition' =>
@@ -3484,9 +3485,9 @@ sub Data {
         'Could not get data for TransitionID %s' => '',
         'There was an error updating the Transition' => '',
         'Edit Transition "%s"' => '',
-        'xor' => '',
-        'String' => '',
-        'Regular expression' => '',
+        'xor' => 'exklusives oder (xor)',
+        'String' => 'Zeichenkette',
+        'Regular expression' => 'Regulärer Ausdruck',
         'Transition validation module' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4618,7 +4619,7 @@ Ihr Helpdesk-Team
         'Customer user search' => 'Kundenbenutzersuche',
         'CustomerID search' => 'Kundennummernsuche',
         'CustomerName' => 'Kundenname',
-        'CustomerUser' => '',
+        'CustomerUser' => 'CustomerUser',
         'Customers <-> Groups' => 'Kunden <-> Gruppen',
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             'Anpassbare Stopworte für den Volltext-Index. Diese Worte werden aus dem Suchindex entfernt.',
@@ -5400,7 +5401,7 @@ Ihr Helpdesk-Team
             'Dynamische Felder die in der kleinen Ansicht "S" in der Ticket Übersicht in der Agenten-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = verfügbar, 2 = standardmäßig aktiviert.',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Dynamische Felder die in der "Ticket Zoom" Ansicht in der Kunden-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert.',
-        'DynamicField' => '',
+        'DynamicField' => 'DynamicField',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => 'DynamischesFeld Objektregistrierung.',
         'E-Mail Outbound' => 'Ausgehende E-Mail',
