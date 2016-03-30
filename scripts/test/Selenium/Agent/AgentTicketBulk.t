@@ -122,6 +122,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Make sure main window is fully loaded
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
+
         # select closed view to verify ticket bulk functionality
         $Selenium->find_element("//a[contains(\@href, \'Filter=Closed' )]")->VerifiedClick();
 
