@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-03-30 10:15+0000\n"
-"PO-Revision-Date: 2016-03-30 16:19+0000\n"
+"POT-Creation-Date: 2016-03-30 11:40+0000\n"
+"PO-Revision-Date: 2016-03-30 17:41+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -17724,7 +17724,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Se \"HTTPBasicAuth\" foi seleccionado para Customer::AuthModule, pode especificar espir partes líderes de nomes de usuarios (ex. para dominios como example_domain\\user a usuario ). "
 
 #. SysConfig
 msgid ""
@@ -18393,6 +18393,10 @@ msgid ""
 "Maximal size in KBytes for mails that can be fetched via "
 "POP3/POP3S/IMAP/IMAPS (KBytes)."
 msgstr "Tamaño máximo en KBytes para correos que poden ser recuperados vía POP3/POP3S/IMAP/IMAPS (KBytes)."
+
+#. SysConfig
+msgid "Maximum Number of a calendar shown in a dropdown."
+msgstr ""
 
 #. SysConfig
 msgid ""

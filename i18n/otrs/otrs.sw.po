@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-03-30 10:15+0000\n"
-"PO-Revision-Date: 2016-03-30 16:21+0000\n"
+"POT-Creation-Date: 2016-03-30 11:40+0000\n"
+"PO-Revision-Date: 2016-03-30 17:41+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/otrs/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
@@ -18396,6 +18396,10 @@ msgid ""
 "Maximal size in KBytes for mails that can be fetched via "
 "POP3/POP3S/IMAP/IMAPS (KBytes)."
 msgstr "Ukubwa wa upeo wa juu katika baiti K kwa ajili ya barua pepe ambazo zinawezwa kuchukuliwa kwa kutumia POP3/POP3S/IMAP/IMAPS (Baiti K)."
+
+#. SysConfig
+msgid "Maximum Number of a calendar shown in a dropdown."
+msgstr ""
 
 #. SysConfig
 msgid ""

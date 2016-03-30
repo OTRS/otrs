@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.99957346982299;
+    $Self->{Completeness}        = 0.999360341151386;
 
     # csv separator
     $Self->{Separator} = '';
@@ -5804,6 +5804,7 @@ Thanks for your help!
             '一天中给自己的邮件地址自动邮件响应最大数（邮件循环保护）。',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             '通过POP3/POP3S/IMAP/IMAPS能够收取的邮件最大尺寸（单位：KB）。',
+        'Maximum Number of a calendar shown in a dropdown.' => '',
         'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
             '工单详情视图信件动态字段的最大长度（单位：字符）。',
         'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-03-30 10:23+0000\n"
+"POT-Creation-Date: 2016-03-30 11:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16471,6 +16471,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes)."
+msgstr ""
+
+#. SysConfig
+msgid "Maximum Number of a calendar shown in a dropdown."
 msgstr ""
 
 #. SysConfig

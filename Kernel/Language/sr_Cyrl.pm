@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.885476647472809;
+    $Self->{Completeness}        = 0.885287846481876;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -5800,6 +5800,7 @@ Thanks for your help!
             'Мксимум аутоматских имејл одговора дневно на сопствену адресу (Заштита од петље)',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'Максимална величина у килобајтима за имејлове који могу бити преузети преко „POP3/POP3S/IMAP/IMAPS (KBytes)”.',
+        'Maximum Number of a calendar shown in a dropdown.' => '',
         'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
             'Максимална дужина (у знацима) динамичког поља у чланку на детаљном прегледу тикета.',
         'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>
