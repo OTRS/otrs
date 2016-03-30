@@ -207,7 +207,7 @@ $('.DynamicFieldDelete').bind('click', function (Event) {
 
         Core.UI.Dialog.ShowDialog({
             Title: [% Translate("Delete field") | JSON %],
-            HTML: 'Deleting the field and its data. This may take a while...',
+            HTML: [% Translate("Deleting the field and its data. This may take a while...") | JSON %],
             Modal: true,
             CloseOnClickOutside: false,
             CloseOnEscape: false,
