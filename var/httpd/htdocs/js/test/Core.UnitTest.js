@@ -10,6 +10,7 @@
 
 var Core = Core || {};
 
+// nofilter(TidyAll::Plugin::OTRS::JavaScript::FileNameUnitTest)
 Core.UnitTest = (function (Namespace) {
 
     QUnit.done(function () { //eslint-disable-line no-undef
