@@ -74,7 +74,7 @@ $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_toggle').
 [% END %]
 [% RenderBlockEnd("ContentSmallRefresh") %]
                 <div class="WidgetAction Close">
-                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close") | html %]">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
@@ -171,7 +171,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% 
 [% END %]
 [% RenderBlockEnd("ContentLargePreferences") %]
                 <div class="WidgetAction Close">
-                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close") | html %]">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
