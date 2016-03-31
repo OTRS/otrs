@@ -49,6 +49,9 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 1;
+
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -87,7 +90,7 @@ $Selenium->RunTest(
         );
 
         # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 3;
+        sleep 1;
 
         # refresh AdminSPGP screen
         $Selenium->VerifiedRefresh();
