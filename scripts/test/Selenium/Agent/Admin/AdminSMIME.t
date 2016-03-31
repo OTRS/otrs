@@ -60,6 +60,9 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 1;
+
         # navigate to AdminSMIME screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSMIME");
 
@@ -93,7 +96,7 @@ $Selenium->RunTest(
         );
 
         # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 3;
+        sleep 1;
 
         # refresh AdminSMIME screen
         $Selenium->VerifiedRefresh();
@@ -121,7 +124,7 @@ $Selenium->RunTest(
         );
 
         # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 3;
+        sleep 1;
 
         # refresh AdminSMIME screen
         $Selenium->VerifiedRefresh();
