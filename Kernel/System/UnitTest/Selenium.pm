@@ -330,9 +330,7 @@ sub Login {
 
         $Self->get("${ScriptAlias}");
         $Self->delete_all_cookies();
-        $Self->find_element( 'input#User',     'css' )->send_keys( $Param{User} );
-        $Self->find_element( 'input#Password', 'css' )->send_keys( $Param{Password} );
-        $Self->find_element( 'input#User', 'css' )->VerifiedSubmit();
+        $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
 
         # login successful?
         $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
