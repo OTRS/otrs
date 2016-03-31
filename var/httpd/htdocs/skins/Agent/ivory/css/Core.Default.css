@@ -112,6 +112,23 @@ textarea.Focus  {
     background: #82CED8;
 }
 
+.UseArticleColors .agent-phone:hover > td, 
+.UseArticleColors .agent-email-external:hover > td, 
+.UseArticleColors .agent-email-internal:hover > td, 
+.UseArticleColors .agent-note-external:hover > td, 
+.UseArticleColors .agent-note-internal:hover > td, 
+.UseArticleColors .system-note-internal:hover > td, 
+.UseArticleColors .system-note-external:hover > td, 
+.UseArticleColors .system-note-report:hover > td, 
+.UseArticleColors .system-email-external:hover > td, 
+.UseArticleColors .system-email-internal:hover > td, 
+.UseArticleColors .customer-webrequest:hover > td, 
+.UseArticleColors .customer-email-external:hover > td, 
+.UseArticleColors .customer-note-external:hover > td, 
+.UseArticleColors .customer-phone:hover > td {
+    background: #82CED8 !important;
+}
+
 .OverviewMedium li:hover div.Content,
 .OverviewMedium li:hover,
 .OverviewLarge > li:hover > .Content,
