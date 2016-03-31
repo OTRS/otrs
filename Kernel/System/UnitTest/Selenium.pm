@@ -328,17 +328,10 @@ sub Login {
             $ScriptAlias .= 'customer.pl';
         }
 
-        # First load the page so we can delete any pre-existing cookies
         $Self->get("${ScriptAlias}");
         $Self->delete_all_cookies();
-
-        # Now load it again to login
-        $Self->VerifiedGet("${ScriptAlias}");
-
         $Self->find_element( 'input#User',     'css' )->send_keys( $Param{User} );
         $Self->find_element( 'input#Password', 'css' )->send_keys( $Param{Password} );
-
-        # login
         $Self->find_element( 'input#User', 'css' )->VerifiedSubmit();
 
         # login successful?
