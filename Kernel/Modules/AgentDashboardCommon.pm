@@ -661,19 +661,19 @@ sub Run {
 
             my $TranslatedWord = $Column;
             if ( $Column eq 'EscalationTime' ) {
-                $TranslatedWord = 'Service Time';
+                $TranslatedWord = Translatable('Service Time');
             }
             elsif ( $Column eq 'EscalationResponseTime' ) {
-                $TranslatedWord = 'First Response Time';
+                $TranslatedWord = Translatable('First Response Time');
             }
             elsif ( $Column eq 'EscalationSolutionTime' ) {
-                $TranslatedWord = 'Solution Time';
+                $TranslatedWord = Translatable('Solution Time');
             }
             elsif ( $Column eq 'EscalationUpdateTime' ) {
-                $TranslatedWord = 'Update Time';
+                $TranslatedWord = Translatable('Update Time');
             }
             elsif ( $Column eq 'PendingTime' ) {
-                $TranslatedWord = 'Pending till';
+                $TranslatedWord = Translatable('Pending till');
             }
 
             $LayoutObject->Block(

@@ -715,7 +715,7 @@ sub _AddEvent {
 
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Need $Needed",
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
             );
         }
     }

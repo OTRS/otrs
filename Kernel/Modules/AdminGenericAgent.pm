@@ -943,8 +943,8 @@ sub _MaskUpdate {
 
         $JobData{'NewArchiveFlagStrg'} = $LayoutObject->BuildSelection(
             Data => {
-                y => 'archive tickets',
-                n => 'restore tickets from archive',
+                y => Translatable('archive tickets'),
+                n => Translatable('restore tickets from archive'),
             },
             Name         => 'NewArchiveFlag',
             PossibleNone => 1,
@@ -1201,7 +1201,7 @@ sub _MaskRun {
     }
     else {
         $LayoutObject->FatalError(
-            Message => "Need Profile!",
+            Message => Translatable('Need Profile!'),
         );
     }
     $JobData{Profile} = $Self->{Profile};
@@ -1359,7 +1359,7 @@ sub _MaskRun {
 
     # HTML search mask output
     my $Output = $LayoutObject->Header(
-        Title => 'Affected Tickets',
+        Title => Translatable('Affected Tickets'),
     );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(

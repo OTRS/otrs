@@ -663,7 +663,7 @@ sub Run {
                     );
 
                     # set missing information
-                    $Data{Subject} = $Data{Title} || 'Untitled';
+                    $Data{Subject} = $Data{Title} || Translatable('Untitled');
                     $Data{Body} = $LayoutObject->{LanguageObject}->Translate(
                         'This item has no articles yet.'
                     );
@@ -687,8 +687,9 @@ sub Run {
                     );
 
                     if ( $#Article == -1 ) {
-                        $Data{ArticleTree}
-                            .= 'This item has no articles yet.';
+                        $Data{ArticleTree} .= $LayoutObject->{LanguageObject}->Translate(
+                            'This item has no articles yet.'
+                        );
                     }
                     else
                     {
@@ -849,7 +850,7 @@ sub Run {
                     );
 
                     # set missing information
-                    $Data{Subject} = $Data{Title} || 'Untitled';
+                    $Data{Subject} = $Data{Title} || Translatable('Untitled');
                     $Data{From} = '--';
                 }
 
@@ -1131,7 +1132,7 @@ sub Run {
                 LinkBack   => $LinkBack,
                 Profile    => $Self->{Profile},
 
-                TitleName => 'Search Results',
+                TitleName => Translatable('Search Results'),
                 Bulk      => 1,
                 Limit     => $Self->{SearchLimit},
 
@@ -1749,10 +1750,10 @@ sub Run {
 
         $Param{ResultFormStrg} = $LayoutObject->BuildSelection(
             Data => {
-                Normal => 'Normal',
-                Print  => 'Print',
-                CSV    => 'CSV',
-                Excel  => 'Excel',
+                Normal => Translatable('Normal'),
+                Print  => Translatable('Print'),
+                CSV    => Translatable('CSV'),
+                Excel  => Translatable('Excel'),
             },
             Name       => 'ResultForm',
             SelectedID => $GetParam{ResultForm} || 'Normal',
@@ -1901,8 +1902,8 @@ sub Run {
         );
         $Param{TicketCreateTimePointStart} = $LayoutObject->BuildSelection(
             Data => {
-                'Last'   => 'within the last ...',
-                'Before' => 'more than ... ago',
+                'Last'   => Translatable('within the last ...'),
+                'Before' => Translatable('more than ... ago'),
             },
             Name       => 'TicketCreateTimePointStart',
             SelectedID => $GetParam{TicketCreateTimePointStart} || 'Last',
@@ -1975,8 +1976,8 @@ sub Run {
         );
         $Param{TicketCloseTimePointStart} = $LayoutObject->BuildSelection(
             Data => {
-                'Last'   => 'within the last ...',
-                'Before' => 'more than ... ago',
+                'Last'   => Translatable('within the last ...'),
+                'Before' => Translatable('more than ... ago'),
             },
             Name       => 'TicketCloseTimePointStart',
             SelectedID => $GetParam{TicketCloseTimePointStart} || 'Last',
@@ -2012,8 +2013,8 @@ sub Run {
         );
         $Param{TicketLastChangeTimePointStart} = $LayoutObject->BuildSelection(
             Data => {
-                'Last'   => 'within the last ...',
-                'Before' => 'more than ... ago',
+                'Last'   => Translatable('within the last ...'),
+                'Before' => Translatable('more than ... ago'),
             },
             Name       => 'TicketLastChangeTimePointStart',
             SelectedID => $GetParam{TicketLastChangeTimePointStart} || 'Last',
@@ -2049,9 +2050,9 @@ sub Run {
         );
         $Param{TicketEscalationTimePointStart} = $LayoutObject->BuildSelection(
             Data => {
-                'Last'   => 'within the last ...',
-                'Next'   => 'within the next ...',
-                'Before' => 'more than ... ago',
+                'Last'   => Translatable('within the last ...'),
+                'Next'   => Translatable('within the next ...'),
+                'Before' => Translatable('more than ... ago'),
             },
             Name       => 'TicketEscalationTimePointStart',
             SelectedID => $GetParam{TicketEscalationTimePointStart} || 'Last',

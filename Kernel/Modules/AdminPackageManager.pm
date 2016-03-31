@@ -2122,7 +2122,7 @@ sub _GetFeatureAddonData {
     # as this is the only operation an unsuccessful request means that the operation was also
     # unsuccessful
     if ( !IsHashRefWithData($RequestResult) ) {
-        return "Can't connect to OTRS Feature Add-on list server!";
+        return Translatable('Can\'t connect to OTRS Feature Add-on list server!');
     }
 
     my $OperationResult = $CloudServiceObject->OperationResultGet(
@@ -2132,10 +2132,10 @@ sub _GetFeatureAddonData {
     );
 
     if ( !IsHashRefWithData($OperationResult) ) {
-        return "Can't get OTRS Feature Add-on list from server";
+        return Translatable('Can\'t get OTRS Feature Add-on list from server!');
     }
     elsif ( !$OperationResult->{Success} ) {
-        return $OperationResult->{ErrorMessage} || "Can't get OTRS Feature Add-on from server!";
+        return $OperationResult->{ErrorMessage} || Translatable('Can\'t get OTRS Feature Add-on from server!');
     }
 
     my $FAOFeed = $OperationResult->{Data}->{FAOs};

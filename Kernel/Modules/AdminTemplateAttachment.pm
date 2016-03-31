@@ -11,6 +11,8 @@ package Kernel::Modules::AdminTemplateAttachment;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -189,8 +191,8 @@ sub _Change {
     my $NeType = $Type eq 'Attachment' ? 'Template' : 'Attachment';
 
     my %VisibleType = (
-        Template   => 'Template',
-        Attachment => 'Attachment',
+        Template   => Translatable('Template'),
+        Attachment => Translatable('Attachment'),
     );
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');

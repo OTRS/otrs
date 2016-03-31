@@ -370,7 +370,7 @@ sub _DownloadSupportBundle {
 
     if ( !$Content ) {
         return $LayoutObject->ErrorScreen(
-            Message => "File $Location could not be read!",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'File %s could not be read!', $Location ),
         );
     }
 
