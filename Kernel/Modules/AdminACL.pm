@@ -713,12 +713,12 @@ sub _ShowEdit {
 
     $Param{ACLKeysLevel4Prefixes} = $LayoutObject->BuildSelection(
         Data => {
-            ''            => 'Exact match',
-            '[Not]'       => 'Negated Exact match',
-            '[RegExp]'    => 'Regex',
-            '[regexp]'    => 'Regex (ignore case)',
-            '[NotRegExp]' => 'Negated Regex',
-            '[Notregexp]' => 'Negated Regex (ignore case)',
+            ''            => Translatable('Exact match'),
+            '[Not]'       => Translatable('Negated exact match'),
+            '[RegExp]'    => Translatable('Regular expression'),
+            '[regexp]'    => Translatable('Regular expression (ignore case)'),
+            '[NotRegExp]' => Translatable('Negated regular expression'),
+            '[Notregexp]' => Translatable('Negated regular expression (ignore case)'),
         },
         Name           => 'ItemPrefix',
         Class          => 'ItemPrefix',

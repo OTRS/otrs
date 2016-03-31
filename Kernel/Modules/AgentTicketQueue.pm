@@ -263,7 +263,9 @@ sub Run {
 
     # check if filter is valid
     if ( !$Filters{$Filter} ) {
-        $LayoutObject->FatalError( Message => "Invalid Filter: $Filter!" );
+        $LayoutObject->FatalError(
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Invalid Filter: %s!', $Filter ),
+        );
     }
 
     my $View = $ParamObject->GetParam( Param => 'View' ) || '';

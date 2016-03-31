@@ -1520,8 +1520,8 @@
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Option SelectedID="LastCustomerSubject">
-                <Item Key="LastCustomerSubject">LastCustomerSubject</Item>
-                <Item Key="TicketTitle">TicketTitle</Item>
+                <Item Key="LastCustomerSubject" Translatable="1">Last customer subject</Item>
+                <Item Key="TicketTitle" Translatable="1">Ticket title</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1971,8 +1971,8 @@
         <SubGroup>Frontend::Customer::TicketOverview</SubGroup>
         <Setting>
             <Option SelectedID="TicketTitle">
-                <Item Key="LastCustomerSubject">LastCustomerSubject</Item>
-                <Item Key="TicketTitle">TicketTitle</Item>
+                <Item Key="LastCustomerSubject" Translatable="1">Last customer subject</Item>
+                <Item Key="TicketTitle" Translatable="1">Ticket title</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6891,9 +6891,9 @@
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Option SelectedID="SystemAddressName">
-                <Item Key="SystemAddressName">System Address Display Name</Item>
-                <Item Key="AgentNameSystemAddressName">Agent Name + FromSeparator + System Address Display Name</Item>
-                <Item Key="AgentName">Agent Name</Item>
+                <Item Key="SystemAddressName" Translatable="1">System Address Display Name</Item>
+                <Item Key="AgentNameSystemAddressName" Translatable="1">Agent Name + FromSeparator + System Address Display Name</Item>
+                <Item Key="AgentName" Translatable="1">Agent Name</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -7729,8 +7729,8 @@
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <Option SelectedID="CustomerTicketOverview">
-                <Item Key="CustomerTicketOverview">CustomerTicketOverview</Item>
-                <Item Key="CustomerTicketZoom">CustomerTicketZoom</Item>
+                <Item Key="CustomerTicketOverview" Translatable="1">Customer ticket overview</Item>
+                <Item Key="CustomerTicketZoom" Translatable="1">Customer ticket zoom</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -7924,8 +7924,8 @@
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="CustomerTicketOverview">
-                <Item Key="CustomerTicketOverview">CustomerTicketOverview</Item>
-                <Item Key="CustomerTicketZoom">CustomerTicketZoom</Item>
+                <Item Key="CustomerTicketOverview" Translatable="1">Customer ticket overview</Item>
+                <Item Key="CustomerTicketZoom" Translatable="1">Customer ticket zoom</Item>
             </Option>
         </Setting>
     </ConfigItem>

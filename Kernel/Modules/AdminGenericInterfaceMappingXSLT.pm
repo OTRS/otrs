@@ -63,7 +63,7 @@ sub Run {
         next LIBREQUIRED if $LibFound;
 
         return $LayoutObject->ErrorScreen(
-            Message => "Could not find required library $LibRequired",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not find required library %s', $LibRequired ),
         );
     }
 

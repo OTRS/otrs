@@ -191,9 +191,9 @@ sub Run {
         }
 
         my $BooleanMapping = {
-            0 => 'No',
-            1 => 'Yes',
-            2 => 'Yes (mandatory)',
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
+            2 => Translatable('Yes (mandatory)'),
         };
 
         my $ProcessData = $Self->_GetProcessData(
@@ -1485,7 +1485,7 @@ sub Run {
             $Param{$Needed} = $ParamObject->GetParam( Param => $Needed ) || '';
             if ( !$Param{$Needed} ) {
                 $Success = 0;
-                $Message = 'Need $Needed!';
+                $Message = $LayoutObject->{LanguageObject}->Translate( 'Need %s!', $Needed );
             }
         }
 

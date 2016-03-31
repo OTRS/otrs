@@ -236,7 +236,8 @@ sub _ExportWebserviceHistory {
     # check for valid web service configuration
     if ( !IsHashRefWithData($WebserviceHistoryData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get history data for WebserviceHistoryID $WebserviceHistoryID",
+            Message => $LayoutObject->{LanguageObject}
+                ->Translate( 'Could not get history data for WebserviceHistoryID %s', $WebserviceHistoryID ),
         );
     }
 
