@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-04-01 Fixed dropdown for CustomerTicketOverview.
  - 2016-04-01 Changed reply template selection to not include -Reply- anymore but a label instead, thanks to Nils Leideck.
  - 2016-03-29 Added possibility to configure default headers for outgoing emails (Sendmail::DefaultHeaders), thanks to Renée Bäcker.
  - 2016-03-04 Fixed bug#[11787](http://bugs.otrs.org/show_bug.cgi?id=11787) - No Ticket::StateAfterPending found with manual state update.

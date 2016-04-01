@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div id="MainBox" class="TicketView ARIARoleMain SearchResults [% Config("Ticket::Frontend::CustomerTicketOverviewSortable") %] Sortable">
+<div id="MainBox" class="TicketView ARIARoleMain SearchResults [% Config("Ticket::Frontend::CustomerTicketOverviewSortable") %] ">
     <div class="ActionRow">
         <ul class="Tabs">
             <li>

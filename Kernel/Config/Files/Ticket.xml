@@ -1937,7 +1937,7 @@
         <SubGroup>Frontend::Customer::TicketOverview</SubGroup>
         <Setting>
             <Option SelectedID="">
-                <Item Key="" Translatable="1">No</Item>
+                <Item Key="0" Translatable="1">No</Item>
                 <Item Key="Sortable" Translatable="1">Yes</Item>
             </Option>
         </Setting>
