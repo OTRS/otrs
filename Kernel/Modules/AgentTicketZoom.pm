@@ -2847,22 +2847,13 @@ sub _ArticleMenu {
                 # use this array twice (also for Reply All), so copy it first
                 my @StandardResponseArrayReplyAll = @StandardResponseArray;
 
-                unshift(
-                    @StandardResponseArray,
-                    {
-                        Key   => '0',
-                        Value => '- '
-                            . $LayoutObject->{LanguageObject}->Translate('Reply') . ' -',
-                        Selected => 1,
-                    }
-                );
-
                 # build HTML string
                 my $StandardResponsesStrg = $LayoutObject->BuildSelection(
                     Name  => 'ResponseID',
                     ID    => 'ResponseID',
                     Class => 'Modernize Small',
                     Data  => \@StandardResponseArray,
+                    PossibleNone => 1,
                 );
 
                 push @MenuItems, {
