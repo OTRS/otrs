@@ -488,8 +488,8 @@ sub _ShowScreen {
     # create the default value select
     my $DefaultValueStrg = $LayoutObject->BuildSelection(
         Data => {
-            0 => 'Unchecked',
-            1 => 'Checked',
+            0 => Translatable('Unchecked'),
+            1 => Translatable('Checked'),
         },
         Name         => 'DefaultValue',
         SelectedID   => $Param{DefaultValue} || 0,
