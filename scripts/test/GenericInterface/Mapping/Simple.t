@@ -702,7 +702,7 @@ for my $Test (@MappingTests) {
         $Self->Is(
             ref $MappingObject,
             'Kernel::GenericInterface::Mapping',
-            'MappingObject was correctly instantiated',
+            $Test->{Name} . ' MappingObject was correctly instantiated',
         );
         next TEST if ref $MappingObject ne 'Kernel::GenericInterface::Mapping';
     }
@@ -710,7 +710,7 @@ for my $Test (@MappingTests) {
         $Self->IsNot(
             ref $MappingObject,
             'Kernel::GenericInterface::Mapping',
-            'MappingObject was not correctly instantiated',
+            $Test->{Name} . ' MappingObject was not correctly instantiated',
         );
         next TEST;
     }
@@ -721,8 +721,10 @@ for my $Test (@MappingTests) {
         my $EndSeconds = $TimeObject->SystemTime();
         $Self->True(
             ( $EndSeconds - $StartSeconds ) < 5,
-            'Mapping - Performance on large data set: ' .
-                ( $EndSeconds - $StartSeconds ) . ' second(s)',
+            $Test->{Name}
+                . ' Mapping - Performance on large data set: '
+                . ( $EndSeconds - $StartSeconds )
+                . ' second(s)',
         );
     }
 
