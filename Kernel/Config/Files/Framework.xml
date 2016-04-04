@@ -504,8 +504,8 @@
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <Option SelectedID="Option">
-                <Item Key="Option">Option</Item>
-                <Item Key="Input">Input</Item>
+                <Item Key="Option" Translatable="1">Option</Item>
+                <Item Key="Input" Translatable="1">Input</Item>
             </Option>
         </Setting>
     </ConfigItem>
