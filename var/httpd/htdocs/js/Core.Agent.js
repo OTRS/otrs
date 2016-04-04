@@ -183,6 +183,11 @@ Core.Agent = (function (TargetNS) {
                 var $Element = $(this),
                     $Target = $(Event.target);
 
+                // if an onclick attribute is present, the attribute should win
+                if ($Target.attr('onclick')) {
+                    return false;
+                }
+
                 // if OpenMainMenuOnHover is enabled, clicking the item
                 // should lead to the link as regular
                 if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && Core.Config.Get('OpenMainMenuOnHover')) {
