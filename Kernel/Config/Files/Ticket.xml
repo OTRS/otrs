@@ -7560,7 +7560,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###TicketOverviewFilterSettings" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for .</Description>
+        <Description Translatable="1">Parameters for the column filters of the small ticket overview.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
