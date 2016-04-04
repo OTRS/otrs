@@ -157,7 +157,13 @@ sub Run {
             my ( $QueueIDParam, $QueueParam ) = split( /\|\|/, $GetParam{Dest} );
             my $QueueIDLookup = $QueueObject->QueueLookup( Queue => $QueueParam );
             if ( $QueueIDLookup && $QueueIDLookup eq $QueueIDParam ) {
-                $Param{ToSelected}          = $GetParam{Dest};
+                my $CustomerPanelOwnSelection = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelOwnSelection');
+                if ( %{ $CustomerPanelOwnSelection // {} } ) {
+                    $Param{ToSelected} = $QueueIDParam . '||' . $CustomerPanelOwnSelection->{$QueueParam};
+                }
+                else {
+                    $Param{ToSelected} = $GetParam{Dest};
+                }
                 $ACLCompatGetParam{QueueID} = $QueueIDLookup;
             }
         }
