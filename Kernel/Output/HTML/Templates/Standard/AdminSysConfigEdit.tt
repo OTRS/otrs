@@ -149,7 +149,7 @@
 [% RenderBlockStart("ConfigElementHashContent2") %]
 <!-- sub-hash or sub-array -->
                                 <label class="KeyWithComplexValue">
-                                    [% Data.Key | html %]:
+                                    [% Translate(Data.Key) | html %]:
                                     <input type="hidden" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" size="20"/>
                                 </label>
                                 <input type="hidden" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]"/>
@@ -375,7 +375,7 @@
                                 <br/>
 
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentNavBarModule") %]
-                                <label class="KeyWithComplexValue">NavBarModule:</label>
+                                <label class="KeyWithComplexValue">[% Translate("NavBar module") | html %]:</label>
                                 <div class="NavBar">
                                     <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Module">[% Translate("Module") | html %]:</label>
                                     <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Module" name="[% Data.ElementKey | html %]#Module[]" value="[% Data.ContentModule | html %]" [% Data.ReadOnlyAttribute %]/>
@@ -458,7 +458,7 @@
 
 [% RenderBlockStart("ConfigElementTimeWorkingHours") %]
 [% RenderBlockStart("ConfigElementTimeWorkingHoursContent") %]
-                            <label class="KeyWithComplexValue">[% Data.Weekday | html %]</label>
+                            <label class="KeyWithComplexValue">[% Translate(Data.Weekday) | html %]</label>
                             <div class="WorkingHours">
 [% RenderBlockStart("ConfigElementTimeWorkingHoursHours") %]
                                 <div class="FloatBox">
