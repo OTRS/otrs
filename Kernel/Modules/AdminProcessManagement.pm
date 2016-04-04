@@ -2020,7 +2020,7 @@ sub _GetProcessData {
         UserID => $Self->{UserID},
     );
     if ( !$Process ) {
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Process %s!', $Param{ID} ),
         );
     }

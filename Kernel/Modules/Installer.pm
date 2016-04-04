@@ -1201,7 +1201,7 @@ sub ConnectToDB {
             return (
                 Successful => 0,
                 Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
-                    ->Get("Database already contains data - it should be empty!"),
+                    ->Translate("Database already contains data - it should be empty!"),
                 Comment => "",
                 DB      => undef,
                 DBH     => undef,
