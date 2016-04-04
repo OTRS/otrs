@@ -1463,7 +1463,7 @@ via the Preferences button after logging in.
 
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
-            [ 'UserTitle',      Translatable('Title'),      'title',      1, 0, 'var', '', 0 ],
+            [ 'UserTitle',      Translatable('Title or salutation'), 'title',  1, 0, 'var', '', 0 ],
             [ 'UserFirstname',  Translatable('Firstname'),  'first_name', 1, 1, 'var', '', 0 ],
             [ 'UserLastname',   Translatable('Lastname'),   'last_name',  1, 1, 'var', '', 0 ],
             [ 'UserLogin',      Translatable('Username'),   'login',      1, 1, 'var', '', 0 ],
