@@ -707,8 +707,8 @@ sub _ShowScreen {
     # create translatable values option list
     my $PossibleNoneStrg = $LayoutObject->BuildSelection(
         Data => {
-            0 => 'No',
-            1 => 'Yes',
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
         },
         Name       => 'PossibleNone',
         SelectedID => $PossibleNone,
@@ -720,8 +720,8 @@ sub _ShowScreen {
     # create translatable values option list
     my $TranslatableValuesStrg = $LayoutObject->BuildSelection(
         Data => {
-            0 => 'No',
-            1 => 'Yes',
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
         },
         Name       => 'TranslatableValues',
         SelectedID => $TranslatableValues,
@@ -733,8 +733,8 @@ sub _ShowScreen {
     # create treeview option list
     my $TreeViewStrg = $LayoutObject->BuildSelection(
         Data => {
-            0 => 'No',
-            1 => 'Yes',
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
         },
         Name       => 'TreeView',
         SelectedID => $TreeView,

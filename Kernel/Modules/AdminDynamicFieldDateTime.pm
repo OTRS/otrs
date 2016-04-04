@@ -558,8 +558,8 @@ sub _ShowScreen {
     # create the Default Value Type select
     my $YearsPeriodStrg = $LayoutObject->BuildSelection(
         Data => {
-            0 => 'No',
-            1 => 'Yes',
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
         },
         Name         => 'YearsPeriod',
         SelectedID   => $YearsPeriod,
@@ -573,15 +573,15 @@ sub _ShowScreen {
         Data => [
             {
                 Key   => '',
-                Value => 'No',
+                Value => Translatable('No'),
             },
             {
                 Key   => 'DisableFutureDates',
-                Value => 'Prevent entry of dates in the future',
+                Value => Translatable('Prevent entry of dates in the future'),
             },
             {
                 Key   => 'DisablePastDates',
-                Value => 'Prevent entry of dates in the past',
+                Value => Translatable('Prevent entry of dates in the past'),
             },
         ],
         Name         => 'DateRestriction',
