@@ -748,6 +748,21 @@ for my $Test (@MappingTests) {
             $Test->{Name} . ' error message found',
         );
     }
+
+    # instantiate another object
+    my $SecondMappingObject = Kernel::GenericInterface::Mapping->new(
+        DebuggerObject => $DebuggerObject,
+        MappingConfig  => {
+            Type   => 'Simple',
+            Config => $Test->{Config},
+        },
+    );
+
+    $Self->Is(
+        ref $SecondMappingObject,
+        'Kernel::GenericInterface::Mapping',
+        $Test->{Name} . ' SecondMappingObject was correctly instantiated',
+    );
 }    # end tests
 
 # delete webservice
