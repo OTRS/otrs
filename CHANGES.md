@@ -24,7 +24,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.10 2016-??-??
- - 2016-04-04 Fixed bug#[11973](http://bugs.otrs.org/show_bug.cgi?id=11973) - Mapping backend "Simple" can't get initialized multiple times. Thamks to Thorsten Eckel.
+ - 2016-04-04 Fixed bug#[11973](http://bugs.otrs.org/show_bug.cgi?id=11973) - Mapping backend "Simple" can't get initialized multiple times. Thanks to Thorsten Eckel.
  - 2016-04-04 Fixed bug#[11353](http://bugs.otrs.org/show_bug.cgi?id=11353) - Not able to filter for CustomerID with brackets () at TicketViews.
  - 2016-04-04 Fixed bug#[11982](http://bugs.otrs.org/show_bug.cgi?id=11982) - Labels overlap each other on stacked area charts.
  - 2016-04-04 Fixed bug#[11978](http://bugs.otrs.org/show_bug.cgi?id=11978) - Something missing from PreferencesGroups###TicketOverviewFilterSettings description.

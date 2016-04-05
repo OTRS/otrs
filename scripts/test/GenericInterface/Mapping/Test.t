@@ -187,6 +187,7 @@ my @MappingTests = (
 
 );
 
+TEST:
 for my $Test (@MappingTests) {
 
     # create a mapping instance
