@@ -157,6 +157,36 @@ $Selenium->RunTest(
 
             $Selenium->VerifiedRefresh();
 
+            # click settings wheel
+            $Selenium->execute_script("\$('#Dashboard$DashboardName-toggle').trigger('click');");
+
+            # set Priority on visible
+            $Selenium->execute_script(
+                "\$('.ColumnsJSON').val('{\"Columns\":{\"Priority\":1},\"Order\":[\"Priority\"]}');"
+            );
+
+            # submit
+            $Selenium->execute_script( "\$('#Dashboard$DashboardName" . "_submit').trigger('click');" );
+
+            sleep 2;
+
+            # sort by Priority
+            $Selenium->execute_script("\$('th.Priority #PriorityOverviewControl$DashboardName').trigger('click');");
+
+            sleep .5;
+
+            # wait for AJAX to finish
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && !$("#Dashboard' . $DashboardName . '-box.Loading").length'
+            );
+
+            # validate that Priority sort is working
+            $Self->True(
+                $Selenium->find_element( ".DashboardHeader.Priority.SortAscendingLarge", 'css' ),
+                "Priority sort is working",
+            );
+
             # set filter by MyQueue
             my $Filter = "#Dashboard$DashboardName" . "MyQueues";
             $Selenium->find_element( $Filter, 'css' )->VerifiedClick();
@@ -206,7 +236,7 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-    }
+        }
 );
 
 1;

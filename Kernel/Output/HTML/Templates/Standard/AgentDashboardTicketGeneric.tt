@@ -48,11 +48,11 @@
 [% RenderBlockStart("ContentLargeTicketGenericHeaderMeta") %]
                 <th class="DashboardHeader [% Data.CSS | html %]">
 [% RenderBlockStart("ContentLargeTicketGenericHeaderMetaLink") %]
-                    <a id="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" ></a>
+                    <a id="[% Data.HeaderColumnName | html %]FlagOverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" ></a>
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('#' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + 'OverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
+    $('#' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + 'FlagOverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
         var Filter, LinkPage, ColumnFilterName, CustomerID;
 
         Filter  = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
