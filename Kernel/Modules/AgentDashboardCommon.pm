@@ -332,9 +332,11 @@ sub Run {
 
             if ( $ColumnName eq 'CustomerID' ) {
                 push @{ $ColumnFilter{$ColumnName} }, $FilterValue;
+                push @{ $ColumnFilter{ $ColumnName . 'Raw' } }, $FilterValue;
             }
             elsif ( $ColumnName eq 'CustomerUserID' ) {
-                push @{ $ColumnFilter{CustomerUserLogin} }, $FilterValue;
+                push @{ $ColumnFilter{CustomerUserLogin} },    $FilterValue;
+                push @{ $ColumnFilter{CustomerUserLoginRaw} }, $FilterValue;
             }
             else {
                 push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, $FilterValue;
