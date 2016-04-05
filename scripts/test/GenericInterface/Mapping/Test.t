@@ -56,6 +56,7 @@ my @MappingTests = (
             five  => 'FIVE',
         },
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test ToLower',
@@ -75,6 +76,7 @@ my @MappingTests = (
             five  => 'five',
         },
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test Empty',
@@ -94,6 +96,7 @@ my @MappingTests = (
             five  => '',
         },
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test without TestOption',
@@ -107,6 +110,7 @@ my @MappingTests = (
         },
         ResultData    => undef,
         ResultSuccess => 0,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test with unknown TestOption',
@@ -126,6 +130,7 @@ my @MappingTests = (
             five  => 'five',
         },
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
     {
         Name          => 'Test with no Data',
@@ -133,6 +138,7 @@ my @MappingTests = (
         Data          => undef,
         ResultData    => {},
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
     {
         Name          => 'Test with empty Data',
@@ -140,6 +146,7 @@ my @MappingTests = (
         Data          => {},
         ResultData    => {},
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
     {
         Name          => 'Test with wrong Data',
@@ -147,6 +154,7 @@ my @MappingTests = (
         Data          => [],
         ResultData    => undef,
         ResultSuccess => 0,
+        ConfigSuccess => 1
     },
     {
         Name          => 'Test with wrong TestOption',
@@ -154,6 +162,7 @@ my @MappingTests = (
         Data          => 'something for data',
         ResultData    => undef,
         ResultSuccess => 0,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test with a wrong TestOption',
@@ -173,12 +182,38 @@ my @MappingTests = (
             five  => 'five',
         },
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
 
 );
 
 for my $Test (@MappingTests) {
-    $MappingObject->{MappingConfig}->{Config} = $Test->{Config};
+
+    # create a mapping instance
+    my $MappingObject = Kernel::GenericInterface::Mapping->new(
+        DebuggerObject => $DebuggerObject,
+        MappingConfig  => {
+            Type   => 'Test',
+            Config => $Test->{Config},
+        },
+    );
+    if ( $Test->{ConfigSuccess} ) {
+        $Self->Is(
+            ref $MappingObject,
+            'Kernel::GenericInterface::Mapping',
+            $Test->{Name} . ' MappingObject was correctly instantiated',
+        );
+        next TEST if ref $MappingObject ne 'Kernel::GenericInterface::Mapping';
+    }
+    else {
+        $Self->IsNot(
+            ref $MappingObject,
+            'Kernel::GenericInterface::Mapping',
+            $Test->{Name} . ' MappingObject was not correctly instantiated',
+        );
+        next TEST;
+    }
+
     my $MappingResult = $MappingObject->Map(
         Data => $Test->{Data},
     );
@@ -203,6 +238,21 @@ for my $Test (@MappingTests) {
             $Test->{Name} . ' error message found',
         );
     }
+
+    # instantiate another object
+    my $SecondMappingObject = Kernel::GenericInterface::Mapping->new(
+        DebuggerObject => $DebuggerObject,
+        MappingConfig  => {
+            Type   => 'Test',
+            Config => $Test->{Config},
+        },
+    );
+
+    $Self->Is(
+        ref $SecondMappingObject,
+        'Kernel::GenericInterface::Mapping',
+        $Test->{Name} . ' SecondMappingObject was correctly instantiated',
+    );
 }
 
 1;
