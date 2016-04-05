@@ -37,6 +37,7 @@ Core.UI.InputFields = (function (Namespace) {
         $TestForm = $('<form id="TestForm" style="visibility: hidden;"></form>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="MultipleSelect" multiple="multiple" name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect" name="SingleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelectQuoting" name="SingleSelectQuoting"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="you give &apos; love a &quot;bad&quot; name" selected>Bad entry</option><option value="6">Entry 6</option></select></div>');
         $TestForm.append('<div class="Field"><select class="Modernize" id="UnavailableSelect" name="UnavailableSelect"><option value="">-</option><option value="Disabled" disabled="disabled">Disabled entry</option></select></div>');
         $('body').append($TestForm);
 
@@ -45,7 +46,7 @@ Core.UI.InputFields = (function (Namespace) {
         */
         test('Initialize fields', function (Assert) {
 
-            Assert.expect(6);
+            Assert.expect(8);
 
             Core.UI.InputFields.Activate('*');
 
@@ -204,7 +205,7 @@ Core.UI.InputFields = (function (Namespace) {
         */
         test('Revert fields', function (Assert) {
 
-            Assert.expect(3);
+            Assert.expect(4);
 
             Core.UI.InputFields.Deactivate('*');
 
