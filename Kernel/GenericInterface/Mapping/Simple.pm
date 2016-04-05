@@ -101,7 +101,7 @@ we need the config to be in the following format
                                    # 'MapTo' (use provided value as default)
             MapTo => 'new_value',  # only used if 'MapType' is 'MapTo'. then required
         },
-        ValueMap => {
+        ValueMap => {              # optional.
             'new_key_name' => {    # optional. Replacement for a specific key
                 ValueMapExact => { # optional. key/value pairs for direct replacement
                     'old_value'         => 'new_value',
@@ -243,7 +243,11 @@ sub Map {
         }
 
         # check if we have a value mapping for the specific key
-        my $ValueMap = $Config->{ValueMap}->{$NewKey};
+        my $ValueMap;
+        if ( $Config->{ValueMap} && $Config->{ValueMap}->{$NewKey} ) {
+            $ValueMap = $Config->{ValueMap}->{$NewKey}
+        }
+
         if ($ValueMap) {
 
             # first check in exact (1:1) map
@@ -413,42 +417,44 @@ sub _ConfigCheck {
     }
 
     # check ValueMap
-    for my $KeyName ( sort keys %{ $Config->{ValueMap} } ) {
+    if ( IsHashRefWithData( $Config->{ValueMap} ) ) {
+        for my $KeyName ( sort keys %{ $Config->{ValueMap} } ) {
 
-        # require values to be hash ref
-        if ( !IsHashRefWithData( $Config->{ValueMap}->{$KeyName} ) ) {
-            return $Self->{DebuggerObject}->Error(
-                Summary => "Got $KeyName in ValueMap, but it is no hash ref with content!",
-            );
-        }
-
-        # possible sub-values are ValueMapExact or ValueMapRegEx and need to be hash ref if defined
-        SUBKEY:
-        for my $SubKeyName (qw(ValueMapExact ValueMapRegEx)) {
-            my $ValueMapType = $Config->{ValueMap}->{$KeyName}->{$SubKeyName};
-            next SUBKEY if !defined $ValueMapType;
-            if ( !IsHashRefWithData($ValueMapType) ) {
+            # require values to be hash ref
+            if ( !IsHashRefWithData( $Config->{ValueMap}->{$KeyName} ) ) {
                 return $Self->{DebuggerObject}->Error(
-                    Summary =>
-                        "Got $SubKeyName in $KeyName in ValueMap,"
-                        . ' but it is no hash ref with content!',
+                    Summary => "Got $KeyName in ValueMap, but it is no hash ref with content!",
                 );
             }
 
-            # key/value pairs of ValueMapExact and ValueMapRegEx must be strings
-            for my $ValueMapTypeKey ( sort keys %{$ValueMapType} ) {
-                if ( !IsString($ValueMapTypeKey) ) {
+            # possible sub-values are ValueMapExact or ValueMapRegEx and need to be hash ref if defined
+            SUBKEY:
+            for my $SubKeyName (qw(ValueMapExact ValueMapRegEx)) {
+                my $ValueMapType = $Config->{ValueMap}->{$KeyName}->{$SubKeyName};
+                next SUBKEY if !defined $ValueMapType;
+                if ( !IsHashRefWithData($ValueMapType) ) {
                     return $Self->{DebuggerObject}->Error(
                         Summary =>
-                            "Got key in $SubKeyName in $KeyName in ValueMap which is not a string!",
+                            "Got $SubKeyName in $KeyName in ValueMap,"
+                            . ' but it is no hash ref with content!',
                     );
                 }
-                if ( !IsString( $ValueMapType->{$ValueMapTypeKey} ) ) {
-                    return $Self->{DebuggerObject}->Error(
-                        Summary =>
-                            "Got value for $ValueMapTypeKey in $SubKeyName in $KeyName in ValueMap"
-                            . ' which is not a string!',
-                    );
+
+                # key/value pairs of ValueMapExact and ValueMapRegEx must be strings
+                for my $ValueMapTypeKey ( sort keys %{$ValueMapType} ) {
+                    if ( !IsString($ValueMapTypeKey) ) {
+                        return $Self->{DebuggerObject}->Error(
+                            Summary =>
+                                "Got key in $SubKeyName in $KeyName in ValueMap which is not a string!",
+                        );
+                    }
+                    if ( !IsString( $ValueMapType->{$ValueMapTypeKey} ) ) {
+                        return $Self->{DebuggerObject}->Error(
+                            Summary =>
+                                "Got value for $ValueMapTypeKey in $SubKeyName in $KeyName in ValueMap"
+                                . ' which is not a string!',
+                        );
+                    }
                 }
             }
         }

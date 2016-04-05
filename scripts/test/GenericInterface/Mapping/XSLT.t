@@ -26,18 +26,18 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     CommunicationType => 'Provider',
 );
 
-# create a mapping instance
-my $MappingObject = Kernel::GenericInterface::Mapping->new(
-    DebuggerObject => $DebuggerObject,
-    MappingConfig  => {
-        Type => 'XSLT',
-    },
-);
-$Self->Is(
-    ref $MappingObject,
-    'Kernel::GenericInterface::Mapping',
-    'MappingObject was correctly instantiated',
-);
+# # create a mapping instance
+# my $MappingObject = Kernel::GenericInterface::Mapping->new(
+#     DebuggerObject => $DebuggerObject,
+#     MappingConfig  => {
+#         Type => 'XSLT',
+#     },
+# );
+# $Self->Is(
+#     ref $MappingObject,
+#     'Kernel::GenericInterface::Mapping',
+#     'MappingObject was correctly instantiated',
+# );
 
 my @MappingTests = (
     {
@@ -50,6 +50,7 @@ my @MappingTests = (
         },
         ResultData    => undef,
         ResultSuccess => 0,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test no xslt',
@@ -62,6 +63,7 @@ my @MappingTests = (
         },
         ResultData    => undef,
         ResultSuccess => 0,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test invalid xslt',
@@ -78,6 +80,7 @@ my @MappingTests = (
         },
         ResultData    => undef,
         ResultSuccess => 0,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test empty data',
@@ -87,6 +90,7 @@ my @MappingTests = (
         Data          => undef,
         ResultData    => {},
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test empty config',
@@ -98,6 +102,7 @@ my @MappingTests = (
             Key => 'Value',
         },
         ResultSuccess => 1,
+        ConfigSuccess => 0,
     },
     {
         Name   => 'Test invalid hash key name',
@@ -115,6 +120,7 @@ my @MappingTests = (
         },
         ResultData    => undef,
         ResultSuccess => 0,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test invalid replacement',
@@ -132,6 +138,7 @@ my @MappingTests = (
         },
         ResultData    => undef,
         ResultSuccess => 0,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test simple overwrite',
@@ -151,6 +158,7 @@ my @MappingTests = (
             NewKey => 'NewValue',
         },
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
     {
         Name   => 'Test replacement with custom functions',
@@ -217,11 +225,39 @@ my @MappingTests = (
             },
         },
         ResultSuccess => 1,
+        ConfigSuccess => 1,
     },
 );
 
+TEST:
 for my $Test (@MappingTests) {
-    $MappingObject->{MappingConfig}->{Config} = $Test->{Config};
+
+    # create a mapping instance
+    my $MappingObject = Kernel::GenericInterface::Mapping->new(
+        DebuggerObject => $DebuggerObject,
+        MappingConfig  => {
+            Type   => 'XSLT',
+            Config => $Test->{Config},
+        },
+    );
+    if ( $Test->{ConfigSuccess} ) {
+        $Self->Is(
+            ref $MappingObject,
+            'Kernel::GenericInterface::Mapping',
+            $Test->{Name} . ' MappingObject was correctly instantiated',
+        );
+        next TEST if ref $MappingObject ne 'Kernel::GenericInterface::Mapping';
+    }
+    else {
+        $Self->IsNot(
+            ref $MappingObject,
+            'Kernel::GenericInterface::Mapping',
+            $Test->{Name} . ' MappingObject was not correctly instantiated',
+        );
+        next TEST;
+    }
+
+    # $MappingObject->{MappingConfig}->{Config} = $Test->{Config};
     my $MappingResult = $MappingObject->Map(
         Data => $Test->{Data},
     );
@@ -246,6 +282,21 @@ for my $Test (@MappingTests) {
             $Test->{Name} . ' error message found',
         );
     }
+
+    # instantiate another object
+    my $SecondMappingObject = Kernel::GenericInterface::Mapping->new(
+        DebuggerObject => $DebuggerObject,
+        MappingConfig  => {
+            Type   => 'XSLT',
+            Config => $Test->{Config},
+        },
+    );
+
+    $Self->Is(
+        ref $SecondMappingObject,
+        'Kernel::GenericInterface::Mapping',
+        $Test->{Name} . ' SecondMappingObject was correctly instantiated',
+    );
 }
 
 1;
