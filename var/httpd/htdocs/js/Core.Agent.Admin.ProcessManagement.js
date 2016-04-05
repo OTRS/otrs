@@ -1505,9 +1505,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     TargetNS.HideOverlay = function () {
         $('#Overlay').remove();
         $('body').css({
-            'overflow': 'auto'
+            'overflow': 'visible',
+            'min-height': 0
         });
-        $('body').css('min-height', 'auto');
     };
 
     /**
