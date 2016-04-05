@@ -26,19 +26,6 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     CommunicationType => 'Provider',
 );
 
-# # create a mapping instance
-# my $MappingObject = Kernel::GenericInterface::Mapping->new(
-#     DebuggerObject => $DebuggerObject,
-#     MappingConfig  => {
-#         Type => 'XSLT',
-#     },
-# );
-# $Self->Is(
-#     ref $MappingObject,
-#     'Kernel::GenericInterface::Mapping',
-#     'MappingObject was correctly instantiated',
-# );
-
 my @MappingTests = (
     {
         Name   => 'Test invalid xml',
