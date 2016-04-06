@@ -24,6 +24,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.10 2016-??-??
+ - 2016-04-06 Fixed bug#[11975](http://bugs.otrs.org/show_bug.cgi?id=11975) - Use of uninitialized value $NotUseTag in /opt/otrs/Kernel/System/Package.pm.
  - 2016-04-05 Fixed bug#[11918](http://bugs.otrs.org/show_bug.cgi?id=11918) - Placement of activities and other elements shifted.
  - 2016-04-05 Fixed bug#[11980](http://bugs.otrs.org/show_bug.cgi?id=11980) - Priority sorting in dashboard widgets not working for a custom column.
  - 2016-04-04 Fixed bug#[11973](http://bugs.otrs.org/show_bug.cgi?id=11973) - Mapping backend "Simple" can't get initialized multiple times. Thanks to Thorsten Eckel.

@@ -905,8 +905,8 @@ sub PackageUpgrade {
 
                 if (
                     $Part->{TagType} eq 'End'
-                    && $Part->{Tag} eq $NotUseTag
-                    && $Part->{TagLevel} eq $NotUseTagLevel
+                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
+                    && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                     )
                 {
                     $UseInstalled = 1;
@@ -3953,8 +3953,8 @@ sub _CheckDBMerged {
 
             if (
                 $Part->{TagType} eq 'End'
-                && $Part->{Tag} eq $NotUseTag
-                && $Part->{TagLevel} eq $NotUseTagLevel
+                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
+                    && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                 )
             {
                 $Use = 1;
