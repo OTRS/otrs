@@ -283,8 +283,8 @@ sub Run {
         else {
             %Result = (
                 Successful => 0,
-                Message    => 'Unknown Check!',
-                Comment    => "The check '$CheckMode' doesn't exist!"
+                Message    => Translatable('Unknown Check!'),
+                Comment => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode ),
             );
         }
 
@@ -317,7 +317,7 @@ sub Run {
             my $Output =
                 $LayoutObject->Header(
                 Title => "$Title - "
-                    . $LayoutObject->{LanguageObject}->Translate('Database') . ' MySQL'
+                    . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'MySQL' )
                 );
             $LayoutObject->Block(
                 Name => 'DatabaseMySQL',
@@ -360,8 +360,7 @@ sub Run {
             my $Output =
                 $LayoutObject->Header(
                 Title => "$Title - "
-                    . $LayoutObject->{LanguageObject}->Translate('Database')
-                    . ' Microsoft SQL Server'
+                    . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'Microsoft SQL Server' )
                 );
             $LayoutObject->Block(
                 Name => 'DatabaseMSSQL',
@@ -405,7 +404,7 @@ sub Run {
             my $Output =
                 $LayoutObject->Header(
                 Title => "$Title - "
-                    . $LayoutObject->{LanguageObject}->Translate('Database') . ' PostgreSQL'
+                    . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'PostgreSQL' )
                 );
             $LayoutObject->Block(
                 Name => 'DatabasePostgreSQL',
@@ -445,7 +444,7 @@ sub Run {
             my $Output =
                 $LayoutObject->Header(
                 Title => "$Title - "
-                    . $LayoutObject->{LanguageObject}->Translate('Database') . ' Oracle'
+                    . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'Oracle' )
                 );
             $LayoutObject->Block(
                 Name => 'DatabaseOracle',
@@ -805,8 +804,8 @@ sub Run {
         # build the selection field for the MX check
         $Param{SelectCheckMXRecord} = $LayoutObject->BuildSelection(
             Data => {
-                1 => 'Yes',
-                0 => 'No',
+                1 => Translatable('Yes'),
+                0 => Translatable('No'),
             },
             Name       => 'CheckMXRecord',
             SelectedID => '1',
