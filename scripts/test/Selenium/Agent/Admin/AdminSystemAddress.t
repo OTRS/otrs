@@ -23,7 +23,8 @@ $Selenium->RunTest(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
-        );        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        );
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # disable check email address
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(

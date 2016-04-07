@@ -145,7 +145,8 @@ $Selenium->RunTest(
         );
 
         $Selenium->VerifiedGet(
-            "${ScriptAlias}index.pl?Action=AdminPackageManager;Subaction=View;Name=NonexistingPackage;Version=0.0.1");
+            "${ScriptAlias}index.pl?Action=AdminPackageManager;Subaction=View;Name=NonexistingPackage;Version=0.0.1"
+        );
 
         $Selenium->find_element( "div.ErrorScreen", 'css' );
 

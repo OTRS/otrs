@@ -51,18 +51,23 @@ $Selenium->RunTest(
         # remember to escape the strings correctly for Perl AND Javascript!
         my @TestCasesBasic = (
             {
-                'Name'     => '1: Basic text with formatting tags which should be changed to be semantically correct',
-                'Input'    => 'This is a test text with <b>some</b> <i>formatting</i> and <a href=\"http://www.test.de\">a link</a>. Also, there is a list: <ul><li>Listitem 1</li><li>Listitem 2</li></ul>.',
-                'Expected' => "This is a test text with <strong>some</strong> <em>formatting</em> and <a href=\"http://www.test.de\">a link</a>. Also, there is a list:\n\n<ul>\n\t<li>Listitem 1</li>\n\t<li>Listitem 2</li>\n</ul>\n.",
+                'Name' => '1: Basic text with formatting tags which should be changed to be semantically correct',
+                'Input' =>
+                    'This is a test text with <b>some</b> <i>formatting</i> and <a href=\"http://www.test.de\">a link</a>. Also, there is a list: <ul><li>Listitem 1</li><li>Listitem 2</li></ul>.',
+                'Expected' =>
+                    "This is a test text with <strong>some</strong> <em>formatting</em> and <a href=\"http://www.test.de\">a link</a>. Also, there is a list:\n\n<ul>\n\t<li>Listitem 1</li>\n\t<li>Listitem 2</li>\n</ul>\n.",
             },
             {
-                'Name'     => '2: Remove invalid/forbidden tags',
-                'Input'    => "This text contains a script tag: <script>alert(\'bla\');</script> and a table, though the enhanced mode is not enabled: <table><tr><td>One cell</td></tr></table>.",
-                'Expected' => "This text contains a script tag: and a table, though the enhanced mode is not enabled:One cell<br />\n.",
+                'Name' => '2: Remove invalid/forbidden tags',
+                'Input' =>
+                    "This text contains a script tag: <script>alert(\'bla\');</script> and a table, though the enhanced mode is not enabled: <table><tr><td>One cell</td></tr></table>.",
+                'Expected' =>
+                    "This text contains a script tag: and a table, though the enhanced mode is not enabled:One cell<br />\n.",
             },
             {
-                'Name'     => '3: Remove invalid/forbidden attributes',
-                'Input'    => 'Here is an allowed element with a forbidden attribute: <strong data-uri=\"foo\">Strong text</strong>.',
+                'Name' => '3: Remove invalid/forbidden attributes',
+                'Input' =>
+                    'Here is an allowed element with a forbidden attribute: <strong data-uri=\"foo\">Strong text</strong>.',
                 'Expected' => 'Here is an allowed element with a forbidden attribute: <strong>Strong text</strong>.',
             },
         );
@@ -82,7 +87,7 @@ $Selenium->RunTest(
                 "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
         );
 
-        # send some text to the CKE's textarea (we cant do it with Selenium directly because the textarea is not visible)
+       # send some text to the CKE's textarea (we cant do it with Selenium directly because the textarea is not visible)
         my $SetCKEContent = 1;
         eval {
             $SetCKEContent = $Selenium->execute_script(
@@ -100,9 +105,9 @@ $Selenium->RunTest(
         );
 
         # now go through the test cases
-        for my $TestCase (sort @TestCasesBasic) {
+        for my $TestCase ( sort @TestCasesBasic ) {
 
-            $Selenium->execute_script('CKEDITOR.instances.RichText.setData("' . $TestCase->{Input} . '");');
+            $Selenium->execute_script( 'CKEDITOR.instances.RichText.setData("' . $TestCase->{Input} . '");' );
 
             # we wait a second to make sure the content has been set correctly
             sleep(1);

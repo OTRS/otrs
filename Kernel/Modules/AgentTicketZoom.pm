@@ -2849,10 +2849,10 @@ sub _ArticleMenu {
 
                 # build HTML string
                 my $StandardResponsesStrg = $LayoutObject->BuildSelection(
-                    Name  => 'ResponseID',
-                    ID    => 'ResponseID',
-                    Class => 'Modernize Small',
-                    Data  => \@StandardResponseArray,
+                    Name         => 'ResponseID',
+                    ID           => 'ResponseID',
+                    Class        => 'Modernize Small',
+                    Data         => \@StandardResponseArray,
                     PossibleNone => 1,
                 );
 

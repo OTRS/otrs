@@ -116,7 +116,6 @@ $Selenium->RunTest(
             "Ticket with ticket ID $TicketID - found on CustomerTicketOverview screen"
         ) || die;
 
-
         # Check URL preselection of queue
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage;Dest=3||Junk");
 
@@ -131,7 +130,7 @@ $Selenium->RunTest(
             Key   => 'CustomerPanelOwnSelection',
             Value => {
                 Junk => 'First Queue',
-            }
+            },
         );
 
         # allow mod_perl to pick up the changed configuration
@@ -142,7 +141,6 @@ $Selenium->RunTest(
             '3||First Queue',
             "Queue preselected in URL"
         );
-
 
         # clean up test data from the DB
         my $Success = $TicketObject->TicketDelete(

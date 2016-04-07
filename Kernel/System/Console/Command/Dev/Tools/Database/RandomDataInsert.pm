@@ -554,19 +554,19 @@ sub CompanyCreate {
 
     for ( 1 .. $Count ) {
 
-        my $Name      = 'fill-up-company' . int( rand(100_000_000) );
+        my $Name       = 'fill-up-company' . int( rand(100_000_000) );
         my $CustomerID = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
-            Source                  => 'CustomerCompany',            # CustomerCompany source config
-            CustomerID              => $Name . '_CustomerID',
-            CustomerCompanyName     => $Name,
-            CustomerCompanyStreet   => '5201 Blue Lagoon Drive',
-            CustomerCompanyZIP      => '33126',
-            CustomerCompanyCity     => 'Miami',
-            CustomerCompanyCountry  => 'USA',
-            CustomerCompanyURL      => 'http://www.example.org',
-            CustomerCompanyComment  => 'some comment',
-            ValidID                 => 1,
-            UserID                  => 1,
+            Source                 => 'CustomerCompany',          # CustomerCompany source config
+            CustomerID             => $Name . '_CustomerID',
+            CustomerCompanyName    => $Name,
+            CustomerCompanyStreet  => '5201 Blue Lagoon Drive',
+            CustomerCompanyZIP     => '33126',
+            CustomerCompanyCity    => 'Miami',
+            CustomerCompanyCountry => 'USA',
+            CustomerCompanyURL     => 'http://www.example.org',
+            CustomerCompanyComment => 'some comment',
+            ValidID                => 1,
+            UserID                 => 1,
         );
 
         print "CustomerCompany '$Name' created.\n";
