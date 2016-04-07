@@ -11,6 +11,8 @@ package Kernel::System::Web::InterfaceInstaller;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -110,9 +112,10 @@ sub Run {
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         print $LayoutObject->Header();
         print $LayoutObject->Error(
-            Message => 'SecureMode active!',
-            Comment =>
-                'If you want to re-run the Installer, disable the SecureMode in the SysConfig',
+            Message => Translatable('SecureMode active!'),
+            Comment => Translatable(
+                'If you want to re-run the Installer, disable the SecureMode in the SysConfig'
+            ),
         );
         print $LayoutObject->Footer();
     }
@@ -135,8 +138,8 @@ sub Run {
         # create new LayoutObject with '%Param'
         print $LayoutObject->Header();
         print $LayoutObject->Error(
-            Message => "Action '$Param{Action}' not found!",
-            Comment => 'Contact your admin!',
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
+            Comment => Translatable('Please contact the admin.'),
         );
         print $LayoutObject->Footer();
     }
