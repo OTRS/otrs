@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -25,12 +26,12 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# add webservice to be used (empty config)
+# add web service to be used (empty config)
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
-    "Create webservice object",
+    "Create web service object",
 );
 my $WebserviceName = 'TestREST' . $HelperObject->GetRandomID();
 my $WebserviceID   = $WebserviceObject->WebserviceAdd(
@@ -50,7 +51,7 @@ my $WebserviceID   = $WebserviceObject->WebserviceAdd(
 );
 $Self->True(
     $WebserviceID,
-    "Added Webservice",
+    "Added Web service",
 );
 
 # get remote host with some precautions for certain unit test systems
@@ -72,7 +73,7 @@ if ( !$Host ) {
     $Host = '127.0.0.1';
 }
 
-# prepare webservice config
+# prepare web service config
 my $BaseURL =
     $ConfigObject->Get('HttpType')
     . '://'
@@ -882,7 +883,7 @@ $Self->Is(
 TEST:
 for my $Test (@Tests) {
 
-    # update webservice with real config
+    # update web service with real config
     my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
 
         ID      => $WebserviceID,
@@ -893,10 +894,10 @@ for my $Test (@Tests) {
     );
     $Self->True(
         $WebserviceUpdate,
-        "$Test->{Name} - Updated Webservice $WebserviceID",
+        "$Test->{Name} - Updated Web service $WebserviceID",
     );
 
-    # start requester with our webservice
+    # start requester with our web service
     my $RequesterResult = $RequesterObject->Run(
         WebserviceID => $WebserviceID,
         Invoker      => 'TestSimple',
@@ -922,7 +923,7 @@ for my $Test (@Tests) {
             $Self->IsNot(
                 $RequesterResult->{Message},
                 $Test->{ExpectedReturnData},
-                "$Test->{Name} - Requester unsuccessful status (needs configured and running webserver)",
+                "$Test->{Name} - Requester unsuccessful status (needs configured and running web server)",
             );
         }
 
@@ -939,18 +940,133 @@ for my $Test (@Tests) {
     $Self->IsDeeply(
         $RequesterResult->{Data},
         $Test->{ExpectedReturnData},
-        "$Test->{Name} - Requester success status (needs configured and running webserver)",
+        "$Test->{Name} - Requester success status (needs configured and running web server)",
     );
 }    #end loop
 
-# clean up webservice
+# check direct requests
+@Tests = (
+    {
+        Name        => 'Correct Direct Request GET Special Chars',
+        Success     => '1',
+        RequestData => {
+            Other1 => 'DataOne',
+            Other2 => 'Data Two',
+            Other3 => 'Data%20Tree',
+            Other4 => 'Data+Four',
+            Other5 => 'Data%2BFive'
+        },
+        ExpectedReturnData => {
+            Other1 => 'DataOne',
+            Other2 => 'Data Two',
+            Other3 => 'Data Tree',
+            Other4 => 'Data Four',
+            Other5 => 'Data+Five'
+        },
+        WebserviceConfig => {
+            Name        => 'TestSimple1',
+            Description => '',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        KeepAlive             => '',
+                        MaxLength             => '100000000',
+                        RouteOperationMapping => {
+                            TestSimple => {
+                                RequestMethod => [ 'GET', 'POST' ],
+                                Route         => '/Test',
+                            },
+                        },
+                    },
+                },
+                Operation => {
+                    TestSimple => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+        },
+    },
+);
+
+# Get JSON object;
+my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+TEST:
+for my $Test (@Tests) {
+
+    # update web service with real config
+    my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+        ID      => $WebserviceID,
+        Name    => $WebserviceName,
+        Config  => $Test->{WebserviceConfig},
+        ValidID => 1,
+        UserID  => 1,
+    );
+    $Self->True(
+        $WebserviceUpdate,
+        "$Test->{Name} - Updated Web service $WebserviceID",
+    );
+
+    my $RequestParams;
+    for my $DataKey ( sort keys %{ $Test->{RequestData} } ) {
+        $RequestParams .= "$DataKey=$Test->{RequestData}->{$DataKey}&";
+    }
+
+    # perform request
+    my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
+        Type => 'GET',
+        URL  => $BaseURL
+            . $Test->{WebserviceConfig}->{Provider}->{Transport}->{Config}->{RouteOperationMapping}->{TestSimple}
+            ->{Route}
+            . '?'
+            . $RequestParams,
+    );
+
+    if ( !$Test->{Success} ) {
+
+        # check result
+        $Self->IsNot(
+            $Response{Status},
+            '200 OK',
+            "$Test->{Name} - Response unsuccessful result",
+        );
+
+        next TEST;
+    }
+
+    $Self->Is(
+        $Response{Status},
+        '200 OK',
+        "$Test->{Name} - Response successful result",
+    );
+
+    my $ReturnData = $JSONObject->Decode(
+        Data => ${ $Response{Content} },
+    );
+
+    delete $ReturnData->{RequestMethod};
+
+    $Self->IsDeeply(
+        $ReturnData,
+        $Test->{ExpectedReturnData},
+        "$Test->{Name} - Response data (needs configured and running web server)",
+    );
+}
+
+# cleanup web service
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
 $Self->True(
     $WebserviceDelete,
-    "Deleted Webservice $WebserviceID",
+    "Deleted Web service $WebserviceID",
 );
 
 1;

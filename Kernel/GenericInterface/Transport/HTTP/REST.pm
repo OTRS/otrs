@@ -134,6 +134,7 @@ sub ProviderProcessRequest {
 
         # unscape URI strings in query parameters
         for my $Param ( sort keys %QueryParams ) {
+            $QueryParams{$Param} =~ s{\+}{%20}g;
             $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
         }
     }
