@@ -18,6 +18,13 @@ my $CommandObject      = $Kernel::OM->Get('Kernel::System::Console::Command::Mai
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # add system address
 my $SystemAddressNameRand = 'SystemAddress' . int rand 1000000;
 my $SystemAddressID       = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressAdd(
@@ -149,43 +156,6 @@ for my $Test (@Tests) {
             "$Test->{Name}, tag $Key",
         );
     }
-
-    # delete test created ticket
-    $Success = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->True(
-        $Success,
-        "TicketID $TicketID - deleted",
-    );
 }
-
-# delete auto response - queue relation
-$Success = $DBObject->Do(
-    SQL => "DELETE FROM queue_auto_response WHERE queue_id = $QueueID",
-);
-$Self->True(
-    $Success,
-    "AutoResponse Queue relation - deleted",
-);
-
-# delete test auto response
-$Success = $DBObject->Do(
-    SQL => "DELETE FROM auto_response WHERE id = $AutoResponseID",
-);
-$Self->True(
-    $Success,
-    "AutoResponseID $AutoResponseID - deleted",
-);
-
-# delete test queue
-$Success = $DBObject->Do(
-    SQL => "DELETE FROM queue WHERE id = $QueueID",
-);
-$Self->True(
-    $Success,
-    "QueueID $QueueID - deleted",
-);
 
 1;
