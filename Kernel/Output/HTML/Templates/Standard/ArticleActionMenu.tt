@@ -18,7 +18,7 @@
                 <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
                 <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
                 <input type="hidden" name="ForwardAll" value="[% Item.ForwardAll | html %]"/>
-                <label for="[% Item.ForwardElementID | html %]" class="InvisibleText">[% Translate(Item.Name) | html %]:</label>
+                <label for="[% Item.ForwardElementID | html %]">[% Translate(Item.Name) | html %]:</label>
                         [% Item.StandardForwardsStrg %]
             </form>
         [% IF Item.Type == 'OnLoad' %]

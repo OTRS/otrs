@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-04-08 Removed dummy 'Reply All' and 'Forward' options to align with 'Reply' select, thanks to Nils Leideck.
  - 2016-04-01 Fixed dropdown for CustomerTicketOverview.
  - 2016-04-01 Changed reply template selection to not include -Reply- anymore but a label instead, thanks to Nils Leideck.
  - 2016-03-29 Added possibility to configure default headers for outgoing emails (Sendmail::DefaultHeaders), thanks to Renée Bäcker.
