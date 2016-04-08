@@ -100,12 +100,13 @@ sub DocumentNew {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get Product and Version
-    $Self->{Config}->{Project} = $ConfigObject->Get('Product');
-    $Self->{Config}->{Version} = $ConfigObject->Get('Version');
-    my $ProjectVersion = $Self->{Config}->{Project} . ' ' . $Self->{Config}->{Version};
+    my $PDFCreator = '';    # set to empty value if Secure::DisableBanner is active
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Secure::DisableBanner') ) {
+        $PDFCreator = $ConfigObject->Get('Product') . ' ' . $ConfigObject->Get('Version');
+    }
 
     # set document title
-    $Self->{Document}->{Title} = $Param{Title} || $ProjectVersion;
+    $Self->{Document}->{Title} = $Param{Title} || $PDFCreator;
 
     # set document encode
     $Self->{Document}->{Encode} = $Param{Encode} || 'utf-8';
@@ -135,7 +136,7 @@ sub DocumentNew {
 
     # set document infos
     $Self->{PDF}->info(
-        'Author'       => $ProjectVersion,
+        'Author'       => $PDFCreator,
         'CreationDate' => "D:"
             . $NowYear
             . $NowMonth
@@ -144,8 +145,8 @@ sub DocumentNew {
             . $NowMin
             . $NowSec
             . "+01'00'",
-        'Creator'  => $ProjectVersion,
-        'Producer' => "OTRS PDF Creator",
+        'Creator'  => $PDFCreator,
+        'Producer' => $PDFCreator,
         'Title'    => $Self->{Document}->{Title},
         'Subject'  => $Self->{Document}->{Title},
     );
