@@ -277,11 +277,16 @@ sub GetUserData {
             my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
                 String => $End,
             );
-            my $Till = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
-            my $TillDate
-                = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay}";
             if ( $TimeStart < $Time && $TimeEnd > $Time ) {
-                $Preferences{OutOfOfficeMessage} = "*** out of office till $TillDate/$Till d ***";
+                my $OutOfOfficeMessageTemplate =
+                    $ConfigObject->Get('OutOfOfficeMessageTemplate') || '*** out of office until %s (%s d left) ***';
+                my $TillDate = sprintf('%04d-%02d-%02d',
+                    $Preferences{OutOfOfficeEndYear},
+                    $Preferences{OutOfOfficeEndMonth},
+                    $Preferences{OutOfOfficeEndDay}
+                );
+                my $Till = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
+                $Preferences{OutOfOfficeMessage} = sprintf($OutOfOfficeMessageTemplate, $TillDate, $Till);
                 $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }
 

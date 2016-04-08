@@ -25,6 +25,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.10 2016-??-??
+ - 2016-04-08 Make out of office message configurable (setting OutOfOfficeMessageTemplate).
  - 2016-04-08 Improve X-Mailer email header if Secure::DisableBanner is active to avoid the mail being classified as SPAM, thanks to Renée Bäcker.
  - 2016-04-08 Fixed bug#[11982](http://bugs.otrs.org/show_bug.cgi?id=11982) - Follow-up: Labels overlap each other also on line charts.
  - 2016-04-08 Fixed bug#[11970](http://bugs.otrs.org/show_bug.cgi?id=11970) - Kill all sessions button text too long for button.
