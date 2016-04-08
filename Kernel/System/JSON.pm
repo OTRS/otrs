@@ -150,6 +150,11 @@ sub Decode {
         return;
     }
 
+    # sanitize leftover boolean objects
+    $Scalar = $Self->_BooleansProcess(
+        JSON => $Scalar,
+    );
+
     return $Scalar;
 }
 
@@ -188,6 +193,52 @@ sub False {
     # Use constant instead of JSON::false() as this can cause nasty problems with JSON::XS on some platforms.
     # (encountered object '0', but neither allow_blessed, convert_blessed nor allow_tags settings are enabled)
     return \0;
+}
+
+=begin Internal:
+
+=cut
+
+=item _BooleansProcess()
+
+decode boolean values leftover from JSON decoder to simple scalar values
+
+    my $ProcessedJSON = $JSONObject->_BooleansProcess(
+        JSON => $JSONData,
+    );
+
+=cut
+
+sub _BooleansProcess {
+    my ( $Self, %Param ) = @_;
+
+
+    # convert scalars if needed
+    if ( JSON::is_bool( $Param{JSON} ) ) {
+        $Param{JSON} = ( $Param{JSON} ? 1 : 0 );
+    }
+
+    # recurse into arrays
+    elsif ( ref $Param{JSON} eq 'ARRAY' ) {
+
+        for my $Value ( @{ $Param{JSON} } ) {
+            $Value = $Self->_BooleansProcess(
+                JSON => $Value,
+            );
+        }
+    }
+
+    # recurse into hashes
+    elsif ( ref $Param{JSON} eq 'HASH' ) {
+
+        for my $Value ( values %{ $Param{JSON} } ) {
+            $Value = $Self->_BooleansProcess(
+                JSON => $Value,
+            );
+        }
+    }
+
+    return $Param{JSON};
 }
 
 1;
