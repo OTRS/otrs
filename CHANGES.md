@@ -1,4 +1,5 @@
 #4.0.18 2016-??-??
+ - 2016-06-09 Fixed bug#[11990](http://bugs.otrs.org/show_bug.cgi?id=11990) - Kernel/Config/ files matching regex .pm may throw an error while loading.
  - 2016-06-06 Fixed bug#[12122](http://bugs.otrs.org/show_bug.cgi?id=12122) - Wrong offset in substr function, ForeignKeyCreate function.
  - 2016-06-06 Fixed bug#[12020](http://bugs.otrs.org/show_bug.cgi?id=12020) - Option CaseSensitive has no impact on external customer database.
  - 2016-06-03 Fixed bug#[12110](http://bugs.otrs.org/show_bug.cgi?id=12110) - ACL Queue limitation not working in CustomerTicketProcess, thanks to Thorsten Eckel.

@@ -1931,7 +1931,7 @@ sub new {
                 $File =~ s/^\///g;
                 $File =~ s/\/\//\//g;
                 $File =~ s/\//::/g;
-                $File =~ s/.pm//g;
+                $File =~ s/\.pm$//g;
                 $File->Load($Self);
             }
             else {
