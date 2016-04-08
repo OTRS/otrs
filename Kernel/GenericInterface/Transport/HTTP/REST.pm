@@ -133,6 +133,9 @@ sub ProviderProcessRequest {
         for my $QueryParam ( split '&', $QueryParamsStr ) {
             my ( $Key, $Value ) = split '=', $QueryParam;
 
+            # Convert + characters to its encoded representation, see bug#11917
+            $Value =~ s{\+}{%20}g;
+
             # unscape URI strings in query parameters
             $Key   = URI::Escape::uri_unescape($Key);
             $Value = URI::Escape::uri_unescape($Value);
