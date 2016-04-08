@@ -284,7 +284,7 @@ for my $Test (@Tests) {
 
                 # reset CGI object from previous runs
                 CGI::initialize_globals();
-                $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
+                $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
                 $ProviderObject->Run();
             }

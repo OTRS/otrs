@@ -143,7 +143,7 @@ for my $Fail ( 0 .. 1 ) {
     for my $TestEntry (@RPRTestData) {
 
         # discard Web::Request from OM to prevent errors
-        $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
         my $Result = $TransportObject->RequesterPerformRequest(
             Operation => $TestEntry->{Operation},
@@ -238,7 +238,7 @@ for my $Fail ( 0 .. 1 ) {
             CGI::initialize_globals();
 
             # discard Web::Request from OM to prevent errors
-            $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
+            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
             $Result = $TransportObject->ProviderProcessRequest();
         }
@@ -327,7 +327,7 @@ for my $Fail ( 0 .. 1 ) {
                 open STDOUT, '>:utf8', \$ResultData;    ## no critic
 
                 # discard Web::Request from OM to prevent errors
-                $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
+                $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
                 $Result = $TransportObject->ProviderGenerateResponse(
                     Success      => $OptionSuccess,
