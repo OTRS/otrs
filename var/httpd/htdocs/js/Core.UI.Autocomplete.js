@@ -166,11 +166,11 @@ Core.UI.Autocomplete = (function (TargetNS) {
                     var FieldID = $SingleElement.attr('id'),
                         LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
 
-                    $Loader = $('#' + AJAXLoaderPrefix + FieldID);
+                    $Loader = $('#' + AJAXLoaderPrefix + Core.App.EscapeSelector(FieldID));
 
                     if (!$Loader.length) {
                         $SingleElement.after(LoaderHTML);
-                        $Loader = $('#' + AJAXLoaderPrefix + FieldID);
+                        $Loader = $('#' + AJAXLoaderPrefix + Core.App.EscapeSelector(FieldID));
                     }
                     else {
                         $Loader.show();
