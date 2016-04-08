@@ -296,7 +296,7 @@ sub Send {
     }
     else {
         $Header{'X-Mailer'}     = "$Product Mail Service ($Version)";
-        $Header{'X-Powered-By'} = 'OTRS - https://otrs.com/';
+        $Header{'X-Powered-By'} = 'OTRS (https://otrs.com/)';
     }
     $Header{Type} = $Param{MimeType} || 'text/plain';
 

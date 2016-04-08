@@ -100,7 +100,7 @@ $Self->Is(
 
 $Self->Is(
     $XPoweredByHeader,
-    "OTRS - https://otrs.com/",
+    "OTRS (https://otrs.com/)",
     "Default X-Powered-By header",
 );
 
