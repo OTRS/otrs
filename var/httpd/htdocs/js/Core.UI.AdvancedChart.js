@@ -154,11 +154,13 @@ Core.UI.AdvancedChart = (function (TargetNS) {
 
         nv.addGraph(function() {
 
-            var Chart = nv.models.lineChart(),
+            var Chart = nv.models.OTRSlineChart(),
                 ShowLegend = Options.HideLegend ? false : true;
 
             // don't let nv/d3 exceptions block the rest of OTRS JavaScript
             try {
+
+                Chart.staggerLabels(true);
 
                 Chart.margin({
                     top: 20,
@@ -286,7 +288,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
 
         nv.addGraph(function() {
 
-            var Chart = nv.models.lineChart(),
+            var Chart = nv.models.OTRSlineChart(),
                 ShowLegend = Options.HideLegend ? false : true;
 
             // don't let nv/d3 exceptions block the rest of OTRS JavaScript

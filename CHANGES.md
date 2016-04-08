@@ -26,6 +26,7 @@
 
 #5.0.10 2016-??-??
  - 2016-04-08 Improve X-Mailer email header if Secure::DisableBanner is active to avoid the mail being classified as SPAM, thanks to Renée Bäcker.
+ - 2016-04-08 Fixed bug#[11982](http://bugs.otrs.org/show_bug.cgi?id=11982) - Follow-up: Labels overlap each other also on line charts.
  - 2016-04-08 Fixed bug#[11970](http://bugs.otrs.org/show_bug.cgi?id=11970) - Kill all sessions button text too long for button.
  - 2016-04-08 Fixed bug#[11990](http://bugs.otrs.org/show_bug.cgi?id=11990) - Kernel/Config/ files matching regex .pm may throw an error while loading.
  - 2016-04-08 Fixed bug#[11842](http://bugs.otrs.org/show_bug.cgi?id=11842) - Restful API with data type Boolean.
