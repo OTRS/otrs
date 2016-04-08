@@ -115,12 +115,7 @@ for my $Test (@Tests) {
         open STDOUT, '>:utf8', \$Result;          ## no critic
 
         $ExitCode = $CommandObject->Execute( '--target-queue', $QueueNameRand, '--debug' );
-
-        # reset CGI object from previous runs
-        CGI::initialize_globals();
-
-        # discard Web::Request from OM to prevent duplicated entries
-        $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PostMaster'] );
     }
 
     $Self->Is(
@@ -146,7 +141,7 @@ for my $Test (@Tests) {
     );
 
     # check auto response article values
-    for my $Key ( sort keys $Test->{Result} ) {
+    for my $Key ( sort keys %{ $Test->{Result} } ) {
 
         $Self->Is(
             $ArticleAutoResponse{$Key},
