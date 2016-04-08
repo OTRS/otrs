@@ -23,10 +23,11 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $RandomID = $Helper->GetRandomID();
 
 # add system address
-my $SystemAddressNameRand = 'SystemAddress' . int rand 1000000;
+my $SystemAddressNameRand = 'SystemAddress' . $RandomID;
 my $SystemAddressID       = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressAdd(
     Name     => $SystemAddressNameRand . '@example.com',
     Realname => $SystemAddressNameRand,
@@ -41,7 +42,7 @@ $Self->True(
 );
 
 # add queue
-my $QueueNameRand = 'Queue' . int rand 1000000;
+my $QueueNameRand = 'Queue' . $RandomID;
 my $QueueID       = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Name            => $QueueNameRand,
     ValidID         => 1,
@@ -58,7 +59,7 @@ $Self->True(
 );
 
 # add auto response
-my $AutoResponseNameRand0 = 'AutoResponse' . int rand 1000000;
+my $AutoResponseNameRand0 = 'AutoResponse' . $RandomID;
 
 my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(
     Name        => $AutoResponseNameRand0,
