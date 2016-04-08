@@ -69,4 +69,68 @@ $Self->Is(
     'Check that in-reply-to header is split across lines',
 );
 
+#
+# Check header security
+#
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key => 'Secure::DisableBanner',
+    Value => 0,
+);
+
+( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
+    From       => 'john.smith@example.com',
+    To         => 'john.smith2@example.com',
+    Subject    => 'some subject',
+    Body       => 'Some Body',
+    Type       => 'text/html',
+    Charset    => 'utf8',
+);
+
+my ($XMailerHeader) = $$Header =~ m{^X-Mailer:\s+(.*?)$}ixms;
+my ($XPoweredByHeader) = $$Header =~ m{^X-Powered-By:\s+(.*?)$}ixms;
+
+my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
+my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
+
+$Self->Is(
+    $XMailerHeader,
+    "$Product Mail Service ($Version)",
+    "Default X-Mailer header",
+);
+
+$Self->Is(
+    $XPoweredByHeader,
+    "OTRS - https://otrs.com/",
+    "Default X-Powered-By header",
+);
+
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key => 'Secure::DisableBanner',
+    Value => 1,
+);
+
+( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
+    From       => 'john.smith@example.com',
+    To         => 'john.smith2@example.com',
+    Subject    => 'some subject',
+    Body       => 'Some Body',
+    Type       => 'text/html',
+    Charset    => 'utf8',
+);
+
+($XMailerHeader) = $$Header =~ m{^X-Mailer:\s+(.*?)$}ixms;
+($XPoweredByHeader) = $$Header =~ m{^X-Powered-By:\s+(.*?)$}ixms;
+
+$Self->Is(
+    $XMailerHeader,
+    undef,
+    "Disabled X-Mailer header",
+);
+
+$Self->Is(
+    $XPoweredByHeader,
+    undef,
+    "Disabled X-Powered-By header",
+);
+
 1;

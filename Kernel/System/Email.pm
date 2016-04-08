@@ -289,9 +289,14 @@ sub Send {
     my $Product = $ConfigObject->Get('Product');
     my $Version = $ConfigObject->Get('Version');
 
-    if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
+    if ( $ConfigObject->Get('Secure::DisableBanner') ) {
+        # Set this to undef to avoid having a value like "MIME-tools 5.507 (Entity 5.507)"
+        #   which could lead to the mail being treated as SPAM.
+        $Header{'X-Mailer'} = undef;
+    }
+    else {
         $Header{'X-Mailer'}     = "$Product Mail Service ($Version)";
-        $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
+        $Header{'X-Powered-By'} = 'OTRS - https://otrs.com/';
     }
     $Header{Type} = $Param{MimeType} || 'text/plain';
 
