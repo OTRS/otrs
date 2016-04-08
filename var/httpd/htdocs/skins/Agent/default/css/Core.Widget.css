@@ -532,7 +532,7 @@ ul.WidgetTooltip li a:hover i {
 .CallForAction span,
 .cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
     min-height: 12px;
-    padding: 3px 20px 5px 20px;
+    padding: 3px 7px 6px;
     line-height: 14px;
     vertical-align: middle;
     color: #333;
@@ -543,6 +543,10 @@ ul.WidgetTooltip li a:hover i {
     text-shadow: 0 1px 0 #FFF;
     cursor: pointer;
     position: relative;
+}
+
+.CallForAction.Fullsize span {
+    padding: 3px 20px 5px 20px;
 }
 
 .CallForAction:disabled span {
