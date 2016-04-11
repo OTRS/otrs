@@ -212,7 +212,6 @@ decode boolean values leftover from JSON decoder to simple scalar values
 sub _BooleansProcess {
     my ( $Self, %Param ) = @_;
 
-
     # convert scalars if needed
     if ( JSON::is_bool( $Param{JSON} ) ) {
         $Param{JSON} = ( $Param{JSON} ? 1 : 0 );
@@ -242,6 +241,8 @@ sub _BooleansProcess {
 }
 
 1;
+
+=end Internal:
 
 =back
 
