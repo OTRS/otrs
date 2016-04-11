@@ -237,6 +237,8 @@ sub _BooleansProcess {
 
 1;
 
+=end Internal:
+
 =back
 
 =head1 TERMS AND CONDITIONS
