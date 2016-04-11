@@ -80,10 +80,7 @@ Core.UI.InputFields = (function (Namespace) {
 
             Assert.expect(5);
 
-            // Trigger focus handler
-            $SearchObj.triggerHandler('focus.InputField');
-
-            // Wait for the event to finish
+            // Define event subscription before the event itself - Wait for the event to finish
             ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
                 Core.App.Unsubscribe(ExpandSubscription);
 
@@ -111,11 +108,10 @@ Core.UI.InputFields = (function (Namespace) {
                 Done1();
             });
 
-            // Trigger blur handler
-            $SearchObj.triggerHandler('blur.InputField');
-            $('body').trigger('click');
+            // Trigger focus handler
+            $SearchObj.triggerHandler('focus.InputField');
 
-            // Wait for the event to finish
+            // Define event subscription before the event itself - Wait for the event to finish
             CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
                 Core.App.Unsubscribe(CloseSubscription);
 
@@ -123,6 +119,10 @@ Core.UI.InputFields = (function (Namespace) {
 
                 Done2();
             });
+
+            // Trigger blur handler
+            $SearchObj.triggerHandler('blur.InputField');
+            $('body').trigger('click');
         });
 
         /*
@@ -145,10 +145,7 @@ Core.UI.InputFields = (function (Namespace) {
 
             Assert.expect(4);
 
-            // Trigger focus handler
-            $SearchObj.triggerHandler('focus.InputField');
-
-            // Wait for the event to finish
+            // Define event subscription before the event itself - Wait for the event to finish
             ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
                 Core.App.Unsubscribe(ExpandSubscription);
 
@@ -166,12 +163,10 @@ Core.UI.InputFields = (function (Namespace) {
                 Done1();
             });
 
+            // Trigger focus handler
+            $SearchObj.triggerHandler('focus.InputField');
 
-            // Trigger blur handler
-            $SearchObj.triggerHandler('blur.InputField');
-            $('body').trigger('click');
-
-            // Wait for the event to finish
+            // Define event subscription before the event itself - Wait for the event to finish
             CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
                 Core.App.Unsubscribe(CloseSubscription);
 
@@ -184,6 +179,10 @@ Core.UI.InputFields = (function (Namespace) {
                     Done2();
                 }, 100);
             });
+
+            // Trigger blur handler
+            $SearchObj.triggerHandler('blur.InputField');
+            $('body').trigger('click');
         });
 
         /*
