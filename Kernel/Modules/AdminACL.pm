@@ -554,6 +554,18 @@ sub _ShowOverview {
     my $Output       = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
+    if ( $Self->{UserID} == 1 ) {
+
+        # show error notfy, don't work with user id 1
+        $Output .= $LayoutObject->Notify(
+            Priority => 'Error',
+            Data =>
+                Translatable(
+                "Please note that ACL restrictions will be ignored for the Superuser account (UserID 1)."
+                ),
+        );
+    }
+
     # show notifications if any
     if ( $Param{NotifyData} ) {
         for my $Notification ( @{ $Param{NotifyData} } ) {
@@ -807,8 +819,8 @@ sub _GetParams {
         qw( Name EntityID Comment Description StopAfterMatch ValidID ConfigMatch ConfigChange )
         )
     {
-        $GetParam->{$ParamName}
-            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName ) || '';
+        $GetParam->{$ParamName} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName )
+            || '';
     }
 
     if ( $GetParam->{ConfigMatch} ) {
