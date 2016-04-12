@@ -92,17 +92,17 @@ sub CustomerCompanyList {
     my $CacheKey;
 
     # check cache
-    if ( $Self->{CacheObject} ) {
+    # if ( $Self->{CacheObject} ) {
 
-        $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
-        $CacheKey = "CustomerCompanyList::${Valid}::${Limit}::" . ( $Param{Search} || '' );
+    #     $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
+    #     $CacheKey = "CustomerCompanyList::${Valid}::${Limit}::" . ( $Param{Search} || '' );
 
-        my $Data = $Self->{CacheObject}->Get(
-            Type => $CacheType,
-            Key  => $CacheKey,
-        );
-        return %{$Data} if ref $Data eq 'HASH';
-    }
+    #     my $Data = $Self->{CacheObject}->Get(
+    #         Type => $CacheType,
+    #         Key  => $CacheKey,
+    #     );
+    #     return %{$Data} if ref $Data eq 'HASH';
+    # }
 
     # what is the result
     my $What = join(
@@ -113,54 +113,38 @@ sub CustomerCompanyList {
     # add valid option if required
     my $SQL;
     my @Bind;
+    my @Conditions;
 
     if ($Valid) {
 
         # get valid object
         my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
-        $SQL
-            .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $ValidObject->ValidIDsGet())} )";
+        push @Conditions, "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $ValidObject->ValidIDsGet())} )";
     }
 
     # where
     if ( $Param{Search} ) {
 
-        my @Parts = split /\+/, $Param{Search}, 6;
-        for my $Part (@Parts) {
-            $Part = $Self->{SearchPrefix} . $Part . $Self->{SearchSuffix};
-            $Part =~ s/\*/%/g;
-            $Part =~ s/%%/%/g;
+        my %QueryCondition = $Self->{DBObject}->QueryCondition(
+            Key           => $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields},
+            Value         => $Param{Search},
+            SearchPrefix  => $Self->{SearchPrefix},
+            SearchSuffix  => $Self->{SearchSuffix},
+            CaseSensitive => $Self->{CaseSensitive},
+            BindMode      => 1,
+        );
 
-            if ( defined $SQL ) {
-                $SQL .= " AND ";
-            }
-
-            my $CustomerCompanySearchFields = $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields};
-
-            if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
-
-                my @SQLParts;
-                for my $Field ( @{$CustomerCompanySearchFields} ) {
-                    if ( $Self->{CaseSensitive} ) {
-                        push @SQLParts, "$Field LIKE ?";
-                        push @Bind,     \$Part;
-                    }
-                    else {
-                        push @SQLParts, "LOWER($Field) LIKE LOWER(?)";
-                        push @Bind,     \$Part;
-                    }
-                }
-                if (@SQLParts) {
-                    $SQL .= join( ' OR ', @SQLParts );
-                }
-            }
+        if ( $QueryCondition{SQL} ) {
+            push @Conditions, " $QueryCondition{SQL}";
+            push @Bind,       @{ $QueryCondition{Values} };
         }
     }
 
     # sql
     my $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
-    $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
+    $SQL = join( ' AND ', @Conditions );
+    $CompleteSQL .= " WHERE $SQL";
 
     # ask database
     $Self->{DBObject}->Prepare(
