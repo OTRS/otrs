@@ -26,7 +26,7 @@ our $SuppressANSI = 0;
 
 =head1 NAME
 
-Kernel::System::Console::Command - command base class
+Kernel::System::Console::BaseCommand - command base class
 
 =head1 SYNOPSIS
 
