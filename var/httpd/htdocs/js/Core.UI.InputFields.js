@@ -1070,7 +1070,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                 // Handle clicks on related label
                 if ($SelectObj.attr('id')) {
-                    $LabelObj = $('label[for="' + $SelectObj.attr('id') + '"]');
+                    $LabelObj = $('label[for="' + Core.App.EscapeSelector($SelectObj.attr('id')) + '"]');
                     if ($LabelObj.length > 0) {
                         $LabelObj.on('click.InputField', function () {
                             $SearchObj.focus();
@@ -1337,7 +1337,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     TreeID += '_Select';
 
                     // jsTree init
-                    $TreeObj = $('<div id="' + TreeID + '"><ul></ul></div>');
+                    $TreeObj = $('<div id="' + Core.App.EscapeSelector(TreeID) + '"><ul></ul></div>');
                     SelectedID = $SelectObj.val();
                     Elements = {};
                     SelectedNodes = [];
@@ -1664,11 +1664,11 @@ Core.UI.InputFields = (function (TargetNS) {
                         if (SelectedID) {
                             if (typeof SelectedID === 'object') {
                                 $.each(SelectedID, function (NodeIndex, Data) {
-                                    $TreeObj.jstree('select_node', $TreeObj.find('li[data-id="' + Data + '"]'));
+                                    $TreeObj.jstree('select_node', $TreeObj.find('li[data-id="' + Core.App.EscapeSelector(Data) + '"]'));
                                 });
                             }
                             else {
-                                $TreeObj.jstree('select_node', $TreeObj.find('li[data-id="' + SelectedID + '"]'));
+                                $TreeObj.jstree('select_node', $TreeObj.find('li[data-id="' + Core.App.EscapeSelector(SelectedID) + '"]'));
                             }
                         }
                         Core.App.Publish('Event.UI.InputFields.Expanded', $SearchObj);

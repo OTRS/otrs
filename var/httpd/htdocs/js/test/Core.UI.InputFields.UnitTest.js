@@ -36,9 +36,10 @@ Core.UI.InputFields = (function (Namespace) {
         */
         $TestForm = $('<form id="TestForm" style="visibility: hidden;"></form>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="MultipleSelect" multiple="multiple" name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="Multiple&apos;Sel&quot;ect" multiple="multiple" name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect" name="SingleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect2" name="SingleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="Test&quot;Value" selected>Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelectQuoting" name="SingleSelectQuoting"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="you give &apos; love a &quot;bad&quot; name" selected>Bad entry</option><option value="6">Entry 6</option></select></div>');
-        $TestForm.append('<div class="Field"><select class="Modernize" id="UnavailableSelect" name="UnavailableSelect"><option value="">-</option><option value="Disabled" disabled="disabled">Disabled entry</option></select></div>');
         $('body').append($TestForm);
 
         /*
@@ -46,7 +47,7 @@ Core.UI.InputFields = (function (Namespace) {
         */
         test('Initialize fields', function (Assert) {
 
-            Assert.expect(8);
+            Assert.expect(12);
 
             Core.UI.InputFields.Activate('*');
 
@@ -55,139 +56,150 @@ Core.UI.InputFields = (function (Namespace) {
                 var $SelectObj = $(Element);
 
                 Assert.equal(Core.UI.InputFields.IsEnabled($SelectObj), true, 'Check if field is initialized (#' + (Index + 1) + ')');
-                Assert.equal($('#' + $SelectObj.data('modernized')).length, 1, 'Check if search field exists (#' + (Index + 1) + ')');
+                Assert.equal($('#' + Core.App.EscapeSelector($SelectObj.data('modernized'))).length, 1, 'Check if search field exists (#' + (Index + 1) + ')');
             });
         });
 
-        /*
-        * Expand, make selection and close multiselect field
-        */
-        test('Check multiselect field', function (Assert) {
+        $('#TestForm select.Modernize[multiple]').each(function () {
+            var $Element = $(this);
 
-            var $SelectObj = $('#MultipleSelect'),
-                $SearchObj = $('#' + $SelectObj.data('modernized')),
-                $InputContainerObj = $SelectObj.prev(),
-                $InputListContainerObj,
-                $Nodes,
-                Selection = ['1', '2', '4'],
-                OptionNumber = $SelectObj.find('option').not("[value='']").length,
-                SelectableOptionNumber = $SelectObj.find('option').not('[value=""],[disabled="disabled"]').length,
-                ListNumber,
-                ExpandSubscription,
-                CloseSubscription,
-                Done1 = Assert.async(),
-                Done2 = Assert.async();
+            /*
+            * Expand, make selection and close multiselect field
+            */
+            test('Check multiselect field', function (Assert) {
 
-            Assert.expect(5);
+                var $SelectObj = $Element,
+                    $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized'))),
+                    $InputContainerObj = $SelectObj.prev(),
+                    $InputListContainerObj,
+                    $Nodes,
+                    Selection = ['1', '2', '4'],
+                    OptionNumber = $SelectObj.find('option').not("[value='']").length,
+                    SelectableOptionNumber = $SelectObj.find('option').not('[value=""],[disabled="disabled"]').length,
+                    ListNumber,
+                    ExpandSubscription,
+                    CloseSubscription,
+                    Done1 = Assert.async(),
+                    Done2 = Assert.async();
 
-            // Define event subscription before the event itself - Wait for the event to finish
-            ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
-                Core.App.Unsubscribe(ExpandSubscription);
+                // Define event subscription before the event itself - Wait for the event to finish
+                ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
+                    Core.App.Unsubscribe(ExpandSubscription);
 
-                $InputListContainerObj = $('body > .InputField_ListContainer').first();
+                    $InputListContainerObj = $('body > .InputField_ListContainer').first();
 
-                $Nodes = $InputListContainerObj.find('ul.jstree-container-ul li.jstree-node');
-                ListNumber = $Nodes.length;
+                    $Nodes = $InputListContainerObj.find('ul.jstree-container-ul li.jstree-node');
+                    ListNumber = $Nodes.length;
 
-                Assert.equal(ListNumber, OptionNumber, 'Check if number of options matches');
+                    Assert.equal(ListNumber, OptionNumber, 'Check if number of options matches');
 
-                $.each(Selection, function (Index, Value) {
-                    $Nodes.filter('[data-id="' + Value + '"]').find('.jstree-anchor').click();
+                    $.each(Selection, function (Index, Value) {
+                        $Nodes.filter('[data-id="' + Core.App.EscapeSelector(Value) + '"]').find('.jstree-anchor').click();
+                    });
+
+                    $SelectObj.triggerHandler('redraw.InputField');
+
+                    Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches');
+
+                    $InputListContainerObj.find('.InputField_ClearAll').click();
+                    Assert.deepEqual($SelectObj.val(), [ "" ], 'Check if selection has been cleared');
+
+                    $InputListContainerObj.find('.InputField_SelectAll').click();
+                    Assert.deepEqual($SelectObj.val().length, SelectableOptionNumber, 'Check if everything has been selected');
+
+                    Done1();
                 });
 
-                $SelectObj.triggerHandler('redraw.InputField');
+                // Trigger focus handler
+                $SearchObj.triggerHandler('focus.InputField');
 
-                Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches');
+                // Define event subscription before the event itself - Wait for the event to finish
+                CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
+                    Core.App.Unsubscribe(CloseSubscription);
 
-                $InputListContainerObj.find('.InputField_ClearAll').click();
-                Assert.deepEqual($SelectObj.val(), [ "" ], 'Check if selection has been cleared');
+                    Assert.equal($InputContainerObj.find('.InputField_ListContainer').length, 0, 'Check if list has been removed from DOM');
 
-                $InputListContainerObj.find('.InputField_SelectAll').click();
-                Assert.deepEqual($SelectObj.val().length, SelectableOptionNumber, 'Check if everything has been selected');
+                    Done2();
+                });
 
-                Done1();
+                // Trigger blur handler
+                $SearchObj.triggerHandler('blur.InputField');
+                $('body').trigger('click');
             });
-
-            // Trigger focus handler
-            $SearchObj.triggerHandler('focus.InputField');
-
-            // Define event subscription before the event itself - Wait for the event to finish
-            CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
-                Core.App.Unsubscribe(CloseSubscription);
-
-                Assert.equal($InputContainerObj.find('.InputField_ListContainer').length, 0, 'Check if list has been removed from DOM');
-
-                Done2();
-            });
-
-            // Trigger blur handler
-            $SearchObj.triggerHandler('blur.InputField');
-            $('body').trigger('click');
         });
 
-        /*
-        * Expand, make selection, close and deselect single select field
-        */
-        test('Check single select field', function (Assert) {
 
-            var $SelectObj = $('#SingleSelect'),
-                $SearchObj = $('#' + $SelectObj.data('modernized')),
-                Selection = "6",
-                $Nodes,
-                OptionNumber = $SelectObj.find('option').not("[value='']").length,
-                $InputContainerObj = $SelectObj.prev(),
-                $InputListContainerObj,
-                ListNumber,
-                ExpandSubscription,
-                CloseSubscription,
-                Done1 = Assert.async(),
-                Done2 = Assert.async();
+        $('#TestForm select.Modernize:not([multiple])').each(function () {
+            var $Element = $(this);
 
-            Assert.expect(4);
+            /*
+            * Expand, make selection, close and deselect single select field
+            */
+            test('Check single select field', function (Assert) {
 
-            // Define event subscription before the event itself - Wait for the event to finish
-            ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
-                Core.App.Unsubscribe(ExpandSubscription);
+                var $SelectObj = $Element,
+                    $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized'))),
+                    Selection = "6",
+                    $Nodes,
+                    OptionNumber = $SelectObj.find('option').not("[value='']").length,
+                    $InputContainerObj = $SelectObj.prev(),
+                    $InputListContainerObj,
+                    ListNumber,
+                    ExpandSubscription,
+                    CloseSubscription,
+                    Done1 = Assert.async(),
+                    Done2 = Assert.async();
 
-                $InputListContainerObj = $('body > .InputField_ListContainer').first();
+               // Define event subscription before the event itself - Wait for the event to finish
+                ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
+                    Core.App.Unsubscribe(ExpandSubscription);
 
-                $Nodes = $InputListContainerObj.find('ul.jstree-container-ul li.jstree-node');
-                ListNumber = $Nodes.length;
+                    $InputListContainerObj = $('body > .InputField_ListContainer').first();
 
-                Assert.equal(ListNumber, OptionNumber, 'Check if number of options matches');
+                    $Nodes = $InputListContainerObj.find('ul.jstree-container-ul li.jstree-node');
+                    ListNumber = $Nodes.length;
 
-                $Nodes.filter('[data-id="' + Selection + '"]').find('.jstree-anchor').click();
-                $SelectObj.triggerHandler('redraw.InputField');
-                Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches (' + Selection + ')');
+                    Assert.equal(ListNumber, OptionNumber, 'Check if number of options matches');
 
-                Done1();
+                    $Nodes.filter('[data-id="' + Core.App.EscapeSelector(Selection) + '"]').find('.jstree-anchor').click();
+
+                    $SelectObj.triggerHandler('redraw.InputField');
+                    Assert.deepEqual($SelectObj.val(), Selection, 'Check if selection matches (' + Selection + ')');
+
+                    Done1();
+                });
+
+                // Trigger focus handler
+                $SearchObj.triggerHandler('focus.InputField');
+
+                // Define event subscription before the event itself - Wait for the event to finish
+                CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
+                    Core.App.Unsubscribe(CloseSubscription);
+
+                    Assert.equal($InputContainerObj.find('.InputField_ListContainer').length, 0, 'Check if list has been removed from DOM');
+
+                    // Wait for everything to be closed and resettet
+                    window.setTimeout(function () {
+                        $InputContainerObj.find('.InputField_Selection .Remove a').click();
+                        Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
+                        Done2();
+                    }, 100);
+                });
+
+                // Trigger blur handler
+                $SearchObj.triggerHandler('blur.InputField');
+                $('body').trigger('click');
             });
-
-            // Trigger focus handler
-            $SearchObj.triggerHandler('focus.InputField');
-
-            // Define event subscription before the event itself - Wait for the event to finish
-            CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
-                Core.App.Unsubscribe(CloseSubscription);
-
-                Assert.equal($InputContainerObj.find('.InputField_ListContainer').length, 0, 'Check if list has been removed from DOM');
-
-                // Wait for everything to be closed and resettet
-                window.setTimeout(function () {
-                    $InputContainerObj.find('.InputField_Selection .Remove a').click();
-                    Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
-                    Done2();
-                }, 100);
-            });
-
-            // Trigger blur handler
-            $SearchObj.triggerHandler('blur.InputField');
-            $('body').trigger('click');
         });
 
         /*
         * Check disabled field
         */
+
+        $TestForm.append('<div class="Field"><select class="Modernize" id="UnavailableSelect" name="UnavailableSelect"><option value="">-</option><option value="Disabled" disabled="disabled">Disabled entry</option></select></div>');
+        // also initialize new field
+        Core.UI.InputFields.Activate('*');
+
         test('Check unavailable field', function (Assert) {
 
             var $SelectObj = $('#UnavailableSelect'),
@@ -204,7 +216,7 @@ Core.UI.InputFields = (function (Namespace) {
         */
         test('Revert fields', function (Assert) {
 
-            Assert.expect(4);
+            Assert.expect(6);
 
             Core.UI.InputFields.Deactivate('*');
 
