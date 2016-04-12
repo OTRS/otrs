@@ -92,17 +92,17 @@ sub CustomerCompanyList {
     my $CacheKey;
 
     # check cache
-    # if ( $Self->{CacheObject} ) {
+    if ( $Self->{CacheObject} ) {
 
-    #     $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
-    #     $CacheKey = "CustomerCompanyList::${Valid}::${Limit}::" . ( $Param{Search} || '' );
+        $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
+        $CacheKey = "CustomerCompanyList::${Valid}::${Limit}::" . ( $Param{Search} || '' );
 
-    #     my $Data = $Self->{CacheObject}->Get(
-    #         Type => $CacheType,
-    #         Key  => $CacheKey,
-    #     );
-    #     return %{$Data} if ref $Data eq 'HASH';
-    # }
+        my $Data = $Self->{CacheObject}->Get(
+            Type => $CacheType,
+            Key  => $CacheKey,
+        );
+        return %{$Data} if ref $Data eq 'HASH';
+    }
 
     # what is the result
     my $What = join(
