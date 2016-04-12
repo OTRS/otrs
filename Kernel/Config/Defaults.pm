@@ -1584,7 +1584,7 @@ via the Preferences button after logging in.
         CustomerCompanyValid           => 'valid_id',
         CustomerCompanyListFields      => [ 'customer_id', 'name' ],
         CustomerCompanySearchFields    => ['customer_id', 'name'],
-        CustomerCompanySearchPrefix    => '',
+        CustomerCompanySearchPrefix    => '*',
         CustomerCompanySearchSuffix    => '*',
         CustomerCompanySearchListLimit => 250,
         CacheTTL                       => 60 * 60 * 24, # use 0 to turn off cache
