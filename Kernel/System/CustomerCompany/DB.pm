@@ -143,8 +143,11 @@ sub CustomerCompanyList {
 
     # sql
     my $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
-    $SQL = join( ' AND ', @Conditions );
-    $CompleteSQL .= " WHERE $SQL";
+
+    if (@Conditions) {
+        $SQL = join( ' AND ', @Conditions );
+        $CompleteSQL .= " WHERE $SQL";
+    }
 
     # ask database
     $Self->{DBObject}->Prepare(
