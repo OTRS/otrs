@@ -162,8 +162,8 @@ sub Run {
 
         # get all parameters
         for my $Parameter (qw( From To Subject Body InformSender MainTicketNumber )) {
-            $GetParam{$Parameter}
-                = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Parameter )
+                || '';
         }
 
         # rewrap body if no rich text is used
@@ -294,7 +294,7 @@ sub Run {
             )
             )
         {
-            my $Output .= $LayoutObject->Header(
+            my $Output = $LayoutObject->Header(
                 Type      => 'Small',
                 BodyClass => 'Popup',
             );

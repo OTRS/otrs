@@ -1799,8 +1799,8 @@ sub _GetParams {
         qw( Name EntityID ProcessLayout Path StartActivity StartActivityDialog Description StateEntityID )
         )
     {
-        $GetParam->{$ParamName}
-            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName ) || '';
+        $GetParam->{$ParamName} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName )
+            || '';
     }
 
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');

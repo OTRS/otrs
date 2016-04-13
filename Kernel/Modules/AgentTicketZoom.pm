@@ -2223,8 +2223,8 @@ sub _ArticleTree {
             }
 
             # make the history type more readable (if applicable)
-            $Item->{HistoryTypeReadable}
-                = $Self->{HistoryTypeMapping}->{ $Item->{HistoryType} } || $Item->{HistoryType};
+            $Item->{HistoryTypeReadable} = $Self->{HistoryTypeMapping}->{ $Item->{HistoryType} }
+                || $Item->{HistoryType};
 
             # group items which happened (nearly) coincidently together
             $Item->{CreateSystemTime} = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
@@ -2899,10 +2899,10 @@ sub _ArticleMenu {
                 if ( $RecipientCount > 1 ) {
 
                     $StandardResponsesStrg = $LayoutObject->BuildSelection(
-                        Name  => 'ResponseID',
-                        ID    => 'ResponseIDAll' . $Article{ArticleID},
-                        Class => 'Modernize Small',
-                        Data  => \@StandardResponseArrayReplyAll,
+                        Name         => 'ResponseID',
+                        ID           => 'ResponseIDAll' . $Article{ArticleID},
+                        Class        => 'Modernize Small',
+                        Data         => \@StandardResponseArrayReplyAll,
                         PossibleNone => 1
                     );
 

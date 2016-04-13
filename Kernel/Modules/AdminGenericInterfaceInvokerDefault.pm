@@ -632,8 +632,8 @@ sub _ShowScreen {
 
     my @EventTypeList;
 
-    my $SelectedEventType
-        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'EventType' ) || 'Ticket';
+    my $SelectedEventType = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'EventType' )
+        || 'Ticket';
 
     # create event trigger selectors (one for each type)
     TYPE:
