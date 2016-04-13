@@ -717,8 +717,8 @@ sub RequesterPerformRequest {
 
     my $SizeExeeded = 0;
     {
-        my $MaxSize
-            = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize') || 200;
+        my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
+            || 200;
         $MaxSize = $MaxSize * 1024;
         use bytes;
 
