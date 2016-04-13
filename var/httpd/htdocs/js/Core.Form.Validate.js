@@ -313,6 +313,10 @@ Core.Form.Validate = (function (TargetNS) {
      * @param {Object} [DateOptions]
      * @param {Boolean} [DateOptions.DateInFuture]
      * @param {Boolean} [DateOptions.DateNotInFuture]
+     * @param {String} [DateOptions.DateAfterPrefix] - Check if the value is after the supplied field prefix
+     * @param {String} [DateOptions.DateAfterValue] - Check if the value is after the supplied date
+     * @param {String} [DateOptions.DateBeforePrefix] - Check if the value is before the supplied field prefix
+     * @param {String} [DateOptions.DateBeforeValue] - Check if the value is before the supplied date
      * @description
      *      Validator method for dates.
      */
@@ -331,6 +335,7 @@ Core.Form.Validate = (function (TargetNS) {
         DateMonthClassPrefix = 'Validate_DateMonth_',
         DateHourClassPrefix = 'Validate_DateHour_',
         DateMinuteClassPrefix = 'Validate_DateMinute_',
+        DateAfterBefore,
         DateCheck;
 
         RegExYear = new RegExp(DateYearClassPrefix);
@@ -375,6 +380,57 @@ Core.Form.Validate = (function (TargetNS) {
                         return true;
                     }
                 }
+                else if (
+                    DateOptions.DateAfterPrefix || DateOptions.DateBeforePrefix
+                    || DateOptions.DateAfterValue || DateOptions.DateBeforeValue
+                    )
+                {
+                    DateAfterBefore = DateOptions.DateAfterPrefix || DateOptions.DateBeforePrefix
+                        || DateOptions.DateAfterValue || DateOptions.DateBeforeValue;
+
+                    if (DateOptions.DateAfterPrefix || DateOptions.DateBeforePrefix) {
+                        DateAfterBefore = Core.App.EscapeSelector(DateAfterBefore);
+                        if (
+                            $('#' + DateAfterBefore + 'Year').length &&
+                            $('#' + DateAfterBefore + 'Month').length &&
+                            $('#' + DateAfterBefore + 'Day').length
+                            )
+                        {
+                            DateCheck = new Date(
+                                $('#' + DateAfterBefore + 'Year').val(),
+                                $('#' + DateAfterBefore + 'Month').val() - 1,
+                                $('#' + DateAfterBefore + 'Day').val()
+                            );
+                            if (
+                                $('#' + DateAfterBefore + 'Hour').length &&
+                                $('#' + DateAfterBefore + 'Minute').length
+                                )
+                            {
+                                DateCheck.setHours(
+                                    $('#' + DateAfterBefore + 'Hour').val(),
+                                    $('#' + DateAfterBefore + 'Minute').val(),
+                                    0,
+                                    0
+                                );
+                            }
+                            else {
+                                DateCheck.setHours(0, 0, 0, 0);
+                            }
+                        }
+                    } else {
+                        DateCheck = new Date(DateAfterBefore);
+                    }
+
+                    if (DateOptions.DateAfterPrefix || DateOptions.DateAfterValue) {
+                        if (DateObject >= DateCheck) {
+                            return true;
+                        }
+                    } else if (DateOptions.DateBeforePrefix || DateOptions.DateBeforeValue) {
+                        if (DateObject <= DateCheck) {
+                            return true;
+                        }
+                    }
+                }
                 else {
                     return true;
                 }
@@ -405,6 +461,40 @@ Core.Form.Validate = (function (TargetNS) {
             return true;
         }
         return DateValidator(Value, Element, { DateNotInFuture: true });
+    }, "");
+
+    $.validator.addMethod("Validate_DateAfter", function (Value, Element) {
+        var $DateSelection = $(Element).parent().find('input[type=checkbox].DateSelection');
+        // do not do this check for unchecked date/datetime fields
+        // check first if the field exists to regard the check for the pending reminder field
+        if ($DateSelection.length && !$DateSelection.prop("checked")) {
+            return true;
+        }
+        if ($(Element).data('validate-date-after')) {
+            return DateValidator(Value, Element, { DateAfterValue: $(Element).data('validate-date-after') });
+        }
+        return DateValidator(Value, Element, {
+            DateAfterPrefix: $.grep(Element.className.split(" "), function(ClassName){
+                return ClassName.indexOf('Validate_DateAfter_') === 0;
+            }).join().substring(19)
+        });
+    }, "");
+
+    $.validator.addMethod("Validate_DateBefore", function (Value, Element) {
+        var $DateSelection = $(Element).parent().find('input[type=checkbox].DateSelection');
+        // do not do this check for unchecked date/datetime fields
+        // check first if the field exists to regard the check for the pending reminder field
+        if ($DateSelection.length && !$DateSelection.prop("checked")) {
+            return true;
+        }
+        if ($(Element).data('validate-date-before')) {
+            return DateValidator(Value, Element, { DateBeforeValue: $(Element).data('validate-date-before') });
+        }
+        return DateValidator(Value, Element, {
+            DateBeforePrefix: $.grep(Element.className.split(" "), function(ClassName){
+                return ClassName.indexOf('Validate_DateBefore_') === 0;
+            }).join().substring(20)
+        });
     }, "");
 
     $.validator.addMethod("Validate_DateHour", function (Value) {

@@ -178,6 +178,9 @@ Core.Form.Validate = (function (Namespace) {
             $TestForm.append('<input type="text" value="" id="ObjectOne" name="ObjectOne" />');
             $TestForm.append('<input type="text" value="" id="ObjectTwo" name="ObjectTwo" />');
             $TestForm.append('<input type="text" value="" id="ObjectThree" name="ObjectThree" />');
+            $TestForm.append('<input type="text" value="" id="TestDay" name="TestDay" />');
+            $TestForm.append('<input type="text" value="" id="TestMonth" name="TestMonth" />');
+            $TestForm.append('<input type="text" value="" id="TestYear" name="TestYear" />');
             $('body').append($TestForm);
 
             /*
@@ -186,7 +189,7 @@ Core.Form.Validate = (function (Namespace) {
 
             Core.Form.Validate.Init();
 
-            expect(26);
+            expect(30);
 
             // Test: Validate_DateDay
             $('#ObjectOne').addClass('Validate_DateDay Validate_DateYear_ObjectTwo Validate_DateMonth_ObjectThree');
@@ -239,6 +242,56 @@ Core.Form.Validate = (function (Namespace) {
             equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DateInFuture: today + 2 days');
 
             $('#ObjectOne').removeClass('Validate_DateDay Validate_DateYear_ObjectTwo Validate_DateMonth_ObjectThree Validate_DateInFuture');
+
+
+            // Test: Validate_DateAfter (against field)
+            $('#ObjectOne').addClass('Validate_DateDay Validate_DateMonth_ObjectTwo Validate_DateYear_ObjectThree Validate_DateAfter Validate_DateAfter_Test');
+
+            $('#ObjectOne').val('23');
+            $('#ObjectTwo').val('3');
+            $('#ObjectThree').val('2016');
+
+            $('#TestDay').val('24');
+            $('#TestMonth').val('3');
+            $('#TestYear').val('2016');
+
+            Core.Form.Validate.ValidateElement($('#ObjectOne'));
+
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DateAfter: 24.3.2016 vs 23.3.2016 (against field)');
+
+            $('#ObjectOne').removeClass('Validate_DateAfter_Start');
+
+
+            // Test: Validate_DateAfter (against value)
+            $('#ObjectOne').data('validate-date-after', '2016-03-22');
+
+            Core.Form.Validate.ValidateElement($('#ObjectOne'));
+
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DateAfter: 22.3.2016 vs 23.3.2016 (against value)');
+
+            $('#ObjectOne').removeData('validate-date-after');
+            $('#ObjectOne').removeClass('Validate_DateAfter');
+
+
+            // Test: Validate_DateBefore (against field)
+            $('#ObjectOne').addClass('Validate_DateBefore Validate_DateBefore_Test');
+
+            Core.Form.Validate.ValidateElement($('#ObjectOne'));
+
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DateBefore: 23.3.2016 vs 24.3.2016 (against field)');
+
+            $('#ObjectOne').removeClass('Validate_DateBefore_Test');
+
+
+            // Test: Validate_DateBefore (against value)
+            $('#ObjectOne').data('validate-date-before', '2016-03-22');
+
+            Core.Form.Validate.ValidateElement($('#ObjectOne'));
+
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DateBefore: 23.3.2016 vs 21.3.2016 (against value)');
+
+            $('#ObjectOne').removeData('validate-date-before');
+            $('#ObjectOne').removeClass('Validate_DateDay Validate_DateMonth_ObjectTwo Validate_DateYear_ObjectThree Validate_DateAfter Validate_DateAfter_Test Validate_DateBefore');
 
 
             // Test: Validate_Equal
