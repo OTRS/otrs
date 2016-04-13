@@ -36,7 +36,7 @@ Article object handler for DynamicFields
 =item new()
 
 usually, you want to create an instance of this
-by using Kernel::System::DynamicField::ObjectType->new();
+by using Kernel::System::DynamicField::ObjectType::Article->new();
 
 =cut
 
