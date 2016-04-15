@@ -1,4 +1,5 @@
 #4.0.17 2016-??-??
+ - 2016-04-15 Fixed bug#[11430](http://bugs.otrs.org/show_bug.cgi?id=11430) - (Ticket )Cache won't get updated on DynamicField ValueDelete.
  - 2016-04-08 Fixed bug#[11921](http://bugs.otrs.org/show_bug.cgi?id=11921) - Wrong attachment is deleted if deleting from multiple attachments from template in new ticket.
  - 2016-04-08 Fixed bug#[11917](http://bugs.otrs.org/show_bug.cgi?id=11917) - Generic Interface does show empty/wrong results when a space (+) is used with in the name.
  - 2016-04-06 Fixed bug#[11975](http://bugs.otrs.org/show_bug.cgi?id=11975) - Use of uninitialized value $NotUseTag in /opt/otrs/Kernel/System/Package.pm.
