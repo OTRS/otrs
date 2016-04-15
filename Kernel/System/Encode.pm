@@ -54,6 +54,9 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
+    # use "locale" as an arg to encode/decode
+    @ARGV = map { decode( locale => $_, 1 ) } @ARGV;
+
     # check if the encodeobject is used from the command line
     # if so, we need to decode @ARGV
     if ( !is_interactive() ) {
@@ -63,10 +66,6 @@ sub new {
     }
     else {
 
-        # use "locale" as an arg to encode/decode
-        if ( is_interactive(*STDIN) ) {
-            @ARGV = map { decode( locale => $_, 1 ) } @ARGV;
-        }
         if ( is_interactive(*STDOUT) ) {
             binmode STDOUT, ":encoding(console_out)";
         }

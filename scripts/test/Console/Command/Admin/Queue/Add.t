@@ -23,7 +23,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $QueuemName = "queue" . $Helper->GetRandomID();
+my $QueueName = "queue" . $Helper->GetRandomID();
 
 # try to execute command without any options
 $ExitCode = $CommandObject->Execute();
@@ -34,7 +34,7 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute( '--name', $QueuemName, '--group', 'admin' );
+$ExitCode = $CommandObject->Execute( '--name', $QueueName, '--group', 'admin' );
 $Self->Is(
     $ExitCode,
     0,
@@ -42,17 +42,17 @@ $Self->Is(
 );
 
 # provide name which already exists
-$ExitCode = $CommandObject->Execute( '--name', $QueuemName, '--group', 'admin' );
+$ExitCode = $CommandObject->Execute( '--name', $QueueName, '--group', 'admin' );
 $Self->Is(
     $ExitCode,
     1,
-    "Queue with the name $QueuemName already exists",
+    "Queue with the name $QueueName already exists",
 );
 
 # provide illegal system-address-name
 my $SystemAddressName = "address" . $Helper->GetRandomID();
 $ExitCode = $CommandObject->Execute(
-    '--name', "$QueuemName-second", '--group', 'admin', '--system-address-name',
+    '--name', "$QueueName-second", '--group', 'admin', '--system-address-name',
     $SystemAddressName
 );
 $Self->Is(
