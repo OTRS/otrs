@@ -1496,7 +1496,7 @@ sub StatsResultRender {
         my $UserCSVSeparator = $LayoutObject->{LanguageObject}->{Separator};
 
         if ( $ConfigObject->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
-            my %UserData = $$Kernel::OM->Get('Kernel::System::User')->GetUserData(
+            my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
                 UserID => $Param{UserID}
             );
             $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
