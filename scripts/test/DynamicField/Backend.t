@@ -48,8 +48,9 @@ $Self->True(
 );
 
 # create a dynamic field
+my $DynamicFieldName = "dynamicfieldtest$RandomID";
 my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "dynamicfieldtest$RandomID",
+    Name       => $DynamicFieldName,
     Label      => 'a description',
     FieldOrder => 9991,
     FieldType  => 'Text',
@@ -59,6 +60,10 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     },
     ValidID => 1,
     UserID  => 1,
+);
+
+my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID,
 );
 
 # sanity check
@@ -782,23 +787,51 @@ for my $Test (@Tests) {
 my $Value = 123;
 
 $BackendObject->ValueSet(
-    DynamicFieldConfig => {
-        ID         => $FieldID,
-        ObjectType => 'Ticket',
-        FieldType  => 'Text',
-    },
-    ObjectID => $TicketID,
-    Value    => $Value,
-    UserID   => 1,
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    Value              => $Value,
+    UserID             => 1,
+);
+
+my %TicketValueDeleteData = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+    UserID        => 1,
+);
+
+$Self->Is(
+    $TicketValueDeleteData{'DynamicField_'. $DynamicFieldName},
+    $Value,
+    "Should have value '$Value' set.",
+);
+
+$BackendObject->ValueDelete(
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    UserID             => 1,
+);
+
+%TicketValueDeleteData = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+    UserID        => 1,
+);
+
+$Self->False(
+    $TicketValueDeleteData{'DynamicField_'. $DynamicFieldName},
+    "Ticket shouldn't have a value.",
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    Value              => $Value,
+    UserID             => 1,
 );
 my $ReturnValue1 = $BackendObject->ValueGet(
-    DynamicFieldConfig => {
-        ID         => $FieldID,
-        ObjectType => 'Ticket',
-        FieldType  => 'Text',
-    },
-    ObjectID => $TicketID,
-    UserID   => 1,
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    UserID             => 1,
 );
 
 $Self->Is(
@@ -820,13 +853,9 @@ $Self->True(
 );
 
 my $ReturnValue2 = $BackendObject->ValueGet(
-    DynamicFieldConfig => {
-        ID         => $FieldID,
-        ObjectType => 'Ticket',
-        FieldType  => 'Text',
-    },
-    ObjectID => $TicketID,
-    UserID   => 1,
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    UserID             => 1,
 );
 
 $Self->Is(
@@ -836,12 +865,8 @@ $Self->Is(
 );
 
 my $ValuesDelete = $BackendObject->AllValuesDelete(
-    DynamicFieldConfig => {
-        ID         => $FieldID,
-        ObjectType => 'Ticket',
-        FieldType  => 'Text',
-    },
-    UserID => 1,
+    DynamicFieldConfig => $DynamicFieldConfig,
+    UserID             => 1,
 );
 
 # sanity check

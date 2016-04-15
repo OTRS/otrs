@@ -588,6 +588,32 @@ sub TicketDelete {
         }
     }
 
+    # get dynamic field objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # get all dynamic fields for the object type Ticket
+    my $DynamicFieldListTicket = $DynamicFieldObject->DynamicFieldListGet(
+        ObjectType => 'Ticket',
+        Valid      => 0,
+    );
+
+    # delete dynamicfield values for this ticket
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicFieldListTicket} ) {
+
+        next DYNAMICFIELD if !$DynamicFieldConfig;
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+        next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+
+        $DynamicFieldBackendObject->ValueDelete(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{TicketID},
+            UserID             => $Param{UserID},
+        );
+    }
+
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
@@ -631,32 +657,6 @@ sub TicketDelete {
         return if !$Self->ArticleDelete(
             ArticleID => $ArticleID,
             %Param,
-        );
-    }
-
-    # get dynamic field objects
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    # get all dynamic fields for the object type Ticket
-    my $DynamicFieldListTicket = $DynamicFieldObject->DynamicFieldListGet(
-        ObjectType => 'Ticket',
-        Valid      => 0,
-    );
-
-    # delete dynamicfield values for this ticket
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicFieldListTicket} ) {
-
-        next DYNAMICFIELD if !$DynamicFieldConfig;
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-        next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
-
-        $DynamicFieldBackendObject->ValueDelete(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{TicketID},
-            UserID             => $Param{UserID},
         );
     }
 

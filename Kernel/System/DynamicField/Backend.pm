@@ -621,6 +621,11 @@ sub ValueDelete {
         }
     }
 
+    my $OldValue = $Self->ValueGet(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        ObjectID           => $Param{ObjectID},
+    );
+
     # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
@@ -632,7 +637,30 @@ sub ValueDelete {
         return;
     }
 
-    return $Self->{$DynamicFieldBackend}->ValueDelete(%Param);
+    my $Success = $Self->{$DynamicFieldBackend}->ValueDelete(%Param);
+
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not update field $Param{DynamicFieldConfig}->{Name} for "
+                . "$Param{DynamicFieldConfig}->{ObjectType} ID $Param{ObjectID} !",
+        );
+        return;
+    }
+
+    # set the dyanamic field object handler
+    my $DynamicFieldObjectHandler =
+        'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
+
+    # If an ObjectType handler is registered, use it.
+    if ( ref $Self->{$DynamicFieldObjectHandler} ) {
+        return $Self->{$DynamicFieldObjectHandler}->PostValueSet(
+            OldValue => $OldValue,
+            %Param,
+        );
+    }
+
+    return 1;
 }
 
 =item AllValuesDelete()
