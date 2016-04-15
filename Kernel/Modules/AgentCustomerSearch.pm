@@ -79,7 +79,7 @@ sub Run {
             $CustomerValue =~ s/\n/ /gs;
             $CustomerValue =~ s/\r/ /gs;
 
-            if ( !( grep { $_->{Value} eq $CustomerValue } @Data ) ) {
+            if ( !( grep { $_->{CustomerValue} eq $CustomerValue } @Data ) ) {
                 push @Data, {
                     CustomerKey   => $CustomerUserID,
                     CustomerValue => $CustomerValue,

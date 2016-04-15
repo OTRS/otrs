@@ -98,6 +98,35 @@ $Selenium->RunTest(
             "Updated test user 2"
         );
 
+        my $TestCustomerUser3 = $Helper->TestCustomerUserCreate()
+            || die "Did not get test customer user";
+
+        # update customer user 3 with very similar data as customer user 2
+        # disable customer user email uniqueness check temporarily
+        my $CustomerUserConfig = $ConfigObject->Get('CustomerUser');
+        $CustomerUserConfig->{CustomerUserEmailUniqCheck} = 0;
+        $ConfigObject->Set(
+            Key   => 'CustomerUser',
+            Value => $CustomerUserConfig,
+        );
+        $Success = $CustomerUserObject->CustomerUserUpdate(
+            Source         => 'CustomerUser',
+            ID             => $TestCustomerUser3,
+            UserCustomerID => $TestCustomerUser3,
+            UserLogin      => $TestCustomerUser3,
+            UserFirstname  => "$CustomerUser-2",
+            UserLastname   => "$CustomerUser-2",
+            UserPassword   => "$CustomerUser-2",
+            UserEmail      => "$CustomerUser-2" . '@localunittest.com',
+            ValidID        => 1,
+            UserID         => 1,
+        );
+
+        $Self->True(
+            $Success,
+            "Updated test user 3"
+        );
+
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # open AgentTicketPhone screen
@@ -105,7 +134,7 @@ $Selenium->RunTest(
 
         my %AutoCompleteExpected = (
             "$CustomerUser" => {
-                Expected     => 2,
+                Expected => 2,    # AgentCustomerSearch should return only 2 records (see bug#11996)
                 CustomerUser => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
                 AutocompleteInput =>
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
@@ -117,7 +146,7 @@ $Selenium->RunTest(
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
             },
             "$CustomerUser-2" => {
-                Expected     => 1,
+                Expected => 1,    # AgentCustomerSearch should return only 1 record (see bug#11996)
                 CustomerUser => "\"$CustomerUser-2 $CustomerUser-2\" <$CustomerUser-2\@localunittest.com>",
                 AutocompleteInput =>
                     "\"$CustomerUser-2 $CustomerUser-2\" <$CustomerUser-2\@localunittest.com> ($TestCustomerUser2)",
@@ -167,7 +196,7 @@ $Selenium->RunTest(
 
             $Selenium->VerifiedRefresh();
         }
-    }
+        }
 );
 
 1;
