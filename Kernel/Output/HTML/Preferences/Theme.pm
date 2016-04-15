@@ -84,14 +84,14 @@ sub Run {
 
     for my $Key ( sort keys %{ $Param{GetParam} } ) {
         my @Array = @{ $Param{GetParam}->{$Key} };
-        for (@Array) {
+        for my $Value (@Array) {
 
             # pref update db
             if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
-                $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+                $Self->{UserObject}->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
                     Key    => $Key,
-                    Value  => $_,
+                    Value  => $Value,
                 );
             }
 
@@ -100,7 +100,7 @@ sub Run {
                 $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
                     SessionID => $Self->{SessionID},
                     Key       => $Key,
-                    Value     => $_,
+                    Value     => $Value,
                 );
             }
         }
