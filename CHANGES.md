@@ -25,6 +25,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.10 2016-??-??
+ - 2016-04-15 Fixed bug#[11171](http://bugs.otrs.org/show_bug.cgi?id=11171) - Missing translation entries.
  - 2016-04-15 Fixed bug#[11996](http://bugs.otrs.org/show_bug.cgi?id=11996) - AgentCustomerSearch causes log errors.
  - 2016-04-15 Fixed bug#[11430](http://bugs.otrs.org/show_bug.cgi?id=11430) - (Ticket )Cache won't get updated on DynamicField ValueDelete.
  - 2016-04-15 Fixed bug#[11994](http://bugs.otrs.org/show_bug.cgi?id=11994) - Activating  PreferencesGroups###CSVSeparator triggers internal server error.

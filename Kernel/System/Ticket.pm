@@ -15,6 +15,7 @@ use File::Path;
 use utf8;
 use Encode ();
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::EventHandler;
 use Kernel::System::Ticket::Article;
 use Kernel::System::Ticket::TicketACL;
@@ -1718,7 +1719,7 @@ sub TicketUnlockTimeoutUpdate {
         TicketID     => $Param{TicketID},
         CreateUserID => $Param{UserID},
         HistoryType  => 'Misc',
-        Name         => 'Reset of unlock time.',
+        Name         => Translatable('Reset of unlock time.'),
     );
 
     # trigger event
