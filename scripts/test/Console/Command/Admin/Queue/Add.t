@@ -22,7 +22,7 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $QueueName = "queue" . $Helper->GetRandomID();
 
 # try to execute command without any options

@@ -131,7 +131,7 @@ my @Tests = (
         Name  => '#2 - Body+Subject Test',
         Match => {
             Subject => 'Server:\s+(?<server>[a-z.]+)',
-            Body => 'IP\s+address:\s+(?<ip>\d+\.\d+\.\d+\.\d+)',
+            Body    => 'IP\s+address:\s+(?<ip>\d+\.\d+\.\d+\.\d+)',
         },
         Set => {
             'X-OTRS-DynamicField-TicketFreeText1' => '[**\server**]',

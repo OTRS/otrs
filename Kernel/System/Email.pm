@@ -290,6 +290,7 @@ sub Send {
     my $Version = $ConfigObject->Get('Version');
 
     if ( $ConfigObject->Get('Secure::DisableBanner') ) {
+
         # Set this to undef to avoid having a value like "MIME-tools 5.507 (Entity 5.507)"
         #   which could lead to the mail being treated as SPAM.
         $Header{'X-Mailer'} = undef;

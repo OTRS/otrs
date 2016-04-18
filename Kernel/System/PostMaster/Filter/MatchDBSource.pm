@@ -92,7 +92,7 @@ sub Run {
                     if ( $Email =~ /^$SearchEmail$/i ) {
                         $LocalMatched = 1;
                         if ($SearchEmail) {
-                            $MatchedResult        = $SearchEmail;
+                            $MatchedResult = $SearchEmail;
                             $NamedCaptures{email} = $SearchEmail;
                         }
                         if ( $Self->{Debug} > 1 ) {
@@ -137,7 +137,7 @@ sub Run {
                     $MatchedResult = $1;
                 }
 
-                if ( %+ ) {
+                if (%+) {
                     my @Keys   = keys %+;
                     my @Values = values %+;
 

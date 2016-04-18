@@ -196,7 +196,7 @@ $Selenium->RunTest(
 
             $Selenium->VerifiedRefresh();
         }
-        }
+    }
 );
 
 1;
