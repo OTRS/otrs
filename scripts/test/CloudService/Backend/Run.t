@@ -169,6 +169,12 @@ my @Tests = (
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# Some old test VMs have problems with the used SSL certificate, disable for this test.
+$ConfigObject->Set(
+    Key   => 'WebUserAgent::DisableSSLVerification',
+    Value => 1,
+);
+
 TEST:
 for my $Test (@Tests) {
 
