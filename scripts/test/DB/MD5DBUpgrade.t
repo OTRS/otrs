@@ -16,14 +16,6 @@ use vars (qw($Self));
 my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
 # create database for tests
 my $XML = '
 <Table Name="test_md5_conversion">
@@ -123,6 +115,10 @@ $Self->True(
     'Conversion result',
 );
 
-# cleanup is done by RestoreDatabase.
+# cleanup
+$Self->True(
+    $DBObject->Do( SQL => 'DROP TABLE test_md5_conversion' ) || 0,
+    "Do() DROP TABLE",
+);
 
 1;
