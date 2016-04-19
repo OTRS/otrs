@@ -44,6 +44,12 @@ construct a helper object.
                                                     # and restore it in the destructor
             RestoreDatabase            => 1,        # runs the test in a transaction,
                                                     # and roll it back in the destructor
+                                                    #
+                                                    # NOTE: Rollback does not work for
+                                                    # changes in the database layout. If you
+                                                    # want to do this in your tests, you cannot
+                                                    # use this option and must handle the rollback
+                                                    # yourself.
         },
     );
     my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');

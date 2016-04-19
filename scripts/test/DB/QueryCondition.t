@@ -16,14 +16,6 @@ use vars (qw($Self));
 my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
 my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
 # ------------------------------------------------------------ #
 # QueryCondition tests
 # ------------------------------------------------------------ #
@@ -1177,6 +1169,20 @@ for my $Query (@Queries) {
     );
 }
 
-# cleanup is done by RestoreDatabase.
+# cleanup
+$XML      = '<TableDrop Name="test_condition"/>';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#8 SQLProcessor() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "#8 Do() DROP TABLE ($SQL)",
+    );
+}
 
 1;

@@ -15,14 +15,6 @@ use vars (qw($Self));
 # get DB object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
 # create database for tests
 my $XML = '
 <Table Name="test_utf8_range">
@@ -136,6 +128,10 @@ for my $Test (@Tests) {
     );
 }
 
-# cleanup is done by RestoreDatabase.
+# cleanup
+$Self->True(
+    $DBObject->Do( SQL => 'DROP TABLE test_utf8_range' ) || 0,
+    "DROP TABLE",
+);
 
 1;
