@@ -280,13 +280,14 @@ sub GetUserData {
             if ( $TimeStart < $Time && $TimeEnd > $Time ) {
                 my $OutOfOfficeMessageTemplate =
                     $ConfigObject->Get('OutOfOfficeMessageTemplate') || '*** out of office until %s (%s d left) ***';
-                my $TillDate = sprintf('%04d-%02d-%02d',
+                my $TillDate = sprintf(
+                    '%04d-%02d-%02d',
                     $Preferences{OutOfOfficeEndYear},
                     $Preferences{OutOfOfficeEndMonth},
                     $Preferences{OutOfOfficeEndDay}
                 );
                 my $Till = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
-                $Preferences{OutOfOfficeMessage} = sprintf($OutOfOfficeMessageTemplate, $TillDate, $Till);
+                $Preferences{OutOfOfficeMessage} = sprintf( $OutOfOfficeMessageTemplate, $TillDate, $Till );
                 $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }
 

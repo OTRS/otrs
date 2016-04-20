@@ -3923,8 +3923,8 @@ sub _CheckDBMerged {
 
             if (
                 $Part->{TagType} eq 'End'
-                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
-                    && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
+                && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
+                && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                 )
             {
                 $Use = 1;
