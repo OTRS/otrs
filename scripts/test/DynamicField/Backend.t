@@ -43,11 +43,11 @@ $Self->True(
 
 # create a dynamic field
 my $DynamicFieldName = "dynamicfieldtest$RandomID";
-my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+my $FieldID          = $DynamicFieldObject->DynamicFieldAdd(
     Name       => $DynamicFieldName,
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',                        # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',              # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',
@@ -793,7 +793,7 @@ my %TicketValueDeleteData = $TicketObject->TicketGet(
 );
 
 $Self->Is(
-    $TicketValueDeleteData{'DynamicField_'. $DynamicFieldName},
+    $TicketValueDeleteData{ 'DynamicField_' . $DynamicFieldName },
     $Value,
     "Should have value '$Value' set.",
 );
@@ -811,7 +811,7 @@ $BackendObject->ValueDelete(
 );
 
 $Self->False(
-    $TicketValueDeleteData{'DynamicField_'. $DynamicFieldName},
+    $TicketValueDeleteData{ 'DynamicField_' . $DynamicFieldName },
     "Ticket shouldn't have a value.",
 );
 
