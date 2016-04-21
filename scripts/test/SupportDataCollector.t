@@ -82,7 +82,7 @@ $CacheObject->CleanUp(
 $TimeStart = [ Time::HiRes::gettimeofday() ];
 
 %Result = $SupportDataCollectorObject->Collect(
-    WebTimeout => 40,
+    WebTimeout => 60,
     Hostname   => $HelperObject->GetTestHTTPHostname(),
 );
 
@@ -144,8 +144,8 @@ $Self->IsDeeply(
 );
 
 $Self->True(
-    $TimeElapsed < 30,
-    "Collect() - Should take less than 30 seconds, it took $TimeElapsed"
+    $TimeElapsed < 60,
+    "Collect() - Should take less than 60 seconds, it took $TimeElapsed"
 );
 
 my $TimeStartCache = [ Time::HiRes::gettimeofday() ];
