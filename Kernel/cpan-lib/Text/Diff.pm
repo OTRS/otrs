@@ -7,7 +7,7 @@ use Carp            qw/ croak confess /;
 use Exporter        ();
 use Algorithm::Diff ();
 
-our $VERSION = '1.43';
+our $VERSION = '1.44';
 our @ISA     = qw/ Exporter /;
 our @EXPORT  = qw/ diff /;
 
@@ -236,7 +236,11 @@ sub _op_to_line {
     return () unless defined $op_sym;
 
     $a_or_b = $op->[OPCODE] ne "+" ? 0 : 1 unless defined $a_or_b;
-    return ( $op_sym, $seqs->[$a_or_b][$op->[$a_or_b]] );
+    my @line = ( $op_sym, $seqs->[$a_or_b][$op->[$a_or_b]] );
+    unless ( $line[1] =~ /(?:\n|\r\n)$/ ) {
+        $line[1] .= "\n\\ No newline at end of file\n";
+    }
+    return @line;
 }
 
 SCOPE: {
