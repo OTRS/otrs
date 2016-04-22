@@ -2237,7 +2237,7 @@ sub ArticleSend {
     my $Time      = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
     my $Random    = rand 999999;
     my $FQDN      = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
-    my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$FQDN>";
+    my $MessageID = "<$Time.$Random\@$FQDN>";
     my $ArticleID = $Self->ArticleCreate(
         %Param,
         MessageID => $MessageID,
