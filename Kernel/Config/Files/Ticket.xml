@@ -10049,6 +10049,7 @@
                 <Item>X-OTRS-Type</Item>
                 <Item>X-OTRS-Service</Item>
                 <Item>X-OTRS-SLA</Item>
+                <Item>X-OTRS-Title</Item>
                 <Item>X-OTRS-CustomerNo</Item>
                 <Item>X-OTRS-CustomerUser</Item>
                 <Item>X-OTRS-SenderType</Item>
@@ -10063,6 +10064,7 @@
                 <Item>X-OTRS-FollowUp-SLA</Item>
                 <Item>X-OTRS-FollowUp-SenderType</Item>
                 <Item>X-OTRS-FollowUp-ArticleType</Item>
+                <Item>X-OTRS-FollowUp-Title</Item>
             </Array>
         </Setting>
     </ConfigItem>

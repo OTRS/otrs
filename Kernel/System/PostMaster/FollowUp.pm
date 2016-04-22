@@ -494,6 +494,19 @@ sub Run {
         }
     }
 
+    # set ticket title
+    if ( $GetParam{'X-OTRS-FollowUp-Title'} ) {
+        $TicketObject->TicketTitleUpdate(
+            Title    => $GetParam{'X-OTRS-FollowUp-Title'},
+            TicketID => $Param{TicketID},
+            UserID   => $Param{InmailUserID},
+        );
+
+        if ( $Self->{Debug} > 0 ) {
+            print "Title: $GetParam{'X-OTRS-FollowUp-Title'}\n";
+        }
+    }
+
     # write log
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',

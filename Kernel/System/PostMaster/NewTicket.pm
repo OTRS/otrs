@@ -228,7 +228,7 @@ sub Run {
     my $NewTn    = $TicketObject->TicketCreateNumber();
     my $TicketID = $TicketObject->TicketCreate(
         TN           => $NewTn,
-        Title        => $GetParam{Subject},
+        Title        => $GetParam{'X-OTRS-Title'} || $GetParam{Subject},
         QueueID      => $QueueID,
         Lock         => $GetParam{'X-OTRS-Lock'} || 'unlock',
         Priority     => $Priority,

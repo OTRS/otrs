@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-04-22 Added possibility to set the ticket title in Postmaster filters, thanks to Renée Bäcker.
  - 2016-04-15 Added possibility to use multiple named captures in Postmaster filters, thanks to Renée Bäcker.
  - 2016-04-08 Removed dummy 'Reply All' and 'Forward' options to align with 'Reply' select, thanks to Nils Leideck.
  - 2016-04-01 Fixed dropdown for CustomerTicketOverview.
