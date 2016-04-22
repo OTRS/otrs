@@ -109,13 +109,14 @@
                         <script type="text/javascript">//<![CDATA[
                         $('#StartStatistic').bind('click', function (Event) {
                             var Format = $('#Format').val(),
-                                URL;
+                                $Form = $(this).parents('form');
 
                             // Open both HTML and PDF output in a popup because PDF is shown inline
                             if (Format === 'Print' || Format.match(/D3/)) {
-                                URL = '[% Env("Baselink") %]' + Core.AJAX.SerializeForm($('#Format').parents('form'));
-                                Core.UI.Popup.OpenPopup(URL, 'Statistic', 'Default');
-                                return false;
+                                $Form.attr('target', '_blank');
+                            }
+                            else {
+                                $Form.removeAttr('target');
                             }
                         });
                         //]]></script>
