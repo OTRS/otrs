@@ -51,6 +51,7 @@ $CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}    = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
+$CommonObject{CacheObject}   = Kernel::System::Cache->new(%CommonObject);
 
 # get options
 my %Opts;
@@ -87,8 +88,10 @@ if ( $Opts{h} ) {
     print " user (local):\n";
     print "   otrs.PackageManager.pl -a list\n";
     print "   otrs.PackageManager.pl -a list -p Package\n";
-    print "   otrs.PackageManager.pl -a list -i\n";
+    print "   otrs.PackageManager.pl -a list -i (show package deployment information)\n";
     print "   otrs.PackageManager.pl -a list -i -p Package\n";
+    print "   otrs.PackageManager.pl -a list -e    (show package verification information)\n";
+    print "   otrs.PackageManager.pl -a list -e -c (show package verification information deleting the cache before)\n";
     print "   otrs.PackageManager.pl -a install -p /path/to/Package-1.0.0.opm\n";
     print "   otrs.PackageManager.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
     print "   otrs.PackageManager.pl -a reinstall -p Package\n";
@@ -486,6 +489,8 @@ elsif ( $Opts{a} eq 'upgrade' ) {
 }
 elsif ( $Opts{a} eq 'list' ) {
 
+    my %VerificationInfo;
+
     PACKAGE:
     for my $Package ( $CommonObject{PackageObject}->RepositoryList() ) {
 
@@ -521,6 +526,28 @@ elsif ( $Opts{a} eq 'list' ) {
                     print "| File Status: $File => $FileMessage\n";
                 }
             }
+        }
+
+        if ( defined $Opts{e} ) {
+
+            if ( !%VerificationInfo ) {
+
+                # clear the package verification cache to get fresh results
+                if ( $Opts{c} ) {
+                    $CommonObject{CacheObject}->CleanUp(
+                        Type => 'PackageVerification',
+                    );
+                }
+
+                # get verification info for all packages (this will create the cache again)
+                %VerificationInfo = $CommonObject{PackageObject}->PackageVerifyAll();
+            }
+
+            my $VerifyString = ( $VerificationInfo{ $Package->{Name}->{Content} } // 'unknown' ) eq 'verified'
+                ? 'Verified'
+                : 'Not Verified';
+
+            print "| OTRS Verify: $VerifyString\n";
         }
     }
     print "+----------------------------------------------------------------------------+\n";

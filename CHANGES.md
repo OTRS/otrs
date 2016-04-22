@@ -1,4 +1,5 @@
 #3.3.16 ????-??-??
+ - 2016-04-21 Added package verification information to otrs.PackageManager.pl, use bin/otrs.PackageManager.pl -a list -e (to show package verification information) or bin/otrs.PackageManager.pl -a list -e -c (to show package verification information deleting the cache before).
  - 2016-03-29 Fixed bug#[11959](http://bugs.otrs.org/show_bug.cgi?id=11959) - 500 Can't connect to www.otrs.com/product.xml:443.
  - 2016-02-15 Fixed bug#[11870](http://bugs.otrs.org/show_bug.cgi?id=11870) - Missing quoting in Layout::AgentQueueListOption().
  - 2016-01-21 Fixed bug#[11802](http://bugs.otrs.org/show_bug.cgi?id=11802) - Customer user can get access to all ticket data.
