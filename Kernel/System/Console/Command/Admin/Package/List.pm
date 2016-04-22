@@ -15,6 +15,7 @@ use base qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::Main',
     'Kernel::System::Package',
 );
@@ -39,6 +40,33 @@ sub Configure {
         HasValue    => 0,
     );
 
+    $Self->AddOption(
+        Name        => 'show-verification-info',
+        Description => 'Shows package OTRS Verify™ status.',
+        Required    => 0,
+        HasValue    => 0,
+    );
+
+    $Self->AddOption(
+        Name        => 'delete-verification-cache',
+        Description => 'Deletes OTRS Verify™ cache, so verification info is fetch again from OTRS group servers.',
+        Required    => 0,
+        HasValue    => 0,
+    );
+
+    return;
+}
+
+sub PreRun {
+    my ( $Self, %Param ) = @_;
+
+    my $ShowVerificationInfoOption    = $Self->GetOption('show-verification-info');
+    my $DeleteVerificationCacheOption = $Self->GetOption('delete-verification-cache');
+
+    if ( $DeleteVerificationCacheOption && !$ShowVerificationInfoOption ) {
+        die "--delete-verification-cache requires --show-verification-info";
+    }
+
     return;
 }
 
@@ -54,8 +82,23 @@ sub Run {
         return $Self->ExitCodeOk();
     }
 
-    my $PackageNameOption        = $Self->GetOption('package-name');
-    my $ShowDeploymentInfoOption = $Self->GetOption('show-deployment-info');
+    my $PackageNameOption             = $Self->GetOption('package-name');
+    my $ShowDeploymentInfoOption      = $Self->GetOption('show-deployment-info');
+    my $ShowVerificationInfoOption    = $Self->GetOption('show-verification-info');
+    my $DeleteVerificationCacheOption = $Self->GetOption('delete-verification-cache');
+
+    my $CloudServicesDisabled = $Kernel::OM->Get('Kernel::Config')->Get('CloudServices::Disabled') || 0;
+
+    # Do not show verification status is cloud services are disabled.
+    if ( $CloudServicesDisabled && $ShowVerificationInfoOption ) {
+        $ShowVerificationInfoOption = 0;
+        $Self->Print("<red>Cloud Services are disabled OTRS Verify information can not be retrieved</red>\n");
+    }
+
+    # Get package object
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+    my %VerificationInfo;
 
     PACKAGE:
     for my $Package (@Packages) {
@@ -87,13 +130,13 @@ sub Run {
         $Self->Print("| <yellow>Description:</yellow> $Data{Description}\n");
 
         if ($ShowDeploymentInfoOption) {
-            my $PackageDeploymentOK = $Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
+            my $PackageDeploymentOK = $PackageObject->DeployCheck(
                 Name    => $Package->{Name}->{Content},
                 Version => $Package->{Version}->{Content},
                 Log     => 0,
             );
 
-            my %PackageDeploymentInfo = $Kernel::OM->Get('Kernel::System::Package')->DeployCheckInfo();
+            my %PackageDeploymentInfo = $PackageObject->DeployCheckInfo();
             if ( defined $PackageDeploymentInfo{File} && %{ $PackageDeploymentInfo{File} } ) {
                 $Self->Print(
                     '| <red>Deployment:</red>  ' . ( $PackageDeploymentOK ? 'OK' : 'Not OK' ) . "\n"
@@ -107,6 +150,33 @@ sub Run {
                 $Self->Print(
                     '| <yellow>Pck. Status:</yellow> ' . ( $PackageDeploymentOK ? 'OK' : 'Not OK' ) . "\n"
                 );
+            }
+        }
+
+        if ($ShowVerificationInfoOption) {
+
+            if ( !%VerificationInfo ) {
+
+                # Clear the package verification cache to get fresh results.
+                if ($DeleteVerificationCacheOption) {
+                    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                        Type => 'PackageVerification',
+                    );
+                }
+
+                # Get verification info for all packages (this will create the cache again).
+                %VerificationInfo = $PackageObject->PackageVerifyAll();
+            }
+
+            if (
+                !defined $VerificationInfo{ $Package->{Name}->{Content} }
+                || $VerificationInfo{ $Package->{Name}->{Content} } ne 'verified'
+                )
+            {
+                $Self->Print("| <red>OTRS Verify:</red> Not Verified\n");
+            }
+            else {
+                $Self->Print("| <yellow>OTRS Verify:</yellow> Verified\n");
             }
         }
     }
