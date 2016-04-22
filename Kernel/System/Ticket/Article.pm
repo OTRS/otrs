@@ -2322,7 +2322,7 @@ sub ArticleBounce {
     my $Time         = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
     my $Random       = rand 999999;
     my $FQDN         = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
-    my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$FQDN>";
+    my $NewMessageID = "<$Time.$Random.0\@$FQDN>";
     my $Email        = $Self->ArticlePlain( ArticleID => $Param{ArticleID} );
 
     # check if plain email exists
