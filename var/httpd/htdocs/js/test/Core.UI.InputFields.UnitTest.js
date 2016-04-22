@@ -37,7 +37,7 @@ Core.UI.InputFields = (function (Namespace) {
         $TestForm = $('<form id="TestForm" style="visibility: hidden;"></form>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="MultipleSelect" multiple="multiple" name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="Multiple&apos;Sel&quot;ect" multiple="multiple" name="MultipleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
-        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect" name="SingleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect" name="SingleSelect" data-tree="true"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelect2" name="SingleSelect"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="Test&quot;Value" selected>Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
         $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelectQuoting" name="SingleSelectQuoting"><option value="">-</option><option value="1">Entry 1</option><option value="2">Entry 2</option><option value="you give &apos; love a &quot;bad&quot; name" selected>Bad entry</option><option value="6">Entry 6</option></select></div>');
         $('body').append($TestForm);
@@ -192,6 +192,65 @@ Core.UI.InputFields = (function (Namespace) {
             });
         });
 
+        // Check if modified tree selection successfully expands (bug#12017)
+        test('Check field with tree selection', function (Assert) {
+            var $SelectObj = $('#TestForm select#SingleSelect'),
+                $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized'))),
+                $LeafOptions = $('<option value="11">&nbsp;&nbsp;Sub-entry 1</option><option value="12">&nbsp;&nbsp;Sub-entry 2</option><option value="13">&nbsp;&nbsp;Sub-entry 3</option>'),
+                $Nodes,
+                OptionNumber = $SelectObj.find('option').not("[value='']").length,
+                OptionNumberTotal = $SelectObj.find('option').length,
+                $InputContainerObj = $SelectObj.prev(),
+                $InputListContainerObj,
+                ListNumber,
+                ExpandSubscription,
+                CloseSubscription,
+                Done1 = Assert.async(),
+                Done2 = Assert.async();
+
+            Assert.expect(4);
+
+            // Append leaves
+            $LeafOptions.insertAfter($SelectObj.find('option[value="1"]'));
+
+            Assert.equal($SelectObj.find('option').length, OptionNumberTotal+$LeafOptions.length, 'Check if number of options has increased');
+
+            // Define event subscription before the event itself - Wait for the event to finish
+            ExpandSubscription = Core.App.Subscribe('Event.UI.InputFields.Expanded', function () {
+                Core.App.Unsubscribe(ExpandSubscription);
+
+                $InputListContainerObj = $('body > .InputField_ListContainer').first();
+
+                $Nodes = $InputListContainerObj.find('ul.jstree-container-ul li.jstree-node');
+                ListNumber = $Nodes.length;
+
+                Assert.equal(ListNumber, OptionNumber, 'Check if number of options matches');
+
+                Done1();
+            });
+
+            // Trigger focus handler
+            $SearchObj.triggerHandler('focus.InputField');
+
+            // Define event subscription before the event itself - Wait for the event to finish
+            CloseSubscription = Core.App.Subscribe('Event.UI.InputFields.Closed', function () {
+                Core.App.Unsubscribe(CloseSubscription);
+
+                Assert.equal($InputContainerObj.find('.InputField_ListContainer').length, 0, 'Check if list has been removed from DOM');
+
+                // Wait for everything to be closed and resettet
+                window.setTimeout(function () {
+                    $InputContainerObj.find('.InputField_Selection .Remove a').click();
+                    Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
+                    Done2();
+                }, 100);
+            });
+
+            // Trigger blur handler
+            $SearchObj.triggerHandler('blur.InputField');
+            $('body').trigger('click');
+        });
+
         /*
         * Check disabled field
         */
@@ -232,7 +291,7 @@ Core.UI.InputFields = (function (Namespace) {
         * Remove test elements from the page
         */
         QUnit.done(function () { //eslint-disable-line no-undef
-           $('#TestForm').remove();
+            $('#TestForm').remove();
         });
     };
 

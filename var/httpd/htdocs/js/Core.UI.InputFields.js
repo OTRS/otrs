@@ -1016,6 +1016,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     if ($ShowTreeObj.length) {
                         $ShowTreeObj.hide();
                     }
+                    $SelectObj.data('tree', true);
                     TreeView = true;
                 }
 
@@ -1347,7 +1348,8 @@ Core.UI.InputFields = (function (TargetNS) {
                     Elements = Core.UI.TreeSelection.BuildElementsArray($SelectObj, TreeView);
 
                     // Force no tree view if structure has only root level
-                    if (Elements.HighestLevel === 0) {
+                    // but only if field should not contain tree structure (see bug#12017)
+                    if (Elements.HighestLevel === 0 && !$SelectObj.data('tree')) {
                         TreeView = false;
                     }
 
