@@ -75,8 +75,10 @@ if ( $Opts{h} ) {
     print " user (local):\n";
     print "   otrs.PackageManager.pl -a list\n";
     print "   otrs.PackageManager.pl -a list -p Package\n";
-    print "   otrs.PackageManager.pl -a list -i\n";
+    print "   otrs.PackageManager.pl -a list -i (show package deployment information)\n";
     print "   otrs.PackageManager.pl -a list -i -p Package\n";
+    print "   otrs.PackageManager.pl -a list -e    (show package verification information)\n";
+    print "   otrs.PackageManager.pl -a list -e -c (show package verification information deleting the cache before)\n";
     print "   otrs.PackageManager.pl -a listinstalledfiles\n";
     print "   otrs.PackageManager.pl -a install -p /path/to/Package-1.0.0.opm\n";
     print "   otrs.PackageManager.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
@@ -535,8 +537,13 @@ elsif ( $Opts{a} eq 'upgrade' ) {
 }
 elsif ( $Opts{a} eq 'list' ) {
 
+    # get package object
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+    my %VerificationInfo;
+
     PACKAGE:
-    for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
+    for my $Package ( $PackageObject->RepositoryList() ) {
 
         # just shown in list if PackageIsVisible flag is enable
         if (
@@ -566,7 +573,7 @@ elsif ( $Opts{a} eq 'list' ) {
 
         if ( defined $Opts{i} ) {
 
-            my $PackageDeploymentOK = $Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
+            my $PackageDeploymentOK = $PackageObject->DeployCheck(
                 Name    => $Package->{Name}->{Content},
                 Version => $Package->{Version}->{Content},
                 Log     => 0,
@@ -580,6 +587,28 @@ elsif ( $Opts{a} eq 'list' ) {
                     print "| File Status: $File => $FileMessage\n";
                 }
             }
+        }
+
+        if ( defined $Opts{e} ) {
+
+            if ( !%VerificationInfo ) {
+
+                # clear the package verification cache to get fresh results
+                if ( defined $Opts{c} ) {
+                    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                        Type => 'PackageVerification',
+                    );
+                }
+
+                # get verification info for all packages (this will create the cache again)
+                %VerificationInfo = $PackageObject->PackageVerifyAll();
+            }
+
+            my $VerifyString = ( $VerificationInfo{ $Package->{Name}->{Content} } // 'unknown' ) eq 'verified'
+                ? 'Verified'
+                : 'Not Verified';
+
+            print "| OTRS Verify: $VerifyString\n";
         }
     }
     print "+----------------------------------------------------------------------------+\n";
