@@ -1563,14 +1563,6 @@ sub _Mask {
                 );
             }
 
-            # security="restricted" may break SSO - disable this feature if requested
-            if ( $ConfigObject->Get('DisableMSIFrameSecurityRestricted') ) {
-                $Param{MSSecurityRestricted} = '';
-            }
-            else {
-                $Param{MSSecurityRestricted} = 'security="restricted"';
-            }
-
             if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
                 my %UserPreferences = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
                     UserID => $Self->{UserID},
