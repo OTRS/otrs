@@ -760,7 +760,7 @@ sub WritePerlLanguageFile {
         $JSData = '    push @{ $Self->{JavaScriptStrings} // [] }, (' . "\n";
     }
 
-    for my $String ( sort keys $Param{UsedInJS} ) {
+    for my $String ( sort keys %{ $Param{UsedInJS} // {} } ) {
         my $Key = $String;
         $Key =~ s/'/\\'/g;
         $JSData .= $Indent . "'" . $Key . "',\n";
