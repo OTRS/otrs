@@ -194,7 +194,7 @@ Core.UI.Dialog = (function (TargetNS) {
     TargetNS.ShowDialog = function(Params) {
 
         var $Dialog, $Content, $ButtonFooter, HTMLBackup, DialogCopy, DialogCopySelector,
-            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"><i class="fa fa-times"></i></a></div><div class="Content"></div><div class="Footer"></div></div>',
+            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Language.Translate('Close') + '" href="#"><i class="fa fa-times"></i></a></div><div class="Content"></div><div class="Footer"></div></div>',
             FullsizeMode = false;
 
         /**

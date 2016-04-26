@@ -725,6 +725,7 @@ sub Login {
     # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentCSSCalls();
     $Self->LoaderCreateAgentJSCalls();
+    $Self->LoaderCreateJavaScriptTranslationData();
 
     # Add header logo, if configured
     if ( defined $ConfigObject->Get('AgentLogo') ) {
@@ -1460,6 +1461,7 @@ sub Footer {
 
     # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
+    $Self->LoaderCreateJavaScriptTranslationData();
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {
@@ -3419,6 +3421,7 @@ sub CustomerLogin {
     # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerCSSCalls();
     $Self->LoaderCreateCustomerJSCalls();
+    $Self->LoaderCreateJavaScriptTranslationData();
 
     # Add header logo, if configured
     if ( defined $ConfigObject->Get('CustomerLogo') ) {
@@ -3698,6 +3701,7 @@ sub CustomerFooter {
     # Generate the minified CSS and JavaScript files
     # and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerJSCalls();
+    $Self->LoaderCreateJavaScriptTranslationData();
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {

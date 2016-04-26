@@ -268,7 +268,7 @@ Core.UI.Popup = (function (TargetNS) {
             }
         });
         if (Size) {
-            return Core.Config.Get('PopupLeaveParentWindowMsg');
+            return Core.Language.Translate('If you now leave this page, all open popup windows will be closed, too!');
         }
     };
 

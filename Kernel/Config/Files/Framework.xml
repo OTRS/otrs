@@ -6352,6 +6352,7 @@ via the Preferences button after logging in.
                 <Item>Core.Exception.js</Item>
                 <Item>Core.Data.js</Item>
                 <Item>Core.Config.js</Item>
+                <Item>Core.Language.js</Item>
                 <Item>Core.JSON.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
@@ -6441,6 +6442,7 @@ via the Preferences button after logging in.
                 <Item>Core.JSON.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Config.js</Item>
+                <Item>Core.Language.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
                 <Item>Core.AJAX.js</Item>

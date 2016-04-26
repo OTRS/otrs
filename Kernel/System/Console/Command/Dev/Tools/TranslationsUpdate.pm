@@ -148,6 +148,9 @@ sub HandleLanguage {
 
     my $DefaultTheme = $Kernel::OM->Get('Kernel::Config')->Get('DefaultTheme');
 
+    # for every word, save the information that it is used in JS
+    my %UsedInJS;
+
     # We need to map internal codes to the official ones used by Transifex
     my %TransifexLanguagesMap = (
         sr_Cyrl => 'sr',
@@ -376,6 +379,64 @@ sub HandleLanguage {
             }egx;
         }
 
+        # add translatable strings from JavaScript code
+        my @JSFileList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => $IsSubTranslation ? "$ModuleDirectory/var/httpd/htdocs/js" : "$Home/var/httpd/htdocs/js",
+            Filter => '*.js',
+            Recursive => 0,    # to prevent access to thirdparty files and js-cache
+        );
+
+        FILE:
+        for my $File (@JSFileList) {
+
+            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location => $File,
+                Mode     => 'utf8',
+            );
+
+            if ( !ref $ContentRef ) {
+                die "Can't open $File: $!";
+            }
+
+            $File =~ s{^.*/(.+?)\.js}{$1}smx;
+
+            my $Content = ${$ContentRef};
+
+            # Purge all comments
+            $Content =~ s{^ \s* // .*? \n}{\n}xmsg;
+
+            # do translation
+            $Content =~ s{
+                (?:
+                    Core.Language.Translate
+                )
+                \(
+                    \s*
+                    (["'])(.*?)(?<!\\)\1
+            }
+            {
+                my $Word = $2 // '';
+
+                # unescape any \" or \' signs
+                $Word =~ s{\\"}{"}smxg;
+                $Word =~ s{\\'}{'}smxg;
+
+                if ( $Word && !$UsedWords{$Word}++ ) {
+
+                    push @OriginalTranslationStrings, {
+                        Location => "JS File: $File",
+                        Source => $Word,
+                    };
+
+                }
+
+                # also save that this string was used in JS (for later use in Loader)
+                $UsedInJS{$Word} = 1;
+
+                '';
+            }egx;
+        }
+
         # add translatable strings from SysConfig
         my @Strings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemTranslatableStrings();
 
@@ -503,6 +564,7 @@ sub HandleLanguage {
         LanguageFile       => $LanguageFile,
         TargetFile         => $TargetFile,
         TranslationStrings => \@TranslationStrings,
+        UsedInJS           => \%UsedInJS,
     );
 
     return 1;
@@ -692,6 +754,25 @@ sub WritePerlLanguageFile {
         }
     }
 
+    # add data structure for JS translations
+    my $JSData = "    \$Self->{JavaScriptStrings} = [\n";
+    if ($Param{IsSubTranslation}) {
+        $JSData = '    push @{ $Self->{JavaScriptStrings} // [] }, (' . "\n";
+    }
+
+    for my $String ( sort keys $Param{UsedInJS} ) {
+        my $Key = $String;
+        $Key =~ s/'/\\'/g;
+        $JSData .= $Indent . "'" . $Key . "',\n";
+    }
+
+    if ($Param{IsSubTranslation}) {
+        $JSData .= "    );\n";
+    }
+    else {
+        $JSData .= "    ];\n";
+    }
+
     my %MetaData;
     my $NewOut = '';
 
@@ -719,6 +800,8 @@ use utf8;
 sub Data {
     my \$Self = shift;
 $Data
+
+$JSData
 }
 
 1;
@@ -773,10 +856,13 @@ EOF
                 $NewOut .= <<"EOF";
     \$Self->{Translation} = {
 $Data
+    };
+
 EOF
+                $NewOut .= $JSData . "\n";
             }
+
             if ( $_ =~ /\$\$STOP\$\$/ ) {
-                $NewOut .= "    };\n";
                 $NewOut .= $Line;
                 $MetaData{DataPrinted} = 0;
             }
