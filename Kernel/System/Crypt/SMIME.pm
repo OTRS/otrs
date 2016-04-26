@@ -183,7 +183,7 @@ sub Crypt {
     if ($LogMessage) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't crypt: $LogMessage!"
+            Message  => "Can't encrypt: $LogMessage!"
         );
         return;
     }

@@ -4149,7 +4149,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::CryptType" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the crypt type of passwords must be specified.</Description>
+        <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -6274,7 +6274,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Loader::Enabled::CSS" Required="1" Valid="1">
-        <Description Translatable="1">If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.</Description>
+        <Description Translatable="1">If enabled, OTRS will deliver all CSS files in minified form.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>

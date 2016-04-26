@@ -83,7 +83,7 @@ sub Run {
             Name    => 'CryptKeyID',
             Key     => Translatable('Crypt'),
             Value   => $List,
-            Invalid => 'Just one recipient for crypt is possible!',
+            Invalid => 'Just one recipient for encryption is possible!',
         },
     );
     return;

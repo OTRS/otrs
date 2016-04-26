@@ -6167,7 +6167,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###2-CryptEmail" Required="1" Valid="1">
-        <Description Translatable="1">Module to crypt composed messages (PGP or S/MIME).</Description>
+        <Description Translatable="1">Module to encrypt composed messages (PGP or S/MIME).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleComposeModule</SubGroup>
         <Setting>

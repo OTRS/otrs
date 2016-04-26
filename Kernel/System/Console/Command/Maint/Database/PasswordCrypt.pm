@@ -23,7 +23,7 @@ sub Configure {
     $Self->Description('Makes a database password unreadable for inclusion in Kernel/Config.pm.');
     $Self->AddArgument(
         Name        => 'password',
-        Description => "The database password to be crypted.",
+        Description => "The database password to be encrypted.",
         Required    => 1,
         ValueRegex  => qr/.*/smx,
     );

@@ -143,7 +143,7 @@ sub Check {
                 return (
                     {
                         Key        => Translatable('Crypted'),
-                        Value      => Translatable('Sent message crypted to recipient!'),
+                        Value      => Translatable('Sent message encrypted to recipient!'),
                         Successful => 1,
                     }
                 );
