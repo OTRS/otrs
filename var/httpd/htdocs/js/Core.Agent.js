@@ -122,6 +122,22 @@ Core.Agent = (function (TargetNS) {
             }
         }
 
+        /**
+         * @private
+         * @name SetNavContainerHeight
+         * @memberof Core.Agent.InitNavigation
+         * @function
+         * @param {jQueryObject} $ParentElement
+         * @description
+         *      This function sets the nav container height according to the required height of the currently expanded sub menu
+         *      Due to the needed overflow: hidden property of the container, they would be hidden otherwise
+         */
+        function SetNavContainerHeight($ParentElement) {
+            if ($ParentElement.find('ul').length) {
+                $('#NavigationContainer').css('height', parseInt(InitialNavigationContainerHeight, 10) + parseInt($ParentElement.find('ul').outerHeight(), 10));
+            }
+        }
+
         $('#Navigation > li')
             .addClass('CanDrag')
             .filter(function () {
@@ -144,10 +160,8 @@ Core.Agent = (function (TargetNS) {
                         $Element.addClass('Active').attr('aria-expanded', true)
                             .siblings().removeClass('Active');
 
-                        // Resize the container in order to display subitems
-                        // Due to the needed overflow: hidden property of the
-                        // container, they would be hidden otherwise
-                        $('#NavigationContainer').css('height', '500px');
+                        // resize the nav container
+                        SetNavContainerHeight($Element);
 
                         // If Timeout is set for this nav element, clear it
                         ClearSubnavCloseTimeout($Element);
@@ -224,7 +238,8 @@ Core.Agent = (function (TargetNS) {
 
                     if ($('body').hasClass('Visible-ScreenXL')) {
 
-                        $('#NavigationContainer').css('height', '300px');
+                        // resize the nav container
+                        SetNavContainerHeight($Element);
 
                         // If Timeout is set for this nav element, clear it
                         ClearSubnavCloseTimeout($Element);
