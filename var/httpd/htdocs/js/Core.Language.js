@@ -61,8 +61,8 @@ Core.Language = (function (TargetNS) {
         // Get translated string
         Translated = Translations[TranslateString];
 
-        // If no tranlation available, take original string
-        if (!Translated.length) {
+        // If no translation available, take original string
+        if (!Translated || !Translated.length) {
             Translated = TranslateString;
         }
 
