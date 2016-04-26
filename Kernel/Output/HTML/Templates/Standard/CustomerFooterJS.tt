@@ -67,6 +67,8 @@ Core.App.Ready(function() {
         InputFieldsConfirm: [% Translate("Confirm") | JSON %]
     });
 
+    [% PROCESS JSDataInsert %]
+
     Core.Customer.Init();
 
 [% InsertTemplate("Datepicker.tt") %]

@@ -335,6 +335,58 @@ console.log(22);
         Result => '
 ',
     },
+
+    {
+        Name     => 'JSData 1',
+        Template => '
+[% PROCESS JSData
+    Key   = "Config.Test"
+    Value = 123
+%]
+[% PROCESS JSData
+    Key   = "Config.Test2"
+    Value = [1, 2, { test => "test"}]
+%]',
+        Result => '
+
+',
+    },
+    {
+        Name      => 'JSData 2 with AddJSData()',
+        Template  => '',
+        AddJSData => {
+            Key   => 'Perl.Code',
+            Value => { Perl => 'Data' }
+        },
+        Result => '',
+    },
+    {
+        Name     => 'JSDataInsert',
+        Template => '
+[% PROCESS "JSDataInsert" -%]',
+        Result => '
+Core.Config.AddConfig({
+   "Config.Test" : 123,
+   "Config.Test2" : [
+      1,
+      2,
+      {
+         "test" : "test"
+      }
+   ],
+   "Perl.Code" : {
+      "Perl" : "Data"
+   }
+}
+);
+',
+    },
+    {
+        Name     => 'JSDataInsert, no data',
+        Template => '[% PROCESS "JSDataInsert" -%]',
+        Result   => '',
+    },
+
     {
         Name     => 'Form without ChallengeToken',
         Template => '
@@ -435,6 +487,12 @@ for my $Test (@Tests) {
     if ( $Test->{AddJSOnDocumentComplete} ) {
         $LayoutObject->AddJSOnDocumentComplete(
             Code => $Test->{AddJSOnDocumentComplete},
+        );
+    }
+
+    if ( $Test->{AddJSData} ) {
+        $LayoutObject->AddJSData(
+            %{ $Test->{AddJSData} },
         );
     }
 

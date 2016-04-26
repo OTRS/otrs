@@ -118,10 +118,9 @@ sub _InstallOTRSExtensions {
     #     footer of the page, all in one place.
     #
     # Usage:
-    #     [% WRAPPER JSOnDocumentComplete -% ]
+    #     [% WRAPPER JSOnDocumentComplete -%]
     #         console.log();
-    #     [%- END % ]
-    # %]
+    #     [%- END %]
     #
 
     $Self->{_DEFBLOCKS}->{JSOnDocumentComplete} //= sub {
@@ -172,6 +171,75 @@ sub _InstallOTRSExtensions {
 
             $output .= $Code;
             delete $context->{LayoutObject}->{_JSOnDocumentComplete};
+        };
+
+        if ($@) {
+            $_tt_error = $context->catch( $@, \$output );
+            die $_tt_error if $_tt_error->type() ne 'return';
+        }
+
+        return $output;
+    };
+
+    #
+    # This block is used to cut out JavaScript data that needs to be inserted to Core.Config
+    #   from the templates and insert it in the footer of the page, all in one place.
+    #
+    # Usage:
+    #     [% Process JSData
+    #         Key   = 'Test.Key'
+    #         Value = { ... }
+    #     %]
+    #
+    #
+
+    $Self->{_DEFBLOCKS}->{JSData} //= sub {
+        my $context = shift || die "template sub called without context\n";
+        my $stash   = $context->stash();
+        my $output  = '';
+
+        my $_tt_error;
+
+        eval {
+
+            my $Key   = $stash->get('Key');
+            my $Value = $stash->get('Value');
+
+            return $output if !$Key;
+
+            $context->{LayoutObject}->{_JSData} //= {};
+            $context->{LayoutObject}->{_JSData}->{$Key} = $Value;
+
+        };
+        if ($@) {
+            $_tt_error = $context->catch( $@, \$output );
+            die $_tt_error if $_tt_error->type() ne 'return';
+        }
+
+        return $output;
+    };
+
+    #
+    # This block is used to insert the collected JavaScript data in the page footer.
+    #
+
+    $Self->{_DEFBLOCKS}->{JSDataInsert} //= sub {
+        my $context = shift || die "template sub called without context\n";
+        my $stash   = $context->stash();
+        my $output  = '';
+        my $_tt_error;
+
+        eval {
+            my %Data = %{ $context->{LayoutObject}->{_JSData} // {} };
+            if (%Data) {
+                my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+                    Data     => \%Data,
+                    SortKeys => 1,
+                    Pretty   => 1,
+                );
+                $output .= "Core.Config.AddConfig($JSONString);\n";
+            }
+            delete $context->{LayoutObject}->{_JSData};
         };
 
         if ($@) {

@@ -104,6 +104,8 @@ Core.App.Ready(function () {
         OTRSDaemonDialogTitleMsg: [% Translate('Information about the OTRS Daemon') | JSON %]
     });
 
+    [% PROCESS JSDataInsert %]
+
     Core.Agent.Init();
 
 [% InsertTemplate("Datepicker.tt") %]

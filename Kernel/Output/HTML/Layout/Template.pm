@@ -304,6 +304,30 @@ sub AddJSOnDocumentComplete {
     $Self->{_JSOnDocumentComplete} //= [];
     push @{ $Self->{_JSOnDocumentComplete} }, $Param{Code};
 
+    return;
+}
+
+=item AddJSData()
+
+dynamically add JavaScript data that should be handed over to
+JavaScript via Core.Config.
+
+    $LayoutObject->AddJSData(
+        Key   => 'Key1',  # the key to store this data
+        Value => { ... }  # simple or complex data
+    );
+
+=cut
+
+sub AddJSData {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{Key};
+
+    $Self->{_JSData} //= {};
+    $Self->{_JSData}->{$Param{Key}} = $Param{Value};
+
+    return;
 }
 
 1;
