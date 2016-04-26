@@ -61,7 +61,7 @@ sub new {
             }
         }
 
-        if ( defined $Self->{ZoomExpand} || defined $Self->{ZoomTimeline} ) {
+        elsif ( defined $Self->{ZoomExpand} || defined $Self->{ZoomTimeline} ) {
 
             my $LastUsedZoomViewType = '';
             if ( defined $Self->{ZoomExpand} && $Self->{ZoomExpand} == 1 ) {
