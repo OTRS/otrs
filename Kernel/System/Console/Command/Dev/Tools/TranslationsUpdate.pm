@@ -756,7 +756,7 @@ sub WritePerlLanguageFile {
 
     # add data structure for JS translations
     my $JSData = "    \$Self->{JavaScriptStrings} = [\n";
-    if ($Param{IsSubTranslation}) {
+    if ( $Param{IsSubTranslation} ) {
         $JSData = '    push @{ $Self->{JavaScriptStrings} // [] }, (' . "\n";
     }
 
@@ -766,7 +766,7 @@ sub WritePerlLanguageFile {
         $JSData .= $Indent . "'" . $Key . "',\n";
     }
 
-    if ($Param{IsSubTranslation}) {
+    if ( $Param{IsSubTranslation} ) {
         $JSData .= "    );\n";
     }
     else {

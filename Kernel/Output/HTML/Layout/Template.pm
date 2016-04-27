@@ -325,7 +325,7 @@ sub AddJSData {
     return if !$Param{Key};
 
     $Self->{_JSData} //= {};
-    $Self->{_JSData}->{$Param{Key}} = $Param{Value};
+    $Self->{_JSData}->{ $Param{Key} } = $Param{Value};
 
     return;
 }
