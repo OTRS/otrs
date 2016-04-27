@@ -208,7 +208,7 @@ JAVASCRIPT
             );
             $Self->True(
                 index( $Selenium->get_page_source(), $LanguageObject->Translate('Notification Settings') ) > -1,
-                "Test widget 'Email Settings' found on screen"
+                "Test widget 'Notification Settings' found on screen"
             );
             $Self->True(
                 index( $Selenium->get_page_source(), $LanguageObject->Translate('Other Settings') ) > -1,
