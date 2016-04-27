@@ -130,16 +130,7 @@ sub Run {
             FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification)
             )
         {
-            if ( defined $Ticket{$Type} && !$EscalationType ) {
-                if ( $Type =~ /TimeEscalation$/ ) {
-                    push @Events, 'NotificationEscalation';
-                    $EscalationType = 1;
-                }
-                elsif ( $Type =~ /TimeNotification$/ ) {
-                    push @Events, 'NotificationEscalationNotifyBefore';
-                    $EscalationType = 1;
-                }
-            }
+            next TYPE if !$Ticket{$Type};
 
             my @ReversedHistoryLines = reverse @HistoryLines;
 
@@ -162,6 +153,17 @@ sub Run {
 
             # emit the event
             push @Events, $TicketAttr2Event{$Type};
+
+            if (!$EscalationType) {
+                if ( $Type =~ /TimeEscalation$/ ) {
+                    push @Events, 'NotificationEscalation';
+                    $EscalationType = 1;
+                }
+                elsif ( $Type =~ /TimeNotification$/ ) {
+                    push @Events, 'NotificationEscalationNotifyBefore';
+                    $EscalationType = 1;
+                }
+            }
         }
 
         EVENT:
