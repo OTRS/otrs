@@ -109,12 +109,14 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        sleep 3;
+
         # check if attachment is genuine
         my $ExpectedAttachmentContent = "Some German Text with Umlaut";
         $Self->True(
             index( $Selenium->get_page_source(), $ExpectedAttachmentContent ) > -1,
             "$AttachmentName opened successfully",
-        );
+        ) || die;
 
         # clean up test data from the DB
         my $Success = $TicketObject->TicketDelete(

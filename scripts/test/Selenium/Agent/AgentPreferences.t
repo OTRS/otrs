@@ -202,21 +202,16 @@ JAVASCRIPT
             );
 
             # check for correct translation
-            $Self->True(
-                index( $Selenium->get_page_source(), $LanguageObject->Translate('User Profile') ) > -1,
-                "Test widget 'User Profile' found on screen"
-            );
-            $Self->True(
-                index( $Selenium->get_page_source(), $LanguageObject->Translate('Notification Settings') ) > -1,
-                "Test widget 'Notification Settings' found on screen"
-            );
-            $Self->True(
-                index( $Selenium->get_page_source(), $LanguageObject->Translate('Other Settings') ) > -1,
-                "Test widget 'Other Settings' found on screen"
-            );
+
+            for my $String ('User Profile', 'Notification Settings', 'Other Settings') {
+                my $Translation = $LanguageObject->Translate($String);
+                $Self->True(
+                    index( $Selenium->get_page_source(), $Translation ) > -1,
+                    "Test widget '$String' found on screen for language $Language ($Translation)"
+                ) || die;
+            }
         }
     }
-
 );
 
 1;
