@@ -6624,13 +6624,13 @@ sub TicketFlagDelete {
     # if all users parameter was given
     if ( $Param{AllUsers} ) {
 
-        # check all affected users
+        # get all affected users
         my @AllTicketFlags = $Self->TicketFlagGet(
             TicketID => $Param{TicketID},
             AllUsers => 1,
         );
 
-        # do db insert
+        # delete flags from database
         return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => '
                 DELETE FROM ticket_flag
@@ -6645,7 +6645,6 @@ sub TicketFlagDelete {
             Key  => 'TicketFlag::' . $Param{TicketID},
         );
 
-        # clean the cache
         for my $Record (@AllTicketFlags) {
 
             $Self->EventHandler(
@@ -6661,7 +6660,7 @@ sub TicketFlagDelete {
     }
     else {
 
-        # do db insert
+        # delete flags from database
         return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => '
                 DELETE FROM ticket_flag
