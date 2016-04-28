@@ -151,7 +151,7 @@ Core.Agent.Search = (function (TargetNS) {
                 // label id, use the remaining name as name string for accessing
                 // the form input's value
                 ElementName = $(this).attr('id').substring(5);
-                $Element = $('#SearchForm input[name=' + ElementName + ']');
+                $Element = $('#SearchForm input[name=' + Core.App.EscapeSelector(ElementName) + ']');
 
                 // If there's no input element with the selected name
                 // find the next "select" element and use that one for checking
