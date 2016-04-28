@@ -36,6 +36,14 @@
             </div>
 [% RenderBlockEnd("ActionList") %]
         </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterPriorities">[% Translate("Filter for priorities") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterPriorities" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterPriorities" value="" title="[% Translate("Filter for priorities") | html %]">
+            </div>
+        </div>
     </div>
 
     <div class="ContentColumn">
@@ -47,7 +55,7 @@
             </div>
             <div class="Content">
 
-                <table class="DataTable">
+                <table class="DataTable" id="Priorities">
                     <thead>
                         <tr>
                             <th>[% Translate("Name") | html %]</th>
@@ -78,8 +86,16 @@
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="4">[% Translate("No matches found.") | html %]</td>
+                        </tr>
                     </tbody>
                 </table>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterPriorities'), $('#Priorities'));
+//]]></script>
+[% END %]
             </div>
 [% RenderBlockEnd("OverviewResult") %]
 

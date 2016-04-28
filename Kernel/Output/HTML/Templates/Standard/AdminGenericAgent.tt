@@ -30,6 +30,14 @@
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterGenericAgentJobs">[% Translate("Filter for generic agent jobs") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterGenericAgentJobs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGenericAgentJobs" value="" title="[% Translate("Filter for yyy") | html %]">
+            </div>
+        </div>
     </div>
 
     <div class="ContentColumn">
@@ -40,7 +48,7 @@
                 <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="GenericAgentJobs">
                     <thead>
                         <tr>
                             <th>[% Translate("Name") | html %]</th>
@@ -50,15 +58,15 @@
                             <th>[% Translate("Run Now!") | html %]</th>
                         </tr>
                     </thead>
+                    <tbody>
 [% RenderBlockStart("NoDataFoundMsg") %]
-                    <tr>
-                        <td colspan="5">
-                            [% Translate("No data found.") | html %]
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="5">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("Row") %]
-                    <tbody>
                         <tr [% IF Data.Valid != 1%]class="Invalid"[% END %]>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update;Profile=[% Data.Name | uri %]">
@@ -80,13 +88,19 @@
                                 [% END %]
                             </td>
                         </tr>
-                    </tbody>
 [% RenderBlockEnd("Row") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="5">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
                 </table>
-            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterGenericAgentJobs'), $('#GenericAgentJobs'));
+//]]></script>
+[% END %]
         </div>
 [% RenderBlockEnd("Overview") %]
-
 
 [% RenderBlockStart("Edit") %]
         <form action="[% Env("CGIHandle") %]" method="post" name="compose" class="Validate PreventMultipleSubmits">

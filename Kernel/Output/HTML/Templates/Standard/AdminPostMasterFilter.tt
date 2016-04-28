@@ -32,7 +32,14 @@
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
-
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterPostMasterFilters">[% Translate("Filter for postmaster filters") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterPostMasterFilters" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterPostMasterFilters" value="" title="[% Translate("Filter for yyy") | html %]">
+            </div>
+        </div>
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -64,11 +71,11 @@
                 <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content">
-                <table class="DataTable VariableWidth">
+                <table class="DataTable" id="PostMasterFilters">
                     <thead>
                         <tr>
                             <th>[% Translate("Name") | html %]</th>
-                            <th>[% Translate("Delete") | html %]</th>
+                            <th class="Center W10pc">[% Translate("Delete") | html %]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,8 +96,16 @@
                             </td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="2">[% Translate("No matches found.") | html %]</td>
+                        </tr>
                     </tbody>
                 </table>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterPostMasterFilters'), $('#PostMasterFilters'));
+//]]></script>
+[% END %]
             </div>
         </div>
 [% RenderBlockEnd("OverviewResult") %]

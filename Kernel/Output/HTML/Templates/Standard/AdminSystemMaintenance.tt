@@ -25,7 +25,14 @@
                 </ul>
             </div>
         </div>
-
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterSystemMaintenances">[% Translate("Filter for system maintenances") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterSystemMaintenances" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSystemMaintenances" value="" title="[% Translate("Filter for system maintenances") | html %]">
+            </div>
+        </div>
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Hint") | html %]</h2>
@@ -50,7 +57,7 @@
                 <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="SystemMaintenances">
                     <thead>
                         <tr>
                             <th>[% Translate("Start date") | html %]</th>
@@ -58,8 +65,6 @@
                             <th>[% Translate("Comment") | html %]</th>
                             <th>[% Translate("Validity") | html %]</th>
                             <th>[% Translate("Delete") | html %]</th>
-
-
                         </tr>
                     </thead>
                     <tbody>
@@ -83,7 +88,6 @@
                         </tr>
 [% RenderBlockEnd("ViewRow") %]
 
-
 [% RenderBlockStart("NoDataRow") %]
                         <tr>
                             <td colspan="5">
@@ -92,8 +96,16 @@
                         </tr>
 [% RenderBlockEnd("NoDataRow") %]
 
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="5">[% Translate("No matches found.") | html %]</td>
+                        </tr>
                     </tbody>
                 </table>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterSystemMaintenances'), $('#SystemMaintenances'));
+//]]></script>
+[% END %]
             </div>
         </div>
     </div>

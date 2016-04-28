@@ -34,6 +34,14 @@
 [% RenderBlockEnd("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">
+                <h2><label for="FilterMailAccounts">[% Translate("Filter for mail accounts") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterMailAccounts" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterMailAccounts" value="" title="[% Translate("Filter for mail accounts") | html %]">
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
                 <h2>[% Translate("Hint") | html %]</h2>
             </div>
             <div class="Content">
@@ -54,7 +62,7 @@
                 <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="MailAccounts">
                     <thead>
                         <tr>
                             <th>[% Translate("Host") | html %]/[% Translate("Username") | html %]</th>
@@ -93,8 +101,16 @@
                             </td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="8">[% Translate("No matches found.") | html %]</td>
+                        </tr>
                     </tbody>
                 </table>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterMailAccounts'), $('#MailAccounts'));
+//]]></script>
+[% END %]
             </div>
 [% RenderBlockEnd("OverviewResult") %]
 
