@@ -79,3 +79,10 @@ notifications:
       - "chat.freenode.net#otrs-dev"
     on_success: change
     on_failure: always
+
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/2a09392eadbc65a19408
+    on_success: change
+    on_failure: always
+    on_start: never
