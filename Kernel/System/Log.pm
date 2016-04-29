@@ -79,6 +79,11 @@ sub new {
     $Self->{LogPrefix} = $Param{LogPrefix} || '?LogPrefix?';
     $Self->{LogPrefix} .= '-' . $SystemID;
 
+    # configured log level (debug by default)
+    $Self->{MinimumLevel}    = $ConfigObject->Get('MinimumLogLevel') || 'debug';
+    $Self->{MinimumLevel}    = lc $Self->{MinimumLevel};
+    $Self->{MinimumLevelNum} = $LogLevel{ $Self->{MinimumLevel} };
+
     # load log backend
     my $GenericModule = $ConfigObject->Get('LogModule') || 'Kernel::System::Log::SysLog';
     if ( !eval "require $GenericModule" ) {    ## no critic
@@ -96,10 +101,6 @@ sub new {
     $Self->{IPC}     = 1;
     $Self->{IPCKey}  = '444423' . $SystemID;
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
-
-    $Self->{MinimumLevel}    = $ConfigObject->Get('MinimumLogLevel') || 'debug';
-    $Self->{MinimumLevel}    = lc $Self->{MinimumLevel};
-    $Self->{MinimumLevelNum} = $LogLevel{ $Self->{MinimumLevel} };
 
     # init session data mem
     if ( !eval { $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) ) } ) {
