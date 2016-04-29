@@ -1,6 +1,7 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-04-29 Reduced error log noise by reducing the log level of less important messages, thanks to Pawel Boguslawski.
+ - 2016-04-29 Fixed parsing CSV data with quoted values containing newlines, thanks to Pawel Boguslawski.
  - 2016-04-29 Added support for real time zones like Europe/Berlin. Dropped support for time offsets like +2.
- - 2016-04-25 Fixed parsing CSV data with quoted values containing newlines, thanks to Pawel Boguslawski.
  - 2016-04-26 Added possibility to push custom data directly from Perl code to JavaScript without having to embed it into templates.
  - 2016-04-26 Added possibility to translate strings directly in JavaScript files.
  - 2016-04-22 Added possibility to set the ticket title in Postmaster filters, thanks to Renée Bäcker.
