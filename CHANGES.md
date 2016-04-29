@@ -1,4 +1,5 @@
 #4.0.17 2016-??-??
+ - 2016-04-29 Fixed bug#[12033](http://bugs.otrs.org/show_bug.cgi?id=12033) - Wrong value selected automatically for Responsible in Bulk action..
  - 2016-04-21 Added package verification information to otrs.PackageManager.pl, use bin/otrs.PackageManager.pl -a list -e (to show package verification information) or bin/otrs.PackageManager.pl -a list -e -c (to show package verification information deleting the cache before).
  - 2016-04-15 Fixed bug#[11430](http://bugs.otrs.org/show_bug.cgi?id=11430) - (Ticket )Cache won't get updated on DynamicField ValueDelete.
  - 2016-04-08 Fixed bug#[11921](http://bugs.otrs.org/show_bug.cgi?id=11921) - Wrong attachment is deleted if deleting from multiple attachments from template in new ticket.
