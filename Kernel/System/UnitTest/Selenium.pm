@@ -120,8 +120,9 @@ sub new {
     eval { $Self->accept_alert(); };
 
     # set screen size from config or use defauls
-    my $Height = $SeleniumTestsConfig{window_height} || 1000;
-    my $Width  = $SeleniumTestsConfig{window_width}  || 1200;
+    my $Height = $SeleniumTestsConfig{window_height} || 1200;
+    my $Width  = $SeleniumTestsConfig{window_width}  || 1400;
+
     $Self->set_window_size( $Height, $Width );
 
     $Self->{BaseURL} = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://';
