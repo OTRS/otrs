@@ -3,6 +3,8 @@
 # andre1217 <andre.pache@otrs.com>, 2014
 # andre1217 <andre.pache@otrs.com>, 2014
 # Egareg JAOUEN <egareg.jaouen@elitt.com>, 2015
+# EricLF44 <E.lefoll@cdg44.fr>, 2016
+# En Feng Wu <wuen320@gmail.com>, 2016
 # Gaudin vincent <vincent.gaudin@cprpsncf.fr>, 2015
 # Marc A. Bonsels, 2015
 # Matthieu HUTIN, 2015
@@ -15,9 +17,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-03-30 11:40+0000\n"
-"PO-Revision-Date: 2016-03-30 17:41+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-04-29 08:54+0000\n"
+"PO-Revision-Date: 2016-04-29 06:55+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,15 +197,15 @@ msgstr "ex. /opt/otrs/var/certificates/REST/CA/ca.file"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "quart d'heure"
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "semestre"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "semestre(s)"
 
 #. Template: AAABase
 msgid "year"
@@ -1015,7 +1017,7 @@ msgstr "Package incorrectement déployé! Merci de réinstaller le package."
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr ""
+msgstr "% n'est pas accessible en écriture"
 
 #. Template: AAABase
 msgid "Cannot create %s!"
@@ -1035,7 +1037,7 @@ msgstr "Nouvelles à propos des versions OTRS."
 
 #. Template: AAABase
 msgid "Go to dashboard!"
-msgstr ""
+msgstr "Aller au tableau de bord"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1277,7 +1279,7 @@ msgstr "Modifier la configuration du système."
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr ""
+msgstr "Les ACL de la base de données ne sont pas synchrones avec la configuration système. Veuillez synchroniser tous les ACL."
 
 #. Template: AAABase
 msgid "printed at"
@@ -1504,7 +1506,7 @@ msgstr "Aucune donnée reçue depuis le serveur d'enregistrement. Veuillez rées
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr ""
+msgstr "Problèmes sur le serveur de processus. Veuillez réessayer ultérieurement."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
@@ -1568,7 +1570,7 @@ msgstr "Il y a eu un problème en désinstallant %s."
 
 #. Template: AAABase
 msgid "Enable cloud services to unleash all OTRS features!"
-msgstr ""
+msgstr "Activez les services Cloud pour activer toutes les fonctionnalités d'OTRS"
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -2076,7 +2078,7 @@ msgstr "Nouveaux tickets du responsable"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Reminder Reached"
-msgstr ""
+msgstr "Responsables du ticket atteint"
 
 #. Template: AAATicket
 msgid "Watched Tickets Total"
@@ -2708,11 +2710,11 @@ msgstr "Limite de ticket par page pour la \"Moyenne\" limite de Vue Générale d
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Preview\" Limit"
-msgstr ""
+msgstr "Vue d'ensemble du Ticket"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr ""
+msgstr "Limite de ticket par page pour Vue générale de ticket \"Aperçu\""
 
 #. Template: AAATicket
 msgid "Ticket watch notification"
@@ -2883,7 +2885,7 @@ msgstr "Import de la configuration"
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr ""
+msgstr "Ici vous pouvez envoyer un fichier de configuration pour importer un ensemble de ACL vers votre système. Ce fichier a besoin d'être en format \"yml\" comme exporté par l'éditeur de module \"ACL\"."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -2891,39 +2893,39 @@ msgstr "Ce champ est requis"
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Remplacer un ensemble de ACL existant?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "Envoyer configuration de ACL"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "Importer configuration(s) de ACL"
 
 #. Template: AdminACL
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr ""
+msgstr "Pour créer un nouveau ACL, vous pouvez soit importer un ensemble de ACL qui a été exporté à partir d'un autre système soit créer un nouveau ACL."
 
 #. Template: AdminACL
 msgid ""
 "Changes to the ACLs here only affect the behavior of the system, if you "
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
-msgstr ""
+msgstr "Changement d'un ensemble de ACL à partir d'ici affecte seulement le comportement du système si vous déployez les données du ACL par la suite. Par le déploiement des données du ACL, ce changement sera ajouté dans la configuration."
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "Ensemble de ACL"
 
 #. Template: AdminACL
 msgid ""
 "Please note: This table represents the execution order of the ACLs. If you "
 "need to change the order in which ACLs are executed, please change the names"
 " of the affected ACLs."
-msgstr ""
+msgstr "N.B. : Cette table représente l'ordre d'éxécution d'un ensemble de ACL. Si vous voulez changer l'ordre d'éxécution de ACL, veuillez changer les noms d'ACL affectés."
 
 #. Template: AdminACL
 msgid "ACL name"
@@ -2943,7 +2945,7 @@ msgstr "Aucune donnée trouvée"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Editer %s de ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -2955,18 +2957,18 @@ msgstr "Effacer ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Supprimer ACL invalide"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Paramètres correspondants"
 
 #. Template: AdminACLEdit
 msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr ""
+msgstr "Etablir les critères correspondants pour ce ACL. Utiliser \"Properties\" pour faire un correspondance entre cet écran ou \"PropertiesDatabase\" avec les attribues de ce ticket qui est dans la base des données."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -2976,7 +2978,7 @@ msgstr "Changer les paramètres"
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
-msgstr ""
+msgstr "Établir le changement souhaité si le critère correspond. Garder en tête que \"Possible\" est une liste blanche, \"PossibleNot\" est une liste noire."
 
 #. Template: AdminACLEdit
 msgid "Check the official"
@@ -5329,7 +5331,7 @@ msgstr "Manuel d'Administration en Ligne"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "Gestion de notification de ticket"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
@@ -5341,14 +5343,14 @@ msgstr "Exporter les notifications"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Import de configuration"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Here you can upload a configuration file to import Ticket Notifications to "
 "your system. The file needs to be in .yml format as exported by the Ticket "
 "Notification module."
-msgstr ""
+msgstr "Ici vous pouvez envoyer un fichier de configuration pour importer un notification de ticket vers votre système. Ce fichier a besoin d'être en format \"yml\" comme exporté par le module \"Notification de ticket\"."
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -5360,7 +5362,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Importer configuration de notification"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
@@ -5397,7 +5399,7 @@ msgid ""
 "Here you can choose which events will trigger this notification. An "
 "additional ticket filter can be applied below to only send for ticket with "
 "certain criteria."
-msgstr ""
+msgstr "Ici vous pouvez sélectionner un événement qui va actionner ce notification. Un filtre additionnel de ticket peut être appliqué en dessous pour envoyer uniquement un billet avec certains critères."
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Filter"
@@ -6236,7 +6238,7 @@ msgid ""
 "Here you can upload a configuration file to import a process to your system."
 " The file needs to be in .yml format as exported by process management "
 "module."
-msgstr ""
+msgstr "Ici vous pouvez envoyer un fichier de configuration pour importer le processus vers votre système. Le fichier a besoin d'être en format \"yml\" comme exporté par le module de gestion de processus."
 
 #. Template: AdminProcessManagement
 msgid "Overwrite existing entities"
@@ -6248,7 +6250,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Import process configuration"
-msgstr ""
+msgstr "Importer configuration de processus"
 
 #. Template: AdminProcessManagement
 msgid "Example processes"
@@ -6262,19 +6264,19 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Import example process"
-msgstr ""
+msgstr "Importer processus d'example"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Do you want to benefit from processes created by experts? Upgrade to %s to "
 "be able to import some sophisticated example processes."
-msgstr ""
+msgstr "Voulez-vous bénéficier des processus créés par les experts? Faire un mise à jour %s pour pouvoir importer quelque processus d'exemple."
 
 #. Template: AdminProcessManagement
 msgid ""
 "To create a new Process you can either import a Process that was exported "
 "from another system or create a complete new one."
-msgstr ""
+msgstr "Pour créer un nouveau processus, vous pouvez soit importer un processsu qui a été exporté par un autre système ou créer complétement un nouveau processus."
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -8021,6 +8023,10 @@ msgid "Add NavBar entry"
 msgstr "Ajouter entrée de barre de navigation"
 
 #. Template: AdminSysConfigEdit
+msgid "NavBar module"
+msgstr ""
+
+#. Template: AdminSysConfigEdit
 msgid "Year"
 msgstr "Année"
 
@@ -8409,6 +8415,10 @@ msgid "in"
 msgstr "dans"
 
 #. Template: AgentDashboardCommon
+msgid "Close this widget"
+msgstr ""
+
+#. Template: AgentDashboardCommon
 msgid "Available Columns"
 msgstr "Colonnes disponibles"
 
@@ -8711,11 +8721,11 @@ msgstr ""
 
 #. Template: AgentStatisticsImport
 msgid "Statistics » Import"
-msgstr ""
+msgstr "Statistiques » Import"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistic Configuration"
-msgstr ""
+msgstr "Importer configuration statistique"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics » Overview"
@@ -9026,6 +9036,10 @@ msgstr ""
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time is over (%s/%s)!"
 msgstr ""
 
 #. Template: AgentTicketEscalation
@@ -10679,7 +10693,7 @@ msgstr "Mettre à jour et améliorer OTRS via des paquets."
 msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTRS logs "
 "for more information"
-msgstr ""
+msgstr "Ensemble de ACL ne peut pas être importé dû à un erreur inconnu, veuillez vérifier le journal de OTRS pour plus d'information."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
@@ -10729,6 +10743,30 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "Exact match"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "Negated exact match"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "Regular expression"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "Regular expression (ignore case)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "Negated regular expression"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "Negated regular expression (ignore case)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
@@ -10805,12 +10843,40 @@ msgstr ""
 msgid "Currently"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Unchecked"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Checked"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
+msgid "Prevent entry of dates in the future"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
+msgid "Prevent entry of dates in the past"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "This field value is duplicated."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminEmail.pm
 msgid "Select at least one recipient."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "archive tickets"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "restore tickets from archive"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "Need Profile!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
@@ -10863,6 +10929,30 @@ msgstr ""
 msgid "Could not update configuration data for WebserviceID %s"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Keep (leave unchanged)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Ignore (drop key/value pair)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Map to (use provided value as default)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Exact value(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Ignore (drop Value/value pair)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "Could not find required library %s"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Need OperationType"
 msgstr ""
@@ -10913,13 +11003,13 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
-msgstr ""
+msgstr "Besoin d'importer un fichier!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid ""
 "The imported file has not valid YAML content! Please check OTRS log for "
 "details"
-msgstr ""
+msgstr "Le contenu du fichier importé n'est pas en format \"YAML\" valide. Veuillez vérifier le journal de OTRS pour des détailles."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
@@ -10927,6 +11017,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
+msgid "Could not get history data for WebserviceHistoryID %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
@@ -10953,7 +11047,7 @@ msgstr ""
 msgid ""
 "Notifications could not be Imported due to a unknown error, please check "
 "OTRS logs for more information"
-msgstr ""
+msgstr "Ensemble de notification ne peut pas être importé dû a un erreur, veuillez vérifier les journaux de OTRS pour plus d'information."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
@@ -11057,6 +11151,18 @@ msgid ""
 "Package not verified due a communication issue with verification server!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Can't connect to OTRS Feature Add-on list server!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Can't get OTRS Feature Add-on list from server!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Can't get OTRS Feature Add-on from server!"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
 msgstr ""
@@ -11071,6 +11177,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Yes (mandatory)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -11128,6 +11238,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Need %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -11248,10 +11362,6 @@ msgid "fax"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
-msgid "Need %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Edit Path"
 msgstr ""
 
@@ -11290,10 +11400,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "String"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "Regular expression"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
@@ -11410,9 +11516,13 @@ msgstr ""
 msgid "Salutation added!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
+msgid "File %s could not be read!"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Import not allowed!"
-msgstr ""
+msgstr "Importation non permis!"
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Need File!"
@@ -11532,7 +11642,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Statistic could not be imported."
-msgstr ""
+msgstr "Statistique n'a pas pu être importé."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Please upload a valid statistic file."
@@ -11650,6 +11760,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "System Error!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+msgid "Invalid Filter: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketHistory.pm
@@ -11895,12 +12009,20 @@ msgstr ""
 msgid "Default Config for Process::Default%s invalid!"
 msgstr ""
 
-#. Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
-msgid "Invalid Filter: %s!"
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Untitled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "CSV"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Excel"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
@@ -12150,6 +12272,18 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "Unknown Check!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "The check \"%s\" doesn't exist!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Database %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
 msgstr ""
 
@@ -12274,11 +12408,7 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
-"its current state."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid " You can take one of the next actions:"
+"its current state. You can take one of the following actions:"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
@@ -13163,6 +13293,10 @@ msgstr "OK"
 msgid "Problem"
 msgstr "Problème"
 
+#. Perl Module: Kernel/System/Ticket.pm
+msgid "Reset of unlock time."
+msgstr ""
+
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
 "Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps"
@@ -13171,6 +13305,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid "Logout successful."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
@@ -13195,6 +13333,19 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+msgid "SecureMode active!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+msgid ""
+"If you want to re-run the Installer, disable the SecureMode in the SysConfig"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+msgid "Action \"%s\" not found!"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -13389,23 +13540,23 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
-msgstr ""
+msgstr "Notification de ticket créé"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
-msgstr ""
+msgstr "Vous recevrez une notification à chaque création d'un nouveau ticket dans un de vos \"Mes files\" ou \"Mes services\"."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr ""
+msgstr "Notification de suivi de ticket (déverrouillé)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
-msgstr ""
+msgstr "Vous recevrez une notification si un client envoie un suivi vers un ticket déverrouillé qui est situé dans votre \"Mes files\" ou \"Mes services\"."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
@@ -13516,6 +13667,10 @@ msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
+msgstr ""
+
+#. SysConfig
+msgid "*** out of office until %s (%s d left) ***"
 msgstr ""
 
 #. SysConfig
@@ -13683,6 +13838,14 @@ msgstr ""
 
 #. SysConfig
 msgid "After"
+msgstr ""
+
+#. SysConfig
+msgid "Agent Name"
+msgstr ""
+
+#. SysConfig
+msgid "Agent Name + FromSeparator + System Address Display Name"
 msgstr ""
 
 #. SysConfig
@@ -14050,10 +14213,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "CSV"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Cache time in seconds for agent authentication in the GenericInterface."
 msgstr ""
@@ -14347,7 +14506,7 @@ msgstr "Contrôle si plus d'une entrée peut être mise dans un nouveau ticket t
 msgid ""
 "Controls if the admin is allowed to import a saved system configuration in "
 "SysConfig."
-msgstr ""
+msgstr "Contrôler la permission du rôle \"admin\" qui est d'importer un sauvegarde du configuration du système dans SysConfig."
 
 #. SysConfig
 msgid ""
@@ -14546,7 +14705,15 @@ msgid "Customer request via web."
 msgstr "Requête du client via le web."
 
 #. SysConfig
+msgid "Customer ticket overview"
+msgstr ""
+
+#. SysConfig
 msgid "Customer ticket search."
+msgstr ""
+
+#. SysConfig
+msgid "Customer ticket zoom"
 msgstr ""
 
 #. SysConfig
@@ -15069,6 +15236,12 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines out of office message template. Two string parameters (%s) "
+"available: end date and number of days left."
 msgstr ""
 
 #. SysConfig
@@ -17314,10 +17487,6 @@ msgid "Events Ticket Calendar"
 msgstr "Agenda des Événements de Ticket"
 
 #. SysConfig
-msgid "Excel"
-msgstr ""
-
-#. SysConfig
 msgid "Execute SQL statements."
 msgstr "Executer des requêtes SQL."
 
@@ -17733,7 +17902,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18083,6 +18252,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Input"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Install ispell or aspell on the system, if you want to use a spell checker. "
 "Please specify the path to the aspell or ispell binary on your operating "
@@ -18147,6 +18320,10 @@ msgstr "Japonais"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Last customer subject"
 msgstr ""
 
 #. SysConfig
@@ -18691,6 +18868,10 @@ msgid "Open tickets (customer)"
 msgstr "Ouvrir les tickets (client)"
 
 #. SysConfig
+msgid "Option"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Optional queue limitation for the CreatorCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
@@ -18761,10 +18942,6 @@ msgid "Package event module file a scheduler task for update registration."
 msgstr ""
 
 #. SysConfig
-msgid "Parameters for ."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Parameters for the CreateNextMask object in the preference view of the agent"
 " interface."
@@ -18786,6 +18963,10 @@ msgstr ""
 msgid ""
 "Parameters for the RefreshTime object in the preference view of the agent "
 "interface."
+msgstr ""
+
+#. SysConfig
+msgid "Parameters for the column filters of the small ticket overview."
 msgstr ""
 
 #. SysConfig
@@ -19111,7 +19292,7 @@ msgstr ""
 msgid ""
 "Reprocess mails from spool directory that could not be imported in the first"
 " place."
-msgstr ""
+msgstr "Retraiter les courriels du répertoire de file d'attente qui ne peuvent pas être importés la première fois."
 
 #. SysConfig
 msgid ""
@@ -20935,6 +21116,10 @@ msgid "Swedish"
 msgstr ""
 
 #. SysConfig
+msgid "System Address Display Name"
+msgstr ""
+
+#. SysConfig
 msgid "System Maintenance"
 msgstr "Maintenance Système"
 
@@ -21263,6 +21448,10 @@ msgstr "Vue d'ensemble du Ticket"
 
 #. SysConfig
 msgid "Ticket plain view of an email."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket title"
 msgstr ""
 
 #. SysConfig

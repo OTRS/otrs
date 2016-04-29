@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.798720682302772;
+    $Self->{Completeness}        = 0.790329391891892;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2343,6 +2343,7 @@ sub Data {
         'Block' => 'Bloquear',
         'AccessKey' => 'ChaveAcceso',
         'Add NavBar entry' => 'Engadir unha entrada da barra de navegación',
+        'NavBar module' => '',
         'Year' => 'Ano',
         'Month' => 'Mes',
         'Day' => 'Día',
@@ -2481,6 +2482,7 @@ sub Data {
         'in' => 'en',
 
         # Template: AgentDashboardCommon
+        'Close this widget' => '',
         'Available Columns' => 'Columnas dispoñíbeis',
         'Visible Columns (order by drag & drop)' => 'Columnas visibles (orde por arrastre & caída)',
 
@@ -2698,6 +2700,7 @@ sub Data {
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Ticket %s: primeiro tempo de resposta está por enriba (%s/%s)!',
         'Ticket %s: first response time will be over in %s/%s!' => 'Ticket %s: primeiro tempo de resposta vai estar por enriba en %s/%s!',
+        'Ticket %s: update time is over (%s/%s)!' => '',
         'Ticket %s: update time will be over in %s/%s!' => 'Ticket %s: o tempo de actualización vai estar por enriba en %s%s!',
         'Ticket %s: solution time is over (%s/%s)!' => 'Ticket %s: o tempo de solución vai estar por enriba (%s%s)!',
         'Ticket %s: solution time will be over in %s/%s!' => 'Ticket %s: o tempo de solución vai estar por enriba en %s%s!',
@@ -3283,6 +3286,12 @@ sub Data {
         'There was an error synchronizing the ACLs.' => '',
         'ACL %s could not be deleted' => '',
         'There was an error getting data for ACL with ID %s' => '',
+        'Exact match' => '',
+        'Negated exact match' => '',
+        'Regular expression' => '',
+        'Regular expression (ignore case)' => '',
+        'Negated regular expression' => '',
+        'Negated regular expression (ignore case)' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer Company %s already exists!' => '',
@@ -3310,6 +3319,12 @@ sub Data {
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => 'Actualmente',
+        'Unchecked' => '',
+        'Checked' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
+        'Prevent entry of dates in the future' => '',
+        'Prevent entry of dates in the past' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
         'This field value is duplicated.' => '',
@@ -3318,6 +3333,9 @@ sub Data {
         'Select at least one recipient.' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
+        'archive tickets' => '',
+        'restore tickets from archive' => '',
+        'Need Profile!' => '',
         'Got no values to check.' => '',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
             'Por favor elimine as seguintes palabras porque non poden ser usadas para a selección de ticket:',
@@ -3337,6 +3355,14 @@ sub Data {
         'Could not get registered configuration for action type %s' => '',
         'Could not get backend for %s %s' => '',
         'Could not update configuration data for WebserviceID %s' => '',
+        'Keep (leave unchanged)' => '',
+        'Ignore (drop key/value pair)' => '',
+        'Map to (use provided value as default)' => '',
+        'Exact value(s)' => '',
+        'Ignore (drop Value/value pair)' => '',
+
+        # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'Could not find required library %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Need OperationType' => '',
@@ -3362,6 +3388,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '',
+        'Could not get history data for WebserviceHistoryID %s' => '',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => '',
@@ -3408,6 +3435,9 @@ sub Data {
             '',
         'Package not verified due a communication issue with verification server!' =>
             'Paquete non verificado debido a un problema co servidor de verificación!',
+        'Can\'t connect to OTRS Feature Add-on list server!' => '',
+        'Can\'t get OTRS Feature Add-on list from server!' => '',
+        'Can\'t get OTRS Feature Add-on from server!' => '',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
         'No such filter: %s' => '',
@@ -3416,6 +3446,7 @@ sub Data {
         'Need ExampleProcesses!' => '',
         'Could not read %s!' => '',
         'Need ProcessID!' => '',
+        'Yes (mandatory)' => '',
         'Unknown Process %s!' => '',
         'There was an error generating a new EntityID for this Process' =>
             '',
@@ -3433,6 +3464,7 @@ sub Data {
         'There was an error setting the entity sync status for %s entity: %s' =>
             '',
         'Could not get %s' => '',
+        'Need %s!' => '',
         'Process: %s is not Inactive' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
@@ -3472,7 +3504,6 @@ sub Data {
         'fax' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
-        'Need %s!' => '',
         'Edit Path' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
@@ -3487,7 +3518,6 @@ sub Data {
         'Edit Transition "%s"' => '',
         'xor' => '',
         'String' => '',
-        'Regular expression' => '',
         'Transition validation module' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -3529,6 +3559,9 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation updated!' => '',
         'Salutation added!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
+        'File %s could not be read!' => '',
 
         # Perl Module: Kernel/Modules/AdminSysConfig.pm
         'Import not allowed!' => '',
@@ -3618,6 +3651,9 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => '',
         'System Error!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Invalid Filter: %s!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
         'Can\'t show history, no TicketID is given!' => '',
@@ -3709,11 +3745,11 @@ sub Data {
         'Default Config for Process::Default%s missing!' => '',
         'Default Config for Process::Default%s invalid!' => '',
 
-        # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
-        'Invalid Filter: %s!' => '',
-
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
+        'Untitled' => '',
         'Invalid Users' => 'Usuarios Inválidos',
+        'CSV' => 'CSV',
+        'Excel' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
         'Feature not enabled!' => '',
@@ -3795,6 +3831,9 @@ sub Data {
         'Kernel/Config.pm isn\'t writable!' => '',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
             '',
+        'Unknown Check!' => '',
+        'The check "%s" doesn\'t exist!' => '',
+        'Database %s' => '',
         'Unknown database type "%s".' => '',
         'Please go back' => '',
         'Install OTRS - Error' => '',
@@ -3841,9 +3880,8 @@ sub Data {
         'This user is currently unavailable' => 'Este usuario está actualmente non dispoñible',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'Sentímolo, pero non ten permisos nunca mais para acceder a este ticket no seu estado actual.',
-        ' You can take one of the next actions:' => 'Pode coller unha das seguintes accións:',
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
+            '',
         'No Permission' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
@@ -4189,10 +4227,14 @@ sub Data {
         'OK' => 'Aceptar',
         'Problem' => 'Problema',
 
+        # Perl Module: Kernel/System/Ticket.pm
+        'Reset of unlock time.' => '',
+
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
         'Can`t remove SessionID' => '',
+        'Logout successful.' => '',
         'Panic! Invalid Session!!!' => '',
         'No Permission to use this frontend module!' => '',
 
@@ -4202,6 +4244,12 @@ sub Data {
         'Added via Customer Panel (%s)' => '',
         'Customer user can\'t be added!' => '',
         'Can\'t send account info!' => '',
+
+        # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'SecureMode active!' => '',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
+            '',
+        'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
         'Group for default access.' => '',
@@ -4305,6 +4353,7 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '(Usuario) Nome Apelido',
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '(Usuario) Apelido, Nome',
+        '*** out of office until %s (%s d left) ***' => '',
         '100 (Expert)' => '',
         '200 (Advanced)' => '',
         '300 (Beginner)' => '',
@@ -4354,6 +4403,8 @@ Thanks for your help!
             'Engade o tempo permanente de vacacións. Por favor utilice patrón de díxito simple para números do 1 ao 9 (en lugar de 01 - 09).',
         'Admin Area.' => '',
         'After' => '',
+        'Agent Name' => '',
+        'Agent Name + FromSeparator + System Address Display Name' => '',
         'Agent Preferences.' => '',
         'Agent called customer.' => 'Un axente chamou ao cliente.',
         'Agent interface article notification module to check PGP.' => 'Módulo de notificación de artigo da interface de axente para comprobar PGP.',
@@ -4468,7 +4519,6 @@ Thanks for your help!
         'Bulgarian' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             'Montaxe exemplo CMD. Ignora os correos electrónicos onde unha CMD externa retorna nun STDOUT (correo será canalizado en STDIN de some.bin).',
-        'CSV' => 'CSV',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
             'Tempo cache en segundos para á autenticación de axente na InterfaceXenérica.',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
@@ -4605,7 +4655,9 @@ Thanks for your help!
             'Elemento de cliente (icono) o cal mostra os tickets abertos deste cliente coma un bloque de información. Establecendo CustomerUserLogin a 1 busca por tickets baseado no nome do login en lugar de IDCliente. ',
         'Customer preferences.' => '',
         'Customer request via web.' => 'Solicitude do cliente a través da web.',
+        'Customer ticket overview' => '',
         'Customer ticket search.' => '',
+        'Customer ticket zoom' => '',
         'Customer user search' => 'Busca de usuarios clientes',
         'CustomerID search' => 'Busca por identificador de cliente',
         'CustomerName' => 'NomeCliente',
@@ -4759,6 +4811,8 @@ Thanks for your help!
             'Define se á contabilizar o tempo é obrigatorio na interface de axente. Se activado, unha nota debese introducir para todas as accións de ticket (non importa se a nota é configurada como activa ou é orixinalmente obrigatoria para a pantalla de acción de ticket individual).',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Define se contabilizar o tempo debe ser establecido a tódolos tickets nunha acción masiva.',
+        'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
+            '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'Define as colas nas que os tickets son usados para mostrar como eventos de calendario.',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
@@ -5463,7 +5517,6 @@ Thanks for your help!
         'Event module that updates tickets after an update of the Customer.' =>
             'Módulo evento que actualiza os tickets despois dunha actualización do Cliente.',
         'Events Ticket Calendar' => 'Clendario Eventos Ticket',
-        'Excel' => '',
         'Execute SQL statements.' => 'Executar sentenzas SQL.',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             '',
@@ -5697,6 +5750,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             'Instale ispell ou aspell no sistema de desexa empregar un corrector ortográfico. Indique a ruta ao binario de aspell ou de ispell no seu sistema operativo.',
         'Interface language' => 'Idioma da interface',
@@ -5713,6 +5767,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => '',
         'JavaScript function for the search frontend.' => '',
+        'Last customer subject' => '',
         'Lastname Firstname' => '',
         'Lastname Firstname (UserLogin)' => '',
         'Lastname, Firstname' => 'Apelido, Nome',
@@ -5876,6 +5931,7 @@ Thanks for your help!
         'Online' => 'Na rede',
         'Open tickets (customer user)' => 'Tíckets abertos (usuario cliente)',
         'Open tickets (customer)' => 'Tíckets abertos (cliente)',
+        'Option' => '',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
@@ -5897,7 +5953,6 @@ Thanks for your help!
         'PGP Key Upload' => 'Carga Clave de PGP',
         'Package event module file a scheduler task for update registration.' =>
             'Paquete de archivo de módulo de evento un planificador de tarefas para rexistro de actualización.',
-        'Parameters for .' => 'Parámetros para.',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             'Parámetros para o obxecto CrearSeguinteMáscara na vista preferencia da interface de axente.',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -5906,6 +5961,8 @@ Thanks for your help!
             'Parámetros para o obxecto ServizoPropio na vista preferencia da interface de axente.',
         'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
             'Parámetros para o obxecto TempoRecarga na vista preferencia da interface de axente.',
+        'Parameters for the column filters of the small ticket overview.' =>
+            '',
         'Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             'Os parámetros para o cadro de mando do backend da información da compañía do cliente da interface de axente. "Grupo" é utilizado para restrinxir o acceso ao plugin (e. g. Grupo: admin;group1;group2;). "Defecto" determina se o plugin se permite por defecto ou se o usuario necesita activalo manualmente. "CacheTTLLocal" é o tempo de cache en minutos para o plugin.',
         'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -6541,6 +6598,7 @@ Thanks for your help!
             'Tiras liñas baleiras na vista previa do ticket na vista de servizo.',
         'Swahili' => '',
         'Swedish' => '',
+        'System Address Display Name' => '',
         'System Maintenance' => 'Mantemento do sistema',
         'System Request (%s).' => 'Petición do sistema (%s).',
         'Target' => '',
@@ -6640,6 +6698,7 @@ Thanks for your help!
         'Ticket notifications' => '',
         'Ticket overview' => 'Vista xeral de ticket',
         'Ticket plain view of an email.' => '',
+        'Ticket title' => '',
         'Ticket zoom view.' => '',
         'TicketNumber' => 'NúmeroTicket',
         'Tickets.' => '',

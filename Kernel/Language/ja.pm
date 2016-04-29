@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.660767590618337;
+    $Self->{Completeness}        = 0.654349662162162;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2348,6 +2348,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Block' => 'ブロック',
         'AccessKey' => 'アクセスキー',
         'Add NavBar entry' => 'ナビゲーションバーに追加',
+        'NavBar module' => '',
         'Year' => '年',
         'Month' => '月',
         'Day' => '日',
@@ -2486,6 +2487,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'in' => '＞',
 
         # Template: AgentDashboardCommon
+        'Close this widget' => '',
         'Available Columns' => '利用可能な列',
         'Visible Columns (order by drag & drop)' => '表示する列 (ドラッグ&ドロップで並び替えできます)',
 
@@ -2703,6 +2705,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => '',
         'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time is over (%s/%s)!' => '',
         'Ticket %s: update time will be over in %s/%s!' => '',
         'Ticket %s: solution time is over (%s/%s)!' => '',
         'Ticket %s: solution time will be over in %s/%s!' => '',
@@ -3288,6 +3291,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There was an error synchronizing the ACLs.' => '',
         'ACL %s could not be deleted' => '',
         'There was an error getting data for ACL with ID %s' => '',
+        'Exact match' => '',
+        'Negated exact match' => '',
+        'Regular expression' => '',
+        'Regular expression (ignore case)' => '',
+        'Negated regular expression' => '',
+        'Negated regular expression (ignore case)' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer Company %s already exists!' => '',
@@ -3315,6 +3324,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => '',
+        'Unchecked' => '',
+        'Checked' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
+        'Prevent entry of dates in the future' => '',
+        'Prevent entry of dates in the past' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
         'This field value is duplicated.' => '',
@@ -3323,6 +3338,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Select at least one recipient.' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
+        'archive tickets' => '',
+        'restore tickets from archive' => '',
+        'Need Profile!' => '',
         'Got no values to check.' => '',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
             '',
@@ -3342,6 +3360,14 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Could not get registered configuration for action type %s' => '',
         'Could not get backend for %s %s' => '',
         'Could not update configuration data for WebserviceID %s' => '',
+        'Keep (leave unchanged)' => '',
+        'Ignore (drop key/value pair)' => '',
+        'Map to (use provided value as default)' => '',
+        'Exact value(s)' => '',
+        'Ignore (drop Value/value pair)' => '',
+
+        # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'Could not find required library %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Need OperationType' => '',
@@ -3367,6 +3393,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '',
+        'Could not get history data for WebserviceHistoryID %s' => '',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => '',
@@ -3413,6 +3440,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Package not verified due a communication issue with verification server!' =>
             '',
+        'Can\'t connect to OTRS Feature Add-on list server!' => '',
+        'Can\'t get OTRS Feature Add-on list from server!' => '',
+        'Can\'t get OTRS Feature Add-on from server!' => '',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
         'No such filter: %s' => '',
@@ -3421,6 +3451,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Need ExampleProcesses!' => '',
         'Could not read %s!' => '',
         'Need ProcessID!' => '',
+        'Yes (mandatory)' => '',
         'Unknown Process %s!' => '',
         'There was an error generating a new EntityID for this Process' =>
             '',
@@ -3438,6 +3469,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There was an error setting the entity sync status for %s entity: %s' =>
             '',
         'Could not get %s' => '',
+        'Need %s!' => '',
         'Process: %s is not Inactive' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
@@ -3477,7 +3509,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'fax' => 'fax',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
-        'Need %s!' => '',
         'Edit Path' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
@@ -3492,7 +3523,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Edit Transition "%s"' => '',
         'xor' => '',
         'String' => '',
-        'Regular expression' => '',
         'Transition validation module' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -3534,6 +3564,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation updated!' => '',
         'Salutation added!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
+        'File %s could not be read!' => '',
 
         # Perl Module: Kernel/Modules/AdminSysConfig.pm
         'Import not allowed!' => '',
@@ -3623,6 +3656,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => '',
         'System Error!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Invalid Filter: %s!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
         'Can\'t show history, no TicketID is given!' => '',
@@ -3714,11 +3750,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Default Config for Process::Default%s missing!' => '',
         'Default Config for Process::Default%s invalid!' => '',
 
-        # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
-        'Invalid Filter: %s!' => '',
-
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
+        'Untitled' => '',
         'Invalid Users' => '',
+        'CSV' => 'CSV',
+        'Excel' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
         'Feature not enabled!' => '',
@@ -3800,6 +3836,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Kernel/Config.pm isn\'t writable!' => '',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
             '',
+        'Unknown Check!' => '',
+        'The check "%s" doesn\'t exist!' => '',
+        'Database %s' => '',
         'Unknown database type "%s".' => '',
         'Please go back' => '',
         'Install OTRS - Error' => '',
@@ -3846,9 +3885,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'This user is currently unavailable' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
-        ' You can take one of the next actions:' => '',
         'No Permission' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
@@ -4194,10 +4232,14 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'OK' => 'OK',
         'Problem' => '問題',
 
+        # Perl Module: Kernel/System/Ticket.pm
+        'Reset of unlock time.' => '',
+
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
         'Can`t remove SessionID' => '',
+        'Logout successful.' => '',
         'Panic! Invalid Session!!!' => '',
         'No Permission to use this frontend module!' => '',
 
@@ -4207,6 +4249,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Added via Customer Panel (%s)' => '',
         'Customer user can\'t be added!' => '',
         'Can\'t send account info!' => '',
+
+        # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'SecureMode active!' => '',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
+            '',
+        'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
         'Group for default access.' => '',
@@ -4319,6 +4367,7 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '(ユーザー名) 姓 名 ',
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '(ユーザー名) 名, 姓',
+        '*** out of office until %s (%s d left) ***' => '',
         '100 (Expert)' => '',
         '200 (Advanced)' => '',
         '300 (Beginner)' => '',
@@ -4368,6 +4417,8 @@ Thanks for your help!
             '定常的な休日を追加します。数字は1～9までの単純な数字のパターンを使用してください（01～09ではない）。',
         'Admin Area.' => '',
         'After' => '',
+        'Agent Name' => '',
+        'Agent Name + FromSeparator + System Address Display Name' => '',
         'Agent Preferences.' => '',
         'Agent called customer.' => 'Agent called customer.',
         'Agent interface article notification module to check PGP.' => 'PGPをチェックするための、担当者インタフェースの項目通知のモジュールです。',
@@ -4482,7 +4533,6 @@ Thanks for your help!
         'Bulgarian' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             'CMD例のセットアップです。外部CMDがSTDOUTにおいてアウトプットを戻してくる場合にEメールを無視します（Eメールは、STDIN of some.binへとパイプされます）。',
-        'CSV' => 'CSV',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
             '',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
@@ -4619,7 +4669,9 @@ Thanks for your help!
             '',
         'Customer preferences.' => '',
         'Customer request via web.' => 'Customer request via web.',
+        'Customer ticket overview' => '',
         'Customer ticket search.' => '',
+        'Customer ticket zoom' => '',
         'Customer user search' => '',
         'CustomerID search' => '',
         'CustomerName' => '顧客名',
@@ -4773,6 +4825,8 @@ Thanks for your help!
             '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'タイム・アカウンティングがバルク・アクションにおける全てのチケットに対して、必ず設定されるかどうかを定義します。',
+        'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
+            '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
@@ -5480,7 +5534,6 @@ Thanks for your help!
         'Event module that updates tickets after an update of the Customer.' =>
             '',
         'Events Ticket Calendar' => 'イベント・チケット・カレンダー',
-        'Excel' => '',
         'Execute SQL statements.' => 'SQL文の実行',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             '',
@@ -5714,6 +5767,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Input' => '入力',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '利用者がスペル・チェッカーを使用したい場合、システム上にispellまたはaspellをインストールします。ご利用のオペレーティング・システム上で、aspellまたはispellへのパスを特定します。',
         'Interface language' => 'インターフェイスの言語',
@@ -5730,6 +5784,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => '日本語',
         'JavaScript function for the search frontend.' => '',
+        'Last customer subject' => '',
         'Lastname Firstname' => '',
         'Lastname Firstname (UserLogin)' => '',
         'Lastname, Firstname' => '名, 姓',
@@ -5894,6 +5949,7 @@ Thanks for your help!
         'Online' => 'オンライン',
         'Open tickets (customer user)' => 'オープンチケット(顧客ユーザー)',
         'Open tickets (customer)' => 'オープンチケット(顧客)',
+        'Option' => '',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
@@ -5915,7 +5971,6 @@ Thanks for your help!
         'PGP Key Upload' => 'PGP鍵アップロード',
         'Package event module file a scheduler task for update registration.' =>
             '',
-        'Parameters for .' => 'パラメータ',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '担当者インタフェースのプレファレンス・ビューにあるCreateNextMaskオブジェクトのパラメータです。',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -5924,6 +5979,8 @@ Thanks for your help!
             '',
         'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
             '担当者インタフェースのプレファレンス・ビューにある、RefreshTimeオブジェクトのパラメータです。',
+        'Parameters for the column filters of the small ticket overview.' =>
+            '',
         'Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -6559,6 +6616,7 @@ Thanks for your help!
             '',
         'Swahili' => 'スワヒリ語',
         'Swedish' => 'スウェーデン語',
+        'System Address Display Name' => '',
         'System Maintenance' => 'システムメンテナンス',
         'System Request (%s).' => 'System Request (%s).',
         'Target' => '',
@@ -6658,6 +6716,7 @@ Thanks for your help!
         'Ticket notifications' => 'チケット通知',
         'Ticket overview' => 'チケット一覧',
         'Ticket plain view of an email.' => '',
+        'Ticket title' => '',
         'Ticket zoom view.' => '',
         'TicketNumber' => 'チケット番号',
         'Tickets.' => '',
