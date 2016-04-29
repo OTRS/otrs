@@ -1614,6 +1614,7 @@ sub Run {
             References       => "$References",
             TicketBackType   => $TicketBackType,
             DynamicFieldHTML => \%DynamicFieldHTML,
+            ArticleTypeID    => $GetParam{ArticleTypeID},    # don't use the ArticleID from the previous article
         );
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
