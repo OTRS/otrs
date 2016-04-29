@@ -62,6 +62,12 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketCompose###DefaultArticleType',
+            Value => 'email-internal'
+        );
+
         # use test email backend
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
@@ -217,6 +223,12 @@ $Selenium->RunTest(
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
         }
+
+        $Self->Is(
+            $Selenium->execute_script('return $("#ArticleTypeID option:selected").val()'),
+            2,
+            "Default article type is honored",
+        );
 
         # test bug #11810 - http://bugs.otrs.org/show_bug.cgi?id=11810
         # translate ticket data tags (e.g. <OTRS_TICKET_State> ) in standard template
