@@ -522,9 +522,11 @@ sub Sync {
         }
     }
 
-    # compare group permissions from ldap with current user group permissions
+    # Compare group permissions from LDAP with current user group permissions.
     my %GroupPermissionsChanged;
+
     if (%GroupPermissionsFromLDAP) {
+
         PERMISSIONTYPE:
         for my $PermissionType ( @{ $ConfigObject->Get('System::Permission') } ) {
 
@@ -537,21 +539,19 @@ sub Sync {
             GROUPID:
             for my $GroupID ( sort keys %SystemGroups ) {
 
-                my $OldPermission = $GroupPermissions{$GroupID};
-                my $NewPermission = $GroupPermissionsFromLDAP{$GroupID}->{$PermissionType};
+                my $OldPermission = $GroupPermissions{$GroupID} ? 1 : 0;
 
-                # if old and new permission for group/type match, do nothing
-                if (
-                    ( $OldPermission && $NewPermission )
-                    ||
-                    ( !$OldPermission && !$NewPermission )
-                    )
-                {
-                    next GROUPID;
-                }
+                # Set the new permission (from LDAP) if exist, if not set it to a default value
+                #   regularly 0 but it LDAP has rw permission set it to 1 as PermissionUserGroupGet()
+                #   gets all system permissions to 1 if stored permission is rw.
+                my $NewPermission = $GroupPermissionsFromLDAP{$GroupID}->{$PermissionType}
+                    || $GroupPermissionsFromLDAP{$GroupID}->{rw} ? 1 : 0;
 
-                # permission for group/type differs - remember
-                $GroupPermissionsChanged{$GroupID}->{$PermissionType} = $NewPermission;
+                # Skip permission if is identical as in the DB
+                next GROUPID if $OldPermission == $NewPermission;
+
+                # Remember the LDAP permission if they are not identical as in the DB.
+                $GroupPermissionsChanged{$GroupID} = $GroupPermissionsFromLDAP{$GroupID};
             }
         }
     }
