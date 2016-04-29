@@ -133,7 +133,6 @@ sub Convert {
         # check if string is valid utf-8
         if ( $Param{Check} && !eval { Encode::is_utf8( $Param{Text}, 1 ) } ) {
             Encode::_utf8_off( $Param{Text} );
-            print STDERR "No valid '$Param{To}' string: '$Param{Text}'!\n";
 
             # strip invalid chars / 0 = will put a substitution character in
             # place of a malformed character
