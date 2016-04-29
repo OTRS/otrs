@@ -1,4 +1,5 @@
 #5.0.14 2016-??-??
+ - 2016-09-15 Fixed bug#[12301](http://bugs.otrs.org/show_bug.cgi?id=12301) - CSV reading code is broken, thanks to Pawel Boguslawski.
 
 #5.0.13 2016-09-20
  - 2016-09-14 Updated translations, thanks to all translators.
