@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.463113006396588;
+    $Self->{Completeness}        = 0.468327702702703;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -82,9 +82,9 @@ sub Data {
         'week' => 'semaine',
         'week(s)' => 'semaine(s)',
         'quarter' => 'ex. /opt/otrs/var/certificates/REST/CA/ca.file',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter(s)' => 'quart d\'heure',
+        'half-year' => 'semestre',
+        'half-year(s)' => 'semestre(s)',
         'year' => 'année',
         'years' => 'années',
         'year(s)' => 'année(s)',
@@ -299,7 +299,7 @@ sub Data {
         'You have Out of Office enabled, would you like to disable it?' =>
             'Vous avez l\'Heure de sortie du travail\' activée, voulez-vous la désactiver?',
         'News about OTRS releases!' => 'Nouvelles à propos des versions OTRS.',
-        'Go to dashboard!' => '',
+        'Go to dashboard!' => 'Aller au tableau de bord',
         'Customer %s added' => 'Client %s ajouté',
         'Role added!' => 'Rôle ajouté!',
         'Role updated!' => 'Rôle mis à jour!',
@@ -362,7 +362,7 @@ sub Data {
             'Aucun paquet, ou nouveau paquet, trouvé dans le dépôt sélectionné.',
         'Edit the system configuration settings.' => 'Modifier la configuration du système.',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            '',
+            'Les ACL de la base de données ne sont pas synchrones avec la configuration système. Veuillez synchroniser tous les ACL.',
         'printed at' => 'imprimé à',
         'Loading...' => 'Chargement...',
         'Dear Mr. %s,' => 'Cher M. %s',
@@ -422,7 +422,7 @@ sub Data {
         'Can\'t contact registration server. Please try again later.' => 'Impossible de contacter le serveur d\'enregistrement. Veuillez réessayer ultérieurement. ',
         'No content received from registration server. Please try again later.' =>
             'Aucune donnée reçue depuis le serveur d\'enregistrement. Veuillez réessayer ultérieurement. ',
-        'Problems processing server result. Please try again later.' => '',
+        'Problems processing server result. Please try again later.' => 'Problèmes sur le serveur de processus. Veuillez réessayer ultérieurement.',
         'Username and password do not match. Please try again.' => 'Le nom et mot de passe ne correspondent pas. Merci d\'essayer à nouveau.',
         'The selected process is invalid!' => 'The processus sélectionné est invalide.',
         'Upgrade to %s now!' => 'Mettre à jour vers %s maintenant ! ',
@@ -439,7 +439,7 @@ sub Data {
         'There was a problem during the upgrade of %s.' => 'Il y a eu un problème pendant la mise à jour %s.',
         '%s was correctly uninstalled.' => '%s a été correctement désinstallé.',
         'There was a problem uninstalling %s.' => 'Il y a eu un problème en désinstallant %s.',
-        'Enable cloud services to unleash all OTRS features!' => '',
+        'Enable cloud services to unleash all OTRS features!' => 'Activez les services Cloud pour activer toutes les fonctionnalités d\'OTRS',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Jour de l\'An',
@@ -581,7 +581,7 @@ sub Data {
         'Locked Tickets New' => 'Nouveaux Tickets Verrouillés',
         'Responsible Tickets Total' => 'Total des tickets du responsable',
         'Responsible Tickets New' => 'Nouveaux tickets du responsable',
-        'Responsible Tickets Reminder Reached' => '',
+        'Responsible Tickets Reminder Reached' => 'Responsables du ticket atteint',
         'Watched Tickets Total' => 'Total Tickets vus',
         'Watched Tickets New' => 'Total Nouveaux Tickets',
         'Watched Tickets Reminder Reached' => 'Rappel atteint des Tickets vus',
@@ -745,8 +745,8 @@ sub Data {
         'Ticket limit per page for Ticket Overview "Small"' => 'Limite de ticket par page pour la "Petite" limite de Vue Générale des Tickets',
         'Ticket Overview "Medium" Limit' => 'limite "Moyenne" de Vue Générale des Tickets',
         'Ticket limit per page for Ticket Overview "Medium"' => 'Limite de ticket par page pour la "Moyenne" limite de Vue Générale des Tickets',
-        'Ticket Overview "Preview" Limit' => '',
-        'Ticket limit per page for Ticket Overview "Preview"' => '',
+        'Ticket Overview "Preview" Limit' => 'Vue d\'ensemble du Ticket',
+        'Ticket limit per page for Ticket Overview "Preview"' => 'Limite de ticket par page pour Vue générale de ticket "Aperçu"',
         'Ticket watch notification' => 'Notification de surveillance de Ticket',
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
             'Pour les tickets sous surveillance, envoyez-moi les mêmes notifications que celles envoyées au propriétaire de ces tickets.',
@@ -795,34 +795,34 @@ sub Data {
         'Export ACLs' => 'Exporter ACLs',
         'Configuration import' => 'Import de la configuration',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Ici vous pouvez envoyer un fichier de configuration pour importer un ensemble de ACL vers votre système. Ce fichier a besoin d\'être en format "yml" comme exporté par l\'éditeur de module "ACL".',
         'This field is required.' => 'Ce champ est requis',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Remplacer un ensemble de ACL existant?',
+        'Upload ACL configuration' => 'Envoyer configuration de ACL',
+        'Import ACL configuration(s)' => 'Importer configuration(s) de ACL',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Pour créer un nouveau ACL, vous pouvez soit importer un ensemble de ACL qui a été exporté à partir d\'un autre système soit créer un nouveau ACL.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
-        'ACLs' => '',
+            'Changement d\'un ensemble de ACL à partir d\'ici affecte seulement le comportement du système si vous déployez les données du ACL par la suite. Par le déploiement des données du ACL, ce changement sera ajouté dans la configuration.',
+        'ACLs' => 'Ensemble de ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
+            'N.B. : Cette table représente l\'ordre d\'éxécution d\'un ensemble de ACL. Si vous voulez changer l\'ordre d\'éxécution de ACL, veuillez changer les noms d\'ACL affectés.',
         'ACL name' => 'Nom ACL',
         'Validity' => 'Validité',
         'Copy' => 'Copier',
         'No data found.' => 'Aucune donnée trouvée',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Modifier ACL',
+        'Edit ACL %s' => 'Editer %s de ACL',
         'Go to overview' => 'Aller à la vue d\'ensemble',
         'Delete ACL' => 'Effacer ACL',
-        'Delete Invalid ACL' => '',
-        'Match settings' => '',
+        'Delete Invalid ACL' => 'Supprimer ACL invalide',
+        'Match settings' => 'Paramètres correspondants',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
+            'Etablir les critères correspondants pour ce ACL. Utiliser "Properties" pour faire un correspondance entre cet écran ou "PropertiesDatabase" avec les attribues de ce ticket qui est dans la base des données.',
         'Change settings' => 'Changer les paramètres',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
+            'Établir le changement souhaité si le critère correspond. Garder en tête que "Possible" est une liste blanche, "PossibleNot" est une liste noire.',
         'Check the official' => '',
         'documentation' => 'documentation',
         'Show or hide the content' => 'Montrer ou cacher le contenu',
@@ -1528,15 +1528,15 @@ sub Data {
         'Online Admin Manual' => 'Manuel d\'Administration en Ligne',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => '',
+        'Ticket Notification Management' => 'Gestion de notification de ticket',
         'Add notification' => 'Ajouter notification',
         'Export Notifications' => 'Exporter les notifications',
-        'Configuration Import' => '',
+        'Configuration Import' => 'Import de configuration',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            '',
+            'Ici vous pouvez envoyer un fichier de configuration pour importer un notification de ticket vers votre système. Ce fichier a besoin d\'être en format "yml" comme exporté par le module "Notification de ticket".',
         'Overwrite existing notifications?' => '',
         'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Import Notification configuration' => 'Importer configuration de notification',
         'Delete this notification' => 'Supprimer cette notification',
         'Do you really want to delete this notification?' => 'Voulez-vous vraiment effacer cette notification?',
         'Add Notification' => 'Ajouter Notification',
@@ -1546,7 +1546,7 @@ sub Data {
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
-            '',
+            'Ici vous pouvez sélectionner un événement qui va actionner ce notification. Un filtre additionnel de ticket peut être appliqué en dessous pour envoyer uniquement un billet avec certains critères.',
         'Ticket Filter' => 'Filtre ticket',
         'Article Filter' => 'Filtre pour Article',
         'Only for ArticleCreate and ArticleSend event' => '',
@@ -1801,18 +1801,18 @@ sub Data {
         'Create New Process' => '',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
-            '',
+            'Ici vous pouvez envoyer un fichier de configuration pour importer le processus vers votre système. Le fichier a besoin d\'être en format "yml" comme exporté par le module de gestion de processus.',
         'Overwrite existing entities' => '',
         'Upload process configuration' => '',
-        'Import process configuration' => '',
+        'Import process configuration' => 'Importer configuration de processus',
         'Example processes' => '',
         'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
             '',
-        'Import example process' => '',
+        'Import example process' => 'Importer processus d\'example',
         'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            '',
+            'Voulez-vous bénéficier des processus créés par les experts? Faire un mise à jour %s pour pouvoir importer quelque processus d\'exemple.',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
-            '',
+            'Pour créer un nouveau processus, vous pouvez soit importer un processsu qui a été exporté par un autre système ou créer complétement un nouveau processus.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
         'Processes' => '',
@@ -2351,6 +2351,7 @@ sub Data {
         'Block' => 'Bloc',
         'AccessKey' => 'Accès clavier',
         'Add NavBar entry' => 'Ajouter entrée de barre de navigation',
+        'NavBar module' => '',
         'Year' => 'Année',
         'Month' => 'Mois',
         'Day' => 'Jour',
@@ -2489,6 +2490,7 @@ sub Data {
         'in' => 'dans',
 
         # Template: AgentDashboardCommon
+        'Close this widget' => '',
         'Available Columns' => 'Colonnes disponibles',
         'Visible Columns (order by drag & drop)' => 'Colonnes visbles (glisser/déposer pour les ordonner)',
 
@@ -2602,8 +2604,8 @@ sub Data {
         'Save statistic' => '',
 
         # Template: AgentStatisticsImport
-        'Statistics » Import' => '',
-        'Import Statistic Configuration' => '',
+        'Statistics » Import' => 'Statistiques » Import',
+        'Import Statistic Configuration' => 'Importer configuration statistique',
 
         # Template: AgentStatisticsOverview
         'Statistics » Overview' => '',
@@ -2706,6 +2708,7 @@ sub Data {
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => '',
         'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time is over (%s/%s)!' => '',
         'Ticket %s: update time will be over in %s/%s!' => '',
         'Ticket %s: solution time is over (%s/%s)!' => '',
         'Ticket %s: solution time will be over in %s/%s!' => '',
@@ -3277,7 +3280,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '',
+            'Ensemble de ACL ne peut pas être importé dû à un erreur inconnu, veuillez vérifier le journal de OTRS pour plus d\'information.',
         'The following ACLs have been added successfully: %s' => '',
         'The following ACLs have been updated successfully: %s' => '',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
@@ -3291,6 +3294,12 @@ sub Data {
         'There was an error synchronizing the ACLs.' => '',
         'ACL %s could not be deleted' => '',
         'There was an error getting data for ACL with ID %s' => '',
+        'Exact match' => '',
+        'Negated exact match' => '',
+        'Regular expression' => '',
+        'Regular expression (ignore case)' => '',
+        'Negated regular expression' => '',
+        'Negated regular expression (ignore case)' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer Company %s already exists!' => '',
@@ -3318,6 +3327,12 @@ sub Data {
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => '',
+        'Unchecked' => '',
+        'Checked' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
+        'Prevent entry of dates in the future' => '',
+        'Prevent entry of dates in the past' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
         'This field value is duplicated.' => '',
@@ -3326,6 +3341,9 @@ sub Data {
         'Select at least one recipient.' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
+        'archive tickets' => '',
+        'restore tickets from archive' => '',
+        'Need Profile!' => '',
         'Got no values to check.' => '',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
             '',
@@ -3345,6 +3363,14 @@ sub Data {
         'Could not get registered configuration for action type %s' => '',
         'Could not get backend for %s %s' => '',
         'Could not update configuration data for WebserviceID %s' => '',
+        'Keep (leave unchanged)' => '',
+        'Ignore (drop key/value pair)' => '',
+        'Map to (use provided value as default)' => '',
+        'Exact value(s)' => '',
+        'Ignore (drop Value/value pair)' => '',
+
+        # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'Could not find required library %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Need OperationType' => '',
@@ -3363,13 +3389,14 @@ sub Data {
         'There was an error creating the web service.' => '',
         'Web service "%s" created!' => '',
         'Need Name!' => '',
-        'Need a file to import!' => '',
+        'Need a file to import!' => 'Besoin d\'importer un fichier!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
-            '',
+            'Le contenu du fichier importé n\'est pas en format "YAML" valide. Veuillez vérifier le journal de OTRS pour des détailles.',
         'Web service "%s" deleted!' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '',
+        'Could not get history data for WebserviceHistoryID %s' => '',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => '',
@@ -3379,7 +3406,7 @@ sub Data {
         'Unknown Notification %s!' => '',
         'There was an error creating the Notification' => '',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '',
+            'Ensemble de notification ne peut pas être importé dû a un erreur, veuillez vérifier les journaux de OTRS pour plus d\'information.',
         'The following Notifications have been added successfully: %s' =>
             '',
         'The following Notifications have been updated successfully: %s' =>
@@ -3416,6 +3443,9 @@ sub Data {
             '',
         'Package not verified due a communication issue with verification server!' =>
             '',
+        'Can\'t connect to OTRS Feature Add-on list server!' => '',
+        'Can\'t get OTRS Feature Add-on list from server!' => '',
+        'Can\'t get OTRS Feature Add-on from server!' => '',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
         'No such filter: %s' => '',
@@ -3424,6 +3454,7 @@ sub Data {
         'Need ExampleProcesses!' => '',
         'Could not read %s!' => '',
         'Need ProcessID!' => '',
+        'Yes (mandatory)' => '',
         'Unknown Process %s!' => '',
         'There was an error generating a new EntityID for this Process' =>
             '',
@@ -3441,6 +3472,7 @@ sub Data {
         'There was an error setting the entity sync status for %s entity: %s' =>
             '',
         'Could not get %s' => '',
+        'Need %s!' => '',
         'Process: %s is not Inactive' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
@@ -3480,7 +3512,6 @@ sub Data {
         'fax' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
-        'Need %s!' => '',
         'Edit Path' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
@@ -3495,7 +3526,6 @@ sub Data {
         'Edit Transition "%s"' => '',
         'xor' => '',
         'String' => '',
-        'Regular expression' => '',
         'Transition validation module' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -3538,8 +3568,11 @@ sub Data {
         'Salutation updated!' => '',
         'Salutation added!' => '',
 
+        # Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
+        'File %s could not be read!' => '',
+
         # Perl Module: Kernel/Modules/AdminSysConfig.pm
-        'Import not allowed!' => '',
+        'Import not allowed!' => 'Importation non permis!',
         'Need File!' => '',
         'Can\'t write ConfigItem!' => '',
 
@@ -3583,7 +3616,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentStatistics.pm
         'Parameter %s is missing.' => '',
         'Invalid Subaction.' => '',
-        'Statistic could not be imported.' => '',
+        'Statistic could not be imported.' => 'Statistique n\'a pas pu être importé.',
         'Please upload a valid statistic file.' => '',
         'Export: Need StatID!' => '',
         'Delete: Get no StatID!' => '',
@@ -3626,6 +3659,9 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => '',
         'System Error!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Invalid Filter: %s!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
         'Can\'t show history, no TicketID is given!' => '',
@@ -3717,11 +3753,11 @@ sub Data {
         'Default Config for Process::Default%s missing!' => '',
         'Default Config for Process::Default%s invalid!' => '',
 
-        # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
-        'Invalid Filter: %s!' => '',
-
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
+        'Untitled' => '',
         'Invalid Users' => '',
+        'CSV' => '',
+        'Excel' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
         'Feature not enabled!' => '',
@@ -3803,6 +3839,9 @@ sub Data {
         'Kernel/Config.pm isn\'t writable!' => '',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
             '',
+        'Unknown Check!' => '',
+        'The check "%s" doesn\'t exist!' => '',
+        'Database %s' => '',
         'Unknown database type "%s".' => '',
         'Please go back' => '',
         'Install OTRS - Error' => '',
@@ -3849,9 +3888,8 @@ sub Data {
         'This user is currently unavailable' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
-        ' You can take one of the next actions:' => '',
         'No Permission' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
@@ -4197,10 +4235,14 @@ sub Data {
         'OK' => 'OK',
         'Problem' => 'Problème',
 
+        # Perl Module: Kernel/System/Ticket.pm
+        'Reset of unlock time.' => '',
+
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
         'Can`t remove SessionID' => '',
+        'Logout successful.' => '',
         'Panic! Invalid Session!!!' => '',
         'No Permission to use this frontend module!' => '',
 
@@ -4210,6 +4252,12 @@ sub Data {
         'Added via Customer Panel (%s)' => '',
         'Customer user can\'t be added!' => '',
         'Can\'t send account info!' => '',
+
+        # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'SecureMode active!' => '',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
+            '',
+        'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
         'Group for default access.' => '',
@@ -4266,12 +4314,12 @@ sub Data {
         'tmp_lock' => '',
         'email-notification-ext' => '',
         'email-notification-int' => '',
-        'Ticket create notification' => '',
+        'Ticket create notification' => 'Notification de ticket créé',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
-            '',
-        'Ticket follow-up notification (unlocked)' => '',
+            'Vous recevrez une notification à chaque création d\'un nouveau ticket dans un de vos "Mes files" ou "Mes services".',
+        'Ticket follow-up notification (unlocked)' => 'Notification de suivi de ticket (déverrouillé)',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
-            '',
+            'Vous recevrez une notification si un client envoie un suivi vers un ticket déverrouillé qui est situé dans votre "Mes files" ou "Mes services".',
         'Ticket follow-up notification (locked)' => '',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
             '',
@@ -4313,6 +4361,7 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '',
+        '*** out of office until %s (%s d left) ***' => '',
         '100 (Expert)' => '',
         '200 (Advanced)' => '',
         '300 (Beginner)' => '',
@@ -4362,6 +4411,8 @@ Thanks for your help!
             'Ajoute les jour de vacances permanentes. Merci d\'utiliser un seul chiffre pour les nombres de 1 à 9 (au lieu de 01 - 09).',
         'Admin Area.' => '',
         'After' => '',
+        'Agent Name' => '',
+        'Agent Name + FromSeparator + System Address Display Name' => '',
         'Agent Preferences.' => '',
         'Agent called customer.' => 'L\'opérateur a appellé le client.',
         'Agent interface article notification module to check PGP.' => 'Module de notification d\'article dans l\'interface opérateur pour vérifier le PGP',
@@ -4476,7 +4527,6 @@ Thanks for your help!
         'Bulgarian' => '',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             '',
-        'CSV' => '',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
             '',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
@@ -4561,7 +4611,7 @@ Thanks for your help!
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Contrôle si plus d\'une entrée peut être mise dans un nouveau ticket téléphone depuis l\'interface opérateur.',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
-            '',
+            'Contrôler la permission du rôle "admin" qui est d\'importer un sauvegarde du configuration du système dans SysConfig.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
@@ -4613,7 +4663,9 @@ Thanks for your help!
             '',
         'Customer preferences.' => '',
         'Customer request via web.' => 'Requête du client via le web.',
+        'Customer ticket overview' => '',
         'Customer ticket search.' => '',
+        'Customer ticket zoom' => '',
         'Customer user search' => '',
         'CustomerID search' => '',
         'CustomerName' => 'Nom du client',
@@ -4766,6 +4818,8 @@ Thanks for your help!
         'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
             '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
+            '',
+        'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
@@ -5471,7 +5525,6 @@ Thanks for your help!
         'Event module that updates tickets after an update of the Customer.' =>
             '',
         'Events Ticket Calendar' => 'Agenda des Événements de Ticket',
-        'Excel' => '',
         'Execute SQL statements.' => 'Executer des requêtes SQL.',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             '',
@@ -5705,6 +5758,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
         'Interface language' => 'Langue de l\'interface',
@@ -5721,6 +5775,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => 'Japonais',
         'JavaScript function for the search frontend.' => '',
+        'Last customer subject' => '',
         'Lastname Firstname' => '',
         'Lastname Firstname (UserLogin)' => '',
         'Lastname, Firstname' => '',
@@ -5884,6 +5939,7 @@ Thanks for your help!
         'Online' => 'En ligne',
         'Open tickets (customer user)' => 'Ouvrir les tickets (utilisateur client)',
         'Open tickets (customer)' => 'Ouvrir les tickets (client)',
+        'Option' => '',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
@@ -5905,7 +5961,6 @@ Thanks for your help!
         'PGP Key Upload' => '',
         'Package event module file a scheduler task for update registration.' =>
             '',
-        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -5913,6 +5968,8 @@ Thanks for your help!
         'Parameters for the CustomService object in the preference view of the agent interface.' =>
             '',
         'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
+            '',
+        'Parameters for the column filters of the small ticket overview.' =>
             '',
         'Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -5993,7 +6050,7 @@ Thanks for your help!
         'Reports' => '',
         'Reports (OTRS Business Solution™)' => '',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
-            '',
+            'Retraiter les courriels du répertoire de file d\'attente qui ne peuvent pas être importés la première fois.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
@@ -6549,6 +6606,7 @@ Thanks for your help!
             '',
         'Swahili' => '',
         'Swedish' => '',
+        'System Address Display Name' => '',
         'System Maintenance' => 'Maintenance Système',
         'System Request (%s).' => 'Requête système',
         'Target' => '',
@@ -6648,6 +6706,7 @@ Thanks for your help!
         'Ticket notifications' => '',
         'Ticket overview' => 'Vue d\'ensemble du Ticket',
         'Ticket plain view of an email.' => '',
+        'Ticket title' => '',
         'Ticket zoom view.' => '',
         'TicketNumber' => 'NuméroTicket',
         'Tickets.' => '',
