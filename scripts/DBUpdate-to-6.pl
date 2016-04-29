@@ -27,7 +27,9 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
-use Getopt::Std qw();
+use Getopt::Long;
+use IO::Interactive qw(is_interactive);
+
 use Kernel::Config;
 use Kernel::System::Cache;
 use Kernel::System::ObjectManager;
@@ -42,21 +44,27 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
+# get options
+my %Opts = (
+    Help           => 0,
+    NonInteractive => 0,
+);
+Getopt::Long::GetOptions(
+    'help',            \$Opts{Help},
+    'non-interactive', \$Opts{NonInteractive},
+);
+
 {
-
-    # get options
-    my %Opts;
-    Getopt::Std::getopt( 'h', \%Opts );
-
-    if ( exists $Opts{h} ) {
+    if ( $Opts{Help} ) {
         print <<"EOF";
 
 DBUpdate-to-6.pl - Upgrade script for OTRS 5 to 6 migration.
-Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
-Usage: $0 [-h]
+Usage: $0
     Options are as follows:
-        -h      display this help
+        --help              display this help
+        --non-interactive   skip interactive input and display steps to execute after script has been executed
 
 EOF
         exit 1;
@@ -91,6 +99,10 @@ Please run it as the 'otrs' user or with the help of su:
         {
             Message => 'Migrate PossibleNextActions setting',
             Command => \&_MigratePossibleNextActions,
+        },
+        {
+            Message => 'Migrating time zone configuration',
+            Command => \&_MigrateTimeZoneConfiguration,
         },
 
         # ...
@@ -170,7 +182,7 @@ sub RebuildConfig {
 
 =item _CheckFrameworkVersion()
 
-Check if framework it's the correct one for Dynamic Fields migration.
+Check if framework is the correct one for Dynamic Fields migration.
 
     _CheckFrameworkVersion();
 
@@ -284,8 +296,13 @@ sub _DropObjectLockState {
     return 1;
 }
 
-# The seetting "PossibleNextActions" was changed in OTRS 6. Make sure that it is adopted also for systems
-#   that had this setting locally modified. Basically keys and values have be swapped, but only once.
+=item _MigratePossibleNextActions()
+
+The seetting "PossibleNextActions" was changed in OTRS 6. Make sure that it is adopted also for systems
+  that had this setting locally modified. Basically keys and values have be swapped, but only once.
+
+=cut
+
 sub _MigratePossibleNextActions {
     my $PossibleNextActions = $Kernel::OM->Get('Kernel::Config')->Get('PossibleNextActions') || {};
 
@@ -322,6 +339,163 @@ sub _MigratePossibleNextActions {
         Value => $PossibleNextActions,
     );
     return $Success;
+}
+
+=item _MigrateTimeZoneConfiguration()
+
+OTRS 6 uses real time zones (e. g. 'Europe/Berlin') instead of time offsets (e. g. '+2').
+
+=cut
+
+sub _MigrateTimeZoneConfiguration {
+
+    #
+    # Remove agent and customer UserTimeZone preferences because they contain
+    # offsets instead of time zones
+    #
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Do(
+        SQL  => 'DELETE FROM user_preferences WHERE preferences_key = ?',
+        Bind => [
+            \'UserTimeZone',
+        ],
+    );
+    return if !$DBObject->Do(
+        SQL  => 'DELETE FROM customer_preferences WHERE preferences_key = ?',
+        Bind => [
+            \'UserTimeZone',
+        ],
+    );
+
+    #
+    # Check for interactive mode
+    #
+    if ( $Opts{NonInteractive} || !is_interactive() ) {
+        print
+            "\n\tMigration of time zone settings is being skipped because this script is being executed in non-interactive mode.\n";
+        print "\tPlease make sure to set the following SysConfig options after this script has been executed:\n";
+        print "\tOTRSTimeZone\n";
+        print "\tUserDefaultTimeZone\n";
+        print "\tTimeZone::Calendar1 to TimeZone::Calendar9 (depending on the calendars in use)\n";
+        return 1;
+    }
+
+    #
+    # OTRSTimeZone
+    #
+
+    # Get system time zone
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            TimeZone => 'UTC',
+        },
+    );
+    my $SystemTimeZone = $DateTimeObject->SystemTimeZoneGet() || 'UTC';
+    $DateTimeObject->ToTimeZone( TimeZone => $SystemTimeZone );
+
+    # Get configured deprecated time zone offset
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TimeOffset = int( $ConfigObject->Get('TimeZone') || 0 );
+
+    # Calculate complete time offset (server time zone + OTRS time offset)
+    my $SuggestedTimeZone = $TimeOffset ? '' : $SystemTimeZone;
+    $TimeOffset += $DateTimeObject->Format( Format => '%{offset}' ) / 60 / 60;
+
+    # Show suggestions for time zone
+    my %TimeZones = map { $_ => 1 } @{ $DateTimeObject->TimeZoneList() };
+    my $TimeZoneByOffset = $DateTimeObject->TimeZoneByOffsetList();
+    if ( exists $TimeZoneByOffset->{$TimeOffset} ) {
+        print
+            "\nThe currently configured time offset is $TimeOffset hours, these are the suggestions for a corresponding OTRS time zone:\n\n";
+
+        print join( "\n", sort @{ $TimeZoneByOffset->{$TimeOffset} } ) . "\n";
+    }
+
+    if ( $SuggestedTimeZone && $TimeZones{$SuggestedTimeZone} ) {
+        print "\nIt seems that $SuggestedTimeZone should be the correct time zone to set for your OTRS.\n";
+    }
+
+    my $Success = _ConfigureTimeZone(
+        ConfigKey => 'OTRSTimeZone',
+        TimeZones => \%TimeZones,
+    );
+
+    return if !$Success;
+
+    #
+    # UserDefaultTimeZone
+    #
+    $Success = _ConfigureTimeZone(
+        ConfigKey => 'UserDefaultTimeZone',
+        TimeZones => \%TimeZones,
+    );
+
+    return if !$Success;
+
+    #
+    # TimeZone::Calendar[1..9] (but only those that have already a time offset set)
+    #
+    CALENDAR:
+    for my $Calendar ( 1 .. 9 ) {
+        my $ConfigKey        = "TimeZone::Calendar$Calendar";
+        my $CalendarTimeZone = $ConfigObject->Get($ConfigKey);
+        next CALENDAR if !defined $CalendarTimeZone;
+
+        $Success = _ConfigureTimeZone(
+            ConfigKey => $ConfigKey,
+            TimeZones => \%TimeZones,
+        );
+
+        return if !$Success;
+    }
+
+    return 1;
+}
+
+sub _ConfigureTimeZone {
+    my (%Param) = @_;
+
+    my $TimeZone = _AskForTimeZone(
+        ConfigKey => $Param{ConfigKey},
+        TimeZones => $Param{TimeZones},
+    );
+
+    # Set OTRSTimeZone
+    my $Success = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        Valid => 1,
+        Key   => $Param{ConfigKey},
+        Value => $TimeZone,
+    );
+
+    return $Success;
+}
+
+sub _AskForTimeZone {
+    my (%Param) = @_;
+
+    my $TimeZone;
+    print "\n";
+    while ( !defined $TimeZone || !$Param{TimeZones}->{$TimeZone} ) {
+        print
+            "Enter the time zone to use for $Param{ConfigKey} (leave empty to show a list of all available time zones): ";
+        $TimeZone = <>;
+
+        # Remove white space
+        $TimeZone =~ s{\s}{}smx;
+
+        if ( length $TimeZone ) {
+            if ( !$Param{TimeZones}->{$TimeZone} ) {
+                print "Invalid time zone.\n";
+            }
+        }
+        else {
+            # Show list of all available time zones
+            print join( "\n", sort keys %{ $Param{TimeZones} } ) . "\n";
+        }
+    }
+
+    return $TimeZone;
 }
 
 1;

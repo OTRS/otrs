@@ -11,6 +11,7 @@ package Kernel::Modules::AgentTicketPrint;
 use strict;
 use warnings;
 
+use Kernel::System::DateTime;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -183,7 +184,13 @@ sub Run {
     my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
     my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
-    my $Time      = $LayoutObject->{Time};
+
+    my $DateTimeString = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
+    my $Time           = $LayoutObject->{LanguageObject}->FormatTimeString(
+        $DateTimeString,
+        'DateFormat',
+    );
+
     my %Page;
 
     # get maximum number of pages
@@ -300,30 +307,19 @@ sub Run {
         ArticleNumber => $ParamObject->GetParam( Param => 'ArticleNumber' ),
     );
 
-    # get time object and use the UserTimeObject, if the system use UTC as
-    # system time and the TimeZoneUser feature is active
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-    if (
-        !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
-        && $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser')
-        && $Self->{UserTimeZone}
-        )
-    {
-        $TimeObject = $LayoutObject->{UserTimeObject};
+    # assemble file name
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    if ( $Self->{UserTimeZone} ) {
+        $DateTimeObject->ToTimeZone( TimeZone => $Self->{UserTimeZone} );
     }
+    my $Filename = 'Ticket_' . $Ticket{TicketNumber} . '_';
+    $Filename .= $DateTimeObject->Format( Format => '%Y-%m-%d_%H:%M' );
+    $Filename .= '.pdf';
 
     # return the pdf document
-    my $Filename = 'Ticket_' . $Ticket{TicketNumber};
-    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-    $M = sprintf( "%02d", $M );
-    $D = sprintf( "%02d", $D );
-    $h = sprintf( "%02d", $h );
-    $m = sprintf( "%02d", $m );
     my $PDFString = $PDFObject->DocumentOutput();
     return $LayoutObject->Attachment(
-        Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
+        Filename    => $Filename,
         ContentType => "application/pdf",
         Content     => $PDFString,
         Type        => 'inline',

@@ -29,7 +29,7 @@ $Helper->FixedTimeSet(
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     Lang         => 'en',
-    UserTimeZone => '+0',
+    UserTimeZone => 'UTC',
 );
 
 my $UserID = 1;

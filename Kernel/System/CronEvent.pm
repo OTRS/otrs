@@ -57,13 +57,13 @@ sub new {
 gets the time when the next cron event should occur, from a given time.
 
     my $EventSystemTime = $CronEventObject->NextEventGet(
-        Schedule  => '*/2 * * * *',    # recurrence parameters based in cron notation
-        StartTime => '1423165100',     # optional, defaults to current time
+        Schedule      => '*/2 * * * *',    # recurrence parameters based in cron notation
+        StartDateTime => $DateTimeObject,  # optional
     );
 
 Returns:
 
-    my $EventSystemTime = 1423165220;  # or false in case of an error
+    my $EventDateTime = '2016-01-23 14:56:12';  # or false in case of an error
 
 =cut
 
@@ -80,34 +80,31 @@ sub NextEventGet {
         return;
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    my $StartTime = $Param{StartTime} || $TimeObject->SystemTime();
-
-    return if !$StartTime;
+    my $StartDateTime = $Param{StartDateTime} || $Kernel::OM->Create('Kernel::System::DateTime');
+    return if !$StartDateTime;
 
     # init cron object
     my $CronObject = $Self->_Init(
-        Schedule  => $Param{Schedule},
-        StartTime => $StartTime,
+        Schedule      => $Param{Schedule},
+        StartDateTime => $StartDateTime,
     );
 
     return if !$CronObject;
-
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CronObject->nextEvent();
 
-    # it is needed to add 1 to the month for correct calculation
-    my $SystemTime = $TimeObject->Date2SystemTime(
-        Year   => $Year + 1900,
-        Month  => $Month + 1,
-        Day    => $Day,
-        Hour   => $Hour,
-        Minute => $Min,
-        Second => $Sec,
+    my $EventDateTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Year   => $Year + 1900,
+            Month  => $Month + 1,
+            Day    => $Day,
+            Hour   => $Hour,
+            Minute => $Min,
+            Second => $Sec,
+        },
     );
 
-    return $SystemTime;
+    return $EventDateTime->ToString();
 }
 
 =item NextEventList()
@@ -115,14 +112,14 @@ sub NextEventGet {
 gets the time when the next cron events should occur, from a given time on a defined range.
 
     my @NextEvents = $CronEventObject->NextEventList(
-        Schedule  => '*/2 * * * *',           # recurrence parameters based in cron notation
-        StartTime => '1423165100',            # optional, defaults to current time
-        StopTime  => '1423165300',
+        Schedule      => '*/2 * * * *',         # recurrence parameters based in cron notation
+        StartDateTime => $StartDateTimeObject,  # optional, defaults to current date/time
+        StopDateTime  => $StopDateTimeObject,
     );
 
 Returns:
 
-    my @NextEvents = [ '1423165220', ...  ];  # or false in case of an error
+    my @NextEvents = [ '2016-01-12 13:23:01', ...  ];  # or false in case of an error
 
 =cut
 
@@ -130,7 +127,7 @@ sub NextEventList {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(Schedule StopTime)) {
+    for my $Needed (qw(Schedule StopDateTime)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -141,17 +138,13 @@ sub NextEventList {
         }
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $StartDateTime = $Param{StartDateTime} || $Kernel::OM->Create('Kernel::System::DateTime');
+    return if !$StartDateTime;
 
-    my $StartTime = $Param{StartTime} || $TimeObject->SystemTime();
-
-    return if !$StartTime;
-
-    if ( $StartTime > $Param{StopTime} ) {
+    if ( $StartDateTime > $Param{StopDateTime} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "StartTime must be lower than or equals to StopTime",
+            Message  => "StartDateTime must be lower than or equals to StopDateTime",
         );
 
         return;
@@ -159,13 +152,11 @@ sub NextEventList {
 
     # init cron object
     my $CronObject = $Self->_Init(
-        Schedule  => $Param{Schedule},
-        StartTime => $StartTime,
+        Schedule      => $Param{Schedule},
+        StartDateTime => $StartDateTime,
     );
 
     return if !$CronObject;
-
-    my $SystemTime = $StartTime;
 
     my @Result;
 
@@ -175,19 +166,22 @@ sub NextEventList {
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CronObject->nextEvent();
 
         # it is needed to add 1 to the month for correct calculation
-        $SystemTime = $TimeObject->Date2SystemTime(
-            Year   => $Year + 1900,
-            Month  => $Month + 1,
-            Day    => $Day,
-            Hour   => $Hour,
-            Minute => $Min,
-            Second => $Sec,
+        my $EventDateTime = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Year   => $Year + 1900,
+                Month  => $Month + 1,
+                Day    => $Day,
+                Hour   => $Hour,
+                Minute => $Min,
+                Second => $Sec,
+            },
         );
 
-        last LOOP if !$SystemTime;
-        last LOOP if $SystemTime > $Param{StopTime};
+        last LOOP if !$EventDateTime;
+        last LOOP if $EventDateTime > $Param{StopDateTime};
 
-        push @Result, $SystemTime;
+        push @Result, $EventDateTime->ToString();
     }
 
     return @Result;
@@ -198,13 +192,13 @@ sub NextEventList {
 gets the time when the last Cron event had occurred, from a given time.
 
     my $PreviousSystemTime = $CronEventObject->PreviousEventGet(
-        Schedule  => '*/2 * * * *',          # recurrence parameters based in Cron notation
-        StartTime => '2015-08-21 14:01:00',  # optional, defaults to current time
+        Schedule      => '*/2 * * * *',    # recurrence parameters based in Cron notation
+        StartDateTime => $DateTimeObject,  # optional, defaults to current date/time
     );
 
 Returns:
 
-    my $EventSystemTime = 1423165200;        # or false in case of an error
+    my $EventDateTime = '2016-03-12 11:23:45';        # or false in case of an error
 
 =cut
 
@@ -221,34 +215,32 @@ sub PreviousEventGet {
         return;
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    my $StartTime = $Param{StartTime} || $TimeObject->SystemTime();
-
-    return if !$StartTime;
+    my $StartDateTime = $Param{StartDateTime} || $Kernel::OM->Create('Kernel::System::DateTime');
+    return if !$StartDateTime;
 
     # init cron object
     my $CronObject = $Self->_Init(
-        Schedule  => $Param{Schedule},
-        StartTime => $StartTime,
+        Schedule      => $Param{Schedule},
+        StartDateTime => $StartDateTime,
     );
 
     return if !$CronObject;
 
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CronObject->previousEvent();
 
-    # it is needed to add 1 to the month for correct calculation
-    my $SystemTime = $TimeObject->Date2SystemTime(
-        Year   => $Year + 1900,
-        Month  => $Month + 1,
-        Day    => $Day,
-        Hour   => $Hour,
-        Minute => $Min,
-        Second => $Sec,
+    my $EventDateTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Year   => $Year + 1900,
+            Month  => $Month + 1,
+            Day    => $Day,
+            Hour   => $Hour,
+            Minute => $Min,
+            Second => $Sec,
+        },
     );
 
-    return $SystemTime;
+    return $EventDateTime->ToString();
 }
 
 =item GenericAgentSchedule2CronTab()
@@ -358,8 +350,8 @@ sub GenericAgentSchedule2CronTab {
 creates a Schedule::Cron::Events object.
 
     my $CronObject = $CronEventObject->_Init(
-        Schedule  => '*/2 * * * *',  # recurrence parameters based in Cron notation
-        StartTime => '1423165100',
+        Schedule      => '*/2 * * * *',   # recurrence parameters based in Cron notation
+        StartDateTime => $DateTimeObject,
     }
 
 =cut
@@ -368,7 +360,7 @@ sub _Init {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $Needed (qw(Schedule StartTime)) {
+    for my $Needed (qw(Schedule StartDateTime)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -398,12 +390,21 @@ sub _Init {
         }
     }
 
+    my %Start = %{ $Param{StartDateTime}->Get() };
+
     # create new internal cron object
     my $CronObject;
     eval {
         $CronObject = Schedule::Cron::Events->new(    ## no critic
             $Param{Schedule},
-            Seconds => $Param{StartTime},
+            Date => [
+                $Start{'Second'},
+                $Start{'Minute'},
+                $Start{'Hour'},
+                $Start{'Day'},
+                $Start{'Month'} - 1,
+                $Start{'Year'} - 1900,
+            ],
         );
     };
 
@@ -411,7 +412,7 @@ sub _Init {
     if ($@) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Schedule: $Param{Schedule} is invalid:",
+            Message  => "Schedule: $Param{Schedule} is invalid.",
         );
         return;
     }

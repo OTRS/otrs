@@ -404,10 +404,15 @@ sub Run {
                 # include time stamps on the correct key
                 for my $Key (qw(StartDate StopDate)) {
 
-                    # try to convert SystemTime to TimeStamp
-                    $SystemMaintenance->{ $Key . 'TimeStamp' } = $TimeObject->SystemTime2TimeStamp(
-                        SystemTime => $SystemMaintenance->{$Key},
+                    my $DateTimeObject = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            Epoch => $SystemMaintenance->{$Key},
+                        },
                     );
+                    $DateTimeObject->ToTimeZone( TimeZone => $Self->{UserTimeZone} );
+
+                    $SystemMaintenance->{ $Key . 'TimeStamp' } = $DateTimeObject->ToString();
                 }
 
                 # create blocks
@@ -595,8 +600,6 @@ sub _ShowEdit {
 sub _GetParams {
     my ( $Self, %Param ) = @_;
 
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
     my $GetParam;
 
     # get parameters from web browser
@@ -628,22 +631,20 @@ sub _GetParams {
             $DateStructure{$Period} = $GetParam->{ $Item . $Period };
         }
 
-        # check date
-        if ( !$TimeObject->Date2SystemTime( %DateStructure, Second => 0 ) ) {
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                %DateStructure,
+                TimeZone => $Self->{UserTimeZone},
+            },
+        );
+        if ( !$DateTimeObject ) {
             $Param{Error}->{ $Item . 'Invalid' } = 'ServerError';
             next ITEM;
         }
 
-        # try to convert date to a SystemTime
-        $GetParam->{$Item} = $TimeObject->Date2SystemTime(
-            %DateStructure,
-            Second => 0,
-        );
-
-        # try to convert SystemTime to TimeStamp
-        $GetParam->{ $Item . 'TimeStamp' } = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => $GetParam->{$Item},
-        );
+        $GetParam->{$Item} = $DateTimeObject->ToEpoch();
+        $GetParam->{ $Item . 'TimeStamp' } = $DateTimeObject->ToString();
     }
 
     return $GetParam;

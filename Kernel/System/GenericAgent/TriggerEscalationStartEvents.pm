@@ -56,12 +56,13 @@ sub Run {
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # do not trigger escalation start events outside busincess hours
+    # do not trigger escalation start events outside business hours
     my $CountedTime = $TimeObject->WorkingTime(
         StartTime => $TimeObject->SystemTime() - ( 10 * 60 ),
         StopTime  => $TimeObject->SystemTime(),
         Calendar  => $Calendar,
     );
+
     if ( !$CountedTime ) {
 
         if ( $Self->{Debug} ) {

@@ -52,8 +52,8 @@ Core.Agent.Login = (function (TargetNS) {
             return false;
         });
 
-        // save TimeOffset data for OTRS
-        $('#TimeOffset').val((new Date()).getTimezoneOffset());
+        // save TimeZoneOffset data for OTRS
+        $('#TimeZoneOffset').val((new Date()).getTimezoneOffset());
 
         // shake login box on authentication failure
         if (LoginFailed) {

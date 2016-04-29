@@ -94,6 +94,11 @@ my $SecsDiff = 60 - $Sec;
 $Helper->FixedTimeAddSeconds($SecsDiff);
 
 $SystemTime = $TimeObject->SystemTime();
+my $DateTime  = $Kernel::OM->Create('Kernel::System::DateTime');
+my $TimeStamp = $DateTime->ToString();
+
+$DateTime->Add( Seconds => 60 );
+my $TimeStamp2 = $DateTime->ToString();
 
 # RecurrentTaskExecute() tests (RecurrentTaskGet() and RecurrentTaskList() are implicit)
 my @Tests = (
@@ -108,7 +113,7 @@ my @Tests = (
             PID                    => 456,
             TaskName               => 'UnitTest1',
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime,
+            PreviousEventTimestamp => $TimeStamp,
             Data                   => {},
         },
         Success => 0,
@@ -119,7 +124,7 @@ my @Tests = (
             NodeID                 => 1,
             TaskName               => 'UnitTest1',
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime,
+            PreviousEventTimestamp => $TimeStamp,
             Data                   => {},
         },
         Success => 0,
@@ -130,7 +135,7 @@ my @Tests = (
             NodeID                 => 1,
             PID                    => 456,
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime,
+            PreviousEventTimestamp => $TimeStamp,
             Data                   => {},
         },
         Success => 0,
@@ -141,7 +146,7 @@ my @Tests = (
             NodeID                 => 1,
             PID                    => 456,
             TaskName               => 'UnitTest1',
-            PreviousEventTimestamp => $SystemTime,
+            PreviousEventTimestamp => $TimeStamp,
             Data                   => {},
         },
         Success => 0,
@@ -164,7 +169,7 @@ my @Tests = (
             PID                    => 456,
             TaskName               => 'UnitTest1',
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime,
+            PreviousEventTimestamp => $TimeStamp,
         },
         Success => 0,
     },
@@ -175,13 +180,13 @@ my @Tests = (
             PID                    => 456,
             TaskName               => 'UnitTest1',
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime,
+            PreviousEventTimestamp => $TimeStamp,
             Data                   => {},
         },
         ExpectedTask => {
             Name              => 'UnitTest1',
             Type              => 'UnitTest',
-            LastExecutionTime => $SystemTime,
+            LastExecutionTime => $TimeStamp,
             LockKey           => 0,
             LockTime          => '',
             CreateTime        => $SystemTime,
@@ -198,13 +203,13 @@ my @Tests = (
             PID                    => 456,
             TaskName               => 'UnitTest1',
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime,
+            PreviousEventTimestamp => $TimeStamp,
             Data                   => {},
         },
         ExpectedTask => {
             Name              => 'UnitTest1',
             Type              => 'UnitTest',
-            LastExecutionTime => $SystemTime,
+            LastExecutionTime => $TimeStamp,
             LockKey           => 0,
             LockTime          => '',
             CreateTime        => $SystemTime,
@@ -222,13 +227,13 @@ my @Tests = (
             PID                    => 456,
             TaskName               => 'UnitTest1',
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime + 60,
+            PreviousEventTimestamp => $TimeStamp2,
             Data                   => {},
         },
         ExpectedTask => {
             Name              => 'UnitTest1',
             Type              => 'UnitTest',
-            LastExecutionTime => $SystemTime + 60,
+            LastExecutionTime => $TimeStamp2,
             LockKey           => 0,
             LockTime          => '',
             CreateTime        => $SystemTime,
@@ -246,13 +251,13 @@ my @Tests = (
             PID                    => 456,
             TaskName               => 'UnitTest1',
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime + 60,
+            PreviousEventTimestamp => $TimeStamp2,
             Data                   => {},
         },
         ExpectedTask => {
             Name              => 'UnitTest1',
             Type              => 'UnitTest',
-            LastExecutionTime => $SystemTime + 60,
+            LastExecutionTime => $TimeStamp2,
             LockKey           => 0,
             LockTime          => '',
             CreateTime        => $SystemTime,
@@ -270,13 +275,13 @@ my @Tests = (
             PID                    => 456,
             TaskName               => 'UnitTest1',
             TaskType               => 'UnitTest',
-            PreviousEventTimestamp => $SystemTime + 60,
+            PreviousEventTimestamp => $TimeStamp2,
             Data                   => {},
         },
         ExpectedTask => {
             Name              => 'UnitTest1',
             Type              => 'UnitTest',
-            LastExecutionTime => $SystemTime + 60,
+            LastExecutionTime => $TimeStamp2,
             LockKey           => 0,
             LockTime          => '',
             CreateTime        => $SystemTime,
@@ -369,7 +374,7 @@ for my $Test (@Tests) {
         for my $Attribute ( sort keys %{ $Test->{ExpectedTask} } ) {
 
             # set time stamps from system times
-            if ( $Attribute eq 'LastExecutionTime' || $Attribute eq 'CreateTime' || $Attribute eq 'ChangeTime' ) {
+            if ( $Attribute eq 'CreateTime' || $Attribute eq 'ChangeTime' ) {
                 $ExpectedTask{$Attribute} = $TimeObject->SystemTime2TimeStamp(
                     SystemTime => $Test->{ExpectedTask}->{$Attribute},
                 );
@@ -516,11 +521,12 @@ for my $Test (@Tests) {
 
     for my $Counter ( 0 .. 10 ) {
 
-        my $SystemTime = $TimeObject->SystemTime();
+        my $DateTime = $Kernel::OM->Create('Kernel::System::DateTime');
+        $DateTime->Subtract( Seconds => 60 );
 
         my $Success = $SchedulerDBObject->RecurrentTaskExecute(
             %TaskTemplate,
-            PreviousEventTimestamp   => $SystemTime - 60,
+            PreviousEventTimestamp   => $DateTime->ToString(),
             MaximumParallelInstances => $Test->{MaximumParallelInstances},
         );
         $Self->True(

@@ -7,12 +7,13 @@
 # --
 
 package Kernel::System::Time;
-## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 
 use strict;
 use warnings;
 
-use Time::Local;
+use Kernel::System::DateTime;
+
+use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -21,7 +22,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Time - time functions
+Kernel::System::Time - time functions. DEPRECATED, for new code use Kernel::System::DateTime instead.
 
 =head1 SYNOPSIS
 
@@ -52,11 +53,26 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
     $Self->{TimeZone} = $Param{TimeZone}
         || $Param{UserTimeZone}
-        || $Kernel::OM->Get('Kernel::Config')->Get('TimeZone')
-        || 0;
-    $Self->{TimeSecDiff} = $Self->{TimeZone} * 3600;    # 60 * 60
+        || $DateTimeObject->OTRSTimeZoneGet();
+
+    # check if time zone is valid
+    if ( !$DateTimeObject->IsTimeZoneValid( TimeZone => $Self->{TimeZone} ) ) {
+
+        my $InvalidTimeZone = $Self->{TimeZone};
+
+        $Self->{TimeZone} = $Param{UserTimeZone}
+            ? $DateTimeObject->UserDefaultTimeZoneGet()
+            : $DateTimeObject->OTRSTimeZoneGet();
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid time zone $InvalidTimeZone, using $Self->{TimeZone} as fallback.",
+        );
+    }
 
     return $Self;
 }
@@ -67,10 +83,6 @@ returns the number of non-leap seconds since what ever time the
 system considers to be the epoch (that's 00:00:00, January 1, 1904
 for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
 
-This will the time that the server considers to be the local time (based on
-time zone configuration) plus the configured OTRS "TimeZone" diff (only recommended
-for systems running in UTC).
-
     my $SystemTime = $TimeObject->SystemTime();
 
 =cut
@@ -78,7 +90,10 @@ for systems running in UTC).
 sub SystemTime {
     my $Self = shift;
 
-    return time() + $Self->{TimeSecDiff};
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $SystemTime     = $DateTimeObject->ToEpoch();
+
+    return $SystemTime;
 }
 
 =item SystemTime2TimeStamp()
@@ -112,7 +127,7 @@ sub SystemTime2TimeStamp {
     }
 
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->SystemTime2Date(%Param);
-    if ( $Param{Type} && $Param{Type} eq 'Short' ) {
+    if ( defined $Param{Type} && $Param{Type} eq 'Short' ) {
         my ( $CSec, $CMin, $CHour, $CDay, $CMonth, $CYear ) = $Self->SystemTime2Date(
             SystemTime => $Self->SystemTime(),
         );
@@ -163,15 +178,25 @@ sub SystemTime2Date {
         return;
     }
 
-    # get time format
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{SystemTime};    ## no critic
-    $Year  += 1900;
-    $Month += 1;
-    $Month = sprintf "%02d", $Month;
-    $Day   = sprintf "%02d", $Day;
-    $Hour  = sprintf "%02d", $Hour;
-    $Min   = sprintf "%02d", $Min;
-    $Sec   = sprintf "%02d", $Sec;
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch => $Param{SystemTime},
+        },
+    );
+
+    $DateTimeObject->ToTimeZone( TimeZone => $Self->{TimeZone} );
+
+    my $DateTimeValues = $DateTimeObject->Get();
+
+    my $Year  = $DateTimeValues->{Year};
+    my $Month = sprintf "%02d", $DateTimeValues->{Month};
+    my $Day   = sprintf "%02d", $DateTimeValues->{Day};
+    my $Hour  = sprintf "%02d", $DateTimeValues->{Hour};
+    my $Min   = sprintf "%02d", $DateTimeValues->{Minute};
+    my $Sec   = sprintf "%02d", $DateTimeValues->{Second};
+
+    my $WDay = $DateTimeValues->{DayOfWeek} == 7 ? 0 : $DateTimeValues->{DayOfWeek};
 
     return ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay );
 }
@@ -258,17 +283,6 @@ sub TimeStamp2SystemTime {
         =~ /((...),\s+|)(\d{1,2})\s(...)\s(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})\s((\+|\-)(\d{2})(\d{2})|...)/
         )
     {
-        my $DiffTime = 0;
-        if ( $10 && $10 eq '+' ) {
-
-            #            $DiffTime = $DiffTime - ($11 * 60 * 60);
-            #            $DiffTime = $DiffTime - ($12 * 60);
-        }
-        elsif ( $10 && $10 eq '-' ) {
-
-            #            $DiffTime = $DiffTime + ($11 * 60 * 60);
-            #            $DiffTime = $DiffTime + ($12 * 60);
-        }
         my @MonthMap    = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
         my $Month       = 1;
         my $MonthString = $4;
@@ -284,7 +298,7 @@ sub TimeStamp2SystemTime {
             Hour   => $6,
             Minute => $7,
             Second => $8,
-        ) + $DiffTime + $Self->{TimeSecDiff};
+        );    # + $Self->{TimeSecDiff};
     }
     elsif (    # match yyyy-mm-ddThh:mm:ssZ
         $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})Z$/
@@ -315,7 +329,7 @@ sub TimeStamp2SystemTime {
 
 =item Date2SystemTime()
 
-converts a structured date array to local system time.
+converts a structured date array to system time of OTRS.
 
     my $SystemTime = $TimeObject->Date2SystemTime(
         Year   => 2004,
@@ -341,14 +355,16 @@ sub Date2SystemTime {
             return;
         }
     }
-    my $SystemTime = eval {
-        timelocal(
-            $Param{Second}, $Param{Minute}, $Param{Hour}, $Param{Day}, ( $Param{Month} - 1 ),
-            $Param{Year}
-        );
-    };
 
-    if ( !defined $SystemTime ) {
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            %Param,
+            TimeZone => $Self->{TimeZone},
+        },
+    );
+
+    if ( !$DateTimeObject ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
@@ -357,12 +373,19 @@ sub Date2SystemTime {
         return;
     }
 
+    my $SystemTime = $DateTimeObject->ToEpoch();
+
     return $SystemTime;
 }
 
 =item ServerLocalTimeOffsetSeconds()
 
-returns the computed difference in seconds between UTC time and local time.
+All framework code that calls this method only uses it to check if the server runs in UTC
+and therefore user time zones are allowed. It's not needed anymore in the future and is only
+in here to don't break code that hasn't been ported yet. It returns 0 to tell its callers
+that the server runs in UTC and so user time zones are allowed/active.
+
+( originally returned the computed difference in seconds between UTC time and local time. )
 
     my $ServerLocalTimeOffsetSeconds = $TimeObject->ServerLocalTimeOffsetSeconds(
         SystemTime => $SystemTime,  # optional, otherwise call time()
@@ -373,12 +396,7 @@ returns the computed difference in seconds between UTC time and local time.
 sub ServerLocalTimeOffsetSeconds {
     my ( $Self, %Param ) = @_;
 
-    my $ServerTime = $Param{SystemTime} || time();
-    my $ServerLocalTime = Time::Local::timegm_nocheck( localtime($ServerTime) );
-
-    # Check if local time and UTC time are different
-    return $ServerLocalTime - $ServerTime;
-
+    return 0;
 }
 
 =item MailTimeStamp()
@@ -393,54 +411,16 @@ returns the current time stamp in RFC 2822 format to be used in email headers:
 sub MailTimeStamp {
     my ( $Self, %Param ) = @_;
 
-    # According to RFC 2822, section 3.3
-
-    # ---
-    # The date and time-of-day SHOULD express local time.
-
-    # The zone specifies the offset from Coordinated Universal Time (UTC,
-    # formerly referred to as "Greenwich Mean Time") that the date and
-    # time-of-day represent.  The "+" or "-" indicates whether the
-    # time-of-day is ahead of (i.e., east of) or behind (i.e., west of)
-    # Universal Time.  The first two digits indicate the number of hours
-    # difference from Universal Time, and the last two digits indicate the
-    # number of minutes difference from Universal Time.  (Hence, +hhmm
-    # means +(hh * 60 + mm) minutes, and -hhmm means -(hh * 60 + mm)
-    # minutes).  The form "+0000" SHOULD be used to indicate a time zone at
-    # Universal Time.  Though "-0000" also indicates Universal Time, it is
-    # used to indicate that the time was generated on a system that may be
-    # in a local time zone other than Universal Time and therefore
-    # indicates that the date-time contains no information about the local
-    # time zone.
-    # ---
-
-    my @DayMap   = qw/Sun Mon Tue Wed Thu Fri Sat/;
-    my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-
-    # Here we cannot use the OTRS "TimeZone" because OTRS uses localtime()
-    #   and does not know if that is UTC or another time zone.
-    #   Therefore OTRS cannot generate the correct offset for the mail timestamp.
-    #   So we need to use the real time configuration of the server to determine this properly.
-
-    my $ServerTime = time();
-    my $ServerTimeDiff = $Self->ServerLocalTimeOffsetSeconds( SystemTime => $ServerTime );
-
-    # calculate offset - should be '+0200', '-0600', '+0545' or '+0000'
-    my $Direction   = $ServerTimeDiff < 0 ? '-' : '+';
-    my $DiffHours   = abs int( $ServerTimeDiff / 3600 );
-    my $DiffMinutes = abs int( ( $ServerTimeDiff % 3600 ) / 60 );
-
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->SystemTime2Date(
-        SystemTime => $ServerTime,
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            TimeZone => $Self->{TimeZone},
+        },
     );
 
-    my $TimeString = sprintf "%s, %d %s %d %02d:%02d:%02d %s%02d%02d",
-        $DayMap[$WeekDay],    # 'Sat'
-        $Day, $MonthMap[ $Month - 1 ], $Year,    # '2', 'Aug', '2014'
-        $Hour,      $Min,       $Sec,            # '12', '34', '36'
-        $Direction, $DiffHours, $DiffMinutes;    # '+', '02', '00'
+    my $EmailTimeStamp = $DateTimeObject->ToEmailTimeStamp();
 
-    return $TimeString;
+    return $EmailTimeStamp;
 }
 
 =item WorkingTime()
@@ -474,139 +454,47 @@ sub WorkingTime {
         }
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    return 0 if $Param{StartTime} >= $Param{StopTime};
 
-    my $TimeWorkingHours        = $ConfigObject->Get('TimeWorkingHours');
-    my $TimeVacationDays        = $ConfigObject->Get('TimeVacationDays');
-    my $TimeVacationDaysOneTime = $ConfigObject->Get('TimeVacationDaysOneTime');
-    if ( $Param{Calendar} ) {
-        if ( $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours        = $ConfigObject->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays        = $ConfigObject->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
-            $TimeVacationDaysOneTime = $ConfigObject->Get(
-                "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
-            );
-            my $Zone = $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} );
-            if ($Zone) {
-                $Zone *= 3600;
-                $Param{StartTime} += $Zone;
-                $Param{StopTime}  += $Zone;
-            }
-        }
-    }
-
-    my %LDay = (
-        1 => 'Mon',
-        2 => 'Tue',
-        3 => 'Wed',
-        4 => 'Thu',
-        5 => 'Fri',
-        6 => 'Sat',
-        0 => 'Sun',
+    my $StartDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch    => $Param{StartTime},
+            TimeZone => $Self->{TimeZone},
+        },
     );
 
-    my $Counted = 0;
-    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime};    ## no critic
-    $AYear  += 1900;
-    $AMonth += 1;
-    my $ADate = "$AYear-$AMonth-$ADay";
-    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay ) = localtime $Param{StopTime};     ## no critic
-    $BYear  += 1900;
-    $BMonth += 1;
-    my $BDate = "$BYear-$BMonth-$BDay";
-    my $NextDay;
+    my $StopDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch    => $Param{StopTime},
+            TimeZone => $Self->{TimeZone},
+        },
+    );
 
-    while ( $Param{StartTime} < $Param{StopTime} ) {
+    my $Delta = $StartDateTimeObject->Delta(
+        DateTimeObject => $StopDateTimeObject,
+        ForWorkingTime => 1,
+        Calendar       => $Param{Calendar},
+    );
 
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime};       ## no critic
-        $Year  += 1900;
-        $Month += 1;
-        my $CDate   = "$Year-$Month-$Day";
-        my $CTime00 = $Param{StartTime} - ( ( $Hour * 60 + $Min ) * 60 + $Sec );                  # 00:00:00
-
-        # compensate for switching to/from daylight saving time
-        # in case daylight saving time from 00:00:00 turned backward 1 hour to 23:00:00
-        if ( $NextDay && $Hour == 23 ) {
-            $Param{StartTime} += 3600;
-            $CTime00 = $Param{StartTime};
-
-            # get $Year, $Month, $Day for $CDate
-            # there is needed next day, but $Day++ would be wrong in case it was end of month
-            ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime} + 1;
-            $Year  += 1900;
-            $Month += 1;
-            $CDate = "$Year-$Month-$Day";
-        }
-
-        # count nothing because of vacation
-        if (
-            $TimeVacationDays->{$Month}->{$Day}
-            || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
-            )
-        {
-
-            # do nothing
-        }
-        else {
-            if ( $TimeWorkingHours->{ $LDay{$WDay} } ) {
-                for my $WorkingHour ( @{ $TimeWorkingHours->{ $LDay{$WDay} } } ) {
-
-                    # same date and same hour of start/end date within service hour
-                    # => start counting and finish immediatly
-                    if ( $ADate eq $BDate && $AHour == $BHour && $AHour == $WorkingHour ) {
-                        return $Param{StopTime} - $Param{StartTime};
-                    }
-
-                    # do nothing because we are on start day and not yet within service hour
-                    elsif ( $CDate eq $ADate && $WorkingHour < $AHour ) {
-                    }
-
-                    # we are on start day and within start hour => count to end of this hour
-                    elsif ( $CDate eq $ADate && $AHour == $WorkingHour ) {
-                        $Counted
-                            += ( $CTime00 + ( $WorkingHour + 1 ) * 60 * 60 ) - $Param{StartTime};
-                    }
-
-                    # do nothing because we are on end day but greater than service hour
-                    elsif ( $CDate eq $BDate && $BHour < $WorkingHour ) {
-                    }
-
-                    # we are on end day and within end hour => count from start of this hour
-                    elsif ( $CDate eq $BDate && $BHour == $WorkingHour ) {
-                        $Counted += $Param{StopTime} - ( $CTime00 + $WorkingHour * 60 * 60 );
-                    }
-
-                    # count full hour because we are in service hour that is greater than
-                    # start hour and smaller than end hour
-                    else {
-                        $Counted = $Counted + ( 60 * 60 );
-                    }
-                }
-            }
-        }
-
-        # reduce time => go to next day 00:00:00
-        $Param{StartTime} = $Self->Date2SystemTime(
-            Year   => $Year,
-            Month  => $Month,
-            Day    => $Day,
-            Hour   => 23,
-            Minute => 59,
-            Second => 59,
-        ) + 1;
-
-        # it will be used for checking daylight saving time
-        $NextDay = 1;
-
+    if ( !IsHashRefWithData($Delta) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Error calculating working time.',
+        );
+        return;
     }
-    return $Counted;
+
+    return $Delta->{AbsoluteSeconds};
 }
 
 =item DestinationTime()
 
 get the destination time based on the current calendar working time (fallback: default
 system working time) configuration.
+
+Returns a system time (integer time stamp).
 
 The algorithm roughly works as follows:
     - Check if the start time is actually in the configured working time.
@@ -636,11 +524,8 @@ NOTE: Currently, the implementation stops silently after 600 iterations, making 
 sub DestinationTime {
     my ( $Self, %Param ) = @_;
 
-    # "Time zone" diff in seconds
-    my $Zone = 0;
-
     # check needed stuff
-    for (qw(StartTime Time)) {
+    for (qw( StartTime Time )) {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -650,136 +535,25 @@ sub DestinationTime {
         }
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    return $Param{StartTime} if $Param{Time} <= 0;
 
-    my $TimeWorkingHours        = $ConfigObject->Get('TimeWorkingHours');
-    my $TimeVacationDays        = $ConfigObject->Get('TimeVacationDays');
-    my $TimeVacationDaysOneTime = $ConfigObject->Get('TimeVacationDaysOneTime');
-    if ( $Param{Calendar} ) {
-        if ( $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours        = $ConfigObject->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays        = $ConfigObject->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
-            $TimeVacationDaysOneTime = $ConfigObject->Get(
-                "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
-            );
-            $Zone = $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} );
-            $Zone *= 3600;
-            $Param{StartTime} += $Zone;
-        }
-    }
-    my $DestinationTime = $Param{StartTime};
-    my $CTime           = $Param{StartTime};
-
-    my %LDay = (
-        1 => 'Mon',
-        2 => 'Tue',
-        3 => 'Wed',
-        4 => 'Thu',
-        5 => 'Fri',
-        6 => 'Sat',
-        0 => 'Sun',
+    my $DestinationDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch    => $Param{StartTime},
+            TimeZone => $Self->{TimeZone},
+        },
     );
 
-    my $LoopCounter;
-    my $DayLightSaving;
+    $DestinationDateTimeObject->Add(
+        Seconds       => $Param{Time},
+        AsWorkingTime => 1,
+        Calendar      => $Param{Calendar},
+    );
 
-    LOOP:
-    while ( $Param{Time} > 1 ) {
-        $LoopCounter++;
-        last LOOP if $LoopCounter > 600;
+    my $DestinationTime = $DestinationDateTimeObject->ToEpoch();
 
-        my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;    ## no critic
-        $Year  += 1900;
-        $Month += 1;
-        my $CTime00 = $CTime - ( ( $Hour * 60 + $Minute ) * 60 + $Second );               # 00:00:00
-
-        # compensate for switching to/from daylight saving time
-        # in case daylight saving time from 00:00:00 turned backward 1 hour to 23:00:00
-        if ( $DayLightSaving && $Hour == 23 ) {
-            $CTime += 3600;
-            $CTime00 = $CTime;
-
-            # there is needed next day, but $Day++ would be wrong in case it was end of month
-            ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime + 1;
-            $Year  += 1900;
-            $Month += 1;
-
-            $DestinationTime += 3600;
-        }
-
-        # Skip vacation days, or days without working hours, do not count.
-        if (
-            $TimeVacationDays->{$Month}->{$Day}
-            || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
-            || !$TimeWorkingHours->{ $LDay{$WDay} }
-            )
-        {
-            # Set destination time to next day, 00:00:00
-            $DestinationTime = $Self->Date2SystemTime(
-                Year   => $Year,
-                Month  => $Month,
-                Day    => $Day,
-                Hour   => 23,
-                Minute => 59,
-                Second => 59,
-            ) + 1;
-        }
-
-        # Regular day with working hours
-        else {
-            HOUR:
-            for my $H ( $Hour .. 23 ) {
-
-                # Check if we have a working hour
-                if ( grep { $H == $_ } @{ $TimeWorkingHours->{ $LDay{$WDay} } } ) {
-                    if ( $Param{Time} > 60 * 60 ) {
-                        my $RestOfHour = 3600 - ( $Minute * 60 + $Second );
-                        $DestinationTime += $RestOfHour;
-                        $Param{Time} -= $RestOfHour;
-                    }
-                    else {
-                        $DestinationTime += $Param{Time};
-                        last LOOP;
-                    }
-                }
-
-                # Not a working hour
-                else {
-                    my $RestOfHour = 3600 - ( $Minute * 60 + $Second );
-                    $DestinationTime += $RestOfHour;
-                }
-
-                # Here we are always aligned at an hour boundary
-                $Minute = 0;
-                $Second = 0;
-            }
-        }
-
-        # Find the unix time stamp for the next day at 00:00:00 to start for calculation.
-        my $NewCTime = $Self->Date2SystemTime(
-            Year   => $Year,
-            Month  => $Month,
-            Day    => $Day,
-            Hour   => 23,
-            Minute => 59,
-            Second => 59,
-        ) + 1;
-
-        # Compensate for switching to/from daylight saving time
-        # (day is shorter or longer than 24h)
-        if ( $NewCTime != $CTime00 + 24 * 60 * 60 ) {
-            my $Diff = $NewCTime - $CTime00 - 24 * 60 * 60;
-            $DestinationTime += $Diff;
-            $DayLightSaving = 1;
-        }
-
-        # Set next loop time to 00:00:00 of next day.
-        $CTime = $NewCTime;
-    }
-
-    # return destination time - e. g. with diff of calendar time zone
-    return $DestinationTime - $Zone;
+    return $DestinationTime;
 }
 
 =item VacationCheck()
@@ -819,43 +593,16 @@ sub VacationCheck {
         }
     }
 
-    my $Year  = $Param{Year};
-    my $Month = sprintf "%02d", $Param{Month};
-    my $Day   = sprintf "%02d", $Param{Day};
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $TimeVacationDays        = $ConfigObject->Get('TimeVacationDays');
-    my $TimeVacationDaysOneTime = $ConfigObject->Get('TimeVacationDaysOneTime');
-    if ( $Param{Calendar} ) {
-        if ( $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            my $Prefix = 'TimeVacationDays';
-            my $Key    = '::Calendar' . $Param{Calendar};
-            $TimeVacationDays        = $ConfigObject->Get( $Prefix . $Key );
-            $TimeVacationDaysOneTime = $ConfigObject->Get( $Prefix . 'OneTime' . $Key );
-        }
-    }
-
-    # '01' - format
-    if ( defined $TimeVacationDays->{$Month}->{$Day} ) {
-        return $TimeVacationDays->{$Month}->{$Day};
-    }
-    if ( defined $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} ) {
-        return $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day};
-    }
-
-    # 1 - int format
-    $Month = int $Month;
-    $Day   = int $Day;
-    if ( defined $TimeVacationDays->{$Month}->{$Day} ) {
-        return $TimeVacationDays->{$Month}->{$Day};
-    }
-    if ( defined $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} ) {
-        return $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day};
-    }
-
-    return;
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            %Param,
+            TimeZone => $Self->{TimeZone},
+        },
+    );
+    return $DateTimeObject->IsVacationDay(
+        Calendar => $Param{Calendar},
+    );
 }
 
 1;

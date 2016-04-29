@@ -343,7 +343,7 @@ sub GetTestHTTPHostname {
     return $Host;
 }
 
-my $FixedTime;
+my $FixedDateTimeObject;
 
 =item FixedTimeSet()
 
@@ -351,16 +351,37 @@ makes it possible to override the system time as long as this object lives.
 You can pass an optional time parameter that should be used, if not,
 the current system time will be used.
 
-All regular perl calls to time(), localtime() and gmtime() will use this
-fixed time afterwards. If this object goes out of scope, the 'normal' system
-time will be used again.
+All calls to methods of Kernel::System::Time and Kernel::System::DateTime will
+use the given time afterwards.
+
+    $HelperObject->FixedTimeSet(366475757); # with Timestamp
+    $HelperObject->FixedTimeSet($DateTimeObject); # with previously created DateTime object
+    $HelperObject->FixedTimeSet(); # set to current date and time
+
+Returns:
+    Timestamp
 
 =cut
 
 sub FixedTimeSet {
     my ( $Self, $TimeToSave ) = @_;
 
-    $FixedTime = $TimeToSave // CORE::time();
+    if ( defined $TimeToSave ) {
+        if ( ref $TimeToSave eq 'Kernel::System::DateTime' ) {
+            $FixedDateTimeObject = $TimeToSave;
+        }
+        else {
+            $FixedDateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $TimeToSave,
+                },
+            );
+        }
+    }
+    else {
+        $FixedDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    }
 
     # This is needed to reload objects that directly use the time functions
     #   to get a hold of the overrides.
@@ -368,6 +389,8 @@ sub FixedTimeSet {
         'Kernel::System::Time',
         'Kernel::System::Cache::FileStorable',
         'Kernel::System::PID',
+        'DateTime',
+        'Kernel::System::DateTime',
     );
 
     for my $Object (@Objects) {
@@ -381,7 +404,7 @@ sub FixedTimeSet {
         }
     }
 
-    return $FixedTime;
+    return $FixedDateTimeObject->ToEpoch();
 }
 
 =item FixedTimeUnset()
@@ -393,7 +416,7 @@ restores the regular system time behaviour.
 sub FixedTimeUnset {
     my ($Self) = @_;
 
-    undef $FixedTime;
+    undef $FixedDateTimeObject;
 
     return;
 }
@@ -408,27 +431,47 @@ set by FixedTimeSet(). You can pass a negative value to go back in time.
 sub FixedTimeAddSeconds {
     my ( $Self, $SecondsToAdd ) = @_;
 
-    return if ( !defined $FixedTime );
-    $FixedTime += $SecondsToAdd;
+    my $FixedDateTimeObject = $Self->FixedDateTimeObjectGet();
+    return if !defined $FixedDateTimeObject;
+
+    if ( $SecondsToAdd > 0 ) {
+        $FixedDateTimeObject->Add( Seconds => $SecondsToAdd );
+    }
+    else {
+        $FixedDateTimeObject->Subtract( Seconds => abs $SecondsToAdd );
+    }
+
     return;
+}
+
+=item FixedDateTimeObjectGet()
+
+Returns the fixed DateTime object that is currently being used/set.
+
+=cut
+
+sub FixedDateTimeObjectGet {
+    my ($Self) = @_;
+
+    return $FixedDateTimeObject;
 }
 
 # See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions
 BEGIN {
     *CORE::GLOBAL::time = sub {
-        return defined $FixedTime ? $FixedTime : CORE::time();
+        return defined $FixedDateTimeObject ? $FixedDateTimeObject->ToEpoch() : CORE::time();
     };
     *CORE::GLOBAL::localtime = sub {
         my ($Time) = @_;
         if ( !defined $Time ) {
-            $Time = defined $FixedTime ? $FixedTime : CORE::time();
+            $Time = defined $FixedDateTimeObject ? $FixedDateTimeObject->ToEpoch() : CORE::time();
         }
         return CORE::localtime($Time);
     };
     *CORE::GLOBAL::gmtime = sub {
         my ($Time) = @_;
         if ( !defined $Time ) {
-            $Time = defined $FixedTime ? $FixedTime : CORE::time();
+            $Time = defined $FixedDateTimeObject ? $FixedDateTimeObject->ToEpoch() : CORE::time();
         }
         return CORE::gmtime($Time);
     };
@@ -439,6 +482,8 @@ sub DESTROY {
 
     # Reset time freeze
     FixedTimeUnset();
+
+    # FixedDateTimeObjectUnset();
 
     #
     # Restore system configuration if needed

@@ -15,6 +15,7 @@ use warnings;
 
 use List::Util qw( first );
 
+use Kernel::System::DateTime qw(:all);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -181,13 +182,12 @@ sub StatsParamsWidget {
         return;    # no possible output format
     }
 
-# provide the time zone field only, if the system use UTC as system time, the TimeZoneUser is active and for dynamic statistics
-    if (
-        !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
-        && $ConfigObject->Get('TimeZoneUser')
-        && $Stat->{StatType} eq 'dynamic'
-        )
-    {
+    # provide the time zone field only for dynamic statistics
+    if ( $Stat->{StatType} eq 'dynamic' ) {
+        my $SelectedTimeZone = $LocalGetParam->( Param => 'TimeZone' )
+            // $Stat->{TimeZone}
+            // OTRSTimeZoneGet();
+
         my %TimeZoneBuildSelection = $Self->_TimeZoneBuildSelection();
 
         my %Frontend;
@@ -195,8 +195,7 @@ sub StatsParamsWidget {
             %TimeZoneBuildSelection,
             Name       => 'TimeZone',
             Class      => 'Modernize',
-            SelectedID => $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone}
-                // $ConfigObject->Get('TimeZone') || 0,
+            SelectedID => $SelectedTimeZone,
         );
 
         $LayoutObject->Block(
@@ -754,17 +753,21 @@ sub GeneralSpecificationsWidget {
     }
     $Stat->{SelectPermission} = $LayoutObject->BuildSelection(%Permission);
 
-    # provide the timezone field only if the system use UTC as system time, the TimeZoneUser is active
-    # and for dynamic statistics
+    # provide the timezone field only for dynamic statistics
     if (
-        !$Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds()
-        && $ConfigObject->Get('TimeZoneUser')
-        && (
-            ( $Stat->{StatType} && $Stat->{StatType} eq 'dynamic' )
-            || ( $Frontend{StatType} && $Frontend{StatType} eq 'dynamic' )
-        )
+        ( $Stat->{StatType} && $Stat->{StatType} eq 'dynamic' )
+        || ( $Frontend{StatType} && $Frontend{StatType} eq 'dynamic' )
         )
     {
+
+        my $SelectedTimeZone = $GetParam{TimeZone} // $Stat->{TimeZone};
+        if ( !defined $SelectedTimeZone ) {
+            my %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+                UserID => $Param{UserID}
+            );
+            $SelectedTimeZone = $UserPreferences{UserTimeZone}
+                // OTRSTimeZoneGet();
+        }
 
         my %TimeZoneBuildSelection = $Self->_TimeZoneBuildSelection();
 
@@ -772,7 +775,7 @@ sub GeneralSpecificationsWidget {
             %TimeZoneBuildSelection,
             Name       => 'TimeZone',
             Class      => 'Modernize ' . ( $Errors{TimeZoneServerError} ? ' ServerError' : '' ),
-            SelectedID => $GetParam{TimeZone} // $Stat->{TimeZone} // $ConfigObject->Get('TimeZone') || 0,
+            SelectedID => $SelectedTimeZone,
         );
     }
 
@@ -1149,12 +1152,7 @@ sub StatsParamsGet {
     my ( %GetParam, @Errors );
 
     # get the time zone param
-    if (
-        !$TimeObject->ServerLocalTimeOffsetSeconds()
-        && $ConfigObject->Get('TimeZoneUser')
-        && length $LocalGetParam->( Param => 'TimeZone' )
-        )
-    {
+    if ( length $LocalGetParam->( Param => 'TimeZone' ) ) {
         $GetParam{TimeZone} = $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone};
     }
 
@@ -2209,34 +2207,10 @@ sub _TimeScaleYAxis {
 sub _TimeZoneBuildSelection {
     my ( $Self, %Param ) = @_;
 
+    my $TimeZones = TimeZoneList();
+
     my %TimeZoneBuildSelection = (
-        Data => {
-            '0'   => '+ 0',
-            '+1'  => '+ 1',
-            '+2'  => '+ 2',
-            '+3'  => '+ 3',
-            '+4'  => '+ 4',
-            '+5'  => '+ 5',
-            '+6'  => '+ 6',
-            '+7'  => '+ 7',
-            '+8'  => '+ 8',
-            '+9'  => '+ 9',
-            '+10' => '+10',
-            '+11' => '+11',
-            '+12' => '+12',
-            '-1'  => '- 1',
-            '-2'  => '- 2',
-            '-3'  => '- 3',
-            '-4'  => '- 4',
-            '-5'  => '- 5',
-            '-6'  => '- 6',
-            '-7'  => '- 7',
-            '-8'  => '- 8',
-            '-9'  => '- 9',
-            '-10' => '-10',
-            '-11' => '-11',
-            '-12' => '-12',
-        },
+        Data => { map { $_ => $_ } @{$TimeZones} },
     );
 
     return %TimeZoneBuildSelection;

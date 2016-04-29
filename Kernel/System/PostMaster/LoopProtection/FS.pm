@@ -7,7 +7,6 @@
 # --
 
 package Kernel::System::PostMaster::LoopProtection::FS;
-## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 
 use strict;
 use warnings;
@@ -34,10 +33,8 @@ sub new {
     $Self->{PostmasterMaxEmails} = $ConfigObject->Get('PostmasterMaxEmails') || 40;
 
     # create logfile name
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time);    ## no critic
-    $Year = $Year + 1900;
-    $Month++;
-    $Self->{LoopProtectionLog} .= '-' . $Year . '-' . $Month . '-' . $Day . '.log';
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    $Self->{LoopProtectionLog} .= $DateTimeObject->ToCTimeString() . '.log';
 
     return $Self;
 }
@@ -50,8 +47,9 @@ sub SendEmail {
     # write log
     ## no critic
     if ( open( my $Out, '>>', $Self->{LoopProtectionLog} ) ) {
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         ## use critic
-        print $Out "$To;" . localtime() . ";\n";    ## no critic
+        print $Out "$To;" . $DateTimeObject->Format( Format => '%a %b %{day} %H:%M:%S %Y' ) . ";\n";    ## no critic
         close($Out);
     }
     else {

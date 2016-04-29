@@ -16,15 +16,13 @@ use vars qw(@ISA);
 use Exporter qw(import);
 our @EXPORT_OK = qw(Translatable);    ## no critic
 
+use Kernel::System::DateTime qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
 );
-
-my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
-my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
 
 =head1 NAME
 
@@ -85,7 +83,7 @@ sub new {
     }
 
     # take time zone
-    $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || 0;
+    $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || OTRSTimeZoneGet();
 
     # Debug
     if ( $Self->{Debug} > 0 ) {
@@ -271,45 +269,65 @@ sub FormatTimeString {
 
     # Valid timestamp
     if ( $String =~ /(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})/ ) {
-        my ( $Y, $M, $D, $h, $m, $s ) = ( $1, $2, $3, $4, $5, $6 );
-        my $WD;    # day of week
-
         my $ReturnString = $Self->{$Config} || "$Config needs to be translated!";
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        my $TimeStamp = $TimeObject->TimeStamp2SystemTime(
-            String => "$Y-$M-$D $h:$m:$s",
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $String,
+            },
         );
 
-        # Add user time zone diff, but only if we actually display the time!
+        if ( !$DateTimeObject ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid date/time string $String.",
+            );
+
+            return $String;
+        }
+
+        # Convert to time zone, but only if we actually display the time!
         # Otherwise the date might be off by one day because of the TimeZone diff.
         if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
-            $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
+            $DateTimeObject->ToTimeZone( TimeZone => $Self->{TimeZone} );
         }
 
-        ( $s, $m, $h, $D, $M, $Y, $WD ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeStamp,
-        );
+        my $DateTimeValues = $DateTimeObject->Get();
+
+        my $Year      = $DateTimeValues->{Year};
+        my $Month     = sprintf "%02d", $DateTimeValues->{Month};
+        my $MonthAbbr = $DateTimeValues->{MonthAbbr};
+        my $Day       = sprintf "%02d", $DateTimeValues->{Day};
+        my $DayAbbr   = $DateTimeValues->{DayAbbr};
+        my $Hour      = sprintf "%02d", $DateTimeValues->{Hour};
+        my $Minute    = sprintf "%02d", $DateTimeValues->{Minute};
+        my $Second    = sprintf "%02d", $DateTimeValues->{Second};
 
         if ($Short) {
-            $ReturnString =~ s/\%T/$h:$m/g;
+            $ReturnString =~ s/\%T/$Hour:$Minute/g;
         }
         else {
-            $ReturnString =~ s/\%T/$h:$m:$s/g;
+            $ReturnString =~ s/\%T/$Hour:$Minute:$Second/g;
         }
-        $ReturnString =~ s/\%D/$D/g;
-        $ReturnString =~ s/\%M/$M/g;
-        $ReturnString =~ s/\%Y/$Y/g;
+        $ReturnString =~ s/\%D/$Day/g;
+        $ReturnString =~ s/\%M/$Month/g;
+        $ReturnString =~ s/\%Y/$Year/g;
 
-        $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Translate($DAYS[$WD]) : '';}egx;
+        $ReturnString =~ s{(\%A)}{$Self->Translate($DayAbbr);}egx;
         $ReturnString
-            =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Translate($MONS[$M-1]) : '';}egx;
+            =~ s{(\%B)}{$Self->Translate($MonthAbbr);}egx;
 
-        if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
+        # output time zone only if it differs from OTRS' time zone
+        if (
+            $Config ne 'DateFormatShort'
+            && $Self->{TimeZone}
+            && $Self->{TimeZone} ne OTRSTimeZoneGet()
+            )
+        {
             return $ReturnString . " ($Self->{TimeZone})";
         }
+
         return $ReturnString;
     }
 
@@ -418,51 +436,63 @@ sub Time {
         }
     }
     my $ReturnString = $Self->{ $Param{Format} } || 'Need to be translated!';
-    my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST );
+    my ( $Year, $Month, $MonthAbbr, $Day, $DayAbbr, $Hour, $Minute, $Second );
 
     # set or get time
     if ( lc $Param{Action} eq 'get' ) {
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime(),
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                TimeZone => $Self->{TimeZone},
+            },
         );
+        my $DateTimeValues = $DateTimeObject->Get();
+
+        $Year      = $DateTimeValues->{Year};
+        $Month     = sprintf "%02d", $DateTimeValues->{Month};
+        $MonthAbbr = $DateTimeValues->{MonthAbbr};
+        $Day       = sprintf "%02d", $DateTimeValues->{Day};
+        $DayAbbr   = $DateTimeValues->{DayAbbr};
+        $Hour      = sprintf "%02d", $DateTimeValues->{Hour};
+        $Minute    = sprintf "%02d", $DateTimeValues->{Minute};
+        $Second    = sprintf "%02d", $DateTimeValues->{Second};
     }
     elsif ( lc $Param{Action} eq 'return' ) {
-        $s = $Param{Second} || 0;
-        $m = $Param{Minute} || 0;
-        $h = $Param{Hour}   || 0;
-        $D = $Param{Day}    || 0;
-        $M = $Param{Month}  || 0;
-        $Y = $Param{Year}   || 0;
+        $Year   = $Param{Year}   || 0;
+        $Month  = $Param{Month}  || 0;
+        $Day    = $Param{Day}    || 0;
+        $Hour   = $Param{Hour}   || 0;
+        $Minute = $Param{Minute} || 0;
+        $Second = $Param{Second} || 0;
+
+        my @MonthAbbrs = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
+        $MonthAbbr = defined $Month && $Month =~ m/^\d+$/ ? $MonthAbbrs[ $Month - 1 ] : '';
     }
 
     # do replace
     if ( ( lc $Param{Action} eq 'get' ) || ( lc $Param{Action} eq 'return' ) ) {
         my $Time = '';
         if ( $Param{Mode} && $Param{Mode} =~ /^NotNumeric$/i ) {
-            if ( !$s ) {
-                $Time = "$h:$m";
+            if ( !$Second ) {
+                $Time = "$Hour:$Minute";
             }
             else {
-                $Time = "$h:$m:$s";
+                $Time = "$Hour:$Minute:$Second";
             }
         }
         else {
-            $Time = sprintf( "%02d:%02d:%02d", $h, $m, $s );
-            $D    = sprintf( "%02d",           $D );
-            $M    = sprintf( "%02d",           $M );
+            $Time  = sprintf( "%02d:%02d:%02d", $Hour, $Minute, $Second );
+            $Day   = sprintf( "%02d",           $Day );
+            $Month = sprintf( "%02d",           $Month );
         }
         $ReturnString =~ s/\%T/$Time/g;
-        $ReturnString =~ s/\%D/$D/g;
-        $ReturnString =~ s/\%M/$M/g;
-        $ReturnString =~ s/\%Y/$Y/g;
-        $ReturnString =~ s/\%Y/$Y/g;
-        $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Translate($DAYS[$WD]) : '';}egx;
+        $ReturnString =~ s/\%D/$Day/g;
+        $ReturnString =~ s/\%M/$Month/g;
+        $ReturnString =~ s/\%Y/$Year/g;
+        $ReturnString =~ s{(\%A)}{defined $DayAbbr ? $Self->Translate($DayAbbr) : '';}egx;
         $ReturnString
-            =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Translate($MONS[$M-1]) : '';}egx;
+            =~ s{(\%B)}{defined $MonthAbbr ? $Self->Translate($MonthAbbr) : '';}egx;
         return $ReturnString;
     }
 

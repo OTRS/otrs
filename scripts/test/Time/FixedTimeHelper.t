@@ -48,6 +48,8 @@ my $StartSystemTime = $TimeObject->SystemTime();
         "Stay with increased fixed time",
     );
 
+    $HelperObject->FixedTimeUnset();
+
     # Let object be destroyed at the end of this scope
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Helper'] );
 }

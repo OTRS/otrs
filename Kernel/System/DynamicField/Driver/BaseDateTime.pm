@@ -165,6 +165,7 @@ sub EditFieldRender {
     if ( defined $Param{Value} ) {
         $Value = $Param{Value};
     }
+
     if ($Value) {
         my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Value =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;

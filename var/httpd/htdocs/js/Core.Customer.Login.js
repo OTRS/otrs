@@ -82,7 +82,7 @@ Core.Customer.Login = (function (TargetNS) {
         // enable login form
         Core.Form.EnableForm($('#Login form, #Reset form, #Signup form'));
 
-        $('#TimeOffset').val(Diff);
+        $('#TimeZoneOffset').val(Diff);
 
         if ($('#PreLogin').length) {
             $('#PreLogin form').submit();

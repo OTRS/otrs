@@ -7,21 +7,19 @@
 # --
 
 package Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings;
-## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 
 use strict;
 use warnings;
 
 use POSIX;
-use Time::Local;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
 use Kernel::Language qw(Translatable);
+use Kernel::System::DateTime;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Time',
 );
 
 sub GetDisplayPath {
@@ -31,82 +29,70 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $Dummy          = localtime();       ## no critic
+    # Server time zone
     my $ServerTimeZone = POSIX::tzname();
 
-    $Self->AddResultInformation(
+    $Self->AddResultOk(
         Identifier => 'ServerTimeZone',
         Label      => Translatable('Server time zone'),
         Value      => $ServerTimeZone,
     );
 
-    # Check if local time and UTC time are different
-    my $ServerTimeDiff = $Kernel::OM->Get('Kernel::System::Time')->ServerLocalTimeOffsetSeconds();
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # calculate offset - should be '+0200', '-0600', '+0545' or '+0000'
-    my $Direction   = $ServerTimeDiff < 0 ? '-' : '+';
-    my $DiffHours   = abs int( $ServerTimeDiff / 3600 );
-    my $DiffMinutes = abs int( ( $ServerTimeDiff % 3600 ) / 60 );
-
-    $Self->AddResultInformation(
-        Identifier => 'ServerTimeOffset',
-        Label      => Translatable('Computed server time offset'),
-        Value      => sprintf( '%s%02d%02d', $Direction, $DiffHours, $DiffMinutes ),
-    );
-
-    my $OTRSTimeZone = $Kernel::OM->Get('Kernel::Config')->Get('TimeZone');
-
-    if ( $ServerTimeDiff && $OTRSTimeZone && $OTRSTimeZone ne '+0' ) {
-        $Self->AddResultProblem(
-            Identifier => 'OTRSTimeZone',
-            Label      => Translatable('OTRS TimeZone setting (global time offset)'),
-            Value      => $OTRSTimeZone,
-            Message    => Translatable('TimeZone may only be activated for systems running in UTC.'),
-        );
-    }
-    else {
+    # OTRS time zone
+    my $OTRSTimeZone = $ConfigObject->Get('OTRSTimeZone');
+    if ( defined $OTRSTimeZone ) {
         $Self->AddResultOk(
             Identifier => 'OTRSTimeZone',
-            Label      => Translatable('OTRS TimeZone setting (global time offset)'),
+            Label      => Translatable('OTRS time zone'),
             Value      => $OTRSTimeZone,
         );
     }
-
-    my $OTRSTimeZoneUser = $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser');
-
-    if ( $OTRSTimeZoneUser && ( $ServerTimeDiff || ( $OTRSTimeZone && $OTRSTimeZone ne '+0' ) ) ) {
+    else {
         $Self->AddResultProblem(
-            Identifier => 'OTRSTimeZoneUser',
-            Label      => Translatable('OTRS TimeZoneUser setting (per-user time zone support)'),
-            Value      => $OTRSTimeZoneUser,
-            Message    => Translatable(
-                'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.'
-            ),
+            Identifier => 'OTRSTimeZone',
+            Label      => Translatable('OTRS time zone'),
+            Value      => '',
+            Message    => Translatable('OTRS time zone is not set.'),
+        );
+    }
+
+    # User default time zone
+    my $UserDefaultTimeZone = $ConfigObject->Get('UserDefaultTimeZone');
+    if ( defined $UserDefaultTimeZone ) {
+        $Self->AddResultOk(
+            Identifier => 'UserDefaultTimeZone',
+            Label      => Translatable('User default time zone'),
+            Value      => $UserDefaultTimeZone,
         );
     }
     else {
-        $Self->AddResultOk(
-            Identifier => 'OTRSTimeZoneUser',
-            Label      => Translatable('OTRS TimeZoneUser setting (per-user time zone support)'),
-            Value      => $OTRSTimeZoneUser,
+        $Self->AddResultProblem(
+            Identifier => 'UserDefaultTimeZone',
+            Label      => Translatable('User default time zone'),
+            Value      => '',
+            Message    => Translatable('User default time zone is not set.'),
         );
     }
 
+    # Calendar time zones
     for my $Counter ( 1 .. 9 ) {
-        my $CalendarTimeZone = $Kernel::OM->Get('Kernel::Config')->Get( 'TimeZone::Calendar' . $Counter );
-        if ( $ServerTimeDiff && $CalendarTimeZone && $CalendarTimeZone ne '+0' ) {
-            $Self->AddResultProblem(
+        my $CalendarTimeZone = $ConfigObject->Get( 'TimeZone::Calendar' . $Counter );
+
+        if ( defined $CalendarTimeZone ) {
+            $Self->AddResultOk(
                 Identifier => "OTRSTimeZone::Calendar$Counter",
-                Label      => Translatable('OTRS TimeZone setting for calendar ') . $Counter,
+                Label      => Translatable('OTRS time zone setting for calendar') . " $Counter",
                 Value      => $CalendarTimeZone,
-                Message    => Translatable('TimeZone may only be activated for systems running in UTC.'),
             );
         }
         else {
-            $Self->AddResultOk(
+            $Self->AddResultInformation(
                 Identifier => "OTRSTimeZone::Calendar$Counter",
-                Label      => Translatable('OTRS TimeZone setting for calendar ') . $Counter,
-                Value      => $CalendarTimeZone,
+                Label      => Translatable('OTRS time zone setting for calendar') . " $Counter",
+                Value      => '',
+                Message    => Translatable('Calendar time zone is not set.'),
             );
         }
     }

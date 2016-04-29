@@ -30,7 +30,7 @@ my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     Lang         => 'en',
-    UserTimeZone => '+0',
+    UserTimeZone => 'UTC',
 );
 
 my $UserID = 1;

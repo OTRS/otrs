@@ -26,23 +26,6 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-        # enable TimeZoneUser
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'TimeZoneUser',
-            Value => 1,
-        );
-
-        # disable TimeZoneUserBrowserAutoOffset
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'TimeZoneUserBrowserAutoOffset',
-            Value => 0,
-        );
-
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -62,15 +45,17 @@ $Selenium->RunTest(
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
-        # change test user time zone preference to +6 hours
-        $Selenium->execute_script("\$('#UserTimeZone').val('+6').trigger('redraw.InputField').trigger('change');");
+        # change test user time zone preference to Europe/Berlin
+        $Selenium->execute_script(
+            "\$('#UserTimeZone').val('Europe/Berlin').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->find_element( "#UserTimeZone", 'css' )->submit();
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for update preference message on screen
-        my $UpdateMessage = "Preferences updated successfully!";
+        my $UpdateMessage = "Time zone updated successfully!";
         $Self->True(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Agent preference time zone - updated'

@@ -101,7 +101,7 @@ sub new {
     # We'll keep one default TimeObject and one for the user's time zone (if needed)
     $Self->{TimeObject} = $Kernel::OM->Get('Kernel::System::Time');
 
-    if ( $ConfigObject->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
+    if ( $Self->{UserTimeZone} ) {
         $Self->{UserTimeObject} = Kernel::System::Time->new( %{$Self} );
     }
     else {
@@ -2962,24 +2962,32 @@ sub TransformDateSelection {
     my $Prefix = $Param{Prefix} || '';
 
     # time zone translation if needed
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
-        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Param{ $Prefix . 'Year' } . '-'
-                . $Param{ $Prefix . 'Month' } . '-'
-                . $Param{ $Prefix . 'Day' } . ' '
-                . ( $Param{ $Prefix . 'Hour' }   || 0 ) . ':'
-                . ( $Param{ $Prefix . 'Minute' } || 0 )
-                . ':00',
+    # from user time zone to OTRS time zone
+    if ( $Self->{UserTimeZone} ) {
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Year     => $Param{ $Prefix . 'Year' },
+                Month    => $Param{ $Prefix . 'Month' },
+                Day      => $Param{ $Prefix . 'Day' },
+                Hour     => $Param{ $Prefix . 'Hour' } || 0,
+                Minute   => $Param{ $Prefix . 'Minute' } || 0,
+                Second   => $Param{ $Prefix . 'Second' } || 0,
+                TimeZone => $Self->{UserTimeZone},
+            },
         );
-        $TimeStamp = $TimeStamp - ( $Self->{UserTimeZone} * 3600 );
-        (
-            $Param{ $Prefix . 'Second' },
-            $Param{ $Prefix . 'Minute' },
-            $Param{ $Prefix . 'Hour' },
-            $Param{ $Prefix . 'Day' },
-            $Param{ $Prefix . 'Month' },
-            $Param{ $Prefix . 'Year' }
-        ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp );
+
+        if ($DateTimeObject) {
+            $DateTimeObject->ToOTRSTimeZone();
+            my $DateTimeValues = $DateTimeObject->Get();
+
+            $Param{ $Prefix . 'Year' }   = $DateTimeValues->{Year};
+            $Param{ $Prefix . 'Month' }  = $DateTimeValues->{Month};
+            $Param{ $Prefix . 'Day' }    = $DateTimeValues->{Day};
+            $Param{ $Prefix . 'Hour' }   = $DateTimeValues->{Hour};
+            $Param{ $Prefix . 'Minute' } = $DateTimeValues->{Minute};
+            $Param{ $Prefix . 'Second' } = $DateTimeValues->{Second};
+        }
     }
 
     # reset prefix
@@ -3080,31 +3088,36 @@ sub BuildDateSelection {
 
     # time zone translation
     if (
-        $ConfigObject->Get('TimeZoneUser')
-        && $Self->{UserTimeZone}
+        $Self->{UserTimeZone}
         && $Param{ $Prefix . 'Year' }
         && $Param{ $Prefix . 'Month' }
         && $Param{ $Prefix . 'Day' }
         && !$Param{OverrideTimeZone}
         )
     {
-        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Param{ $Prefix . 'Year' } . '-'
-                . $Param{ $Prefix . 'Month' } . '-'
-                . $Param{ $Prefix . 'Day' } . ' '
-                . ( $Param{ $Prefix . 'Hour' }   || 0 ) . ':'
-                . ( $Param{ $Prefix . 'Minute' } || 0 )
-                . ':00',
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Year   => $Param{ $Prefix . 'Year' },
+                Month  => $Param{ $Prefix . 'Month' },
+                Day    => $Param{ $Prefix . 'Day' },
+                Hour   => $Param{ $Prefix . 'Hour' } || 0,
+                Minute => $Param{ $Prefix . 'Minute' } || 0,
+                Second => $Param{ $Prefix . 'Second' } || 0,
+            },
         );
-        $TimeStamp = $TimeStamp + ( $Self->{UserTimeZone} * 3600 );
-        (
-            $Param{ $Prefix . 'Second' },
-            $Param{ $Prefix . 'Minute' },
-            $Param{ $Prefix . 'Hour' },
-            $Param{ $Prefix . 'Day' },
-            $Param{ $Prefix . 'Month' },
-            $Param{ $Prefix . 'Year' }
-        ) = $Self->{UserTimeObject}->SystemTime2Date( SystemTime => $TimeStamp );
+
+        if ($DateTimeObject) {
+            $DateTimeObject->ToTimeZone( TimeZone => $Self->{UserTimeZone} );
+            my $DateTimeValues = $DateTimeObject->Get();
+
+            $Param{ $Prefix . 'Year' }   = $DateTimeValues->{Year};
+            $Param{ $Prefix . 'Month' }  = $DateTimeValues->{Month};
+            $Param{ $Prefix . 'Day' }    = $DateTimeValues->{Day};
+            $Param{ $Prefix . 'Hour' }   = $DateTimeValues->{Hour};
+            $Param{ $Prefix . 'Minute' } = $DateTimeValues->{Minute};
+            $Param{ $Prefix . 'Second' } = $DateTimeValues->{Second};
+        }
     }
 
     # year

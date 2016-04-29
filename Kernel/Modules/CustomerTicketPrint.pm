@@ -132,8 +132,12 @@ sub Run {
 
     my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
-    my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
-    my $Time      = $LayoutObject->{Time};
+    my $PrintedBy      = $LayoutObject->{LanguageObject}->Translate('printed by');
+    my $DateTimeString = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
+    my $Time           = $LayoutObject->{LanguageObject}->FormatTimeString(
+        $DateTimeString,
+        'DateFormat',
+    );
     my %Page;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 

@@ -162,7 +162,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                             <input type="hidden" name="Action" value="Login" />
                             <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
                             <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
-                            <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
+                            <input type="hidden" name="TimeZoneOffset" id="TimeZoneOffset" value=""/>
                         </form>
                     </div>
                 </div>
@@ -187,7 +187,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                             <input type="hidden" name="Action" value="Login" />
                             <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
                             <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
-                            <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
+                            <input type="hidden" name="TimeZoneOffset" id="TimeZoneOffset" value=""/>
                             <fieldset class="TableLike">
                                 <label for="User" class="Mandatory">
                                     <span class="Marker">*</span>

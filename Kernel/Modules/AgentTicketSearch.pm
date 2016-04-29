@@ -906,9 +906,13 @@ sub Run {
 
             my $Title = $LayoutObject->{LanguageObject}->Translate('Ticket') . ' '
                 . $LayoutObject->{LanguageObject}->Translate('Search');
-            my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
-            my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
-            my $Time      = $LayoutObject->{Time};
+            my $PrintedBy      = $LayoutObject->{LanguageObject}->Translate('printed by');
+            my $Page           = $LayoutObject->{LanguageObject}->Translate('Page');
+            my $DateTimeString = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
+            my $Time           = $LayoutObject->{LanguageObject}->FormatTimeString(
+                $DateTimeString,
+                'DateFormat',
+            );
 
             # get maximum number of pages
             my $MaxPages = $ConfigObject->Get('PDF::MaxPages');

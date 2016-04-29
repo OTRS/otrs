@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::Language qw(Translatable);
+use Kernel::System::DateTime qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -291,7 +292,6 @@ sub Run {
         );
 
         # check if the browser supports cookies
-
         if ( $ParamObject->GetCookie( Key => 'OTRSBrowserHasCookie' ) ) {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
@@ -393,32 +393,35 @@ sub Run {
             },
         );
 
-        # set time zone offset if TimeZoneFeature is active
-        if (
-            $ConfigObject->Get('TimeZoneUser')
-            && $ConfigObject->Get('TimeZoneUserBrowserAutoOffset')
-            )
-        {
-            my $TimeOffset = $ParamObject->GetParam( Param => 'TimeOffset' ) || 0;
-            if ( $TimeOffset > 0 ) {
-                $TimeOffset = '-' . ( $TimeOffset / 60 );
-            }
-            else {
-                $TimeOffset = $TimeOffset / 60;
-                $TimeOffset =~ s/-/+/;
-            }
+        # get time zone
+        my $UserTimeZone = $UserData{UserTimeZone} || UserDefaultTimeZoneGet();
+        $SessionObject->UpdateSessionID(
+            SessionID => $NewSessionID,
+            Key       => 'UserTimeZone',
+            Value     => $UserTimeZone,
+        );
 
-            $UserObject->SetPreferences(
-                UserID => $UserData{UserID},
-                Key    => 'UserTimeZone',
-                Value  => $TimeOffset,
-            );
-            $SessionObject->UpdateSessionID(
-                SessionID => $NewSessionID,
-                Key       => 'UserTimeZone',
-                Value     => $TimeOffset,
-            );
-        }
+        # check if the time zone offset reported by the user's browser differs from that
+        # of the OTRS user's time zone offset
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                TimeZone => $UserTimeZone,
+            },
+        );
+        my $OTRSUserTimeZoneOffset = $DateTimeObject->Format( Format => '%{offset}' ) / 60;
+        my $BrowserTimeZoneOffset = ( $ParamObject->GetParam( Param => 'TimeZoneOffset' ) * -1 ) || 0;
+
+        # TimeZoneOffsetDifference contains the difference of the time zone offset between
+        # the user's OTRS time zone setting and the one reported by the user's browser.
+        # If there is a difference it can be evaluated later to e. g. show a message
+        # for the user to check his OTRS time zone setting.
+        my $UserTimeZoneOffsetDifference = abs( $OTRSUserTimeZoneOffset - $BrowserTimeZoneOffset );
+        $SessionObject->UpdateSessionID(
+            SessionID => $NewSessionID,
+            Key       => 'UserTimeZoneOffsetDifference',
+            Value     => $UserTimeZoneOffsetDifference,
+        );
 
         # create a new LayoutObject with SessionIDCookie
         my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';

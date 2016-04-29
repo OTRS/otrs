@@ -17,14 +17,10 @@ use Kernel::System::ObjectManager;
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# set timezone variables
+# set time zone
 $ConfigObject->Set(
-    Key   => 'TimeZone',
-    Value => '+0',
-);
-$ConfigObject->Set(
-    Key   => 'TimeZoneUser',
-    Value => 1,
+    Key   => 'OTRSTimeZone',
+    Value => 'UTC',
 );
 
 my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
@@ -41,9 +37,6 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
-
-# UTC tests
-local $ENV{TZ} = 'UTC';
 
 # create new queues
 my @QueueNames;
@@ -492,7 +485,7 @@ my @Tests = (
 
     # Test with a relative time period and a time zone to get a switch in the next day
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: '+10'
+    # TimeZone: Australia/Brisbane, GMT offset +10 hours
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -502,7 +495,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '+10',
+                TimeZone    => 'Australia/Brisbane',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -580,7 +573,7 @@ my @Tests = (
 
     # Test with a relative time period and a time zone
     # Fixed TimeStamp: '2015-08-11 08:00:00'
-    # TimeZone: '+2'
+    # TimeZone: Europe Berlin, GMT offset +2 hours
     # X-Axis: 'CreateTime' with a relative period 'the last complete 24 hours' and 'scale 1 hour'.
     # Y-Axis: 'QueueIDs' to select only the created tickets in the first test queue.
     # Restrictions: -
@@ -590,7 +583,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '+2',
+                TimeZone    => 'Europe/Berlin',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -684,7 +677,7 @@ my @Tests = (
 
     # Test with a relative time period and a time zone to get a switch in the previous day
     # Fixed TimeStamp: '2015-08-11 06:00:00'
-    # TimeZone: '-10'
+    # TimeZone: Pacific/Honolulu, GMT offset -10 hours
     # X-Axis: 'CreateTime' with a relative period 'the last complete 24 hours' and 'scale 1 hour'.
     # Y-Axis: 'QueueIDs' to select only the created tickets in the first test queue.
     # Restrictions: -
@@ -694,7 +687,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '-10',
+                TimeZone    => 'Pacific/Honolulu',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -788,7 +781,7 @@ my @Tests = (
 
     # Test with a relative time period and a time zone
     # Fixed TimeStamp: '2015-08-10 12:00:00'
-    # TimeZone: '-2'
+    # TimeZone: America/Noronha, GMT offset -2 hours
     # X-Axis: 'CreateTime' with a relative period 'the last complete 120 minutes' and 'scale 1 hour'.
     # Y-Axis: 'QueueIDs' to select only the created tickets in the first test queue.
     # Restrictions: -
@@ -798,7 +791,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '-2',
+                TimeZone    => 'America/Noronha',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -848,7 +841,7 @@ my @Tests = (
 
     # Test with a relative time period and a time zone
     # Fixed TimeStamp: '2015-08-09 20:00:00'
-    # TimeZone: '+2'
+    # TimeZone: Europe/Berlin, GMT offset +2 hours
     # X-Axis: 'CreateTime' with a relative period 'the last complete 1 hours' and 'scale 10 minutes'.
     # Y-Axis: 'QueueIDs' to select only the created tickets in the first test queue.
     # Restrictions: -
@@ -858,7 +851,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '+2',
+                TimeZone    => 'Europe/Berlin',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -916,7 +909,7 @@ my @Tests = (
 
     # Test with a relative time period (with current+upcoming) and a time zone to get a switch in the next day
     # Fixed TimeStamp: '2015-08-12 20:00:00'
-    # TimeZone: '+6'
+    # TimeZone: Asia/Almaty, GMT offset +6 hours
     # X-Axis: 'CreateTime' with a relative period 'the last complete 5 and current+upcoming 1 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -926,7 +919,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '+6',
+                TimeZone    => 'Asia/Almaty',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1000,7 +993,7 @@ my @Tests = (
 
     # Test with a relative time period and without a tim zone
     # Fixed TimeStamp: '2015-08-12 20:00:00'
-    # TimeZone: '0'
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 12 months' and 'scale 1 month'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1010,7 +1003,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '0',
+                TimeZone    => 'UTC',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1108,7 +1101,7 @@ my @Tests = (
 
     # Test with a relative time period and a tim zone
     # Fixed TimeStamp: '2015-08-12 20:00:00'
-    # TimeZone: '+3'
+    # TimeZone: Europe/Sofia, GMT offset +3 hours
     # X-Axis: 'CreateTime' with a relative period 'the last complete 12 months' and 'scale 1 month'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1119,7 +1112,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '+3',
+                TimeZone    => 'Europe/Sofia',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1221,7 +1214,7 @@ my @Tests = (
 
     # Test with a absolute time period and a time zone
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: '-8'
+    # TimeZone: America/Anchorage, GMT offset -8 hours
     # X-Axis: 'CreateTime' with a absolute period '2015-08-10 00:00:00 - 2015-08-15 23:59:59' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1231,7 +1224,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone    => '-8',
+                TimeZone    => 'America/Anchorage',
                 UseAsXvalue => [
                     {
                         Element        => 'CreateTime',

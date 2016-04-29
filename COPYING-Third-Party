@@ -40,12 +40,6 @@ o Name:    CPAN Crypt::PasswdMD5
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright Luis E. Mu�oz <luismunoz@cpan.org>
 
-o Name:    CPAN Date::Pcalc
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 1999-2001 by J. David Eisenberg; portions Copyright
-           # (c) 1993-2001 by Steffen Beyer. All rights reserved.
-
 o Name:    CPAN HTTP::Date
   Web;     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

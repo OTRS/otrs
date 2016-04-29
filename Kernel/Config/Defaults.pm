@@ -701,6 +701,9 @@ sub LoadDefaults {
         '600-SystemMaintenance-Check' => {
             'Module' => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
         },
+        '700-AgentTimeZone-Check' => {
+            'Module' => 'Kernel::Output::HTML::Notification::AgentTimeZoneCheck',
+        },
 
         '800-Daemon-Check' => {
           'Module' => 'Kernel::Output::HTML::Notification::DaemonCheck',
@@ -778,8 +781,8 @@ sub LoadDefaults {
     # Time Settings
     # --------------------------------------------------- #
     # TimeZone
-    # (set the system time zone, default is local time)
-#    $Self->{'TimeZone'} = 0;
+    # (set the OTRS time zone, default is UTC)
+#    $Self->{'OTRSTimeZone'} = 'UTC';
 
     # Time*
     # (Used for ticket age, escalation and system unlock calculation)

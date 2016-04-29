@@ -12,12 +12,12 @@ use strict;
 use warnings;
 
 use Kernel::Language qw(Translatable);
+use Kernel::System::DateTime qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Web::Request',
-    'Kernel::Output::HTML::Layout',
     'Kernel::System::AuthSession',
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -27,7 +27,7 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    for my $Needed (qw( UserID UserObject ConfigItem)) {
+    for my $Needed (qw( UserID UserObject ConfigItem )) {
         die "Got no $Needed!" if !$Self->{$Needed};
     }
 
@@ -37,54 +37,26 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    return if !$ConfigObject->Get('TimeZoneUser');
-    return if $ConfigObject->Get('TimeZoneUserBrowserAutoOffset');
-    return
-        if $ConfigObject->Get('TimeZoneUserBrowserAutoOffset')
-        && !$Kernel::OM->Get('Kernel::Output::HTML::Layout')->{BrowserJavaScriptSupport};
+    my $PreferencesKey      = $Self->{ConfigItem}->{PrefKey};
+    my $UserDefaultTimeZone = UserDefaultTimeZoneGet();
+    my $TimeZones           = TimeZoneList();
+    my %TimeZones           = map { $_ => $_ } sort @{$TimeZones};
+    my $SelectedTimeZone    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $PreferencesKey )
+        || $Param{UserData}->{$PreferencesKey}
+        || $UserDefaultTimeZone;
 
     my @Params = ();
     push(
         @Params,
         {
             %Param,
-            Name => $Self->{ConfigItem}->{PrefKey},
-            Data => {
-                '0'   => '+ 0',
-                '+1'  => '+ 1',
-                '+2'  => '+ 2',
-                '+3'  => '+ 3',
-                '+4'  => '+ 4',
-                '+5'  => '+ 5',
-                '+6'  => '+ 6',
-                '+7'  => '+ 7',
-                '+8'  => '+ 8',
-                '+9'  => '+ 9',
-                '+10' => '+10',
-                '+11' => '+11',
-                '+12' => '+12',
-                '-1'  => '- 1',
-                '-2'  => '- 2',
-                '-3'  => '- 3',
-                '-4'  => '- 4',
-                '-5'  => '- 5',
-                '-6'  => '- 6',
-                '-7'  => '- 7',
-                '-8'  => '- 8',
-                '-9'  => '- 9',
-                '-10' => '-10',
-                '-11' => '-11',
-                '-12' => '-12',
-            },
-            SelectedID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserTimeZone' )
-                || $Param{UserData}->{UserTimeZone}
-                || '0',
-            Block => 'Option',
+            Name       => $PreferencesKey,
+            Data       => \%TimeZones,
+            Block      => 'Option',
+            SelectedID => $SelectedTimeZone,
         },
     );
+
     return @Params;
 }
 
@@ -92,15 +64,14 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     for my $Key ( sort keys %{ $Param{GetParam} } ) {
-        my @Array = @{ $Param{GetParam}->{$Key} };
-        for (@Array) {
+        for my $Value ( @{ $Param{GetParam}->{$Key} } ) {
 
             # pref update db
             if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
                 $Self->{UserObject}->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
                     Key    => $Key,
-                    Value  => $_,
+                    Value  => $Value,
                 );
             }
 
@@ -109,13 +80,13 @@ sub Run {
                 $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
                     SessionID => $Self->{SessionID},
                     Key       => $Key,
-                    Value     => $_,
+                    Value     => $Value,
                 );
             }
         }
     }
 
-    $Self->{Message} = Translatable('Preferences updated successfully!');
+    $Self->{Message} = Translatable('Time zone updated successfully!');
     return 1;
 }
 

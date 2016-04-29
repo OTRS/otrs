@@ -204,6 +204,24 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'DateTime',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libdatetime-perl',
+            emerge => 'dev-perl/DateTime',
+            zypper => 'perl-DateTime',
+        },
+    },
+    {
+        Module    => 'DateTime::TimeZone',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libdatetime-perl',
+            emerge => 'dev-perl/DateTime',
+            zypper => 'perl-DateTime',
+        },
+    },
+    {
         Module    => 'DBI',
         Required  => 1,
         InstTypes => {
@@ -410,12 +428,6 @@ my @NeededModules = (
             emerge => 'perl-core/Time-HiRes',
             zypper => 'perl-Time-HiRes',
         },
-    },
-    {
-        # perlcore
-        Module   => 'Time::Piece',
-        Required => 1,
-        Comment  => 'Required for statistics.',
     },
     {
         Module    => 'XML::LibXML',
