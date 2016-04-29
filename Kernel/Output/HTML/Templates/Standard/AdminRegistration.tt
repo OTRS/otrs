@@ -101,7 +101,7 @@
 [% RenderBlockEnd("OverviewRegistered") %]
 [% RenderBlockStart("DaemonNotRunning") %]
             <div class="Header">
-                <h2>[% Translate("System registration not possible") | html %]</h2>
+                <h2>[% Translate("System Registration not Possible") | html %]</h2>
             </div>
             <div class="Content">
                 <p>
@@ -113,7 +113,7 @@
 [% RenderBlockEnd("DaemonNotRunning") %]
 [% RenderBlockStart("OTRSIDDeregistrationNotPossible") %]
             <div class="Header">
-                <h2>[% Translate("System deregistration not possible") | html %]</h2>
+                <h2>[% Translate("System Deregistration not Possible") | html %]</h2>
             </div>
             <div class="Content">
                 <p>
@@ -573,7 +573,7 @@
 [% RenderBlockEnd("Edit") %]
 [% RenderBlockStart("SentDataOverview") %]
             <div class="Header">
-                <h2>[% Translate("Overview of transmitted data") | html %]</h2>
+                <h2>[% Translate("Overview of Transmitted Data") | html %]</h2>
             </div>
             <div class="Content">
 [% RenderBlockStart("SentDataOverviewNoData") %]

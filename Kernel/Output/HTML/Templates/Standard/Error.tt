@@ -11,7 +11,7 @@
     <div class="W50pc CenterBox SpacingBottomLarge">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("An error occurred.") | html %]</h2>
+                <h2>[% Translate("An Error Occurred") | html %]</h2>
             </div>
             <div class="Content">
                 <h4>

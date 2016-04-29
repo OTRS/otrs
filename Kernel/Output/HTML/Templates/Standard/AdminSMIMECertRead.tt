@@ -15,7 +15,7 @@
     <div class="Content">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate('Certificate details') | html %]:</h2>
+                <h2>[% Translate('Certificate Details') | html %]:</h2>
             </div>
             <div class="Content">
                 <code>[% Data.CertificateText %]</code>

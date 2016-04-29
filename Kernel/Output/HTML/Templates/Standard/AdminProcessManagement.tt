@@ -71,7 +71,7 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Example processes") | html %]</h2>
+                <h2>[% Translate("Example Processes") | html %]</h2>
             </div>
             <div class="Content">
             [% IF Data.ExampleProcessList %]

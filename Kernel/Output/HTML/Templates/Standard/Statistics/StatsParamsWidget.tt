@@ -47,7 +47,7 @@
 
 [% RenderBlockStart("Static") %]
 <h2>
-        [% Translate("Configurable params of static stat") | html %]
+        [% Translate("Configurable Params of Static Stat") | html %]
 </h2>
 <fieldset class="TableLike">
 [% RenderBlockStart("ItemParam") %]

@@ -90,7 +90,7 @@
 [% RenderBlockStart("LostPassword") %]
             <div id="Reset">
                 <a href="#Login" class="InlineNavigation">&larr; [% Translate("Back") | html %]</a>
-                <h2>[% Translate("Request new password") | html %]</h2>
+                <h2>[% Translate("Request New Password") | html %]</h2>
                 <form class="Floating" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerLostPassword" />
                     <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]" />

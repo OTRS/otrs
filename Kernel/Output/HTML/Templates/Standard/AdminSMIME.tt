@@ -80,7 +80,7 @@
 [% RenderBlockStart("SMIMEFilter") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterSMIME">[% Translate("Filter for certificates") | html %]</label></h2>
+                <h2><label for="FilterSMIME">[% Translate("Filter for Certificates") | html %]</label></h2>
             </div>
             <div class="Content">
                 <ul>

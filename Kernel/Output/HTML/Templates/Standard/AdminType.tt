@@ -37,7 +37,7 @@
 [% RenderBlockEnd("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterTypes">[% Translate("Filter for types") | html %]</label></h2>
+                <h2><label for="FilterTypes">[% Translate("Filter for Types") | html %]</label></h2>
             </div>
             <div class="Content">
                 <input type="text" id="FilterTypes" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterTypes" value="" title="[% Translate("Filter for types") | html %]">

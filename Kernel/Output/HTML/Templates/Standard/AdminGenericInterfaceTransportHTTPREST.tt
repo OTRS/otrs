@@ -40,7 +40,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Network transport") | html %]</h2>
+                <h2>[% Translate("Network Transport") | html %]</h2>
             </div>
             <div class="Content">
                 <h3>[% Translate("Properties") | html %]</h3>

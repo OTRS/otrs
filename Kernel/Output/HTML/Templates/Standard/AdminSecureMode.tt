@@ -10,7 +10,7 @@
     <div class="W33pc SpacingTopLarge SpacingBottomLarge CenterBox">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Secure mode needs to be enabled!") | html %]</h2>
+                <h2>[% Translate("Secure Mode Needs to be Enabled!") | html %]</h2>
             </div>
             <div class="Content">
 

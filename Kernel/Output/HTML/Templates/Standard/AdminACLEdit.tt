@@ -53,7 +53,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Edit ACL information") | html %]</h2>
+                    <h2>[% Translate("Edit ACL Information") | html %]</h2>
                 </div>
                 <div class="Content">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
@@ -113,7 +113,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Edit ACL structure") | html %]</h2>
+                    <h2>[% Translate("Edit ACL Structure") | html %]</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike ACLStructure">

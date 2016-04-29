@@ -41,10 +41,10 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterSLAs">[% Translate("Filter for SLA") | html %]</label></h2>
+                <h2><label for="FilterSLAs">[% Translate("Filter for SLAs") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterSLAs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSLAs" value="" title="[% Translate("Filter for SLA") | html %]">
+                <input type="text" id="FilterSLAs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSLAs" value="" title="[% Translate("Filter for SLAs") | html %]">
             </div>
         </div>
 

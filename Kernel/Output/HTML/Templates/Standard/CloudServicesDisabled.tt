@@ -11,7 +11,7 @@
     <div class="W33pc CenterBox SpacingBottomLarge">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("This feature requires cloud services.") | html %]</h2>
+                <h2>[% Translate("This Feature Requires Cloud Services") | html %]</h2>
             </div>
             <div class="Content">
                 <div class="Spacing"></div>

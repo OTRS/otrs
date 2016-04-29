@@ -32,10 +32,10 @@
 [% RenderBlockEnd("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterGenericAgentJobs">[% Translate("Filter for generic agent jobs") | html %]</label></h2>
+                <h2><label for="FilterGenericAgentJobs">[% Translate("Filter for Generic Agent Jobs") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterGenericAgentJobs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGenericAgentJobs" value="" title="[% Translate("Filter for yyy") | html %]">
+                <input type="text" id="FilterGenericAgentJobs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGenericAgentJobs" value="" title="[% Translate("Filter for generic agent jobs") | html %]">
             </div>
         </div>
     </div>
@@ -143,7 +143,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Automatic execution (multiple tickets)") | html %]</h2>
+                    <h2>[% Translate("Automatic Execution (Multiple Tickets)") | html %]</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
@@ -186,7 +186,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Event based execution (single ticket)") | html %]</h2>
+                    <h2>[% Translate("Event Based Execution (Single Ticket)") | html %]</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">

@@ -31,7 +31,7 @@
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>
-                    [% Translate("Uninstall package") | html %]
+                    [% Translate("Uninstall Package") | html %]
                 </h2>
             </div>
             <div class="Content">
@@ -379,7 +379,7 @@
 
                 <div class="Header">
                     <h2>
-                        [% Translate("Features for %s customers only", OTRSBusinessLabel) %]
+                        [% Translate("Features for %s Customers Only", OTRSBusinessLabel) %]
                         → <a href="mailto:sales@otrs.com">sales@otrs.com</a>
                     </h2>
                 </div>
@@ -644,7 +644,7 @@
             <div class="WidgetSimple">
                 <div class="Header">
                     <h2>
-                        [% Data.Name | html %]: [% Translate("File differences for file %s", Data.Location) | html %]
+                        [% Data.Name | html %]: [% Translate("File Differences for File %s", Data.Location) | html %]
                     </h2>
                 </div>
                 <div class="Content">

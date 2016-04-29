@@ -10,7 +10,7 @@
 <div class="LayoutPopup">
     <div class="Content">
         <h1>[% Translate("Spell Checker") | html %]</h1>
-        <h2>[% Data.SpellCounter | html %] [% Translate("spelling error(s)") | html %]</h2>
+        <h2>[% Data.SpellCounter | html %] [% Translate("Spelling Error(s)") | html %]</h2>
         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="spelling">
             <input type="hidden" name="Action" value="AgentSpelling"/>
             <input type="hidden" name="Field" id="Field" value="[% Data.Field | html %]"/>

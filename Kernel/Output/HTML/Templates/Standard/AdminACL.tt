@@ -39,7 +39,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Configuration import") | html %]</h2>
+                <h2>[% Translate("Configuration Import") | html %]</h2>
             </div>
             <div class="Content">
                 <p class="FieldExplanation">

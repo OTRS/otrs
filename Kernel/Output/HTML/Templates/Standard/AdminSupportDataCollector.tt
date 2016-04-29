@@ -238,7 +238,7 @@
     <div id="SupportBundleOptionsDialogContainer" class="Hidden">
         <div class="Spacing SupportBundleOptionsDialog" id="SupportBundleOptionsDialog">
             <span class="W50pc" title=""></span>
-            <h2>[% Translate("The support bundle has been generated.") | html %]</h3>
+            <h2>[% Translate("The Support Bundle has been Generated") | html %]</h2>
                 <div class="FieldExplanation">
                     [% Translate("Please choose one of the following options.") | html %]
                 </div>

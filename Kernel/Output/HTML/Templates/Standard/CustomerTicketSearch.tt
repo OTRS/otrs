@@ -42,7 +42,7 @@
                 </div>
             </fieldset>
             <fieldset>
-                <h2>[% Translate("Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")") | html %]</h2>
+                <h2>[% Translate("Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")") | html %]</h2>
                 <div>
                     <label for="From">[% Translate("From") | html %]</label>
                     <input title="[% Translate("Sender") | html %]" type="text" id="From" name="From" value="[% Data.From | html %]" size="20" class="[% Data.FromInvalid | html %]" />
@@ -136,7 +136,7 @@
                 <div class="Clear"></div>
             </fieldset>
             <fieldset class="TimeSearchType">
-                <h2>[% Translate("Time restrictions") | html %]</h2>
+                <h2>[% Translate("Time Restrictions") | html %]</h2>
                 <div>
                     <input title="[% Translate("No time settings") | html %]" type="radio"  id="NoTimeSet" name="TimeSearchType" value="" [% Data.item("TimeSearchType::None") %] />
                     <label for="NoTimeSet">[% Translate("All") | html %]</label>
@@ -154,7 +154,7 @@
             </fieldset>
 [% RenderBlockStart("SearchInArchive") %]
             <fieldset>
-                <h2>[% Translate("Ticket archive system") | html %]</h2>
+                <h2>[% Translate("Ticket Archive System") | html %]</h2>
                 <div>
                     <label for="SearchInArchive">[% Translate("Archive Search") | html %]:</label>
                     [% Data.SearchInArchiveStrg %]
@@ -162,7 +162,7 @@
             </fieldset>
 [% RenderBlockEnd("SearchInArchive") %]
             <fieldset>
-                <h2>[% Translate("Save search as template?") | html %]</h2>
+                <h2>[% Translate("Save Search as Template?") | html %]</h2>
                 <div>
                     <label for="SaveProfile">[% Translate("Save as Template?") | html %]</label>
                     <input title="[% Translate("Save as Template") | html %]" type="checkbox" id="SaveProfile" name="SaveProfile" />

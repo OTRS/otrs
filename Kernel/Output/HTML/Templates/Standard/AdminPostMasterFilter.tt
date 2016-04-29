@@ -34,10 +34,10 @@
 [% RenderBlockEnd("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterPostMasterFilters">[% Translate("Filter for postmaster filters") | html %]</label></h2>
+                <h2><label for="FilterPostMasterFilters">[% Translate("Filter for Postmaster Filters") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterPostMasterFilters" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterPostMasterFilters" value="" title="[% Translate("Filter for yyy") | html %]">
+                <input type="text" id="FilterPostMasterFilters" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterPostMasterFilters" value="" title="[% Translate("Filter for postmaster filters") | html %]">
             </div>
         </div>
 

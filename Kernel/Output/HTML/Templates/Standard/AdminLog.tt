@@ -11,7 +11,7 @@
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterLogEntries">[% Translate("Filter for log entries") | html %]</label></h2>
+                <h2><label for="FilterLogEntries">[% Translate("Filter for Log Entries") | html %]</label></h2>
             </div>
             <div class="Content">
                 <input type="text" id="FilterLogEntries" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterLogEntries" value="" title="[% Translate("Filter for log entries") | html %]">
