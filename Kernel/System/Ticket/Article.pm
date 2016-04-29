@@ -2336,10 +2336,10 @@ sub ArticleBounce {
 
     # pipe all into sendmail
     return if !$Kernel::OM->Get('Kernel::System::Email')->Bounce(
-        MessageID => $NewMessageID,
-        From      => $Param{From},
-        To        => $Param{To},
-        Email     => $Email,
+        'Message-ID' => $NewMessageID,
+        From         => $Param{From},
+        To           => $Param{To},
+        Email        => $Email,
     );
 
     # write history
