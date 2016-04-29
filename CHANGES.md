@@ -1,4 +1,5 @@
 #5.0.10 2016-??-??
+ - 2016-04-29 Fixed bug#[12033](http://bugs.otrs.org/show_bug.cgi?id=12033) - Wrong value selected automatically for Responsible in Bulk action..
  - 2016-04-29 Fixed bug#[12039](http://bugs.otrs.org/show_bug.cgi?id=12039) - Wrong default article type in reply.
  - 2016-04-27 Fixed bug#[11783](http://bugs.otrs.org/show_bug.cgi?id=11783) - EscalationsCheck alwasy triggers every Event.
  - 2016-04-26 Improved the way user last used zoom view type is stored for Timeline view in OTRS Business Solution™.
