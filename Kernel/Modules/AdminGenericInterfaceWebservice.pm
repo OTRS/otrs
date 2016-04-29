@@ -823,6 +823,7 @@ sub _ShowEdit {
         my @ExampleWebServices = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/webservices/examples',
             Filter    => '*.yml',
+            Silent    => 1,
         );
 
         my %ExampleWebServicesData;
