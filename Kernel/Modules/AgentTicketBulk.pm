@@ -1069,14 +1069,12 @@ sub _Mask {
             }
         }
         $Param{ResponsibleStrg} = $LayoutObject->BuildSelection(
-            Data => {
-                '' => '-',
-                %AllGroupsMembers
-            },
-            Name        => 'ResponsibleID',
-            Translation => 0,
-            SelectedID  => $Param{ResponsibleID},
-            Class       => 'Modernize',
+            Data         => \%AllGroupsMembers,
+            PossibleNone => 1,
+            Name         => 'ResponsibleID',
+            Translation  => 0,
+            SelectedID   => $Param{ResponsibleID},
+            Class        => 'Modernize',
         );
         $LayoutObject->Block(
             Name => 'Responsible',
