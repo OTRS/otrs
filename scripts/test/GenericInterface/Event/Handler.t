@@ -56,7 +56,7 @@ my $Home = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otrs.Daemon.pl';
 
 # get daemon status (stop if necessary to reload configuration with planner daemon disabled)
-my $PreviousDaemonStatus = `$Daemon status`;
+my $PreviousDaemonStatus = `perl $Daemon status`;
 
 if ( !$PreviousDaemonStatus ) {
     $Self->False(
@@ -68,7 +68,7 @@ if ( !$PreviousDaemonStatus ) {
 
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 
-    my $ResultMessage = system("$Daemon stop");
+    my $ResultMessage = system("perl $Daemon stop");
 }
 else {
     $Self->True(
@@ -82,7 +82,7 @@ my $SleepTime = 120;
 print "Waiting at most $SleepTime s until daemon stops\n";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
-    my $DaemonStatus = `$Daemon status`;
+    my $DaemonStatus = `perl $Daemon status`;
     if ( $DaemonStatus =~ m{Daemon not running}i ) {
         last ACTIVESLEEP;
     }
@@ -90,7 +90,7 @@ for my $Seconds ( 1 .. $SleepTime ) {
     sleep 1;
 }
 
-my $CurrentDaemonStatus = `$Daemon status`;
+my $CurrentDaemonStatus = `perl $Daemon status`;
 
 $Self->True(
     int $CurrentDaemonStatus =~ m{Daemon not running}i,
@@ -453,7 +453,7 @@ for my $Test (@Tests) {
 
 # start daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    my $Result = system("$Daemon start");
+    my $Result = system("perl $Daemon start");
     $Self->Is(
         $Result,
         0,
@@ -465,7 +465,7 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     print "Waiting at most $SleepTime s until daemon start\n";
     ACTIVESLEEP:
     for my $Seconds ( 1 .. $SleepTime ) {
-        my $DaemonStatus = `$Daemon status`;
+        my $DaemonStatus = `perl $Daemon status`;
         if ( $DaemonStatus =~ m{Daemon running}i ) {
             last ACTIVESLEEP;
         }
@@ -474,7 +474,7 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     }
 }
 
-$CurrentDaemonStatus = `$Daemon status`;
+$CurrentDaemonStatus = `perl $Daemon status`;
 
 $Self->Is(
     $CurrentDaemonStatus,
