@@ -1494,6 +1494,9 @@ sub IsTimeZoneValid {
         }
     }
 
+    # allow DateTime internal time zone in 'floating'
+    return 1 if $Param{TimeZone} eq 'floating';
+
     my %TimeZones = map { $_ => 1 } @{ $Self->TimeZoneList() };
 
     return 0 if !$TimeZones{ $Param{TimeZone} };
