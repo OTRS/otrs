@@ -1480,6 +1480,8 @@ Returns:
 
 =cut
 
+my %ValidTimeZones; # Cache for all instances.
+
 sub IsTimeZoneValid {
     my ( $Self, %Param ) = @_;
 
@@ -1497,9 +1499,11 @@ sub IsTimeZoneValid {
     # allow DateTime internal time zone in 'floating'
     return 1 if $Param{TimeZone} eq 'floating';
 
-    $Self->{_ValidTimeZones} //= { map { $_ => 1 } @{ $Self->TimeZoneList() } };
+    if (!%ValidTimeZones) {
+        %ValidTimeZones = map { $_ => 1 } @{ $Self->TimeZoneList() };
+    }
 
-    return $Self->{_ValidTimeZones}->{ $Param{TimeZone} } ? 1 : 0;
+    return $ValidTimeZones{ $Param{TimeZone} } ? 1 : 0;
 }
 
 =item OTRSTimeZoneGet()
