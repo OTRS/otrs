@@ -20,7 +20,7 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $Daemon = $Home . '/bin/otrs.Daemon.pl';
 
 # get daemon status (stop if necessary)
-my $PreviousDaemonStatus = `$Daemon status`;
+my $PreviousDaemonStatus = `perl $Daemon status`;
 
 if ( !$PreviousDaemonStatus ) {
     $Self->False(
@@ -31,7 +31,7 @@ if ( !$PreviousDaemonStatus ) {
 }
 
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    my $ResultMessage = system("$Daemon stop");
+    my $ResultMessage = system("perl $Daemon stop");
 }
 else {
     $Self->True(
@@ -45,7 +45,7 @@ my $SleepTime = 120;
 print "Waiting at most $SleepTime s until daemon stops\n";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
-    my $DaemonStatus = `$Daemon status`;
+    my $DaemonStatus = `perl $Daemon status`;
     if ( $DaemonStatus =~ m{Daemon not running}i ) {
         last ACTIVESLEEP;
     }
@@ -53,7 +53,7 @@ for my $Seconds ( 1 .. $SleepTime ) {
     sleep 1;
 }
 
-my $CurrentDaemonStatus = `$Daemon status`;
+my $CurrentDaemonStatus = `perl $Daemon status`;
 
 $Self->True(
     int $CurrentDaemonStatus =~ m{Daemon not running}i,
@@ -171,7 +171,7 @@ for my $File (@FileRemember) {
 
 # start daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    system("$Daemon start");
+    system("perl $Daemon start");
 }
 
 1;
