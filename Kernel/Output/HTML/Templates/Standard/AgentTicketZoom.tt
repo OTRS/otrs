@@ -778,7 +778,8 @@ Core.Agent.TicketZoom.TimelineView.Init(TicketID, ListObjects, ArticleID);
 [% RenderBlockEnd("ArticleAttachment") %]
                 </fieldset>
             </div>
-            <div class="ArticleMailContent">
+            <div class="ArticleMailContent[% IF Data.ArticleMetaData && Data.ArticleMetaData.size() %] WithMeta[% END %]">
+
 [% RenderBlockStart("BodyPlain") %]
 [% Data.BodyNote %]
                 <div class="ArticleBody">
@@ -821,6 +822,19 @@ function CheckIFrameHeight(IFrameID) {
 [% RenderBlockStart("BodyChat") %]
 [% INCLUDE "ChatDisplay.tt" %]
 [% RenderBlockEnd("BodyChat") %]
+
+            [% IF Data.ArticleMetaData && Data.ArticleMetaData.size() %]
+                <div class="ArticleMeta">
+                [% FOREACH Entry IN Data.ArticleMetaData %]
+                    <h2>[% Entry.Name | html %]</h2>
+                    <ul>
+                    [% FOREACH Item IN Entry.Matches %]
+                        <li><a href="[% Item.URL | html %]"[% IF Item.EnableLinkPreview %] data-trigger="floater"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                    [% END %]
+                    </ul>
+                [% END %]
+                </div>
+            [% END %]
             </div>
         </div>
     </div>

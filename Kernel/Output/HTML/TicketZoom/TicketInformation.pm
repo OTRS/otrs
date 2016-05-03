@@ -267,6 +267,7 @@ sub Run {
                 Value                       => $ValueStrg->{Value},
                 Label                       => $Label,
                 Link                        => $ValueStrg->{Link},
+                EnableLinkPreview               => $ValueStrg->{EnableLinkPreview},
                 $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
             };
         }
@@ -309,6 +310,7 @@ sub Run {
                     Value          => $Field->{Value},
                     Title          => $Field->{Title},
                     Link           => $Field->{Link},
+                    EnableLinkPreview  => $Field->{EnableLinkPreview},
                     $Field->{Name} => $Field->{Title},
                 },
             );

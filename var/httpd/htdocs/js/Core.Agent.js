@@ -357,7 +357,6 @@ Core.Agent = (function (TargetNS) {
         });
     }
 
-
     /**
      * @private
      * @name NavigationBarShowSlideButton
@@ -626,6 +625,7 @@ Core.Agent = (function (TargetNS) {
         Core.UI.InitMessageBoxClose();
         Core.Form.Validate.Init();
         Core.UI.Popup.Init();
+        Core.UI.Floater.Init();
         Core.UI.InputFields.Init();
         Core.UI.TreeSelection.InitTreeSelection();
         Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();

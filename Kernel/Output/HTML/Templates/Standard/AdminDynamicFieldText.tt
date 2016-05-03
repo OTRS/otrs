@@ -157,7 +157,16 @@
                             </p>
                         </div>
                         <div class="Clear"></div>
+
+                        <div class="SpacingTop"></div>
+                        <label for="EnableLinkPreview">[% Translate("Enable link preview") | html %]:</label>
+                        <div class="Field">
+                            [% Data.EnableLinkPreviewStrg %]
+                            <p class="FieldExplanation">[% Translate("Activate this option to display a preview of the link configured above in AgentTicketZoom.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
 [% RenderBlockEnd("Link") %]
+
                         <label for="RegEx">[% Translate("Check RegEx") | html %]:</label>
                         <div class="Field RegExInsert">
                             <p class="FieldExplanation">
