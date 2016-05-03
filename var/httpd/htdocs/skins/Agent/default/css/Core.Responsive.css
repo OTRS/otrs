@@ -787,6 +787,17 @@
         float: none;
     }
 
+    .ArticleMailContent.WithMeta .ArticleBody,
+    .ArticleMailContent.WithMeta .ArticleMailContentHTMLWrapper {
+        width: auto;
+        float: none;
+    }
+
+    .ArticleMailContent.WithMeta .ArticleMeta {
+        width: auto;
+        float: none;
+    }
+
     /* Errors */
 
     .MainBox.ErrorScreen {

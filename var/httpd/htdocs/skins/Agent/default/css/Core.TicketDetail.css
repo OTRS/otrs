@@ -117,6 +117,52 @@ div.Headline .Flag {
     line-height: 1.3;
 }
 
+.ArticleMailContent.WithMeta {
+    overflow: hidden;
+}
+
+.ArticleMailContent.WithMeta .ArticleBody,
+.ArticleMailContent.WithMeta .ArticleMailContentHTMLWrapper {
+    width: 74%;
+    float: left;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.ArticleMailContent.WithMeta .ArticleMeta {
+    width: 25%;
+    float: right;
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.ArticleMailContent.WithMeta .ArticleMeta h2 {
+    font-size: 13px;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.ArticleMailContent.WithMeta .ArticleMeta ul + h2 {
+    margin-top: 10px;
+}
+
+.ArticleMailContent.WithMeta .ArticleMeta ul li {
+    display: inline-block;
+}
+
+.ArticleMailContent.WithMeta .ArticleMeta ul li a {
+    white-space: nowrap;
+    display: block;
+    background: #eee;
+    color: #333;
+    font-size: 11px;
+    padding: 3px 7px;
+    margin-bottom: 4px;
+}
+
 .ArticleMailContentHTMLWrapper {
     -webkit-overflow-scrolling: touch;
    overflow: auto;

@@ -200,6 +200,15 @@
                             </p>
                         </div>
                         <div class="Clear"></div>
+
+                        <div class="SpacingTop"></div>
+                        <label for="EnableLinkPreview">[% Translate("Enable link preview") | html %]:</label>
+                        <div class="Field">
+                            [% Data.EnableLinkPreviewStrg %]
+                            <p class="FieldExplanation">[% Translate("Activate this option to display a preview of the link configured above in AgentTicketZoom.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+
                     </fieldset>
                 </div>
             </div>

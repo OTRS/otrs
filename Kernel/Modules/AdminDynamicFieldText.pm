@@ -108,6 +108,9 @@ sub _AddAction {
         }
     }
 
+    # get the EnableLinkPreview option and set it to '0' if it is undefined
+    $GetParam{EnableLinkPreview} = $ParamObject->GetParam( Param => 'EnableLinkPreview' ) // 0;
+
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     if ( $GetParam{Name} ) {
@@ -185,8 +188,9 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue => $GetParam{DefaultValue},
-        RegExList    => \@RegExList,
+        DefaultValue  => $GetParam{DefaultValue},
+        EnableLinkPreview => $GetParam{EnableLinkPreview},
+        RegExList     => \@RegExList,
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -297,6 +301,9 @@ sub _ChangeAction {
             $Errors{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required.');
         }
     }
+
+    # get the EnableLinkPreview option and set it to '0' if it is undefined
+    $GetParam{EnableLinkPreview} = $ParamObject->GetParam( Param => 'EnableLinkPreview' ) // 0;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $FieldID = $ParamObject->GetParam( Param => 'ID' );
@@ -436,8 +443,9 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue => $GetParam{DefaultValue},
-        RegExList    => \@RegExList,
+        DefaultValue  => $GetParam{DefaultValue},
+        RegExList     => \@RegExList,
+        EnableLinkPreview => $GetParam{EnableLinkPreview},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -566,12 +574,26 @@ sub _ShowScreen {
 
     if ( $Param{FieldType} eq 'Text' ) {
 
+        my $EnableLinkPreview = $Param{EnableLinkPreview} || '0';
+
+        # create EnableLinkPreview option list
+        my $EnableLinkPreviewStrg = $LayoutObject->BuildSelection(
+            Data => {
+                0 => Translatable('No'),
+                1 => Translatable('Yes'),
+            },
+            Name       => 'EnableLinkPreview',
+            SelectedID => $EnableLinkPreview,
+            Class      => 'Modernize W50pc',
+        );
+
         # create the default link element
         $LayoutObject->Block(
             Name => 'Link',
             Data => {
                 %Param,
-                Link => $Link,
+                Link              => $Link,
+                EnableLinkPreviewStrg => $EnableLinkPreviewStrg,
             },
         );
     }

@@ -336,7 +336,8 @@ and will transform dates to the current user's timezone.
     $ValueStrg = {
         Title => $Title,
         Value => $Value,
-        Link  => $link,
+        Link  => $Link,
+        EnableLinkPreview => $EnableLinkPreview,
     }
 
 =cut

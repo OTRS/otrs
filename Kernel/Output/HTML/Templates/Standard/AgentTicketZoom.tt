@@ -928,7 +928,7 @@ Core.Agent.TicketZoom.TimelineView.Init(TicketID, ListObjects, ArticleID);
 [% RenderBlockStart("ArticleDynamicField") %]
                     <label>[% Translate(Data.Label) | html %]:</label>
 [% RenderBlockStart("ArticleDynamicFieldLink") %]
-                    <p class="Value" title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></p>
+                    <p class="Value" title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.EnableLinkPreview %] data-trigger="floater"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></p>
 [% RenderBlockEnd("ArticleDynamicFieldLink") %]
 [% RenderBlockStart("ArticleDynamicFieldPlain") %]
                     <p class="Value" title="[% Data.Title %]">[% Data.Value %]</p>
@@ -997,7 +997,8 @@ Core.Agent.TicketZoom.TimelineView.Init(TicketID, ListObjects, ArticleID);
 [% RenderBlockEnd("ArticleAttachment") %]
                 </fieldset>
             </div>
-            <div class="ArticleMailContent">
+            <div class="ArticleMailContent[% IF Data.ArticleMetaData && Data.ArticleMetaData.size() %] WithMeta[% END %]">
+
 [% RenderBlockStart("BodyPlain") %]
 [% Data.BodyNote %]
                 <div class="ArticleBody">
@@ -1040,6 +1041,19 @@ function CheckIFrameHeight(IFrameID) {
 [% RenderBlockStart("BodyChat") %]
 [% INCLUDE "ChatDisplay.tt" %]
 [% RenderBlockEnd("BodyChat") %]
+
+            [% IF Data.ArticleMetaData && Data.ArticleMetaData.size() %]
+                <div class="ArticleMeta">
+                [% FOREACH Entry IN Data.ArticleMetaData %]
+                    <h2>[% Entry.Name | html %]</h2>
+                    <ul>
+                    [% FOREACH Item IN Entry.Matches %]
+                        <li><a href="[% Item.URL | html %]"[% IF Item.EnableLinkPreview %] data-trigger="floater"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                    [% END %]
+                    </ul>
+                [% END %]
+                </div>
+            [% END %]
             </div>
         </div>
     </div>
@@ -1101,6 +1115,31 @@ function CheckIFrameHeight(IFrameID) {
 
         return false;
     });
+
+    if (typeof Core.UI.Floater !== 'undefined') {
+        Core.UI.Floater.Init();
+    }
+
 //]]></script>
 [% END %]
 [% RenderBlockEnd("TicketZoomInit") %]
+
+<div class="MetaFloater Hidden">
+    <a href="#" class="Scale" title="[% Translate('Scale preview content') | html %]" style="display: none;">
+        <i class="fa fa-search-plus"></i>
+    </a>
+    <a href="#" class="Open" target="_blank" title="[% Translate('Open URL in new tab') | html %]" style="display: none;">
+        <i class="fa fa-external-link"></i>
+    </a>
+    <a href="#" class="Close" title="[% Translate('Close preview') | html %]">
+        <i class="fa fa-times"></i>
+    </a>
+    <i class="fa fa-spinner fa-spin"></i>
+    <div class="NoPreview">
+        <i class="fa fa-warning"></i>
+        [% Translate("OTRS can't provide a preview of this website because it seems as if it didn't allow to be embedded.") | html %]
+    </div>
+    <div class="Content" style="display: none;">
+        <iframe sandbox="allow-scripts allow-forms"></iframe>
+    </div>
+</div>
