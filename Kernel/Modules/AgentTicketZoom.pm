@@ -3271,7 +3271,7 @@ sub _ArticleCollectMeta {
                 $URL =~ s/<MATCH>/$MatchLinkEncode/g;
 
                 # replace the keyword components
-                for my $Part ( sort keys $Match->{Parts} ) {
+                for my $Part ( sort keys %{ $Match->{Parts} || {} } ) {
                     $MatchLinkEncode = $LayoutObject->LinkEncode( $Match->{Parts}->{$Part} );
                     $URL =~ s/<MATCH$Part>/$MatchLinkEncode/g;
                 }
