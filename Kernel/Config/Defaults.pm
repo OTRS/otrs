@@ -1004,6 +1004,7 @@ sub LoadDefaults {
         'Core.UI.Accordion.js',
         'Core.UI.Datepicker.js',
         'Core.UI.DnD.js',
+        'Core.UI.Floater.js',
         'Core.UI.Resizable.js',
         'Core.UI.Table.js',
         'Core.UI.Accessibility.js',
