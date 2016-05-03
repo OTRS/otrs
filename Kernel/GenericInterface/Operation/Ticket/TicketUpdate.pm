@@ -11,7 +11,7 @@ package Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsString);
+use Kernel::System::VariableCheck qw( :all );
 
 use base qw(
     Kernel::GenericInterface::Operation::Common
