@@ -225,7 +225,7 @@ sub _AddAction {
     my $FieldConfig = {
         PossibleValues     => $PossibleValues,
         TreeView           => $GetParam{TreeView},
-        EnableLinkPreview      => $GetParam{EnableLinkPreview},
+        EnableLinkPreview  => $GetParam{EnableLinkPreview},
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
@@ -505,7 +505,7 @@ sub _ChangeAction {
     my $FieldConfig = {
         PossibleValues     => $PossibleValues,
         TreeView           => $GetParam{TreeView},
-        EnableLinkPreview      => $GetParam{EnableLinkPreview},
+        EnableLinkPreview  => $GetParam{EnableLinkPreview},
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
@@ -797,7 +797,7 @@ sub _ShowScreen {
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
-            EnableLinkPreviewStrg      => $EnableLinkPreviewStrg,
+            EnableLinkPreviewStrg  => $EnableLinkPreviewStrg,
             }
     );
 

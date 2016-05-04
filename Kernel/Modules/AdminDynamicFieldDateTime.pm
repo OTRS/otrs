@@ -194,13 +194,13 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue    => $GetParam{DefaultValue},
-        YearsPeriod     => $GetParam{YearsPeriod},
-        DateRestriction => $GetParam{DateRestriction},
-        YearsInFuture   => $GetParam{YearsInFuture},
-        YearsInPast     => $GetParam{YearsInPast},
-        Link            => $GetParam{Link},
-        EnableLinkPreview   => $GetParam{EnableLinkPreview},
+        DefaultValue      => $GetParam{DefaultValue},
+        YearsPeriod       => $GetParam{YearsPeriod},
+        DateRestriction   => $GetParam{DateRestriction},
+        YearsInFuture     => $GetParam{YearsInFuture},
+        YearsInPast       => $GetParam{YearsInPast},
+        Link              => $GetParam{Link},
+        EnableLinkPreview => $GetParam{EnableLinkPreview},
     };
 
     # create a new field
@@ -440,13 +440,13 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue    => $GetParam{DefaultValue},
-        YearsPeriod     => $GetParam{YearsPeriod},
-        DateRestriction => $GetParam{DateRestriction},
-        YearsInFuture   => $GetParam{YearsInFuture},
-        YearsInPast     => $GetParam{YearsInPast},
-        Link            => $GetParam{Link},
-        EnableLinkPreview   => $GetParam{EnableLinkPreview},
+        DefaultValue      => $GetParam{DefaultValue},
+        YearsPeriod       => $GetParam{YearsPeriod},
+        DateRestriction   => $GetParam{DateRestriction},
+        YearsInFuture     => $GetParam{YearsInFuture},
+        YearsInPast       => $GetParam{YearsInPast},
+        Link              => $GetParam{Link},
+        EnableLinkPreview => $GetParam{EnableLinkPreview},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -644,7 +644,7 @@ sub _ShowScreen {
             YearsInPast           => $YearsInPast,
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
-            EnableLinkPreviewStrg     => $EnableLinkPreviewStrg,
+            EnableLinkPreviewStrg => $EnableLinkPreviewStrg,
             }
     );
 

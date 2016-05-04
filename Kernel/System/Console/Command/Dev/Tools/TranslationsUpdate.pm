@@ -206,7 +206,7 @@ sub HandleLanguage {
         );
 
         my $CustomTemplatesDir = "$ModuleDirectory/Custom/Kernel/Output/HTML/Templates/$DefaultTheme";
-        if ($IsSubTranslation && -d $CustomTemplatesDir) {
+        if ( $IsSubTranslation && -d $CustomTemplatesDir ) {
             my @CustomTemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => $CustomTemplatesDir,
                 Filter    => '*.tt',
@@ -264,7 +264,7 @@ sub HandleLanguage {
         );
 
         my $CustomKernelDir = "$ModuleDirectory/Custom/Kernel";
-        if ($IsSubTranslation && -d $CustomKernelDir) {
+        if ( $IsSubTranslation && -d $CustomKernelDir ) {
             my @CustomPerlModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => $CustomKernelDir,
                 Filter    => '*.pm',

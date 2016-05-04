@@ -49,7 +49,6 @@ $Self->True(
     'TicketCreate()',
 );
 
-
 # try to get a non-existant ticket
 my %Ticket = $TicketObject->TicketGet(
     TicketID => $TicketID + 1,

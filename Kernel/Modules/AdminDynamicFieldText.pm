@@ -188,9 +188,9 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue  => $GetParam{DefaultValue},
+        DefaultValue      => $GetParam{DefaultValue},
         EnableLinkPreview => $GetParam{EnableLinkPreview},
-        RegExList     => \@RegExList,
+        RegExList         => \@RegExList,
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -443,8 +443,8 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue  => $GetParam{DefaultValue},
-        RegExList     => \@RegExList,
+        DefaultValue      => $GetParam{DefaultValue},
+        RegExList         => \@RegExList,
         EnableLinkPreview => $GetParam{EnableLinkPreview},
     };
 
@@ -592,7 +592,7 @@ sub _ShowScreen {
             Name => 'Link',
             Data => {
                 %Param,
-                Link              => $Link,
+                Link                  => $Link,
                 EnableLinkPreviewStrg => $EnableLinkPreviewStrg,
             },
         );

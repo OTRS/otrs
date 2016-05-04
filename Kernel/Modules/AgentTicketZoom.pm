@@ -1644,12 +1644,12 @@ sub MaskAgentZoom {
                     %Ticket,
 
                     # alias for ticket title, Title will be overwritten
-                    TicketTitle    => $Ticket{Title},
-                    Value          => $Field->{Value},
-                    Title          => $Field->{Title},
-                    Link           => $Field->{Link},
+                    TicketTitle       => $Ticket{Title},
+                    Value             => $Field->{Value},
+                    Title             => $Field->{Title},
+                    Link              => $Field->{Link},
                     EnableLinkPreview => $Field->{EnableLinkPreview},
-                    $Field->{Name} => $Field->{Title},
+                    $Field->{Name}    => $Field->{Title},
                 },
             );
         }
@@ -3558,9 +3558,9 @@ sub _ArticleCollectMeta {
                 }
 
                 push @{ $FilterData{Matches} }, {
-                    Text          => $Match->{Name},
-                    URL           => $URL,
-                    Target        => $Filter->{Meta}->{Target} || '_blank',
+                    Text              => $Match->{Name},
+                    URL               => $URL,
+                    Target            => $Filter->{Meta}->{Target} || '_blank',
                     EnableLinkPreview => $Filter->{Meta}->{EnableLinkPreview} || 0,
                 };
             }

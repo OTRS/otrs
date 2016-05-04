@@ -203,7 +203,7 @@ JAVASCRIPT
 
             # check for correct translation
 
-            for my $String ('User Profile', 'Notification Settings', 'Other Settings') {
+            for my $String ( 'User Profile', 'Notification Settings', 'Other Settings' ) {
                 my $Translation = $LanguageObject->Translate($String);
                 $Self->True(
                     index( $Selenium->get_page_source(), $Translation ) > -1,
