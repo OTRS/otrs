@@ -1,4 +1,5 @@
 #5.0.10 2016-??-??
+ - 2016-05-04 Fixed bug#[12031](http://bugs.otrs.org/show_bug.cgi?id=12031) - SubSelected class not applied to My Tickets in CustomerTicketOverview Navigation.
  - 2016-05-04 Fixed bug#[12048](http://bugs.otrs.org/show_bug.cgi?id=12048) - error message with HTML <br> code.
  - 2016-05-04 Fixed bug#[12049](http://bugs.otrs.org/show_bug.cgi?id=12049) - Encoding problems in REST transport.
  - 2016-05-03 Added floating information widgets which can easily be added to any link element using data-trigger="floater" (also on runtime). Enable Ticket::Frontend::ZoomCollectMeta and at least one of its related filters nearby in order to have meta information (which matches the configured regex) collected from articles and displayed next to them in AgentTicketZoom (also with floater widgets, if enabled).
