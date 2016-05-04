@@ -1,4 +1,5 @@
 #5.0.10 2016-??-??
+ - 2016-05-04 Fixed bug#[12044](http://bugs.otrs.org/show_bug.cgi?id=12044) - PostMaster process crashed if a non existent ticket type is set via PostMaster filter.
  - 2016-05-04 Fixed bug#[12031](http://bugs.otrs.org/show_bug.cgi?id=12031) - SubSelected class not applied to My Tickets in CustomerTicketOverview Navigation.
  - 2016-05-04 Fixed bug#[12048](http://bugs.otrs.org/show_bug.cgi?id=12048) - error message with HTML <br> code.
  - 2016-05-04 Fixed bug#[12049](http://bugs.otrs.org/show_bug.cgi?id=12049) - Encoding problems in REST transport.

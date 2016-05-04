@@ -23,6 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::Ticket',
     'Kernel::System::Time',
+    'Kernel::System::Type',
     'Kernel::System::User',
 );
 
@@ -103,6 +104,22 @@ sub Run {
                 Priority => 'error',
                 Message =>
                     "Priority $GetParam{'X-OTRS-Priority'} does not exist, falling back to $Priority!"
+            );
+        }
+    }
+
+    my $TypeID;
+
+    if ( $GetParam{'X-OTRS-Type'} ) {
+
+        # Check if type exists
+        $TypeID = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( Type => $GetParam{'X-OTRS-Type'} );
+
+        if ( !$TypeID ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Type $GetParam{'X-OTRS-Type'} does not exist, falling back to default type."
             );
         }
     }
@@ -233,7 +250,7 @@ sub Run {
         Lock         => $GetParam{'X-OTRS-Lock'} || 'unlock',
         Priority     => $Priority,
         State        => $State,
-        Type         => $GetParam{'X-OTRS-Type'} || '',
+        TypeID       => $TypeID,
         Service      => $GetParam{'X-OTRS-Service'} || '',
         SLA          => $GetParam{'X-OTRS-SLA'} || '',
         CustomerID   => $GetParam{'X-OTRS-CustomerNo'},
