@@ -3277,9 +3277,9 @@ sub _ArticleCollectMeta {
                 }
 
                 push @{ $FilterData{Matches} }, {
-                    Text          => $Match->{Name},
-                    URL           => $URL,
-                    Target        => $Filter->{Meta}->{Target} || '_blank',
+                    Text              => $Match->{Name},
+                    URL               => $URL,
+                    Target            => $Filter->{Meta}->{Target} || '_blank',
                     EnableLinkPreview => $Filter->{Meta}->{EnableLinkPreview} || 0,
                 };
             }

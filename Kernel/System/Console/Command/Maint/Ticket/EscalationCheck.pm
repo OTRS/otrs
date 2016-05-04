@@ -154,7 +154,7 @@ sub Run {
             # emit the event
             push @Events, $TicketAttr2Event{$Type};
 
-            if (!$EscalationType) {
+            if ( !$EscalationType ) {
                 if ( $Type =~ /TimeEscalation$/ ) {
                     push @Events, 'NotificationEscalation';
                     $EscalationType = 1;

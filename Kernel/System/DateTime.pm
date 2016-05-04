@@ -1480,7 +1480,7 @@ Returns:
 
 =cut
 
-my %ValidTimeZones; # Cache for all instances.
+my %ValidTimeZones;    # Cache for all instances.
 
 sub IsTimeZoneValid {
     my ( $Self, %Param ) = @_;
@@ -1499,7 +1499,7 @@ sub IsTimeZoneValid {
     # allow DateTime internal time zone in 'floating'
     return 1 if $Param{TimeZone} eq 'floating';
 
-    if (!%ValidTimeZones) {
+    if ( !%ValidTimeZones ) {
         %ValidTimeZones = map { $_ => 1 } @{ $Self->TimeZoneList() };
     }
 
