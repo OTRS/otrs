@@ -853,6 +853,297 @@ my @Tests = (
             },
         },
     },
+
+    # tests for bug #12049
+    {
+        Name        => 'UTF8 test GET',
+        Success     => '1',
+        RequestData => {
+            Other => 'äöüß€ÄÖÜ',
+        },
+        ExpectedReturnData => {
+            Other => 'äöüß€ÄÖÜ',
+        },
+        WebserviceConfig => {
+            Name        => 'TestSimple1',
+            Description => '',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        KeepAlive             => '',
+                        MaxLength             => '100000000',
+                        RouteOperationMapping => {
+                            TestSimple => {
+                                RequestMethod => ['GET'],
+                                Route         => '/Test',
+                            },
+                        },
+                    },
+                },
+                Operation => {
+                    TestSimple => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        DefaultCommand           => 'GET',
+                        Host                     => $BaseURL,
+                        InvokerControllerMapping => {
+                            TestSimple => {
+                                Controller => '/Test',
+                            },
+                        },
+                    },
+                },
+                Invoker => {
+                    TestSimple => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+    {
+        Name        => 'UTF8 test POST',
+        Success     => '1',
+        RequestData => {
+            Other => 'äöüß€ÄÖÜ',
+        },
+        ExpectedReturnData => {
+            Other => 'äöüß€ÄÖÜ',
+        },
+        WebserviceConfig => {
+            Name        => 'TestSimple1',
+            Description => '',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        KeepAlive             => '',
+                        MaxLength             => '100000000',
+                        RouteOperationMapping => {
+                            TestSimple => {
+                                RequestMethod => ['POST'],
+                                Route         => '/Test',
+                            },
+                        },
+                    },
+                },
+                Operation => {
+                    TestSimple => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        DefaultCommand           => 'POST',
+                        Host                     => $BaseURL,
+                        InvokerControllerMapping => {
+                            TestSimple => {
+                                Controller => '/Test',
+                            },
+                        },
+                    },
+                },
+                Invoker => {
+                    TestSimple => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+    {
+        Name        => 'UTF8 test POST mixed with GET params',
+        Success     => '1',
+        RequestData => {
+            Other  => 'äöüß€ÄÖÜ',
+            Other1 => 'ÄÖÜß€äöü',
+        },
+        ExpectedReturnData => {
+            Other  => 'äöüß€ÄÖÜ',
+            Other1 => 'ÄÖÜß€äöü',
+        },
+        WebserviceConfig => {
+            Name        => 'TestSimple1',
+            Description => '',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        KeepAlive             => '',
+                        MaxLength             => '100000000',
+                        RouteOperationMapping => {
+                            TestSimple => {
+                                RequestMethod => ['POST'],
+                                Route         => '/Test',
+                            },
+                        },
+                    },
+                },
+                Operation => {
+                    TestSimple => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        DefaultCommand           => 'POST',
+                        Host                     => $BaseURL,
+                        InvokerControllerMapping => {
+                            TestSimple => {
+                                Controller => '/Test?Other1=:Other1',
+                            },
+                        },
+                    },
+                },
+                Invoker => {
+                    TestSimple => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+    {
+        Name        => 'UTF8 test GET with URI params',
+        Success     => '1',
+        RequestData => {
+            Other => 'äöüß€ÄÖÜ',
+        },
+        ExpectedReturnData => {
+            Other  => 'äöüß€ÄÖÜ',
+            Other1 => 'ÄÖÜß€äöü',
+        },
+        WebserviceConfig => {
+            Name        => 'TestSimple1',
+            Description => '',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        KeepAlive             => '',
+                        MaxLength             => '100000000',
+                        RouteOperationMapping => {
+                            TestSimple => {
+                                RequestMethod => ['GET'],
+                                Route         => '/Test/:Other1',
+                            },
+                        },
+                    },
+                },
+                Operation => {
+                    TestSimple => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        DefaultCommand           => 'GET',
+                        Host                     => $BaseURL,
+                        InvokerControllerMapping => {
+                            TestSimple => {
+                                Controller => '/Test/ÄÖÜß€äöü',
+                            },
+                        },
+                    },
+                },
+                Invoker => {
+                    TestSimple => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+    {
+        Name        => 'UTF8 test POST with URI params',
+        Success     => '1',
+        RequestData => {
+            Other => 'äöüß€ÄÖÜ',
+        },
+        ExpectedReturnData => {
+            Other  => 'äöüß€ÄÖÜ',
+            Other1 => 'ÄÖÜß€äöü',
+        },
+        WebserviceConfig => {
+            Name        => 'TestSimple1',
+            Description => '',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        KeepAlive             => '',
+                        MaxLength             => '100000000',
+                        RouteOperationMapping => {
+                            TestSimple => {
+                                RequestMethod => ['POST'],
+                                Route         => '/Test/:Other1',
+                            },
+                        },
+                    },
+                },
+                Operation => {
+                    TestSimple => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::REST',
+                    Config => {
+                        DefaultCommand           => 'POST',
+                        Host                     => $BaseURL,
+                        InvokerControllerMapping => {
+                            TestSimple => {
+                                Controller => '/Test/ÄÖÜß€äöü',
+                            },
+                        },
+                    },
+                },
+                Invoker => {
+                    TestSimple => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
 );
 
 # create requester object

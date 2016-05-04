@@ -136,9 +136,14 @@ sub ProviderProcessRequest {
             # Convert + characters to its encoded representation, see bug#11917
             $Value =~ s{\+}{%20}g;
 
-            # unscape URI strings in query parameters
+            # unescape URI strings in query parameters
             $Key   = URI::Escape::uri_unescape($Key);
             $Value = URI::Escape::uri_unescape($Value);
+
+            # encode variables
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Key );
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
+
             if ( !defined $QueryParams{$Key} ) {
                 $QueryParams{$Key} = $Value || '';
             }
@@ -183,7 +188,20 @@ sub ProviderProcessRequest {
 
         next ROUTE if !( $RequestURI =~ m{^ $RouteRegEx $}xms );
 
-        %URIData   = %+;
+        # import URI params
+        for my $URIKey ( sort keys %+ ) {
+            my $URIValue = $+{$URIKey};
+
+            # unescape value
+            $URIValue = URI::Escape::uri_unescape($URIValue);
+
+            # encode value
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$URIValue );
+
+            # add to URI data
+            $URIData{$URIKey} = $URIValue;
+        }
+
         $Operation = $CurrentOperation;
 
         # leave with the first matching regexp
@@ -446,7 +464,10 @@ sub RequesterPerformRequest {
         };
     }
 
-    my $Headers = {};
+    # create header container
+    # and add proper content type
+    my $Headers = { 'Content-Type' => 'application/json; charset=UTF-8' };
+
     if ( IsHashRefWithData( $Config->{Authentication} ) ) {
 
         # basic authentication
@@ -632,6 +653,9 @@ sub RequesterPerformRequest {
             $Param{Data} = $JSONObject->Encode(
                 Data => $Param{Data},
             );
+
+            # make sure data is correctly encoded
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Data} );
         }
 
         # whereas GET and the others just have a the data added to the Query URI.
@@ -668,10 +692,8 @@ sub RequesterPerformRequest {
         push @RequestParam, $Body;
     }
 
-    # Headers is an optional tag, so just add it if present.
-    if ( IsHashRefWithData($Headers) ) {
-        push @RequestParam, $Headers;
-    }
+    # add headers to request
+    push @RequestParam, $Headers;
 
     $RestClient->$RestCommand(@RequestParam);
 
