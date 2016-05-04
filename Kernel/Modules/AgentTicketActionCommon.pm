@@ -409,6 +409,13 @@ sub Run {
                 }
             }
 
+            # check responsible
+            if ( $Config->{Responsible} && $Config->{ResponsibleMandatory} ) {
+                if ( !$GetParam{NewResponsibleID} ) {
+                    $Error{'NewResponsibleInvalid'} = 'ServerError';
+                }
+            }
+
             # check title
             if ( $Config->{Title} && !$GetParam{Title} ) {
                 $Error{'TitleInvalid'} = 'ServerError';
@@ -1771,15 +1778,17 @@ sub _Mask {
 
         # get responsible
         $Param{ResponsibleStrg} = $LayoutObject->BuildSelection(
-            Data         => \%ShownUsers,
-            SelectedID   => $Param{NewResponsibleID},
-            Name         => 'NewResponsibleID',
-            Class        => 'Modernize',
+            Data       => \%ShownUsers,
+            SelectedID => $Param{NewResponsibleID},
+            Name       => 'NewResponsibleID',
+            Class      => 'Modernize '
+                . ( $Config->{ResponsibleMandatory} ? 'Validate_Required ' : '' )
+                . ( $Param{NewResponsibleInvalid} || '' ),
             PossibleNone => 1,
             Size         => 1,
         );
         $LayoutObject->Block(
-            Name => 'Responsible',
+            Name => $Config->{ResponsibleMandatory} ? 'ResponsibleMandatory' : 'Responsible',
             Data => \%Param,
         );
     }

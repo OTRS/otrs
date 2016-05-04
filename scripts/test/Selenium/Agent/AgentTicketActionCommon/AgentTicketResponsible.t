@@ -143,14 +143,29 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # check client side validation
+        $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test');
+        $Selenium->execute_script(
+            "\$('#NewResponsibleID').val('').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedSubmit();
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#NewResponsibleID').hasClass('Error')"
+            ),
+            '1',
+            'Client side validation correctly detected missing input value',
+        );
+
         # change ticket user responsible
         $Selenium->execute_script(
             "\$('#NewResponsibleID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
-        $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
+        # switch window back
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
