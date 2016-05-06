@@ -135,6 +135,8 @@ sub Run {
     my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    my $Content;
+
     if (%Tickets) {
         TICKET:
         for my $TicketID ( sort keys %Tickets ) {
@@ -159,7 +161,31 @@ sub Run {
                 my $EndTime = $TimeObject->TimeStamp2SystemTime(
                     String => $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField },
                 );
-                next TICKET if $StartTime > $EndTime;
+
+                # check if start time is after end time
+                if ( $StartTime > $EndTime ) {
+
+                    # turn start and end time around for the calendar view
+                    my $NewStartTime = $EndTime;
+                    my $NewEndTime   = $StartTime;
+                    $StartTime = $NewStartTime;
+                    $EndTime   = $NewEndTime;
+
+                    # we also need to turn the time in the tooltip around, otherwise the time bar display would be wrong
+                    $TicketDetail{ 'DynamicField_' . $StartTimeDynamicField } = $TimeObject->SystemTime2TimeStamp(
+                        SystemTime => $StartTime,
+                    );
+                    $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField } = $TimeObject->SystemTime2TimeStamp(
+                        SystemTime => $EndTime,
+                    );
+
+                    # show a notification bar to indicate that the start and end time are set in a wrong way
+                    $Content .= $LayoutObject->Notify(
+                        Priority => 'Warning',
+                        Info     => 'The start time of a ticket has been set after the end time!',
+                        Link     => "index.pl?Action=AgentTicketZoom;TicketID=$TicketID",
+                    );
+                }
 
                 my %Data;
                 $Data{ID}    = $TicketID;
@@ -315,7 +341,7 @@ sub Run {
             }
     );
 
-    my $Content = $LayoutObject->Output(
+    $Content .= $LayoutObject->Output(
         TemplateFile => 'DashboardEventsTicketCalendar',
         Data         => {
             %{ $Self->{Config} },
