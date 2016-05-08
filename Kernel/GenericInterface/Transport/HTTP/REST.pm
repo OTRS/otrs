@@ -105,6 +105,9 @@ sub ProviderProcessRequest {
         );
     }
 
+    # get Encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
     my $Operation;
     my %URIData;
     my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
@@ -138,7 +141,7 @@ sub ProviderProcessRequest {
             $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
 
             # encode value
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$QueryParams{$Param} );
+            $EncodeObject->EncodeInput( \$QueryParams{$Param} );
         }
     }
 
@@ -180,7 +183,7 @@ sub ProviderProcessRequest {
             $URIValue = URI::Escape::uri_unescape($URIValue);
 
             # encode value
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$URIValue );
+            $EncodeObject->EncodeInput( \$URIValue );
 
             # add to URI data
             $URIData{$URIKey} = $URIValue;
@@ -244,13 +247,13 @@ sub ProviderProcessRequest {
         $ContentCharset = $1;
     }
     if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-        $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+        $Content = $EncodeObject->Convert2CharsetInternal(
             Text => $Content,
             From => $ContentCharset,
         );
     }
     else {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
+        $EncodeObject->EncodeInput( \$Content );
     }
 
     # send received data to debugger
@@ -616,8 +619,9 @@ sub RequesterPerformRequest {
         delete $Param{Data}->{$ParamName};
     }
 
-    # get JSON object
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+    # get JSON and Encode object
+    my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     my $Body;
     if ( IsHashRefWithData( $Param{Data} ) ) {
@@ -639,7 +643,7 @@ sub RequesterPerformRequest {
             );
 
             # make sure data is correctly encoded
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Data} );
+            $EncodeObject->EncodeOutput( \$Param{Data} );
         }
 
         # whereas GET and the others just have a the data added to the Query URI.
@@ -727,7 +731,7 @@ sub RequesterPerformRequest {
         Data    => $ResponseContent,
     );
 
-    $ResponseContent = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+    $ResponseContent = $EncodeObject->Convert2CharsetInternal(
         Text => $ResponseContent,
         From => 'utf-8',
     );
