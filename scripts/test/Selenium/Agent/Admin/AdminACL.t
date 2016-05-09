@@ -206,8 +206,8 @@ JAVASCRIPT
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # test search filter
-        $Selenium->find_element( "#Filter", 'css' )->clear();
-        $Selenium->find_element( "#Filter", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#FilterACLs", 'css' )->clear();
+        $Selenium->find_element( "#FilterACLs", 'css' )->send_keys($RandomID);
 
         # check class of invalid ACL in the overview table
         $Self->True(

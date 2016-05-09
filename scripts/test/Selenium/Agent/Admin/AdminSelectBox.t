@@ -66,6 +66,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SQL", 'css' )->send_keys("SELECT * FROM valid");
         $Selenium->find_element( "#SQL", 'css' )->VerifiedSubmit();
 
+
         # verify results
         my @Elements = $Selenium->find_elements( 'table thead tr', 'css' );
         $Self->Is(
@@ -74,9 +75,10 @@ $Selenium->RunTest(
             "Result table header row found",
         );
 
-        @Elements = $Selenium->find_elements( 'table tbody tr', 'css' );
         $Self->Is(
-            scalar @Elements,
+            $Selenium->execute_script(
+                "return \$('#Results tbody tr:visible').length"
+            ),
             3,
             "Result table body rows found",
         );
