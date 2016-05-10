@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-04-29 08:54+0000\n"
-"PO-Revision-Date: 2016-04-29 06:56+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-05-10 11:28+0000\n"
+"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3660,6 +3660,16 @@ msgid ""
 msgstr "Itt határozható meg egy opcionális HTTP hivatkozás a mező értékéhez az áttekintőben és a nagyítási képernyőkön."
 
 #. Template: AdminDynamicFieldDateTime
+msgid "Enable link preview"
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid ""
+"Activate this option to display a preview of the link configured above in "
+"AgentTicketZoom."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
 msgstr "Korlátozás dátumok bevitelére"
 
@@ -5042,6 +5052,26 @@ msgid "Do you really want to delete this web service?"
 msgstr "Valóban törölni szeretné ezt a webszolgáltatást?"
 
 #. Template: AdminGenericInterfaceWebservice
+msgid "Example Web Services"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Here you can activate best practice example web service that are part of %s."
+" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import example web service"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Do you want to benefit from web services created by experts? Upgrade to %s "
+"to be able to import some sophisticated example processes."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
 msgid ""
 "After you save the configuration you will be redirected again to the edit "
 "screen."
@@ -5997,7 +6027,7 @@ msgstr "Metaadatok"
 
 #. Template: AdminPackageManager
 msgid "Change Log"
-msgstr "Napló módosítása"
+msgstr "Változásnapló"
 
 #. Template: AdminPackageManager
 msgid "Date"
@@ -7996,11 +8026,11 @@ msgstr "Új betöltő fájl"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBarName"
-msgstr "NavigációsSávNév"
+msgstr "Navigációs sáv név"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBar"
-msgstr "NavigációsSáv"
+msgstr "Navigációs sáv"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
@@ -8020,7 +8050,7 @@ msgstr "Navigációs sáv bejegyzés hozzáadása"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBar module"
-msgstr ""
+msgstr "Navigációs sáv modul"
 
 #. Template: AdminSysConfigEdit
 msgid "Year"
@@ -8162,7 +8192,7 @@ msgstr "Ügyfél munkamenetek"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr "Összes munkamenet kilövése (saját nem)"
+msgstr "Összes munkamenet kilövése, kivéve az Ön sajátját"
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
@@ -8412,7 +8442,7 @@ msgstr "ekkor:"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "Felületi elem bezárása"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
@@ -9036,7 +9066,7 @@ msgstr "%s jegy: az első válaszidő le fog járni: %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time is over (%s/%s)!"
-msgstr ""
+msgstr "%s jegy: a frissítés ideje lejárt (%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
@@ -9505,6 +9535,24 @@ msgstr "Üzenet bezárása"
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "A bejegyzést nem sikerült megnyitni! Talán egy másik bejegyzés oldalon van?"
+
+#. Template: AgentTicketZoom
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close preview"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"OTRS can't provide a preview of this website because it seems as if it "
+"didn't allow to be embedded."
+msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -10743,11 +10791,11 @@ msgstr "Hiba történt az adatok lekérésekor a(z) %s azonosítóval rendelkez�
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Pontos egyezés"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
-msgstr ""
+msgstr "Tagadott pontos egyezés"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
@@ -10755,15 +10803,15 @@ msgstr "Reguláris kifejezés"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
-msgstr ""
+msgstr "Reguláris kifejezés (kis- és nagybetű megegyezik)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
-msgstr ""
+msgstr "Tagadott reguláris kifejezés"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression (ignore case)"
-msgstr ""
+msgstr "Tagadott reguláris kifejezés (kis- és nagybetű megegyezik)"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -10841,19 +10889,19 @@ msgstr "Jelenleg"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Unchecked"
-msgstr ""
+msgstr "Nincs bejelölve"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Checked"
-msgstr ""
+msgstr "Bejelölve"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "Jövőbeli dátumbejegyzések megakadályozása"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "Múltbeli dátumbejegyzések megakadályozása"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "This field value is duplicated."
@@ -10865,15 +10913,15 @@ msgstr "Válasszon legalább egy címzettet."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "jegyek archiválása"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "jegyek visszaállítása az archívumból"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Profil szükséges!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -10927,27 +10975,27 @@ msgstr "Nem sikerült frissíteni a beállítási adatokat a(z) %s webszolgálta
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
-msgstr ""
+msgstr "Megtartás (változatlanul hagyás)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop key/value pair)"
-msgstr ""
+msgstr "Mellőzés (kulcs-érték pár eldobása)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Map to (use provided value as default)"
-msgstr ""
+msgstr "Leképezés (biztosított érték használata alapértelmezettként)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
-msgstr ""
+msgstr "Pontos értékek"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
-msgstr ""
+msgstr "Mellőzés (érték-érték pár eldobása)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
-msgstr ""
+msgstr "Nem található a szükséges programkönyvtár: %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Need OperationType"
@@ -10998,6 +11046,14 @@ msgid "Need Name!"
 msgstr "Név szükséges!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Need ExampleWebService!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not read %s!"
+msgstr "Nem sikerült olvasni: %s!"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
 msgstr "Egy fájl szükséges az importáláshoz!"
 
@@ -11017,7 +11073,7 @@ msgstr "Nem kaptam webszolgáltatás előzmény-azonosítót!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Could not get history data for WebserviceHistoryID %s"
-msgstr ""
+msgstr "Nem sikerült lekérni az előzményadatokat a(z) %s webszolgáltatás előzmény-azonosítóhoz"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Notification updated!"
@@ -11149,15 +11205,15 @@ msgstr "A csomag nincs ellenőrizve az ellenőrző-kiszolgálóval történő ko
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTRS Feature Add-on list server!"
-msgstr ""
+msgstr "Nem lehet kapcsolódni az OTRS szolgáltatáskiegészítő lista kiszolgálójához!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr ""
+msgstr "Nem lehet lekérni az OTRS szolgáltatáskiegészítő listát a kiszolgálóról!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on from server!"
-msgstr ""
+msgstr "Nem lehet lekérni az OTRS szolgáltatáskiegészítőt a kiszolgálóról!"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -11168,16 +11224,12 @@ msgid "Need ExampleProcesses!"
 msgstr "Példafolyamatok szükségesek!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not read %s!"
-msgstr "Nem sikerült olvasni: %s!"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
 msgstr "Folyamatazonosító szükséges!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "Igen (kötelező)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
@@ -11514,7 +11566,7 @@ msgstr "Megszólítás hozzáadva!"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
-msgstr ""
+msgstr "A(z) %s fájlt nem sikerült beolvasni!"
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Import not allowed!"
@@ -12007,7 +12059,7 @@ msgstr "A Process::Default%s alapértelmezett beállítása érvénytelen!"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
-msgstr ""
+msgstr "Névtelen"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
@@ -12269,15 +12321,15 @@ msgstr "Ha használni szeretné a telepítőt, akkor állítsa írhatóra a Kern
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Check!"
-msgstr ""
+msgstr "Ismeretlen ellenőrzés!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "The check \"%s\" doesn't exist!"
-msgstr ""
+msgstr "A(z) „%s” ellenőrzés nem létezik!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "%s adatbázis"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
@@ -12405,7 +12457,7 @@ msgstr "Ez a felhasználó jelenleg nem érhető el"
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "Sajnáljuk, de már nincs jogosultsága a jegyhez történő hozzáféréshez annak jelenlegi állapotában. A következő műveletek egyikét választhatja:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
@@ -13291,7 +13343,7 @@ msgstr "Probléma"
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr ""
+msgstr "Feloldási idő visszaállítása."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -13305,7 +13357,7 @@ msgstr "Nem lehet eltávolítani a munkamenet-azonosítót"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Sikeres kilépés."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Panic! Invalid Session!!!"
@@ -13333,16 +13385,16 @@ msgstr "Nem lehet elküldeni a fiókinformációkat!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "SecureMode active!"
-msgstr ""
+msgstr "Biztonságos mód bekapcsolva!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr ""
+msgstr "Ha újra szeretné futtatni a telepítőt, akkor tiltsa le a biztonságos módot a rendszerbeállításokban"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "A(z) „%s” művelet nem található!"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
@@ -13667,7 +13719,7 @@ msgstr "(Felhasználónév) Vezetéknév, Keresztnév"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr ""
+msgstr "*** irodán kívül eddig: %s (%s nap van hátra) ***"
 
 #. SysConfig
 msgid "100 (Expert)"
@@ -13838,11 +13890,11 @@ msgstr "Ez után:"
 
 #. SysConfig
 msgid "Agent Name"
-msgstr ""
+msgstr "Ügyintézőnév"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
-msgstr ""
+msgstr "Ügyintézőnév + feladóelválasztó + rendszercím megjelenített neve"
 
 #. SysConfig
 msgid "Agent Preferences."
@@ -14702,7 +14754,7 @@ msgstr "Ügyfélkérés weben keresztül."
 
 #. SysConfig
 msgid "Customer ticket overview"
-msgstr ""
+msgstr "Ügyféljegy-áttekintő"
 
 #. SysConfig
 msgid "Customer ticket search."
@@ -14710,7 +14762,7 @@ msgstr "Ügyféljegykeresés."
 
 #. SysConfig
 msgid "Customer ticket zoom"
-msgstr ""
+msgstr "Ügyféljegynagyítás"
 
 #. SysConfig
 msgid "Customer user search"
@@ -14960,6 +15012,16 @@ msgid ""
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
 msgstr "Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez."
+
+#. SysConfig
+msgid ""
+"Defines a filter to collect CVE numbers from article texts in "
+"AgentTicketZoom. The results will be displayed in a meta box next to the "
+"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
+"the URL when moving your mouse cursor above the link element. Please note "
+"that some websites deny being displayed within an iframe (e.g. Google) and "
+"thus won't work with the preview mode."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15238,7 +15300,7 @@ msgstr "Meghatározza, hogy az időelszámolást be kell állítani minden jegyr
 msgid ""
 "Defines out of office message template. Two string parameters (%s) "
 "available: end date and number of days left."
-msgstr ""
+msgstr "Meghatározza az irodán kívüli üzenet sablonját. Két szövegparaméter (%s) érhető el: a befejezési dátum és a hátralévő napok száma."
 
 #. SysConfig
 msgid ""
@@ -16211,7 +16273,7 @@ msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. "
 "syslogd."
-msgstr "Meghatározza a napló modult a rendszerhez. A „Fájl” minden üzenetet a megadott naplófájlba ír, a „SysLog” a rendszer syslog démonját használja, mint például a syslogd."
+msgstr "Meghatározza a napló modult a rendszerhez. A „File” minden üzenetet a megadott naplófájlba ír, a „SysLog” a rendszer syslog démonját használja, mint például a syslogd."
 
 #. SysConfig
 msgid ""
@@ -16331,7 +16393,7 @@ msgid ""
 "binary of your operating system. Any of the \"SMTP\" mechanisms use a "
 "specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
 "it is useful for test systems."
-msgstr "Meghatározza azt a modult, amely e-maileket küld. A „Sendmail” közvetlenül az operációs rendszere sendmail binárisát használja. Az „SMTP” mechanizmusok bármelyike egy megadott (külső) levelező-kiszolgálót használ. A „Ne küldjön e-mailt” nem küld e-maileket, és tesztrendszerek esetén hasznos."
+msgstr "Meghatározza azt a modult, amely e-maileket küld. A „Sendmail” közvetlenül az operációs rendszere sendmail binárisát használja. Az „SMTP” mechanizmusok bármelyike egy megadott (külső) levelező-kiszolgálót használ. A „DoNotSendEmail” nem küld e-maileket, és tesztrendszerek esetén hasznos."
 
 #. SysConfig
 msgid ""
@@ -17898,8 +17960,8 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\\\felhasznalo a felhasználóhoz)."
+"example_domain\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18030,7 +18092,7 @@ msgstr "Ha „SysLog” lett kiválasztva a LogModule modulnál, akkor megadhat�
 msgid ""
 "If \"file\" was selected for LogModule, a logfile must be specified. If the "
 "file doesn't exist, it will be created by the system."
-msgstr "Ha „fájl” lett kiválasztva a LogModule modulnál, akkor meg kell adni egy naplófájlt. Ha a fájl nem létezik, a rendszer létre fogja hozni."
+msgstr "Ha „File” lett kiválasztva a LogModule modulnál, akkor meg kell adni egy naplófájlt. Ha a fájl nem létezik, a rendszer létre fogja hozni."
 
 #. SysConfig
 msgid ""
@@ -18145,7 +18207,7 @@ msgstr "Ha engedélyezve van, akkor az OTRS minden CSS fájlt minimalizált form
 
 #. SysConfig
 msgid "If enabled, OTRS will deliver all JavaScript files in minified form."
-msgstr "Ha engedélyezve van, akkor az OTRS minden JavaScript fájlt minimalizált formában fog kiszolgálni."
+msgstr "Ha engedélyezve van, akkor az OTRS minden JavaScript fájlt minimalizált formában fog szállítani."
 
 #. SysConfig
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
@@ -18249,7 +18311,7 @@ msgstr "IndexAccelerator: a TicketViewAccelerator háttérprogram modul választ
 
 #. SysConfig
 msgid "Input"
-msgstr ""
+msgstr "Beviteli mező"
 
 #. SysConfig
 msgid ""
@@ -18320,7 +18382,7 @@ msgstr "JavaScript függvény a keresési előtétprogramhoz."
 
 #. SysConfig
 msgid "Last customer subject"
-msgstr ""
+msgstr "Legutóbbi ügyféltárgy"
 
 #. SysConfig
 msgid "Lastname Firstname"
@@ -18484,7 +18546,7 @@ msgstr "Hurokvédelem! Nem lett automatikus válasz elküldve ide: „%s”."
 
 #. SysConfig
 msgid "Mail Accounts"
-msgstr "Levelező fiókok"
+msgstr "Levelezőfiókok"
 
 #. SysConfig
 msgid "Main menu registration."
@@ -18865,7 +18927,7 @@ msgstr "Nyitott jegyek (ügyfél)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "Lehetőség"
 
 #. SysConfig
 msgid ""
@@ -18963,7 +19025,7 @@ msgstr "A RefreshTime objektum paraméterei az ügyintézői felület beállít�
 
 #. SysConfig
 msgid "Parameters for the column filters of the small ticket overview."
-msgstr ""
+msgstr "Paraméterek a kis jegyáttekintő oszlopszűrőihez."
 
 #. SysConfig
 msgid ""
@@ -21113,7 +21175,7 @@ msgstr "Svéd"
 
 #. SysConfig
 msgid "System Address Display Name"
-msgstr ""
+msgstr "Rendszercím megjelenített neve"
 
 #. SysConfig
 msgid "System Maintenance"
@@ -21448,7 +21510,7 @@ msgstr "Egy e-mail egyszerű jegynézete."
 
 #. SysConfig
 msgid "Ticket title"
-msgstr ""
+msgstr "Jegycím"
 
 #. SysConfig
 msgid "Ticket zoom view."
@@ -21673,6 +21735,12 @@ msgid ""
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
 msgstr "Amikor jegyeket egyesítenek, az ügyfél tájékoztatást kaphat e-mailben a „Küldő tájékoztatása” jelölőnégyzet beállításával. Ebben a szövegdobozban meghatározhat egy előformázott szöveget, amelyet később az ügyintézők módosíthatnak."
+
+#. SysConfig
+msgid ""
+"Whether or not to collect meta information from articles using filters "
+"configured in Ticket::Frontend::ZoomCollectMetaFilters."
+msgstr ""
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"

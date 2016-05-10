@@ -8,6 +8,7 @@
 # Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
 # eder.brito <ederbritoo@gmail.com>, 2015
 # Edson Silva Freitas <edson.s.freitas@gmail.com>, 2016
+# Felipe Augusto <felipeaugustoti@gmail.com>, 2016
 # Felipe Braga <fbobraga@gmail.com>, 2015-2016
 # Felipe Rozelio <feliperozelio@gmail.com>, 2016
 # José Junior <joserribeiro26@gmail.com>, 2014-2015
@@ -22,9 +23,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-04-29 08:54+0000\n"
-"PO-Revision-Date: 2016-04-29 06:55+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-05-10 11:28+0000\n"
+"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2715,7 +2716,7 @@ msgstr "Limite por página para a visão de chamados \"Médio\"."
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Preview\" Limit"
-msgstr "Limite Para a Visão de Chamados \"Pré-Visualização\""
+msgstr "Limite para \"Pré-Visualização\" da Visão Geral de Chamados"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Preview\""
@@ -3667,6 +3668,16 @@ msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
 msgstr "Aqui você pode especificar um link HTTP para o valor deste campo nas telas de Visão Geral e Detalhamento."
+
+#. Template: AdminDynamicFieldDateTime
+msgid "Enable link preview"
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid ""
+"Activate this option to display a preview of the link configured above in "
+"AgentTicketZoom."
+msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -5049,6 +5060,26 @@ msgstr "Apagar Web Service"
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
 msgstr "Você realmente deseja apagar este web service?"
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Example Web Services"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Here you can activate best practice example web service that are part of %s."
+" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import example web service"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Do you want to benefit from web services created by experts? Upgrade to %s "
+"to be able to import some sophisticated example processes."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -9515,6 +9546,24 @@ msgstr "Fechar esta mensagem"
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "O artigo não pôde ser aberto! Talvez ele esteja em outra página de artigo?"
 
+#. Template: AgentTicketZoom
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close preview"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"OTRS can't provide a preview of this website because it seems as if it "
+"didn't allow to be embedded."
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr "Para proteger sua privacidade, o conteúdo remoto foi desabilitado."
@@ -11007,6 +11056,14 @@ msgid "Need Name!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Need ExampleWebService!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not read %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
 msgstr ""
 
@@ -11174,10 +11231,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not read %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -14972,6 +15025,16 @@ msgstr "Define um filtro para a saída HTML para adicionar links atrás de núme
 
 #. SysConfig
 msgid ""
+"Defines a filter to collect CVE numbers from article texts in "
+"AgentTicketZoom. The results will be displayed in a meta box next to the "
+"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
+"the URL when moving your mouse cursor above the link element. Please note "
+"that some websites deny being displayed within an iframe (e.g. Google) and "
+"thus won't work with the preview mode."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines a filter to process the text in the articles, in order to highlight "
 "predefined keywords."
 msgstr "Define um filtro para processar o texto nos artigos, a fim de destacar palavras-chave predefinidas."
@@ -17907,7 +17970,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -21682,6 +21745,12 @@ msgid ""
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
 msgstr "Quando os chamados são agrupados o cliente pode ser informado por e-mail marcando a checkbox \"Informar ao Remetente\". Nesta área de texto você pode definir um texto pré-formatado que pode ser posteriormente modificado pelos atendentes."
+
+#. SysConfig
+msgid ""
+"Whether or not to collect meta information from articles using filters "
+"configured in Ticket::Frontend::ZoomCollectMetaFilters."
+msgstr ""
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"

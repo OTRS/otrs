@@ -6,6 +6,7 @@
 # EricLF44 <E.lefoll@cdg44.fr>, 2016
 # En Feng Wu <wuen320@gmail.com>, 2016
 # Gaudin vincent <vincent.gaudin@cprpsncf.fr>, 2015
+# Guillaume MIGNOTTE <accrocom@gmail.com>, 2016
 # Marc A. Bonsels, 2015
 # Matthieu HUTIN, 2015
 # osallou <olivier.sallou@irisa.fr>, 2014
@@ -17,9 +18,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-04-29 08:54+0000\n"
-"PO-Revision-Date: 2016-04-29 06:55+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-05-10 11:28+0000\n"
+"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2710,7 +2711,7 @@ msgstr "Limite de ticket par page pour la \"Moyenne\" limite de Vue Générale d
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Preview\" Limit"
-msgstr "Vue d'ensemble du Ticket"
+msgstr "Vue générale \"­<petit | moyen | élargi>\" - Limite"
 
 #. Template: AAATicket
 msgid "Ticket limit per page for Ticket Overview \"Preview\""
@@ -3384,7 +3385,7 @@ msgstr "Filtre pour les Groupes"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Commencez à saisir pour filtrer..."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -3661,6 +3662,16 @@ msgstr "Montrer le lien"
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid "Enable link preview"
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid ""
+"Activate this option to display a preview of the link configured above in "
+"AgentTicketZoom."
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
@@ -3965,7 +3976,7 @@ msgstr "(ex: 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user"
-msgstr "Client Utilisateur"
+msgstr "Client utilisateur"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -4165,7 +4176,7 @@ msgstr "Placer un nouveau verrou sur le ticket"
 
 #. Template: AdminGenericAgent
 msgid "New customer user"
-msgstr ""
+msgstr "Nouveau client utilisateur"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -5046,6 +5057,26 @@ msgid "Do you really want to delete this web service?"
 msgstr "Voulez-vous vraiment supprimer ce service Web?"
 
 #. Template: AdminGenericInterfaceWebservice
+msgid "Example Web Services"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Here you can activate best practice example web service that are part of %s."
+" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import example web service"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Do you want to benefit from web services created by experts? Upgrade to %s "
+"to be able to import some sophisticated example processes."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
 msgid ""
 "After you save the configuration you will be redirected again to the edit "
 "screen."
@@ -5578,7 +5609,7 @@ msgstr "Pour avoir les 5 premières lignes du sujet (du dernier article du clien
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
-msgstr ""
+msgstr "Caractéristiques des données de l'utilisateur client actuel "
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
@@ -7672,7 +7703,7 @@ msgstr "Sessions Opérateurs"
 
 #. Template: AdminSession
 msgid "Customer sessions"
-msgstr "Session Clients"
+msgstr "Session clients"
 
 #. Template: AdminSession
 msgid "Unique agents"
@@ -8162,7 +8193,7 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Customer Sessions"
-msgstr ""
+msgstr "Session Clients"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
@@ -8432,7 +8463,7 @@ msgstr "Tickets remontés"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer login"
-msgstr "Login Client"
+msgstr "Login client"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer information"
@@ -9016,11 +9047,11 @@ msgstr ""
 
 #. Template: AgentTicketEmail
 msgid "Select this customer as the main customer."
-msgstr ""
+msgstr "Sélectionner ce client comme le principal client"
 
 #. Template: AgentTicketEmail
 msgid "Remove Ticket Customer User"
-msgstr ""
+msgstr "Retirer le Ticket de l'Utilisateur Client"
 
 #. Template: AgentTicketEmail
 msgid "Get all"
@@ -9509,6 +9540,24 @@ msgstr "Fermer ce message"
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "L'article ne peut être ouvert. Peut-être est-il déjà ouvert sur une autre page ? "
+
+#. Template: AgentTicketZoom
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close preview"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"OTRS can't provide a preview of this website because it seems as if it "
+"didn't allow to be embedded."
+msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -10035,7 +10084,7 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
-msgstr ""
+msgstr "Information à propos de la tâche de fond d'OTRS"
 
 #. Template: FooterJS
 msgid ""
@@ -11002,6 +11051,14 @@ msgid "Need Name!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Need ExampleWebService!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not read %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
 msgstr "Besoin d'importer un fichier!"
 
@@ -11169,10 +11226,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not read %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -14506,7 +14559,7 @@ msgstr "Contrôle si plus d'une entrée peut être mise dans un nouveau ticket t
 msgid ""
 "Controls if the admin is allowed to import a saved system configuration in "
 "SysConfig."
-msgstr "Contrôler la permission du rôle \"admin\" qui est d'importer un sauvegarde du configuration du système dans SysConfig."
+msgstr "Controler la permission d'un administrateur a importer un configuration de système sauvegardé dans SysConfig."
 
 #. SysConfig
 msgid ""
@@ -14963,6 +15016,16 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines a filter to collect CVE numbers from article texts in "
+"AgentTicketZoom. The results will be displayed in a meta box next to the "
+"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
+"the URL when moving your mouse cursor above the link element. Please note "
+"that some websites deny being displayed within an iframe (e.g. Google) and "
+"thus won't work with the preview mode."
 msgstr ""
 
 #. SysConfig
@@ -17902,7 +17965,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -21677,6 +21740,12 @@ msgid ""
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
 msgstr "Quand les ticjets sont fusionnés, le client peut être informé par mail en cochant la case \"Informer l'émetteur\". Dans cette zone de texte, vous pouvez définir un texte pré-formaté qui pourra ensuite être modifié par les agents. "
+
+#. SysConfig
+msgid ""
+"Whether or not to collect meta information from articles using filters "
+"configured in Ticket::Frontend::ZoomCollectMetaFilters."
+msgstr ""
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"

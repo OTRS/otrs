@@ -20,9 +20,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-04-29 08:54+0000\n"
-"PO-Revision-Date: 2016-04-29 07:06+0000\n"
-"Last-Translator: Yuri Kolesniov <ynkolesnikov@gmail.com>\n"
+"POT-Creation-Date: 2016-05-10 11:28+0000\n"
+"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3667,6 +3667,16 @@ msgid ""
 msgstr "Здесь можно указать необязательную HTTP-ссылку для значения поля в экранах Обзоров и Подробного просмотра"
 
 #. Template: AdminDynamicFieldDateTime
+msgid "Enable link preview"
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid ""
+"Activate this option to display a preview of the link configured above in "
+"AgentTicketZoom."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
 msgstr "Ограничить ввод дат"
 
@@ -5047,6 +5057,26 @@ msgstr "Удалить Веб-сервис"
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
 msgstr "Вы действительно желаете удалить этот веб-сервис"
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Example Web Services"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Here you can activate best practice example web service that are part of %s."
+" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import example web service"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Do you want to benefit from web services created by experts? Upgrade to %s "
+"to be able to import some sophisticated example processes."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -9513,6 +9543,24 @@ msgstr "Закрыть это сообщение"
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "Заметка не может быть открыта! Возможно, она на другой странице заметок?"
 
+#. Template: AgentTicketZoom
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close preview"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"OTRS can't provide a preview of this website because it seems as if it "
+"didn't allow to be embedded."
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr "Для защиты конфиденциальности, содержимое из внешнего источника было заблокировано"
@@ -10766,11 +10814,11 @@ msgstr "Регулярное выражение (игнорировать рег
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
-msgstr ""
+msgstr "Отрицание регулярного выражения"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression (ignore case)"
-msgstr ""
+msgstr "Отрицание регулярного выражения (игнорировать регистр)"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -10848,19 +10896,19 @@ msgstr "В настоящий момент"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Unchecked"
-msgstr ""
+msgstr "Не отмечено"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Checked"
-msgstr ""
+msgstr "Отмечено"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "Запретить ввод дат в будущем"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "Запретить ввод дат в прошлом"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "This field value is duplicated."
@@ -10872,11 +10920,11 @@ msgstr "Необходимо указать хотя бы одного полу�
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "Архивировать заявки"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "Восстановить заявки из архива"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
@@ -10946,7 +10994,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
-msgstr ""
+msgstr "Точное значение(я)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
@@ -10954,7 +11002,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
-msgstr ""
+msgstr "Не удалось найти библиотеку %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Need OperationType"
@@ -11005,6 +11053,14 @@ msgid "Need Name!"
 msgstr "Требуется Имя!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Need ExampleWebService!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not read %s!"
+msgstr "Невозможно прочитать %s!"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
 msgstr "Требуется файл для импорта!"
 
@@ -11024,7 +11080,7 @@ msgstr "Не получен WebserviceHistoryID!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Could not get history data for WebserviceHistoryID %s"
-msgstr ""
+msgstr "Невозможно получить исторические данные для WebserviceHistoryID %s"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Notification updated!"
@@ -11156,15 +11212,15 @@ msgstr "Пакет не проверен из-за неполадок со св�
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTRS Feature Add-on list server!"
-msgstr ""
+msgstr "Невозможно подключиться к серверу со списком  OTRS Feature Add-on!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr ""
+msgstr "Невозможно получить список OTRS Feature Add-on с  сервера!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on from server!"
-msgstr ""
+msgstr "Невозможно получить OTRS Feature Add-on с  сервера!"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -11175,16 +11231,12 @@ msgid "Need ExampleProcesses!"
 msgstr "Требуется ExampleProcesses!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not read %s!"
-msgstr "Невозможно прочитать %s!"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
 msgstr "Требуется ProcessID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "Да (обязательно)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
@@ -11521,7 +11573,7 @@ msgstr "Приветствие добавлено!"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
-msgstr ""
+msgstr "Невозможно прочитать файл %s !"
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Import not allowed!"
@@ -11629,7 +11681,7 @@ msgstr "Объект уже связан с %s."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
-msgstr ""
+msgstr "Объект %s не может быть связан с другим объектом!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
@@ -11685,7 +11737,7 @@ msgstr "Вам необходимы %s права!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
-msgstr ""
+msgstr "Не удалось выполнить проверку для поля %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
@@ -11705,7 +11757,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Article does not belong to ticket %s!"
-msgstr ""
+msgstr "Сообщение не принадлежит заявке %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't bounce email!"
@@ -11729,7 +11781,7 @@ msgstr "Заявка (%s) была разблокирована!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
-msgstr ""
+msgstr "Массовое действие не разрешено!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "No selectable TicketID is given!"
@@ -11739,7 +11791,7 @@ msgstr ""
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents"
-msgstr ""
+msgstr "Не выбрано ни одной заявки, либо только заявки блокированные другими агентами"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket"
@@ -11882,7 +11934,7 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!"
-msgstr ""
+msgstr "DynamicFieldConfig не задан для поля: %s, или это поле не является динамическим полем типа Заявка!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process::Default%s Config Value missing!"
@@ -12102,15 +12154,15 @@ msgstr "Срок эскалации по времени остановлен"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time Stopped"
-msgstr ""
+msgstr "Escalation Solution Time остановлено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation First Response Time Stopped"
-msgstr ""
+msgstr "Escalation First Response Time остановлено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time Stopped"
-msgstr ""
+msgstr "Escalation Response Time остановлено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Added"
@@ -12188,11 +12240,11 @@ msgstr "Невозможно получить %s для ArticleID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article filter settings were saved."
-msgstr ""
+msgstr "Параметры фильтра сообщений/заметок сохранены."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Event type filter settings were saved."
-msgstr ""
+msgstr "Параметры фильтра событий сохранены."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Need ArticleID!"
@@ -12212,11 +12264,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "FileID and ArticleID are needed!"
-msgstr ""
+msgstr "Требуются FileID и ArticleID!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "No TicketID for ArticleID (%s)!"
-msgstr ""
+msgstr "Отсутствует TicketID для ArticleID (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "No such attachment (%s)!"
@@ -12224,11 +12276,11 @@ msgstr "Не существует вложения (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::QueueDefault."
-msgstr ""
+msgstr "Проверьте настройки SysConfig для %s::QueueDefault."
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
-msgstr ""
+msgstr "Проверьте настройки SysConfig setting для %s::TicketTypeDefault."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -12242,7 +12294,7 @@ msgstr "Удалите, пожалуйста, следующие слова, т�
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
-msgstr ""
+msgstr "Не удается переоткрыть заявку, невозможно в этой очереди!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
@@ -12254,7 +12306,7 @@ msgstr "Каталог \"%s\" не существует!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure \"Home\" in Kernel/Config.pm first!"
-msgstr ""
+msgstr "Настройте вначале \"Home\" в Kernel/Config.pm!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/Kernel/Config.pm\" not found!"
@@ -12272,7 +12324,7 @@ msgstr "Файл Kernel/Config.pm не доступен для записи!"
 msgid ""
 "If you want to use the installer, set the Kernel/Config.pm writable for the "
 "webserver user!"
-msgstr ""
+msgstr "Если вы желаете использовать инсталлятор, сделайте Kernel/Config.pm доступным для записи для пользователя веб-сервера!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Check!"
@@ -12284,7 +12336,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "База данных %s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
@@ -12296,7 +12348,7 @@ msgstr "Пожалуйста, вернитесь назад"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
-msgstr ""
+msgstr "Установка OTRS - Ошибка"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/%s.xml\" not found!"
@@ -12320,7 +12372,7 @@ msgstr "Не удается соединиться с базой данных, P
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't connect to database, read comment!"
-msgstr ""
+msgstr "Не удается соединиться с базой данных, читайте комментарий!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -12338,39 +12390,39 @@ msgstr "Ошибка: Установите значение параметра  
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Need config Package::RepositoryAccessRegExp"
-msgstr ""
+msgstr "Необходима настройка Package::RepositoryAccessRegExp"
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Authentication failed from %s!"
-msgstr ""
+msgstr "Аутентификация неудачна от %s!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Sent message crypted to recipient!"
-msgstr ""
+msgstr "Отправить зашифрованное сообщение получателю!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
-msgstr ""
+msgstr "Обнаружен заголовок \"PGP SIGNED MESSAGE\", но он испорчен!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "\"S/MIME SIGNED MESSAGE\" header found, but invalid!"
-msgstr ""
+msgstr "Обнаружен заголовок \"S/MIME SIGNED MESSAGE\", но он испорчен!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Ticket decrypted before"
-msgstr ""
+msgstr "Заявка расшифрованная до этого"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key for email was not found!"
-msgstr ""
+msgstr "Невозможно расшифровать: частный ключ для почты не обнаружен!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Successful decryption"
-msgstr ""
+msgstr "Успешно расшифровано"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
-msgstr ""
+msgstr "Время начала для заявки установлено после времени окончания!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter not active"
@@ -12412,7 +12464,7 @@ msgstr "Этот пользователь в настоящее время не�
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии. Вы можете предпринять одно из следующих действий:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
@@ -12447,7 +12499,7 @@ msgstr "(выполняется)"
 msgid ""
 "Please make sure you've chosen at least one transport method for mandatory "
 "notifications."
-msgstr ""
+msgstr "Убедитесь, что вы выбрали по крайней мере один метод доставки для обязательных уведомлений."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -12538,7 +12590,7 @@ msgstr "Сортировка по"
 
 #. Perl Module: Kernel/System/AuthSession/DB.pm
 msgid "Session per user limit reached!"
-msgstr ""
+msgstr "Достигнут предел количества сессий на одного пользователя!"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
@@ -12562,7 +12614,7 @@ msgstr "не установлено"
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
-msgstr ""
+msgstr "Не удается получить токен от сервера"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -13093,12 +13145,12 @@ msgstr "У вас в системе более 60000 заявок и необх�
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "Invalid Users with Locked Tickets"
-msgstr ""
+msgstr "Недействительные агенты с заблокированными заявками"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
-msgstr ""
+msgstr "Есть недействительные агенты с заблокированными заявками."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -13298,21 +13350,21 @@ msgstr "Проблема"
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr ""
+msgstr "Сбросить время разблокировки."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
 "Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps"
 " the user is invalid."
-msgstr ""
+msgstr "Внимание, пользователь аутентифицировался, в БД OTRS отсутствуют данные о нем!! Возможно этот пользователь недействительный."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID"
-msgstr ""
+msgstr "Невозможно удалить SessionID"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Успешный выход."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Panic! Invalid Session!!!"
@@ -13320,7 +13372,7 @@ msgstr "Паника! Неверный сеанс!!!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
-msgstr ""
+msgstr "Нет прав на использование этого модуля!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact your administrator"
@@ -13328,15 +13380,15 @@ msgstr "Сброс пароля не выполнен. Пожалуйста, с�
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
-msgstr ""
+msgstr "Добавлено через Customer Panel/Панель клиента (%s)"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
-msgstr ""
+msgstr "Невозможно добавить пользователя-клиента!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
-msgstr ""
+msgstr "Не удается отправить информацию аккаунта!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "SecureMode active!"
@@ -13345,11 +13397,11 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr ""
+msgstr "Если вы желаете перезапустить установщик, отключите SecureMode в SysConfig"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "Действие  \"%s\" не найдено!"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
@@ -13549,7 +13601,7 @@ msgstr "Уведомление о создании тикета"
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
-msgstr ""
+msgstr "Вы будете получать уведомление всякий раз при создании новой заявки в \"Моих очередях\" или \"Моих Сервисах\"."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
@@ -13559,7 +13611,7 @@ msgstr "Уведомление об ответе по тикету (для ра�
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
-msgstr ""
+msgstr "Вы будете получать уведомление всякий раз когда клиент посылает дополнение к разблокированной заявке в \"Моих очередях\" или \"Моих Сервисах\"."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
@@ -13569,13 +13621,13 @@ msgstr "Уведомление об ответе по тикету (для бл�
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
-msgstr ""
+msgstr "Вы будете получать уведомление когда клиент посылает дополнение к заблокированной заявке для которой вы являетесь Владельцем или Ответственным."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
-msgstr ""
+msgstr "Вы будете получать уведомление как только заявка, владельцем которой вы являетесь - будет автоматически разблокирована."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
@@ -14967,6 +15019,16 @@ msgid ""
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
 msgstr "Задает фильтр для HTML для добавления ссылки после bugtraq numbers. Элемент Image может быть в двух вариантах. Первый - задать имя рисунка (напр. faq.png). В этом случае будет использоваться путь к файлам рисунков OTRS. Второй - вставить ссылку на рисунок."
+
+#. SysConfig
+msgid ""
+"Defines a filter to collect CVE numbers from article texts in "
+"AgentTicketZoom. The results will be displayed in a meta box next to the "
+"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
+"the URL when moving your mouse cursor above the link element. Please note "
+"that some websites deny being displayed within an iframe (e.g. Google) and "
+"thus won't work with the preview mode."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -17905,7 +17967,7 @@ msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::Auth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -21680,6 +21742,12 @@ msgid ""
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
 msgstr "При слиянии/объединении заявок, клиент может быть информирован об этом почтовым сообщением, активацией параметра \"Inform Sender\". Здесь вы можете задать текст, который  потом может быть изменен агентом."
+
+#. SysConfig
+msgid ""
+"Whether or not to collect meta information from articles using filters "
+"configured in Ticket::Frontend::ZoomCollectMetaFilters."
+msgstr ""
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
