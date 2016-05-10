@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-04-29 08:54+0000\n"
-"PO-Revision-Date: 2016-04-29 06:55+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-05-10 11:28+0000\n"
+"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/otrs/OTRS/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3652,6 +3652,16 @@ msgid ""
 msgstr "Aquí usted puede especificar un enlace HTTP opcional para el valor del campo en las vistas \"Panel Principal\" y \"Ampliación\""
 
 #. Template: AdminDynamicFieldDateTime
+msgid "Enable link preview"
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid ""
+"Activate this option to display a preview of the link configured above in "
+"AgentTicketZoom."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
 msgstr ""
 
@@ -5032,6 +5042,26 @@ msgstr "Eliminar servicio web"
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
 msgstr "¿Esta seguro que desea eliminar este servicio web¿"
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Example Web Services"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Here you can activate best practice example web service that are part of %s."
+" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import example web service"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Do you want to benefit from web services created by experts? Upgrade to %s "
+"to be able to import some sophisticated example processes."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -9498,6 +9528,24 @@ msgstr ""
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr ""
 
+#. Template: AgentTicketZoom
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close preview"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"OTRS can't provide a preview of this website because it seems as if it "
+"didn't allow to be embedded."
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
@@ -10990,6 +11038,14 @@ msgid "Need Name!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Need ExampleWebService!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not read %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
 msgstr ""
 
@@ -11157,10 +11213,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not read %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -14955,6 +15007,16 @@ msgstr "Define un filtro para salida html para añadir vínculos a los números 
 
 #. SysConfig
 msgid ""
+"Defines a filter to collect CVE numbers from article texts in "
+"AgentTicketZoom. The results will be displayed in a meta box next to the "
+"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
+"the URL when moving your mouse cursor above the link element. Please note "
+"that some websites deny being displayed within an iframe (e.g. Google) and "
+"thus won't work with the preview mode."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines a filter to process the text in the articles, in order to highlight "
 "predefined keywords."
 msgstr "Define un filtro para procesar el texto de los artículos, con la finalidad de resaltar las palabras llave predefinidas."
@@ -17890,7 +17952,7 @@ msgstr "Si \"HTTPBasicAuth\" se eligió como Customer::AuthModule, puede especif
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -21665,6 +21727,12 @@ msgid ""
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
 msgstr "Cuando los tickets se mezclan, el cliente puede ser informado por correo electrónico al seleccionar \"Inform Sender\". Es posible predefinir el contenido de dicha notificación en esta área de texto, que luego puede ser modificada por los agentes."
+
+#. SysConfig
+msgid ""
+"Whether or not to collect meta information from articles using filters "
+"configured in Ticket::Frontend::ZoomCollectMetaFilters."
+msgstr ""
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"

@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.884079391891892;
+    $Self->{Completeness}        = 0.881659296694041;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1026,6 +1026,9 @@ sub Data {
         'Show link' => 'Papar pautan',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Disini anda boleh menyatakan pilihan pautan HTTP untuk nilai bidang dalam gambaran keseluruhan dan skrin Zoom.',
+        'Enable link preview' => '',
+        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+            '',
         'Restrict entering of dates' => 'Hadkan memasukkan tarikh',
         'Here you can restrict the entering of dates of tickets.' => 'Di sini anda boleh menyekat kemasukan tarikh tiket.',
 
@@ -1428,6 +1431,12 @@ sub Data {
         'Configuration history' => 'Sejarah konfigurasi',
         'Delete web service' => 'Padam perkhidmatan web',
         'Do you really want to delete this web service?' => 'Anda pasti mahu memadam perkhidmatan web ini?',
+        'Example Web Services' => '',
+        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+            '',
+        'Import example web service' => '',
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+            '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Selepas anda menyimpan konfigurasi anda akan dibawa semula ke skrin sunting.',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -2849,6 +2858,11 @@ sub Data {
         'Close this message' => 'Tutup mesej ni',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Artikel tidak dapat dibuka! Mungkinkah ia berada dalam muka surat artikel lain?',
+        'Scale preview content' => '',
+        'Open URL in new tab' => '',
+        'Close preview' => '',
+        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Untuk melindungi privasi anda, kandungan jauh telah disekat.',
@@ -3380,6 +3394,8 @@ sub Data {
         'There was an error creating the web service.' => '',
         'Web service "%s" created!' => 'Perkhidmatan web "%s" dicipta!',
         'Need Name!' => '',
+        'Need ExampleWebService!' => '',
+        'Could not read %s!' => '',
         'Need a file to import!' => '',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             '',
@@ -3443,7 +3459,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Need ExampleProcesses!' => '',
-        'Could not read %s!' => '',
         'Need ProcessID!' => '',
         'Yes (mandatory)' => '',
         'Unknown Process %s!' => '',
@@ -4740,6 +4755,8 @@ dalaman.',
             'Mentakrifkan tapisan untuk output html untuk menambah pautan di belakang string yang ditakrifkan. Imej unsur membolehkan dua jenis input. Sekaligus nama satu imej (contoh faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan yang kedua adalah memasukkan pautan pada imej.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Mentakrifkan tapisan untuk output html untuk menambah pautan di belakang nombor bugtraq. Imej unsur membolehkan dua jenis input. Sekaligus nama satu imej (contoh faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan yang kedua adalah memasukkan pautan pada imej.',
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+            '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Mentakrifkan tapisan untuk memproses teks dalam artikel, dalam usaha untuk menyerlahkan kata kunci yang dipratentukan.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -6778,6 +6795,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Apabila tiket digabungkan, nota akan ditambah secara automatik ke tiket yang tidak lagi aktif. Di sini anda boleh menentukan subjek nota ini (teks ini tidak boleh diubah oleh ejen itu).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Apabila tiket digabungkan, pelanggan boleh diberitahu setiap e-mel dengan menetapkan kotak semak "Memaklumkan Penghantar". Dalam kawasan teks ini, anda boleh menentukan teks pra-format yang kemudiannya boleh diubah suai oleh ejen.',
+        'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
+            '',
         'Yes, but hide archived tickets' => 'Ya, tetapi sembunyi tiket disimpan.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Emel anda dengan nombor tiket "<OTRS_TICKET>" dilantunkan ke "<OTRS_BOUNCE_TO>".  Hubungi alamat ini untuk maklumat lanjut. ',

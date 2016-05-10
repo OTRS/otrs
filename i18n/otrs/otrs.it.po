@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-04-29 08:54+0000\n"
-"PO-Revision-Date: 2016-04-29 06:55+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-05-10 11:28+0000\n"
+"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Italian (http://www.transifex.com/otrs/OTRS/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1566,7 +1566,7 @@ msgstr "Si è verificato un problema durante la disinstallazione di %s."
 
 #. Template: AAABase
 msgid "Enable cloud services to unleash all OTRS features!"
-msgstr ""
+msgstr "Aumenta le potenzialità di OTRS abilitando i servizi cloud!"
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -3531,7 +3531,7 @@ msgstr "Elimina campo"
 
 #. Template: AdminDynamicField
 msgid "Deleting the field and its data. This may take a while..."
-msgstr ""
+msgstr "Eliminazione del campo e dei suoi dati. Ciò potrebbe richiedere del tempo..."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -3658,6 +3658,16 @@ msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
 msgstr "Qui puoi specificare un collegamento http per il campo nelle schermate vista globale e zoom."
+
+#. Template: AdminDynamicFieldDateTime
+msgid "Enable link preview"
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid ""
+"Activate this option to display a preview of the link configured above in "
+"AgentTicketZoom."
+msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -5042,6 +5052,26 @@ msgid "Do you really want to delete this web service?"
 msgstr "Vuoi davvero eliminare questo web service?"
 
 #. Template: AdminGenericInterfaceWebservice
+msgid "Example Web Services"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Here you can activate best practice example web service that are part of %s."
+" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import example web service"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Do you want to benefit from web services created by experts? Upgrade to %s "
+"to be able to import some sophisticated example processes."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
 msgid ""
 "After you save the configuration you will be redirected again to the edit "
 "screen."
@@ -5816,11 +5846,11 @@ msgstr "Gestione PGP"
 
 #. Template: AdminPGP
 msgid "PGP support is disabled"
-msgstr ""
+msgstr "Il supporto PGP è disabilitato"
 
 #. Template: AdminPGP
 msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr ""
+msgstr "Per poter utilizzare PGP in OTRS, devi prima abilitarlo."
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
@@ -5828,7 +5858,7 @@ msgstr "Abilita supporto PGP"
 
 #. Template: AdminPGP
 msgid "Faulty PGP configuration"
-msgstr ""
+msgstr "Configurazione PGP non valida"
 
 #. Template: AdminPGP
 msgid ""
@@ -5939,7 +5969,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "OTRS Verify™ can not continue!"
-msgstr ""
+msgstr "OTRS Verify™ non può continuare!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
@@ -6953,7 +6983,7 @@ msgstr "Gestisci relazioni Coda-Risposte automatiche"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr ""
+msgstr "Questo filtro ti consente di mostrare le code senza risposte automatiche"
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without auto responses"
@@ -6961,7 +6991,7 @@ msgstr "Code senza risposte automatiche"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr ""
+msgstr "Questo filtro ti consente di mostrare tutte le code"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show all queues"
@@ -7440,19 +7470,19 @@ msgstr "Gestione S/MIME "
 
 #. Template: AdminSMIME
 msgid "SMIME support is disabled"
-msgstr ""
+msgstr "Il supporto SMIME è disabilitato"
 
 #. Template: AdminSMIME
 msgid "To be able to use SMIME in OTRS, you have to enable it first."
-msgstr ""
+msgstr "Per poter utilizzare SMIME in OTRS, devi prima abilitarlo."
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
-msgstr ""
+msgstr "Abilita supporto SMIME"
 
 #. Template: AdminSMIME
 msgid "Faulty SMIME configuration"
-msgstr ""
+msgstr "Configurazione SMIME non valida"
 
 #. Template: AdminSMIME
 msgid ""
@@ -7462,7 +7492,7 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
-msgstr ""
+msgstr "Controllo configurazione SMIME"
 
 #. Template: AdminSMIME
 msgid "Add certificate"
@@ -8020,7 +8050,7 @@ msgstr "Aggiungi entry BarraNav"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBar module"
-msgstr ""
+msgstr "Modulo NavBar"
 
 #. Template: AdminSysConfigEdit
 msgid "Year"
@@ -8412,7 +8442,7 @@ msgstr "in"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "Chiudi questo widget"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
@@ -9504,6 +9534,24 @@ msgstr "Chiudi questo messaggio"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close preview"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"OTRS can't provide a preview of this website because it seems as if it "
+"didn't allow to be embedded."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -10715,7 +10763,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
-msgstr ""
+msgstr "ACLID necessario!"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Could not get data for ACLID %s"
@@ -10743,27 +10791,27 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Corrispondenza esatta"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
-msgstr ""
+msgstr "Corrispondenza esatta negata"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
-msgstr ""
+msgstr "Espressione regolare"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
-msgstr ""
+msgstr "Espressione regolare (non distinguere le maiuscole)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
-msgstr ""
+msgstr "Espressione regolare negata"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression (ignore case)"
-msgstr ""
+msgstr "Espressione regolare negata (non distinguere le maiuscole)"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -10797,7 +10845,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
-msgstr ""
+msgstr "%s richiesto"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10813,15 +10861,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need ValidID"
-msgstr ""
+msgstr "ValidID richiesto"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not create the new field"
-msgstr ""
+msgstr "Impossibile creare il nuovo campo"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need ID"
-msgstr ""
+msgstr "ID richiesto"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
@@ -10873,7 +10921,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Profilo richiesto!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -10947,7 +10995,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
-msgstr ""
+msgstr "Impossibile trovare la libreria %s richiesta"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Need OperationType"
@@ -10996,6 +11044,14 @@ msgstr "Web service \"%s\" creato!"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need Name!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Need ExampleWebService!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not read %s!"
+msgstr "Impossibile leggere %s!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
@@ -11105,7 +11161,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Key %s deleted!"
-msgstr ""
+msgstr "Chiave %s eliminata!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to download!"
@@ -11168,20 +11224,16 @@ msgid "Need ExampleProcesses!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not read %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "Sì (obbligatorio)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
-msgstr ""
+msgstr "Processo %s sconosciuto!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error generating a new EntityID for this Process"
@@ -11234,11 +11286,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get %s"
-msgstr ""
+msgstr "Impossibile ottenere %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need %s!"
-msgstr ""
+msgstr "%s richiesto!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s is not Inactive"
@@ -11275,7 +11327,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Activity not found!"
-msgstr ""
+msgstr "Attività non trovata!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "ActivityDialog not found!"
@@ -11388,11 +11440,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
-msgstr ""
+msgstr "Modifica transizione \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "xor"
-msgstr ""
+msgstr "xor"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "String"
@@ -11442,7 +11494,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
-msgstr ""
+msgstr "Non utilizzare :: nel nome della coda!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
@@ -11450,7 +11502,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
-msgstr ""
+msgstr "Code ( senza risposte automatiche )"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -11474,11 +11526,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation exists!"
-msgstr ""
+msgstr "La relazione esiste!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation added!"
-msgstr ""
+msgstr "Relazione aggiunta!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Impossible to add relation!"
@@ -11514,7 +11566,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
-msgstr ""
+msgstr "Il file %s non può essere letto!"
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Import not allowed!"
@@ -11566,11 +11618,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template updated!"
-msgstr ""
+msgstr "Modello aggiornato!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template added!"
-msgstr ""
+msgstr "Modello aggiunto!"
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Need Type!"
@@ -11630,7 +11682,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Parameter %s is missing."
-msgstr ""
+msgstr "Manca il parametro %s."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Invalid Subaction."
@@ -11706,7 +11758,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't send email!"
-msgstr ""
+msgstr "Impossibile inviare il messaggio!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Wrong Subaction!"
@@ -11784,7 +11836,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Change the owner!"
-msgstr ""
+msgstr "Cambia l'operatore!"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
@@ -11792,11 +11844,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketMove.pm
 msgid "You need move permissions!"
-msgstr ""
+msgstr "Ti servono i permessi di spostamento!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "Chat is not active."
-msgstr ""
+msgstr "La chat non è attiva."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "No permission."
@@ -11842,7 +11894,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process %s is invalid!"
-msgstr ""
+msgstr "Il processo %s non è valido!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Subaction is invalid!"
@@ -12007,7 +12059,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
-msgstr ""
+msgstr "Senza titolo"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
@@ -12015,7 +12067,7 @@ msgstr "Utenti non validi"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Excel"
@@ -12023,11 +12075,11 @@ msgstr "Excel"
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
-msgstr ""
+msgstr "Funzionalità non abilitata!"
 
 #. Perl Module: Kernel/Modules/AgentTicketWatcher.pm
 msgid "Feature is not active"
-msgstr ""
+msgstr "La funzionalità non è attiva"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
@@ -12159,7 +12211,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
-msgstr ""
+msgstr "Tempo addebitato"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
@@ -12277,7 +12329,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "Database %s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
@@ -12285,7 +12337,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back"
-msgstr ""
+msgstr "Torna indietro"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12297,7 +12349,7 @@ msgstr "File \"%s/%s.xml\" non trovato!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Contact your Admin!"
-msgstr ""
+msgstr "Contatta il tuo amministratore!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't write Config file!"
@@ -12335,11 +12387,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Authentication failed from %s!"
-msgstr ""
+msgstr "Autenticazione non riuscita da %s!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Sent message crypted to recipient!"
-msgstr ""
+msgstr "Invia messaggio cifrato al destinatario!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
@@ -12359,7 +12411,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Successful decryption"
-msgstr ""
+msgstr "Decifratura avvenuta con successo"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
@@ -12367,19 +12419,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter not active"
-msgstr ""
+msgstr "filtro non attivo"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter active"
-msgstr ""
+msgstr "filtro attivo"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
-msgstr ""
+msgstr "ordine crescente"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted descending"
-msgstr ""
+msgstr "ordine decrescente"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -12417,7 +12469,7 @@ msgstr "Collegato come"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Search Result"
-msgstr ""
+msgstr "Risultato della ricerca"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -13342,7 +13394,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "Azione \"%s\" non trovata!"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
@@ -13838,7 +13890,7 @@ msgstr "Dopo"
 
 #. SysConfig
 msgid "Agent Name"
-msgstr ""
+msgstr "Nome agente"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
@@ -14610,7 +14662,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create new email ticket."
-msgstr ""
+msgstr "Crea nuovo ticket via email."
 
 #. SysConfig
 msgid "Create new phone ticket (inbound)."
@@ -14960,6 +15012,16 @@ msgid ""
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
 msgstr "Definire un filtro per l'output HTML per aggiungere i collegamenti dietro ai numeri bugtraq. L'elemento Image permette due tipi di input. Uno è il nome di una certa immagine (ad es. faq.png). In questo caso verrà usato il percorso delle immagini di OTRS. La seconda possibilità è inserire un collegamento all'immagine."
+
+#. SysConfig
+msgid ""
+"Defines a filter to collect CVE numbers from article texts in "
+"AgentTicketZoom. The results will be displayed in a meta box next to the "
+"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
+"the URL when moving your mouse cursor above the link element. Please note "
+"that some websites deny being displayed within an iframe (e.g. Google) and "
+"thus won't work with the preview mode."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -17590,7 +17652,7 @@ msgstr "Nome Cognome"
 
 #. SysConfig
 msgid "Firstname Lastname (UserLogin)"
-msgstr ""
+msgstr "Nome Cognome (Utente)"
 
 #. SysConfig
 msgid "FollowUp for [%s]. %s"
@@ -17799,11 +17861,11 @@ msgstr "Greco"
 
 #. SysConfig
 msgid "HTML Reference"
-msgstr ""
+msgstr "Riferimento HTML"
 
 #. SysConfig
 msgid "HTML Reference."
-msgstr ""
+msgstr "Riferimento HTML."
 
 #. SysConfig
 msgid "Hebrew"
@@ -17898,7 +17960,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18545,7 +18607,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
+msgstr "Marca questo ticket come spam!"
 
 #. SysConfig
 msgid ""
@@ -18865,7 +18927,7 @@ msgstr "Ticket aperti (cliente)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "Opzione"
 
 #. SysConfig
 msgid ""
@@ -19485,11 +19547,11 @@ msgstr "Ricerca cliente"
 
 #. SysConfig
 msgid "Search Ticket."
-msgstr ""
+msgstr "Ricerca ticket."
 
 #. SysConfig
 msgid "Search Tickets."
-msgstr ""
+msgstr "Ricerca ticket."
 
 #. SysConfig
 msgid "Search User"
@@ -20681,7 +20743,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows information on how to start OTRS Daemon"
-msgstr ""
+msgstr "Mostra informazioni su come avviare OTRS Daemon"
 
 #. SysConfig
 msgid ""
@@ -20828,7 +20890,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Simple"
-msgstr ""
+msgstr "Semplice"
 
 #. SysConfig
 msgid "Skin"
@@ -20880,7 +20942,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #. SysConfig
 msgid ""
@@ -21060,7 +21122,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Spell checker."
-msgstr ""
+msgstr "Controllo ortografico."
 
 #. SysConfig
 msgid ""
@@ -21280,7 +21342,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This is the default orange - black skin."
-msgstr ""
+msgstr "Questo è il tema arancione - nero predefinito."
 
 #. SysConfig
 msgid ""
@@ -21448,7 +21510,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket title"
-msgstr ""
+msgstr "Titolo del ticket"
 
 #. SysConfig
 msgid "Ticket zoom view."
@@ -21474,11 +21536,11 @@ msgstr "Titolo aggiornato: vecchio: \"%s\", nuovo: \"%s\""
 
 #. SysConfig
 msgid "To accept login information, such as an EULA or license."
-msgstr ""
+msgstr "Per accettare le informazioni di accesso, come un EULA o una licenza."
 
 #. SysConfig
 msgid "To download attachments."
-msgstr ""
+msgstr "Per scaricare gli allegati."
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
@@ -21675,6 +21737,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Whether or not to collect meta information from articles using filters "
+"configured in Ticket::Frontend::ZoomCollectMetaFilters."
+msgstr ""
+
+#. SysConfig
 msgid "Yes, but hide archived tickets"
 msgstr "Sì, ma nascondi i ticket archiviati"
 
@@ -21706,7 +21774,7 @@ msgstr "debug"
 
 #. SysConfig
 msgid "error"
-msgstr ""
+msgstr "errore"
 
 #. SysConfig
 msgid "info"

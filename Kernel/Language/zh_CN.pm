@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.989864864864865;
+    $Self->{Completeness}        = 0.987155190566435;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1033,6 +1033,9 @@ sub Data {
         'Show link' => '显示链接',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
+        'Enable link preview' => '',
+        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+            '',
         'Restrict entering of dates' => '限制输入日期',
         'Here you can restrict the entering of dates of tickets.' => '在这里可以限制输入工单日期。',
 
@@ -1435,6 +1438,12 @@ sub Data {
         'Configuration history' => '配置历史',
         'Delete web service' => '删除Web服务',
         'Do you really want to delete this web service?' => '您真的想要删除这个Web服务吗？',
+        'Example Web Services' => '',
+        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+            '',
+        'Import example web service' => '',
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+            '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '保存配置文件后，页面将再次转到编辑页面。',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -2856,6 +2865,11 @@ sub Data {
         'Close this message' => '关闭本消息',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '不能打开信件！或许它在另外一个信件页面上打开了？',
+        'Scale preview content' => '',
+        'Open URL in new tab' => '',
+        'Close preview' => '',
+        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '为了保护你的隐私,远程内容被阻挡。',
@@ -3387,6 +3401,8 @@ sub Data {
         'There was an error creating the web service.' => '创建WEB服务时出现了一个错误。',
         'Web service "%s" created!' => 'Web服务“%s”已经创建！',
         'Need Name!' => '需要名称！',
+        'Need ExampleWebService!' => '',
+        'Could not read %s!' => '不能读取 %s！',
         'Need a file to import!' => '导入需要一个文件！',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             '导入的文件没有有效的YAML内容！请检查OTRS日志以获取详细信息',
@@ -3450,7 +3466,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Need ExampleProcesses!' => '需要ExampleProcesses！',
-        'Could not read %s!' => '不能读取 %s！',
         'Need ProcessID!' => '需要流程ID！',
         'Yes (mandatory)' => '',
         'Unknown Process %s!' => '未知的流程 %s！',
@@ -4743,6 +4758,8 @@ Thanks for your help!
             '在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '定义HTML输出结果中在BUG追踪号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。',
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+            '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '定义信件中处理文本的过滤器，以便高亮预定义的关键词。',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -6780,6 +6797,8 @@ Thanks for your help!
             '工单被合并时，自动添加一个备注到不再活动的工单，您可以在这里定义这个备注的主题（这个主题不能被服务人员修改）。',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '工单被合并时，通过设置“通知发送人”复选框选项，客户能收到邮件通知，您可以在这个文本框中定义一个预先格式化的文本（服务人员可在以后修改）。',
+        'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
+            '',
         'Yes, but hide archived tickets' => '是的，但是隐藏已归档的工单。',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '您的工单号为“<OTRS_TICKET>”的邮件已经退回给“<OTRS_BOUNCE_TO>”，请联系这个地址以获得更多的信息。',

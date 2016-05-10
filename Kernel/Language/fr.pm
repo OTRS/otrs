@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.468327702702703;
+    $Self->{Completeness}        = 0.468519688355443;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -745,7 +745,7 @@ sub Data {
         'Ticket limit per page for Ticket Overview "Small"' => 'Limite de ticket par page pour la "Petite" limite de Vue Générale des Tickets',
         'Ticket Overview "Medium" Limit' => 'limite "Moyenne" de Vue Générale des Tickets',
         'Ticket limit per page for Ticket Overview "Medium"' => 'Limite de ticket par page pour la "Moyenne" limite de Vue Générale des Tickets',
-        'Ticket Overview "Preview" Limit' => 'Vue d\'ensemble du Ticket',
+        'Ticket Overview "Preview" Limit' => 'Vue générale "­<petit | moyen | élargi>" - Limite',
         'Ticket limit per page for Ticket Overview "Preview"' => 'Limite de ticket par page pour Vue générale de ticket "Aperçu"',
         'Ticket watch notification' => 'Notification de surveillance de Ticket',
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
@@ -949,7 +949,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Vous pouvez gérer ces groupes via le paramètre de configuration "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtre pour les Groupes',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Commencez à saisir pour filtrer...',
         'Select the customer:group permissions.' => 'Selectionner les permissions client::groupe',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Si rien n\'est sélectionné, alors il n\'y aura aucune permission dans ce groupe (les tickets ne seront pas accessibles au client).',
@@ -1034,6 +1034,9 @@ sub Data {
         'Years in the future to display (default: 5 years).' => 'Années futures à afficher (par défaut, 5 années)',
         'Show link' => 'Montrer le lien',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
+            '',
+        'Enable link preview' => '',
+        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
             '',
         'Restrict entering of dates' => '',
         'Here you can restrict the entering of dates of tickets.' => '',
@@ -1126,7 +1129,7 @@ sub Data {
         'Select Tickets' => 'Sélectionner des tickets',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 or 105658*)',
         '(e. g. 234321)' => '(ex: 234321)',
-        'Customer user' => 'Client Utilisateur',
+        'Customer user' => 'Client utilisateur',
         '(e. g. U5150)' => '(ex: U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Recherche plein texte dans article (p. ex. "Valérie*m" ou "Eco*").',
         'Agent' => 'Opérateur',
@@ -1176,7 +1179,7 @@ sub Data {
         'new owner' => 'nouveau propriétaire',
         'new responsible' => 'nouveau responsable',
         'Set new ticket lock' => 'Placer un nouveau verrou sur le ticket',
-        'New customer user' => '',
+        'New customer user' => 'Nouveau client utilisateur',
         'New customer ID' => 'Nouvel ID client',
         'New title' => 'Nouveau titre',
         'New type' => 'Nouveau type',
@@ -1437,6 +1440,12 @@ sub Data {
         'Configuration history' => 'Historique ',
         'Delete web service' => 'Supprimer un service Web',
         'Do you really want to delete this web service?' => 'Voulez-vous vraiment supprimer ce service Web?',
+        'Example Web Services' => '',
+        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+            '',
+        'Import example web service' => '',
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+            '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Une fois la configuration sauvegardée, vous serez redirigé vers l\'écran de gestion des services Web de l\'interface générique, section « Ajouter ».',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1596,7 +1605,7 @@ sub Data {
             'Pour avoir les 20 premiers caractères du sujet (du dernier article du client).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Pour avoir les 5 premières lignes du sujet (du dernier article du client).',
-        'Attributes of the current customer user data' => '',
+        'Attributes of the current customer user data' => 'Caractéristiques des données de l\'utilisateur client actuel ',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
@@ -2248,7 +2257,7 @@ sub Data {
         'Session Management' => 'Gestion des sessions',
         'All sessions' => 'Toutes les sessions',
         'Agent sessions' => 'Sessions Opérateurs',
-        'Customer sessions' => 'Session Clients',
+        'Customer sessions' => 'Session clients',
         'Unique agents' => 'Opérateurs uniques',
         'Unique customers' => 'Clients uniques',
         'Kill all sessions' => 'Supprimer toutes les sessions',
@@ -2395,7 +2404,7 @@ sub Data {
         'Manage Sessions' => '',
         'All Sessions' => '',
         'Agent Sessions' => '',
-        'Customer Sessions' => '',
+        'Customer Sessions' => 'Session Clients',
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
@@ -2498,7 +2507,7 @@ sub Data {
         'Escalated tickets' => 'Tickets remontés',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer login' => 'Login Client',
+        'Customer login' => 'Login client',
         'Customer information' => 'Information client',
         'Phone ticket' => 'Ticket téléphonique',
         'Email ticket' => 'Ticket par e-mail',
@@ -2698,8 +2707,8 @@ sub Data {
         'From queue' => 'De la file',
         'To customer user' => 'Vers le client',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
-        'Remove Ticket Customer User' => '',
+        'Select this customer as the main customer.' => 'Sélectionner ce client comme le principal client',
+        'Remove Ticket Customer User' => 'Retirer le Ticket de l\'Utilisateur Client',
         'Get all' => 'Tout prendre',
 
         # Template: AgentTicketEmailOutbound
@@ -2858,6 +2867,11 @@ sub Data {
         'Close this message' => 'Fermer ce message',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'L\'article ne peut être ouvert. Peut-être est-il déjà ouvert sur une autre page ? ',
+        'Scale preview content' => '',
+        'Open URL in new tab' => '',
+        'Close preview' => '',
+        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Pour protéger votre vie privée, les contenus distants ont été bloqués.',
@@ -3030,7 +3044,7 @@ sub Data {
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
         'Do you really want to continue?' => '',
-        'Information about the OTRS Daemon' => '',
+        'Information about the OTRS Daemon' => 'Information à propos de la tâche de fond d\'OTRS',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
         'Find out more about the %s' => '',
@@ -3389,6 +3403,8 @@ sub Data {
         'There was an error creating the web service.' => '',
         'Web service "%s" created!' => '',
         'Need Name!' => '',
+        'Need ExampleWebService!' => '',
+        'Could not read %s!' => '',
         'Need a file to import!' => 'Besoin d\'importer un fichier!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'Le contenu du fichier importé n\'est pas en format "YAML" valide. Veuillez vérifier le journal de OTRS pour des détailles.',
@@ -3452,7 +3468,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Need ExampleProcesses!' => '',
-        'Could not read %s!' => '',
         'Need ProcessID!' => '',
         'Yes (mandatory)' => '',
         'Unknown Process %s!' => '',
@@ -4611,7 +4626,7 @@ Thanks for your help!
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Contrôle si plus d\'une entrée peut être mise dans un nouveau ticket téléphone depuis l\'interface opérateur.',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
-            'Contrôler la permission du rôle "admin" qui est d\'importer un sauvegarde du configuration du système dans SysConfig.',
+            'Controler la permission d\'un administrateur a importer un configuration de système sauvegardé dans SysConfig.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
@@ -4735,6 +4750,8 @@ Thanks for your help!
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
+            '',
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '',
@@ -6773,6 +6790,8 @@ Thanks for your help!
             'Dès que les tickets sont fusionnés, une note est ajoutée automatiquement au ticket qui devient inactif. Vous pouvez définir ici le sujet de cette note (ce sujet ne peut pas être modifié par les agents). ',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Quand les ticjets sont fusionnés, le client peut être informé par mail en cochant la case "Informer l\'émetteur". Dans cette zone de texte, vous pouvez définir un texte pré-formaté qui pourra ensuite être modifié par les agents. ',
+        'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
+            '',
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',

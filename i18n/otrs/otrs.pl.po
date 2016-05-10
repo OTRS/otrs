@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-04-29 08:54+0000\n"
-"PO-Revision-Date: 2016-04-29 06:55+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-05-10 11:28+0000\n"
+"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -489,11 +489,11 @@ msgstr "Klient"
 
 #. Template: AAABase
 msgid "CustomerID"
-msgstr "Nazwa klienta"
+msgstr "Identyfikator klienta"
 
 #. Template: AAABase
 msgid "CustomerIDs"
-msgstr "ID Klientów"
+msgstr "Identyfikatory klientów"
 
 #. Template: AAABase
 msgid "customer"
@@ -605,7 +605,7 @@ msgstr "Błedna data!"
 
 #. Template: AAABase
 msgid "Name"
-msgstr "Nazwa"
+msgstr "Imię i nazwisko"
 
 #. Template: AAABase
 msgid "Group"
@@ -997,7 +997,7 @@ msgstr "Osiągnięto limit sesji! Spróbuj się zalogować później."
 
 #. Template: AAABase
 msgid "No Permission!"
-msgstr "Brak dostępu!"
+msgstr "Brak uprawnień!"
 
 #. Template: AAABase
 msgid "(Click here to add)"
@@ -1097,11 +1097,11 @@ msgstr "Klient zaktualizowany!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr "Firma Klienta dodana!"
+msgstr "Firma dodana!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr "Firma Klienta zaktualizowana!"
+msgstr "Firma zaktualizowana!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
@@ -1353,7 +1353,7 @@ msgstr "Pokazane"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr "Widoczni użytkownicy"
+msgstr "Widoczni użytkownicy klienta"
 
 #. Template: AAABase
 msgid "News"
@@ -1802,11 +1802,11 @@ msgstr "Separator CSV"
 
 #. Template: AAATicket
 msgid "Status View"
-msgstr "Widok statusów"
+msgstr "Podgląd statusów"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr "Widok usług"
+msgstr "Przegląd usług"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -1814,7 +1814,7 @@ msgstr "Zbiorczo"
 
 #. Template: AAATicket
 msgid "Lock"
-msgstr "Zablokuj"
+msgstr "Blokada"
 
 #. Template: AAATicket
 msgid "Unlock"
@@ -1926,7 +1926,7 @@ msgstr "Stan"
 
 #. Template: AAATicket
 msgid "States"
-msgstr "Statusy"
+msgstr "Stany"
 
 #. Template: AAATicket
 msgid "Status"
@@ -2386,7 +2386,7 @@ msgstr "Historia Klienta"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
-msgstr "Edycja Użytkowników"
+msgstr "Edycja użytkowników"
 
 #. Template: AAATicket
 msgid "Edit Customer"
@@ -2728,7 +2728,7 @@ msgstr "Przysyłaj powiadomienia, gdy ktoś zacznie obserwować moje zgłoszenie
 
 #. Template: AAATicket
 msgid "Out Of Office Time"
-msgstr "Jestem poza biurem"
+msgstr "Przebywam poza biurem"
 
 #. Template: AAATicket
 msgid "New Ticket"
@@ -3283,7 +3283,7 @@ msgstr "Dodaj użytkownika"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr "Zarządzanie Użytkownikami"
+msgstr "Zarządzanie użytkownikami klientów"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
@@ -3291,13 +3291,13 @@ msgstr "Wstecz do wyników wyszukiwania"
 
 #. Template: AdminCustomerUser
 msgid "Add customer user"
-msgstr "Dodaj użytkownika"
+msgstr "Dodaj użytkownika klienta"
 
 #. Template: AdminCustomerUser
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
-msgstr "W celu posiadania historii klientów oraz umożliwić im logowanie się do panelu klienta konieczne jest założenia użytkownika."
+msgstr "W celu posiadania historii klientów oraz w celu umożliwienia im logowania się do panelu klienta konieczne jest założenia konta użytkownika klienta."
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
@@ -3313,11 +3313,11 @@ msgstr "Zmień klienta"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr "Dodaj Użykownika Klienta"
+msgstr "Dodaj użytkownika klienta"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr "Edytuj Użytkownika Klienta"
+msgstr "Edytuj użytkownika klienta"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -3660,6 +3660,16 @@ msgid ""
 msgstr "Tutaj możesz ustalić opcjonalny odnośnik HTTP dla wartości pola, który będzie wyświetlany na ekranach przeglądów i szczegółów."
 
 #. Template: AdminDynamicFieldDateTime
+msgid "Enable link preview"
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid ""
+"Activate this option to display a preview of the link configured above in "
+"AgentTicketZoom."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
 msgstr ""
 
@@ -3961,7 +3971,7 @@ msgstr "(np. 3242442)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user"
-msgstr "Użytkownik"
+msgstr "Imię i nazwisko użytkownika"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -4137,7 +4147,7 @@ msgstr "Ustaw nową kolejkę"
 
 #. Template: AdminGenericAgent
 msgid "Set new state"
-msgstr "Ustaw nowy status"
+msgstr "Ustaw nowy stan"
 
 #. Template: AdminGenericAgent
 msgid "Pending date"
@@ -4157,7 +4167,7 @@ msgstr "nowy odpowiedzialny"
 
 #. Template: AdminGenericAgent
 msgid "Set new ticket lock"
-msgstr "Ustaw nowy status blokady zgłoszenia"
+msgstr "Ustaw nową blokadę zgłoszenia"
 
 #. Template: AdminGenericAgent
 msgid "New customer user"
@@ -4165,7 +4175,7 @@ msgstr "Nowy użytkownik"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
-msgstr "Nowe ID klienta"
+msgstr "Nowy klient"
 
 #. Template: AdminGenericAgent
 msgid "New title"
@@ -5040,6 +5050,26 @@ msgstr "Usuń serwis sieciowy"
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
 msgstr "Czy na pewno chcesz usunąć serwis siecioy?"
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Example Web Services"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Here you can activate best practice example web service that are part of %s."
+" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import example web service"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Do you want to benefit from web services created by experts? Upgrade to %s "
+"to be able to import some sophisticated example processes."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -6589,7 +6619,7 @@ msgstr "Nazwa procesu"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "The selected state does not exist."
-msgstr "Zaznaczony status nie istnieje."
+msgstr "Wybrany stan nie istnieje."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Add and Edit Activities, Activity Dialogs and Transitions"
@@ -6714,7 +6744,7 @@ msgid ""
 "In this screen, you can create a new process. In order to make the new "
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
-msgstr "Na tym ekranie możesz utworzyć nowy proces. Aby udostępnić proces użytkownikom, ustaw status na 'Aktywne' i zsynchronizuj po wykonaniu."
+msgstr "Na tym ekranie możesz utworzyć nowy proces. Aby udostępnić proces użytkownikom, ustaw stan na \"Aktywne\" i zsynchronizuj po zakończeniu."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -7720,27 +7750,27 @@ msgstr "Przykładowy podpis"
 
 #. Template: AdminState
 msgid "State Management"
-msgstr "Konfiguracja statusów"
+msgstr "Zarządzanie stanami"
 
 #. Template: AdminState
 msgid "Add state"
-msgstr "Dodaj status"
+msgstr "Ustaw stan"
 
 #. Template: AdminState
 msgid "Please also update the states in SysConfig where needed."
-msgstr "Zaktualizuj również statusy w konfiguracji systemu tam gdzie to konieczne."
+msgstr "Zaktualizuj również stan w konfiguracji systemu tam gdzie to konieczne."
 
 #. Template: AdminState
 msgid "Add State"
-msgstr "Dodaj status"
+msgstr "Ustaw stan"
 
 #. Template: AdminState
 msgid "Edit State"
-msgstr "Edytuj status"
+msgstr "Edytuj stan"
 
 #. Template: AdminState
 msgid "State type"
-msgstr "Typ statusu"
+msgstr "Rodzaj stanu"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTRS Group is not possible!"
@@ -8204,7 +8234,7 @@ msgstr "Przykładowy szablon"
 
 #. Template: AdminTemplate
 msgid "The current ticket state is"
-msgstr "Aktualny status zgłoszenia to"
+msgstr "Aktualny stan zgłoszenia to"
 
 #. Template: AdminTemplate
 msgid "Your email address is"
@@ -8352,7 +8382,7 @@ msgstr "Centrum informacji o kliencie"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Użytkownik"
+msgstr "Imię i nazwisko użytkownika"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
@@ -8559,7 +8589,7 @@ msgstr "Odpowiedzialny"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr "Moje kolejki"
+msgstr "Zgłoszenia w Moich Kolejkach"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
@@ -8838,7 +8868,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
-msgstr "Następny status"
+msgstr "Następny stan"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
@@ -8904,7 +8934,7 @@ msgstr "Potrzebny poprawny adres e-mail lub nie używaj lokalnego adresu e-mail.
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
-msgstr "Następny status zgłoszenia"
+msgstr "Następny stan zgłoszenia"
 
 #. Template: AgentTicketBounce
 msgid "Inform sender"
@@ -9004,7 +9034,7 @@ msgstr "Do kolejki"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
-msgstr "Do użytkownika"
+msgstr "Do użytkownika klienta"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
@@ -9016,7 +9046,7 @@ msgstr "Wybierz tego klienta jako podstawowego"
 
 #. Template: AgentTicketEmail
 msgid "Remove Ticket Customer User"
-msgstr "Usuń Zgłoszenie Użytkownika"
+msgstr "Usuń zgłoszenie użytkownika klienta"
 
 #. Template: AgentTicketEmail
 msgid "Get all"
@@ -9258,7 +9288,7 @@ msgstr "Wyszukiwanie wg. parametrów Od, Do, CC, Tytuł, Treść ignoruje inne k
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
-msgstr "Login Użytkownika"
+msgstr "Identyfikator użytkownika klienta"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -9505,6 +9535,24 @@ msgstr "Zamknij wiadomość"
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "Wiadomość nie może być otwarta! Być może znajduje się na innej stronie wiadomości."
+
+#. Template: AgentTicketZoom
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close preview"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"OTRS can't provide a preview of this website because it seems as if it "
+"didn't allow to be embedded."
+msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -9757,7 +9805,7 @@ msgstr "np. 10*5155 lub 105658*"
 
 #. Template: CustomerTicketSearch
 msgid "Customer ID"
-msgstr "Nazwa klienta"
+msgstr "Identyfikator klienta"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")"
@@ -10998,6 +11046,14 @@ msgid "Need Name!"
 msgstr "Wymagana nazwa!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Need ExampleWebService!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not read %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
 msgstr "Wymagany plik do zaimportowania!"
 
@@ -11073,7 +11129,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents with write permission for the ticket"
-msgstr ""
+msgstr "Wszyscy agenci z prawami do zapisu w zgłoszeniu"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
@@ -11165,10 +11221,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not read %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -11396,7 +11448,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "String"
-msgstr ""
+msgstr "Ciąg"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -11606,7 +11658,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
-msgstr ""
+msgstr "Potrzebujesz uprawnień do odczytu!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
@@ -11674,7 +11726,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
-msgstr ""
+msgstr "Potrzebujesz uprawnień do %s !"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
@@ -11792,7 +11844,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketMove.pm
 msgid "You need move permissions!"
-msgstr ""
+msgstr "Wymaga uprawnień do przenoszenia!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "Chat is not active."
@@ -11800,7 +11852,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "No permission."
-msgstr ""
+msgstr "Brak uprawnień!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
@@ -11923,7 +11975,7 @@ msgstr "Termin oczekiwania"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "for pending* states"
-msgstr "dla statusów oczekujące*"
+msgstr "dla stanów oczekujących*"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
@@ -12173,7 +12225,7 @@ msgstr ""
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. "
-msgstr ""
+msgstr "Przykro nam, nie posiadasz już uprawnień do tego zgłoszenia w jego obecnym stanie."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12375,11 +12427,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
-msgstr ""
+msgstr "posortowane rosnąco"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted descending"
-msgstr ""
+msgstr "posortowane malejąco"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -12405,11 +12457,11 @@ msgstr ""
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "Przykro nam, nie posiadasz już uprawnień do tego zgłoszenia w jego obecnym stanie. Możesz wykonać jedną z poniższych czynności:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
-msgstr ""
+msgstr "Brak uprawnień"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
@@ -12567,11 +12619,11 @@ msgstr "Utworzony priorytet"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Created State"
-msgstr "Utworzony status"
+msgstr "Utworzony stan"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "CustomerUserLogin"
-msgstr "LoginUżytkownika"
+msgstr "Identyfikator użytkownika klienta"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -13313,7 +13365,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
-msgstr ""
+msgstr "Brak uprawnień do użycia tego modułu!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact your administrator"
@@ -13325,7 +13377,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
-msgstr ""
+msgstr "Nie mozna dodać użytkownika klienta!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
@@ -13590,7 +13642,7 @@ msgstr "Powiadomienia o zmianie kolejki zgłoszenia"
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
-msgstr ""
+msgstr "Otrzymasz powiadomienie, za każdym razem, gdy zgłoszenie zostanie przesunięte do jednej z Twoich Kolejek."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
@@ -13705,7 +13757,7 @@ msgid ""
 "ACL module that allows closing parent tickets only if all its children are "
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
-msgstr "Modu; ACL pozwalajacy na zamykanie nadrzędnych zgłoszeń tylko wóczas gdy wszystkie podrzędne są już zamknięte (\"Status\") pokazuje które stany nie są dostępne dla zgłoszenia nadrzędnego aż do momentu zamknięcia wszystkich podrzędnych."
+msgstr "Moduł ACL pozwala na zamykanie nadrzędnych zgłoszeń, tylko wówczas, gdy wszystkie podrzędne są już zamknięte (\"Stan\" pokazuje, które stany nie są dostępne dla zgłoszenia nadrzędnego, aż do momentu zamknięcia wszystkich podrzędnych)."
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
@@ -13942,7 +13994,7 @@ msgstr "Agenci <-> Role"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
-msgstr "Wszyscy użytkownicy  z IDklienta"
+msgstr "Wszyscy użytkownicy  z identyyfikatorem klienta"
 
 #. SysConfig
 msgid ""
@@ -14086,7 +14138,7 @@ msgstr ""
 msgid ""
 "Allows the administrators to login as other customers, via the customer user"
 " administration panel."
-msgstr "Pozwala administratorom na logowanie się jako inni użytkownicy, przez panel administracyjny użytkowników"
+msgstr "Pozwala administratorom na logowanie się jako inni użytkownicy, poprzez panel administracyjny użytkowników."
 
 #. SysConfig
 msgid ""
@@ -14110,7 +14162,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Archive state changed: \"%s\""
-msgstr "Zmiana statusu archiwizacji: \"%s\""
+msgstr "Zmiana stanu archiwizacji: \"%s\""
 
 #. SysConfig
 msgid "ArticleTree"
@@ -14428,15 +14480,15 @@ msgstr "Status firmy"
 
 #. SysConfig
 msgid "Company Tickets"
-msgstr "Zgłoszenia firmowe"
+msgstr "Zgłoszenia firmy"
 
 #. SysConfig
 msgid "Company Tickets."
-msgstr ""
+msgstr "Zgłoszenia firmy."
 
 #. SysConfig
 msgid "Company name which will be included in outgoing emails as an X-Header."
-msgstr "Nazwa firmy która zostanie dodana w nagłówku X-Header wychodzącej poczty e-mail."
+msgstr "Nazwa firmy, która zostanie dodana w nagłówku X-Header wychodzącej poczty e-mail."
 
 #. SysConfig
 msgid "Compat module for AgentZoom to AgentTicketZoom."
@@ -14590,7 +14642,7 @@ msgstr "Ustawianie priorytetów zgłoszeń."
 
 #. SysConfig
 msgid "Create and manage ticket states."
-msgstr "Ustawienia statusów zgłoszeń."
+msgstr "Twórz i zarządzaj stanami zgłoszeń."
 
 #. SysConfig
 msgid "Create and manage ticket types."
@@ -14672,7 +14724,7 @@ msgstr "Zarządzanie Użytkownikami"
 
 #. SysConfig
 msgid "Customer Users"
-msgstr "Użytkownicy"
+msgstr "Użytkownicy klientów"
 
 #. SysConfig
 msgid "Customer called us."
@@ -14722,11 +14774,11 @@ msgstr ""
 
 #. SysConfig
 msgid "CustomerName"
-msgstr "Nazwa klienta"
+msgstr "Imię i nazwisko użytkownika"
 
 #. SysConfig
 msgid "CustomerUser"
-msgstr ""
+msgstr "Imię i nazwisko użytkownika"
 
 #. SysConfig
 msgid "Customers <-> Groups"
@@ -14959,6 +15011,16 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines a filter to collect CVE numbers from article texts in "
+"AgentTicketZoom. The results will be displayed in a meta box next to the "
+"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
+"the URL when moving your mouse cursor above the link element. Please note "
+"that some websites deny being displayed within an iframe (e.g. Google) and "
+"thus won't work with the preview mode."
 msgstr ""
 
 #. SysConfig
@@ -15418,49 +15480,49 @@ msgstr ""
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the close"
 " ticket screen of the agent interface."
-msgstr "Definiuje domyślny status zgłoszenia po dodaniu notatki w oknie zakmniętego zgłoszenia panelu agenta."
+msgstr "Definiuje domyślny stan zgłoszenia po dodaniu notatki w oknie zamkniętego zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket bulk screen of the agent interface."
-msgstr "Definiuje domyślny status zgłoszenia po dodaniu notatki w oknie zbiorczym zgłoszenia panelu agenta."
+msgstr "Definiuje domyślny stan zgłoszenia po dodaniu notatki w oknie zbiorczej modyfikacji zgłoszeń w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket free text screen of the agent interface."
-msgstr "Definiuje domyślny status zgłoszenia po dodaniu notatki w oknie tekstowym zgłoszenia panelu agenta."
+msgstr "Definiuje domyślny stan zgłoszenia po dodaniu notatki w oknie tekstowym zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket note screen of the agent interface."
-msgstr "Definiuje domyślny status zgłoszenia po dodaniu notatki w oknie notatki zgłoszenia panelu agenta."
+msgstr "Definiuje domyślny stan zgłoszenia po dodaniu notatki w oknie notatki zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket owner screen of a zoomed ticket in the agent interface."
-msgstr "Definiuje domyślny status zgłoszenia po dodaniu notatki w przybliżonym oknie właściciela zgłoszenia w panelu agenta."
+msgstr "Definiuje domyślny stan zgłoszenia po dodaniu notatki w oknie zmiany właściciela zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket pending screen of a zoomed ticket in the agent interface."
-msgstr "Definiuje domyślny status zgłoszenia po dodaniu notatki w przybliżonym oknie oczekującego zgłoszenia w panelu agenta."
+msgstr "Definiuje domyślny stan zgłoszenia po dodaniu notatki w oknie oczekującego zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket priority screen of a zoomed ticket in the agent interface."
-msgstr "Definiuje domyślny status zgłoszenia po dodaniu notatki w przybliżonym oknie priorytetu zgłoszenia w panelu agenta."
+msgstr "Definiuje domyślny stan zgłoszenia po dodaniu notatki w oknie zmiany priorytetu zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket responsible screen of the agent interface."
-msgstr "Definiuje domyślny status zgłoszenia po dodaniu notatki w przybliżonym oknie odpowiedzialnego za zgłoszenie w panelu agenta."
+msgstr "Definiuje domyślny stan zgłoszenia po dodaniu notatki w oknie zmiany odpowiedzialnego za zgłoszenie w panelu agenta."
 
 #. SysConfig
 msgid ""
@@ -15625,7 +15687,7 @@ msgstr "Definiuje domyślny stan nowych zgłoszeń klienta w interfejsie klienta
 
 #. SysConfig
 msgid "Defines the default state of new tickets."
-msgstr "Definiuje domyślny status nowych zgłoszeń."
+msgstr "Definiuje domyślny stan nowych zgłoszeń."
 
 #. SysConfig
 msgid ""
@@ -16307,7 +16369,7 @@ msgstr ""
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having out-of-office active."
-msgstr "Definiuje moduł ukazujący powiadomienia w interfejsie agenta, jeśli agent jest zalogowany wówczas gdy posiada status \"poza biurem\"."
+msgstr "Definiuje moduł wyświetlający powiadomienie w interfejsie agenta, jeśli agent jest zalogowany w przypadku aktywnego agenta nieobecności."
 
 #. SysConfig
 msgid ""
@@ -16400,61 +16462,61 @@ msgstr "Definiuje kolejne możliwe stany dla zgłoszeń klienta w interfejsie kl
 msgid ""
 "Defines the next state of a ticket after adding a note, in the close ticket "
 "screen of the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po dodaniu notatki w oknie zamknięcia zgłoszenia interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po dodaniu notatki w oknie zamknięcia zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket bulk "
 "screen of the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po dodaniu notatki w oknie zbiorczym zgłoszeń interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po dodaniu notatki w oknie zbiorczej modyfikacji zgłoszeń w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket free "
 "text screen of the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po dodaniu notatki w oknie wolnego tekstu zgłoszenia interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po dodaniu notatki w oknie dowolnego tekstu zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket note "
 "screen of the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po dodaniu notatki w oknie notatki zgłoszenia interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po dodaniu notatki w oknie notatki zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket owner "
 "screen of a zoomed ticket in the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po dodaniu notatki w oknie właściciela przybliżonego zgłoszenia interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po dodaniu notatki w oknie zmiany właściciela zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po dodaniu notatki w oknie oczekującego przybliżonego zgłoszenia interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po dodaniu notatki w oknie ustawiania oczekującego zgłoszenia panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po dodaniu notatki w oknie priorytetu przybliżonego zgłoszenia interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po dodaniu notatki w oknie zmiany priorytetu zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "responsible screen of the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po dodaniu notatki w oknie odpowiedzialnego za zgłoszenie w interfejsie agenta."
+msgstr "Definiuje stan zgłoszenia po dodaniu notatki w oknie zmiany odpowiedzialnego za zgłoszenie w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after being bounced, in the ticket bounce"
 " screen of the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po jego odbiciu w oknie odbitych interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po jego przekazaniu w oknie przekazywania na inny adres w panelu agenta."
 
 #. SysConfig
 msgid ""
 "Defines the next state of a ticket after being moved to another queue, in "
 "the move ticket screen of the agent interface."
-msgstr "Definiuje kolejny status zgłoszenia po przeniesieniu do innegj kolejki w oknie przeniesionych zgłoszeń interfejsu agenta."
+msgstr "Definiuje stan zgłoszenia po przeniesieniu do innej kolejki w oknie przenoszenia zgłoszeń w panelu agenta."
 
 #. SysConfig
 msgid ""
@@ -16638,7 +16700,7 @@ msgid ""
 "Permissions must be hard coded to be effective. Please ensure, when adding "
 "any of the afore mentioned permissions, that the \"rw\" permission remains "
 "the last entry."
-msgstr ""
+msgstr "Określa standardowe uprawnienia dostępne dla użytkowników wewnątrz aplikacji. Jeśli wymagane jest więcej uprawnień, można je tutaj wprowadzić. Uprawnienia muszą być zakodowane, żeby były efektywne. Należy upewnić się, że podczas dodawania któregokolwiek z wyżej wymienionych uprawnień, uprawnienie \"rw\" pozostaje jako ostatni wpis."
 
 #. SysConfig
 msgid "Defines the standard size of PDF pages."
@@ -16648,15 +16710,15 @@ msgstr "Definiuje standardowy rozmiar stron PDF."
 msgid ""
 "Defines the state of a ticket if it gets a follow-up and the ticket was "
 "already closed."
-msgstr "Definiuje status zgłoszenia jeśli ma ono kolejne związane oraz zgłoszenie zostało już zamknięte."
+msgstr "Definiuje stan zgłoszenia, w którym pojawiła się nowa wiadomość, w przypadku gdy zgłoszenie było już zamknięte."
 
 #. SysConfig
 msgid "Defines the state of a ticket if it gets a follow-up."
-msgstr "Definiuje status zgłoszenia jeśli ma ono kolejne związane."
+msgstr "Definiuje stan zgłoszenia, w którym pojawiła się nowa wiadomość."
 
 #. SysConfig
 msgid "Defines the state type of the reminder for pending tickets."
-msgstr "Definiuje typ statusu powiadomień dla oczekujących zgłoszeń."
+msgstr "Definiuje stan powiadomień dla oczekujących zgłoszeń."
 
 #. SysConfig
 msgid ""
@@ -16768,7 +16830,7 @@ msgstr "Definiuje uzytkownika do wykorzystania SOAP (bin/cgi-bin/rpc.pl)."
 
 #. SysConfig
 msgid "Defines the valid state types for a ticket."
-msgstr "Definiuje aktualne typu stanów dla zgłoszenia."
+msgstr "Określa aktualne stany widocznych zgłoszeń."
 
 #. SysConfig
 msgid ""
@@ -16778,7 +16840,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the viewable locks of a ticket. Default: unlock, tmp_lock."
-msgstr "Definiuje widoczne blokady zgłoszenia. Domyślne: odblokowany, tmp_lock."
+msgstr "Definiuje widoczne blokady zgłoszenia. Domyślne: unlock, tmp_lock."
 
 #. SysConfig
 msgid ""
@@ -17258,7 +17320,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Edit Customer Users."
-msgstr ""
+msgstr "Edytuj użytkowników klienta."
 
 #. SysConfig
 msgid "Edit customer company"
@@ -17606,7 +17668,7 @@ msgid ""
 "Forces to choose a different ticket state (from current) after lock action. "
 "Define the current state as key, and the next state after lock action as "
 "content."
-msgstr "Wymusza wybranie innego statusu zgłoszenia (od obecnego) po zablokowaniu. Definiuje obecny stan jako klucz oraz następny stan po zablokowaniu jako treść."
+msgstr "Wymusza wybranie innego stanu zgłoszenia (od obecnego) po zablokowaniu. Definiuje obecny stan jako klucz oraz następny stan po zablokowaniu jako treść."
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
@@ -17898,7 +17960,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18036,49 +18098,49 @@ msgstr ""
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the close "
 "ticket screen of the agent interface."
-msgstr "Ustawia status zgłoszenia jeśli notatka została dodana przez agenta w oknie zamkniętego zgłoszenia interfejsu agenta."
+msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie zamykania zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the ticket "
 "bulk screen of the agent interface."
-msgstr "Ustawia status zgłoszenia jeśli notatka została dodana przez agenta w oknie zaznaczonych zgłoszeń interfejsu agenta."
+msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie zbiorczej zmiany zgłoszeń w panelu agenta."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the ticket "
 "free text screen of the agent interface."
-msgstr "Ustawia status zgłoszenia jeśli notatka została dodana przez agenta w oknie tekstu zgłoszenia interfejsu agenta."
+msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie dowolnego tekstu w panelu agenta."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the ticket "
 "note screen of the agent interface."
-msgstr "Ustawia status zgłoszenia jeśli notatka została dodana przez agenta w oknie notatki zgłoszenia interfejsu agenta."
+msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie dodawania notatki do zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of a ticket in the ticket "
 "responsible screen of the agent interface."
-msgstr "Ustawia status zgłoszenia jeśli notatka została dodana przez agenta w oknie odpowiedzialnego za zgłosznie interfejsu agenta."
+msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie zmiany odpowiedzialnego za zgłoszenie w panelu agenta."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of the ticket in the ticket "
 "owner screen of a zoomed ticket in the agent interface."
-msgstr "Ustawia status zgłoszenia jeśli notatka została dodana przez agenta w oknie właściciela przybliżonego zgłoszenia w interfejsie agenta."
+msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie zmiany właściciela zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of the ticket in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
-msgstr "Ustawia status zgłoszenia jeśli notatka została dodana przez agenta w oknie oczekujęcego przybliżonego zgłoszenia w interfejsie agenta."
+msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie ustawiania oczekującego zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
 "If a note is added by an agent, sets the state of the ticket in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
-msgstr "Ustawia status zgłoszenia jeśli notatka została dodana przez agenta w oknie priorytetu przybliżonego zgłoszenia w interfejsie agenta."
+msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie zmiany priorytetu zgłoszenia w panelu agenta."
 
 #. SysConfig
 msgid ""
@@ -18364,11 +18426,11 @@ msgstr "Połącz załączniki z szablonami."
 
 #. SysConfig
 msgid "Link customer user to groups."
-msgstr "Połącz użytkownika z grupą."
+msgstr "Połącz użytkownika klienta z grupą."
 
 #. SysConfig
 msgid "Link customer user to services."
-msgstr "Połącz użytkownika z usługami."
+msgstr "Połącz użytkownika klienta z usługami."
 
 #. SysConfig
 msgid "Link queues to auto responses."
@@ -18626,7 +18688,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr "Różne"
+msgstr "Rożne"
 
 #. SysConfig
 msgid ""
@@ -18849,7 +18911,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
-msgstr "Aktualizacja statusu. Stary: \"%s\" nowy: \"%s\""
+msgstr "Stary: \"%s\" Nowy: \"%s\""
 
 #. SysConfig
 msgid "Online"
@@ -18857,7 +18919,7 @@ msgstr "Online"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr "Otwarte zgłoszenia (użytkownik)"
+msgstr "Otwarte zgłoszenia (użytkownik klienta)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
@@ -19394,7 +19456,7 @@ msgstr ""
 msgid ""
 "Restores a ticket from the archive (only if the event is a state change, "
 "from closed to any open available state)."
-msgstr "Odtwarza zgłoszenie z archiwum (tylko jeśli zdarzenie zmienia status z zamkniętego do dowolnego otwartego)."
+msgstr "Przywraca zgłoszenie z archiwum (tylko jeśli zdarzenie zmienia stan z zamkniętego do dowolnego stanu otwartego)."
 
 #. SysConfig
 msgid ""
@@ -19596,11 +19658,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Service view"
-msgstr ""
+msgstr "Przegląd usług"
 
 #. SysConfig
 msgid "ServiceView"
-msgstr ""
+msgstr "PrzeglądUsług"
 
 #. SysConfig
 msgid ""
@@ -20640,7 +20702,7 @@ msgstr "Pokazuje wszystkie otwarte zgłoszenia (nawet jeśli sa zablokowane) w w
 msgid ""
 "Shows all open tickets (even if they are locked) in the status view of the "
 "agent interface."
-msgstr "Pokazuje wszystkie otwarte zgłoszenia (nawet jeśli sa zablokowane) w widoku statusu interfejsu agenta."
+msgstr "Pokazuje wszystkie otwarte zgłoszenia (nawet jeśli są zablokowane) w podglądzie statusów w panelu agenta."
 
 #. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the zoom view."
@@ -21672,6 +21734,12 @@ msgid ""
 "When tickets are merged, the customer can be informed per email by setting "
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Whether or not to collect meta information from articles using filters "
+"configured in Ticket::Frontend::ZoomCollectMetaFilters."
 msgstr ""
 
 #. SysConfig
