@@ -115,7 +115,7 @@ sub new {
                 )
             {
 
-                # only add the header if is not alreday in the conifg
+                # only add the header if is not alreday in the config
                 if ( !$HeaderLookup{$Header} ) {
                     push @{ $Self->{'PostmasterX-Header'} }, $Header;
                 }
@@ -308,7 +308,7 @@ sub Run {
                 Message  => "Follow up for [$Tn] but follow up not possible. Follow up rejected."
             );
 
-            # send reject mail && and add article to ticket
+            # send reject mail and add article to ticket
             my $Run = $Self->{RejectObject}->Run(
                 TicketID         => $TicketID,
                 InmailUserID     => $Self->{PostmasterUserID},
@@ -357,7 +357,7 @@ sub Run {
             );
         }
 
-        # get queue if of From: and To:
+        # get queue from From: or To:
         if ( !$Param{QueueID} ) {
             $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID( Params => $GetParam );
         }
