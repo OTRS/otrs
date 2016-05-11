@@ -75,13 +75,13 @@ $Selenium->RunTest(
             "Ticket $TitleRandom found on page",
         );
 
-        my $Element = $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketOwner')]");
+        my $Element = $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]");
         $Self->True(
             $Element->is_enabled() && $Element->is_displayed(),
             "Link for owner popup is displayed and enabled",
         );
 
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketOwner')]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]")->click();
 
         # wait for popup iframe to show
         $Selenium->WaitFor(
