@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.997262581596125;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1032,9 +1032,9 @@ sub Data {
         'Show link' => 'Hivatkozás megjelenítése',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Itt határozható meg egy opcionális HTTP hivatkozás a mező értékéhez az áttekintőben és a nagyítási képernyőkön.',
-        'Enable link preview' => '',
+        'Enable link preview' => 'Hivatkozás-előnézet engedélyezése',
         'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
-            '',
+            'Aktiválja ezt a lehetőséget a fent beállított hivatkozás előnézetének megjelenítéséhez az ügyintézői jegynagyításban.',
         'Restrict entering of dates' => 'Korlátozás dátumok bevitelére',
         'Here you can restrict the entering of dates of tickets.' => 'Itt korlátozható a jegyek dátumának bevitele.',
 
@@ -1437,12 +1437,12 @@ sub Data {
         'Configuration history' => 'Beállítási előzmények',
         'Delete web service' => 'Webszolgáltatás törlése',
         'Do you really want to delete this web service?' => 'Valóban törölni szeretné ezt a webszolgáltatást?',
-        'Example Web Services' => '',
+        'Example Web Services' => 'Példa webszolgáltatások',
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
-            '',
-        'Import example web service' => '',
+            'Itt kapcsolhatja be a legjobb gyakorlat szerinti példa webszolgáltatást, amely a következő része: %s. Ne feledje, hogy néhány további beállítás lehet szükséges.',
+        'Import example web service' => 'Példa webszolgáltatás importálása',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            '',
+            'Szeretné élvezni a szakértők által létrehozott webszolgáltatások előnyeit? Ahhoz, hogy lehetősége legyen néhány kitapasztalt példafolyamat importálására, frissítsen a következőre: %s.',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'A beállítások mentése után ismét átirányításra kerül a szerkesztő képernyőre.',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -2864,11 +2864,11 @@ sub Data {
         'Close this message' => 'Üzenet bezárása',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'A bejegyzést nem sikerült megnyitni! Talán egy másik bejegyzés oldalon van?',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
+        'Scale preview content' => 'Előnézet tartalmának méretezése',
+        'Open URL in new tab' => 'URL megnyitása új lapon',
+        'Close preview' => 'Előnézet bezárása',
         'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
-            '',
+            'Az OTRS nem tudja szolgáltatni a weboldal előnézetét, mert úgy tűnik, mintha nem engedné meg a beágyazását.',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Az adatai védelme érdekében a távoli tartalom blokkolva lett.',
@@ -3400,7 +3400,7 @@ sub Data {
         'There was an error creating the web service.' => 'Hiba történt a webszolgáltatás létrehozásakor.',
         'Web service "%s" created!' => 'A(z) „%s” webszolgáltatás létrehozva!',
         'Need Name!' => 'Név szükséges!',
-        'Need ExampleWebService!' => '',
+        'Need ExampleWebService!' => 'Példa webszolgáltatás szükséges!',
         'Could not read %s!' => 'Nem sikerült olvasni: %s!',
         'Need a file to import!' => 'Egy fájl szükséges az importáláshoz!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -4760,7 +4760,7 @@ Az Ön segélyszolgálat csapata
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
-            '',
+            'Egy szűrőt határoz meg CVE számok begyűjtéséhez a bejegyzés szövegeiből az ügyintézői jegynagyításban. Az eredmények egy metadobozban lesznek megjelenítve a bejegyzés mellett. Állítsa az EnableLinkPreview beállítást 1-re, ha látni szeretné az URL előnézetét, amikor az egérkurzort a linkelem fölé viszi. Ne feledje, hogy néhány weboldal (például Google) nem hagyja, hogy egy belső kereten belül jelenítsék meg, és emiatt az nem fog működni előnézeti módban.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Egy szűrőt határoz meg a bejegyzésekben lévő szöveg feldolgozásához annak érdekében, hogy kiemelje az előre meghatározott kulcsszavakat.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -6799,7 +6799,7 @@ Az Ön segélyszolgálat csapata
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Amikor jegyeket egyesítenek, az ügyfél tájékoztatást kaphat e-mailben a „Küldő tájékoztatása” jelölőnégyzet beállításával. Ebben a szövegdobozban meghatározhat egy előformázott szöveget, amelyet később az ügyintézők módosíthatnak.',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
-            '',
+            'Gyűjtsön vagy ne gyűjtsön meta-információkat a bejegyzésekből a Ticket::Frontend::ZoomCollectMetaFilters beállításban beállított szűrők használatával.',
         'Yes, but hide archived tickets' => 'Igen, de az archivált jegyek elrejtése',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Az Ön „<OTRS_TICKET>” számú jegyhez rendelt e-mailje visszaküldésre került a következő címre: „<OTRS_BOUNCE_TO>”. További információkért vegye fel ezzel a címmel a kapcsolatot.',

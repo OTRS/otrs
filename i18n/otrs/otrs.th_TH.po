@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2016-05-10 11:28+0000\n"
-"PO-Revision-Date: 2016-05-10 16:30+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2016-05-11 15:28+0000\n"
+"Last-Translator: OTRS SDN BHD <otrssdnbhd@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/otrs/OTRS/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3653,13 +3653,13 @@ msgstr "คุณสามารถระบุตัวเลือกการ
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Enable link preview"
-msgstr ""
+msgstr "เปิดใช้งานตัวอย่างการเชื่อมโยง"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "Activate this option to display a preview of the link configured above in "
 "AgentTicketZoom."
-msgstr ""
+msgstr "เปิดใช้งานตัวเลือกนี้เพื่อแสดงภาพตัวอย่างของการเชื่อมโยงกำหนดค่าดังกล่าวข้างต้นในAgentTicketZoom."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -5045,7 +5045,7 @@ msgstr "คุณต้องการลบweb serviceนี้หรือไ�
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Example Web Services"
-msgstr ""
+msgstr "ตัวอย่างเช่น Web Services"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5055,7 +5055,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import example web service"
-msgstr ""
+msgstr "นำเข้าบริการเว็บตัวอย่าง"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -9530,7 +9530,7 @@ msgstr "ไม่สามารถเปิดบทความ! บางท�
 
 #. Template: AgentTicketZoom
 msgid "Scale preview content"
-msgstr ""
+msgstr "ตัวอย่างสเกลเนื้อหา"
 
 #. Template: AgentTicketZoom
 msgid "Open URL in new tab"
@@ -9538,7 +9538,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
-msgstr ""
+msgstr "ปิดการแสดงตัวอย่าง"
 
 #. Template: AgentTicketZoom
 msgid ""
@@ -11039,7 +11039,7 @@ msgstr "ต้องการชื่อ!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
-msgstr ""
+msgstr "ต้องการ ExampleWebService!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -12449,7 +12449,7 @@ msgstr "ผู้ใช้รายนี้ไม่พร้อมใช้ง
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "ขออภัยคุณไม่ได้รับอนุญาตในการเข้าถึงตั๋วอีกต่อไป"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
@@ -13382,7 +13382,7 @@ msgstr "ใช้งาน SecureMode!"
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr ""
+msgstr "หากคุณต้องการที่จะเรียกตัวติดตั้งปิดการใช้งานโหมดที่ปลอดภัยใน sysconfig"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -13886,7 +13886,7 @@ msgstr "ชื่อเอเย่นต์"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
-msgstr ""
+msgstr "ชื่อตัวแทน + FromSeparator + ระบบที่อยู่ของชื่อที่ใช้แสดง"
 
 #. SysConfig
 msgid "Agent Preferences."
@@ -17431,7 +17431,7 @@ msgstr "ภาษาอังกฤษ (สหรัฐอเมริกา)"
 msgid ""
 "English stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr ""
+msgstr "คำหยุดภาษาอังกฤษสำหรับดัชนี Fulltext คำพูดเหล่านี้จะถูกลบออกจากดัชนีการค้นหา"
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -17493,40 +17493,40 @@ msgstr "ภาษาเอสโตเนีย"
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
-msgstr ""
+msgstr "การลงทะเบียนโมดูลเหตุการณ์ เพื่อให้ได้ประสิทธิภาพมากขึ้นคุณสามารถกำหนดเหตุการณ์ตัวเรียกโฆษณา (e. ก. จัดกิจกรรม => TicketCreate)"
 
 #. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate). This is only possible if all Ticket "
 "dynamic fields need the same event."
-msgstr ""
+msgstr "การลงทะเบียนโมดูลเหตุการณ์ เพื่อให้ได้ประสิทธิภาพมากขึ้นคุณสามารถกำหนดเหตุการณ์ตัวเรียกโฆษณา (e. ก. จัดกิจกรรม => TicketCreate) เป็นไปได้เฉพาะในกรณีที่ตั๋วฟิลด์แบบไดนามิกทุกตั๋วจำเป็นต้องมีเหตุการณ์เดียวกัน"
 
 #. SysConfig
 msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
-msgstr ""
+msgstr "โมดูลเหตุการณ์ที่ดำเนินการคำสั่งการอัพเดตTicketIndex เพื่อเปลี่ยนชื่อคิวถ้าจำเป็นและนำStaticDB มาใช้จริง"
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user search profiles if login changes."
-msgstr ""
+msgstr "โมดูลเหตุการณ์ที่อัพเดทโปรไฟล์ค้นหาของผู้ใช้ลูกค้าหากมีการเปลี่ยนแปลงการเข้าสู่ระบบ"
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user service membership if login changes."
-msgstr ""
+msgstr "โมดูลเหตุการณ์ที่ปรับปรุงสมาชิกผู้ใช้บริการลูกค้าหากมีการเปลี่ยนแปลงการเข้าสู่ระบบ"
 
 #. SysConfig
 msgid ""
 "Event module that updates customer users after an update of the Customer."
-msgstr ""
+msgstr "โมดูลเหตุการณ์ที่ปรับปรุงผู้ใช้ลูกค้าหลังจากการปรับปรุงของลูกค้า"
 
 #. SysConfig
 msgid ""
 "Event module that updates tickets after an update of the Customer User."
-msgstr ""
+msgstr "โมดูลเหตุการณ์ที่ปรับปรุงตั๋วหลังจากการปรับปรุงของผู้ใช้งานลูกค้า"
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer."

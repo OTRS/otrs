@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.862497367866919;
+    $Self->{Completeness}        = 0.866287639503053;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1027,9 +1027,9 @@ sub Data {
         'Show link' => 'แสดงลิงค์',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'คุณสามารถระบุตัวเลือกการเชื่อมโยง HTTPที่นี่ สำหรับข้อมูลในภาพรวมและหน้าจอซูม',
-        'Enable link preview' => '',
+        'Enable link preview' => 'เปิดใช้งานตัวอย่างการเชื่อมโยง',
         'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
-            '',
+            'เปิดใช้งานตัวเลือกนี้เพื่อแสดงภาพตัวอย่างของการเชื่อมโยงกำหนดค่าดังกล่าวข้างต้นในAgentTicketZoom.',
         'Restrict entering of dates' => 'จำกัดการป้อนวันที่',
         'Here you can restrict the entering of dates of tickets.' => 'คุณสามารถจำกัดการป้อนวันที่ของตั๋วที่นี่',
 
@@ -1433,10 +1433,10 @@ sub Data {
         'Configuration history' => 'ประวัติของการกำหนดค่า',
         'Delete web service' => 'ลบ web service',
         'Do you really want to delete this web service?' => 'คุณต้องการลบweb serviceนี้หรือไม่?',
-        'Example Web Services' => '',
+        'Example Web Services' => 'ตัวอย่างเช่น Web Services',
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             '',
-        'Import example web service' => '',
+        'Import example web service' => 'นำเข้าบริการเว็บตัวอย่าง',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
@@ -2864,9 +2864,9 @@ sub Data {
         'Close this message' => 'ปิดข้อความนี้',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'ไม่สามารถเปิดบทความ! บางทีมันอาจจะอยู่บนหน้าบทความอื่นได้หรือไม่?',
-        'Scale preview content' => '',
+        'Scale preview content' => 'ตัวอย่างสเกลเนื้อหา',
         'Open URL in new tab' => '',
-        'Close preview' => '',
+        'Close preview' => 'ปิดการแสดงตัวอย่าง',
         'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
             '',
 
@@ -3400,7 +3400,7 @@ sub Data {
         'There was an error creating the web service.' => 'มีข้อผิดพลาดในการสร้าง web service.',
         'Web service "%s" created!' => 'สร้าง Web service "%s" แล้ว',
         'Need Name!' => 'ต้องการชื่อ!',
-        'Need ExampleWebService!' => '',
+        'Need ExampleWebService!' => 'ต้องการ ExampleWebService!',
         'Could not read %s!' => 'ไม่สามารถอ่าน%s!',
         'Need a file to import!' => 'ต้องการไฟล์ที่จะนำเข้า!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3901,7 +3901,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            '',
+            'ขออภัยคุณไม่ได้รับอนุญาตในการเข้าถึงตั๋วอีกต่อไป',
         'No Permission' => 'ไม่ได้รับอนุญาต',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
@@ -4268,7 +4268,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'ใช้งาน SecureMode!',
         'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            '',
+            'หากคุณต้องการที่จะเรียกตัวติดตั้งปิดการใช้งานโหมดที่ปลอดภัยใน sysconfig',
         'Action "%s" not found!' => 'ไม่พบการกระทำ "%s"!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -4435,7 +4435,7 @@ Thanks for your help!
         'Admin Area.' => 'ส่วนของแอดมิน',
         'After' => 'หลังจาก',
         'Agent Name' => 'ชื่อเอเย่นต์',
-        'Agent Name + FromSeparator + System Address Display Name' => '',
+        'Agent Name + FromSeparator + System Address Display Name' => 'ชื่อตัวแทน + FromSeparator + ระบบที่อยู่ของชื่อที่ใช้แสดง',
         'Agent Preferences.' => 'การตั้งค่าตัวแทน',
         'Agent called customer.' => 'เอเย่นต์เรียกลูกค้า',
         'Agent interface article notification module to check PGP.' => 'โมดูลการแจ้งเตือนบทความในอินเตอร์เฟซของเอเย่นต์เพื่อตรวจสอบ PGP',
@@ -5521,7 +5521,7 @@ Thanks for your help!
         'English (United Kingdom)' => 'อังกฤษ (สหราชอาณาจักร)',
         'English (United States)' => 'ภาษาอังกฤษ (สหรัฐอเมริกา)',
         'English stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
+            'คำหยุดภาษาอังกฤษสำหรับดัชนี Fulltext คำพูดเหล่านี้จะถูกลบออกจากดัชนีการค้นหา',
         'Enroll process for this ticket' => 'ลงทะเบียนกระบวนการสำหรับตั๋วนี้',
         'Enter your shared secret to enable two factor authentication.' =>
             'ป้อนความลับที่คุณแบ่งปันเพื่อการเปิดใช้งานการตรวจสอบสองปัจจัย',
@@ -5538,19 +5538,19 @@ Thanks for your help!
         'EscalationTime' => 'เวลาของการขยาย',
         'Estonian' => 'ภาษาเอสโตเนีย',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
-            '',
+            'การลงทะเบียนโมดูลเหตุการณ์ เพื่อให้ได้ประสิทธิภาพมากขึ้นคุณสามารถกำหนดเหตุการณ์ตัวเรียกโฆษณา (e. ก. จัดกิจกรรม => TicketCreate)',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
-            '',
+            'การลงทะเบียนโมดูลเหตุการณ์ เพื่อให้ได้ประสิทธิภาพมากขึ้นคุณสามารถกำหนดเหตุการณ์ตัวเรียกโฆษณา (e. ก. จัดกิจกรรม => TicketCreate) เป็นไปได้เฉพาะในกรณีที่ตั๋วฟิลด์แบบไดนามิกทุกตั๋วจำเป็นต้องมีเหตุการณ์เดียวกัน',
         'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
-            '',
+            'โมดูลเหตุการณ์ที่ดำเนินการคำสั่งการอัพเดตTicketIndex เพื่อเปลี่ยนชื่อคิวถ้าจำเป็นและนำStaticDB มาใช้จริง',
         'Event module that updates customer user search profiles if login changes.' =>
-            '',
+            'โมดูลเหตุการณ์ที่อัพเดทโปรไฟล์ค้นหาของผู้ใช้ลูกค้าหากมีการเปลี่ยนแปลงการเข้าสู่ระบบ',
         'Event module that updates customer user service membership if login changes.' =>
-            '',
+            'โมดูลเหตุการณ์ที่ปรับปรุงสมาชิกผู้ใช้บริการลูกค้าหากมีการเปลี่ยนแปลงการเข้าสู่ระบบ',
         'Event module that updates customer users after an update of the Customer.' =>
-            '',
+            'โมดูลเหตุการณ์ที่ปรับปรุงผู้ใช้ลูกค้าหลังจากการปรับปรุงของลูกค้า',
         'Event module that updates tickets after an update of the Customer User.' =>
-            '',
+            'โมดูลเหตุการณ์ที่ปรับปรุงตั๋วหลังจากการปรับปรุงของผู้ใช้งานลูกค้า',
         'Event module that updates tickets after an update of the Customer.' =>
             '',
         'Events Ticket Calendar' => 'ปฏิทินตั๋วเหตุการณ์',

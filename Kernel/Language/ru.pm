@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.962728995578016;
+    $Self->{Completeness}        = 0.964624131396083;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1038,9 +1038,9 @@ sub Data {
         'Show link' => 'Показывать ссылку',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Здесь можно указать необязательную HTTP-ссылку для значения поля в экранах Обзоров и Подробного просмотра',
-        'Enable link preview' => '',
+        'Enable link preview' => 'Включить предварительный просмотр ссылки',
         'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
-            '',
+            'Активируйте для отображения предварительного просмотра ссылки настроенной выше в Просмотре заявки Агентом',
         'Restrict entering of dates' => 'Ограничить ввод дат',
         'Here you can restrict the entering of dates of tickets.' => 'Здесь вы можете ограничить ввода дат в заявке.',
 
@@ -1443,10 +1443,10 @@ sub Data {
         'Configuration history' => 'История конфигурации',
         'Delete web service' => 'Удалить Веб-сервис',
         'Do you really want to delete this web service?' => 'Вы действительно желаете удалить этот веб-сервис',
-        'Example Web Services' => '',
+        'Example Web Services' => 'Примеры Веб-сервисов',
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             '',
-        'Import example web service' => '',
+        'Import example web service' => 'Импорт примера Веб-сервиса',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
@@ -2872,7 +2872,7 @@ sub Data {
             'Заметка не может быть открыта! Возможно, она на другой странице заметок?',
         'Scale preview content' => '',
         'Open URL in new tab' => '',
-        'Close preview' => '',
+        'Close preview' => 'Закрыть превью',
         'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
             '',
 
@@ -3360,7 +3360,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
         'archive tickets' => 'Архивировать заявки',
         'restore tickets from archive' => 'Восстановить заявки из архива',
-        'Need Profile!' => '',
+        'Need Profile!' => 'Требуется Профиль!',
         'Got no values to check.' => 'Нет значений для проверки.',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
             'Удалите, пожалуйста, следующие слова, так как они не могут использоваться для выбора заявок:',
@@ -3380,11 +3380,11 @@ sub Data {
         'Could not get registered configuration for action type %s' => 'Не возможно зарегистрировать настройки для типа действия %s',
         'Could not get backend for %s %s' => 'Не возможно получить бэкэнд для %s %s',
         'Could not update configuration data for WebserviceID %s' => 'Не возможно обновить параметры для WebserviceID %s',
-        'Keep (leave unchanged)' => '',
-        'Ignore (drop key/value pair)' => '',
+        'Keep (leave unchanged)' => 'Keep: (оставить без изменений)',
+        'Ignore (drop key/value pair)' => 'Ignore: (удалить пару ключ/значение)',
         'Map to (use provided value as default)' => '',
         'Exact value(s)' => 'Точное значение(я)',
-        'Ignore (drop Value/value pair)' => '',
+        'Ignore (drop Value/value pair)' => 'Ignore: (удалить пару Значение / Значение)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
         'Could not find required library %s' => 'Не удалось найти библиотеку %s',
