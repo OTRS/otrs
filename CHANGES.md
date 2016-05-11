@@ -1,4 +1,5 @@
 #5.0.10 2016-??-??
+ - 2016-05-11 Updated translations, thanks to all translators.
  - 2016-05-11 Re-added missing console command Dev::Tools::GenericInterface::DebugRead, thanks to Rolf Schmidt.
  - 2016-05-10 Updated translations, thanks to all translators.
  - 2016-05-09 Fixed bug#[12053](http://bugs.otrs.org/show_bug.cgi?id=12053) - Use of uninitialized value $ModuleDirectory in concatenation (.) or string.

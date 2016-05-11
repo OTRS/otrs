@@ -16,13 +16,14 @@
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014-2016
 # Владислав Тырышкин, 2016
+# Иван Ладыгин <ladygin@srt-auto.com>, 2016
 # Илья Сапунов <ilya.sapunov@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2016-05-10 11:28+0000\n"
-"PO-Revision-Date: 2016-05-10 16:30+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2016-05-11 11:31+0000\n"
+"Last-Translator: Иван Ладыгин <ladygin@srt-auto.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3668,13 +3669,13 @@ msgstr "Здесь можно указать необязательную HTTP-�
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Enable link preview"
-msgstr ""
+msgstr "Включить предварительный просмотр ссылки"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "Activate this option to display a preview of the link configured above in "
 "AgentTicketZoom."
-msgstr ""
+msgstr "Активируйте для отображения предварительного просмотра ссылки настроенной выше в Просмотре заявки Агентом"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -5060,7 +5061,7 @@ msgstr "Вы действительно желаете удалить этот �
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Example Web Services"
-msgstr ""
+msgstr "Примеры Веб-сервисов"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5070,7 +5071,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import example web service"
-msgstr ""
+msgstr "Импорт примера Веб-сервиса"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -9553,7 +9554,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
-msgstr ""
+msgstr "Закрыть превью"
 
 #. Template: AgentTicketZoom
 msgid ""
@@ -10928,7 +10929,7 @@ msgstr "Восстановить заявки из архива"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Требуется Профиль!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -10982,11 +10983,11 @@ msgstr "Не возможно обновить параметры для Webserv
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
-msgstr ""
+msgstr "Keep: (оставить без изменений)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop key/value pair)"
-msgstr ""
+msgstr "Ignore: (удалить пару ключ/значение)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Map to (use provided value as default)"
@@ -10998,7 +10999,7 @@ msgstr "Точное значение(я)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
-msgstr ""
+msgstr "Ignore: (удалить пару Значение / Значение)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
@@ -17968,7 +17969,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
 
 #. SysConfig
 msgid ""
