@@ -1,4 +1,6 @@
-#4.0.17 2016-??-??
+#4.0.18 2016-??-??
+
+#4.0.17 2016-05-17
  - 2016-05-11 Updated translations, thanks to all translators.
  - 2016-05-06 Fixed bug#[11835](http://bugs.otrs.org/show_bug.cgi?id=11835) - Events Ticket Calendar disappears when EndTime before StartTime.
  - 2016-05-04 Fixed bug#[12031](http://bugs.otrs.org/show_bug.cgi?id=12031) - SubSelected class not applied to My Tickets in CustomerTicketOverview Navigation.
