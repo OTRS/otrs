@@ -432,29 +432,29 @@
                         </li>
 [% RenderBlockStart("PackageDownloadLocal") %]
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]" class="CallForAction">
-                                <span>[% Translate("Download package") | html %]</span>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]" class="CallForAction Fullsize Center">
+                                <span><i class="fa fa-download"></i>[% Translate("Download package") | html %]</span>
                             </a>
                         </li>
 [% RenderBlockEnd("PackageDownloadLocal") %]
 [% RenderBlockStart("PackageDownloadRemote") %]
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DownloadRemote;File=[% Data.File | uri %]" class="CallForAction">
-                                <span>[% Translate("Download package") | html %]</span>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DownloadRemote;File=[% Data.File | uri %]" class="CallForAction Fullsize Center">
+                                <span><i class="fa fa-download"></i>[% Translate("Download package") | html %]</span>
                             </a>
                         </li>
 [% RenderBlockEnd("PackageDownloadRemote") %]
 [% RenderBlockStart("PackageRebuild") %]
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=RebuildPackage;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" class="CallForAction">
-                                <span>[% Translate("Rebuild package") | html %]</span>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=RebuildPackage;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" class="CallForAction Fullsize Center">
+                                <span><i class="fa fa-retweet"></i>[% Translate("Rebuild package") | html %]</span>
                             </a>
                         </li>
 [% RenderBlockEnd("PackageRebuild") %]
 [% RenderBlockStart("PackageReinstall") %]
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reinstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" class="CallForAction">
-                                <span>[% Translate("Reinstall package") | html %]</span>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reinstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" class="CallForAction Fullsize Center">
+                                <span><i class="fa fa-refresh"></i>[% Translate("Reinstall package") | html %]</span>
                             </a>
                         </li>
 [% RenderBlockEnd("PackageReinstall") %]
@@ -632,7 +632,7 @@
                 <div class="Content">
                     <ul class="ActionList">
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]" class="CallForAction">
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]" class="CallForAction Fullsize Center">
                                 <span>[% Translate("Go to overview") | html %]</span>
                             </a>
                         </li>
