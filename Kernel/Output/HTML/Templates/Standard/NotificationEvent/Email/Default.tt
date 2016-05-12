@@ -177,6 +177,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td valign="top" class="footerContent">
+                                                    [% RenderBlockStart("VersionBanner") %]
                                                         <table border="0" cellpadding="10" cellspacing="0" width="100%">
                                                             <tbody>
                                                                 <tr>
@@ -188,6 +189,7 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
+                                                    [% RenderBlockEnd("VersionBanner") %]
                                                     </td>
                                                 </tr>
                                             </tbody>

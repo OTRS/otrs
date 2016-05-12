@@ -17,8 +17,10 @@
     <br /><br />
     [% Data.Body %]
     <br />
+[% RenderBlockStart("VersionBanner") %]
     <hr>
     [% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version").remove('\.0\..*') %]
+[% RenderBlockEnd("VersionBanner") %]
     <br /><br />
 </body>
 
