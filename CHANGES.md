@@ -34,6 +34,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.11 2016-??-??
+ - 2016-05-12 Fixed bug#[9345](http://bugs.otrs.org/show_bug.cgi?id=9345) - OTRS exceeds 998 character limit in References Line of E-Mail Header.
  - 2016-05-12 Fixed bug#[12061](http://bugs.otrs.org/show_bug.cgi?id=12061) - Secure::DisableBanner is ignored in Notification Mail.
  - 2016-05-12 Fixed bug#[12058](http://bugs.otrs.org/show_bug.cgi?id=12058) - Attribute CreatedQueues and CreatedQueueIDs in dashboard widget does not work.
 
