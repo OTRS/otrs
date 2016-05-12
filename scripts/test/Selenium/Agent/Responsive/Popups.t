@@ -78,7 +78,7 @@ $Selenium->RunTest(
         my $Element = $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]");
         $Self->True(
             $Element->is_enabled() && $Element->is_displayed(),
-            "Link for owner popup is displayed and enabled",
+            "Link for priority popup is displayed and enabled",
         );
 
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]")->click();
@@ -88,10 +88,10 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function' && \$('.PopupIframe:visible').length == 1"
         );
 
-        # wait for the owner search in the iframe to show up
+        # wait for the priority search in the iframe to show up
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('#NewOwnerID_Search:visible', \$('.PopupIframe').contents()).length == 1"
+                "return typeof(\$) === 'function' && \$('#NewPriorityID_Search:visible', \$('.PopupIframe').contents()).length == 1"
         );
 
         # as long as the overlay is opened, elements below it should not be usable, e.g. the mobile navigation toggle
