@@ -20,54 +20,69 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 
 # Check that long references and in-reply-to headers are correctly split across lines.
 # See bug#9345 and RFC5322.
-my $MsgID = '<54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>';
+my $MsgIDShort = '<54DEDF2@xyz-intra.net>';
+my $MsgIDLong = '<54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>';
 
-# call Send and get results
-my ( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
-    From       => 'john.smith@example.com',
-    To         => 'john.smith2@example.com',
-    Subject    => 'some subject',
-    Body       => 'Some Body',
-    Type       => 'text/html',
-    Charset    => 'utf8',
-    References => $MsgID x 10,
-    InReplyTo  => $MsgID x 10,
+my @Tests = (
+    {
+        Name => "Short MSGID 2x",
+        Header => $MsgIDShort x 2,
+        FoldedHeader => '<54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net>',
+    },
+
+    {
+        Name => "Short MSGID 2x",
+        Header => $MsgIDShort x 10,
+        FoldedHeader => '<54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net>
+ <54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net>
+ <54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net>
+ <54DEDF2@xyz-intra.net>',
+    },
+    {
+        Name => "Long MSGID 10x",
+        Header => $MsgIDLong x 10,
+        FoldedHeader => '<54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
+ <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>',
+    },
 );
 
-my ($ReferencesHeader) = $$Header =~ m{^(References:.*?)(^\S|\z)}xms;
-my ($InReplyToHeader)  = $$Header =~ m{^(In-Reply-To:.*?)(^\S|\z)}xms;
+for my $Test (@Tests) {
+    my ( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
+        From       => 'john.smith@example.com',
+        To         => 'john.smith2@example.com',
+        Subject    => 'some subject',
+        Body       => 'Some Body',
+        Type       => 'text/html',
+        Charset    => 'utf8',
+        References => $Test->{Header},
+        InReplyTo  => $Test->{Header},
+    );
 
-$Self->Is(
-    $ReferencesHeader,
-    'References: <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
-',
-    'Check that references header is split across lines',
-);
+    my ($ReferencesHeader) = $$Header =~ m{^(References:.*?)(^\S|\z)}xms;
+    my ($InReplyToHeader)  = $$Header =~ m{^(In-Reply-To:.*?)(^\S|\z)}xms;
 
-$Self->Is(
-    $InReplyToHeader,
-    'In-Reply-To: <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
- <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7@EFNPNCY115.xyz-intra.net>
-',
-    'Check that in-reply-to header is split across lines',
-);
+    $Self->Is(
+        $ReferencesHeader,
+        "References: $Test->{FoldedHeader}\n",
+        'Check that references header is split across lines',
+    );
+
+    $Self->Is(
+        $InReplyToHeader,
+        "In-Reply-To: $Test->{FoldedHeader}\n",
+        'Check that in-reply-to header is split across lines',
+    );
+}
+
+# call Send a
 
 #
 # Check header security
@@ -77,7 +92,7 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Value => 0,
 );
 
-( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
+my ( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
     From    => 'john.smith@example.com',
     To      => 'john.smith2@example.com',
     Subject => 'some subject',
