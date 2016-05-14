@@ -76,6 +76,10 @@ $Self->True(
 
 my @AddedTickets = ($TicketID);
 
+my $UserLogin = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+    UserID => 1,
+);
+
 # ----------------------------------------
 
 # create dynamic fields
@@ -377,6 +381,53 @@ my @Tests = (
         UpdatePendingTime => 0,
     },
     {
+        Name   => 'Correct ASCII (Witn Owner, not OwnerID)',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::1::' . $RandomID,
+                QueueID       => 1,
+                Lock          => 'unlock',
+                Priority      => '3 normal',
+                StateID       => 1,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                Owner         => $UserLogin,
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                ArticleType    => 'note-internal',
+                SenderType     => 'agent',
+                ContentType    => 'text/plain; charset=ISO-8859-15',
+                Subject        => 'some short description',
+                Body           => 'the message text',
+                HistoryType    => 'OwnerUpdate',
+                HistoryComment => 'Some free text!',
+                From           => 'Some Agent <email@example.com>',
+                To             => 'Some Customer A <customer-a@example.com>',
+                Cc             => 'Some Customer B <customer-b@example.com>',
+                ReplyTo        => 'Some Customer B <customer-b@example.com>',
+                MessageID      => '<asdasdasd.123@example.com>',
+                InReplyTo      => '<asdasdasd.12@example.com>',
+                References =>
+                    '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
+                NoAgentNotify             => 0,
+                ForceNotificationToUserID => [ 1, 43, 56, ],
+                ExcludeNotificationToUserID     => [ 43, 56, ],
+                ExcludeMuteNotificationToUserID => [ 43, 56, ],
+
+                "DynamicField_Field1$RandomID" => 'Ticket',
+                "DynamicField_Field2$RandomID" => 'Article',
+                LinkAs                         => 'Parent',
+                TimeUnit                       => 123,
+            },
+        },
+        Success           => 1,
+        UpdatePendingTime => 0,
+    },
+    {
         Name   => 'Correct ASCII With Pending State',
         Config => {
             UserID => $UserID,
@@ -523,6 +574,48 @@ my @Tests = (
                 CustomerID    => '123465',
                 CustomerUser  => 'customer@example.com',
                 OwnerID       => '<OTRS_TICKET_OwnerID>',
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                ArticleType    => 'note-internal',
+                SenderType     => 'agent',
+                ContentType    => 'text/plain; charset=ISO-8859-15',
+                Subject        => 'some short description',
+                Body           => 'the message text',
+                HistoryType    => 'OwnerUpdate',
+                HistoryComment => 'Some free text!',
+                From           => 'Some Agent <email@example.com>',
+                To             => 'Some Customer A <customer-a@example.com>',
+                Cc             => 'Some Customer B <customer-b@example.com>',
+                ReplyTo        => 'Some Customer B <customer-b@example.com>',
+                MessageID      => '<asdasdasd.123@example.com>',
+                InReplyTo      => '<asdasdasd.12@example.com>',
+                References =>
+                    '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
+                NoAgentNotify             => 0,
+                ForceNotificationToUserID => [ 1, 43, 56, ],
+                ExcludeNotificationToUserID     => [ 43, 56, ],
+                ExcludeMuteNotificationToUserID => [ 43, 56, ],
+
+                "DynamicField_Field1$RandomID" => 'Ticket',
+                "DynamicField_Field2$RandomID" => 'Article',
+                LinkAs                         => 'Child',
+                TimeUnit                       => 123,
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Ticket->Owner',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::5::' . $RandomID,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                Owner         => '<OTRS_TICKET_Owner>',
                 TypeID        => 1,
                 ResponsibleID => 1,
                 PendingTime   => '2014-12-23 23:05:00',
