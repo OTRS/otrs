@@ -301,7 +301,7 @@ sub Run {
         Result        => 'COUNT',
         Permission    => 'ro',
         UserID        => $Self->{UserID},
-    );
+    ) || 0;
 
     my $CSSClass = $Param{Config}->{CSSClassNoOpenTicket};
     if ($Count) {
