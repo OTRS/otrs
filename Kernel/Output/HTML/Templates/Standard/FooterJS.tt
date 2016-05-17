@@ -51,11 +51,6 @@ Core.App.Ready(function () {
 [% RenderBlockEnd("SearchFrontendConfig") %]
         CheckSearchStringsForStopWords: [% Config("Ticket::SearchIndex::WarnOnStopWordUsage") and Config("Ticket::SearchIndexModule") == 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB' ? 1 : 0 %],
         // translations
-        ValidateServerErrorTitle: [% Translate("Error") | JSON %],
-        ValidateServerErrorMsg: [% Translate("One or more errors occurred!") | JSON %],
-        DialogCloseMsg: [% Translate("Close this dialog") | JSON %],
-        PopupBlockerMsg: [% Translate("Could not open popup window. Please disable any popup blockers for this application.") | JSON %],
-        PopupAlreadyOpenMsg: [% Translate("A popup of this screen is already open. Do you want to close it and load this one instead?") | JSON %],
         LoadingMsg: [% Translate("Loading...") | JSON %],
         EmptySearchMsg: [% Translate("Please enter at least one search value or * to find anything.") | JSON %],
         SearchMsg: [% Translate("Search") | JSON %],

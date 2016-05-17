@@ -209,7 +209,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
                     Core.App.Publish('Event.Agent.TicketAction.NeedSpellCheck', [$('#RichText')]);
                     Core.UI.Dialog.ShowContentDialog('<p>' + Core.Config.Get('SpellCheckNeededMsg') + '</p>', '', '150px', 'Center', true, [
                         {
-                            Label: '<span>' + Core.Config.Get('DialogCloseMsg') + '</span>',
+                            Label: '<span>' + Core.Language.Translate('Close this dialog') + '</span>',
                             Function: function () {
                                 Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                                 Core.Form.EnableForm($('#RichText').closest('form'));

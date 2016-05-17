@@ -637,8 +637,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      */
     TargetNS.ShowDuplicatedDialog = function(Field){
         Core.UI.Dialog.ShowAlert(
-            Core.Config.Get('Duplicated.TitleText'),
-            Core.Config.Get('Duplicated.ContentText') + ' ' + Core.Config.Get('Duplicated.RemoveText'),
+            Core.Language.Translate('Duplicated entry'),
+            Core.Language.Translate('This address already exists on the address list.') + ' ' + Core.Language.Translate('It is going to be deleted from the field, please try again.'),
             function () {
                 Core.UI.Dialog.CloseDialog($('.Alert'));
                 $('#' + Field).val('');

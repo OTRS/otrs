@@ -764,7 +764,7 @@ Core.Form.Validate = (function (TargetNS) {
                 $ServerErrors.eq(0).focus();
             };
 
-            Core.UI.Dialog.ShowAlert(Core.Config.Get('ValidateServerErrorTitle'), Core.Config.Get('ValidateServerErrorMsg'), ServerErrorDialogCloseFunction);
+            Core.UI.Dialog.ShowAlert(Core.Language.Translate('Error'), Core.Language.Translate('One or more errors occurred!'), ServerErrorDialogCloseFunction);
         }
     };
 

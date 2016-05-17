@@ -452,7 +452,7 @@ Core.UI.Popup = (function (TargetNS) {
             // perform only if popups are not unlinked
             if (!Unlinked) {
                 if (typeof PopupObject !== 'undefined') {
-                    ConfirmClosePopup = window.confirm(Core.Config.Get('PopupAlreadyOpenMsg'));
+                    ConfirmClosePopup = window.confirm(Core.Language.Translate('A popup of this screen is already open. Do you want to close it and load this one instead?'));
                     if (ConfirmClosePopup) {
                         TargetNS.ClosePopup(PopupObject);
                     }
@@ -509,7 +509,7 @@ Core.UI.Popup = (function (TargetNS) {
                     // currently, popup windows cannot easily be detected in chrome, because it will
                     //      load the entire content in an invisible window.
                     if (!NewWindow || NewWindow.closed || typeof NewWindow.closed === 'undefined') {
-                        window.alert(Core.Config.Get('PopupBlockerMsg'));
+                        window.alert(Core.Language.Translate('Could not open popup window. Please disable any popup blockers for this application.'));
                     }
                     else {
                         OpenPopups[Type] = NewWindow;
