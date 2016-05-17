@@ -26,23 +26,23 @@
 </div>
 <div class="Clear"></div>
 
-<label for="EmailSecuritySettings">[% Translate("Enable security settings") | html %]: </label>
+<label for="EmailSecuritySettings">[% Translate("Enable email security") | html %]: </label>
 <div class="Field">
     <input type="checkbox" name="EmailSecuritySettings" id="EmailSecuritySettings" value="1" [% Data.EmailSecuritySettings %] />
     <p class="FieldExplanation">[% Data.EmailSecurityInfo %]</p>
 </div>
 <div class="Clear"></div>
-<label for="EmailSigningCrypting">[% Translate("Signing and/or crypting emails") | html %]: </label>
+<label for="EmailSigningCrypting">[% Translate("Email security level") | html %]: </label>
 <div class="Field">
     [% Data.EmailSigningCrypting %]
 </div>
 <div class="Clear"></div>
-<label for="EmailMissingSigningKeys">[% Translate("On missing signing keys") | html %]: </label>
+<label for="EmailMissingSigningKeys">[% Translate("If signing key/certificate is missing") | html %]: </label>
 <div class="Field">
     [% Data.EmailMissingSigningKeys %]
 </div>
 <div class="Clear"></div>
-<label for="EmailMissingCryptingKeys">[% Translate("On missing encryption keys") | html %]: </label>
+<label for="EmailMissingCryptingKeys">[% Translate("If encryption key/certificate is missing") | html %]: </label>
 <div class="Field">
     [% Data.EmailMissingCryptingKeys %]
 </div>

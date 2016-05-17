@@ -404,7 +404,7 @@ sub TransportSettingsDisplayGet {
         Name        => 'NotificationArticleTypeID',
         Translation => 1,
         SelectedID  => $Param{Data}->{NotificationArticleTypeID},
-        Class       => 'Modernize',
+        Class       => 'Modernize W50pc',
     );
 
     $Param{TransportEmailTemplateStrg} = $LayoutObject->BuildSelection(
@@ -412,7 +412,7 @@ sub TransportSettingsDisplayGet {
         Name        => 'TransportEmailTemplate',
         Translation => 0,
         SelectedID  => $Param{Data}->{TransportEmailTemplate},
-        Class       => 'Modernize',
+        Class       => 'Modernize W50pc',
     );
 
     # security fields
@@ -423,15 +423,15 @@ sub TransportSettingsDisplayGet {
     my %SecuritySignEncryptOptions;
 
     if ( $ConfigObject->Get('PGP') ) {
-        $SecuritySignEncryptOptions{'PGPSign'}      = 'PGP sign';
-        $SecuritySignEncryptOptions{'PGPCrypt'}     = 'PGP encrypt';
-        $SecuritySignEncryptOptions{'PGPSignCrypt'} = 'PGP sign and encrypt';
+        $SecuritySignEncryptOptions{'PGPSign'}      = Translatable('PGP sign only');
+        $SecuritySignEncryptOptions{'PGPCrypt'}     = Translatable('PGP encrypt only');
+        $SecuritySignEncryptOptions{'PGPSignCrypt'} = Translatable('PGP sign and encrypt');
     }
 
     if ( $ConfigObject->Get('SMIME') ) {
-        $SecuritySignEncryptOptions{'SMIMESign'}      = 'SMIME sign';
-        $SecuritySignEncryptOptions{'SMIMECrypt'}     = 'SMIME encrypt';
-        $SecuritySignEncryptOptions{'SMIMESignCrypt'} = 'SMIME sign and encrypt';
+        $SecuritySignEncryptOptions{'SMIMESign'}      = Translatable('SMIME sign only');
+        $SecuritySignEncryptOptions{'SMIMECrypt'}     = Translatable('SMIME encrypt only');
+        $SecuritySignEncryptOptions{'SMIMESignCrypt'} = Translatable('SMIME sign and encrypt');
     }
 
     # set security settings enabled
@@ -452,7 +452,7 @@ sub TransportSettingsDisplayGet {
         Data         => \%SecuritySignEncryptOptions,
         Name         => 'EmailSigningCrypting',
         SelectedID   => $Param{Data}->{EmailSigningCrypting},
-        Class        => 'Security Modernize W75pc',
+        Class        => 'Security Modernize W50pc',
         Multiple     => 0,
         Translation  => 1,
         PossibleNone => 1,
@@ -461,10 +461,19 @@ sub TransportSettingsDisplayGet {
 
     # create missing signing actions field
     $Param{EmailMissingSigningKeys} = $LayoutObject->BuildSelection(
-        Data        => [ 'Skip delivery', 'Send unsigned' ],
+        Data => [
+            {
+                Key   => 'Skip',
+                Value => Translatable('Skip notification delivery'),
+            },
+            {
+                Key   => 'Send',
+                Value => Translatable('Send unsigned notification'),
+            },
+        ],
         Name        => 'EmailMissingSigningKeys',
         SelectedID  => $Param{Data}->{EmailMissingSigningKeys},
-        Class       => 'Security Modernize W75pc',
+        Class       => 'Security Modernize W50pc',
         Multiple    => 0,
         Translation => 1,
         Disabled    => $Param{SecurityDisabled},
@@ -472,10 +481,19 @@ sub TransportSettingsDisplayGet {
 
     # create missing crypting actions field
     $Param{EmailMissingCryptingKeys} = $LayoutObject->BuildSelection(
-        Data        => [ 'Skip delivery', 'Send uncrypted' ],
+        Data => [
+            {
+                Key   => 'Skip',
+                Value => Translatable('Skip notification delivery'),
+            },
+            {
+                Key   => 'Send',
+                Value => Translatable('Send unencrypted notification'),
+            },
+        ],
         Name        => 'EmailMissingCryptingKeys',
         SelectedID  => $Param{Data}->{EmailMissingCryptingKeys},
-        Class       => 'Security Modernize W75pc',
+        Class       => 'Security Modernize W50pc',
         Multiple    => 0,
         Translation => 1,
         Disabled    => $Param{SecurityDisabled},
@@ -632,7 +650,7 @@ sub SecurityOptionsGet {
             my $Message
                 = "Could not sign notification '$Param{Notification}->{Name}' due to missing $Method sign key for '$NotificationSenderEmail'";
 
-            if ( $MissingKeysCerts eq 'Skip delivery' ) {
+            if ( $MissingKeysCerts eq 'Skip' ) {
 
                 # log skipping notification
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -668,7 +686,7 @@ sub SecurityOptionsGet {
             my $Message
                 = "Could not encrypt notification '$Param{Notification}->{Name}' due to missing $Method encryption key for '$Param{Recipient}->{UserEmail}'";
 
-            if ( $MissingEncryptKeysCerts eq 'Skip delivery' ) {
+            if ( $MissingEncryptKeysCerts eq 'Skip' ) {
 
                 # log skipping notification
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
