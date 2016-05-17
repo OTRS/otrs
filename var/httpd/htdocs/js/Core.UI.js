@@ -253,5 +253,19 @@ Core.UI = (function (TargetNS) {
         ShakeMe($id, Position, 20);
     };
 
+    /**
+     * @name Init
+     * @memberof Core.UI
+     * @function
+     * @description
+     *      Initializes the namespace.
+     */
+    TargetNS.Init = function() {
+        Core.UI.InitWidgetActionToggle();
+        Core.UI.InitMessageBoxClose();
+    };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL');
+
     return TargetNS;
 }(Core.UI || {}));

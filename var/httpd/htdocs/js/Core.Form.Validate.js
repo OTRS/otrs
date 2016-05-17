@@ -890,5 +890,7 @@ Core.Form.Validate = (function (TargetNS) {
             .removeClass(Options.IgnoreClass);
     };
 
+    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL');
+
     return TargetNS;
 }(Core.Form.Validate || {}));

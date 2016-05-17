@@ -18,7 +18,12 @@
 
 <script type="text/javascript">//<![CDATA[
 "use strict";
+
+Core.Init.ExecuteInit('JS_LOADED');
+
 Core.App.Ready(function () {
+
+    Core.Init.ExecuteInit('DOCUMENT_READY');
 
     Core.Config.AddConfig({
         // config
@@ -78,7 +83,10 @@ Core.App.Ready(function () {
 
     [% PROCESS JSDataInsert %]
 
-    Core.Agent.Init();
+    Core.Init.ExecuteInit('CONFIG_LOADED');
+    Core.Init.ExecuteInit('APP_GLOBAL_EARLY');
+    Core.Init.ExecuteInit('APP_GLOBAL');
+    Core.Init.ExecuteInit('APP_GLOBAL_LATE');
 
 [% InsertTemplate("Datepicker.tt") %]
 
@@ -125,12 +133,12 @@ Core.App.Ready(function () {
 <script type="text/javascript">//<![CDATA[
 "use strict";
 Core.App.Ready(function () {
+    Core.Init.ExecuteInit('APP_MODULE_EARLY');
 
 [% PROCESS JSOnDocumentCompleteInsert %]
 
-    // responsive initialization must run as late as possible to include all event subscriptions
-    // at the initialization process
-    Core.App.Responsive.Init();
+    Core.Init.ExecuteInit('APP_MODULE');
+    Core.Init.ExecuteInit('APP_MODULE_LATE');
 });
 //]]></script>
 
@@ -139,6 +147,7 @@ Core.App.Ready(function () {
 <script type="text/javascript">//<![CDATA[
 "use strict";
 Core.App.Ready(function () {
+    Core.Init.ExecuteInit('FINISH');
     Core.App.UnblockEvents();
 });
 //]]></script>

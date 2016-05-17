@@ -620,17 +620,6 @@ Core.Agent = (function (TargetNS) {
         Core.App.Responsive.CheckIfTouchDevice();
 
         InitNavigation();
-        Core.Exception.Init();
-        Core.UI.InitWidgetActionToggle();
-        Core.UI.InitMessageBoxClose();
-        Core.Form.Validate.Init();
-        Core.UI.Popup.Init();
-        Core.UI.Floater.Init();
-        Core.UI.InputFields.Init();
-        Core.UI.TreeSelection.InitTreeSelection();
-        Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
-        // late execution of accessibility code
-        Core.UI.Accessibility.Init();
     };
 
     /**
@@ -668,6 +657,8 @@ Core.Agent = (function (TargetNS) {
             location.reload();
         }
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL_EARLY');
 
     return TargetNS;
 }(Core.Agent || {}));

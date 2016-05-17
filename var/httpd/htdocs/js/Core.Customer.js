@@ -77,21 +77,6 @@ Core.Customer = (function (TargetNS) {
                 + Core.Config.Get('BrowserDocumentationMsg')
             );
         }
-
-        Core.Exception.Init();
-
-        Core.Form.Validate.Init();
-        Core.UI.Popup.Init();
-
-        // late execution of accessibility code
-        Core.UI.Accessibility.Init();
-
-        // Modernize input fields
-        Core.UI.InputFields.Init();
-
-        // Init tree selection/tree view for dynamic fields
-        Core.UI.TreeSelection.InitTreeSelection();
-        Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
     };
 
     /**
@@ -118,6 +103,8 @@ Core.Customer = (function (TargetNS) {
     TargetNS.Enhance = function(){
         $('body').removeClass('NoJavaScript').addClass('JavaScriptAvailable');
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL_EARLY');
 
     return TargetNS;
 }(Core.Customer || {}));

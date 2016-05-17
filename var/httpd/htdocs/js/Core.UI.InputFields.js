@@ -2223,5 +2223,7 @@ Core.UI.InputFields = (function (TargetNS) {
         }, 100);
     });
 
+    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL');
+
     return TargetNS;
 }(Core.UI.InputFields || {}));

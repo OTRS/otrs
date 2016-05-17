@@ -252,6 +252,10 @@ Core.App.Responsive = (function (TargetNS) {
         CheckScreenResolution();
     };
 
+    // responsive initialization must run as late as possible to include all event subscriptions
+    // at the initialization process
+    Core.Init.RegisterNamespace(TargetNS, 'FINISH');
+
     return TargetNS;
 
 }(Core.App.Responsive || {}));

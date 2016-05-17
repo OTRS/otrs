@@ -166,5 +166,7 @@ Core.Exception = (function (TargetNS) {
         }
     };
 
+    Core.Init.RegisterNamespace(TargetNS, 'DOCUMENT_READY');
+
     return TargetNS;
 }(Core.Exception || {}));

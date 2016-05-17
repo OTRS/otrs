@@ -549,5 +549,19 @@ Core.UI.TreeSelection = (function (TargetNS) {
         $FieldObj.addClass('TreeViewRestored');
     };
 
+    /**
+     * @name Init
+     * @memberof Core.UI.TreeSelection
+     * @function
+     * @description
+     *      Initializes the namespace.
+     */
+    TargetNS.Init = function () {
+        Core.UI.TreeSelection.InitTreeSelection();
+        Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
+    };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL');
+
     return TargetNS;
 }(Core.UI.TreeSelection || {}));
