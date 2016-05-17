@@ -43,6 +43,9 @@ Core.App.Ready(function () {
         OpenMainMenuOnHover: parseInt('[% Config("OpenMainMenuOnHover") %]', 10),
         CustomerInfoSet: parseInt('[% Config("Ticket::Frontend::CustomerInfoCompose") %]', 10),
         IncludeUnknownTicketCustomers: parseInt('[% Config("Ticket::IncludeUnknownTicketCustomers") %]', 10),
+        InputFieldsActivated: parseInt('[% Config("ModernizeFormFields") %]', 10),
+        AgentLogoURL: '[% Config("AgentLogo").URL %]',
+        OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
 [% RenderBlockStart("AutoCompleteConfig") %]
         Autocomplete: [% Data.AutocompleteConfig %],
 [% RenderBlockEnd("AutoCompleteConfig") %]
@@ -71,32 +74,6 @@ Core.App.Ready(function () {
         BrowserTooOldMsg: [% Translate("The browser you are using is too old.") | JSON %],
         BrowserListMsg: [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | JSON %],
         BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %],
-        ViewModeSwitchMobile:  [% Translate("Switch to mobile mode") | JSON %],
-        ViewModeSwitchDesktop: [% Translate("Switch to desktop mode") | JSON %],
-        InputFieldsActivated: parseInt('[% Config("ModernizeFormFields") %]', 10),
-        InputFieldsNotAvailable: [% Translate("Not available") | JSON %],
-        InputFieldsNoMatchMsg: [% Translate("No matches found.") | JSON %],
-        InputFieldsSelectAll: [% Translate("Select all") | JSON %],
-        InputFieldsClearAll: [% Translate("Clear all") | JSON %],
-        InputFieldsClearSearch: [% Translate("Clear search") | JSON %],
-        InputFieldsRemoveSelection: [% Translate("Remove selection") | JSON %],
-        InputFieldsMore: [% Translate("and %s more...") | JSON %],
-        InputFieldsFilters: [% Translate("Filters") | JSON %],
-        InputFieldsConfirm: [% Translate("Confirm") | JSON %],
-        UnavailableForChat: [% Translate("Unavailable for chat") | JSON %],
-        AvailableForInternalChat: [% Translate("Available for internal chats only") | JSON %],
-        AvailableForChat: [% Translate("Available for chats") | JSON %],
-        VisitChatManager: [% Translate("Please visit the chat manager") | JSON %],
-        NewPersonalChat: [% Translate("New personal chat request") | JSON %],
-        NewCustomerChat: [% Translate("New customer chat request") | JSON %],
-        NewPublicChat: [% Translate("New public chat request") | JSON %],
-        NewChatActivity: [% Translate("New activity") | JSON %],
-        NewChatActivityMonitored: [% Translate("New activity on one of your monitored chats.") | JSON %],
-        TicketActionTemplateOverwrite: [% Translate("Setting a template will overwrite any text or attachment.") | JSON %],
-        TicketActionTemplateOverwriteConfirm: [% Translate("Do you really want to continue?") | JSON %],
-        AgentLogoURL: '[% Config("AgentLogo").URL %]',
-        OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
-        OTRSDaemonDialogTitleMsg: [% Translate('Information about the OTRS Daemon') | JSON %]
     });
 
     [% PROCESS JSDataInsert %]

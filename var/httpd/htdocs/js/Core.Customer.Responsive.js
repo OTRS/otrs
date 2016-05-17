@@ -32,7 +32,7 @@ Core.Customer.Responsive = (function (TargetNS) {
 
         // Add switch for Desktopmode
         if (!$('#ViewModeSwitch').length) {
-            $('#Footer').append('<div id="ViewModeSwitch"><a href="#">' + Core.Config.Get('ViewModeSwitchDesktop') + '</a></div>');
+            $('#Footer').append('<div id="ViewModeSwitch"><a href="#">' + Core.Language.Translate('Switch to desktop mode') + '</a></div>');
             $('#ViewModeSwitch a').on('click.Responsive', function() {
                 localStorage.setItem("DesktopMode", 1);
                 location.reload(true);

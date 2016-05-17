@@ -19,16 +19,7 @@ Core.UI.InputFields = (function (Namespace) {
         module('Core.UI.InputFields');
 
         Core.Config.AddConfig({
-            InputFieldsActivated: 1,
-            InputFieldsNotAvailable: 'Not available',
-            InputFieldsNoMatchMsg: 'No matches found',
-            InputFieldsSelectAll: 'Select all',
-            InputFieldsClearAll: 'Clear all',
-            InputFieldsClearSearch: 'Clear search',
-            InputFieldsRemoveSelection: 'Remove selection',
-            InputFieldsMore: 'and %s more...',
-            InputFieldsFilters: 'Filters',
-            InputFieldsConfirm: 'Confirm'
+            InputFieldsActivated: 1
         });
 
         /*
@@ -267,7 +258,7 @@ Core.UI.InputFields = (function (Namespace) {
             Assert.expect(2);
 
             Assert.equal($SearchObj.attr('disabled'), 'disabled', 'Check if field is disabled');
-            Assert.equal($SearchObj.attr('title'), Core.Config.Get('InputFieldsNotAvailable'), 'Check if field has appropriate title');
+            Assert.equal($SearchObj.attr('title'), Core.Language.Translate('Not available'), 'Check if field has appropriate title');
         });
 
         /*

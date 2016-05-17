@@ -74,7 +74,7 @@ Core.Agent.Daemon = (function (TargetNS) {
                 }
 
                 // show main dialog
-                Core.UI.Dialog.ShowContentDialog(HTML, Core.Config.Get('OTRSDaemonDialogTitleMsg'), '240px', 'Center', true);
+                Core.UI.Dialog.ShowContentDialog(HTML, Core.Language.Translate('Information about the OTRS Daemon'), '240px', 'Center', true);
 
                 // set cancel button action
                 $('#DaemonFormCancel').bind('click', function() {

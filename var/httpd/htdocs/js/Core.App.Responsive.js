@@ -192,7 +192,7 @@ Core.App.Responsive = (function (TargetNS) {
                 // if the DesktopMode has been triggered manually, we add a switch to the footer
                 // for switching back to mobile mode
                 if (!$('#ViewModeSwitch').length) {
-                    $('#Footer').append('<div id="ViewModeSwitch"><a href="#">' + Core.Config.Get('ViewModeSwitchMobile') + '</a></div>');
+                    $('#Footer').append('<div id="ViewModeSwitch"><a href="#">' + Core.Language.Translate('Switch to mobile mode') + '</a></div>');
                     $('#ViewModeSwitch').on('click.Responsive', function() {
                         localStorage.setItem("DesktopMode", 0);
                         location.reload();
