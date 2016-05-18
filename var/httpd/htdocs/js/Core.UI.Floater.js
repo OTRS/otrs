@@ -257,5 +257,7 @@ Core.UI.Floater = (function (TargetNS) {
         });
     }
 
+    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL');
+
     return TargetNS;
 }(Core.UI.Floater || {}));
