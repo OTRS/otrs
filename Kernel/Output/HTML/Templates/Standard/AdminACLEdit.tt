@@ -258,16 +258,6 @@ Core.Agent.Admin.ACL.Autocomplete = {
     ]
 };
 
-// Localizations
-Core.Agent.Admin.ACL.Localization = {
-    CancelMsg:      "[% Translate("Cancel") | html %]",
-    DeleteMsg:      "[% Translate("Delete") | html %]",
-    ConfirmRemoval: "[% Translate("This item still contains sub items. Are you sure you want to remove this item including its sub items?") | html %]",
-    AlreadyAdded:   "[% Translate("An item with this name is already present.") | html %]",
-    AddAll:         "[% Translate("Add all") | html %]",
-    JSONError:      "[% Translate("There was an error reading the ACL data.") | html %]"
-};
-
 Core.Agent.Admin.ACL.InitACLEdit();
 //]]></script>
 [% END %]

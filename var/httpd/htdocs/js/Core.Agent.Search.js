@@ -177,7 +177,7 @@ Core.Agent.Search = (function (TargetNS) {
             }
         });
         if (!SearchValueFlag) {
-           alert(Core.Config.Get('EmptySearchMsg'));
+           alert(Core.Language.Translate('Please enter at least one search value or * to find anything.'));
         }
         return SearchValueFlag;
     }
@@ -191,7 +191,7 @@ Core.Agent.Search = (function (TargetNS) {
      *      Shows waiting dialog until search screen is ready.
      */
     function ShowWaitingDialog(){
-        Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Config.Get('LoadingMsg') + '"></span></div>', Core.Config.Get('LoadingMsg'), '10px', 'Center', true);
+        Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Language.Translate('Loading...') + '"></span></div>', Core.Language.Translate('Loading...'), '10px', 'Center', true);
     }
 
     /**
@@ -313,7 +313,7 @@ Core.Agent.Search = (function (TargetNS) {
         AJAXStopWordCheck(
             SearchStrings,
             function (FoundStopWords) {
-                alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + "\n" + FoundStopWords);
+                alert(Core.Language.Translate('Please remove the following words from your search as they cannot be searched for:') + "\n" + FoundStopWords);
             },
             Callback
         );
@@ -358,7 +358,7 @@ Core.Agent.Search = (function (TargetNS) {
                     return;
                 }
 
-                Core.UI.Dialog.ShowContentDialog(HTML, Core.Config.Get('SearchMsg'), '10px', 'Center', true, undefined, true);
+                Core.UI.Dialog.ShowContentDialog(HTML, Core.Language.Translate('Search'), '10px', 'Center', true, undefined, true);
 
                 // hide add template block
                 $('#SearchProfileAddBlock').hide();
@@ -588,7 +588,7 @@ Core.Agent.Search = (function (TargetNS) {
                 AJAXStopWordCheck(
                     { Fulltext: SearchString },
                     function (FoundStopWords) {
-                        alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + "\n" + FoundStopWords);
+                        alert(Core.Language.Translate('Please remove the following words from your search as they cannot be searched for:') + "\n" + FoundStopWords);
                     },
                     function () {
                         $('#ToolBar li.Extended.SearchFulltext form[name="SearchFulltext"]').submit();

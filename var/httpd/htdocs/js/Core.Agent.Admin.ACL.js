@@ -59,14 +59,14 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             true,
             [
                {
-                   Label: TargetNS.Localization.CancelMsg,
+                   Label: Core.Language.Translate('Cancel'),
                    Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('.Dialog'));
                    }
                },
                {
-                   Label: TargetNS.Localization.DeleteMsg,
+                   Label: Core.Language.Translate('Delete'),
                    Function: function () {
                        var Data = {
                                Action: 'AdminACL',
@@ -165,7 +165,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
                             if (Level2Key === 'DynamicField') {
                                 SelectHTML = $('#' + Level2Key).parent().html();
-                                SelectHTML += '<span class="AddAll">' + Core.Agent.Admin.ACL.Localization.AddAll + '</span>';
+                                SelectHTML += '<span class="AddAll">' + Core.Language.Translate('Add all') + '</span>';
 
                                 $ItemObjLevel2
                                     .find('input')
@@ -323,7 +323,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                 $Target.append($LevelObj);
             }
             else {
-                alert(Core.Agent.Admin.ACL.Localization.AlreadyAdded);
+                alert(Core.Language.Translate('An item with this name is already present.'));
             }
             $Object.blur().val('');
         }
@@ -358,7 +358,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
                 if (Value === 'DynamicField') {
                     SelectHTML = $('#' + Value).parent().html();
-                    SelectHTML += '<span class="AddAll">' + Core.Agent.Admin.ACL.Localization.AddAll + '</span>';
+                    SelectHTML += '<span class="AddAll">' + Core.Language.Translate('Add all') + '</span>';
 
                     $LevelObj
                         .find('input')
@@ -378,7 +378,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                 }
             }
             else {
-                alert(Core.Agent.Admin.ACL.Localization.AlreadyAdded);
+                alert(Core.Language.Translate('An item with this name is already present.'));
             }
             $Object.blur().val('');
         }
@@ -789,7 +789,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         $('.ACLStructure').on('click', '.Icon.RemoveButton', function() {
             var Remove = false;
             if ($(this).nextAll('ul').find('li').length > 1) {
-                if (confirm(Core.Agent.Admin.ACL.Localization.ConfirmRemoval)) {
+                if (confirm(Core.Language.Translate('This item still contains sub items. Are you sure you want to remove this item including its sub items?'))) {
                     Remove = true;
                 }
             }

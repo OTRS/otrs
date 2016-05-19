@@ -377,7 +377,7 @@ Core.Agent = (function (TargetNS) {
         if (!$('#NavigationContainer').find('.NavigationBarNavigate' + Direction).length) {
 
             $('#NavigationContainer')
-                .append('<a href="#" title="' + Core.Config.Get('SlideNavigationText') + '" class="Hidden NavigationBarNavigate' + Direction + '"><i class="fa fa-chevron-' + Direction.toLowerCase() + '"></i></a>')
+                .append('<a href="#" title="' + Core.Language.Translate('Slide the navigation bar') + '" class="Hidden NavigationBarNavigate' + Direction + '"><i class="fa fa-chevron-' + Direction.toLowerCase() + '"></i></a>')
                 .find('.NavigationBarNavigate' + Direction)
                 .delay(Delay)
                 .fadeIn()
@@ -610,11 +610,15 @@ Core.Agent = (function (TargetNS) {
 
         if (TargetNS.IECompatibilityMode) {
             TargetNS.SupportedBrowser = false;
-            alert(Core.Config.Get('TurnOffCompatibilityModeMsg'));
+            alert(Core.Language.Translate('Please turn off Compatibility Mode in Internet Explorer!'));
         }
 
         if (!TargetNS.SupportedBrowser) {
-            alert(Core.Config.Get('BrowserTooOldMsg') + ' ' + Core.Config.Get('BrowserListMsg') + ' ' + Core.Config.Get('BrowserDocumentationMsg'));
+            alert(Core.Language.Translate('The browser you are using is too old.')
+                + ' '
+                + Core.Language.Translate('OTRS runs with a huge lists of browsers, please upgrade to one of these.')
+                + ' '
+                + Core.Language.Translate('Please see the documentation or ask your admin for further information.'));
         }
 
         Core.App.Responsive.CheckIfTouchDevice();

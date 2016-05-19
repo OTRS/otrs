@@ -33,7 +33,6 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
         TargetNS.Operation = Params.Operation;
         TargetNS.Action = Params.Action;
-        TargetNS.Localization = Params.Localization;
     };
 
     /**
@@ -47,20 +46,20 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
     TargetNS.ShowDeleteDialog = function(Event){
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteDialogContainer'),
-            TargetNS.Localization.DeleteOperationMsg,
+            Core.Language.Translate('Delete this Operation'),
             '240px',
             'Center',
             true,
             [
                {
-                   Label: TargetNS.Localization.CancelMsg,
+                   Label: Core.Language.Translate('Cancel'),
                    Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
                    }
                },
                {
-                   Label: TargetNS.Localization.DeleteMsg,
+                   Label: Core.Language.Translate('Delete'),
                    Function: function () {
                        var Data = {
                             Action: TargetNS.Action,
@@ -71,7 +70,7 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
 
                         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
                             if (!Response || !Response.Success) {
-                                alert(TargetNS.Localization.CommunicationErrorMsg);
+                                alert(Core.Language.Translate('An error occurred during communication.'));
                                 return;
                             }
 

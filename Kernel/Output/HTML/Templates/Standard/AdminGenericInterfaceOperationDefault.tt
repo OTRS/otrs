@@ -195,13 +195,7 @@ $('#SaveAndFinishButton').bind('click', function(){
 Core.Agent.Admin.GenericInterfaceOperation.Init({
     WebserviceID: [% Data.WebserviceID | html %],
     Operation: "[% Data.Operation | html %]",
-    Action: 'AdminGenericInterfaceOperationDefault',
-    Localization: {
-        CommunicationErrorMsg: [% Translate("An error occurred during communication.") | JSON %],
-        DeleteOperationMsg: [% Translate("Delete this Operation") | JSON %],
-        DeleteMsg: [% Translate("Delete") | JSON %],
-        CancelMsg: [% Translate("Cancel") | JSON %]
-    }
+    Action: 'AdminGenericInterfaceOperationDefault'
 });
 
 $('.RegisterChange').bind('change.RegisterChange keyup.RegisterChange', function (Event) {

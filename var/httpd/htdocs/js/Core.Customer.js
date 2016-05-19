@@ -65,16 +65,16 @@ Core.Customer = (function (TargetNS) {
 
         if (TargetNS.IECompatibilityMode) {
             TargetNS.SupportedBrowser = false;
-            alert(Core.Config.Get('TurnOffCompatibilityModeMsg'));
+            alert(Core.Language.Translate('Please turn off Compatibility Mode in Internet Explorer!'));
         }
 
         if (!TargetNS.SupportedBrowser) {
             alert(
-                Core.Config.Get('BrowserTooOldMsg')
+                Core.Language.Translate('The browser you are using is too old.')
                 + ' '
-                + Core.Config.Get('BrowserListMsg')
+                + Core.Language.Translate('OTRS runs with a huge lists of browsers, please upgrade to one of these.')
                 + ' '
-                + Core.Config.Get('BrowserDocumentationMsg')
+                + Core.Language.Translate('Please see the documentation or ask your admin for further information.')
             );
         }
     };

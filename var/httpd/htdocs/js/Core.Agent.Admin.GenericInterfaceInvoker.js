@@ -43,7 +43,6 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
         TargetNS.Invoker = Params.Invoker;
         TargetNS.Action = Params.Action;
-        TargetNS.Localization = Params.Localization;
     };
 
     /**
@@ -98,20 +97,20 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
     TargetNS.ShowDeleteDialog = function(Event){
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteDialogContainer'),
-            TargetNS.Localization.DeleteInvokerMsg,
+            Core.Language.Translate('Delete this Invoker'),
             '240px',
             'Center',
             true,
             [
                {
-                   Label: TargetNS.Localization.CancelMsg,
+                   Label: Core.Language.Translate('Cancel'),
                    Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
                    }
                },
                {
-                   Label: TargetNS.Localization.DeleteMsg,
+                   Label: Core.Language.Translate('Delete'),
                    Function: function () {
                        var Data = {
                             Action: TargetNS.Action,
@@ -122,7 +121,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
                         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
                             if (!Response || !Response.Success) {
-                                alert(TargetNS.Localization.CommunicationErrorMsg);
+                                alert(Core.Language.Translate('An error occurred during communication.'));
                                 return;
                             }
 
@@ -158,20 +157,20 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
         LocalDialogData = DialogData[$(this).attr('id')];
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteEventDialogContainer'),
-            TargetNS.Localization.DeleteEventMsg,
+            Core.Language.Translate('Delete this Event Trigger'),
             '240px',
             'Center',
             true,
             [
                {
-                   Label: TargetNS.Localization.CancelMsg,
+                   Label: Core.Language.Translate('Cancel'),
                    Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('#DeleteEventDialog'));
                    }
                },
                {
-                   Label: TargetNS.Localization.DeleteMsg,
+                   Label: Core.Language.Translate('Delete'),
                    Function: function () {
                        var Data = {
                             Action: TargetNS.Action,
@@ -182,7 +181,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
                         };
                         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
                             if (!Response || !Response.Success) {
-                                alert(TargetNS.Localization.CommunicationErrorMsg);
+                                alert(Core.Language.Translate('An error occurred during communication.'));
                                 return;
                             }
 

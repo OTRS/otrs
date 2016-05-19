@@ -308,7 +308,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 });
 
                 if (ValidationErrors) {
-                    window.alert(Core.Config.Get('ValidationErrorMsg'));
+                    window.alert(Core.Language.Translate('Please check the fields marked as red for valid inputs.'));
                     return false;
                 }
 

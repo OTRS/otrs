@@ -270,14 +270,7 @@ Core.Agent.Admin.GenericInterfaceInvoker.Init({
     WebserviceID: [% Data.WebserviceID | html %],
     Invoker: "[% Data.Invoker | html %]",
     Action: 'AdminGenericInterfaceInvokerDefault',
-    EventTypeSelected: $('#EventType').val(),
-    Localization: {
-        CommunicationErrorMsg: [% Translate("An error occurred during communication.") | JSON %],
-        DeleteInvokerMsg: [% Translate("Delete this Invoker") | JSON %],
-        DeleteEventMsg: [% Translate("Delete this Event Trigger") | JSON %],
-        DeleteMsg: [% Translate("Delete") | JSON %],
-        CancelMsg: [% Translate("Cancel") | JSON %]
-    }
+    EventTypeSelected: $('#EventType').val()
 });
 
 $('.RegisterChange').bind('change.RegisterChange keyup.RegisterChange', function (Event) {

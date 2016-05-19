@@ -87,7 +87,7 @@
         });
 
         if ( !SearchValueFlag ) {
-           alert(Core.Config.Get('EmptySearchMsg'));
+           alert([% Translate("Please enter at least one search value or * to find anything.") | JSON %]);
            return false;
         }
     });

@@ -253,7 +253,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         // Check if there are elements to select from
         if (ElementCount === 1 && $SelectObj.find('option').text() === '-') {
-            alert(Core.Config.Get('NoElementsToSelectFromMsg'));
+            alert(Core.Language.Translate('There are currently no elements available to select from.'));
             return false;
         }
 
@@ -344,8 +344,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Core.UI.Dialog.ShowContentDialog('<div class="OverlayTreeSelector" id="TreeContainer"></div>', DialogTitle, '20%', 'Center', true);
             $('#TreeContainer')
                 .prepend($TreeObj)
-                .prepend('<div id="TreeSearch"><input type="text" id="TreeSearchInput" placeholder="' + Core.Config.Get('SearchMsg') + '..." /><span title="' + Core.Config.Get('DeleteMsg') + '">x</span></div>')
-                .append('<input type="button" id="SubmitTree" class="Primary" title="' + Core.Config.Get('ApplyButtonText') + '" value="' + Core.Config.Get('ApplyButtonText') + '" />');
+                .prepend('<div id="TreeSearch"><input type="text" id="TreeSearchInput" placeholder="' + Core.Language.Translate('Search') + '..." /><span title="' + Core.Language.Translate('Delete') + '">x</span></div>')
+                .append('<input type="button" id="SubmitTree" class="Primary" title="' + Core.Language.Translate('Apply') + '" value="' + Core.Language.Translate('Apply') + '" />');
         }
         else {
             $TreeObj

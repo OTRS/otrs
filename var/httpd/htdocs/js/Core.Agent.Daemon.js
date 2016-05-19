@@ -42,7 +42,7 @@ Core.Agent.Daemon = (function (TargetNS) {
      *      Shows waiting dialog until daemon start screen is ready.
      */
     function ShowWaitingDialog(){
-        Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Config.Get('LoadingMsg') + '"></span></div>', Core.Config.Get('LoadingMsg'), '240px', 'Center', true);
+        Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Language.Translate('Loading...') + '"></span></div>', Core.Language.Translate('Loading...'), '240px', 'Center', true);
     }
 
     /**

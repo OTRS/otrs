@@ -207,7 +207,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
             Core.Form.Validate.SetSubmitFunction($('form[name=compose]'), function() {
                 if ($('#RichText').val() && !$('#RichText').hasClass('ValidationIgnore') && !Core.Config.Get('TextIsSpellChecked')) {
                     Core.App.Publish('Event.Agent.TicketAction.NeedSpellCheck', [$('#RichText')]);
-                    Core.UI.Dialog.ShowContentDialog('<p>' + Core.Config.Get('SpellCheckNeededMsg') + '</p>', '', '150px', 'Center', true, [
+                    Core.UI.Dialog.ShowContentDialog('<p>' + Core.Language.Translate('Please perform a spell check on the the text first.') + '</p>', '', '150px', 'Center', true, [
                         {
                             Label: '<span>' + Core.Language.Translate('Close this dialog') + '</span>',
                             Function: function () {
