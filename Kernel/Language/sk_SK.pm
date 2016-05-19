@@ -24,774 +24,29 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.260475889660981;
+    $Self->{Completeness}        = 0.222655403941954;
 
     # csv separator
     $Self->{Separator} = ';';
 
     $Self->{Translation} = {
 
-        # Template: AAABase
-        'Yes' => 'Áno',
-        'No' => 'Nie',
-        'yes' => 'áno',
-        'no' => 'žiadny',
-        'Off' => 'vypnúť',
-        'off' => 'vypnúť',
-        'On' => 'zapnúť',
-        'on' => 'zapnúť',
-        'top' => 'začiatok',
-        'end' => 'koniec',
-        'Done' => 'hotovo',
-        'Cancel' => 'zrušiť',
-        'Reset' => '',
-        'more than ... ago' => 'pred viac ako ...',
-        'in more than ...' => 'vo viacej ako ...',
-        'within the last ...' => 'v posledných ...',
-        'within the next ...' => 'v nasledujúcich ...',
-        'Created within the last' => 'Vytvorený v posledných',
-        'Created more than ... ago' => 'Vytvorený pred viacej ako ...',
-        'Today' => 'Dnes',
-        'Tomorrow' => 'Zajtra',
-        'Next week' => 'Nasledujúci týždeň',
-        'day' => 'deň',
-        'days' => 'dni',
-        'day(s)' => 'deň/dni',
-        'd' => 'd',
-        'hour' => 'hodina',
-        'hours' => 'hodiny',
-        'hour(s)' => 'hodina/hodiny',
-        'Hours' => 'Hodín',
-        'h' => 'h',
-        'minute' => 'minuta',
-        'minutes' => 'minuty',
-        'minute(s)' => 'minuta/minuty',
-        'Minutes' => 'Minút',
-        'm' => 'm',
-        'month' => 'mesiac',
-        'months' => 'mesiace',
-        'month(s)' => 'mesiac/mesiace',
-        'week' => 'týždeň',
-        'week(s)' => 'týždne',
-        'quarter' => 'štvrťrok',
-        'quarter(s)' => 'štvrťroky',
-        'half-year' => 'polrok',
-        'half-year(s)' => 'polroky',
-        'year' => 'rok',
-        'years' => 'roky',
-        'year(s)' => 'rok/roky',
-        'second(s)' => 'sekunda(y)',
-        'seconds' => 'sekúnd',
-        'second' => 'sekunda',
-        's' => 's',
-        'Time unit' => 'Časová jednotka',
-        'wrote' => 'písať',
-        'Message' => 'správa',
-        'Error' => 'Chyba',
-        'Bug Report' => 'Chybové hlásenie',
-        'Attention' => 'Pozor',
-        'Warning' => 'Varovanie',
-        'Module' => 'Modul',
-        'Modulefile' => 'Modulový priečinok',
-        'Subfunction' => 'Podfunkcia',
-        'Line' => 'Riadok',
-        'Setting' => 'Nastavenie',
-        'Settings' => 'Nastavenia',
-        'Example' => 'Príklad',
-        'Examples' => 'Príklady',
-        'valid' => 'platný',
-        'Valid' => 'Platný',
-        'invalid' => 'neplatný',
-        'Invalid' => 'Neplatný',
-        '* invalid' => '* neplatný',
-        'invalid-temporarily' => 'dočasne neplatný',
-        ' 2 minutes' => '2 minúty',
-        ' 5 minutes' => ' 5 minút',
-        ' 7 minutes' => ' 7 minút',
-        '10 minutes' => ' 10 minút',
-        '15 minutes' => ' 15 minút',
-        'Mr.' => 'Pán',
-        'Mrs.' => 'Pani',
-        'Next' => 'Ďalej',
-        'Back' => 'Späť',
-        'Next...' => 'Ďalej...',
-        '...Back' => '...Späť',
-        '-none-' => '-žiadny-',
-        'none' => 'žiadny',
-        'none!' => 'žiaden',
-        'none - answered' => 'žiadna odpoveď',
-        'please do not edit!' => 'Prosím neupravovať!',
-        'Need Action' => 'Potreba akcie',
-        'AddLink' => 'Pridať odkaz.',
-        'Link' => 'Prepojenie',
-        'Unlink' => 'Rozpojiť',
-        'Linked' => 'spojený',
-        'Link (Normal)' => 'Prepojenie (obyčajné)',
-        'Link (Parent)' => 'Prepojenie (zdroj)',
-        'Link (Child)' => 'Prepojenie (následník)',
-        'Normal' => 'obyčajný',
-        'Parent' => 'zdroj',
-        'Child' => 'dieťa',
-        'Hit' => 'výsledok',
-        'Hits' => 'výsledky',
-        'Text' => '',
-        'Standard' => 'Štandard',
-        'Lite' => 'Odľahčený',
-        'User' => 'Užívateľ',
-        'Username' => 'Užívateľské meno',
-        'Language' => 'Jazyk',
-        'Languages' => 'Jazyky',
-        'Password' => 'Heslo',
-        'Preferences' => 'Nastavenia',
-        'Salutation' => 'Oslovenie',
-        'Salutations' => 'Oslovenia',
-        'Signature' => 'Podpis',
-        'Signatures' => 'Podpisy',
-        'Customer' => 'Zákazník',
-        'CustomerID' => 'Zákaznícke č.',
-        'CustomerIDs' => 'Zákaznícke čísla',
-        'customer' => 'Zákazník',
-        'agent' => 'Agent',
-        'system' => 'Systém',
-        'Customer Info' => 'Zákaznícke info',
-        'Customer Information' => 'Informácie o zákazníkovi',
-        'Customer Companies' => 'Zákazníkove spoločnosti',
-        'Company' => 'Spoločnosť',
-        'go!' => 'štart!',
-        'go' => 'štart',
-        'All' => 'Všetko',
-        'all' => 'všetko',
-        'Sorry' => 'Pardón',
-        'update!' => 'Aktualizuj!',
-        'update' => 'Aktualizovať',
-        'Update' => 'Aktualizácia',
-        'Updated!' => 'Aktualizované!',
-        'submit!' => 'predlož!',
-        'submit' => 'predložiť',
-        'Submit' => 'Predloženie',
-        'change!' => 'Zmeň!',
-        'Change' => 'Zmena',
-        'change' => 'Zmeniť',
-        'click here' => 'klikni tu',
-        'Comment' => 'poznámka',
-        'Invalid Option!' => 'Neplatná možnosť!',
-        'Invalid time!' => 'Neplatný čas!',
-        'Invalid date!' => 'Neplatný dátum!',
-        'Name' => 'Meno',
-        'Group' => 'Skupina',
-        'Description' => 'Popis ',
-        'description' => 'Popis ',
-        'Theme' => 'Schéma',
-        'Created' => 'Vytvorený',
-        'Created by' => 'Vytvorený (kým)',
-        'Changed' => 'Zmenený',
-        'Changed by' => 'Zmenený (kým)',
-        'Search' => 'Hľadať',
-        'and' => 'a',
-        'between' => 'medzi',
-        'before/after' => 'predtým/potom',
-        'Fulltext Search' => 'Fulltextové vyhľadávanie ',
-        'Data' => 'údaje',
-        'Options' => 'Možnosti',
-        'Title' => 'Názov',
-        'Item' => 'Položka',
-        'Delete' => 'Zmazať',
-        'Edit' => 'Upraviť',
-        'View' => 'Zobraziť',
-        'Number' => 'číslo',
-        'System' => 'Systém',
-        'Contact' => 'Kontakt',
-        'Contacts' => 'Kontakty',
-        'Export' => 'Export',
-        'Up' => 'Hore',
-        'Down' => 'Dolu',
-        'Add' => 'Pridať ',
-        'Added!' => 'Pridané!',
-        'Category' => 'Kategória',
-        'Viewer' => 'Zobraz',
-        'Expand' => 'Rozšíriť',
-        'Small' => 'Malý',
-        'Medium' => 'Stredný',
-        'Large' => 'Veľký',
-        'Date picker' => 'Výber dátumu',
-        'Show Tree Selection' => 'Zobraz stromový výber',
-        'The field content is too long!' => 'Obsah poľa je príliš dlhý!',
-        'Maximum size is %s characters.' => 'Maximálna dĺžka je %s znakov.',
-        'This field is required or' => 'Toto pole je povinné, alebo',
-        'New message' => 'Nová správa',
-        'New message!' => 'Nová správa!',
-        'Please answer this ticket(s) to get back to the normal queue view!' =>
-            'Prosim odpovedajte na tento tiket',
-        'You have %s new message(s)!' => 'Máte % nových správ!',
-        'You have %s reminder ticket(s)!' => 'Máte % pripomienok!',
-        'The recommended charset for your language is %s!' => 'Odporúčaná znaková sada pre Váš jazyk je %',
-        'Change your password.' => 'Zmeniť heslo',
-        'Please activate %s first!' => 'Najskôr aktivujte %s prosím.',
-        'No suggestions' => 'Žiadne návrhy.',
-        'Word' => 'Slovo',
-        'Ignore' => 'Ignorovať',
-        'replace with' => 'nahradiť s',
-        'There is no account with that login name.' => 'Neexistuje žiadny účet s týmto úžívateľským menom',
-        'Login failed! Your user name or password was entered incorrectly.' =>
-            'Prihlásenie neúspešné. Užívateľské meno alebo heslo je nesprávne.',
-        'There is no acount with that user name.' => 'Účet so zadaným uživateľským menom neexistuje.',
-        'Please contact your administrator' => 'Prosím kontaktujte administrátora.',
-        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            'Prihlásenie úspešné, ale meno Vašej firmz nie je v zozname',
-        'This e-mail address already exists. Please log in or reset your password.' =>
-            'Email adresa existuje. Prihláste sa alebo vynulujte heslo.',
-        'Logout' => 'Odhlásenie ',
-        'Logout successful. Thank you for using %s!' => 'Odhlásenie úspešné. Ďakujeme za používanie %s!',
-        'Feature not active!' => 'Funkcia neaktívna!',
-        'Agent updated!' => 'Agent aktualizovaný!',
-        'Database Selection' => 'Výber databazy',
-        'Create Database' => 'Vytvor databázu',
-        'System Settings' => 'Systémové nastavenia',
-        'Mail Configuration' => 'Mail nastavenia',
-        'Finished' => 'Ukončený',
-        'Install OTRS' => 'Inštalácia OTRS',
-        'Intro' => 'Úvod',
-        'License' => 'Licencia',
-        'Database' => 'Databáza',
-        'Configure Mail' => 'Konfigurácia mailu',
-        'Database deleted.' => 'Databáza zmazaná',
-        'Enter the password for the administrative database user.' => 'Zadajte heslo administrátora databázy',
-        'Enter the password for the database user.' => 'Zadajte heslo databázového užívateľa',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            'Ak ste zadali heslo root-a pre databázu, musí byť zadané tu. Ak nie, nechajte pole prázdne.',
-        'Database already contains data - it should be empty!' => 'Databáza obsahuje dáta. Mala by byť prázdna.',
-        'Login is needed!' => 'Vyžaduje sa prihlásenie!',
-        'It is currently not possible to login due to a scheduled system maintenance.' =>
-            'Prihlásenie nie je momentálne možné z dôvodu plánovanej údržby systému.',
-        'Password is needed!' => 'Je potrebné heslo.',
-        'Take this Customer' => 'Použi tohto zákazníka.',
-        'Take this User' => 'Použi tohto užívateľa.',
-        'possible' => 'možný',
-        'reject' => 'odmietnuť',
-        'reverse' => 'vrátiť sa',
-        'Facility' => 'Príslušenstvo',
-        'Time Zone' => 'Časové pásmo',
-        'Pending till' => 'Odložené do.',
-        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            'Nepoužívajte správcovský prístup na prácu s OTRS, najprv vytvorte agentov a potom pracujte s nimi!',
-        'Dispatching by email To: field.' => 'Posielam emailom =>  prijemca: pole',
-        'Dispatching by selected Queue.' => 'Posielam vybraným queue.',
-        'No entry found!' => 'Nenájdený žiaden vstup.',
-        'Session invalid. Please log in again.' => 'Neplatná relácia. Prihláste sa znova prosím.',
-        'Session has timed out. Please log in again.' => 'Časový limit relácie vypršal. Prihláste sa znova prosím.',
-        'Session limit reached! Please try again later.' => 'Prekročený počet relácií. Skúste neskôr prosím.',
-        'No Permission!' => 'Nepovolené!',
-        '(Click here to add)' => '(Ak chcete pridať položku =>  kliknete sem.)',
-        'Preview' => 'Náhľad',
-        'Package not correctly deployed! Please reinstall the package.' =>
-            'Balík sa nepodarilo nasadiť. Reinštalujte balík prosím.',
-        '%s is not writable!' => 'Zápis do %s je zakázaný!',
-        'Cannot create %s!' => '%s nie je možné vytvoriť!',
-        'Check to activate this date' => 'Preverte či aktivovať tento dátum',
-        'You have Out of Office enabled, would you like to disable it?' =>
-            'Máte nastavenú Neprítomnosť v kancelárii. Chcete toto nastavenie zrušiť ?',
-        'News about OTRS releases!' => 'Novinky o OTRS vydaniach!',
-        'Go to dashboard!' => '',
-        'Customer %s added' => 'Zákazník %s pridaný',
-        'Role added!' => 'Roľa pridaná!',
-        'Role updated!' => 'Roľa aktualizovaná!',
-        'Attachment added!' => 'Príloha pridaná!',
-        'Attachment updated!' => 'Príloha aktualizovaná!',
-        'Response added!' => 'Odpoveď pridaná!',
-        'Response updated!' => 'Odpoveď aktualizovaná!',
-        'Group updated!' => 'Skupina aktualizovaná!',
-        'Queue added!' => 'Fronta pridaná!',
-        'Queue updated!' => 'Fronta aktualizovaná!',
-        'State added!' => 'Stav pridaný!',
-        'State updated!' => 'Stav aktualizovaný!',
-        'Type added!' => 'Typ pridaný!',
-        'Type updated!' => 'Typ aktualizovaný!',
-        'Customer updated!' => 'Zákzník aktualizovaný!',
-        'Customer company added!' => 'Spoločnosť pridaná!',
-        'Customer company updated!' => 'Spoločnosť aktualizovaná!',
-        'Note: Company is invalid!' => 'Poznámka: Neplatná spoločnosť!',
-        'Mail account added!' => 'Mailové konto pridané!',
-        'Mail account updated!' => 'Mailové konto aktualizované!',
-        'System e-mail address added!' => 'Systémová mail adresa pridaná!',
-        'System e-mail address updated!' => 'Systémová mail adresa aktualizovaná!',
-        'Contract' => 'Zmluva',
-        'Online Customer: %s' => 'Online používateľ: %',
-        'Online Agent: %s' => 'Online Agent %',
-        'Calendar' => 'Kalendár',
-        'File' => 'Súbor',
-        'Filename' => 'Názov súboru',
-        'Type' => 'Typ',
-        'Size' => 'Veľkosť',
-        'Upload' => 'Nahrať',
-        'Directory' => 'Adresár',
-        'Signed' => 'Podpísaný',
-        'Sign' => 'Podpísať',
-        'Crypted' => 'Zašifrovaný',
-        'Crypt' => 'Šifrovať',
-        'PGP' => 'PGP',
-        'PGP Key' => 'PGP kľúč',
-        'PGP Keys' => 'PGP kľúče',
-        'S/MIME' => 'S/MIME',
-        'S/MIME Certificate' => 'S/MIME Certifikát',
-        'S/MIME Certificates' => 'S/MIME Certifikáty',
-        'Office' => 'Kancelária',
-        'Phone' => 'Telefón',
-        'Fax' => 'Fax',
-        'Mobile' => 'Mobil',
-        'Zip' => 'PSČ',
-        'City' => 'Mesto',
-        'Street' => 'Ulica',
-        'Country' => 'Krajina',
-        'Location' => 'Poloha',
-        'installed' => 'nainštalovaný',
-        'uninstalled' => 'odinštalovaný',
-        'Security Note: You should activate %s because application is already running!' =>
-            'Bezpečnostná poznámka: Mali by ste aktivovať %s nakoľko aplikácia už beží!',
-        'Unable to parse repository index document.' => 'Nie je možné určit úložisko indexu dokumentu',
-        'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            'Žiadne balíčky pre Váš framework neboli nájdené vo vybranom repozitáry, sú tu len pre iné verzie',
-        'No packages, or no new packages, found in selected repository.' =>
-            'Žiadne balíčky neboli nájdené vo vybranom repozitáry',
-        'Edit the system configuration settings.' => 'Upraviť systémové nastavenia',
-        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            'ACL nie su synchronizované s databázou, nasaďte všetky ACL',
-        'printed at' => 'vytlačené na',
-        'Loading...' => 'Nahrávanie...',
-        'Dear Mr. %s,' => 'Vážený pán %s,',
-        'Dear Mrs. %s,' => 'Vážená pani %s,',
-        'Dear %s,' => 'Vážená/ý %s,',
-        'Hello %s,' => 'Ahoj %s,',
-        'This email address is not allowed to register. Please contact support staff.' =>
-            'Zadanú adresu nie je možné použiť pre registráciu. Kontaktujte prosím systémovú podporu.',
-        'New account created. Sent login information to %s. Please check your email.' =>
-            'Konto bolo vytvorené. Prihlasovacie údaje boli odoslané na %s. Skontrolujte svoj email.',
-        'Please press Back and try again.' => 'Kliknite na Späť a skúste znovu prosím.',
-        'Sent password reset instructions. Please check your email.' => 'Na Váš email boli odoslané inštrukcie pre obnovu hesla. Skontrolujte si svoj email.',
-        'Sent new password to %s. Please check your email.' => 'Na adresu %s bolo odoslané nové heslo. Skontrolujte si svoj email.',
-        'Upcoming Events' => 'Nadchádzajúce udalosti.',
-        'Event' => 'Udalosť',
-        'Events' => 'Udalosti',
-        'Invalid Token!' => 'Nesprávny token!',
-        'more' => 'viac',
-        'Collapse' => 'Zbaliť',
-        'Shown' => 'Zobrazené',
-        'Shown customer users' => 'Zobrazení klientskí užívatelia.',
-        'News' => 'Novinky',
-        'Product News' => 'Produktové novinky',
-        'OTRS News' => 'OTRS novinky',
-        '7 Day Stats' => '7 dňová štatistika',
-        'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
-            'Informácie Process Management-u nie sú synchrónne so systémovou konfiguráciou. Prosím zosynchronizujte všetky procesy.',
-        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            'Balík nie je overený OTRS skupinou. Neodporúča sa používať tento balík.',
-        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br>Ak budete pokračovať v inštalácii balíka, môžu nastať nasledovné problémy!<br><br>&nbsp;-Bezpečnostné problémy<br>&nbsp;-Problémy so stabilitou<br>&nbsp;-Výkonnostné problémy<br><br>Upozorňujeme že problémy spôsobené týmto balíkom nie sú kryté OTRS servisnou zmluvou!<br><br>',
-        'Mark' => 'Označiť',
-        'Unmark' => 'Odznačiť',
-        'Bold' => 'Tučné',
-        'Italic' => 'Šikmé',
-        'Underline' => 'Podčiarknuté',
-        'Font Color' => 'Farba písma',
-        'Background Color' => 'Farba pozadia',
-        'Remove Formatting' => 'Odstrániť formátovanie',
-        'Show/Hide Hidden Elements' => 'Zobraziť/Skryť Skyté prvky',
-        'Align Left' => 'Zarovnať doľava',
-        'Align Center' => 'Zarovnať na stred',
-        'Align Right' => 'Zarovnať doprava',
-        'Justify' => 'Zarovnať podľa okrajov',
-        'Header' => 'Hlavička',
-        'Indent' => 'Zarážka',
-        'Outdent' => 'Odsek',
-        'Create an Unordered List' => 'Vytvoriť odrážky',
-        'Create an Ordered List' => 'Vytvoriť číslovanie',
-        'HTML Link' => 'HTML Odkaz',
-        'Insert Image' => 'Vložiť obrázok',
-        'CTRL' => 'CTRL',
-        'SHIFT' => 'SHIFT',
-        'Undo' => 'Späť',
-        'Redo' => 'Znova',
-        'OTRS Daemon is not running.' => 'OTRS démon nebeží.',
-        'Can\'t contact registration server. Please try again later.' => 'Nie je možné sa spojiť s registračným server. Vyskúšajte neskôr prosím.',
-        'No content received from registration server. Please try again later.' =>
-            'Odpoveď z registračného serveru je nesprávna. Vyskúšajte neskôr prosím.',
-        'Problems processing server result. Please try again later.' => 'Nie je možné spracovať odpoveď zo servera. Vyskúšajte neskôr prosím.',
-        'Username and password do not match. Please try again.' => 'Užívateľské meno a heslo nie sú správne. Skúste znova prosím.',
-        'The selected process is invalid!' => 'Vybratý proces je nesprávny!',
-        'Upgrade to %s now!' => 'Upgradujte na %s!',
-        '%s Go to the upgrade center %s' => '%s Choď do update centra %s',
-        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            'Licencia %s čoskoro expiruje. Kontaktujte %s pre obnovenie kontraktu!',
-        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            'Update pre %s je dostupný, ale koliduje s verziou Vášho frameworku. Updatujte najskôr framework prosím!',
-        'Your system was successfully upgraded to %s.' => 'Váš systém bol úspešne updatovaný na %s.',
-        'There was a problem during the upgrade to %s.' => 'Počas update na %s sa vyskytol problém.',
-        '%s was correctly reinstalled.' => '%s bol úspešne reinštalovaný.',
-        'There was a problem reinstalling %s.' => 'Počas reinštalácie %s sa vyskytol problém.',
-        'Your %s was successfully updated.' => 'Váš %s bol úspešne updatovaný.',
-        'There was a problem during the upgrade of %s.' => 'Počas update %s sa vyskytol problém.',
-        '%s was correctly uninstalled.' => '%s bol úspešne odinštalovaný.',
-        'There was a problem uninstalling %s.' => 'Počas odinštalácie %s sa vyskytol problém.',
-        'Enable cloud services to unleash all OTRS features!' => '',
-
-        # Template: AAACalendar
-        'New Year\'s Day' => 'Nový rok',
-        'International Workers\' Day' => 'Sviatok práce',
-        'Christmas Eve' => 'Vianoce',
-        'First Christmas Day' => '1. sviatok vianočný',
-        'Second Christmas Day' => '2. sviatok vianočný',
-        'New Year\'s Eve' => 'Nový rok',
-
-        # Template: AAAGenericInterface
-        'OTRS as requester' => 'OTRS ako žiadateľ',
-        'OTRS as provider' => 'OTRS ako provider',
-        'Webservice "%s" created!' => 'Webservice "%s" vytvorený!',
-        'Webservice "%s" updated!' => 'Webservice "%s" updatovaný!',
-
-        # Template: AAAMonth
-        'Jan' => 'jan',
-        'Feb' => 'feb',
-        'Mar' => 'mar',
-        'Apr' => 'apríl',
-        'May' => 'máj',
-        'Jun' => 'jún',
-        'Jul' => 'júl',
-        'Aug' => 'aug',
-        'Sep' => 'sept',
-        'Oct' => 'okt',
-        'Nov' => 'nov',
-        'Dec' => 'dec',
-        'January' => 'Január',
-        'February' => 'Február',
-        'March' => 'Marec',
-        'April' => 'Apríl',
-        'May_long' => 'Máj',
-        'June' => 'Jún',
-        'July' => 'Júl',
-        'August' => 'August',
-        'September' => 'September',
-        'October' => 'Október',
-        'November' => 'November',
-        'December' => 'December',
-
-        # Template: AAAPreferences
-        'Preferences updated successfully!' => 'Predvoľby úspešne aktualizované!',
-        'User Profile' => 'Užívateľský profil',
-        'Email Settings' => 'Email nastavenia',
-        'Other Settings' => 'Ostané nastavenia',
-        'Notification Settings' => '',
-        'Change Password' => 'Zmena hesla',
-        'Current password' => 'Aktuálne heslo',
-        'New password' => 'Nové heslo',
-        'Verify password' => 'Opakujte heslo',
-        'Spelling Dictionary' => 'Slovník pravopisu.',
-        'Default spelling dictionary' => 'Predvolený slovník pravopisu',
-        'Max. shown Tickets a page in Overview.' => 'Maximálny počet tiketov zobrazovaných v prehľade.',
-        'The current password is not correct. Please try again!' => 'Aktuálne heslo je nesprávne. Opakujte znovu prosím!',
-        'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'Nie je možné zaktualizovať heslo, nové heslá sa nezhodujú!',
-        'Can\'t update password, it contains invalid characters!' => 'Heslo obsahuje nepovolené znaky!',
-        'Can\'t update password, it must be at least %s characters long!' =>
-            'Heslo musí obsahovať minimálne %s znakov!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Heslo musí obsahovať minimálne 2 malé a 2 veľké znaky!',
-        'Can\'t update password, it must contain at least 1 digit!' => 'Heslo musí obsahovať aspoň jednu číslicu!',
-        'Can\'t update password, it must contain at least 2 characters!' =>
-            'Heslo musí obsahovať aspoň 2 znaky!',
-        'Can\'t update password, this password has already been used. Please choose a new one!' =>
-            'Heslo už existuje. Vyberte prosím iné heslo!',
-        'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
-            'Vyberte znak oddeľovača použitý v CSV súboroch (štatistiky a vyhľadávanie). Ak nevyberiete oddeľovač, bude použitý predvolený oddeľovač pre váš jazyk.',
-        'CSV Separator' => 'CSV oddeľovač',
-
-        # Template: AAATicket
-        'Status View' => 'Zobraziť stav',
-        'Service View' => 'Zobraziť podla služieb',
-        'Bulk' => 'Hromadný',
-        'Lock' => 'Zamknúť',
-        'Unlock' => 'Odomknúť',
-        'History' => 'História',
-        'Zoom' => 'Zväčšiť',
-        'Age' => 'Vek',
-        'Bounce' => 'Skočiť na',
-        'Forward' => 'Nasledujúci',
-        'From' => 'Od ',
-        'To' => 'Príjemca',
-        'Cc' => 'Kópia na',
-        'Bcc' => 'Skrytá kópia',
-        'Subject' => 'Predmet',
-        'Move' => 'Presunúť',
-        'Queue' => 'Fronta',
-        'Queues' => '',
-        'Priority' => 'Priorita',
-        'Priorities' => 'Priorita',
-        'Priority Update' => 'Zmena priority',
-        'Priority added!' => 'Priorita pridaná',
-        'Priority updated!' => 'Priorita zaktualizovaná!',
-        'Signature added!' => 'Pridaná signatúra',
-        'Signature updated!' => 'Signatúra zaktualizovaná!',
-        'SLA' => '',
-        'Service Level Agreement' => 'SLA zmluva',
-        'Service Level Agreements' => 'SLA zmluvy',
-        'Service' => 'Servis',
-        'Services' => 'Servisy',
-        'State' => 'Stav',
-        'States' => 'Stavy',
-        'Status' => 'Stav',
-        'Statuses' => 'Stavy',
-        'Ticket Type' => 'Typ tiketu',
-        'Ticket Types' => 'Typy tiketu',
-        'Compose' => 'Vytvoriť',
-        'Pending' => 'čakanie',
-        'Owner' => 'Vlastník',
-        'Owner Update' => 'aktualizácia vlastníka',
-        'Responsible' => 'Zodpovedný',
-        'Responsible Update' => 'Aktualizácia Zodpovedného',
-        'Sender' => 'Odosielateľ',
-        'Article' => 'článok',
-        'Ticket' => 'Tiket',
-        'Createtime' => 'Doba spracovania',
-        'plain' => 'jednoduchý',
-        'Email' => 'Realname',
-        'email' => 'e-mail',
-        'Close' => 'Zatvorit',
-        'Action' => 'Akcia',
-        'Attachment' => 'Príloha',
-        'Attachments' => 'Prílohy',
-        'This message was written in a character set other than your own.' =>
-            'Táto správa bola napísaná v inej znakovej sade =>  ako je vaša.',
-        'If it is not displayed correctly,' => 'Pokial sa Vám nezobrazuje správne',
-        'This is a' => 'To je',
-        'to open it in a new window.' => 'Otvoriť v novom okne',
-        'This is a HTML email. Click here to show it.' => 'Toto je HMTL  e-mail. Na otvorenie =>  kliknite tu',
-        'Free Fields' => 'Voľné polia',
-        'Merge' => 'Zlúčiť',
-        'merged' => 'zlúčené',
-        'closed successful' => 'úspešne zatvorené',
-        'closed unsuccessful' => 'zatvorené neúspešne',
-        'Locked Tickets Total' => 'Zamknuté tickety celkovo',
-        'Locked Tickets Reminder Reached' => 'Prekročený počet zamknutých ticketov',
-        'Locked Tickets New' => 'Nové zamknuté tickety',
-        'Responsible Tickets Total' => 'Tickety priradené na Zodpovedného celkovo',
-        'Responsible Tickets New' => 'Nové tikety Zodpovedného',
-        'Responsible Tickets Reminder Reached' => 'Prekročený pripomínač Zodpovedného na tiketoch',
-        'Watched Tickets Total' => 'Sledované tickety celkovo',
-        'Watched Tickets New' => 'Nové Sledované tickety',
-        'Watched Tickets Reminder Reached' => 'Prekročený pripomínač na sledovaných tiketoch',
-        'All tickets' => 'Všetky tikety',
-        'Available tickets' => 'Volné tikety',
-        'Escalation' => 'Eskalácia',
-        'last-search' => 'predošlé vyhladávanie',
-        'QueueView' => 'Pohľad Queue',
-        'Ticket Escalation View' => 'Pohľad Eskalované tikety',
-        'Message from' => 'Správa od',
-        'End message' => 'Koniec správy',
-        'Forwarded message from' => 'Preposlaná správa od',
-        'End forwarded message' => 'Koniec preposlanej správy',
-        'Bounce Article to a different mail address' => 'Priradiť článok na novú mailovú adresu',
-        'Reply to note' => 'Odpovedať na poznámku',
-        'new' => 'nový',
-        'open' => 'otvoriť',
-        'Open' => 'Otvorený',
-        'Open tickets' => 'otvorené tikety',
-        'closed' => 'zatvorený',
-        'Closed' => 'Zatvorený',
-        'Closed tickets' => 'Uzatvorené tikety',
-        'removed' => 'odstránený',
-        'pending reminder' => 'nevybavená pripomienka',
-        'pending auto' => 'automaticky nevybaviť',
-        'pending auto close+' => 'počas automatického zatvárania +',
-        'pending auto close-' => 'počas automatického zatvárania -',
-        'email-external' => 'externý e-mail',
-        'email-internal' => 'interný e-mail',
-        'note-external' => 'externá poznámka',
-        'note-internal' => 'interná poznámka',
-        'note-report' => 'hlásnie poznámky',
-        'phone' => 'telefón',
-        'sms' => 'SMS',
-        'webrequest' => 'webová požiadavka',
-        'lock' => 'zamknúť',
-        'unlock' => 'odomknúť',
-        'very low' => 'veľmi nízka',
-        'low' => 'nízka',
-        'normal' => 'normálna',
-        'high' => 'vysoká',
-        'very high' => 'veľmi vysoká',
-        '1 very low' => '1 veľmi nízka',
-        '2 low' => '2 nízka',
-        '3 normal' => '3 normálna',
-        '4 high' => '4 vysoká',
-        '5 very high' => '5 veľmi vysoká',
-        'auto follow up' => 'automatické nasledovanie',
-        'auto reject' => 'automatické zamietnutie',
-        'auto remove' => 'automatické vymazanie',
-        'auto reply' => 'automatická odozva',
-        'auto reply/new ticket' => 'automatická odozva/nový ticket',
-        'Create' => 'Vytvoriť',
-        'Answer' => 'Odpovedať',
-        'Phone call' => 'hovor',
-        'Ticket "%s" created!' => 'Tiket "%s" je vytvorený',
-        'Ticket Number' => 'Číslo tiketu',
-        'Ticket Object' => 'Predmet tiketu',
-        'No such Ticket Number "%s"! Can\'t link it!' => 'Číslo tiketu nie je k dispozícii, nie je možné naviazať',
-        'You don\'t have write access to this ticket.' => 'Nemáte oprávnenie na tento tiket',
-        'Sorry, you need to be the ticket owner to perform this action.' =>
-            'Na túto operáciu musite byť vlastníkom tiketu',
-        'Please change the owner first.' => 'Najprv zmente vlastníka tiketu',
-        'Ticket selected.' => 'Tiket vybraný',
-        'Ticket is locked by another agent.' => 'Tiket je už uzamknutý iným agentom',
-        'Ticket locked.' => 'Tiket uzamknutý',
-        'Don\'t show closed Tickets' => 'Nezobrazuj uzavreté tikety.',
-        'Show closed Tickets' => 'Zobraz uzavreté tikety.',
-        'New Article' => 'Nový článok',
-        'Unread article(s) available' => 'Neprečítaný článok(y) je k dispozícii',
-        'Remove from list of watched tickets' => 'Vymaž zo zoznamu sledovaných tiketov',
-        'Add to list of watched tickets' => 'Pridaj do zoznamu sledovaných tiketov',
-        'Email-Ticket' => 'e-mailový tiket',
-        'Create new Email Ticket' => 'Vytvor nový e-mailový tiket',
-        'Phone-Ticket' => 'Telefonický tiket',
-        'Search Tickets' => 'Hľadaj tiket',
-        'Customer Realname' => 'Skutočné meno zákazníka',
-        'Customer History' => 'História zákazníka',
-        'Edit Customer Users' => 'Uprav zákazníckeho užívateľa.',
-        'Edit Customer' => 'Uprav zákazníka',
-        'Bulk Action' => 'Hromadná akcia',
-        'Bulk Actions on Tickets' => 'Hromadné akcie na tiketoch.',
-        'Send Email and create a new Ticket' => 'Pošli e-mail a vytvor novú tiket',
-        'Create new Email Ticket and send this out (Outbound)' => 'Vytvor nový E-Mail tiket a pošli ho von',
-        'Create new Phone Ticket (Inbound)' => 'Vytvor nový Telefón tiket',
-        'Address %s replaced with registered customer address.' => 'Adresa %s bola nahradená adresou registrovaného zákazníka',
-        'Customer user automatically added in Cc.' => 'Používateľ bol automaticky pridaný do kópie',
-        'Overview of all open Tickets' => 'Prehľad všetkých otvorených tiketov.',
-        'Locked Tickets' => 'Uzamknuté tikety',
-        'My Locked Tickets' => 'Tikety uzamknuté na mna',
-        'My Watched Tickets' => 'Mnou sledovane tikety',
-        'My Responsible Tickets' => 'Tikety kde som Zodpovedný',
-        'Watched Tickets' => 'Sledované tikety',
-        'Watched' => 'Sledované',
-        'Watch' => 'Sleduj',
-        'Unwatch' => 'Zruš sledovanie',
-        'Lock it to work on it' => 'Uzamkni na dalšiu prácu',
-        'Unlock to give it back to the queue' => 'Odomkni na vrátenie naspäť do queue',
-        'Show the ticket history' => 'Ukáž históriu tiketu',
-        'Print this ticket' => 'Vytlač tento tiket',
-        'Print this article' => 'Vytlač tento článok',
-        'Split' => 'Rozdeliť',
-        'Split this article' => 'Rozdel tento článok',
-        'Forward article via mail' => 'Prepošli článok cez e-mail',
-        'Change the ticket priority' => 'Zmeň prioritu tiketu',
-        'Change the ticket free fields!' => 'Zmeň voľné polia tiketu.',
-        'Link this ticket to other objects' => 'Naviaž tiket na iný objekt',
-        'Change the owner for this ticket' => 'Zmeň vlastníka tiketu',
-        'Change the  customer for this ticket' => 'Zmeň zákazníka tiketu',
-        'Add a note to this ticket' => 'Pridaj poznámku pre tiket',
-        'Merge into a different ticket' => 'Zlúč s druhým tiketom',
-        'Set this ticket to pending' => 'Nastav tiket na Odložený',
-        'Close this ticket' => 'Uzatvor tiket',
-        'Look into a ticket!' => 'Vyhľadaj tiket.',
-        'Delete this ticket' => 'Vymaž tiket',
-        'Mark as Spam!' => 'Označ ako Spam!',
-        'My Queues' => 'Moje Queues.',
-        'Shown Tickets' => 'Zobraz tiket.',
-        'Shown Columns' => 'Zobraz riadky',
-        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
-            'Váš e-mail na tikete číslo "<OTRS_TICKET>" bol zlúčený do "<OTRS_MERGE_TO_TICKET>".',
-        'Ticket %s: first response time is over (%s)!' => 'Tiket %s: čas na prvú odozvu bol prekročený',
-        'Ticket %s: first response time will be over in %s!' => 'Tiket %s: čas na prvú odozvu bude prekročený za %s!',
-        'Ticket %s: update time is over (%s)!' => 'Tiket %s: čas na aktualizáciu bol prekročený',
-        'Ticket %s: update time will be over in %s!' => 'Tiket %s: čas na aktualizáciu bude prekročený za %s!',
-        'Ticket %s: solution time is over (%s)!' => 'Tiket %s: čas na vyriešenie bol prekročený',
-        'Ticket %s: solution time will be over in %s!' => 'Tiket %s: čas na vyriešenie bude prekročený za %s!',
-        'There are more escalated tickets!' => 'Je tu viacej vyeskalovaných tiketov',
-        'Plain Format' => 'Jednoduchý formát',
-        'Reply All' => 'Odpovedať všetkým',
-        'Direction' => 'Smerovanie',
-        'New ticket notification' => 'Hlásenie nového tiketu.',
-        'Send me a notification if there is a new ticket in "My Queues".' =>
-            'Pošli mi notifikáciu po pridaní nového tiektu do "My Queues"',
-        'Send new ticket notifications' => 'Pošli notifikáciu o novom tikete',
-        'Ticket follow up notification' => 'Notifikácia o nasledovaní tiketu',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            'Pošli mi notifikáciu, ak je na tiket kde som vlastníkom, zákazníkom nastavené nasledovanie na tiket alebo na odomknutie tiketu v mojich pohľadoch',
-        'Send ticket follow up notifications' => 'Pošli notifikáciu o nasledovaní tiketu',
-        'Ticket lock timeout notification' => 'Notifikácia o prekročení časového limit uzamknutia tiketu.',
-        'Send me a notification if a ticket is unlocked by the system.' =>
-            'Pošli mi notifikáciu =>  ak je tiket odblokovaný systémom.',
-        'Send ticket lock timeout notifications' => 'Pošli notifikáciu o prekročení časového limit uzamknutia tiketu.',
-        'Ticket move notification' => 'Notifikácia o presunutí tiketu',
-        'Send me a notification if a ticket is moved into one of "My Queues".' =>
-            'Pošli mi notifikáciu o presunutí tiketu do jedného z "My Queues".',
-        'Send ticket move notifications' => 'Pošli notifikáciu o presunutí tiketu',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            'Vybrali ste Váš oblubený queue, budete tiež notifikovaný o tomto queue cez email, pokiaľ to bude povolené',
-        'Custom Queue' => 'Klientské Queue.',
-        'QueueView refresh time' => 'Čas obnovovania pohľadu Queue',
-        'If enabled, the QueueView will automatically refresh after the specified time.' =>
-            'Pokial toto povolite, tak pohľad QueueView sa bude aktualizovať v nastavenom intervale',
-        'Refresh QueueView after' => 'Aktualizuj pohľad QueueView po',
-        'Screen after new ticket' => 'Okno po novom tikete.',
-        'Show this screen after I created a new ticket' => 'Otvor toto okno, keď otvorím nový tiket',
-        'Closed Tickets' => 'Zatvorené tikety.',
-        'Show closed tickets.' => 'Ukáž zatvorené tikety.',
-        'Max. shown Tickets a page in QueueView.' => 'Maximálny počet tiketov zobrazovaných v prehľade.',
-        'Ticket Overview "Small" Limit' => 'Prehľad tiketov s "Small" limitom',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Počet tiketov na stranu pre pohlad Ticket overview "Small"',
-        'Ticket Overview "Medium" Limit' => 'Prehľad tiketov s "Medium" limitom',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Počet tiketov na stranu pre pohlad Ticket overview "Medium"',
-        'Ticket Overview "Preview" Limit' => 'Prehlad tiketov s "Preview" limitom',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Počet tiketov na stranu pre pohľad "Preview"',
-        'Ticket watch notification' => 'Notifikácia o sledovaní ticketu',
-        'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
-            'Pošli mi notifikáciu o sledovaní ticketu, pokial získa používatela',
-        'Send ticket watch notifications' => 'Pošli notifikáciu o sledovaní ticketu',
-        'Out Of Office Time' => 'Čas "Neprítomnosť v kancelárii"',
-        'New Ticket' => 'Nový tiket',
-        'Create new Ticket' => 'Vytvor nový tiket',
-        'Customer called' => 'Zákaznícky hovor',
-        'phone call' => 'Telefónny hovor',
-        'Phone Call Outbound' => 'Odchádzajúci hovor',
-        'Phone Call Inbound' => 'Prichádzajúci hovor',
-        'Reminder Reached' => 'Vyexpirovanie pripomienky',
-        'Reminder Tickets' => 'Pripomenuté tikety',
-        'Escalated Tickets' => 'Vyeskalovaný tiket',
-        'New Tickets' => 'Nové tikety',
-        'Open Tickets / Need to be answered' => 'Otvorené tikety / potrebné odpovedať',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Všetky otvorené tikety - rozpracované s potrebou odozvy',
-        'All new tickets, these tickets have not been worked on yet' => 'Všetky otvorené tikety - na ktorých sa ešte nezačalo pracovať',
-        'All escalated tickets' => 'Všetky vyeskalované tikety',
-        'All tickets with a reminder set where the reminder date has been reached' =>
-            'Všetky tikety s prekročným pripomínačom',
-        'Archived tickets' => 'Archivované tikety',
-        'Unarchived tickets' => 'Nezarchivované tikety',
-        'Ticket Information' => 'Informácia o tikete',
-        'including subqueues' => 'zahrnúť pod-queue',
-        'excluding subqueues' => 'vyradiť pod-queue',
-
-        # Template: AAAWeekDay
-        'Sun' => 'Ned',
-        'Mon' => 'Pon',
-        'Tue' => 'Ut',
-        'Wed' => 'Str',
-        'Thu' => 'Stv',
-        'Fri' => 'Pia',
-        'Sat' => 'Sob',
-
         # Template: AdminACL
         'ACL Management' => '',
-        'Filter for ACLs' => '',
-        'Filter' => '',
-        'ACL Name' => '',
         'Actions' => '',
         'Create New ACL' => '',
         'Deploy ACLs' => '',
         'Export ACLs' => '',
-        'Configuration import' => '',
+        'Filter for ACLs' => '',
+        'Just start typing to filter...' => '',
+        'Configuration Import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => '',
         'Overwrite existing ACLs?' => '',
         'Upload ACL configuration' => '',
         'Import ACL configuration(s)' => '',
+        'Description' => 'Popis ',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             '',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
@@ -800,9 +55,12 @@ sub Data {
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
         'ACL name' => '',
+        'Comment' => 'poznámka',
         'Validity' => '',
+        'Export' => 'Export',
         'Copy' => '',
         'No data found.' => '',
+        'No matches found.' => 'Nebola nájdená zhoda',
 
         # Template: AdminACLEdit
         'Edit ACL %s' => '',
@@ -818,13 +76,16 @@ sub Data {
         'Check the official' => '',
         'documentation' => '',
         'Show or hide the content' => '',
-        'Edit ACL information' => '',
+        'Edit ACL Information' => '',
+        'Name' => 'Meno',
         'Stop after match' => '',
-        'Edit ACL structure' => '',
+        'Edit ACL Structure' => '',
         'Save' => '',
         'or' => '',
         'Save and finish' => '',
+        'Cancel' => 'zrušiť',
         'Do you really want to delete this ACL?' => '',
+        'Delete' => 'Zmazať',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
@@ -838,17 +99,27 @@ sub Data {
         # Template: AdminAttachment
         'Attachment Management' => 'riadenie príloh',
         'Add attachment' => '',
+        'Filter for Attachments' => '',
+        'Filter for attachments' => '',
         'List' => '',
+        'Filename' => 'Názov súboru',
+        'Changed' => 'Zmenený',
+        'Created' => 'Vytvorený',
         'Download file' => '',
         'Delete this attachment' => '',
         'Add Attachment' => '',
         'Edit Attachment' => '',
+        'Attachment' => 'Príloha',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'riadenie automatických odpovedí',
         'Add auto response' => '',
+        'Filter for Auto Responses' => '',
+        'Filter for auto responses' => '',
+        'Type' => 'Typ',
         'Add Auto Response' => '',
         'Edit Auto Response' => '',
+        'Subject' => 'Predmet',
         'Response' => 'Odpoveď',
         'Auto response from' => '',
         'Reference' => '',
@@ -881,6 +152,7 @@ sub Data {
         'Send support data' => '',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
+        'Update' => 'Aktualizácia',
         'System Registration' => '',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
@@ -901,13 +173,18 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Správa zákazníkov',
+        'Search' => 'Hľadať',
         'Wildcards like \'*\' are allowed.' => '',
         'Add customer' => 'Pridať zákazníka',
         'Select' => 'Vybrať',
         'shown' => '',
         'total' => '',
         'Please enter a search term to look for customers.' => '',
+        'CustomerID' => 'Zákaznícke č.',
         'Add Customer' => 'Pridať zákazníka',
+        'Edit Customer' => 'Uprav zákazníka',
+        'Please note' => '',
+        'This customer backend is read only!' => '',
 
         # Template: AdminCustomerUser
         'Customer User Management' => '',
@@ -915,11 +192,15 @@ sub Data {
         'Add customer user' => 'Pridať používateľa',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
+        'Username' => 'Užívateľské meno',
+        'Email' => 'Realname',
         'Last Login' => 'Posledné prihlásenie',
         'Login as' => 'Prihlásiť sa ako',
         'Switch to customer' => 'Prepnúť na zákazníka',
         'Add Customer User' => 'Pridať používateľa',
         'Edit Customer User' => 'Upraviť používateľa',
+        'This customer backend is read only, but the customer user preferences can be changed!' =>
+            '',
         'This field is required and needs to be a valid email address.' =>
             'Toto pole je vyhradené a musí byť platnou e-mail adresou',
         'This email address is not allowed due to the system configuration.' =>
@@ -941,13 +222,11 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
         'Filter for Groups' => 'Filter pre Skupinu',
-        'Just start typing to filter...' => '',
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
         'Search Results' => 'Výsledky vyhľadávania',
         'Customers' => 'Zákazníci',
-        'No matches found.' => 'Nebola nájdená zhoda',
         'Groups' => 'Skupiny',
         'Change Group Relations for Customer' => '',
         'Change Customer Relations for Group' => '',
@@ -965,6 +244,7 @@ sub Data {
         'Manage Customer-Services Relations' => '',
         'Edit default services' => '',
         'Filter for Services' => '',
+        'Services' => 'Servisy',
         'Allocate Services to Customer' => '',
         'Allocate Customers to Service' => '',
         'Toggle active state for all' => '',
@@ -974,9 +254,12 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => '',
         'Add new field for object' => '',
+        'Filter for Dynamic Fields' => '',
+        'Filter for dynamic fields' => '',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
         'Dynamic Fields List' => '',
+        'Settings' => 'Nastavenia',
         'Dynamic fields per page' => '',
         'Label' => '',
         'Order' => '',
@@ -1027,6 +310,7 @@ sub Data {
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
+        'Example' => 'Príklad',
         'Enable link preview' => '',
         'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
             '',
@@ -1072,6 +356,7 @@ sub Data {
             '',
         'Create Administrative Message' => '',
         'Your message was sent to' => '',
+        'From' => 'Od ',
         'Send message to users' => '',
         'Send message to group members' => '',
         'Group members need to have permission' => '',
@@ -1083,6 +368,8 @@ sub Data {
         # Template: AdminGenericAgent
         'Generic Agent' => '',
         'Add job' => '',
+        'Filter for Generic Agent Jobs' => '',
+        'Filter for generic agent jobs' => '',
         'Last run' => '',
         'Run Now!' => '',
         'Delete this task' => '',
@@ -1091,7 +378,7 @@ sub Data {
         'Job name' => '',
         'The name you entered already exists.' => '',
         'Toggle this widget' => '',
-        'Automatic execution (multiple tickets)' => '',
+        'Automatic Execution (Multiple Tickets)' => '',
         'Execution Schedule' => '',
         'Schedule minutes' => '',
         'Schedule hours' => '',
@@ -1100,9 +387,10 @@ sub Data {
             '',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             '',
-        'Event based execution (single ticket)' => '',
+        'Event Based Execution (Single Ticket)' => '',
         'Event Triggers' => '',
         'List of all configured events' => '',
+        'Event' => 'Udalosť',
         'Delete this event' => '',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
@@ -1120,16 +408,28 @@ sub Data {
         'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '',
+        'Title' => 'Názov',
         '(e. g. 234321)' => '',
         'Customer user' => 'Používateľ',
         '(e. g. U5150)' => '',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => '',
+        'To' => 'Príjemca',
+        'Cc' => 'Kópia na',
+        'Text' => '',
+        'Service' => 'Servis',
+        'Service Level Agreement' => 'SLA zmluva',
+        'Priority' => 'Priorita',
+        'Queue' => 'Fronta',
+        'State' => 'Stav',
         'Agent' => '',
+        'Owner' => 'Vlastník',
+        'Responsible' => 'Zodpovedný',
         'Ticket lock' => '',
         'Create times' => '',
         'No create time settings.' => '',
         'Ticket created' => 'Pripomienka vytvorená',
         'Ticket created between' => 'Pripomienka vytvorená medzi',
+        'and' => 'a',
         'Last changed times' => '',
         'No last changed time settings.' => '',
         'Ticket last changed' => '',
@@ -1188,9 +488,16 @@ sub Data {
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             '',
         'Execute Custom Module' => '',
+        'Module' => 'Modul',
         'Param %s key' => '',
         'Param %s value' => '',
         'Save Changes' => '',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => '',
         '%s Tickets affected! What do you want to do?' => '',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1200,6 +507,7 @@ sub Data {
         'Edit job' => '',
         'Run job' => '',
         'Affected Tickets' => '',
+        'Age' => 'Vek',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
@@ -1311,7 +619,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => '',
-        'Network transport' => '',
+        'Network Transport' => '',
         'Properties' => '',
         'Route mapping for Operation' => '',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
@@ -1341,7 +649,9 @@ sub Data {
         'Authentication' => '',
         'The authentication mechanism to access the remote system.' => '',
         'A "-" value means no authentication.' => '',
+        'User' => 'Užívateľ',
         'The user name to be used to access the remote system.' => '',
+        'Password' => 'Heslo',
         'The password for the privileged user.' => '',
         'Use SSL Options' => '',
         'Show or hide SSL options to connect to the remote system.' => '',
@@ -1414,6 +724,7 @@ sub Data {
         'Sort options' => '',
         'Add new first level element' => '',
         'Element' => '',
+        'Add' => 'Pridať ',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             '',
 
@@ -1451,6 +762,7 @@ sub Data {
             '',
         'In requester mode, OTRS uses web services of remote systems.' =>
             '',
+        'Network transport' => '',
         'Operations are individual system functions which remote systems can request.' =>
             '',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
@@ -1469,6 +781,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => '',
+        'History' => 'História',
         'Go back to Web Service' => '',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
             '',
@@ -1488,6 +801,7 @@ sub Data {
             '',
         'Group Management' => '',
         'Add group' => '',
+        'Filter for log entries' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department =>  support department =>  sales department =>  ...).',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1498,13 +812,18 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => '',
+        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => '',
         'Hide this message' => '',
         'Recent Log Entries' => '',
+        'Facility' => 'Príslušenstvo',
+        'Message' => 'správa',
 
         # Template: AdminMailAccount
         'Mail Account Management' => '',
         'Add mail account' => '',
+        'Filter for Mail Accounts' => '',
+        'Filter for mail accounts' => '',
         'All incoming emails with one account will be dispatched in the selected queue!' =>
             '',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' =>
@@ -1523,6 +842,7 @@ sub Data {
         # Template: AdminNavigationBar
         'Admin' => '',
         'Agent Management' => '',
+        'Email Settings' => 'Email nastavenia',
         'Queue Settings' => '',
         'Ticket Settings' => '',
         'System Administration' => '',
@@ -1532,7 +852,8 @@ sub Data {
         'Ticket Notification Management' => '',
         'Add notification' => '',
         'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Filter for Notifications' => '',
+        'Filter for notifications' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
         'Overwrite existing notifications?' => '',
@@ -1546,9 +867,13 @@ sub Data {
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
+        'Events' => 'Udalosti',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
             '',
         'Ticket Filter' => '',
+        'Lock' => 'Zamknúť',
+        'SLA' => '',
+        'Customer' => 'Zákazník',
         'Article Filter' => '',
         'Only for ArticleCreate and ArticleSend event' => '',
         'Article type' => 'typ článku',
@@ -1587,7 +912,6 @@ sub Data {
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => '',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '',
@@ -1597,14 +921,11 @@ sub Data {
             '',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '',
-        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -1617,6 +938,10 @@ sub Data {
         'Email template' => '',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '',
@@ -1694,6 +1019,7 @@ sub Data {
             '',
         'Introduction to PGP' => '',
         'Result' => 'výsledok',
+        'Status' => 'Stav',
         'Identifier' => '',
         'Bit' => '',
         'Fingerprint' => 'Expires',
@@ -1704,8 +1030,9 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => '',
-        'Uninstall package' => '',
+        'Uninstall Package' => '',
         'Do you really want to uninstall this package?' => '',
+        'Uninstall package' => '',
         'Reinstall package' => '',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '',
@@ -1719,13 +1046,16 @@ sub Data {
         'OTRS Verify™ can not continue!' => '',
         'Enable cloud services' => '',
         'Online Repository' => 'Version',
+        'Action' => 'Akcia',
         'Module documentation' => '',
         'Upgrade' => 'Local Repository',
         'Local Repository' => '',
         'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => '',
+        'Package not correctly deployed! Please reinstall the package.' =>
+            'Balík sa nepodarilo nasadiť. Reinštalujte balík prosím.',
         'Reinstall' => '',
-        'Features for %s customers only' => '',
+        'Features for %s Customers Only' => '',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
             '',
         'Download package' => '',
@@ -1738,10 +1068,11 @@ sub Data {
         'Download' => '',
         'Download file from package!' => '',
         'Required' => '',
+        'Size' => 'Veľkosť',
         'PrimaryKey' => '',
         'AutoIncrement' => '',
         'SQL' => 'Limit',
-        'File differences for file %s' => '',
+        'File Differences for File %s' => '',
 
         # Template: AdminPerformanceLog
         'Performance Log' => '',
@@ -1752,6 +1083,7 @@ sub Data {
         'Disable it here!' => '',
         'Logfile too large!' => '',
         'The logfile is too large, you need to reset it' => '',
+        'Reset' => '',
         'Overview' => '',
         'Range' => '',
         'last' => 'posledný',
@@ -1761,6 +1093,7 @@ sub Data {
         'Max Response' => '',
         'Average Response' => '',
         'Period' => '',
+        'minutes' => 'minuty',
         'Min' => '',
         'Max' => '',
         'Average' => '',
@@ -1768,11 +1101,15 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Filtername',
         'Add filter' => '',
+        'Filter for Postmaster Filters' => '',
+        'Filter for postmaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
             '',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
+            '',
+        'You can also use \'named captures\' ((?<name>)) and use the names in the \'Set\' action ([**\name**]). (e.g. Regexp: Server: (?<server>\w+), Set action [**\server**]). A matched EMAILADDRESS has the name \'email\'.' =>
             '',
         'Delete this filter' => '',
         'Add PostMaster Filter' => '',
@@ -1789,16 +1126,20 @@ sub Data {
         'Set email header' => '',
         'Set value' => '',
         'The field needs to be a literal word.' => '',
+        'Header' => 'Hlavička',
 
         # Template: AdminPriority
         'Priority Management' => '',
         'Add priority' => '',
+        'Filter for Priorities' => '',
+        'Filter for priorities' => '',
         'Add Priority' => '',
         'Edit Priority' => '',
 
         # Template: AdminProcessManagement
         'Process Management' => '',
         'Filter for Processes' => '',
+        'Filter' => '',
         'Create New Process' => '',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1806,7 +1147,7 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
-        'Example processes' => '',
+        'Example Processes' => '',
         'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
             '',
         'Import example process' => '',
@@ -1837,6 +1178,7 @@ sub Data {
         'Filter available Activity Dialogs' => '',
         'Available Activity Dialogs' => '',
         'Name: %s, EntityID: %s' => '',
+        'Edit' => 'Upraviť',
         'Create New Activity Dialog' => '',
         'Assigned Activity Dialogs' => '',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
@@ -1991,12 +1333,16 @@ sub Data {
         # Template: AdminQueue
         'Manage Queues' => '',
         'Add queue' => '',
+        'Filter for Queues' => '',
+        'Filter for queues' => '',
+        'Group' => 'Skupina',
         'Add Queue' => '',
         'Edit Queue' => '',
         'A queue with this name already exists!' => '',
         'Sub-queue of' => '',
         'Unlock timeout' => '0 = no unlock',
         '0 = no unlock' => '',
+        'hours' => 'hodiny',
         'Only business hours are counted.' => '',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             '',
@@ -2017,8 +1363,11 @@ sub Data {
         'System address' => '',
         'Will be the sender address of this queue for email answers.' => '',
         'Default sign key' => '',
+        'Salutation' => 'Oslovenie',
         'The salutation for email answers.' => '',
+        'Signature' => 'Podpis',
         'The signature for email answers.' => '',
+        'Calendar' => 'Kalendár',
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => '',
@@ -2026,8 +1375,6 @@ sub Data {
         'Queues without auto responses' => '',
         'This filter allow you to show all queues' => '',
         'Show all queues' => '',
-        'Filter for Queues' => '',
-        'Filter for Auto Responses' => '',
         'Auto Responses' => 'Automatické odpovede',
         'Change Auto Response Relations for Queue' => '',
 
@@ -2035,6 +1382,7 @@ sub Data {
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
         'Templates' => '',
+        'Queues' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
 
@@ -2048,11 +1396,11 @@ sub Data {
         'System type' => '',
         'Unique ID' => '',
         'Last communication with registration server' => '',
-        'System registration not possible' => '',
+        'System Registration not Possible' => '',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
             '',
         'Instructions' => '',
-        'System deregistration not possible' => '',
+        'System Deregistration not Possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
         'OTRS-ID Login' => '',
@@ -2100,11 +1448,13 @@ sub Data {
         'Sign up now' => '',
         'Forgot your password?' => '',
         'Retrieve a new one' => '',
+        'Next' => 'Ďalej',
         'This data will be frequently transferred to OTRS Group when you register this system.' =>
             '',
         'Attribute' => '',
         'FQDN' => '',
         'OTRS Version' => '',
+        'Database' => 'Databáza',
         'Operating System' => '',
         'Perl Version' => '',
         'Optional description of this system.' => '',
@@ -2114,7 +1464,7 @@ sub Data {
             '',
         'Deregister' => '',
         'You can modify registration settings here.' => '',
-        'Overview of transmitted data' => '',
+        'Overview of Transmitted Data' => '',
         'There is no data regularly sent from your system to %s.' => '',
         'The following data is sent at minimum every 3 days from your system to %s.' =>
             '',
@@ -2126,6 +1476,8 @@ sub Data {
         # Template: AdminRole
         'Role Management' => '',
         'Add role' => '',
+        'Filter for Roles' => '',
+        'Filter for roles' => '',
         'Create a role and put groups in it. Then add the role to the users.' =>
             '',
         'There are no roles defined. Please use the \'Add\' button to create a new role.' =>
@@ -2135,7 +1487,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => '',
-        'Filter for Roles' => '',
         'Roles' => 'Funkcie',
         'Select the role:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -2168,6 +1519,7 @@ sub Data {
         # Template: AdminSLA
         'SLA Management' => '',
         'Add SLA' => '',
+        'Filter for SLAs' => '',
         'Edit SLA' => '',
         'Please write only numbers!' => '',
 
@@ -2183,7 +1535,7 @@ sub Data {
         'Check SMIME configuration' => '',
         'Add certificate' => '',
         'Add private key' => '',
-        'Filter for certificates' => '',
+        'Filter for Certificates' => '',
         'Filter for S/MIME certs' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
@@ -2194,30 +1546,37 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             '',
         'Hash' => 'In this way you can directly edit the certification and private keys in file system.',
+        'Create' => 'Vytvoriť',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => '',
         'Add Certificate' => '',
+        'File' => 'Súbor',
         'Add Private Key' => '',
         'Secret' => '',
+        'Submit' => 'Predloženie',
         'Related Certificates for' => '',
         'Delete this relation' => '',
         'Available Certificates' => '',
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
-        'Certificate details' => '',
+        'S/MIME Certificate' => 'S/MIME Certifikát',
+        'Close' => 'Zatvorit',
+        'Certificate Details' => '',
 
         # Template: AdminSalutation
         'Salutation Management' => 'customer realname',
         'Add salutation' => '',
+        'Filter for Salutations' => '',
+        'Filter for salutations' => '',
         'Add Salutation' => '',
         'Edit Salutation' => '',
         'e. g.' => '',
         'Example salutation' => '',
 
         # Template: AdminSecureMode
-        'Secure mode needs to be enabled!' => '',
+        'Secure Mode Needs to be Enabled!' => '',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             '',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
@@ -2225,10 +1584,13 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'Limit',
+        'Filter for Results' => '',
+        'Filter for results' => '',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
             '',
+        'Options' => 'Možnosti',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             '',
@@ -2241,6 +1603,7 @@ sub Data {
         # Template: AdminService
         'Service Management' => '',
         'Add service' => '',
+        'Filter for services' => '',
         'Add Service' => '',
         'Edit Service' => '',
         'Sub-service of' => '',
@@ -2254,6 +1617,8 @@ sub Data {
         'Unique customers' => '',
         'Kill all sessions' => '',
         'Kill this session' => '',
+        'Filter for Sessions' => '',
+        'Filter for sessions' => '',
         'Session' => '',
         'Kill' => '',
         'Detail View for SessionID' => '',
@@ -2261,6 +1626,8 @@ sub Data {
         # Template: AdminSignature
         'Signature Management' => '',
         'Add signature' => '',
+        'Filter for Signatures' => '',
+        'Filter for signatures' => '',
         'Add Signature' => '',
         'Edit Signature' => '',
         'Example signature' => '',
@@ -2268,6 +1635,9 @@ sub Data {
         # Template: AdminState
         'State Management' => '',
         'Add state' => '',
+        'Filter for States' => '',
+        'Filter for states' => '',
+        'Attention' => 'Pozor',
         'Please also update the states in SysConfig where needed.' => '',
         'Add State' => '',
         'Edit State' => '',
@@ -2294,7 +1664,7 @@ sub Data {
         'Generate Result' => '',
         'Support Bundle' => '',
         'The mail could not be sent' => '',
-        'The support bundle has been generated.' => '',
+        'The Support Bundle has been Generated' => '',
         'Please choose one of the following options.' => '',
         'Send by Email' => '',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
@@ -2348,6 +1718,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => '',
         'NavBar' => 'AccessKey',
+        'Link' => 'Prepojenie',
         'LinkOption' => 'Prepojenie',
         'Block' => '',
         'AccessKey' => '',
@@ -2356,6 +1727,7 @@ sub Data {
         'Year' => '',
         'Month' => '',
         'Day' => '',
+        'Error' => 'Chyba',
         'Invalid year' => '',
         'Invalid month' => '',
         'Invalid day' => '',
@@ -2364,6 +1736,8 @@ sub Data {
         # Template: AdminSystemAddress
         'System Email Addresses Management' => '',
         'Add system address' => '',
+        'Filter for System Addresses' => '',
+        'Filter for system addresses' => '',
         'All incoming email with this address in To or Cc will be dispatched to the selected queue.' =>
             '',
         'Email address' => '',
@@ -2376,6 +1750,8 @@ sub Data {
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => '',
         'Schedule New System Maintenance' => '',
+        'Filter for System Maintenances' => '',
+        'Filter for system maintenances' => '',
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
@@ -2405,6 +1781,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
+        'Attachments' => 'Prílohy',
         'Add Template' => '',
         'Edit Template' => '',
         'A standard template with this name already exists!' => '',
@@ -2415,7 +1792,6 @@ sub Data {
 
         # Template: AdminTemplateAttachment
         'Manage Templates <-> Attachments Relations' => '',
-        'Filter for Attachments' => '',
         'Change Template Relations for Attachment' => '',
         'Change Attachment Relations for Template' => '',
         'Toggle active for all' => '',
@@ -2424,6 +1800,8 @@ sub Data {
         # Template: AdminType
         'Type Management' => '',
         'Add ticket type' => '',
+        'Filter for Types' => '',
+        'Filter for types' => '',
         'Add Type' => '',
         'Edit Type' => '',
         'A type with this name already exists!' => '',
@@ -2441,6 +1819,9 @@ sub Data {
         'Lastname' => '',
         'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
+        'Mobile' => 'Mobil',
+        'On' => 'zapnúť',
+        'Off' => 'vypnúť',
         'Start' => '',
         'End' => '',
 
@@ -2452,6 +1833,7 @@ sub Data {
         # Template: AgentBook
         'Address Book' => 'Adresár',
         'Search for a customer' => 'Vyhľadávať podla zákazníka',
+        'Bcc' => 'Skrytá kópia',
         'Add email address %s to the To field' => 'Pridať email adresu %s do pola Komu',
         'Add email address %s to the Cc field' => 'Pridať email adresu %s do pola Kópia',
         'Add email address %s to the Bcc field' => 'Pridať email adresu %s do pola Skrytá kópia',
@@ -2462,11 +1844,6 @@ sub Data {
 
         # Template: AgentCustomerInformationCenterSearch
         'Customer User' => 'Klient-užívateľ',
-
-        # Template: AgentCustomerSearch
-        'Duplicated entry' => 'Duplicitný záznam',
-        'This address already exists on the address list.' => 'Táto adresa je už v zoznamen adries',
-        'It is going to be deleted from the field, please try again.' => 'Z pola sa vymazáva, skúste neskôr',
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Upozornenie: Zákazník je chybný',
@@ -2489,18 +1866,26 @@ sub Data {
 
         # Template: AgentDashboardCalendarOverview
         'in' => 'v',
+        'none' => 'žiadny',
 
         # Template: AgentDashboardCommon
         'Close this widget' => '',
+        'more' => 'viac',
         'Available Columns' => 'Dostupné stĺpce',
         'Visible Columns (order by drag & drop)' => 'Viditelné stĺpce(zoraditelné cez drag & drop)',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Vyeskalované tikety',
+        'Open tickets' => 'otvorené tikety',
+        'Closed tickets' => 'Uzatvorené tikety',
+        'All tickets' => 'Všetky tikety',
+        'Archived tickets' => 'Archivované tikety',
 
         # Template: AgentDashboardCustomerUserList
         'Customer login' => '',
         'Customer information' => 'Zákaznícke informácie',
+        'Open' => 'Otvorený',
+        'Closed' => 'Zatvorený',
         'Phone ticket' => 'Telefonický tiket',
         'Email ticket' => 'Emailový tiket',
         'Start Chat' => 'Četovať',
@@ -2580,8 +1965,15 @@ sub Data {
 
         # Template: AgentSpelling
         'Spell Checker' => 'Kontrola pravopisu',
-        'spelling error(s)' => 'chyba pravopisu',
+        'Spelling Error(s)' => '',
+        'Language' => 'Jazyk',
+        'Line' => 'Riadok',
+        'Word' => 'Slovo',
+        'replace with' => 'nahradiť s',
+        'Change' => 'Zmena',
+        'Ignore' => 'Ignorovať',
         'Apply these changes' => 'Uplatniť zmeny',
+        'Done' => 'hotovo',
 
         # Template: AgentStatisticsAdd
         'Statistics » Add' => 'Štatistiku » pridať',
@@ -2602,7 +1994,7 @@ sub Data {
         'Statistics » Edit %s%s — %s' => '',
         'Run now' => '',
         'Statistics Preview' => '',
-        'Save statistic' => '',
+        'Save Statistic' => '',
 
         # Template: AgentStatisticsImport
         'Statistics » Import' => '',
@@ -2622,6 +2014,8 @@ sub Data {
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
         'Statistic Information' => '',
+        'Created by' => 'Vytvorený (kým)',
+        'Changed by' => 'Zmenený (kým)',
         'Sum rows' => '',
         'Sum columns' => '',
         'Show as dashboard widget' => '',
@@ -2642,6 +2036,7 @@ sub Data {
         'New Owner' => 'Nový vlastník',
         'Please set a new owner!' => 'Prosím nastavte nového vlastníka',
         'New Responsible' => 'Nový Zodpovedný',
+        'Please set a new responsible!' => '',
         'Next state' => 'Nový stav',
         'For all pending* states.' => 'Pre všetky stavy pre pozastavenie',
         'Add Article' => 'Pridať článok',
@@ -2655,6 +2050,7 @@ sub Data {
         'Text Template' => 'Textová šablóna',
         'Setting a template will overwrite any text or attachment.' => 'Použitím šablóny prepíšete text alebo prílohy',
         'Note type' => 'Typ poznámky',
+        'Invalid time!' => 'Neplatný čas!',
 
         # Template: AgentTicketBounce
         'Bounce %s%s' => '',
@@ -2669,6 +2065,7 @@ sub Data {
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Hromadné akcia na tikete',
         'Send Email' => 'Poslať email',
+        'Merge' => 'Zlúčiť',
         'Merge to' => 'Zlúčiť do',
         'Invalid ticket identifier!' => 'Chybný identifikátor tiketu',
         'Merge to oldest' => 'Zlúčiť najstaršie',
@@ -2685,6 +2082,7 @@ sub Data {
         'Remove Ticket Customer' => 'Vymažte zákazníka tiketu',
         'Please remove this entry and enter a new one with the correct value.' =>
             'Vymažte tento vstup a vložte nový so správnou hodnotou',
+        'This address already exists on the address list.' => 'Táto adresa je už v zoznamen adries',
         'Remove Cc' => 'Vymazať Kópiu',
         'Remove Bcc' => 'Vymazať Skrytú kópiu',
         'Address book' => 'Adresár',
@@ -2692,6 +2090,7 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change Customer of %s%s' => 'Zmeň klienta na %s%s',
+        'Customer Information' => 'Informácie o zákazníkovi',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Vytvoriť nový e-mail tiket',
@@ -2720,6 +2119,8 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s' => 'História z %s%s',
         'History Content' => 'Obsah histórie',
+        'Zoom' => 'Zväčšiť',
+        'Createtime' => 'Doba spracovania',
         'Zoom view' => 'Zväčšiť pohľad',
 
         # Template: AgentTicketMerge
@@ -2727,11 +2128,13 @@ sub Data {
         'Merge Settings' => 'Nastavenie zlučovania',
         'You need to use a ticket number!' => 'Potrebujete číslo tiketu!',
         'A valid ticket number is required.' => 'Je potrebné platné číslo tiketu.',
+        'Inform Sender' => '',
         'Need a valid email address.' => 'Je potrebná platná email adresa',
 
         # Template: AgentTicketMove
         'Move %s%s' => 'Presunúť do %s%s',
         'New Queue' => 'Nový queue',
+        'Move' => 'Presunúť',
 
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Vybrať všetko',
@@ -2820,12 +2223,6 @@ sub Data {
         'Event Type Filter' => 'Filter na typ udalosti',
         'Event Type' => 'Typ udalosti',
         'Save as default' => 'Uložiť do prednastavených',
-        'Archive' => 'Archív',
-        'This ticket is archived.' => 'Tento ticket je zaarchivovaný',
-        'Note: Type is invalid!' => '',
-        'Locked' => 'Uzamknutý',
-        'Accounted time' => 'Escalation in',
-        'Linked Objects' => 'Naviazané objekty',
         'Change Queue' => 'Zmeň queue',
         'There are no dialogs available at this point in the process.' =>
             'V tejto časti procesu nie je žiadna možnosť dialógu',
@@ -2837,11 +2234,14 @@ sub Data {
         'Add Filter' => 'Pridať filter',
         'Set' => 'Nastav',
         'Reset Filter' => 'Resetni filter',
+        'Article' => 'článok',
+        'View' => 'Zobraziť',
         'Show one article' => 'Ukáž jeden článok',
         'Show all articles' => 'Ukáž všetky články',
         'Show Ticket Timeline View' => 'ukáž pohľad Články podľa času',
         'Unread articles' => 'Neprečítané články',
         'No.' => 'Nie',
+        'Direction' => 'Smerovanie',
         'Important' => 'Dôležité',
         'Unread Article!' => 'Neprečitaný článok',
         'Incoming message' => 'Prichádzajúca správa',
@@ -2859,11 +2259,17 @@ sub Data {
         'Close this message' => 'Uzatvoriť túto správu',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Článok nie je možné otvoriť, možno je na inej stránke.',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
-            '',
+
+        # Template: LinkTable
+        'Linked Objects' => 'Naviazané objekty',
+
+        # Template: TicketInformation
+        'Archive' => 'Archív',
+        'This ticket is archived.' => 'Tento ticket je zaarchivovaný',
+        'Note: Type is invalid!' => '',
+        'Locked' => 'Uzamknutý',
+        'Accounted time' => 'Escalation in',
+        'Pending till' => 'Odložené do.',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Na ochranu súkromia bol vzdialený obsah zablokovaný',
@@ -2873,7 +2279,7 @@ sub Data {
         'First message' => 'Prvá správa',
 
         # Template: CloudServicesDisabled
-        'This feature requires cloud services.' => '',
+        'This Feature Requires Cloud Services' => '',
         'You can' => 'Môžete',
         'go back to the previous page' => 'choďte naspať na predchádzajúcu stránku',
 
@@ -2884,14 +2290,6 @@ sub Data {
         'Powered by' => 'Prihlásiť sa',
 
         # Template: CustomerFooterJS
-        'One or more errors occurred!' => '',
-        'Close this dialog' => 'Uzatvorte toto okno',
-        'Could not open popup window. Please disable any popup blockers for this application.' =>
-            'Neviem otvorit popup okno, zrušte prosím všetky popup blokovania pre túto aplikáciu',
-        'If you now leave this page, all open popup windows will be closed, too!' =>
-            'Pokiaľ odídete z tejto stránky, všetky otvorené popup okná budú uzatvorené!',
-        'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
-            'Popup okno k tejto obrazovke je už otvorené, chcete ho uzatvoriť a otvoriť nové?',
         'There are currently no elements available to select from.' => 'Na výber nie je k dispozícii žiaden z prvkov',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Prosím vypnite Compatibility Mode v Internet Exploreri',
         'The browser you are using is too old.' => 'Browser ktorý používate je privelmi starý',
@@ -2899,15 +2297,6 @@ sub Data {
             'OTRS podporuje velké množstvo browserov, poprosím zaktualizujte na jeden z nich',
         'Please see the documentation or ask your admin for further information.' =>
             'Posím prečítajte si dokumentáciu alebo oslovte Vášho správcu aplikácie',
-        'Switch to mobile mode' => 'Prepnúť do mobilného módu',
-        'Switch to desktop mode' => 'Prepnúť do normálneho módu',
-        'Not available' => 'Nie je dostupný',
-        'Clear all' => 'Všetko vyčistiť',
-        'Clear search' => 'Čisté vyhľadávanie',
-        '%s selection(s)...' => '%s výber(y)...',
-        'and %s more...' => 'a %s je viacej...',
-        'Filters' => 'Filtre',
-        'Confirm' => 'Potvrdiť',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'Nie je dostupný JavaSrcipt',
@@ -2924,7 +2313,8 @@ sub Data {
         'Your 2 Factor Token' => 'Váš 2-zložkový Token',
         'Log In' => 'Prihlásenie',
         'Not yet registered?' => 'Ešte nie ste zaregistrovaný?',
-        'Request new password' => 'Vypýtať nové heslo',
+        'Back' => 'Späť',
+        'Request New Password' => 'Vyžiadať nové heslo',
         'Your User Name' => 'Vaše prihlasovacie meno',
         'A new password will be sent to your email address.' => 'Nové heslo Vám bude poslané emailom',
         'Create Account' => 'Vytvoriť účet',
@@ -2938,6 +2328,7 @@ sub Data {
         'Incoming Chat Requests' => 'Prichádzajúca žiadosť o čet',
         'You have unanswered chat requests' => 'Máte žiadosť o čet, na ktorú ste este neodpovedali',
         'Edit personal preferences' => 'Zmeniť osobné nastavenia',
+        'Preferences' => 'Nastavenia',
         'Logout %s %s' => 'Odhlásiť %s %s',
 
         # Template: CustomerRichTextEditor
@@ -2955,19 +2346,21 @@ sub Data {
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => 'napríklad 10*5155 alebo 105658*',
         'Customer ID' => 'ID zákazníka',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Fulltextové vyhľadávanie v tiketoch (napríklad "John*n" or "Will*"',
+        'Fulltext Search in Tickets (e. g. "John*n" or "Will*")' => '',
+        'Sender' => 'Odosielateľ',
         'Recipient' => 'Príjemca',
         'Carbon Copy' => 'Skrytá kópia',
         'e. g. m*file or myfi*' => 'napríklad m*súbor alebo môjsú*',
         'Types' => 'Typy',
-        'Time restrictions' => 'Časové obmedzenia',
+        'Time Restrictions' => '',
         'No time settings' => 'Bez nastavenia času',
+        'All' => 'Všetko',
         'Specific date' => '',
         'Only tickets created' => 'Len tikety vytvorené',
         'Date range' => '',
         'Only tickets created between' => 'Len tikety vytvorené medzi',
-        'Ticket archive system' => 'Systém na archiváciu tiketov',
-        'Save search as template?' => 'Uložiť vyhladávanie ako šablónu?',
+        'Ticket Archive System' => '',
+        'Save Search as Template?' => '',
         'Save as Template?' => 'Uložiť ako šablónu?',
         'Save as Template' => 'Uložiť ako šablónu',
         'Template Name' => 'Meno šablóny',
@@ -2987,8 +2380,35 @@ sub Data {
         'Reply' => 'Odpovedať',
         'Chat Protocol' => 'Četovací protokol',
 
+        # Template: CustomerWarning
+        'Warning' => 'Varovanie',
+
         # Template: DashboardEventsTicketCalendar
         'All-day' => 'Všetky dni',
+        'January' => 'Január',
+        'February' => 'Február',
+        'March' => 'Marec',
+        'April' => 'Apríl',
+        'May_long' => 'Máj',
+        'June' => 'Jún',
+        'July' => 'Júl',
+        'August' => 'August',
+        'September' => 'September',
+        'October' => 'Október',
+        'November' => 'November',
+        'December' => 'December',
+        'Jan' => 'jan',
+        'Feb' => 'feb',
+        'Mar' => 'mar',
+        'Apr' => 'apríl',
+        'May' => 'máj',
+        'Jun' => 'jún',
+        'Jul' => 'júl',
+        'Aug' => 'aug',
+        'Sep' => 'sept',
+        'Oct' => 'okt',
+        'Nov' => 'nov',
+        'Dec' => 'dec',
         'Sunday' => 'Nedeľa',
         'Monday' => 'Pondelok',
         'Tuesday' => 'Utorok',
@@ -3003,22 +2423,36 @@ sub Data {
         'Th' => 'Št',
         'Fr' => 'Pi',
         'Sa' => 'So',
+        'Today' => 'Dnes',
+        'month' => 'mesiac',
+        'week' => 'týždeň',
+        'day' => 'deň',
         'Event Information' => 'Informácia o udalosti',
         'Ticket fields' => 'Polia tiketu',
         'Dynamic fields' => 'Dynamické polia',
 
         # Template: Datepicker
+        'Invalid date!' => 'Neplatný dátum!',
         'Invalid date (need a future date)!' => 'Chybný dátum(treba zadať dátum v budúcnosti)',
         'Invalid date (need a past date)!' => 'Chybný dátum(treba zadať dátum v minulosti)',
         'Previous' => 'Predchádzajúci',
+        'Sun' => 'Ned',
+        'Mon' => 'Pon',
+        'Tue' => 'Ut',
+        'Wed' => 'Str',
+        'Thu' => 'Stv',
+        'Fri' => 'Pia',
+        'Sat' => 'Sob',
         'Open date selection' => 'tvoriť výber dátumu',
 
         # Template: Error
-        'An error occurred.' => '',
+        'An Error Occurred' => '',
         'Send a bugreport' => 'Pošli report o chybách',
         'Error Details' => 'Detaily chyby',
+        'Expand' => 'Rozšíriť',
 
         # Template: FooterJS
+        'Loading...' => 'Nahrávanie...',
         'Please enter at least one search value or * to find anything.' =>
             'Na vyhľadávanie prosim vložte aspoň jednu hodnotu alebo * na vyhľadanie všetkého',
         'Please remove the following words from your search as they cannot be searched for:' =>
@@ -3026,31 +2460,28 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => 'Prosím skontrolujte hodnoty polí označených červeným',
         'Please perform a spell check on the the text first.' => 'Prosím najprv v texte skontrolujte pravopis.',
         'Slide the navigation bar' => 'Posuňte navigačný panel',
-        'Unavailable for chat' => 'Nedostupný pre čet',
-        'Available for internal chats only' => 'Dostupný len pre interný čet',
-        'Available for chats' => 'Dostupný pre četovanie',
-        'Please visit the chat manager' => 'Prosím choďte na manažér četu',
-        'New personal chat request' => 'Osobná čet požiadavka',
-        'New customer chat request' => 'Nový zákazník žiada o čet',
-        'New public chat request' => 'Verejná požiadavka o čet',
-        'New activity' => 'Nová aktivita',
-        'New activity on one of your monitored chats.' => 'Nová aktivita v jednom zo sledovaných četov',
-        'Do you really want to continue?' => 'Naozaj chcete pokračovať?',
-        'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Táto funkcionalita je častou %s. Prosím kontaktujte nás ak chcete vyššiu verziu %s',
         'Find out more about the %s' => 'Zistit viacej o %s',
+        'Scale preview content' => '',
+        'Open URL in new tab' => '',
+        'Close preview' => '',
+        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+            '',
 
         # Template: Header
+        'Logout' => 'Odhlásenie ',
         'You are logged in as' => 'Ste prihlásený ako',
 
         # Template: Installer
         'JavaScript not available' => '',
         'Step %s' => '',
+        'License' => 'Licencia',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
         'Finish' => '',
         'Welcome to %s' => '',
+        'Phone' => 'Telefón',
         'Web site' => '',
         'Mail check successful.' => '',
         'Error in the mail settings. Please correct and try again.' => '',
@@ -3091,6 +2522,8 @@ sub Data {
         'Use an existing database for OTRS' => '',
 
         # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            'Ak ste zadali heslo root-a pre databázu, musí byť zadané tu. Ak nie, nechajte pole prázdne.',
         'Database name' => '',
         'Check database settings' => '',
         'Result of database check' => '',
@@ -3148,11 +2581,10 @@ sub Data {
 
         # Template: Login
         'Lost your password?' => 'Zabudli ste heslo?',
-        'Request New Password' => 'Vyžiadať nové heslo',
         'Back to login' => 'Naspať k prihláseniu',
 
         # Template: MobileNotAvailableWidget
-        'Feature not available' => 'Funkcionalita nie je dostupná',
+        'Feature not Available' => '',
         'Sorry, but this feature of OTRS is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
             'Funkcionalita nie je dostupná pre mobilné zariadenia, prepnite sa do desktopového módu',
 
@@ -3210,6 +2642,7 @@ sub Data {
         'You can select one or more groups to define access for different agents.' =>
             '',
         'Result formats' => '',
+        'Time Zone' => 'Časové pásmo',
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
         'Create summation row' => '',
@@ -3254,7 +2687,7 @@ sub Data {
         # Template: StatsParamsWidget
         'Format' => 'Formát',
         'Exchange Axis' => '',
-        'Configurable params of static stat' => '',
+        'Configurable Params of Static Stat' => '',
         'No element selected.' => '',
         'Scale' => '',
 
@@ -3274,6 +2707,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS test stránka',
+        'Unlock' => 'Odomknúť',
         'Welcome %s %s' => 'Vitajte %s',
         'Counter' => 'Počítadlo',
 
@@ -3281,10 +2715,22 @@ sub Data {
         'Go back to the previous page' => 'Choďte naspať na predchádzajúcu stránku',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'CustomerIDs' => 'Zákaznícke čísla',
+        'Fax' => 'Fax',
+        'Street' => 'Ulica',
+        'Zip' => 'PSČ',
+        'City' => 'Mesto',
+        'Country' => 'Krajina',
+        'Valid' => 'Platný',
+        'Mr.' => 'Pán',
+        'Mrs.' => 'Pani',
         'View system log messages.' => '',
+        'Edit the system configuration settings.' => 'Upraviť systémové nastavenia',
         'Update and extend your system with software packages.' => '',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            'ACL nie su synchronizované s databázou, nasaďte všetky ACL',
         'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '',
         'The following ACLs have been added successfully: %s' => '',
@@ -3300,6 +2746,8 @@ sub Data {
         'There was an error synchronizing the ACLs.' => '',
         'ACL %s could not be deleted' => '',
         'There was an error getting data for ACL with ID %s' => '',
+        'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
+            '',
         'Exact match' => '',
         'Negated exact match' => '',
         'Regular expression' => '',
@@ -3307,12 +2755,24 @@ sub Data {
         'Negated regular expression' => '',
         'Negated regular expression (ignore case)' => '',
 
+        # Perl Module: Kernel/Modules/AdminAttachment.pm
+        'Attachment updated!' => 'Príloha aktualizovaná!',
+        'Attachment added!' => 'Príloha pridaná!',
+
+        # Perl Module: Kernel/Modules/AdminAutoResponse.pm
+        'Response updated!' => 'Odpoveď aktualizovaná!',
+        'Response added!' => 'Odpoveď pridaná!',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+        'Customer company updated!' => 'Spoločnosť aktualizovaná!',
         'Customer Company %s already exists!' => '',
+        'Customer company added!' => 'Spoločnosť pridaná!',
 
         # Perl Module: Kernel/Modules/AdminCustomerUser.pm
+        'Customer updated!' => 'Zákzník aktualizovaný!',
         'New phone ticket' => 'Vytvor nový Telefón tiket',
         'New email ticket' => 'Vytvor nový E-mail tiket',
+        'Customer %s added' => 'Zákazník %s pridaný',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => '',
@@ -3337,6 +2797,8 @@ sub Data {
         'Checked' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
+        'No' => 'Nie',
+        'Yes' => 'Áno',
         'Prevent entry of dates in the future' => '',
         'Prevent entry of dates in the past' => '',
 
@@ -3347,6 +2809,17 @@ sub Data {
         'Select at least one recipient.' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
+        'Time unit' => 'Časová jednotka',
+        'within the last ...' => 'v posledných ...',
+        'within the next ...' => 'v nasledujúcich ...',
+        'more than ... ago' => 'pred viac ako ...',
+        'minute(s)' => 'minuta/minuty',
+        'hour(s)' => 'hodina/hodiny',
+        'day(s)' => 'deň/dni',
+        'week(s)' => 'týždne',
+        'month(s)' => 'mesiac/mesiace',
+        'year(s)' => 'rok/roky',
+        'Unarchived tickets' => 'Nezarchivované tikety',
         'archive tickets' => '',
         'restore tickets from archive' => '',
         'Need Profile!' => '',
@@ -3401,10 +2874,22 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             '',
         'Web service "%s" deleted!' => '',
+        'OTRS as provider' => 'OTRS ako provider',
+        'OTRS as requester' => 'OTRS ako žiadateľ',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '',
         'Could not get history data for WebserviceHistoryID %s' => '',
+
+        # Perl Module: Kernel/Modules/AdminGroup.pm
+        'Group updated!' => 'Skupina aktualizovaná!',
+
+        # Perl Module: Kernel/Modules/AdminMailAccount.pm
+        'Mail account added!' => 'Mailové konto pridané!',
+        'Mail account updated!' => 'Mailové konto aktualizované!',
+        'Finished' => 'Ukončený',
+        'Dispatching by email To: field.' => 'Posielam emailom =>  prijemca: pole',
+        'Dispatching by selected Queue.' => 'Posielam vybraným queue.',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => '',
@@ -3432,6 +2917,16 @@ sub Data {
         'Customer of the ticket' => '',
         'Yes, but require at least one active notification method' => '',
 
+        # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+        'Your system was successfully upgraded to %s.' => 'Váš systém bol úspešne updatovaný na %s.',
+        'There was a problem during the upgrade to %s.' => 'Počas update na %s sa vyskytol problém.',
+        '%s was correctly reinstalled.' => '%s bol úspešne reinštalovaný.',
+        'There was a problem reinstalling %s.' => 'Počas reinštalácie %s sa vyskytol problém.',
+        'Your %s was successfully updated.' => 'Váš %s bol úspešne updatovaný.',
+        'There was a problem during the upgrade of %s.' => 'Počas update %s sa vyskytol problém.',
+        '%s was correctly uninstalled.' => '%s bol úspešne odinštalovaný.',
+        'There was a problem uninstalling %s.' => 'Počas odinštalácie %s sa vyskytol problém.',
+
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
             '',
@@ -3447,6 +2942,8 @@ sub Data {
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
         'Package has locally modified files.' => '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            'Balík nie je overený OTRS skupinou. Neodporúča sa používať tento balík.',
         'No packages or no new packages found in selected repository.' =>
             '',
         'Package not verified due a communication issue with verification server!' =>
@@ -3458,7 +2955,13 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
         'No such filter: %s' => '',
 
+        # Perl Module: Kernel/Modules/AdminPriority.pm
+        'Priority updated!' => 'Priorita zaktualizovaná!',
+        'Priority added!' => 'Priorita pridaná',
+
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
+        'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            'Informácie Process Management-u nie sú synchrónne so systémovou konfiguráciou. Prosím zosynchronizujte všetky procesy.',
         'Need ExampleProcesses!' => '',
         'Need ProcessID!' => '',
         'Yes (mandatory)' => '',
@@ -3516,7 +3019,13 @@ sub Data {
         'Do not show Field' => '',
         'Show Field' => '',
         'Show Field As Mandatory' => '',
+        'note-internal' => 'interná poznámka',
+        'note-external' => 'externá poznámka',
+        'note-report' => 'hlásnie poznámky',
+        'phone' => 'telefón',
         'fax' => '',
+        'sms' => 'SMS',
+        'webrequest' => 'webová požiadavka',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
         'Edit Path' => '',
@@ -3551,9 +3060,18 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminQueue.pm
         'Don\'t use :: in queue name!' => '',
         'Click back and change it!' => '',
+        'Queue updated!' => 'Fronta aktualizovaná!',
+        '-none-' => '-žiadny-',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => '',
+
+        # Perl Module: Kernel/Modules/AdminRole.pm
+        'Role updated!' => 'Roľa aktualizovaná!',
+        'Role added!' => 'Roľa pridaná!',
+
+        # Perl Module: Kernel/Modules/AdminSLA.pm
+        'Please activate %s first!' => 'Najskôr aktivujte %s prosím.',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -3575,6 +3093,14 @@ sub Data {
         'Salutation updated!' => '',
         'Salutation added!' => '',
 
+        # Perl Module: Kernel/Modules/AdminSignature.pm
+        'Signature updated!' => 'Signatúra zaktualizovaná!',
+        'Signature added!' => 'Pridaná signatúra',
+
+        # Perl Module: Kernel/Modules/AdminState.pm
+        'State updated!' => 'Stav aktualizovaný!',
+        'State added!' => 'Stav pridaný!',
+
         # Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
         'File %s could not be read!' => '',
 
@@ -3582,6 +3108,10 @@ sub Data {
         'Import not allowed!' => '',
         'Need File!' => '',
         'Can\'t write ConfigItem!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemAddress.pm
+        'System e-mail address updated!' => 'Systémová mail adresa aktualizovaná!',
+        'System e-mail address added!' => 'Systémová mail adresa pridaná!',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => '',
@@ -3600,6 +3130,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => '',
+        'Type updated!' => 'Typ aktualizovaný!',
+        'Type added!' => 'Typ pridaný!',
+
+        # Perl Module: Kernel/Modules/AdminUser.pm
+        'Agent updated!' => 'Agent aktualizovaný!',
+
+        # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
+        'Customer History' => 'História zákazníka',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'No such config for %s' => '',
@@ -3613,12 +3151,15 @@ sub Data {
         'Please contact the admin.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => '',
+        'Can not create link with %s! Object already linked as %s.' => '',
         'Can not create link with %s!' => '',
-        'Object already linked as %s.' => '',
         'The object %s cannot link with other object!' => '',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '',
+
+        # Perl Module: Kernel/Modules/AgentSpelling.pm
+        'No suggestions' => 'Žiadne návrhy.',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
         'Parameter %s is missing.' => '',
@@ -3635,12 +3176,19 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No TicketID is given!' => '',
         'You need %s permissions!' => '',
+        'Sorry, you need to be the ticket owner to perform this action.' =>
+            'Na túto operáciu musite byť vlastníkom tiketu',
+        'Please change the owner first.' => 'Najprv zmente vlastníka tiketu',
         'Could not perform validation on field %s!' => '',
         'No subject' => 'Chýba predmet',
         'Previous Owner' => 'Predchádzajúci vlastník',
+        'wrote' => 'písať',
+        'Message from' => 'Správa od',
+        'End message' => 'Koniec správy',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '',
+        'Please contact your administrator' => 'Prosím kontaktujte administrátora.',
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => '',
@@ -3655,12 +3203,18 @@ sub Data {
         'You either selected no ticket or only tickets which are locked by other agents' =>
             '',
         'You need to select at least one ticket' => '',
+        'You don\'t have write access to this ticket.' => 'Nemáte oprávnenie na tento tiket',
+        'Ticket selected.' => 'Tiket vybraný',
         'Ticket is locked by another agent and will be ignored!' => '',
+        'Ticket locked.' => 'Tiket uzamknutý',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Can not determine the ArticleType!' => '',
+        'Address %s replaced with registered customer address.' => 'Adresa %s bola nahradená adresou registrovaného zákazníka',
+        'Customer user automatically added in Cc.' => 'Používateľ bol automaticky pridaný do kópie',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
+        'Ticket "%s" created!' => 'Tiket "%s" je vytvorený',
         'No Subaction!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
@@ -3668,7 +3222,14 @@ sub Data {
         'System Error!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Tomorrow' => 'Zajtra',
+        'Next week' => 'Nasledujúci týždeň',
         'Invalid Filter: %s!' => '',
+        'Ticket Escalation View' => 'Pohľad Eskalované tikety',
+
+        # Perl Module: Kernel/Modules/AgentTicketForward.pm
+        'Forwarded message from' => 'Preposlaná správa od',
+        'End forwarded message' => 'Koniec preposlanej správy',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
         'Can\'t show history, no TicketID is given!' => '',
@@ -3679,6 +3240,12 @@ sub Data {
         'Please become the owner first.' => '',
         'Ticket (ID=%s) is locked by %s!' => '',
         'Change the owner!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketLockedView.pm
+        'New Article' => 'Nový článok',
+        'Pending' => 'čakanie',
+        'Reminder Reached' => 'Vyexpirovanie pripomienky',
+        'My Locked Tickets' => 'Tikety uzamknuté na mna',
 
         # Perl Module: Kernel/Modules/AgentTicketMerge.pm
         'Can\'t merge ticket with itself!' => '',
@@ -3705,6 +3272,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
         'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
         'No Process configured!' => '',
+        'The selected process is invalid!' => 'Vybratý proces je nesprávny!',
         'Process %s is invalid!' => '',
         'Subaction is invalid!' => '',
         'Parameter %s is missing in %s.' => '',
@@ -3760,14 +3328,35 @@ sub Data {
         'Default Config for Process::Default%s missing!' => '',
         'Default Config for Process::Default%s invalid!' => '',
 
+        # Perl Module: Kernel/Modules/AgentTicketQueue.pm
+        'Available tickets' => 'Volné tikety',
+        'including subqueues' => 'zahrnúť pod-queue',
+        'excluding subqueues' => 'vyradiť pod-queue',
+        'QueueView' => 'Pohľad Queue',
+
+        # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
+        'My Responsible Tickets' => 'Tikety kde som Zodpovedný',
+
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
+        'last-search' => 'predošlé vyhladávanie',
         'Untitled' => '',
+        'Ticket Number' => 'Číslo tiketu',
+        'Customer Realname' => 'Skutočné meno zákazníka',
+        'Ticket' => 'Tiket',
         'Invalid Users' => '',
+        'Normal' => 'obyčajný',
         'CSV' => '',
         'Excel' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
         'Feature not enabled!' => '',
+        'Service View' => 'Zobraziť podla služieb',
+
+        # Perl Module: Kernel/Modules/AgentTicketStatusView.pm
+        'Status View' => 'Zobraziť stav',
+
+        # Perl Module: Kernel/Modules/AgentTicketWatchView.pm
+        'My Watched Tickets' => 'Mnou sledovane tikety',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
         'Feature is not active' => '',
@@ -3808,7 +3397,7 @@ sub Data {
         'Time Accounted' => '',
         'External Chat' => '',
         'Internal Chat' => '',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             '',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
@@ -3816,7 +3405,19 @@ sub Data {
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
         'Fields with no group' => '',
+        'Reply All' => 'Odpovedať všetkým',
+        'Forward' => 'Nasledujúci',
+        'Forward article via mail' => 'Prepošli článok cez e-mail',
+        'Bounce Article to a different mail address' => 'Priradiť článok na novú mailovú adresu',
+        'Bounce' => 'Skočiť na',
+        'Split this article' => 'Rozdel tento článok',
+        'Split' => 'Rozdeliť',
+        'Print this article' => 'Vytlač tento článok',
         'View the source for this Article' => '',
+        'Plain Format' => 'Jednoduchý formát',
+        'Mark' => 'Označiť',
+        'Unmark' => 'Odznačiť',
+        'Reply to note' => 'Odpovedať na poznámku',
 
         # Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
         'FileID and ArticleID are needed!' => '',
@@ -3831,6 +3432,8 @@ sub Data {
         'Need CustomerID!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
+        'Created within the last' => 'Vytvorený v posledných',
+        'Created more than ... ago' => 'Vytvorený pred viacej ako ...',
         'Please remove the following words because they cannot be used for the search:' =>
             'Prosím vymažte nasleduúce slová, nakolko nemôžu byť použité na vyhľadávanie',
 
@@ -3843,22 +3446,32 @@ sub Data {
         'Configure "Home" in Kernel/Config.pm first!' => '',
         'File "%s/Kernel/Config.pm" not found!' => '',
         'Directory "%s" not found!' => '',
+        'Install OTRS' => 'Inštalácia OTRS',
+        'Intro' => 'Úvod',
         'Kernel/Config.pm isn\'t writable!' => '',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
             '',
+        'Database Selection' => 'Výber databazy',
         'Unknown Check!' => '',
         'The check "%s" doesn\'t exist!' => '',
+        'Enter the password for the database user.' => 'Zadajte heslo databázového užívateľa',
         'Database %s' => '',
+        'Enter the password for the administrative database user.' => 'Zadajte heslo administrátora databázy',
         'Unknown database type "%s".' => '',
         'Please go back' => '',
+        'Create Database' => 'Vytvor databázu',
         'Install OTRS - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => '',
+        'System Settings' => 'Systémové nastavenia',
+        'Configure Mail' => 'Konfigurácia mailu',
+        'Mail Configuration' => 'Mail nastavenia',
         'Can\'t write Config file!' => '',
         'Unknown Subaction %s!' => '',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             '',
         'Can\'t connect to database, read comment!' => '',
+        'Database already contains data - it should be empty!' => 'Databáza obsahuje dáta. Mala by byť prázdna.',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -3869,7 +3482,9 @@ sub Data {
         'Authentication failed from %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
-        'Sent message crypted to recipient!' => '',
+        'Crypted' => 'Zašifrovaný',
+        'Sent message encrypted to recipient!' => '',
+        'Signed' => 'Podpísaný',
         '"PGP SIGNED MESSAGE" header found, but invalid!' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
@@ -3878,39 +3493,107 @@ sub Data {
         'Impossible to decrypt: private key for email was not found!' => '',
         'Successful decryption' => '',
 
+        # Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+        'Crypt' => 'Šifrovať',
+
+        # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Sign' => 'Podpísať',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
+        'Shown customer users' => 'Zobrazení klientskí užívatelia.',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+        'Shown Tickets' => 'Zobraz tiket.',
+        'Shown Columns' => 'Zobraz riadky',
         'filter not active' => '',
         'filter active' => '',
         'sorted ascending' => '',
         'sorted descending' => '',
         'This ticket has no title or subject' => 'Tomuto tiketu chýba predmet alebo popis',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/TicketStatsGeneric.pm
+        '7 Day Stats' => '7 dňová štatistika',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Shown' => 'Zobrazené',
         'This user is currently offline' => 'Tento používateľ je aktuálne nedostupný',
         'This user is currently active' => 'Tento používateľ je aktívny',
         'This user is currently away' => 'Tento používateľ je aktuálne neprítomný',
         'This user is currently unavailable' => 'Tento používateľ je aktuálne nedostupný',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
+        'Standard' => 'Štandard',
+        'h' => 'h',
+        'm' => 'm',
+        'hour' => 'hodina',
+        'minute' => 'minuta',
+        'd' => 'd',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
+        'This is a' => 'To je',
+        'email' => 'e-mail',
+        'click here' => 'klikni tu',
+        'to open it in a new window.' => 'Otvoriť v novom okne',
+        'Hours' => 'Hodín',
+        'Minutes' => 'Minút',
+        'Check to activate this date' => 'Preverte či aktivovať tento dátum',
+        'No Permission!' => 'Nepovolené!',
         'No Permission' => '',
+        'Show Tree Selection' => 'Zobraz stromový výber',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
         'Linked as' => '',
         'Search Result' => '',
+        'Linked' => 'spojený',
+        'Bulk' => 'Hromadný',
+
+        # Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
+        'Lite' => 'Odľahčený',
+        'Unread article(s) available' => 'Neprečítaný článok(y) je k dispozícii',
+
+        # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
+        'Enable cloud services to unleash all OTRS features!' => '',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s momentálne prebieha upgrade na %s %s',
+        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
+            'Licencia %s čoskoro expiruje. Kontaktujte %s pre obnovenie kontraktu!',
+        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
+            'Update pre %s je dostupný, ale koliduje s verziou Vášho frameworku. Updatujte najskôr framework prosím!',
+
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
+        'Online Agent: %s' => 'Online Agent %',
+
+        # Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
+        'There are more escalated tickets!' => 'Je tu viacej vyeskalovaných tiketov',
+
+        # Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
+        'Please select a time zone in your preferences and confirm it by clicking "Update".' =>
+            '',
+
+        # Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
+        'Online Customer: %s' => 'Online používateľ: %',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => 'Plánovaná systémová údržba začína o:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
+        'OTRS Daemon is not running.' => 'OTRS démon nebeží.',
         'Please contact your administrator!' => 'Prosím kontaktujte Vášho správcu',
+
+        # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
+        'You have Out of Office enabled, would you like to disable it?' =>
+            'Máte nastavenú Neprítomnosť v kancelárii. Chcete toto nastavenie zrušiť ?',
+
+        # Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
+            'Nepoužívajte správcovský prístup na prácu s OTRS, najprv vytvorte agentov a potom pracujte s nimi!',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/ColumnFilters.pm
+        'Preferences updated successfully!' => 'Predvoľby úspešne aktualizované!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(v procese)',
@@ -3923,7 +3606,24 @@ sub Data {
         'Please specify an end date that is after the start date.' => '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+        'Current password' => 'Aktuálne heslo',
+        'New password' => 'Nové heslo',
+        'Verify password' => 'Opakujte heslo',
+        'The current password is not correct. Please try again!' => 'Aktuálne heslo je nesprávne. Opakujte znovu prosím!',
         'Please supply your new password!' => 'Prosím zadajte Vaše nové heslo',
+        'Can\'t update password, your new passwords do not match. Please try again!' =>
+            'Nie je možné zaktualizovať heslo, nové heslá sa nezhodujú!',
+        'Can\'t update password, it contains invalid characters!' => 'Heslo obsahuje nepovolené znaky!',
+        'Can\'t update password, it must be at least %s characters long!' =>
+            'Heslo musí obsahovať minimálne %s znakov!',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Heslo musí obsahovať minimálne 2 malé a 2 veľké znaky!',
+        'Can\'t update password, it must contain at least 1 digit!' => 'Heslo musí obsahovať aspoň jednu číslicu!',
+        'Can\'t update password, it must contain at least 2 characters!' =>
+            'Heslo musí obsahovať aspoň 2 znaky!',
+
+        # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
+        'Time zone updated successfully!' => '',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'No past complete or the current+upcoming complete relative time value selected.' =>
@@ -3948,13 +3648,51 @@ sub Data {
         'Please select a time scale.' => '',
         'Your reporting time interval is too small, please use a larger time scale.' =>
             '',
+        'second(s)' => 'sekunda(y)',
+        'quarter(s)' => 'štvrťroky',
+        'half-year(s)' => 'polroky',
         'Please remove the following words because they cannot be used for the ticket restrictions: %s.' =>
             '',
+
+        # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
+        'Unlock to give it back to the queue' => 'Odomkni na vrátenie naspäť do queue',
+        'Lock it to work on it' => 'Uzamkni na dalšiu prácu',
+
+        # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
+        'Unwatch' => 'Zruš sledovanie',
+        'Remove from list of watched tickets' => 'Vymaž zo zoznamu sledovaných tiketov',
+        'Watch' => 'Sleduj',
+        'Add to list of watched tickets' => 'Pridaj do zoznamu sledovaných tiketov',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Zoradiť podla',
 
+        # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
+        'Ticket Information' => 'Informácia o tikete',
+
+        # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
+        'Locked Tickets New' => 'Nové zamknuté tickety',
+        'Locked Tickets Reminder Reached' => 'Prekročený počet zamknutých ticketov',
+        'Locked Tickets Total' => 'Zamknuté tickety celkovo',
+
+        # Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
+        'Responsible Tickets New' => 'Nové tikety Zodpovedného',
+        'Responsible Tickets Reminder Reached' => 'Prekročený pripomínač Zodpovedného na tiketoch',
+        'Responsible Tickets Total' => 'Tickety priradené na Zodpovedného celkovo',
+
+        # Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
+        'Watched Tickets New' => 'Nové Sledované tickety',
+        'Watched Tickets Reminder Reached' => 'Prekročený pripomínač na sledovaných tiketoch',
+        'Watched Tickets Total' => 'Sledované tickety celkovo',
+
+        # Perl Module: Kernel/System/Auth.pm
+        'It is currently not possible to login due to a scheduled system maintenance.' =>
+            'Prihlásenie nie je momentálne možné z dôvodu plánovanej údržby systému.',
+
         # Perl Module: Kernel/System/AuthSession/DB.pm
+        'Session invalid. Please log in again.' => 'Neplatná relácia. Prihláste sa znova prosím.',
+        'Session has timed out. Please log in again.' => 'Časový limit relácie vypršal. Prihláste sa znova prosím.',
+        'Session limit reached! Please try again later.' => 'Prekročený počet relácií. Skúste neskôr prosím.',
         'Session per user limit reached!' => '',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
@@ -3963,11 +3701,36 @@ sub Data {
         'This setting is not active by default.' => '',
         'This setting can not be deactivated.' => '',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
+        'in more than ...' => 'vo viacej ako ...',
+        'before/after' => 'predtým/potom',
+        'between' => 'medzi',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+        'This field is required or' => 'Toto pole je povinné, alebo',
+        'The field content is too long!' => 'Obsah poľa je príliš dlhý!',
+        'Maximum size is %s characters.' => 'Maximálna dĺžka je %s znakov.',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+        'installed' => 'nainštalovaný',
+        'Unable to parse repository index document.' => 'Nie je možné určit úložisko indexu dokumentu',
+        'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
+            'Žiadne balíčky pre Váš framework neboli nájdené vo vybranom repozitáry, sú tu len pre iné verzie',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '<br>Ak budete pokračovať v inštalácii balíka, môžu nastať nasledovné problémy!<br><br>&nbsp;-Bezpečnostné problémy<br>&nbsp;-Problémy so stabilitou<br>&nbsp;-Výkonnostné problémy<br><br>Upozorňujeme že problémy spôsobené týmto balíkom nie sú kryté OTRS servisnou zmluvou!<br><br>',
 
         # Perl Module: Kernel/System/Registration.pm
+        'Can\'t contact registration server. Please try again later.' => 'Nie je možné sa spojiť s registračným server. Vyskúšajte neskôr prosím.',
+        'No content received from registration server. Please try again later.' =>
+            'Odpoveď z registračného serveru je nesprávna. Vyskúšajte neskôr prosím.',
         'Can\'t get Token from sever' => '',
+        'Username and password do not match. Please try again.' => 'Užívateľské meno a heslo nie sú správne. Skúste znova prosím.',
+        'Problems processing server result. Please try again later.' => 'Nie je možné spracovať odpoveď zo servera. Vyskúšajte neskôr prosím.',
+
+        # Perl Module: Kernel/System/Stats.pm
+        'quarter' => 'štvrťrok',
+        'half-year' => 'polrok',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Typ stavu',
@@ -3976,6 +3739,7 @@ sub Data {
         'CustomerUserLogin' => 'Prihlasovacie údaje zákazníka',
         'Create Time' => 'Čas vytvorenia',
         'Close Time' => 'Čas uzatvorenia',
+        'Escalation' => 'Eskalácia',
         'Escalation - First Response Time' => '',
         'Escalation - Update Time' => '',
         'Escalation - Solution Time' => '',
@@ -3998,6 +3762,11 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Dni',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
+        'Outdated Tables' => '',
+        'Outdated tables were found in the database. These can be removed if empty.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
         'Table Presence' => '',
@@ -4193,13 +3962,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'OTRS/Time Settings' => '',
         'Server time zone' => '',
-        'Computed server time offset' => '',
-        'OTRS TimeZone setting (global time offset)' => '',
-        'TimeZone may only be activated for systems running in UTC.' => '',
-        'OTRS TimeZoneUser setting (per-user time zone support)' => '',
-        'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
-            '',
-        'OTRS TimeZone setting for calendar ' => '',
+        'OTRS time zone' => '',
+        'OTRS time zone is not set.' => '',
+        'User default time zone' => '',
+        'User default time zone is not set.' => '',
+        'OTRS time zone setting for calendar' => '',
+        'Calendar time zone is not set.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver/Loaded Apache Modules' => '',
@@ -4245,20 +4013,46 @@ sub Data {
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => '',
 
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
+
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
+        'Login failed! Your user name or password was entered incorrectly.' =>
+            'Prihlásenie neúspešné. Užívateľské meno alebo heslo je nesprávne.',
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
         'Can`t remove SessionID' => '',
         'Logout successful.' => '',
+        'Feature not active!' => 'Funkcia neaktívna!',
+        'Sent password reset instructions. Please check your email.' => 'Na Váš email boli odoslané inštrukcie pre obnovu hesla. Skontrolujte si svoj email.',
+        'Invalid Token!' => 'Nesprávny token!',
+        'Sent new password to %s. Please check your email.' => 'Na adresu %s bolo odoslané nové heslo. Skontrolujte si svoj email.',
         'Panic! Invalid Session!!!' => '',
         'No Permission to use this frontend module!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            'Prihlásenie úspešné, ale meno Vašej firmz nie je v zozname',
         'Reset password unsuccessful. Please contact your administrator' =>
             'Neúspešný reset hesla, prosím kontaktujte Vášho správcu systému',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            'Email adresa existuje. Prihláste sa alebo vynulujte heslo.',
+        'This email address is not allowed to register. Please contact support staff.' =>
+            'Zadanú adresu nie je možné použiť pre registráciu. Kontaktujte prosím systémovú podporu.',
         'Added via Customer Panel (%s)' => '',
         'Customer user can\'t be added!' => '',
         'Can\'t send account info!' => '',
+        'New account created. Sent login information to %s. Please check your email.' =>
+            'Konto bolo vytvorené. Prihlasovacie údaje boli odoslané na %s. Skontrolujte svoj email.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => '',
@@ -4267,31 +4061,47 @@ sub Data {
         'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
+        'valid' => 'platný',
+        'invalid' => 'neplatný',
+        'invalid-temporarily' => 'dočasne neplatný',
         'Group for default access.' => '',
         'Group of all administrators.' => '',
         'Group for statistics access.' => '',
+        'new' => 'nový',
         'All new state types (default: viewable).' => '',
+        'open' => 'otvoriť',
         'All open state types (default: viewable).' => '',
+        'closed' => 'zatvorený',
         'All closed state types (default: not viewable).' => '',
+        'pending reminder' => 'nevybavená pripomienka',
         'All \'pending reminder\' state types (default: viewable).' => '',
+        'pending auto' => 'automaticky nevybaviť',
         'All \'pending auto *\' state types (default: viewable).' => '',
+        'removed' => 'odstránený',
         'All \'removed\' state types (default: not viewable).' => '',
+        'merged' => 'zlúčené',
         'State type for merged tickets (default: not viewable).' => '',
         'New ticket created by customer.' => '',
+        'closed successful' => 'úspešne zatvorené',
         'Ticket is closed successful.' => '',
+        'closed unsuccessful' => 'zatvorené neúspešne',
         'Ticket is closed unsuccessful.' => '',
         'Open tickets.' => '',
         'Customer removed ticket.' => '',
         'Ticket is pending for agent reminder.' => '',
+        'pending auto close+' => 'počas automatického zatvárania +',
         'Ticket is pending for automatic close.' => '',
+        'pending auto close-' => 'počas automatického zatvárania -',
         'State for merged tickets.' => '',
         'system standard salutation (en)' => '',
         'Standard Salutation.' => '',
         'system standard signature (en)' => '',
         'Standard Signature.' => '',
         'Standard Address.' => '',
+        'possible' => 'možný',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
             '',
+        'reject' => 'odmietnuť',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
             '',
         'new ticket' => '',
@@ -4301,14 +4111,19 @@ sub Data {
         'All default incoming tickets.' => '',
         'All junk tickets.' => '',
         'All misc tickets.' => '',
+        'auto reply' => 'automatická odozva',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
             '',
+        'auto reject' => 'automatické zamietnutie',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
             '',
+        'auto follow up' => 'automatické nasledovanie',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
             '',
+        'auto reply/new ticket' => 'automatická odozva/nový ticket',
         'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
             '',
+        'auto remove' => 'automatické vymazanie',
         'Auto remove will be sent out after a customer removed the request.' =>
             '',
         'default reply (after new ticket has been created)' => '',
@@ -4318,9 +4133,21 @@ sub Data {
         'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
             '',
         'Unclassified' => '',
+        '1 very low' => '1 veľmi nízka',
+        '2 low' => '2 nízka',
+        '3 normal' => '3 normálna',
+        '4 high' => '4 vysoká',
+        '5 very high' => '5 veľmi vysoká',
+        'unlock' => 'odomknúť',
+        'lock' => 'zamknúť',
         'tmp_lock' => '',
+        'email-external' => 'externý e-mail',
+        'email-internal' => 'interný e-mail',
         'email-notification-ext' => '',
         'email-notification-int' => '',
+        'agent' => 'Agent',
+        'system' => 'Systém',
+        'customer' => 'Zákazník',
         'Ticket create notification' => '',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
             '',
@@ -4330,6 +4157,7 @@ sub Data {
         'Ticket follow-up notification (locked)' => '',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
             '',
+        'Ticket lock timeout notification' => 'Notifikácia o prekročení časového limit uzamknutia tiketu.',
         'You will receive a notification as soon as a ticket owned by you is automatically unlocked.' =>
             '',
         'Ticket owner update notification' => '',
@@ -4346,6 +4174,42 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.Agent.CustomerSearch
+        'Duplicated entry' => 'Duplicitný záznam',
+        'It is going to be deleted from the field, please try again.' => 'Z pola sa vymazáva, skúste neskôr',
+
+        # JS File: Core.Agent.Daemon
+        'Information about the OTRS Daemon' => '',
+
+        # JS File: Core.Agent.Responsive
+        'Switch to desktop mode' => 'Prepnúť do normálneho módu',
+
+        # JS File: Core.Agent.TicketAction
+        'Close this dialog' => 'Uzatvorte toto okno',
+        'Do you really want to continue?' => 'Naozaj chcete pokračovať?',
+
+        # JS File: Core.App.Responsive
+        'Switch to mobile mode' => 'Prepnúť do mobilného módu',
+
+        # JS File: Core.Form.Validate
+        'One or more errors occurred!' => '',
+
+        # JS File: Core.UI.InputFields
+        'Not available' => 'Nie je dostupný',
+        'and %s more...' => 'a %s je viacej...',
+        'Clear all' => 'Všetko vyčistiť',
+        'Filters' => 'Filtre',
+        'Confirm' => 'Potvrdiť',
+        'Clear search' => 'Čisté vyhľadávanie',
+
+        # JS File: Core.UI.Popup
+        'If you now leave this page, all open popup windows will be closed, too!' =>
+            'Pokiaľ odídete z tejto stránky, všetky otvorené popup okná budú uzatvorené!',
+        'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
+            'Popup okno k tejto obrazovke je už otvorené, chcete ho uzatvoriť a otvoriť nové?',
+        'Could not open popup window. Please disable any popup blockers for this application.' =>
+            'Neviem otvorit popup okno, zrušte prosím všetky popup blokovania pre túto aplikáciu',
+
         # SysConfig
         '
 Dear Customer,
@@ -4360,6 +4224,9 @@ Thanks for your help!
  Your Helpdesk Team
 ' => '',
         ' (work units)' => '',
+        ' 2 minutes' => '2 minúty',
+        ' 5 minutes' => ' 5 minút',
+        ' 7 minutes' => ' 7 minút',
         '"%s" notification was sent to "%s" by "%s".' => '',
         '"Slim" skin which tries to save screen space for power users.' =>
             '',
@@ -4369,7 +4236,9 @@ Thanks for your help!
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '',
         '*** out of office until %s (%s d left) ***' => '',
+        '10 minutes' => ' 10 minút',
         '100 (Expert)' => '',
+        '15 minutes' => ' 15 minút',
         '200 (Advanced)' => '',
         '300 (Beginner)' => '',
         'A TicketWatcher Module.' => '',
@@ -4397,6 +4266,7 @@ Thanks for your help!
             '',
         'Activates time accounting.' => '',
         'ActivityID' => '',
+        'Add a note to this ticket' => 'Pridaj poznámku pre tiket',
         'Add an inbound phone call to this ticket' => '',
         'Add an outbound phone call to this ticket' => '',
         'Added email. %s' => 'História: Email klienta %s',
@@ -4418,9 +4288,13 @@ Thanks for your help!
             '',
         'Admin Area.' => '',
         'After' => '',
+        'Agent Customer Search' => '',
+        'Agent Customer Search.' => '',
         'Agent Name' => '',
         'Agent Name + FromSeparator + System Address Display Name' => '',
         'Agent Preferences.' => '',
+        'Agent User Search' => '',
+        'Agent User Search.' => '',
         'Agent called customer.' => 'História: Hovor agenta',
         'Agent interface article notification module to check PGP.' => '',
         'Agent interface article notification module to check S/MIME.' =>
@@ -4441,13 +4315,21 @@ Thanks for your help!
             '',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'AgentCustomerSearch' => '',
-        'AgentCustomerSearch.' => '',
-        'AgentUserSearch' => '',
-        'AgentUserSearch.' => '',
+        'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
+            '',
+        'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
+            '',
+        'AgentTicketZoom widget that displays ticket data in the side bar.' =>
+            '',
         'Agents <-> Groups' => '',
         'Agents <-> Roles' => '',
         'All customer users of a CustomerID' => '',
+        'All escalated tickets' => 'Všetky vyeskalované tikety',
+        'All new tickets, these tickets have not been worked on yet' => 'Všetky otvorené tikety - na ktorých sa ešte nezačalo pracovať',
+        'All open tickets, these tickets have already been worked on, but need a response' =>
+            'Všetky otvorené tikety - rozpracované s potrebou odozvy',
+        'All tickets with a reminder set where the reminder date has been reached' =>
+            'Všetky tikety s prekročným pripomínačom',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             '',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -4503,6 +4385,7 @@ Thanks for your help!
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
         'Always show RichText if available' => '',
+        'Answer' => 'Odpovedať',
         'Arabic (Saudi Arabia)' => '',
         'Archive state changed: "%s"' => '',
         'ArticleTree' => '',
@@ -4512,6 +4395,8 @@ Thanks for your help!
         'AutoReject sent to "%s".' => 'História: pošli automatickú odpoveď',
         'AutoReply sent to "%s".' => 'História: pošli automatické zamietnutie',
         'Automated line break in text messages after x number of chars.' =>
+            '',
+        'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '',
@@ -4532,8 +4417,10 @@ Thanks for your help!
         'Builds an article index right after the article\'s creation.' =>
             '',
         'Bulgarian' => '',
+        'Bulk Action' => 'Hromadná akcia',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             '',
+        'CSV Separator' => 'CSV oddeľovač',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
             '',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
@@ -4549,6 +4436,7 @@ Thanks for your help!
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
+        'Change the owner for this ticket' => 'Zmeň vlastníka tiketu',
         'Change the priority for this ticket' => '',
         'Change the responsible for this ticket' => '',
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'História: aktualizácia priorít',
@@ -4562,10 +4450,13 @@ Thanks for your help!
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '',
         'Checks the entitlement status of OTRS Business Solution™.' => '',
+        'Child' => 'dieťa',
         'Chinese (Simplified)' => '',
         'Chinese (Traditional)' => '',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
             '',
+        'Christmas Eve' => 'Vianoce',
+        'Close this ticket' => 'Uzatvor tiket',
         'Closed tickets (customer user)' => '',
         'Closed tickets (customer)' => '',
         'Cloud Services' => '',
@@ -4599,6 +4490,7 @@ Thanks for your help!
             '',
         'Compat module for AgentZoom to AgentTicketZoom.' => '',
         'Complex' => '',
+        'Compose' => 'Vytvoriť',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure any additional readonly mirror databases that you want to use.' =>
@@ -4656,6 +4548,7 @@ Thanks for your help!
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
+        'Customer Companies' => 'Zákazníkove spoločnosti',
         'Customer Information Center Search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
@@ -4705,6 +4598,7 @@ Thanks for your help!
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => '',
         'Default skin for the customer interface.' => '',
+        'Default spelling dictionary' => 'Predvolený slovník pravopisu',
         'Default ticket ID used by the system in the agent interface.' =>
             '',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -4774,6 +4668,7 @@ Thanks for your help!
         'Defines an alternate logout URL for the customer panel.' => '',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
             '',
+        'Defines default headers for outgoing emails.' => '',
         'Defines from which ticket attributes the agent can select the result order.' =>
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
@@ -5172,11 +5067,17 @@ Thanks for your help!
             '',
         'Defines the module to display a notification in the agent interface if the OTRS Daemon is not running.' =>
             '',
+        'Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.' =>
+            '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
+            '',
+        'Defines the module to display a notification in the customer interface, if the customer is logged in while having system maintenance active.' =>
+            '',
+        'Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.' =>
             '',
         'Defines the module to generate code for periodic page reloads.' =>
             '',
@@ -5341,6 +5242,7 @@ Thanks for your help!
         'Delete expired cache from core modules.' => '',
         'Delete expired loader cache weekly (Sunday mornings).' => '',
         'Delete expired sessions.' => '',
+        'Delete this ticket' => 'Vymaž tiket',
         'Deleted link to ticket "%s".' => 'História: ',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
@@ -5376,8 +5278,6 @@ Thanks for your help!
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
-        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
-            '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
@@ -5389,6 +5289,7 @@ Thanks for your help!
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
+        'Down' => 'Dolu',
         'Dropdown' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '',
@@ -5505,6 +5406,7 @@ Thanks for your help!
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication.' =>
             '',
+        'Escalated Tickets' => 'Vyeskalovaný tiket',
         'Escalation response time finished' => '',
         'Escalation response time forewarned' => '',
         'Escalation response time in effect' => '',
@@ -5560,6 +5462,7 @@ Thanks for your help!
             '',
         'Filter incoming emails.' => '',
         'Finnish' => '',
+        'First Christmas Day' => '1. sviatok vianočný',
         'First Queue' => '',
         'FirstLock' => '',
         'FirstResponse' => '',
@@ -5575,6 +5478,7 @@ Thanks for your help!
         'Forces to unlock tickets after being moved to another queue.' =>
             '',
         'Forwarded to "%s".' => 'História: Forward',
+        'Free Fields' => 'Voľné polia',
         'French' => '',
         'French (Canada)' => '',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
@@ -5621,6 +5525,7 @@ Thanks for your help!
             '',
         'Global Search Module.' => '',
         'Go back' => '',
+        'Go to dashboard!' => '',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',
@@ -5643,7 +5548,7 @@ Thanks for your help!
             '',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             '',
-        'If "DB" was selected for Customer::AuthModule, the crypt type of passwords must be specified.' =>
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             '',
@@ -5691,8 +5596,6 @@ Thanks for your help!
             '',
         'If "SysLog" was selected for LogModule, a special log facility can be specified.' =>
             '',
-        'If "SysLog" was selected for LogModule, a special log sock can be specified (on solaris you may need to use \'stream\').' =>
-            '',
         'If "SysLog" was selected for LogModule, the charset that should be used for logging can be specified.' =>
             '',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
@@ -5731,7 +5634,7 @@ Thanks for your help!
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             '',
-        'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
+        'If enabled, OTRS will deliver all CSS files in minified form.' =>
             '',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
             '',
@@ -5744,6 +5647,8 @@ Thanks for your help!
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
+            '',
+        'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
@@ -5771,6 +5676,7 @@ Thanks for your help!
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
         'Interface language' => '',
+        'International Workers\' Day' => 'Sviatok práce',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -5784,6 +5690,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => '',
         'JavaScript function for the search frontend.' => '',
+        'Large' => 'Veľký',
         'Last customer subject' => '',
         'Lastname Firstname' => '',
         'Lastname Firstname (UserLogin)' => '',
@@ -5800,6 +5707,7 @@ Thanks for your help!
         'Link queues to auto responses.' => '',
         'Link roles to groups.' => '',
         'Link templates to queues.' => '',
+        'Link this ticket to other objects' => 'Naviaž tiket na iný objekt',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -5827,10 +5735,12 @@ Thanks for your help!
         'List view' => '',
         'Lithuanian' => '',
         'Lock / unlock this ticket' => '',
+        'Locked Tickets' => 'Uzamknuté tikety',
         'Locked Tickets.' => '',
         'Locked ticket.' => 'História: zamkni',
         'Log file for the ticket counter.' => '',
         'Logout of customer panel.' => '',
+        'Look into a ticket!' => 'Vyhľadaj tiket.',
         'Loop-Protection! No auto-response sent to "%s".' => 'História: LoopProtection',
         'Mail Accounts' => '',
         'Main menu registration.' => '',
@@ -5848,6 +5758,7 @@ Thanks for your help!
         'Manage support data.' => '',
         'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
+        'Mark as Spam!' => 'Označ ako Spam!',
         'Mark this ticket as junk!' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -5874,6 +5785,7 @@ Thanks for your help!
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
+        'Medium' => 'Stredný',
         'Merge this ticket and all articles into a another ticket' => '',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
         'Miscellaneous' => '',
@@ -5886,7 +5798,7 @@ Thanks for your help!
         'Module to check the group permissions for the access to tickets.' =>
             '',
         'Module to compose signed messages (PGP or S/MIME).' => '',
-        'Module to crypt composed messages (PGP or S/MIME).' => '',
+        'Module to encrypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
@@ -5914,6 +5826,7 @@ Thanks for your help!
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => 'Hromadný výber',
+        'My Queues' => 'Moje Queues.',
         'My Services' => 'Moje služby',
         'My Tickets' => 'Moje tikety',
         'My Tickets.' => '',
@@ -5923,17 +5836,23 @@ Thanks for your help!
             '',
         'NameX' => '',
         'Nederlands' => '',
+        'New Ticket' => 'Nový tiket',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'História: Nová pripomienka',
+        'New Tickets' => 'Nové tikety',
         'New Window' => '',
+        'New Year\'s Day' => 'Nový rok',
+        'New Year\'s Eve' => 'Nový rok',
         'New owner is "%s" (ID=%s).' => 'História: aktualizácia majiteľa',
         'New process ticket' => '',
         'New responsible is "%s" (ID=%s).' => '',
+        'News about OTRS releases!' => 'Novinky o OTRS vydaniach!',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'None' => '',
         'Norwegian' => '',
+        'Notification Settings' => '',
         'Notification sent to "%s".' => 'História:: Pošli zákaznícku notifikáciu',
         'Number of displayed tickets' => '',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
@@ -5942,10 +5861,12 @@ Thanks for your help!
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
+        'OTRS News' => 'OTRS novinky',
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'Old: "%s" New: "%s"' => 'História: Aktualizácia stavu',
         'Online' => '',
+        'Open Tickets / Need to be answered' => 'Otvorené tikety / potrebné odpovedať',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
         'Option' => '',
@@ -5957,7 +5878,9 @@ Thanks for your help!
             '',
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
+        'Other Settings' => 'Ostané nastavenia',
         'Out Of Office' => '',
+        'Out Of Office Time' => 'Čas "Neprítomnosť v kancelárii"',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => '',
@@ -5966,8 +5889,10 @@ Thanks for your help!
         'Overview of all open Tickets.' => '',
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
+        'PGP Key' => 'PGP kľúč',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
+        'PGP Keys' => 'PGP kľúče',
         'Package event module file a scheduler task for update registration.' =>
             '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
@@ -6015,6 +5940,7 @@ Thanks for your help!
         'Parameters of the example SLA attribute Comment2.' => '',
         'Parameters of the example queue attribute Comment2.' => '',
         'Parameters of the example service attribute Comment2.' => '',
+        'Parent' => 'zdroj',
         'ParentChild' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
@@ -6024,7 +5950,11 @@ Thanks for your help!
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
         'Persian' => '',
+        'Phone Call Inbound' => 'Prichádzajúci hovor',
+        'Phone Call Outbound' => 'Odchádzajúci hovor',
         'Phone Call.' => '',
+        'Phone call' => 'hovor',
+        'Phone-Ticket' => 'Telefonický tiket',
         'Picture Upload' => '',
         'Picture upload module.' => '',
         'Picture-Upload' => '',
@@ -6033,6 +5963,8 @@ Thanks for your help!
         'Portuguese (Brasil)' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
+        'Print this ticket' => 'Vytlač tento tiket',
+        'Priorities' => 'Priorita',
         'Process Management Activity Dialog GUI' => '',
         'Process Management Activity GUI' => '',
         'Process Management Path GUI' => '',
@@ -6042,6 +5974,7 @@ Thanks for your help!
         'Process pending tickets.' => '',
         'Process ticket' => '',
         'ProcessID' => '',
+        'Product News' => 'Produktové novinky',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Provides a matrix overview of the tickets per state per queue.' =>
@@ -6051,6 +5984,7 @@ Thanks for your help!
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
         'Refresh interval' => '',
+        'Reminder Tickets' => 'Pripomenuté tikety',
         'Removed subscription for user "%s".' => 'Removed subscription for user "%s".',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
@@ -6111,13 +6045,16 @@ Thanks for your help!
             '',
         'Russian' => '',
         'S/MIME Certificate Upload' => '',
+        'S/MIME Certificates' => 'S/MIME Certifikáty',
         'SMS' => '',
         'SMS (Short Message Service)' => '',
+        'Salutations' => 'Oslovenia',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Screen' => 'Obrazovka',
+        'Screen after new ticket' => 'Okno po novom tikete.',
         'Search Customer' => 'Hľadať zákazníka',
         'Search Ticket.' => '',
         'Search Tickets.' => '',
@@ -6125,7 +6062,10 @@ Thanks for your help!
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Search.' => '',
+        'Second Christmas Day' => '2. sviatok vianočný',
         'Second Queue' => '',
+        'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
+            'Vyberte znak oddeľovača použitý v CSV súboroch (štatistiky a vyhľadávanie). Ak nevyberiete oddeľovač, bude použitý predvolený oddeľovač pre váš jazyk.',
         'Select your frontend Theme.' => 'Vyberte si vzhľad.',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -6148,6 +6088,7 @@ Thanks for your help!
             '',
         'Serbian Cyrillic' => '',
         'Serbian Latin' => '',
+        'Service Level Agreements' => 'SLA zmluvy',
         'Service view' => '',
         'ServiceView' => '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
@@ -6159,6 +6100,7 @@ Thanks for your help!
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
+        'Set this ticket to pending' => 'Nastav tiket na Odložený',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if SLA must be selected by the agent.' => '',
@@ -6168,6 +6110,7 @@ Thanks for your help!
         'Sets if service must be selected by the agent.' => '',
         'Sets if service must be selected by the customer.' => '',
         'Sets if ticket owner must be selected by the agent.' => '',
+        'Sets if ticket responsible must be selected by the agent.' => '',
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' =>
             '',
         'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' =>
@@ -6262,6 +6205,7 @@ Thanks for your help!
         'Sets the password for private PGP key.' => '',
         'Sets the prefered time units (e.g. work units, hours, minutes).' =>
             '',
+        'Sets the preferred digest to be used for PGP binary.' => '',
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
             '',
         'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
@@ -6309,8 +6253,6 @@ Thanks for your help!
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
             '',
         'Sets the stats hook.' => '',
-        'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
-            '',
         'Sets the ticket owner in the close ticket screen of the agent interface.' =>
             '',
         'Sets the ticket owner in the ticket bulk screen of the agent interface.' =>
@@ -6344,12 +6286,12 @@ Thanks for your help!
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             '',
         'Sets the time (in seconds) a user is marked as active.' => '',
+        'Sets the time zone being used internally by OTRS to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created.' =>
+            '',
+        'Sets the time zone that will be assigned to newly created users and will be used for users that haven\'t yet set a time zone. This is the time zone being used as default to convert date and time between the OTRS time zone and the user\'s time zone.' =>
+            '',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
-            '',
-        'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' =>
-            '',
-        'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' =>
             '',
         'Shared Secret' => '',
         'Should the cache data be held in memory?' => '',
@@ -6363,6 +6305,7 @@ Thanks for your help!
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => '',
+        'Show the ticket history' => 'Ukáž históriu tiketu',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -6528,10 +6471,12 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
+        'Signatures' => 'Podpisy',
         'Simple' => '',
         'Skin' => '',
         'Slovak' => '',
         'Slovenian' => '',
+        'Small' => 'Malý',
         'Software Package Manager.' => '',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
@@ -6601,6 +6546,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',
+        'Spelling Dictionary' => 'Slovník pravopisu.',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6608,6 +6554,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => '',
+        'States' => 'Stavy',
         'Status view' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
@@ -6666,6 +6613,7 @@ Thanks for your help!
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
+        'Theme' => 'Schéma',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is the default orange - black skin for the customer interface.' =>
@@ -6686,6 +6634,7 @@ Thanks for your help!
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
+        'This setting is deprecated. Set OTRSTimeZone instead.' => '',
         'This will allow the system to send text messages via SMS.' => '',
         'Ticket Close.' => '',
         'Ticket Compose Bounce Email.' => '',
@@ -6700,6 +6649,9 @@ Thanks for your help!
         'Ticket Note.' => '',
         'Ticket Notifications' => '',
         'Ticket Outbound Email.' => '',
+        'Ticket Overview "Medium" Limit' => 'Prehľad tiketov s "Medium" limitom',
+        'Ticket Overview "Preview" Limit' => 'Prehlad tiketov s "Preview" limitom',
+        'Ticket Overview "Small" Limit' => 'Prehľad tiketov s "Small" limitom',
         'Ticket Owner.' => '',
         'Ticket Pending.' => '',
         'Ticket Print.' => '',
@@ -6711,6 +6663,9 @@ Thanks for your help!
         'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
+        'Ticket limit per page for Ticket Overview "Medium"' => 'Počet tiketov na stranu pre pohlad Ticket overview "Medium"',
+        'Ticket limit per page for Ticket Overview "Preview"' => 'Počet tiketov na stranu pre pohľad "Preview"',
+        'Ticket limit per page for Ticket Overview "Small"' => 'Počet tiketov na stranu pre pohlad Ticket overview "Small"',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'História: pohyb',
         'Ticket notifications' => '',
         'Ticket overview' => '',
@@ -6745,6 +6700,8 @@ Thanks for your help!
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             '',
         'Unlocked ticket.' => 'História: odomkni',
+        'Up' => 'Hore',
+        'Upcoming Events' => 'Nadchádzajúce udalosti.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Updated SLA to %s (ID=%s).' => 'Updated SLA to %s (ID=%s).',
@@ -6759,16 +6716,16 @@ Thanks for your help!
             '',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
             '',
+        'User Profile' => 'Užívateľský profil',
         'UserFirstname' => '',
         'UserLastname' => '',
-        'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
-            '',
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
         'Vietnam' => '',
         'View performance benchmark results.' => '',
         'Watch this ticket' => '',
+        'Watched Tickets' => 'Sledované tikety',
         'Watched Tickets.' => '',
         'We are performing scheduled maintenance.' => '',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
@@ -6787,6 +6744,8 @@ Thanks for your help!
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
+        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
+            'Váš e-mail na tikete číslo "<OTRS_TICKET>" bol zlúčený do "<OTRS_MERGE_TO_TICKET>".',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Váš výber z obľúbených radov. Tiež môžete byť oboznámený s požiadavkou cez e-mail =>  ak je to možné.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
@@ -6796,9 +6755,40 @@ Thanks for your help!
         'error' => '',
         'info' => '',
         'inline' => '',
+        'normal' => 'normálna',
         'notice' => '',
+        'off' => 'vypnúť',
+        'reverse' => 'vrátiť sa',
 
     };
+
+    $Self->{JavaScriptStrings} = [
+        'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Clear all',
+        'Clear search',
+        'Close',
+        'Close this dialog',
+        'Confirm',
+        'Could not open popup window. Please disable any popup blockers for this application.',
+        'Do you really want to continue?',
+        'Duplicated entry',
+        'Error',
+        'Filters',
+        'If you now leave this page, all open popup windows will be closed, too!',
+        'Information about the OTRS Daemon',
+        'It is going to be deleted from the field, please try again.',
+        'No matches found.',
+        'Not available',
+        'One or more errors occurred!',
+        'Remove selection',
+        'Select all',
+        'Setting a template will overwrite any text or attachment.',
+        'Switch to desktop mode',
+        'Switch to mobile mode',
+        'This address already exists on the address list.',
+        'and %s more...',
+    ];
+
     # $$STOP$$
     return;
 }

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-05-11 10:53+0000\n"
+"POT-Creation-Date: 2016-05-19 12:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10,2788 +10,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Template: AAABase
-msgid "Yes"
-msgstr ""
-
-#. Template: AAABase
-msgid "No"
-msgstr ""
-
-#. Template: AAABase
-msgid "yes"
-msgstr ""
-
-#. Template: AAABase
-msgid "no"
-msgstr ""
-
-#. Template: AAABase
-msgid "Off"
-msgstr ""
-
-#. Template: AAABase
-msgid "off"
-msgstr ""
-
-#. Template: AAABase
-msgid "On"
-msgstr ""
-
-#. Template: AAABase
-msgid "on"
-msgstr ""
-
-#. Template: AAABase
-msgid "top"
-msgstr ""
-
-#. Template: AAABase
-msgid "end"
-msgstr ""
-
-#. Template: AAABase
-msgid "Done"
-msgstr ""
-
-#. Template: AAABase
-msgid "Cancel"
-msgstr ""
-
-#. Template: AAABase
-msgid "Reset"
-msgstr ""
-
-#. Template: AAABase
-msgid "more than ... ago"
-msgstr ""
-
-#. Template: AAABase
-msgid "in more than ..."
-msgstr ""
-
-#. Template: AAABase
-msgid "within the last ..."
-msgstr ""
-
-#. Template: AAABase
-msgid "within the next ..."
-msgstr ""
-
-#. Template: AAABase
-msgid "Created within the last"
-msgstr ""
-
-#. Template: AAABase
-msgid "Created more than ... ago"
-msgstr ""
-
-#. Template: AAABase
-msgid "Today"
-msgstr ""
-
-#. Template: AAABase
-msgid "Tomorrow"
-msgstr ""
-
-#. Template: AAABase
-msgid "Next week"
-msgstr ""
-
-#. Template: AAABase
-msgid "day"
-msgstr ""
-
-#. Template: AAABase
-msgid "days"
-msgstr ""
-
-#. Template: AAABase
-msgid "day(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "d"
-msgstr ""
-
-#. Template: AAABase
-msgid "hour"
-msgstr ""
-
-#. Template: AAABase
-msgid "hours"
-msgstr ""
-
-#. Template: AAABase
-msgid "hour(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "Hours"
-msgstr ""
-
-#. Template: AAABase
-msgid "h"
-msgstr ""
-
-#. Template: AAABase
-msgid "minute"
-msgstr ""
-
-#. Template: AAABase
-msgid "minutes"
-msgstr ""
-
-#. Template: AAABase
-msgid "minute(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "Minutes"
-msgstr ""
-
-#. Template: AAABase
-msgid "m"
-msgstr ""
-
-#. Template: AAABase
-msgid "month"
-msgstr ""
-
-#. Template: AAABase
-msgid "months"
-msgstr ""
-
-#. Template: AAABase
-msgid "month(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "week"
-msgstr ""
-
-#. Template: AAABase
-msgid "week(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "quarter"
-msgstr ""
-
-#. Template: AAABase
-msgid "quarter(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "half-year"
-msgstr ""
-
-#. Template: AAABase
-msgid "half-year(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "year"
-msgstr ""
-
-#. Template: AAABase
-msgid "years"
-msgstr ""
-
-#. Template: AAABase
-msgid "year(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "second(s)"
-msgstr ""
-
-#. Template: AAABase
-msgid "seconds"
-msgstr ""
-
-#. Template: AAABase
-msgid "second"
-msgstr ""
-
-#. Template: AAABase
-msgid "s"
-msgstr ""
-
-#. Template: AAABase
-msgid "Time unit"
-msgstr ""
-
-#. Template: AAABase
-msgid "wrote"
-msgstr ""
-
-#. Template: AAABase
-msgid "Message"
-msgstr ""
-
-#. Template: AAABase
-msgid "Error"
-msgstr ""
-
-#. Template: AAABase
-msgid "Bug Report"
-msgstr ""
-
-#. Template: AAABase
-msgid "Attention"
-msgstr ""
-
-#. Template: AAABase
-msgid "Warning"
-msgstr ""
-
-#. Template: AAABase
-msgid "Module"
-msgstr ""
-
-#. Template: AAABase
-msgid "Modulefile"
-msgstr ""
-
-#. Template: AAABase
-msgid "Subfunction"
-msgstr ""
-
-#. Template: AAABase
-msgid "Line"
-msgstr ""
-
-#. Template: AAABase
-msgid "Setting"
-msgstr ""
-
-#. Template: AAABase
-msgid "Settings"
-msgstr ""
-
-#. Template: AAABase
-msgid "Example"
-msgstr ""
-
-#. Template: AAABase
-msgid "Examples"
-msgstr ""
-
-#. Template: AAABase
-msgid "valid"
-msgstr ""
-
-#. Template: AAABase
-msgid "Valid"
-msgstr ""
-
-#. Template: AAABase
-msgid "invalid"
-msgstr ""
-
-#. Template: AAABase
-msgid "Invalid"
-msgstr ""
-
-#. Template: AAABase
-msgid "* invalid"
-msgstr ""
-
-#. Template: AAABase
-msgid "invalid-temporarily"
-msgstr ""
-
-#. Template: AAABase
-msgid " 2 minutes"
-msgstr ""
-
-#. Template: AAABase
-msgid " 5 minutes"
-msgstr ""
-
-#. Template: AAABase
-msgid " 7 minutes"
-msgstr ""
-
-#. Template: AAABase
-msgid "10 minutes"
-msgstr ""
-
-#. Template: AAABase
-msgid "15 minutes"
-msgstr ""
-
-#. Template: AAABase
-msgid "Mr."
-msgstr ""
-
-#. Template: AAABase
-msgid "Mrs."
-msgstr ""
-
-#. Template: AAABase
-msgid "Next"
-msgstr ""
-
-#. Template: AAABase
-msgid "Back"
-msgstr ""
-
-#. Template: AAABase
-msgid "Next..."
-msgstr ""
-
-#. Template: AAABase
-msgid "...Back"
-msgstr ""
-
-#. Template: AAABase
-msgid "-none-"
-msgstr ""
-
-#. Template: AAABase
-msgid "none"
-msgstr ""
-
-#. Template: AAABase
-msgid "none!"
-msgstr ""
-
-#. Template: AAABase
-msgid "none - answered"
-msgstr ""
-
-#. Template: AAABase
-msgid "please do not edit!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Need Action"
-msgstr ""
-
-#. Template: AAABase
-msgid "AddLink"
-msgstr ""
-
-#. Template: AAABase
-msgid "Link"
-msgstr ""
-
-#. Template: AAABase
-msgid "Unlink"
-msgstr ""
-
-#. Template: AAABase
-msgid "Linked"
-msgstr ""
-
-#. Template: AAABase
-msgid "Link (Normal)"
-msgstr ""
-
-#. Template: AAABase
-msgid "Link (Parent)"
-msgstr ""
-
-#. Template: AAABase
-msgid "Link (Child)"
-msgstr ""
-
-#. Template: AAABase
-msgid "Normal"
-msgstr ""
-
-#. Template: AAABase
-msgid "Parent"
-msgstr ""
-
-#. Template: AAABase
-msgid "Child"
-msgstr ""
-
-#. Template: AAABase
-msgid "Hit"
-msgstr ""
-
-#. Template: AAABase
-msgid "Hits"
-msgstr ""
-
-#. Template: AAABase
-msgid "Text"
-msgstr ""
-
-#. Template: AAABase
-msgid "Standard"
-msgstr ""
-
-#. Template: AAABase
-msgid "Lite"
-msgstr ""
-
-#. Template: AAABase
-msgid "User"
-msgstr ""
-
-#. Template: AAABase
-msgid "Username"
-msgstr ""
-
-#. Template: AAABase
-msgid "Language"
-msgstr ""
-
-#. Template: AAABase
-msgid "Languages"
-msgstr ""
-
-#. Template: AAABase
-msgid "Password"
-msgstr ""
-
-#. Template: AAABase
-msgid "Preferences"
-msgstr ""
-
-#. Template: AAABase
-msgid "Salutation"
-msgstr ""
-
-#. Template: AAABase
-msgid "Salutations"
-msgstr ""
-
-#. Template: AAABase
-msgid "Signature"
-msgstr ""
-
-#. Template: AAABase
-msgid "Signatures"
-msgstr ""
-
-#. Template: AAABase
-msgid "Customer"
-msgstr ""
-
-#. Template: AAABase
-msgid "CustomerID"
-msgstr ""
-
-#. Template: AAABase
-msgid "CustomerIDs"
-msgstr ""
-
-#. Template: AAABase
-msgid "customer"
-msgstr ""
-
-#. Template: AAABase
-msgid "agent"
-msgstr ""
-
-#. Template: AAABase
-msgid "system"
-msgstr ""
-
-#. Template: AAABase
-msgid "Customer Info"
-msgstr ""
-
-#. Template: AAABase
-msgid "Customer Information"
-msgstr ""
-
-#. Template: AAABase
-msgid "Customer Companies"
-msgstr ""
-
-#. Template: AAABase
-msgid "Company"
-msgstr ""
-
-#. Template: AAABase
-msgid "go!"
-msgstr ""
-
-#. Template: AAABase
-msgid "go"
-msgstr ""
-
-#. Template: AAABase
-msgid "All"
-msgstr ""
-
-#. Template: AAABase
-msgid "all"
-msgstr ""
-
-#. Template: AAABase
-msgid "Sorry"
-msgstr ""
-
-#. Template: AAABase
-msgid "update!"
-msgstr ""
-
-#. Template: AAABase
-msgid "update"
-msgstr ""
-
-#. Template: AAABase
-msgid "Update"
-msgstr ""
-
-#. Template: AAABase
-msgid "Updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "submit!"
-msgstr ""
-
-#. Template: AAABase
-msgid "submit"
-msgstr ""
-
-#. Template: AAABase
-msgid "Submit"
-msgstr ""
-
-#. Template: AAABase
-msgid "change!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Change"
-msgstr ""
-
-#. Template: AAABase
-msgid "change"
-msgstr ""
-
-#. Template: AAABase
-msgid "click here"
-msgstr ""
-
-#. Template: AAABase
-msgid "Comment"
-msgstr ""
-
-#. Template: AAABase
-msgid "Invalid Option!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Invalid time!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Invalid date!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Name"
-msgstr ""
-
-#. Template: AAABase
-msgid "Group"
-msgstr ""
-
-#. Template: AAABase
-msgid "Description"
-msgstr ""
-
-#. Template: AAABase
-msgid "description"
-msgstr ""
-
-#. Template: AAABase
-msgid "Theme"
-msgstr ""
-
-#. Template: AAABase
-msgid "Created"
-msgstr ""
-
-#. Template: AAABase
-msgid "Created by"
-msgstr ""
-
-#. Template: AAABase
-msgid "Changed"
-msgstr ""
-
-#. Template: AAABase
-msgid "Changed by"
-msgstr ""
-
-#. Template: AAABase
-msgid "Search"
-msgstr ""
-
-#. Template: AAABase
-msgid "and"
-msgstr ""
-
-#. Template: AAABase
-msgid "between"
-msgstr ""
-
-#. Template: AAABase
-msgid "before/after"
-msgstr ""
-
-#. Template: AAABase
-msgid "Fulltext Search"
-msgstr ""
-
-#. Template: AAABase
-msgid "Data"
-msgstr ""
-
-#. Template: AAABase
-msgid "Options"
-msgstr ""
-
-#. Template: AAABase
-msgid "Title"
-msgstr ""
-
-#. Template: AAABase
-msgid "Item"
-msgstr ""
-
-#. Template: AAABase
-msgid "Delete"
-msgstr ""
-
-#. Template: AAABase
-msgid "Edit"
-msgstr ""
-
-#. Template: AAABase
-msgid "View"
-msgstr ""
-
-#. Template: AAABase
-msgid "Number"
-msgstr ""
-
-#. Template: AAABase
-msgid "System"
-msgstr ""
-
-#. Template: AAABase
-msgid "Contact"
-msgstr ""
-
-#. Template: AAABase
-msgid "Contacts"
-msgstr ""
-
-#. Template: AAABase
-msgid "Export"
-msgstr ""
-
-#. Template: AAABase
-msgid "Up"
-msgstr ""
-
-#. Template: AAABase
-msgid "Down"
-msgstr ""
-
-#. Template: AAABase
-msgid "Add"
-msgstr ""
-
-#. Template: AAABase
-msgid "Added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Category"
-msgstr ""
-
-#. Template: AAABase
-msgid "Viewer"
-msgstr ""
-
-#. Template: AAABase
-msgid "Expand"
-msgstr ""
-
-#. Template: AAABase
-msgid "Small"
-msgstr ""
-
-#. Template: AAABase
-msgid "Medium"
-msgstr ""
-
-#. Template: AAABase
-msgid "Large"
-msgstr ""
-
-#. Template: AAABase
-msgid "Date picker"
-msgstr ""
-
-#. Template: AAABase
-msgid "Show Tree Selection"
-msgstr ""
-
-#. Template: AAABase
-msgid "The field content is too long!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Maximum size is %s characters."
-msgstr ""
-
-#. Template: AAABase
-msgid "This field is required or"
-msgstr ""
-
-#. Template: AAABase
-msgid "New message"
-msgstr ""
-
-#. Template: AAABase
-msgid "New message!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Please answer this ticket(s) to get back to the normal queue view!"
-msgstr ""
-
-#. Template: AAABase
-msgid "You have %s new message(s)!"
-msgstr ""
-
-#. Template: AAABase
-msgid "You have %s reminder ticket(s)!"
-msgstr ""
-
-#. Template: AAABase
-msgid "The recommended charset for your language is %s!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Change your password."
-msgstr ""
-
-#. Template: AAABase
-msgid "Please activate %s first!"
-msgstr ""
-
-#. Template: AAABase
-msgid "No suggestions"
-msgstr ""
-
-#. Template: AAABase
-msgid "Word"
-msgstr ""
-
-#. Template: AAABase
-msgid "Ignore"
-msgstr ""
-
-#. Template: AAABase
-msgid "replace with"
-msgstr ""
-
-#. Template: AAABase
-msgid "There is no account with that login name."
-msgstr ""
-
-#. Template: AAABase
-msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr ""
-
-#. Template: AAABase
-msgid "There is no acount with that user name."
-msgstr ""
-
-#. Template: AAABase
-msgid "Please contact your administrator"
-msgstr ""
-
-#. Template: AAABase
-msgid "Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator."
-msgstr ""
-
-#. Template: AAABase
-msgid "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
-
-#. Template: AAABase
-msgid "Logout"
-msgstr ""
-
-#. Template: AAABase
-msgid "Logout successful. Thank you for using %s!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Feature not active!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Agent updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Database Selection"
-msgstr ""
-
-#. Template: AAABase
-msgid "Create Database"
-msgstr ""
-
-#. Template: AAABase
-msgid "System Settings"
-msgstr ""
-
-#. Template: AAABase
-msgid "Mail Configuration"
-msgstr ""
-
-#. Template: AAABase
-msgid "Finished"
-msgstr ""
-
-#. Template: AAABase
-msgid "Install OTRS"
-msgstr ""
-
-#. Template: AAABase
-msgid "Intro"
-msgstr ""
-
-#. Template: AAABase
-msgid "License"
-msgstr ""
-
-#. Template: AAABase
-msgid "Database"
-msgstr ""
-
-#. Template: AAABase
-msgid "Configure Mail"
-msgstr ""
-
-#. Template: AAABase
-msgid "Database deleted."
-msgstr ""
-
-#. Template: AAABase
-msgid "Enter the password for the administrative database user."
-msgstr ""
-
-#. Template: AAABase
-msgid "Enter the password for the database user."
-msgstr ""
-
-#. Template: AAABase
-msgid "If you have set a root password for your database, it must be entered here. If not, leave this field empty."
-msgstr ""
-
-#. Template: AAABase
-msgid "Database already contains data - it should be empty!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Login is needed!"
-msgstr ""
-
-#. Template: AAABase
-msgid "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
-
-#. Template: AAABase
-msgid "Password is needed!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Take this Customer"
-msgstr ""
-
-#. Template: AAABase
-msgid "Take this User"
-msgstr ""
-
-#. Template: AAABase
-msgid "possible"
-msgstr ""
-
-#. Template: AAABase
-msgid "reject"
-msgstr ""
-
-#. Template: AAABase
-msgid "reverse"
-msgstr ""
-
-#. Template: AAABase
-msgid "Facility"
-msgstr ""
-
-#. Template: AAABase
-msgid "Time Zone"
-msgstr ""
-
-#. Template: AAABase
-msgid "Pending till"
-msgstr ""
-
-#. Template: AAABase
-msgid "Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."
-msgstr ""
-
-#. Template: AAABase
-msgid "Dispatching by email To: field."
-msgstr ""
-
-#. Template: AAABase
-msgid "Dispatching by selected Queue."
-msgstr ""
-
-#. Template: AAABase
-msgid "No entry found!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Session invalid. Please log in again."
-msgstr ""
-
-#. Template: AAABase
-msgid "Session has timed out. Please log in again."
-msgstr ""
-
-#. Template: AAABase
-msgid "Session limit reached! Please try again later."
-msgstr ""
-
-#. Template: AAABase
-msgid "No Permission!"
-msgstr ""
-
-#. Template: AAABase
-msgid "(Click here to add)"
-msgstr ""
-
-#. Template: AAABase
-msgid "Preview"
-msgstr ""
-
-#. Template: AAABase
-msgid "Package not correctly deployed! Please reinstall the package."
-msgstr ""
-
-#. Template: AAABase
-msgid "%s is not writable!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Cannot create %s!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Check to activate this date"
-msgstr ""
-
-#. Template: AAABase
-msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr ""
-
-#. Template: AAABase
-msgid "News about OTRS releases!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Go to dashboard!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Customer %s added"
-msgstr ""
-
-#. Template: AAABase
-msgid "Role added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Role updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Attachment added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Attachment updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Response added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Response updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Group updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Queue added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Queue updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "State added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "State updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Type added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Type updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Customer updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Customer company added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Customer company updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Note: Company is invalid!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Mail account added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Mail account updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "System e-mail address added!"
-msgstr ""
-
-#. Template: AAABase
-msgid "System e-mail address updated!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Contract"
-msgstr ""
-
-#. Template: AAABase
-msgid "Online Customer: %s"
-msgstr ""
-
-#. Template: AAABase
-msgid "Online Agent: %s"
-msgstr ""
-
-#. Template: AAABase
-msgid "Calendar"
-msgstr ""
-
-#. Template: AAABase
-msgid "File"
-msgstr ""
-
-#. Template: AAABase
-msgid "Filename"
-msgstr ""
-
-#. Template: AAABase
-msgid "Type"
-msgstr ""
-
-#. Template: AAABase
-msgid "Size"
-msgstr ""
-
-#. Template: AAABase
-msgid "Upload"
-msgstr ""
-
-#. Template: AAABase
-msgid "Directory"
-msgstr ""
-
-#. Template: AAABase
-msgid "Signed"
-msgstr ""
-
-#. Template: AAABase
-msgid "Sign"
-msgstr ""
-
-#. Template: AAABase
-msgid "Crypted"
-msgstr ""
-
-#. Template: AAABase
-msgid "Crypt"
-msgstr ""
-
-#. Template: AAABase
-msgid "PGP"
-msgstr ""
-
-#. Template: AAABase
-msgid "PGP Key"
-msgstr ""
-
-#. Template: AAABase
-msgid "PGP Keys"
-msgstr ""
-
-#. Template: AAABase
-msgid "S/MIME"
-msgstr ""
-
-#. Template: AAABase
-msgid "S/MIME Certificate"
-msgstr ""
-
-#. Template: AAABase
-msgid "S/MIME Certificates"
-msgstr ""
-
-#. Template: AAABase
-msgid "Office"
-msgstr ""
-
-#. Template: AAABase
-msgid "Phone"
-msgstr ""
-
-#. Template: AAABase
-msgid "Fax"
-msgstr ""
-
-#. Template: AAABase
-msgid "Mobile"
-msgstr ""
-
-#. Template: AAABase
-msgid "Zip"
-msgstr ""
-
-#. Template: AAABase
-msgid "City"
-msgstr ""
-
-#. Template: AAABase
-msgid "Street"
-msgstr ""
-
-#. Template: AAABase
-msgid "Country"
-msgstr ""
-
-#. Template: AAABase
-msgid "Location"
-msgstr ""
-
-#. Template: AAABase
-msgid "installed"
-msgstr ""
-
-#. Template: AAABase
-msgid "uninstalled"
-msgstr ""
-
-#. Template: AAABase
-msgid "Security Note: You should activate %s because application is already running!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Unable to parse repository index document."
-msgstr ""
-
-#. Template: AAABase
-msgid "No packages for your framework version found in this repository, it only contains packages for other framework versions."
-msgstr ""
-
-#. Template: AAABase
-msgid "No packages, or no new packages, found in selected repository."
-msgstr ""
-
-#. Template: AAABase
-msgid "Edit the system configuration settings."
-msgstr ""
-
-#. Template: AAABase
-msgid "ACL information from database is not in sync with the system configuration, please deploy all ACLs."
-msgstr ""
-
-#. Template: AAABase
-msgid "printed at"
-msgstr ""
-
-#. Template: AAABase
-msgid "Loading..."
-msgstr ""
-
-#. Template: AAABase
-msgid "Dear Mr. %s,"
-msgstr ""
-
-#. Template: AAABase
-msgid "Dear Mrs. %s,"
-msgstr ""
-
-#. Template: AAABase
-msgid "Dear %s,"
-msgstr ""
-
-#. Template: AAABase
-msgid "Hello %s,"
-msgstr ""
-
-#. Template: AAABase
-msgid "This email address is not allowed to register. Please contact support staff."
-msgstr ""
-
-#. Template: AAABase
-msgid "New account created. Sent login information to %s. Please check your email."
-msgstr ""
-
-#. Template: AAABase
-msgid "Please press Back and try again."
-msgstr ""
-
-#. Template: AAABase
-msgid "Sent password reset instructions. Please check your email."
-msgstr ""
-
-#. Template: AAABase
-msgid "Sent new password to %s. Please check your email."
-msgstr ""
-
-#. Template: AAABase
-msgid "Upcoming Events"
-msgstr ""
-
-#. Template: AAABase
-msgid "Event"
-msgstr ""
-
-#. Template: AAABase
-msgid "Events"
-msgstr ""
-
-#. Template: AAABase
-msgid "Invalid Token!"
-msgstr ""
-
-#. Template: AAABase
-msgid "more"
-msgstr ""
-
-#. Template: AAABase
-msgid "Collapse"
-msgstr ""
-
-#. Template: AAABase
-msgid "Shown"
-msgstr ""
-
-#. Template: AAABase
-msgid "Shown customer users"
-msgstr ""
-
-#. Template: AAABase
-msgid "News"
-msgstr ""
-
-#. Template: AAABase
-msgid "Product News"
-msgstr ""
-
-#. Template: AAABase
-msgid "OTRS News"
-msgstr ""
-
-#. Template: AAABase
-msgid "7 Day Stats"
-msgstr ""
-
-#. Template: AAABase
-msgid "Process Management information from database is not in sync with the system configuration, please synchronize all processes."
-msgstr ""
-
-#. Template: AAABase
-msgid "Package not verified by the OTRS Group! It is recommended not to use this package."
-msgstr ""
-
-#. Template: AAABase
-msgid "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"
-msgstr ""
-
-#. Template: AAABase
-msgid "Mark"
-msgstr ""
-
-#. Template: AAABase
-msgid "Unmark"
-msgstr ""
-
-#. Template: AAABase
-msgid "Bold"
-msgstr ""
-
-#. Template: AAABase
-msgid "Italic"
-msgstr ""
-
-#. Template: AAABase
-msgid "Underline"
-msgstr ""
-
-#. Template: AAABase
-msgid "Font Color"
-msgstr ""
-
-#. Template: AAABase
-msgid "Background Color"
-msgstr ""
-
-#. Template: AAABase
-msgid "Remove Formatting"
-msgstr ""
-
-#. Template: AAABase
-msgid "Show/Hide Hidden Elements"
-msgstr ""
-
-#. Template: AAABase
-msgid "Align Left"
-msgstr ""
-
-#. Template: AAABase
-msgid "Align Center"
-msgstr ""
-
-#. Template: AAABase
-msgid "Align Right"
-msgstr ""
-
-#. Template: AAABase
-msgid "Justify"
-msgstr ""
-
-#. Template: AAABase
-msgid "Header"
-msgstr ""
-
-#. Template: AAABase
-msgid "Indent"
-msgstr ""
-
-#. Template: AAABase
-msgid "Outdent"
-msgstr ""
-
-#. Template: AAABase
-msgid "Create an Unordered List"
-msgstr ""
-
-#. Template: AAABase
-msgid "Create an Ordered List"
-msgstr ""
-
-#. Template: AAABase
-msgid "HTML Link"
-msgstr ""
-
-#. Template: AAABase
-msgid "Insert Image"
-msgstr ""
-
-#. Template: AAABase
-msgid "CTRL"
-msgstr ""
-
-#. Template: AAABase
-msgid "SHIFT"
-msgstr ""
-
-#. Template: AAABase
-msgid "Undo"
-msgstr ""
-
-#. Template: AAABase
-msgid "Redo"
-msgstr ""
-
-#. Template: AAABase
-msgid "OTRS Daemon is not running."
-msgstr ""
-
-#. Template: AAABase
-msgid "Can't contact registration server. Please try again later."
-msgstr ""
-
-#. Template: AAABase
-msgid "No content received from registration server. Please try again later."
-msgstr ""
-
-#. Template: AAABase
-msgid "Problems processing server result. Please try again later."
-msgstr ""
-
-#. Template: AAABase
-msgid "Username and password do not match. Please try again."
-msgstr ""
-
-#. Template: AAABase
-msgid "The selected process is invalid!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Upgrade to %s now!"
-msgstr ""
-
-#. Template: AAABase
-msgid "%s Go to the upgrade center %s"
-msgstr ""
-
-#. Template: AAABase
-msgid "The license for your %s is about to expire. Please make contact with %s to renew your contract!"
-msgstr ""
-
-#. Template: AAABase
-msgid "An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!"
-msgstr ""
-
-#. Template: AAABase
-msgid "Your system was successfully upgraded to %s."
-msgstr ""
-
-#. Template: AAABase
-msgid "There was a problem during the upgrade to %s."
-msgstr ""
-
-#. Template: AAABase
-msgid "%s was correctly reinstalled."
-msgstr ""
-
-#. Template: AAABase
-msgid "There was a problem reinstalling %s."
-msgstr ""
-
-#. Template: AAABase
-msgid "Your %s was successfully updated."
-msgstr ""
-
-#. Template: AAABase
-msgid "There was a problem during the upgrade of %s."
-msgstr ""
-
-#. Template: AAABase
-msgid "%s was correctly uninstalled."
-msgstr ""
-
-#. Template: AAABase
-msgid "There was a problem uninstalling %s."
-msgstr ""
-
-#. Template: AAABase
-msgid "Enable cloud services to unleash all OTRS features!"
-msgstr ""
-
-#. Template: AAACalendar
-msgid "New Year's Day"
-msgstr ""
-
-#. Template: AAACalendar
-msgid "International Workers' Day"
-msgstr ""
-
-#. Template: AAACalendar
-msgid "Christmas Eve"
-msgstr ""
-
-#. Template: AAACalendar
-msgid "First Christmas Day"
-msgstr ""
-
-#. Template: AAACalendar
-msgid "Second Christmas Day"
-msgstr ""
-
-#. Template: AAACalendar
-msgid "New Year's Eve"
-msgstr ""
-
-#. Template: AAAGenericInterface
-msgid "OTRS as requester"
-msgstr ""
-
-#. Template: AAAGenericInterface
-msgid "OTRS as provider"
-msgstr ""
-
-#. Template: AAAGenericInterface
-msgid "Webservice \"%s\" created!"
-msgstr ""
-
-#. Template: AAAGenericInterface
-msgid "Webservice \"%s\" updated!"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Jan"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Feb"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Mar"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Apr"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "May"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Jun"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Jul"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Aug"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Sep"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Oct"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Nov"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "Dec"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "January"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "February"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "March"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "April"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "May_long"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "June"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "July"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "August"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "September"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "October"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "November"
-msgstr ""
-
-#. Template: AAAMonth
-msgid "December"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Preferences updated successfully!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "User Profile"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Email Settings"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Other Settings"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Notification Settings"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Change Password"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Current password"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "New password"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Verify password"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Spelling Dictionary"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Default spelling dictionary"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Max. shown Tickets a page in Overview."
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "The current password is not correct. Please try again!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Can't update password, your new passwords do not match. Please try again!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Can't update password, it contains invalid characters!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Can't update password, it must be at least %s characters long!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Can't update password, it must contain at least 2 lowercase and 2 uppercase characters!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Can't update password, it must contain at least 1 digit!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Can't update password, it must contain at least 2 characters!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Can't update password, this password has already been used. Please choose a new one!"
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used."
-msgstr ""
-
-#. Template: AAAPreferences
-msgid "CSV Separator"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Status View"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Service View"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Bulk"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Lock"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Unlock"
-msgstr ""
-
-#. Template: AAATicket
-msgid "History"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Zoom"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Age"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Bounce"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Forward"
-msgstr ""
-
-#. Template: AAATicket
-msgid "From"
-msgstr ""
-
-#. Template: AAATicket
-msgid "To"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Cc"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Bcc"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Subject"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Move"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Queue"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Queues"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Priority"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Priorities"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Priority Update"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Priority added!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Priority updated!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Signature added!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Signature updated!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "SLA"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Service Level Agreement"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Service Level Agreements"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Service"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Services"
-msgstr ""
-
-#. Template: AAATicket
-msgid "State"
-msgstr ""
-
-#. Template: AAATicket
-msgid "States"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Status"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Statuses"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Type"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Types"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Compose"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Pending"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Owner"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Owner Update"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Responsible"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Responsible Update"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Sender"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Article"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Createtime"
-msgstr ""
-
-#. Template: AAATicket
-msgid "plain"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Email"
-msgstr ""
-
-#. Template: AAATicket
-msgid "email"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Close"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Action"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Attachment"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Attachments"
-msgstr ""
-
-#. Template: AAATicket
-msgid "This message was written in a character set other than your own."
-msgstr ""
-
-#. Template: AAATicket
-msgid "If it is not displayed correctly,"
-msgstr ""
-
-#. Template: AAATicket
-msgid "This is a"
-msgstr ""
-
-#. Template: AAATicket
-msgid "to open it in a new window."
-msgstr ""
-
-#. Template: AAATicket
-msgid "This is a HTML email. Click here to show it."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Free Fields"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Merge"
-msgstr ""
-
-#. Template: AAATicket
-msgid "merged"
-msgstr ""
-
-#. Template: AAATicket
-msgid "closed successful"
-msgstr ""
-
-#. Template: AAATicket
-msgid "closed unsuccessful"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Locked Tickets Total"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Locked Tickets Reminder Reached"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Locked Tickets New"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Responsible Tickets Total"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Responsible Tickets New"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Responsible Tickets Reminder Reached"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Watched Tickets Total"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Watched Tickets New"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Watched Tickets Reminder Reached"
-msgstr ""
-
-#. Template: AAATicket
-msgid "All tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Available tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Escalation"
-msgstr ""
-
-#. Template: AAATicket
-msgid "last-search"
-msgstr ""
-
-#. Template: AAATicket
-msgid "QueueView"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Escalation View"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Message from"
-msgstr ""
-
-#. Template: AAATicket
-msgid "End message"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Forwarded message from"
-msgstr ""
-
-#. Template: AAATicket
-msgid "End forwarded message"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Bounce Article to a different mail address"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Reply to note"
-msgstr ""
-
-#. Template: AAATicket
-msgid "new"
-msgstr ""
-
-#. Template: AAATicket
-msgid "open"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Open"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Open tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "closed"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Closed"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Closed tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "removed"
-msgstr ""
-
-#. Template: AAATicket
-msgid "pending reminder"
-msgstr ""
-
-#. Template: AAATicket
-msgid "pending auto"
-msgstr ""
-
-#. Template: AAATicket
-msgid "pending auto close+"
-msgstr ""
-
-#. Template: AAATicket
-msgid "pending auto close-"
-msgstr ""
-
-#. Template: AAATicket
-msgid "email-external"
-msgstr ""
-
-#. Template: AAATicket
-msgid "email-internal"
-msgstr ""
-
-#. Template: AAATicket
-msgid "note-external"
-msgstr ""
-
-#. Template: AAATicket
-msgid "note-internal"
-msgstr ""
-
-#. Template: AAATicket
-msgid "note-report"
-msgstr ""
-
-#. Template: AAATicket
-msgid "phone"
-msgstr ""
-
-#. Template: AAATicket
-msgid "sms"
-msgstr ""
-
-#. Template: AAATicket
-msgid "webrequest"
-msgstr ""
-
-#. Template: AAATicket
-msgid "lock"
-msgstr ""
-
-#. Template: AAATicket
-msgid "unlock"
-msgstr ""
-
-#. Template: AAATicket
-msgid "very low"
-msgstr ""
-
-#. Template: AAATicket
-msgid "low"
-msgstr ""
-
-#. Template: AAATicket
-msgid "normal"
-msgstr ""
-
-#. Template: AAATicket
-msgid "high"
-msgstr ""
-
-#. Template: AAATicket
-msgid "very high"
-msgstr ""
-
-#. Template: AAATicket
-msgid "1 very low"
-msgstr ""
-
-#. Template: AAATicket
-msgid "2 low"
-msgstr ""
-
-#. Template: AAATicket
-msgid "3 normal"
-msgstr ""
-
-#. Template: AAATicket
-msgid "4 high"
-msgstr ""
-
-#. Template: AAATicket
-msgid "5 very high"
-msgstr ""
-
-#. Template: AAATicket
-msgid "auto follow up"
-msgstr ""
-
-#. Template: AAATicket
-msgid "auto reject"
-msgstr ""
-
-#. Template: AAATicket
-msgid "auto remove"
-msgstr ""
-
-#. Template: AAATicket
-msgid "auto reply"
-msgstr ""
-
-#. Template: AAATicket
-msgid "auto reply/new ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Create"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Answer"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Phone call"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket \"%s\" created!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Number"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Object"
-msgstr ""
-
-#. Template: AAATicket
-msgid "No such Ticket Number \"%s\"! Can't link it!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "You don't have write access to this ticket."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Please change the owner first."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket selected."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket is locked by another agent."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket locked."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Don't show closed Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Show closed Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "New Article"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Unread article(s) available"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Remove from list of watched tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Add to list of watched tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Email-Ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Create new Email Ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Phone-Ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Search Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Customer Realname"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Customer History"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Edit Customer Users"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Edit Customer"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Bulk Action"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Bulk Actions on Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send Email and create a new Ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Create new Email Ticket and send this out (Outbound)"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Create new Phone Ticket (Inbound)"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Address %s replaced with registered customer address."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Customer user automatically added in Cc."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Overview of all open Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Locked Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "My Locked Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "My Watched Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "My Responsible Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Watched Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Watched"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Watch"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Unwatch"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Lock it to work on it"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Unlock to give it back to the queue"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Show the ticket history"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Print this ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Print this article"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Split"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Split this article"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Forward article via mail"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Change the ticket priority"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Change the ticket free fields!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Link this ticket to other objects"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Change the owner for this ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Change the  customer for this ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Add a note to this ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Merge into a different ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Set this ticket to pending"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Close this ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Look into a ticket!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Delete this ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Mark as Spam!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "My Queues"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Shown Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Shown Columns"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Your email with ticket number \"<OTRS_TICKET>\" is merged to \"<OTRS_MERGE_TO_TICKET>\"."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket %s: first response time is over (%s)!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket %s: first response time will be over in %s!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket %s: update time is over (%s)!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket %s: update time will be over in %s!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket %s: solution time is over (%s)!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket %s: solution time will be over in %s!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "There are more escalated tickets!"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Plain Format"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Reply All"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Direction"
-msgstr ""
-
-#. Template: AAATicket
-msgid "New ticket notification"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send me a notification if there is a new ticket in \"My Queues\"."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send new ticket notifications"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket follow up notification"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send ticket follow up notifications"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket lock timeout notification"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send me a notification if a ticket is unlocked by the system."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send ticket lock timeout notifications"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket move notification"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send me a notification if a ticket is moved into one of \"My Queues\"."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send ticket move notifications"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Your queue selection of your favourite queues. You also get notified about those queues via email if enabled."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Custom Queue"
-msgstr ""
-
-#. Template: AAATicket
-msgid "QueueView refresh time"
-msgstr ""
-
-#. Template: AAATicket
-msgid "If enabled, the QueueView will automatically refresh after the specified time."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Refresh QueueView after"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Screen after new ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Show this screen after I created a new ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Closed Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Show closed tickets."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Max. shown Tickets a page in QueueView."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Overview \"Small\" Limit"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Overview \"Medium\" Limit"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Overview \"Preview\" Limit"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket watch notification"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send me the same notifications for my watched tickets that the ticket owners will get."
-msgstr ""
-
-#. Template: AAATicket
-msgid "Send ticket watch notifications"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Out Of Office Time"
-msgstr ""
-
-#. Template: AAATicket
-msgid "New Ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Create new Ticket"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Customer called"
-msgstr ""
-
-#. Template: AAATicket
-msgid "phone call"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Phone Call Outbound"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Phone Call Inbound"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Reminder Reached"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Reminder Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Escalated Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "New Tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Open Tickets / Need to be answered"
-msgstr ""
-
-#. Template: AAATicket
-msgid "All open tickets, these tickets have already been worked on, but need a response"
-msgstr ""
-
-#. Template: AAATicket
-msgid "All new tickets, these tickets have not been worked on yet"
-msgstr ""
-
-#. Template: AAATicket
-msgid "All escalated tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "All tickets with a reminder set where the reminder date has been reached"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Archived tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Unarchived tickets"
-msgstr ""
-
-#. Template: AAATicket
-msgid "Ticket Information"
-msgstr ""
-
-#. Template: AAATicket
-msgid "including subqueues"
-msgstr ""
-
-#. Template: AAATicket
-msgid "excluding subqueues"
-msgstr ""
-
-#. Template: AAAWeekDay
-msgid "Sun"
-msgstr ""
-
-#. Template: AAAWeekDay
-msgid "Mon"
-msgstr ""
-
-#. Template: AAAWeekDay
-msgid "Tue"
-msgstr ""
-
-#. Template: AAAWeekDay
-msgid "Wed"
-msgstr ""
-
-#. Template: AAAWeekDay
-msgid "Thu"
-msgstr ""
-
-#. Template: AAAWeekDay
-msgid "Fri"
-msgstr ""
-
-#. Template: AAAWeekDay
-msgid "Sat"
-msgstr ""
-
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
-
-#. Template: AdminACL
-msgid "Filter for ACLs"
-msgstr ""
-
-#. Template: AdminACL
-msgid "Filter"
-msgstr ""
-
-#. Template: AdminACL
-msgid "ACL Name"
 msgstr ""
 
 #. Template: AdminACL
@@ -2811,7 +31,15 @@ msgid "Export ACLs"
 msgstr ""
 
 #. Template: AdminACL
-msgid "Configuration import"
+msgid "Filter for ACLs"
+msgstr ""
+
+#. Template: AdminACL
+msgid "Just start typing to filter..."
+msgstr ""
+
+#. Template: AdminACL
+msgid "Configuration Import"
 msgstr ""
 
 #. Template: AdminACL
@@ -2835,6 +63,10 @@ msgid "Import ACL configuration(s)"
 msgstr ""
 
 #. Template: AdminACL
+msgid "Description"
+msgstr ""
+
+#. Template: AdminACL
 msgid "To create a new ACL you can either import ACLs which were exported from another system or create a complete new one."
 msgstr ""
 
@@ -2855,7 +87,15 @@ msgid "ACL name"
 msgstr ""
 
 #. Template: AdminACL
+msgid "Comment"
+msgstr ""
+
+#. Template: AdminACL
 msgid "Validity"
+msgstr ""
+
+#. Template: AdminACL
+msgid "Export"
 msgstr ""
 
 #. Template: AdminACL
@@ -2864,6 +104,10 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "No data found."
+msgstr ""
+
+#. Template: AdminACL
+msgid "No matches found."
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -2911,7 +155,11 @@ msgid "Show or hide the content"
 msgstr ""
 
 #. Template: AdminACLEdit
-msgid "Edit ACL information"
+msgid "Edit ACL Information"
+msgstr ""
+
+#. Template: AdminACLEdit
+msgid "Name"
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -2919,7 +167,7 @@ msgid "Stop after match"
 msgstr ""
 
 #. Template: AdminACLEdit
-msgid "Edit ACL structure"
+msgid "Edit ACL Structure"
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -2935,7 +183,15 @@ msgid "Save and finish"
 msgstr ""
 
 #. Template: AdminACLEdit
+msgid "Cancel"
+msgstr ""
+
+#. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
+msgstr ""
+
+#. Template: AdminACLEdit
+msgid "Delete"
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -2967,7 +223,27 @@ msgid "Add attachment"
 msgstr ""
 
 #. Template: AdminAttachment
+msgid "Filter for Attachments"
+msgstr ""
+
+#. Template: AdminAttachment
+msgid "Filter for attachments"
+msgstr ""
+
+#. Template: AdminAttachment
 msgid "List"
+msgstr ""
+
+#. Template: AdminAttachment
+msgid "Filename"
+msgstr ""
+
+#. Template: AdminAttachment
+msgid "Changed"
+msgstr ""
+
+#. Template: AdminAttachment
+msgid "Created"
 msgstr ""
 
 #. Template: AdminAttachment
@@ -2986,6 +262,10 @@ msgstr ""
 msgid "Edit Attachment"
 msgstr ""
 
+#. Template: AdminAttachment
+msgid "Attachment"
+msgstr ""
+
 #. Template: AdminAutoResponse
 msgid "Auto Response Management"
 msgstr ""
@@ -2995,11 +275,27 @@ msgid "Add auto response"
 msgstr ""
 
 #. Template: AdminAutoResponse
+msgid "Filter for Auto Responses"
+msgstr ""
+
+#. Template: AdminAutoResponse
+msgid "Filter for auto responses"
+msgstr ""
+
+#. Template: AdminAutoResponse
+msgid "Type"
+msgstr ""
+
+#. Template: AdminAutoResponse
 msgid "Add Auto Response"
 msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "Edit Auto Response"
+msgstr ""
+
+#. Template: AdminAutoResponse
+msgid "Subject"
 msgstr ""
 
 #. Template: AdminAutoResponse
@@ -3111,6 +407,10 @@ msgid "This will allow the system to send additional support data information to
 msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
+msgid "Update"
+msgstr ""
+
+#. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
 msgstr ""
 
@@ -3155,6 +455,10 @@ msgid "Customer Management"
 msgstr ""
 
 #. Template: AdminCustomerCompany
+msgid "Search"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "Wildcards like '*' are allowed."
 msgstr ""
 
@@ -3179,7 +483,23 @@ msgid "Please enter a search term to look for customers."
 msgstr ""
 
 #. Template: AdminCustomerCompany
+msgid "CustomerID"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "Add Customer"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "Edit Customer"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "Please note"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "This customer backend is read only!"
 msgstr ""
 
 #. Template: AdminCustomerUser
@@ -3196,6 +516,14 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Customer user are needed to have a customer history and to login via customer panel."
+msgstr ""
+
+#. Template: AdminCustomerUser
+msgid "Username"
+msgstr ""
+
+#. Template: AdminCustomerUser
+msgid "Email"
 msgstr ""
 
 #. Template: AdminCustomerUser
@@ -3216,6 +544,10 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
+msgstr ""
+
+#. Template: AdminCustomerUser
+msgid "This customer backend is read only, but the customer user preferences can be changed!"
 msgstr ""
 
 #. Template: AdminCustomerUser
@@ -3275,10 +607,6 @@ msgid "Filter for Groups"
 msgstr ""
 
 #. Template: AdminCustomerUserGroup
-msgid "Just start typing to filter..."
-msgstr ""
-
-#. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
 msgstr ""
 
@@ -3292,10 +620,6 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Customers"
-msgstr ""
-
-#. Template: AdminCustomerUserGroup
-msgid "No matches found."
 msgstr ""
 
 #. Template: AdminCustomerUserGroup
@@ -3355,6 +679,10 @@ msgid "Filter for Services"
 msgstr ""
 
 #. Template: AdminCustomerUserService
+msgid "Services"
+msgstr ""
+
+#. Template: AdminCustomerUserService
 msgid "Allocate Services to Customer"
 msgstr ""
 
@@ -3383,11 +711,23 @@ msgid "Add new field for object"
 msgstr ""
 
 #. Template: AdminDynamicField
+msgid "Filter for Dynamic Fields"
+msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Filter for dynamic fields"
+msgstr ""
+
+#. Template: AdminDynamicField
 msgid "To add a new field, select the field type from one of the object's list, the object defines the boundary of the field and it can't be changed after the field creation."
 msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
+msgstr ""
+
+#. Template: AdminDynamicField
+msgid "Settings"
 msgstr ""
 
 #. Template: AdminDynamicField
@@ -3539,6 +879,10 @@ msgid "Here you can specify an optional HTTP link for the field value in Overvie
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
+msgid "Example"
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Enable link preview"
 msgstr ""
 
@@ -3667,6 +1011,10 @@ msgid "Your message was sent to"
 msgstr ""
 
 #. Template: AdminEmail
+msgid "From"
+msgstr ""
+
+#. Template: AdminEmail
 msgid "Send message to users"
 msgstr ""
 
@@ -3703,6 +1051,14 @@ msgid "Add job"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Filter for Generic Agent Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for generic agent jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Last run"
 msgstr ""
 
@@ -3735,7 +1091,7 @@ msgid "Toggle this widget"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Automatic execution (multiple tickets)"
+msgid "Automatic Execution (Multiple Tickets)"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3763,7 +1119,7 @@ msgid "To enable automatic execution select at least one value from minutes, hou
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Event based execution (single ticket)"
+msgid "Event Based Execution (Single Ticket)"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3772,6 +1128,10 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Event"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3827,6 +1187,10 @@ msgid "(e. g. 10*5155 or 105658*)"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Title"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "(e. g. 234321)"
 msgstr ""
 
@@ -3843,7 +1207,47 @@ msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "To"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Cc"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Text"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Service"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Service Level Agreement"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Priority"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Queue"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "State"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Agent"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Owner"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Responsible"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3864,6 +1268,10 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket created between"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "and"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -4091,6 +1499,10 @@ msgid "Execute Custom Module"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Module"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Param %s key"
 msgstr ""
 
@@ -4100,6 +1512,30 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Example note"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -4128,6 +1564,10 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Age"
 msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
@@ -4483,7 +1923,7 @@ msgid "GenericInterface Transport HTTP::REST for Web Service %s"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "Network transport"
+msgid "Network Transport"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -4575,7 +2015,15 @@ msgid "A \"-\" value means no authentication."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "User"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Password"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -4803,6 +2251,10 @@ msgid "Element"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
+msgid "Add"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport."
 msgstr ""
 
@@ -4911,6 +2363,10 @@ msgid "In requester mode, OTRS uses web services of remote systems."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
+msgid "Network transport"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
 msgid "Operations are individual system functions which remote systems can request."
 msgstr ""
 
@@ -4960,6 +2416,10 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "GenericInterface Configuration History for Web Service %s"
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebserviceHistory
+msgid "History"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
@@ -5019,6 +2479,10 @@ msgid "Add group"
 msgstr ""
 
 #. Template: AdminGroup
+msgid "Filter for log entries"
+msgstr ""
+
+#. Template: AdminGroup
 msgid "The admin group is to get in the admin area and the stats group to get stats area."
 msgstr ""
 
@@ -5043,6 +2507,10 @@ msgid "System Log"
 msgstr ""
 
 #. Template: AdminLog
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminLog
 msgid "Here you will find log information about your system."
 msgstr ""
 
@@ -5054,12 +2522,28 @@ msgstr ""
 msgid "Recent Log Entries"
 msgstr ""
 
+#. Template: AdminLog
+msgid "Facility"
+msgstr ""
+
+#. Template: AdminLog
+msgid "Message"
+msgstr ""
+
 #. Template: AdminMailAccount
 msgid "Mail Account Management"
 msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Add mail account"
+msgstr ""
+
+#. Template: AdminMailAccount
+msgid "Filter for Mail Accounts"
+msgstr ""
+
+#. Template: AdminMailAccount
+msgid "Filter for mail accounts"
 msgstr ""
 
 #. Template: AdminMailAccount
@@ -5115,6 +2599,10 @@ msgid "Agent Management"
 msgstr ""
 
 #. Template: AdminNavigationBar
+msgid "Email Settings"
+msgstr ""
+
+#. Template: AdminNavigationBar
 msgid "Queue Settings"
 msgstr ""
 
@@ -5143,7 +2631,11 @@ msgid "Export Notifications"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Configuration Import"
+msgid "Filter for Notifications"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Filter for notifications"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5191,11 +2683,27 @@ msgid "This message will be shown on the agent preferences screen as a tooltip f
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid "Events"
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria."
 msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Filter"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Lock"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "SLA"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Customer"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5331,10 +2839,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr ""
 
@@ -5355,10 +2859,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
@@ -5372,14 +2872,6 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5408,6 +2900,22 @@ msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Use this template to generate the complete email (only for HTML emails)."
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Enable email security"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email security level"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If signing key/certificate is missing"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If encryption key/certificate is missing"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
@@ -5615,6 +3123,10 @@ msgid "Result"
 msgstr ""
 
 #. Template: AdminPGP
+msgid "Status"
+msgstr ""
+
+#. Template: AdminPGP
 msgid "Identifier"
 msgstr ""
 
@@ -5647,11 +3159,15 @@ msgid "Package Manager"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Uninstall package"
+msgid "Uninstall Package"
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Do you really want to uninstall this package?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Uninstall package"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -5699,6 +3215,10 @@ msgid "Online Repository"
 msgstr ""
 
 #. Template: AdminPackageManager
+msgid "Action"
+msgstr ""
+
+#. Template: AdminPackageManager
 msgid "Module documentation"
 msgstr ""
 
@@ -5719,11 +3239,15 @@ msgid "Uninstall"
 msgstr ""
 
 #. Template: AdminPackageManager
+msgid "Package not correctly deployed! Please reinstall the package."
+msgstr ""
+
+#. Template: AdminPackageManager
 msgid "Reinstall"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Features for %s customers only"
+msgid "Features for %s Customers Only"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -5771,6 +3295,10 @@ msgid "Required"
 msgstr ""
 
 #. Template: AdminPackageManager
+msgid "Size"
+msgstr ""
+
+#. Template: AdminPackageManager
 msgid "PrimaryKey"
 msgstr ""
 
@@ -5783,7 +3311,7 @@ msgid "SQL"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "File differences for file %s"
+msgid "File Differences for File %s"
 msgstr ""
 
 #. Template: AdminPerformanceLog
@@ -5812,6 +3340,10 @@ msgstr ""
 
 #. Template: AdminPerformanceLog
 msgid "The logfile is too large, you need to reset it"
+msgstr ""
+
+#. Template: AdminPerformanceLog
+msgid "Reset"
 msgstr ""
 
 #. Template: AdminPerformanceLog
@@ -5851,6 +3383,10 @@ msgid "Period"
 msgstr ""
 
 #. Template: AdminPerformanceLog
+msgid "minutes"
+msgstr ""
+
+#. Template: AdminPerformanceLog
 msgid "Min"
 msgstr ""
 
@@ -5871,6 +3407,14 @@ msgid "Add filter"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
+msgid "Filter for Postmaster Filters"
+msgstr ""
+
+#. Template: AdminPostMasterFilter
+msgid "Filter for postmaster filters"
+msgstr ""
+
+#. Template: AdminPostMasterFilter
 msgid "To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible."
 msgstr ""
 
@@ -5880,6 +3424,10 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "If you use Regular Expressions, you also can use the matched value in () as [***] in the 'Set' action."
+msgstr ""
+
+#. Template: AdminPostMasterFilter
+msgid "You can also use 'named captures' ((?<name>)) and use the names in the 'Set' action ([**\\\\name**]). (e.g. Regexp: Server: (?<server>\\\\w+), Set action [**\\\\server**]). A matched EMAILADDRESS has the name 'email'."
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5938,12 +3486,24 @@ msgstr ""
 msgid "The field needs to be a literal word."
 msgstr ""
 
+#. Template: AdminPostMasterFilter
+msgid "Header"
+msgstr ""
+
 #. Template: AdminPriority
 msgid "Priority Management"
 msgstr ""
 
 #. Template: AdminPriority
 msgid "Add priority"
+msgstr ""
+
+#. Template: AdminPriority
+msgid "Filter for Priorities"
+msgstr ""
+
+#. Template: AdminPriority
+msgid "Filter for priorities"
 msgstr ""
 
 #. Template: AdminPriority
@@ -5960,6 +3520,10 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Filter"
 msgstr ""
 
 #. Template: AdminProcessManagement
@@ -5987,7 +3551,7 @@ msgid "Import process configuration"
 msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Example processes"
+msgid "Example Processes"
 msgstr ""
 
 #. Template: AdminProcessManagement
@@ -6072,6 +3636,10 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Name: %s, EntityID: %s"
+msgstr ""
+
+#. Template: AdminProcessManagementActivity
+msgid "Edit"
 msgstr ""
 
 #. Template: AdminProcessManagementActivity
@@ -6531,6 +4099,18 @@ msgid "Add queue"
 msgstr ""
 
 #. Template: AdminQueue
+msgid "Filter for Queues"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Filter for queues"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Group"
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Add Queue"
 msgstr ""
 
@@ -6552,6 +4132,10 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "0 = no unlock"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "hours"
 msgstr ""
 
 #. Template: AdminQueue
@@ -6611,11 +4195,23 @@ msgid "Default sign key"
 msgstr ""
 
 #. Template: AdminQueue
+msgid "Salutation"
+msgstr ""
+
+#. Template: AdminQueue
 msgid "The salutation for email answers."
 msgstr ""
 
 #. Template: AdminQueue
+msgid "Signature"
+msgstr ""
+
+#. Template: AdminQueue
 msgid "The signature for email answers."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Calendar"
 msgstr ""
 
 #. Template: AdminQueueAutoResponse
@@ -6639,14 +4235,6 @@ msgid "Show all queues"
 msgstr ""
 
 #. Template: AdminQueueAutoResponse
-msgid "Filter for Queues"
-msgstr ""
-
-#. Template: AdminQueueAutoResponse
-msgid "Filter for Auto Responses"
-msgstr ""
-
-#. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
 msgstr ""
 
@@ -6664,6 +4252,10 @@ msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
+msgstr ""
+
+#. Template: AdminQueueTemplates
+msgid "Queues"
 msgstr ""
 
 #. Template: AdminQueueTemplates
@@ -6711,7 +4303,7 @@ msgid "Last communication with registration server"
 msgstr ""
 
 #. Template: AdminRegistration
-msgid "System registration not possible"
+msgid "System Registration not Possible"
 msgstr ""
 
 #. Template: AdminRegistration
@@ -6723,7 +4315,7 @@ msgid "Instructions"
 msgstr ""
 
 #. Template: AdminRegistration
-msgid "System deregistration not possible"
+msgid "System Deregistration not Possible"
 msgstr ""
 
 #. Template: AdminRegistration
@@ -6871,6 +4463,10 @@ msgid "Retrieve a new one"
 msgstr ""
 
 #. Template: AdminRegistration
+msgid "Next"
+msgstr ""
+
+#. Template: AdminRegistration
 msgid "This data will be frequently transferred to OTRS Group when you register this system."
 msgstr ""
 
@@ -6884,6 +4480,10 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTRS Version"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Database"
 msgstr ""
 
 #. Template: AdminRegistration
@@ -6919,7 +4519,7 @@ msgid "You can modify registration settings here."
 msgstr ""
 
 #. Template: AdminRegistration
-msgid "Overview of transmitted data"
+msgid "Overview of Transmitted Data"
 msgstr ""
 
 #. Template: AdminRegistration
@@ -6951,6 +4551,14 @@ msgid "Add role"
 msgstr ""
 
 #. Template: AdminRole
+msgid "Filter for Roles"
+msgstr ""
+
+#. Template: AdminRole
+msgid "Filter for roles"
+msgstr ""
+
+#. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
 msgstr ""
 
@@ -6968,10 +4576,6 @@ msgstr ""
 
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
-msgstr ""
-
-#. Template: AdminRoleGroup
-msgid "Filter for Roles"
 msgstr ""
 
 #. Template: AdminRoleGroup
@@ -7075,6 +4679,10 @@ msgid "Add SLA"
 msgstr ""
 
 #. Template: AdminSLA
+msgid "Filter for SLAs"
+msgstr ""
+
+#. Template: AdminSLA
 msgid "Edit SLA"
 msgstr ""
 
@@ -7119,7 +4727,7 @@ msgid "Add private key"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for certificates"
+msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
@@ -7151,6 +4759,10 @@ msgid "Hash"
 msgstr ""
 
 #. Template: AdminSMIME
+msgid "Create"
+msgstr ""
+
+#. Template: AdminSMIME
 msgid "Handle related certificates"
 msgstr ""
 
@@ -7167,11 +4779,19 @@ msgid "Add Certificate"
 msgstr ""
 
 #. Template: AdminSMIME
+msgid "File"
+msgstr ""
+
+#. Template: AdminSMIME
 msgid "Add Private Key"
 msgstr ""
 
 #. Template: AdminSMIME
 msgid "Secret"
+msgstr ""
+
+#. Template: AdminSMIME
+msgid "Submit"
 msgstr ""
 
 #. Template: AdminSMIME
@@ -7191,7 +4811,15 @@ msgid "Relate this certificate"
 msgstr ""
 
 #. Template: AdminSMIMECertRead
-msgid "Certificate details"
+msgid "S/MIME Certificate"
+msgstr ""
+
+#. Template: AdminSMIMECertRead
+msgid "Close"
+msgstr ""
+
+#. Template: AdminSMIMECertRead
+msgid "Certificate Details"
 msgstr ""
 
 #. Template: AdminSalutation
@@ -7200,6 +4828,14 @@ msgstr ""
 
 #. Template: AdminSalutation
 msgid "Add salutation"
+msgstr ""
+
+#. Template: AdminSalutation
+msgid "Filter for Salutations"
+msgstr ""
+
+#. Template: AdminSalutation
+msgid "Filter for salutations"
 msgstr ""
 
 #. Template: AdminSalutation
@@ -7219,7 +4855,7 @@ msgid "Example salutation"
 msgstr ""
 
 #. Template: AdminSecureMode
-msgid "Secure mode needs to be enabled!"
+msgid "Secure Mode Needs to be Enabled!"
 msgstr ""
 
 #. Template: AdminSecureMode
@@ -7235,11 +4871,23 @@ msgid "SQL Box"
 msgstr ""
 
 #. Template: AdminSelectBox
+msgid "Filter for Results"
+msgstr ""
+
+#. Template: AdminSelectBox
+msgid "Filter for results"
+msgstr ""
+
+#. Template: AdminSelectBox
 msgid "Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed."
 msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Here you can enter SQL to send it directly to the application database."
+msgstr ""
+
+#. Template: AdminSelectBox
+msgid "Options"
 msgstr ""
 
 #. Template: AdminSelectBox
@@ -7272,6 +4920,10 @@ msgstr ""
 
 #. Template: AdminService
 msgid "Add service"
+msgstr ""
+
+#. Template: AdminService
+msgid "Filter for services"
 msgstr ""
 
 #. Template: AdminService
@@ -7319,6 +4971,14 @@ msgid "Kill this session"
 msgstr ""
 
 #. Template: AdminSession
+msgid "Filter for Sessions"
+msgstr ""
+
+#. Template: AdminSession
+msgid "Filter for sessions"
+msgstr ""
+
+#. Template: AdminSession
 msgid "Session"
 msgstr ""
 
@@ -7339,6 +4999,14 @@ msgid "Add signature"
 msgstr ""
 
 #. Template: AdminSignature
+msgid "Filter for Signatures"
+msgstr ""
+
+#. Template: AdminSignature
+msgid "Filter for signatures"
+msgstr ""
+
+#. Template: AdminSignature
 msgid "Add Signature"
 msgstr ""
 
@@ -7356,6 +5024,18 @@ msgstr ""
 
 #. Template: AdminState
 msgid "Add state"
+msgstr ""
+
+#. Template: AdminState
+msgid "Filter for States"
+msgstr ""
+
+#. Template: AdminState
+msgid "Filter for states"
+msgstr ""
+
+#. Template: AdminState
+msgid "Attention"
 msgstr ""
 
 #. Template: AdminState
@@ -7443,7 +5123,7 @@ msgid "The mail could not be sent"
 msgstr ""
 
 #. Template: AdminSupportDataCollector
-msgid "The support bundle has been generated."
+msgid "The Support Bundle has been Generated"
 msgstr ""
 
 #. Template: AdminSupportDataCollector
@@ -7623,6 +5303,10 @@ msgid "NavBar"
 msgstr ""
 
 #. Template: AdminSysConfigEdit
+msgid "Link"
+msgstr ""
+
+#. Template: AdminSysConfigEdit
 msgid "LinkOption"
 msgstr ""
 
@@ -7655,6 +5339,10 @@ msgid "Day"
 msgstr ""
 
 #. Template: AdminSysConfigEdit
+msgid "Error"
+msgstr ""
+
+#. Template: AdminSysConfigEdit
 msgid "Invalid year"
 msgstr ""
 
@@ -7676,6 +5364,14 @@ msgstr ""
 
 #. Template: AdminSystemAddress
 msgid "Add system address"
+msgstr ""
+
+#. Template: AdminSystemAddress
+msgid "Filter for System Addresses"
+msgstr ""
+
+#. Template: AdminSystemAddress
+msgid "Filter for system addresses"
 msgstr ""
 
 #. Template: AdminSystemAddress
@@ -7708,6 +5404,14 @@ msgstr ""
 
 #. Template: AdminSystemMaintenance
 msgid "Schedule New System Maintenance"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Filter for System Maintenances"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Filter for system maintenances"
 msgstr ""
 
 #. Template: AdminSystemMaintenance
@@ -7795,6 +5499,10 @@ msgid "Don't forget to add new templates to queues."
 msgstr ""
 
 #. Template: AdminTemplate
+msgid "Attachments"
+msgstr ""
+
+#. Template: AdminTemplate
 msgid "Add Template"
 msgstr ""
 
@@ -7827,10 +5535,6 @@ msgid "Manage Templates <-> Attachments Relations"
 msgstr ""
 
 #. Template: AdminTemplateAttachment
-msgid "Filter for Attachments"
-msgstr ""
-
-#. Template: AdminTemplateAttachment
 msgid "Change Template Relations for Attachment"
 msgstr ""
 
@@ -7852,6 +5556,14 @@ msgstr ""
 
 #. Template: AdminType
 msgid "Add ticket type"
+msgstr ""
+
+#. Template: AdminType
+msgid "Filter for Types"
+msgstr ""
+
+#. Template: AdminType
+msgid "Filter for types"
 msgstr ""
 
 #. Template: AdminType
@@ -7915,6 +5627,18 @@ msgid "Will be auto-generated if left empty."
 msgstr ""
 
 #. Template: AdminUser
+msgid "Mobile"
+msgstr ""
+
+#. Template: AdminUser
+msgid "On"
+msgstr ""
+
+#. Template: AdminUser
+msgid "Off"
+msgstr ""
+
+#. Template: AdminUser
 msgid "Start"
 msgstr ""
 
@@ -7943,6 +5667,10 @@ msgid "Search for a customer"
 msgstr ""
 
 #. Template: AgentBook
+msgid "Bcc"
+msgstr ""
+
+#. Template: AgentBook
 msgid "Add email address %s to the To field"
 msgstr ""
 
@@ -7964,18 +5692,6 @@ msgstr ""
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr ""
-
-#. Template: AgentCustomerSearch
-msgid "Duplicated entry"
-msgstr ""
-
-#. Template: AgentCustomerSearch
-msgid "This address already exists on the address list."
-msgstr ""
-
-#. Template: AgentCustomerSearch
-msgid "It is going to be deleted from the field, please try again."
 msgstr ""
 
 #. Template: AgentCustomerTableView
@@ -8014,8 +5730,16 @@ msgstr ""
 msgid "in"
 msgstr ""
 
+#. Template: AgentDashboardCalendarOverview
+msgid "none"
+msgstr ""
+
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
+msgstr ""
+
+#. Template: AgentDashboardCommon
+msgid "more"
 msgstr ""
 
 #. Template: AgentDashboardCommon
@@ -8030,12 +5754,36 @@ msgstr ""
 msgid "Escalated tickets"
 msgstr ""
 
+#. Template: AgentDashboardCustomerIDStatus
+msgid "Open tickets"
+msgstr ""
+
+#. Template: AgentDashboardCustomerIDStatus
+msgid "Closed tickets"
+msgstr ""
+
+#. Template: AgentDashboardCustomerIDStatus
+msgid "All tickets"
+msgstr ""
+
+#. Template: AgentDashboardCustomerIDStatus
+msgid "Archived tickets"
+msgstr ""
+
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer login"
 msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer information"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Open"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Closed"
 msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
@@ -8243,11 +5991,39 @@ msgid "Spell Checker"
 msgstr ""
 
 #. Template: AgentSpelling
-msgid "spelling error(s)"
+msgid "Spelling Error(s)"
+msgstr ""
+
+#. Template: AgentSpelling
+msgid "Language"
+msgstr ""
+
+#. Template: AgentSpelling
+msgid "Line"
+msgstr ""
+
+#. Template: AgentSpelling
+msgid "Word"
+msgstr ""
+
+#. Template: AgentSpelling
+msgid "replace with"
+msgstr ""
+
+#. Template: AgentSpelling
+msgid "Change"
+msgstr ""
+
+#. Template: AgentSpelling
+msgid "Ignore"
 msgstr ""
 
 #. Template: AgentSpelling
 msgid "Apply these changes"
+msgstr ""
+
+#. Template: AgentSpelling
+msgid "Done"
 msgstr ""
 
 #. Template: AgentStatisticsAdd
@@ -8303,7 +6079,7 @@ msgid "Statistics Preview"
 msgstr ""
 
 #. Template: AgentStatisticsEdit
-msgid "Save statistic"
+msgid "Save Statistic"
 msgstr ""
 
 #. Template: AgentStatisticsImport
@@ -8356,6 +6132,14 @@ msgstr ""
 
 #. Template: AgentStatisticsView
 msgid "Statistic Information"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Created by"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Changed by"
 msgstr ""
 
 #. Template: AgentStatisticsView
@@ -8427,6 +6211,10 @@ msgid "New Responsible"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
+msgid "Please set a new responsible!"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Next state"
 msgstr ""
 
@@ -8474,6 +6262,10 @@ msgstr ""
 msgid "Note type"
 msgstr ""
 
+#. Template: AgentTicketActionCommon
+msgid "Invalid time!"
+msgstr ""
+
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s"
 msgstr ""
@@ -8508,6 +6300,10 @@ msgstr ""
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
+msgstr ""
+
+#. Template: AgentTicketBulk
+msgid "Merge"
 msgstr ""
 
 #. Template: AgentTicketBulk
@@ -8559,6 +6355,10 @@ msgid "Please remove this entry and enter a new one with the correct value."
 msgstr ""
 
 #. Template: AgentTicketCompose
+msgid "This address already exists on the address list."
+msgstr ""
+
+#. Template: AgentTicketCompose
 msgid "Remove Cc"
 msgstr ""
 
@@ -8576,6 +6376,10 @@ msgstr ""
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s"
+msgstr ""
+
+#. Template: AgentTicketCustomer
+msgid "Customer Information"
 msgstr ""
 
 #. Template: AgentTicketEmail
@@ -8651,6 +6455,14 @@ msgid "History Content"
 msgstr ""
 
 #. Template: AgentTicketHistory
+msgid "Zoom"
+msgstr ""
+
+#. Template: AgentTicketHistory
+msgid "Createtime"
+msgstr ""
+
+#. Template: AgentTicketHistory
 msgid "Zoom view"
 msgstr ""
 
@@ -8671,6 +6483,10 @@ msgid "A valid ticket number is required."
 msgstr ""
 
 #. Template: AgentTicketMerge
+msgid "Inform Sender"
+msgstr ""
+
+#. Template: AgentTicketMerge
 msgid "Need a valid email address."
 msgstr ""
 
@@ -8680,6 +6496,10 @@ msgstr ""
 
 #. Template: AgentTicketMove
 msgid "New Queue"
+msgstr ""
+
+#. Template: AgentTicketMove
+msgid "Move"
 msgstr ""
 
 #. Template: AgentTicketOverviewMedium
@@ -8951,30 +6771,6 @@ msgid "Save as default"
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "Archive"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This ticket is archived."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Note: Type is invalid!"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Locked"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Accounted time"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Linked Objects"
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "Change Queue"
 msgstr ""
 
@@ -9015,6 +6811,14 @@ msgid "Reset Filter"
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Article"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "View"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Show one article"
 msgstr ""
 
@@ -9032,6 +6836,10 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Direction"
 msgstr ""
 
 #. Template: AgentTicketZoom
@@ -9090,20 +6898,32 @@ msgstr ""
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr ""
 
-#. Template: AgentTicketZoom
-msgid "Scale preview content"
+#. Template: LinkTable
+msgid "Linked Objects"
 msgstr ""
 
-#. Template: AgentTicketZoom
-msgid "Open URL in new tab"
+#. Template: TicketInformation
+msgid "Archive"
 msgstr ""
 
-#. Template: AgentTicketZoom
-msgid "Close preview"
+#. Template: TicketInformation
+msgid "This ticket is archived."
 msgstr ""
 
-#. Template: AgentTicketZoom
-msgid "OTRS can't provide a preview of this website because it seems as if it didn't allow to be embedded."
+#. Template: TicketInformation
+msgid "Note: Type is invalid!"
+msgstr ""
+
+#. Template: TicketInformation
+msgid "Locked"
+msgstr ""
+
+#. Template: TicketInformation
+msgid "Accounted time"
+msgstr ""
+
+#. Template: TicketInformation
+msgid "Pending till"
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9119,7 +6939,7 @@ msgid "First message"
 msgstr ""
 
 #. Template: CloudServicesDisabled
-msgid "This feature requires cloud services."
+msgid "This Feature Requires Cloud Services"
 msgstr ""
 
 #. Template: CloudServicesDisabled
@@ -9136,26 +6956,6 @@ msgstr ""
 
 #. Template: CustomerFooter
 msgid "Powered by"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "One or more errors occurred!"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Close this dialog"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Could not open popup window. Please disable any popup blockers for this application."
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "If you now leave this page, all open popup windows will be closed, too!"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "A popup of this screen is already open. Do you want to close it and load this one instead?"
 msgstr ""
 
 #. Template: CustomerFooterJS
@@ -9176,42 +6976,6 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Switch to mobile mode"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Switch to desktop mode"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Not available"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Clear all"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Clear search"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "%s selection(s)..."
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "and %s more..."
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Filters"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Confirm"
 msgstr ""
 
 #. Template: CustomerLogin
@@ -9267,7 +7031,11 @@ msgid "Not yet registered?"
 msgstr ""
 
 #. Template: CustomerLogin
-msgid "Request new password"
+msgid "Back"
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "Request New Password"
 msgstr ""
 
 #. Template: CustomerLogin
@@ -9315,6 +7083,10 @@ msgid "Edit personal preferences"
 msgstr ""
 
 #. Template: CustomerNavigationBar
+msgid "Preferences"
+msgstr ""
+
+#. Template: CustomerNavigationBar
 msgid "Logout %s %s"
 msgstr ""
 
@@ -9351,7 +7123,11 @@ msgid "Customer ID"
 msgstr ""
 
 #. Template: CustomerTicketSearch
-msgid "Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")"
+msgid "Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")"
+msgstr ""
+
+#. Template: CustomerTicketSearch
+msgid "Sender"
 msgstr ""
 
 #. Template: CustomerTicketSearch
@@ -9371,11 +7147,15 @@ msgid "Types"
 msgstr ""
 
 #. Template: CustomerTicketSearch
-msgid "Time restrictions"
+msgid "Time Restrictions"
 msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "No time settings"
+msgstr ""
+
+#. Template: CustomerTicketSearch
+msgid "All"
 msgstr ""
 
 #. Template: CustomerTicketSearch
@@ -9395,11 +7175,11 @@ msgid "Only tickets created between"
 msgstr ""
 
 #. Template: CustomerTicketSearch
-msgid "Ticket archive system"
+msgid "Ticket Archive System"
 msgstr ""
 
 #. Template: CustomerTicketSearch
-msgid "Save search as template?"
+msgid "Save Search as Template?"
 msgstr ""
 
 #. Template: CustomerTicketSearch
@@ -9458,8 +7238,108 @@ msgstr ""
 msgid "Chat Protocol"
 msgstr ""
 
+#. Template: CustomerWarning
+msgid "Warning"
+msgstr ""
+
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "January"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "February"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "March"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "April"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "May_long"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "June"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "July"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "August"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "September"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "October"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "November"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "December"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Jan"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Feb"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Mar"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Apr"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "May"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Jun"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Jul"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Aug"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Sep"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Oct"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Nov"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "Dec"
 msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
@@ -9519,6 +7399,22 @@ msgid "Sa"
 msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
+msgid "Today"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "month"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "week"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
+msgid "day"
+msgstr ""
+
+#. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
 msgstr ""
 
@@ -9528,6 +7424,10 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
+msgstr ""
+
+#. Template: Datepicker
+msgid "Invalid date!"
 msgstr ""
 
 #. Template: Datepicker
@@ -9543,11 +7443,39 @@ msgid "Previous"
 msgstr ""
 
 #. Template: Datepicker
+msgid "Sun"
+msgstr ""
+
+#. Template: Datepicker
+msgid "Mon"
+msgstr ""
+
+#. Template: Datepicker
+msgid "Tue"
+msgstr ""
+
+#. Template: Datepicker
+msgid "Wed"
+msgstr ""
+
+#. Template: Datepicker
+msgid "Thu"
+msgstr ""
+
+#. Template: Datepicker
+msgid "Fri"
+msgstr ""
+
+#. Template: Datepicker
+msgid "Sat"
+msgstr ""
+
+#. Template: Datepicker
 msgid "Open date selection"
 msgstr ""
 
 #. Template: Error
-msgid "An error occurred."
+msgid "An Error Occurred"
 msgstr ""
 
 #. Template: Error
@@ -9556,6 +7484,14 @@ msgstr ""
 
 #. Template: Error
 msgid "Error Details"
+msgstr ""
+
+#. Template: Error
+msgid "Expand"
+msgstr ""
+
+#. Template: FooterJS
+msgid "Loading..."
 msgstr ""
 
 #. Template: FooterJS
@@ -9579,55 +7515,31 @@ msgid "Slide the navigation bar"
 msgstr ""
 
 #. Template: FooterJS
-msgid "Unavailable for chat"
-msgstr ""
-
-#. Template: FooterJS
-msgid "Available for internal chats only"
-msgstr ""
-
-#. Template: FooterJS
-msgid "Available for chats"
-msgstr ""
-
-#. Template: FooterJS
-msgid "Please visit the chat manager"
-msgstr ""
-
-#. Template: FooterJS
-msgid "New personal chat request"
-msgstr ""
-
-#. Template: FooterJS
-msgid "New customer chat request"
-msgstr ""
-
-#. Template: FooterJS
-msgid "New public chat request"
-msgstr ""
-
-#. Template: FooterJS
-msgid "New activity"
-msgstr ""
-
-#. Template: FooterJS
-msgid "New activity on one of your monitored chats."
-msgstr ""
-
-#. Template: FooterJS
-msgid "Do you really want to continue?"
-msgstr ""
-
-#. Template: FooterJS
-msgid "Information about the OTRS Daemon"
-msgstr ""
-
-#. Template: FooterJS
 msgid "This feature is part of the %s.  Please contact us at %s for an upgrade."
 msgstr ""
 
 #. Template: FooterJS
 msgid "Find out more about the %s"
+msgstr ""
+
+#. Template: FooterJS
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: FooterJS
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: FooterJS
+msgid "Close preview"
+msgstr ""
+
+#. Template: FooterJS
+msgid "OTRS can't provide a preview of this website because it seems as if it didn't allow to be embedded."
+msgstr ""
+
+#. Template: Header
+msgid "Logout"
 msgstr ""
 
 #. Template: Header
@@ -9640,6 +7552,10 @@ msgstr ""
 
 #. Template: Installer
 msgid "Step %s"
+msgstr ""
+
+#. Template: Installer
+msgid "License"
 msgstr ""
 
 #. Template: Installer
@@ -9656,6 +7572,10 @@ msgstr ""
 
 #. Template: Installer
 msgid "Welcome to %s"
+msgstr ""
+
+#. Template: Installer
+msgid "Phone"
 msgstr ""
 
 #. Template: Installer
@@ -9784,6 +7704,10 @@ msgstr ""
 
 #. Template: InstallerDBStart
 msgid "Use an existing database for OTRS"
+msgstr ""
+
+#. Template: InstallerDBmssql
+msgid "If you have set a root password for your database, it must be entered here. If not, leave this field empty."
 msgstr ""
 
 #. Template: InstallerDBmssql
@@ -9943,15 +7867,11 @@ msgid "Lost your password?"
 msgstr ""
 
 #. Template: Login
-msgid "Request New Password"
-msgstr ""
-
-#. Template: Login
 msgid "Back to login"
 msgstr ""
 
 #. Template: MobileNotAvailableWidget
-msgid "Feature not available"
+msgid "Feature not Available"
 msgstr ""
 
 #. Template: MobileNotAvailableWidget
@@ -10071,6 +7991,10 @@ msgid "Result formats"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
+msgid "Time Zone"
+msgstr ""
+
+#. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
 msgstr ""
 
@@ -10183,7 +8107,7 @@ msgid "Exchange Axis"
 msgstr ""
 
 #. Template: StatsParamsWidget
-msgid "Configurable params of static stat"
+msgid "Configurable Params of Static Stat"
 msgstr ""
 
 #. Template: StatsParamsWidget
@@ -10219,6 +8143,10 @@ msgid "OTRS Test Page"
 msgstr ""
 
 #. Template: Test
+msgid "Unlock"
+msgstr ""
+
+#. Template: Test
 msgid "Welcome %s %s"
 msgstr ""
 
@@ -10231,11 +8159,55 @@ msgid "Go back to the previous page"
 msgstr ""
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "CustomerIDs"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Fax"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Street"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Zip"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "City"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Country"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Valid"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Mr."
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
+msgid "Mrs."
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr ""
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Edit the system configuration settings."
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "Update and extend your system with software packages."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "ACL information from database is not in sync with the system configuration, please deploy all ACLs."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
@@ -10291,6 +8263,10 @@ msgid "There was an error getting data for ACL with ID %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "Please note that ACL restrictions will be ignored for the Superuser account (UserID 1)."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
 msgstr ""
 
@@ -10314,8 +8290,36 @@ msgstr ""
 msgid "Negated regular expression (ignore case)"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminAttachment.pm
+msgid "Attachment updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminAttachment.pm
+msgid "Attachment added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminAutoResponse.pm
+msgid "Response updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminAutoResponse.pm
+msgid "Response added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Customer company updated!"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Customer company added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerUser.pm
+msgid "Customer updated!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
@@ -10324,6 +8328,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "New email ticket"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerUser.pm
+msgid "Customer %s added"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
@@ -10395,6 +8403,14 @@ msgid "Checked"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
+msgid "No"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
+msgid "Yes"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
 msgstr ""
 
@@ -10408,6 +8424,50 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminEmail.pm
 msgid "Select at least one recipient."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "Time unit"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "within the last ..."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "within the next ..."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "more than ... ago"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "minute(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "hour(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "day(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "week(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "month(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "year(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericAgent.pm
+msgid "Unarchived tickets"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
@@ -10562,12 +8622,44 @@ msgstr ""
 msgid "Web service \"%s\" deleted!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "OTRS as provider"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "OTRS as requester"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Could not get history data for WebserviceHistoryID %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGroup.pm
+msgid "Group updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid "Mail account added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid "Mail account updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid "Finished"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid "Dispatching by email To: field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid "Dispatching by selected Queue."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
@@ -10642,6 +8734,38 @@ msgstr ""
 msgid "Yes, but require at least one active notification method"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+msgid "Your system was successfully upgraded to %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+msgid "There was a problem during the upgrade to %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+msgid "%s was correctly reinstalled."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+msgid "There was a problem reinstalling %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+msgid "Your %s was successfully updated."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+msgid "There was a problem during the upgrade of %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+msgid "%s was correctly uninstalled."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+msgid "There was a problem uninstalling %s."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
 msgstr ""
@@ -10683,6 +8807,10 @@ msgid "Package has locally modified files."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Package not verified by the OTRS Group! It is recommended not to use this package."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No packages or no new packages found in selected repository."
 msgstr ""
 
@@ -10704,6 +8832,18 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPriority.pm
+msgid "Priority updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPriority.pm
+msgid "Priority added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Process Management information from database is not in sync with the system configuration, please synchronize all processes."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -10887,7 +9027,31 @@ msgid "Show Field As Mandatory"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "note-internal"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "note-external"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "note-report"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "phone"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "fax"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "sms"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "webrequest"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
@@ -10978,8 +9142,28 @@ msgstr ""
 msgid "Click back and change it!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminQueue.pm
+msgid "Queue updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminQueue.pm
+msgid "-none-"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRole.pm
+msgid "Role updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRole.pm
+msgid "Role added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSLA.pm
+msgid "Please activate %s first!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -11042,6 +9226,22 @@ msgstr ""
 msgid "Salutation added!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminSignature.pm
+msgid "Signature updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSignature.pm
+msgid "Signature added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminState.pm
+msgid "State updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminState.pm
+msgid "State added!"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
 msgstr ""
@@ -11056,6 +9256,14 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Can't write ConfigItem!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemAddress.pm
+msgid "System e-mail address updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemAddress.pm
+msgid "System e-mail address added!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
@@ -11106,6 +9314,22 @@ msgstr ""
 msgid "Need Type!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminType.pm
+msgid "Type updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminType.pm
+msgid "Type added!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminUser.pm
+msgid "Agent updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
+msgid "Customer History"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No such config for %s"
 msgstr ""
@@ -11143,11 +9367,11 @@ msgid "Can not delete link with %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Can not create link with %s!"
+msgid "Can not create link with %s! Object already linked as %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Object already linked as %s."
+msgid "Can not create link with %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
@@ -11156,6 +9380,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentSpelling.pm
+msgid "No suggestions"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
@@ -11207,6 +9435,14 @@ msgid "You need %s permissions!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+msgid "Sorry, you need to be the ticket owner to perform this action."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+msgid "Please change the owner first."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
 msgstr ""
 
@@ -11218,8 +9454,24 @@ msgstr ""
 msgid "Previous Owner"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+msgid "wrote"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+msgid "Message from"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+msgid "End message"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "%s is needed!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBounce.pm
+msgid "Please contact your administrator"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
@@ -11267,11 +9519,35 @@ msgid "You need to select at least one ticket"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You don't have write access to this ticket."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "Ticket selected."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "Ticket locked."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Can not determine the ArticleType!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid "Address %s replaced with registered customer address."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid "Customer user automatically added in Cc."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketEmail.pm
+msgid "Ticket \"%s\" created!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
@@ -11287,7 +9563,27 @@ msgid "System Error!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+msgid "Tomorrow"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+msgid "Next week"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Invalid Filter: %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+msgid "Ticket Escalation View"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketForward.pm
+msgid "Forwarded message from"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketForward.pm
+msgid "End forwarded message"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketHistory.pm
@@ -11312,6 +9608,22 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Change the owner!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
+msgid "New Article"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
+msgid "Pending"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
+msgid "Reminder Reached"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
+msgid "My Locked Tickets"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
@@ -11364,6 +9676,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No Process configured!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid "The selected process is invalid!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -11514,12 +9830,52 @@ msgstr ""
 msgid "Default Config for Process::Default%s invalid!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AgentTicketQueue.pm
+msgid "Available tickets"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketQueue.pm
+msgid "including subqueues"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketQueue.pm
+msgid "excluding subqueues"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketQueue.pm
+msgid "QueueView"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
+msgid "My Responsible Tickets"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "last-search"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Ticket Number"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Customer Realname"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Ticket"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Normal"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
@@ -11532,6 +9888,18 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketService.pm
+msgid "Service View"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketStatusView.pm
+msgid "Status View"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketWatchView.pm
+msgid "My Watched Tickets"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketWatcher.pm
@@ -11679,7 +10047,7 @@ msgid "Internal Chat"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "We are sorry, you do not have permissions anymore to access this ticket in its current state. "
+msgid "We are sorry, you do not have permissions anymore to access this ticket in its current state."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -11707,7 +10075,55 @@ msgid "Fields with no group"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Reply All"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Forward"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Forward article via mail"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Bounce Article to a different mail address"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Bounce"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Split this article"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Split"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Print this article"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "View the source for this Article"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Plain Format"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Mark"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Unmark"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Reply to note"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
@@ -11732,6 +10148,14 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
+msgid "Created within the last"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
+msgid "Created more than ... ago"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
@@ -11763,11 +10187,23 @@ msgid "Directory \"%s\" not found!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "Install OTRS"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Intro"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Kernel/Config.pm isn't writable!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Database Selection"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
@@ -11779,7 +10215,15 @@ msgid "The check \"%s\" doesn't exist!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "Enter the password for the database user."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Enter the password for the administrative database user."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
@@ -11788,6 +10232,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Create Database"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
@@ -11800,6 +10248,18 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Contact your Admin!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "System Settings"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Configure Mail"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Mail Configuration"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
@@ -11819,6 +10279,10 @@ msgid "Can't connect to database, read comment!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "Database already contains data - it should be empty!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
 
@@ -11835,7 +10299,15 @@ msgid "Authentication failed from %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
-msgid "Sent message crypted to recipient!"
+msgid "Crypted"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
+msgid "Sent message encrypted to recipient!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
+msgid "Signed"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -11858,8 +10330,28 @@ msgstr ""
 msgid "Successful decryption"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Crypt"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Sign"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
+msgid "Shown customer users"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "Shown Tickets"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "Shown Columns"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
@@ -11882,6 +10374,14 @@ msgstr ""
 msgid "This ticket has no title or subject"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketStatsGeneric.pm
+msgid "7 Day Stats"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Shown"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently offline"
 msgstr ""
@@ -11899,11 +10399,71 @@ msgid "This user is currently unavailable"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "Standard"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "h"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "m"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "hour"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "minute"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "d"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "This is a"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "email"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "click here"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "to open it in a new window."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "Hours"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "Minutes"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "Check to activate this date"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "No Permission!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "Show Tree Selection"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
@@ -11914,8 +10474,52 @@ msgstr ""
 msgid "Search Result"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Linked"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
+msgid "Bulk"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
+msgid "Lite"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
+msgid "Unread article(s) available"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
+msgid "Enable cloud services to unleash all OTRS features!"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+msgid "The license for your %s is about to expire. Please make contact with %s to renew your contract!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+msgid "An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
+msgid "Online Agent: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
+msgid "There are more escalated tickets!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
+msgid "Please select a time zone in your preferences and confirm it by clicking \"Update\"."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
+msgid "Online Customer: %s"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
@@ -11923,7 +10527,23 @@ msgid "A system maintenance period will start at: "
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
+msgid "OTRS Daemon is not running."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "Please contact your administrator!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
+msgid "You have Out of Office enabled, would you like to disable it?"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
+msgid "Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/ColumnFilters.pm
+msgid "Preferences updated successfully!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
@@ -11939,7 +10559,51 @@ msgid "Please specify an end date that is after the start date."
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "Current password"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "New password"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "Verify password"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "The current password is not correct. Please try again!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "Can't update password, your new passwords do not match. Please try again!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "Can't update password, it contains invalid characters!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "Can't update password, it must be at least %s characters long!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "Can't update password, it must contain at least 2 lowercase and 2 uppercase characters!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "Can't update password, it must contain at least 1 digit!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+msgid "Can't update password, it must contain at least 2 characters!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
+msgid "Time zone updated successfully!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
@@ -12003,11 +10667,103 @@ msgid "Your reporting time interval is too small, please use a larger time scale
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid "second(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid "quarter(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+msgid "half-year(s)"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please remove the following words because they cannot be used for the ticket restrictions: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
+msgid "Unlock to give it back to the queue"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
+msgid "Lock it to work on it"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
+msgid "Unwatch"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
+msgid "Remove from list of watched tickets"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
+msgid "Watch"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
+msgid "Add to list of watched tickets"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
+msgid "Ticket Information"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
+msgid "Locked Tickets New"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
+msgid "Locked Tickets Reminder Reached"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
+msgid "Locked Tickets Total"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
+msgid "Responsible Tickets New"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
+msgid "Responsible Tickets Reminder Reached"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
+msgid "Responsible Tickets Total"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
+msgid "Watched Tickets New"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
+msgid "Watched Tickets Reminder Reached"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
+msgid "Watched Tickets Total"
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth.pm
+msgid "It is currently not possible to login due to a scheduled system maintenance."
+msgstr ""
+
+#. Perl Module: Kernel/System/AuthSession/DB.pm
+msgid "Session invalid. Please log in again."
+msgstr ""
+
+#. Perl Module: Kernel/System/AuthSession/DB.pm
+msgid "Session has timed out. Please log in again."
+msgstr ""
+
+#. Perl Module: Kernel/System/AuthSession/DB.pm
+msgid "Session limit reached! Please try again later."
 msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession/DB.pm
@@ -12030,12 +10786,76 @@ msgstr ""
 msgid "This setting can not be deactivated."
 msgstr ""
 
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
+msgid "in more than ..."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
+msgid "before/after"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
+msgid "between"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+msgid "This field is required or"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+msgid "The field content is too long!"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+msgid "Maximum size is %s characters."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr ""
 
+#. Perl Module: Kernel/System/Package.pm
+msgid "installed"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Unable to parse repository index document."
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "No packages for your framework version found in this repository, it only contains packages for other framework versions."
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"
+msgstr ""
+
+#. Perl Module: Kernel/System/Registration.pm
+msgid "Can't contact registration server. Please try again later."
+msgstr ""
+
+#. Perl Module: Kernel/System/Registration.pm
+msgid "No content received from registration server. Please try again later."
+msgstr ""
+
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
+msgstr ""
+
+#. Perl Module: Kernel/System/Registration.pm
+msgid "Username and password do not match. Please try again."
+msgstr ""
+
+#. Perl Module: Kernel/System/Registration.pm
+msgid "Problems processing server result. Please try again later."
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats.pm
+msgid "quarter"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats.pm
+msgid "half-year"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
@@ -12060,6 +10880,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Close Time"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "Escalation"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
@@ -12124,6 +10948,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Static/StateAction.pm
 msgid "Days"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
+msgid "Outdated Tables"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
+msgid "Outdated tables were found in the database. These can be removed if empty."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
@@ -12535,27 +11367,27 @@ msgid "Server time zone"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "Computed server time offset"
+msgid "OTRS time zone"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS TimeZone setting (global time offset)"
+msgid "OTRS time zone is not set."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "TimeZone may only be activated for systems running in UTC."
+msgid "User default time zone"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS TimeZoneUser setting (per-user time zone support)"
+msgid "User default time zone is not set."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "TimeZoneUser may only be activated for systems running in UTC that don't have an OTRS TimeZone set."
+msgid "OTRS time zone setting for calendar"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS TimeZone setting for calendar "
+msgid "Calendar time zone is not set."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
@@ -12654,6 +11486,50 @@ msgstr ""
 msgid "Reset of unlock time."
 msgstr ""
 
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign only"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP encrypt only"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign and encrypt"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign only"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME encrypt only"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign and encrypt"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP and SMIME not enabled."
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Skip notification delivery"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unsigned notification"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unencrypted notification"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid "Login failed! Your user name or password was entered incorrectly."
+msgstr ""
+
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid."
 msgstr ""
@@ -12667,6 +11543,22 @@ msgid "Logout successful."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid "Feature not active!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid "Sent password reset instructions. Please check your email."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid "Invalid Token!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+msgid "Sent new password to %s. Please check your email."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Panic! Invalid Session!!!"
 msgstr ""
 
@@ -12675,7 +11567,19 @@ msgid "No Permission to use this frontend module!"
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact your administrator"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "This e-mail address already exists. Please log in or reset your password."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "This email address is not allowed to register. Please contact support staff."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
@@ -12688,6 +11592,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "New account created. Sent login information to %s. Please check your email."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
@@ -12703,6 +11611,18 @@ msgid "Action \"%s\" not found!"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "valid"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "invalid"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "invalid-temporarily"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
 msgstr ""
 
@@ -12715,7 +11635,15 @@ msgid "Group for statistics access."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "new"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All new state types (default: viewable)."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "open"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12723,7 +11651,15 @@ msgid "All open state types (default: viewable)."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "closed"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "pending reminder"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12731,11 +11667,23 @@ msgid "All 'pending reminder' state types (default: viewable)."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "pending auto"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "removed"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "merged"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12747,7 +11695,15 @@ msgid "New ticket created by customer."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "closed successful"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed successful."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "closed unsuccessful"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12767,7 +11723,15 @@ msgid "Ticket is pending for agent reminder."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "pending auto close+"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is pending for automatic close."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "pending auto close-"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12795,7 +11759,15 @@ msgid "Standard Address."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "possible"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "reject"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12827,7 +11799,15 @@ msgid "All misc tickets."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "auto reply"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Automatic reply which will be sent out after a new ticket has been created."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "auto reject"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12835,11 +11815,23 @@ msgid "Automatic reject which will be sent out after a follow-up has been reject
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "auto follow up"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "auto reply/new ticket"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is \"new ticket\")."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "auto remove"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12867,7 +11859,43 @@ msgid "Unclassified"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "1 very low"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "2 low"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "3 normal"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "4 high"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "5 very high"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "unlock"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "lock"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "email-external"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "email-internal"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12876,6 +11904,18 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "email-notification-int"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "agent"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "system"
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "customer"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12900,6 +11940,10 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible."
+msgstr ""
+
+#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+msgid "Ticket lock timeout notification"
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -12950,6 +11994,74 @@ msgstr ""
 msgid "You will receive a notification if a ticket's service is changed to one of your \"My Services\"."
 msgstr ""
 
+#. JS File: Core.Agent.CustomerSearch
+msgid "Duplicated entry"
+msgstr ""
+
+#. JS File: Core.Agent.CustomerSearch
+msgid "It is going to be deleted from the field, please try again."
+msgstr ""
+
+#. JS File: Core.Agent.Daemon
+msgid "Information about the OTRS Daemon"
+msgstr ""
+
+#. JS File: Core.Agent.Responsive
+msgid "Switch to desktop mode"
+msgstr ""
+
+#. JS File: Core.Agent.TicketAction
+msgid "Close this dialog"
+msgstr ""
+
+#. JS File: Core.Agent.TicketAction
+msgid "Do you really want to continue?"
+msgstr ""
+
+#. JS File: Core.App.Responsive
+msgid "Switch to mobile mode"
+msgstr ""
+
+#. JS File: Core.Form.Validate
+msgid "One or more errors occurred!"
+msgstr ""
+
+#. JS File: Core.UI.InputFields
+msgid "Not available"
+msgstr ""
+
+#. JS File: Core.UI.InputFields
+msgid "and %s more..."
+msgstr ""
+
+#. JS File: Core.UI.InputFields
+msgid "Clear all"
+msgstr ""
+
+#. JS File: Core.UI.InputFields
+msgid "Filters"
+msgstr ""
+
+#. JS File: Core.UI.InputFields
+msgid "Confirm"
+msgstr ""
+
+#. JS File: Core.UI.InputFields
+msgid "Clear search"
+msgstr ""
+
+#. JS File: Core.UI.Popup
+msgid "If you now leave this page, all open popup windows will be closed, too!"
+msgstr ""
+
+#. JS File: Core.UI.Popup
+msgid "A popup of this screen is already open. Do you want to close it and load this one instead?"
+msgstr ""
+
+#. JS File: Core.UI.Popup
+msgid "Could not open popup window. Please disable any popup blockers for this application."
+msgstr ""
+
 #. SysConfig
 msgid ""
 "\n"
@@ -12967,6 +12079,18 @@ msgstr ""
 
 #. SysConfig
 msgid " (work units)"
+msgstr ""
+
+#. SysConfig
+msgid " 2 minutes"
+msgstr ""
+
+#. SysConfig
+msgid " 5 minutes"
+msgstr ""
+
+#. SysConfig
+msgid " 7 minutes"
 msgstr ""
 
 #. SysConfig
@@ -13002,7 +12126,15 @@ msgid "*** out of office until %s (%s d left) ***"
 msgstr ""
 
 #. SysConfig
+msgid "10 minutes"
+msgstr ""
+
+#. SysConfig
 msgid "100 (Expert)"
+msgstr ""
+
+#. SysConfig
+msgid "15 minutes"
 msgstr ""
 
 #. SysConfig
@@ -13082,6 +12214,10 @@ msgid "ActivityID"
 msgstr ""
 
 #. SysConfig
+msgid "Add a note to this ticket"
+msgstr ""
+
+#. SysConfig
 msgid "Add an inbound phone call to this ticket"
 msgstr ""
 
@@ -13142,6 +12278,14 @@ msgid "After"
 msgstr ""
 
 #. SysConfig
+msgid "Agent Customer Search"
+msgstr ""
+
+#. SysConfig
+msgid "Agent Customer Search."
+msgstr ""
+
+#. SysConfig
 msgid "Agent Name"
 msgstr ""
 
@@ -13151,6 +12295,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent Preferences."
+msgstr ""
+
+#. SysConfig
+msgid "Agent User Search"
+msgstr ""
+
+#. SysConfig
+msgid "Agent User Search."
 msgstr ""
 
 #. SysConfig
@@ -13198,19 +12350,15 @@ msgid "Agent interface notification module to see the number of watched tickets.
 msgstr ""
 
 #. SysConfig
-msgid "AgentCustomerSearch"
+msgid "AgentTicketZoom widget that displays a table of objects linked to the ticket."
 msgstr ""
 
 #. SysConfig
-msgid "AgentCustomerSearch."
+msgid "AgentTicketZoom widget that displays customer information for the ticket in the side bar."
 msgstr ""
 
 #. SysConfig
-msgid "AgentUserSearch"
-msgstr ""
-
-#. SysConfig
-msgid "AgentUserSearch."
+msgid "AgentTicketZoom widget that displays ticket data in the side bar."
 msgstr ""
 
 #. SysConfig
@@ -13223,6 +12371,22 @@ msgstr ""
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
+msgstr ""
+
+#. SysConfig
+msgid "All escalated tickets"
+msgstr ""
+
+#. SysConfig
+msgid "All new tickets, these tickets have not been worked on yet"
+msgstr ""
+
+#. SysConfig
+msgid "All open tickets, these tickets have already been worked on, but need a response"
+msgstr ""
+
+#. SysConfig
+msgid "All tickets with a reminder set where the reminder date has been reached"
 msgstr ""
 
 #. SysConfig
@@ -13342,6 +12506,10 @@ msgid "Always show RichText if available"
 msgstr ""
 
 #. SysConfig
+msgid "Answer"
+msgstr ""
+
+#. SysConfig
 msgid "Arabic (Saudi Arabia)"
 msgstr ""
 
@@ -13375,6 +12543,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
+msgstr ""
+
+#. SysConfig
+msgid "Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state."
 msgstr ""
 
 #. SysConfig
@@ -13426,7 +12598,15 @@ msgid "Bulgarian"
 msgstr ""
 
 #. SysConfig
+msgid "Bulk Action"
+msgstr ""
+
+#. SysConfig
 msgid "CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin)."
+msgstr ""
+
+#. SysConfig
+msgid "CSV Separator"
 msgstr ""
 
 #. SysConfig
@@ -13478,6 +12658,10 @@ msgid "Change the free fields for this ticket"
 msgstr ""
 
 #. SysConfig
+msgid "Change the owner for this ticket"
+msgstr ""
+
+#. SysConfig
 msgid "Change the priority for this ticket"
 msgstr ""
 
@@ -13514,6 +12698,10 @@ msgid "Checks the entitlement status of OTRS Business Solution™."
 msgstr ""
 
 #. SysConfig
+msgid "Child"
+msgstr ""
+
+#. SysConfig
 msgid "Chinese (Simplified)"
 msgstr ""
 
@@ -13523,6 +12711,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Choose for which kind of ticket changes you want to receive notifications."
+msgstr ""
+
+#. SysConfig
+msgid "Christmas Eve"
+msgstr ""
+
+#. SysConfig
+msgid "Close this ticket"
 msgstr ""
 
 #. SysConfig
@@ -13615,6 +12811,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Complex"
+msgstr ""
+
+#. SysConfig
+msgid "Compose"
 msgstr ""
 
 #. SysConfig
@@ -13802,6 +13002,10 @@ msgid "Customer Administration"
 msgstr ""
 
 #. SysConfig
+msgid "Customer Companies"
+msgstr ""
+
+#. SysConfig
 msgid "Customer Information Center Search."
 msgstr ""
 
@@ -13959,6 +13163,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Default skin for the customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "Default spelling dictionary"
 msgstr ""
 
 #. SysConfig
@@ -14123,6 +13331,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines an external link to the database of the customer (e.g. 'http://yourhost/customer.php?CID=[% Data.CustomerID %]' or '')."
+msgstr ""
+
+#. SysConfig
+msgid "Defines default headers for outgoing emails."
 msgstr ""
 
 #. SysConfig
@@ -14966,6 +14178,10 @@ msgid "Defines the module to display a notification in the agent interface if th
 msgstr ""
 
 #. SysConfig
+msgid "Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active."
 msgstr ""
 
@@ -14975,6 +14191,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin)."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the module to display a notification in the customer interface, if the customer is logged in while having system maintenance active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone."
 msgstr ""
 
 #. SysConfig
@@ -15342,6 +14566,10 @@ msgid "Delete expired sessions."
 msgstr ""
 
 #. SysConfig
+msgid "Delete this ticket"
+msgstr ""
+
+#. SysConfig
 msgid "Deleted link to ticket \"%s\"."
 msgstr ""
 
@@ -15418,10 +14646,6 @@ msgid "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be i
 msgstr ""
 
 #. SysConfig
-msgid "Disable restricted security for IFrames in IE. May be required for SSO to work in IE."
-msgstr ""
-
-#. SysConfig
 msgid "Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated)."
 msgstr ""
 
@@ -15443,6 +14667,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Displays the accounted time for an article in the ticket zoom view."
+msgstr ""
+
+#. SysConfig
+msgid "Down"
 msgstr ""
 
 #. SysConfig
@@ -15742,6 +14970,10 @@ msgid "Enter your shared secret to enable two factor authentication."
 msgstr ""
 
 #. SysConfig
+msgid "Escalated Tickets"
+msgstr ""
+
+#. SysConfig
 msgid "Escalation response time finished"
 msgstr ""
 
@@ -15890,6 +15122,10 @@ msgid "Finnish"
 msgstr ""
 
 #. SysConfig
+msgid "First Christmas Day"
+msgstr ""
+
+#. SysConfig
 msgid "First Queue"
 msgstr ""
 
@@ -15935,6 +15171,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
+msgstr ""
+
+#. SysConfig
+msgid "Free Fields"
 msgstr ""
 
 #. SysConfig
@@ -16082,6 +15322,10 @@ msgid "Go back"
 msgstr ""
 
 #. SysConfig
+msgid "Go to dashboard!"
+msgstr ""
+
+#. SysConfig
 msgid "Google Authenticator"
 msgstr ""
 
@@ -16146,7 +15390,7 @@ msgid "If \"DB\" was selected for Customer::AuthModule, the column name for the 
 msgstr ""
 
 #. SysConfig
-msgid "If \"DB\" was selected for Customer::AuthModule, the crypt type of passwords must be specified."
+msgid "If \"DB\" was selected for Customer::AuthModule, the encryption type of passwords must be specified."
 msgstr ""
 
 #. SysConfig
@@ -16170,7 +15414,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -16239,10 +15483,6 @@ msgstr ""
 
 #. SysConfig
 msgid "If \"SysLog\" was selected for LogModule, a special log facility can be specified."
-msgstr ""
-
-#. SysConfig
-msgid "If \"SysLog\" was selected for LogModule, a special log sock can be specified (on solaris you may need to use 'stream')."
 msgstr ""
 
 #. SysConfig
@@ -16326,7 +15566,7 @@ msgid "If enabled the daemon will redirect the standard output stream to a log f
 msgstr ""
 
 #. SysConfig
-msgid "If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files."
+msgid "If enabled, OTRS will deliver all CSS files in minified form."
 msgstr ""
 
 #. SysConfig
@@ -16351,6 +15591,10 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled, the first level of the main menu opens on mouse hover (instead of click only)."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled, users that haven't selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC."
 msgstr ""
 
 #. SysConfig
@@ -16414,6 +15658,10 @@ msgid "Interface language"
 msgstr ""
 
 #. SysConfig
+msgid "International Workers' Day"
+msgstr ""
+
+#. SysConfig
 msgid "It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in \"Key\" should match the domain, and the value in \"Content\" should be a valid skin on your system. Please see the example entries for the proper form of the regex."
 msgstr ""
 
@@ -16447,6 +15695,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Large"
 msgstr ""
 
 #. SysConfig
@@ -16511,6 +15763,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
+msgstr ""
+
+#. SysConfig
+msgid "Link this ticket to other objects"
 msgstr ""
 
 #. SysConfig
@@ -16590,6 +15846,10 @@ msgid "Lock / unlock this ticket"
 msgstr ""
 
 #. SysConfig
+msgid "Locked Tickets"
+msgstr ""
+
+#. SysConfig
 msgid "Locked Tickets."
 msgstr ""
 
@@ -16603,6 +15863,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Logout of customer panel."
+msgstr ""
+
+#. SysConfig
+msgid "Look into a ticket!"
 msgstr ""
 
 #. SysConfig
@@ -16666,6 +15930,10 @@ msgid "Manage tasks triggered by event or time based execution."
 msgstr ""
 
 #. SysConfig
+msgid "Mark as Spam!"
+msgstr ""
+
+#. SysConfig
 msgid "Mark this ticket as junk!"
 msgstr ""
 
@@ -16722,6 +15990,10 @@ msgid "Maximum size (in characters) of the customer information table in the tic
 msgstr ""
 
 #. SysConfig
+msgid "Medium"
+msgstr ""
+
+#. SysConfig
 msgid "Merge this ticket and all articles into a another ticket"
 msgstr ""
 
@@ -16754,7 +16026,7 @@ msgid "Module to compose signed messages (PGP or S/MIME)."
 msgstr ""
 
 #. SysConfig
-msgid "Module to crypt composed messages (PGP or S/MIME)."
+msgid "Module to encrypt composed messages (PGP or S/MIME)."
 msgstr ""
 
 #. SysConfig
@@ -16826,6 +16098,10 @@ msgid "Multiselect"
 msgstr ""
 
 #. SysConfig
+msgid "My Queues"
+msgstr ""
+
+#. SysConfig
 msgid "My Services"
 msgstr ""
 
@@ -16854,11 +16130,27 @@ msgid "Nederlands"
 msgstr ""
 
 #. SysConfig
+msgid "New Ticket"
+msgstr ""
+
+#. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr ""
 
 #. SysConfig
+msgid "New Tickets"
+msgstr ""
+
+#. SysConfig
 msgid "New Window"
+msgstr ""
+
+#. SysConfig
+msgid "New Year's Day"
+msgstr ""
+
+#. SysConfig
+msgid "New Year's Eve"
 msgstr ""
 
 #. SysConfig
@@ -16871,6 +16163,10 @@ msgstr ""
 
 #. SysConfig
 msgid "New responsible is \"%s\" (ID=%s)."
+msgstr ""
+
+#. SysConfig
+msgid "News about OTRS releases!"
 msgstr ""
 
 #. SysConfig
@@ -16887,6 +16183,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Norwegian"
+msgstr ""
+
+#. SysConfig
+msgid "Notification Settings"
 msgstr ""
 
 #. SysConfig
@@ -16910,6 +16210,10 @@ msgid "Number of tickets to be displayed in each page of a search result in the 
 msgstr ""
 
 #. SysConfig
+msgid "OTRS News"
+msgstr ""
+
+#. SysConfig
 msgid "OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database."
 msgstr ""
 
@@ -16919,6 +16223,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Online"
+msgstr ""
+
+#. SysConfig
+msgid "Open Tickets / Need to be answered"
 msgstr ""
 
 #. SysConfig
@@ -16950,7 +16258,15 @@ msgid "Optional queue limitation for the ResponsibleCheck permission module. If 
 msgstr ""
 
 #. SysConfig
+msgid "Other Settings"
+msgstr ""
+
+#. SysConfig
 msgid "Out Of Office"
+msgstr ""
+
+#. SysConfig
+msgid "Out Of Office Time"
 msgstr ""
 
 #. SysConfig
@@ -16982,11 +16298,19 @@ msgid "Overview of customer tickets."
 msgstr ""
 
 #. SysConfig
+msgid "PGP Key"
+msgstr ""
+
+#. SysConfig
 msgid "PGP Key Management"
 msgstr ""
 
 #. SysConfig
 msgid "PGP Key Upload"
+msgstr ""
+
+#. SysConfig
+msgid "PGP Keys"
 msgstr ""
 
 #. SysConfig
@@ -17090,6 +16414,10 @@ msgid "Parameters of the example service attribute Comment2."
 msgstr ""
 
 #. SysConfig
+msgid "Parent"
+msgstr ""
+
+#. SysConfig
 msgid "ParentChild"
 msgstr ""
 
@@ -17118,7 +16446,23 @@ msgid "Persian"
 msgstr ""
 
 #. SysConfig
+msgid "Phone Call Inbound"
+msgstr ""
+
+#. SysConfig
+msgid "Phone Call Outbound"
+msgstr ""
+
+#. SysConfig
 msgid "Phone Call."
+msgstr ""
+
+#. SysConfig
+msgid "Phone call"
+msgstr ""
+
+#. SysConfig
+msgid "Phone-Ticket"
 msgstr ""
 
 #. SysConfig
@@ -17151,6 +16495,14 @@ msgstr ""
 
 #. SysConfig
 msgid "PostMaster Mail Accounts"
+msgstr ""
+
+#. SysConfig
+msgid "Print this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Priorities"
 msgstr ""
 
 #. SysConfig
@@ -17190,6 +16542,10 @@ msgid "ProcessID"
 msgstr ""
 
 #. SysConfig
+msgid "Product News"
+msgstr ""
+
+#. SysConfig
 msgid "Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
 
@@ -17211,6 +16567,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Refresh interval"
+msgstr ""
+
+#. SysConfig
+msgid "Reminder Tickets"
 msgstr ""
 
 #. SysConfig
@@ -17354,11 +16714,19 @@ msgid "S/MIME Certificate Upload"
 msgstr ""
 
 #. SysConfig
+msgid "S/MIME Certificates"
+msgstr ""
+
+#. SysConfig
 msgid "SMS"
 msgstr ""
 
 #. SysConfig
 msgid "SMS (Short Message Service)"
+msgstr ""
+
+#. SysConfig
+msgid "Salutations"
 msgstr ""
 
 #. SysConfig
@@ -17375,6 +16743,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Screen"
+msgstr ""
+
+#. SysConfig
+msgid "Screen after new ticket"
 msgstr ""
 
 #. SysConfig
@@ -17406,7 +16778,15 @@ msgid "Search."
 msgstr ""
 
 #. SysConfig
+msgid "Second Christmas Day"
+msgstr ""
+
+#. SysConfig
 msgid "Second Queue"
+msgstr ""
+
+#. SysConfig
+msgid "Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used."
 msgstr ""
 
 #. SysConfig
@@ -17470,6 +16850,10 @@ msgid "Serbian Latin"
 msgstr ""
 
 #. SysConfig
+msgid "Service Level Agreements"
+msgstr ""
+
+#. SysConfig
 msgid "Service view"
 msgstr ""
 
@@ -17498,6 +16882,10 @@ msgid "Set the maximum height (in pixels) of inline HTML articles in AgentTicket
 msgstr ""
 
 #. SysConfig
+msgid "Set this ticket to pending"
+msgstr ""
+
+#. SysConfig
 msgid "Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature."
 msgstr ""
 
@@ -17523,6 +16911,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets if ticket owner must be selected by the agent."
+msgstr ""
+
+#. SysConfig
+msgid "Sets if ticket responsible must be selected by the agent."
 msgstr ""
 
 #. SysConfig
@@ -17718,6 +17110,10 @@ msgid "Sets the prefered time units (e.g. work units, hours, minutes)."
 msgstr ""
 
 #. SysConfig
+msgid "Sets the preferred digest to be used for PGP binary."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system."
 msgstr ""
 
@@ -17814,10 +17210,6 @@ msgid "Sets the stats hook."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time."
-msgstr ""
-
-#. SysConfig
 msgid "Sets the ticket owner in the close ticket screen of the agent interface."
 msgstr ""
 
@@ -17886,19 +17278,19 @@ msgid "Sets the time (in seconds) a user is marked as active."
 msgstr ""
 
 #. SysConfig
+msgid "Sets the time zone being used internally by OTRS to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the time zone that will be assigned to newly created users and will be used for users that haven't yet set a time zone. This is the time zone being used as default to convert date and time between the OTRS time zone and the user's time zone."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
 msgstr ""
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for package downloads. Overwrites \"WebUserAgent::Timeout\"."
-msgstr ""
-
-#. SysConfig
-msgid "Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time."
-msgstr ""
-
-#. SysConfig
-msgid "Sets the user time zone per user based on java script / browser time zone offset feature at login time."
 msgstr ""
 
 #. SysConfig
@@ -17935,6 +17327,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Show the history for this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Show the ticket history"
 msgstr ""
 
 #. SysConfig
@@ -18278,6 +17674,10 @@ msgid "Shows time use complete description (days, hours, minutes), if set to \"Y
 msgstr ""
 
 #. SysConfig
+msgid "Signatures"
+msgstr ""
+
+#. SysConfig
 msgid "Simple"
 msgstr ""
 
@@ -18291,6 +17691,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Slovenian"
+msgstr ""
+
+#. SysConfig
+msgid "Small"
 msgstr ""
 
 #. SysConfig
@@ -18458,6 +17862,10 @@ msgid "Spell checker."
 msgstr ""
 
 #. SysConfig
+msgid "Spelling Dictionary"
+msgstr ""
+
+#. SysConfig
 msgid "Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that \"rw\" is always the last registered permission."
 msgstr ""
 
@@ -18471,6 +17879,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Stat#"
+msgstr ""
+
+#. SysConfig
+msgid "States"
 msgstr ""
 
 #. SysConfig
@@ -18618,6 +18030,10 @@ msgid "The text at the beginning of the subject when an email is forwarded, e.g.
 msgstr ""
 
 #. SysConfig
+msgid "Theme"
+msgstr ""
+
+#. SysConfig
 msgid "This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping."
 msgstr ""
 
@@ -18667,6 +18083,10 @@ msgstr ""
 
 #. SysConfig
 msgid "This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries."
+msgstr ""
+
+#. SysConfig
+msgid "This setting is deprecated. Set OTRSTimeZone instead."
 msgstr ""
 
 #. SysConfig
@@ -18726,6 +18146,18 @@ msgid "Ticket Outbound Email."
 msgstr ""
 
 #. SysConfig
+msgid "Ticket Overview \"Medium\" Limit"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Overview \"Preview\" Limit"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Overview \"Small\" Limit"
+msgstr ""
+
+#. SysConfig
 msgid "Ticket Owner."
 msgstr ""
 
@@ -18763,6 +18195,18 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket limit per page for Ticket Overview \"Medium\""
+msgstr ""
+
+#. SysConfig
+msgid "Ticket limit per page for Ticket Overview \"Preview\""
+msgstr ""
+
+#. SysConfig
+msgid "Ticket limit per page for Ticket Overview \"Small\""
 msgstr ""
 
 #. SysConfig
@@ -18870,6 +18314,14 @@ msgid "Unlocked ticket."
 msgstr ""
 
 #. SysConfig
+msgid "Up"
+msgstr ""
+
+#. SysConfig
+msgid "Upcoming Events"
+msgstr ""
+
+#. SysConfig
 msgid "Update Ticket \"Seen\" flag if every article got seen or a new Article got created."
 msgstr ""
 
@@ -18910,15 +18362,15 @@ msgid "Use new type of select and autocomplete fields in customer interface, whe
 msgstr ""
 
 #. SysConfig
+msgid "User Profile"
+msgstr ""
+
+#. SysConfig
 msgid "UserFirstname"
 msgstr ""
 
 #. SysConfig
 msgid "UserLastname"
-msgstr ""
-
-#. SysConfig
-msgid "Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -18939,6 +18391,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Watch this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Watched Tickets"
 msgstr ""
 
 #. SysConfig
@@ -18986,6 +18442,10 @@ msgid "Your email with ticket number \"<OTRS_TICKET>\" is bounced to \"<OTRS_BOU
 msgstr ""
 
 #. SysConfig
+msgid "Your email with ticket number \"<OTRS_TICKET>\" is merged to \"<OTRS_MERGE_TO_TICKET>\"."
+msgstr ""
+
+#. SysConfig
 msgid "Your queue selection of your favorite queues. You also get notified about those queues via email if enabled."
 msgstr ""
 
@@ -19014,6 +18474,18 @@ msgid "inline"
 msgstr ""
 
 #. SysConfig
+msgid "normal"
+msgstr ""
+
+#. SysConfig
 msgid "notice"
+msgstr ""
+
+#. SysConfig
+msgid "off"
+msgstr ""
+
+#. SysConfig
+msgid "reverse"
 msgstr ""
 

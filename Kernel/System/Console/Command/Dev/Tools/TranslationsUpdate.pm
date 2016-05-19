@@ -132,6 +132,8 @@ sub Run {
 }
 
 my @OriginalTranslationStrings;
+# Remember which strings came from JavaScript
+my %UsedInJS;
 
 sub HandleLanguage {
     my ( $Self, %Param ) = @_;
@@ -147,9 +149,6 @@ sub HandleLanguage {
     my $IsSubTranslation;
 
     my $DefaultTheme = $Kernel::OM->Get('Kernel::Config')->Get('DefaultTheme');
-
-    # for every word, save the information that it is used in JS
-    my %UsedInJS;
 
     # We need to map internal codes to the official ones used by Transifex
     my %TransifexLanguagesMap = (
