@@ -11901,7 +11901,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ZoomCollectMetaFilters###CVE-Mitre" Required="0" Valid="0">
-        <Description Translatable="1">Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won't work with the preview mode.</Description>
+        <Description Translatable="1">Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won't work with the preview mode.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
@@ -11915,15 +11915,15 @@ Thanks for your help!
                     <Hash>
                         <Item Key="Name">CVE Mitre</Item>
                         <Item Key="URL">http://cve.mitre.org/cgi-bin/cvename.cgi?name=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
+                        <Item Key="URLPreview">http://cve.mitre.org/cgi-bin/cvename.cgi?name=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
                         <Item Key="Target">_blank</Item>
-                        <Item Key="EnableLinkPreview">1</Item>
                     </Hash>
                 </Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ZoomCollectMetaFilters###CVE-Google" Required="0" Valid="0">
-        <Description Translatable="1">Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won't work with the preview mode.</Description>
+        <Description Translatable="1">Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won't work with the preview mode.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
@@ -11937,8 +11937,8 @@ Thanks for your help!
                     <Hash>
                         <Item Key="Name">CVE Google Search</Item>
                         <Item Key="URL">http://google.com/search?q=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
+                        <Item Key="URLPreview"></Item>
                         <Item Key="Target">_blank</Item>
-                        <Item Key="EnableLinkPreview">0</Item>
                     </Hash>
                 </Item>
             </Hash>

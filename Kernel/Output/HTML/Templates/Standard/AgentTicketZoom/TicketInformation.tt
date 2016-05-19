@@ -160,7 +160,7 @@
                         <label>[% Translate(Data.Label) | html %]:</label>
                         <p class="Value">
 [% RenderBlockStart("TicketDynamicFieldLink") %]
-                            <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.EnableLinkPreview %] data-trigger="floater"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
+                            <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
 [% RenderBlockEnd("TicketDynamicFieldLink") %]
 [% RenderBlockStart("TicketDynamicFieldPlain") %]
                             <span title="[% Data.Title %]">[% Data.Value %]</span>

@@ -481,14 +481,14 @@ sub DisplayValueRender {
     my $Title = $Value;
 
     # set field link form config
-    my $Link = $Param{DynamicFieldConfig}->{Config}->{Link} || '';
-    my $EnableLinkPreview = $Param{DynamicFieldConfig}->{Config}->{EnableLinkPreview} || 0;
+    my $Link              = $Param{DynamicFieldConfig}->{Config}->{Link} || '';
+    my $LinkPreview       = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
     my $Data = {
         Value             => $Value,
         Title             => $Title,
         Link              => $Link,
-        EnableLinkPreview => $EnableLinkPreview,
+        LinkPreview       => $LinkPreview,
     };
 
     return $Data;

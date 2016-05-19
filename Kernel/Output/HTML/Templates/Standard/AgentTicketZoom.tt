@@ -322,7 +322,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                                 <p class="Value CutValue DynamicField_[% Data.Name %]">
 <!-- OutputFilterHook_WidgetDynamicFieldBegin -->
 [% RenderBlockStart("ProcessWidgetDynamicFieldLink") %]
-                                    <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
+                                    <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
 [% RenderBlockEnd("ProcessWidgetDynamicFieldLink") %]
 [% RenderBlockStart("ProcessWidgetDynamicFieldPlain") %]
                                     [% Data.Value %]
@@ -829,7 +829,7 @@ function CheckIFrameHeight(IFrameID) {
                     <h2>[% Entry.Name | html %]</h2>
                     <ul>
                     [% FOREACH Item IN Entry.Matches %]
-                        <li><a href="[% Item.URL | html %]"[% IF Item.EnableLinkPreview %] data-trigger="floater"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                        <li><a href="[% Item.URL | html %]"[% IF Item.URLPreview %] data-trigger="floater" data-floater-url="[% Item.URLPreview | html %]"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
                     [% END %]
                     </ul>
                 [% END %]
