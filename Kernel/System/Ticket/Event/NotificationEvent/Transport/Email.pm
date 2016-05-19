@@ -146,13 +146,6 @@ sub SendNotification {
             $EmailTemplate = 'Default';
         }
 
-        # Banner
-        if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
-            $LayoutObject->Block(
-                Name => 'VersionBanner',
-            );
-        }
-
         # generate HTML
         $Notification{Body} = $LayoutObject->Output(
             TemplateFile => "NotificationEvent/Email/$EmailTemplate",
