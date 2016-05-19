@@ -128,8 +128,8 @@ Core.Agent.Statistics = (function (TargetNS) {
                 'Center',
                 true,
                 [
-                    { Label: Core.Config.Get('Translation.Save'), Class: 'Primary', Type: '', Function: EditDialogSave },
-                    { Label: Core.Config.Get('Translation.Cancel'), Class: '', Type: 'Close', Function: EditDialogCancel }
+                    { Label: Core.Language.Translate('Save'), Class: 'Primary', Type: '', Function: EditDialogSave },
+                    { Label: Core.Language.Translate('Cancel'), Class: '', Type: 'Close', Function: EditDialogCancel }
                 ],
                 true
             );

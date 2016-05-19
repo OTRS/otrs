@@ -220,6 +220,5 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketAction.Init();
-    Core.Config.Set('Localization.Delete', [% Translate("Delete") | JSON %]);
 //]]></script>
 [% END %]

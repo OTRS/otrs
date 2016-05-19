@@ -95,8 +95,6 @@
 </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-Core.Config.Set('Translation.Save', [% Translate('Save') | JSON %]);
-Core.Config.Set('Translation.Cancel', [% Translate('Cancel') | JSON %]);
 Core.Agent.Statistics.InitEditScreen();
 //]]></script>
 [% END %]

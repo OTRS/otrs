@@ -536,7 +536,6 @@ $('#TypeID').bind('change', function (Event) {
 #Layers
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    Core.Config.Set('Localization.Delete', '[% Translate("Delete") | html %]');
     Core.Agent.TicketAction.Init();
 //]]></script>
 [% END %]

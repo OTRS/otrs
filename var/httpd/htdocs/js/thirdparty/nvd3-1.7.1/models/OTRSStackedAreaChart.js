@@ -46,7 +46,7 @@ nv.models.OTRSstackedAreaChart = function() {
 // OTRS
 // ---
 //    , cData = ['Stacked','Stream','Expanded']
-        , cData = [ Core.Config.Get('Stacked') || 'Stacked', Core.Config.Get('Stream') || 'Stream', Core.Config.Get('Expanded') || 'Expanded' ]
+        , cData = [ Core.Language.Translate('Stacked'), Core.Language.Translate('Stream'), Core.Language.Translate('Expanded') ]
 // ---
         , controlLabels = {}
         , duration = 250

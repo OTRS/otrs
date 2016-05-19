@@ -72,13 +72,6 @@
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-
-// add translations
-Core.Config.Set('Grouped', [% Translate("Grouped") | JSON %]);
-Core.Config.Set('Stacked', [% Translate("Stacked") | JSON %]);
-Core.Config.Set('Expanded', [% Translate("Expanded") | JSON %]);
-Core.Config.Set('Stream', [% Translate("Stream") | JSON %]);
-
 (function(){
     var Timeout = 500;
     // check if the container is already expanded, otherwise the graph
