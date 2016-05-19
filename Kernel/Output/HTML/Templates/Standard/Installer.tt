@@ -156,8 +156,6 @@
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    Core.Config.Set('Installer.CheckMailLabelOne', [% Translate("Mail check successful.") | JSON %]);
-    Core.Config.Set('Installer.CheckMailLabelTwo', [% Translate("Error in the mail settings. Please correct and try again.") | JSON %]);
     $('#InstallerContinueWithJS').show();
 //]]></script>
 [% END %]

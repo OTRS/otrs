@@ -325,15 +325,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
      * @memberof Core.Agent.Dashboard
      * @function
      * @param {Object} Params - Hash with different config options.
-     * @param {Array} Params.MonthNames - Array containing the localized strings for each month.
-     * @param {Array} Params.MonthNamesShort - Array containing the localized strings for each month on shorth format.
-     * @param {Array} Params.DayNames - Array containing the localized strings for each week day.
-     * @param {Array} Params.DayNamesShort - Array containing the localized strings for each week day on short format.
-     * @param {Array} Params.ButtonText - Array containing the localized strings for each week day on short format.
-     * @param {String} Params.ButtonText.today - Localized string for the word "Today".
-     * @param {String} Params.ButtonText.month - Localized string for the word "month".
-     * @param {String} Params.ButtonText.week - Localized string for the word "week".
-     * @param {String} Params.ButtonText.day - Localized string for the word "day".
      * @param {Array} Params.Events - Array of hashes including the data for each event.
      * @description
      *      Initializes the event ticket calendar.
@@ -345,15 +336,62 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 center: 'title',
                 right: 'prev,next today'
             },
-            allDayText: Params.AllDayText,
+            allDayText: Core.Language.Translate('All-day'),
             axisFormat: 'H(:mm)', // uppercase H for 24-hour clock
             editable: false,
             firstDay: Params.FirstDay,
-            monthNames: Params.MonthNames,
-            monthNamesShort: Params.MonthNamesShort,
-            dayNames: Params.DayNames,
-            dayNamesShort: Params.DayNamesShort,
-            buttonText: Params.ButtonText,
+            monthNames: [
+                Core.Language.Translate('Jan'),
+                Core.Language.Translate('Feb'),
+                Core.Language.Translate('Mar'),
+                Core.Language.Translate('Apr'),
+                Core.Language.Translate('May'),
+                Core.Language.Translate('Jun'),
+                Core.Language.Translate('Jul'),
+                Core.Language.Translate('Aug'),
+                Core.Language.Translate('Sep'),
+                Core.Language.Translate('Oct'),
+                Core.Language.Translate('Nov'),
+                Core.Language.Translate('Dec')
+            ],
+            monthNamesShort: [
+                Core.Language.Translate('January'),
+                Core.Language.Translate('February'),
+                Core.Language.Translate('March'),
+                Core.Language.Translate('April'),
+                Core.Language.Translate('May_long'),
+                Core.Language.Translate('June'),
+                Core.Language.Translate('July'),
+                Core.Language.Translate('August'),
+                Core.Language.Translate('September'),
+                Core.Language.Translate('October'),
+                Core.Language.Translate('November'),
+                Core.Language.Translate('December')
+            ],
+            dayNames: [
+                Core.Language.Translate('Sunday'),
+                Core.Language.Translate('Monday'),
+                Core.Language.Translate('Tuesday'),
+                Core.Language.Translate('Wednesday'),
+                Core.Language.Translate('Thursday'),
+                Core.Language.Translate('Friday'),
+                Core.Language.Translate('Saturday')
+            ],
+            dayNamesShort: [
+                Core.Language.Translate('Su'),
+                Core.Language.Translate('Mo'),
+                Core.Language.Translate('Tu'),
+                Core.Language.Translate('We'),
+                Core.Language.Translate('Th'),
+                Core.Language.Translate('Fr'),
+                Core.Language.Translate('Sa')
+            ],
+            buttonText: {
+                today: Core.Language.Translate('Today'),
+                month: Core.Language.Translate('month'),
+                week: Core.Language.Translate('week'),
+                day: Core.Language.Translate('day')
+            },
             eventMouseover: function(calEvent, jsEvent) {
                 var Layer, PosX, PosY, DocumentVisible, ContainerHeight,
                     LastYPosition, VisibleScrollPosition, WindowHeight;

@@ -11,59 +11,6 @@
 
     $(document).ready(function() {
         Core.Agent.Dashboard.EventsTicketCalendarInit({
-            AllDayText: [% Translate("All-day") | JSON %],
-            MonthNames: [
-                [% Translate("January") | JSON %],
-                [% Translate("February") | JSON %],
-                [% Translate("March") | JSON %],
-                [% Translate("April") | JSON %],
-                [% Translate("May_long") | JSON %],
-                [% Translate("June") | JSON %],
-                [% Translate("July") | JSON %],
-                [% Translate("August") | JSON %],
-                [% Translate("September") | JSON %],
-                [% Translate("October") | JSON %],
-                [% Translate("November") | JSON %],
-                [% Translate("December") | JSON %]
-            ],
-            MonthNamesShort: [
-                [% Translate("Jan") | JSON %],
-                [% Translate("Feb") | JSON %],
-                [% Translate("Mar") | JSON %],
-                [% Translate("Apr") | JSON %],
-                [% Translate("May") | JSON %],
-                [% Translate("Jun") | JSON %],
-                [% Translate("Jul") | JSON %],
-                [% Translate("Aug") | JSON %],
-                [% Translate("Sep") | JSON %],
-                [% Translate("Oct") | JSON %],
-                [% Translate("Nov") | JSON %],
-                [% Translate("Dec") | JSON %]
-            ],
-            DayNames: [
-                [% Translate("Sunday") | JSON %],
-                [% Translate("Monday") | JSON %],
-                [% Translate("Tuesday") | JSON %],
-                [% Translate("Wednesday") | JSON %],
-                [% Translate("Thursday") | JSON %],
-                [% Translate("Friday") | JSON %],
-                [% Translate("Saturday") | JSON %]
-            ],
-            DayNamesShort: [
-                [% Translate("Su") | JSON %],
-                [% Translate("Mo") | JSON %],
-                [% Translate("Tu") | JSON %],
-                [% Translate("We") | JSON %],
-                [% Translate("Th") | JSON %],
-                [% Translate("Fr") | JSON %],
-                [% Translate("Sa") | JSON %]
-            ],
-            ButtonText: {
-                today: [% Translate("Today") | JSON %],
-                month: [% Translate("month") | JSON %],
-                week: [% Translate("week") | JSON %],
-                day: [% Translate("day") | JSON %]
-            },
             FirstDay: [% Data.FirstDay | html %],
             Events: [
 [% RenderBlockStart("CalendarEvent") %]
