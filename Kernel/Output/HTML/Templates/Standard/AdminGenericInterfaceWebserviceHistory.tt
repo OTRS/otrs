@@ -121,17 +121,7 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 
-Core.Agent.Admin.GenericInterfaceWebserviceHistory.Init({
-    WebserviceID: [% Data.WebserviceID | html %],
-    Localization: {
-        WebserviceHistoryErrorMsg: [% Translate("An error occurred during communication.") | JSON %],
-        NoDataFoundMsg: [% Translate("No data found.") | JSON %],
-        ToggleContentMsg: [% Translate("Show or hide the content.") | JSON %],
-        RollbackLogMsg: [% Translate("Restore web service configuration") | JSON %],
-        RollbackMsg: [% Translate("Restore") | JSON %],
-        CancelMsg: [% Translate("Cancel") | JSON %]
-    }
-});
+Core.Agent.Admin.GenericInterfaceWebserviceHistory.Init([% Data.WebserviceID | html %]);
 
 //Load Webservice list on startup without active filter
 Core.Agent.Admin.GenericInterfaceWebserviceHistory.GetWebserviceList();

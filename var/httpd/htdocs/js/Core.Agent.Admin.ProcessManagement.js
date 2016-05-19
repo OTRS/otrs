@@ -61,7 +61,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $('#PopupRedirectStartActivityID').val($(this).data('startactivityid'));
 
             if ($(this).hasClass('Edit_Confirm')) {
-                if (window.confirm(Core.Agent.Admin.ProcessManagement.Localization.EditConfirm)) {
+                if (window.confirm(Core.Language.Translate('As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?'))) {
                     // Remove onbeforeunload event only if there is no validation pending on form submit
                     if (!($Form.hasClass("Validate"))) {
                         $(window).unbind("beforeunload.PMPopup");
@@ -107,14 +107,14 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             true,
             [
                {
-                   Label: TargetNS.Localization.CancelMsg,
+                   Label: Core.Language.Translate('Cancel'),
                    Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('.Dialog'));
                    }
                },
                {
-                   Label: TargetNS.Localization.DeleteMsg,
+                   Label: Core.Language.Translate('Delete'),
                    Function: function () {
                        var Data = {
                                Action: 'AdminProcessManagement',
@@ -167,20 +167,20 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         Core.UI.Dialog.ShowContentDialog(
             $('#Dialogs #' + DialogID),
-            TargetNS.Localization.DeleteEntityTitle,
+            Core.Language.Translate('Delete Entity'),
             '240px',
             'Center',
             true,
             [
                {
-                   Label: TargetNS.Localization.CancelMsg,
+                   Label: Core.Language.Translate('Cancel'),
                    Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('.Dialog'));
                    }
                },
                {
-                   Label: TargetNS.Localization.DeleteMsg,
+                   Label: Core.Language.Translate('Delete'),
                    Function: function () {
                        var Data = {
                                Action: 'AdminProcessManagement',
@@ -381,7 +381,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     TargetNS.Canvas.MakeDraggable();
                 }
                 else {
-                    alert(Core.Agent.Admin.ProcessManagement.Localization.ActivityAlreadyPlaced);
+                    alert(Core.Language.Translate('This Activity is already used in the Process. You cannot add it twice!'));
                 }
             }
             else {
@@ -523,7 +523,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // if a dummy activity exists, another transition was placed to the canvas but not yet
             // connected to an end point. One cannot place two unconnected transitions on the canvas.
             if ($('#Dummy').length && DummyActivityConnected(ProcessEntityID)) {
-              alert(Core.Agent.Admin.ProcessManagement.Localization.UnconnectedTransition);
+              alert(Core.Language.Translate('An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.'));
               return false;
             }
 
@@ -536,7 +536,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 // If this transition is already bind to this activity
                 // you cannot bind it a second time
                 if (Path[Activity] && typeof Path[Activity][EntityID] !== 'undefined') {
-                    alert(Core.Agent.Admin.ProcessManagement.Localization.TransitionAlreadyPlaced);
+                    alert(Core.Language.Translate('This Transition is already used for this Activity. You cannot use it twice!'));
                     return false;
                 }
 
@@ -593,7 +593,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     typeof Path[Transition.StartActivity][Transition.TransitionID].TransitionAction !== 'undefined' &&
                     ($.inArray(EntityID, Path[Transition.StartActivity][Transition.TransitionID].TransitionAction) >= 0)
                 ) {
-                    alert(Core.Agent.Admin.ProcessManagement.Localization.TransitionActionAlreadyPlaced);
+                    alert(Core.Language.Translate('This TransitionAction is already used in this Path. You cannot use it twice!'));
                     return false;
                 }
 
@@ -928,11 +928,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         $('#ShowEntityIDs').bind('click', function() {
             if ($(this).hasClass('Visible')) {
-                $(this).removeClass('Visible').text(Core.Agent.Admin.ProcessManagement.Localization.ShowEntityIDs);
+                $(this).removeClass('Visible').text(Core.Translate.Language('Show EntityIDs'));
                 $('em.EntityID').remove();
             }
             else {
-                $(this).addClass('Visible').text(Core.Agent.Admin.ProcessManagement.Localization.HideEntityIDs);
+                $(this).addClass('Visible').text(Core.Language.Translate('Hide EntityIDs'));
                 TargetNS.Canvas.ShowEntityIDs();
             }
             return false;
@@ -1086,13 +1086,13 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // Open dialog
             Core.UI.Dialog.ShowContentDialog(
                 $('#Dialogs #FieldDetails'),
-                TargetNS.Localization.DialogTitle + ': ' + FieldNameTranslated,
+                Core.Language.Translate('Edit Field Details') + ': ' + FieldNameTranslated,
                 '200px',
                 'Center',
                 true,
                 [
                      {
-                         Label: TargetNS.Localization.SaveMsg,
+                         Label: Core.Language.Translate('Save'),
                          Class: 'Primary',
                          Function: function () {
                              var FieldConfigElement = {};
@@ -1110,7 +1110,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
                                  // show error if internal article type is set for an interface different than AgentInterface
                                  if ($('#Interface').val() !== 'AgentInterface' && $('#ArticleType').val().match(/-int/i)){
-                                     window.alert(Core.Agent.Admin.ProcessManagement.Localization.WrongArticleTypeMsg);
+                                     window.alert(Core.Language.Translate('Customer interface does not support internal article types.'));
                                      return false;
                                  }
 
@@ -1124,7 +1124,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                          }
                      },
                      {
-                         Label: TargetNS.Localization.CancelMsg,
+                         Label: Core.Language.Translate('Cancel'),
                          Class: 'CallForAction',
                          Function: function () {
                              Core.UI.Dialog.CloseDialog($('.Dialog'));

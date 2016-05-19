@@ -144,7 +144,7 @@
 <script type="text/javascript">//<![CDATA[
 $('.NotificationDelete').bind('click', function (Event) {
 
-    if (window.confirm([% Translate("Do you really want to delete this notification?") | JSON %])) {
+    if (window.confirm([% Translate('Do you really want to delete this notification?') | JSON %])) {
         window.location = $(this).attr('href');
     }
 
@@ -677,11 +677,7 @@ $('.NotificationDelete').bind('click', function (Event) {
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.NotificationEvent.Init({
-    Localization: {
-        DeleteNotificationLanguageMsg: [% Translate("Do you really want to delete this notification language?") | JSON %]
-    }
-});
+Core.Agent.Admin.NotificationEvent.Init();
 //]]></script>
 [% END %]
 

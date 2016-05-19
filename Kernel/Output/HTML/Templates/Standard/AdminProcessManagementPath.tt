@@ -125,10 +125,5 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.ProcessManagement.InitPathEdit();
-
-// Localizations
-Core.Agent.Admin.ProcessManagement.Localization = {
-    EditConfirm: "[% Translate("As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?") | html %]"
-};
 //]]></script>
 [% END %]

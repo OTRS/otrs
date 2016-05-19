@@ -149,7 +149,7 @@
     $('#RegistrationMoreInfo').bind('click', function() {
         Core.UI.Dialog.ShowDialog({
             Modal: true,
-            Title: [% Translate("System Registration") | JSON %],
+            Title: [% Translate('System Registration') | JSON %],
             HTML: $('#QADialog').html(),
             PositionTop: '70px',
             PositionLeft: 'Center',
@@ -161,7 +161,7 @@
     $('#RegistrationDataProtection').bind('click', function() {
         Core.UI.Dialog.ShowDialog({
             Modal: true,
-            Title: [% Translate("Data Protection") | JSON %],
+            Title: [% Translate('Data Protection') | JSON %],
             HTML: $('#DPDialog').html(),
             PositionTop: '10px',
             PositionLeft: 'Center',

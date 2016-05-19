@@ -241,13 +241,5 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.ProcessManagement.InitActivityDialogEdit();
-
-//Localizations
-Core.Agent.Admin.ProcessManagement.Localization = {
-        CancelMsg: "[% Translate("Cancel") | html %]",
-        SaveMsg: "[% Translate("Save") | html %]",
-        DialogTitle: "[% Translate("Edit Field Details") | html %]",
-        WrongArticleTypeMsg: "[% Translate("Customer interface does not support internal article types.") | html %]"
-};
 //]]></script>
 [% END %]
