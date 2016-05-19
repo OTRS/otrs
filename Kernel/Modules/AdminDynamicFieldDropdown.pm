@@ -118,9 +118,6 @@ sub _AddAction {
     $GetParam{TreeView} = $ParamObject->GetParam( Param => 'TreeView' );
     $GetParam{TreeView} = defined $GetParam{TreeView} && $GetParam{TreeView} ? '1' : '0';
 
-    # get the EnableLinkPreview option and set it to '0' if it is undefined
-    $GetParam{EnableLinkPreview} = $ParamObject->GetParam( Param => 'EnableLinkPreview' ) // 0;
-
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     if ( $GetParam{Name} ) {
@@ -166,7 +163,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
         ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-        TranslatableValues ValidID Link
+        TranslatableValues ValidID Link LinkPreview
         )
         )
     {
@@ -225,11 +222,11 @@ sub _AddAction {
     my $FieldConfig = {
         PossibleValues     => $PossibleValues,
         TreeView           => $GetParam{TreeView},
-        EnableLinkPreview  => $GetParam{EnableLinkPreview},
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
         Link               => $GetParam{Link},
+        LinkPreview        => $GetParam{LinkPreview},
     };
 
     # create a new field
@@ -322,11 +319,9 @@ sub _Change {
         # set TreeView
         $Config{TreeView} = $DynamicFieldData->{Config}->{TreeView};
 
-        # set EnableLinkPreview
-        $Config{EnableLinkPreview} = $DynamicFieldData->{Config}->{EnableLinkPreview};
-
         # set Link
-        $Config{Link} = $DynamicFieldData->{Config}->{Link};
+        $Config{Link}        = $DynamicFieldData->{Config}->{Link};
+        $Config{LinkPreview} = $DynamicFieldData->{Config}->{LinkPreview};
     }
 
     return $Self->_ShowScreen(
@@ -359,9 +354,6 @@ sub _ChangeAction {
     # get the TreeView option and set it to '0' if it is undefined
     $GetParam{TreeView} = $ParamObject->GetParam( Param => 'TreeView' );
     $GetParam{TreeView} = defined $GetParam{TreeView} && $GetParam{TreeView} ? '1' : '0';
-
-    # get the EnableLinkPreview option and set it to '0' if it is undefined
-    $GetParam{EnableLinkPreview} = $ParamObject->GetParam( Param => 'EnableLinkPreview' ) // 0;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -447,7 +439,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
         ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-        TranslatableValues ValidID Link
+        TranslatableValues ValidID Link LinkPreview
         )
         )
     {
@@ -505,11 +497,11 @@ sub _ChangeAction {
     my $FieldConfig = {
         PossibleValues     => $PossibleValues,
         TreeView           => $GetParam{TreeView},
-        EnableLinkPreview  => $GetParam{EnableLinkPreview},
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
         Link               => $GetParam{Link},
+        LinkPreview        => $GetParam{LinkPreview},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -757,20 +749,8 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
-    my $Link = $Param{Link} || '';
-
-    my $EnableLinkPreview = $Param{EnableLinkPreview} || '0';
-
-    # create EnableLinkPreview option list
-    my $EnableLinkPreviewStrg = $LayoutObject->BuildSelection(
-        Data => {
-            0 => Translatable('No'),
-            1 => Translatable('Yes'),
-        },
-        Name       => 'EnableLinkPreview',
-        SelectedID => $EnableLinkPreview,
-        Class      => 'Modernize W50pc',
-    );
+    my $Link        = $Param{Link} || '';
+    my $LinkPreview = $Param{LinkPreview} || '';
 
     my $ReadonlyInternalField = '';
 
@@ -797,7 +777,7 @@ sub _ShowScreen {
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
-            EnableLinkPreviewStrg  => $EnableLinkPreviewStrg,
+            LinkPreview            => $LinkPreview,
             }
     );
 

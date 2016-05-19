@@ -201,11 +201,12 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <div class="SpacingTop"></div>
-                        <label for="EnableLinkPreview">[% Translate("Enable link preview") | html %]:</label>
+                        <label for="Link">[% Translate("Link for preview") | html %]:</label>
                         <div class="Field">
-                            [% Data.EnableLinkPreviewStrg %]
-                            <p class="FieldExplanation">[% Translate("Activate this option to display a preview of the link configured above in AgentTicketZoom.") | html %]</p>
+                            <input id="LinkPreview" class="W50pc" type="text" maxlength="500" value="[% Data.LinkPreview | html %]" name="LinkPreview"/>
+                            <p class="FieldExplanation">
+                                [% Translate("If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.") | html %]
+                            </p>
                         </div>
                         <div class="Clear"></div>
 
