@@ -843,9 +843,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                     // if the element doesn't have an ID, generate one.
                     // this is needed for the autocomplete for work properly, e.g.
                     // to hide the loader icon after the results have been fetched
-                    if (!$(this).attr('id')) {
-                        $(this).attr('id', 'Action_' + Math.random().toString(36).substr(2,9));
-                    }
+                    Core.UI.GetID($(this));
 
                     Core.UI.Autocomplete.Init(
                         $(this),
