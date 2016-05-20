@@ -305,7 +305,9 @@ sub Run {
             # save article from for addresses list
             $ArticleFrom = $Article{From};
 
-            # if To is present and is no a queue
+            # if To is present
+            # and is no a queue
+            # and also is no a system address
             # set To as article from
             if ( IsStringWithData( $Article{To} ) ) {
                 my %Queues = $QueueObject->QueueList();
@@ -318,9 +320,20 @@ sub Run {
                 }
 
                 my %QueueLookup = reverse %Queues;
-                if ( !defined $QueueLookup{ $Article{To} } ) {
+                my %SystemAddressLookup
+                    = reverse $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList();
+                my @ArticleFromAddress;
+                my $SystemAddressEmail;
+
+                if ($ArticleFrom) {
+                    @ArticleFromAddress = Mail::Address->parse($ArticleFrom);
+                    $SystemAddressEmail = $ArticleFromAddress[0]->address();
+                }
+
+                if ( !defined $QueueLookup{ $Article{To} } && defined $SystemAddressLookup{$SystemAddressEmail} ) {
                     $ArticleFrom = $Article{To};
                 }
+
             }
 
             # body preparation for plain text processing
