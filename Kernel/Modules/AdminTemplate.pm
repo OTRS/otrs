@@ -372,6 +372,27 @@ sub _Edit {
         Class        => 'Modernize',
     );
 
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
+    if ( $LayoutObject->{BrowserRichText} ) {
+
+        # reformat from plain to html
+        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
+            $Param{Template} = $HTMLUtilsObject->ToHTML(
+                String => $Param{Template},
+            );
+        }
+    }
+    else {
+
+        # reformat from html to plain
+        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
+            $Param{Template} = $HTMLUtilsObject->ToAscii(
+                String => $Param{Template},
+            );
+        }
+    }
+
     $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => {
@@ -396,30 +417,12 @@ sub _Edit {
         $LayoutObject->Block( Name => 'NameServerError' );
     }
 
-    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-
     # add rich text editor
     if ( $LayoutObject->{BrowserRichText} ) {
         $LayoutObject->Block(
             Name => 'RichText',
             Data => \%Param,
         );
-
-        # reformat from plain to html
-        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Template} = $HTMLUtilsObject->ToHTML(
-                String => $Param{Template},
-            );
-        }
-    }
-    else {
-
-        # reformat from html to plain
-        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Template} = $HTMLUtilsObject->ToAscii(
-                String => $Param{Template},
-            );
-        }
     }
     return 1;
 }
