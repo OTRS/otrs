@@ -303,6 +303,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
 
                 Chart.useInteractiveGuideline(true)
                     .duration(Options.Duration || 0)
+                    .reduceXTicks(Options.ReduceXTicks)
                     .showLegend(ShowLegend)
                     .showYAxis(true)
                     .showXAxis(true);
