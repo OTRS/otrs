@@ -1,4 +1,5 @@
 #4.0.18 2016-??-??
+ - 2016-05-20 Fixed bug#[12069](http://bugs.otrs.org/show_bug.cgi?id=12069) - enabling/disabling Article Filter show wrong article.
  - 2016-05-20 Fixed bug#[8153](http://bugs.otrs.org/show_bug.cgi?id=8153) - When configuration area is not activated, it is still editable.
  - 2016-05-19 Fixed bug#[9950](http://bugs.otrs.org/show_bug.cgi?id=9950) - Ticket Split takes uses system address as the customer.
  - 2016-05-13 Fixed bug#[12045](http://bugs.otrs.org/show_bug.cgi?id=12045) - Not possible to create a Ticket using TransitionAction::TicketCreate with Owner instead of OwnerID.
