@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-05-20 Fixed bug#[8153](http://bugs.otrs.org/show_bug.cgi?id=8153) - When configuration area is not activated, it is still editable.
  - 2016-05-20 Fixed bug#[12084](http://bugs.otrs.org/show_bug.cgi?id=12084) - Missing day names from 7 Day Stat.
  - 2016-05-20 Fixed bug#[12066](http://bugs.otrs.org/show_bug.cgi?id=12066) - Hamburger icon shows up unwanted.
  - 2016-05-19 Fixed bug#[9950](http://bugs.otrs.org/show_bug.cgi?id=9950) - Ticket Split takes uses system address as the customer.
