@@ -34,6 +34,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.11 2016-??-??
+ - 2016-05-20 Fixed bug#[12066](http://bugs.otrs.org/show_bug.cgi?id=12066) - Hamburger icon shows up unwanted.
  - 2016-05-19 Fixed bug#[9950](http://bugs.otrs.org/show_bug.cgi?id=9950) - Ticket Split takes uses system address as the customer.
  - 2016-05-15 Added possibility to sign and/or encrypt ticket notifications.
  - 2016-05-13 Fixed bug#[12045](http://bugs.otrs.org/show_bug.cgi?id=12045) - Not possible to create a Ticket using TransitionAction::TicketCreate with Owner instead of OwnerID.
