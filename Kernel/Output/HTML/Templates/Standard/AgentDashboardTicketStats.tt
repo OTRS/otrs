@@ -15,7 +15,8 @@
             [% Data.ChartData %],
             'svg.GraphWidget[% Data.Key | html %]',
             {
-                Duration: 250
+                Duration: 250,
+                ReduceXTicks: false
             }
         );
     }, Timeout);
