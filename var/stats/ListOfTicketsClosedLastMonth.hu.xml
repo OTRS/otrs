@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>A múlt hónapban lezárt összes jegy listája kor szerint rendezve.
+
+MEGJEGYZÉS: Alaposan nézze át a statisztikák kimenetét és beállításait, hogy meggyőződjön arról, hogy azokat az eredményeket állítják elő, amiket elvár. Ha szükséges, akkor változtassa meg a beállításokat, mielőtt a statisztikákat termelési környezetben használná.</Description>
+<File></File>
+<Format>CSV</Format>
+<Format>Excel</Format>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketList</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketList</ObjectModule>
+<ObjectName>Ticketlist</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Múlt hónapban lezárt jegyek listája</Title>
+<UseAsRestriction Element="Limit" Fixed="1">
+<SelectedValues>unlimited</SelectedValues>
+</UseAsRestriction>
+<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUpcomingCount="0" TimeRelativeUnit="Month">
+</UseAsRestriction>
+<UseAsValueSeries Element="OrderBy" Fixed="1">
+<SelectedValues>Age</SelectedValues>
+</UseAsValueSeries>
+<UseAsValueSeries Element="SortSequence" Fixed="1">
+<SelectedValues>Down</SelectedValues>
+</UseAsValueSeries>
+<UseAsXvalue Element="TicketAttributes" Fixed="1">
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>
