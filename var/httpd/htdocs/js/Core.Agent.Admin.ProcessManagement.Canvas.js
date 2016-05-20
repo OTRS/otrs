@@ -1070,7 +1070,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      *      Redraws diagram.
      */
     TargetNS.Redraw = function () {
-        $('#ShowEntityIDs').removeClass('Visible').text(Core.Translate.Language('Show EntityIDs'));
+        $('#ShowEntityIDs').removeClass('Visible').text(Core.Language.Translate('Show EntityIDs'));
         jsPlumb.reset();
         $('#Canvas').empty();
         TargetNS.Init();

@@ -928,7 +928,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         $('#ShowEntityIDs').bind('click', function() {
             if ($(this).hasClass('Visible')) {
-                $(this).removeClass('Visible').text(Core.Translate.Language('Show EntityIDs'));
+                $(this).removeClass('Visible').text(Core.Language.Translate('Show EntityIDs'));
                 $('em.EntityID').remove();
             }
             else {
