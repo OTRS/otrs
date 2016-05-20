@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_stats>
+<Cache>0</Cache>
+<Title>Áttekintő a rendszeren lévő összes jegyről</Title>
+<Description>A rendszeren lévő összes jegy jelenlegi állapota időkorlátozások nélkül.</Description>
+<Format>CSV</Format>
+<Format>D3::BarChart</Format>
+<Format>D3::LineChart</Format>
+<Format>D3::StackedAreaChart</Format>
+<Format>Excel</Format>
+<Format>Print</Format>
+<Object>Ticket</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>1</SumCol>
+<SumRow>1</SumRow>
+<UseAsValueSeries Element="QueueIDs" Fixed="1">
+</UseAsValueSeries>
+<UseAsXvalue Element="StateIDs" Fixed="1">
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>

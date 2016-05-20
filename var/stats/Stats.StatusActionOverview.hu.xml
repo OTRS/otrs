@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_stats>
+<Cache>1</Cache>
+<Description>Havi áttekintő, amely egy kiválasztott hónapban történt napi állapotváltozásokat mutatja ki.</Description>
+<Format>CSV</Format>
+<Format>D3::BarChart</Format>
+<Format>D3::LineChart</Format>
+<Format>D3::StackedAreaChart</Format>
+<Format>Excel</Format>
+<Format>Print</Format>
+<Object></Object>
+<ObjectModule>Kernel::System::Stats::Static::StateAction</ObjectModule>
+<Permission>stats</Permission>
+<StatType>static</StatType>
+<SumCol>1</SumCol>
+<SumRow>1</SumRow>
+<Title>Állapot változásai egy havi áttekintőben</Title>
+<Valid>1</Valid>
+</otrs_stats>

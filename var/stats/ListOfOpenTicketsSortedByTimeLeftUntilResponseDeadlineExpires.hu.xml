@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>A nyitott jegyek listája aszerint rendezve, hogy mennyi idő van hátra, amíg a válaszadási határidő lejár.
+
+MEGJEGYZÉS: Alaposan nézze át a statisztikák kimenetét és beállításait, hogy meggyőződjön arról, hogy azokat az eredményeket állítják elő, amiket elvár. Ha szükséges, akkor változtassa meg a beállításokat, mielőtt a statisztikákat termelési környezetben használná.</Description>
+<File></File>
+<Format>CSV</Format>
+<Format>Excel</Format>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketList</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketList</ObjectModule>
+<ObjectName>Ticketlist</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Nyitott jegyek listája a válasz lejáratáig hátralévő idő szerint rendezve</Title>
+<UseAsRestriction Element="StateIDs" Fixed="1">
+<SelectedValues>new</SelectedValues>
+<SelectedValues>open</SelectedValues>
+<SelectedValues>pending auto close-</SelectedValues>
+<SelectedValues>pending auto close+</SelectedValues>
+<SelectedValues>pending reminder</SelectedValues>
+</UseAsRestriction>
+<UseAsValueSeries Element="OrderBy" Fixed="1">
+<SelectedValues>UpdateTimeDestinationDate</SelectedValues>
+</UseAsValueSeries>
+<UseAsValueSeries Element="SortSequence" Fixed="1">
+<SelectedValues>Up</SelectedValues>
+</UseAsValueSeries>
+<UseAsXvalue Element="TicketAttributes" Fixed="1">
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>
