@@ -111,8 +111,14 @@ sub Run {
         # get the system time
         my $TimeNow = $TimeObject->SystemTime();
 
+        # cache results for 30 min. for todays stats
+        my $CacheTTL = 60 * 30;
+
         if ($Key) {
             $TimeNow = $TimeNow - ( 60 * 60 * 24 * $Key );
+
+            # for past 6 days cache results for 8 days (should not change)
+            $CacheTTL = 60 * 60 * 24 * 8;
         }
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
             SystemTime => $TimeNow,
@@ -148,8 +154,8 @@ sub Run {
 
         my $CountCreated = $TicketObject->TicketSearch(
 
-            # cache search result 30 min
-            CacheTTL => 60 * 30,
+            # cache search result
+            CacheTTL => $CacheTTL,
 
             # tickets with create time after ... (ticket newer than this date) (optional)
             TicketCreateTimeNewerDate => $TimeStart,
@@ -171,8 +177,8 @@ sub Run {
 
         my $CountClosed = $TicketObject->TicketSearch(
 
-            # cache search result 30 min
-            CacheTTL => 60 * 30,
+            # cache search result
+            CacheTTL => $CacheTTL,
 
             # tickets with create time after ... (ticket newer than this date) (optional)
             TicketCloseTimeNewerDate => $TimeStart,
