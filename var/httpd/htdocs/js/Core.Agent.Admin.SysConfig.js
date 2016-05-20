@@ -31,6 +31,11 @@ Core.Agent.Admin.SysConfig = (function (TargetNS) {
         $('#AdminSysConfig h3 input[type="checkbox"]').click(function () {
             $(this).parent('h3').parent('fieldset').toggleClass('Invalid');
         });
+
+        // don't allow editing disabled fields
+        $('#AdminSysConfig').on('focus', '.Invalid input', function() {
+            $(this).blur();
+        });
     };
 
     return TargetNS;
