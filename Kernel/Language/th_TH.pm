@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.838206627680312;
+    $Self->{Completeness}        = 0.837491863744847;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -85,12 +85,6 @@ sub Data {
         'Save and finish' => 'บันทึกและเสร็จสิ้น',
         'Cancel' => 'ยกเลิก',
         'Do you really want to delete this ACL?' => 'คุณต้องการลบ ACL นี้หรือไม่?',
-        'Delete' => 'ลบ',
-        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            'รายการนี้ยังคงประกอบด้วยรายการย่อย คุณแน่ใจหรือไม่ว่าคุณต้องการลบรายการนี้ซึ่งรวมถึงรายการย่อย?',
-        'An item with this name is already present.' => 'ไอเท็มที่ใช้ชื่อนี้ได้ถูกนำเสนอแล้ว',
-        'Add all' => 'เพิ่มทั้งหมด',
-        'There was an error reading the ACL data.' => 'มีข้อผิดพลาดการอ่านข้อมูล ACL',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -105,6 +99,7 @@ sub Data {
         'Filename' => 'ชื่อไฟล์',
         'Changed' => 'เปลี่ยนแล้ว',
         'Created' => 'สร้างแล้ว',
+        'Delete' => 'ลบ',
         'Download file' => 'ดาวน์โหลดไฟล์',
         'Delete this attachment' => 'ลบสิ่งที่แนบมานี้',
         'Add Attachment' => 'เพิ่มเอกสารแนบ',
@@ -311,9 +306,9 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'คุณสามารถระบุตัวเลือกการเชื่อมโยง HTTPที่นี่ สำหรับข้อมูลในภาพรวมและหน้าจอซูม',
         'Example' => 'ตัวอย่าง',
-        'Enable link preview' => 'เปิดใช้งานตัวอย่างการเชื่อมโยง',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
-            'เปิดใช้งานตัวเลือกนี้เพื่อแสดงภาพตัวอย่างของการเชื่อมโยงกำหนดค่าดังกล่าวข้างต้นในAgentTicketZoom.',
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            '',
         'Restrict entering of dates' => 'จำกัดการป้อนวันที่',
         'Here you can restrict the entering of dates of tickets.' => 'คุณสามารถจำกัดการป้อนวันที่ของตั๋วที่นี่',
 
@@ -401,11 +396,6 @@ sub Data {
         'Add Event' => 'เพิ่มกิจกรรม',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'ในการเพิ่มกิจกรรมใหม่เลือกออปเจ็กต์กิจกรรมและชื่อกิจกรรมและคลิกที่ปุ่ม "+"',
-        'Duplicate event.' => 'กิจกรรมที่ซ้ำกัน',
-        'This event is already attached to the job, Please use a different one.' =>
-            'กิจกรรมนี้แนบมากับงานเป็นที่เรียบร้อยแล้ว โปรดใช้กิจกรรมอื่นแทน',
-        'Delete this Event Trigger' => 'ลบกระตุ้นกิจกรรมนี้',
-        'Remove selection' => 'ลบการคัดเลือก',
         'Select Tickets' => 'เลือกตั๋ว',
         '(e. g. 10*5155 or 105658*)' => '(เช่น 10*5155 หรือ 105658*)',
         'Title' => 'หัวข้อ',
@@ -530,9 +520,6 @@ sub Data {
         'Limit' => 'ขีดจำกัด',
         'Refresh' => 'รีเฟรช',
         'Request Details' => 'รายละเอียดการร้องขอ',
-        'An error occurred during communication.' => 'เกิดข้อผิดพลาดในระหว่างการสื่อสาร',
-        'Show or hide the content.' => 'แสดงหรือซ่อนเนื้อหา',
-        'Clear debug log' => 'ยกเลิกการบันทึกการแก้ปัญหา',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => 'เพิ่มผู้ร้องขอไปยัง Web Service %s',
@@ -562,7 +549,6 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             'ตัวกระต้นกิจกรรมที่ตรงกันจะถูกประมวลผลโดยตรงในระหว่างการร้องขอเว็บ',
         'Save and continue' => 'บันทึกและดำเนินการต่อไป',
-        'Delete this Invoker' => 'ลบผู้ร้องขอนี้',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'อินเตอร์เฟซทั่วไปของการทำแผนที่อย่างง่ายสำหรับ Web Service %s',
@@ -587,7 +573,6 @@ sub Data {
         'New value map' => 'ค่าแผนที่ใหม่',
         'Add value mapping' => 'เพิ่มค่าของการทำแผนที่',
         'Do you really want to delete this key mapping?' => 'คุณต้องการลบคีย์ของการทำแผนที่นี้หรือไม่?',
-        'Delete this Key Mapping' => 'ลบคีย์ของการทำแผนที่นี้',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => 'อินเตอร์เฟซทั่วไปของการทำแผนที่ XSLT สำหรับ Web Service %s',
@@ -615,7 +600,6 @@ sub Data {
         'Mapping for outgoing response data' => 'แผนที่สำหรับข้อมูลการตอบสนองที่ส่งออก',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'ข้อมูลการตอบสนองจะถูกประมวลผลโดยแผนที่นี้เพื่อเปลี่ยนมันไปเป็นข้อมูลการคาดการของระบบระยะไกล',
-        'Delete this Operation' => 'ลบการดำเนินการนี้',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => 'อินเตอร์เฟซทั่วไปของการขนส่ง HTTP ::RESTสำหรับ Web Service %s',
@@ -774,11 +758,6 @@ sub Data {
         'Delete this action' => 'ลบการกระทำนี้',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             'อย่างน้อย% s มีการควบคุมที่ไม่ได้ใช้งานหรือไม่มีการนำเสนอโปรดตรวจสอบการลงทะเบียนตัวควบคุมหรือลบออก% s',
-        'Delete webservice' => 'ลบ webservice',
-        'Delete operation' => 'ลบการดำเนินการ',
-        'Delete invoker' => 'ลบผู้ร้องขอ',
-        'Clone webservice' => 'โคลนนิ่ง web service',
-        'Import webservice' => 'นำเข้า web service',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => 'อินเตอร์เฟซทั่วไปของประวัติการกำหนดค่าสำหรับ Web Service %s',
@@ -795,7 +774,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             'คุณต้องการที่จะเรียกคืนเวอร์ชันเรียกคืนการกำหนดค่า web serviceนี้หรือไม่?',
         'Your current web service configuration will be overwritten.' => 'การกำหนดค่าweb service ปัจจุบันของคุณจะถูกเขียนทับ',
-        'Restore' => 'การเรียกคืน',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -912,7 +890,6 @@ sub Data {
         'Remove Notification Language' => 'ลบภาษาของการแจ้งเตือน',
         'Message body' => 'เนื้อหาของข้อความ',
         'Add new notification language' => 'เพิ่มภาษาใหม่ของการแจ้งเตือน',
-        'Do you really want to delete this notification language?' => 'คุณต้องการที่จะลบภาษาของการแจ้งเตือนนี้หรือไม่?',
         'Notifications are sent to an agent or a customer.' => 'การแจ้งเตือนจะถูกส่งไปยังเอเย่นต์หรือลูกค้า',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'เพื่อให้ได้20 ตัวอักษรแรกของเนื้อเรื่อง(จากบทความเอเย่นต์ล่าสุด) ',
@@ -1184,8 +1161,6 @@ sub Data {
         'Edit' => 'แก้ไข',
         'Create New Activity Dialog' => 'สร้างกิจกรรมไดอะล็อกใหม่',
         'Assigned Activity Dialogs' => 'กิจกรรมไดอะล็อกที่ได้รับมอบหมาย',
-        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            'ทันทีที่คุณจะใช้ปุ่มหรือการเชื่อมโยงนี้คุณจะออกหน้าจอนี้และสถานะปัจจุบันของคุณจะถูกบันทึกไว้โดยอัตโนมัติ คุณต้องการที่จะทำต่อหรือไม่?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1214,8 +1189,6 @@ sub Data {
         'Assigned Fields' => 'ฟิลด์ที่ได้รับมอบหมาย',
         'ArticleType' => 'ประเภทของบทความ',
         'Display' => 'แสดง',
-        'Edit Field Details' => 'แก้ไขรายละเอียดของฟิลด์',
-        'Customer interface does not support internal article types.' => 'อินเตอร์เฟซของลูกค้าไม่สนับสนุนประเภทบทความภายใน',
 
         # Template: AdminProcessManagementPath
         'Path' => 'เส้นทาง',
@@ -1274,24 +1247,6 @@ sub Data {
             'คุณต้องการที่จะลบกิจกรรมนี้จากผ้าใบหรือไม่? ซึ่งคุณสามารถยกเลิกได้โดยการออกจากหน้าจอนี้โดยไม่มีการบันทึกเท่านั้น',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             'คุณต้องการที่จะลบการเปลี่ยนผ่านนี้จากผ้าใบหรือไม่? ซึ่งคุณสามารถยกเลิกได้โดยการออกจากหน้าจอนี้โดยไม่มีการบันทึกเท่านั้น',
-        'Hide EntityIDs' => 'ซ่อน EntityIDs',
-        'Delete Entity' => 'ลบเอ็นติตี้',
-        'Remove Entity from canvas' => 'ลบเอ็นติตี้จากผ้าใบ',
-        'This Activity is already used in the Process. You cannot add it twice!' =>
-            'กิจกรรมนี้ถูกใช้แล้วในกระบวนการนี้ คุณไม่สามารถเพิ่มอีกเป็นครั้งที่สอง!',
-        'This Activity cannot be deleted because it is the Start Activity.' =>
-            'กิจกรรมนี้ไม่สามารถลบได้เพราะมันเป็นจุดเริ่มต้นของกิจกรรม',
-        'This Transition is already used for this Activity. You cannot use it twice!' =>
-            'การเปลี่ยนผ่านนี้ถูกใช้แล้วในกิจกรรมนี้ คุณไม่สามารถใช้งานสองครั้ง!',
-        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            'การดำเนินการเปลี่ยนผ่านนี้ถูกใช้แล้วในเส้นทางนี้ คุณไม่สามารถใช้งานสองครั้ง!',
-        'Remove the Transition from this Process' => 'ลบการเปลี่ยนผ่านออกจากกระบวนการนี้',
-        'No TransitionActions assigned.' => 'ไม่มีการดำเนินการเปลี่ยนผ่านที่ได้รับมอบหมาย',
-        'The Start Event cannot loose the Start Transition!' => 'จุดเริ่มต้นเหตุการณ์ไม่สามารถให้อิสระที่จุดเริ่มเริ่มต้นการเปลี่ยนผ่าน!',
-        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            'ยังไม่มีไดอะล็อกที่ได้รับมอบหมาย เพียงแค่เลือกกิจกรรมไดอะล็อกจากรายการทางด้านซ้ายและลากไปที่นี่',
-        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            'การเปลี่ยนผ่านที่ไม่เกี่ยวเนื่องกันถูกวางไว้แล้วบนผ้าใบแล้วโปรดเชื่อมต่อการเปลี่ยนผ่านนี้ก่อนที่จะวางการเปลี่ยนผ่านอื่นๆ',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -1917,10 +1872,6 @@ sub Data {
         'Download as CSV file' => 'ดาวน์โหลดเป็นไฟล์ CSV',
         'Download as Excel file' => 'ดาวน์โหลดเป็นไฟล์ Excel',
         'Download as PDF file' => 'ดาวน์โหลดเป็นไฟล์ PDF',
-        'Grouped' => 'จัดกลุ่ม',
-        'Stacked' => 'ซ้อนกัน',
-        'Expanded' => 'มีการขยาย',
-        'Stream' => 'สตรีม',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'โปรดเลือกรูปแบบการออกกราฟที่ถูกต้องในการกำหนดค่าของเครื่องมือนี้',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -1961,6 +1912,8 @@ sub Data {
         'Select Target Object' => 'เลือกออบเจคของเป้าหมาย',
         'Link Object' => 'การเชื่อมโยงออบเจค',
         'with' => 'กับ',
+        'Please enter at least one search value or * to find anything.' =>
+            'กรุณากรอกค่าอย่างน้อยหนึ่งคำค้นหาหรือ* ในการค้นหาอะไรก็ตาม',
         'Unlink Object: %s' => 'ยกเลิกการเชื่อมโยงออบเจค: %s',
         'go to link add screen' => 'ไปยังลิงค์หน้าจอการเพิ่ม',
 
@@ -2294,20 +2247,16 @@ sub Data {
         # Template: CustomerFooter
         'Powered by' => 'ให้การสนับสนุนโดย',
 
-        # Template: CustomerFooterJS
-        'There are currently no elements available to select from.' => 'ขณะนี้ไม่มีองค์ประกอบให้เลือกจาก',
-        'Please turn off Compatibility Mode in Internet Explorer!' => 'กรุณาปิดโหมดความเข้ากันได้ใน Internet Explorer!',
-        'The browser you are using is too old.' => 'เบราว์เซอร์ที่คุณกำลังใช้มันเก่าเกินไป',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS ทำงานกับรายการขนาดใหญ่ของเบราว์เซอร์โปรดอัปเกรดหนึ่งเป็นในจำนวนนี้',
-        'Please see the documentation or ask your admin for further information.' =>
-            'โปรดอ่านเอกสารหรือขอให้ผู้ดูแลระบบของคุณสำหรับอธิบายข้อมูลเพิ่มเติม',
-
         # Template: CustomerLogin
         'JavaScript Not Available' => 'ไม่พร้อมใช้งาน JavaScript',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'เพื่อที่จะได้สัมผัสกับOTRSแล้วคุณจะต้องเปิดใช้งาน JavaScript ในเบราว์เซอร์ของคุณ',
         'Browser Warning' => 'คำเตือนเบราว์เซอร์',
+        'The browser you are using is too old.' => 'เบราว์เซอร์ที่คุณกำลังใช้มันเก่าเกินไป',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS ทำงานกับรายการขนาดใหญ่ของเบราว์เซอร์โปรดอัปเกรดหนึ่งเป็นในจำนวนนี้',
+        'Please see the documentation or ask your admin for further information.' =>
+            'โปรดอ่านเอกสารหรือขอให้ผู้ดูแลระบบของคุณสำหรับอธิบายข้อมูลเพิ่มเติม',
         'One moment please, you are being redirected...' => 'รอสักครู่คุณกำลังถูกนำไป ...',
         'Login' => 'เข้าสู่ระบบ',
         'User name' => 'ชื่อผู้ใช้',
@@ -2389,66 +2338,9 @@ sub Data {
         'Warning' => 'คำเตือน',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => 'ทั้งวัน',
-        'January' => 'มกราคม',
-        'February' => 'กุมภาพันธ์',
-        'March' => 'มีนาคม',
-        'April' => 'เมษายน',
-        'May_long' => 'พฤษภาคม',
-        'June' => 'มิถุนายน',
-        'July' => 'กรกฎาคม',
-        'August' => 'สิงหาคม',
-        'September' => 'กันยายน',
-        'October' => 'ตุลาคม\t',
-        'November' => 'พฤศจิกายน\t',
-        'December' => 'ธันวาคม',
-        'Jan' => 'ม.ค.',
-        'Feb' => 'ก.พ',
-        'Mar' => 'มี.ค.',
-        'Apr' => 'เม.ย.',
-        'May' => 'พ.ค.',
-        'Jun' => 'มิ.ย.',
-        'Jul' => 'ก.ค.',
-        'Aug' => 'ส.ค.',
-        'Sep' => 'ก.ย.',
-        'Oct' => 'ต.ค.',
-        'Nov' => 'พ.ย.',
-        'Dec' => 'ธ.ค.',
-        'Sunday' => 'วันอาทิตย์',
-        'Monday' => 'วันจันทร์',
-        'Tuesday' => 'วันอังคาร',
-        'Wednesday' => 'วันพุธ',
-        'Thursday' => 'วันพฤหัสบดี',
-        'Friday' => 'วันศุกร์',
-        'Saturday' => 'วันเสาร์',
-        'Su' => 'อา',
-        'Mo' => 'จ',
-        'Tu' => 'อ',
-        'We' => 'พ',
-        'Th' => 'พฤ',
-        'Fr' => 'ศ',
-        'Sa' => 'ส',
-        'Today' => 'วันนี้',
-        'month' => 'เดือน',
-        'week' => 'อาทิตย์',
-        'day' => 'วัน',
         'Event Information' => 'ข้อมูลกิจกรรม',
         'Ticket fields' => 'ช่องข้อมูลตั๋ว',
         'Dynamic fields' => 'ไดมานิคฟิลด์',
-
-        # Template: Datepicker
-        'Invalid date!' => 'วันที่ไม่ถูกต้อง!',
-        'Invalid date (need a future date)!' => 'วันที่ไม่ถูกต้อง (ต้องใช้วันที่ในอนาคต)!',
-        'Invalid date (need a past date)!' => 'วันที่ไม่ถูกต้อง (ต้องใช้วันที่ผ่านมา)!',
-        'Previous' => 'ก่อนหน้า',
-        'Sun' => 'อา',
-        'Mon' => 'จ',
-        'Tue' => 'อ',
-        'Wed' => 'พ',
-        'Thu' => 'พฤ',
-        'Fri' => 'ศ',
-        'Sat' => 'ส',
-        'Open date selection' => 'การเลือกวันที่เปิด',
 
         # Template: Error
         'An Error Occurred' => '',
@@ -2457,14 +2349,6 @@ sub Data {
         'Expand' => 'การขยาย',
 
         # Template: FooterJS
-        'Loading...' => 'กำลังโหลด ...',
-        'Please enter at least one search value or * to find anything.' =>
-            'กรุณากรอกค่าอย่างน้อยหนึ่งคำค้นหาหรือ* ในการค้นหาอะไรก็ตาม',
-        'Please remove the following words from your search as they cannot be searched for:' =>
-            'โปรดลบคำต่อไปนี้จากการค้นหาของคุณเนื่องจากไม่สามารถค้นหาได้:',
-        'Please check the fields marked as red for valid inputs.' => 'กรุณาตรวจสอบฟิลด์ที่ทำเครื่องหมายสีแดงสำหรับปัจจัยการป้อนข้อมูลที่ถูกต้อง',
-        'Please perform a spell check on the the text first.' => 'โปรดดำเนินการตรวจสอบการสะกดในข้อความแรก',
-        'Slide the navigation bar' => 'เลื่อนแถบนำทาง',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'ฟีเจอร์นี้เป็นส่วนหนึ่งของ%s กรุณาติดต่อได้ที่%s สำหรับการอัพเกรด',
         'Find out more about the %s' => 'ค้นหาข้อมูลเพิ่มเติมเกี่ยวกับ %s',
@@ -2488,8 +2372,6 @@ sub Data {
         'Welcome to %s' => 'ยินดีต้อนรับสู่ %s',
         'Phone' => 'โทรศัพท์',
         'Web site' => 'เว็บไซต์',
-        'Mail check successful.' => 'การตรวจสอบอีเมลประสบความสำเร็จ',
-        'Error in the mail settings. Please correct and try again.' => 'เกิดข้อผิดพลาดในการตั้งค่าอีเมล กรุณาแก้ไขและลองอีกครั้ง',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'กำหนดค่าเมล์ขาออก',
@@ -3227,6 +3109,7 @@ sub Data {
         'System Error!' => 'ระบบผิดพลาด!',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Today' => 'วันนี้',
         'Tomorrow' => 'พรุ่งนี้',
         'Next week' => 'อาทิตย์ถัดไป',
         'Invalid Filter: %s!' => 'ฟิลเตอร์ไม่ถูกต้อง: %s!',
@@ -3536,6 +3419,7 @@ sub Data {
         'hour' => 'ชั่วโมง',
         'minute' => 'นาที',
         'd' => 'ว',
+        'day' => 'วัน',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             'ขออภัยคุณไม่ได้รับอนุญาตในการเข้าถึงตั๋วอีกต่อไป',
         'This is a' => 'นี่คือ',
@@ -3734,6 +3618,7 @@ sub Data {
         'Problems processing server result. Please try again later.' => 'ปัญหาการประมวลผลผลจากเซิร์ฟเวอร์ กรุณาลองใหม่อีกครั้งในภายหลัง.',
 
         # Perl Module: Kernel/System/Stats.pm
+        'week' => 'อาทิตย์',
         'quarter' => 'ไตรมาส',
         'half-year' => 'ครึ่งปี',
 
@@ -4179,6 +4064,68 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             'คุณจะได้รับการแจ้งเตือนหากบริการจองตั๋วมีการเปลี่ยนแปลงให้เป็นหนึ่งใน "บริการของฉัน"',
 
+        # JS File: Core.Agent.Admin.ACL
+        'Add all' => 'เพิ่มทั้งหมด',
+        'An item with this name is already present.' => 'ไอเท็มที่ใช้ชื่อนี้ได้ถูกนำเสนอแล้ว',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
+            'รายการนี้ยังคงประกอบด้วยรายการย่อย คุณแน่ใจหรือไม่ว่าคุณต้องการลบรายการนี้ซึ่งรวมถึงรายการย่อย?',
+
+        # JS File: Core.Agent.Admin.GenericAgent
+        'Remove selection' => 'ลบการคัดเลือก',
+        'Delete this Event Trigger' => 'ลบกระตุ้นกิจกรรมนี้',
+        'Duplicate event.' => 'กิจกรรมที่ซ้ำกัน',
+        'This event is already attached to the job, Please use a different one.' =>
+            'กิจกรรมนี้แนบมากับงานเป็นที่เรียบร้อยแล้ว โปรดใช้กิจกรรมอื่นแทน',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceDebugger
+        'An error occurred during communication.' => 'เกิดข้อผิดพลาดในระหว่างการสื่อสาร',
+        'Show or hide the content.' => 'แสดงหรือซ่อนเนื้อหา',
+        'Clear debug log' => 'ยกเลิกการบันทึกการแก้ปัญหา',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'Delete this Invoker' => 'ลบผู้ร้องขอนี้',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceOperation
+        'Delete this Operation' => 'ลบการดำเนินการนี้',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceWebservice
+        'Delete webservice' => 'ลบ webservice',
+        'Clone webservice' => 'โคลนนิ่ง web service',
+        'Import webservice' => 'นำเข้า web service',
+        'Delete operation' => 'ลบการดำเนินการ',
+        'Delete invoker' => 'ลบผู้ร้องขอ',
+
+        # JS File: Core.Agent.Admin.NotificationEvent
+        'Do you really want to delete this notification language?' => 'คุณต้องการที่จะลบภาษาของการแจ้งเตือนนี้หรือไม่?',
+
+        # JS File: Core.Agent.Admin.ProcessManagement.Canvas
+        'Remove Entity from canvas' => 'ลบเอ็นติตี้จากผ้าใบ',
+        'No TransitionActions assigned.' => 'ไม่มีการดำเนินการเปลี่ยนผ่านที่ได้รับมอบหมาย',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            'ยังไม่มีไดอะล็อกที่ได้รับมอบหมาย เพียงแค่เลือกกิจกรรมไดอะล็อกจากรายการทางด้านซ้ายและลากไปที่นี่',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            'กิจกรรมนี้ไม่สามารถลบได้เพราะมันเป็นจุดเริ่มต้นของกิจกรรม',
+        'Remove the Transition from this Process' => 'ลบการเปลี่ยนผ่านออกจากกระบวนการนี้',
+
+        # JS File: Core.Agent.Admin.ProcessManagement
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            'ทันทีที่คุณจะใช้ปุ่มหรือการเชื่อมโยงนี้คุณจะออกหน้าจอนี้และสถานะปัจจุบันของคุณจะถูกบันทึกไว้โดยอัตโนมัติ คุณต้องการที่จะทำต่อหรือไม่?',
+        'Delete Entity' => 'ลบเอ็นติตี้',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            'กิจกรรมนี้ถูกใช้แล้วในกระบวนการนี้ คุณไม่สามารถเพิ่มอีกเป็นครั้งที่สอง!',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            'การเปลี่ยนผ่านที่ไม่เกี่ยวเนื่องกันถูกวางไว้แล้วบนผ้าใบแล้วโปรดเชื่อมต่อการเปลี่ยนผ่านนี้ก่อนที่จะวางการเปลี่ยนผ่านอื่นๆ',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            'การเปลี่ยนผ่านนี้ถูกใช้แล้วในกิจกรรมนี้ คุณไม่สามารถใช้งานสองครั้ง!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            'การดำเนินการเปลี่ยนผ่านนี้ถูกใช้แล้วในเส้นทางนี้ คุณไม่สามารถใช้งานสองครั้ง!',
+        'Hide EntityIDs' => 'ซ่อน EntityIDs',
+        'Edit Field Details' => 'แก้ไขรายละเอียดของฟิลด์',
+        'Customer interface does not support internal article types.' => 'อินเตอร์เฟซของลูกค้าไม่สนับสนุนประเภทบทความภายใน',
+
+        # JS File: Core.Agent.CustomerInformationCenterSearch
+        'Loading...' => 'กำลังโหลด ...',
+
         # JS File: Core.Agent.CustomerSearch
         'Duplicated entry' => 'รายการป้อนที่ซ้ำกัน',
         'It is going to be deleted from the field, please try again.' => 'มันจะถูกลบออกจากฟิลด์โปรดลองอีกครั้ง',
@@ -4186,18 +4133,88 @@ sub Data {
         # JS File: Core.Agent.Daemon
         'Information about the OTRS Daemon' => 'ข้อมูลเกี่ยวกับOTRS Daemon',
 
+        # JS File: Core.Agent.Dashboard
+        'Please check the fields marked as red for valid inputs.' => 'กรุณาตรวจสอบฟิลด์ที่ทำเครื่องหมายสีแดงสำหรับปัจจัยการป้อนข้อมูลที่ถูกต้อง',
+        'All-day' => 'ทั้งวัน',
+        'Jan' => 'ม.ค.',
+        'Feb' => 'ก.พ',
+        'Mar' => 'มี.ค.',
+        'Apr' => 'เม.ย.',
+        'May' => 'พ.ค.',
+        'Jun' => 'มิ.ย.',
+        'Jul' => 'ก.ค.',
+        'Aug' => 'ส.ค.',
+        'Sep' => 'ก.ย.',
+        'Oct' => 'ต.ค.',
+        'Nov' => 'พ.ย.',
+        'Dec' => 'ธ.ค.',
+        'January' => 'มกราคม',
+        'February' => 'กุมภาพันธ์',
+        'March' => 'มีนาคม',
+        'April' => 'เมษายน',
+        'May_long' => 'พฤษภาคม',
+        'June' => 'มิถุนายน',
+        'July' => 'กรกฎาคม',
+        'August' => 'สิงหาคม',
+        'September' => 'กันยายน',
+        'October' => 'ตุลาคม\t',
+        'November' => 'พฤศจิกายน\t',
+        'December' => 'ธันวาคม',
+        'Sunday' => 'วันอาทิตย์',
+        'Monday' => 'วันจันทร์',
+        'Tuesday' => 'วันอังคาร',
+        'Wednesday' => 'วันพุธ',
+        'Thursday' => 'วันพฤหัสบดี',
+        'Friday' => 'วันศุกร์',
+        'Saturday' => 'วันเสาร์',
+        'Su' => 'อา',
+        'Mo' => 'จ',
+        'Tu' => 'อ',
+        'We' => 'พ',
+        'Th' => 'พฤ',
+        'Fr' => 'ศ',
+        'Sa' => 'ส',
+        'month' => 'เดือน',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => 'สลับเป็นโหมดเดสก์ทอป',
 
+        # JS File: Core.Agent.Search
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            'โปรดลบคำต่อไปนี้จากการค้นหาของคุณเนื่องจากไม่สามารถค้นหาได้:',
+
         # JS File: Core.Agent.TicketAction
+        'Please perform a spell check on the the text first.' => 'โปรดดำเนินการตรวจสอบการสะกดในข้อความแรก',
         'Close this dialog' => 'ปิดไดอะล็อกนี้',
         'Do you really want to continue?' => 'คุณต้องการที่จะดำเนินการต่อหรือไม่?',
+
+        # JS File: Core.Agent
+        'Slide the navigation bar' => 'เลื่อนแถบนำทาง',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'กรุณาปิดโหมดความเข้ากันได้ใน Internet Explorer!',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'สลับเป็นโหมดมือถือ',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'มีหนึ่งหรือมากกว่าหนึ่งข้อผิดพลาดเกิดขึ้น!',
+
+        # JS File: Core.Installer
+        'Mail check successful.' => 'การตรวจสอบอีเมลประสบความสำเร็จ',
+        'Error in the mail settings. Please correct and try again.' => 'เกิดข้อผิดพลาดในการตั้งค่าอีเมล กรุณาแก้ไขและลองอีกครั้ง',
+
+        # JS File: Core.UI.Datepicker
+        'Previous' => 'ก่อนหน้า',
+        'Sun' => 'อา',
+        'Mon' => 'จ',
+        'Tue' => 'อ',
+        'Wed' => 'พ',
+        'Thu' => 'พฤ',
+        'Fri' => 'ศ',
+        'Sat' => 'ส',
+        'Open date selection' => 'การเลือกวันที่เปิด',
+        'Invalid date (need a future date)!' => 'วันที่ไม่ถูกต้อง (ต้องใช้วันที่ในอนาคต)!',
+        'Invalid date (need a past date)!' => 'วันที่ไม่ถูกต้อง (ต้องใช้วันที่ผ่านมา)!',
+        'Invalid date!' => 'วันที่ไม่ถูกต้อง!',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'ไม่พร้อมใช้งาน',
@@ -4214,6 +4231,9 @@ sub Data {
             'ป๊อปอัพของหน้าจอนี้เปิดอยู่แล้ว คุณต้องการที่จะปิดมันและโหลดอันนี้แทน?',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'ไม่สามารถเปิดหน้าต่างป๊อปอัพ กรุณาปิดการใช้งานตัวบล็อกป๊อปอัพใดๆสำหรับโปรแกรมนี้',
+
+        # JS File: Core.UI.TreeSelection
+        'There are currently no elements available to select from.' => 'ขณะนี้ไม่มีองค์ประกอบให้เลือกจาก',
 
         # SysConfig
         '
@@ -4653,7 +4673,7 @@ Thanks for your help!
             'กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของอักขระที่กำหนดไว้ องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq.png)ในกรณีนี้เส้นทางของภาพOTRS จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของหมายเลข bugtraq องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq.png)ในกรณีนี้เส้นทางของภาพOTRS จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'กำหนดตัวกรองเพื่อประมวลผลข้อความในบทความเพื่อที่จะเน้นคำหลักที่กำหนดไว้ล่วงหน้า',
@@ -6784,29 +6804,138 @@ Thanks for your help!
 
     $Self->{JavaScriptStrings} = [
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Add all',
+        'All-day',
+        'An error occurred during communication.',
+        'An item with this name is already present.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
+        'Apply',
+        'Apr',
+        'April',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Aug',
+        'August',
+        'Cancel',
+        'Clear',
         'Clear all',
+        'Clear debug log',
         'Clear search',
+        'Clone webservice',
         'Close',
         'Close this dialog',
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
+        'Customer interface does not support internal article types.',
+        'Dec',
+        'December',
+        'Delete',
+        'Delete Entity',
+        'Delete invoker',
+        'Delete operation',
+        'Delete this Event Trigger',
+        'Delete this Invoker',
+        'Delete this Operation',
+        'Delete webservice',
         'Do you really want to continue?',
+        'Do you really want to delete this notification language?',
+        'Duplicate event.',
         'Duplicated entry',
+        'Edit Field Details',
+        'Edit this transition',
         'Error',
+        'Error in the mail settings. Please correct and try again.',
+        'Feb',
+        'February',
         'Filters',
+        'Fr',
+        'Fri',
+        'Friday',
+        'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Import webservice',
         'Information about the OTRS Daemon',
+        'Invalid date (need a future date)!',
+        'Invalid date (need a past date)!',
+        'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'Jan',
+        'January',
+        'Jul',
+        'July',
+        'Jun',
+        'June',
+        'Loading...',
+        'Mail check successful.',
+        'Mar',
+        'March',
+        'May',
+        'May_long',
+        'Mo',
+        'Mon',
+        'Monday',
+        'Next',
+        'No TransitionActions assigned.',
+        'No data found.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'Not available',
+        'Nov',
+        'November',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.',
+        'Oct',
+        'October',
         'One or more errors occurred!',
+        'Open date selection',
+        'Please check the fields marked as red for valid inputs.',
+        'Please enter at least one search value or * to find anything.',
+        'Please perform a spell check on the the text first.',
+        'Please remove the following words from your search as they cannot be searched for:',
+        'Please see the documentation or ask your admin for further information.',
+        'Please turn off Compatibility Mode in Internet Explorer!',
+        'Previous',
+        'Remove Entity from canvas',
         'Remove selection',
+        'Remove the Transition from this Process',
+        'Restore web service configuration',
+        'Sa',
+        'Sat',
+        'Saturday',
+        'Save',
+        'Search',
         'Select all',
+        'Sep',
+        'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show or hide the content.',
+        'Slide the navigation bar',
+        'Su',
+        'Sun',
+        'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'Th',
+        'The browser you are using is too old.',
+        'There are currently no elements available to select from.',
+        'This Activity cannot be deleted because it is the Start Activity.',
+        'This Activity is already used in the Process. You cannot add it twice!',
+        'This Transition is already used for this Activity. You cannot use it twice!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This event is already attached to the job, Please use a different one.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'Thu',
+        'Thursday',
+        'Today',
+        'Tu',
+        'Tue',
+        'Tuesday',
+        'We',
+        'Wed',
+        'Wednesday',
         'and %s more...',
+        'day',
+        'month',
+        'week',
     ];
 
     # $$STOP$$

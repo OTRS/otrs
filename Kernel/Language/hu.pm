@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.97422568767598;
+    $Self->{Completeness}        = 0.973530049902365;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -90,12 +90,6 @@ sub Data {
         'Save and finish' => 'Mentés és befejezés',
         'Cancel' => 'Mégse',
         'Do you really want to delete this ACL?' => 'Valóban törölni szeretné ezt az ACL-t?',
-        'Delete' => 'Törlés',
-        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            'Ez az elem még mindig tartalmaz részelemeket. Biztosan törölni szeretné ezt az elemet a részelemeivel együtt?',
-        'An item with this name is already present.' => 'Már létezik egy elem ezzel a névvel.',
-        'Add all' => 'Összes hozzáadása',
-        'There was an error reading the ACL data.' => 'Hiba történt az ACL adatok olvasásakor.',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -110,6 +104,7 @@ sub Data {
         'Filename' => 'Fájlnév',
         'Changed' => 'Módosítva',
         'Created' => 'Létrehozva',
+        'Delete' => 'Törlés',
         'Download file' => 'Fájl letöltése',
         'Delete this attachment' => 'Melléklet törlése',
         'Add Attachment' => 'Melléklet hozzáadása',
@@ -316,9 +311,9 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Itt határozható meg egy opcionális HTTP hivatkozás a mező értékéhez az áttekintőben és a nagyítási képernyőkön.',
         'Example' => 'Példa',
-        'Enable link preview' => 'Hivatkozás-előnézet engedélyezése',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
-            'Aktiválja ezt a lehetőséget a fent beállított hivatkozás előnézetének megjelenítéséhez az ügyintézői jegynagyításban.',
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            '',
         'Restrict entering of dates' => 'Korlátozás dátumok bevitelére',
         'Here you can restrict the entering of dates of tickets.' => 'Itt korlátozható a jegyek dátumának bevitele.',
 
@@ -406,11 +401,6 @@ sub Data {
         'Add Event' => 'Esemény hozzáadása',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az eseménynevet, majd kattintson a „+” gombra.',
-        'Duplicate event.' => 'Esemény kettőzése.',
-        'This event is already attached to the job, Please use a different one.' =>
-            'Ez az esemény már csatolva van a feladathoz, használjon egy másikat.',
-        'Delete this Event Trigger' => 'Esemény-aktiváló törlése',
-        'Remove selection' => 'Kijelölés eltávolítása',
         'Select Tickets' => 'Jegyek kijelölése',
         '(e. g. 10*5155 or 105658*)' => '(például 10*5155 vagy 105658*)',
         'Title' => 'Cím',
@@ -535,9 +525,6 @@ sub Data {
         'Limit' => 'Korlát',
         'Refresh' => 'Frissítés',
         'Request Details' => 'Kérés részletei',
-        'An error occurred during communication.' => 'Hiba történt a kommunikáció közben.',
-        'Show or hide the content.' => 'A tartalom megjelenítése vagy elrejtése.',
-        'Clear debug log' => 'Hibakeresési napló törlése',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => 'Új meghívó hozzáadása a(z) %s webszolgáltatáshoz',
@@ -567,7 +554,6 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             'A szinkron esemény-aktiválók közvetlenül legyenek feldolgozva a webkérések alatt.',
         'Save and continue' => 'Mentés és folytatás',
-        'Delete this Invoker' => 'Meghívó törlése',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'Általános felület egyszerű leképező a(z) %s webszolgáltatáshoz',
@@ -592,7 +578,6 @@ sub Data {
         'New value map' => 'Új értéktérkép',
         'Add value mapping' => 'Értékleképezés hozzáadása',
         'Do you really want to delete this key mapping?' => 'Valóban törölni szeretné ezt a kulcsleképezést?',
-        'Delete this Key Mapping' => 'Kulcsleképezés törlése',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => 'Általános felület XSLT-leképező a(z) %s webszolgáltatáshoz',
@@ -620,7 +605,6 @@ sub Data {
         'Mapping for outgoing response data' => 'Leképezés a kimenő válasz adataihoz',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Ez a leképezés fogja a válasz adatait feldolgozni olyan formára alakítva át azokat, ahogy a távoli rendszer várja.',
-        'Delete this Operation' => 'Művelet törlése',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => 'Általános felület HTTP::REST átvitel a(z) %s webszolgáltatáshoz',
@@ -778,11 +762,6 @@ sub Data {
         'Delete this action' => 'Művelet törlése',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             'Legalább egy %s olyan vezérlővel rendelkezik, amely vagy nem aktív, vagy nincs jelen. Ellenőrizze a vezérlő regisztrációját, vagy törölje a következőt: %s',
-        'Delete webservice' => 'Webszolgáltatás törlése',
-        'Delete operation' => 'Művelet törlése',
-        'Delete invoker' => 'Meghívó törlése',
-        'Clone webservice' => 'Webszolgáltatás klónozása',
-        'Import webservice' => 'Webszolgáltatás importálása',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => 'Általános felület beállítási előzmények a(z) %s webszolgáltatáshoz',
@@ -799,7 +778,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             'Valóban vissza szeretné állítani a webszolgáltatás beállításának ezen verzióját?',
         'Your current web service configuration will be overwritten.' => 'A jelenlegi webszolgáltatás-beállítás felül lesz írva.',
-        'Restore' => 'Visszaállítás',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -916,7 +894,6 @@ sub Data {
         'Remove Notification Language' => 'Értesítési nyelv eltávolítása',
         'Message body' => 'Üzenettörzs',
         'Add new notification language' => 'Új értesítési nyelv hozzáadása',
-        'Do you really want to delete this notification language?' => 'Valóban törölni szeretné ezt az értesítési nyelvet?',
         'Notifications are sent to an agent or a customer.' => 'Az értesítések ügyintézőnek vagy ügyfélnek kerülnek elküldésre.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '(A legutóbbi ügyintéző bejegyzés) tárgya első 20 karakterének lekéréséhez.',
@@ -1186,8 +1163,6 @@ sub Data {
         'Edit' => 'Szerkesztés',
         'Create New Activity Dialog' => 'Új tevékenység párbeszéd létrehozása',
         'Assigned Activity Dialogs' => 'Hozzárendelt tevékenység párbeszédek',
-        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            'Amint ezt a gombot vagy hivatkozást használja, el fogja hagyni ezt a képernyőt, és a jelenlegi állapota automatikusan el lesz mentve. Szeretné folytatni?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1215,8 +1190,6 @@ sub Data {
         'Assigned Fields' => 'Hozzárendelt mezők',
         'ArticleType' => 'Bejegyzéstípus',
         'Display' => 'Megjelenítés',
-        'Edit Field Details' => 'Mezőrészletek szerkesztése',
-        'Customer interface does not support internal article types.' => 'Az ügyfélfelület nem támogatja a belső bejegyzéstípusokat.',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Útvonal',
@@ -1275,24 +1248,6 @@ sub Data {
             'Valóban el szeretné távolítani ezt a tevékenységet a vászonról? Ezt csak akkor lehet változatlanul hagyni, ha mentés nélkül hagyja el ezt a képernyőt.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Valóban el szeretné távolítani ezt az átmenetet a vászonról? Ezt csak akkor lehet változatlanul hagyni, ha mentés nélkül hagyja el ezt a képernyőt.',
-        'Hide EntityIDs' => 'Entitás-azonosítók elrejtése',
-        'Delete Entity' => 'Entitás törlése',
-        'Remove Entity from canvas' => 'Entitás eltávolítása a vászonról',
-        'This Activity is already used in the Process. You cannot add it twice!' =>
-            'Ez a tevékenység már használatban van a folyamatban. Nem adhatja hozzá kétszer!',
-        'This Activity cannot be deleted because it is the Start Activity.' =>
-            'Ez a tevékenység nem törölhető, mert ez a kezdő tevékenység.',
-        'This Transition is already used for this Activity. You cannot use it twice!' =>
-            'Ez az átmenet már használatban van a tevékenységben. Nem használhatja kétszer!',
-        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            'Ez az átmenet művelet már használatban van az útvonalon. Nem használhatja kétszer!',
-        'Remove the Transition from this Process' => 'Átmenet eltávolítása ebből a folyamatból',
-        'No TransitionActions assigned.' => 'Nincsenek átmenet műveletek hozzárendelve.',
-        'The Start Event cannot loose the Start Transition!' => 'A kezdő esemény nem oldhatja fel a kezdő átmenetet!',
-        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            'Még nincsenek párbeszédek hozzárendelve. Csak fogjon meg egy tevékenység párbeszédet a bal oldali listából, és húzza ide.',
-        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            'Egy kapcsolatban nem lévő átmenet már el van helyezve a vásznon. Először csatlakoztassa ezt az átmenetet, mielőtt egy másik átmenetet helyezne el.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -1917,10 +1872,6 @@ sub Data {
         'Download as CSV file' => 'Letöltés CSV-fájlként',
         'Download as Excel file' => 'Letöltés Excel fájlként',
         'Download as PDF file' => 'Letöltés PDF-fájlként',
-        'Grouped' => 'Csoportosított',
-        'Stacked' => 'Halmozott',
-        'Expanded' => 'Kibővített',
-        'Stream' => 'Folyam',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Válasszon egy érvényes kimeneti grafikonformátumot ennek a felületi elemnek a beállításaiban.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -1961,6 +1912,8 @@ sub Data {
         'Select Target Object' => 'Kijelölt célobjektum',
         'Link Object' => 'Objektum összekapcsolása',
         'with' => 'ezzel',
+        'Please enter at least one search value or * to find anything.' =>
+            'Adjon meg legalább egy keresési értéket, vagy * karaktert, ha bármire rá szeretne keresni.',
         'Unlink Object: %s' => 'Objektum kapcsolatának törlése: %s',
         'go to link add screen' => 'ugrás a kapcsolat hozzáadás képernyőre',
 
@@ -2294,20 +2247,16 @@ sub Data {
         # Template: CustomerFooter
         'Powered by' => 'A gépházban:',
 
-        # Template: CustomerFooterJS
-        'There are currently no elements available to select from.' => 'Jelenleg nincsenek elérhető elemek, amelyekből kijelölhetne.',
-        'Please turn off Compatibility Mode in Internet Explorer!' => 'Kapcsolja ki a kompatibilitási módot az Internet Explorerben!',
-        'The browser you are using is too old.' => 'A használt böngésző túl régi.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'Az OTRS a böngészők hatalmas listájával futtatható, frissítse ezek egyikére.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'További információkért nézze meg a dokumentációt, vagy kérdezze az adminisztrátort.',
-
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nem érhető el',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Annak érdekében, hogy megtapasztalja az OTRS-t, szükséges lesz engedélyeznie a JavaScriptet a böngészőben.',
         'Browser Warning' => 'Böngésző figyelmeztetés',
+        'The browser you are using is too old.' => 'A használt böngésző túl régi.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'Az OTRS a böngészők hatalmas listájával futtatható, frissítse ezek egyikére.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'További információkért nézze meg a dokumentációt, vagy kérdezze az adminisztrátort.',
         'One moment please, you are being redirected...' => 'Egy pillanat, hamarosan átirányítjuk…',
         'Login' => 'Belépés',
         'User name' => 'Felhasználónév',
@@ -2389,66 +2338,9 @@ sub Data {
         'Warning' => 'Figyelmeztetés',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => 'Egész nap',
-        'January' => 'január',
-        'February' => 'február',
-        'March' => 'március',
-        'April' => 'április',
-        'May_long' => 'május',
-        'June' => 'június',
-        'July' => 'július',
-        'August' => 'augusztus',
-        'September' => 'szeptember',
-        'October' => 'október',
-        'November' => 'november',
-        'December' => 'december',
-        'Jan' => 'jan.',
-        'Feb' => 'febr.',
-        'Mar' => 'márc.',
-        'Apr' => 'ápr.',
-        'May' => 'máj.',
-        'Jun' => 'jún.',
-        'Jul' => 'júl.',
-        'Aug' => 'aug.',
-        'Sep' => 'szept.',
-        'Oct' => 'okt.',
-        'Nov' => 'nov.',
-        'Dec' => 'dec.',
-        'Sunday' => 'vasárnap',
-        'Monday' => 'hétfő',
-        'Tuesday' => 'kedd',
-        'Wednesday' => 'szerda',
-        'Thursday' => 'csütörtök',
-        'Friday' => 'péntek',
-        'Saturday' => 'szombat',
-        'Su' => 'v',
-        'Mo' => 'h',
-        'Tu' => 'k',
-        'We' => 'sze',
-        'Th' => 'cs',
-        'Fr' => 'p',
-        'Sa' => 'szo',
-        'Today' => 'Ma',
-        'month' => 'hónap',
-        'week' => 'hét',
-        'day' => 'nap',
         'Event Information' => 'Esemény információk',
         'Ticket fields' => 'Jegymezők',
         'Dynamic fields' => 'Dinamikus mezők',
-
-        # Template: Datepicker
-        'Invalid date!' => 'Érvénytelen dátum!',
-        'Invalid date (need a future date)!' => 'Érvénytelen dátum (jövőbeli dátum szükséges)!',
-        'Invalid date (need a past date)!' => 'Érvénytelen dátum (múltbeli dátum szükséges)!',
-        'Previous' => 'Előző',
-        'Sun' => 'v',
-        'Mon' => 'h',
-        'Tue' => 'k',
-        'Wed' => 'sze',
-        'Thu' => 'cs',
-        'Fri' => 'p',
-        'Sat' => 'szo',
-        'Open date selection' => 'Dátumkijelölés megnyitása',
 
         # Template: Error
         'An Error Occurred' => '',
@@ -2457,14 +2349,6 @@ sub Data {
         'Expand' => 'Bővítés',
 
         # Template: FooterJS
-        'Loading...' => 'Betöltés…',
-        'Please enter at least one search value or * to find anything.' =>
-            'Adjon meg legalább egy keresési értéket, vagy * karaktert, ha bármire rá szeretne keresni.',
-        'Please remove the following words from your search as they cannot be searched for:' =>
-            'Távolítsa el a következő szavakat a keresésből, mivel azokra nem lehet rákeresni:',
-        'Please check the fields marked as red for valid inputs.' => 'Ellenőrizze a pirosan megjelölt mezőket a helyes bevitelekért.',
-        'Please perform a spell check on the the text first.' => 'Először hajtson végre helyesírás-ellenőrzést a szövegen.',
-        'Slide the navigation bar' => 'Csúsztassa a navigációs sávot',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
         'Find out more about the %s' => 'Tudjon meg többet a következőről: %s',
@@ -2488,8 +2372,6 @@ sub Data {
         'Welcome to %s' => 'Üdvözli a(z) %s',
         'Phone' => 'Telefon',
         'Web site' => 'Weboldal',
-        'Mail check successful.' => 'Levélellenőrzés sikeres.',
-        'Error in the mail settings. Please correct and try again.' => 'Hiba van a levélbeállításokban. Javítsa és próbálja újra.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Kimenő levél beállítása',
@@ -3227,6 +3109,7 @@ sub Data {
         'System Error!' => 'Rendszerhiba!',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Today' => 'Ma',
         'Tomorrow' => 'Holnap',
         'Next week' => 'Következő hét',
         'Invalid Filter: %s!' => 'Érvénytelen szűrő: %s!',
@@ -3536,6 +3419,7 @@ sub Data {
         'hour' => 'óra',
         'minute' => 'perc',
         'd' => 'n',
+        'day' => 'nap',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             'Sajnáljuk, de már nincs jogosultsága a jegyhez történő hozzáféréshez annak jelenlegi állapotában. A következő műveletek egyikét választhatja:',
         'This is a' => 'Ez egy',
@@ -3734,6 +3618,7 @@ sub Data {
         'Problems processing server result. Please try again later.' => 'Hiba a kiszolgáló eredményének feldolgozásakor. Próbálkozzon később.',
 
         # Perl Module: Kernel/System/Stats.pm
+        'week' => 'hét',
         'quarter' => 'negyedév',
         'half-year' => 'félév',
 
@@ -4179,6 +4064,68 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             'Egy értesítést fog kapni, ha egy jegy szolgáltatását a „Saját szolgáltatásai” egyikére változtatják meg.',
 
+        # JS File: Core.Agent.Admin.ACL
+        'Add all' => 'Összes hozzáadása',
+        'An item with this name is already present.' => 'Már létezik egy elem ezzel a névvel.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
+            'Ez az elem még mindig tartalmaz részelemeket. Biztosan törölni szeretné ezt az elemet a részelemeivel együtt?',
+
+        # JS File: Core.Agent.Admin.GenericAgent
+        'Remove selection' => 'Kijelölés eltávolítása',
+        'Delete this Event Trigger' => 'Esemény-aktiváló törlése',
+        'Duplicate event.' => 'Esemény kettőzése.',
+        'This event is already attached to the job, Please use a different one.' =>
+            'Ez az esemény már csatolva van a feladathoz, használjon egy másikat.',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceDebugger
+        'An error occurred during communication.' => 'Hiba történt a kommunikáció közben.',
+        'Show or hide the content.' => 'A tartalom megjelenítése vagy elrejtése.',
+        'Clear debug log' => 'Hibakeresési napló törlése',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'Delete this Invoker' => 'Meghívó törlése',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceOperation
+        'Delete this Operation' => 'Művelet törlése',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceWebservice
+        'Delete webservice' => 'Webszolgáltatás törlése',
+        'Clone webservice' => 'Webszolgáltatás klónozása',
+        'Import webservice' => 'Webszolgáltatás importálása',
+        'Delete operation' => 'Művelet törlése',
+        'Delete invoker' => 'Meghívó törlése',
+
+        # JS File: Core.Agent.Admin.NotificationEvent
+        'Do you really want to delete this notification language?' => 'Valóban törölni szeretné ezt az értesítési nyelvet?',
+
+        # JS File: Core.Agent.Admin.ProcessManagement.Canvas
+        'Remove Entity from canvas' => 'Entitás eltávolítása a vászonról',
+        'No TransitionActions assigned.' => 'Nincsenek átmenet műveletek hozzárendelve.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            'Még nincsenek párbeszédek hozzárendelve. Csak fogjon meg egy tevékenység párbeszédet a bal oldali listából, és húzza ide.',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            'Ez a tevékenység nem törölhető, mert ez a kezdő tevékenység.',
+        'Remove the Transition from this Process' => 'Átmenet eltávolítása ebből a folyamatból',
+
+        # JS File: Core.Agent.Admin.ProcessManagement
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            'Amint ezt a gombot vagy hivatkozást használja, el fogja hagyni ezt a képernyőt, és a jelenlegi állapota automatikusan el lesz mentve. Szeretné folytatni?',
+        'Delete Entity' => 'Entitás törlése',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            'Ez a tevékenység már használatban van a folyamatban. Nem adhatja hozzá kétszer!',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            'Egy kapcsolatban nem lévő átmenet már el van helyezve a vásznon. Először csatlakoztassa ezt az átmenetet, mielőtt egy másik átmenetet helyezne el.',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            'Ez az átmenet már használatban van a tevékenységben. Nem használhatja kétszer!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            'Ez az átmenet művelet már használatban van az útvonalon. Nem használhatja kétszer!',
+        'Hide EntityIDs' => 'Entitás-azonosítók elrejtése',
+        'Edit Field Details' => 'Mezőrészletek szerkesztése',
+        'Customer interface does not support internal article types.' => 'Az ügyfélfelület nem támogatja a belső bejegyzéstípusokat.',
+
+        # JS File: Core.Agent.CustomerInformationCenterSearch
+        'Loading...' => 'Betöltés…',
+
         # JS File: Core.Agent.CustomerSearch
         'Duplicated entry' => 'Kettőzött bejegyzés',
         'It is going to be deleted from the field, please try again.' => 'Ez törölve lesz a mezőből, próbálja újra.',
@@ -4186,18 +4133,88 @@ sub Data {
         # JS File: Core.Agent.Daemon
         'Information about the OTRS Daemon' => 'Információk az OTRS démonról',
 
+        # JS File: Core.Agent.Dashboard
+        'Please check the fields marked as red for valid inputs.' => 'Ellenőrizze a pirosan megjelölt mezőket a helyes bevitelekért.',
+        'All-day' => 'Egész nap',
+        'Jan' => 'jan.',
+        'Feb' => 'febr.',
+        'Mar' => 'márc.',
+        'Apr' => 'ápr.',
+        'May' => 'máj.',
+        'Jun' => 'jún.',
+        'Jul' => 'júl.',
+        'Aug' => 'aug.',
+        'Sep' => 'szept.',
+        'Oct' => 'okt.',
+        'Nov' => 'nov.',
+        'Dec' => 'dec.',
+        'January' => 'január',
+        'February' => 'február',
+        'March' => 'március',
+        'April' => 'április',
+        'May_long' => 'május',
+        'June' => 'június',
+        'July' => 'július',
+        'August' => 'augusztus',
+        'September' => 'szeptember',
+        'October' => 'október',
+        'November' => 'november',
+        'December' => 'december',
+        'Sunday' => 'vasárnap',
+        'Monday' => 'hétfő',
+        'Tuesday' => 'kedd',
+        'Wednesday' => 'szerda',
+        'Thursday' => 'csütörtök',
+        'Friday' => 'péntek',
+        'Saturday' => 'szombat',
+        'Su' => 'v',
+        'Mo' => 'h',
+        'Tu' => 'k',
+        'We' => 'sze',
+        'Th' => 'cs',
+        'Fr' => 'p',
+        'Sa' => 'szo',
+        'month' => 'hónap',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => 'Átváltás asztali módra',
 
+        # JS File: Core.Agent.Search
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            'Távolítsa el a következő szavakat a keresésből, mivel azokra nem lehet rákeresni:',
+
         # JS File: Core.Agent.TicketAction
+        'Please perform a spell check on the the text first.' => 'Először hajtson végre helyesírás-ellenőrzést a szövegen.',
         'Close this dialog' => 'Párbeszédablak bezárása',
         'Do you really want to continue?' => 'Valóban folytatni akarja?',
+
+        # JS File: Core.Agent
+        'Slide the navigation bar' => 'Csúsztassa a navigációs sávot',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Kapcsolja ki a kompatibilitási módot az Internet Explorerben!',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Átváltás mobil módra',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'Egy vagy több hiba történt!',
+
+        # JS File: Core.Installer
+        'Mail check successful.' => 'Levélellenőrzés sikeres.',
+        'Error in the mail settings. Please correct and try again.' => 'Hiba van a levélbeállításokban. Javítsa és próbálja újra.',
+
+        # JS File: Core.UI.Datepicker
+        'Previous' => 'Előző',
+        'Sun' => 'v',
+        'Mon' => 'h',
+        'Tue' => 'k',
+        'Wed' => 'sze',
+        'Thu' => 'cs',
+        'Fri' => 'p',
+        'Sat' => 'szo',
+        'Open date selection' => 'Dátumkijelölés megnyitása',
+        'Invalid date (need a future date)!' => 'Érvénytelen dátum (jövőbeli dátum szükséges)!',
+        'Invalid date (need a past date)!' => 'Érvénytelen dátum (múltbeli dátum szükséges)!',
+        'Invalid date!' => 'Érvénytelen dátum!',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'Nem érhető el',
@@ -4214,6 +4231,9 @@ sub Data {
             'A képernyő felugró ablaka már meg van nyitva. Szeretné bezárni, és helyette ezt betölteni?',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Nem sikerült megnyitni a felugró ablakot. Tiltson le minden felugró ablak blokkolót ennél az alkalmazásnál.',
+
+        # JS File: Core.UI.TreeSelection
+        'There are currently no elements available to select from.' => 'Jelenleg nincsenek elérhető elemek, amelyekből kijelölhetne.',
 
         # SysConfig
         '
@@ -4653,8 +4673,8 @@ Az Ön segélyszolgálat csapata
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon egy meghatározott szöveg mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
-            'Egy szűrőt határoz meg CVE számok begyűjtéséhez a bejegyzés szövegeiből az ügyintézői jegynagyításban. Az eredmények egy metadobozban lesznek megjelenítve a bejegyzés mellett. Állítsa az EnableLinkPreview beállítást 1-re, ha látni szeretné az URL előnézetét, amikor az egérkurzort a linkelem fölé viszi. Ne feledje, hogy néhány weboldal (például Google) nem hagyja, hogy egy belső kereten belül jelenítsék meg, és emiatt az nem fog működni előnézeti módban.',
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+            '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Egy szűrőt határoz meg a bejegyzésekben lévő szöveg feldolgozásához annak érdekében, hogy kiemelje az előre meghatározott kulcsszavakat.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -6780,29 +6800,138 @@ Az Ön segélyszolgálat csapata
 
     $Self->{JavaScriptStrings} = [
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Add all',
+        'All-day',
+        'An error occurred during communication.',
+        'An item with this name is already present.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
+        'Apply',
+        'Apr',
+        'April',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Aug',
+        'August',
+        'Cancel',
+        'Clear',
         'Clear all',
+        'Clear debug log',
         'Clear search',
+        'Clone webservice',
         'Close',
         'Close this dialog',
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
+        'Customer interface does not support internal article types.',
+        'Dec',
+        'December',
+        'Delete',
+        'Delete Entity',
+        'Delete invoker',
+        'Delete operation',
+        'Delete this Event Trigger',
+        'Delete this Invoker',
+        'Delete this Operation',
+        'Delete webservice',
         'Do you really want to continue?',
+        'Do you really want to delete this notification language?',
+        'Duplicate event.',
         'Duplicated entry',
+        'Edit Field Details',
+        'Edit this transition',
         'Error',
+        'Error in the mail settings. Please correct and try again.',
+        'Feb',
+        'February',
         'Filters',
+        'Fr',
+        'Fri',
+        'Friday',
+        'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Import webservice',
         'Information about the OTRS Daemon',
+        'Invalid date (need a future date)!',
+        'Invalid date (need a past date)!',
+        'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'Jan',
+        'January',
+        'Jul',
+        'July',
+        'Jun',
+        'June',
+        'Loading...',
+        'Mail check successful.',
+        'Mar',
+        'March',
+        'May',
+        'May_long',
+        'Mo',
+        'Mon',
+        'Monday',
+        'Next',
+        'No TransitionActions assigned.',
+        'No data found.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'Not available',
+        'Nov',
+        'November',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.',
+        'Oct',
+        'October',
         'One or more errors occurred!',
+        'Open date selection',
+        'Please check the fields marked as red for valid inputs.',
+        'Please enter at least one search value or * to find anything.',
+        'Please perform a spell check on the the text first.',
+        'Please remove the following words from your search as they cannot be searched for:',
+        'Please see the documentation or ask your admin for further information.',
+        'Please turn off Compatibility Mode in Internet Explorer!',
+        'Previous',
+        'Remove Entity from canvas',
         'Remove selection',
+        'Remove the Transition from this Process',
+        'Restore web service configuration',
+        'Sa',
+        'Sat',
+        'Saturday',
+        'Save',
+        'Search',
         'Select all',
+        'Sep',
+        'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show or hide the content.',
+        'Slide the navigation bar',
+        'Su',
+        'Sun',
+        'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'Th',
+        'The browser you are using is too old.',
+        'There are currently no elements available to select from.',
+        'This Activity cannot be deleted because it is the Start Activity.',
+        'This Activity is already used in the Process. You cannot add it twice!',
+        'This Transition is already used for this Activity. You cannot use it twice!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This event is already attached to the job, Please use a different one.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'Thu',
+        'Thursday',
+        'Today',
+        'Tu',
+        'Tue',
+        'Tuesday',
+        'We',
+        'Wed',
+        'Wednesday',
         'and %s more...',
+        'day',
+        'month',
+        'week',
     ];
 
     # $$STOP$$

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.706519384881958;
+    $Self->{Completeness}        = 0.706009980472988;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -88,12 +88,6 @@ sub Data {
         'Save and finish' => 'Hifadhi na maliza',
         'Cancel' => 'Futa',
         'Do you really want to delete this ACL?' => 'Je unahitaji kufuta ACL hii?',
-        'Delete' => 'Futa',
-        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            'Hiki kipengee bado kina vipengee vidogo. Je unataka kuondoa kipengee hiki na vipengee vidogo',
-        'An item with this name is already present.' => 'Kipengee kwa jina hili tayari kimeshaonyeshwa',
-        'Add all' => 'Ongeza zote',
-        'There was an error reading the ACL data.' => 'Kulikuwa na hitilafu inasoma data za ACL',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -108,6 +102,7 @@ sub Data {
         'Filename' => 'Jina la faili',
         'Changed' => 'Ilibadilishwa',
         'Created' => 'Ilitengenezwa',
+        'Delete' => 'Futa',
         'Download file' => 'Pakua faili',
         'Delete this attachment' => 'Futa kiambatanisho',
         'Add Attachment' => 'Ongeza kiambatanisho',
@@ -314,8 +309,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hapa unaweza kubainisha kiungo cha HTTP cha hiari kwenye uga katika mapitio na skrini zilizokuzwa.',
         'Example' => 'Mfano',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Zuia uingizaji wa tarehe',
         'Here you can restrict the entering of dates of tickets.' => 'Hapa unaweza kuzuia uingizaji wa tarehe wa tiketi.',
@@ -404,11 +399,6 @@ sub Data {
         'Add Event' => 'Ongeza tukio',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Kuongeza tukio jipya jagua kipengele cha tukio na jina la tukio na bofya kwenye kitufye "+"',
-        'Duplicate event.' => 'Nakili tukio',
-        'This event is already attached to the job, Please use a different one.' =>
-            'Tukio hili tayari limeweambatanishwa na kazi, tafadhali tumia lingine.',
-        'Delete this Event Trigger' => 'Futa kichochezi cha tukio hili',
-        'Remove selection' => '',
         'Select Tickets' => 'Chagua tiketi',
         '(e. g. 10*5155 or 105658*)' => '(Mfano 10*5155 au 105658)',
         'Title' => 'Kichwa cha habari',
@@ -533,9 +523,6 @@ sub Data {
         'Limit' => 'Upeo',
         'Refresh' => 'Onyesha upya',
         'Request Details' => 'Maelezo ya maombi',
-        'An error occurred during communication.' => 'Kosa limetokea wakati wa mawasiliano.',
-        'Show or hide the content.' => 'Onyesha au ficha maudhui.',
-        'Clear debug log' => 'Futa batli ya eua.',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => 'Ongeza kisababishi kipya katika huduma ya tovuti %s',
@@ -565,7 +552,6 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Vichochezi vya tukio solandanifu vitashughulikiwa moja kwa moja wakati wa maombi ya tovuti.',
         'Save and continue' => 'Hifadhi na endelea',
-        'Delete this Invoker' => 'Tufa kisababishi hiki',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'Sampuli ya kuunganisha ya kiolesura cha ujumla kwa ajili ya huduma ya wavuti %s',
@@ -590,7 +576,6 @@ sub Data {
         'New value map' => 'Thamani mpya ya kuunganisha',
         'Add value mapping' => 'Ongeza thamani ya kuunganisha',
         'Do you really want to delete this key mapping?' => 'Je unataka kufuta ufunguo huu wa kutengeneza ramani?',
-        'Delete this Key Mapping' => 'Futa ufungu huu wa kuunganisha/kutengeneza ramani.',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => '',
@@ -618,7 +603,6 @@ sub Data {
         'Mapping for outgoing response data' => 'Kuunganisha data za majibu zinazotoka nje.',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Data za majimu zitashughulikiwa na kuunganishwa huku, kubadili kuwa data ambayo mfumo wa mbali unaitarajia.',
-        'Delete this Operation' => 'Kufuta Operesheni hii',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => 'Kiolesura cha ujumla cha kusafirisha HTTP::REST kwa ajili ya huduma za wavuti %s.',
@@ -776,11 +760,6 @@ sub Data {
         'Delete this action' => 'kufuta hatua hii',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             'Japo kila %s moja ina kiendeshaji ambacho hakipo amilifu au hakipo, tafadhali angalia usajili wa kiendeshaji au futa %s',
-        'Delete webservice' => 'Futa huduma ya tovuti',
-        'Delete operation' => 'kufuta operesheni',
-        'Delete invoker' => 'Tufa kisababishi ',
-        'Clone webservice' => 'Nakili huduma ya tovuti.',
-        'Import webservice' => 'Agiza huduma ya tovuti',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => 'Historia ya usanidi wa kiolesura cha jumla kwa ajili ya huduma %s ya wavuti',
@@ -797,7 +776,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             'Je unataka kurejesha toleo hili la usanidi wa huduma za wavuti?',
         'Your current web service configuration will be overwritten.' => 'Usanidi wako wa sasa wa huduma za wavuti utaandikiwa kwa juu.',
-        'Restore' => 'kurejesha',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -914,7 +892,6 @@ sub Data {
         'Remove Notification Language' => '',
         'Message body' => '',
         'Add new notification language' => '',
-        'Do you really want to delete this notification language?' => '',
         'Notifications are sent to an agent or a customer.' => 'Taarifa zimetumwa kwa wakala au mteja',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Kupata herufi 20 za kwanza za somo (kutoka kwa wakala wa karibuni)',
@@ -1184,8 +1161,6 @@ sub Data {
         'Edit' => 'Hariri',
         'Create New Activity Dialog' => 'Tengeneza mazungumzo ya shughuli mapya',
         'Assigned Activity Dialogs' => 'Kupewa mazungumzo ya shughuli',
-        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            'Punde uonapo kibonye hiki au kiunganishi hiki, utaiacha skrini na hali yake ya sasa itahifadhiwa otomatiki. Je unataka kuendelea?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1213,8 +1188,6 @@ sub Data {
         'Assigned Fields' => 'Uga zilizogaiwa',
         'ArticleType' => 'Aina ya makala',
         'Display' => 'Onyesha',
-        'Edit Field Details' => 'Hariri maelezo ya uga',
-        'Customer interface does not support internal article types.' => 'Kiole cha mteja hakisaidii aina za makala za ndani.',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Njia',
@@ -1273,24 +1246,6 @@ sub Data {
             'Je unataka kutoa kitendo hiki kwenye kanvasi? Hii inaweza kutokufanywa kwa kutoka kwenye skrini hii bila kuhifadhi. ',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Je unataka kutoa mpito huu kwenye kanvasi? Hii inaweza kutokufanywa kwa kutoka kwenye skrini hii bila kuhifadhi. ',
-        'Hide EntityIDs' => 'Ficha kitambulisho cha ingizo',
-        'Delete Entity' => 'Futa kipengee halisi',
-        'Remove Entity from canvas' => 'Ondoa kipengee halisi kutoka kwenye kanvasi.',
-        'This Activity is already used in the Process. You cannot add it twice!' =>
-            'Shuguli tayari imetumika katika mchakato. Huwezi kuongeza kwa mara ya pili.',
-        'This Activity cannot be deleted because it is the Start Activity.' =>
-            'Shughuli haiwezi kufutwa kwasababu ni shughuli ya kuanza.',
-        'This Transition is already used for this Activity. You cannot use it twice!' =>
-            'Mpito huu umeshatumika katika shughuli hii. Huwezi kutumia mara mbili!',
-        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            'Kitendo cha mpito huu kimeshatumika katika njia hii. Huwezi kutumia mara mbili!',
-        'Remove the Transition from this Process' => 'Ondoa mpito kutoka kwenye mchakato huu.',
-        'No TransitionActions assigned.' => 'Hakuna vitendo vya mpito vilivyogawiwa.',
-        'The Start Event cannot loose the Start Transition!' => 'Kitendo cha kuanza hakiwezi kupoteza mpito wa kuanza!',
-        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            'Hakuna Kidadisi kilochogaiwa. Chukua kikadisi shughuli kutoka kwenye orodha kushoto na ikokote hapa.',
-        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            'Mpito usiounganishwa tayari umefanyika katika kanvasi. Tafadhali unganisha mpito huu kwanza kabla haujaweka mpito mwingine.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -1915,10 +1870,6 @@ sub Data {
         'Download as CSV file' => '',
         'Download as Excel file' => '',
         'Download as PDF file' => '',
-        'Grouped' => 'Imewekwa kwenye makundi',
-        'Stacked' => 'Ya omekezo',
-        'Expanded' => 'Imepanuliwa',
-        'Stream' => 'Mfululizo',
         'Please select a valid graph output format in the configuration of this widget.' =>
             '',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -1959,6 +1910,8 @@ sub Data {
         'Select Target Object' => 'Chagua kipengele lengwa.',
         'Link Object' => 'Kipengele kiunganishi',
         'with' => 'Na',
+        'Please enter at least one search value or * to find anything.' =>
+            'Tafadhali ingiza japo moja ya thamani ilitafutwa au * kutafuta yoyote.',
         'Unlink Object: %s' => 'Kipengele kisichokiunganishi',
         'go to link add screen' => 'Nenda kwenye skrini ya kiunganishi cha kuongeza.',
 
@@ -2292,20 +2245,16 @@ sub Data {
         # Template: CustomerFooter
         'Powered by' => 'Imewezeshwa na',
 
-        # Template: CustomerFooterJS
-        'There are currently no elements available to select from.' => 'Kwasasa hakuna elementi inayopatika kuchagua fomu.',
-        'Please turn off Compatibility Mode in Internet Explorer!' => 'Tafadhali zima hali timizi tangamanifu ya kitafuta wavuti! ',
-        'The browser you are using is too old.' => 'Kivinjari unachotumia ni cha zamani sana.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS inafanya kazi na orodha kubwa ya vijivinjari, tafadhali boresha kwenda kwenye moja wapo.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Tafadhali angalia nyaraka au muulize kiongozi wako kwa taarifa zaidi.',
-
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript haipatikani',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Ili kupata OTRS inabidi uruhusu JavaScript kwenye kivinjari',
         'Browser Warning' => 'Onyo la kivinjari',
+        'The browser you are using is too old.' => 'Kivinjari unachotumia ni cha zamani sana.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS inafanya kazi na orodha kubwa ya vijivinjari, tafadhali boresha kwenda kwenye moja wapo.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Tafadhali angalia nyaraka au muulize kiongozi wako kwa taarifa zaidi.',
         'One moment please, you are being redirected...' => 'Tafadhali subiri kidogo, unaelekezwa....',
         'Login' => 'Ingia',
         'User name' => 'Jina la mtumiaji',
@@ -2387,66 +2336,9 @@ sub Data {
         'Warning' => 'Onyo',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => 'Siku nzima',
-        'January' => 'Januari',
-        'February' => 'Februari',
-        'March' => 'Machi',
-        'April' => 'Aprili',
-        'May_long' => 'Mei',
-        'June' => 'Juni',
-        'July' => 'Julai',
-        'August' => 'Agosti',
-        'September' => 'Septemba',
-        'October' => 'Oktoba',
-        'November' => 'Novemba',
-        'December' => 'Desemba',
-        'Jan' => 'Jan',
-        'Feb' => 'Feb',
-        'Mar' => 'Machi',
-        'Apr' => 'Aprili',
-        'May' => 'Mei',
-        'Jun' => 'Jun',
-        'Jul' => 'Julai',
-        'Aug' => 'Agosti',
-        'Sep' => 'Sep',
-        'Oct' => 'Okt',
-        'Nov' => 'Nov',
-        'Dec' => 'Des',
-        'Sunday' => 'Jumapili',
-        'Monday' => 'Jumatatu',
-        'Tuesday' => 'Jumanne',
-        'Wednesday' => 'Jumatano',
-        'Thursday' => 'Alhamisi',
-        'Friday' => 'Ijumaa',
-        'Saturday' => 'Jumamosi',
-        'Su' => 'J2',
-        'Mo' => 'J3',
-        'Tu' => 'J4',
-        'We' => 'J5',
-        'Th' => 'Alh',
-        'Fr' => 'Iju',
-        'Sa' => 'Jmosi',
-        'Today' => 'Leo',
-        'month' => 'Mwezi',
-        'week' => 'Wiki',
-        'day' => 'Siku',
         'Event Information' => 'Taarifa kuhusu tukio',
         'Ticket fields' => 'Uga wa tiketi',
         'Dynamic fields' => 'Uga wenye nguvu',
-
-        # Template: Datepicker
-        'Invalid date!' => 'Tarehe batili!',
-        'Invalid date (need a future date)!' => 'Tarehe batili (Tarehe ijayo inatakiwa)',
-        'Invalid date (need a past date)!' => 'Tarehe batili (Tarehe ya zamani inahitajika)',
-        'Previous' => 'Iliyopita',
-        'Sun' => 'Jumapili',
-        'Mon' => 'Jumatatu',
-        'Tue' => 'Jumanne',
-        'Wed' => 'Jumatano',
-        'Thu' => 'Alhamisi',
-        'Fri' => 'Ijumaa',
-        'Sat' => 'Jumamosi',
-        'Open date selection' => 'Fungua chaguo la tarehe',
 
         # Template: Error
         'An Error Occurred' => '',
@@ -2455,14 +2347,6 @@ sub Data {
         'Expand' => 'Panua',
 
         # Template: FooterJS
-        'Loading...' => 'Inapakia...',
-        'Please enter at least one search value or * to find anything.' =>
-            'Tafadhali ingiza japo moja ya thamani ilitafutwa au * kutafuta yoyote.',
-        'Please remove the following words from your search as they cannot be searched for:' =>
-            '',
-        'Please check the fields marked as red for valid inputs.' => 'Tafadhali angalia uga zote ziliizowekwa alama nyekundu kwa ajili ya maingizo batili.',
-        'Please perform a spell check on the the text first.' => 'Tafadhali fanya uangalizi maneno katika makala kwanza.',
-        'Slide the navigation bar' => 'Telezesha mwambaa wa uabiri',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
         'Find out more about the %s' => '',
@@ -2486,8 +2370,6 @@ sub Data {
         'Welcome to %s' => '',
         'Phone' => 'Simu',
         'Web site' => 'Tovuti',
-        'Mail check successful.' => 'Barua pepe imeangaliwa kwa mafanikio',
-        'Error in the mail settings. Please correct and try again.' => 'Kosa katika mipangilio ya barua pepe. Tafadhali rekebisha na jaribu tena.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Sanidi barua pepe ya iliyofungwa nje',
@@ -3225,6 +3107,7 @@ sub Data {
         'System Error!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Today' => 'Leo',
         'Tomorrow' => 'Kesho',
         'Next week' => 'Wiki ijayo',
         'Invalid Filter: %s!' => '',
@@ -3534,6 +3417,7 @@ sub Data {
         'hour' => 'Saa',
         'minute' => 'Dakika',
         'd' => 'd',
+        'day' => 'Siku',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Hii ni',
@@ -3733,6 +3617,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Problems processing server result. Please try again later.' => 'Matatizo katika kushughulikia majibu ya seva.Tafadhali jaribu tena baadae.',
 
         # Perl Module: Kernel/System/Stats.pm
+        'week' => 'Wiki',
         'quarter' => '',
         'half-year' => '',
 
@@ -4178,6 +4063,68 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.Agent.Admin.ACL
+        'Add all' => 'Ongeza zote',
+        'An item with this name is already present.' => 'Kipengee kwa jina hili tayari kimeshaonyeshwa',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
+            'Hiki kipengee bado kina vipengee vidogo. Je unataka kuondoa kipengee hiki na vipengee vidogo',
+
+        # JS File: Core.Agent.Admin.GenericAgent
+        'Remove selection' => '',
+        'Delete this Event Trigger' => 'Futa kichochezi cha tukio hili',
+        'Duplicate event.' => 'Nakili tukio',
+        'This event is already attached to the job, Please use a different one.' =>
+            'Tukio hili tayari limeweambatanishwa na kazi, tafadhali tumia lingine.',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceDebugger
+        'An error occurred during communication.' => 'Kosa limetokea wakati wa mawasiliano.',
+        'Show or hide the content.' => 'Onyesha au ficha maudhui.',
+        'Clear debug log' => 'Futa batli ya eua.',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'Delete this Invoker' => 'Tufa kisababishi hiki',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceOperation
+        'Delete this Operation' => 'Kufuta Operesheni hii',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceWebservice
+        'Delete webservice' => 'Futa huduma ya tovuti',
+        'Clone webservice' => 'Nakili huduma ya tovuti.',
+        'Import webservice' => 'Agiza huduma ya tovuti',
+        'Delete operation' => 'kufuta operesheni',
+        'Delete invoker' => 'Tufa kisababishi ',
+
+        # JS File: Core.Agent.Admin.NotificationEvent
+        'Do you really want to delete this notification language?' => '',
+
+        # JS File: Core.Agent.Admin.ProcessManagement.Canvas
+        'Remove Entity from canvas' => 'Ondoa kipengee halisi kutoka kwenye kanvasi.',
+        'No TransitionActions assigned.' => 'Hakuna vitendo vya mpito vilivyogawiwa.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            'Hakuna Kidadisi kilochogaiwa. Chukua kikadisi shughuli kutoka kwenye orodha kushoto na ikokote hapa.',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            'Shughuli haiwezi kufutwa kwasababu ni shughuli ya kuanza.',
+        'Remove the Transition from this Process' => 'Ondoa mpito kutoka kwenye mchakato huu.',
+
+        # JS File: Core.Agent.Admin.ProcessManagement
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            'Punde uonapo kibonye hiki au kiunganishi hiki, utaiacha skrini na hali yake ya sasa itahifadhiwa otomatiki. Je unataka kuendelea?',
+        'Delete Entity' => 'Futa kipengee halisi',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            'Shuguli tayari imetumika katika mchakato. Huwezi kuongeza kwa mara ya pili.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            'Mpito usiounganishwa tayari umefanyika katika kanvasi. Tafadhali unganisha mpito huu kwanza kabla haujaweka mpito mwingine.',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            'Mpito huu umeshatumika katika shughuli hii. Huwezi kutumia mara mbili!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            'Kitendo cha mpito huu kimeshatumika katika njia hii. Huwezi kutumia mara mbili!',
+        'Hide EntityIDs' => 'Ficha kitambulisho cha ingizo',
+        'Edit Field Details' => 'Hariri maelezo ya uga',
+        'Customer interface does not support internal article types.' => 'Kiole cha mteja hakisaidii aina za makala za ndani.',
+
+        # JS File: Core.Agent.CustomerInformationCenterSearch
+        'Loading...' => 'Inapakia...',
+
         # JS File: Core.Agent.CustomerSearch
         'Duplicated entry' => 'Ingizo nakala pacha',
         'It is going to be deleted from the field, please try again.' => 'Itafutwa kutoka kwenye uga, tafadhali jaribu tena.',
@@ -4185,18 +4132,88 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         # JS File: Core.Agent.Daemon
         'Information about the OTRS Daemon' => '',
 
+        # JS File: Core.Agent.Dashboard
+        'Please check the fields marked as red for valid inputs.' => 'Tafadhali angalia uga zote ziliizowekwa alama nyekundu kwa ajili ya maingizo batili.',
+        'All-day' => 'Siku nzima',
+        'Jan' => 'Jan',
+        'Feb' => 'Feb',
+        'Mar' => 'Machi',
+        'Apr' => 'Aprili',
+        'May' => 'Mei',
+        'Jun' => 'Jun',
+        'Jul' => 'Julai',
+        'Aug' => 'Agosti',
+        'Sep' => 'Sep',
+        'Oct' => 'Okt',
+        'Nov' => 'Nov',
+        'Dec' => 'Des',
+        'January' => 'Januari',
+        'February' => 'Februari',
+        'March' => 'Machi',
+        'April' => 'Aprili',
+        'May_long' => 'Mei',
+        'June' => 'Juni',
+        'July' => 'Julai',
+        'August' => 'Agosti',
+        'September' => 'Septemba',
+        'October' => 'Oktoba',
+        'November' => 'Novemba',
+        'December' => 'Desemba',
+        'Sunday' => 'Jumapili',
+        'Monday' => 'Jumatatu',
+        'Tuesday' => 'Jumanne',
+        'Wednesday' => 'Jumatano',
+        'Thursday' => 'Alhamisi',
+        'Friday' => 'Ijumaa',
+        'Saturday' => 'Jumamosi',
+        'Su' => 'J2',
+        'Mo' => 'J3',
+        'Tu' => 'J4',
+        'We' => 'J5',
+        'Th' => 'Alh',
+        'Fr' => 'Iju',
+        'Sa' => 'Jmosi',
+        'month' => 'Mwezi',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => '',
 
+        # JS File: Core.Agent.Search
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
+
         # JS File: Core.Agent.TicketAction
+        'Please perform a spell check on the the text first.' => 'Tafadhali fanya uangalizi maneno katika makala kwanza.',
         'Close this dialog' => 'Funga mazungumzo haya',
         'Do you really want to continue?' => '',
+
+        # JS File: Core.Agent
+        'Slide the navigation bar' => 'Telezesha mwambaa wa uabiri',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Tafadhali zima hali timizi tangamanifu ya kitafuta wavuti! ',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => '',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'Kosa moja au zaidi yametokea',
+
+        # JS File: Core.Installer
+        'Mail check successful.' => 'Barua pepe imeangaliwa kwa mafanikio',
+        'Error in the mail settings. Please correct and try again.' => 'Kosa katika mipangilio ya barua pepe. Tafadhali rekebisha na jaribu tena.',
+
+        # JS File: Core.UI.Datepicker
+        'Previous' => 'Iliyopita',
+        'Sun' => 'Jumapili',
+        'Mon' => 'Jumatatu',
+        'Tue' => 'Jumanne',
+        'Wed' => 'Jumatano',
+        'Thu' => 'Alhamisi',
+        'Fri' => 'Ijumaa',
+        'Sat' => 'Jumamosi',
+        'Open date selection' => 'Fungua chaguo la tarehe',
+        'Invalid date (need a future date)!' => 'Tarehe batili (Tarehe ijayo inatakiwa)',
+        'Invalid date (need a past date)!' => 'Tarehe batili (Tarehe ya zamani inahitajika)',
+        'Invalid date!' => 'Tarehe batili!',
 
         # JS File: Core.UI.InputFields
         'Not available' => '',
@@ -4213,6 +4230,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             'Kiibukizi katika skrini hii tayari imefunguliwa. Je unataka kufunga na kupakia hii hapa badala yake?',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Haikuweza kufungua dirisha ibukizi.Tafadhali kataza vizuizi vya kiibukizi kwa programu-tumizi hii.',
+
+        # JS File: Core.UI.TreeSelection
+        'There are currently no elements available to select from.' => 'Kwasasa hakuna elementi inayopatika kuchagua fomu.',
 
         # SysConfig
         '
@@ -4644,7 +4664,7 @@ Mfano:
             'Inafafanua kichujio cha matokeo ya html ili kuongeza viunganishi nyuma ya tungo zilizo fafanuliwa. Sura ya elemnti hii inaruhusu maingizo ya aina mbili. Kwanza jinala sura (mf. faq.png). Kwa kesi hii sura ya njia ya OTRS itatumika. Njia ya pili ni kuingiza kiungo cha hiyo sura.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Inafafanua kichujio cha matokeo ya html ili kuongeza viunganishi nyuma ya namba za bugtraq. Sura ya elemnti hii inaruhusu maingizo ya aina mbili. Kwanza jinala sura (mf. faq.png). Kwa kesi hii sura ya njia ya OTRS itatumika. Njia ya pili ni kuingiza kiungo cha hiyo sura.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Inafafanua kichujio kushughulikia matini katika makala, ili kuonyesha maneno muhimu yaliyofafanuliwa.',
@@ -6772,29 +6792,138 @@ Mfano:
 
     $Self->{JavaScriptStrings} = [
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Add all',
+        'All-day',
+        'An error occurred during communication.',
+        'An item with this name is already present.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
+        'Apply',
+        'Apr',
+        'April',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Aug',
+        'August',
+        'Cancel',
+        'Clear',
         'Clear all',
+        'Clear debug log',
         'Clear search',
+        'Clone webservice',
         'Close',
         'Close this dialog',
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
+        'Customer interface does not support internal article types.',
+        'Dec',
+        'December',
+        'Delete',
+        'Delete Entity',
+        'Delete invoker',
+        'Delete operation',
+        'Delete this Event Trigger',
+        'Delete this Invoker',
+        'Delete this Operation',
+        'Delete webservice',
         'Do you really want to continue?',
+        'Do you really want to delete this notification language?',
+        'Duplicate event.',
         'Duplicated entry',
+        'Edit Field Details',
+        'Edit this transition',
         'Error',
+        'Error in the mail settings. Please correct and try again.',
+        'Feb',
+        'February',
         'Filters',
+        'Fr',
+        'Fri',
+        'Friday',
+        'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Import webservice',
         'Information about the OTRS Daemon',
+        'Invalid date (need a future date)!',
+        'Invalid date (need a past date)!',
+        'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'Jan',
+        'January',
+        'Jul',
+        'July',
+        'Jun',
+        'June',
+        'Loading...',
+        'Mail check successful.',
+        'Mar',
+        'March',
+        'May',
+        'May_long',
+        'Mo',
+        'Mon',
+        'Monday',
+        'Next',
+        'No TransitionActions assigned.',
+        'No data found.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'Not available',
+        'Nov',
+        'November',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.',
+        'Oct',
+        'October',
         'One or more errors occurred!',
+        'Open date selection',
+        'Please check the fields marked as red for valid inputs.',
+        'Please enter at least one search value or * to find anything.',
+        'Please perform a spell check on the the text first.',
+        'Please remove the following words from your search as they cannot be searched for:',
+        'Please see the documentation or ask your admin for further information.',
+        'Please turn off Compatibility Mode in Internet Explorer!',
+        'Previous',
+        'Remove Entity from canvas',
         'Remove selection',
+        'Remove the Transition from this Process',
+        'Restore web service configuration',
+        'Sa',
+        'Sat',
+        'Saturday',
+        'Save',
+        'Search',
         'Select all',
+        'Sep',
+        'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show or hide the content.',
+        'Slide the navigation bar',
+        'Su',
+        'Sun',
+        'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'Th',
+        'The browser you are using is too old.',
+        'There are currently no elements available to select from.',
+        'This Activity cannot be deleted because it is the Start Activity.',
+        'This Activity is already used in the Process. You cannot add it twice!',
+        'This Transition is already used for this Activity. You cannot use it twice!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This event is already attached to the job, Please use a different one.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'Thu',
+        'Thursday',
+        'Today',
+        'Tu',
+        'Tue',
+        'Tuesday',
+        'We',
+        'Wed',
+        'Wednesday',
         'and %s more...',
+        'day',
+        'month',
+        'week',
     ];
 
     # $$STOP$$

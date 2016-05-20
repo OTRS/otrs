@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-05-19 12:44+0000\n"
+"POT-Creation-Date: 2016-05-20 14:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,26 +190,6 @@ msgstr ""
 msgid "Do you really want to delete this ACL?"
 msgstr ""
 
-#. Template: AdminACLEdit
-msgid "Delete"
-msgstr ""
-
-#. Template: AdminACLEdit
-msgid "This item still contains sub items. Are you sure you want to remove this item including its sub items?"
-msgstr ""
-
-#. Template: AdminACLEdit
-msgid "An item with this name is already present."
-msgstr ""
-
-#. Template: AdminACLEdit
-msgid "Add all"
-msgstr ""
-
-#. Template: AdminACLEdit
-msgid "There was an error reading the ACL data."
-msgstr ""
-
 #. Template: AdminACLNew
 msgid "Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode."
 msgstr ""
@@ -244,6 +224,10 @@ msgstr ""
 
 #. Template: AdminAttachment
 msgid "Created"
+msgstr ""
+
+#. Template: AdminAttachment
+msgid "Delete"
 msgstr ""
 
 #. Template: AdminAttachment
@@ -883,11 +867,11 @@ msgid "Example"
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
-msgid "Enable link preview"
+msgid "Link for preview"
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
-msgid "Activate this option to display a preview of the link configured above in AgentTicketZoom."
+msgid "If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too."
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
@@ -1160,22 +1144,6 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name and click on the \"+\" button"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Duplicate event."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "This event is already attached to the job, Please use a different one."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Delete this Event Trigger"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Remove selection"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -1646,18 +1614,6 @@ msgstr ""
 msgid "Request Details"
 msgstr ""
 
-#. Template: AdminGenericInterfaceDebugger
-msgid "An error occurred during communication."
-msgstr ""
-
-#. Template: AdminGenericInterfaceDebugger
-msgid "Show or hide the content."
-msgstr ""
-
-#. Template: AdminGenericInterfaceDebugger
-msgid "Clear debug log"
-msgstr ""
-
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new Invoker to Web Service %s"
 msgstr ""
@@ -1740,10 +1696,6 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
-msgstr ""
-
-#. Template: AdminGenericInterfaceInvokerDefault
-msgid "Delete this Invoker"
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
@@ -1834,10 +1786,6 @@ msgstr ""
 msgid "Do you really want to delete this key mapping?"
 msgstr ""
 
-#. Template: AdminGenericInterfaceMappingSimple
-msgid "Delete this Key Mapping"
-msgstr ""
-
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "GenericInterface Mapping XSLT for Web Service %s"
 msgstr ""
@@ -1912,10 +1860,6 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The response data will be processed by this mapping, to transform it to the kind of data the remote system expects."
-msgstr ""
-
-#. Template: AdminGenericInterfaceOperationDefault
-msgid "Delete this Operation"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -2394,26 +2338,6 @@ msgstr ""
 msgid "At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s"
 msgstr ""
 
-#. Template: AdminGenericInterfaceWebservice
-msgid "Delete webservice"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
-msgid "Delete operation"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
-msgid "Delete invoker"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
-msgid "Clone webservice"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
-msgid "Import webservice"
-msgstr ""
-
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "GenericInterface Configuration History for Web Service %s"
 msgstr ""
@@ -2460,10 +2384,6 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebserviceHistory
-msgid "Restore"
 msgstr ""
 
 #. Template: AdminGroup
@@ -2832,10 +2752,6 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Do you really want to delete this notification language?"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -3650,10 +3566,6 @@ msgstr ""
 msgid "Assigned Activity Dialogs"
 msgstr ""
 
-#. Template: AdminProcessManagementActivity
-msgid "As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?"
-msgstr ""
-
 #. Template: AdminProcessManagementActivityDialog
 msgid "Please note that changing this activity dialog will affect the following activities"
 msgstr ""
@@ -3736,14 +3648,6 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
-msgstr ""
-
-#. Template: AdminProcessManagementActivityDialog
-msgid "Edit Field Details"
-msgstr ""
-
-#. Template: AdminProcessManagementActivityDialog
-msgid "Customer interface does not support internal article types."
 msgstr ""
 
 #. Template: AdminProcessManagementPath
@@ -3920,54 +3824,6 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving."
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Hide EntityIDs"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Delete Entity"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Remove Entity from canvas"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "This Activity is already used in the Process. You cannot add it twice!"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "This Activity cannot be deleted because it is the Start Activity."
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "This Transition is already used for this Activity. You cannot use it twice!"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "This TransitionAction is already used in this Path. You cannot use it twice!"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Remove the Transition from this Process"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "No TransitionActions assigned."
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "The Start Event cannot loose the Start Transition!"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here."
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition."
 msgstr ""
 
 #. Template: AdminProcessManagementProcessNew
@@ -5863,22 +5719,6 @@ msgid "Download as PDF file"
 msgstr ""
 
 #. Template: AgentDashboardStats
-msgid "Grouped"
-msgstr ""
-
-#. Template: AgentDashboardStats
-msgid "Stacked"
-msgstr ""
-
-#. Template: AgentDashboardStats
-msgid "Expanded"
-msgstr ""
-
-#. Template: AgentDashboardStats
-msgid "Stream"
-msgstr ""
-
-#. Template: AgentDashboardStats
 msgid "Please select a valid graph output format in the configuration of this widget."
 msgstr ""
 
@@ -5968,6 +5808,10 @@ msgstr ""
 
 #. Template: AgentLinkObject
 msgid "with"
+msgstr ""
+
+#. Template: AgentLinkObject
+msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: AgentLinkObject
@@ -6958,26 +6802,6 @@ msgstr ""
 msgid "Powered by"
 msgstr ""
 
-#. Template: CustomerFooterJS
-msgid "There are currently no elements available to select from."
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "The browser you are using is too old."
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "OTRS runs with a huge lists of browsers, please upgrade to one of these."
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Please see the documentation or ask your admin for further information."
-msgstr ""
-
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr ""
@@ -6988,6 +6812,18 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "The browser you are using is too old."
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "OTRS runs with a huge lists of browsers, please upgrade to one of these."
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "Please see the documentation or ask your admin for further information."
 msgstr ""
 
 #. Template: CustomerLogin
@@ -7243,178 +7079,6 @@ msgid "Warning"
 msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
-msgid "All-day"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "January"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "February"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "March"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "April"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "May_long"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "June"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "July"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "August"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "September"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "October"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "November"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "December"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Jan"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Feb"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Mar"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Apr"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "May"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Jun"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Jul"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Aug"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Sep"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Oct"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Nov"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dec"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Sunday"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Monday"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Tuesday"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Wednesday"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Thursday"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Friday"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Saturday"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Su"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Mo"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Tu"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "We"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Th"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Fr"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Sa"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Today"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "month"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "week"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "day"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
 msgstr ""
 
@@ -7424,54 +7088,6 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Invalid date!"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Invalid date (need a future date)!"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Invalid date (need a past date)!"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Previous"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Sun"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Mon"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Tue"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Wed"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Thu"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Fri"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Sat"
-msgstr ""
-
-#. Template: Datepicker
-msgid "Open date selection"
 msgstr ""
 
 #. Template: Error
@@ -7488,30 +7104,6 @@ msgstr ""
 
 #. Template: Error
 msgid "Expand"
-msgstr ""
-
-#. Template: FooterJS
-msgid "Loading..."
-msgstr ""
-
-#. Template: FooterJS
-msgid "Please enter at least one search value or * to find anything."
-msgstr ""
-
-#. Template: FooterJS
-msgid "Please remove the following words from your search as they cannot be searched for:"
-msgstr ""
-
-#. Template: FooterJS
-msgid "Please check the fields marked as red for valid inputs."
-msgstr ""
-
-#. Template: FooterJS
-msgid "Please perform a spell check on the the text first."
-msgstr ""
-
-#. Template: FooterJS
-msgid "Slide the navigation bar"
 msgstr ""
 
 #. Template: FooterJS
@@ -7580,14 +7172,6 @@ msgstr ""
 
 #. Template: Installer
 msgid "Web site"
-msgstr ""
-
-#. Template: Installer
-msgid "Mail check successful."
-msgstr ""
-
-#. Template: Installer
-msgid "Error in the mail settings. Please correct and try again."
 msgstr ""
 
 #. Template: InstallerConfigureMail
@@ -9563,6 +9147,10 @@ msgid "System Error!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+msgid "Today"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Tomorrow"
 msgstr ""
 
@@ -10423,6 +10011,10 @@ msgid "d"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "day"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:"
 msgstr ""
 
@@ -10848,6 +10440,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Problems processing server result. Please try again later."
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats.pm
+msgid "week"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats.pm
@@ -11994,6 +11590,138 @@ msgstr ""
 msgid "You will receive a notification if a ticket's service is changed to one of your \"My Services\"."
 msgstr ""
 
+#. JS File: Core.Agent.Admin.ACL
+msgid "Add all"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ACL
+msgid "An item with this name is already present."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ACL
+msgid "This item still contains sub items. Are you sure you want to remove this item including its sub items?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove selection"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Delete this Event Trigger"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Duplicate event."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "This event is already attached to the job, Please use a different one."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceDebugger
+msgid "An error occurred during communication."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceDebugger
+msgid "Show or hide the content."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceDebugger
+msgid "Clear debug log"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid "Delete this Invoker"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceOperation
+msgid "Delete this Operation"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceWebservice
+msgid "Delete webservice"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceWebservice
+msgid "Clone webservice"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceWebservice
+msgid "Import webservice"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceWebservice
+msgid "Delete operation"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceWebservice
+msgid "Delete invoker"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.NotificationEvent
+msgid "Do you really want to delete this notification language?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement.Canvas
+msgid "Remove Entity from canvas"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement.Canvas
+msgid "No TransitionActions assigned."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement.Canvas
+msgid "No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement.Canvas
+msgid "This Activity cannot be deleted because it is the Start Activity."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement.Canvas
+msgid "Remove the Transition from this Process"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "Delete Entity"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "This Activity is already used in the Process. You cannot add it twice!"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "This Transition is already used for this Activity. You cannot use it twice!"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "This TransitionAction is already used in this Path. You cannot use it twice!"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "Hide EntityIDs"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "Edit Field Details"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
+msgid "Customer interface does not support internal article types."
+msgstr ""
+
+#. JS File: Core.Agent.CustomerInformationCenterSearch
+msgid "Loading..."
+msgstr ""
+
 #. JS File: Core.Agent.CustomerSearch
 msgid "Duplicated entry"
 msgstr ""
@@ -12006,8 +11734,180 @@ msgstr ""
 msgid "Information about the OTRS Daemon"
 msgstr ""
 
+#. JS File: Core.Agent.Dashboard
+msgid "Please check the fields marked as red for valid inputs."
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "All-day"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Jan"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Feb"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Mar"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Apr"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "May"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Jun"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Jul"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Aug"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Sep"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Oct"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Nov"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Dec"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "January"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "February"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "March"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "April"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "May_long"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "June"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "July"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "August"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "September"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "October"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "November"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "December"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Sunday"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Monday"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Tuesday"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Wednesday"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Thursday"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Friday"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Saturday"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Su"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Mo"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Tu"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "We"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Th"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Fr"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "Sa"
+msgstr ""
+
+#. JS File: Core.Agent.Dashboard
+msgid "month"
+msgstr ""
+
 #. JS File: Core.Agent.Responsive
 msgid "Switch to desktop mode"
+msgstr ""
+
+#. JS File: Core.Agent.Search
+msgid "Please remove the following words from your search as they cannot be searched for:"
+msgstr ""
+
+#. JS File: Core.Agent.TicketAction
+msgid "Please perform a spell check on the the text first."
 msgstr ""
 
 #. JS File: Core.Agent.TicketAction
@@ -12018,12 +11918,76 @@ msgstr ""
 msgid "Do you really want to continue?"
 msgstr ""
 
+#. JS File: Core.Agent
+msgid "Slide the navigation bar"
+msgstr ""
+
+#. JS File: Core.Agent
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
+msgstr ""
+
 #. JS File: Core.App.Responsive
 msgid "Switch to mobile mode"
 msgstr ""
 
 #. JS File: Core.Form.Validate
 msgid "One or more errors occurred!"
+msgstr ""
+
+#. JS File: Core.Installer
+msgid "Mail check successful."
+msgstr ""
+
+#. JS File: Core.Installer
+msgid "Error in the mail settings. Please correct and try again."
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Previous"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Sun"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Mon"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Tue"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Wed"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Thu"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Fri"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Sat"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Open date selection"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Invalid date (need a future date)!"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Invalid date (need a past date)!"
+msgstr ""
+
+#. JS File: Core.UI.Datepicker
+msgid "Invalid date!"
 msgstr ""
 
 #. JS File: Core.UI.InputFields
@@ -12060,6 +12024,10 @@ msgstr ""
 
 #. JS File: Core.UI.Popup
 msgid "Could not open popup window. Please disable any popup blockers for this application."
+msgstr ""
+
+#. JS File: Core.UI.TreeSelection
+msgid "There are currently no elements available to select from."
 msgstr ""
 
 #. SysConfig
@@ -13258,7 +13226,7 @@ msgid "Defines a filter for html output to add links behind bugtraq numbers. The
 msgstr ""
 
 #. SysConfig
-msgid "Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won't work with the preview mode."
+msgid "Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won't work with the preview mode."
 msgstr ""
 
 #. SysConfig

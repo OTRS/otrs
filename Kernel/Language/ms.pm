@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.854017760450509;
+    $Self->{Completeness}        = 0.85376437405077;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -84,12 +84,6 @@ sub Data {
         'Save and finish' => 'Simpan dan tamat',
         'Cancel' => 'Batal',
         'Do you really want to delete this ACL?' => 'Adakah anda benar-benar mahu memadam Senarai Kawalan Akses ini?',
-        'Delete' => 'Padam',
-        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            'Item ini masih mengandungi barangan sub. Adakah anda pasti anda mahu mengeluarkan item ini termasuk barang-barang sub?',
-        'An item with this name is already present.' => 'Item dengan nama ini sudah ada.',
-        'Add all' => 'Tambah semua',
-        'There was an error reading the ACL data.' => 'Ralat berlaku pada bacaan data Senarai Kawalan Akses.',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -104,6 +98,7 @@ sub Data {
         'Filename' => 'Nama fail',
         'Changed' => 'Diubah',
         'Created' => 'Dicipta',
+        'Delete' => 'Padam',
         'Download file' => 'Muat turun fail',
         'Delete this attachment' => 'Padam lampiran ini',
         'Add Attachment' => 'Tambah lampiran',
@@ -310,8 +305,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Disini anda boleh menyatakan pilihan pautan HTTP untuk nilai bidang dalam gambaran keseluruhan dan skrin Zoom.',
         'Example' => 'Contoh',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Hadkan memasukkan tarikh',
         'Here you can restrict the entering of dates of tickets.' => 'Di sini anda boleh menyekat kemasukan tarikh tiket.',
@@ -400,11 +395,6 @@ sub Data {
         'Add Event' => 'Tambah Acara',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Untuk menambah acara baru pilih objek acara dan nama acara kemudian tekan pada butang "+"',
-        'Duplicate event.' => 'Menyalin acara',
-        'This event is already attached to the job, Please use a different one.' =>
-            'Acara ini sudah dilampirkan pada tugas. Sila gunakan yang lain.',
-        'Delete this Event Trigger' => 'Padam pencetus acara ini',
-        'Remove selection' => 'Alih pilihan',
         'Select Tickets' => 'Memilih Tiket',
         '(e. g. 10*5155 or 105658*)' => 'contoh. 10*5144 atau 105658*',
         'Title' => 'Tajuk',
@@ -529,9 +519,6 @@ sub Data {
         'Limit' => 'Menghadkan',
         'Refresh' => 'Menyegarkan',
         'Request Details' => 'Butiran Permintaan ',
-        'An error occurred during communication.' => 'Ralat berlaku semasa komunikasi.',
-        'Show or hide the content.' => 'Menunjukkan atau menyembunyikan kandungan.',
-        'Clear debug log' => 'debug log yang jelas',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => 'Tambah Invoker Baru untuk Perkhidmatan Web %s',
@@ -561,7 +548,6 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Pencetus acara yang segerak akan diproses terus semasa permintaan web.',
         'Save and continue' => 'Simpan dan sambung',
-        'Delete this Invoker' => 'Padam Invoker ini',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'Pemetaan GenericInterface mudah untuk Perkhidmatan Web %s',
@@ -586,7 +572,6 @@ sub Data {
         'New value map' => 'Pemetaan nilai baru',
         'Add value mapping' => 'Tambah pemetaan nilai',
         'Do you really want to delete this key mapping?' => 'Anda pasti mahu memadam pemetaan kunci ini?',
-        'Delete this Key Mapping' => 'Padam pemetaan kunci ini',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => 'Pemetaan antara muka generik XSLT untuk Perkhidmatan Web %s',
@@ -614,7 +599,6 @@ sub Data {
         'Mapping for outgoing response data' => 'Pemetaan untuk tindak balas data yang keluar.',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Data yang bertindak balas akan diproses oleh pemetaan ini, untuk mengubah kepada jenis data yang dijangka oleh sistem jauh itu.',
-        'Delete this Operation' => 'Padam operasi ini',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => 'Pengangkutan Generik Muka HTTP :: REST untuk Perkhidmatan Web %s',
@@ -772,11 +756,6 @@ sub Data {
         'Delete this action' => 'Padam tindakan ini',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             'Sekurang-kurangnya satu %s mempunyai pengawal yang sama ada tidak aktif atau tidak hadir, sila semak pendaftaran pengawal atau memadam %s',
-        'Delete webservice' => 'Param perkhidmatan web',
-        'Delete operation' => 'Padam operasi',
-        'Delete invoker' => 'Padam invoker',
-        'Clone webservice' => 'Klon perkhidmatan web',
-        'Import webservice' => 'Import perkhidmatan web',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => 'GenericInterface Sejarah Konfigurasi Web Perkhidmatan %s',
@@ -793,7 +772,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             'Adakah anda benar-benar mahu memulihkan versi ini konfigurasi perkhidmatan web?',
         'Your current web service configuration will be overwritten.' => 'Perkhidmatan web konfigurasi semasa anda akan diganti.',
-        'Restore' => 'Memulihkan',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -910,7 +888,6 @@ sub Data {
         'Remove Notification Language' => 'Buang Bahasa Pemberitahuan',
         'Message body' => 'Badan Mesej',
         'Add new notification language' => 'Menambah bahasa pemberitahuan baru',
-        'Do you really want to delete this notification language?' => 'Adakah anda pasti ingin menghapuskan bahasa pemberitahuan ini?',
         'Notifications are sent to an agent or a customer.' => 'Pemberitahuan dihantar kepada ejen atau pelanggan.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Untuk mendapatkan pertama 20 watak subjek (artikel ejen terbaru).',
@@ -1180,8 +1157,6 @@ sub Data {
         'Edit' => 'Mengedit',
         'Create New Activity Dialog' => 'Cipta Dialog Aktiviti Baru',
         'Assigned Activity Dialogs' => 'Dialog Aktiviti Ditugaskan',
-        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            'Selepas sahaja anda guna butang atau pautan ini, anda akan meninggalkan skrin ini dan keadaan semasa akan disimpan secara automatik. Adakah anda mahu teruskan?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1209,8 +1184,6 @@ sub Data {
         'Assigned Fields' => 'Medan yang ditetapkan',
         'ArticleType' => 'JenisArtikel',
         'Display' => 'Pameran',
-        'Edit Field Details' => 'EditPerincianMedan',
-        'Customer interface does not support internal article types.' => 'Antara muka pelanggan tidak menyokong jenis artikel dalaman.',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Laluan',
@@ -1269,24 +1242,6 @@ sub Data {
             'Adakah anda benar-benar mahu menghapuskan aktiviti ini dari kanvas? Ini hanya boleh dibuat asal dengan meninggalkan skrin ini tanpa menyimpan.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Adakah anda benar-benar mahu menghapuskan peralihan ini dari kanvas? Ini hanya boleh dibuat asal dengan meninggalkan skrin ini tanpa menyimpan.',
-        'Hide EntityIDs' => 'Sembunyi EntityIDs',
-        'Delete Entity' => 'Padam Entiti',
-        'Remove Entity from canvas' => 'Buang Entiti daripada kanvas',
-        'This Activity is already used in the Process. You cannot add it twice!' =>
-            'Aktiviti ini telah digunakan dalam Proses. Anda tidak boleh menambah dua kali!',
-        'This Activity cannot be deleted because it is the Start Activity.' =>
-            'Aktiviti ini tidak boleh dihapuskan kerana ia adalah Aktiviti Mula.',
-        'This Transition is already used for this Activity. You cannot use it twice!' =>
-            'Peralihan ini telah digunakan untuk aktiviti ini. Anda tidak boleh menggunakannya dua kali!',
-        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            'TransitionAction ini telah digunakan dalam laluan ini. Anda tidak boleh menggunakannya dua kali!',
-        'Remove the Transition from this Process' => 'Buang Peralihan Dari Proses ini',
-        'No TransitionActions assigned.' => 'Tiada TransitionActions diberikan.',
-        'The Start Event cannot loose the Start Transition!' => 'Acara Mula tidak boleh melepaskan Peralihan Mula.',
-        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            'Tiada dialog diberikan lagi. Hanya pilih dialog aktiviti dari senarai di sebelah kiri dan tarik ke sini.',
-        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            'Peralihan yang tidak berkaitan sudah diletakkan di atas kanvas. Sila sambung peralihan ini terlebih dahulu sebelum meletakkan peralihan lain.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -1911,10 +1866,6 @@ sub Data {
         'Download as CSV file' => 'Muat turun sebagai fail CSV',
         'Download as Excel file' => 'Muat turun sebagai fail Excel',
         'Download as PDF file' => 'Muat turun sebagai fail PDF',
-        'Grouped' => 'Digolongkan ',
-        'Stacked' => 'Bertingkat',
-        'Expanded' => 'Dikembangkan',
-        'Stream' => 'Aliran',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Sila pilih format output graf yang sah dalam konfigurasi wiget ini.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -1955,6 +1906,8 @@ sub Data {
         'Select Target Object' => 'Pilih Objek Sasaran',
         'Link Object' => 'Objek pautan',
         'with' => 'dengan',
+        'Please enter at least one search value or * to find anything.' =>
+            'Sila masukkan sekurang-kurangnya satu nilai carian atau * untuk mencari apa saja.',
         'Unlink Object: %s' => 'Nyahpaut Objek: %s',
         'go to link add screen' => 'pergi untuk menghubungkan skrin menambah',
 
@@ -2288,20 +2241,16 @@ sub Data {
         # Template: CustomerFooter
         'Powered by' => 'Dikuasakan oleh',
 
-        # Template: CustomerFooterJS
-        'There are currently no elements available to select from.' => 'Tiada elemen tersedia untuk dipilh.',
-        'Please turn off Compatibility Mode in Internet Explorer!' => 'Sila tutup Mod Keserasian dalam Internet Explorer!',
-        'The browser you are using is too old.' => 'Browser yang anda gunakan adalah terlalu lama.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS dijalankan dengan senarai browser yang besar. Sila naik taraf kepada salah satu darinya.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Sila lihat dokumentasi atau menanya kepada admin anda untuk maklumat lanjut.',
-
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript idak disediakan',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Untuk menikmati OTRS, anda perlu mengaktifkah JavaScript di dalam browser anda.',
         'Browser Warning' => 'Amaran Browser',
+        'The browser you are using is too old.' => 'Browser yang anda gunakan adalah terlalu lama.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS dijalankan dengan senarai browser yang besar. Sila naik taraf kepada salah satu darinya.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Sila lihat dokumentasi atau menanya kepada admin anda untuk maklumat lanjut.',
         'One moment please, you are being redirected...' => 'Sebentar, anda sedang diarahkan...',
         'Login' => 'Log masuk',
         'User name' => 'Nama pengguna',
@@ -2383,66 +2332,9 @@ sub Data {
         'Warning' => 'Amaran',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => 'Setiap-hari',
-        'January' => 'Januari',
-        'February' => 'Februari',
-        'March' => 'Mac',
-        'April' => 'April',
-        'May_long' => 'Mei',
-        'June' => 'Jun',
-        'July' => 'Julai',
-        'August' => 'Ogos',
-        'September' => 'September',
-        'October' => 'Oktober',
-        'November' => 'November',
-        'December' => 'Disember',
-        'Jan' => 'Jan',
-        'Feb' => 'Feb',
-        'Mar' => 'Mac',
-        'Apr' => 'Apr',
-        'May' => 'Mei',
-        'Jun' => 'Jun',
-        'Jul' => 'Jul',
-        'Aug' => 'Ogs',
-        'Sep' => 'Sep',
-        'Oct' => 'Okt',
-        'Nov' => 'Nov',
-        'Dec' => 'Dis',
-        'Sunday' => 'Ahad',
-        'Monday' => 'Isnin',
-        'Tuesday' => 'Selasa',
-        'Wednesday' => 'Rabu',
-        'Thursday' => 'Khamis',
-        'Friday' => 'Jumaat',
-        'Saturday' => 'Sabtu',
-        'Su' => 'Ahd',
-        'Mo' => 'Isn',
-        'Tu' => 'Sel',
-        'We' => 'Rbu',
-        'Th' => 'Kha',
-        'Fr' => 'Jum',
-        'Sa' => 'Sab',
-        'Today' => 'Hari ini',
-        'month' => 'bulan',
-        'week' => 'minggu',
-        'day' => 'hari',
         'Event Information' => 'Informasi Acara',
         'Ticket fields' => 'Medan tiket',
         'Dynamic fields' => 'Medan dinamik',
-
-        # Template: Datepicker
-        'Invalid date!' => 'Tarikh Tidak Sah!',
-        'Invalid date (need a future date)!' => 'Tarikh tidak sah (memerlukan tarikh di hadapan)!',
-        'Invalid date (need a past date)!' => 'Tarikh tidak sah (memerlukan tarikh yang lepas)!',
-        'Previous' => 'Sebelum',
-        'Sun' => 'Ahd',
-        'Mon' => 'Isn',
-        'Tue' => 'Sel',
-        'Wed' => 'Rab',
-        'Thu' => 'Kha',
-        'Fri' => 'Jum',
-        'Sat' => 'Sab',
-        'Open date selection' => 'Buka pilihan tarikh',
 
         # Template: Error
         'An Error Occurred' => '',
@@ -2451,14 +2343,6 @@ sub Data {
         'Expand' => 'Kembang',
 
         # Template: FooterJS
-        'Loading...' => 'Memuatkan...',
-        'Please enter at least one search value or * to find anything.' =>
-            'Sila masukkan sekurang-kurangnya satu nilai carian atau * untuk mencari apa saja.',
-        'Please remove the following words from your search as they cannot be searched for:' =>
-            'Sila keluarkan perkataan yang berikut daripada carian kerana ia tidak boleh dicari:',
-        'Please check the fields marked as red for valid inputs.' => 'Sila semak bahagian yang bertanda merah untuk input sah.',
-        'Please perform a spell check on the the text first.' => 'Sila jalankan pemeriksaan ejaan ke atas teks dahulu.',
-        'Slide the navigation bar' => 'Gelongsor bar navigasi',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ciri ini adalah sebahagian daripada %s. Sila hubungi kami di %s untuk naik taraf.',
         'Find out more about the %s' => 'Cari tahu lebih mengenai %s',
@@ -2482,8 +2366,6 @@ sub Data {
         'Welcome to %s' => 'Selamat datang ke %s',
         'Phone' => 'Telefon',
         'Web site' => 'Laman web',
-        'Mail check successful.' => 'Semakan mel berjaya',
-        'Error in the mail settings. Please correct and try again.' => 'Kesilapan dalam konfigurasi e-mel. Sila betulkan dan cuba lagi.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Konfigurasi penghantaran mel',
@@ -3221,6 +3103,7 @@ sub Data {
         'System Error!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Today' => 'Hari ini',
         'Tomorrow' => 'Esok',
         'Next week' => 'Minggu Hadapan',
         'Invalid Filter: %s!' => '',
@@ -3530,6 +3413,7 @@ sub Data {
         'hour' => 'jam',
         'minute' => 'minit',
         'd' => 'd',
+        'day' => 'hari',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Ini adalah',
@@ -3728,6 +3612,7 @@ sub Data {
         'Problems processing server result. Please try again later.' => 'Masalah memproses hasil pelayan. Sila cuba sebentar lagi.',
 
         # Perl Module: Kernel/System/Stats.pm
+        'week' => 'minggu',
         'quarter' => 'suku tahun',
         'half-year' => 'setengah tahun',
 
@@ -4173,6 +4058,68 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.Agent.Admin.ACL
+        'Add all' => 'Tambah semua',
+        'An item with this name is already present.' => 'Item dengan nama ini sudah ada.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
+            'Item ini masih mengandungi barangan sub. Adakah anda pasti anda mahu mengeluarkan item ini termasuk barang-barang sub?',
+
+        # JS File: Core.Agent.Admin.GenericAgent
+        'Remove selection' => 'Alih pilihan',
+        'Delete this Event Trigger' => 'Padam pencetus acara ini',
+        'Duplicate event.' => 'Menyalin acara',
+        'This event is already attached to the job, Please use a different one.' =>
+            'Acara ini sudah dilampirkan pada tugas. Sila gunakan yang lain.',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceDebugger
+        'An error occurred during communication.' => 'Ralat berlaku semasa komunikasi.',
+        'Show or hide the content.' => 'Menunjukkan atau menyembunyikan kandungan.',
+        'Clear debug log' => 'debug log yang jelas',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'Delete this Invoker' => 'Padam Invoker ini',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceOperation
+        'Delete this Operation' => 'Padam operasi ini',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceWebservice
+        'Delete webservice' => 'Param perkhidmatan web',
+        'Clone webservice' => 'Klon perkhidmatan web',
+        'Import webservice' => 'Import perkhidmatan web',
+        'Delete operation' => 'Padam operasi',
+        'Delete invoker' => 'Padam invoker',
+
+        # JS File: Core.Agent.Admin.NotificationEvent
+        'Do you really want to delete this notification language?' => 'Adakah anda pasti ingin menghapuskan bahasa pemberitahuan ini?',
+
+        # JS File: Core.Agent.Admin.ProcessManagement.Canvas
+        'Remove Entity from canvas' => 'Buang Entiti daripada kanvas',
+        'No TransitionActions assigned.' => 'Tiada TransitionActions diberikan.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            'Tiada dialog diberikan lagi. Hanya pilih dialog aktiviti dari senarai di sebelah kiri dan tarik ke sini.',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            'Aktiviti ini tidak boleh dihapuskan kerana ia adalah Aktiviti Mula.',
+        'Remove the Transition from this Process' => 'Buang Peralihan Dari Proses ini',
+
+        # JS File: Core.Agent.Admin.ProcessManagement
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            'Selepas sahaja anda guna butang atau pautan ini, anda akan meninggalkan skrin ini dan keadaan semasa akan disimpan secara automatik. Adakah anda mahu teruskan?',
+        'Delete Entity' => 'Padam Entiti',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            'Aktiviti ini telah digunakan dalam Proses. Anda tidak boleh menambah dua kali!',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            'Peralihan yang tidak berkaitan sudah diletakkan di atas kanvas. Sila sambung peralihan ini terlebih dahulu sebelum meletakkan peralihan lain.',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            'Peralihan ini telah digunakan untuk aktiviti ini. Anda tidak boleh menggunakannya dua kali!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            'TransitionAction ini telah digunakan dalam laluan ini. Anda tidak boleh menggunakannya dua kali!',
+        'Hide EntityIDs' => 'Sembunyi EntityIDs',
+        'Edit Field Details' => 'EditPerincianMedan',
+        'Customer interface does not support internal article types.' => 'Antara muka pelanggan tidak menyokong jenis artikel dalaman.',
+
+        # JS File: Core.Agent.CustomerInformationCenterSearch
+        'Loading...' => 'Memuatkan...',
+
         # JS File: Core.Agent.CustomerSearch
         'Duplicated entry' => 'kemasukan disalin',
         'It is going to be deleted from the field, please try again.' => 'Ia akan dipadam daripada medan, sila cuba lagi.',
@@ -4180,18 +4127,88 @@ sub Data {
         # JS File: Core.Agent.Daemon
         'Information about the OTRS Daemon' => 'Informasi mengenai OTRS Daemon',
 
+        # JS File: Core.Agent.Dashboard
+        'Please check the fields marked as red for valid inputs.' => 'Sila semak bahagian yang bertanda merah untuk input sah.',
+        'All-day' => 'Setiap-hari',
+        'Jan' => 'Jan',
+        'Feb' => 'Feb',
+        'Mar' => 'Mac',
+        'Apr' => 'Apr',
+        'May' => 'Mei',
+        'Jun' => 'Jun',
+        'Jul' => 'Jul',
+        'Aug' => 'Ogs',
+        'Sep' => 'Sep',
+        'Oct' => 'Okt',
+        'Nov' => 'Nov',
+        'Dec' => 'Dis',
+        'January' => 'Januari',
+        'February' => 'Februari',
+        'March' => 'Mac',
+        'April' => 'April',
+        'May_long' => 'Mei',
+        'June' => 'Jun',
+        'July' => 'Julai',
+        'August' => 'Ogos',
+        'September' => 'September',
+        'October' => 'Oktober',
+        'November' => 'November',
+        'December' => 'Disember',
+        'Sunday' => 'Ahad',
+        'Monday' => 'Isnin',
+        'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu',
+        'Thursday' => 'Khamis',
+        'Friday' => 'Jumaat',
+        'Saturday' => 'Sabtu',
+        'Su' => 'Ahd',
+        'Mo' => 'Isn',
+        'Tu' => 'Sel',
+        'We' => 'Rbu',
+        'Th' => 'Kha',
+        'Fr' => 'Jum',
+        'Sa' => 'Sab',
+        'month' => 'bulan',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => 'Tukar kepada mod komputer',
 
+        # JS File: Core.Agent.Search
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            'Sila keluarkan perkataan yang berikut daripada carian kerana ia tidak boleh dicari:',
+
         # JS File: Core.Agent.TicketAction
+        'Please perform a spell check on the the text first.' => 'Sila jalankan pemeriksaan ejaan ke atas teks dahulu.',
         'Close this dialog' => 'Tutup dialog ini',
         'Do you really want to continue?' => 'Adakah anda benar-benar ingin meneruskan?',
+
+        # JS File: Core.Agent
+        'Slide the navigation bar' => 'Gelongsor bar navigasi',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Sila tutup Mod Keserasian dalam Internet Explorer!',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Tukar kepada mod telefon bimbit',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'Satu atau lebih kesilapan berlaku!',
+
+        # JS File: Core.Installer
+        'Mail check successful.' => 'Semakan mel berjaya',
+        'Error in the mail settings. Please correct and try again.' => 'Kesilapan dalam konfigurasi e-mel. Sila betulkan dan cuba lagi.',
+
+        # JS File: Core.UI.Datepicker
+        'Previous' => 'Sebelum',
+        'Sun' => 'Ahd',
+        'Mon' => 'Isn',
+        'Tue' => 'Sel',
+        'Wed' => 'Rab',
+        'Thu' => 'Kha',
+        'Fri' => 'Jum',
+        'Sat' => 'Sab',
+        'Open date selection' => 'Buka pilihan tarikh',
+        'Invalid date (need a future date)!' => 'Tarikh tidak sah (memerlukan tarikh di hadapan)!',
+        'Invalid date (need a past date)!' => 'Tarikh tidak sah (memerlukan tarikh yang lepas)!',
+        'Invalid date!' => 'Tarikh Tidak Sah!',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'Tidak tersedia',
@@ -4208,6 +4225,9 @@ sub Data {
             'Tetingkap timbul untuk skrin ini sudah dibuka. Adakah anda mahu menutupnya dan membuka yang ini?',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Tidak boleh membuka tetingkap pop timbul. Sila lumpuhkan sebarang penyekat pop timbul untuk aplikasi ini.',
+
+        # JS File: Core.UI.TreeSelection
+        'There are currently no elements available to select from.' => 'Tiada elemen tersedia untuk dipilh.',
 
         # SysConfig
         '
@@ -4649,7 +4669,7 @@ dalaman.',
             'Mentakrifkan tapisan untuk output html untuk menambah pautan di belakang string yang ditakrifkan. Imej unsur membolehkan dua jenis input. Sekaligus nama satu imej (contoh faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan yang kedua adalah memasukkan pautan pada imej.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Mentakrifkan tapisan untuk output html untuk menambah pautan di belakang nombor bugtraq. Imej unsur membolehkan dua jenis input. Sekaligus nama satu imej (contoh faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan yang kedua adalah memasukkan pautan pada imej.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Mentakrifkan tapisan untuk memproses teks dalam artikel, dalam usaha untuk menyerlahkan kata kunci yang dipratentukan.',
@@ -6777,29 +6797,138 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
 
     $Self->{JavaScriptStrings} = [
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Add all',
+        'All-day',
+        'An error occurred during communication.',
+        'An item with this name is already present.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
+        'Apply',
+        'Apr',
+        'April',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Aug',
+        'August',
+        'Cancel',
+        'Clear',
         'Clear all',
+        'Clear debug log',
         'Clear search',
+        'Clone webservice',
         'Close',
         'Close this dialog',
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
+        'Customer interface does not support internal article types.',
+        'Dec',
+        'December',
+        'Delete',
+        'Delete Entity',
+        'Delete invoker',
+        'Delete operation',
+        'Delete this Event Trigger',
+        'Delete this Invoker',
+        'Delete this Operation',
+        'Delete webservice',
         'Do you really want to continue?',
+        'Do you really want to delete this notification language?',
+        'Duplicate event.',
         'Duplicated entry',
+        'Edit Field Details',
+        'Edit this transition',
         'Error',
+        'Error in the mail settings. Please correct and try again.',
+        'Feb',
+        'February',
         'Filters',
+        'Fr',
+        'Fri',
+        'Friday',
+        'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Import webservice',
         'Information about the OTRS Daemon',
+        'Invalid date (need a future date)!',
+        'Invalid date (need a past date)!',
+        'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'Jan',
+        'January',
+        'Jul',
+        'July',
+        'Jun',
+        'June',
+        'Loading...',
+        'Mail check successful.',
+        'Mar',
+        'March',
+        'May',
+        'May_long',
+        'Mo',
+        'Mon',
+        'Monday',
+        'Next',
+        'No TransitionActions assigned.',
+        'No data found.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'Not available',
+        'Nov',
+        'November',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.',
+        'Oct',
+        'October',
         'One or more errors occurred!',
+        'Open date selection',
+        'Please check the fields marked as red for valid inputs.',
+        'Please enter at least one search value or * to find anything.',
+        'Please perform a spell check on the the text first.',
+        'Please remove the following words from your search as they cannot be searched for:',
+        'Please see the documentation or ask your admin for further information.',
+        'Please turn off Compatibility Mode in Internet Explorer!',
+        'Previous',
+        'Remove Entity from canvas',
         'Remove selection',
+        'Remove the Transition from this Process',
+        'Restore web service configuration',
+        'Sa',
+        'Sat',
+        'Saturday',
+        'Save',
+        'Search',
         'Select all',
+        'Sep',
+        'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show or hide the content.',
+        'Slide the navigation bar',
+        'Su',
+        'Sun',
+        'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'Th',
+        'The browser you are using is too old.',
+        'There are currently no elements available to select from.',
+        'This Activity cannot be deleted because it is the Start Activity.',
+        'This Activity is already used in the Process. You cannot add it twice!',
+        'This Transition is already used for this Activity. You cannot use it twice!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This event is already attached to the job, Please use a different one.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'Thu',
+        'Thursday',
+        'Today',
+        'Tu',
+        'Tue',
+        'Tuesday',
+        'We',
+        'Wed',
+        'Wednesday',
         'and %s more...',
+        'day',
+        'month',
+        'week',
     ];
 
     # $$STOP$$

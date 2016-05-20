@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.961013645224172;
+    $Self->{Completeness}        = 0.960945975265784;
 
     # csv separator
     $Self->{Separator} = '';
@@ -91,12 +91,6 @@ sub Data {
         'Save and finish' => '保存并完成',
         'Cancel' => '取消',
         'Do you really want to delete this ACL?' => '您真的想要删除这个ACL吗？',
-        'Delete' => '删除',
-        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            '该条目中包含子条目。您真的想要删除这个条目及其子条目吗？',
-        'An item with this name is already present.' => '名称相同的条目已存在。',
-        'Add all' => '添加所有',
-        'There was an error reading the ACL data.' => '读取ACL数据时发现一个错误。',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -111,6 +105,7 @@ sub Data {
         'Filename' => '文件名',
         'Changed' => '修改于',
         'Created' => '已创建',
+        'Delete' => '删除',
         'Download file' => '下载文件',
         'Delete this attachment' => '删除附件',
         'Add Attachment' => '添加附件',
@@ -317,8 +312,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
         'Example' => '样例',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => '限制输入日期',
         'Here you can restrict the entering of dates of tickets.' => '在这里可以限制输入工单日期。',
@@ -407,11 +402,6 @@ sub Data {
         'Add Event' => '添加事件',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '选择事件对象和事件名称，然的点击"+"按钮，即可添加新的事件。',
-        'Duplicate event.' => '复制事件',
-        'This event is already attached to the job, Please use a different one.' =>
-            '该事件已经附加到任务，请重新选择。',
-        'Delete this Event Trigger' => '删除这个事件触发器',
-        'Remove selection' => '删除选择',
         'Select Tickets' => '选择工单',
         '(e. g. 10*5155 or 105658*)' => '  例如: 10*5144 或者 105658*',
         'Title' => '标题',
@@ -536,9 +526,6 @@ sub Data {
         'Limit' => '限制',
         'Refresh' => '刷新',
         'Request Details' => '请求详细信息',
-        'An error occurred during communication.' => '在通讯时发生一个错误。',
-        'Show or hide the content.' => '显示或隐藏该内容.',
-        'Clear debug log' => '清空调试日志',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '为Web服务 %s 添加新的调用程序',
@@ -568,7 +555,6 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             '同步的事件触发器则是在web请求期间直接处理的。',
         'Save and continue' => '保存并继续',
-        'Delete this Invoker' => '删除这个调用程序',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'Web服务 %s 的通用接口简单映射',
@@ -593,7 +579,6 @@ sub Data {
         'New value map' => '新的值映射',
         'Add value mapping' => '添加值映射',
         'Do you really want to delete this key mapping?' => '您真的想要删除这个键映射吗？',
-        'Delete this Key Mapping' => '删除这个键映射',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => 'Web服务 %s 的通用接口XSLT映射',
@@ -621,7 +606,6 @@ sub Data {
         'Mapping for outgoing response data' => '映射出站响应数据',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '这个映射将对响应数据进行处理，以便将它转换成远程系统所期待的数据。',
-        'Delete this Operation' => '删除这个操作',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => 'Web服务 %s 的通用接口传输HTTP::REST',
@@ -779,11 +763,6 @@ sub Data {
         'Delete this action' => '删除这个动作',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             '至少有一个 %s 的控制器未被激活或根本就不存在，请检查控制器注册或删除这个 %s',
-        'Delete webservice' => '删除Web服务',
-        'Delete operation' => '删除操作',
-        'Delete invoker' => '删除调用程序',
-        'Clone webservice' => '克隆Web服务',
-        'Import webservice' => '导入Web服务',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => 'Web服务 %s 通用接口配置历史',
@@ -800,7 +779,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             '您真的想要恢复Web服务配置的这个版本吗？',
         'Your current web service configuration will be overwritten.' => '当前的Web服务配置将被覆盖',
-        'Restore' => '恢复',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -917,7 +895,6 @@ sub Data {
         'Remove Notification Language' => '删除通知语言',
         'Message body' => '消息正文',
         'Add new notification language' => '添加通知语言',
-        'Do you really want to delete this notification language?' => '您真的要删除这个通知语言吗？',
         'Notifications are sent to an agent or a customer.' => '发送给服务人员或客户的通知。',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '获取主题的前20个字符（最新的服务人员信件）',
@@ -1187,8 +1164,6 @@ sub Data {
         'Edit' => '编辑',
         'Create New Activity Dialog' => '创建新的活动对话框',
         'Assigned Activity Dialogs' => '分配的活动对话框',
-        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            '一旦你使用这个按钮或链接,您将离开这个界面且当前状态将被自动保存。你想要继续吗?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1216,8 +1191,6 @@ sub Data {
         'Assigned Fields' => '分配的字段',
         'ArticleType' => '信件类型',
         'Display' => '显示',
-        'Edit Field Details' => '编辑字段详情',
-        'Customer interface does not support internal article types.' => '客户界面不支持内部信件类型。',
 
         # Template: AdminProcessManagementPath
         'Path' => '路径',
@@ -1276,24 +1249,6 @@ sub Data {
             '您真的想要从画布中删除这个活动吗？不保存并离开此窗口可撤销删除操作。',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             '您真的想要从画布中删除这个转换吗？不保存并离开此窗口可撤销删除操作。',
-        'Hide EntityIDs' => '隐藏实体编号',
-        'Delete Entity' => '删除实体',
-        'Remove Entity from canvas' => '从画布中删除实体',
-        'This Activity is already used in the Process. You cannot add it twice!' =>
-            '流程中已包括这个活动，你不能重复添加活动。',
-        'This Activity cannot be deleted because it is the Start Activity.' =>
-            '不能删除这个活动，因为它是开始活动。',
-        'This Transition is already used for this Activity. You cannot use it twice!' =>
-            '活动已经使用了这个转换，你不能重复添加转换。',
-        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            '路径已经使用了这个转换动作，你不能重复添加转换动作。',
-        'Remove the Transition from this Process' => '从流程中删除这个转换',
-        'No TransitionActions assigned.' => '没有分配转换动作',
-        'The Start Event cannot loose the Start Transition!' => '起始事件不能释放起始转换！',
-        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            '没有分配活动对话框。请从左侧列表中选择一个活动对话框，并将它拖放到这里。',
-        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            '画布上已经有一个未连接的转换。在设置另一个转换之前，请先连接这个转换。',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -1918,10 +1873,6 @@ sub Data {
         'Download as CSV file' => '下载为CSV格式的文件',
         'Download as Excel file' => '下载为Excel格式的文件',
         'Download as PDF file' => '下载为PDF格式的文件',
-        'Grouped' => '分组的',
-        'Stacked' => '堆叠的',
-        'Expanded' => '展开的',
-        'Stream' => '流',
         'Please select a valid graph output format in the configuration of this widget.' =>
             '请为统计小部件选择有效的图形输出格式。',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -1962,6 +1913,8 @@ sub Data {
         'Select Target Object' => '选择目标对象',
         'Link Object' => '链接对象',
         'with' => '和',
+        'Please enter at least one search value or * to find anything.' =>
+            '请至少输入一个搜索条件或输入*搜索所有。',
         'Unlink Object: %s' => '取消连接对象：%s',
         'go to link add screen' => '转到添加链接窗口',
 
@@ -2295,20 +2248,16 @@ sub Data {
         # Template: CustomerFooter
         'Powered by' => 'Powered by',
 
-        # Template: CustomerFooterJS
-        'There are currently no elements available to select from.' => '目前没有可供选择的元素。',
-        'Please turn off Compatibility Mode in Internet Explorer!' => '请关闭IE的兼容模式！',
-        'The browser you are using is too old.' => '你使用的游览器版本太老了。',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS可运行在在大量的游览器中, 请升级到下面任意一个。',
-        'Please see the documentation or ask your admin for further information.' =>
-            '欲了解更多信息, 请向你的管理询问或参考相关文档.',
-
         # Template: CustomerLogin
         'JavaScript Not Available' => '没有启用JavaScript',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             '要继续使用 OTRS，请打开浏览器的 JavaScript 功能。',
         'Browser Warning' => '浏览器的警告',
+        'The browser you are using is too old.' => '你使用的游览器版本太老了。',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS可运行在在大量的游览器中, 请升级到下面任意一个。',
+        'Please see the documentation or ask your admin for further information.' =>
+            '欲了解更多信息, 请向你的管理询问或参考相关文档.',
         'One moment please, you are being redirected...' => '请稍候，正在重定向...',
         'Login' => '登录',
         'User name' => '用户名',
@@ -2390,66 +2339,9 @@ sub Data {
         'Warning' => '警告',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => '全天',
-        'January' => '一月',
-        'February' => '二月',
-        'March' => '三月',
-        'April' => '四月',
-        'May_long' => '五月',
-        'June' => '六月',
-        'July' => '七月',
-        'August' => '八月',
-        'September' => '九月',
-        'October' => '十月',
-        'November' => '十一月',
-        'December' => '十二月',
-        'Jan' => '一月',
-        'Feb' => '二月',
-        'Mar' => '三月',
-        'Apr' => '四月',
-        'May' => '五月',
-        'Jun' => '六月',
-        'Jul' => '七月',
-        'Aug' => '八月',
-        'Sep' => '九月',
-        'Oct' => '十月',
-        'Nov' => '十一月',
-        'Dec' => '十二月',
-        'Sunday' => '星期天',
-        'Monday' => '星期一',
-        'Tuesday' => '星期二',
-        'Wednesday' => '星期三',
-        'Thursday' => '星期四',
-        'Friday' => '星期五',
-        'Saturday' => '星期六',
-        'Su' => '日',
-        'Mo' => '一',
-        'Tu' => '二',
-        'We' => '三',
-        'Th' => '四',
-        'Fr' => '五',
-        'Sa' => '六',
-        'Today' => '今天',
-        'month' => '月',
-        'week' => '星期',
-        'day' => '天',
         'Event Information' => '事件信息',
         'Ticket fields' => '工单字段',
         'Dynamic fields' => '动态字段',
-
-        # Template: Datepicker
-        'Invalid date!' => '无效日期!',
-        'Invalid date (need a future date)!' => '无效的日期（需使用未来的日期）！',
-        'Invalid date (need a past date)!' => '无效的日期（需使用过去的日期）！',
-        'Previous' => '上一步',
-        'Sun' => '日',
-        'Mon' => '一',
-        'Tue' => '二',
-        'Wed' => '三',
-        'Thu' => '四',
-        'Fri' => '五',
-        'Sat' => '六',
-        'Open date selection' => '打开日历',
 
         # Template: Error
         'An Error Occurred' => '',
@@ -2458,14 +2350,6 @@ sub Data {
         'Expand' => '展开',
 
         # Template: FooterJS
-        'Loading...' => '加载中...',
-        'Please enter at least one search value or * to find anything.' =>
-            '请至少输入一个搜索条件或输入*搜索所有。',
-        'Please remove the following words from your search as they cannot be searched for:' =>
-            '请移除以下不能用于搜索的词语：',
-        'Please check the fields marked as red for valid inputs.' => '请检查标记为红色的字段，需要输入有效的值。',
-        'Please perform a spell check on the the text first.' => '请先对文本进行拼写检查。',
-        'Slide the navigation bar' => '滑动导航栏',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '这个功能需要%s才能使用，请到%s联系我们升级。',
         'Find out more about the %s' => '查找%s的更多信息',
@@ -2489,8 +2373,6 @@ sub Data {
         'Welcome to %s' => '欢迎使用%s',
         'Phone' => '电话',
         'Web site' => '网址',
-        'Mail check successful.' => '邮件配置检查成功完成。',
-        'Error in the mail settings. Please correct and try again.' => '邮件设置错误, 请修改后再试一次。',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '外发邮件配置',
@@ -3228,6 +3110,7 @@ sub Data {
         'System Error!' => '系统错误！',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Today' => '今天',
         'Tomorrow' => '明天',
         'Next week' => '下周',
         'Invalid Filter: %s!' => '无效的过滤器：%s！',
@@ -3537,6 +3420,7 @@ sub Data {
         'hour' => '小时',
         'minute' => '分钟',
         'd' => '天',
+        'day' => '天',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => '这是一个',
@@ -3735,6 +3619,7 @@ sub Data {
         'Problems processing server result. Please try again later.' => '处理服务器返回信息时出现问题，请稍后重试。',
 
         # Perl Module: Kernel/System/Stats.pm
+        'week' => '星期',
         'quarter' => '一刻钟',
         'half-year' => '半年',
 
@@ -4180,6 +4065,68 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '如果一个工单的服务变更为你设置的“我的服务”之一，你将收到一个通知。',
 
+        # JS File: Core.Agent.Admin.ACL
+        'Add all' => '添加所有',
+        'An item with this name is already present.' => '名称相同的条目已存在。',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
+            '该条目中包含子条目。您真的想要删除这个条目及其子条目吗？',
+
+        # JS File: Core.Agent.Admin.GenericAgent
+        'Remove selection' => '删除选择',
+        'Delete this Event Trigger' => '删除这个事件触发器',
+        'Duplicate event.' => '复制事件',
+        'This event is already attached to the job, Please use a different one.' =>
+            '该事件已经附加到任务，请重新选择。',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceDebugger
+        'An error occurred during communication.' => '在通讯时发生一个错误。',
+        'Show or hide the content.' => '显示或隐藏该内容.',
+        'Clear debug log' => '清空调试日志',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'Delete this Invoker' => '删除这个调用程序',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceOperation
+        'Delete this Operation' => '删除这个操作',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceWebservice
+        'Delete webservice' => '删除Web服务',
+        'Clone webservice' => '克隆Web服务',
+        'Import webservice' => '导入Web服务',
+        'Delete operation' => '删除操作',
+        'Delete invoker' => '删除调用程序',
+
+        # JS File: Core.Agent.Admin.NotificationEvent
+        'Do you really want to delete this notification language?' => '您真的要删除这个通知语言吗？',
+
+        # JS File: Core.Agent.Admin.ProcessManagement.Canvas
+        'Remove Entity from canvas' => '从画布中删除实体',
+        'No TransitionActions assigned.' => '没有分配转换动作',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '没有分配活动对话框。请从左侧列表中选择一个活动对话框，并将它拖放到这里。',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            '不能删除这个活动，因为它是开始活动。',
+        'Remove the Transition from this Process' => '从流程中删除这个转换',
+
+        # JS File: Core.Agent.Admin.ProcessManagement
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            '一旦你使用这个按钮或链接,您将离开这个界面且当前状态将被自动保存。你想要继续吗?',
+        'Delete Entity' => '删除实体',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            '流程中已包括这个活动，你不能重复添加活动。',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            '画布上已经有一个未连接的转换。在设置另一个转换之前，请先连接这个转换。',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            '活动已经使用了这个转换，你不能重复添加转换。',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            '路径已经使用了这个转换动作，你不能重复添加转换动作。',
+        'Hide EntityIDs' => '隐藏实体编号',
+        'Edit Field Details' => '编辑字段详情',
+        'Customer interface does not support internal article types.' => '客户界面不支持内部信件类型。',
+
+        # JS File: Core.Agent.CustomerInformationCenterSearch
+        'Loading...' => '加载中...',
+
         # JS File: Core.Agent.CustomerSearch
         'Duplicated entry' => '重复条目',
         'It is going to be deleted from the field, please try again.' => '将自动删除这个重复的地址，请再试一次。',
@@ -4187,18 +4134,88 @@ sub Data {
         # JS File: Core.Agent.Daemon
         'Information about the OTRS Daemon' => '关于OTRS守护进程的信息',
 
+        # JS File: Core.Agent.Dashboard
+        'Please check the fields marked as red for valid inputs.' => '请检查标记为红色的字段，需要输入有效的值。',
+        'All-day' => '全天',
+        'Jan' => '一月',
+        'Feb' => '二月',
+        'Mar' => '三月',
+        'Apr' => '四月',
+        'May' => '五月',
+        'Jun' => '六月',
+        'Jul' => '七月',
+        'Aug' => '八月',
+        'Sep' => '九月',
+        'Oct' => '十月',
+        'Nov' => '十一月',
+        'Dec' => '十二月',
+        'January' => '一月',
+        'February' => '二月',
+        'March' => '三月',
+        'April' => '四月',
+        'May_long' => '五月',
+        'June' => '六月',
+        'July' => '七月',
+        'August' => '八月',
+        'September' => '九月',
+        'October' => '十月',
+        'November' => '十一月',
+        'December' => '十二月',
+        'Sunday' => '星期天',
+        'Monday' => '星期一',
+        'Tuesday' => '星期二',
+        'Wednesday' => '星期三',
+        'Thursday' => '星期四',
+        'Friday' => '星期五',
+        'Saturday' => '星期六',
+        'Su' => '日',
+        'Mo' => '一',
+        'Tu' => '二',
+        'We' => '三',
+        'Th' => '四',
+        'Fr' => '五',
+        'Sa' => '六',
+        'month' => '月',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => '切换到桌面模式',
 
+        # JS File: Core.Agent.Search
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '请移除以下不能用于搜索的词语：',
+
         # JS File: Core.Agent.TicketAction
+        'Please perform a spell check on the the text first.' => '请先对文本进行拼写检查。',
         'Close this dialog' => '关闭该对话框',
         'Do you really want to continue?' => '您真的要继续吗？',
+
+        # JS File: Core.Agent
+        'Slide the navigation bar' => '滑动导航栏',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '请关闭IE的兼容模式！',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => '切换到移动模式',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => '发生了一个或多个错误!',
+
+        # JS File: Core.Installer
+        'Mail check successful.' => '邮件配置检查成功完成。',
+        'Error in the mail settings. Please correct and try again.' => '邮件设置错误, 请修改后再试一次。',
+
+        # JS File: Core.UI.Datepicker
+        'Previous' => '上一步',
+        'Sun' => '日',
+        'Mon' => '一',
+        'Tue' => '二',
+        'Wed' => '三',
+        'Thu' => '四',
+        'Fri' => '五',
+        'Sat' => '六',
+        'Open date selection' => '打开日历',
+        'Invalid date (need a future date)!' => '无效的日期（需使用未来的日期）！',
+        'Invalid date (need a past date)!' => '无效的日期（需使用过去的日期）！',
+        'Invalid date!' => '无效日期!',
 
         # JS File: Core.UI.InputFields
         'Not available' => '不可用',
@@ -4215,6 +4232,9 @@ sub Data {
             '一个弹出窗口已经打开，你想先关闭它再打开一个吗？',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             '无法打开弹出窗口，请禁用本应用的弹出窗口拦截设置。',
+
+        # JS File: Core.UI.TreeSelection
+        'There are currently no elements available to select from.' => '目前没有可供选择的元素。',
 
         # SysConfig
         '
@@ -4652,7 +4672,7 @@ Thanks for your help!
             '在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '定义HTML输出结果中在BUG追踪号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '定义信件中处理文本的过滤器，以便高亮预定义的关键词。',
@@ -6779,29 +6799,138 @@ Thanks for your help!
 
     $Self->{JavaScriptStrings} = [
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Add all',
+        'All-day',
+        'An error occurred during communication.',
+        'An item with this name is already present.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
+        'Apply',
+        'Apr',
+        'April',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Aug',
+        'August',
+        'Cancel',
+        'Clear',
         'Clear all',
+        'Clear debug log',
         'Clear search',
+        'Clone webservice',
         'Close',
         'Close this dialog',
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
+        'Customer interface does not support internal article types.',
+        'Dec',
+        'December',
+        'Delete',
+        'Delete Entity',
+        'Delete invoker',
+        'Delete operation',
+        'Delete this Event Trigger',
+        'Delete this Invoker',
+        'Delete this Operation',
+        'Delete webservice',
         'Do you really want to continue?',
+        'Do you really want to delete this notification language?',
+        'Duplicate event.',
         'Duplicated entry',
+        'Edit Field Details',
+        'Edit this transition',
         'Error',
+        'Error in the mail settings. Please correct and try again.',
+        'Feb',
+        'February',
         'Filters',
+        'Fr',
+        'Fri',
+        'Friday',
+        'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Import webservice',
         'Information about the OTRS Daemon',
+        'Invalid date (need a future date)!',
+        'Invalid date (need a past date)!',
+        'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'Jan',
+        'January',
+        'Jul',
+        'July',
+        'Jun',
+        'June',
+        'Loading...',
+        'Mail check successful.',
+        'Mar',
+        'March',
+        'May',
+        'May_long',
+        'Mo',
+        'Mon',
+        'Monday',
+        'Next',
+        'No TransitionActions assigned.',
+        'No data found.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'Not available',
+        'Nov',
+        'November',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.',
+        'Oct',
+        'October',
         'One or more errors occurred!',
+        'Open date selection',
+        'Please check the fields marked as red for valid inputs.',
+        'Please enter at least one search value or * to find anything.',
+        'Please perform a spell check on the the text first.',
+        'Please remove the following words from your search as they cannot be searched for:',
+        'Please see the documentation or ask your admin for further information.',
+        'Please turn off Compatibility Mode in Internet Explorer!',
+        'Previous',
+        'Remove Entity from canvas',
         'Remove selection',
+        'Remove the Transition from this Process',
+        'Restore web service configuration',
+        'Sa',
+        'Sat',
+        'Saturday',
+        'Save',
+        'Search',
         'Select all',
+        'Sep',
+        'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show or hide the content.',
+        'Slide the navigation bar',
+        'Su',
+        'Sun',
+        'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'Th',
+        'The browser you are using is too old.',
+        'There are currently no elements available to select from.',
+        'This Activity cannot be deleted because it is the Start Activity.',
+        'This Activity is already used in the Process. You cannot add it twice!',
+        'This Transition is already used for this Activity. You cannot use it twice!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This event is already attached to the job, Please use a different one.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'Thu',
+        'Thursday',
+        'Today',
+        'Tu',
+        'Tue',
+        'Tuesday',
+        'We',
+        'Wed',
+        'Wednesday',
         'and %s more...',
+        'day',
+        'month',
+        'week',
     ];
 
     # $$STOP$$

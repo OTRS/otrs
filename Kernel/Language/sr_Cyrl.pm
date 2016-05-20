@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.861815031405675;
+    $Self->{Completeness}        = 0.861575178997613;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -85,12 +85,6 @@ sub Data {
         'Save and finish' => 'Сачувај и заврши',
         'Cancel' => 'Одустани',
         'Do you really want to delete this ACL?' => 'Да ли заиста желите да обришете ову „ACL” листу?',
-        'Delete' => 'Избрисати',
-        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            'Ова ставка и даље садржи подставке. Да ли сте сигурни да желите да уклоните ову ставку укључујући и њене подставке?',
-        'An item with this name is already present.' => 'Већ је присутна тавка под овим именом.',
-        'Add all' => 'Додај све',
-        'There was an error reading the ACL data.' => 'Дошло је до грешке приликом читања „ACL” података.',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -105,6 +99,7 @@ sub Data {
         'Filename' => 'Назив датотеке',
         'Changed' => 'Измењено',
         'Created' => 'Креирано',
+        'Delete' => 'Избрисати',
         'Download file' => 'Преузми датотеку',
         'Delete this attachment' => 'Обриши овај прилог',
         'Add Attachment' => 'Додај прилог',
@@ -311,8 +306,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Овде можете да унесете опциону HTTP везу за вредност поља у прозору општег и увећаног приказа екрана.',
         'Example' => 'Пример',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Ограничи унос датума',
         'Here you can restrict the entering of dates of tickets.' => 'Овде можете ограничити унос датума за тикете.',
@@ -401,11 +396,6 @@ sub Data {
         'Add Event' => 'Додај догађај',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'За додавање новог догађаја изаберите објект догађаја и име догађаја па кликните на "+" дугме',
-        'Duplicate event.' => 'Направи дупликат догађаја.',
-        'This event is already attached to the job, Please use a different one.' =>
-            'Овај догађај је приложен послу. Молимо користите неки други.',
-        'Delete this Event Trigger' => 'Obriši ovaj okidač događaja',
-        'Remove selection' => 'Уклони избор',
         'Select Tickets' => 'Изабери тикете',
         '(e. g. 10*5155 or 105658*)' => 'нпр. 10*5144 или 105658*',
         'Title' => 'Наслов',
@@ -530,9 +520,6 @@ sub Data {
         'Limit' => 'Ограничење',
         'Refresh' => 'Освежавање',
         'Request Details' => 'Детаљи захтева',
-        'An error occurred during communication.' => 'Дошло је до грешке приликом комуникације.',
-        'Show or hide the content.' => 'Покажи или сакриј садржај.',
-        'Clear debug log' => 'Очисти отклањање грешака у логу',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => 'Додај новог позиваоца у веб сервис %s',
@@ -562,7 +549,6 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Синхрони окидачи догађаја биће обрађени директно током веб захтева.',
         'Save and continue' => 'Сачувај и настави',
-        'Delete this Invoker' => 'Обриши овог позиваоца',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'Општи интерфејс једноставног мапирања за веб сервис %s',
@@ -587,7 +573,6 @@ sub Data {
         'New value map' => 'Ново мапирање вредности',
         'Add value mapping' => 'Додај мапирану вредност',
         'Do you really want to delete this key mapping?' => 'Да ли стварно желите да обришете ово мапирање кључа?',
-        'Delete this Key Mapping' => 'Обриши мапирање за овај кључ',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => 'Општи интерфејс „XSLT” мапирања за веб сервис %s',
@@ -615,7 +600,6 @@ sub Data {
         'Mapping for outgoing response data' => 'Мапирање за излазне податке одговора',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Подаци одговора ће бити обрађени кроз ово мапирање, ради трансформације у облик који удаљени систем очекује.',
-        'Delete this Operation' => 'Обриши ову операцију',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => 'Општи интерфејс транспорта „HTTP::REST” за веб сервис %s',
@@ -773,11 +757,6 @@ sub Data {
         'Delete this action' => 'Обриши ову акцију',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             'Најмање један %s има контролер који или није активан или није присутан, молимо проверите регистрацију контролера или избришите %s',
-        'Delete webservice' => 'Обриши веб сервис',
-        'Delete operation' => 'Обриши операцију',
-        'Delete invoker' => 'Обриши позиваоца',
-        'Clone webservice' => 'Клонирај веб сервис',
-        'Import webservice' => 'Увези веб сервис',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => 'Историјат конфигурације општег интерфејса за веб сервис %s',
@@ -794,7 +773,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             'Да ли стварно желите да вратите ову верзију конфигурације веб сервиса?',
         'Your current web service configuration will be overwritten.' => 'Актуелна конфигурација веб сервиса биће преписана.',
-        'Restore' => 'Обнови',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -911,7 +889,6 @@ sub Data {
         'Remove Notification Language' => 'Уклони језик обавештења',
         'Message body' => 'Садржај поруке',
         'Add new notification language' => 'Уклони нови језик обавештења',
-        'Do you really want to delete this notification language?' => 'Да ли заиста желите да избришете овај језик за обавештења?',
         'Notifications are sent to an agent or a customer.' => 'Обавештење послато оператеру или клијенту.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Да видите првих 20 слова предмета (последњег чланка оператера).',
@@ -1181,8 +1158,6 @@ sub Data {
         'Edit' => 'Уредити',
         'Create New Activity Dialog' => 'Креирај нов дијалог активности',
         'Assigned Activity Dialogs' => 'Додељени дијалози активности',
-        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            'Уколико користите ово дугме или везу, напустићете екран и његов тренутни садржај ће бити аутоматски сачуван. Желите ли да наставите?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1210,8 +1185,6 @@ sub Data {
         'Assigned Fields' => 'Додељена поља',
         'ArticleType' => 'ТипЧланка',
         'Display' => 'Прикажи',
-        'Edit Field Details' => 'Уреди детаље поља',
-        'Customer interface does not support internal article types.' => 'Клијентски интерфејс не подржава интерне типове чланка.',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Путања',
@@ -1270,24 +1243,6 @@ sub Data {
             'Да ли заиста желите да уклоните ову активност са површине? Ово једино може да се опозове уколико напустите екран, а да претходно не сачувате измене.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Да ли заиста желите да уклоните ову транзицију са површине? Ово једино може да се опозове уколико напустите екран, а да претходно не сачувате измене.',
-        'Hide EntityIDs' => 'Сакриј ИД-ове објекта',
-        'Delete Entity' => 'Избриши објекат',
-        'Remove Entity from canvas' => 'Уклони објекат са површине',
-        'This Activity is already used in the Process. You cannot add it twice!' =>
-            'Ова активност је већ коришћена у процесу. Не можете је додавати два пута.',
-        'This Activity cannot be deleted because it is the Start Activity.' =>
-            'Ова активност се не може брисати, зато што је то почетак активности.',
-        'This Transition is already used for this Activity. You cannot use it twice!' =>
-            'Ова транзиција је већ коришћена за ову активност. Не можете је користити два пута.',
-        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            'Ова транзициона тктивност је већ коришћена у овој путањи. Не можете је користити два пута.',
-        'Remove the Transition from this Process' => 'Уклони транзицију из овог процеса',
-        'No TransitionActions assigned.' => 'Нема додељених транзиционих активности.',
-        'The Start Event cannot loose the Start Transition!' => 'Почетак догађаја не може изгубити почетак транзиције.',
-        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            'Још увек нема додељених дијалога. Само изаберите један дијалог активности из листе са леве стране и превуците га овде.',
-        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            'Неповезана транзиција је већ постављена на површину. Молимо повежите прву транзицију пре него што поставите другу транзицију.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -1912,10 +1867,6 @@ sub Data {
         'Download as CSV file' => 'Преузми као „CSV” датотеку',
         'Download as Excel file' => 'Преузми као „Excel” датотеку',
         'Download as PDF file' => 'Преузми као „PDF” датотеку',
-        'Grouped' => 'Груписано',
-        'Stacked' => 'Наслагано',
-        'Expanded' => 'Проширено',
-        'Stream' => 'Проток',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Молимо да у конфигурацији овог додатка изаберете важећи излазни формат графикона.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -1956,6 +1907,8 @@ sub Data {
         'Select Target Object' => 'Изабери циљни објекат',
         'Link Object' => 'Повежи објекат',
         'with' => 'са',
+        'Please enter at least one search value or * to find anything.' =>
+            'Молимо унесите барем једну вредност претраге или * да би сте нешто пронашли.',
         'Unlink Object: %s' => 'Прекини везу са објектом: %s',
         'go to link add screen' => 'иди на екран за додавање везе',
 
@@ -2289,20 +2242,16 @@ sub Data {
         # Template: CustomerFooter
         'Powered by' => 'Покреће',
 
-        # Template: CustomerFooterJS
-        'There are currently no elements available to select from.' => 'Тренутно нема слободних елемената за одабир.',
-        'Please turn off Compatibility Mode in Internet Explorer!' => 'Молимо да искључите мод компатибилности у Интернет експлореру!',
-        'The browser you are using is too old.' => 'Веб претраживач који користите је превише стар.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS фунционише на великом броју веб претраживача, молимо да инсталирате и користите један од ових.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Молимо да прегледате документацију или питате вашег администратора за додатне информације.',
-
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript није доступан.',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Како би сте користили OTRS неопходно је да активирате JavaScript у вашем веб претраживачу.',
         'Browser Warning' => 'Упозорење веб претраживача',
+        'The browser you are using is too old.' => 'Веб претраживач који користите је превише стар.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS фунционише на великом броју веб претраживача, молимо да инсталирате и користите један од ових.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Молимо да прегледате документацију или питате вашег администратора за додатне информације.',
         'One moment please, you are being redirected...' => 'Сачекајте моменат, бићете преусмерени...',
         'Login' => 'Пријављивање',
         'User name' => 'Корисничко име',
@@ -2384,66 +2333,9 @@ sub Data {
         'Warning' => 'Упозорење',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => 'Целодневно',
-        'January' => 'јануар',
-        'February' => 'фебруар',
-        'March' => 'март',
-        'April' => 'април',
-        'May_long' => 'мај',
-        'June' => 'јун',
-        'July' => 'јул',
-        'August' => 'август',
-        'September' => 'септембар',
-        'October' => 'октобар',
-        'November' => 'новембар',
-        'December' => 'децембар',
-        'Jan' => 'Јан',
-        'Feb' => 'Феб',
-        'Mar' => 'Мар',
-        'Apr' => 'Апр',
-        'May' => 'Мај',
-        'Jun' => 'Јун',
-        'Jul' => 'Јул',
-        'Aug' => 'Авг',
-        'Sep' => 'Сеп',
-        'Oct' => 'Окт',
-        'Nov' => 'Нов',
-        'Dec' => 'Дец',
-        'Sunday' => 'недеља',
-        'Monday' => 'понедељак',
-        'Tuesday' => 'уторак',
-        'Wednesday' => 'среда',
-        'Thursday' => 'четвртак',
-        'Friday' => 'петак',
-        'Saturday' => 'субота',
-        'Su' => 'не',
-        'Mo' => 'по',
-        'Tu' => 'ут',
-        'We' => 'ср',
-        'Th' => 'че',
-        'Fr' => 'пе',
-        'Sa' => 'су',
-        'Today' => 'Данас',
-        'month' => 'месец',
-        'week' => 'недеља',
-        'day' => 'дан',
         'Event Information' => 'Информације о догађају',
         'Ticket fields' => 'Поља тикета',
         'Dynamic fields' => 'Динамичка поља',
-
-        # Template: Datepicker
-        'Invalid date!' => 'Неважећи датум!',
-        'Invalid date (need a future date)!' => 'Неисправан датум (потебан будући датум)!',
-        'Invalid date (need a past date)!' => 'Неисправан датум (потребан датум у прошлости)!',
-        'Previous' => 'Назад',
-        'Sun' => 'нед',
-        'Mon' => 'пон',
-        'Tue' => 'уто',
-        'Wed' => 'сре',
-        'Thu' => 'чет',
-        'Fri' => 'пет',
-        'Sat' => 'суб',
-        'Open date selection' => 'Отвори избор датума',
 
         # Template: Error
         'An Error Occurred' => '',
@@ -2452,14 +2344,6 @@ sub Data {
         'Expand' => 'Прошири',
 
         # Template: FooterJS
-        'Loading...' => 'Учитавање...',
-        'Please enter at least one search value or * to find anything.' =>
-            'Молимо унесите барем једну вредност претраге или * да би сте нешто пронашли.',
-        'Please remove the following words from your search as they cannot be searched for:' =>
-            'Молимо да уклоните следеће речи из ваше претраге јер се не могу тражити:',
-        'Please check the fields marked as red for valid inputs.' => 'Молимо проверите поља означена црвеним за важеће уносе.',
-        'Please perform a spell check on the the text first.' => 'Молимо да прво проверите правопис на тексту.',
-        'Slide the navigation bar' => 'Померите навигациону траку',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ово својство је део %s.  Молимо да на с контактирате на %s за ажурирање.',
         'Find out more about the %s' => 'Пронађи још информација о %s',
@@ -2483,8 +2367,6 @@ sub Data {
         'Welcome to %s' => 'Добродошли у %s',
         'Phone' => 'Телефон',
         'Web site' => 'Веб сајт',
-        'Mail check successful.' => 'Успешна провера имејл подешавања.',
-        'Error in the mail settings. Please correct and try again.' => 'Грешка у подешавању имејла. Молимо исправите и покушајте поново.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Подешавање одлазне поште',
@@ -3222,6 +3104,7 @@ sub Data {
         'System Error!' => 'Системска грешка!',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Today' => 'Данас',
         'Tomorrow' => 'Сутра',
         'Next week' => 'Следеће недеље',
         'Invalid Filter: %s!' => 'Неважећи филтер: %s!',
@@ -3531,6 +3414,7 @@ sub Data {
         'hour' => 'сат',
         'minute' => 'минут',
         'd' => 'д',
+        'day' => 'дан',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Ово је',
@@ -3729,6 +3613,7 @@ sub Data {
         'Problems processing server result. Please try again later.' => 'Проблеми у обради резултата сервера. Молимо покушајте поново касније.',
 
         # Perl Module: Kernel/System/Stats.pm
+        'week' => 'недеља',
         'quarter' => 'тромесечје',
         'half-year' => 'полугодиште',
 
@@ -4174,6 +4059,68 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.Agent.Admin.ACL
+        'Add all' => 'Додај све',
+        'An item with this name is already present.' => 'Већ је присутна тавка под овим именом.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
+            'Ова ставка и даље садржи подставке. Да ли сте сигурни да желите да уклоните ову ставку укључујући и њене подставке?',
+
+        # JS File: Core.Agent.Admin.GenericAgent
+        'Remove selection' => 'Уклони избор',
+        'Delete this Event Trigger' => 'Obriši ovaj okidač događaja',
+        'Duplicate event.' => 'Направи дупликат догађаја.',
+        'This event is already attached to the job, Please use a different one.' =>
+            'Овај догађај је приложен послу. Молимо користите неки други.',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceDebugger
+        'An error occurred during communication.' => 'Дошло је до грешке приликом комуникације.',
+        'Show or hide the content.' => 'Покажи или сакриј садржај.',
+        'Clear debug log' => 'Очисти отклањање грешака у логу',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'Delete this Invoker' => 'Обриши овог позиваоца',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceOperation
+        'Delete this Operation' => 'Обриши ову операцију',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceWebservice
+        'Delete webservice' => 'Обриши веб сервис',
+        'Clone webservice' => 'Клонирај веб сервис',
+        'Import webservice' => 'Увези веб сервис',
+        'Delete operation' => 'Обриши операцију',
+        'Delete invoker' => 'Обриши позиваоца',
+
+        # JS File: Core.Agent.Admin.NotificationEvent
+        'Do you really want to delete this notification language?' => 'Да ли заиста желите да избришете овај језик за обавештења?',
+
+        # JS File: Core.Agent.Admin.ProcessManagement.Canvas
+        'Remove Entity from canvas' => 'Уклони објекат са површине',
+        'No TransitionActions assigned.' => 'Нема додељених транзиционих активности.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            'Још увек нема додељених дијалога. Само изаберите један дијалог активности из листе са леве стране и превуците га овде.',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            'Ова активност се не може брисати, зато што је то почетак активности.',
+        'Remove the Transition from this Process' => 'Уклони транзицију из овог процеса',
+
+        # JS File: Core.Agent.Admin.ProcessManagement
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            'Уколико користите ово дугме или везу, напустићете екран и његов тренутни садржај ће бити аутоматски сачуван. Желите ли да наставите?',
+        'Delete Entity' => 'Избриши објекат',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            'Ова активност је већ коришћена у процесу. Не можете је додавати два пута.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            'Неповезана транзиција је већ постављена на површину. Молимо повежите прву транзицију пре него што поставите другу транзицију.',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            'Ова транзиција је већ коришћена за ову активност. Не можете је користити два пута.',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            'Ова транзициона тктивност је већ коришћена у овој путањи. Не можете је користити два пута.',
+        'Hide EntityIDs' => 'Сакриј ИД-ове објекта',
+        'Edit Field Details' => 'Уреди детаље поља',
+        'Customer interface does not support internal article types.' => 'Клијентски интерфејс не подржава интерне типове чланка.',
+
+        # JS File: Core.Agent.CustomerInformationCenterSearch
+        'Loading...' => 'Учитавање...',
+
         # JS File: Core.Agent.CustomerSearch
         'Duplicated entry' => 'Двоструки унос',
         'It is going to be deleted from the field, please try again.' => 'Биће обрисано из поља, молимо покушајте поново.',
@@ -4181,18 +4128,88 @@ sub Data {
         # JS File: Core.Agent.Daemon
         'Information about the OTRS Daemon' => 'Информације о „OTRS” сервису',
 
+        # JS File: Core.Agent.Dashboard
+        'Please check the fields marked as red for valid inputs.' => 'Молимо проверите поља означена црвеним за важеће уносе.',
+        'All-day' => 'Целодневно',
+        'Jan' => 'Јан',
+        'Feb' => 'Феб',
+        'Mar' => 'Мар',
+        'Apr' => 'Апр',
+        'May' => 'Мај',
+        'Jun' => 'Јун',
+        'Jul' => 'Јул',
+        'Aug' => 'Авг',
+        'Sep' => 'Сеп',
+        'Oct' => 'Окт',
+        'Nov' => 'Нов',
+        'Dec' => 'Дец',
+        'January' => 'јануар',
+        'February' => 'фебруар',
+        'March' => 'март',
+        'April' => 'април',
+        'May_long' => 'мај',
+        'June' => 'јун',
+        'July' => 'јул',
+        'August' => 'август',
+        'September' => 'септембар',
+        'October' => 'октобар',
+        'November' => 'новембар',
+        'December' => 'децембар',
+        'Sunday' => 'недеља',
+        'Monday' => 'понедељак',
+        'Tuesday' => 'уторак',
+        'Wednesday' => 'среда',
+        'Thursday' => 'четвртак',
+        'Friday' => 'петак',
+        'Saturday' => 'субота',
+        'Su' => 'не',
+        'Mo' => 'по',
+        'Tu' => 'ут',
+        'We' => 'ср',
+        'Th' => 'че',
+        'Fr' => 'пе',
+        'Sa' => 'су',
+        'month' => 'месец',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => 'Пређи на десктоп мод',
 
+        # JS File: Core.Agent.Search
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            'Молимо да уклоните следеће речи из ваше претраге јер се не могу тражити:',
+
         # JS File: Core.Agent.TicketAction
+        'Please perform a spell check on the the text first.' => 'Молимо да прво проверите правопис на тексту.',
         'Close this dialog' => 'Затвори овај дијалог',
         'Do you really want to continue?' => 'Да ли заиста желите да наставите?',
+
+        # JS File: Core.Agent
+        'Slide the navigation bar' => 'Померите навигациону траку',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Молимо да искључите мод компатибилности у Интернет експлореру!',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Пређи на мобилни мод',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'Дошло је до једне или више грешака!',
+
+        # JS File: Core.Installer
+        'Mail check successful.' => 'Успешна провера имејл подешавања.',
+        'Error in the mail settings. Please correct and try again.' => 'Грешка у подешавању имејла. Молимо исправите и покушајте поново.',
+
+        # JS File: Core.UI.Datepicker
+        'Previous' => 'Назад',
+        'Sun' => 'нед',
+        'Mon' => 'пон',
+        'Tue' => 'уто',
+        'Wed' => 'сре',
+        'Thu' => 'чет',
+        'Fri' => 'пет',
+        'Sat' => 'суб',
+        'Open date selection' => 'Отвори избор датума',
+        'Invalid date (need a future date)!' => 'Неисправан датум (потебан будући датум)!',
+        'Invalid date (need a past date)!' => 'Неисправан датум (потребан датум у прошлости)!',
+        'Invalid date!' => 'Неважећи датум!',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'Није доступно',
@@ -4209,6 +4226,9 @@ sub Data {
             'Приказ овог екрана је већ отворен. Желите ли да га затворите и учитате овај уместо њега?',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Није могуће отворити искачући прозор. Молимо да искључите блокаду искачућих прозора за ову апликацију.',
+
+        # JS File: Core.UI.TreeSelection
+        'There are currently no elements available to select from.' => 'Тренутно нема слободних елемената за одабир.',
 
         # SysConfig
         '
@@ -4648,7 +4668,7 @@ Thanks for your help!
             'Дефинише филтер за html излаз да би сте додали везе иза дефинисаног низа знакова. Елемент Слика дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена OTRS путања слике. Други начин је уношење везе до слике.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Дефинише филтер за html излаз да би сте додали везе иза "bugtraq" бројева. Елемент Слика дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена OTRS путања слике. Други начин је уношење везе до слике.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Дефинише филтер за обраду текста у чланцима, да би се истакле унапред дефинисане кључне речи.',
@@ -6775,29 +6795,138 @@ Thanks for your help!
 
     $Self->{JavaScriptStrings} = [
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Add all',
+        'All-day',
+        'An error occurred during communication.',
+        'An item with this name is already present.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
+        'Apply',
+        'Apr',
+        'April',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Aug',
+        'August',
+        'Cancel',
+        'Clear',
         'Clear all',
+        'Clear debug log',
         'Clear search',
+        'Clone webservice',
         'Close',
         'Close this dialog',
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
+        'Customer interface does not support internal article types.',
+        'Dec',
+        'December',
+        'Delete',
+        'Delete Entity',
+        'Delete invoker',
+        'Delete operation',
+        'Delete this Event Trigger',
+        'Delete this Invoker',
+        'Delete this Operation',
+        'Delete webservice',
         'Do you really want to continue?',
+        'Do you really want to delete this notification language?',
+        'Duplicate event.',
         'Duplicated entry',
+        'Edit Field Details',
+        'Edit this transition',
         'Error',
+        'Error in the mail settings. Please correct and try again.',
+        'Feb',
+        'February',
         'Filters',
+        'Fr',
+        'Fri',
+        'Friday',
+        'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Import webservice',
         'Information about the OTRS Daemon',
+        'Invalid date (need a future date)!',
+        'Invalid date (need a past date)!',
+        'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'Jan',
+        'January',
+        'Jul',
+        'July',
+        'Jun',
+        'June',
+        'Loading...',
+        'Mail check successful.',
+        'Mar',
+        'March',
+        'May',
+        'May_long',
+        'Mo',
+        'Mon',
+        'Monday',
+        'Next',
+        'No TransitionActions assigned.',
+        'No data found.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'Not available',
+        'Nov',
+        'November',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.',
+        'Oct',
+        'October',
         'One or more errors occurred!',
+        'Open date selection',
+        'Please check the fields marked as red for valid inputs.',
+        'Please enter at least one search value or * to find anything.',
+        'Please perform a spell check on the the text first.',
+        'Please remove the following words from your search as they cannot be searched for:',
+        'Please see the documentation or ask your admin for further information.',
+        'Please turn off Compatibility Mode in Internet Explorer!',
+        'Previous',
+        'Remove Entity from canvas',
         'Remove selection',
+        'Remove the Transition from this Process',
+        'Restore web service configuration',
+        'Sa',
+        'Sat',
+        'Saturday',
+        'Save',
+        'Search',
         'Select all',
+        'Sep',
+        'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show or hide the content.',
+        'Slide the navigation bar',
+        'Su',
+        'Sun',
+        'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'Th',
+        'The browser you are using is too old.',
+        'There are currently no elements available to select from.',
+        'This Activity cannot be deleted because it is the Start Activity.',
+        'This Activity is already used in the Process. You cannot add it twice!',
+        'This Transition is already used for this Activity. You cannot use it twice!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This event is already attached to the job, Please use a different one.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'Thu',
+        'Thursday',
+        'Today',
+        'Tu',
+        'Tue',
+        'Tuesday',
+        'We',
+        'Wed',
+        'Wednesday',
         'and %s more...',
+        'day',
+        'month',
+        'week',
     ];
 
     # $$STOP$$

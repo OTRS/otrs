@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.622915312973793;
+    $Self->{Completeness}        = 0.623128661314819;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -88,12 +88,6 @@ sub Data {
         'Save and finish' => '保存して終了',
         'Cancel' => '取消',
         'Do you really want to delete this ACL?' => 'このACLを本当に削除しますか？',
-        'Delete' => '削除',
-        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            'このアイテムは、配下にサブアイテムを保有しています。このアイテムをサブアイテムと共に削除してもよろしいですか？',
-        'An item with this name is already present.' => 'この名前の項目は既に存在します。',
-        'Add all' => '全てを追加',
-        'There was an error reading the ACL data.' => 'ACLデータの読み込み時にエラーが発生しました。',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -108,6 +102,7 @@ sub Data {
         'Filename' => 'ファイル名',
         'Changed' => '変更日時',
         'Created' => '作成日時',
+        'Delete' => '削除',
         'Download file' => 'ダウンロードファイル',
         'Delete this attachment' => 'この添付ファイルを削除',
         'Add Attachment' => '添付ファイルを追加',
@@ -314,8 +309,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
         'Example' => '例',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => '日付入力の制限',
         'Here you can restrict the entering of dates of tickets.' => '本項目でチケットの日付入力の制限できます',
@@ -404,11 +399,6 @@ sub Data {
         'Add Event' => 'イベントを追加',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
-        'Duplicate event.' => 'イベントを複製',
-        'This event is already attached to the job, Please use a different one.' =>
-            '',
-        'Delete this Event Trigger' => 'このイベントトリガーを削除',
-        'Remove selection' => '選択項目を削除',
         'Select Tickets' => 'チケットを選択',
         '(e. g. 10*5155 or 105658*)' => '(例 10*5144 または 105658*)',
         'Title' => 'タイトル',
@@ -533,9 +523,6 @@ sub Data {
         'Limit' => '制限',
         'Refresh' => '自動更新',
         'Request Details' => '要求の詳細',
-        'An error occurred during communication.' => 'コミュニケーション中にエラーが発生しました。',
-        'Show or hide the content.' => 'コンテンツの表示・非表示',
-        'Clear debug log' => 'デバッグログを削除',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '呼び出し元をWebサービス %s に追加',
@@ -565,7 +552,6 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             '',
         'Save and continue' => '保存して継続',
-        'Delete this Invoker' => 'この呼び出し元を削除',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => '',
@@ -590,7 +576,6 @@ sub Data {
         'New value map' => '新しい値の割り当て',
         'Add value mapping' => '値の割り当てを追加',
         'Do you really want to delete this key mapping?' => 'このキー割り当てを削除しますか？',
-        'Delete this Key Mapping' => 'このキー割り当ての削除',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => '',
@@ -618,7 +603,6 @@ sub Data {
         'Mapping for outgoing response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
-        'Delete this Operation' => 'このオペレーションを削除',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => '',
@@ -776,11 +760,6 @@ sub Data {
         'Delete this action' => 'このアクションを削除',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             '',
-        'Delete webservice' => 'Webサービスを削除',
-        'Delete operation' => 'オペレーションを削除',
-        'Delete invoker' => '呼び出し元を削除',
-        'Clone webservice' => 'Webサービスを複製',
-        'Import webservice' => 'Webサービスをインポート',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => '',
@@ -797,7 +776,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             '',
         'Your current web service configuration will be overwritten.' => '現在のWebサービス設定は上書きされます。',
-        'Restore' => '復元',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -914,7 +892,6 @@ sub Data {
         'Remove Notification Language' => '',
         'Message body' => 'メッセージボディー',
         'Add new notification language' => '新規通知言語を追加',
-        'Do you really want to delete this notification language?' => '',
         'Notifications are sent to an agent or a customer.' => '通知は担当者、顧客に送信されます。',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '表題の最初の20文字を取得 (最新の担当者記事)',
@@ -1185,8 +1162,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Edit' => '編集',
         'Create New Activity Dialog' => '新規アクティビティダイアログを作成',
         'Assigned Activity Dialogs' => '割り当てられたアクティビティダイアログ',
-        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            '',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1214,8 +1189,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Assigned Fields' => '割り当てられた領域',
         'ArticleType' => '記事タイプ',
         'Display' => '表示',
-        'Edit Field Details' => '領域の詳細を編集',
-        'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
         'Path' => 'パス',
@@ -1273,24 +1246,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             '',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
-        'Hide EntityIDs' => 'エンティティIDを隠す',
-        'Delete Entity' => 'エンティティを削除',
-        'Remove Entity from canvas' => 'キャンバスからエンティティを削除',
-        'This Activity is already used in the Process. You cannot add it twice!' =>
-            'このアクティビティは既にプロセスで使用されています。2度追加できません。',
-        'This Activity cannot be deleted because it is the Start Activity.' =>
-            'このアクティビティは開始アクティビティであるため削除できません。',
-        'This Transition is already used for this Activity. You cannot use it twice!' =>
-            'この遷移は既にこのアクティビティに対して使用されています。2度使用できません。',
-        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            'の遷移動作は既にこのパスで使用されています。2度使用できません。',
-        'Remove the Transition from this Process' => 'このプロセスから遷移を削除',
-        'No TransitionActions assigned.' => '',
-        'The Start Event cannot loose the Start Transition!' => '',
-        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            '',
-        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -1916,10 +1871,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Download as CSV file' => '',
         'Download as Excel file' => '',
         'Download as PDF file' => '',
-        'Grouped' => '',
-        'Stacked' => '',
-        'Expanded' => '展開',
-        'Stream' => '',
         'Please select a valid graph output format in the configuration of this widget.' =>
             '',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -1960,6 +1911,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Select Target Object' => '対象を選択',
         'Link Object' => '連結対象',
         'with' => 'と',
+        'Please enter at least one search value or * to find anything.' =>
+            '',
         'Unlink Object: %s' => '連結解除対象: %s',
         'go to link add screen' => '連結画面へ移動',
 
@@ -2293,20 +2246,16 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: CustomerFooter
         'Powered by' => 'Powered by',
 
-        # Template: CustomerFooterJS
-        'There are currently no elements available to select from.' => '現在選択可能な要素はありません。',
-        'Please turn off Compatibility Mode in Internet Explorer!' => 'Internet Explorerの互換モードを無効にして下さい。',
-        'The browser you are using is too old.' => 'ご利用のブラウザは古すぎます。',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRSは次のいずれかのブラウザで実行してください。ブラウザ内で巨大なリストを使用します。',
-        'Please see the documentation or ask your admin for further information.' =>
-            '詳細はマニュアルを参照するか、管理者にお問い合わせください。',
-
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScriptが有効になっていません。',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'OTRSを利用するにはお使いのブラウザでJavaScriptを有効にする必要があります。',
         'Browser Warning' => 'ブラウザの警告',
+        'The browser you are using is too old.' => 'ご利用のブラウザは古すぎます。',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRSは次のいずれかのブラウザで実行してください。ブラウザ内で巨大なリストを使用します。',
+        'Please see the documentation or ask your admin for further information.' =>
+            '詳細はマニュアルを参照するか、管理者にお問い合わせください。',
         'One moment please, you are being redirected...' => '',
         'Login' => 'ログイン',
         'User name' => 'ユーザー名',
@@ -2388,66 +2337,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Warning' => '警告',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => '終日',
-        'January' => '1月',
-        'February' => '2月',
-        'March' => '3月',
-        'April' => '4月',
-        'May_long' => '5月',
-        'June' => '6月',
-        'July' => '7月',
-        'August' => '8月',
-        'September' => '9月',
-        'October' => '10月',
-        'November' => '11月',
-        'December' => '12月',
-        'Jan' => '1月',
-        'Feb' => '2月',
-        'Mar' => '3月',
-        'Apr' => '4月',
-        'May' => '5月',
-        'Jun' => '6月',
-        'Jul' => '7月',
-        'Aug' => '8月',
-        'Sep' => '9月',
-        'Oct' => '10月',
-        'Nov' => '11月',
-        'Dec' => '12月',
-        'Sunday' => '日曜日',
-        'Monday' => '月曜日',
-        'Tuesday' => '火曜日',
-        'Wednesday' => '水曜日',
-        'Thursday' => '木曜日',
-        'Friday' => '金曜日',
-        'Saturday' => '土曜日',
-        'Su' => '日',
-        'Mo' => '月',
-        'Tu' => '火',
-        'We' => '水',
-        'Th' => '木',
-        'Fr' => '金',
-        'Sa' => '土',
-        'Today' => '本日',
-        'month' => '月',
-        'week' => '週',
-        'day' => '日',
         'Event Information' => '',
         'Ticket fields' => 'チケット・フィールド',
         'Dynamic fields' => 'ダイナミック・フィールド',
-
-        # Template: Datepicker
-        'Invalid date!' => '無効な日付です。',
-        'Invalid date (need a future date)!' => '無効な日付です。 (未来の日付が必要)',
-        'Invalid date (need a past date)!' => '',
-        'Previous' => '過去',
-        'Sun' => '日',
-        'Mon' => '月',
-        'Tue' => '火',
-        'Wed' => '水',
-        'Thu' => '木',
-        'Fri' => '金',
-        'Sat' => '土',
-        'Open date selection' => '対応開始日を選択',
 
         # Template: Error
         'An Error Occurred' => '',
@@ -2456,14 +2348,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Expand' => '展開',
 
         # Template: FooterJS
-        'Loading...' => '読み込み中...',
-        'Please enter at least one search value or * to find anything.' =>
-            '',
-        'Please remove the following words from your search as they cannot be searched for:' =>
-            '',
-        'Please check the fields marked as red for valid inputs.' => '',
-        'Please perform a spell check on the the text first.' => '',
-        'Slide the navigation bar' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'この機能は %s の一部です。%s の更新についてサポートまでお問い合わせください。',
         'Find out more about the %s' => '',
@@ -2487,8 +2371,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Welcome to %s' => '',
         'Phone' => '電話',
         'Web site' => 'Webサイト',
-        'Mail check successful.' => 'メールチェックに成功しました。',
-        'Error in the mail settings. Please correct and try again.' => 'メール設定中にエラーが発生しました。再設定してください。',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '送信メール設定',
@@ -3226,6 +3108,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'System Error!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Today' => '本日',
         'Tomorrow' => '翌日',
         'Next week' => '翌週',
         'Invalid Filter: %s!' => '',
@@ -3535,6 +3418,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'hour' => '時間',
         'minute' => '分',
         'd' => '日',
+        'day' => '日',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'これは',
@@ -3733,6 +3617,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Problems processing server result. Please try again later.' => 'サーバから受信した内容を処理しているときに問題が発生しました。再試行してください。',
 
         # Perl Module: Kernel/System/Stats.pm
+        'week' => '週',
         'quarter' => '四半期',
         'half-year' => '半期',
 
@@ -4179,6 +4064,68 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.Agent.Admin.ACL
+        'Add all' => '全てを追加',
+        'An item with this name is already present.' => 'この名前の項目は既に存在します。',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
+            'このアイテムは、配下にサブアイテムを保有しています。このアイテムをサブアイテムと共に削除してもよろしいですか？',
+
+        # JS File: Core.Agent.Admin.GenericAgent
+        'Remove selection' => '選択項目を削除',
+        'Delete this Event Trigger' => 'このイベントトリガーを削除',
+        'Duplicate event.' => 'イベントを複製',
+        'This event is already attached to the job, Please use a different one.' =>
+            '',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceDebugger
+        'An error occurred during communication.' => 'コミュニケーション中にエラーが発生しました。',
+        'Show or hide the content.' => 'コンテンツの表示・非表示',
+        'Clear debug log' => 'デバッグログを削除',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'Delete this Invoker' => 'この呼び出し元を削除',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceOperation
+        'Delete this Operation' => 'このオペレーションを削除',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceWebservice
+        'Delete webservice' => 'Webサービスを削除',
+        'Clone webservice' => 'Webサービスを複製',
+        'Import webservice' => 'Webサービスをインポート',
+        'Delete operation' => 'オペレーションを削除',
+        'Delete invoker' => '呼び出し元を削除',
+
+        # JS File: Core.Agent.Admin.NotificationEvent
+        'Do you really want to delete this notification language?' => '',
+
+        # JS File: Core.Agent.Admin.ProcessManagement.Canvas
+        'Remove Entity from canvas' => 'キャンバスからエンティティを削除',
+        'No TransitionActions assigned.' => '',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            'このアクティビティは開始アクティビティであるため削除できません。',
+        'Remove the Transition from this Process' => 'このプロセスから遷移を削除',
+
+        # JS File: Core.Agent.Admin.ProcessManagement
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            '',
+        'Delete Entity' => 'エンティティを削除',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            'このアクティビティは既にプロセスで使用されています。2度追加できません。',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            '',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            'この遷移は既にこのアクティビティに対して使用されています。2度使用できません。',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            'の遷移動作は既にこのパスで使用されています。2度使用できません。',
+        'Hide EntityIDs' => 'エンティティIDを隠す',
+        'Edit Field Details' => '領域の詳細を編集',
+        'Customer interface does not support internal article types.' => '',
+
+        # JS File: Core.Agent.CustomerInformationCenterSearch
+        'Loading...' => '読み込み中...',
+
         # JS File: Core.Agent.CustomerSearch
         'Duplicated entry' => '重複した登録',
         'It is going to be deleted from the field, please try again.' => '',
@@ -4186,18 +4133,88 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # JS File: Core.Agent.Daemon
         'Information about the OTRS Daemon' => '',
 
+        # JS File: Core.Agent.Dashboard
+        'Please check the fields marked as red for valid inputs.' => '',
+        'All-day' => '終日',
+        'Jan' => '1月',
+        'Feb' => '2月',
+        'Mar' => '3月',
+        'Apr' => '4月',
+        'May' => '5月',
+        'Jun' => '6月',
+        'Jul' => '7月',
+        'Aug' => '8月',
+        'Sep' => '9月',
+        'Oct' => '10月',
+        'Nov' => '11月',
+        'Dec' => '12月',
+        'January' => '1月',
+        'February' => '2月',
+        'March' => '3月',
+        'April' => '4月',
+        'May_long' => '5月',
+        'June' => '6月',
+        'July' => '7月',
+        'August' => '8月',
+        'September' => '9月',
+        'October' => '10月',
+        'November' => '11月',
+        'December' => '12月',
+        'Sunday' => '日曜日',
+        'Monday' => '月曜日',
+        'Tuesday' => '火曜日',
+        'Wednesday' => '水曜日',
+        'Thursday' => '木曜日',
+        'Friday' => '金曜日',
+        'Saturday' => '土曜日',
+        'Su' => '日',
+        'Mo' => '月',
+        'Tu' => '火',
+        'We' => '水',
+        'Th' => '木',
+        'Fr' => '金',
+        'Sa' => '土',
+        'month' => '月',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => 'デスクトップモードへ',
 
+        # JS File: Core.Agent.Search
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
+
         # JS File: Core.Agent.TicketAction
+        'Please perform a spell check on the the text first.' => '',
         'Close this dialog' => 'このダイアログを閉じる',
         'Do you really want to continue?' => '',
+
+        # JS File: Core.Agent
+        'Slide the navigation bar' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Internet Explorerの互換モードを無効にして下さい。',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'モバイルモードへ',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => '一つ以上のエラーが発生しました。',
+
+        # JS File: Core.Installer
+        'Mail check successful.' => 'メールチェックに成功しました。',
+        'Error in the mail settings. Please correct and try again.' => 'メール設定中にエラーが発生しました。再設定してください。',
+
+        # JS File: Core.UI.Datepicker
+        'Previous' => '過去',
+        'Sun' => '日',
+        'Mon' => '月',
+        'Tue' => '火',
+        'Wed' => '水',
+        'Thu' => '木',
+        'Fri' => '金',
+        'Sat' => '土',
+        'Open date selection' => '対応開始日を選択',
+        'Invalid date (need a future date)!' => '無効な日付です。 (未来の日付が必要)',
+        'Invalid date (need a past date)!' => '',
+        'Invalid date!' => '無効な日付です。',
 
         # JS File: Core.UI.InputFields
         'Not available' => '',
@@ -4214,6 +4231,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '既にポップアップウィンドウを開いています。開いているウィンドウを閉じて新しく開きますか？',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'ポップアップウィンドウを開けませんでした。アプリケーションのポップアップブロッカーを無効にしてください。',
+
+        # JS File: Core.UI.TreeSelection
+        'There are currently no elements available to select from.' => '現在選択可能な要素はありません。',
 
         # SysConfig
         '
@@ -4651,7 +4671,7 @@ Thanks for your help!
             '定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'バグトラック・ナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '事前定義されたキーワードをハイライトするため、項目の中のテキストを処理するフィルタを定義します。',
@@ -6782,29 +6802,138 @@ Thanks for your help!
 
     $Self->{JavaScriptStrings} = [
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Add all',
+        'All-day',
+        'An error occurred during communication.',
+        'An item with this name is already present.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
+        'Apply',
+        'Apr',
+        'April',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Aug',
+        'August',
+        'Cancel',
+        'Clear',
         'Clear all',
+        'Clear debug log',
         'Clear search',
+        'Clone webservice',
         'Close',
         'Close this dialog',
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
+        'Customer interface does not support internal article types.',
+        'Dec',
+        'December',
+        'Delete',
+        'Delete Entity',
+        'Delete invoker',
+        'Delete operation',
+        'Delete this Event Trigger',
+        'Delete this Invoker',
+        'Delete this Operation',
+        'Delete webservice',
         'Do you really want to continue?',
+        'Do you really want to delete this notification language?',
+        'Duplicate event.',
         'Duplicated entry',
+        'Edit Field Details',
+        'Edit this transition',
         'Error',
+        'Error in the mail settings. Please correct and try again.',
+        'Feb',
+        'February',
         'Filters',
+        'Fr',
+        'Fri',
+        'Friday',
+        'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Import webservice',
         'Information about the OTRS Daemon',
+        'Invalid date (need a future date)!',
+        'Invalid date (need a past date)!',
+        'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'Jan',
+        'January',
+        'Jul',
+        'July',
+        'Jun',
+        'June',
+        'Loading...',
+        'Mail check successful.',
+        'Mar',
+        'March',
+        'May',
+        'May_long',
+        'Mo',
+        'Mon',
+        'Monday',
+        'Next',
+        'No TransitionActions assigned.',
+        'No data found.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'Not available',
+        'Nov',
+        'November',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.',
+        'Oct',
+        'October',
         'One or more errors occurred!',
+        'Open date selection',
+        'Please check the fields marked as red for valid inputs.',
+        'Please enter at least one search value or * to find anything.',
+        'Please perform a spell check on the the text first.',
+        'Please remove the following words from your search as they cannot be searched for:',
+        'Please see the documentation or ask your admin for further information.',
+        'Please turn off Compatibility Mode in Internet Explorer!',
+        'Previous',
+        'Remove Entity from canvas',
         'Remove selection',
+        'Remove the Transition from this Process',
+        'Restore web service configuration',
+        'Sa',
+        'Sat',
+        'Saturday',
+        'Save',
+        'Search',
         'Select all',
+        'Sep',
+        'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show or hide the content.',
+        'Slide the navigation bar',
+        'Su',
+        'Sun',
+        'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'Th',
+        'The browser you are using is too old.',
+        'There are currently no elements available to select from.',
+        'This Activity cannot be deleted because it is the Start Activity.',
+        'This Activity is already used in the Process. You cannot add it twice!',
+        'This Transition is already used for this Activity. You cannot use it twice!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This event is already attached to the job, Please use a different one.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'Thu',
+        'Thursday',
+        'Today',
+        'Tu',
+        'Tue',
+        'Tuesday',
+        'We',
+        'Wed',
+        'Wednesday',
         'and %s more...',
+        'day',
+        'month',
+        'week',
     ];
 
    # $$STOP$$

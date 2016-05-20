@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.647606670998484;
+    $Self->{Completeness}        = 0.646995009763506;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -91,12 +91,6 @@ sub Data {
         'Save and finish' => 'Opslaan en voltooien',
         'Cancel' => 'Annuleren',
         'Do you really want to delete this ACL?' => 'Wilt u deze ACL verwijderen?',
-        'Delete' => 'Verwijderen',
-        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            'Dit item bevat sub-items. Weet u zeker dat u dit item inclusief subitems wilt verwijderen?',
-        'An item with this name is already present.' => 'Er bestaat al een item met deze naam.',
-        'Add all' => 'Alles toevoegen',
-        'There was an error reading the ACL data.' => 'Er was een probleem bij het lezen van de ACL-data.',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -111,6 +105,7 @@ sub Data {
         'Filename' => 'Bestandsnaam',
         'Changed' => 'Gewijzigd',
         'Created' => 'Aangemaakt',
+        'Delete' => 'Verwijderen',
         'Download file' => 'Download bijlage',
         'Delete this attachment' => 'Verwijder bijlage',
         'Add Attachment' => 'Nieuwe bijlage',
@@ -317,8 +312,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier kunt u een optionele hyperlink opgeven die getoond wordt in de overzichten en zoom-schermen.',
         'Example' => 'Voorbeeld',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Beperk het invoeren van datumgegevens',
         'Here you can restrict the entering of dates of tickets.' => 'Hier kunt u het invoeren van datumgegevens van tickets beperken.',
@@ -407,11 +402,6 @@ sub Data {
         'Add Event' => 'Gebeurtenis toevoegen',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Om een nieuw event toe te voegen, selecteer het event object en de naam van het event en klik op de "+".',
-        'Duplicate event.' => 'Dupliceer event.',
-        'This event is already attached to the job, Please use a different one.' =>
-            'Dit event is al gekoppeld aan deze taak. Kies een andere.',
-        'Delete this Event Trigger' => 'Verwijder deze event trigger.',
-        'Remove selection' => 'Selectie verwijderen',
         'Select Tickets' => 'Selecteer Tickets',
         '(e. g. 10*5155 or 105658*)' => '(bijvoorbeeld 10*5155 or 105658*)',
         'Title' => 'Titel',
@@ -536,9 +526,6 @@ sub Data {
         'Limit' => 'Beperk tot',
         'Refresh' => 'Vernieuwen',
         'Request Details' => 'Details verzoek',
-        'An error occurred during communication.' => 'Er is een fout opgetreden tijdens de communicatie.',
-        'Show or hide the content.' => 'Toon of verberg de inhoud.',
-        'Clear debug log' => 'Leeg debug-log.',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => 'Nieuwe Invoker toevoegen aan webservice %s',
@@ -568,7 +555,6 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Synchrone event triggers worden afgehandeld direct tijdens het event (blocking).',
         'Save and continue' => 'Opslaan en doorgaan',
-        'Delete this Invoker' => 'Verwijder deze invoker',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Eenvoudige Koppeling voor Web Service %s',
@@ -593,7 +579,6 @@ sub Data {
         'New value map' => 'Nieuwe waardekoppeling',
         'Add value mapping' => 'Voeg waardekoppeling toe',
         'Do you really want to delete this key mapping?' => 'Deze sleutelkoppeling verwijderen?',
-        'Delete this Key Mapping' => 'Verwijder sleutelkoppeling',
 
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => 'GenericInterface Mapping XSLT voor Web Service %s',
@@ -621,7 +606,6 @@ sub Data {
         'Mapping for outgoing response data' => 'Koppeling voor respons-data',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'De respons-data wordt verwerkt door deze koppeling, om het om te zetten naar de data die het andere systeem verwacht.',
-        'Delete this Operation' => 'Verwijder deze operatie',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => 'Generieke Interface Transport HTTP::REST voor Web Service %s',
@@ -779,11 +763,6 @@ sub Data {
         'Delete this action' => 'Verwijder deze actie',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             'Minimaal één %s heeft een controller die niet aanwezig is of actief is, controleer de controller registratie of verwijder %s',
-        'Delete webservice' => 'Verwijder webservice',
-        'Delete operation' => 'Verwijder operatie',
-        'Delete invoker' => 'Verwijder invoker',
-        'Clone webservice' => 'Kloon webservice',
-        'Import webservice' => 'Importeer webservice',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => 'GenericInterface Configuratie-geschiedenis voor webservice %s',
@@ -800,7 +779,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             'Wilt u echt deze versie van de webservice-configuratie herstellen?',
         'Your current web service configuration will be overwritten.' => 'De huidige webservice-configuratie zal worden overschreven.',
-        'Restore' => 'Herstellen',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -917,7 +895,6 @@ sub Data {
         'Remove Notification Language' => 'Verwijder Notificatie Taal',
         'Message body' => 'Berichttekst',
         'Add new notification language' => 'Voeg nieuwe notificatie taal toe',
-        'Do you really want to delete this notification language?' => 'Weet je zeker dat je deze notificatie taal wil verwijderen?',
         'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een behandelaar.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Om de eerste 20 karakters van het onderwerp van de nieuwste behandelaars-interactie te tonen.',
@@ -1187,8 +1164,6 @@ sub Data {
         'Edit' => 'Wijzig',
         'Create New Activity Dialog' => 'Nieuwe dialoog',
         'Assigned Activity Dialogs' => 'Toegewezen dialogen',
-        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            'Als u deze knop of link gebruikt, verlaat u dit scherm en de huidige staat wordt automatisch opgeslagen. Wilt u doorgaan?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1216,8 +1191,6 @@ sub Data {
         'Assigned Fields' => 'Toegewezen velden',
         'ArticleType' => 'Interactie-type',
         'Display' => 'Weergave',
-        'Edit Field Details' => 'Bewerk veld-details',
-        'Customer interface does not support internal article types.' => 'De klant-interface ondersteunt geeb interne interactie-typen.',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Pad',
@@ -1276,24 +1249,6 @@ sub Data {
             'Wilt u deze activiteit van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Wilt u deze transitie van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
-        'Hide EntityIDs' => 'Verberg ID\'s',
-        'Delete Entity' => 'Verwijderen',
-        'Remove Entity from canvas' => 'Verwijder van canvas',
-        'This Activity is already used in the Process. You cannot add it twice!' =>
-            'Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal gebruiken.',
-        'This Activity cannot be deleted because it is the Start Activity.' =>
-            'Deze activiteit kan niet worden verwijderd omdat het de start-activiteit is.',
-        'This Transition is already used for this Activity. You cannot use it twice!' =>
-            'Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet tweemaal gebruiken.',
-        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            'Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken.',
-        'Remove the Transition from this Process' => 'Verwijder deze transitie uit dit proces',
-        'No TransitionActions assigned.' => 'Geen transitie-acties toegewezen.',
-        'The Start Event cannot loose the Start Transition!' => 'Het start-event kan niet de start-transitie kwijtraken.',
-        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            'Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep deze hiernaartoe.',
-        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            'Een niet-verbonden transitie is al op de canvas geplaatst. Verbindt deze transitie alvorens een nieuwe transitie te plaatsen.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -1918,10 +1873,6 @@ sub Data {
         'Download as CSV file' => 'Download als CSV file',
         'Download as Excel file' => 'Download als Excel file',
         'Download as PDF file' => 'Download als PDF file',
-        'Grouped' => 'Gegroepeerd',
-        'Stacked' => 'Gestapeld',
-        'Expanded' => 'Uitgebreid',
-        'Stream' => 'Stream',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Selecteer een geldige grafiek output format in de configuratie van deze widget.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -1962,6 +1913,8 @@ sub Data {
         'Select Target Object' => 'Selecteer doel',
         'Link Object' => 'Koppel object',
         'with' => 'met',
+        'Please enter at least one search value or * to find anything.' =>
+            'Geef één of meerdere tekens of een wildcard als * op om een zoekopdracht uit te voeren.',
         'Unlink Object: %s' => 'Verwijder de relatie met object: %s',
         'go to link add screen' => 'ga naar koppelscherm',
 
@@ -2295,20 +2248,16 @@ sub Data {
         # Template: CustomerFooter
         'Powered by' => 'Draait op',
 
-        # Template: CustomerFooterJS
-        'There are currently no elements available to select from.' => 'Er zijn nu geen elementen beschikbaar om te kiezen.',
-        'Please turn off Compatibility Mode in Internet Explorer!' => 'Zet a.u.b. Compatibility Mode in Internet Explorer uit!',
-        'The browser you are using is too old.' => 'De browser die u gebruikt is te oud.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS kan overweg met een grote hoeveelheid browsers. Gebruik s.v.p een van deze.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Zie de documentatie of vraag uw beheerder voor meer informatie.',
-
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript niet beschikbaar',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Om OTRS te kunnen gebruiken, moet JavaScript geactiveerd zijn in uw browser.',
         'Browser Warning' => 'Waarschuwing',
+        'The browser you are using is too old.' => 'De browser die u gebruikt is te oud.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS kan overweg met een grote hoeveelheid browsers. Gebruik s.v.p een van deze.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Zie de documentatie of vraag uw beheerder voor meer informatie.',
         'One moment please, you are being redirected...' => 'Een moment alstublieft, je wordt doorverwezen',
         'Login' => 'Inloggen',
         'User name' => 'Gebruikersnaam',
@@ -2390,66 +2339,9 @@ sub Data {
         'Warning' => 'Waarschuwing',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => 'de gehele dag',
-        'January' => 'januari',
-        'February' => 'februari',
-        'March' => 'maart',
-        'April' => 'april',
-        'May_long' => 'mei',
-        'June' => 'juni',
-        'July' => 'juli',
-        'August' => 'augustus',
-        'September' => 'september',
-        'October' => 'oktober',
-        'November' => 'november',
-        'December' => 'december',
-        'Jan' => 'jan',
-        'Feb' => 'feb',
-        'Mar' => 'mrt',
-        'Apr' => 'apr',
-        'May' => 'mei',
-        'Jun' => 'jun',
-        'Jul' => 'jul',
-        'Aug' => 'aug',
-        'Sep' => 'sep',
-        'Oct' => 'okt',
-        'Nov' => 'nov',
-        'Dec' => 'dec',
-        'Sunday' => 'zondag',
-        'Monday' => 'maandag',
-        'Tuesday' => 'dinsdag',
-        'Wednesday' => 'woensdag',
-        'Thursday' => 'donderdag',
-        'Friday' => 'vrijdag',
-        'Saturday' => 'zaterdag',
-        'Su' => 'zo',
-        'Mo' => 'ma',
-        'Tu' => 'di',
-        'We' => 'wo',
-        'Th' => 'do',
-        'Fr' => 'vr',
-        'Sa' => 'za',
-        'Today' => 'Vandaag',
-        'month' => 'maand',
-        'week' => 'week',
-        'day' => 'dag',
         'Event Information' => 'Event informatie',
         'Ticket fields' => 'Ticket-velden',
         'Dynamic fields' => 'Dynamische velden',
-
-        # Template: Datepicker
-        'Invalid date!' => 'Geen geldige datum.',
-        'Invalid date (need a future date)!' => 'Ongeldig (datum kan niet in verleden zijn).',
-        'Invalid date (need a past date)!' => 'Ongeldige datum (heb een datum in het verleden nodig!)',
-        'Previous' => 'Vorige',
-        'Sun' => 'zo',
-        'Mon' => 'ma',
-        'Tue' => 'di',
-        'Wed' => 'wo',
-        'Thu' => 'do',
-        'Fri' => 'vr',
-        'Sat' => 'za',
-        'Open date selection' => 'Open datumkiezer',
 
         # Template: Error
         'An Error Occurred' => '',
@@ -2458,14 +2350,6 @@ sub Data {
         'Expand' => 'Klap uit',
 
         # Template: FooterJS
-        'Loading...' => 'Bezig met laden...',
-        'Please enter at least one search value or * to find anything.' =>
-            'Geef één of meerdere tekens of een wildcard als * op om een zoekopdracht uit te voeren.',
-        'Please remove the following words from your search as they cannot be searched for:' =>
-            'Verwijder de volgende woorden van je zoekactie omdat daar niet op gezocht kan worden:',
-        'Please check the fields marked as red for valid inputs.' => 'Bekijk de waarden in de als rood gemarkeerde velden.',
-        'Please perform a spell check on the the text first.' => 'Voer eerst een spellingscontrole uit op de tekst.',
-        'Slide the navigation bar' => 'Schuif de navigaiebalk',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Deze feature is onderdeel van het %s. Neem contact met ons op via %s voor een upgrade',
         'Find out more about the %s' => 'Vind meer informatie over het %s',
@@ -2489,8 +2373,6 @@ sub Data {
         'Welcome to %s' => 'Welkom bij %s',
         'Phone' => 'Telefoon',
         'Web site' => 'Website',
-        'Mail check successful.' => 'Mail controle gelukt.',
-        'Error in the mail settings. Please correct and try again.' => 'Fout in de mailinstellingen. Corrigeer ze en probeer nog eens.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Configureer uitgaande mail',
@@ -3228,6 +3110,7 @@ sub Data {
         'System Error!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
+        'Today' => 'Vandaag',
         'Tomorrow' => 'Morgen',
         'Next week' => 'Volgende week',
         'Invalid Filter: %s!' => '',
@@ -3537,6 +3420,7 @@ sub Data {
         'hour' => 'uur',
         'minute' => 'minuut',
         'd' => 'd',
+        'day' => 'dag',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Dit is een',
@@ -3735,6 +3619,7 @@ sub Data {
         'Problems processing server result. Please try again later.' => 'Problemen met het verwerken van data van registratieserver. Probeer het later nogmaals.',
 
         # Perl Module: Kernel/System/Stats.pm
+        'week' => 'week',
         'quarter' => 'kwartaal',
         'half-year' => 'half-jaar',
 
@@ -4180,6 +4065,68 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.Agent.Admin.ACL
+        'Add all' => 'Alles toevoegen',
+        'An item with this name is already present.' => 'Er bestaat al een item met deze naam.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
+            'Dit item bevat sub-items. Weet u zeker dat u dit item inclusief subitems wilt verwijderen?',
+
+        # JS File: Core.Agent.Admin.GenericAgent
+        'Remove selection' => 'Selectie verwijderen',
+        'Delete this Event Trigger' => 'Verwijder deze event trigger.',
+        'Duplicate event.' => 'Dupliceer event.',
+        'This event is already attached to the job, Please use a different one.' =>
+            'Dit event is al gekoppeld aan deze taak. Kies een andere.',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceDebugger
+        'An error occurred during communication.' => 'Er is een fout opgetreden tijdens de communicatie.',
+        'Show or hide the content.' => 'Toon of verberg de inhoud.',
+        'Clear debug log' => 'Leeg debug-log.',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'Delete this Invoker' => 'Verwijder deze invoker',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceOperation
+        'Delete this Operation' => 'Verwijder deze operatie',
+
+        # JS File: Core.Agent.Admin.GenericInterfaceWebservice
+        'Delete webservice' => 'Verwijder webservice',
+        'Clone webservice' => 'Kloon webservice',
+        'Import webservice' => 'Importeer webservice',
+        'Delete operation' => 'Verwijder operatie',
+        'Delete invoker' => 'Verwijder invoker',
+
+        # JS File: Core.Agent.Admin.NotificationEvent
+        'Do you really want to delete this notification language?' => 'Weet je zeker dat je deze notificatie taal wil verwijderen?',
+
+        # JS File: Core.Agent.Admin.ProcessManagement.Canvas
+        'Remove Entity from canvas' => 'Verwijder van canvas',
+        'No TransitionActions assigned.' => 'Geen transitie-acties toegewezen.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            'Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep deze hiernaartoe.',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            'Deze activiteit kan niet worden verwijderd omdat het de start-activiteit is.',
+        'Remove the Transition from this Process' => 'Verwijder deze transitie uit dit proces',
+
+        # JS File: Core.Agent.Admin.ProcessManagement
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            'Als u deze knop of link gebruikt, verlaat u dit scherm en de huidige staat wordt automatisch opgeslagen. Wilt u doorgaan?',
+        'Delete Entity' => 'Verwijderen',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            'Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal gebruiken.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            'Een niet-verbonden transitie is al op de canvas geplaatst. Verbindt deze transitie alvorens een nieuwe transitie te plaatsen.',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            'Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet tweemaal gebruiken.',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            'Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken.',
+        'Hide EntityIDs' => 'Verberg ID\'s',
+        'Edit Field Details' => 'Bewerk veld-details',
+        'Customer interface does not support internal article types.' => 'De klant-interface ondersteunt geeb interne interactie-typen.',
+
+        # JS File: Core.Agent.CustomerInformationCenterSearch
+        'Loading...' => 'Bezig met laden...',
+
         # JS File: Core.Agent.CustomerSearch
         'Duplicated entry' => 'Dubbel adres',
         'It is going to be deleted from the field, please try again.' => 'Het wordt verwijderd van dit veld, probeer opnieuw.',
@@ -4187,18 +4134,88 @@ sub Data {
         # JS File: Core.Agent.Daemon
         'Information about the OTRS Daemon' => 'Informatie over de OTRS Daemon',
 
+        # JS File: Core.Agent.Dashboard
+        'Please check the fields marked as red for valid inputs.' => 'Bekijk de waarden in de als rood gemarkeerde velden.',
+        'All-day' => 'de gehele dag',
+        'Jan' => 'jan',
+        'Feb' => 'feb',
+        'Mar' => 'mrt',
+        'Apr' => 'apr',
+        'May' => 'mei',
+        'Jun' => 'jun',
+        'Jul' => 'jul',
+        'Aug' => 'aug',
+        'Sep' => 'sep',
+        'Oct' => 'okt',
+        'Nov' => 'nov',
+        'Dec' => 'dec',
+        'January' => 'januari',
+        'February' => 'februari',
+        'March' => 'maart',
+        'April' => 'april',
+        'May_long' => 'mei',
+        'June' => 'juni',
+        'July' => 'juli',
+        'August' => 'augustus',
+        'September' => 'september',
+        'October' => 'oktober',
+        'November' => 'november',
+        'December' => 'december',
+        'Sunday' => 'zondag',
+        'Monday' => 'maandag',
+        'Tuesday' => 'dinsdag',
+        'Wednesday' => 'woensdag',
+        'Thursday' => 'donderdag',
+        'Friday' => 'vrijdag',
+        'Saturday' => 'zaterdag',
+        'Su' => 'zo',
+        'Mo' => 'ma',
+        'Tu' => 'di',
+        'We' => 'wo',
+        'Th' => 'do',
+        'Fr' => 'vr',
+        'Sa' => 'za',
+        'month' => 'maand',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => 'Omschakelen naar desktop weergave',
 
+        # JS File: Core.Agent.Search
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            'Verwijder de volgende woorden van je zoekactie omdat daar niet op gezocht kan worden:',
+
         # JS File: Core.Agent.TicketAction
+        'Please perform a spell check on the the text first.' => 'Voer eerst een spellingscontrole uit op de tekst.',
         'Close this dialog' => 'Sluit venster',
         'Do you really want to continue?' => 'Weet je zeker dat je door wil gaan?',
+
+        # JS File: Core.Agent
+        'Slide the navigation bar' => 'Schuif de navigaiebalk',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Zet a.u.b. Compatibility Mode in Internet Explorer uit!',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Omschakelen naar weergave voor telefoons / tablets',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'Een of meerdere problemen zijn opgetreden.',
+
+        # JS File: Core.Installer
+        'Mail check successful.' => 'Mail controle gelukt.',
+        'Error in the mail settings. Please correct and try again.' => 'Fout in de mailinstellingen. Corrigeer ze en probeer nog eens.',
+
+        # JS File: Core.UI.Datepicker
+        'Previous' => 'Vorige',
+        'Sun' => 'zo',
+        'Mon' => 'ma',
+        'Tue' => 'di',
+        'Wed' => 'wo',
+        'Thu' => 'do',
+        'Fri' => 'vr',
+        'Sat' => 'za',
+        'Open date selection' => 'Open datumkiezer',
+        'Invalid date (need a future date)!' => 'Ongeldig (datum kan niet in verleden zijn).',
+        'Invalid date (need a past date)!' => 'Ongeldige datum (heb een datum in het verleden nodig!)',
+        'Invalid date!' => 'Geen geldige datum.',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'Niet beschikbaar',
@@ -4215,6 +4232,9 @@ sub Data {
             'Er is al een popup open voor dit ticket. Wilt u deze sluiten en de nieuwe laden?',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Kan geen popup openen. Schakel popup blockers uit voor deze website.',
+
+        # JS File: Core.UI.TreeSelection
+        'There are currently no elements available to select from.' => 'Er zijn nu geen elementen beschikbaar om te kiezen.',
 
         # SysConfig
         '
@@ -4654,7 +4674,7 @@ Het Helpdesk Team
             '',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '',
@@ -6781,29 +6801,138 @@ Het Helpdesk Team
 
     $Self->{JavaScriptStrings} = [
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'Add all',
+        'All-day',
+        'An error occurred during communication.',
+        'An item with this name is already present.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
+        'Apply',
+        'Apr',
+        'April',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Aug',
+        'August',
+        'Cancel',
+        'Clear',
         'Clear all',
+        'Clear debug log',
         'Clear search',
+        'Clone webservice',
         'Close',
         'Close this dialog',
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
+        'Customer interface does not support internal article types.',
+        'Dec',
+        'December',
+        'Delete',
+        'Delete Entity',
+        'Delete invoker',
+        'Delete operation',
+        'Delete this Event Trigger',
+        'Delete this Invoker',
+        'Delete this Operation',
+        'Delete webservice',
         'Do you really want to continue?',
+        'Do you really want to delete this notification language?',
+        'Duplicate event.',
         'Duplicated entry',
+        'Edit Field Details',
+        'Edit this transition',
         'Error',
+        'Error in the mail settings. Please correct and try again.',
+        'Feb',
+        'February',
         'Filters',
+        'Fr',
+        'Fri',
+        'Friday',
+        'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Import webservice',
         'Information about the OTRS Daemon',
+        'Invalid date (need a future date)!',
+        'Invalid date (need a past date)!',
+        'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'Jan',
+        'January',
+        'Jul',
+        'July',
+        'Jun',
+        'June',
+        'Loading...',
+        'Mail check successful.',
+        'Mar',
+        'March',
+        'May',
+        'May_long',
+        'Mo',
+        'Mon',
+        'Monday',
+        'Next',
+        'No TransitionActions assigned.',
+        'No data found.',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'Not available',
+        'Nov',
+        'November',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.',
+        'Oct',
+        'October',
         'One or more errors occurred!',
+        'Open date selection',
+        'Please check the fields marked as red for valid inputs.',
+        'Please enter at least one search value or * to find anything.',
+        'Please perform a spell check on the the text first.',
+        'Please remove the following words from your search as they cannot be searched for:',
+        'Please see the documentation or ask your admin for further information.',
+        'Please turn off Compatibility Mode in Internet Explorer!',
+        'Previous',
+        'Remove Entity from canvas',
         'Remove selection',
+        'Remove the Transition from this Process',
+        'Restore web service configuration',
+        'Sa',
+        'Sat',
+        'Saturday',
+        'Save',
+        'Search',
         'Select all',
+        'Sep',
+        'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show or hide the content.',
+        'Slide the navigation bar',
+        'Su',
+        'Sun',
+        'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'Th',
+        'The browser you are using is too old.',
+        'There are currently no elements available to select from.',
+        'This Activity cannot be deleted because it is the Start Activity.',
+        'This Activity is already used in the Process. You cannot add it twice!',
+        'This Transition is already used for this Activity. You cannot use it twice!',
+        'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This event is already attached to the job, Please use a different one.',
+        'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'Thu',
+        'Thursday',
+        'Today',
+        'Tu',
+        'Tue',
+        'Tuesday',
+        'We',
+        'Wed',
+        'Wednesday',
         'and %s more...',
+        'day',
+        'month',
+        'week',
     ];
 
     # $$STOP$$
