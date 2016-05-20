@@ -8,5 +8,5 @@
 
 [% RenderBlockStart("DatepickerData") %]
 Core.Config.Set('Datepicker.VacationDays', [% Data.VacationDays %]);
-Core.Config.Set('Datepicker.IsRTL', [% Data.IsRTLLanguage %],});
+Core.Config.Set('Datepicker.IsRTL', [% Data.IsRTLLanguage %]);
 [% RenderBlockEnd("DatepickerData") %]
