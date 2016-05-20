@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-05-20 Fixed bug#[12069](http://bugs.otrs.org/show_bug.cgi?id=12069) - enabling/disabling Article Filter show wrong article.
  - 2016-05-19 7 Day Stats performance optimizations, thanks to Pawel Boguslawski.
  - 2016-05-20 Fixed bug#[12087](http://bugs.otrs.org/show_bug.cgi?id=12087) - AdminTemplate loses HTML tags.
  - 2016-05-20 Fixed bug#[8153](http://bugs.otrs.org/show_bug.cgi?id=8153) - When configuration area is not activated, it is still editable.
