@@ -51,7 +51,7 @@
                 <div class="Content">
                     <fieldset class="TableLike">
                         <label for="TargetIdentifier">
-                            [% Translate("Link Object") | html %] [% Data.SourceObjectNormal | html %] [% Translate("with") | html %]:
+                            [% Translate("Link object %s with", Data.SourceObjectNormal) | html %]:
                         </label>
                         <div class="Field">
                             [% Data.TargetObjectStrg %]
