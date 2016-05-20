@@ -34,6 +34,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.11 2016-??-??
+ - 2016-05-19 7 Day Stats performance optimizations, thanks to Pawel Boguslawski.
  - 2016-05-20 Fixed bug#[12087](http://bugs.otrs.org/show_bug.cgi?id=12087) - AdminTemplate loses HTML tags.
  - 2016-05-20 Fixed bug#[8153](http://bugs.otrs.org/show_bug.cgi?id=8153) - When configuration area is not activated, it is still editable.
  - 2016-05-20 Fixed bug#[12084](http://bugs.otrs.org/show_bug.cgi?id=12084) - Missing day names from 7 Day Stat.

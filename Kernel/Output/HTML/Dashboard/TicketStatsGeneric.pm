@@ -96,6 +96,9 @@ sub Run {
 
     for my $DaysBack ( 0 .. 6 ) {
 
+        # cache results for 30 min. for todays stats
+        my $CacheTTL = 60 * 30;
+
         my $DateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
@@ -104,6 +107,9 @@ sub Run {
         );
         if ($DaysBack) {
             $DateTimeObject->Subtract( Days => $DaysBack );
+
+            # for past 6 days cache results for 8 days (should not change)
+            $CacheTTL = 60 * 60 * 24 * 8;
         }
         $DateTimeObject->ToOTRSTimeZone();
 
@@ -120,8 +126,8 @@ sub Run {
 
         my $CountCreated = $TicketObject->TicketSearch(
 
-            # cache search result 30 min
-            CacheTTL => 60 * 30,
+            # cache search result
+            CacheTTL => $CacheTTL,
 
             # tickets with create time after ... (ticket newer than this date) (optional)
             TicketCreateTimeNewerDate => $TimeStart,
@@ -143,8 +149,8 @@ sub Run {
 
         my $CountClosed = $TicketObject->TicketSearch(
 
-            # cache search result 30 min
-            CacheTTL => 60 * 30,
+            # cache search result
+            CacheTTL => $CacheTTL,
 
             # tickets with create time after ... (ticket newer than this date) (optional)
             TicketCloseTimeNewerDate => $TimeStart,
