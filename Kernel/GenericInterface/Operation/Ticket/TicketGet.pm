@@ -287,6 +287,15 @@ sub Run {
         );
     }
 
+    # Get the list of dynamic fields for object article.
+    my $ArticleDynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+        ObjectType => 'Article',
+        ResultType => 'HASH',
+    );
+
+    # Crate a lookup list for easy search
+    my %ArticleDynamicFieldLookup = reverse %{$ArticleDynamicFieldList};
+
     TICKET:
     for my $TicketID (@TicketIDs) {
 
@@ -444,14 +453,18 @@ sub Run {
 
             for my $ArticleRaw (@ArticleBoxRaw) {
                 my %Article;
-                my @DynamicFields;
+                my @ArticleDynamicFields;
 
                 # remove all dynamic fields form main article hash and set them into an array.
                 ATTRIBUTE:
                 for my $Attribute ( sort keys %{$ArticleRaw} ) {
 
                     if ( $Attribute =~ m{\A DynamicField_(.*) \z}msx ) {
-                        push @DynamicFields, {
+
+                        # Skip dynamic fields that are not for article object
+                        next ATTRIBUTE if ( !$ArticleDynamicFieldLookup{$1} );
+
+                        push @ArticleDynamicFields, {
                             Name  => $1,
                             Value => $ArticleRaw->{$Attribute},
                         };
@@ -462,8 +475,8 @@ sub Run {
                 }
 
                 # add dynamic fields array into 'DynamicField' hash key if any
-                if (@DynamicFields) {
-                    $Article{DynamicField} = \@DynamicFields;
+                if (@ArticleDynamicFields) {
+                    $Article{DynamicField} = \@ArticleDynamicFields;
                 }
 
                 push @ArticleBox, \%Article;
