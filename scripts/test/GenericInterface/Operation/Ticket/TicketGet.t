@@ -585,10 +585,44 @@ for my $File (qw(xls txt doc png pdf)) {
     );
 }
 
+my $ArticleFieldID = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "ADFA$RandomID",
+    FieldOrder => 9993,
+    FieldType  => 'Text',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    Label      => 'Description',
+    ObjectType => 'Article',
+    ValidID    => 1,
+    UserID     => 1,
+    Reorder    => 0,
+);
+
+push @TestDynamicFields, $ArticleFieldID;
+
+my $FieldA1Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $ArticleFieldID,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $FieldA1Config,
+    ObjectID           => $ArticleID42,
+    Value              => 'some value',
+    UserID             => 1,
+);
+
 # get articles and attachments
 my @ArticleBox = $TicketObject->ArticleGet(
     TicketID => $TicketID4,
     UserID   => 1,
+);
+
+# get articles and attachments
+my @ArticleBoxDF = $TicketObject->ArticleGet(
+    TicketID      => $TicketID4,
+    UserID        => 1,
+    DynamicFields => 1,
 );
 
 my $CustomerArticleTypes = [ $TicketObject->ArticleTypeList( Type => 'Customer' ) ];
@@ -610,15 +644,31 @@ my @ArticleBoxSenderCustomer = $TicketObject->ArticleGet(
     UserID            => 1,
 );
 
+# Get the list of dynamic fields for object ticket.
+my $TicketDynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+    ObjectType => 'Ticket',
+    ResultType => 'HASH',
+);
+
+# Crate a lookup list for easy search
+my %TicketDynamicFieldLookup = map { 'DynamicField_' . $_ => 1 } values %{$TicketDynamicFieldList};
+
 # start article loop
 ARTICLE:
-for my $Article ( @ArticleBox, @ArticleBoxTypeCustomer, @ArticleBoxSenderAgent, @ArticleBoxSenderCustomer ) {
+for my $Article (
+    @ArticleBox, @ArticleBoxDF, @ArticleBoxTypeCustomer, @ArticleBoxSenderAgent,
+    @ArticleBoxSenderCustomer
+    )
+{
 
     for my $Key ( sort keys %{$Article} ) {
         if ( !$Article->{$Key} ) {
             $Article->{$Key} = '';
         }
         if ( $SkipFields{$Key} ) {
+            delete $Article->{$Key};
+        }
+        if ( $TicketDynamicFieldLookup{$Key} ) {
             delete $Article->{$Key};
         }
     }
@@ -676,6 +726,21 @@ for my $Key ( sort keys %TicketEntryFour ) {
     }
     if ( $SkipFields{$Key} ) {
         delete $TicketEntryFour{$Key};
+    }
+}
+
+my %TicketEntryFourDF = $TicketObject->TicketGet(
+    TicketID      => $TicketID4,
+    DynamicFields => 1,
+    UserID        => $UserID,
+);
+
+for my $Key ( sort keys %TicketEntryFourDF ) {
+    if ( !$TicketEntryFourDF{$Key} ) {
+        $TicketEntryFourDF{$Key} = '';
+    }
+    if ( $SkipFields{$Key} ) {
+        delete $TicketEntryFourDF{$Key};
     }
 }
 
@@ -1264,6 +1329,39 @@ my @Tests = (
                     }
             },
             Success => 1
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test Ticket 4 With All Articles and Attachments and DynamicFields',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID      => $TicketID4,
+            AllArticles   => 1,
+            Attachments   => 1,
+            DynamicFields => 1,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFourDF,
+                    Article => \@ArticleBoxDF,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        (
+                            %TicketEntryFourDF,
+                            Article => \@ArticleBoxDF,
+                            )
+                    },
+                ],
+            },
         },
         Operation => 'TicketGet',
     },

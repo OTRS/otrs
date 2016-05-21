@@ -279,6 +279,15 @@ sub Run {
         );
     }
 
+    # Get the list of dynamic fields for object ticket.
+    my $TicketDynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+        ObjectType => 'Ticket',
+        ResultType => 'HASH',
+    );
+
+    # Crate a lookup list for easy search
+    my %TicketDynamicFieldLookup = reverse %{$TicketDynamicFieldList};
+
     TICKET:
     for my $TicketID (@TicketIDs) {
 
@@ -407,6 +416,21 @@ sub Run {
 
         # set Ticket entry data
         if (@ArticleBox) {
+
+            for my $ArticleRaw (@ArticleBox) {
+
+                # remove all ticket dynamic fields form main article hash.
+                ATTRIBUTE:
+                for my $Attribute ( sort keys %{$ArticleRaw} ) {
+                    if ( $Attribute =~ m{\A DynamicField_(.*) \z}msx ) {
+
+                        if ( $TicketDynamicFieldLookup{$1} ) {
+                            delete $ArticleRaw->{$Attribute};
+                        }
+                    }
+                }
+            }
+
             $TicketBundle->{Article} = \@ArticleBox;
         }
 
