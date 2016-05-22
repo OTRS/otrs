@@ -595,6 +595,25 @@ $BackendObject->ValueSet(
     UserID             => 1,
 );
 
+# Add a second article dynamic field to force an array reference in remote result and make it easier to check
+my $ArticleFieldID2 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "ADFA2$RandomID",
+    FieldOrder => 9999,
+    FieldType  => 'Text',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    Label      => 'Description',
+    ObjectType => 'Article',
+    ValidID    => 1,
+    UserID     => 1,
+    Reorder    => 0,
+);
+
+push @TestFieldConfig, $DynamicFieldObject->DynamicFieldGet(
+    ID => $ArticleFieldID2,
+);
+
 # get articles and attachments
 my @ArticleBox = $TicketObject->ArticleGet(
     TicketID => $TicketID4,
