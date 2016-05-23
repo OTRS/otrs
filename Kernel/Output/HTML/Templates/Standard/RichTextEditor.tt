@@ -29,6 +29,7 @@
     Core.Config.Set('RichText.EditingAreaCSS', 'body.cke_editable { [% Config("Frontend::RichText::DefaultCSS") %] }');
     Core.Config.Set('RichText.Lang.SplitQuote', '[% Translate('Split Quote') | html %]');
     Core.Config.Set('RichText.Lang.RemoveQuote', '[% Translate('Remove Quote') | html %]');
+    Core.Config.Set('RichText.Lang.OpenLink', '[% Translate('Open link') | html %]');
 
     // decide if we need to use the enhanced mode (with tables)
     if ( '[% Config("Frontend::RichText::EnhancedMode") %]' === '1' ) {

@@ -15,6 +15,7 @@
     Core.Config.Set('RichText.SpellChecker', '[% Env("BrowserSpellCheckerInline") %]');
     Core.Config.Set('RichText.EditingAreaCSS', 'body { [% Config("Frontend::RichText::DefaultCSS") %] }');
     Core.Config.Set('RichText.Lang.SplitQuote', '[% Translate('Split Quote') | html %]');
+    Core.Config.Set('RichText.Lang.OpenLink', '[% Translate('Open link') | html %]');
     Core.Config.Set('RichText.Toolbar', [
         ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
         '/',

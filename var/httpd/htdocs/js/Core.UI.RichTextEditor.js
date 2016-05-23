@@ -148,7 +148,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             toolbar: CheckFormID().length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
             filebrowserBrowseUrl: '',
             filebrowserUploadUrl: UploadURL,
-            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,splitquote,preventimagepaste' : 'splitquote,preventimagepaste',
+            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,splitquote,contextmenu_linkopen,preventimagepaste' : 'splitquote,contextmenu_linkopen,preventimagepaste',
             entities: false,
             skin: 'bootstrapck'
         });

@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-05-23 Added a context menu entry in richtext editor to allow for opening links in a new tab while editing.
  - 2016-05-23 Added debugging switch for AJAX errors. Set Frontend::AjaxDebug to 1 in order to see more details in case of any "error during ajax communication" errors.
  - 2016-05-21 Fixed bug#[12012](http://bugs.otrs.org/show_bug.cgi?id=12012) - JSON Response contains all Dynamic Fields in Article response.
  - 2016-05-20 Fixed bug#[12069](http://bugs.otrs.org/show_bug.cgi?id=12069) - enabling/disabling Article Filter show wrong article.
