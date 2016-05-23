@@ -76,6 +76,8 @@ my %SkipFields = (
     EscalationTimeWorkingTime => 1,
     UpdateTime                => 1,
     UpdateTimeWorkingTime     => 1,
+    Created                   => 1,
+    Changed                   => 1,
 );
 
 # create dynamic field properties
