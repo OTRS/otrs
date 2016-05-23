@@ -185,12 +185,12 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue      => $GetParam{DefaultValue},
-        RegExList         => \@RegExList,
+        DefaultValue => $GetParam{DefaultValue},
+        RegExList    => \@RegExList,
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
-        $FieldConfig->{Link} = $GetParam{Link};
+        $FieldConfig->{Link}        = $GetParam{Link};
         $FieldConfig->{LinkPreview} = $GetParam{LinkPreview};
     }
 
@@ -437,12 +437,12 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue      => $GetParam{DefaultValue},
-        RegExList         => \@RegExList,
+        DefaultValue => $GetParam{DefaultValue},
+        RegExList    => \@RegExList,
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
-        $FieldConfig->{Link} = $GetParam{Link};
+        $FieldConfig->{Link}        = $GetParam{Link};
         $FieldConfig->{LinkPreview} = $GetParam{LinkPreview};
     }
 
@@ -564,7 +564,7 @@ sub _ShowScreen {
     );
 
     # define config field specific settings
-    my $Link        = $Param{Link} || '';
+    my $Link        = $Param{Link}        || '';
     my $LinkPreview = $Param{LinkPreview} || '';
 
     if ( $Param{FieldType} eq 'Text' ) {
@@ -574,8 +574,8 @@ sub _ShowScreen {
             Name => 'Link',
             Data => {
                 %Param,
-                Link                  => $Link,
-                LinkPreview           => $LinkPreview,
+                Link        => $Link,
+                LinkPreview => $LinkPreview,
             },
         );
     }

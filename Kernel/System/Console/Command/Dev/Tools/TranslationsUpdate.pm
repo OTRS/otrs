@@ -132,6 +132,7 @@ sub Run {
 }
 
 my @OriginalTranslationStrings;
+
 # Remember which strings came from JavaScript
 my %UsedInJS;
 
@@ -139,7 +140,7 @@ sub HandleLanguage {
     my ( $Self, %Param ) = @_;
 
     my $Language = $Param{Language};
-    my $Module   = $Param{Module} || '';
+    my $Module = $Param{Module} || '';
 
     my $ModuleDirectory = $Module;
     my $LanguageFile;

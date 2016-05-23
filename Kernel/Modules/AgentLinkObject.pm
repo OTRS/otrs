@@ -359,7 +359,7 @@ sub Run {
                                 'Can not create link with %s! Object already linked as %s.',
                                 $TargetObjectDescription{Normal},
                                 $TypeName,
-                                ),
+                            ),
                         );
 
                         next TARGETKEYORG;

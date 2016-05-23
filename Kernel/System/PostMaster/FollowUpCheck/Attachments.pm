@@ -39,7 +39,7 @@ sub Run {
     shift @Attachments;
 
     ATTACHMENT:
-    for my $Attachment ( @Attachments ) {
+    for my $Attachment (@Attachments) {
 
         my $Tn = $TicketObject->GetTNByString( $Attachment->{Content} );
         next ATTACHMENT if !$Tn;

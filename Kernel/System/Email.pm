@@ -709,10 +709,11 @@ sub Send {
     $Param{Header} = '';
     for my $Line (@Headers) {
         $Line =~ s/^    (.*)$/ $1/;
+
         # Perform own wrapping of long lines due to MIME::Tools problems (see bug#9345).
         #  MIME::Tools fails to wrap long lines where the Message-IDs are too long or
         #  directly concatenated without spaces in between.
-        if ($Line =~ m{^(References|In-Reply-To):}smx) {
+        if ( $Line =~ m{^(References|In-Reply-To):}smx ) {
             $Line =~ s{(.{64,}?)>\s*<}{$1>\n <}sxmg;
         }
         $Param{Header} .= $Line . "\n";

@@ -191,13 +191,13 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue      => $GetParam{DefaultValue},
-        YearsPeriod       => $GetParam{YearsPeriod},
-        DateRestriction   => $GetParam{DateRestriction},
-        YearsInFuture     => $GetParam{YearsInFuture},
-        YearsInPast       => $GetParam{YearsInPast},
-        Link              => $GetParam{Link},
-        LinkPreview       => $GetParam{LinkPreview},
+        DefaultValue    => $GetParam{DefaultValue},
+        YearsPeriod     => $GetParam{YearsPeriod},
+        DateRestriction => $GetParam{DateRestriction},
+        YearsInFuture   => $GetParam{YearsInFuture},
+        YearsInPast     => $GetParam{YearsInPast},
+        Link            => $GetParam{Link},
+        LinkPreview     => $GetParam{LinkPreview},
     };
 
     # create a new field
@@ -434,13 +434,13 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue      => $GetParam{DefaultValue},
-        YearsPeriod       => $GetParam{YearsPeriod},
-        DateRestriction   => $GetParam{DateRestriction},
-        YearsInFuture     => $GetParam{YearsInFuture},
-        YearsInPast       => $GetParam{YearsInPast},
-        Link              => $GetParam{Link},
-        LinkPreview       => $GetParam{LinkPreview},
+        DefaultValue    => $GetParam{DefaultValue},
+        YearsPeriod     => $GetParam{YearsPeriod},
+        DateRestriction => $GetParam{DateRestriction},
+        YearsInFuture   => $GetParam{YearsInFuture},
+        YearsInPast     => $GetParam{YearsInPast},
+        Link            => $GetParam{Link},
+        LinkPreview     => $GetParam{LinkPreview},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)

@@ -306,12 +306,12 @@ sub Run {
                     %Ticket,
 
                     # alias for ticket title, Title will be overwritten
-                    TicketTitle       => $Ticket{Title},
-                    Value             => $Field->{Value},
-                    Title             => $Field->{Title},
-                    Link              => $Field->{Link},
-                    LinkPreview       => $Field->{LinkPreview},
-                    $Field->{Name}    => $Field->{Title},
+                    TicketTitle    => $Ticket{Title},
+                    Value          => $Field->{Value},
+                    Title          => $Field->{Title},
+                    Link           => $Field->{Link},
+                    LinkPreview    => $Field->{LinkPreview},
+                    $Field->{Name} => $Field->{Title},
                 },
             );
         }
