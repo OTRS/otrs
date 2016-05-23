@@ -23,6 +23,7 @@ Core.App.Ready(function () {
     Core.Config.AddConfig({
         // config
         Baselink: '[% Env("Baselink") %]',
+        AjaxDebug: '[% Config("Frontend::AjaxDebug") %]',
         CGIHandle: '[% Env("CGIHandle") %]',
         WebPath: '[% Config("Frontend::WebPath") %]',
         Action: '[% Env("Action") | html %]',

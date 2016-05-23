@@ -122,6 +122,28 @@ Core.AJAX = (function (TargetNS) {
 
     /**
      * @private
+     * @name AddDebugInformation
+     * @memberof Core.AJAX
+     * @function
+     * @returns {String} Error message with added debug information
+     * @param {String} ErrorMessage - The original error message to be extended
+     * @param {Object} XHRObject - The original XHRObject from the ajax request
+     * @description
+     *      Adds some debug response information to the error message and tries to show
+     *      a dialog with this information to allow seeing all debug data (browser alert will truncate).
+     */
+    function AddDebugInformation(ErrorMessage, XHRObject) {
+
+        if (Core.Config.Get('AjaxDebug') && typeof XHRObject === 'object') {
+            ErrorMessage += "\n\nResponse status: " + XHRObject.status + " (" + XHRObject.statusText + ")\n";
+            ErrorMessage += "Response headers: " + XHRObject.getAllResponseHeaders() + "\n";
+            ErrorMessage += "Response content: " + XHRObject.responseText;
+        }
+        return ErrorMessage;
+    }
+
+    /**
+     * @private
      * @name GetSessionInformation
      * @memberof Core.AJAX
      * @function
@@ -461,13 +483,18 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             error: function (XHRObject, Status, Error) {
+
+                var ErrorMessage = "Error during AJAX communication. Status: " + Status + ", Error: " + Error;
+
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
                 }
 
+                ErrorMessage = AddDebugInformation(ErrorMessage, XHRObject);
+
                 if (Status !== 'abort') {
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
-                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication. Status: " + Status + ", Error: " + Error, 'CommunicationError'));
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError(ErrorMessage, 'CommunicationError'));
                 }
             }
         });
@@ -523,13 +550,19 @@ Core.AJAX = (function (TargetNS) {
                 Core.App.Publish('Event.AJAX.ContentUpdate.Callback', [GlobalResponse]);
             },
             error: function (XHRObject, Status, Error) {
+
+                var ErrorMessage = "Error during AJAX communication. Status: " + Status + ", Error: " + Error;
+
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
                 }
 
                 if (Status !== 'abort') {
+
+                    ErrorMessage = AddDebugInformation(ErrorMessage, XHRObject);
+
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
-                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication. Status: " + Status + ", Error: " + Error, 'CommunicationError'));
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError(ErrorMessage, 'CommunicationError'));
                 }
             }
         });
@@ -576,14 +609,19 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             error: function (XHRObject, Status, Error) {
+
+                var ErrorMessage = "Error during AJAX communication. Status: " + Status + ", Error: " + Error;
+
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
                 }
 
+                ErrorMessage = AddDebugInformation(ErrorMessage, XHRObject);
+
                 // We sometimes manually abort an ajax request (e.g. in autocompletion). This should not throw a global error message
                 if (Status !== 'abort') {
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
-                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication. Status: " + Status + ", Error: " + Error, 'CommunicationError'));
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError(ErrorMessage, 'CommunicationError'));
                 }
             }
         });
