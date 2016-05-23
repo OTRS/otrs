@@ -21,12 +21,12 @@ $ConfigObject->Set(
     Value => 0,
 );
 $ConfigObject->Set(
-    Key => 'PostMaster::CheckFollowUpModule',
+    Key   => 'PostMaster::CheckFollowUpModule',
     Value => {
         '0400-Attachments' => {
             Module => 'Kernel::System::PostMaster::FollowUpCheck::Attachments',
+            }
         }
-    }
 );
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -101,7 +101,7 @@ EOF
     },
     {
         Name  => 'Plain email, ticket number in body, attachment without ticket number (new ticket)',
-        Email =><<EOF,
+        Email => <<EOF,
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -131,7 +131,7 @@ EOF
     },
     {
         Name  => 'Plain email, attachment with ticket number',
-        Email =><<EOF,
+        Email => <<EOF,
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -161,8 +161,6 @@ EOF
     },
 );
 
-
-
 # First run the tests for a ticket that has the customer as an "unknown" customer.
 for my $Test (@Tests) {
     my @Return;
@@ -184,7 +182,6 @@ for my $Test (@Tests) {
         "$Test->{Name} - article created",
     );
 }
-
 
 # cleanup is done by RestoreDatabase.
 

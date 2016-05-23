@@ -1532,12 +1532,12 @@ sub MaskAgentZoom {
                                     %Ticket,
 
                                     # alias for ticket title, Title will be overwritten
-                                    TicketTitle       => $Ticket{Title},
-                                    Value             => $Field->{Value},
-                                    Title             => $Field->{Title},
-                                    Link              => $Field->{Link},
-                                    LinkPreview       => $Field->{LinkPreview},
-                                    $Field->{Name}    => $Field->{Title},
+                                    TicketTitle    => $Ticket{Title},
+                                    Value          => $Field->{Value},
+                                    Title          => $Field->{Title},
+                                    Link           => $Field->{Link},
+                                    LinkPreview    => $Field->{LinkPreview},
+                                    $Field->{Name} => $Field->{Title},
                                 },
                             );
                         }
@@ -1647,12 +1647,12 @@ sub MaskAgentZoom {
                     %Ticket,
 
                     # alias for ticket title, Title will be overwritten
-                    TicketTitle       => $Ticket{Title},
-                    Value             => $Field->{Value},
-                    Title             => $Field->{Title},
-                    Link              => $Field->{Link},
-                    LinkPreview       => $Field->{LinkPreview},
-                    $Field->{Name}    => $Field->{Title},
+                    TicketTitle    => $Ticket{Title},
+                    Value          => $Field->{Value},
+                    Title          => $Field->{Title},
+                    Link           => $Field->{Link},
+                    LinkPreview    => $Field->{LinkPreview},
+                    $Field->{Name} => $Field->{Title},
                 },
             );
         }
@@ -3550,7 +3550,7 @@ sub _ArticleCollectMeta {
             for my $Match (@Matches) {
 
                 my $MatchQuote = $LayoutObject->Ascii2Html( Text => $Match->{Name} );
-                my $URL = $Filter->{Meta}->{URL};
+                my $URL        = $Filter->{Meta}->{URL};
                 my $URLPreview = $Filter->{Meta}->{URLPreview};
 
                 # replace the whole keyword
@@ -3566,10 +3566,10 @@ sub _ArticleCollectMeta {
                 }
 
                 push @{ $FilterData{Matches} }, {
-                    Text              => $Match->{Name},
-                    URL               => $URL,
-                    URLPreview        => $URLPreview,
-                    Target            => $Filter->{Meta}->{Target} || '_blank',
+                    Text       => $Match->{Name},
+                    URL        => $URL,
+                    URLPreview => $URLPreview,
+                    Target     => $Filter->{Meta}->{Target} || '_blank',
                 };
             }
             push @Data, \%FilterData;

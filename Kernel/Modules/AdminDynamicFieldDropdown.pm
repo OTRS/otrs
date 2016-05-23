@@ -749,7 +749,7 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
-    my $Link        = $Param{Link} || '';
+    my $Link        = $Param{Link}        || '';
     my $LinkPreview = $Param{LinkPreview} || '';
 
     my $ReadonlyInternalField = '';

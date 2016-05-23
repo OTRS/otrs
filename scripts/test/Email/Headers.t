@@ -21,26 +21,26 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 # Check that long references and in-reply-to headers are correctly split across lines.
 # See bug#9345 and RFC5322.
 my $MsgIDShort = '<54DEDF2@xyz-intra.net>';
-my $MsgIDLong = '<54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>';
+my $MsgIDLong  = '<54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>';
 
 my @Tests = (
     {
-        Name => "Short MSGID 2x",
-        Header => $MsgIDShort x 2,
+        Name         => "Short MSGID 2x",
+        Header       => $MsgIDShort x 2,
         FoldedHeader => '<54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net>',
     },
 
     {
-        Name => "Short MSGID 2x",
-        Header => $MsgIDShort x 10,
+        Name         => "Short MSGID 2x",
+        Header       => $MsgIDShort x 10,
         FoldedHeader => '<54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net>
  <54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net>
  <54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net><54DEDF2@xyz-intra.net>
  <54DEDF2@xyz-intra.net>',
     },
     {
-        Name => "Long MSGID 10x",
-        Header => $MsgIDLong x 10,
+        Name         => "Long MSGID 10x",
+        Header       => $MsgIDLong x 10,
         FoldedHeader => '<54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
  <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
  <54DEDF2AD94D34F9A6C123E21D7CA6102A2E7HHIDHDGSUFKF@EFNPNCY115.xyz-intra.net>
