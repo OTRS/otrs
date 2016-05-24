@@ -901,6 +901,7 @@ function CheckIFrameHeight(IFrameID) {
 
         return false;
     });
+
 //]]></script>
 [% END %]
 [% RenderBlockEnd("TicketZoomInit") %]

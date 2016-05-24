@@ -8642,9 +8642,13 @@
                 <Loader>
                     <CSS>Core.Agent.TicketProcess.css</CSS>
                     <CSS>Core.Agent.TicketMenuModuleCluster.css</CSS>
+                    <CSS>Core.AllocationList.css</CSS>
                     <JavaScript>thirdparty/jquery-tablesorter-2.0.5/jquery.tablesorter.js</JavaScript>
-                    <JavaScript>Core.UI.Table.Sort.js</JavaScript>
                     <JavaScript>Core.Agent.TicketZoom.js</JavaScript>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.UI.Table.Sort.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                    <JavaScript>Core.Agent.LinkObject.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -11888,6 +11892,85 @@ Thanks for your help!
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="LinkObject::ComplexTable::SettingsVisibility###Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
+            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
+            Core.Agent.TableFilters.js.
+        </Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::LinkObject</SubGroup>
+        <Setting>
+            <Array>
+                <Item>AgentTicketZoom</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="LinkObject::ComplexTable###Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
+            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
+            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::LinkObject</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::LinkObject::Ticket.pm</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">1</Item>
+                        <Item Key="Changed">1</Item>
+                        <Item Key="Created">2</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">2</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">2</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Priority">
+                    <Hash>
+                        <Item Key="Age">110</Item>
+                        <Item Key="Changed">120</Item>
+                        <Item Key="Created">310</Item>
+                        <Item Key="CustomerID">240</Item>
+                        <Item Key="CustomerName">250</Item>
+                        <Item Key="CustomerUserID">260</Item>
+                        <Item Key="EscalationResponseTime">160</Item>
+                        <Item Key="EscalationSolutionTime">150</Item>
+                        <Item Key="EscalationTime">140</Item>
+                        <Item Key="EscalationUpdateTime">170</Item>
+                        <Item Key="TicketNumber">100</Item>
+                        <Item Key="Lock">200</Item>
+                        <Item Key="Owner">220</Item>
+                        <Item Key="PendingTime">130</Item>
+                        <Item Key="Queue">210</Item>
+                        <Item Key="Responsible">230</Item>
+                        <Item Key="Priority">300</Item>
+                        <Item Key="Service">280</Item>
+                        <Item Key="State">190</Item>
+                        <Item Key="SLA">290</Item>
+                        <Item Key="Title">180</Item>
+                        <Item Key="Type">270</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
     <!-- collect meta configurations -->
     <ConfigItem Name="Ticket::Frontend::ZoomCollectMeta" Required="0" Valid="1">
         <Description Translatable="1">Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.</Description>

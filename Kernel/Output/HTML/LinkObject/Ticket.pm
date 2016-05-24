@@ -12,13 +12,21 @@ use strict;
 use warnings;
 
 use Kernel::Output::HTML::Layout;
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::System::Priority',
     'Kernel::System::State',
     'Kernel::System::Type',
+    'Kernel::System::User',
     'Kernel::System::Web::Request',
 );
 
@@ -63,9 +71,16 @@ sub new {
 
     # define needed variables
     $Self->{ObjectData} = {
-        Object   => 'Ticket',
-        Realname => 'Ticket',
+        Object     => 'Ticket',
+        Realname   => 'Ticket',
+        ObjectName => 'TicketID',
     };
+
+    # get the dynamic fields for this screen
+    $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => ['Ticket'],
+    );
 
     return $Self;
 }
@@ -78,6 +93,9 @@ Return
 
     %BlockData = (
         {
+            ObjectName  => 'TicketID',
+            ObjectID    => '14785',
+
             Object    => 'Ticket',
             Blockname => 'Ticket',
             Headline  => [
@@ -149,6 +167,9 @@ sub TableCreateComplex {
         return;
     }
 
+    # create needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # convert the list
     my %LinkList;
     for my $LinkType ( sort keys %{ $Param{ObjectLinkListWithData} } ) {
@@ -168,7 +189,158 @@ sub TableCreateComplex {
         }
     }
 
-    # create the item list
+    my $ComplexTableData = $ConfigObject->Get("LinkObject::ComplexTable");
+    my $DefaultColumns;
+    if (
+        $ComplexTableData
+        && IsHashRefWithData($ComplexTableData)
+        && $ComplexTableData->{Ticket}
+        && IsHashRefWithData( $ComplexTableData->{Ticket} )
+        )
+    {
+        $DefaultColumns = $ComplexTableData->{"Ticket"}->{"DefaultColumns"};
+    }
+
+    my @TimeLongTypes = (
+        "Created",
+        "Changed",
+        "EscalationDestinationDate",
+        "FirstResponseTimeDestinationDate",
+        "UpdateTimeDestinationDate",
+        "SolutionTimeDestinationDate",
+    );
+
+    # define the block data
+    my $TicketHook = $ConfigObject->Get('Ticket::Hook');
+
+    my @Headline = (
+        {
+            Content => $TicketHook,
+        },
+    );
+
+    # Get needed objects.
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+    # load user preferences
+    my %Preferences = $UserObject->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    if ( !$DefaultColumns || !IsHashRefWithData($DefaultColumns) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Missing configuration for LinkObject::ComplexTable###Ticket!',
+        );
+        return;
+    }
+
+# Get default column priority from SysConfig
+# Each column in table (Title, State, Type,...) has defined Priority in SysConfig. System use this priority to sort columns, if user doesn't have own settings.
+    my %SortOrder;
+    if (
+        $ComplexTableData->{"Ticket"}->{"Priority"}
+        && IsHashRefWithData( $ComplexTableData->{"Ticket"}->{"Priority"} )
+        )
+    {
+        %SortOrder = %{ $ComplexTableData->{"Ticket"}->{"Priority"} };
+    }
+
+    my %UserColumns = %{$DefaultColumns};
+
+    if ( $Preferences{'LinkObject::ComplexTable-Ticket'} ) {
+        my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+        my $ColumnsEnabled = $JSONObject->Decode(
+            Data => $Preferences{'LinkObject::ComplexTable-Ticket'},
+        );
+
+        if (
+            $ColumnsEnabled
+            && IsHashRefWithData($ColumnsEnabled)
+            && $ColumnsEnabled->{Order}
+            && IsArrayRefWithData( $ColumnsEnabled->{Order} )
+            )
+        {
+            # Clear sort order
+            %SortOrder = ();
+
+            DEFAULTCOLUMN:
+            for my $DefaultColumn ( sort keys %UserColumns ) {
+                my $Index = 0;
+
+                for my $UserSetting ( @{ $ColumnsEnabled->{Order} } ) {
+                    $Index++;
+                    if ( $DefaultColumn eq $UserSetting ) {
+                        $UserColumns{$DefaultColumn} = 2;
+                        $SortOrder{$DefaultColumn}   = $Index;
+
+                        next DEFAULTCOLUMN;
+                    }
+                }
+
+                # not found, means user chose to hide this item
+                if ( $UserColumns{$DefaultColumn} == 2 ) {
+                    $UserColumns{$DefaultColumn} = 1;
+                }
+
+                if ( !$SortOrder{$DefaultColumn} ) {
+                    $SortOrder{$DefaultColumn} = 0;    # Set 0, it system will hide this item anyways
+                }
+            }
+        }
+    }
+    else {
+        # user has no own settings
+        for my $Column ( sort keys %UserColumns ) {
+            if ( !$SortOrder{$Column} ) {
+                $SortOrder{$Column} = 0;               # Set 0, it system will hide this item anyways
+            }
+        }
+    }
+
+    # Define Headline columns
+
+    # Sort
+    COLUMN:
+    for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
+        next COLUMN if $Column eq 'TicketNumber';      # Always present, already added.
+
+        # if enabled by default
+        if ( $UserColumns{$Column} == 2 ) {
+            my $ColumnName = '';
+
+            # Ticket fields
+            if ( $Column !~ m{\A DynamicField_}xms ) {
+                $ColumnName = $Column;
+            }
+
+            # Dynamic fields
+            else {
+                my $DynamicFieldConfig;
+                my $DFColumn = $Column;
+                $DFColumn =~ s{DynamicField_}{}g;
+
+                DYNAMICFIELD:
+                for my $DFConfig ( @{ $Self->{DynamicField} } ) {
+                    next DYNAMICFIELD if !IsHashRefWithData($DFConfig);
+                    next DYNAMICFIELD if $DFConfig->{Name} ne $DFColumn;
+
+                    $DynamicFieldConfig = $DFConfig;
+                    last DYNAMICFIELD;
+                }
+                next COLUMN if !IsHashRefWithData($DynamicFieldConfig);
+
+                $ColumnName = $DynamicFieldConfig->{Label};
+            }
+            push @Headline, {
+                Content => $ColumnName,
+            };
+        }
+    }
+
+    # create the item list (table content)
     my @ItemList;
     for my $TicketID (
         sort { $LinkList{$a}{Data}->{Age} <=> $LinkList{$b}{Data}->{Age} }
@@ -185,6 +357,7 @@ sub TableCreateComplex {
             $CssClass = 'StrikeThrough';
         }
 
+        # Ticket Number must be present (since it contains master link to the ticket)
         my @ItemColumns = (
             {
                 Type    => 'Link',
@@ -196,58 +369,147 @@ sub TableCreateComplex {
                 Title    => "Ticket# $Ticket->{TicketNumber}",
                 CssClass => $CssClass,
             },
-            {
-                Type      => 'Text',
-                Content   => $Ticket->{Title},
-                MaxLength => $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SubjectSize') || 50,
-            },
-            {
-                Type    => 'Text',
-                Content => $Ticket->{Queue},
-            },
-            {
-                Type      => 'Text',
-                Content   => $Ticket->{State},
-                Translate => 1,
-            },
-            {
-                Type    => 'TimeLong',
-                Content => $Ticket->{Created},
-            },
         );
+
+        # Sort
+        COLUMN:
+        for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
+            next COLUMN if $Column eq 'TicketNumber';    # Always present, already added.
+
+            # if enabled by default
+            if ( $UserColumns{$Column} == 2 ) {
+
+                my %Hash;
+                if ( grep { $_ eq $Column } @TimeLongTypes ) {
+                    $Hash{'Type'} = 'TimeLong';
+                }
+                else {
+                    $Hash{'Type'} = 'Text';
+                }
+
+                # Ticket fields
+                if ( $Column !~ m{\A DynamicField_}xms ) {
+
+                    if ( $Column eq 'EscalationTime' ) {
+
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                            Age   => $Ticket->{'EscalationTime'},
+                            Space => ' '
+                        );
+                    }
+                    elsif ( $Column eq 'Age' ) {
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                            Age   => $Ticket->{Age},
+                            Space => ' ',
+                        );
+                    }
+                    elsif ( $Column eq 'EscalationSolutionTime' ) {
+
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAgeInHours(
+                            Age => $Ticket->{SolutionTime} || 0,
+                            Space => ' ',
+                        );
+                    }
+                    elsif ( $Column eq 'EscalationResponseTime' ) {
+
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAgeInHours(
+                            Age => $Ticket->{FirstResponseTime} || 0,
+                            Space => ' ',
+                        );
+                    }
+                    elsif ( $Column eq 'EscalationUpdateTime' ) {
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAgeInHours(
+                            Age => $Ticket->{UpdateTime} || 0,
+                            Space => ' ',
+                        );
+                    }
+                    elsif ( $Column eq 'PendingTime' ) {
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
+                            Age   => $Ticket->{'UntilTime'},
+                            Space => ' '
+                        );
+                    }
+                    elsif ( $Column eq 'Owner' ) {
+
+                        # get owner info
+                        my %OwnerInfo = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                            UserID => $Ticket->{OwnerID},
+                        );
+                        $Hash{'Content'} = $OwnerInfo{'UserFirstname'} . ' ' . $OwnerInfo{'UserLastname'};
+                    }
+                    elsif ( $Column eq 'Responsible' ) {
+
+                        # get responsible info
+                        my %ResponsibleInfo = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                            UserID => $Ticket->{ResponsibleID},
+                        );
+                        $Hash{'Content'} = $ResponsibleInfo{'UserFirstname'} . ' '
+                            . $ResponsibleInfo{'UserLastname'};
+                    }
+                    elsif ( $Column eq 'CustomerName' ) {
+
+                        # get customer name
+                        my $CustomerName;
+                        if ( $Ticket->{CustomerUserID} ) {
+                            $CustomerName = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
+                                UserLogin => $Ticket->{CustomerUserID},
+                            );
+                        }
+                        $Hash{'Content'} = $CustomerName;
+                    }
+                    else {
+                        $Hash{'Content'} = $Ticket->{$Column};
+                    }
+                }
+
+                # Dynamic fields
+                else {
+                    my $DynamicFieldConfig;
+                    my $DFColumn = $Column;
+                    $DFColumn =~ s{DynamicField_}{}g;
+
+                    DYNAMICFIELD:
+                    for my $DFConfig ( @{ $Self->{DynamicField} } ) {
+                        next DYNAMICFIELD if !IsHashRefWithData($DFConfig);
+                        next DYNAMICFIELD if $DFConfig->{Name} ne $DFColumn;
+
+                        $DynamicFieldConfig = $DFConfig;
+                        last DYNAMICFIELD;
+                    }
+                    next COLUMN if !IsHashRefWithData($DynamicFieldConfig);
+
+                    # get field value
+                    my $Value = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        ObjectID           => $TicketID,
+                    );
+
+                    my $ValueStrg = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value              => $Value,
+                        ValueMaxChars      => 20,
+                        LayoutObject       => $Self->{LayoutObject},
+                    );
+
+                    $Hash{'Content'} = $ValueStrg->{Title};
+                }
+
+                push @ItemColumns, \%Hash;
+            }
+        }
 
         push @ItemList, \@ItemColumns;
     }
 
     return if !@ItemList;
 
-    # define the block data
-    my $TicketHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook');
-    my %Block      = (
-        Object    => $Self->{ObjectData}->{Object},
-        Blockname => $Self->{ObjectData}->{Realname},
-        Headline  => [
-            {
-                Content => $TicketHook,
-                Width   => 130,
-            },
-            {
-                Content => 'Title',
-            },
-            {
-                Content => 'Queue',
-                Width   => 100,
-            },
-            {
-                Content => 'State',
-                Width   => 110,
-            },
-            {
-                Content => 'Created',
-                Width   => 130,
-            },
-        ],
-        ItemList => \@ItemList,
+    my %Block = (
+        Object     => $Self->{ObjectData}->{Object},
+        Blockname  => $Self->{ObjectData}->{Realname},
+        ObjectName => $Self->{ObjectData}->{ObjectName},
+        ObjectID   => $Param{ObjectID},
+        Headline   => \@Headline,
+        ItemList   => \@ItemList,
     );
 
     return ( \%Block );
