@@ -1459,9 +1459,31 @@ sub Footer {
     my $Type          = $Param{Type}           || '';
     my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
-    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my %JSConfig = (
+        Baselink                 => $Self->{Baselink},
+        CGIHandle                => $Self->{CGIHandle},
+        WebPath                  => $ConfigObject->Get('Frontend::WebPath'),
+        Action                   => $Self->{Action},
+        SessionIDCookie          => $Self->{SessionIDCookie},
+        SessionName              => $Self->{SessionName},
+        SessionID                => $Self->{SessionID},
+        ChallengeToken           => $Self->{UserChallengeToken},
+        CustomerPanelSessionName => $ConfigObject->Get('CustomerPanelSessionName'),
+    );
+
+    for my $Config ( sort keys %JSConfig ) {
+        $Self->AddJSData(
+            Key   => $Config,
+            Value => $JSConfig{$Config},
+        );
+    }
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {
@@ -1480,8 +1502,6 @@ sub Footer {
             },
         );
     }
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # NewTicketInNewWindow
     if ( $ConfigObject->Get('NewTicketInNewWindow::Enabled') ) {
@@ -1542,7 +1562,7 @@ sub Footer {
     }
 
     # Don't check for business package if the database was not yet configured (in the installer)
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
+    if ( $ConfigObject->Get('SecureMode') ) {
         $Param{OTRSBusinessIsInstalled} = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
     }
 
@@ -2441,6 +2461,8 @@ sub Attachment {
         }
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     # return attachment
     my $Output = 'Content-Disposition: ';
     if ( $Param{Type} ) {
@@ -2448,7 +2470,7 @@ sub Attachment {
         $Output .= '; ';
     }
     else {
-        $Output .= $Kernel::OM->Get('Kernel::Config')->Get('AttachmentDownloadType') || 'attachment';
+        $Output .= $ConfigObject->Get('AttachmentDownloadType') || 'attachment';
         $Output .= '; ';
     }
 
@@ -2472,7 +2494,7 @@ sub Attachment {
     $Output .= "Content-Length: $Param{Size}\n";
     $Output .= "X-UA-Compatible: IE=edge,chrome=1\n";
 
-    if ( !$Kernel::OM->Get('Kernel::Config')->Get('DisableIFrameOriginRestricted') ) {
+    if ( !$ConfigObject->Get('DisableIFrameOriginRestricted') ) {
         $Output .= "X-Frame-Options: SAMEORIGIN\n";
     }
 

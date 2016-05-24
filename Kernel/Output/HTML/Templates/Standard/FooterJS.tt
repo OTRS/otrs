@@ -27,16 +27,6 @@ Core.App.Ready(function () {
 
     Core.Config.AddConfig({
         // config
-        Baselink: '[% Env("Baselink") %]',
-        AjaxDebug: '[% Config("Frontend::AjaxDebug") %]',
-        CGIHandle: '[% Env("CGIHandle") %]',
-        WebPath: '[% Config("Frontend::WebPath") %]',
-        Action: '[% Env("Action") | html %]',
-        SessionIDCookie: '[% Env("SessionIDCookie") | html %]',
-        SessionName: '[% Config("SessionName") %]',
-        SessionID: '[% Env("SessionID") | html %]',
-        ChallengeToken: '[% Env("UserChallengeToken") | html %]',
-        CustomerPanelSessionName: '[% Config("CustomerPanelSessionName") %]',
         Images: '[% Config("Frontend::ImagePath") %]',
         UserLanguage: '[% Env("UserLanguage") | html %]',
         UserID: '[% Env("UserID") | html %]',
@@ -59,9 +49,6 @@ Core.App.Ready(function () {
         SearchFrontend: [% Data.SearchFrontendConfig | JSON %],
 [% RenderBlockEnd("SearchFrontendConfig") %]
         CheckSearchStringsForStopWords: [% Config("Ticket::SearchIndex::WarnOnStopWordUsage") and Config("Ticket::SearchIndexModule") == 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB' ? 1 : 0 %],
-        // translations
-        BrowserListMsg: [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | JSON %],
-        BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %],
     });
 
     [% PROCESS JSDataInsert %]
