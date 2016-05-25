@@ -134,6 +134,9 @@ $Selenium->RunTest(
                 },
             );
 
+            # let mod_perl / Apache2::Reload pick up the changed configuration
+            sleep 1;
+
             # navigate to AgentTicketZoom screen of created test ticket
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
