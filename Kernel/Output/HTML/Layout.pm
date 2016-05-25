@@ -727,6 +727,12 @@ sub Login {
     $Self->LoaderCreateAgentJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
 
+    # we need the baselink for VerfifiedGet() of selenium tests
+    $Self->AddJSData(
+        Key   => 'Baselink',
+        Value => $Self->{Baselink},
+    );
+
     # Add header logo, if configured
     if ( defined $ConfigObject->Get('AgentLogo') ) {
         my %AgentLogo = %{ $ConfigObject->Get('AgentLogo') };
