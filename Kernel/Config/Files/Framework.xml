@@ -10476,6 +10476,7 @@ via the Preferences button after logging in.
                 <Item>Core.Dialog.css</Item>
                 <Item>Core.InputFields.css</Item>
                 <Item>Core.Print.css</Item>
+                <Item>Core.Animations.css</Item>
                 <Item>thirdparty/fontawesome/font-awesome.css</Item>
             </Array>
         </Setting>
@@ -10568,6 +10569,7 @@ via the Preferences button after logging in.
                 <Item>Core.TicketZoom.css</Item>
                 <Item>Core.InputFields.css</Item>
                 <Item>Core.Print.css</Item>
+                <Item>Core.Animations.css</Item>
                 <Item>thirdparty/fontawesome/font-awesome.css</Item>
             </Array>
         </Setting>

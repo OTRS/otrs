@@ -209,48 +209,19 @@ Core.UI = (function (TargetNS) {
     };
 
     /**
-     * @private
-     * @name ShakeMe
+     * @name Animate
      * @memberof Core.UI
      * @function
-     * @param {jQueryObject} $id - The element to shake.
-     * @param {Array} Position - Array of positions where the bo should be moved to.
-     * @param {Number} PostionEnd - The end position.
+     * @param {jQueryObject} $Element - The element to animate.
+     * @param {String} Type - The animation type as defined in Core.Animations.css, e.g. 'Shake'
      * @description
-     *      "Shakes" the element.
+     *      Animate an element on demand using a css-based animation of the given type
      */
-    function ShakeMe($id, Position, PostionEnd) {
-        var PositionStart = Position.shift();
-        $id.css('left', PositionStart + 'px');
-        if (Position.length > 0) {
-            setTimeout(function () {
-                ShakeMe($id, Position, PostionEnd);
-            }, PostionEnd);
+    TargetNS.Animate = function ($Element, Type) {
+        if (!$Element.length || !Type) {
+            return;
         }
-        else {
-            try {
-                $id.css('position', 'static');
-            }
-            catch (Event) {
-                // no code here
-                $.noop(Event);
-            }
-        }
-    }
-
-    /**
-     * @name Shake
-     * @memberof Core.UI
-     * @function
-     * @param {jQueryObject} $id - The element to shake.
-     * @description
-     *      "Shakes" the element.
-     */
-    TargetNS.Shake = function ($id) {
-        var Position = [15, 30, 15, 0, -15, -30, -15, 0];
-        Position = Position.concat(Position.concat(Position));
-        $id.css('position', 'relative');
-        ShakeMe($id, Position, 20);
+        $Element.addClass('Animation' + Type);
     };
 
     /**

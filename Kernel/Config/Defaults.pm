@@ -914,6 +914,7 @@ sub LoadDefaults {
         'Core.TicketZoom.css',
         'Core.InputFields.css',
         'Core.Print.css',
+        'Core.Animations.css',
         'thirdparty/fontawesome/font-awesome.css'
     ];
 
@@ -937,6 +938,7 @@ sub LoadDefaults {
         'Core.Dialog.css',
         'Core.InputFields.css',
         'Core.Print.css',
+        'Core.Animations.css',
         'thirdparty/fontawesome/font-awesome.css',
     ];
 
