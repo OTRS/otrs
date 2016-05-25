@@ -387,6 +387,10 @@ sub TableCreateComplex {
                     $Hash{'Type'} = 'Text';
                 }
 
+                if ( $Column eq 'Title' ) {
+                    $Hash{MaxLength} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SubjectSize') || 50;
+                }
+
                 # Ticket fields
                 if ( $Column !~ m{\A DynamicField_}xms ) {
 
