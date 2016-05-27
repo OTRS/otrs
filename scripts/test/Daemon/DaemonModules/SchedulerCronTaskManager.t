@@ -87,7 +87,8 @@ my @Tests = (
             Name => 'NoSchedule' . $RandomID,
             Data => {
                 TaskName => 'NoSchedule' . $RandomID,
-                Command  => 'df',
+                Module   => 'Admin::Package::List',
+                Function => 'run',
             },
         },
         TaskAdd => 0,
@@ -98,7 +99,8 @@ my @Tests = (
             Name => 'WrongSchedue' . $RandomID,
             Data => {
                 TaskName => 'NoSchedule' . $RandomID,
-                Command  => 'df',
+                Module   => 'Admin::Package::List',
+                Function => 'run',
                 Schedule => '\1 * * * *',
             },
         },
@@ -112,7 +114,8 @@ my @Tests = (
             Name => 'CronAllMinutes' . $RandomID,
             Data => {
                 TaskName => 'CronAllMinutes' . $RandomID,
-                Command  => 'df',
+                Module   => 'Admin::Package::List',
+                Function => 'run',
                 Schedule => '* * * * *',
             },
         },
@@ -333,7 +336,8 @@ my $CronAdd = $ConfigObject->Set(
     Key   => "Daemon::SchedulerCronTaskManager::Task###$CronName",
     Value => {
         TaskName => $CronName,
-        Command  => 'df',
+        Module   => 'Admin::Package::List',
+        Function => 'run',
         Schedule => '* * * * *',
     },
 );
