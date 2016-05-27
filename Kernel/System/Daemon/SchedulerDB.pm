@@ -1409,20 +1409,11 @@ sub CronTaskToExecute {
 
         next CRONJOBKEY if !IsHashRefWithData($JobConfig);
 
-        if ( !$JobConfig->{Module} && !$JobConfig->{Command} ) {
+        if ( !$JobConfig->{Module} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Config option Daemon::SchedulerCronTaskManager::Task###$CronjobKey is invalid."
-                    . " Need 'Module' or 'Command' parameter!",
-            );
-            next CRONJOBKEY;
-        }
-
-        if ( $JobConfig->{Module} && $JobConfig->{Command} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Config option Daemon::SchedulerCronTaskManager::Task###$CronjobKey is invalid."
-                    . " Need 'Module' or 'Command' parameter but not both!",
+                    . " Need 'Module' parameter!",
             );
             next CRONJOBKEY;
         }
@@ -1452,7 +1443,6 @@ sub CronTaskToExecute {
             PreviousEventTimestamp   => $PreviousEventTimestamp,
             MaximumParallelInstances => $JobConfig->{MaximumParallelInstances},
             Data                     => {
-                Command  => $JobConfig->{Command}  || '',
                 Module   => $JobConfig->{Module}   || '',
                 Function => $JobConfig->{Function} || '',
                 Params   => $JobConfig->{Params}   || '',
@@ -1496,9 +1486,7 @@ sub CronTaskCleanup {
 
         next CRONJOBKEY if !IsHashRefWithData($JobConfig);
 
-        next CRONJOBKEY if ( !$JobConfig->{Module} && !$JobConfig->{Command} );
-
-        next CRONJOBKEY if ( $JobConfig->{Module} && $JobConfig->{Command} );
+        next CRONJOBKEY if ( !$JobConfig->{Module} );
 
         next CRONJOBKEY if ( $JobConfig->{Module} && !$JobConfig->{Function} );
 
