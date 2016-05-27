@@ -714,73 +714,51 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
     <xsd:element name="TicketGet">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:choice
-                    minOccurs="1"
-                    maxOccurs="1">
-                    <xsd:annotation>
-                        <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:element
-                        name="UserLogin"
-                        type="xsd:string"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
-                        name="CustomerUserLogin"
-                        type="xsd:string"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
-                        name="SessionID"
-                        type="xsd:string"
-                        minOccurs="0">
-                    </xsd:element>
-                </xsd:choice>
-                <xsd:element
-                    name="Password"
-                    type="xsd:string"
-                    minOccurs="0">
-                </xsd:element>
-                <xsd:element
-                    name="TicketID"
-                    type="xsd:positiveInteger"
-                    minOccurs="1" maxOccurs="unbounded">
-                </xsd:element>
-                <xsd:element
-                    name="DynamicFields"
-                    type="xsd:positiveInteger"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="Extended"
-                    type="xsd:positiveInteger"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="AllArticles"
-                    type="xsd:positiveInteger"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="ArticleSenderType"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="ArticleOrder"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="ArticleLimit"
-                    type="xsd:positiveInteger"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="Attachments"
-                    type="xsd:positiveInteger"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
+            	<xsd:choice minOccurs="1" maxOccurs="1">
+            		<xsd:annotation>
+            			<xsd:documentation>
+            				UserLogin, CustomerUserLogin or SessionID is
+            				mandatory
+            			</xsd:documentation>
+            		</xsd:annotation>
+            		<xsd:element name="UserLogin" type="xsd:string"
+            			minOccurs="0">
+            		</xsd:element>
+            		<xsd:element name="CustomerUserLogin"
+            			type="xsd:string" minOccurs="0">
+            		</xsd:element>
+            		<xsd:element name="SessionID" type="xsd:string"
+            			minOccurs="0">
+            		</xsd:element>
+            	</xsd:choice>
+            	<xsd:element name="Password" type="xsd:string"
+            		minOccurs="0">
+            	</xsd:element>
+            	<xsd:element name="TicketID" type="xsd:positiveInteger"
+            		minOccurs="1" maxOccurs="unbounded">
+            	</xsd:element>
+            	<xsd:element name="DynamicFields"
+            		type="xsd:positiveInteger" minOccurs="0" maxOccurs="1">
+            	</xsd:element>
+            	<xsd:element name="Extended" type="xsd:positiveInteger"
+            		minOccurs="0" maxOccurs="1">
+            	</xsd:element>
+            	<xsd:element name="AllArticles"
+            		type="xsd:positiveInteger" minOccurs="0" maxOccurs="1">
+            	</xsd:element>
+            	<xsd:element name="ArticleSenderType" type="xsd:string"
+            		minOccurs="0" maxOccurs="1">
+            	</xsd:element>
+            	<xsd:element name="ArticleOrder" type="xsd:string"
+            		minOccurs="0" maxOccurs="1">
+            	</xsd:element>
+            	<xsd:element name="ArticleLimit"
+            		type="xsd:positiveInteger" minOccurs="0" maxOccurs="1">
+            	</xsd:element>
+            	<xsd:element name="Attachments"
+            		type="xsd:positiveInteger" minOccurs="0" maxOccurs="1">
+            	</xsd:element>
+            	<xsd:element name="HTMLBodyAsAttachment" type="xsd:positiveInteger" minOccurs="0" maxOccurs="1"></xsd:element>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
