@@ -78,6 +78,7 @@ my %SkipFields = (
     UpdateTimeWorkingTime     => 1,
     Created                   => 1,
     Changed                   => 1,
+    UnlockTimeout             => 1,
 );
 
 # create dynamic field properties
@@ -783,6 +784,170 @@ for my $Key ( sort keys %TicketEntryFourDF ) {
 # add ticket id
 push @TicketIDs, $TicketID4;
 
+# create ticket 5
+my $TicketID5 = $TicketObject->TicketCreate(
+    Title        => 'Ticket Five Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '123465',
+    CustomerUser => 'customerOne@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketID5,
+    "TicketCreate() successful for Ticket Five ID $TicketID5",
+);
+
+# get the Ticket entry
+my %TicketEntryFive = $TicketObject->TicketGet(
+    TicketID      => $TicketID5,
+    DynamicFields => 0,
+    UserID        => $UserID,
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryFive ),
+    "TicketGet() successful for Local TicketGet One ID $TicketID5",
+);
+
+for my $Key ( sort keys %TicketEntryFive ) {
+    if ( !$TicketEntryFive{$Key} ) {
+        $TicketEntryFive{$Key} = '';
+    }
+    if ( $SkipFields{$Key} ) {
+        delete $TicketEntryFive{$Key};
+    }
+}
+
+# first article
+my $ArticleID51 = $TicketObject->ArticleCreate(
+    TicketID    => $TicketID5,
+    ArticleType => 'phone',
+    SenderType  => 'agent',
+    From        => 'Agent Some Agent Some Agent <email@example.com>',
+    To          => 'Customer A <customer-a@example.com>',
+    Cc          => 'Customer B <customer-b@example.com>',
+    ReplyTo     => 'Customer B <customer-b@example.com>',
+    Subject     => 'first article',
+    Body        => '
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;"><ol>
+    <li>test</li>
+</ol></body></html>',
+    ContentType    => 'text/html; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'first article',
+    UserID         => 1,
+    NoAgentNotify  => 1,
+);
+my $ArticleID52 = $TicketObject->ArticleCreate(
+    TicketID       => $TicketID5,
+    ArticleType    => 'phone',
+    SenderType     => 'agent',
+    From           => 'Agent Some Agent Some Agent <email@example.com>',
+    To             => 'Customer A <customer-a@example.com>',
+    Cc             => 'Customer B <customer-b@example.com>',
+    ReplyTo        => 'Customer B <customer-b@example.com>',
+    Subject        => 'first article',
+    Body           => 'Test',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'first article',
+    UserID         => 1,
+    NoAgentNotify  => 1,
+);
+
+for my $File (qw(txt)) {
+    my $Location = $ConfigObject->Get('Home')
+        . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
+
+    my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location => $Location,
+        Mode     => 'binmode',
+        Type     => 'Local',
+    );
+
+    my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+        Content     => ${$ContentRef},
+        Filename    => "StdAttachment-Test1.$File",
+        ContentType => $File,
+        ArticleID   => $ArticleID51,
+        UserID      => 1,
+    );
+}
+
+# save articles
+my @ArticleWithHTMLBody = $TicketObject->ArticleGet(
+    TicketID => $TicketID5,
+    UserID   => 1,
+);
+
+for my $Article (@ArticleWithHTMLBody) {
+
+    for my $Key ( sort keys %{$Article} ) {
+        if ( !$Article->{$Key} ) {
+            $Article->{$Key} = '';
+        }
+        if ( $SkipFields{$Key} ) {
+            delete $Article->{$Key};
+        }
+    }
+}
+
+ARTICLE:
+for my $Article (@ArticleWithHTMLBody) {
+
+    for my $Key ( sort keys %{$Article} ) {
+        if ( !$Article->{$Key} ) {
+            $Article->{$Key} = '';
+        }
+        if ( $SkipFields{$Key} ) {
+            delete $Article->{$Key};
+        }
+        if ( $TicketDynamicFieldLookup{$Key} ) {
+            delete $Article->{$Key};
+        }
+    }
+
+    # get attachment index (without attachments)
+    my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+        ContentPath                => $Article->{ContentPath},
+        ArticleID                  => $Article->{ArticleID},
+        StripPlainBodyAsAttachment => 2,
+        Article                    => $Article,
+        UserID                     => 1,
+    );
+
+    next ARTICLE if !IsHashRefWithData( \%AtmIndex );
+
+    my @Attachments;
+    ATTACHMENT:
+    for my $FileID ( sort keys %AtmIndex ) {
+        next ATTACHMENT if !$FileID;
+        my %Attachment = $TicketObject->ArticleAttachment(
+            ArticleID => $Article->{ArticleID},
+            FileID    => $FileID,
+            UserID    => 1,
+        );
+
+        next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+        # convert content to base64
+        $Attachment{Content}            = encode_base64( $Attachment{Content} );
+        $Attachment{ContentID}          = '';
+        $Attachment{ContentAlternative} = '';
+        push @Attachments, {%Attachment};
+    }
+
+    # set Attachments data
+    $Article->{Attachment} = \@Attachments;
+
+}    # finish article loop
+
 # set web-service name
 my $WebserviceName = '-Test-' . $RandomID;
 
@@ -1433,6 +1598,40 @@ my @Tests = (
                             %TicketEntryFour,
                             Article => \@ArticleBoxSenderCustomer,
                         ),
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+
+    {
+        Name           => 'Test Ticket 5 With HTML Body',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID             => $TicketID5,
+            AllArticles          => 1,
+            Attachments          => 1,
+            HTMLBodyAsAttachment => 1,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFive,
+                    Article => \@ArticleWithHTMLBody,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        (
+                            %TicketEntryFive,
+                            Article => \@ArticleWithHTMLBody,
+                            )
                     },
                 ],
             },
