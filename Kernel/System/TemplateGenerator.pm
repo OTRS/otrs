@@ -1452,7 +1452,7 @@ sub _Replace {
             $Tag = $Start . 'OTRS_CUSTOMER_REALNAME';
             if ( $Param{Text} =~ /$Tag$End/i ) {
 
-                my $From = '';
+                my $From;
 
                 if ( $Ticket{CustomerUserID} ) {
 
