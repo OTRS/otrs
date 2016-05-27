@@ -2526,6 +2526,7 @@ get the list distinct values for a dynamic field from a list of tickets
         ValueB => 'ValueB',
         ValueC => 'ValueC'
     };
+
 =cut
 
 sub ColumnFilterValuesGet {
