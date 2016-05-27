@@ -187,16 +187,6 @@ sub Fetch {
             }
             else {
 
-                # safety protection
-                $FetchCounter++;
-                if ( $FetchCounter > 10 ) {
-                    if ($CMD) {
-                        print
-                            "$AuthType: Safety protection: waiting 2 second before processing next mail...\n";
-                    }
-                    sleep 2;
-                }
-
                 # get message (header and body)
                 my $Lines = $PopObject->get($Messageno);
                 if ( !$Lines ) {

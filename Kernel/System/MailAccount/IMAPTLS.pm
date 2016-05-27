@@ -191,22 +191,6 @@ sub _Fetch {
             }
             else {
 
-                # safety protection
-                if ( $FetchCounter > 10 && $FetchCounter < 25 ) {
-                    if ($CMD) {
-                        print
-                            "$AuthType: Safety protection: waiting 2 second till processing next mail...\n";
-                    }
-                    sleep 2;
-                }
-                elsif ( $FetchCounter > 25 ) {
-                    if ($CMD) {
-                        print
-                            "$AuthType: Safety protection: waiting 3 seconds till processing next mail...\n";
-                    }
-                    sleep 3;
-                }
-
                 # get message (header and body)
                 my $Message = $IMAPObject->message_string($Messageno);
 
