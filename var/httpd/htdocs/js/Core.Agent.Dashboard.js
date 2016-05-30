@@ -41,7 +41,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 var URL = Core.Config.Get('Baselink'), Data = {
                     Action: 'AgentCustomerInformationCenterSearch',
                     Subaction: 'SearchCustomerID',
-                    IncludeUnknownTicketCustomers: Core.Config.Get('IncludeUnknownTicketCustomers'),
+                    IncludeUnknownTicketCustomers: parseInt(Core.Config.Get('IncludeUnknownTicketCustomers'), 10),
                     Term: Request.term,
                     MaxResults: Core.Config.Get('CustomerIDAutocomplete.MaxResultsDisplayed')
                 };
@@ -97,7 +97,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             source: function (Request, Response) {
                 var URL = Core.Config.Get('Baselink'), Data = {
                     Action: 'AgentCustomerSearch',
-                    IncludeUnknownTicketCustomers: Core.Config.Get('IncludeUnknownTicketCustomers'),
+                    IncludeUnknownTicketCustomers: parseInt(Core.Config.Get('IncludeUnknownTicketCustomers'), 10),
                     Term: Request.term,
                     MaxResults: Core.Config.Get('CustomerUserAutocomplete.MaxResultsDisplayed')
                 };

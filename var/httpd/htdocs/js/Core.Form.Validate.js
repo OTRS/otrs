@@ -723,7 +723,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         // There is a configuration option in OTRS that controls if email addresses
         //  should be validated or not.
-        if (Core.Config.Get('CheckEmailAddresses')) {
+        if (parseInt(Core.Config.Get('CheckEmailAddresses'), 10)) {
             $.validator.addMethod("Validate_Email", $.validator.methods.email, "");
         }
 

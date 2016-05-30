@@ -153,7 +153,7 @@ Core.Agent = (function (TargetNS) {
 
                 // special treatment for the first menu level: by default this opens submenus only via click,
                 //  but the config setting "OpenMainMenuOnHover" also activates opening on hover for it.
-                if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover'))) {
+                if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && ($Element.parent().attr('id') !== 'Navigation' || parseInt(Core.Config.Get('OpenMainMenuOnHover'), 10))) {
 
                     // Set Timeout for opening nav
                     CreateSubnavOpenTimeout($Element, function () {
@@ -204,11 +204,11 @@ Core.Agent = (function (TargetNS) {
 
                 // if OpenMainMenuOnHover is enabled, clicking the item
                 // should lead to the link as regular
-                if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && Core.Config.Get('OpenMainMenuOnHover')) {
+                if ($('body').hasClass('Visible-ScreenXL') && !Core.App.Responsive.IsTouchDevice() && parseInt(Core.Config.Get('OpenMainMenuOnHover'), 10)) {
                     return true;
                 }
 
-                if (!Core.Config.Get('OTRSBusinessIsInstalled') && $Target.hasClass('OTRSBusinessRequired')) {
+                if (!parseInt(Core.Config.Get('OTRSBusinessIsInstalled'), 10) && $Target.hasClass('OTRSBusinessRequired')) {
                     return true;
                 }
 
@@ -268,7 +268,7 @@ Core.Agent = (function (TargetNS) {
             });
 
         // make the navigation items sortable (if enabled)
-        if (Core.Config.Get('MenuDragDropEnabled') === 1) {
+        if (parseInt(Core.Config.Get('MenuDragDropEnabled'), 10) === 1) {
             Core.App.Subscribe('Event.App.Responsive.ScreenXL', function () {
                 $('#NavigationContainer').css('height', '35px');
                 Core.UI.DnD.Sortable(
@@ -448,7 +448,7 @@ Core.Agent = (function (TargetNS) {
 
         var CurrentItems;
 
-        if (NavbarCustomOrderItems && Core.Config.Get('MenuDragDropEnabled') === 1) {
+        if (NavbarCustomOrderItems && parseInt(Core.Config.Get('MenuDragDropEnabled'), 10) === 1) {
 
             CurrentItems = $('#Navigation').children('li').get();
             CurrentItems.sort(function(a, b) {

@@ -119,7 +119,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         $Element[0].setSelectionRange(Length, Length);
 
         // set customer data for customer user information (AgentTicketEmail) in the compose screen
-        if ($Link.attr('rel') === 'ToCustomer' && Core.Config.Get('CustomerInfoSet')){
+        if ($Link.attr('rel') === 'ToCustomer' && parseInt(Core.Config.Get('CustomerInfoSet'), 10)){
 
             NewData = $('#CustomerData').val();
             NewDataItem = Core.Data.Get($Link.closest('a'), 'customerdatajson');

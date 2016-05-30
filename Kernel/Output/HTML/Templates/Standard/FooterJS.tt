@@ -25,32 +25,6 @@ Core.App.Ready(function () {
 
     Core.Init.ExecuteInit('DOCUMENT_READY');
 
-    Core.Config.AddConfig({
-        // config
-        Images: '[% Config("Frontend::ImagePath") %]',
-        UserLanguage: '[% Env("UserLanguage") | html %]',
-        UserID: '[% Env("UserID") | html %]',
-        SpellChecker: '[% Config("SpellChecker") | html %]',
-        NeedSpellCheck: '[% Config("Ticket::Frontend::NeedSpellCheck") | html %]',
-        RichTextSet: '[% Config("Frontend::RichText") | html %]',
-        CheckEmailAddresses: parseInt('[% Config("CheckEmailAddresses") %]', 10),
-        AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
-        MenuDragDropEnabled: parseInt('[% Config("Frontend::MenuDragDropEnabled") %]', 10),
-        OpenMainMenuOnHover: parseInt('[% Config("OpenMainMenuOnHover") %]', 10),
-        CustomerInfoSet: parseInt('[% Config("Ticket::Frontend::CustomerInfoCompose") %]', 10),
-        IncludeUnknownTicketCustomers: parseInt('[% Config("Ticket::IncludeUnknownTicketCustomers") %]', 10),
-        InputFieldsActivated: parseInt('[% Config("ModernizeFormFields") %]', 10),
-        AgentLogoURL: '[% Config("AgentLogo").URL %]',
-        OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
-[% RenderBlockStart("AutoCompleteConfig") %]
-        Autocomplete: [% Data.AutocompleteConfig %],
-[% RenderBlockEnd("AutoCompleteConfig") %]
-[% RenderBlockStart("SearchFrontendConfig") %]
-        SearchFrontend: [% Data.SearchFrontendConfig | JSON %],
-[% RenderBlockEnd("SearchFrontendConfig") %]
-        CheckSearchStringsForStopWords: [% Config("Ticket::SearchIndex::WarnOnStopWordUsage") and Config("Ticket::SearchIndexModule") == 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB' ? 1 : 0 %],
-    });
-
     [% PROCESS JSDataInsert %]
 
     Core.Init.ExecuteInit('CONFIG_LOADED');

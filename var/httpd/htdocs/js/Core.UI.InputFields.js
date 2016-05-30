@@ -205,7 +205,7 @@ Core.UI.InputFields = (function (TargetNS) {
     TargetNS.Activate = function ($Context) {
 
         // Check SysConfig
-        if (Core.Config.Get('InputFieldsActivated') === 1) {
+        if (parseInt(Core.Config.Get('InputFieldsActivated'), 10) === 1) {
 
             // Initialize select fields on all applicable fields
             TargetNS.InitSelect($('select.Modernize', $Context));

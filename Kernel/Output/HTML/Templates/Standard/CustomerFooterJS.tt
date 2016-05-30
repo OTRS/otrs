@@ -25,27 +25,6 @@ Core.App.Ready(function() {
 
     Core.Init.ExecuteInit('DOCUMENT_READY');
 
-    Core.Config.AddConfig({
-        // config
-        Baselink: '[% Env("Baselink") %]',
-        CGIHandle: '[% Env("CGIHandle") %]',
-        WebPath: '[% Config("Frontend::WebPath") %]',
-        Action: '[% Env("Action") | html %]',
-        SessionIDCookie: '[% Env("SessionIDCookie") | html %]',
-        SessionName: '[% Config("SessionName") %]',
-        SessionID: '[% Env("SessionID") | html %]',
-        ChallengeToken: '[% Env("UserChallengeToken") | html %]',
-        CustomerPanelSessionName: '[% Config("CustomerPanelSessionName") %]',
-        Images: '[% Config("Frontend::ImagePath") %]',
-        UserLanguage: '[% Env("UserLanguage") | html %]',
-        CheckEmailAddresses: parseInt('[% Config("CheckEmailAddresses") %]', 10),
-        AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
-        InputFieldsActivated: parseInt('[% Config("ModernizeCustomerFormFields") %]', 10),
-[% RenderBlockStart("AutoCompleteConfig") %]
-        Autocomplete: Core.JSON.Parse('[% Data.AutocompleteConfig %]'),
-[% RenderBlockEnd("AutoCompleteConfig") %]
-    });
-
     [% PROCESS JSDataInsert %]
 
     Core.Init.ExecuteInit('CONFIG_LOADED');
