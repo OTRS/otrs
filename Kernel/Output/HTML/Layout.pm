@@ -1551,7 +1551,6 @@ sub Footer {
         NeedSpellCheck                 => $ConfigObject->Get('Ticket::Frontend::NeedSpellCheck'),
         RichTextSet                    => $ConfigObject->Get('Frontend::RichText'),
         CheckEmailAddresses            => $ConfigObject->Get('CheckEmailAddresses'),
-        AnimationEnabled               => $ConfigObject->Get('Frontend::AnimationEnabled'),
         MenuDragDropEnabled            => $ConfigObject->Get('Frontend::MenuDragDropEnabled'),
         OpenMainMenuOnHover            => $ConfigObject->Get('Frontend::OpenMainMenuOnHover'),
         CustomerInfoSet                => $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose'),
@@ -3802,7 +3801,6 @@ sub CustomerFooter {
         CustomerPanelSessionName => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage             => $Self->{UserLanguage},
         CheckEmailAddresses      => $ConfigObject->Get('CheckEmailAddresses'),
-        AnimationEnabled         => $ConfigObject->Get('Frontend::AnimationEnabled'),
         InputFieldsActivated     => $ConfigObject->Get('ModernizeCustomerFormFields'),
         Autocomplete             => $AutocompleteConfigJSON,
     );

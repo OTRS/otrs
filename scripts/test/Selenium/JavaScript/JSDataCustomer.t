@@ -55,11 +55,6 @@ $Selenium->RunTest(
                 ExpectedValue => '3',
             },
             {
-                Key           => 'Frontend::AnimationEnabled',
-                JSKey         => 'AnimationEnabled',
-                ExpectedValue => '6',
-            },
-            {
                 Key           => 'ModernizeCustomerFormFields',
                 JSKey         => 'InputFieldsActivated',
                 ExpectedValue => '9',

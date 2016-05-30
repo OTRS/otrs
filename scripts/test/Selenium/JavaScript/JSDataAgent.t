@@ -69,11 +69,6 @@ $Selenium->RunTest(
                 ExpectedValue => '5',
             },
             {
-                Key           => 'Frontend::AnimationEnabled',
-                JSKey         => 'AnimationEnabled',
-                ExpectedValue => '6',
-            },
-            {
                 Key           => 'Frontend::MenuDragDropEnabled',
                 JSKey         => 'MenuDragDropEnabled',
                 ExpectedValue => '7',

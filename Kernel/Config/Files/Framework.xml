@@ -487,17 +487,6 @@
             <String Regex="^[0-9]{1,5}$">6000</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::AnimationEnabled" Required="1" Valid="1">
-        <Description Translatable="1">Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::MenuDragDropEnabled" Required="1" Valid="1">
         <Description Translatable="1">Turns on drag and drop for the main navigation.</Description>
         <Group>Framework</Group>
