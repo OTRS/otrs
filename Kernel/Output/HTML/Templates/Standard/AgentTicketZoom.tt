@@ -1142,7 +1142,7 @@ function CheckIFrameHeight(IFrameID) {
     <i class="fa fa-spinner fa-spin"></i>
     <div class="NoPreview">
         <i class="fa fa-warning"></i>
-        [% Translate("OTRS can't provide a preview of this website because it seems as if it didn't allow to be embedded.") | html %]
+        [% Translate("A preview of this website can't be provided because it didn't allow to be embedded.") | html %]
     </div>
     <div class="Content" style="display: none;">
         <iframe sandbox="allow-scripts allow-forms"></iframe>

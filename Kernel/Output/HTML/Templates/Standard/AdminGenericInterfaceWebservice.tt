@@ -187,7 +187,7 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                 </ul>
             [% ELSE %]
                 <p class="FieldExplanation">
-                    [% Translate("Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.", OTRSBusinessLinkLabel) %]
+                    [% Translate("Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.", OTRSBusinessLinkLabel) %]
                 </p>
             [% END %]
             </div>
