@@ -71,11 +71,16 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # create a real test queue
-        my $RandomID = 'ACL' . $Helper->GetRandomID();
+        my @TestACLNames;
+
+        # create test ACL names
+        for my $Name (qw(ACL NewACL)) {
+            my $TestACLName = $Name . $Helper->GetRandomNumber();
+            push @TestACLNames, $TestACLName;
+        }
 
         # fill in test data
-        $Selenium->find_element( "#Name",           'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Name",           'css' )->send_keys( $TestACLNames[0] );
         $Selenium->find_element( "#Comment",        'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
@@ -93,7 +98,7 @@ $Selenium->RunTest(
         # lets check for the correct values
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
-            $RandomID,
+            $TestACLNames[0],
             "#Name stored value",
         );
         $Self->Is(
@@ -171,8 +176,7 @@ JAVASCRIPT
         );
 
         # type in some text & confirm by pressing 'enter', which should produce a new field
-        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys('Test');
-        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys("\N{U+E007}");
+        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys( 'Test', "\N{U+E007}" );
 
         # now there should be a two new elements: .ItemPrefix and .NewDataItem
         $Self->Is(
@@ -202,40 +206,79 @@ JAVASCRIPT
         );
 
         # set ACL to invalid
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change')");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        # test search filter
-        $Selenium->find_element( "#FilterACLs", 'css' )->clear();
-        $Selenium->find_element( "#FilterACLs", 'css' )->send_keys($RandomID);
+        # navigate to 'Create new ACL' screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLNew");
 
-        # check class of invalid ACL in the overview table
-        $Self->True(
+        # add new ACL
+        $Selenium->execute_script("\$('#Name').val('$TestACLNames[1]')");
+        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change')");
+        $Selenium->find_element( '#Name', 'css' )->send_keys("\N{U+E007}");
+
+        # click 'Save and Finish'
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+        # check if both ACL exist in the table
+        $Self->IsNot(
             $Selenium->execute_script(
-                "return \$('tr.Invalid td a:contains($RandomID)').length"
+                "return \$('tr.Invalid td a:contains($TestACLNames[0])').parent().parent().css('display')"
             ),
-            "There is a class 'Invalid' for test ACL",
+            'none',
+            "ACL $TestACLNames[0] is found",
+        );
+        $Self->IsNot(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($TestACLNames[1])').parent().parent().css('display')"
+            ),
+            'none',
+            "ACL $TestACLNames[1] is found",
         );
 
-        # delete test ACL from the database
+        # insert name of second ACL into filter field
+        $Selenium->find_element( "#FilterACLs", 'css' )->clear();
+        $Selenium->find_element( "#FilterACLs", 'css' )->send_keys( $TestACLNames[1] );
+        sleep 1;
+
+        # check if the first ACL does not exist and second does in the table
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($TestACLNames[0])').parent().parent().css('display')"
+            ),
+            'none',
+            "ACL $TestACLNames[0] is not found",
+        );
+        $Self->IsNot(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($TestACLNames[1])').parent().parent().css('display')"
+            ),
+            'none',
+            "ACL $TestACLNames[1] is found",
+        );
+
+        # delete test ACLs from the database
         my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
         my $UserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
-        my $ACLID = $ACLObject->ACLGet(
-            Name   => $RandomID,
-            UserID => $UserID,
-        )->{ID};
 
-        my $Success = $ACLObject->ACLDelete(
-            ID     => $ACLID,
-            UserID => $UserID,
-        );
+        for my $TestACLName (@TestACLNames) {
 
-        $Self->True(
-            $Success,
-            "Deleted $RandomID ACL",
-        );
+            my $ACLID = $ACLObject->ACLGet(
+                Name   => $TestACLName,
+                UserID => $UserID,
+            )->{ID};
+
+            my $Success = $ACLObject->ACLDelete(
+                ID     => $ACLID,
+                UserID => $UserID,
+            );
+            $Self->True(
+                $Success,
+                "ACL $TestACLName is deleted",
+            );
+        }
 
         # sync ACL information from database with the system configuration
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->VerifiedClick();
@@ -244,7 +287,6 @@ JAVASCRIPT
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'ACLEditor_ACL',
         );
-
     }
 );
 

@@ -127,8 +127,3 @@
     </div>
     <div class="Clear"></div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.UI.Table.InitTableFilter($('#FilterACLs'), $('#ACLs'), 0);
-//]]></script>
-[% END %]

@@ -38,6 +38,17 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
     var KeysWithoutSubkeys = [ 'ActivityDialog', 'Action', 'Process' ];
 
     /**
+     * @name Init
+     * @memberof Core.Agent.Admin.ACL
+     * @function
+     * @description
+     *      This function initialize the module.
+     */
+    TargetNS.Init = function() {
+        Core.UI.Table.InitTableFilter($('#FilterACLs'), $('#ACLs'), 0);
+    };
+
+    /**
      * @private
      * @name ShowDeleteACLConfirmationDialog
      * @memberof Core.Agent.Admin.ACL
@@ -875,6 +886,8 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
         });
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.Admin.ACL || {}));
