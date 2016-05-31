@@ -41,6 +41,11 @@ $Selenium->RunTest(
                 Environment   => 1,
             },
             {
+                Key           => 'Subaction',
+                ExpectedValue => 'StoreNew',
+                Environment   => 1,
+            },
+            {
                 Key           => 'Frontend::WebPath',
                 JSKey         => 'WebPath',
                 ExpectedValue => $ConfigObject->Get('Frontend::WebPath'),
@@ -89,7 +94,7 @@ $Selenium->RunTest(
         # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage");
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage;Subaction=StoreNew;Expand=1");
 
         for my $Test (@Tests) {
 

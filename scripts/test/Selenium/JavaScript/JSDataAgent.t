@@ -41,6 +41,11 @@ $Selenium->RunTest(
                 Environment   => 1,
             },
             {
+                Key           => 'Subaction',
+                ExpectedValue => 'Overview',
+                Environment   => 1,
+            },
+            {
                 Key           => 'Frontend::WebPath',
                 JSKey         => 'WebPath',
                 ExpectedValue => $ConfigObject->Get('Frontend::WebPath'),
@@ -124,7 +129,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # go to some dummy page
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentHTMLReference");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentHTMLReference;Subaction=Overview");
 
         for my $Test (@Tests) {
 

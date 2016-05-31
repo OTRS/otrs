@@ -242,22 +242,3 @@
         <p class="SpacingTop"><strong>[% Data.Name | html %]</strong></p>
     </div>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-
-// Autocompletions
-Core.Agent.Admin.ACL.Autocomplete = {
-    Action: [
-    [% FOREACH Action IN Data.PossibleActionsList %]
-        {
-            label: [% Action | JSON %],
-            value: [% Action | JSON %]
-        }[%- ',' IF !loop.last %]
-    [% END %]
-    ]
-};
-
-Core.Agent.Admin.ACL.InitACLEdit();
-//]]></script>
-[% END %]
