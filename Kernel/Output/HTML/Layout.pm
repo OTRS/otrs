@@ -1530,6 +1530,13 @@ sub Footer {
     # get OTRS business object
     my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
 
+    # Banner
+    if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
+        $Self->Block(
+            Name => 'Banner',
+        );
+    }
+
     # don't check for business package if the database was not yet configured (in the installer)
     if ( $ConfigObject->Get('SecureMode') ) {
         $Param{OTRSBusinessIsInstalled} = $OTRSBusinessObject->OTRSBusinessIsInstalled();
