@@ -3775,6 +3775,13 @@ sub CustomerFooter {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # Banner
+    if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
+        $Self->Block(
+            Name => 'Banner',
+        );
+    }
+
     # AutoComplete-Config
     my $AutocompleteConfig = $ConfigObject->Get('AutoComplete::Customer');
 

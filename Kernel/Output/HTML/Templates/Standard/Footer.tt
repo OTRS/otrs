@@ -8,11 +8,11 @@
 
 
 <div id="Footer" class="ARIARoleContentinfo">
-[% IF !Config("Secure::DisableBanner") %]
+[% RenderBlockStart("Banner") %]
     <a href="http://www.otrs.com/" title="[% Config("Product") %] [% Config("Version") %]" target="_blank">
         [% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version").remove('\.0\..*') %]
     </a>
-[% END %]
+[% RenderBlockEnd("Banner") %]
 </div>
 
 [% InsertTemplate("FooterJS.tt") %]
