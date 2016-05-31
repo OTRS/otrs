@@ -1204,6 +1204,7 @@ sub _GetParam {
     # and finally we'll have the special parameters:
     $GetParam{ResponsibleAll} = $ParamObject->GetParam( Param => 'ResponsibleAll' );
     $GetParam{OwnerAll}       = $ParamObject->GetParam( Param => 'OwnerAll' );
+    $GetParam{ElementChanged} = $ParamObject->GetParam( Param => 'ElementChanged' );
 
     return \%GetParam;
 }
@@ -1741,8 +1742,7 @@ sub _OutputActivityDialog {
         }
 
         # render Lock
-        elsif ( $Self->{NameToID}->{$CurrentField} eq 'LockID' )
-        {
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'LockID' ) {
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderLock(
@@ -1777,8 +1777,7 @@ sub _OutputActivityDialog {
         }
 
         # render Service
-        elsif ( $Self->{NameToID}->{$CurrentField} eq 'ServiceID' )
-        {
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'ServiceID' ) {
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderService(
@@ -1813,8 +1812,7 @@ sub _OutputActivityDialog {
         }
 
         # render SLA
-        elsif ( $Self->{NameToID}->{$CurrentField} eq 'SLAID' )
-        {
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'SLAID' ) {
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderSLA(
@@ -1849,8 +1847,7 @@ sub _OutputActivityDialog {
         }
 
         # render Owner
-        elsif ( $Self->{NameToID}->{$CurrentField} eq 'OwnerID' )
-        {
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'OwnerID' ) {
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderOwner(
@@ -1885,8 +1882,7 @@ sub _OutputActivityDialog {
         }
 
         # render responsible
-        elsif ( $Self->{NameToID}->{$CurrentField} eq 'ResponsibleID' )
-        {
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'ResponsibleID' ) {
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderResponsible(
@@ -1921,8 +1917,7 @@ sub _OutputActivityDialog {
         }
 
         # render CustomerID
-        elsif ( $Self->{NameToID}->{$CurrentField} eq 'CustomerID' )
-        {
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'CustomerID' ) {
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderCustomer(
@@ -1956,8 +1951,7 @@ sub _OutputActivityDialog {
             $RenderedFields{ $Self->{NameToID}->{$CurrentField} } = 1;
         }
 
-        elsif ( $CurrentField eq 'PendingTime' )
-        {
+        elsif ( $CurrentField eq 'PendingTime' ) {
 
             # PendingTime is just useful if we have State or StateID
             if ( !grep {m{^(StateID|State)$}xms} @{ $ActivityDialog->{FieldOrder} } ) {
@@ -2045,10 +2039,7 @@ sub _OutputActivityDialog {
         }
 
         # render Article
-        elsif (
-            $Self->{NameToID}->{$CurrentField} eq 'Article'
-            )
-        {
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'Article' ) {
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderArticle(
@@ -2083,8 +2074,7 @@ sub _OutputActivityDialog {
         }
 
         # render Type
-        elsif ( $Self->{NameToID}->{$CurrentField} eq 'TypeID' )
-        {
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'TypeID' ) {
 
             # We don't render Fields twice,
             # if there was already a Config without ID, skip this field
