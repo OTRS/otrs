@@ -1570,7 +1570,7 @@ sub Footer {
                 &&
                 (
                 $ConfigObject->Get('Ticket::SearchIndexModule')
-                == 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB'
+                eq 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB'
                 )
             ) ? 1 : 0,
         SearchFrontend => $JSCall,
