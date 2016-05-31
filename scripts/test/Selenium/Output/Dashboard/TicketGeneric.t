@@ -190,6 +190,7 @@ $Selenium->RunTest(
 
             # set filter by MyQueue
             my $Filter = "#Dashboard$DashboardName" . "MyQueues";
+            $Selenium->WaitFor( JavaScript => "return \$('$Filter:visible').length" );
             $Selenium->find_element( $Filter, 'css' )->VerifiedClick();
 
             # check for test ticket on current dashboard plugin
