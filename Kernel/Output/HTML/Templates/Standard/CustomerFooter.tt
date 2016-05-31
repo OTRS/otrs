@@ -7,9 +7,9 @@
 # --
 
 <div id="Footer" class="ARIARoleContentinfo">
-[% RenderBlockStart("Banner") %]
+[% IF !Config("Secure::DisableBanner") %]
     <a href="http://www.otrs.com/" title="[% Config("Product") %] [% Config("Version") %]" target="_blank">[% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version").remove('\.0\..*') %]</a>
-[% RenderBlockEnd("Banner") %]
+[% END %]
     <div class="Clear"></div>
 </div>
 
