@@ -1275,7 +1275,7 @@ sub MaskAgentZoom {
         ObjectType  => ['Ticket'],
         FieldFilter => $DynamicFieldFilter || {},
     );
-    my $DynamicFieldBeckendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # to store dynamic fields to be displayed in the process widget and in the sidebar
     my (@FieldsWidget);
@@ -1295,7 +1295,7 @@ sub MaskAgentZoom {
             $Self->{DisplaySettings}->{ProcessWidgetDynamicField}->{ $DynamicFieldConfig->{Name} }
             )
         {
-            my $ValueStrg = $DynamicFieldBeckendObject->DisplayValueRender(
+            my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                 LayoutObject       => $LayoutObject,
@@ -2504,14 +2504,14 @@ sub _ArticleItem {
         ObjectType  => ['Article'],
         FieldFilter => $DynamicFieldFilter || {},
     );
-    my $DynamicFieldBeckendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # cycle trough the activated Dynamic Fields
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        my $Value = $DynamicFieldBeckendObject->ValueGet(
+        my $Value = $DynamicFieldBackendObject->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $Article{ArticleID},
         );
@@ -2520,7 +2520,7 @@ sub _ArticleItem {
         next DYNAMICFIELD if $Value eq '';
 
         # get print string for this dynamic field
-        my $ValueStrg = $DynamicFieldBeckendObject->DisplayValueRender(
+        my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Value,
             ValueMaxChars      => $ConfigObject->
