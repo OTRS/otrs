@@ -3469,6 +3469,11 @@ sub CustomerLogin {
     $Self->LoaderCreateCustomerJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
 
+    $Self->AddJSData(
+        Key   => 'Baselink',
+        Value => $Self->{Baselink},
+    );
+
     # Add header logo, if configured
     if ( defined $ConfigObject->Get('CustomerLogo') ) {
         my %CustomerLogo = %{ $ConfigObject->Get('CustomerLogo') };
