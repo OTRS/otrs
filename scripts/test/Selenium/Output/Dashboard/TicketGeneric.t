@@ -168,17 +168,18 @@ $Selenium->RunTest(
             # submit
             $Selenium->execute_script( "\$('#Dashboard$DashboardName" . "_submit').trigger('click');" );
 
-            sleep 2;
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('th.Priority #PriorityOverviewControl$DashboardName').length"
+            );
 
             # sort by Priority
             $Selenium->execute_script("\$('th.Priority #PriorityOverviewControl$DashboardName').trigger('click');");
 
-            sleep .5;
-
             # wait for AJAX to finish
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && !$("#Dashboard' . $DashboardName . '-box.Loading").length'
+                    'return typeof($) === "function" && $(".DashboardHeader.Priority.SortAscendingLarge").length'
             );
 
             # validate that Priority sort is working
