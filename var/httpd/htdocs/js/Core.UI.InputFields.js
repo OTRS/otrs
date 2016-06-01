@@ -1159,6 +1159,11 @@ Core.UI.InputFields = (function (TargetNS) {
                     CloseOpenSelections();
                 });
 
+                // Handle article navigation in TicketZoom
+                Core.App.Subscribe('Event.Agent.TicketZoom.ArticleClick', function() {
+                    CloseOpenSelections();
+                });
+
                 // Register handler for on focus event
                 $SearchObj.off('focus.InputField')
                     .on('focus.InputField', function () {

@@ -382,6 +382,9 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // loading new articles
         $('#ArticleTable tbody tr').bind('click', function () {
+
+            Core.App.Publish('Event.Agent.TicketZoom.ArticleClick');
+
             // Mode: show one article - load new article via ajax
             if (!ZoomExpand) {
                 // Add active state to new row
