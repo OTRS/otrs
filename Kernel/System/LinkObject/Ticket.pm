@@ -280,8 +280,8 @@ sub ObjectSearch {
             ContentSearch => 'OR',
         );
     }
-    if ( $Param{SearchParams}->{Title} ) {
-        $Search{Title} = '*' . $Param{SearchParams}->{Title} . '*';
+    if ( $Param{SearchParams}->{TicketTitle} ) {
+        $Search{Title} = '*' . $Param{SearchParams}->{TicketTitle} . '*';
     }
 
     # get ticket object

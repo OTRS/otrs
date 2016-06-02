@@ -454,7 +454,7 @@ sub SearchOptionList {
             Type => 'Text',
         },
         {
-            Key  => 'Title',
+            Key  => 'TicketTitle',
             Name => 'Title',
             Type => 'Text',
         },
