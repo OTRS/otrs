@@ -76,7 +76,7 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), 'imported: 1 gpg' ) > -1,
             'Customer preference PGP key - updated'
-        );
+        ) || die "Imported string not found";
 
         # remove test PGP path
         my $Success = rmtree( [$PGPPath] );
