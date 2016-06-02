@@ -316,14 +316,6 @@ sub _Show {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # get move queues
-    my %MoveQueues = $TicketObject->MoveList(
-        TicketID => $Param{TicketID},
-        UserID   => $Self->{UserID},
-        Action   => $LayoutObject->{Action},
-        Type     => 'move_into',
-    );
-
     # get last customer article
     my %Article = $TicketObject->ArticleLastCustomerArticle(
         TicketID      => $Param{TicketID},
@@ -938,33 +930,6 @@ sub _Show {
         Name => $CustomerIDBlock,
         Data => { %Param, %Article },
     );
-
-    # get MoveQueuesStrg
-    if ( $ConfigObject->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
-        $Param{MoveQueuesStrg} = $LayoutObject->AgentQueueListOption(
-            Name       => 'DestQueueID',
-            Data       => \%MoveQueues,
-            SelectedID => $Article{QueueID},
-        );
-    }
-    if (
-        $ConfigObject->Get('Frontend::Module')->{AgentTicketMove}
-        && ( !defined $AclAction{AgentTicketMove} || $AclAction{AgentTicketMove} )
-        )
-    {
-        my $Access = $TicketObject->TicketPermission(
-            Type     => 'move',
-            TicketID => $Param{TicketID},
-            UserID   => $Self->{UserID},
-            LogNo    => 1,
-        );
-        if ($Access) {
-            $LayoutObject->Block(
-                Name => 'Move',
-                Data => { %Param, %AclAction },
-            );
-        }
-    }
 
     # add action items as js
     if ( @ActionItems && !$Param{Config}->{TicketActionsPerTicket} ) {
