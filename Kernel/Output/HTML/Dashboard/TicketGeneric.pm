@@ -827,7 +827,7 @@ sub Run {
             }
 
             # set title description
-            my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
+            my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
             $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
             $Title .= ', ' . $TitleDesc;
         }
@@ -882,7 +882,7 @@ sub Run {
         if ( $HeaderColumn !~ m{\A DynamicField_}xms ) {
 
             $CSS = '';
-            my $Title = $HeaderColumn;
+            my $Title = $LayoutObject->{LanguageObject}->Translate($HeaderColumn);
 
             if ( $Self->{SortBy} && ( $Self->{SortBy} eq $HeaderColumn ) ) {
                 if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
@@ -895,7 +895,7 @@ sub Run {
                 }
 
                 # add title description
-                my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
+                my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
                 $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                 $Title .= ', ' . $TitleDesc;
             }
@@ -945,7 +945,7 @@ sub Run {
                 next HEADERCOLUMN;
             }
 
-            my $FilterTitle     = $HeaderColumn;
+            my $FilterTitle     = $TranslatedWord;
             my $FilterTitleDesc = Translatable('filter not active');
             if ( $Self->{GetColumnFilterSelect} && $Self->{GetColumnFilterSelect}->{$HeaderColumn} )
             {

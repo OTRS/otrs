@@ -655,7 +655,7 @@ sub Run {
                 }
 
                 # set title description
-                my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted descending') : Translatable('sorted ascending');
                 $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                 $Title .= ', ' . $TitleDesc;
             }
@@ -702,7 +702,7 @@ sub Run {
             );
 
             $CSS = $Column;
-            my $Title = $Column;
+            my $Title = $LayoutObject->{LanguageObject}->Translate($Column);
 
             # output overall block so TicketNumber as well as other columns can be ordered
             $LayoutObject->Block(
@@ -723,7 +723,7 @@ sub Run {
                     }
 
                     # add title description
-                    my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
+                    my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
                     $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                     $Title .= ', ' . $TitleDesc;
                 }
@@ -748,7 +748,7 @@ sub Run {
                     $TranslatedWord = $LayoutObject->{LanguageObject}->Translate($Column);
                 }
 
-                my $FilterTitle     = $Column;
+                my $FilterTitle     = $TranslatedWord;
                 my $FilterTitleDesc = Translatable('filter not active');
                 if (
                     $Self->{StoredFilters} &&
@@ -906,7 +906,7 @@ sub Run {
                     }
 
                     # add title description
-                    my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
+                    my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
                     $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                     $Title .= ', ' . $TitleDesc;
                 }
@@ -932,11 +932,11 @@ sub Run {
                     $TranslatedWord = $LayoutObject->{LanguageObject}->Translate($Column);
                 }
 
-                my $FilterTitle     = $Column;
-                my $FilterTitleDesc = 'filter not active';
+                my $FilterTitle     = $TranslatedWord;
+                my $FilterTitleDesc = Translatable('filter not active');
                 if ( $Self->{StoredFilters} && $Self->{StoredFilters}->{ $Column . 'IDs' } ) {
                     $CSS .= ' FilterActive';
-                    $FilterTitleDesc = 'filter active';
+                    $FilterTitleDesc = Translatable('filter active');
                 }
                 $FilterTitleDesc = $LayoutObject->{LanguageObject}->Translate($FilterTitleDesc);
                 $FilterTitle .= ', ' . $FilterTitleDesc;
@@ -1114,7 +1114,7 @@ sub Run {
                         }
 
                         # add title description
-                        my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
+                        my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
                         $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                         $Title .= ', ' . $TitleDesc;
                     }
