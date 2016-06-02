@@ -34,6 +34,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.11 2016-??-??
+ - 2016-06-02 Fixed bug#[11775](http://bugs.otrs.org/show_bug.cgi?id=11775) - Link search term preserved when target object is changed.
  - 2016-06-01 Fixed bug#[12093](http://bugs.otrs.org/show_bug.cgi?id=12093) - OTRS Modern reply field issue.
  - 2016-05-27 Fixed bug#[12005](http://bugs.otrs.org/show_bug.cgi?id=12005) - Daemon / Scheduler will not run commands.
  - 2016-05-27 Fixed bug#[12074](http://bugs.otrs.org/show_bug.cgi?id=12074) - Redundant and confusing code in Kernel/System/TemplateGenerator.pm.
