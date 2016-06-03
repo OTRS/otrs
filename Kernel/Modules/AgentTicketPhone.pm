@@ -102,7 +102,12 @@ sub Run {
                 my $CustomerDisabled = '';
 
                 if ( !$IsUpload ) {
-                    $GetParam{From} .= $CustomerElement . ',';
+                    if ( $GetParam{From} ) {
+                        $GetParam{From} .= ', ' . $CustomerElement;
+                    }
+                    else {
+                        $GetParam{From} = $CustomerElement;
+                    }
 
                     # check email address
                     for my $Email ( Mail::Address->parse($CustomerElement) ) {
