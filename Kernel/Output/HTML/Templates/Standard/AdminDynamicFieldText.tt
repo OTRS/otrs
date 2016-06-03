@@ -245,25 +245,3 @@
         </form>
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.ShowWarning').bind('change keyup', function (Event) {
-    $('p.Warning').removeClass('Hidden');
-});
-
-// click handler to remove regex
-$('.RemoveRegEx').bind('click', function () {
-    Core.Agent.Admin.DynamicFieldText.RemoveRegEx( $(this).attr('id') );
-    return false;
-});
-// click handler to add regex
-$('#AddRegEx').bind('click', function () {
-    Core.Agent.Admin.DynamicFieldText.AddRegEx(
-        $(this).closest('fieldset').find('.RegExInsert')
-    );
-    return false;
-});
-
-Core.Agent.Admin.DynamicField.ValidationInit();
-//]]></script>
-[% END %]

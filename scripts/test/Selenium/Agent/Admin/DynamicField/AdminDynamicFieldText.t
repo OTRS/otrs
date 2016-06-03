@@ -104,7 +104,24 @@ $Selenium->RunTest(
             $Selenium->find_element( "#AddRegEx",                    'css' )->click();
             $Selenium->find_element( "#RegEx_1",                     'css' )->send_keys($RegEx);
             $Selenium->find_element( "#CustomerRegExErrorMessage_1", 'css' )->send_keys($RegExErrorTxt);
-            $Selenium->find_element( "#Name",                        'css' )->VerifiedSubmit();
+
+            # verify JS - add, remove and RegEx block validation
+            $Selenium->find_element( "#AddRegEx", 'css' )->click();
+            $Selenium->find_element( "#Name",     'css' )->submit();
+
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('#RegEx_2').hasClass('Error')"
+                ),
+                '1',
+                'Client side validation correctly detected missing input value',
+            );
+
+            $Selenium->find_element( "#RegEx_2",       'css' )->send_keys($RegEx);
+            $Selenium->find_element( "#RemoveRegEx_2", 'css' )->click();
+
+            # submit form
+            $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
             # check for test DynamicFieldText on AdminDynamicField screen
             $Self->True(

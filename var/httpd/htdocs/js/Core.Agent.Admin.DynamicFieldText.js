@@ -102,5 +102,31 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
         return false;
     };
 
+    /**
+    * @name Init
+    * @memberof Core.Agent.Admin.DynamicFieldText
+    * @function
+    * @description
+    *       Initialize module functionality
+    */
+    TargetNS.Init = function () {
+
+        $('.ShowWarning').bind('change keyup', function () {
+            $('p.Warning').removeClass('Hidden');
+        });
+
+        // click handler to add regex
+        $('#AddRegEx').bind('click', function () {
+            TargetNS.AddRegEx(
+                $(this).closest('fieldset').find('.RegExInsert')
+            );
+            return false;
+        });
+
+        Core.Agent.Admin.DynamicField.ValidationInit();
+    };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
+
     return TargetNS;
 }(Core.Agent.Admin.DynamicFieldText || {}));
