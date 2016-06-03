@@ -47,33 +47,3 @@
     [% Data.EmailMissingCryptingKeys %]
 </div>
 <div class="Clear"></div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-
-$('#EmailSecuritySettings').click(function() {
-    var InputField = [ "EmailSigningCrypting_Search", "EmailMissingSigningKeys_Search", "EmailMissingCryptingKeys_Search", "EmailDefaultSigningKeys_Search" ];
-
-    if (this.checked) {
-    $.each( InputField, function( index, item ) {
-    $('#' + item).removeAttr('readonly', 'readonly');
-    $('#' + item).removeAttr('disabled', 'disabled');
-    $('#' + item).parent().removeClass('AlreadyDisabled');
-    });
-
-    $('.Security').removeAttr('disabled', 'disabled');
-
-    } else {
-    $.each( InputField, function( index, item ) {
-    $('#' + item).attr('readonly', 'readonly');
-    $('#' + item).attr('disabled', 'disabled');
-    $('#' + item).parent().addClass('AlreadyDisabled');
-    });
-
-    $('.Security').attr('disabled', 'disabled');
-  }
-
-});
-
-//]]></script>
-[% END %]

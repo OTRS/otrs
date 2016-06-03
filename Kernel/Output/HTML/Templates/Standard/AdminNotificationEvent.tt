@@ -38,6 +38,7 @@
         </div>
 [% RenderBlockEnd("ActionList") %]
 
+[% RenderBlockStart("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterNotifications">[% Translate("Filter for Notifications") | html %]</label></h2>
@@ -46,6 +47,7 @@
                 <input type="text" id="FilterNotifications" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterNotifications" value="" title="[% Translate("Filter for notifications") | html %]">
             </div>
         </div>
+[% RenderBlockEnd("Filter") %]
 
 [% RenderBlockStart("ActionImport") %]
         <div class="WidgetSimple">
@@ -131,31 +133,8 @@
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterNotifications'), $('#Notifications'));
-//]]></script>
-[% END %]
             </div>
         </div>
-
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.NotificationDelete').bind('click', function (Event) {
-
-    if (window.confirm([% Translate('Do you really want to delete this notification?') | JSON %])) {
-        window.location = $(this).attr('href');
-    }
-
-    // don't interfere with MasterAction
-    Event.stopPropagation();
-    Event.preventDefault();
-    return false;
-});
-//]]></script>
-[% END %]
-
 
 [% RenderBlockEnd("OverviewResult") %]
 
@@ -525,21 +504,6 @@ $('.NotificationDelete').bind('click', function (Event) {
                 </div>
             </div>
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Form.Validate.AddMethod("Validate_OneChecked", function(Value, Element) {
-        if($(".Validate_OneChecked:checkbox:checked").length > 0){
-            return true;
-        }
-       return false;
-    });
-
-    Core.Form.Validate.AddRule("Validate_OneChecked", {
-        Validate_OneChecked: true
-    });
-//]]></script>
-[% END %]
-
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
@@ -674,12 +638,6 @@ $('.NotificationDelete').bind('click', function (Event) {
                     </div>
                 </div>
             </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.NotificationEvent.Init();
-//]]></script>
-[% END %]
 
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">

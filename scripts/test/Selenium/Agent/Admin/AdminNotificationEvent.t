@@ -30,7 +30,14 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0
+            Value => 0,
+        );
+
+        # enable SMIME due to 'Enable email security' checkbox must be enabled
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'SMIME',
+            Value => 1,
         );
 
         # create test user and login
@@ -170,6 +177,42 @@ $Selenium->RunTest(
             2,
             "#ValidID updated value",
         );
+
+        # test javascript enable/disable actions on checkbox checking
+        my @InputFields = (
+            "EmailSigningCrypting_Search",
+            "EmailMissingSigningKeys_Search",
+            "EmailMissingCryptingKeys_Search"
+        );
+
+        # set initial checkbox state
+        $Selenium->execute_script("\$('#EmailSecuritySettings').prop('checked', false)");
+
+        my @Tests = (
+            {
+                Name     => 'Input fields are enabled',
+                HasClass => 0,
+            },
+            {
+                Name     => 'Input fields are disabled',
+                HasClass => 1,
+            }
+        );
+
+        for my $Test (@Tests) {
+            $Selenium->find_element( "#EmailSecuritySettings", 'css' )->click();
+            sleep 1;
+
+            for my $InputField (@InputFields) {
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('#$InputField').parent().hasClass('AlreadyDisabled')"
+                    ),
+                    $Test->{HasClass},
+                    $Test->{Name},
+                );
+            }
+        }
 
         # go back to AdminNotificationEvent overview screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
