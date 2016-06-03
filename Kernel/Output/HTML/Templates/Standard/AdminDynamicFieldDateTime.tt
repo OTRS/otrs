@@ -192,16 +192,3 @@
         </form>
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.ShowWarning').bind('change keyup', function (Event) {
-    $('p.Warning').removeClass('Hidden');
-});
-
-$('#YearsPeriod').bind('change', function (Event) {
-    Core.Agent.Admin.DynamicFieldDateTime.ToogleYearsPeriod($(this).val());
-});
-
-Core.Agent.Admin.DynamicField.ValidationInit();
-//]]></script>
-[% END %]
