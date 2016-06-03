@@ -248,6 +248,7 @@ sub FormIDGetAllFilesData {
             Location => "$File.Disposition",
             Mode     => 'binmode',                                             # optional - binmode|utf8
         );
+        next FILE if !$Disposition;
 
         # strip filename
         $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
@@ -340,6 +341,7 @@ sub FormIDGetAllFilesMeta {
             Location => "$File.Disposition",
             Mode     => 'binmode',                                             # optional - binmode|utf8
         );
+        next FILE if !$Disposition;
 
         # strip filename
         $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
