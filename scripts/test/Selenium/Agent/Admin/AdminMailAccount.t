@@ -96,6 +96,79 @@ $Selenium->RunTest(
             "$TestMailHostEdit found on page",
         );
 
+        # test showing IMAP Folder and Queue fields
+        $Selenium->find_element( $TestMailHostEdit, 'link_text' )->VerifiedClick();
+
+        my @Tests = (
+            {
+                Name     => 'Selected option IMAP - IMAP Folder is shown',
+                FieldID  => 'Type',
+                ForAttr  => 'IMAPFolder',
+                Selected => 'IMAP',
+                Display  => 'block',
+            },
+            {
+                Name     => 'Selected option IMAPS - IMAP Folder is shown',
+                FieldID  => 'Type',
+                ForAttr  => 'IMAPFolder',
+                Selected => 'IMAPS',
+                Display  => 'block',
+            },
+            {
+                Name     => 'Selected option POP3 - IMAP Folder is not shown',
+                FieldID  => 'Type',
+                ForAttr  => 'IMAPFolder',
+                Selected => 'POP3',
+                Display  => 'none',
+            },
+            {
+                Name     => 'Selected option POP3S - IMAP Folder is not shown',
+                FieldID  => 'Type',
+                ForAttr  => 'IMAPFolder',
+                Selected => 'POP3S',
+                Display  => 'none',
+            },
+            {
+                Name     => 'Selected option POP3TLS - IMAP Folder is not shown',
+                FieldID  => 'Type',
+                ForAttr  => 'IMAPFolder',
+                Selected => 'POP3TLS',
+                Display  => 'none',
+            },
+            {
+                Name     => "Selected 'Dispatching by email To: field.' - field Queue is not shown",
+                FieldID  => 'DispatchingBy',
+                ForAttr  => 'QueueID',
+                Selected => 'From',
+                Display  => 'none',
+            },
+            {
+                Name     => "Selected 'Dispatching by selected Queue.' - field Queue is shown",
+                FieldID  => 'DispatchingBy',
+                ForAttr  => 'QueueID',
+                Selected => 'Queue',
+                Display  => 'block',
+            }
+        );
+
+        for my $Test (@Tests) {
+            my $FieldID = $Test->{FieldID};
+            my $ForAttr = $Test->{ForAttr};
+
+            $Selenium->execute_script(
+                "\$('#$FieldID').val('$Test->{Selected}').trigger('redraw.InputField').trigger('change');"
+            );
+
+            $Self->Is(
+                $Selenium->execute_script("return \$('label[for=$ForAttr]').parent().css('display');"),
+                $Test->{Display},
+                $Test->{Name},
+            );
+        }
+
+        # navigate to AdminMailAccount
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount");
+
         # test mail account delete button
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         my $Success  = $DBObject->Prepare(

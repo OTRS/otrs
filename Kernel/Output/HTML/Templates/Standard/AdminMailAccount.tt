@@ -32,6 +32,7 @@
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
+[% RenderBlockStart("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterMailAccounts">[% Translate("Filter for Mail Accounts") | html %]</label></h2>
@@ -40,6 +41,7 @@
                 <input type="text" id="FilterMailAccounts" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterMailAccounts" value="" title="[% Translate("Filter for mail accounts") | html %]">
             </div>
         </div>
+[% RenderBlockEnd("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Hint") | html %]</h2>
@@ -106,11 +108,6 @@
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterMailAccounts'), $('#MailAccounts'));
-//]]></script>
-[% END %]
             </div>
 [% RenderBlockEnd("OverviewResult") %]
 
@@ -370,28 +367,3 @@
     <div class="Clear"></div>
 </div>
 [% RenderBlockEnd("Overview") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-// Show IMAPFolder selection only for IMAP backends
-$('select#TypeAdd, select#Type').bind('change', function(){
-    if (/IMAP/.test($(this).val())) {
-        $('.Row_IMAPFolder').show();
-    }
-    else {
-        $('.Row_IMAPFolder').hide();
-    }
-}).trigger('change');
-// Show only Queue field if Dispatch By Queue is selected
-$('select#DispatchingBy').bind('change', function(){
-    if (/Queue/.test($(this).val())) {
-        $('.Row_Queue').show();
-        Core.UI.InputFields.Activate();
-    }
-    else {
-        $('.Row_Queue').hide();
-    }
-}).trigger('change');
-//]]></script>
-
-[% END %]

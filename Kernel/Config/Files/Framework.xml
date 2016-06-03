@@ -9338,6 +9338,9 @@ via the Preferences button after logging in.
                     <Block>Email</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.MailAccount.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
