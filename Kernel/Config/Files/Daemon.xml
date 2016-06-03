@@ -175,6 +175,24 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###WebUploadCacheCleanup" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Delete expired upload cache hourly.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">WebUploadCacheCleanup</Item>
+                <Item Key="Schedule">46 * * * *</Item> <!-- default every hour -->
+                <Item Key="Module">Kernel::System::Web::UploadCache</Item>
+                <Item Key="Function">FormIDCleanUp</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###LoaderCacheDelete" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Delete expired loader cache weekly (Sunday mornings).</Description>
         <Group>Daemon</Group>

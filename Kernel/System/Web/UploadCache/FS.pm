@@ -24,7 +24,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{TempDir} = $Kernel::OM->Get('Kernel::Config')->Get('TempDir') . '/upload_cache/';
+    $Self->{TempDir} = $Kernel::OM->Get('Kernel::Config')->Get('TempDir') . '/upload_cache';
 
     if ( !-d $Self->{TempDir} ) {
         mkdir $Self->{TempDir};
@@ -35,9 +35,6 @@ sub new {
 
 sub FormIDCreate {
     my ( $Self, %Param ) = @_;
-
-    # cleanup temp form ids
-    $Self->FormIDCleanUp();
 
     # return requested form id
     return time() . '.' . rand(12341241);
@@ -54,18 +51,31 @@ sub FormIDRemove {
         return;
     }
 
+    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+
+    if ( !-d $Directory ) {
+        return 1;
+    }
+
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     my @List = $MainObject->DirectoryRead(
-        Directory => $Self->{TempDir},
-        Filter    => "$Param{FormID}.*",
+        Directory => $Directory,
+        Filter    => "*",
     );
 
     my @Data;
     for my $File (@List) {
         $MainObject->FileDelete(
             Location => $File,
+        );
+    }
+
+    if ( !rmdir($Directory) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can't remove: $Directory: $!!",
         );
     }
 
@@ -96,34 +106,51 @@ sub FormIDAddFile {
         $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
     }
 
+    # create cache subdirectory if not exist
+    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+    if ( !-d $Directory ) {
+
+        # Create directory. This could fail if another process creates the
+        #   same directory, so don't use the return value.
+        File::Path::mkpath( $Directory, 0, 0770 );    ## no critic
+
+        if ( !-d $Directory ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Can't create directory '$Directory': $!",
+            );
+            return;
+        }
+    }
+
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # files must readable for creator
     return if !$MainObject->FileWrite(
-        Directory  => $Self->{TempDir},
-        Filename   => "$Param{FormID}.$Param{Filename}",
+        Directory  => $Directory,
+        Filename   => "$Param{Filename}",
         Content    => \$Param{Content},
         Mode       => 'binmode',
         Permission => '640',
     );
     return if !$MainObject->FileWrite(
-        Directory  => $Self->{TempDir},
-        Filename   => "$Param{FormID}.$Param{Filename}.ContentType",
+        Directory  => $Directory,
+        Filename   => "$Param{Filename}.ContentType",
         Content    => \$Param{ContentType},
         Mode       => 'binmode',
         Permission => '640',
     );
     return if !$MainObject->FileWrite(
-        Directory  => $Self->{TempDir},
-        Filename   => "$Param{FormID}.$Param{Filename}.ContentID",
+        Directory  => $Directory,
+        Filename   => "$Param{Filename}.ContentID",
         Content    => \$ContentID,
         Mode       => 'binmode',
         Permission => '640',
     );
     return if !$MainObject->FileWrite(
-        Directory  => $Self->{TempDir},
-        Filename   => "$Param{FormID}.$Param{Filename}.Disposition",
+        Directory  => $Directory,
+        Filename   => "$Param{Filename}.Disposition",
         Content    => \$Disposition,
         Mode       => 'binmode',
         Permission => '644',
@@ -148,24 +175,30 @@ sub FormIDRemoveFile {
     my $ID    = $Param{FileID} - 1;
     my %File  = %{ $Index[$ID] };
 
+    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+
+    if ( !-d $Directory ) {
+        return 1;
+    }
+
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     $MainObject->FileDelete(
-        Directory => $Self->{TempDir},
-        Filename  => "$Param{FormID}.$File{Filename}",
+        Directory => $Directory,
+        Filename  => "$File{Filename}",
     );
     $MainObject->FileDelete(
-        Directory => $Self->{TempDir},
-        Filename  => "$Param{FormID}.$File{Filename}.ContentType",
+        Directory => $Directory,
+        Filename  => "$File{Filename}.ContentType",
     );
     $MainObject->FileDelete(
-        Directory => $Self->{TempDir},
-        Filename  => "$Param{FormID}.$File{Filename}.ContentID",
+        Directory => $Directory,
+        Filename  => "$File{Filename}.ContentID",
     );
     $MainObject->FileDelete(
-        Directory => $Self->{TempDir},
-        Filename  => "$Param{FormID}.$File{Filename}.Disposition",
+        Directory => $Directory,
+        Filename  => "$File{Filename}.Disposition",
     );
 
     return 1;
@@ -182,16 +215,23 @@ sub FormIDGetAllFilesData {
         return;
     }
 
+    my @Data;
+
+    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+
+    if ( !-d $Directory ) {
+        return \@Data;
+    }
+
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     my @List = $MainObject->DirectoryRead(
-        Directory => $Self->{TempDir},
-        Filter    => "$Param{FormID}.*",
+        Directory => $Directory,
+        Filter    => "*",
     );
 
     my $Counter = 0;
-    my @Data;
 
     FILE:
     for my $File (@List) {
@@ -251,7 +291,7 @@ sub FormIDGetAllFilesData {
         next FILE if !$Disposition;
 
         # strip filename
-        $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
+        $File =~ s/^.*\/(.+?)$/$1/;
         push(
             @Data,
             {
@@ -280,16 +320,23 @@ sub FormIDGetAllFilesMeta {
         return;
     }
 
+    my @Data;
+
+    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+
+    if ( !-d $Directory ) {
+        return \@Data;
+    }
+
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     my @List = $MainObject->DirectoryRead(
-        Directory => $Self->{TempDir},
-        Filter    => "$Param{FormID}.*",
+        Directory => $Directory,
+        Filter    => "*",
     );
 
     my $Counter = 0;
-    my @Data;
 
     FILE:
     for my $File (@List) {
@@ -344,7 +391,7 @@ sub FormIDGetAllFilesMeta {
         next FILE if !$Disposition;
 
         # strip filename
-        $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
+        $File =~ s/^.*\/(.+?)$/$1/;
         push(
             @Data,
             {
@@ -363,26 +410,51 @@ sub FormIDGetAllFilesMeta {
 sub FormIDCleanUp {
     my ( $Self, %Param ) = @_;
 
-    my $CurrentTile = time() - 86400;                                            # 60 * 60 * 24 * 1
-    my @List        = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    my $RetentionTime = int( time() - 86400 );        # remove subdirs older than 24h
+    my @List          = $MainObject->DirectoryRead(
         Directory => $Self->{TempDir},
         Filter    => '*'
     );
 
-    my %RemoveFormIDs;
-    for my $File (@List) {
+    SUBDIR:
+    for my $Subdir (@List) {
+        my $SubdirTime = $Subdir;
 
-        # get FormID
-        $File =~ s/^.*\/(.+?)\..+?$/$1/;
-        if ( $CurrentTile > $File ) {
-            if ( !$RemoveFormIDs{$File} ) {
-                $RemoveFormIDs{$File} = 1;
+        if ( $SubdirTime =~ /^.*\/\d+\..+$/ ) {
+            $SubdirTime =~ s/^.*\/(\d+?)\..+$/$1/
+        }
+        else {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Won't delete upload cache directory $Subdir: timestamp in directory name not found! Please fix it manually.",
+            );
+            next SUBDIR;
+        }
+
+        if ( $RetentionTime > $SubdirTime ) {
+            my @Sublist = $MainObject->DirectoryRead(
+                Directory => $Subdir,
+                Filter    => "*",
+            );
+
+            for my $File (@Sublist) {
+                $MainObject->FileDelete(
+                    Location => $File,
+                );
+            }
+
+            if ( !rmdir($Subdir) ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Can't remove: $Subdir: $!!",
+                );
+                return;
             }
         }
-    }
-
-    for ( sort keys %RemoveFormIDs ) {
-        $Self->FormIDRemove( FormID => $_ );
     }
 
     return 1;

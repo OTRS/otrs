@@ -33,9 +33,6 @@ sub new {
 sub FormIDCreate {
     my ( $Self, %Param ) = @_;
 
-    # cleanup temp form ids
-    $Self->FormIDCleanUp();
-
     # return requested form id
     return time() . '.' . rand(12341241);
 }
