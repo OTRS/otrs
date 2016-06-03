@@ -127,7 +127,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         $('#ValueCounter').val(ValueCounter);
 
         $('.DefaultValueKeyItem,.DefaultValueItem').bind('keyup', function () {
-            Core.Agent.Admin.DynamicFieldDropdown.RecreateDefaultValueList();
+            TargetNS.RecreateDefaultValueList();
         });
 
         return false;
@@ -204,6 +204,41 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
 
         return false;
     };
+
+    /**
+     * @name Init
+     * @memberof Core.Agent.Admin.DynamicFieldDropdown
+     * @function
+     * @description
+     *       Initialize module functionality
+     */
+    TargetNS.Init = function () {
+        $('.ShowWarning').bind('change keyup', function () {
+            $('p.Warning').removeClass('Hidden');
+        });
+
+        //bind click function to add button
+        $('#AddValue').bind('click', function () {
+            TargetNS.AddValue(
+                $(this).closest('fieldset').find('.ValueInsert')
+            );
+            return false;
+        });
+
+        //bind click function to remove button
+        $('.ValueRemove').bind('click', function () {
+            TargetNS.RemoveValue($(this).attr('id'));
+            return false;
+        });
+
+        $('.DefaultValueKeyItem,.DefaultValueItem').bind('keyup', function () {
+            TargetNS.RecreateDefaultValueList();
+        });
+
+        Core.Agent.Admin.DynamicField.ValidationInit();
+    };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.Admin.DynamicFieldDropdown || {}));
