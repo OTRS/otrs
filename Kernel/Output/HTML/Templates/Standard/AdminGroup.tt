@@ -6,47 +6,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent = Core.Agent || {};
-Core.Agent.Admin = Core.Agent.Admin || {};
-
-/**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.Group
- * @description
- *      This namespace contains the special module functions for AdminGroup.
- */
-Core.Agent.Admin.Group = (function (TargetNS) {
-    /**
-     * @function
-     * @return nothing
-     *      This function initializes the special module functions
-     */
-    TargetNS.AdminGroupCheck = function () {
-        var NameValue = $('#GroupName').val(),
-            NameOldValue = $('#GroupOldName').val();
-
-        if (!NameOldValue || NameOldValue !== 'admin' || NameValue === 'admin') {
-            return true;
-        }
-
-        if (confirm([% Translate("WARNING: When you change the name of the group 'admin', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.") | JSON %])) {
-            return true;
-        }
-        else {
-            $('#GroupName').focus();
-            return false;
-        }
-    };
-
-    return TargetNS;
-}(Core.Agent.Admin.Group || {}));
-
-    $('#Submit').bind('click', Core.Agent.Admin.Group.AdminGroupCheck);
-//]]></script>
-[% END %]
-
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Group Management") | html %]</h1>
@@ -142,11 +101,6 @@ Core.Agent.Admin.Group = (function (TargetNS) {
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterGroups'), $('#Groups'));
-//]]></script>
-[% END %]
             </div>
 [% RenderBlockEnd("OverviewResult") %]
 
@@ -160,7 +114,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
 [% RenderBlockEnd("HeaderEdit") %]
             </div>
             <div class="Content">
-                <form action="[% Env("CGIHandle") %]" method="post" name="GroupUpdate" class="Validate PreventMultipleSubmits">
+                <form id="GroupUpdate" action="[% Env("CGIHandle") %]" method="post" name="GroupUpdate" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>

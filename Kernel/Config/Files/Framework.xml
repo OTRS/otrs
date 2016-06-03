@@ -9076,6 +9076,9 @@ via the Preferences button after logging in.
                     <Description Translatable="1">Create and manage groups.</Description>
                     <Prio>150</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.Group.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
