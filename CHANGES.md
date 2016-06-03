@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-06-03 Fixed bug#[12085](http://bugs.otrs.org/show_bug.cgi?id=12085) - CIC search links don't work when customer login contains parentheses.
  - 2016-06-23 Fixed Internal Server Error on attachment removal page reload, thanks to Pawel Boguslawski.
  - 2016-06-03 Fixed bug#[9241](http://bugs.otrs.org/show_bug.cgi?id=9241) - Ticket searching in GenericAgent not working as expected.
  - 2016-06-03 Fixed bug#[8761](http://bugs.otrs.org/show_bug.cgi?id=8761) - OTRS doesn't recognize URLs which contain nested URLs.
