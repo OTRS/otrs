@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::CheckItem;
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -22,6 +23,12 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        ObjectType => 'CustomerUser',
+    );
+
+    $Self->{DynamicFieldLookup} = { map { $_->{Name} => $_ } @{$DynamicFieldConfigs} };
 
     return $Self;
 }
@@ -234,6 +241,7 @@ sub Run {
 
         # get user data
         my %UserData = $CustomerUserObject->CustomerUserDataGet( User => $User );
+
         my $Output = $NavBar;
         $Output .= $Self->_Edit(
             Nav    => $Nav,
@@ -262,7 +270,7 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        # update only the preferences, if the source is readonly or a ldap backend
+        # update only the preferences and dynamic fields, if the source is readonly or a ldap backend
         my $UpdateOnlyPreferences;
 
         if ( $ConfigObject->Get($Source)->{ReadOnly} || $ConfigObject->Get($Source)->{Module} =~ /LDAP/i ) {
@@ -272,15 +280,54 @@ sub Run {
         my $Note = '';
         my ( %GetParam, %Errors );
 
+        # Get dynamic field backend object.
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
         ENTRY:
         for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
-            $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
 
-            next ENTRY if $UpdateOnlyPreferences;
+            # check dynamic fields
+            if ( $Entry->[5] eq 'dynamic_field' ) {
 
-            # check mandatory fields
-            if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
-                $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
+                my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
+
+                if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "DynamicField $Entry->[2] not found!",
+                    );
+                    next ENTRY;
+                }
+
+                my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ParamObject        => $ParamObject,
+                    Mandatory          => $Entry->[4],
+                );
+
+                if ( $ValidationResult->{ServerError} ) {
+                    $Errors{ $Entry->[0] } = $ValidationResult;
+                }
+                else {
+
+                    # generate storable value of dynamic field edit field
+                    $GetParam{ $Entry->[0] } = $DynamicFieldBackendObject->EditFieldValueGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        ParamObject        => $ParamObject,
+                        LayoutObject       => $LayoutObject,
+                    );
+                }
+            }
+
+            # check remaining non-dynamic-field mandatory fields
+            else {
+                $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
+
+                next ENTRY if $UpdateOnlyPreferences;
+
+                if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
+                    $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
+                }
             }
         }
         $GetParam{ID} = $ParamObject->GetParam( Param => 'ID' ) || '';
@@ -300,9 +347,7 @@ sub Run {
         if ( !%Errors ) {
 
             my $UpdateSuccess;
-
             if ( !$UpdateOnlyPreferences ) {
-
                 $UpdateSuccess = $CustomerUserObject->CustomerUserUpdate(
                     %GetParam,
                     UserID => $Self->{UserID},
@@ -310,6 +355,35 @@ sub Run {
             }
 
             if ( $UpdateSuccess || $UpdateOnlyPreferences ) {
+
+                # set dynamic field values
+                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+                ENTRY:
+                for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
+                    next ENTRY if $Entry->[5] ne 'dynamic_field';
+
+                    my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
+
+                    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+                        $Note .= $LayoutObject->Notify( Info => "DynamicField $Entry->[2] not found!" );
+                        next ENTRY;
+                    }
+
+                    my $ValueSet = $DynamicFieldBackendObject->ValueSet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        ObjectName         => $GetParam{UserLogin},
+                        Value              => $GetParam{ $Entry->[0] },
+                        UserID             => $Self->{UserID},
+                    );
+
+                    if ( !$ValueSet ) {
+                        $Note .= $LayoutObject->Notify(
+                            Info => "Unable to set value for dynamic field $Entry->[2]!"
+                        );
+                        next ENTRY;
+                    }
+                }
 
                 # update preferences
                 my %Preferences = %{ $ConfigObject->Get('CustomerPreferencesGroups') };
@@ -349,6 +423,11 @@ sub Run {
                         }
                     }
                 }
+
+                # clear customer user cache
+                $CustomerUserObject->CustomerUserCacheClear(
+                    UserLogin => $GetParam{UserLogin},
+                );
 
                 # get user data and show screen again
                 if ( !$Note ) {
@@ -439,16 +518,54 @@ sub Run {
 
         my $AutoLoginCreation = $ConfigObject->Get($Source)->{AutoLoginCreation};
 
+        # Get dynamic field backend object.
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
         ENTRY:
         for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
-            $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
 
             # don't validate UserLogin if AutoLoginCreation is configured
             next ENTRY if ( $AutoLoginCreation && $Entry->[0] eq 'UserLogin' );
 
-            # check mandatory fields
-            if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
-                $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
+            # check dynamic fields
+            if ( $Entry->[5] eq 'dynamic_field' ) {
+
+                my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
+
+                if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "DynamicField $Entry->[2] not found!",
+                    );
+                    next ENTRY;
+                }
+
+                my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ParamObject        => $ParamObject,
+                    Mandatory          => $Entry->[4],
+                );
+
+                if ( $ValidationResult->{ServerError} ) {
+                    $Errors{ $Entry->[0] } = $ValidationResult;
+                }
+                else {
+
+                    # generate storable value of dynamic field edit field
+                    $GetParam{ $Entry->[0] } = $DynamicFieldBackendObject->EditFieldValueGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        ParamObject        => $ParamObject,
+                        LayoutObject       => $LayoutObject,
+                    );
+                }
+            }
+
+            # check remaining non-dynamic-field mandatory fields
+            else {
+                $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
+                if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
+                    $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
+                }
             }
         }
 
@@ -472,6 +589,33 @@ sub Run {
                 Source => $Source
             );
             if ($User) {
+
+                # set dynamic field values
+                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+                ENTRY:
+                for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
+                    next ENTRY if $Entry->[5] ne 'dynamic_field';
+
+                    my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
+
+                    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+                        $Note .= $LayoutObject->Notify( Info => "DynamicField $Entry->[2] not found!" );
+                        next ENTRY;
+                    }
+
+                    my $ValueSet = $DynamicFieldBackendObject->ValueSet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        ObjectName         => $GetParam{UserLogin},
+                        Value              => $GetParam{ $Entry->[0] },
+                        UserID             => $Self->{UserID},
+                    );
+
+                    if ( !$ValueSet ) {
+                        $Note .= $LayoutObject->Notify( Info => "Unable to set value for dynamic field $Entry->[2]!" );
+                        next ENTRY;
+                    }
+                }
 
                 # update preferences
                 my %Preferences = %{ $ConfigObject->Get('CustomerPreferencesGroups') };
@@ -830,6 +974,7 @@ sub _Overview {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
+    # Get layout object.
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $Output = '';
@@ -858,9 +1003,10 @@ sub _Edit {
         $LayoutObject->Block( Name => 'HeaderAdd' );
     }
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     my $UpdateOnlyPreferences;
+
+    # Get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # update user
     if ( $ConfigObject->Get( $Param{Source} )->{ReadOnly} || $ConfigObject->Get( $Param{Source} )->{Module} =~ /LDAP/i )
@@ -868,9 +1014,52 @@ sub _Edit {
         $UpdateOnlyPreferences = 1;
     }
 
+    # Get dynamic field backend object.
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $ParamObject               = $Kernel::OM->Get('Kernel::System::Web::Request');
+
     ENTRY:
     for my $Entry ( @{ $ConfigObject->Get( $Param{Source} )->{Map} } ) {
         next ENTRY if !$Entry->[0];
+
+        # Handle dynamic fields
+        if ( $Entry->[5] eq 'dynamic_field' ) {
+
+            my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
+
+            next ENTRY if !IsHashRefWithData($DynamicFieldConfig);
+
+            # Get HTML for dynamic field
+            my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Value              => $Param{ $Entry->[0] } ? $Param{ $Entry->[0] } : undef,
+                Mandatory          => $Entry->[4],
+                LayoutObject       => $LayoutObject,
+                ParamObject        => $ParamObject,
+
+                # Server error, if any
+                %{ $Param{Errors}->{ $Entry->[0] } },
+            );
+
+            # skip fields for which HTML could not be retrieved
+            next ENTRY if !IsHashRefWithData($DynamicFieldHTML);
+
+            $LayoutObject->Block(
+                Name => 'Item',
+                Data => {},
+            );
+
+            $LayoutObject->Block(
+                Name => 'DynamicField',
+                Data => {
+                    Name  => $DynamicFieldConfig->{Name},
+                    Label => $DynamicFieldHTML->{Label},
+                    Field => $DynamicFieldHTML->{Field},
+                },
+            );
+
+            next ENTRY;
+        }
 
         my $Block = 'Input';
 
@@ -1127,7 +1316,7 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref $ParamItem->{Data} eq 'HASH'
+                                ref $ParamItem->{Data}   eq 'HASH'
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {

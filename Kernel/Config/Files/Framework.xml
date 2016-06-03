@@ -7267,6 +7267,32 @@
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="DynamicFields::ObjectType###CustomerCompany" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Customer Company</Item>
+                <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerCompany</Item>
+                <Item Key="Prio">120</Item>
+                <Item Key="UseObjectName">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DynamicFields::ObjectType###CustomerUser" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Customer User</Item>
+                <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerUser</Item>
+                <Item Key="Prio">130</Item>
+                <Item Key="UseObjectName">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="SOAP::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
         <Group>Framework</Group>
@@ -10838,6 +10864,18 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CustomerCompany::EventModulePost###100-UpdateDynamicFieldObjectName" Required="0" Valid="1">
+        <Description Translatable="1">Event module that updates customer company object name for dynamic fields.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CustomerCompany</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::CustomerCompany::Event::DynamicFieldObjectNameUpdate</Item>
+                <Item Key="Event">CustomerCompanyUpdate</Item>
+                <Item Key="Transaction">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerUser::EventModulePost###100-UpdateSearchProfiles" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer user search profiles if login changes.</Description>
         <Group>Framework</Group>
@@ -10857,6 +10895,18 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::ServiceMemberUpdate</Item>
+                <Item Key="Event">CustomerUserUpdate</Item>
+                <Item Key="Transaction">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerUser::EventModulePost###100-UpdateDynamicFieldObjectName" Required="0" Valid="1">
+        <Description Translatable="1">Event module that updates customer user object name for dynamic fields.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CustomerUser</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::CustomerUser::Event::DynamicFieldObjectNameUpdate</Item>
                 <Item Key="Event">CustomerUserUpdate</Item>
                 <Item Key="Transaction">0</Item>
             </Hash>

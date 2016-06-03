@@ -1964,6 +1964,17 @@
     </ForeignKey>
 </Table>
 
+<!-- object names for dynamic field values -->
+<Table Name="dynamic_field_obj_id_name">
+    <Column Name="object_id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="object_name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="object_type" Required="true" Size="200" Type="VARCHAR"/>
+    <Unique Name="dynamic_field_object_name">
+        <UniqueColumn Name="object_name"/>
+        <UniqueColumn Name="object_type"/>
+    </Unique>
+</Table>
+
 <Table Name="pm_process">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <!-- entity_id is a unique identifier independent from id -->

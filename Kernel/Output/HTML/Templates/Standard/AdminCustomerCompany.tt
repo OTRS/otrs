@@ -197,6 +197,17 @@ Core.Form.DisableForm($('form#edit'));
                             <div class="Clear"></div>
 
 [% RenderBlockEnd("PreferencesGenericOption") %]
+
+[% RenderBlockStart("DynamicField") %]
+                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
+                        [% Data.Label %]
+                        <div class="Field">
+                            [% Data.Field %]
+                        </div>
+                        <div class="Clear"></div>
+                    </div>
+[% RenderBlockEnd("DynamicField") %]
+
 [% RenderBlockEnd("PreferencesGeneric") %]
                             [% IF  Config(Data.Source).ReadOnly != 1 %]
                             <div class="Field SpacingTop">

@@ -11,6 +11,8 @@ package Kernel::System::CustomerUser::DB;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
 use Digest::SHA;
 
@@ -19,6 +21,8 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::CheckItem',
     'Kernel::System::DB',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -100,6 +104,10 @@ sub new {
 
     $Self->{CaseSensitive} = $Self->{CustomerUserMap}->{Params}->{CaseSensitive} || 0;
 
+    # fetch names of configured dynamic fields
+    my @DynamicFieldMapEntries = grep { $_->[5] eq 'dynamic_field' } @{ $Self->{CustomerUserMap}->{Map} };
+    $Self->{ConfiguredDynamicFieldNames} = { map { $_->[2] => 1 } @DynamicFieldMapEntries };
+
     return $Self;
 }
 
@@ -124,14 +132,20 @@ sub CustomerName {
         return $Name if defined $Name;
     }
 
+    my $CustomerUserNameFields = $Self->{CustomerUserMap}->{CustomerUserNameFields};
+    if ( !IsArrayRefWithData($CustomerUserNameFields) ) {
+        $CustomerUserNameFields = [ 'first_name', 'last_name', ];
+    }
+
+    # remove dynamic field names that are configured in CustomerUserNameFields
+    # as they cannot be handled here
+    my @CustomerUserNameFieldsWithoutDynamicFields
+        = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserNameFields};
+
     # build SQL string 1/2
     my $SQL = "SELECT ";
-    if ( $Self->{CustomerUserMap}->{CustomerUserNameFields} ) {
-        $SQL .= join( ", ", @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } );
-    }
-    else {
-        $SQL .= "first_name, last_name ";
-    }
+
+    $SQL .= join( ", ", @CustomerUserNameFieldsWithoutDynamicFields );
     $SQL .= " FROM $Self->{CustomerTable} WHERE ";
 
     # check CustomerKey type
@@ -143,21 +157,79 @@ sub CustomerName {
         $SQL .= "LOWER($Self->{CustomerKey}) = LOWER(?)";
     }
 
-    # get data
+    my %NameParts;
+
+    # get data from customer user table
     return if !$Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Bind  => [ \$Param{UserLogin} ],
         Limit => 1,
     );
-    my @NameParts;
+
+    my $FieldCounter = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        FIELD:
         for my $Field (@Row) {
-            next FIELD if !$Field;
-            push @NameParts, $Field;
+            $NameParts{ $CustomerUserNameFieldsWithoutDynamicFields[$FieldCounter] } = $Field;
+            $FieldCounter++;
         }
     }
-    my $Name = join( ' ', @NameParts );
+
+    # fetch dynamic field values, if configured
+    my @DynamicFieldCustomerUserNameFields
+        = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserNameFields};
+    if (@DynamicFieldCustomerUserNameFields) {
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+        DYNAMICFIELDNAME:
+        for my $DynamicFieldName (@DynamicFieldCustomerUserNameFields) {
+            my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                Name => $DynamicFieldName,
+            );
+            next DYNAMICFIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
+
+            my $Value = $DynamicFieldBackendObject->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectName         => $Param{UserLogin},
+            );
+
+            next DYNAMICFIELDNAME if !defined $Value;
+
+            if ( !IsArrayRefWithData($Value) ) {
+                $Value = [$Value];
+            }
+
+            my @RenderedValues;
+
+            VALUE:
+            for my $CurrentValue ( @{$Value} ) {
+                next VALUE if !defined $CurrentValue || !length $CurrentValue;
+
+                my $RenderedValue = $DynamicFieldBackendObject->ReadableValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $CurrentValue,
+                );
+
+                next VALUE if !IsHashRefWithData($RenderedValue) || !defined $RenderedValue->{Value};
+
+                push @RenderedValues, $RenderedValue->{Value};
+            }
+
+            $NameParts{$DynamicFieldName} = join ' ', @RenderedValues;
+        }
+    }
+
+    # assemble name
+    my @NameParts;
+    CUSTOMERUSERNAMEFIELD:
+    for my $CustomerUserNameField ( @{$CustomerUserNameFields} ) {
+        next CUSTOMERUSERNAMEFIELD
+            if !exists $NameParts{$CustomerUserNameField}
+            || !defined $NameParts{$CustomerUserNameField}
+            || !length $NameParts{$CustomerUserNameField};
+        push @NameParts, $NameParts{$CustomerUserNameField};
+    }
+
+    my $Name = join ' ', @NameParts;
 
     # cache request
     if ( $Self->{CacheObject} ) {
@@ -204,17 +276,20 @@ sub CustomerSearch {
         return %{$Users} if ref $Users eq 'HASH';
     }
 
+    my $CustomerUserListFields = $Self->{CustomerUserMap}->{CustomerUserListFields};
+    if ( !IsArrayRefWithData($CustomerUserListFields) ) {
+        $CustomerUserListFields = [ 'first_name', 'last_name', 'email', ];
+    }
+
+    # remove dynamic field names that are configured in CustomerUserListFields
+    # as they cannot be handled here
+    my @CustomerUserListFieldsWithoutDynamicFields
+        = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
+
     # build SQL string 1/2
     my $SQL = "SELECT $Self->{CustomerKey} ";
     my @Bind;
-    if ( $Self->{CustomerUserMap}->{CustomerUserListFields} ) {
-        for my $Entry ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
-            $SQL .= ", $Entry";
-        }
-    }
-    else {
-        $SQL .= " , first_name, last_name, email ";
-    }
+    $SQL .= ', ' . ( join ', ', @CustomerUserListFieldsWithoutDynamicFields );
 
     # get like escape string needed for some databases (e.g. oracle)
     my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
@@ -233,8 +308,13 @@ sub CustomerSearch {
 
         my $Search = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Search} );
 
+        # remove dynamic field names that are configured in CustomerUserSearchFields
+        # as they cannot be retrieved here
+        my @CustomerUserSearchFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} }
+            @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} };
+
         my %QueryCondition = $Self->{DBObject}->QueryCondition(
-            Key           => $Self->{CustomerUserMap}->{CustomerUserSearchFields},
+            Key           => \@CustomerUserSearchFields,    #$Self->{CustomerUserMap}->{CustomerUserSearchFields},
             Value         => $Search,
             SearchPrefix  => $Self->{SearchPrefix},
             SearchSuffix  => $Self->{SearchSuffix},
@@ -249,8 +329,16 @@ sub CustomerSearch {
     }
     elsif ( $Param{PostMasterSearch} ) {
         if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
+
+            # remove dynamic field names that are configured in CustomerUserPostMasterSearchFields
+            # as they cannot be retrieved here
+            my @CustomerUserPostMasterSearchFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} }
+                @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} };
+
             my $SQLExt = '';
-            for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
+
+            # for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
+            for my $Field (@CustomerUserPostMasterSearchFields) {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
@@ -328,21 +416,111 @@ sub CustomerSearch {
             . ' IN (' . join( ', ', $ValidObject->ValidIDsGet() ) . ') ';
     }
 
-    # get data
+    # dynamic field handling
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        ObjectType => 'CustomerUser',
+        Valid      => 1,
+    );
+    my %DynamicFieldConfigsByName = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
+
+    my @CustomerUserListFieldsDynamicFields
+        = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
+
+    # get data from customer user table
     return if !$Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
         Limit => $Param{Limit} || $Self->{UserSearchListLimit},
     );
-    ROW:
+
+    my @CustomerUserData;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        next ROW if $Users{ $Row[0] };
-        POSITION:
-        for my $Position ( 1 .. 8 ) {
-            next POSITION if !$Row[$Position];
-            $Users{ $Row[0] } .= $Row[$Position] . ' ';
+        push @CustomerUserData, [@Row];
+    }
+
+    CUSTOMERUSERDATA:
+    for my $CustomerUserData (@CustomerUserData) {
+        my $CustomerKey = shift @{$CustomerUserData};
+        next CUSTOMERUSERDATA if $Users{$CustomerKey};
+
+        my %UserStringParts;
+
+        my $FieldCounter = 0;
+        for my $Field ( @{$CustomerUserData} ) {
+            $UserStringParts{ $CustomerUserListFieldsWithoutDynamicFields[$FieldCounter] } = $Field;
+            $FieldCounter++;
         }
-        $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+
+        # fetch dynamic field values, if configured
+        if (@CustomerUserListFieldsDynamicFields) {
+            DYNAMICFIELDNAME:
+            for my $DynamicFieldName (@CustomerUserListFieldsDynamicFields) {
+                next DYNAMICFIELDNAME if !exists $DynamicFieldConfigsByName{$DynamicFieldName};
+
+                my $Value = $DynamicFieldBackendObject->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfigsByName{$DynamicFieldName},
+                    ObjectName         => $CustomerKey,
+                );
+
+                next DYNAMICFIELDNAME if !defined $Value;
+
+                if ( !IsArrayRefWithData($Value) ) {
+                    $Value = [$Value];
+                }
+
+                my @Values;
+
+                VALUE:
+                for my $CurrentValue ( @{$Value} ) {
+                    next VALUE if !defined $CurrentValue || !length $CurrentValue;
+
+                    my $ReadableValue = $DynamicFieldBackendObject->ReadableValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfigsByName{$DynamicFieldName},
+                        Value              => $CurrentValue,
+                    );
+
+                    next VALUE if !IsHashRefWithData($ReadableValue) || !defined $ReadableValue->{Value};
+
+                    my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
+                        DynamicFieldConfig => $DynamicFieldConfigsByName{$DynamicFieldName},
+                        Behavior           => 'IsACLReducible',
+                    );
+                    if ($IsACLReducible) {
+                        my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
+                            DynamicFieldConfig => $DynamicFieldConfigsByName{$DynamicFieldName},
+                        );
+
+                        if (
+                            IsHashRefWithData($PossibleValues)
+                            && defined $PossibleValues->{ $ReadableValue->{Value} }
+                            )
+                        {
+                            $ReadableValue->{Value} = $PossibleValues->{ $ReadableValue->{Value} };
+                        }
+                    }
+
+                    push @Values, $ReadableValue->{Value};
+                }
+
+                $UserStringParts{$DynamicFieldName} = join ' ', @Values;
+            }
+        }
+
+        # assemble user string
+        my @UserStringParts;
+        CUSTOMERUSERLISTFIELD:
+        for my $CustomerUserListField ( @{$CustomerUserListFields} ) {
+            next CUSTOMERUSERLISTFIELD
+                if !exists $UserStringParts{$CustomerUserListField}
+                || !defined $UserStringParts{$CustomerUserListField}
+                || !length $UserStringParts{$CustomerUserListField};
+            push @UserStringParts, $UserStringParts{$CustomerUserListField};
+        }
+
+        $Users{$CustomerKey} = join ' ', @UserStringParts;
+        $Users{$CustomerKey} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
     }
 
     # cache request
@@ -518,7 +696,11 @@ sub CustomerUserDataGet {
 
     # build select
     my $SQL = 'SELECT ';
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+
+        next ENTRY if $Entry->[5] eq 'dynamic_field';
+
         $SQL .= " $Entry->[2], ";
     }
 
@@ -561,7 +743,11 @@ sub CustomerUserDataGet {
 
         my $MapCounter = 0;
 
+        ENTRY:
         for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+
+            next ENTRY if $Entry->[5] eq 'dynamic_field';
+
             $Data{ $Entry->[0] } = $Row[$MapCounter];
             $MapCounter++;
         }
@@ -634,6 +820,9 @@ sub CustomerUserAdd {
 
             # skip UserLogin, will be checked later
             next ENTRY if ( $Entry->[0] eq 'UserLogin' );
+
+            # ignore dynamic fields here
+            next ENTRY if $Entry->[5] eq 'dynamic_field';
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -733,6 +922,7 @@ sub CustomerUserAdd {
 
     MAPENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+        next MAPENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
         next MAPENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next MAPENTRY if $SeenKey{ $Entry->[2] }++;
         push @ColumnNames, $Entry->[2];
@@ -751,6 +941,7 @@ sub CustomerUserAdd {
 
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+        next ENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
         next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next ENTRY if $SeenValue{ $Entry->[2] }++;
         $BindColumns++;
@@ -805,7 +996,13 @@ sub CustomerUserUpdate {
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
+        if (
+            !$Param{ $Entry->[0] }
+            && $Entry->[5] ne 'dynamic_field'    # ignore dynamic fields here
+            && $Entry->[4]                       # only check required fields
+            && $Entry->[0] ne 'UserPassword'     # ignore UserPassword field
+            )
+        {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Entry->[0]!",
@@ -882,6 +1079,7 @@ sub CustomerUserUpdate {
     my %SeenKey;    # If the map contains duplicated field names, insert only once.
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+        next ENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
         next ENTRY if $Entry->[7];                               # skip readonly fields
         next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next ENTRY if $SeenKey{ $Entry->[2] }++;

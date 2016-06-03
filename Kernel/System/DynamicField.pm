@@ -1162,6 +1162,319 @@ sub DynamicFieldOrderCheck {
     return 1;
 }
 
+=item ObjectMappingGet()
+
+(a) Fetches object ID(s) for given object name(s).
+(b) Fetches object name(s) for given object ID(s).
+
+NOTE: Only use object mappings for dynamic fields that must support non-integer object IDs,
+like customer user logins and customer company IDs.
+
+    my $ObjectMapping = $DynamicFieldObject->ObjectMappingGet(
+        ObjectName            => $ObjectName,    # Name or array ref of names of the object(s) to get the ID(s) for
+                                                 # Note: either give ObjectName or ObjectID
+        ObjectID              => $ObjectID,      # ID or array ref of IDs of the object(s) to get the name(s) for
+                                                 # Note: either give ObjectName or ObjectID
+        ObjectType            => 'CustomerUser', # Type of object to get mapping for
+    );
+
+    Returns for parameter ObjectID:
+    $ObjectMapping = {
+        ObjectID => ObjectName,
+        ObjectID => ObjectName,
+        ObjectID => ObjectName,
+        # ...
+    };
+
+    Returns for parameter ObjectName:
+    $ObjectMapping = {
+        ObjectName => ObjectID,
+        ObjectName => ObjectID,
+        ObjectName => ObjectID,
+        # ...
+    };
+
+=cut
+
+sub ObjectMappingGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw( ObjectType )) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    if ( $Param{ObjectName} && $Param{ObjectID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Either give parameter ObjectName or ObjectID, not both."
+        );
+        return;
+    }
+
+    if ( !$Param{ObjectName} && !$Param{ObjectID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "You have to give parameter ObjectName or ObjectID."
+        );
+        return;
+    }
+
+    # Get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # Get configuration for this object type
+    my $Config = $ConfigObject->Get("DynamicFields::ObjectType") || {};
+    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+
+    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
+        );
+        return;
+    }
+
+    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
+        );
+        return;
+    }
+
+    my $Type = $Param{ObjectName} ? 'ObjectName' : 'ObjectID';
+    if ( !IsArrayRefWithData( $Param{$Type} ) ) {
+        $Param{$Type} = [
+            $Param{$Type},
+        ];
+    }
+    my %LookupValues = map { $_ => '?' } @{ $Param{$Type} };
+
+    my $CacheKey = 'ObjectMappingGet::'
+        . $Type . '::'
+        . ( join ',', sort keys %LookupValues ) . '::'
+        . $Param{ObjectType};
+    my $CacheType = 'DynamicFieldObjectMapping' . $Type;
+
+    # Get cache object.
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $Cache       = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return $Cache if IsHashRefWithData($Cache);
+
+    my $SQL;
+    if ( $Type eq 'ObjectID' ) {
+        $SQL = '
+            SELECT object_id, object_name
+            FROM  dynamic_field_obj_id_name
+            WHERE object_id IN (' . ( join ', ', values %LookupValues ) . ')
+                AND object_type = ?';
+    }
+    else {
+        $SQL = '
+            SELECT object_name, object_id
+            FROM dynamic_field_obj_id_name
+            WHERE object_name IN (' . ( join ', ', values %LookupValues ) . ')
+                AND object_type = ?';
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => [
+            \keys %LookupValues,
+            \$Param{ObjectType},
+        ],
+    );
+
+    my %ObjectMapping;
+    while ( my @Data = $DBObject->FetchrowArray() ) {
+        $ObjectMapping{ $Data[0] } = $Data[1];
+    }
+
+    # set cache
+    my $CacheTTL = $ConfigObject->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \%ObjectMapping,
+        TTL   => $CacheTTL,
+    );
+
+    return \%ObjectMapping;
+}
+
+=item ObjectMappingCreate()
+
+Creates an object mapping for the given given object name.
+
+NOTE: Only use object mappings for dynamic fields that must support non-integer object IDs,
+like customer user logins and customer company IDs.
+
+    my $ObjectID = $DynamicFieldObject->ObjectMappingCreate(
+        ObjectName => 'customer-1',   # Name of the object to create the mapping for
+        ObjectType => 'CustomerUser', # Type of object to create the mapping for
+    );
+
+=cut
+
+sub ObjectMappingCreate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw( ObjectName ObjectType )) {
+        if ( !defined $Param{$Needed} || !length $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    # Get configuration for this object type
+    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
+    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+
+    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
+        );
+        return;
+    }
+
+    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Do(
+        SQL => '
+            INSERT INTO dynamic_field_obj_id_name
+                (object_name, object_type)
+            VALUES
+                (?, ?)',
+        Bind => [
+            \$Param{ObjectName},
+            \$Param{ObjectType},
+        ],
+    );
+
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT object_id
+            FROM dynamic_field_obj_id_name
+            WHERE object_name = ?
+                AND object_type = ?',
+        Bind => [
+            \$Param{ObjectName},
+            \$Param{ObjectType},
+        ],
+        Limit => 1,
+    );
+
+    my $ObjectID;
+    while ( my @Data = $DBObject->FetchrowArray() ) {
+        $ObjectID = $Data[0];
+    }
+
+    return $ObjectID;
+}
+
+=item ObjectMappingNameChange()
+
+Changes name of given object mapping.
+
+NOTE: Only use object mappings for dynamic fields that must support non-integer object IDs,
+like customer user logins and customer company IDs.
+
+
+    my $Success = $DynamicFieldObject->ObjectMappingNameChange(
+        OldObjectName => 'customer-1',
+        NewObjectName => 'customer-2',
+        ObjectType    => 'CustomerUser', # Type of object to change name for
+    );
+
+    Returns 1 on success.
+
+=cut
+
+sub ObjectMappingNameChange {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw( OldObjectName NewObjectName ObjectType )) {
+        if ( !defined $Param{$Needed} || !length $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    # Get configuration for this object type
+    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
+    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+
+    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
+        );
+        return;
+    }
+
+    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Do(
+        SQL => '
+            UPDATE dynamic_field_obj_id_name
+            SET object_name = ?
+            WHERE object_name = ?
+                AND object_type = ?',
+        Bind => [
+            \$Param{NewObjectName},
+            \$Param{OldObjectName},
+            \$Param{ObjectType},
+        ],
+    );
+
+    # Clean up cache for type DynamicFieldValueObjectName.
+    # A cleanup based on the changed object name is not possible.
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    $CacheObject->CleanUp(
+        Type => 'DynamicFieldObjectMappingObjectID',
+    );
+    $CacheObject->CleanUp(
+        Type => 'DynamicFieldObjectMappingObjectName',
+    );
+
+    return 1;
+}
+
 sub DESTROY {
     my $Self = shift;
 

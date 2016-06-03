@@ -13,9 +13,13 @@ use warnings;
 
 use Net::LDAP;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Time',
@@ -157,6 +161,10 @@ sub new {
         return if !$Self->_Connect();
     }
 
+    # fetch names of configured dynamic fields
+    my @DynamicFieldMapEntries = grep { $_->[5] eq 'dynamic_field' } @{ $Self->{CustomerUserMap}->{Map} };
+    $Self->{ConfiguredDynamicFieldNames} = { map { $_->[2] => 1 } @DynamicFieldMapEntries };
+
     return $Self;
 }
 
@@ -226,7 +234,6 @@ sub CustomerName {
     }
 
     # check cache
-    my $Name = '';
     if ( $Self->{CacheObject} ) {
         my $Name = $Self->{CacheObject}->Get(
             Type => $Self->{CacheType},
@@ -267,21 +274,74 @@ sub CustomerName {
         return;
     }
 
+    my %NameParts;
+
     for my $Entry ( $Result->all_entries() ) {
 
         for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } ) {
 
             if ( defined $Entry->get_value($Field) ) {
-
-                if ( !$Name ) {
-                    $Name = $Self->_ConvertFrom( $Entry->get_value($Field) );
-                }
-                else {
-                    $Name .= ' ' . $Self->_ConvertFrom( $Entry->get_value($Field) );
-                }
+                $NameParts{$Field} = $Self->_ConvertFrom( $Entry->get_value($Field) );
             }
         }
     }
+
+    # fetch dynamic field values, if configured
+    my @DynamicFieldCustomerUserNameFields = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} }
+        @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} };
+    if (@DynamicFieldCustomerUserNameFields) {
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+        DYNAMICFIELDNAME:
+        for my $DynamicFieldName (@DynamicFieldCustomerUserNameFields) {
+            my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                Name => $DynamicFieldName,
+            );
+            next DYNAMICFIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
+
+            my $Value = $DynamicFieldBackendObject->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectName         => $Param{UserLogin},
+            );
+
+            next DYNAMICFIELDNAME if !defined $Value;
+
+            if ( !IsArrayRefWithData($Value) ) {
+                $Value = [$Value];
+            }
+
+            my @RenderedValues;
+
+            VALUE:
+            for my $CurrentValue ( @{$Value} ) {
+                next VALUE if !defined $CurrentValue || !length $CurrentValue;
+
+                my $RenderedValue = $DynamicFieldBackendObject->ReadableValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $CurrentValue,
+                );
+
+                next VALUE if !IsHashRefWithData($RenderedValue) || !defined $RenderedValue->{Value};
+
+                push @RenderedValues, $RenderedValue->{Value};
+            }
+
+            $NameParts{$DynamicFieldName} = join ' ', @RenderedValues;
+        }
+    }
+
+    # assemble name
+    my @NameParts;
+    CUSTOMERUSERNAMEFIELD:
+    for my $CustomerUserNameField ( @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } ) {
+        next CUSTOMERUSERNAMEFIELD
+            if !exists $NameParts{$CustomerUserNameField}
+            || !defined $NameParts{$CustomerUserNameField}
+            || !length $NameParts{$CustomerUserNameField};
+        push @NameParts, $NameParts{$CustomerUserNameField};
+    }
+
+    my $Name = join ' ', @NameParts;
 
     # cache request
     if ( $Self->{CacheObject} ) {
@@ -326,9 +386,14 @@ sub CustomerSearch {
             $Part =~ s/(\*+)\*/*/g;
             $Count++;
 
-            if ( $Self->{CustomerUserMap}->{CustomerUserSearchFields} ) {
+            # remove dynamic field names that are configured in CustomerUserSearchFields
+            # as they cannot be retrieved here
+            my @CustomerUserSearchFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} }
+                @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} };
+
+            if (@CustomerUserSearchFields) {
                 $Filter .= '(|';
-                for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} } ) {
+                for my $Field (@CustomerUserSearchFields) {
                     $Filter .= "($Field=" . $Self->_ConvertTo($Part) . ")";
                 }
                 $Filter .= ')';
@@ -344,9 +409,14 @@ sub CustomerSearch {
     }
     elsif ( $Param{PostMasterSearch} ) {
 
-        if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
+        # remove dynamic field names that are configured in CustomerUserPostMasterSearchFields
+        # as they cannot be retrieved here
+        my @CustomerUserPostMasterSearchFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} }
+            @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} };
+
+        if (@CustomerUserPostMasterSearchFields) {
             $Filter = '(|';
-            for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
+            for my $Field (@CustomerUserPostMasterSearchFields) {
                 $Filter .= "($Field=$Param{PostMasterSearch})";
             }
             $Filter .= ')';
@@ -370,10 +440,12 @@ sub CustomerSearch {
     }
 
     # check cache
+    my $CacheKey = join '::', map { $_ . '=' . $Param{$_} } sort keys %Param;
+
     if ( $Self->{CacheObject} ) {
         my $Users = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType},
-            Key  => 'CustomerSearch::' . $Filter,
+            Type => $Self->{CacheType} . '_CustomerSearch',
+            Key  => $CacheKey,
         );
         return %{$Users} if ref $Users eq 'HASH';
     }
@@ -381,8 +453,15 @@ sub CustomerSearch {
     # create ldap connect
     return if !$Self->_Connect();
 
+    my $CustomerUserListFields = $Self->{CustomerUserMap}->{CustomerUserListFields};
+
+    # remove dynamic field names that are configured in CustomerUserListFields
+    # as they cannot be handled here
+    my @CustomerUserListFieldsWithoutDynamicFields
+        = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
+
     # combine needed attrs
-    my @Attributes = ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} }, $Self->{CustomerKey} );
+    my @Attributes = ( @CustomerUserListFieldsWithoutDynamicFields, $Self->{CustomerKey} );
 
     # perform user search
     my $Result = $Self->{LDAP}->search(
@@ -413,12 +492,86 @@ sub CustomerSearch {
         }
     }
 
+    # dynamic field handling
+    my @CustomerUserListFieldsDynamicFields
+        = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
+    my %CustomerUserListFieldsDynamicFields = map { $_ => 1 } @CustomerUserListFieldsDynamicFields;
+
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        ObjectType => 'CustomerUser',
+        Valid      => 1,
+    );
+    my %DynamicFieldConfigsByName = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
+
     my %Users;
     for my $Entry ( $Result->all_entries() ) {
 
         my $CustomerString = '';
 
-        for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
+        my $CustomerKey;
+        if ( defined $Entry->get_value( $Self->{CustomerKey} ) ) {
+            $CustomerKey = $Self->_ConvertFrom( $Entry->get_value( $Self->{CustomerKey} ) );
+        }
+
+        FIELD:
+        for my $Field ( @{$CustomerUserListFields} ) {
+
+            # dynamic field value
+            if ( $CustomerUserListFieldsDynamicFields{$Field} ) {
+                next FIELD if !defined $CustomerKey;
+                next FIELD if !exists $DynamicFieldConfigsByName{$Field};
+
+                my $Value = $DynamicFieldBackendObject->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfigsByName{$Field},
+                    ObjectName         => $CustomerKey,
+                );
+
+                next FIELD if !defined $Value;
+
+                if ( !IsArrayRefWithData($Value) ) {
+                    $Value = [$Value];
+                }
+
+                my @Values;
+
+                VALUE:
+                for my $CurrentValue ( @{$Value} ) {
+                    next VALUE if !defined $CurrentValue || !length $CurrentValue;
+
+                    my $ReadableValue = $DynamicFieldBackendObject->ReadableValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfigsByName{$Field},
+                        Value              => $CurrentValue,
+                    );
+
+                    next VALUE if !IsHashRefWithData($ReadableValue) || !defined $ReadableValue->{Value};
+
+                    my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
+                        DynamicFieldConfig => $DynamicFieldConfigsByName{$Field},
+                        Behavior           => 'IsACLReducible',
+                    );
+                    if ($IsACLReducible) {
+                        my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
+                            DynamicFieldConfig => $DynamicFieldConfigsByName{$Field},
+                        );
+
+                        if (
+                            IsHashRefWithData($PossibleValues)
+                            && defined $PossibleValues->{ $ReadableValue->{Value} }
+                            )
+                        {
+                            $ReadableValue->{Value} = $PossibleValues->{ $ReadableValue->{Value} };
+                        }
+                    }
+
+                    push @Values, $ReadableValue->{Value};
+                }
+
+                $CustomerString .= ( join ' ', @Values ) . ' ';
+
+                next FIELD;
+            }
 
             my $Value = $Self->_ConvertFrom( $Entry->get_value($Field) );
 
@@ -432,8 +585,8 @@ sub CustomerSearch {
 
         $CustomerString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
 
-        if ( defined $Entry->get_value( $Self->{CustomerKey} ) ) {
-            $Users{ $Self->_ConvertFrom( $Entry->get_value( $Self->{CustomerKey} ) ) } = $CustomerString;
+        if ( defined $CustomerKey ) {
+            $Users{$CustomerKey} = $CustomerString;
         }
     }
 
@@ -459,8 +612,8 @@ sub CustomerSearch {
     # cache request
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
-            Type  => $Self->{CacheType},
-            Key   => 'CustomerSearch::' . $Filter,
+            Type  => $Self->{CacheType} . '_CustomerSearch',
+            Key   => $CacheKey,
             Value => \%Users,
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
@@ -662,7 +815,9 @@ sub CustomerUserDataGet {
 
     # perform user search
     my @Attributes;
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+        next ENTRY if $Entry->[5] eq 'dynamic_field';
         push( @Attributes, $Entry->[2] );
     }
     my $Filter = "($Self->{CustomerKey}=$Param{User})";
@@ -709,7 +864,9 @@ sub CustomerUserDataGet {
 
     # get customer user info
     my %Data;
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+        next ENTRY if $Entry->[5] eq 'dynamic_field';
 
         my $Value = $Self->_ConvertFrom( $Result2->get_value( $Entry->[2] ) ) || '';
 
@@ -909,6 +1066,35 @@ sub _ConvertTo {
         To   => $Self->{SourceCharset},
         From => 'utf-8',
     );
+}
+
+sub _CustomerUserCacheClear {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{CacheObject};
+
+    if ( !$Param{UserLogin} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!',
+        );
+        return;
+    }
+
+    $Self->{CacheObject}->Delete(
+        Type => $Self->{CacheType},
+        Key  => "CustomerUserDataGet::$Param{UserLogin}",
+    );
+    $Self->{CacheObject}->Delete(
+        Type => $Self->{CacheType},
+        Key  => "CustomerName::$Param{UserLogin}",
+    );
+
+    $Self->{CacheObject}->CleanUp(
+        Type => $Self->{CacheType} . '_CustomerSearch',
+    );
+
+    return 1;
 }
 
 sub DESTROY {

@@ -115,7 +115,17 @@ sub AgentCustomerViewTable {
         }
     }
 
+    my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        ObjectType => [ 'CustomerUser', 'CustomerCompany', ],
+    );
+
+    my %DynamicFieldLookup = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
+
+    # Get dynamic field object.
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     # build table
+    FIELD:
     for my $Field (@MapNew) {
         if ( $Field->[3] && $Field->[3] >= $ShownType && $Param{Data}->{ $Field->[0] } ) {
             my %Record = (
@@ -123,6 +133,36 @@ sub AgentCustomerViewTable {
                 Key   => $Field->[1],
                 Value => $Param{Data}->{ $Field->[0] },
             );
+
+            # render dynamic field values
+            if ( $Field->[5] eq 'dynamic_field' ) {
+                if ( !IsArrayRefWithData( $Record{Value} ) ) {
+                    $Record{Value} = [ $Record{Value} ];
+                }
+
+                my $DynamicFieldConfig = $DynamicFieldLookup{ $Field->[2] };
+
+                next FIELD if !$DynamicFieldConfig;
+
+                my @RenderedValues;
+                VALUE:
+                for my $Value ( @{ $Record{Value} } ) {
+                    my $RenderedValue = $DynamicFieldBackendObject->DisplayValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value              => $Value,
+                        HTMLOutput         => 0,
+                        LayoutObject       => $Self,
+                    );
+
+                    next VALUE if !IsHashRefWithData($RenderedValue) || !defined $RenderedValue->{Value};
+
+                    push @RenderedValues, $RenderedValue->{Value};
+                }
+
+                $Record{Value} = join ', ', @RenderedValues;
+                $Record{Key} = $DynamicFieldConfig->{Label};
+            }
+
             if ( $Field->[6] ) {
                 $Record{LinkStart} = "<a href=\"$Field->[6]\"";
                 if ( $Field->[8] ) {

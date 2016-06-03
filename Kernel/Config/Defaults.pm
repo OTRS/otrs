@@ -1471,6 +1471,15 @@ via the Preferences button after logging in.
 #        ReadOnly => 1,
         Map => [
 
+            # Info about dynamic fields:
+            #
+            # Dynamic Fields of type CustomerUser can be used within the mapping (see example below).
+            # The given storage (third column) then can also be used within the following configurations (see above):
+            # CustomerUserSearchFields, CustomerUserPostMasterSearchFields, CustomerUserListFields, CustomerUserNameFields
+            #
+            # Note that the columns 'frontend' and 'readonly' will be ignored for dynamic fields.
+            # Note that dynamic fields are not supported for LDAP.
+
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
             [ 'UserTitle',      Translatable('Title or salutation'), 'title',  1, 0, 'var', '', 0 ],
@@ -1491,6 +1500,10 @@ via the Preferences button after logging in.
             [ 'UserCountry',      Translatable('Country'),     'country',      1, 0, 'var', '', 0 ],
             [ 'UserComment',      Translatable('Comment'),     'comments',     1, 0, 'var', '', 0 ],
             [ 'ValidID',          Translatable('Valid'),       'valid_id',     0, 1, 'int', '', 0 ],
+
+            # Dynamic field example
+#            [ 'DynamicField_Name_X', undef, 'Name_X', 0, 0, 'dynamic_field', undef, 0, undef, undef, ],
+
         ],
 
         # default selections
@@ -1600,6 +1613,14 @@ via the Preferences button after logging in.
         CacheTTL                       => 60 * 60 * 24, # use 0 to turn off cache
 
         Map => [
+            # Info about dynamic fields:
+            #
+            # Dynamic Fields of type CustomerCompany can be used within the mapping (see example below).
+            # The given storage (third column) then can also be used within the following configurations (see above):
+            # CustomerCompanySearchFields, CustomerCompanyListFields
+            #
+            # Note that the columns 'frontend' and 'readonly' will be ignored for dynamic fields.
+
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
             [ 'CustomerID',             'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
             [ 'CustomerCompanyName',    'Customer',   'name',        1, 1, 'var', '', 0 ],
@@ -1610,6 +1631,10 @@ via the Preferences button after logging in.
             [ 'CustomerCompanyURL',     'URL',        'url',         1, 0, 'var', '[% Data.CustomerCompanyURL | html %]', 0 ],
             [ 'CustomerCompanyComment', 'Comment',    'comments',    1, 0, 'var', '', 0 ],
             [ 'ValidID',                'Valid',      'valid_id',    0, 1, 'int', '', 0 ],
+
+            # Dynamic field example
+#            [ 'DynamicField_Name_Y', undef, 'Name_Y', 0, 0, 'dynamic_field', undef, 0,],
+
         ],
     };
 

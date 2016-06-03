@@ -538,6 +538,141 @@ sub HistoricalValueGet {
     return \%Data;
 }
 
+=item ValueSearch()
+
+Searches/fetches dynamic field value.
+
+    my $Value = $DynamicFieldValueObject->ValueSearch(
+        FieldID            => 142,             # ID of dynamic field to search
+        Search             => 'test',
+        SearchSQL          => "dynamic_field_value.value_text = 'test'",
+    );
+
+    Returns [
+        {
+            ID            => 437,
+            FieldID       => 123,
+            ObjectID      => 133,
+            ValueText     => 'some text',
+            ValueDateTime => '1977-12-12 12:00:00',
+            ValueInt      => 123,
+        },
+        # ...
+    ];
+
+=cut
+
+sub ValueSearch {
+    my ( $Self, %Param ) = @_;
+
+    # check mandatory parameters
+    if ( !$Param{FieldID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need FieldID!"
+        );
+        return;
+    }
+
+    for my $Param (qw( Search SearchSQL )) {
+        if ( !defined $Param{$Param} || !length $Param{$Param} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Param!"
+            );
+            return;
+        }
+    }
+
+    my @Values;
+
+    # Cache handling
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheType      = 'DynamicFieldValue';
+    my $CacheKey       = 'ValueSearch::' . $Param{FieldID};
+    my $CacheSearchKey = $Param{Search};
+
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    # Check if a cache entry exists
+    if (
+        IsHashRefWithData($Cache)
+        && exists $Cache->{$CacheSearchKey}
+        && IsArrayRefWithData( $Cache->{$CacheSearchKey} )
+        )
+    {
+        for my $Value ( @{ $Cache->{$CacheSearchKey} } ) {
+            push @Values, $Value;
+        }
+    }
+
+    return \@Values if @Values;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my $SQL = '
+        SELECT id, field_id, object_id, value_text, value_date, value_int
+        FROM  dynamic_field_value
+        WHERE  dynamic_field_value.field_id = ?
+            AND ';
+
+    $SQL .= $Param{SearchSQL};
+
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => [
+            \$Param{FieldID},
+
+            # @{ $QueryCondition{Values} },
+        ],
+    );
+
+    while ( my @Data = $DBObject->FetchrowArray() ) {
+        push @Values, {
+            ID        => $Data[0],
+            FieldID   => $Data[1],
+            ObjectID  => $Data[2],
+            ValueText => $Data[3],
+            ValueDate => $Data[4],
+            ValueInt  => $Data[5],
+        };
+    }
+
+    # get the cache TTL (in seconds)
+    my $CacheTTL = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
+
+    # set cache for new field ID if it isn't set yet.
+    # note: it's possible there is no database record for a given field ID. in this case, an empty
+    # but defined value has to be stored. Otherwise there would be a database query the next time.
+    if ( !ref $Cache || ref $Cache ne 'HASH' ) {
+        $Cache = {
+            $CacheSearchKey => undef,
+        };
+    }
+
+    if (@Values) {
+        for my $Value (@Values) {
+            push @{ $Cache->{$CacheSearchKey} }, $Value;
+        }
+    }
+    else {
+        $Cache->{$CacheSearchKey} = undef;
+    }
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => $Cache,
+        TTL   => $CacheTTL,
+    );
+
+    return \@Values;
+}
+
 #
 # Deletes all needed cache entries for a given DynamicFieldValue.
 #
@@ -577,6 +712,10 @@ sub _DeleteFromCache {
     $CacheObject->Delete(
         Type => 'DynamicFieldValue',
         Key  => 'HistoricalValueGet::FieldID::' . $Param{FieldID} . '::ValueType::Integer',
+    );
+    $CacheObject->Delete(
+        Type => 'DynamicFieldValue',
+        Key  => 'ValueSearch::' . $Param{FieldID},
     );
 
     return 1;

@@ -11,9 +11,13 @@ package Kernel::System::CustomerCompany::DB;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
     'Kernel::System::Valid',
 );
@@ -74,6 +78,10 @@ sub new {
     # see if database is case sensitive
     $Self->{CaseSensitive} = $Self->{CustomerCompanyMap}->{Params}->{CaseSensitive} || 0;
 
+    # fetch names of configured dynamic fields
+    my @DynamicFieldMapEntries = grep { $_->[5] eq 'dynamic_field' } @{ $Self->{CustomerCompanyMap}->{Map} };
+    $Self->{ConfiguredDynamicFieldNames} = { map { $_->[2] => 1 } @DynamicFieldMapEntries };
+
     return $Self;
 }
 
@@ -104,10 +112,20 @@ sub CustomerCompanyList {
         return %{$Data} if ref $Data eq 'HASH';
     }
 
+    my $CustomerCompanyListFields = $Self->{CustomerCompanyMap}->{CustomerCompanyListFields};
+    if ( !IsArrayRefWithData($CustomerCompanyListFields) ) {
+        $CustomerCompanyListFields = [ 'customer_id', 'name', ];
+    }
+
+    # remove dynamic field names that are configured in CustomerCompanyListFields
+    # as they cannot be handled here
+    my @CustomerCompanyListFieldsWithoutDynamicFields
+        = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
+
     # what is the result
     my $What = join(
         ', ',
-        @{ $Self->{CustomerCompanyMap}->{CustomerCompanyListFields} }
+        @CustomerCompanyListFieldsWithoutDynamicFields
     );
 
     # add valid option if required
@@ -126,8 +144,13 @@ sub CustomerCompanyList {
     # where
     if ( $Param{Search} ) {
 
+        # remove dynamic field names that are configured in CustomerCompanySearchFields
+        # as they cannot be retrieved here
+        my @CustomerCompanySearchFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} }
+            @{ $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields} };
+
         my %QueryCondition = $Self->{DBObject}->QueryCondition(
-            Key           => $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields},
+            Key           => \@CustomerCompanySearchFields,
             Value         => $Param{Search},
             SearchPrefix  => $Self->{SearchPrefix},
             SearchSuffix  => $Self->{SearchSuffix},
@@ -141,6 +164,18 @@ sub CustomerCompanyList {
         }
     }
 
+    # dynamic field handling
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        ObjectType => 'CustomerCompany',
+        Valid      => 1,
+    );
+    my %DynamicFieldConfigsByName = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
+
+    my @CustomerCompanyListFieldsDynamicFields
+        = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
+
     # sql
     my $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
 
@@ -149,19 +184,100 @@ sub CustomerCompanyList {
         $CompleteSQL .= " WHERE $SQL";
     }
 
-    # ask database
+    # get data from customer company table
     $Self->{DBObject}->Prepare(
         SQL   => $CompleteSQL,
         Bind  => \@Bind,
         Limit => $Limit,
     );
 
-    # fetch the result
-    my %List;
+    my @CustomerCompanyData;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @CustomerCompanyData, [@Row];
+    }
 
-        my $CustomerCompanyID = shift @Row;
-        $List{$CustomerCompanyID} = join( ' ', map { defined($_) ? $_ : '' } @Row );
+    my %List;
+
+    CUSTOMERCOMPANYDATA:
+    for my $CustomerCompanyData (@CustomerCompanyData) {
+        my $CustomerCompanyID = shift @{$CustomerCompanyData};
+        next CUSTOMERCOMPANYDATA if $List{$CustomerCompanyID};
+
+        my %CompanyStringParts;
+
+        my $FieldCounter = 0;
+        for my $Field ( @{$CustomerCompanyData} ) {
+            $CompanyStringParts{ $CustomerCompanyListFieldsWithoutDynamicFields[$FieldCounter] } = $Field;
+            $FieldCounter++;
+        }
+
+        # fetch dynamic field values, if configured
+        if (@CustomerCompanyListFieldsDynamicFields) {
+            DYNAMICFIELDNAME:
+            for my $DynamicFieldName (@CustomerCompanyListFieldsDynamicFields) {
+                next DYNAMICFIELDNAME if !exists $DynamicFieldConfigsByName{$DynamicFieldName};
+
+                my $Value = $DynamicFieldBackendObject->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfigsByName{$DynamicFieldName},
+                    ObjectName         => $CustomerCompanyID,
+                );
+
+                next DYNAMICFIELDNAME if !defined $Value;
+
+                if ( !IsArrayRefWithData($Value) ) {
+                    $Value = [$Value];
+                }
+
+                my @Values;
+
+                VALUE:
+                for my $CurrentValue ( @{$Value} ) {
+                    next VALUE if !defined $CurrentValue || !length $CurrentValue;
+
+                    my $ReadableValue = $DynamicFieldBackendObject->ReadableValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfigsByName{$DynamicFieldName},
+                        Value              => $CurrentValue,
+                    );
+
+                    next VALUE if !IsHashRefWithData($ReadableValue) || !defined $ReadableValue->{Value};
+
+                    my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
+                        DynamicFieldConfig => $DynamicFieldConfigsByName{$DynamicFieldName},
+                        Behavior           => 'IsACLReducible',
+                    );
+                    if ($IsACLReducible) {
+                        my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
+                            DynamicFieldConfig => $DynamicFieldConfigsByName{$DynamicFieldName},
+                        );
+
+                        if (
+                            IsHashRefWithData($PossibleValues)
+                            && defined $PossibleValues->{ $ReadableValue->{Value} }
+                            )
+                        {
+                            $ReadableValue->{Value} = $PossibleValues->{ $ReadableValue->{Value} };
+                        }
+                    }
+
+                    push @Values, $ReadableValue->{Value};
+                }
+
+                $CompanyStringParts{$DynamicFieldName} = join ' ', @Values;
+            }
+        }
+
+        # assemble company string
+        my @CompanyStringParts;
+        CUSTOMERCOMPANYLISTFIELD:
+        for my $CustomerCompanyListField ( @{$CustomerCompanyListFields} ) {
+            next CUSTOMERCOMPANYLISTFIELD
+                if !exists $CompanyStringParts{$CustomerCompanyListField}
+                || !defined $CompanyStringParts{$CustomerCompanyListField}
+                || !length $CompanyStringParts{$CustomerCompanyListField};
+            push @CompanyStringParts, $CompanyStringParts{$CustomerCompanyListField};
+        }
+
+        $List{$CustomerCompanyID} = join ' ', @CompanyStringParts;
     }
 
     # cache request
@@ -201,7 +317,10 @@ sub CustomerCompanyGet {
     # build select
     my @Fields;
     my %FieldsMap;
+
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
+        next ENTRY if $Entry->[5] eq 'dynamic_field';
         push @Fields, $Entry->[2];
         $FieldsMap{ $Entry->[2] } = $Entry->[0];
     }
@@ -279,7 +398,12 @@ sub CustomerCompanyAdd {
     my @Placeholders;
     my @Values;
 
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
+
+        # ignore dynamic fields here
+        next ENTRY if $Entry->[5] eq 'dynamic_field';
+
         push @Fields,       $Entry->[2];
         push @Placeholders, '?';
         push @Values,       \$Param{ $Entry->[0] };
@@ -325,7 +449,13 @@ sub CustomerCompanyUpdate {
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-        if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
+        if (
+            !$Param{ $Entry->[0] }
+            && $Entry->[5] ne 'dynamic_field'    # ignore dynamic fields here
+            && $Entry->[4]
+            && $Entry->[0] ne 'UserPassword'
+            )
+        {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Entry->[0]!"
@@ -340,6 +470,7 @@ sub CustomerCompanyUpdate {
     FIELD:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
         next FIELD if $Entry->[0] =~ /^UserPassword$/i;
+        next FIELD if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
         push @Fields, $Entry->[2] . ' = ?';
         push @Values, \$Param{ $Entry->[0] };
     }

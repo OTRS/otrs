@@ -13,8 +13,12 @@ use warnings;
 
 use base qw(Kernel::System::EventHandler);
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
     'Kernel::System::Main',
 );
@@ -120,6 +124,7 @@ sub CustomerCompanyAdd {
         }
     }
 
+    # store customer company data
     my $Result = $Self->{ $Param{Source} }->CustomerCompanyAdd(%Param);
     return if !$Result;
 
@@ -177,8 +182,17 @@ sub CustomerCompanyGet {
         return;
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    # Fetch dynamic field configurations for CustomerCompany.
+    my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        ObjectType => 'CustomerCompany',
+        Valid      => 1,
+    );
+
+    my %DynamicFieldLookup = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
+
+    # get needed objects
+    my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
@@ -187,6 +201,22 @@ sub CustomerCompanyGet {
 
         my %Company = $Self->{"CustomerCompany$Count"}->CustomerCompanyGet( %Param, );
         next SOURCE if !%Company;
+
+        # fetch dynamic field values
+        if ( IsArrayRefWithData( $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Map} ) ) {
+            CUSTOMERCOMPANYFIELD:
+            for my $CustomerCompanyField ( @{ $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Map} } ) {
+                next CUSTOMERCOMPANYFIELD if $CustomerCompanyField->[5] ne 'dynamic_field';
+                next CUSTOMERCOMPANYFIELD if !$DynamicFieldLookup{ $CustomerCompanyField->[2] };
+
+                my $Value = $DynamicFieldBackendObject->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldLookup{ $CustomerCompanyField->[2] },
+                    ObjectName         => $Company{CustomerID},
+                );
+
+                $Company{ $CustomerCompanyField->[0] } = $Value;
+            }
+        }
 
         # return company data
         return (
@@ -242,6 +272,7 @@ sub CustomerCompanyUpdate {
         );
         return;
     }
+
     my $Result = $Self->{ $Company{Source} }->CustomerCompanyUpdate(%Param);
     return if !$Result;
 
@@ -325,13 +356,105 @@ Returns:
 sub CustomerCompanyList {
     my ( $Self, %Param ) = @_;
 
+    # Get dynamic field object.
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+    my $DynamicFieldConfigs = $DynamicFieldObject->DynamicFieldListGet(
+        ObjectType => 'CustomerCompany',
+        Valid      => 1,
+    );
+
+    my %DynamicFieldLookup = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
+
+    # Get dynamic field backend object.
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     my %Data;
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
         next SOURCE if !$Self->{"CustomerCompany$Count"};
 
-        # get comppany list result of backend and merge it
+        # search dynamic field values, if configured
+        my $Map = $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Map};
+        if ( IsArrayRefWithData($Map) ) {
+
+            # fetch dynamic field names that are configured in Map
+            # only these will be considered for any other search config
+            # [ 'DynamicField_Name_Y', undef, 'Name_Y', 0, 0, 'dynamic_field', undef, 0,],
+            my %DynamicFieldNames = map { $_->[2] => 1 } grep { $_->[5] eq 'dynamic_field' } @{$Map};
+
+            if (%DynamicFieldNames) {
+                my $FoundDynamicFieldObjectIDs;
+                my $SearchFields;
+                my $SearchParam;
+
+                # check which of the dynamic fields configured in Map are also
+                # configured in SearchFields
+
+                # param Search
+                if ( defined $Param{Search} && length $Param{Search} ) {
+                    $SearchFields
+                        = $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{CustomerCompanySearchFields};
+                    $SearchParam = $Param{Search};
+                }
+
+                # search dynamic field values
+                if ( IsArrayRefWithData($SearchFields) ) {
+                    my @SearchDynamicFieldNames = grep { exists $DynamicFieldNames{$_} } @{$SearchFields};
+
+                    my %FoundDynamicFieldObjectIDs;
+                    FIELDNAME:
+                    for my $FieldName (@SearchDynamicFieldNames) {
+
+                        my $DynamicFieldConfig = $DynamicFieldLookup{$FieldName};
+
+                        next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
+
+                        my $DynamicFieldValues = $DynamicFieldBackendObject->ValueSearch(
+                            DynamicFieldConfig => $DynamicFieldConfig,
+                            Search             => $SearchParam,
+                        );
+
+                        if ( IsArrayRefWithData($DynamicFieldValues) ) {
+                            for my $DynamicFieldValue ( @{$DynamicFieldValues} ) {
+                                $FoundDynamicFieldObjectIDs{ $DynamicFieldValue->{ObjectID} } = 1;
+                            }
+                        }
+                    }
+
+                    $FoundDynamicFieldObjectIDs = [ keys %FoundDynamicFieldObjectIDs ];
+                }
+
+                # execute backend search for found object IDs
+                # this data is being merged with the following CustomerCompanyList call
+                if ( IsArrayRefWithData($FoundDynamicFieldObjectIDs) ) {
+
+                    my $ObjectNames = $DynamicFieldObject->ObjectMappingGet(
+                        ObjectID   => $FoundDynamicFieldObjectIDs,
+                        ObjectType => 'CustomerCompany',
+                    );
+
+                    my %SearchParam = %Param;
+                    delete $SearchParam{Search};
+                    my %CompanyList = $Self->{"CustomerCompany$Count"}->CustomerCompanyList(%SearchParam);
+
+                    OBJECTNAME:
+                    for my $ObjectName ( values %{$ObjectNames} ) {
+                        next OBJECTNAME if exists $Data{$ObjectName};
+
+                        if ( IsHashRefWithData( \%CompanyList ) && exists $CompanyList{$ObjectName} ) {
+                            %Data = (
+                                $ObjectName => $CompanyList{$ObjectName},
+                                %Data
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
+        # get company list result of backend and merge it
         my %SubData = $Self->{"CustomerCompany$Count"}->CustomerCompanyList(%Param);
         %Data = ( %Data, %SubData );
     }
