@@ -134,12 +134,3 @@
         </form>
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.ShowWarning').bind('change keyup', function (Event) {
-    $('p.Warning').removeClass('Hidden');
-});
-
-Core.Agent.Admin.DynamicField.ValidationInit();
-//]]></script>
-[% END %]

@@ -114,14 +114,27 @@ $Selenium->RunTest(
 
             $Selenium->execute_script("\$('#DefaultValue').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+
+            # edit name to trigger JS and verify warning is visible
+            my $EditName = $RandomID . 'edit';
+            $Selenium->find_element( "#Name", 'css' )->clear();
+            $Selenium->find_element( "#Name", 'css' )->send_keys($EditName);
+
+            $Self->Is(
+                $Selenium->execute_script("return \$('.Warning').hasClass('Hidden')"),
+                0,
+                "Warning text is shown - JS is successful",
+            );
+
+            # submit form
             $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
             # check new and edited DynamicFieldCheckbox values
-            $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+            $Selenium->find_element( $EditName, 'link_text' )->VerifiedClick();
 
             $Self->Is(
                 $Selenium->find_element( '#Name', 'css' )->get_value(),
-                $RandomID,
+                $EditName,
                 "#Name updated value",
             );
             $Self->Is(
@@ -151,7 +164,7 @@ $Selenium->RunTest(
             # delete DynamicFields
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
             my $DynamicField       = $DynamicFieldObject->DynamicFieldGet(
-                Name => $RandomID,
+                Name => $EditName,
             );
             my $Success = $DynamicFieldObject->DynamicFieldDelete(
                 ID     => $DynamicField->{ID},
