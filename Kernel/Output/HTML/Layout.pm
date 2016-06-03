@@ -4365,7 +4365,7 @@ sub _RichTextReplaceLinkOfInlineContent {
 
     # replace image link with content id for uploaded images
     ${ $Param{String} } =~ s{
-        (<img.+?src=("|'))[^>]+ContentID=(.+?)("|')([^>]+>)
+        (<img.+?src=("|'))[^"'>]+?ContentID=(.+?)("|')([^>]*>)
     }
     {
         my ($Start, $CID, $Close, $End) = ($1, $3, $4, $5);
