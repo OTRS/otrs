@@ -385,7 +385,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
             </xsd:element>
             <xsd:element
                 name="TimeUnit"
-                type="xsd:positiveInteger"
+                type="xsd:float"
                 minOccurs="0">
             </xsd:element>
             <xsd:element
