@@ -214,6 +214,108 @@ for my $Test (@Tests) {
         "Test $Count : Test backend Email - empty after cleanup",
     );
 
+    # check auto response suppression with X-OTRS-Loop
+    $ArticleIDOne = $TicketObject->ArticleCreate(
+        TicketID         => $TicketIDOne,
+        ArticleType      => $Test->{ArticleType},
+        SenderType       => 'customer',
+        Subject          => 'UnitTest article one',
+        From             => '"test" <test@localunittest.com>',
+        To               => $QueueName,
+        Body             => 'UnitTest body',
+        Charset          => 'utf-8',
+        MimeType         => 'text/plain',
+        HistoryType      => 'PhoneCallCustomer',
+        HistoryComment   => 'Some free text!',
+        UserID           => 1,
+        UnlockOnAway     => 1,
+        AutoResponseType => $Test->{AutoResponseType},
+        OrigHeader       => {
+            From          => '"test" <test@localunittest.com>',
+            To            => $QueueName,
+            Subject       => 'UnitTest article one',
+            Body          => 'UnitTest body',
+            'X-OTRS-Loop' => 'yes'
+
+        },
+        Queue => $QueueName,
+    );
+    $Self->True(
+        $ArticleIDOne,
+        "Test $Count : ArticleCreate() - ArticleID $ArticleIDOne",
+    );
+
+    # check if AutoResponse is sent
+    $Emails = $TestEmailObject->EmailsGet();
+    $Self->Is(
+        scalar @{$Emails},
+        0,
+        "Test $Count : Emails fetched from backend - AutoResponse $Test->{AutoResponseType} suppressed by X-OTRS-Loop",
+    );
+
+    # clean up test email backend again
+    $Success = $TestEmailObject->CleanUp();
+    $Self->True(
+        $Success,
+        "Test $Count : Test backend Email cleanup - success",
+    );
+    $Self->IsDeeply(
+        $TestEmailObject->EmailsGet(),
+        [],
+        "Test $Count : Test backend Email - empty after cleanup",
+    );
+
+    # check auto response re-enabling with X-OTRS-Loop
+    $ArticleIDOne = $TicketObject->ArticleCreate(
+        TicketID         => $TicketIDOne,
+        ArticleType      => $Test->{ArticleType},
+        SenderType       => 'customer',
+        Subject          => 'UnitTest article one',
+        From             => '"test" <test@localunittest.com>',
+        To               => $QueueName,
+        Body             => 'UnitTest body',
+        Charset          => 'utf-8',
+        MimeType         => 'text/plain',
+        HistoryType      => 'PhoneCallCustomer',
+        HistoryComment   => 'Some free text!',
+        UserID           => 1,
+        UnlockOnAway     => 1,
+        AutoResponseType => $Test->{AutoResponseType},
+        OrigHeader       => {
+            From          => '"test" <test@localunittest.com>',
+            To            => $QueueName,
+            Subject       => 'UnitTest article one',
+            Body          => 'UnitTest body',
+            'X-OTRS-Loop' => 'no'
+
+        },
+        Queue => $QueueName,
+    );
+    $Self->True(
+        $ArticleIDOne,
+        "Test $Count : ArticleCreate() - ArticleID $ArticleIDOne",
+    );
+
+    # check if AutoResponse is sent
+    $Emails = $TestEmailObject->EmailsGet();
+    $Self->Is(
+        scalar @{$Emails},
+        1,
+        "Test $Count : Emails fetched from backend - AutoResponse $Test->{AutoResponseType} re-enabled by X-OTRS-Loop",
+    );
+
+    # clean up test email backend again
+    $Success = $TestEmailObject->CleanUp();
+    $Self->True(
+        $Success,
+        "Test $Count : Test backend Email cleanup - success",
+    );
+    $Self->IsDeeply(
+        $TestEmailObject->EmailsGet(),
+        [],
+        "Test $Count : Test backend Email - empty after cleanup",
+    );
+
     # test if auto-response get activated once it's invalid
     # see bug bug#11481
     # set test AutoResponse on ivalid
