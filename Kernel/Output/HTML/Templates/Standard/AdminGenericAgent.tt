@@ -30,6 +30,7 @@
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
+[% RenderBlockStart("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterGenericAgentJobs">[% Translate("Filter for Generic Agent Jobs") | html %]</label></h2>
@@ -38,6 +39,7 @@
                 <input type="text" id="FilterGenericAgentJobs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGenericAgentJobs" value="" title="[% Translate("Filter for generic agent jobs") | html %]">
             </div>
         </div>
+[% RenderBlockEnd("Filter") %]
     </div>
 
     <div class="ContentColumn">
@@ -94,14 +96,8 @@
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterGenericAgentJobs'), $('#GenericAgentJobs'));
-//]]></script>
-[% END %]
         </div>
 [% RenderBlockEnd("Overview") %]
-
 [% RenderBlockStart("Edit") %]
         <form action="[% Env("CGIHandle") %]" method="post" name="compose" class="Validate PreventMultipleSubmits">
             <div class="WidgetSimple">
@@ -267,13 +263,6 @@
                             </p>
                         </div>
                         <div class="Clear"></div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.GenericAgent.Init();
-//]]></script>
-[% END %]
-
                     </fieldset>
                 </div>
             </div>

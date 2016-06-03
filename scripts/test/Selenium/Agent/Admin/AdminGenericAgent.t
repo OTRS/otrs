@@ -27,6 +27,9 @@ $Selenium->RunTest(
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
+        # get needed variable
+        my $RandomID = $Helper->GetRandomID();
+
         # set generic agent run limit
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
@@ -115,19 +118,49 @@ $Selenium->RunTest(
 
         # create test job
         my $GenericTicketSearch = "*Ticket $TestTicketRandomID Generic*";
-        my $RandomID            = "GenericAgent" . $Helper->GetRandomID();
-        $Selenium->find_element( "#Profile", 'css' )->send_keys($RandomID);
+        my $GenericAgentJob     = "GenericAgent" . $RandomID;
+        $Selenium->find_element( "#Profile", 'css' )->send_keys($GenericAgentJob);
         $Selenium->find_element( "#Title",   'css' )->send_keys($GenericTicketSearch);
         $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # check if test job show on AdminGenericAgent
         $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID job found on page",
+            index( $Selenium->get_page_source(), $GenericAgentJob ) > -1,
+            "$GenericAgentJob job found on page",
+        );
+
+        # verify filter will show no result for invalid input
+        my $InvalidName = 'Invalid' . $RandomID;
+        $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->send_keys($InvalidName);
+        sleep 1;
+
+        my $CSSDisplay = $Selenium->execute_script(
+            "return \$('table tbody tr td:contains($GenericAgentJob)').parent().css('display')"
+        );
+
+        $Self->Is(
+            $CSSDisplay,
+            'none',
+            "Generic Agent job $GenericAgentJob is not found in the table"
+        );
+
+        # verify filter show correct result for valid input
+        $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->clear();
+        $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->send_keys($GenericAgentJob);
+        sleep 1;
+
+        $CSSDisplay = $Selenium->execute_script(
+            "return \$('table tbody tr td:contains($GenericAgentJob)').parent().css('display')"
+        );
+
+        $Self->Is(
+            $CSSDisplay,
+            'table-row',
+            "Generic Agent job $GenericAgentJob is found in the table"
         );
 
         # edit test job to delete test ticket
-        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $GenericAgentJob, 'link_text' )->VerifiedClick();
 
         # toggle Execute Ticket Commands widget
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
@@ -135,7 +168,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # run test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$GenericAgentJob' )]")->VerifiedClick();
 
         # verify there are no tickets found with enabled ExtendedSearchCondition
         $Self->True(
@@ -157,7 +190,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent");
 
         # run test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$GenericAgentJob' )]")->VerifiedClick();
 
         # check if test job show expected result
         for my $TicketNumber (@TicketNumbers) {
@@ -182,7 +215,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->VerifiedClick();
 
         # run test job again
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$GenericAgentJob' )]")->VerifiedClick();
 
         # check if there is no warning message:
         # "Affected more tickets than how many will be executed on run job"
@@ -197,7 +230,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->VerifiedClick();
 
         # set test job to invalid
-        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $GenericAgentJob, 'link_text' )->VerifiedClick();
 
         $Selenium->execute_script("\$('#Valid').val('0').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
@@ -205,13 +238,14 @@ $Selenium->RunTest(
         # check class of invalid generic job in the overview table
         $Self->True(
             $Selenium->execute_script(
-                "return \$('tr.Invalid td:contains($RandomID)').length"
+                "return \$('tr.Invalid td:contains($GenericAgentJob)').length"
             ),
             "There is a class 'Invalid' for test generic job",
         );
 
         # delete test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$RandomID\' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$GenericAgentJob\' )]")
+            ->VerifiedClick();
 
     }
 

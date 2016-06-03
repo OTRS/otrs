@@ -95,21 +95,23 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         });
 
         $('#EventType').bind('change', function (){
-            TargetNS.ToogleEventSelect($(this).val());
+            TargetNS.ToggleEventSelect($(this).val());
         });
+
+        Core.UI.Table.InitTableFilter($("#FilterGenericAgentJobs"), $("#GenericAgentJobs"));
 
         AddSelectClearButton();
     };
 
     /**
-     * @name ToogleEventSelect
+     * @name ToggleEventSelect
      * @memberof Core.Agent.Admin.GenericAgentEvent
      * @function
      * @param {String} SelectedEventType - Event Type.
      * @description
      *      Toggles the event selection.
      */
-    TargetNS.ToogleEventSelect = function (SelectedEventType) {
+    TargetNS.ToggleEventSelect = function (SelectedEventType) {
         $('.EventList').addClass('Hidden');
         $('#' + SelectedEventType + 'Event').removeClass('Hidden');
     };
@@ -220,6 +222,8 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
             }
         );
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.Admin.GenericAgent || {}));

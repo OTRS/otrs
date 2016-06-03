@@ -357,8 +357,12 @@ sub Run {
         Name => 'ActionAdd',
     );
     $LayoutObject->Block(
+        Name => 'Filter',
+    );
+    $LayoutObject->Block(
         Name => 'Overview',
     );
+
     my %Jobs = $GenericAgentObject->JobList();
 
     # if there are any data, it is shown
