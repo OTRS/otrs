@@ -9377,6 +9377,17 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::GenericAgentTicketSearch###ExtendedSearchCondition" Required="1" Valid="1">
+        <Description Translatable="1">Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&amp;&amp;*key2*)" or "(*key1*||*key2*)".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::GenericAgentRunLimit" Required="0" Valid="1">
         <Description Translatable="1">Set the limit of tickets that will be executed on a single genericagent job execution.</Description>
         <Group>Ticket</Group>

@@ -18,19 +18,27 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
+        # get needed objects
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
             },
         );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # set generic agent run limit
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::GenericAgentRunLimit',
             Value => 10
+        );
+
+        # enable extended condition search for generic agent ticket search
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::GenericAgentTicketSearch###ExtendedSearchCondition',
+            Value => 1,
         );
 
         # create test user and login
@@ -53,7 +61,8 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test tickets
-        my $TestTicketTitle = 'TicketGenericAgent' . $Helper->GetRandomID();
+        my $TestTicketRandomID = $Helper->GetRandomID();
+        my $TestTicketTitle    = "Test Ticket $TestTicketRandomID Generic Agent";
         my @TicketNumbers;
         for ( 1 .. 20 ) {
 
@@ -105,9 +114,10 @@ $Selenium->RunTest(
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
 
         # create test job
-        my $RandomID = "GenericAgent" . $Helper->GetRandomID();
+        my $GenericTicketSearch = "*Ticket $TestTicketRandomID Generic*";
+        my $RandomID            = "GenericAgent" . $Helper->GetRandomID();
         $Selenium->find_element( "#Profile", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Title",   'css' )->send_keys($TestTicketTitle);
+        $Selenium->find_element( "#Title",   'css' )->send_keys($GenericTicketSearch);
         $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
         # check if test job show on AdminGenericAgent
@@ -123,6 +133,28 @@ $Selenium->RunTest(
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
         $Selenium->execute_script("\$('#NewDelete').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
+
+        # run test job
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();
+
+        # verify there are no tickets found with enabled ExtendedSearchCondition
+        $Self->True(
+            index( $Selenium->get_page_source(), '0 Tickets affected! What do you want to do?' ) > -1,
+            "No tickets found on page with ExtendedSearchCondition enabled",
+        );
+
+        # disable extended condition search for generic agent ticket search
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::GenericAgentTicketSearch###ExtendedSearchCondition',
+            Value => 0,
+        );
+
+        # allow mod_perl to pick up the changes
+        sleep 1;
+
+        # navigate to AgentGenericAgent screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent");
 
         # run test job
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$RandomID' )]")->VerifiedClick();

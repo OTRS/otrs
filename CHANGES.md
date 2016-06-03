@@ -36,6 +36,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.11 2016-??-??
+ - 2016-06-03 Fixed bug#[9241](http://bugs.otrs.org/show_bug.cgi?id=9241) - Ticket searching in GenericAgent not working as expected.
  - 2016-06-03 Fixed bug#[8761](http://bugs.otrs.org/show_bug.cgi?id=8761) - OTRS doesn't recognize URLs which contain nested URLs.
  - 2016-06-02 Fixed bug#[11775](http://bugs.otrs.org/show_bug.cgi?id=11775) - Link search term preserved when target object is changed.
  - 2016-06-01 Fixed bug#[12093](http://bugs.otrs.org/show_bug.cgi?id=12093) - OTRS Modern reply field issue.
