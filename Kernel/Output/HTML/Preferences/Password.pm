@@ -177,7 +177,7 @@ sub Run {
 
     # check if password is not matching PasswordRegExp
     if ( $Config->{PasswordRegExp} && $Pw !~ /$Config->{PasswordRegExp}/ ) {
-        $Self->{Error} = Translatable('Can\'t update password, it contains invalid characters!');
+        $Self->{Error} = Translatable('This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.');
         return;
     }
 
@@ -197,7 +197,7 @@ sub Run {
         )
     {
         $Self->{Error}
-            = Translatable('Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!');
+            = Translatable('Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!');
         return;
     }
 
@@ -209,7 +209,7 @@ sub Run {
 
     # check min 2 char password
     if ( $Config->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/ ) {
-        $Self->{Error} = Translatable('Can\'t update password, it must contain at least 2 characters!');
+        $Self->{Error} = Translatable('Can\'t update password, it must contain at least 2 letter characters!');
         return;
     }
 
