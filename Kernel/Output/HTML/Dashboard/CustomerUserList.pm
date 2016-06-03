@@ -302,12 +302,15 @@ sub Run {
             CacheTTL             => $Self->{Config}->{CacheTTLLocal} * 60,
         );
 
+        my $CustomerKeySQL = $Kernel::OM->Get('Kernel::System::DB')->QueryStringEscape( QueryString => $CustomerKey );
+
         $LayoutObject->Block(
             Name => 'ContentLargeCustomerUserListRowCustomerUserTicketsOpen',
             Data => {
                 %Param,
-                Count       => $TicketCountOpen,
-                CustomerKey => $CustomerKey,
+                Count          => $TicketCountOpen,
+                CustomerKey    => $CustomerKey,
+                CustomerKeySQL => $CustomerKeySQL,
             },
         );
 
@@ -324,8 +327,9 @@ sub Run {
             Name => 'ContentLargeCustomerUserListRowCustomerUserTicketsClosed',
             Data => {
                 %Param,
-                Count       => $TicketCountClosed,
-                CustomerKey => $CustomerKey,
+                Count          => $TicketCountClosed,
+                CustomerKey    => $CustomerKey,
+                CustomerKeySQL => $CustomerKeySQL,
             },
         );
 
