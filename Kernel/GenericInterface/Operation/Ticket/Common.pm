@@ -1063,8 +1063,8 @@ sub ValidateTimeUnit {
     # check needed stuff
     return if !$Param{TimeUnit};
 
-    # TimeUnit must be possitive
-    return if $Param{TimeUnit} !~ m{\A \d+? \z}xms;
+    # TimeUnit must be positive
+    return if $Param{TimeUnit} !~ m{\A \d+([.,]\d+)? \z}xms;
 
     return 1;
 }

@@ -3395,6 +3395,58 @@ my @Tests        = (
         Operation => 'TicketCreate',
     },
     {
+        Name           => 'Ticket with TimeUnits fractional',
+        SuccessRequest => 1,
+        SuccessCreate  => 1,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                Queue        => $Queues[0]->{Name},
+                Type         => $TypeData{Name},
+                Service      => $ServiceData{Name},
+                SLA          => $SLAData{Name},
+                State        => $StateData{Name},
+                Priority     => $PriorityData{Name},
+                Owner        => $TestOwnerLogin,
+                Responsible  => $TestResponsibleLogin,
+                PendingTime  => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject äöüßÄÖÜ€ис',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleType                     => 'email-external',
+                SenderType                      => 'agent',
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25.5,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'text/plain; charset=UTF8',
+                Filename    => 'Test.txt',
+                Disposition => 'attachment',
+            },
+        },
+        Operation => 'TicketCreate',
+    },
+    {
         Name           => 'Ticket with IDs Agent (No Permission)',
         SuccessRequest => 1,
         SuccessCreate  => 0,
@@ -3571,7 +3623,7 @@ my @Tests        = (
             Data => {
                 Error => {
                     ErrorCode => 'TicketCreate.AccessDenied',
-                    }
+                },
             },
             Success => 1
         },
