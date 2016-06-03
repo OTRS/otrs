@@ -821,17 +821,21 @@ sub LinkQuote {
         (                                          # $3
             (?: [a-z0-9\-]+ \. )*                  # get subdomains, optional
             [a-z0-9\-]+                            # get top level domain
+            (?:                                    # optional port number
+                [:]
+                [0-9]+
+            )?
             (?:                                    # file path element
                 [\/\.]
-                | [a-zA-Z0-9\-]
+                | [a-zA-Z0-9\-_=%]
             )*
             (?:                                    # param string
                 [\?]                               # if param string is there, "?" must be present
-                [a-zA-Z0-9&;=%\-_]*                # param string content, this will also catch entities like &amp;
+                [a-zA-Z0-9&;=%\-_:\.\/]*           # param string content, this will also catch entities like &amp;
             )?
             (?:                                    # link hash string
                 [\#]                               #
-                [a-zA-Z0-9&;=%\-_]*                # hash string content, this will also catch entities like &amp;
+                [a-zA-Z0-9&;=%\-_:\.\/]*           # hash string content, this will also catch entities like &amp;
             )?
         )
         (?=                                        # $4
