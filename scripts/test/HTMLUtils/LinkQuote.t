@@ -45,6 +45,13 @@ my @Tests = (
         Target => '',
     },
     {
+        Input => 'Some Text with nested url http://www.example.com/redirect?location=www.example2.com',
+        Result =>
+            'Some Text with nested url <a href="http://www.example.com/redirect?location=www.example2.com" title="http://www.example.com/redirect?location=www.example2.com">http://www.example.com/redirect?location=www.example2.com</a>',
+        Name   => 'LinkQuote - nested URL bug#8761',
+        Target => '',
+    },
+    {
         Input => 'Some Text with url http://example-domain.com',
         Result =>
             'Some Text with url <a href="http://example-domain.com" title="http://example-domain.com">http://example-domain.com</a>',
@@ -306,6 +313,30 @@ my @Tests = (
         Result =>
             '<br /><a href="http://cuba/otrs/index.pl?Action=AgentTicketZoom&amp;TicketID=4348" title="http://cuba/otrs/index.pl?Action=AgentTicketZoom&amp;TicketID=4348">http://cuba/otrs/index.pl?Action=AgentTicketZoom&amp;TicketID=4348</a><br /><br />Your OTRS Notification Master',
         Name   => 'LinkQuote - just TLD given;',
+        Target => '',
+    },
+    {
+        Input =>
+            '<br />http://www.server.nl:80/%7Eguido/Python.html<br />',
+        Result =>
+            '<br /><a href="http://www.server.nl:80/%7Eguido/Python.html" title="http://www.server.nl:80/%7Eguido/Python.html">http://www.server.nl:80/%7Eguido/Python.html</a><br />',
+        Name   => 'LinkQuote - address with port given;',
+        Target => '',
+    },
+    {
+        Input =>
+            '<br />https://aa.bb.com/wiki/Obs%C5%82uga_ABC#Sekcja<br />',
+        Result =>
+            '<br /><a href="https://aa.bb.com/wiki/Obs%C5%82uga_ABC#Sekcja" title="https://aa.bb.com/wiki/Obs%C5%82uga_ABC#Sekcja">https://aa.bb.com/wiki/Obs%C5%82uga_ABC#Sekcja</a><br />',
+        Name   => 'LinkQuote - address with URL encodings and hash; ',
+        Target => '',
+    },
+    {
+        Input =>
+            '<br />http://msdn.microsoft.com/en-us/library/windows/hardware/ff557211%28v=vs.85%29.aspx<br />',
+        Result =>
+            '<br /><a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff557211%28v=vs.85%29.aspx" title="http://msdn.microsoft.com/en-us/library/windows/hardware/ff557211%28v=vs.85%29.aspx">http://msdn.microsoft.com/en-us/library/windows/hardware/ff557211%28v=vs.85%29.aspx</a><br />',
+        Name   => 'LinkQuote - address with =; ',
         Target => '',
     },
 );
