@@ -28,13 +28,6 @@
                 <p class="FieldExplanation">
                     <a id="HideHint" href="#" class="CallForAction Fullsize Center"><span><i class="fa fa-times-circle"></i> [% Translate("Hide this message") | html %]</span></a>
                 </p>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#HideHint').bind('click', function(){
-   $(this).parents('.SidebarColumn').hide();
-});
-//]]></script>
-[% END %]
             </div>
         </div>
     </div>
@@ -68,11 +61,6 @@ $('#HideHint').bind('click', function(){
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterLogEntries'), $('#LogEntries'));
-//]]></script>
-[% END %]
             </div>
         </div>
     </div>
