@@ -205,30 +205,3 @@
         </form>
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.ShowWarning').bind('change keyup', function (Event) {
-    $('p.Warning').removeClass('Hidden');
-});
-
-//bind click function to add button
-$('#AddValue').bind('click', function () {
-    Core.Agent.Admin.DynamicFieldMultiselect.AddValue(
-        $(this).closest('fieldset').find('.ValueInsert')
-    );
-    return false;
-});
-
-//bind click function to remove button
-$('.ValueRemove').bind('click', function () {
-    Core.Agent.Admin.DynamicFieldMultiselect.RemoveValue($(this).attr('id'));
-    return false;
-});
-
-$('.DefaultValueKeyItem,.DefaultValueItem').bind('keyup', function () {
-    Core.Agent.Admin.DynamicFieldMultiselect.RecreateDefaultValueList();
-});
-
-Core.Agent.Admin.DynamicField.ValidationInit();
-//]]></script>
-[% END %]
