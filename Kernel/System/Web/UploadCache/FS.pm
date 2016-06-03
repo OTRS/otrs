@@ -172,6 +172,10 @@ sub FormIDRemoveFile {
     }
 
     my @Index = @{ $Self->FormIDGetAllFilesMeta(%Param) };
+
+    # finish if files have been already removed by other process
+    return if !@Index;
+
     my $ID    = $Param{FileID} - 1;
     my %File  = %{ $Index[$ID] };
 
