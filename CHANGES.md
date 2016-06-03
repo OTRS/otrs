@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-06-03 Added an interactive OTRS API shell (Dev::Tools::Shell, aka REPL), special thanks to Thorsten Eckel.
  - 2016-06-03 Added dynamic field support for customer users and companies. To set it up: 1) Add dynamic fields for the new types (via AdminDynamicField). 2) Extend the CustomerUser and CustomerCompany mapping with the dynamic fields. See example mappings in Kernel::Config::Defaults.
  - 2016-05-04 Added the possiblity to configure the responsible field as mandatory (enabled by default for AgentTicketResponsible, if responsible feature is enabled), thanks to S7.
  - 2016-04-29 Reduced error log noise by reducing the log level of less important messages, thanks to Pawel Boguslawski.
