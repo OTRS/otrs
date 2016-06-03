@@ -16,6 +16,7 @@ MONTHFOLDER=`date +%Y-%m`
 YEARFOLDER=`date +%Y`
 LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
 VERBOSE=on
+COMSAT=no
 
 
 # Remove all X-OTRS Header (allow this only for trusted email)
@@ -68,7 +69,7 @@ VERBOSE=on
 
 # Pipe all email into the PostMaster process.
 
-:0 :
+:0 w:
 | $SYS_HOME/bin/otrs.Console.pl Maint::PostMaster::Read
 
 
