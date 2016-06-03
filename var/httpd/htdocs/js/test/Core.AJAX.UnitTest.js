@@ -165,7 +165,7 @@ Core.AJAX = (function (Namespace) {
 
         test('Core.AJAX.SerializeForm()', SerializeFormTests.length, function(){
 
-            // Create a form containter for the tests
+            // Create a form container for the tests
             $('body').append('<form id="CORE_AJAX_SerializeFormTest"></form>');
 
             // Run the tests
@@ -178,7 +178,7 @@ Core.AJAX = (function (Namespace) {
             });
 
             // Cleanup form container and contents
-            $('#CORE_AJAX_TestForm1').remove();
+            $('#CORE_AJAX_SerializeFormTest').remove();
         });
 
         /*
