@@ -10506,6 +10506,16 @@ Thanks for your help!
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="LinkObject::StrikeThroughLinkedTicketStateTypes" Required="0" Valid="1">
+        <Description Translatable="1">For these state types the ticket numbers are striked through in the link table.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::LinkObject</SubGroup>
+        <Setting>
+            <Array>
+                <Item>merged</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Stats::DynamicObjectRegistration###Ticket" Required="0" Valid="1">
         <Description Translatable="1">Module to generate ticket statistics.</Description>
         <Group>Ticket</Group>

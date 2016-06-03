@@ -11,6 +11,8 @@ package Kernel::Output::HTML::LinkObject::Ticket;
 use strict;
 use warnings;
 
+use List::Util qw(first);
+
 use Kernel::Output::HTML::Layout;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
@@ -353,7 +355,8 @@ sub TableCreateComplex {
 
         # set css
         my $CssClass;
-        if ( $Ticket->{StateType} eq 'merged' ) {
+        my @StatesToStrike = @{ $ConfigObject->Get('LinkObject::StrikeThroughLinkedTicketStateTypes') || [] };
+        if ( first{ $Ticket->{StateType} eq $_ }@StatesToStrike ) {
             $CssClass = 'StrikeThrough';
         }
 
@@ -570,7 +573,9 @@ sub TableCreateSimple {
         return;
     }
 
-    my $TicketHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TicketHook   = $ConfigObject->Get('Ticket::Hook');
+
     my %LinkOutputData;
     for my $LinkType ( sort keys %{ $Param{ObjectLinkListWithData} } ) {
 
@@ -590,7 +595,9 @@ sub TableCreateSimple {
 
                 # set css
                 my $CssClass;
-                if ( $Ticket->{StateType} eq 'merged' ) {
+                my @StatesToStrike = @{ $ConfigObject->Get('LinkObject::StrikeThroughLinkedTicketStateTypes') || [] };
+
+                if ( first{ $Ticket->{StateType} eq $_ }@StatesToStrike ) {
                     $CssClass = 'StrikeThrough';
                 }
 
