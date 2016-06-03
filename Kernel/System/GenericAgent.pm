@@ -451,10 +451,11 @@ sub JobRun {
             if ( $Self->{NoticeSTDOUT} ) {
                 print " For all Queues: \n";
             }
+            my $GenericAgentTicketSearch = $ConfigObject->Get("Ticket::GenericAgentTicketSearch") || {};
             %Tickets = $TicketObject->TicketSearch(
                 %Job,
                 %DynamicFieldSearchParameters,
-                ConditionInline => $ConfigObject->Get("Ticket::GenericAgentTicketSearch")->{ExtendedSearchCondition},
+                ConditionInline => $GenericAgentTicketSearch->{ExtendedSearchCondition},
                 Limit           => $Param{Limit} || $RunLimit,
                 UserID          => $Param{UserID},
             );

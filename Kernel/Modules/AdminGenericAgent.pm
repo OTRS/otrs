@@ -1259,7 +1259,7 @@ sub _MaskRun {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # perform ticket search
-    my $GenericAgentTicketSearch = $ConfigObject->Get("Ticket::GenericAgentTicketSearch");
+    my $GenericAgentTicketSearch = $ConfigObject->Get("Ticket::GenericAgentTicketSearch") || {};
     my $Counter                  = $TicketObject->TicketSearch(
         Result          => 'COUNT',
         SortBy          => 'Age',
