@@ -70,6 +70,23 @@ for my $Count ( 1 .. 3 ) {
 my @Tickets = (
 
     # add the ticket in the first statistic queue
+    # (for a time zones < '-8' this ticket was created the previous day)
+    {
+        TimeStamp  => '2014-10-10 08:00:00',
+        TicketData => {
+            Title        => 'Statistic Ticket Title',
+            Queue        => $QueueNames[0],
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => '123465',
+            CustomerUser => 'customer@example.com',
+            OwnerID      => 1,
+            UserID       => 1,
+        },
+    },
+
+    # add the ticket in the first statistic queue
     # (for a time zones < '-11' this ticket was created the previous day)
     {
         TimeStamp  => '2014-12-10 11:00:00',
@@ -991,7 +1008,7 @@ my @Tests = (
         ],
     },
 
-    # Test with a relative time period and without a tim zone
+    # Test with a relative time period and without a time zone
     # Fixed TimeStamp: '2015-08-12 20:00:00'
     # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 12 months' and 'scale 1 month'.
@@ -1054,7 +1071,7 @@ my @Tests = (
             [
                 $QueueNames[0],
                 0,
-                0,
+                1,
                 0,
                 1,
                 0,
@@ -1164,7 +1181,7 @@ my @Tests = (
             [
                 $QueueNames[0],
                 0,
-                0,
+                1,
                 0,
                 1,
                 0,
@@ -1297,7 +1314,7 @@ my @Tests = (
 
     # Test with a relative time period and without a defined time zone
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: -
+    # TimeZone: 0
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1307,8 +1324,9 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'de',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID   => $StatID,
             Hash   => {
+                TimeZone => '0',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1386,7 +1404,7 @@ my @Tests = (
 
     # Test with a relative time period and without a defined time zone
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: -
+    # TimeZone: 0
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1398,6 +1416,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
+                TimeZone => '0',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1469,6 +1488,304 @@ my @Tests = (
                 0,
                 0,
                 0,
+            ],
+        ],
+    },
+
+    # Test with a relative time period and without a defined time zone
+    # Fixed TimeStamp: '2015-08-20 20:00:00'
+    # TimeZone: 0
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 month'.
+    # Y-Axis: 'CreateTime' with 'scale 1 year'
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+    {
+        Description => 'Test stat without a time zone (last complete 24 months and scale 1 month) and time element on Y-Axis',
+        TimeStamp   => '2015-08-20 14:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID   => $StatID,
+            Hash   => {
+                TimeZone => '0',
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 24,
+                        TimeRelativeUpcomingCount => 1,
+                        TimeRelativeUnit          => 'Month',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Month',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Year',
+                        ],
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests',
+            ],
+            [
+                'Year',
+                'Jan 1',
+                'Feb 2',
+                'Mar 3',
+                'Apr 4',
+                'May 5',
+                'Jun 6',
+                'Jul 7',
+                'Aug 8',
+                'Sep 9',
+                'Oct 10',
+                'Nov 11',
+                'Dec 12',
+            ],
+            [
+                '2013',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                0,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                '2014',
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                0,
+                1,
+            ],
+            [
+                '2015',
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                5,
+                '',
+                '',
+                '',
+                '',
+            ],
+        ],
+    },
+
+    # Test with a relative time period and without a defined time zone
+    # Fixed TimeStamp: '2015-08-20 20:00:00'
+    # TimeZone: 0
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 3 months and current+upcoming 1 months' and 'scale 1 month'.
+    # Y-Axis: 'CreateTime' with 'scale 1 year'
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+    {
+        Description => 'Test stat without a time zone (last complete 3 months and scale 1 month) and time element on Y-Axis',
+        TimeStamp   => '2015-08-20 14:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID   => $StatID,
+            Hash   => {
+                TimeZone => '0',
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 3,
+                        TimeRelativeUpcomingCount => 1,
+                        TimeRelativeUnit          => 'Month',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Month',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Year',
+                        ],
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests',
+            ],
+            [
+                'Year',
+                'Jan 1',
+                'Feb 2',
+                'Mar 3',
+                'Apr 4',
+                'May 5',
+                'Jun 6',
+                'Jul 7',
+                'Aug 8',
+                'Sep 9',
+                'Oct 10',
+                'Nov 11',
+                'Dec 12',
+            ],
+            [
+                '2015',
+                '',
+                '',
+                '',
+                '',
+                0,
+                0,
+                1,
+                5,
+                '',
+                '',
+                '',
+                '',
+            ],
+        ],
+    },
+
+    # Test with a relative time period and without a defined time zone
+    # Fixed TimeStamp: '2015-08-20 20:00:00'
+    # TimeZone: 0
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 quarter'.
+    # Y-Axis: 'CreateTime' with 'scale 1 year'
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+    {
+        Description => 'Test stat without a time zone (last complete 24 months and scale 1 quarter) and time element on Y-Axis',
+        TimeStamp   => '2015-08-20 14:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID   => $StatID,
+            Hash   => {
+                TimeZone => '0',
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 24,
+                        TimeRelativeUpcomingCount => 1,
+                        TimeRelativeUnit          => 'Month',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Quarter',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Year',
+                        ],
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests',
+            ],
+            [
+                'Year',
+                'quarter 1',
+                'quarter 2',
+                'quarter 3',
+                'quarter 4',
+            ],
+            [
+                '2013',
+                '',
+                '',
+                0,
+                0,
+            ],
+            [
+                '2014',
+                0,
+                0,
+                1,
+                2,
+            ],
+            [
+                '2015',
+                0,
+                0,
+                7,
+                '',
             ],
         ],
     },
