@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-06-03 Fixed bug#[12110](http://bugs.otrs.org/show_bug.cgi?id=12110) - ACL Queue limitation not working in CustomerTicketProcess, thanks to Thorsten Eckel.
  - 2016-06-03 Added support for fractional timeunits in GenericInterface TicketConnector, thanks to Jonas Wanninger.
  - 2016-06-03 Fixed bug#[12085](http://bugs.otrs.org/show_bug.cgi?id=12085) - CIC search links don't work when customer login contains parentheses.
  - 2016-06-23 Fixed Internal Server Error on attachment removal page reload, thanks to Pawel Boguslawski.
