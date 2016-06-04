@@ -4422,10 +4422,10 @@ sub _GetQueues {
         if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
             %Queues = $Kernel::OM->Get('Kernel::System::Ticket')->MoveList(
                 %Param,
-                Type    => 'create',
-                Action  => $Self->{Action},
-                QueueID => $Self->{QueueID},
-                UserID  => $ConfigObject->Get('CustomerPanelUserID'),
+                Type           => 'create',
+                Action         => $Self->{Action},
+                QueueID        => $Self->{QueueID},
+                CustomerUserID => $Self->{UserID},
             );
         }
         else {
