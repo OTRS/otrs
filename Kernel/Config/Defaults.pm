@@ -1478,7 +1478,6 @@ via the Preferences button after logging in.
             # CustomerUserSearchFields, CustomerUserPostMasterSearchFields, CustomerUserListFields, CustomerUserNameFields
             #
             # Note that the columns 'frontend' and 'readonly' will be ignored for dynamic fields.
-            # Note that dynamic fields are not supported for LDAP.
 
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
