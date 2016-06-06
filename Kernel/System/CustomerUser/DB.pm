@@ -102,7 +102,9 @@ sub new {
     # create_by, change_time and change_by fields of OTRS
     $Self->{ForeignDB} = $Self->{CustomerUserMap}->{Params}->{ForeignDB} ? 1 : 0;
 
-    $Self->{CaseSensitive} = $Self->{CustomerUserMap}->{Params}->{CaseSensitive} || 0;
+    # defines if the database search will be performend case sensitive (1) or not (0)
+    $Self->{CaseSensitive} = $Self->{CustomerUserMap}->{Params}->{SearchCaseSensitive}
+        // $Self->{CustomerUserMap}->{Params}->{CaseSensitive} || 0;
 
     # fetch names of configured dynamic fields
     my @DynamicFieldMapEntries = grep { $_->[5] eq 'dynamic_field' } @{ $Self->{CustomerUserMap}->{Map} };
@@ -922,7 +924,7 @@ sub CustomerUserAdd {
 
     MAPENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next MAPENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
+        next MAPENTRY if $Entry->[5] eq 'dynamic_field';            # skip dynamic fields
         next MAPENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next MAPENTRY if $SeenKey{ $Entry->[2] }++;
         push @ColumnNames, $Entry->[2];
@@ -941,7 +943,7 @@ sub CustomerUserAdd {
 
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next ENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
+        next ENTRY if $Entry->[5] eq 'dynamic_field';            # skip dynamic fields
         next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next ENTRY if $SeenValue{ $Entry->[2] }++;
         $BindColumns++;
@@ -1079,7 +1081,7 @@ sub CustomerUserUpdate {
     my %SeenKey;    # If the map contains duplicated field names, insert only once.
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next ENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
+        next ENTRY if $Entry->[5] eq 'dynamic_field';            # skip dynamic fields
         next ENTRY if $Entry->[7];                               # skip readonly fields
         next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next ENTRY if $SeenKey{ $Entry->[2] }++;

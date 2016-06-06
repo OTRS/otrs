@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-06-06 Fixed bug#[12020](http://bugs.otrs.org/show_bug.cgi?id=12020) - Option CaseSensitive has no impact on external customer database.
  - 2016-06-03 Improved default procmail config (disabled comsat and added postmaster pipe waiting), thanks to Pawel Boguslawski.
  - 2016-06-03 Speed up TicketNewMessageUpdate, thanks to Moritz Lenz.
  - 2016-06-03 Make it possible to re-enable auto responses from Postmaster filters by setting X-OTRS-Loop to no/false, thanks to Pawel Boguslawski.
