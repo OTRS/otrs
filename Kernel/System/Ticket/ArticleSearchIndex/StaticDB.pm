@@ -38,12 +38,13 @@ sub ArticleIndexBuild {
         DynamicFields => 0,
     );
 
+    my $SearchIndexAttributes = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
     for my $Key (qw(From To Cc Subject)) {
         if ( $Article{$Key} ) {
             $Article{$Key} = $Self->_ArticleIndexString(
                 String        => $Article{$Key},
-                WordLengthMin => 3,
-                WordLengthMax => 60,
+                WordLengthMin => $SearchIndexAttributes->{WordLengthMin} || 3,
+                WordLengthMax => $SearchIndexAttributes->{WordLengthMax} || 30,
             );
         }
     }
@@ -253,16 +254,16 @@ sub _ArticleIndexString {
         return;
     }
 
-    my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
+    my $SearchIndexAttributes = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
 
-    my $WordCountMax = $Config->{WordCountMax} || 1000;
+    my $WordCountMax = $SearchIndexAttributes->{WordCountMax} || 1000;
 
     # get words (use eval to prevend exits on damaged utf8 signs)
     my $ListOfWords = eval {
         $Self->_ArticleIndexStringToWord(
             String        => \$Param{String},
-            WordLengthMin => $Param{WordLengthMin},
-            WordLengthMax => $Param{WordLengthMax},
+            WordLengthMin => $Param{WordLengthMin} || $SearchIndexAttributes->{WordLengthMin} || 3,
+            WordLengthMax => $Param{WordLengthMax} || $SearchIndexAttributes->{WordLengthMax} || 30,
         );
     };
 
@@ -316,9 +317,9 @@ sub _ArticleIndexStringToWord {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Config      = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
-    my @Filters     = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
-    my $StopWordRaw = $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {};
+    my $SearchIndexAttributes = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
+    my @Filters               = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
+    my $StopWordRaw           = $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {};
 
     # error handling
     if ( !$StopWordRaw || ref $StopWordRaw ne 'HASH' ) {
@@ -350,7 +351,7 @@ sub _ArticleIndexStringToWord {
         WORD:
         for my $Word ( @{ $StopWordRaw->{$Language} } ) {
 
-            next WORD if !$Word;
+            next WORD if !defined $Word || !length $Word;
 
             $Word = lc $Word;
 
@@ -359,8 +360,8 @@ sub _ArticleIndexStringToWord {
     }
 
     # get words
-    my $LengthMin = $Param{WordLengthMin} || $Config->{WordLengthMin} || 3;
-    my $LengthMax = $Param{WordLengthMax} || $Config->{WordLengthMax} || 30;
+    my $LengthMin = $Param{WordLengthMin} || $SearchIndexAttributes->{WordLengthMin} || 3;
+    my $LengthMax = $Param{WordLengthMax} || $SearchIndexAttributes->{WordLengthMax} || 30;
     my @ListOfWords;
 
     WORD:
@@ -369,11 +370,11 @@ sub _ArticleIndexStringToWord {
         # apply filters
         FILTER:
         for my $Filter (@Filters) {
-            next FILTER if !$Word;
+            next FILTER if !defined $Word || !length $Word;
             $Word =~ s/$Filter//g;
         }
 
-        next WORD if !$Word;
+        next WORD if !defined $Word || !length $Word;
 
         # convert to lowercase to avoid LOWER()/LCASE() in the DB query
         $Word = lc $Word;

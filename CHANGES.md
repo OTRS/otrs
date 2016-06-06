@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-06-06 Added checks for length of words in search terms when using search index/StaticDB backend.
  - 2016-06-06 Fixed bug#[12020](http://bugs.otrs.org/show_bug.cgi?id=12020) - Option CaseSensitive has no impact on external customer database.
  - 2016-06-05 Add CustomerCompanyName Column to Dashboard and CIC, thanks to Ernst Oudhof.
  - 2016-06-04 Fixed bug#[12094](http://bugs.otrs.org/show_bug.cgi?id=12094) - Stats matrix with month columns and year rows gets first row wrong.
