@@ -43,6 +43,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.11 2016-??-??
+ - 2016-06-06 Fixed bug#[12122](http://bugs.otrs.org/show_bug.cgi?id=12122) - Wrong offset in substr function, ForeignKeyCreate function.
  - 2016-06-05 Add CustomerCompanyName Column to Dashboard and CIC, thanks to Ernst Oudhof.
  - 2016-06-04 Fixed bug#[12094](http://bugs.otrs.org/show_bug.cgi?id=12094) - Stats matrix with month columns and year rows gets first row wrong.
  - 2016-06-03 Fixed bug#[12110](http://bugs.otrs.org/show_bug.cgi?id=12110) - ACL Queue limitation not working in CustomerTicketProcess, thanks to Thorsten Eckel.
