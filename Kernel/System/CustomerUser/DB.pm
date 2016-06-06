@@ -98,7 +98,9 @@ sub new {
     # create_by, change_time and change_by fields of OTRS
     $Self->{ForeignDB} = $Self->{CustomerUserMap}->{Params}->{ForeignDB} ? 1 : 0;
 
-    $Self->{CaseSensitive} = $Self->{CustomerUserMap}->{Params}->{CaseSensitive} || 0;
+    # defines if the database search will be performend case sensitive (1) or not (0)
+    $Self->{CaseSensitive} = $Self->{CustomerUserMap}->{Params}->{SearchCaseSensitive}
+        // $Self->{CustomerUserMap}->{Params}->{CaseSensitive} || 0;
 
     return $Self;
 }
