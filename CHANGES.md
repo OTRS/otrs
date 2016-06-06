@@ -1,4 +1,5 @@
 #4.0.18 2016-??-??
+ - 2016-06-03 Fixed bug#[12110](http://bugs.otrs.org/show_bug.cgi?id=12110) - ACL Queue limitation not working in CustomerTicketProcess, thanks to Thorsten Eckel.
  - 2016-06-03 Fixed bug#[12085](http://bugs.otrs.org/show_bug.cgi?id=12085) - CIC search links don't work when customer login contains parentheses.
  - 2016-05-27 Fixed bug#[12074](http://bugs.otrs.org/show_bug.cgi?id=12074) - Redundant and confusing code in Kernel/System/TemplateGenerator.pm.
  - 2016-05-27 Fixed bug#[12018](http://bugs.otrs.org/show_bug.cgi?id=12018) - HTML body not retrieved on by GI operation TicketGet (Added HTMLBodyAsAttachment parameter to retrieve is as an attachment).
