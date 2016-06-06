@@ -2294,13 +2294,17 @@ sub SearchStringStopWordsFind {
         WORD:
         for my $Word ( @{ $StopWordRaw->{$Language} } ) {
 
-            next WORD if !$Word;
+            next WORD if !defined $Word || !length $Word;
 
             $Word = lc $Word;
 
             $StopWord{$Word} = 1;
         }
     }
+
+    my $SearchIndexAttributes = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
+    my $WordLengthMin         = $SearchIndexAttributes->{WordLengthMin} || 3;
+    my $WordLengthMax         = $SearchIndexAttributes->{WordLengthMax} || 30;
 
     my %StopWordsFound;
     SEARCHSTRING:
@@ -2322,7 +2326,8 @@ sub SearchStringStopWordsFind {
             }
         }
 
-        @{ $StopWordsFound{$Key} } = grep { $StopWord{$_} } sort keys %Words;
+        @{ $StopWordsFound{$Key} }
+            = grep { $StopWord{$_} || length $_ < $WordLengthMin || length $_ > $WordLengthMax } sort keys %Words;
     }
 
     return \%StopWordsFound;
