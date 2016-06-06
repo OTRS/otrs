@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-06-05 Add CustomerCompanyName Column to Dashboard and CIC, thanks to Ernst Oudhof.
  - 2016-06-03 Improved default procmail config (disabled comsat and added postmaster pipe waiting), thanks to Pawel Boguslawski.
  - 2016-06-03 Speed up TicketNewMessageUpdate, thanks to Moritz Lenz.
  - 2016-06-03 Make it possible to re-enable auto responses from Postmaster filters by setting X-OTRS-Loop to no/false, thanks to Pawel Boguslawski.

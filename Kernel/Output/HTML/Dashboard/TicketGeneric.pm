@@ -1522,6 +1522,15 @@ sub Run {
                     }
                     $DataValue = $CustomerName;
                 }
+                elsif ( $Column eq 'CustomerCompanyName' ) {
+                    my %CustomerCompanyData;
+                    if ( $Ticket{CustomerID} ) {
+                        %CustomerCompanyData = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(
+                            CustomerID => $Ticket{CustomerID},
+                        );
+                    }
+                    $DataValue = $CustomerCompanyData{CustomerCompanyName};
+                }
                 else {
                     $DataValue = $Ticket{$Column};
                 }
