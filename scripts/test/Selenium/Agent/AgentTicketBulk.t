@@ -132,11 +132,11 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $Tickets[0]->{TicketNumber} ) > -1,
             "Closed ticket $Tickets[0]->{TicketNumber} found on page",
-        );
+        ) || die "Could not find closed ticket $Tickets[0]->{TicketNumber} on page";
         $Self->True(
             index( $Selenium->get_page_source(), $Tickets[1]->{TicketNumber} ) > -1,
             "Closed ticket $Tickets[1]->{TicketNumber} found on page",
-        );
+        ) || die "Could not find closed ticket $Tickets[1]->{TicketNumber} on page";
 
         # clean up test data from the DB
         for my $Ticket (@Tickets) {
