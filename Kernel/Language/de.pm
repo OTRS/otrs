@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.927563697620552;
+    $Self->{Completeness}        = 0.93080967402734;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1027,9 +1027,9 @@ sub Data {
         'Show link' => 'Link anzeigen',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier können Sie einen optionalen Link für die Felddarstellung in Übersichten und Ansichtsseiten angeben.',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
-            '',
+        'Link for preview' => 'Link für Vorschau',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            'Diese URL wird (falls vorhanden) für eine Vorschau verwendet, wenn sich die Maus über diesem Link in der Ticketansicht befindet. Hierfür muss das oben stehende URL-Feld ebenso ausgefüllt werden.',
         'Restrict entering of dates' => 'Eingabe von Daten einschränken',
         'Here you can restrict the entering of dates of tickets.' => 'Hier können Sie die Eingabe von Daten in dieses Feld einschränken.',
 
@@ -1432,11 +1432,11 @@ sub Data {
         'Configuration history' => 'Konfigurations-Historie',
         'Delete web service' => 'Webservice löschen',
         'Do you really want to delete this web service?' => 'Wollen Sie diesen Webservice wirklich löschen?',
-        'Example Web Services' => '',
+        'Example Web Services' => 'Beispiel Webdienste',
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
-            '',
-        'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+            'Hier können Sie "Best-Practice"-Beispiel-Webservices aktivieren, die Teil der %s sind. Bitte beachten Sie, dass weitere Konfiguration erforderlich sein kann.',
+        'Import example web service' => 'Beispiel-Webservice importieren',
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Nach dem Speichern der Konfiguration werden Sie wieder auf den Bearbeitungsbildschirm geleitet.',
@@ -2023,9 +2023,9 @@ sub Data {
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Zuordnung von Queues und automatischen Antworten verwalten',
         'This filter allow you to show queues without auto responses' => 'Dieser Filter erlaubt das Anzeigen von Queues ohne Automatische Antworten',
-        'Queues without auto responses' => 'Warteschlangen ohne automatische Antworten',
+        'Queues without auto responses' => 'Queues ohne automatische Antworten',
         'This filter allow you to show all queues' => 'Dieser Filter erlaubt das Anzeigen aller Queues',
-        'Show all queues' => 'Alle Warteschlangen anzeigen',
+        'Show all queues' => 'Alle Queues anzeigen',
         'Filter for Queues' => 'Filter für Queues',
         'Filter for Auto Responses' => 'Filter für automatische Antworten',
         'Auto Responses' => 'Automatische Antworten',
@@ -2163,7 +2163,7 @@ sub Data {
         'Agents' => 'Agenten',
         'Manage Role-Agent Relations' => 'Zuordnungen von Agenten und Rollen verwalten',
         'Change Role Relations for Agent' => 'Rollen-Zuordnungen verändern für Agenten',
-        'Change Agent Relations for Role' => 'Agenten-Zurordnungen verändern für Rolle',
+        'Change Agent Relations for Role' => 'Agenten-Zuordnungen verändern für Rolle',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA-Verwaltung',
@@ -2569,8 +2569,7 @@ sub Data {
         'Link Object: %s' => 'Verknüpfung erstellen: %s',
         'go to link delete screen' => 'zu "Verknüpfung löschen" wechseln',
         'Select Target Object' => 'Zielobjekt auswählen',
-        'Link Object' => 'Verknüpfe Objekt',
-        'with' => 'mit',
+        'Link object %s with' => 'Objekt %s verknüpfen mit',
         'Unlink Object: %s' => 'Verknüpfung lösen: %s',
         'go to link add screen' => 'zu "Verknüpfung hinzufügen" wechseln',
 
@@ -2859,11 +2858,11 @@ sub Data {
         'Close this message' => 'Diese Nachricht schließen',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Artikel konnte nicht geöffnet werden. Befindet er sich vielleicht auf einer anderen Artikelseite?',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
-            '',
+        'Scale preview content' => 'Vorschauinhalt skalieren',
+        'Open URL in new tab' => 'URL in neuem Tab öffnen',
+        'Close preview' => 'Vorschau schließen',
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
+            'Diese Webseite kann nicht als Vorschau angezeigt werden, weil sie keine Einbettung erlaubt.',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.',
@@ -2942,6 +2941,7 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Zitat aufteilen',
+        'Open link' => 'Link öffnen',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Service-Level-Vereinbarung',
@@ -3015,6 +3015,11 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => 'Ein Fehler ist aufgetreten.',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            'Wirklich ein Bug? 5 von 10 Bugmeldungen resultieren aus einer falschen oder unvollständigen Installation von OTRS.',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            'Mit der %s übernehmen unsere Experten die korrekte Installation und halten Ihnen mit Support und regelmäßigen Sicherheitsupdates den Rücken frei.',
+        'Contact our service team now.' => '',
         'Send a bugreport' => 'einen Fehlerbericht senden',
         'Error Details' => 'Fehlerdetails',
 
@@ -3395,7 +3400,7 @@ sub Data {
         'There was an error creating the web service.' => 'Beim Erstellen des Webservice ist ein Fehler aufgetreten.',
         'Web service "%s" created!' => 'Web Service "%s" erstellt!',
         'Need Name!' => 'Name benötigt!',
-        'Need ExampleWebService!' => '',
+        'Need ExampleWebService!' => 'Benötige ExampleWebService!',
         'Could not read %s!' => 'Konnte %s nicht lesen!',
         'Need a file to import!' => 'Benötige eine zu importierende Datei!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3613,8 +3618,8 @@ sub Data {
         'Please contact the admin.' => 'Bitte kontaktieren Sie einen Administrator.',
         'You need ro permission!' => 'Sie benötigen die ro-Berechtigung!',
         'Can not delete link with %s!' => 'Kann Link mit %s nicht entfernen.',
+        'Can not create link with %s! Object already linked as %s.' => 'Kann Verknüpfung zu %s nicht erstellen! Objekt bereits verknüpft als %s.',
         'Can not create link with %s!' => 'Kann Link mit %s nicht erstellen.',
-        'Object already linked as %s.' => 'Objekt bereits verknüpft als %s.',
         'The object %s cannot link with other object!' => 'Objekt %s kann nicht mit anderen Objekten verknüpft werden!',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -3882,10 +3887,10 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => 'Die Starten-Zeit eines Tickets wurde auf einen Zeitpunkt nach der Ende-Zeit gesetzt!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'filter not active' => 'Filter nicht aktiv',
-        'filter active' => 'Filter aktiv',
         'sorted ascending' => 'aufsteigend sortiert',
         'sorted descending' => 'absteigend sortiert',
+        'filter not active' => 'Filter nicht aktiv',
+        'filter active' => 'Filter aktiv',
         'This ticket has no title or subject' => 'Dieses Ticket hat keinen Titel oder Betreff',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -4413,7 +4418,7 @@ Ihr Helpdesk-Team
         'Added link to ticket "%s".' => 'Verknüpfung zu "%s" hergestellt.',
         'Added note (%s)' => 'Notiz hinzugefügt (%s)',
         'Added subscription for user "%s".' => 'Abo für Benutzer "%s" eingetragen.',
-        'Address book of CustomerUser sources.' => '',
+        'Address book of CustomerUser sources.' => 'Adressbuch für Kundenbenutzer-Quellen.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Fügt einen Suffix mit dem aktuellen Jahr und Monat in die OTRS-Protokolldatei hinzu. Für jeden Monat wir eine eigen Log-Datei erstellt.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
@@ -4428,8 +4433,8 @@ Ihr Helpdesk-Team
             'Fügt die permanenten Ferien-Tage hinzu. Bitte benutzen Sie ein Ein-Zahlen-Muster mit Zahlen von 1 bis 9 (anstatt 01 - 09).',
         'Admin Area.' => 'Administratorbereich.',
         'After' => 'nach',
-        'Agent Name' => '',
-        'Agent Name + FromSeparator + System Address Display Name' => '',
+        'Agent Name' => 'Agentenname',
+        'Agent Name + FromSeparator + System Address Display Name' => 'Agenten-Name + From-Trennzeichen + Anzeigename der System-Adresse',
         'Agent Preferences.' => 'Persönliche Agenten-Einstellungen',
         'Agent called customer.' => 'Kunden angerufen.',
         'Agent interface article notification module to check PGP.' => 'Benachrichtigungsmodul im Agenten-Interface das die PGP-Überprüfung durchführt.',
@@ -4501,6 +4506,8 @@ Ihr Helpdesk-Team
             'Erlaubt erweiterte Suchbedingungen in der Ticket-Suche des Agenten-Bereichs. Mit dieser Funktion können Sie z.B. mit Bedingungen wie "(key1&&key2)" oder "(key1||key2)" suchen.',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Erlaubt erweiterte Suchbedingungen in der Ticketsuche im Kundenbereich. Mit diesem Feature können Sie Suchbedingungen wie "(key1&&key2)" oder "(key1||key2)" festlegen.',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen  (Customer => 1 - zeigt auch die Kundeninformation).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4680,9 +4687,9 @@ Ihr Helpdesk-Team
             'Kunden-Tickets (Symbol), die die offenen Tickets eines Kunden als Infoblock anzeigt. Setzen Sie die Einstellung CustomerUserLogin auf 1 um Tickets auf Basis des Login-Namens zu suchen anstatt auf Basis der CustomerID.',
         'Customer preferences.' => 'Persönliche Kunden-Einstellungen',
         'Customer request via web.' => 'Kunde stellte Anfrage über Web.',
-        'Customer ticket overview' => '',
+        'Customer ticket overview' => 'Kunden-Ticket-Übersicht',
         'Customer ticket search.' => 'Kunden-Ticketsuche.',
-        'Customer ticket zoom' => '',
+        'Customer ticket zoom' => 'Ticketansicht für Kunden',
         'Customer user search' => 'Kundenbenutzersuche',
         'CustomerID search' => 'Kundennummernsuche',
         'CustomerName' => 'Kundenname',
@@ -4753,7 +4760,7 @@ Ihr Helpdesk-Team
             'Definiert einen Filter für die HTML-Ausgabe um Links hinter einer bestimmten Zeichenfolge hinzufügen. Das Element Bild erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Definiert einen Filter für die HTML-Ausgabe um Links hinter Bugtraq-Nummern hinzufügen. Das Element Bild erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Definiert einen Filter, um den Text in den Artikel zu verarbeiten, um vordefinierte Schlüsselwörter zu markieren.',
@@ -5355,6 +5362,8 @@ Ihr Helpdesk-Team
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Löscht die Session, wenn die Session-ID mit einer ungültigen IP-Adresse benutzt wird.',
         'Deletes requested sessions if they have timed out.' => 'Löscht die angefragte Session, wenn ein Timeout vorliegt.',
+        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+            '',
         'Deploy and manage OTRS Business Solution™.' => 'Bereitstellung und Verwaltung der OTRS Business Solution ™.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '',
@@ -5801,6 +5810,7 @@ Ihr Helpdesk-Team
         'Lastname, Firstname (UserLogin)' => 'Nachname, Vorname (BenutzerLogin)',
         'Latvian' => 'Lettisch',
         'Left' => 'Links',
+        'Link Object' => 'Verknüpfe Objekt',
         'Link Object.' => '',
         'Link agents to groups.' => 'Agenten zu Gruppen zuordnen.',
         'Link agents to roles.' => 'Agenten zu Rollen zuordnen.',
@@ -6725,7 +6735,7 @@ Ihr Helpdesk-Team
         'Ticket notifications' => 'Ticket-Benachrichtigungen',
         'Ticket overview' => 'Ticket-Übersicht',
         'Ticket plain view of an email.' => '',
-        'Ticket title' => '',
+        'Ticket title' => 'Ticket-Titel',
         'Ticket zoom view.' => '',
         'TicketNumber' => 'Ticketnummer',
         'Tickets.' => 'Tickets.',
@@ -6733,7 +6743,7 @@ Ihr Helpdesk-Team
             '',
         'Title updated: Old: "%s", New: "%s"' => 'Titel geändert: Alt: "%s", Neu: "%s"',
         'To accept login information, such as an EULA or license.' => '',
-        'To download attachments.' => '',
+        'To download attachments.' => 'Zum Herunterladen von Anhängen.',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Schaltet die Anzeige der OTRS FeatureAddon-Liste in der Paket-Verwaltung um.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6779,7 +6789,7 @@ Ihr Helpdesk-Team
         'Vietnam' => 'Vietnamesisch',
         'View performance benchmark results.' => 'Ergebnisse der Leistungsmessung ansehen.',
         'Watch this ticket' => 'Dieses Ticket beobachten',
-        'Watched Tickets.' => '',
+        'Watched Tickets.' => 'Beobachtete Tickets.',
         'We are performing scheduled maintenance.' => 'Wir führen eine geplante Wartung durch.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             'Wir führen eine geplante Wartung durch. Das Einloggen ist im Moment nicht möglich.',
