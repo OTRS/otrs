@@ -33,6 +33,7 @@
         </div>
 [% RenderBlockEnd("ActionList") %]
 
+[% RenderBlockStart("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterAutoResponses">[% Translate("Filter for Auto Responses") | html %]</label></h2>
@@ -41,6 +42,7 @@
                 <input type="text" id="FilterAutoResponses" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterAutoResponses" value="" title="[% Translate("Filter for auto responses") | html %]">
             </div>
         </div>
+[% RenderBlockEnd("Filter") %]
     </div>
 
 
@@ -86,11 +88,6 @@
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterAutoResponses'), $('#AutoResponses'));
-//]]></script>
-[% END %]
             </div>
         </div>
 [% RenderBlockEnd("OverviewResult") %]

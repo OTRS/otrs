@@ -81,65 +81,110 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # create a real test Auto Response
-        my $RandomID = 'AutoResponse' . $Helper->GetRandomID();
-        my $Text     = "Selenium auto response text";
+        # get needed variables
+        my $RandomNumber = $Helper->GetRandomNumber();
+        my @AutoResponseNames;
 
-        $Selenium->find_element( "#Name",     'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Subject",  'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($Text);
-        $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#AddressID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        # create a real test auto responses
+        for my $Item (qw(First Second)) {
 
-        # check if test auto response show on AdminAutoResponse screen
-        $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID job found on page",
-        );
+            # navigate to 'Add auto response' screen in second case
+            if ( $Item eq 'Second' ) {
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAutoResponse;Subaction=Add");
+            }
+
+            my $AutoResponseName = $Item . 'AutoResponse' . $RandomNumber;
+            my $Text             = "Selenium auto response text";
+
+            $Selenium->find_element( "#Name",     'css' )->send_keys($AutoResponseName);
+            $Selenium->find_element( "#Subject",  'css' )->send_keys($AutoResponseName);
+            $Selenium->find_element( "#RichText", 'css' )->send_keys($Text);
+            $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script("\$('#AddressID').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+
+            # check if test auto response show on AdminAutoResponse screen
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table tbody tr td:contains($AutoResponseName)').length"
+                ),
+                1,
+                "Auto response job '$AutoResponseName' is found in the table",
+            );
+
+            push @AutoResponseNames, $AutoResponseName;
+        }
 
         # edit test job and set it to invalid
-        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
-        my $RandomID2 = 'AutoResponseUpdate' . $Helper->GetRandomID();
+        $Selenium->find_element( $AutoResponseNames[0], 'link_text' )->VerifiedClick();
+
+        $AutoResponseNames[0] = 'Update' . $AutoResponseNames[0];
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID2);
+        $Selenium->find_element( "#Name", 'css' )->send_keys( $AutoResponseNames[0] );
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check if edited auto response show on AdminAutoResponse
-        $Self->True(
-            index( $Selenium->get_page_source(), $RandomID2 ) > -1,
-            "$RandomID2 auto response found on page",
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('table tbody tr td:contains($AutoResponseNames[0])').length"
+            ),
+            1,
+            "Auto response job '$AutoResponseNames[0]' is found in the table",
         );
 
         # check class of invalid AutoResponse in the overview table
-        $Self->True(
+        $Self->Is(
             $Selenium->execute_script(
-                "return \$('tr.Invalid td a:contains($RandomID2)').length"
+                "return \$('tr.Invalid td a:contains($AutoResponseNames[0])').length"
             ),
-            "There is a class 'Invalid' for test AutoResponse",
+            1,
+            "There is a class 'Invalid' for auto response $AutoResponseNames[0]",
         );
 
-        # since there are no tickets that rely on our test auto response, we can remove them
-        # again from the DB
-        if ($RandomID2) {
-            my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-            $RandomID2 = $DBObject->Quote($RandomID2);
-            my $Success = $DBObject->Do(
+        # navigate to AdminAutoResponse screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAutoResponse");
+
+        # filter auto responses
+        $Selenium->find_element( "#FilterAutoResponses", 'css' )->clear();
+        $Selenium->find_element( "#FilterAutoResponses", 'css' )->send_keys( $AutoResponseNames[0], "\N{U+E007}" );
+        sleep 1;
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('table tbody tr td:contains($AutoResponseNames[0])').parent().css('display')"
+            ),
+            'table-row',
+            "Auto response '$AutoResponseNames[0]' is found in the table"
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('table tbody tr td:contains($AutoResponseNames[1])').parent().css('display')"
+            ),
+            'none',
+            "Auto response '$AutoResponseNames[1]' is not found in the table"
+        );
+
+        # cleanup
+        # since there are no tickets that rely on our test auto response,
+        # we can remove them from the DB
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+        my $Success;
+
+        for my $TestARName (@AutoResponseNames) {
+            $TestARName = $DBObject->Quote($TestARName);
+            $Success    = $DBObject->Do(
                 SQL  => "DELETE FROM auto_response WHERE name = ?",
-                Bind => [ \$RandomID2 ],
+                Bind => [ \$TestARName ],
             );
-            if ($Success) {
-                $Self->True(
-                    $Success,
-                    "AutoResponseDelete - $RandomID2",
-                );
-            }
+            $Self->True(
+                $Success,
+                "Auto response '$TestARName' is deleted",
+            );
         }
-
     }
-
 );
 
 1;
