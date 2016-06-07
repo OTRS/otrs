@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.93080967402734;
+    $Self->{Completeness}        = 0.931019978969506;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1432,7 +1432,7 @@ sub Data {
         'Configuration history' => 'Konfigurations-Historie',
         'Delete web service' => 'Webservice löschen',
         'Do you really want to delete this web service?' => 'Wollen Sie diesen Webservice wirklich löschen?',
-        'Example Web Services' => 'Beispiel Webdienste',
+        'Example Web Services' => 'Beispiel-Webservices',
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             'Hier können Sie "Best-Practice"-Beispiel-Webservices aktivieren, die Teil der %s sind. Bitte beachten Sie, dass weitere Konfiguration erforderlich sein kann.',
         'Import example web service' => 'Beispiel-Webservice importieren',
@@ -3019,7 +3019,7 @@ sub Data {
             'Wirklich ein Bug? 5 von 10 Bugmeldungen resultieren aus einer falschen oder unvollständigen Installation von OTRS.',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             'Mit der %s übernehmen unsere Experten die korrekte Installation und halten Ihnen mit Support und regelmäßigen Sicherheitsupdates den Rücken frei.',
-        'Contact our service team now.' => '',
+        'Contact our service team now.' => 'Kontaktieren Sie jetzt unser Service-Team.',
         'Send a bugreport' => 'einen Fehlerbericht senden',
         'Error Details' => 'Fehlerdetails',
 

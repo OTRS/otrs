@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2016-06-07 15:25+0000\n"
-"PO-Revision-Date: 2016-06-07 13:25+0000\n"
+"PO-Revision-Date: 2016-06-07 13:27+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -5069,7 +5069,7 @@ msgstr "Wollen Sie diesen Webservice wirklich löschen?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Example Web Services"
-msgstr "Beispiel Webdienste"
+msgstr "Beispiel-Webservices"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
