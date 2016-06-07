@@ -1035,6 +1035,12 @@ sub Error {
         );
     }
 
+    # Don't check for business package if the database was not yet configured (in the installer)
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
+        $Param{OTRSBusinessIsInstalled} = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
+    }
+
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'Error',
