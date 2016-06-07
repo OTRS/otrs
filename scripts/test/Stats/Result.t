@@ -1324,9 +1324,9 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'de',
         StatsUpdate => {
-            StatID   => $StatID,
+            StatID => $StatID,
             Hash   => {
-                TimeZone => '0',
+                TimeZone    => '0',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1416,7 +1416,7 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                TimeZone => '0',
+                TimeZone    => '0',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1492,20 +1492,21 @@ my @Tests = (
         ],
     },
 
-    # Test with a relative time period and without a defined time zone
-    # Fixed TimeStamp: '2015-08-20 20:00:00'
-    # TimeZone: 0
-    # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 month'.
-    # Y-Axis: 'CreateTime' with 'scale 1 year'
-    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+# Test with a relative time period and without a defined time zone
+# Fixed TimeStamp: '2015-08-20 20:00:00'
+# TimeZone: 0
+# X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 month'.
+# Y-Axis: 'CreateTime' with 'scale 1 year'
+# Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
-        Description => 'Test stat without a time zone (last complete 24 months and scale 1 month) and time element on Y-Axis',
+        Description =>
+            'Test stat without a time zone (last complete 24 months and scale 1 month) and time element on Y-Axis',
         TimeStamp   => '2015-08-20 14:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID   => $StatID,
+            StatID => $StatID,
             Hash   => {
-                TimeZone => '0',
+                TimeZone    => '0',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1523,12 +1524,12 @@ my @Tests = (
                 ],
                 UseAsValueSeries => [
                     {
-                        Element                   => 'CreateTime',
-                        Block                     => 'Time',
-                        Fixed                     => 1,
-                        Selected                  => 1,
-                        TimeScaleCount            => 1,
-                        SelectedValues            => [
+                        Element        => 'CreateTime',
+                        Block          => 'Time',
+                        Fixed          => 1,
+                        Selected       => 1,
+                        TimeScaleCount => 1,
+                        SelectedValues => [
                             'Year',
                         ],
                     },
@@ -1612,20 +1613,21 @@ my @Tests = (
         ],
     },
 
-    # Test with a relative time period and without a defined time zone
-    # Fixed TimeStamp: '2015-08-20 20:00:00'
-    # TimeZone: 0
-    # X-Axis: 'CreateTime' with a relative period 'the last complete 3 months and current+upcoming 1 months' and 'scale 1 month'.
-    # Y-Axis: 'CreateTime' with 'scale 1 year'
-    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+# Test with a relative time period and without a defined time zone
+# Fixed TimeStamp: '2015-08-20 20:00:00'
+# TimeZone: 0
+# X-Axis: 'CreateTime' with a relative period 'the last complete 3 months and current+upcoming 1 months' and 'scale 1 month'.
+# Y-Axis: 'CreateTime' with 'scale 1 year'
+# Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
-        Description => 'Test stat without a time zone (last complete 3 months and scale 1 month) and time element on Y-Axis',
+        Description =>
+            'Test stat without a time zone (last complete 3 months and scale 1 month) and time element on Y-Axis',
         TimeStamp   => '2015-08-20 14:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID   => $StatID,
+            StatID => $StatID,
             Hash   => {
-                TimeZone => '0',
+                TimeZone    => '0',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1643,12 +1645,12 @@ my @Tests = (
                 ],
                 UseAsValueSeries => [
                     {
-                        Element                   => 'CreateTime',
-                        Block                     => 'Time',
-                        Fixed                     => 1,
-                        Selected                  => 1,
-                        TimeScaleCount            => 1,
-                        SelectedValues            => [
+                        Element        => 'CreateTime',
+                        Block          => 'Time',
+                        Fixed          => 1,
+                        Selected       => 1,
+                        TimeScaleCount => 1,
+                        SelectedValues => [
                             'Year',
                         ],
                     },
@@ -1702,20 +1704,21 @@ my @Tests = (
         ],
     },
 
-    # Test with a relative time period and without a defined time zone
-    # Fixed TimeStamp: '2015-08-20 20:00:00'
-    # TimeZone: 0
-    # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 quarter'.
-    # Y-Axis: 'CreateTime' with 'scale 1 year'
-    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+# Test with a relative time period and without a defined time zone
+# Fixed TimeStamp: '2015-08-20 20:00:00'
+# TimeZone: 0
+# X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 quarter'.
+# Y-Axis: 'CreateTime' with 'scale 1 year'
+# Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
-        Description => 'Test stat without a time zone (last complete 24 months and scale 1 quarter) and time element on Y-Axis',
+        Description =>
+            'Test stat without a time zone (last complete 24 months and scale 1 quarter) and time element on Y-Axis',
         TimeStamp   => '2015-08-20 14:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID   => $StatID,
+            StatID => $StatID,
             Hash   => {
-                TimeZone => '0',
+                TimeZone    => '0',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1733,12 +1736,12 @@ my @Tests = (
                 ],
                 UseAsValueSeries => [
                     {
-                        Element                   => 'CreateTime',
-                        Block                     => 'Time',
-                        Fixed                     => 1,
-                        Selected                  => 1,
-                        TimeScaleCount            => 1,
-                        SelectedValues            => [
+                        Element        => 'CreateTime',
+                        Block          => 'Time',
+                        Fixed          => 1,
+                        Selected       => 1,
+                        TimeScaleCount => 1,
+                        SelectedValues => [
                             'Year',
                         ],
                     },

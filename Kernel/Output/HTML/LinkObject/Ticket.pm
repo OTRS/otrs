@@ -307,7 +307,7 @@ sub TableCreateComplex {
     # Sort
     COLUMN:
     for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
-        next COLUMN if $Column eq 'TicketNumber';      # Always present, already added.
+        next COLUMN if $Column eq 'TicketNumber';    # Always present, already added.
 
         # if enabled by default
         if ( $UserColumns{$Column} == 2 ) {
@@ -356,7 +356,7 @@ sub TableCreateComplex {
         # set css
         my $CssClass;
         my @StatesToStrike = @{ $ConfigObject->Get('LinkObject::StrikeThroughLinkedTicketStateTypes') || [] };
-        if ( first{ $Ticket->{StateType} eq $_ }@StatesToStrike ) {
+        if ( first { $Ticket->{StateType} eq $_ } @StatesToStrike ) {
             $CssClass = 'StrikeThrough';
         }
 
@@ -597,7 +597,7 @@ sub TableCreateSimple {
                 my $CssClass;
                 my @StatesToStrike = @{ $ConfigObject->Get('LinkObject::StrikeThroughLinkedTicketStateTypes') || [] };
 
-                if ( first{ $Ticket->{StateType} eq $_ }@StatesToStrike ) {
+                if ( first { $Ticket->{StateType} eq $_ } @StatesToStrike ) {
                     $CssClass = 'StrikeThrough';
                 }
 

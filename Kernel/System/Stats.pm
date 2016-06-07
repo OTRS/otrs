@@ -2788,7 +2788,7 @@ sub _GenerateDynamicStats {
 
         # timescale elements need a special handling, so we save the start value and reset the HeaderLine
         $HeaderLineStart = $HeaderLine[0];
-        @HeaderLine = ();
+        @HeaderLine      = ();
 
         # these all makes only sense, if the count of xaxis is 1
         if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
@@ -3286,7 +3286,7 @@ sub _GenerateDynamicStats {
             my $SkippingCounter = 0;
 
             INDEX:
-            for my $Index (1 .. $#HeaderLine) {
+            for my $Index ( 1 .. $#HeaderLine ) {
 
                 if ( $HeaderLine[$Index] eq $HeaderLineStart ) {
                     last INDEX;
