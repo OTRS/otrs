@@ -22,17 +22,19 @@
                 </p>
 
                 [% IF !Data.OTRSBusinessIsInstalled %]
-                <p class="SpacingTop">
-                    [% Translate("Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.") | html %]
-                    [% Translate("With %s, our experts take care of correct installation and cover your back with support and periodic security updates.", '<b>OTRS Business Solution™</b>') %]
-                    <br/>
-                    <a href="https://www.otrs.com/contact/" target="blank">
-                        [% Translate("Contact our sales team now.") | html %]
-                    </a>
-                </p>
+                <div class="MessageBox Info">
+                    <p class="SpacingTop">
+                        [% Translate("Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.") | html %]
+                        [% Translate("With %s, our experts take care of correct installation and cover your back with support and periodic security updates.", '<b>OTRS Business Solution™</b>') %]
+                        <br /><br />
+                        <a class="Button" href="https://www.otrs.com/contact/" target="_blank">
+                            [% Translate("Contact our sales team now.") | html %]
+                        </a>
+                    </p>
+                </div>
                 [% END %]
 
-                <form action="http://bugs.otrs.org/enter_bug.cgi">
+                <form action="http://bugs.otrs.org/enter_bug.cgi" target="_blank">
                     <input type="hidden" name="product" value="OTRS Helpdesk" />
 
                     <textarea class="Hidden" name="comment" rows="1" cols="1">
@@ -48,10 +50,9 @@ Traceback:
                     <input type="hidden" name="bug_file_loc" value="[% Env("SERVER_NAME") | html %][% Env("REQUEST_URI") | html %]"/>
 
                     <p class="SpacingTop">
-                        [% Translate("You can") | html %]
-                        <button type="submit" value="[% Translate("Send a bugreport") | html %]">[% Translate("Send a bugreport") | html %]</button>
-                        [% Translate("or") | html %]
-                        <a href="#" id="GoBack">[% Translate("go back to the previous page") | html %]</a>.
+                        <button type="submit" class="Primary CallForAction" value="[% Translate("Send a bugreport") | html %]"><span>[% Translate("Send a bugreport") | html %]</span></button>
+                        &nbsp;[% Translate("or") | html %]&nbsp;
+                        <a href="#" id="GoBack" class="CallForAction"><span>[% Translate("go back to the previous page") | html %]</spsn></a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 $('#GoBack').bind('click', function (Event) {
