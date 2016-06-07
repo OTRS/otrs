@@ -115,18 +115,6 @@
                         </tbody>
                     </table>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.MasterAction').bind('click', function (Event) {
-    var $MasterActionLink = $(this).find('.MasterActionLink');
-    // only act if the link was not clicked directly
-    if (Event.target !== $MasterActionLink.get(0)) {
-        window.location = $MasterActionLink.attr('href');
-        return false;
-    }
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("OverviewResult") %]
 
 [% RenderBlockStart("OverviewUpdate") %]
@@ -143,11 +131,6 @@ $('.MasterAction').bind('click', function (Event) {
                     <div class="WidgetMessage Top Warning">
                         <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
                     </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Form.DisableForm($('form#edit'));
-//]]></script>
-[% END %]
                 [% END %]
                     <form action="[% Env("CGIHandle") %]" id="edit" class="Validate" method="post">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>

@@ -486,6 +486,15 @@ sub _Edit {
         Data => \%Param,
     );
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # send parameter ReadOnly to JS object
+    $LayoutObject->AddJSData(
+        Key   => 'ReadOnly',
+        Value => $ConfigObject->{ $Param{Source} }->{ReadOnly},
+    );
+
     # shows header
     if ( $Param{Action} eq 'Change' ) {
         $LayoutObject->Block( Name => 'HeaderEdit' );
@@ -505,7 +514,6 @@ sub _Edit {
     );
 
     # Get needed objects.
-    my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject               = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 

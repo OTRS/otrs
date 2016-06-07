@@ -9168,6 +9168,9 @@ via the Preferences button after logging in.
                     <Block>Customer</Block>
                     <Prio>310</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.CustomerCompany.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
