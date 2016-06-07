@@ -92,11 +92,11 @@ sub new {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
         || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
 
-    # Try to connect several times to work around a strange bug that occurs sometimes:
-    #   org.openqa.selenium.firefox.NotConnectedException: Unable to connect to host 127.0.0.1 on port 7058 after 45000 ms.
+ # Try to connect several times to work around a strange bug that occurs sometimes:
+ #   org.openqa.selenium.firefox.NotConnectedException: Unable to connect to host 127.0.0.1 on port 7058 after 45000 ms.
     my $Self;
     TRY:
-    for (1 .. 3) {
+    for ( 1 .. 3 ) {
         eval {
             $Self = $Class->SUPER::new(
                 webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
@@ -105,6 +105,7 @@ sub new {
             last TRY;
         };
         my $ErrorMessage = $@ // '';
+
         # Only try again for our special error.
         last TRY if $ErrorMessage !~ "Could not create new session";
     }

@@ -655,7 +655,8 @@ sub Run {
                 }
 
                 # set title description
-                my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted descending') : Translatable('sorted ascending');
+                my $TitleDesc
+                    = $OrderBy eq 'Down' ? Translatable('sorted descending') : Translatable('sorted ascending');
                 $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                 $Title .= ', ' . $TitleDesc;
             }
@@ -723,7 +724,8 @@ sub Run {
                     }
 
                     # add title description
-                    my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
+                    my $TitleDesc
+                        = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
                     $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                     $Title .= ', ' . $TitleDesc;
                 }
@@ -906,7 +908,8 @@ sub Run {
                     }
 
                     # add title description
-                    my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
+                    my $TitleDesc
+                        = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
                     $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                     $Title .= ', ' . $TitleDesc;
                 }
@@ -1114,7 +1117,8 @@ sub Run {
                         }
 
                         # add title description
-                        my $TitleDesc = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
+                        my $TitleDesc
+                            = $OrderBy eq 'Down' ? Translatable('sorted ascending') : Translatable('sorted descending');
                         $TitleDesc = $LayoutObject->{LanguageObject}->Translate($TitleDesc);
                         $Title .= ', ' . $TitleDesc;
                     }

@@ -149,8 +149,8 @@ sub FormIDRemoveFile {
     # finish if files have been already removed by other process
     return if !@Index;
 
-    my $ID    = $Param{FileID} - 1;
-    my %File  = %{ $Index[$ID] };
+    my $ID   = $Param{FileID} - 1;
+    my %File = %{ $Index[$ID] };
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
