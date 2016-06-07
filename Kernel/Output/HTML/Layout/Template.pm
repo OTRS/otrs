@@ -88,8 +88,8 @@ sub Output {
 
     # add new env
     if ( $Self->{EnvNewRef} ) {
-        for ( %{ $Self->{EnvNewRef} } ) {
-            $Self->{EnvRef}->{$_} = $Self->{EnvNewRef}->{$_};
+        for my $Key ( sort keys %{ $Self->{EnvNewRef} } ) {
+            $Self->{EnvRef}->{$Key} = $Self->{EnvNewRef}->{$Key};
         }
         undef $Self->{EnvNewRef};
     }
