@@ -105,6 +105,31 @@ my %Check = (
 my $TestText = 'hello1234567890öäüß';
 my $Home     = $ConfigObject->Get('Home');
 
+# delete existing keys to have a cleaned test environment
+COUNT:
+for my $Count ( 1 .. 3 ) {
+
+    my @Keys = $PGPObject->KeySearch(
+        Search => $Search{$Count},
+    );
+
+    next COUNT if !$Keys[0];
+    next COUNT if ref $Keys[0] ne 'HASH';
+
+    if ( $Keys[0]->{KeyPrivate} ) {
+        $PGPObject->SecretKeyDelete(
+            Key => $Keys[0]->{KeyPrivate},
+        );
+    }
+
+    if ( $Keys[0]->{Key} ) {
+        $PGPObject->PublicKeyDelete(
+            Key => $Keys[0]->{Key},
+        );
+    }
+}
+
+# start the tests
 for my $Count ( 1 .. 3 ) {
     my @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
