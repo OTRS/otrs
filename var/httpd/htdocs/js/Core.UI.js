@@ -225,6 +225,25 @@ Core.UI = (function (TargetNS) {
     };
 
     /**
+     * @name InitMasterAction
+     * @memberof Core.UI
+     * @function
+     * @description
+     *      Extend click event to the whole table row.
+     */
+    TargetNS.InitMasterAction = function () {
+        $('.MasterAction').click(function (Event) {
+            var $MasterActionLink = $(this).find('.MasterActionLink');
+
+            // only act if the link was not clicked directly
+            if (Event.target !== $MasterActionLink.get(0)) {
+                window.location = $MasterActionLink.attr('href');
+                return false;
+            }
+        });
+    };
+
+    /**
      * @name Init
      * @memberof Core.UI
      * @function
@@ -234,6 +253,7 @@ Core.UI = (function (TargetNS) {
     TargetNS.Init = function() {
         Core.UI.InitWidgetActionToggle();
         Core.UI.InitMessageBoxClose();
+        Core.UI.InitMasterAction();
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL');
