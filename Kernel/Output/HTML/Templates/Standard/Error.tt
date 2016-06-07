@@ -28,7 +28,7 @@
                         [% Translate("With %s, our experts take care of correct installation and cover your back with support and periodic security updates.", '<b>OTRS Business Solution™</b>') %]
                         <br /><br />
                         <a class="Button" href="https://www.otrs.com/contact/" target="_blank">
-                            [% Translate("Contact our sales team now.") | html %]
+                            [% Translate("Contact our service team now.") | html %]
                         </a>
                     </p>
                 </div>
