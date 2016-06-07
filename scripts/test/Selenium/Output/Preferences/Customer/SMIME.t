@@ -84,7 +84,7 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), 'Certificate uploaded' ) > -1,
             'Customer preference SMIME certificate - updated'
-        );
+        ) || die "Could not upload certificate";
 
         # delete needed test directories
         for my $Directory ( $CertPath, $PrivatePath ) {
