@@ -15,14 +15,6 @@ use vars (qw($Self));
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
 # set config
 $ConfigObject->Set(
     Key   => 'PGP',
@@ -89,6 +81,30 @@ my %Check = (
 
 my $TestText = 'hello1234567890öäüß';
 my $Home     = $ConfigObject->Get('Home');
+
+# delete existing keys to have a cleaned test environment
+COUNT:
+for my $Count ( 1 .. 2 ) {
+
+    my @Keys = $PGPObject->KeySearch(
+        Search => $Search{$Count},
+    );
+
+    next COUNT if !$Keys[0];
+    next COUNT if ref $Keys[0] ne 'HASH';
+
+    if ( $Keys[0]->{KeyPrivate} ) {
+        $PGPObject->SecretKeyDelete(
+            Key => $Keys[0]->{KeyPrivate},
+        );
+    }
+
+    if ( $Keys[0]->{Key} ) {
+        $PGPObject->PublicKeyDelete(
+            Key => $Keys[0]->{Key},
+        );
+    }
+}
 
 for my $Count ( 1 .. 2 ) {
     my @Keys = $PGPObject->KeySearch(
@@ -500,7 +516,5 @@ for my $Count ( 1 .. 2 ) {
         "#$Count KeySearch()",
     );
 }
-
-# cleanup is done by RestoreDatabase
 
 1;
