@@ -58,13 +58,6 @@
             </div>
         </div>
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterTemplates'), $('#Templates'));
-    Core.UI.Table.InitTableFilter($('#FilterAttachments'), $('#Attachments'));
-//]]></script>
-[% END %]
-
 [% RenderBlockEnd("Filters") %]
 
     </div>
@@ -108,12 +101,6 @@
 
 
 [% RenderBlockEnd("OverviewResult") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterTemplates'), $('#Templates'));
-    Core.UI.Table.InitTableFilter($('#FilterAttachments'), $('#Attachments'));
-//]]></script>
-[% END %]
 
 [% RenderBlockStart("Change") %]
         <div class="WidgetSimple">
@@ -142,15 +129,6 @@
                                     <input type="checkbox" name="ItemsSelected" id="SelectAllItemsSelected" title="[% Translate("Toggle active for all") | html %]" value="" />
                                     [% Translate("Active") | html %]
                                 </th>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Form.InitSelectAllCheckboxes($('table td input[type="checkbox"][name=ItemsSelected]'), $('#SelectAllItemsSelected'));
-$('input[type="checkbox"][name=ItemsSelected]').bind('click', function () {
-    Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
-});
-Core.UI.Table.InitTableFilter($('#Filter'), $('#TemplateAttachment'));
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ChangeHeader") %]
                             </tr>
                         </thead>
