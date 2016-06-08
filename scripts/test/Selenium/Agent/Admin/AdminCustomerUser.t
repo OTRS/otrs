@@ -226,11 +226,45 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test Customer User",
         );
 
+        # navigate to AgentTicketPhone
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
+
+        # click on '[ Customer User ]' to test customer user creation from iframe
+        $Selenium->find_element( "#OptionCustomer", 'css' )->click();
+        $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
+
+        # click to 'Add customer user'
+        $Selenium->find_element("//button[\@class='CallForAction Fullsize Center']")->VerifiedClick();
+
+        # create new test customer user
+        my $RandomID3 = 'TestCustomer' . $Helper->GetRandomID();
+        my $UserEmail = $RandomID3 . "\@localhost.com";
+        $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID3);
+        $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID3);
+        $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID3);
+        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID3 . "\@localhost.com" );
+        $Selenium->execute_script(
+            "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
+
+        # return focus back on AgentTicketPhone window
+        my $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # verify created customer user is added directly in AgentTicketPhone form
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
+        $Self->Is(
+            $Selenium->find_element( "#CustomerID", 'css' )->get_value(),
+            $RandomID,
+            "Test customer user $RandomID3 is successfully created from AgentTicketPhone screen"
+        );
+
         # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # delete created test customer user and customer company
-        for my $CustomerID ( $RandomID, $RandomID2 ) {
+        for my $CustomerID ( $RandomID, $RandomID2, $RandomID3 ) {
             my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_user WHERE customer_id = ?",
                 Bind => [ \$CustomerID ],
