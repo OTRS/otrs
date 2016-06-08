@@ -393,10 +393,15 @@ sub _Change {
         Name => "ChangeHeading$VisibleType{$NeType}",
     );
 
+    my @GroupPermissions;
+
     TYPE:
     for my $Type ( @{ $ConfigObject->Get('System::Customer::Permission') } ) {
         next TYPE if !$Type;
         my $Mark = $Type eq 'rw' ? "Highlight" : '';
+
+        push @GroupPermissions, $Type;
+
         $LayoutObject->Block(
             Name => 'ChangeHeader',
             Data => {
@@ -406,6 +411,12 @@ sub _Change {
             },
         );
     }
+
+    # set group permissions
+    $LayoutObject->AddJSData(
+        Key   => 'RelationItems',
+        Value => \@GroupPermissions,
+    );
 
     # check if there are groups/customers
     if ( !%Data ) {

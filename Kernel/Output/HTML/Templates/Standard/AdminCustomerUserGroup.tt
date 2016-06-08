@@ -199,14 +199,6 @@
                                     <input type="checkbox" name="[% Data.Type | html %]" id="SelectAll[% Data.Type | html %]" title="[% Translate("Toggle %s Permission for all", Data.Type) | html %]" value="" />
                                     [% Data.Type | html %]
                                 </th>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Form.InitSelectAllCheckboxes($('table td input[type="checkbox"][name=[% Data.Type | html %]]'), $('#SelectAll[% Data.Type | html %]'));
-    $('input[type="checkbox"][name=[% Data.Type | html %]]').bind('click', function () {
-        Core.Form.SelectAllCheckboxes($(this), $('#SelectAll[% Data.Type | html %]'));
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ChangeHeader") %]
                             </tr>
                         </thead>
@@ -243,11 +235,6 @@
             </div>
 [% RenderBlockEnd("Change") %]
         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterGroups'), $('#Group'));
-//]]></script>
-[% END %]
 
 [% RenderBlockStart("AlwaysGroups") %]
         <div class="WidgetSimple SpacingTop">
