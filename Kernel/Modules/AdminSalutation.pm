@@ -323,6 +323,11 @@ sub _Overview {
     $LayoutObject->Block(
         Name => 'ActionAdd',
     );
+
+    $LayoutObject->Block(
+        Name => 'Filter',
+    );
+
     $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
