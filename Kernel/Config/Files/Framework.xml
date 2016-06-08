@@ -9268,6 +9268,9 @@ via the Preferences button after logging in.
                     <Block>Agent</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.RoleUser.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

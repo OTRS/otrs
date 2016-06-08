@@ -220,6 +220,12 @@ sub _Change {
         },
     );
 
+    # set permissions
+    $LayoutObject->AddJSData(
+        Key   => 'RelationItems',
+        Value => [$Type],
+    );
+
     # check if there are roles
     if ( $NeType eq 'Role' ) {
         if ( !%Data ) {
