@@ -281,21 +281,3 @@
     <div class="Clear"></div>
 </div>
 [% RenderBlockEnd("Overview") %]
-
-[% RenderBlockStart("BorrowedViewJS") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#CustomerTable a').bind('click', function (Event) {
-    Core.Agent.TicketAction.UpdateCustomer($(this).text());
-});
-//]]></script>
-[% END %]
-[% RenderBlockEnd("BorrowedViewJS") %]
-
-[% RenderBlockStart("BorrowedViewSubmitJS") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.TicketAction.UpdateCustomer([% Translate(Data.Customer) | JSON %]);
-//]]></script>
-[% END %]
-[% RenderBlockEnd("BorrowedViewSubmitJS") %]

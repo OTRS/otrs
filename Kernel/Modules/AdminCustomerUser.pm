@@ -663,11 +663,13 @@ sub Run {
                     if ( $Nav eq 'None' ) {
                         my $Output = $NavBar;
 
-                        $LayoutObject->Block(
-                            Name => 'BorrowedViewSubmitJS',
-                            Data => {
-                                Customer => $User,
-                            },
+                        $LayoutObject->AddJSData(
+                            Key   => 'Customer',
+                            Value => $User,
+                        );
+                        $LayoutObject->AddJSData(
+                            Key   => 'Nav',
+                            Value => $Nav,
                         );
 
                         $Output .= $LayoutObject->Output(
@@ -966,9 +968,10 @@ sub _Overview {
         );
     }
 
-    if ( $Param{Nav} eq 'None' ) {
-        $LayoutObject->Block( Name => 'BorrowedViewJS' );
-    }
+    $LayoutObject->AddJSData(
+        Key   => 'Nav',
+        Value => $Param{Nav},
+    );
 }
 
 sub _Edit {
@@ -1352,9 +1355,10 @@ sub _Edit {
         }
     }
 
-    if ( $Param{Nav} eq 'None' ) {
-        $LayoutObject->Block( Name => 'BorrowedViewJS' );
-    }
+    $LayoutObject->AddJSData(
+        Key   => 'Nav',
+        Value => $Param{Nav},
+    );
 
     return $LayoutObject->Output(
         TemplateFile => 'AdminCustomerUser',

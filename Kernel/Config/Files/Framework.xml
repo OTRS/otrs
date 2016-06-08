@@ -9134,6 +9134,7 @@ via the Preferences button after logging in.
                 </NavBarModule>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.CustomerUser.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
