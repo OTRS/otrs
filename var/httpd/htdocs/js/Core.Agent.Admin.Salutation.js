@@ -19,7 +19,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  * @description
  *      This namespace contains the special module function for AdminSalutation.
  */
- Core.Agent.Admin.UserGroup = (function (TargetNS) {
+ Core.Agent.Admin.Salutation = (function (TargetNS) {
 
     /*
     * @name Init
@@ -35,4 +35,4 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
-}(Core.Agent.Admin.UserGroup || {}));
+}(Core.Agent.Admin.Salutation || {}));
