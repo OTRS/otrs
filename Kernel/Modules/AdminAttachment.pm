@@ -341,6 +341,9 @@ sub _Overview {
         Name => 'ActionAdd',
     );
     $LayoutObject->Block(
+        Name => 'Filter',
+    );
+    $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );

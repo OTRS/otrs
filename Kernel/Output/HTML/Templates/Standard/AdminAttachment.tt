@@ -36,6 +36,7 @@
         </div>
 [% RenderBlockEnd("ActionList") %]
 
+[% RenderBlockStart("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterAttachments">[% Translate("Filter for Attachments") | html %]</label></h2>
@@ -44,6 +45,7 @@
                 <input type="text" id="FilterAttachments" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterAttachments" value="" title="[% Translate("Filter for attachments") | html %]">
             </div>
         </div>
+[% RenderBlockEnd("Filter") %]
     </div>
 
     <div class="ContentColumn">
@@ -100,11 +102,6 @@
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterAttachments'), $('#Attachments'));
-//]]></script>
-[% END %]
             </div>
 [% RenderBlockEnd("OverviewResult") %]
 [% RenderBlockStart("OverviewUpdate") %]
