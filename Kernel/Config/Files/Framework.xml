@@ -9099,6 +9099,9 @@ via the Preferences button after logging in.
                     <Description Translatable="1">Link agents to groups.</Description>
                     <Prio>200</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.UserGroup.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
