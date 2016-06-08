@@ -98,12 +98,6 @@
                 <div class="Clear"></div>
             </div>
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterTemplates'), $('#Templates'));
-    Core.UI.Table.InitTableFilter($('#FilterQueues'), $('#Queues'));
-//]]></script>
-[% END %]
 [% RenderBlockEnd("OverviewResult") %]
 [% RenderBlockStart("Change") %]
             <div class="Header">
@@ -165,15 +159,6 @@
                     <div class="Clear"></div>
                 </form>
             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Form.InitSelectAllCheckboxes($('table td input[type="checkbox"][name=ItemsSelected]'), $('#SelectAllItemsSelected'));
-$('input[type="checkbox"][name=ItemsSelected]').bind('click', function () {
-    Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
-});
-Core.UI.Table.InitTableFilter($('#Filter'), $('#ItemsTable'));
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Change") %]
         </div>
     </div>
