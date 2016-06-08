@@ -9288,6 +9288,9 @@ via the Preferences button after logging in.
                     <Block>Agent</Block>
                     <Prio>800</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.RoleGroup.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

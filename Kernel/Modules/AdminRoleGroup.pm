@@ -209,6 +209,7 @@ sub _Change {
             NeType     => $NeType,
         },
     );
+
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionOverview' );
 
@@ -224,6 +225,8 @@ sub _Change {
         );
     }
 
+    my @Permissions;
+
     TYPE:
     for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
         next TYPE if !$Type;
@@ -236,7 +239,15 @@ sub _Change {
                 Type => $Type,
             },
         );
+
+        push @Permissions, $Type;
     }
+
+    # set permissions
+    $LayoutObject->AddJSData(
+        Key   => 'RelationItems',
+        Value => \@Permissions,
+    );
 
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
