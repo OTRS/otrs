@@ -106,6 +106,32 @@ my %Check = (
     },
 );
 
+my $Home = $ConfigObject->Get('Home');
+
+# delete existing keys to have a cleaned test environment
+COUNT:
+for my $Count ( 1 .. 2 ) {
+
+    my @Keys = $CryptObject->KeySearch(
+        Search => $Search{$Count},
+    );
+
+    next COUNT if !$Keys[0];
+    next COUNT if ref $Keys[0] ne 'HASH';
+
+    if ( $Keys[0]->{KeyPrivate} ) {
+        $CryptObject->SecretKeyDelete(
+            Key => $Keys[0]->{KeyPrivate},
+        );
+    }
+
+    if ( $Keys[0]->{Key} ) {
+        $CryptObject->PublicKeyDelete(
+            Key => $Keys[0]->{Key},
+        );
+    }
+}
+
 # add PGP keys and perform sanity check
 for my $Count ( 1 .. 2 ) {
 
@@ -119,7 +145,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get keys
     my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+        Directory => $Home . "/scripts/test/sample/Crypt/",
         Filename  => "PGPPrivateKey-$Count.asc",
     );
     my $Message = $CryptObject->KeyAdd(
@@ -214,7 +240,7 @@ for my $Test (@Tests) {
 
     # read email content (from a file)
     my $Email = $MainObject->FileRead(
-        Location => $ConfigObject->Get('Home') . $Test->{EmailFile},
+        Location => $Home . $Test->{EmailFile},
         Result   => 'ARRAY',
     );
 
@@ -336,7 +362,7 @@ for my $Test (@Tests) {
 
             # read the original file (from file system)
             my $FileStringRef = $MainObject->FileRead(
-                Location => $ConfigObject->Get('Home')
+                Location => $Home
                     . '/scripts/test/sample/Crypt/'
                     . $AtmIndex{$FileID}->{Filename},
             );
