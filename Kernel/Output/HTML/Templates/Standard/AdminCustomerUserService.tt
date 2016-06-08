@@ -148,14 +148,6 @@
                                 <th>
                                     <input type="checkbox" id="SelectAllItemsSelected" name="ItemsSelected" title="[% Translate("Toggle active state for all") | html %]" value="" />
                                     [% Translate("Active") | html %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Form.InitSelectAllCheckboxes($('table td input[type="checkbox"][name=ItemsSelected]'), $('#SelectAllItemsSelected'));
-$('input[type="checkbox"][name=ItemsSelected]').bind('click', function () {
-    Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
-});
-//]]></script>
-[% END %]
                                 </th>
                             </tr>
                         </thead>
@@ -193,9 +185,4 @@ $('input[type="checkbox"][name=ItemsSelected]').bind('click', function () {
     </div>
     <div class="Clear"></div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterServices'), $('#Service'));
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Overview") %]

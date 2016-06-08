@@ -482,7 +482,6 @@ sub _Overview {
     my %ServiceData         = %{ $Param{ServiceData} };
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
     $LayoutObject->Block( Name => 'Overview' );
     $LayoutObject->Block( Name => 'ActionList' );
 
