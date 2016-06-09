@@ -92,24 +92,10 @@ sub new {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
         || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
 
- # Try to connect several times to work around a strange bug that occurs sometimes:
- #   org.openqa.selenium.firefox.NotConnectedException: Unable to connect to host 127.0.0.1 on port 7058 after 45000 ms.
-    my $Self;
-    TRY:
-    for ( 1 .. 3 ) {
-        eval {
-            $Self = $Class->SUPER::new(
-                webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
-                %SeleniumTestsConfig
-            );
-            last TRY;
-        };
-        my $ErrorMessage = $@ // '';
-
-        # Only try again for our special error.
-        last TRY if $ErrorMessage !~ "Could not create new session";
-    }
-    die $@ if !$Self;
+     my $Self = $Class->SUPER::new(
+        webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
+        %SeleniumTestsConfig
+    );
     $Self->{UnitTestObject}      = $Param{UnitTestObject};
     $Self->{SeleniumTestsActive} = 1;
 
@@ -174,7 +160,13 @@ sub _execute_command {    ## no critic
         }
     );
 
-    $Self->{UnitTestObject}->True( 1, $TestName );
+    if ( $Self->{SuppressCommandRecording} ) {
+        print $TestName;
+    }
+    else {
+        $Self->{UnitTestObject}->True( 1, $TestName );
+    }
+
 
     return $Result;
 }
@@ -321,6 +313,8 @@ sub WaitFor {
     if ( !$Param{JavaScript} && !$Param{WindowCount} ) {
         die "Need JavaScript.";
     }
+
+    local $Self->{SuppressCommandRecording} = 1;
 
     $Param{Time} //= 20;
     my $WaitedSeconds = 0;
