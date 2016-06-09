@@ -110,7 +110,7 @@ $Selenium->RunTest(
                     $Self->True(
                         index( $Selenium->get_page_source(), $TicketNumber ) > -1,
                         "Ticket found on page - $TicketNumber ",
-                    );
+                    ) || die "Ticket $TicketNumber not found on page";
 
                 }
             }

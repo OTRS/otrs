@@ -239,7 +239,7 @@ $Selenium->RunTest(
                             $Self->True(
                                 index( $Selenium->get_page_source(), $TicketNumbers->{$TicketID} ) > -1,
                                 "$Test->{Name}/$View: Ticket is found on page - $TicketNumbers->{$TicketID}",
-                            );
+                            ) || die "$Test->{Name}/$View: Ticket not found on page - $TicketNumbers->{$TicketID}";
                         }
                         else {
 
@@ -248,7 +248,7 @@ $Selenium->RunTest(
                             $Self->True(
                                 index( $Selenium->get_page_source(), $TicketNumbers->{$TicketID} ) == -1,
                                 "$Test->{Name}/$View: Ticket is not found on page - $TicketNumbers->{$TicketID}",
-                            );
+                            ) || die "$Test->{Name}/$View: Ticket found on page - $TicketNumbers->{$TicketID}";
                         }
                     }
                 }
