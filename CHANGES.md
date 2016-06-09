@@ -43,6 +43,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.11 2016-??-??
+ - 2016-06-09 Fixed bug#[12128](http://bugs.otrs.org/show_bug.cgi?id=12128) - Can not store 0 in Admin Customer screen.
  - 2016-06-09 Fixed bug#[12116](http://bugs.otrs.org/show_bug.cgi?id=12116) - Tooltip error messages in combination with modern input fields.
  - 2016-06-09 Fixed performance issue in PermissionUserGet(), thanks to Thorsten Eckel.
  - 2016-06-06 Fixed bug#[12122](http://bugs.otrs.org/show_bug.cgi?id=12122) - Wrong offset in substr function, ForeignKeyCreate function.
