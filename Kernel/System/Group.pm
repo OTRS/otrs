@@ -1024,20 +1024,20 @@ sub PermissionUserGet {
         UserID => $Param{UserID},
     );
 
-    return %GroupList if !%RoleList;
+    if ( %RoleList ) {
+        ROLEID:
+        for my $RoleID ( sort keys %RoleList ) {
 
-    ROLEID:
-    for my $RoleID ( sort keys %RoleList ) {
+            next ROLEID if !$RoleID;
 
-        next ROLEID if !$RoleID;
+            # get groups of the role
+            my %RoleGroupList = $Self->PermissionRoleGroupGet(
+                RoleID => $RoleID,
+                Type   => $Param{Type},
+            );
 
-        # get groups of the role
-        my %RoleGroupList = $Self->PermissionRoleGroupGet(
-            RoleID => $RoleID,
-            Type   => $Param{Type},
-        );
-
-        %GroupList = ( %GroupList, %RoleGroupList );
+            %GroupList = ( %GroupList, %RoleGroupList );
+        }
     }
 
     # set cache

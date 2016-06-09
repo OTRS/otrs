@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-06-09 Fixed performance issue in PermissionUserGet(), thanks to Thorsten Eckel.
  - 2016-06-06 Fixed bug#[12122](http://bugs.otrs.org/show_bug.cgi?id=12122) - Wrong offset in substr function, ForeignKeyCreate function.
  - 2016-06-06 Added checks for length of words in search terms when using search index/StaticDB backend.
  - 2016-06-06 Fixed bug#[12020](http://bugs.otrs.org/show_bug.cgi?id=12020) - Option CaseSensitive has no impact on external customer database.
