@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-06-09 Fixed bug#[12129](http://bugs.otrs.org/show_bug.cgi?id=12129) - Process Management: Ticket locks even when is not needed, thanks to Thorsten Eckel.
  - 2016-06-09 Fixed bug#[12128](http://bugs.otrs.org/show_bug.cgi?id=12128) - Can not store 0 in Admin Customer screen, thanks to Renée Bäcker.
  - 2016-06-09 Fixed bug#[12116](http://bugs.otrs.org/show_bug.cgi?id=12116) - Tooltip error messages in combination with modern input fields.
  - 2016-06-09 Fixed performance issue in PermissionUserGet(), thanks to Thorsten Eckel.
