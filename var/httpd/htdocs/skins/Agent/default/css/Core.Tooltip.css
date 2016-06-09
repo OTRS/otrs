@@ -21,6 +21,11 @@ div.Tooltip {
     width: 244px;
 }
 
+div.Tooltip.TongueTop,
+div.Tooltip.TongueBottom {
+    width: 400px;
+}
+
 div.Tooltip.TongueLeft {
     margin-left: -37px;
 }
