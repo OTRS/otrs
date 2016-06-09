@@ -1383,12 +1383,11 @@ sub PermissionUserGroupGet {
 
     return if !%PermissionTypeList;
 
-    # get valid user list
-    my %UserList = $Kernel::OM->Get('Kernel::System::User')->UserList(
-        Type => 'Short',
+    # check if user is valid
+    return if !$Kernel::OM->Get('Kernel::System::User')->GetUserData(
+        UserID => $Param{UserID},
+        Valid  => 1,
     );
-
-    return if !$UserList{ $Param{UserID} };
 
     # get group user data
     my %Permissions = $Self->_DBGroupUserGet(
