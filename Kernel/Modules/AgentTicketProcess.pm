@@ -185,11 +185,6 @@ sub Run {
             # check if it's already locked by somebody else
             if ( $ActivityDialogHashRef->{RequiredLock} ) {
 
-                my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup(
-                    TicketID => $TicketID,
-                    UserID   => $Self->{UserID},
-                );
-
                 if ( $Self->{TicketObject}->TicketLockGet( TicketID => $TicketID ) ) {
                     my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                         TicketID => $TicketID,
@@ -212,30 +207,35 @@ sub Run {
                 }
                 else {
 
+                    # set lock
+                    $Self->{TicketObject}->TicketLockSet(
+                        TicketID => $TicketID,
+                        Lock     => 'lock',
+                        UserID   => $Self->{UserID},
+                    );
+
+                    # set user id
+                    $Self->{TicketObject}->TicketOwnerSet(
+                        TicketID  => $TicketID,
+                        UserID    => $Self->{UserID},
+                        NewUserID => $Self->{UserID},
+                    );
+
+                    # reload the parent window to show the updated lock state
+                    $Param{ParentReload} = 1;
+
                     # show lock state link
                     $Param{RenderLocked} = 1;
+
+                    my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup(
+                        TicketID => $TicketID,
+                        UserID   => $Self->{UserID},
+                    );
 
                     # notify the agent that the ticket was locked
                     push @{ $Param{Notify} }, "$TicketNumber: "
                         . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked.");
                 }
-
-                # set lock
-                $Self->{TicketObject}->TicketLockSet(
-                    TicketID => $TicketID,
-                    Lock     => 'lock',
-                    UserID   => $Self->{UserID},
-                );
-
-                # set user id
-                $Self->{TicketObject}->TicketOwnerSet(
-                    TicketID  => $TicketID,
-                    UserID    => $Self->{UserID},
-                    NewUserID => $Self->{UserID},
-                );
-
-                # reload the parent window to show the updated lock state
-                $Param{ParentReload} = 1;
             }
 
             my $PossibleActivityDialogs = { 1 => $ActivityDialogEntityID };
