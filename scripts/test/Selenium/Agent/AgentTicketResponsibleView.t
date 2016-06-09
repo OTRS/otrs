@@ -106,7 +106,7 @@ $Selenium->RunTest(
                 $Self->True(
                     index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
                     "No tickets found with Reminder Reached filter ",
-                );
+                ) || die "No ticket data message";
                 last FILTER;
             }
 
@@ -133,7 +133,7 @@ $Selenium->RunTest(
                     $Self->True(
                         index( $Selenium->get_page_source(), $TicketNumber ) > -1,
                         "Ticket found on page - $TicketNumber ",
-                    );
+                    ) || die "Ticket $TicketNumber not found on page";
                 }
             }
 
