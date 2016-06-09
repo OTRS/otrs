@@ -75,6 +75,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CustomerCompanyName", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#CustomerCompanyComment", 'css' )->send_keys('Selenium test customer company');
+        $Selenium->find_element( "#CustomerCompanyZIP",     'css' )->send_keys('0');
         $Selenium->find_element( "#CustomerID",             'css' )->VerifiedSubmit();
 
         # check overview page
@@ -135,6 +136,12 @@ $Selenium->RunTest(
             1,
             "#ValidID updated value",
         );
+        $Self->Is(
+            $Selenium->find_element( '#CustomerCompanyZIP', 'css' )->get_value(),
+            '0',
+            "#CustomerCompanyComment updated value",
+        );
+
         $Self->Is(
             $Selenium->find_element( '#CustomerCompanyComment', 'css' )->get_value(),
             'Selenium test customer company',
