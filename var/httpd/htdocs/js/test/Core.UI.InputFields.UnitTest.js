@@ -254,9 +254,9 @@ Core.UI.InputFields = (function (Namespace) {
         /*
         * Check disabled field
         */
-
         $TestForm.append('<div class="Field"><select class="Modernize" id="UnavailableSelect" name="UnavailableSelect"><option value="">-</option><option value="Disabled" disabled="disabled">Disabled entry</option></select></div>');
-        // also initialize new field
+
+        // Also initialize new field
         Core.UI.InputFields.Activate('*');
 
         test('Check unavailable field', function (Assert) {
@@ -266,7 +266,7 @@ Core.UI.InputFields = (function (Namespace) {
 
             Assert.expect(2);
 
-            Assert.equal($SearchObj.attr('disabled'), 'disabled', 'Check if field is disabled');
+            Assert.equal($SearchObj.data('disabled'), 'disabled', 'Check if field is disabled internally');
             Assert.equal($SearchObj.attr('title'), Core.Config.Get('InputFieldsNotAvailable'), 'Check if field has appropriate title');
         });
 
