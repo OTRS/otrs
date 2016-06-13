@@ -614,7 +614,7 @@ sub _Edit {
                             Data => { %Param, },
                         );
                         if (
-                            ref( $ParamItem->{Data} ) eq 'HASH'
+                            ref( $ParamItem->{Data} )   eq 'HASH'
                             || ref( $Preference{Data} ) eq 'HASH'
                             )
                         {
@@ -662,7 +662,10 @@ sub _Overview {
     );
 
     $LayoutObject->Block( Name => 'ActionList' );
-    $LayoutObject->Block( Name => 'ActionSearch' );
+    $LayoutObject->Block(
+        Name => 'ActionSearch',
+        Data => \%Param,
+    );
     $LayoutObject->Block( Name => 'ActionAdd' );
 
     # get user object
@@ -677,7 +680,8 @@ sub _Overview {
         Valid  => 0,
     );
     my %ListAll = $UserObject->UserSearch(
-        Search => '*',
+        Search => $Param{Search} . '*',
+        Limit  => $Limit + 1,
         Valid  => 0,
     );
 
