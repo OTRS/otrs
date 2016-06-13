@@ -684,7 +684,7 @@ sub _Overview {
     }
 
     my %AllUsers = $CustomerUserObject->CustomerSearch(
-        Search => '*',
+        Search => $Param{Search},
         Limit  => $Limit + 1,
         Valid  => 0,
     );

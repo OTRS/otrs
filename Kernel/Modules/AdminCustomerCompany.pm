@@ -537,7 +537,7 @@ sub _Overview {
     }
 
     my %ListAll = $CustomerCompanyObject->CustomerCompanyList(
-        Search => '*',
+        Search => $Param{Search},
         Limit  => $Limit + 1,
         Valid  => 0,
     );
