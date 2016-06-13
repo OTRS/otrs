@@ -266,7 +266,7 @@ Core.UI.InputFields = (function (Namespace) {
 
             Assert.expect(2);
 
-            Assert.equal($SearchObj.data('disabled'), 'disabled', 'Check if field is disabled internally');
+            Assert.equal($SearchObj.attr('readonly'), 'readonly', 'Check if field is readonly');
             Assert.equal($SearchObj.attr('title'), Core.Config.Get('InputFieldsNotAvailable'), 'Check if field has appropriate title');
         });
 
