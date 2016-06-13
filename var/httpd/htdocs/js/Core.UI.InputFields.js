@@ -302,15 +302,16 @@ Core.UI.InputFields = (function (TargetNS) {
         {
 
             // Disable the field, add the tooltip and dash string
-            $SearchObj.data('disabled', 'disabled')
+            $SearchObj
+                .attr('readonly', 'readonly')
                 .attr('title', Core.Language.Translate('Not available'))
                 .val(Config.SelectionNotAvailable);
         }
         else {
 
             // Enable the field, remove the tooltip and dash string
-            $SearchObj.data('disabled', '')
-                .removeAttr('title')
+            $SearchObj
+                .removeAttr('readonly title')
                 .val('');
         }
     }
@@ -377,7 +378,7 @@ Core.UI.InputFields = (function (TargetNS) {
         if ($SearchObj.attr('aria-expanded')) return;
 
         // Give up is field is disabled
-        if ($SearchObj.data('disabled')) return;
+        if ($SearchObj.attr('readonly')) return;
 
         // Remove any existing boxes in supplied container
         $InputContainerObj.find('.InputField_Selection').remove();
@@ -594,7 +595,7 @@ Core.UI.InputFields = (function (TargetNS) {
         }
 
         // Clear search field
-        if ($SearchObj.val() !== Config.SelectionNotAvailable && !$SearchObj.data('disabled')) {
+        if ($SearchObj.val() !== Config.SelectionNotAvailable && !$SearchObj.attr('readonly')) {
             $SearchObj.val('');
         }
 
@@ -1285,7 +1286,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     }
 
                     // Do nothing if disabled
-                    if ($SearchObj.data('disabled')) {
+                    if ($SearchObj.attr('readonly')) {
                         return false;
                     }
 
