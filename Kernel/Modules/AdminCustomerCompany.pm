@@ -718,14 +718,27 @@ sub _Overview {
         );
     }
 
-    my %ListAllItems = $CustomerCompanyObject->CustomerCompanyList(
-        Search => '*',
-        Limit  => 99999,
-        Valid  => 0,
-    );
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # same Limit as $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'}
-    my $Limit = 250;
+    # smallest Limit from all sources
+    my $Limit = 400;
+    SOURCE:
+    for my $Count ( '', 1 .. 10 ) {
+        next SOURCE if !$ConfigObject->Get("CustomerCompany$Count");
+        my $CustomerUserMap = $ConfigObject->Get("CustomerCompany$Count");
+        next SOURCE if !$CustomerUserMap->{CustomerCompanySearchListLimit};
+        if ( $CustomerUserMap->{CustomerCompanySearchListLimit} < $Limit ) {
+            $Limit = $CustomerUserMap->{CustomerCompanySearchListLimit};
+        }
+    }
+
+    my %ListAllItems = $CustomerCompanyObject->CustomerCompanyList(
+        Search => $Param{Search},
+        Limit  => $Limit + 1,
+        Valid  => 0,
+    );
 
     if ( keys %ListAllItems <= $Limit ) {
         my $ListAllItems = keys %ListAllItems;
@@ -766,8 +779,6 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
-
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         if ( !$ConfigObject->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
             $LayoutObject->Block( Name => 'LocalDB' );

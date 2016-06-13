@@ -74,13 +74,14 @@
         <div class="WidgetSimple">
 [% RenderBlockStart("OverviewHeader") %]
             <div class="Header">
-                    <h2>[% Translate("List") | html %]
-                        [% IF Data.ListAll && Data.Limit && Data.ListAll > Data.Limit %]
-                            ([% Data.SearchListSize | html %] [% Translate("shown") | html %] / [% Data.ListAll | html %] [% Translate("total") | html %])
-                        [% ELSE %]
-                            ([% Data.ListAll | html %] [% Translate("total") | html %])
-                        [% END %]
-                    </h2>
+                <h2>[% Translate("List") | html %]
+                    [% IF Data.ListAll && Data.Limit && Data.ListAll > Data.Limit %]
+                        ([% Translate("only") | html %] [% Data.SearchListSize | html %] [% Translate("shown") | html %] -
+                        [% Translate("more available") | html %])
+                    [% ELSE %]
+                        ([% Data.ListAll | html %] [% Translate("total") | html %])
+                    [% END %]
+                </h2>
             </div>
 [% RenderBlockEnd("OverviewHeader") %]
 [% RenderBlockStart("NoSearchTerms") %]
