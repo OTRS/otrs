@@ -110,12 +110,13 @@ sub Run {
         # check CustomerID presence for all subactions that need it
         if ( $Self->{Subaction} ne 'UpdatePosition' ) {
             if ( !$Self->{CustomerID} ) {
+
+                $LayoutObject->AddJSOnDocumentComplete(
+                    Code => 'Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog();'
+                );
+
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'AgentCustomerInformationCenterBlank',
-                    Data         => \%Param,
-                );
                 $Output .= $LayoutObject->Footer();
                 return $Output;
             }
