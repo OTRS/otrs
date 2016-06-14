@@ -285,6 +285,7 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block( Name => 'Filter' );
 
     my %List = $GroupObject->RoleList(
         ValidID => 0,
