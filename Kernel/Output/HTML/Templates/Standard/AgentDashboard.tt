@@ -12,12 +12,5 @@
 
 [% InsertTemplate("AgentDashboardCommon.tt") %]
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.Dashboard.Init();
-//]]></script>
-[% END %]
-
-
 </div>
 [% RenderBlockEnd("Content") %]
