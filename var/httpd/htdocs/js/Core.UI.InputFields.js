@@ -35,7 +35,6 @@ Core.UI.InputFields = (function (TargetNS) {
         ErrorClass: 'Error',
         ServerErrorClass: 'ServerError',
         FadeDuration: 150,
-        SelectionNotAvailable: ' -',
         ResizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
         ResizeTimeout: 0,
         SafeMargin: 30,
@@ -304,8 +303,7 @@ Core.UI.InputFields = (function (TargetNS) {
             // Disable the field, add the tooltip and dash string
             $SearchObj
                 .attr('readonly', 'readonly')
-                .attr('title', Core.Language.Translate('Not available'))
-                .val(Config.SelectionNotAvailable);
+                .attr('title', Core.Language.Translate('Not available'));
         }
         else {
 
@@ -595,7 +593,7 @@ Core.UI.InputFields = (function (TargetNS) {
         }
 
         // Clear search field
-        if ($SearchObj.val() !== Config.SelectionNotAvailable && !$SearchObj.attr('readonly')) {
+        if (!$SearchObj.attr('readonly')) {
             $SearchObj.val('');
         }
 
