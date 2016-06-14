@@ -9285,6 +9285,9 @@
                     <Block>Ticket</Block>
                     <Prio>900</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.Service.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
