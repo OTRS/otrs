@@ -330,8 +330,8 @@ for my $Test (@Tests) {
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'closed successful',
-            CustomerNo   => '123465',
-            CustomerUser => 'customer@example.com',
+            CustomerID   => '123465',
+            CustomerUser => 'unittest@otrs.com',
             OwnerID      => 1,
             UserID       => 1,
         );
@@ -448,6 +448,21 @@ for my $Test (@Tests) {
     $Self->True(
         $Success,
         "$Test->{Name} WebserviceDelete()",
+    );
+}
+
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+# cleanup ticket database
+my @DeleteTicketList = $TicketObject->TicketSearch(
+    Result            => 'ARRAY',
+    CustomerUserLogin => 'unittest@otrs.com',
+    UserID            => 1,
+);
+for my $TicketID (@DeleteTicketList) {
+    $TicketObject->TicketDelete(
+        TicketID => $TicketID,
+        UserID   => 1,
     );
 }
 
