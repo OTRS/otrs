@@ -9302,6 +9302,9 @@
                     <Block>Ticket</Block>
                     <Prio>1000</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.SLA.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
