@@ -2190,9 +2190,9 @@ for my $SearchParam (qw(ArticleCreateTime TicketCreateTime TicketPendingTime)) {
 
 # cleanup is done by RestoreDatabase but we need to delete the tickets to cleanup the filesystem too
 my @DeleteTicketList = $TicketObject->TicketSearch(
-    Result       => 'ARRAY',
-    CustomerUser => 'unittest@otrs.com',
-    UserID       => 1,
+    Result            => 'ARRAY',
+    CustomerUserLogin => 'unittest@otrs.com',
+    UserID            => 1,
 );
 for my $TicketID (@DeleteTicketList) {
     $TicketObject->TicketDelete(
