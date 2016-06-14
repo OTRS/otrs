@@ -8947,6 +8947,7 @@ via the Preferences button after logging in.
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
+                    <JavaScript>Core.Agent.Book.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

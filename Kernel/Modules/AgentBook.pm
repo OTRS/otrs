@@ -72,6 +72,7 @@ sub Run {
             Name => 'SearchResult',
         );
 
+        my %AddressBook;
         my $Count = 1;
         for ( reverse sort { $List{$b}->{Email} cmp $List{$a}->{Email} } keys %List ) {
             $LayoutObject->Block(
@@ -84,8 +85,17 @@ sub Run {
                         ->Encode( Data => { $List{$_}->{Email} => $List{$_}->{CustomerKey} } ),
                 },
             );
+
+            $AddressBook{$Count} = $List{$_}->{Email};
             $Count++;
         }
+
+        # add data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'AddressBook',
+            Value => \%AddressBook,
+        );
+
     }
 
     # start with page ...
