@@ -25,43 +25,10 @@ my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# delete existing Fields and Tickets to have a cleaned test environment
-# Tickets
-my @DeleteTicketList = $TicketObject->TicketSearch(
-    Result       => 'ARRAY',
-    Title        => 'Some Ticket Title',
-    Queue        => 'Raw',
-    CustomerID   => '123456',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-for my $DeleteTID (@DeleteTicketList) {
-    $TicketObject->TicketDelete(
-        TicketID => $DeleteTID,
-        UserID   => 1,
-    );
-}
-
-# DynamicFields
-my $DeleteFieldList = $DynamicFieldObject->DynamicFieldList(
-    ResultType => 'HASH',
-    ObjectType => 'Ticket',
-);
-my $FieldName = 'TestTextArea';
-foreach my $DeleteFID ( keys %{$DeleteFieldList} ) {
-    if ( $DeleteFieldList->{$DeleteFID} =~ m/^$FieldName/xms ) {
-        $DynamicFieldObject->DynamicFieldDelete(
-            ID     => $DeleteFID,
-            UserID => 1,
-        );
-    }
-}
-
 # start tests
 # always random number with the same number of digits
 my $RandomID = $Helper->GetRandomNumber();
-$RandomID = substr( $RandomID, -7, 7 );
+$RandomID = substr $RandomID, -7, 7;
 my @FieldIDs;
 
 # create a dynamic field with short name length (21 characters)
@@ -403,7 +370,7 @@ for my $Test (@Tests) {
         Lock         => 'unlock',
         Priority     => '3 normal',
         State        => 'new',
-        CustomerID   => '123465',
+        CustomerID   => 'unittest' . $RandomID,
         CustomerUser => 'customer@example.com',
         OwnerID      => 1,
         UserID       => 1,
