@@ -21,9 +21,12 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        my $Language = 'de';
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => ['admin'],
+            Language => $Language,
+            Groups   => ['admin'],
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -173,12 +176,60 @@ $Selenium->RunTest(
         # go back to AdminPostMasterFilter screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
 
-        # delete test PostMasterFilter with delete button
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]")
-            ->VerifiedClick();
+        my $ConfirmJS = <<"JAVASCRIPT";
+(function () {
+    var lastConfirm = undefined;
+    window.confirm = function (message) {
+        lastConfirm = message;
+        return false; // stop action at first try
+    };
+    window.getLastConfirm = function () {
+        var result = lastConfirm;
+        lastConfirm = undefined;
+        return result;
+    };
+}());
+JAVASCRIPT
+
+        $Selenium->execute_script($ConfirmJS);
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]"
+        )->click();
+
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+
+        $Self->Is(
+            $Selenium->execute_script("return window.getLastConfirm()"),
+            $LanguageObject->Translate('Do you really want to delete this filter?'),
+            'Dialog window text is correct',
+        );
+
+        my $CheckConfirmJS = <<"JAVASCRIPT";
+(function () {
+    window.confirm = function () {
+        return true; // allow action at second try
+    };
+}());
+JAVASCRIPT
+
+        $Selenium->execute_script($CheckConfirmJS);
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]"
+        )->VerifiedClick();
+
+        # navigate to AdminPostMasterFilter screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
+
+        # check up if postmaster filter is deleted
+        $Self->Is(
+            $Selenium->execute_script("return \$('#PostMasterFilters a.AsBlock[href*=$PostMasterRandomID]').length"),
+            0,
+            "Postmaster Filter $PostMasterRandomID is deleted",
+        );
 
     }
-
 );
 
 1;

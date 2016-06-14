@@ -1,0 +1,49 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  AdminPostMasterFilter
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     Form
+ */
+
+label.Negate {
+	background: #eee;
+	display: inline-block;
+	margin: 0px 10px;
+	padding: 0px 2px 0px 7px;
+}
+
+label.Negate.Checked {
+	background: #ccc;
+}
+
+label.Negate input {
+	position: relative;
+	left: -3px;
+}
+
+.FilterFields label + input,
+.FilterFields label + .InputField_Container {
+	margin-left: 5px;
+}
+
+.FilterFields label.RightLabel {
+	margin-left: 15px;
+}
+
+div.InputField_InputContainer .InputField_Search {
+	max-width: 200px !important;
+}
+
+
+} /* end @media */
