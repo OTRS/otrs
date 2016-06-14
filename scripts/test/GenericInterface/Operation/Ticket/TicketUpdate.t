@@ -62,7 +62,7 @@ my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
 # add text dynamic field
 my %DynamicFieldTextConfig = (
-    Name       => "DFT1$RandomID",
+    Name       => "Unittest1$RandomID",
     FieldOrder => 9991,
     FieldType  => 'Text',
     ObjectType => 'Ticket',
@@ -87,7 +87,7 @@ $DynamicFieldTextConfig{ID} = $FieldTextID;
 
 # add dropdown dynamic field
 my %DynamicFieldDropdownConfig = (
-    Name       => "DFT2$RandomID",
+    Name       => "Unittest2$RandomID",
     FieldOrder => 9992,
     FieldType  => 'Dropdown',
     ObjectType => 'Ticket',
@@ -116,7 +116,7 @@ $DynamicFieldDropdownConfig{ID} = $FieldDropdownID;
 
 # add multiselect dynamic field
 my %DynamicFieldMultiselectConfig = (
-    Name       => "DFT3$RandomID",
+    Name       => "Unittest3$RandomID",
     FieldOrder => 9993,
     FieldType  => 'Multiselect',
     ObjectType => 'Ticket',
@@ -157,7 +157,7 @@ my $TicketID1 = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => $CustomerUserLogin,
-    CustomerUser => 'customerOne@example.com',
+    CustomerUser => 'unittest@otrs.com',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -525,15 +525,15 @@ my @Tests = (
             TicketID     => $TicketID1,
             DynamicField => [
                 {
-                    Name  => "DFT1$RandomID",
+                    Name  => "Unittest1$RandomID",
                     Value => '',
                 },
                 {
-                    Name  => "DFT2$RandomID",
+                    Name  => "Unittest2$RandomID",
                     Value => '',
                 },
                 {
-                    Name  => "DFT3$RandomID",
+                    Name  => "Unittest3$RandomID",
                     Value => '',
                 },
             ],
@@ -565,15 +565,15 @@ my @Tests = (
             TicketID     => $TicketID1,
             DynamicField => [
                 {
-                    Name  => "DFT1$RandomID",
+                    Name  => "Unittest1$RandomID",
                     Value => 'Value9ßüß-カスタ1234',
                 },
                 {
-                    Name  => "DFT2$RandomID",
+                    Name  => "Unittest2$RandomID",
                     Value => '2',
                 },
                 {
-                    Name  => "DFT3$RandomID",
+                    Name  => "Unittest3$RandomID",
                     Value => [ 1, 2 ],
                 },
             ],
@@ -605,11 +605,11 @@ my @Tests = (
             TicketID     => $TicketID1,
             DynamicField => [
                 {
-                    Name  => "DFT1$RandomID",
+                    Name  => "Unittest1$RandomID",
                     Value => { Wrong => 'Value' },    # value type depends on the dynamic field
                 },
                 {
-                    Name  => "DFT2$RandomID",
+                    Name  => "Unittest2$RandomID",
                     Value => { Wrong => 'Value' },    # value type depends on the dynamic field
                 },
             ],
@@ -782,6 +782,26 @@ for my $TicketID (@TicketIDs) {
     $Self->True(
         $TicketDelete,
         "TicketDelete() successful for Ticket ID $TicketID",
+    );
+}
+
+# delete dynamic fields
+my $DeleteFieldList = $DynamicFieldObject->DynamicFieldList(
+    ResultType => 'HASH',
+    ObjectType => 'Ticket',
+);
+
+DYNAMICFIELD:
+for my $DynamicFieldID ( sort keys %{$DeleteFieldList} ) {
+
+    next DYNAMICFIELD if !$DynamicFieldID;
+    next DYNAMICFIELD if !$DeleteFieldList->{$DynamicFieldID};
+
+    next DYNAMICFIELD if $DeleteFieldList->{$DynamicFieldID} !~ m{ ^Unittest }xms;
+
+    $DynamicFieldObject->DynamicFieldDelete(
+        ID     => $DynamicFieldID,
+        UserID => 1,
     );
 }
 
