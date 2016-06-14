@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-06-14 Fixed bug#[11816](http://bugs.otrs.org/show_bug.cgi?id=11816)(PR#940)  - Ticket::Service::KeepChildren parameter - invalid Parent Service.
  - 2016-06-13 Fixed bug#[12078](http://bugs.otrs.org/show_bug.cgi?id=12078) - AdminCustomerUser timeout because of too many customer users.
  - 2016-06-13 Faster new stat add operation, thanks to Pawel Boguslawski.
  - 2016-06-09 Fixed bug#[12129](http://bugs.otrs.org/show_bug.cgi?id=12129) - Process Management: Ticket locks even when is not needed, thanks to Thorsten Eckel.
