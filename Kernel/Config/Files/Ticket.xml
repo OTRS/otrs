@@ -9129,6 +9129,9 @@
                     <Block>Queue</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.QueueAutoResponse.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

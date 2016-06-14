@@ -70,7 +70,7 @@
                 <h2>[% Translate("Overview") | html %]</h2>
             </div>
             <div class="Content LayoutGrid ColumnsWithSpacing">
-                <div class="Size1of3">
+                <div class="Size1of2">
                     <ul class="Tablelike" id="Queues">
                         <li class="Header">[% Translate(Data.QueueHeader) %]</li>
                         <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
@@ -83,7 +83,7 @@
                     </ul>
                 </div>
 
-                <div class="Size2of3">
+                <div class="Size1of2">
                     <ul class="Tablelike" id="AutoResponses">
                         <li class="Header">[% Translate("Auto Responses") | html %]</li>
                         <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
@@ -98,13 +98,6 @@
             </div>
             <div class ="Clear"></div>
 [% RenderBlockEnd("OverviewResult") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterQueues'), $('#Queues'));
-    Core.UI.Table.InitTableFilter($('#FilterAutoResponses'), $('#AutoResponses'));
-//]]></script>
-[% END %]
 
 [% RenderBlockStart("Selection") %]
             <div class="Header">
