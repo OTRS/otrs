@@ -456,7 +456,7 @@ sub Run {
 
     # get all services
     my %AllServices = $ServiceObject->ServiceList(
-        Valid  => 1,
+        Valid  => 0,
         UserID => $Self->{UserID},
     );
 

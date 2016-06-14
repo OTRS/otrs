@@ -225,9 +225,8 @@ sub Run {
 
         # get service list
         my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
-            Valid        => 0,
-            KeepChildren => 1,
-            UserID       => $Self->{UserID},
+            Valid  => 0,
+            UserID => $Self->{UserID},
         );
 
         # get valid list
@@ -336,7 +335,7 @@ sub _MaskNew {
     # get service list
     my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
         Valid        => 1,
-        KeepChildren => 1,
+        KeepChildren => $ConfigObject->Get('Ticket::Service::KeepChildren') // 0,
         UserID       => $Self->{UserID},
     );
 

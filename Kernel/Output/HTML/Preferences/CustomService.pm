@@ -42,12 +42,15 @@ sub Param {
     my @Params;
     my @CustomServiceIDs;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check needed param,
     # if no user id is given or Ticket::Service is disabled
     # do not show this box
     if (
         !$Param{UserData}->{UserID}
-        || !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service')
+        || !$ConfigObject->Get('Ticket::Service')
         )
     {
         return ();
@@ -55,8 +58,9 @@ sub Param {
 
     # get all services
     my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
-        Valid  => 1,
-        UserID => $Self->{UserID},
+        KeepChildren => $ConfigObject->Get('Ticket::Service::KeepChildren') // 0,
+        Valid        => 1,
+        UserID       => $Self->{UserID},
     );
 
     # get param object
