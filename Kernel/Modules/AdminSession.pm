@@ -164,6 +164,10 @@ sub Run {
             Name => 'Overview',
         );
 
+        $LayoutObject->Block(
+            Name => 'Filter'
+        );
+
         for my $SessionID (@List) {
             my $List = '';
             my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
