@@ -41,6 +41,14 @@ div.InputField_InputContainer {
     min-width: 130px;
 }
 
+.InputField_Search[readonly=readonly]:focus {
+    border-color: #C0C0C0;
+}
+
+.InputField_Search[readonly=readonly].Error:focus {
+    border-color: #ff505e;
+}
+
 .SidebarColumn .WidgetSimple .InputField_Search,
 .SidebarColumn .WidgetSimple .InputField_Autocomplete {
     min-width: 80px;
