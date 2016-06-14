@@ -497,6 +497,15 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup is done by RestoreDatabase.
+# cleanup is done by RestoreDatabase, but we need to additionaly
+# run TicketDelete() to cleanup the FS backend too
+my $Success = $TicketObject->TicketDelete(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+$Self->True(
+    $Success,
+    "TicketDelete() - TicketID:'$TicketID'",
+);
 
 1;
