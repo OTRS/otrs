@@ -327,6 +327,10 @@ sub _Overview {
         Data => \%Param,
     );
 
+    $LayoutObject->Block(
+        Name => 'Filter'
+    );
+
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
     my %List            = $SignatureObject->SignatureList(
         Valid => 0,

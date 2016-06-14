@@ -9218,6 +9218,9 @@
                     <Block>Queue</Block>
                     <Prio>900</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.Signature.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
