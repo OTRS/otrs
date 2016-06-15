@@ -5,6 +5,7 @@
 .settings
 .includepath
 .DS_Store
+.vscode/*
 *.swp
 *.swo
 *~
