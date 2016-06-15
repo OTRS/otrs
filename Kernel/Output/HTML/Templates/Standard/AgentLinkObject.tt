@@ -93,7 +93,7 @@
     });
 //]]></script>
 [% END %]
-                            <button type="submit" id="SubmitSelect" name="SubmitSelect" value="[% Translate("Select") | html %]">[% Translate("Select") | html %]</button>
+                            <button type="submit" id="SubmitSelect" name="SubmitSelect" value="[% Translate("Select") | html %]" class="CallForAction Inline"><span>[% Translate("Select") | html %]</span></button>
                         </div>
                     </fieldset>
                 </div>
