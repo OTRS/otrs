@@ -36,7 +36,56 @@ Core.Agent.Admin.SysConfig = (function (TargetNS) {
         $('#AdminSysConfig').on('focus', '.Invalid input', function() {
             $(this).blur();
         });
+
+        // bind function to SysConfigGroup dropdown
+        $('#SysConfigGroup').bind('change', function(){
+            $('#SysConfigGroupForm').submit();
+        });
+
+        // enable dialog if explanation string is too long
+        $('fieldset > p.Description').each(function() {
+
+            var MaxLength = 200,
+                Length = $(this).text().length,
+                FullText,
+                OverlayTitle = $(this)
+                    .closest('fieldset')
+                    .find('h3')
+                    .find('label')
+                    .text();
+
+            // if the full description text is too long, cut it and
+            // show a "info" button which will open a dialog.
+            if (Length > MaxLength && Length > MaxLength + 100) {
+
+                FullText  = $(this).text();
+                $(this).text(FullText.substr(0, MaxLength) + '...');
+
+                // Repair string for correct displaying the overlay message - bug#11913
+                FullText = FullText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+                $(this)
+                    .append('&nbsp;<a href="#" class="DescriptionOverlay">' + Core.Language.Translate("Show more") + '</a>')
+                    .find('a.DescriptionOverlay')
+                    .bind('click', function() {
+
+                        Core.UI.Dialog.ShowDialog({
+                            Modal: true,
+                            Title: OverlayTitle,
+                            HTML: '<div style="padding: 15px; line-height: 150%; width: 550px;">' + FullText + '</div>',
+                            PositionTop: '100px',
+                            PositionLeft: 'Center',
+                            CloseOnEscape: true,
+                            CloseOnClickOutside: true
+                        });
+
+                        return false;
+                    });
+            }
+        });
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.Admin.SysConfig || {}));

@@ -52,13 +52,6 @@
                             <div>
                                 [% Data.List %]
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#SysConfigGroup').bind('change', function(){
-    $('#SysConfigGroupForm').submit();
-});
-//]]></script>
-[% END %]
                             <p class="FieldExplanation">
                                 <label for="SysConfigGroup">
                                     [% Translate("Navigate by selecting config groups") | html %]

@@ -111,6 +111,29 @@ $Selenium->RunTest(
             "NewArticleIgnoreSystemSender updated value is Yes",
         );
 
+        # test JS that gives Invalid class to field, preventing input on unchecked sysconfigs
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\$('input[name=\"Ticket::InvalidOwner::StateChangeKey[]\"]')[0]).parent().parent().parent().hasClass('Invalid')"
+            ),
+            0,
+            "Enabled sysconfig has no class Invalid",
+        );
+
+        # disable sysconfig Ticket::InvalidOwner::StateChangeItemActive
+        $Selenium->find_element("//input[\@id='Ticket::InvalidOwner::StateChangeItemActive']")->click();
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\$('input[name=\"Ticket::InvalidOwner::StateChangeKey[]\"]')[0]).parent().parent().parent().hasClass('Invalid')"
+            ),
+            1,
+            "Disabled sysconfig has class Invalid - JS is successful",
+        );
+
+        # enable sysconfig Ticket::InvalidOwner::StateChangeItemActive
+        $Selenium->find_element("//input[\@id='Ticket::InvalidOwner::StateChangeItemActive']")->click();
+
         # restore edited values back to default
         for my $ResetDefault (
             qw (CustomQueue CustomService NewArticleIgnoreSystemSender)
@@ -120,6 +143,38 @@ $Selenium->RunTest(
                 ->VerifiedClick();
         }
 
+        # verify loaded JS on this screen
+        # click on 'Show more'
+        $Selenium->find_element( ".DescriptionOverlay", 'css' )->click();
+
+        # verify dialog is open
+        $Self->True(
+            $Selenium->find_element( ".Dialog", 'css' ),
+            'Dialog found for "Show more" sysconfig description - JS is successful'
+        );
+
+        # refresh screen
+        $Selenium->VerifiedRefresh();
+
+        # click on 'Go to overview'
+        $Selenium->find_element(
+            "//a[contains(\@href, 'Action=AdminSysConfig;Subaction=SelectGroup;SysConfigGroup=Ticket')]"
+        )->VerifiedClick();
+
+        # verify URL
+        $Self->True(
+            $Selenium->get_current_url() =~ /Action=AdminSysConfig;Subaction=SelectGroup;SysConfigGroup=Ticket/,
+            'Current URL with sysconfig group ticket is found - JS is successful'
+        );
+
+        # remove Ticket as sysconfig group
+        $Selenium->find_element( ".Remove", 'css' )->VerifiedClick();
+
+        # verify current URL is changed
+        $Self->True(
+            $Selenium->get_current_url() !~ /Action=AdminSysConfig;Subaction=SelectGroup;SysConfigGroup=Ticket/,
+            'Current URL without sysconfig group is found - JS is successful'
+        );
     }
 
 );
