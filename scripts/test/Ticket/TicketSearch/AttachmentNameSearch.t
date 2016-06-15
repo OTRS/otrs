@@ -49,7 +49,7 @@ my $TicketID1 = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => '123465' . $RandomID,
-    CustomerUser => $RandomID.'.customerOne@example.com',
+    CustomerUser => $RandomID . '.customerOne@example.com',
     Service      => 'TestService' . $RandomID,
     OwnerID      => 1,
     UserID       => 1,
@@ -84,7 +84,7 @@ my $TicketID2 = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => '123465' . $RandomID,
-    CustomerUser => $RandomID.'.customerOne@example.com',
+    CustomerUser => $RandomID . '.customerOne@example.com',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -299,7 +299,7 @@ my @Tests = (
         Name   => 'AttachmentName (AsCustomer)',
         Config => {
             AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            CustomerUserID => $RandomID.'.customerOne@example.com',
+            CustomerUserID => $RandomID . '.customerOne@example.com',
         },
         ExpectedResults => [ $TicketID1, $TicketID2 ],
         ForBothStorages => 1,
@@ -309,7 +309,7 @@ my @Tests = (
         Config => {
             AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
             Subject        => 'Ticket2Article2' . $RandomID,
-            CustomerUserID => $RandomID.'.customerOne@example.com',
+            CustomerUserID => $RandomID . '.customerOne@example.com',
         },
         ExpectedResults => [$TicketID2],
         ForBothStorages => 1,
@@ -319,7 +319,7 @@ my @Tests = (
         Config => {
             AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
             Subject        => 'Ticket2Article3' . $RandomID,
-            CustomerUserID => $RandomID.'.customerOne@example.com',
+            CustomerUserID => $RandomID . '.customerOne@example.com',
         },
         ExpectedResults => [],
         ForBothStorages => 1,
