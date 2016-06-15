@@ -92,7 +92,7 @@ sub new {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
         || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
 
-     my $Self = $Class->SUPER::new(
+    my $Self = $Class->SUPER::new(
         webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
         %SeleniumTestsConfig
     );
@@ -166,7 +166,6 @@ sub _execute_command {    ## no critic
     else {
         $Self->{UnitTestObject}->True( 1, $TestName );
     }
-
 
     return $Result;
 }

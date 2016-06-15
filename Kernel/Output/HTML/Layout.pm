@@ -1047,7 +1047,6 @@ sub Error {
         $Param{OTRSBusinessIsInstalled} = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
     }
 
-
     # create & return output
     return $Self->Output(
         TemplateFile => 'Error',
