@@ -261,6 +261,9 @@ sub Run {
                 Data     => $Task{Data},
             );
 
+            # force transactional events to run by discarding all objects before deleting the task
+            $Kernel::OM->ObjectEventsHandle();
+
             # delete the task
             $SchedulerDBObject->TaskDelete(
                 TaskID => $TaskID,

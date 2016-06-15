@@ -385,6 +385,44 @@ sub ObjectParamAdd {
     return;
 }
 
+=item ObjectEventsHandle()
+
+Execute all events for registered objects.
+
+ $Kernel::OM->ObjectEventsHandle();
+
+=cut
+
+sub ObjectEventsHandle {
+    my ( $Self, %Param ) = @_;
+
+    my $HasQueuedTransactions;
+    EVENTS:
+    for my $Counter ( 1 .. 10 ) {
+        $HasQueuedTransactions = 0;
+        EVENTHANDLERS:
+        for my $EventHandler ( @{ $Self->{EventHandlers} } ) {
+
+            # since the event handlers are weak references,
+            # they might be undef by now.
+            next EVENTHANDLERS if !defined $EventHandler;
+            if ( $EventHandler->EventHandlerHasQueuedTransactions() ) {
+                $HasQueuedTransactions = 1;
+                $EventHandler->EventHandlerTransaction();
+            }
+        }
+        if ( !$HasQueuedTransactions ) {
+            last EVENTS;
+        }
+    }
+    if ($HasQueuedTransactions) {
+        warn "Unable to handle all pending events in 10 iterations";
+    }
+    delete $Self->{EventHandlers};
+
+    return;
+}
+
 =item ObjectsDiscard()
 
 Discards internally stored objects, so that the next access to objects
@@ -418,29 +456,7 @@ sub ObjectsDiscard {
     my ( $Self, %Param ) = @_;
 
     # fire outstanding events before destroying anything
-    my $HasQueuedTransactions;
-    EVENTS:
-    for my $Counter ( 1 .. 10 ) {
-        $HasQueuedTransactions = 0;
-        EVENTHANDLERS:
-        for my $EventHandler ( @{ $Self->{EventHandlers} } ) {
-
-            # since the event handlers are weak references,
-            # they might be undef by now.
-            next EVENTHANDLERS if !defined $EventHandler;
-            if ( $EventHandler->EventHandlerHasQueuedTransactions() ) {
-                $HasQueuedTransactions = 1;
-                $EventHandler->EventHandlerTransaction();
-            }
-        }
-        if ( !$HasQueuedTransactions ) {
-            last EVENTS;
-        }
-    }
-    if ($HasQueuedTransactions) {
-        warn "Unable to handle all pending events in 10 iterations";
-    }
-    delete $Self->{EventHandlers};
+    $Self->ObjectEventsHandle();
 
     # destroy objects before their dependencies are destroyed
 
