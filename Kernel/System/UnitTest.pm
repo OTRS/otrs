@@ -144,48 +144,6 @@ sub Run {
     FILE:
     for my $File (@Files) {
 
-
-
-        {
-            # get database object
-            my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-            # get list from database
-            return if !$DBObject->Prepare( SQL => 'SELECT count(*) FROM ticket' );
-
-            # fetch the result
-            my $TicketCount = 0;
-            while ( my @Row = $DBObject->FetchrowArray() ) {
-                $TicketCount = $Row[0];
-            }
-
-            print ">>>>>>>>>> $TicketCount Tickets VOR $File\n";
-
-            # get list from database
-            return if !$DBObject->Prepare( SQL => 'SELECT count(*) FROM dynamic_field' );
-
-            # fetch the result
-            my $DFCount = 0;
-            while ( my @Row = $DBObject->FetchrowArray() ) {
-                $DFCount = $Row[0];
-            }
-
-            print ">>>>>>>>>> $DFCount DFs VOR $File\n";
-
-            # get list from database
-            return if !$DBObject->Prepare( SQL => 'SELECT count(*) FROM dynamic_field_value' );
-
-            # fetch the result
-            my $DFVCount = 0;
-            while ( my @Row = $DBObject->FetchrowArray() ) {
-                $DFVCount = $Row[0];
-            }
-
-            print ">>>>>>>>>> $DFVCount DF Werte VOR $File\n";
-        }
-
-
-
         # check if only some tests are requested
         if (@Names) {
             my $Use = 0;
