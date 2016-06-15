@@ -16,20 +16,22 @@ use vars (qw($Self));
 my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
 
 my $CSV = $CSVObject->Array2CSV(
-    Head => [ 'RowA', 'RowB', ],
-    Data => [
-        [ 1,  4 ],
-        [ 7,  3 ],
-        [ 1,  9 ],
-        [ 34, 4 ],
+    WithHeader => [ 'Title', 'Example' ],
+    Head       => [ 'RowA', 'RowB', 'RowC', ],
+    Data       => [
+        [ 1,  4, 1 ],
+        [ 7,  3, 2 ],
+        [ 1,  9, 3 ],
+        [ 34, 4, 4 ],
     ],
 );
 
-my $CSVReference = qq{"RowA";"RowB"\n}
-    . qq{"1";"4"\n}
-    . qq{"7";"3"\n}
-    . qq{"1";"9"\n}
-    . qq{"34";"4"\n};
+my $CSVReference = qq{"Title";"Example"\n}
+    . qq{"RowA";"RowB";"RowC"\n}
+    . qq{"1";"4";"1"\n}
+    . qq{"7";"3";"2"\n}
+    . qq{"1";"9";"3"\n}
+    . qq{"34";"4";"4"\n};
 
 $Self->Is(
     $CSV || '',

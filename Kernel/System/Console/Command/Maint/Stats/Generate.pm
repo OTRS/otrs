@@ -268,6 +268,10 @@ sub Run {
     my $HeadArrayRef   = shift(@StatArray);
     my $CountStatArray = @StatArray;
     my $Time           = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
+    my @WithHeader;
+    if ( $Self->GetOption('with-header') ) {
+        @WithHeader = ( "Name: $Title", "Created: $Time" );
+    }
     if ( !@StatArray ) {
         push( @StatArray, [ ' ', 0 ] );
     }
@@ -306,9 +310,10 @@ sub Run {
 
         # Create the Excel data
         my $Output = $Kernel::OM->Get('Kernel::System::CSV')->Array2CSV(
-            Head   => $HeadArrayRef,
-            Data   => \@StatArray,
-            Format => 'Excel',
+            WithHeader => \@WithHeader,
+            Head       => $HeadArrayRef,
+            Data       => \@StatArray,
+            Format     => 'Excel',
         );
 
         # save the Excel with the title and timestamp as filename, or read it from param
@@ -335,9 +340,10 @@ sub Run {
 
         # Create the CSV data
         my $Output = $Kernel::OM->Get('Kernel::System::CSV')->Array2CSV(
-            Head      => $HeadArrayRef,
-            Data      => \@StatArray,
-            Separator => $Self->{Separator},
+            WithHeader => \@WithHeader,
+            Head       => $HeadArrayRef,
+            Data       => \@StatArray,
+            Separator  => $Self->{Separator},
         );
 
         # save the csv with the title and timestamp as filename, or read it from param
