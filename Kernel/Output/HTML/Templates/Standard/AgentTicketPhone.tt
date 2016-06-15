@@ -189,9 +189,16 @@
                     <div class="Clear"></div>
 
 [% RenderBlockStart("TicketService") %]
-                    <label for="ServiceID">[% Translate("Service") | html %]:</label>
+                    [% IF Data.ServiceMandatory %]
+                        <label class="Mandatory" for="ServiceID"><span class="Marker">*</span> [% Translate("Service") | html %]:</label>
+                    [% ELSE %]
+                        <label for="ServiceID">[% Translate("Service") | html %]:</label>
+                    [% END %]
                     <div class="Field">
                         [% Data.ServiceStrg %]
+                        [% IF Data.ServiceMandatory %]
+                            <div id="ServiceIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                        [% END %]
                         <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>[% Translate("Service invalid.") | html %]</p></div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
@@ -204,27 +211,18 @@
                     <div class="Clear"></div>
 [% RenderBlockEnd("TicketService") %]
 
-[% RenderBlockStart("TicketServiceMandatory") %]
-                    <label class="Mandatory" for="ServiceID"><span class="Marker">*</span> [% Translate("Service") | html %]:</label>
-                    <div class="Field">
-                        [% Data.ServiceStrg %]
-                        <div id="ServiceIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                        <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>[% Translate("Service invalid.") | html %]</p></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#ServiceID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
-                    </div>
-                    <div class="Clear"></div>
-[% RenderBlockEnd("TicketServiceMandatory") %]
-
 [% RenderBlockStart("TicketSLA") %]
-                    <label for="SLAID">[% Translate("Service Level Agreement") | html %]:</label>
+                    [% IF Data.SLAMandatory %]
+                        <label class="Mandatory" for="SLAID"><span class="Marker">*</span> [% Translate("Service Level Agreement") | html %]:</label>
+                    [% ELSE %]
+                        <label for="SLAID">[% Translate("Service Level Agreement") | html %]:</label>
+                    [% END %]
                     <div class="Field">
                         [% Data.SLAStrg %]
+                        [% IF Data.SLAMandatory %]
+                            <div id="SLAIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="SLAIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        [% END %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#SLAID').bind('change', function (Event) {
@@ -235,23 +233,6 @@
                     </div>
                     <div class="Clear"></div>
 [% RenderBlockEnd("TicketSLA") %]
-
-[% RenderBlockStart("TicketSLAMandatory") %]
-                    <label class="Mandatory" for="SLAID"><span class="Marker">*</span> [% Translate("Service Level Agreement") | html %]:</label>
-                    <div class="Field">
-                        [% Data.SLAStrg %]
-                        <div id="SLAIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                        <div id="SLAIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#SLAID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'ServiceID', 'NextStateID', 'PriorityID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
-                    </div>
-                    <div class="Clear"></div>
-[% RenderBlockEnd("TicketSLAMandatory") %]
 
 [% RenderBlockStart("OwnerSelection") %]
                     <label for="NewUserID">[% Translate("Owner") | html %]:</label>
