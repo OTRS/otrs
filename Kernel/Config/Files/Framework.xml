@@ -9479,6 +9479,7 @@ via the Preferences button after logging in.
                 </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.Registration.css</CSS>
+                    <JavaScript>Core.Agent.Admin.Registration.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
