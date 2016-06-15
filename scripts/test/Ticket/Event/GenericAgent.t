@@ -240,6 +240,72 @@ for my $Item ( sort keys %AddDynamicFields ) {
     );
 }
 
+# add the new Job
+my $RandomID2 = $Helper->GetRandomID();
+my $JobName2  = 'UnitTest_' . $RandomID2;
+my %NewJob2   = (
+    Name => $JobName2,
+    Data => {
+        EventValues        => ['TicketStateUpdate'],
+        StateIDs           => [ 6, 7, 8 ],
+        NewPendingTime     => 10,
+        NewPendingTimeType => 86400,
+        Valid              => 1,
+    },
+);
+
+# create the new job
+my $JobAdd2 = $GenericAgentObject->JobAdd(
+    %NewJob2,
+    UserID => 1,
+);
+$Self->True(
+    $JobAdd2 || '',
+    'JobAdd()',
+);
+
+my $StateSetSuccess1 = $TicketObject->TicketStateSet(
+    State    => 'open',
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    $StateSetSuccess1,
+    'Update #1',
+);
+
+my $StateSetSuccess2 = $TicketObject->TicketStateSet(
+    State    => 'pending reminder',
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+$Self->True(
+    $StateSetSuccess2,
+    'Update #2',
+);
+
+$TicketObject       = Kernel::System::Ticket->new();
+$GenericAgentObject = Kernel::System::GenericAgent->new();
+
+%Ticket = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 0,
+);
+
+# get current time
+my $DateTimeObject = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+);
+my $SystemTime = $DateTimeObject->ToEpoch();
+
+$Self->True(
+    ( $Ticket{RealTillTimeNotUsed} > $SystemTime + 863500 )
+        && ( $Ticket{RealTillTimeNotUsed} < $SystemTime + 864500 )
+    ,
+    "Check pending time",
+);
+
 # cleanup is done by RestoreDatabase.
 
 1;

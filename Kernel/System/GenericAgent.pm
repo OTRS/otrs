@@ -1090,6 +1090,22 @@ sub _JobRunTicket {
         $IsPendingState = grep { $_ == $Param{Config}->{New}->{StateID} } keys %{ $Self->{PendingStateList} };
     }
 
+    if (
+        $Param{Config}->{New}->{PendingTime}
+        && !$Param{Config}->{New}->{State}
+        && !$Param{Config}->{New}->{StateID}
+        )
+    {
+        # if pending time is provided, but there is no new ticket state provided,
+        # check if ticket is already in pending state
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 0,
+        );
+
+        $IsPendingState = grep { $_ eq $Ticket{State} } values %{ $Self->{PendingStateList} };
+    }
+
     # set pending time, if new state is pending state
     if ( $IsPendingState && $Param{Config}->{New}->{PendingTime} ) {
 
