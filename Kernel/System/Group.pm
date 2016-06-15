@@ -1024,7 +1024,7 @@ sub PermissionUserGet {
         UserID => $Param{UserID},
     );
 
-    if ( %RoleList ) {
+    if (%RoleList) {
         ROLEID:
         for my $RoleID ( sort keys %RoleList ) {
 

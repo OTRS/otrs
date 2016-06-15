@@ -205,7 +205,7 @@ sub Run {
                 !$GetParam{ArticleTypeID}
                 && !$GetParam{ArticleSenderTypeID}
                 && $GetParam{ArticleSubjectMatch} eq ''
-                && $GetParam{ArticleBodyMatch}    eq ''
+                && $GetParam{ArticleBodyMatch} eq ''
                 )
             {
                 $ArticleFilterMissing = 1;
@@ -414,7 +414,7 @@ sub Run {
                 !$GetParam{ArticleTypeID}
                 && !$GetParam{ArticleSenderTypeID}
                 && $GetParam{ArticleSubjectMatch} eq ''
-                && $GetParam{ArticleBodyMatch}    eq ''
+                && $GetParam{ArticleBodyMatch} eq ''
                 )
             {
                 $ArticleFilterMissing = 1;
