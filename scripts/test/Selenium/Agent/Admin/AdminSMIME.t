@@ -154,6 +154,22 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Secret",     'css' )->send_keys("secret");
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
+        # click to 'Read certificate', verify JS will open a pop up window
+        $Selenium->find_element( ".CertificateRead", 'css' )->click();
+
+        $Selenium->WaitFor( WindowCount => 2 );
+        my $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        $Self->True(
+            $Selenium->find_element( ".CancelClosePopup", 'css' )->click(),
+            "Pop-up window is found - JS is successful"
+        );
+
+        # switch window back
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
         # check for test created Certificate and Privatekey and delete them
         for my $TestSMIME (qw(key cert))
         {
@@ -161,8 +177,10 @@ $Selenium->RunTest(
                 index( $Selenium->get_page_source(), "Type=$TestSMIME;Filename=" ) > -1,
                 "Test $TestSMIME SMIME found on table"
             );
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")
-                ->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->click();
+
+            # accept JS delete confirmation dialog
+            $Selenium->accept_alert();
         }
 
         # delete needed test directories

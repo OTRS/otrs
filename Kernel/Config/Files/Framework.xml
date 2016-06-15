@@ -9321,6 +9321,9 @@ via the Preferences button after logging in.
                     <Block>Email</Block>
                     <Prio>1100</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.SMIME.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
