@@ -180,16 +180,6 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
         "CustomerSearch() - CustomerIDRaw=\'$UserRand-Customer-Update-Id\' - $UserID is found",
     );
 
-    # search by CustomerID with asterisk
-    %List = $CustomerUserObject->CustomerSearch(
-        CustomerID => '*',
-        ValidID    => 1,
-    );
-    $Self->True(
-        $List{$UserID},
-        "CustomerSearch() - CustomerID=\'*\' - $UserID is found",
-    );
-
     # search by CustomerIDRaw with asterisk
     %List = $CustomerUserObject->CustomerSearch(
         CustomerIDRaw => '*',
@@ -218,16 +208,6 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
     $Self->False(
         $List{$UserID},
         "CustomerSearch() - CustomerIDRaw=\'$UserRand-Customer*\' - $UserID is not found",
-    );
-
-    # search by CustomerID with %
-    %List = $CustomerUserObject->CustomerSearch(
-        CustomerID => '%',
-        ValidID    => 1,
-    );
-    $Self->True(
-        $List{$UserID},
-        "CustomerSearch() - CustomerID=\'%\' - $UserID is  found",
     );
 
     # search by CustomerIDRaw with %
