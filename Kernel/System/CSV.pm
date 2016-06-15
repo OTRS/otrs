@@ -55,8 +55,9 @@ sub new {
 Returns a csv formatted string based on a array with head data.
 
     $CSV = $CSVObject->Array2CSV(
-        Head => [ 'RowA', 'RowB', ],   # optional
-        Data => [
+        WithHeader => [ 'RowA', 'RowB', ],   # optional
+        Head       => [ 'RowA', 'RowB', ],   # optional
+        Data       => [
             [ 1, 4 ],
             [ 7, 3 ],
             [ 1, 9 ],
@@ -91,6 +92,10 @@ sub Array2CSV {
     if ( $Param{Data} ) {
         @Data = @{ $Param{Data} };
     }
+    my @WithHeader;
+    if ( $Param{WithHeader} ) {
+        @WithHeader = @{ $Param{WithHeader} };
+    }
 
     # get format
     $Param{Format} //= 'CSV';
@@ -117,7 +122,7 @@ sub Array2CSV {
         # We will try to determine the appropriate length for each column.
         my @ColumnLengths;
         my $Row = 0;
-        for my $DataRaw ( \@Head, @Data ) {
+        for my $DataRaw ( \@WithHeader, \@Head, @Data ) {
             COL:
             for my $Col ( 0 .. ( scalar @{ $DataRaw // [] } ) - 1 ) {
                 next COL if !defined( $DataRaw->[$Col] );
@@ -179,6 +184,12 @@ sub Array2CSV {
                 verbatim            => 0,
             }
         );
+
+        # set header if given
+        if (@WithHeader) {
+            my $Status = $CSV->combine(@WithHeader);
+            $Output .= $CSV->string() . "\n";
+        }
 
         # if we have head param fill in header
         if (@Head) {
