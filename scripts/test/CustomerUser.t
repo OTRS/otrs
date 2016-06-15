@@ -231,7 +231,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
     );
     $Self->True(
         $List{$UserID},
-        "CustomerSearch() - CustomerID=\'%\' - $UserID is  found",
+        "CustomerSearch() - CustomerID=\'%\' - $UserID is found",
     );
 
     # search by CustomerIDRaw with %
