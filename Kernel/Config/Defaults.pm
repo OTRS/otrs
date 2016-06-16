@@ -931,6 +931,7 @@ sub LoadDefaults {
         'Core.PageLayout.css',
         'Core.Form.css',
         'Core.Table.css',
+        'Core.Login.css',
         'Core.Widget.css',
         'Core.WidgetMenu.css',
         'Core.TicketDetail.css',
