@@ -1,0 +1,90 @@
+/**
+ * CSS-based animations which can be used in the OTRS agent interface using Core.UI.Animate
+ *
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Login screen
+ */
+
+@media screen,projection,tv,handheld {
+
+.LoginScreen {
+    padding-top: 90px;
+}
+
+.LoginScreen .ErrorBox, 
+.LoginScreen .SuccessBox {
+    margin-bottom: 10px;
+    padding: 10px 25px;
+}
+
+.LoginScreen .SuccessBox {
+    background-color: #6AC0CF;
+}
+
+#LostPassword,
+#BackToLogin {
+    color: #999;
+}
+
+.LoginScreen #Header,
+.LoginScreen #Footer {
+    display: none;
+}
+
+#LoginBox,
+#PasswordBox {
+    width: 350px;
+    margin: 0px auto;
+}
+
+#LoginBox > .WidgetSimple,
+#PasswordBox > .WidgetSimple {
+    padding: 15px;
+}
+
+#LoginBox > .WidgetSimple form > fieldset > div,
+#PasswordBox > .WidgetSimple form > fieldset > div {
+    position: relative;
+}
+
+#LoginBox input,
+#PasswordBox input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+#LoginBox .Error.Center.Spacing:empty,
+#PasswordBox .Error.Center.Spacing:empty {
+    display: none;
+}
+
+#LoginBox .CallForAction.Fullsize,
+#PasswordBox .CallForAction.Fullsize {
+    width: 100%;
+}
+
+#LoginBox .CallForAction.Fullsize span,
+#PasswordBox .CallForAction.Fullsize span {
+    padding: 7px 10px;
+}
+
+/**
+ * @subsection  Customizable logos
+ */
+#LoginLogo {
+    background: transparent url(../img/loginlogo_default.png) center no-repeat;
+    background-size: contain;
+    height: 70px;
+    margin-bottom: 30px;
+}
+
+} /* end @media */

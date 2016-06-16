@@ -484,7 +484,9 @@ form label[for] {
 }
 
 form input.Error,
-form textarea.Error {
+form textarea.Error,
+form input.Error:focus,
+form textarea.Error:focus {
     border-color: #ff505e;
 }
 

@@ -363,14 +363,14 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="AgentLoginLogo" Required="0" Valid="0">
+    <ConfigItem Name="AgentLoginLogo" Required="0" Valid="1">
         <Description Translatable="1">The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/loginlogo_default.png</Item>
-                <Item Key="StyleHeight">100px</Item>
+                <Item Key="StyleHeight">70px</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10527,6 +10527,7 @@ via the Preferences button after logging in.
                 <Item>Core.PageLayout.css</Item>
                 <Item>Core.Form.css</Item>
                 <Item>Core.Table.css</Item>
+                <Item>Core.Login.css</Item>
                 <Item>Core.Widget.css</Item>
                 <Item>Core.WidgetMenu.css</Item>
                 <Item>Core.TicketDetail.css</Item>
