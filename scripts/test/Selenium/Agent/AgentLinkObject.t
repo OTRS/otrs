@@ -15,6 +15,40 @@ use vars (qw($Self));
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
+my $DragAndDrop = sub {
+    my (%Param) = @_;
+
+    # Value is optional parameter
+    for my $Needed (qw(From To)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    my $DragFrom = $Selenium->find_element( $Param{From}, 'css' );
+    my $DragTo   = $Selenium->find_element( $Param{To},   'css' );
+
+    # Move mouse to from element, drag and drop
+    $Selenium->mouse_move_to_location( element => $DragFrom );
+
+    # Holds the mouse button on the element
+    $Selenium->button_down();
+
+    # Move mouse to the destination
+    $Selenium->mouse_move_to_location(
+        element => $DragTo,
+        xoffset => 1,
+        yoffset => 1,
+    );
+
+    # Release
+    $Selenium->button_up();
+};
+
 $Selenium->RunTest(
     sub {
 
@@ -182,6 +216,130 @@ $Selenium->RunTest(
             "$LongTicketTitle - found in AgentTicketZoom complex view mode",
         );
 
+        # check for "default" visible columns in the Linked Ticket widget
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(1)').text();"
+            ),
+            ' Ticket# ',
+            'Default 1st column name',
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(2)').text();"
+            ),
+            ' Title ',
+            'Default 2nd column name',
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(3)').text();"
+            ),
+            ' State ',
+            'Default 3th column name',
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(4)').text();"
+            ),
+            ' Queue ',
+            'Default 4th column name',
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(5)').text();"
+            ),
+            ' Created ',
+            'Default 5th column name',
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(6)').text();"
+            ),
+            ' Linked as ',
+            'Default 6th column name',
+        );
+
+        # show ActionMenu - usually this is done when user hovers, however it's not possible to simulate this behaviour
+        $Selenium->execute_script(
+            "\$('#WidgetTicket .ActionMenu').show();"
+        );
+
+        # check if column settings button is available in the Linked Ticket widget
+        $Selenium->find_element( 'a#linkobject-Ticket-toggle', 'css' )->VerifiedClick();
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#linkobject-Ticket-setting:visible").length;'
+        );
+
+        # Remove Age from left side, and put it to the right side
+        $DragAndDrop->(
+            From => '#WidgetTicket li[data-fieldname="Age"]',
+            To   => '#AssignedFields-linkobject-Ticket',
+        );
+
+        # Remove State from right side, and put it to the left side
+        $DragAndDrop->(
+            From => '#WidgetTicket li[data-fieldname="State"]',
+            To   => '#AvailableField-linkobject-Ticket',
+        );
+
+        # save
+        $Selenium->find_element( '#linkobject-Ticket_submit', 'css' )->VerifiedClick();
+
+        # wait for AJAX
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#WidgetTicket .DataTable:visible").length;'
+        );
+
+        # check for "updated" visible columns in the Linked Ticket widget
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(1)').text();"
+            ),
+            ' Ticket# ',
+            'Updated 1st column name',
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(2)').text();"
+            ),
+            ' Age ',
+            'Updated 2nd column name',
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(3)').text();"
+            ),
+            ' Title ',
+            'Updated 3th column name',
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(4)').text();"
+            ),
+            ' Queue ',
+            'Updated 4th column name',
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(5)').text();"
+            ),
+            ' Created ',
+            'Updated 5th column name',
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(6)').text();"
+            ),
+            ' Linked as ',
+            'Updated 6th column name',
+        );
+
         # hover on menu bar on the misc cluster
         $Selenium->WaitFor(
             JavaScript =>
@@ -224,7 +382,7 @@ $Selenium->RunTest(
                 "Delete ticket - $TicketID"
             );
         }
-    }
+        }
 );
 
 1;
