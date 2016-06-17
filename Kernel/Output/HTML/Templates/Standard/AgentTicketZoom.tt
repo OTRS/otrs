@@ -291,10 +291,10 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% RenderBlockStart("NextActivityDialogs") %]
                 <div class="LightRow Bottom">
                     <ul class="Actions">
-                        <li><strong>[% Data.ActivityName | html %]:</strong></li>
+                        <li><strong>[% Translate(Data.ActivityName) | html %]:</strong></li>
 [% RenderBlockStart("ActivityDialog") %]
                         <li>
-                            <a title="[% Data.Name | html %]" class="AsPopup PopupType_TicketAction" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">[% Data.Name | html %]</a>
+                            <a title="[% Translate(Data.Name) | html %]" class="AsPopup PopupType_TicketAction" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">[% Translate(Data.Name) | html %]</a>
                         </li>
 [% RenderBlockEnd("ActivityDialog") %]
                     </ul>

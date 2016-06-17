@@ -43,6 +43,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.11 2016-??-??
+ - 2016-06-17 Fixed bug#[11920](http://bugs.otrs.org/show_bug.cgi?id=11920) - Activity Dialogs will not translated.
  - 2016-06-15 Fixed bug#[12131](http://bugs.otrs.org/show_bug.cgi?id=12131) - Parameter --with-header does not work.
  - 2016-06-15 Fixed bug#[12088](http://bugs.otrs.org/show_bug.cgi?id=12088) - Possible race condition in scheduler worker daemon.
  - 2016-06-14 Fixed bug#[11848](http://bugs.otrs.org/show_bug.cgi?id=11848) - Generic agent don't set pending time without new pending state.
