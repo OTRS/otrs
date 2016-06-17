@@ -30,6 +30,64 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    if ( $Self->{Subaction} eq 'UpdateComplextTablePreferences' ) {
+
+        # save user preferences (shown columns)
+
+        # Needed objects
+        my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
+
+        # challenge token check for write action
+        $LayoutObject->ChallengeTokenCheck();
+
+        my $SourceObject      = $ParamObject->GetParam( Param => 'SourceObject' )      || '';
+        my $DestinationObject = $ParamObject->GetParam( Param => 'DestinationObject' ) || '';
+
+        my $Success = $LayoutObject->ComplexTablePreferencesSet(
+            DestinationObject => $DestinationObject,
+        );
+
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "System was unable to update preferences!",
+            );
+            return;
+        }
+
+        # get linked objects
+        my $LinkListWithData = $Kernel::OM->Get('Kernel::System::LinkObject')->LinkListWithData(
+            Object           => $SourceObject,
+            Object2          => $DestinationObject,
+            Key              => $Self->{TicketID},
+            State            => 'Valid',
+            UserID           => $Self->{UserID},
+            ObjectParameters => {
+                Ticket => {
+                    IgnoreLinkedTicketStateTypes => 1,
+                },
+            },
+        );
+
+        # create the link table
+        my $LinkTableStrg = $LayoutObject->LinkObjectTableCreate(
+            LinkListWithData => $LinkListWithData,
+            ViewMode         => 'Complex',           # only make sense for complex
+            Object           => $SourceObject,
+            Key              => $Self->{TicketID},
+            AJAX             => 1,
+        );
+
+        return $LayoutObject->Attachment(
+            ContentType => 'text/html',
+            Content     => $LinkTableStrg,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     # ------------------------------------------------------------ #
     # close
     # ------------------------------------------------------------ #
