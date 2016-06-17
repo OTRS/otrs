@@ -1233,11 +1233,6 @@ $Success = $DBObject->Do(
     ],
 );
 
-$Self->True(
-    $Success,
-    "Deleted Group ID $GID",
-);
-
 # remove role
 $Success = $GroupObject->PermissionRoleUserAdd(
     RID    => $RoleID,
@@ -1258,11 +1253,6 @@ $Success = $DBObject->Do(
     Bind => [
         \$RoleID,
     ],
-);
-
-$Self->True(
-    $Success,
-    "Deleted Role ID $RoleID",
 );
 
 1;
