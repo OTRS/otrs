@@ -1161,6 +1161,108 @@ continue {
     undef $NotificationID;
 }
 
-# cleanup is done by RestoreDatabase.
+# cleanup is done by RestoreDatabase but we need to run cleanup
+# code too to remove data if the FS backend is used
+
+# revert queue to original group
+$QueueObject->QueueUpdate(
+    QueueID => 1,
+    %Queue,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "Set Queue ID 1 to Group ID $Queue{GroupID}",
+);
+
+# delete the dynamic field
+my $DFDelete = $DynamicFieldObject->DynamicFieldDelete(
+    ID      => $FieldID,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+# sanity check
+$Self->True(
+    $DFDelete,
+    "DynamicFieldDelete() successful for Field ID $FieldID",
+);
+
+# delete the ticket
+my $TicketDelete = $TicketObject->TicketDelete(
+    TicketID => $TicketID,
+    UserID   => $UserID,
+);
+
+# sanity check
+$Self->True(
+    $TicketDelete,
+    "TicketDelete() successful for Ticket ID $TicketID",
+);
+
+# delete group
+$Success = $GroupObject->PermissionGroupUserAdd(
+    GID        => $GID,
+    UID        => $UserID,
+    Permission => {
+        ro        => 0,
+        move_into => 0,
+        create    => 0,
+        owner     => 0,
+        priority  => 0,
+        rw        => 0,
+    },
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "Removed User ID $UserID from Group ID $GID",
+);
+
+# get db object
+my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+# remove new group manually
+$Success = $DBObject->Do(
+    SQL => 'DELETE FROM groups
+        WHERE id = ?',
+    Bind => [
+        \$GID,
+    ],
+);
+
+$Self->True(
+    $Success,
+    "Deleted Group ID $GID",
+);
+
+# remove role
+$Success = $GroupObject->PermissionRoleUserAdd(
+    RID    => $RoleID,
+    UID    => $UserID,
+    Active => 0,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "Removed User ID $UserID from Role ID $RoleID",
+);
+
+# remove new role manually
+$Success = $DBObject->Do(
+    SQL => 'DELETE FROM roles
+        WHERE id = ?',
+    Bind => [
+        \$RoleID,
+    ],
+);
+
+$Self->True(
+    $Success,
+    "Deleted Role ID $RoleID",
+);
 
 1;
