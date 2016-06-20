@@ -186,20 +186,6 @@ sub GroupMemberList {
         );
         return;
     }
-    my %Data;
-    my @Name;
-    my @ID;
-
-    # check if customer group feature is active, if not, return all groups
-    if ( !$Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupSupport') ) {
-
-        # get permissions
-        %Data = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
-        for ( sort keys %Data ) {
-            push @Name, $Data{$_};
-            push @ID,   $_;
-        }
-    }
 
     # create cache key
     my $CacheKey = 'GroupMemberList::' . $Param{Type} . '::' . $Param{Result} . '::';
@@ -220,40 +206,56 @@ sub GroupMemberList {
         return %{$Cache} if ref $Cache eq 'HASH';
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my %Data;
+    my @Name;
+    my @ID;
 
-    # if it's active, return just the permitted groups
-    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id "
-        . " FROM groups g, group_customer_user gu WHERE "
-        . " g.valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} ) AND "
-        . " g.id = gu.group_id AND gu.permission_value = 1 AND "
-        . " gu.permission_key IN ('" . $DBObject->Quote( $Param{Type} ) . "', 'rw') "
-        . " AND ";
-
-    if ( $Param{UserID} ) {
-        $SQL .= " gu.user_id = '" . $DBObject->Quote( $Param{UserID} ) . "'";
-    }
-    else {
-        $SQL .= " gu.group_id = " . $DBObject->Quote( $Param{GroupID}, 'Integer', ) . "";
-    }
-    $DBObject->Prepare( SQL => $SQL );
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        my $Key   = '';
-        my $Value = '';
-        if ( $Param{UserID} ) {
-            $Key   = $Row[0];
-            $Value = $Row[1];
-        }
-        else {
-            $Key   = $Row[4];
-            $Value = $Row[1];
-        }
+    # check if customer group feature is active, if not, return all groups
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupSupport') ) {
 
         # get permissions
-        $Data{$Key} = $Value;
-        push @Name, $Value;
-        push @ID,   $Key;
+        %Data = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
+        for ( sort keys %Data ) {
+            push @Name, $Data{$_};
+            push @ID,   $_;
+        }
+    }
+    else {
+        # get database object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        # if it's active, return just the permitted groups
+        my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id "
+            . " FROM groups g, group_customer_user gu WHERE "
+            . " g.valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} ) AND "
+            . " g.id = gu.group_id AND gu.permission_value = 1 AND "
+            . " gu.permission_key IN ('" . $DBObject->Quote( $Param{Type} ) . "', 'rw') "
+            . " AND ";
+
+        if ( $Param{UserID} ) {
+            $SQL .= " gu.user_id = '" . $DBObject->Quote( $Param{UserID} ) . "'";
+        }
+        else {
+            $SQL .= " gu.group_id = " . $DBObject->Quote( $Param{GroupID}, 'Integer', ) . "";
+        }
+        $DBObject->Prepare( SQL => $SQL );
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            my $Key   = '';
+            my $Value = '';
+            if ( $Param{UserID} ) {
+                $Key   = $Row[0];
+                $Value = $Row[1];
+            }
+            else {
+                $Key   = $Row[4];
+                $Value = $Row[1];
+            }
+
+            # get permissions
+            $Data{$Key} = $Value;
+            push @Name, $Value;
+            push @ID,   $Key;
+        }
     }
 
     # add always groups
