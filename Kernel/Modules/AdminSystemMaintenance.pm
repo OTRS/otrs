@@ -535,13 +535,15 @@ sub _ShowEdit {
         for my $SessionID (@List) {
             my $List = '';
             my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
-            $MetaData{"$Data{UserType}Session"}++;
-            if ( !$MetaData{"$Data{UserLogin}"} ) {
-                $MetaData{"$Data{UserType}SessionUniq"}++;
-                $MetaData{"$Data{UserLogin}"} = 1;
+            if ( $Data{UserType} && $Data{UserLogin} ) {
+                $MetaData{"$Data{UserType}Session"}++;
+                if ( !$MetaData{"$Data{UserLogin}"} ) {
+                    $MetaData{"$Data{UserType}SessionUniq"}++;
+                    $MetaData{"$Data{UserLogin}"} = 1;
+                }
             }
 
-            $Data{UserType} = 'Agent' if ( $Data{UserType} ne 'Customer' );
+            $Data{UserType} = 'Agent' if ( !$Data{UserType} || $Data{UserType} ne 'Customer' );
 
             # store data to be used later for showing a users session table
             push @UserSessions, {
