@@ -24,6 +24,3 @@
         </fieldset>
     </form>
 </div>
-<script type="text/javascript">//<![CDATA[
-Core.Agent.CustomerInformationCenterSearch.Init();
-//]]></script>

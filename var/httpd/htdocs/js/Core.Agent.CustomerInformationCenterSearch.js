@@ -116,6 +116,7 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                     return;
                 }
                 Core.UI.Dialog.ShowContentDialog(HTML, Core.Language.Translate('Search'), '10px', 'Center', true);
+                TargetNS.Init();
 
             }, 'html'
         );
