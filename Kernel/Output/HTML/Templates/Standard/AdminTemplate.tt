@@ -112,11 +112,6 @@
                 </table>
             </div>
         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#Filter'), $('#Templates'));
-//]]></script>
-[% END %]
 [% RenderBlockEnd("OverviewResult") %]
 [% RenderBlockStart("OverviewUpdate") %]
 
