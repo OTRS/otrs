@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-06-20 Improved performance of CustomerGroup::GroupMemberList(), thanks to Thorsten Eckel.
  - 2016-06-17 Allow users to configure columns in Linked Ticket widget on the TicketZoom screen.
  - 2016-06-17 Fixed bug#[11920](http://bugs.otrs.org/show_bug.cgi?id=11920) - Activity Dialogs will not translated.
  - 2016-06-15 Fixed bug#[12131](http://bugs.otrs.org/show_bug.cgi?id=12131) - Parameter --with-header does not work.
