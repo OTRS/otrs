@@ -142,7 +142,7 @@ sub Run {
                 Result => 'COUNT',
                 Queues => [ $Queues{$QueueID} ],
                 States => [ $ConfiguredStates{$StateOrderID} ],
-            );
+            ) || 0;
             push @Results, $QueueTotal;
         }
 

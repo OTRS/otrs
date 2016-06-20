@@ -238,7 +238,7 @@ sub Run {
             %{ $Filters{$Filter}->{Search} },
             %ColumnFilter,
             Result => 'COUNT',
-        );
+        ) || 0;
     }
 
     my $View = $ParamObject->GetParam( Param => 'View' ) || '';
@@ -294,7 +294,7 @@ sub Run {
             %{ $Filters{$Filter}->{Search} },
             %ColumnFilter,
             Result => 'COUNT',
-        );
+        ) || 0;
         if ( $Count > $Limit ) {
             $Count = $Limit;
         }

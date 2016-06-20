@@ -650,7 +650,7 @@ sub Run {
                     %{ $TicketSearchSummary{$Type} },
                     %{ $Self->{ColumnFilter} },
                     %ColumnFilter,
-                );
+                ) || 0;
             }
         }
     }

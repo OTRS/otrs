@@ -31,7 +31,7 @@ sub Run {
         StateType  => 'Open',
         UserID     => 1,
         Permission => 'ro',
-    );
+    ) || 0;
 
     if ( $OpenTickets > 8000 ) {
         $Self->AddResultWarning(

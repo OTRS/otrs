@@ -396,7 +396,7 @@ sub Run {
             %{ $Filters{$FilterColumn}->{Search} },
             %ColumnFilter,
             Result => 'COUNT',
-        );
+        ) || 0;
 
         # prepare count for new article tickets
         if ( $FilterColumn eq 'New' ) {
@@ -404,7 +404,7 @@ sub Run {
                 %{ $Filters{All}->{Search} },
                 %ColumnFilter,
                 Result => 'COUNT',
-            );
+            ) || 0;
             $Count = $CountAll - $Count;
         }
 

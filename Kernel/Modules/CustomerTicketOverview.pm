@@ -188,7 +188,7 @@ sub Run {
             %{ $Filters{ $Self->{Subaction} }->{$Filter}->{Search} },
             %SearchInArchive,
             Result => 'COUNT',
-        );
+        ) || 0;
 
         my $ClassA = '';
         if ( $Filter eq $FilterCurrent ) {

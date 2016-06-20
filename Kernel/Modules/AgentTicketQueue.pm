@@ -381,7 +381,7 @@ sub Run {
                 %{ $Filters{$FilterColumn}->{Search} },
                 %ColumnFilter,
                 Result => 'COUNT',
-            );
+            ) || 0;
         }
 
         if ( $FilterColumn eq $Filter ) {

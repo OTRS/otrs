@@ -68,7 +68,7 @@ sub Run {
         Permission                       => $Self->{Config}->{Permission},
         UserID                           => $Self->{UserID},
         CacheTTL                         => $Self->{Config}->{CacheTTLLocal} * 60,
-    );
+    ) || 0;
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -89,7 +89,7 @@ sub Run {
         Permission    => $Self->{Config}->{Permission},
         UserID        => $Self->{UserID},
         CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
-    );
+    ) || 0;
 
     $LayoutObject->Block(
         Name => 'ContentSmallCustomerIDStatusOpenTickets',
@@ -107,7 +107,7 @@ sub Run {
         Permission    => $Self->{Config}->{Permission},
         UserID        => $Self->{UserID},
         CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
-    );
+    ) || 0;
 
     $LayoutObject->Block(
         Name => 'ContentSmallCustomerIDStatusClosedTickets',
@@ -124,7 +124,7 @@ sub Run {
         Permission    => $Self->{Config}->{Permission},
         UserID        => $Self->{UserID},
         CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
-    );
+    ) || 0;
 
     $LayoutObject->Block(
         Name => 'ContentSmallCustomerIDStatusAllTickets',
@@ -143,7 +143,7 @@ sub Run {
             Permission    => $Self->{Config}->{Permission},
             UserID        => $Self->{UserID},
             CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
-        );
+        ) || 0;
 
         $LayoutObject->Block(
             Name => 'ContentSmallCustomerIDStatusArchivedTickets',

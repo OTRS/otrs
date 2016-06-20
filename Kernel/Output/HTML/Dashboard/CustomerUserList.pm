@@ -300,7 +300,7 @@ sub Run {
             Permission           => $Self->{Config}->{Permission},
             UserID               => $Self->{UserID},
             CacheTTL             => $Self->{Config}->{CacheTTLLocal} * 60,
-        );
+        ) || 0;
 
         my $CustomerKeySQL = $Kernel::OM->Get('Kernel::System::DB')->QueryStringEscape( QueryString => $CustomerKey );
 
@@ -321,7 +321,7 @@ sub Run {
             Permission           => $Self->{Config}->{Permission},
             UserID               => $Self->{UserID},
             CacheTTL             => $Self->{Config}->{CacheTTLLocal} * 60,
-        );
+        ) || 0;
 
         $LayoutObject->Block(
             Name => 'ContentLargeCustomerUserListRowCustomerUserTicketsClosed',

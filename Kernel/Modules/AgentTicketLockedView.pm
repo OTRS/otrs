@@ -330,7 +330,7 @@ sub Run {
             %{ $Filters{$Filter}->{Search} },
             %ColumnFilter,
             Result => 'COUNT',
-        );
+        ) || 0;
 
         $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
             Count  => $Count,

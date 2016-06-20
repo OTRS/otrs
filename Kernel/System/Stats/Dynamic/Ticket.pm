@@ -758,7 +758,7 @@ sub GetStatElement {
         Permission => 'ro',
         Limit      => 100_000_000,
         %Param,
-    );
+    ) || 0;
 }
 
 sub ExportWrapper {
