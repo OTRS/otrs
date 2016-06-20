@@ -9247,6 +9247,9 @@
                     <Block>Email</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.SystemAddress.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
