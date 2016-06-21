@@ -343,7 +343,8 @@ sub ConfigureOutputFileHandle {
     return if ref $Param{FileHandle} ne 'GLOB';
 
     # http://www.perlmonks.org/?node_id=644786
-    binmode( $Param{FileHandle}, ':utf8' );
+    # http://bugs.otrs.org/show_bug.cgi?id=12100
+    binmode( $Param{FileHandle}, ':utf8' );    ## no critic
 
     return 1;
 }
