@@ -71,7 +71,7 @@ sub Log {
     }
 
     # write log file
-    $Kernel::OM->Get('Kernel::System::Encode')->SetIO($FH);
+    $Kernel::OM->Get('Kernel::System::Encode')->ConfigureOutputFileHandle( FileHandle => $FH );
 
     print $FH '[' . localtime() . ']';    ## no critic
 
