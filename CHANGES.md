@@ -1,4 +1,5 @@
 #4.0.18 2016-??-??
+ - 2016-06-21 Fixed bug#[12100](http://bugs.otrs.org/show_bug.cgi?id=12100) - Error Premature end of script headers: index.pl when using long URL.
  - 2016-06-17 Fixed bug#[12132](http://bugs.otrs.org/show_bug.cgi?id=12132) - Order of columns in Queue view broken when more than 9 columns are selected.
  - 2016-06-09 Fixed bug#[12129](http://bugs.otrs.org/show_bug.cgi?id=12129) - Process Management: Ticket locks even when is not needed, thanks to Thorsten Eckel.
  - 2016-06-09 Fixed bug#[12128](http://bugs.otrs.org/show_bug.cgi?id=12128) - Can not store 0 in Admin Customer screen, thanks to Renée Bäcker.
