@@ -156,4 +156,9 @@ window.location.hash = 'Signup';
 //]]></script>
 [% END %]
 
-[% InsertTemplate("CustomerFooter.tt") %]
+<div id="Footer" class="ARIARoleContentinfo">
+    <a href="https://www.otrs.com/otrs-business-solution-managed" title="[% Config("Product") %]" target="_blank">[% Translate("Powered by") | html %] [% Config("Product") %]</a>
+    <div class="Clear"></div>
+</div>
+
+[% InsertTemplate("CustomerFooterJS.tt") %]

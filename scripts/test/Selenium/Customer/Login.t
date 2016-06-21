@@ -33,12 +33,6 @@ $Selenium->RunTest(
         # now load it again to login
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl");
 
-        # prevent version information disclosure
-        $Self->False(
-            index( $Selenium->get_page_source(), 'Powered' ) > -1,
-            'No version information disclosure'
-        );
-
         my $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
