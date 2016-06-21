@@ -146,10 +146,30 @@ Some Content in Body",
         },
     },
 
-    # response to internal address, must be made internal
+    # response from internal address, must be made internal
     {
         Name  => 'Provider response',
         Email => "From: Provider <$InternalAddress>
+To: Agent <$AgentAddress>
+Subject: $Subject
+
+Some Content in Body",
+        Check => {
+            ArticleType => 'email-internal',
+            SenderType  => 'customer',
+        },
+        JobConfig => {
+            ArticleType => 'email-internal',
+            Module      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
+            SenderType  => 'customer',
+        },
+    },
+
+    # response from forwarded customer address, must be made internal
+    {
+        Name  => 'Provider response',
+        Email => "From: Forwarded Address <forwarded\@googlemail.com>
+Reply-To: Provider <$InternalAddress>
 To: Agent <$AgentAddress>
 Subject: $Subject
 

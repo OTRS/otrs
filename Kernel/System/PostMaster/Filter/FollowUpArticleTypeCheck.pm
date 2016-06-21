@@ -72,9 +72,20 @@ sub Run {
     );
     my $CustomerEmailAddress = $CustomerData{UserEmail} || $ArticleIndex[0]->{CustomerUserID};
 
+    # Email sender address
+    my $SenderAddress = $Param{GetParam}->{'X-Sender'};
+
+    # Email Reply-To address for forwarded emails
+    my $ReplyToAddress;
+    if ($Param{GetParam}->{ReplyTo}) {
+        $ReplyToAddress = $Self->{ParserObject}->GetEmailAddress(
+            Email => $Param{GetParam}->{ReplyTo},
+        )
+    }
+
     # check if current sender is customer (do nothing)
-    if ( $CustomerEmailAddress && $Param{GetParam}->{'X-Sender'} ) {
-        return 1 if lc $CustomerEmailAddress eq lc $Param{GetParam}->{'X-Sender'};
+    if ( $CustomerEmailAddress && $SenderAddress ) {
+        return 1 if lc $CustomerEmailAddress eq lc $SenderAddress;
     }
 
     # check if current sender got an internal forward
@@ -104,7 +115,11 @@ sub Run {
             my $Recipient = $Self->{ParserObject}->GetEmailAddress(
                 Email => $Email,
             );
-            if ( lc $Recipient eq lc $Param{GetParam}->{'X-Sender'} ) {
+            if ( lc $Recipient eq lc $SenderAddress ) {
+                $InternalForward = 1;
+                last EMAIL;
+            }
+            if ( $ReplyToAddress && lc $Recipient eq lc $ReplyToAddress ) {
                 $InternalForward = 1;
                 last EMAIL;
             }
