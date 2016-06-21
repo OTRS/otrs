@@ -343,8 +343,7 @@ sub SetIO {
 
         # set binmode
         # http://www.perlmonks.org/?node_id=644786
-        # http://bugs.otrs.org/show_bug.cgi?id=5158
-        binmode( $Row, ':encoding(utf8)' );
+        binmode( $Row, ':utf8' );
     }
 
     return;
