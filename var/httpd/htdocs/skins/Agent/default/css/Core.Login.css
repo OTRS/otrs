@@ -17,6 +17,10 @@
     padding-top: 90px;
 }
 
+.LoginScreen .MainBox {
+    padding: 0px;
+}
+
 .LoginScreen .ErrorBox, 
 .LoginScreen .SuccessBox {
     margin-bottom: 10px;
@@ -32,9 +36,50 @@
     color: #999;
 }
 
-.LoginScreen #Header,
-.LoginScreen #Footer {
+.LoginScreen #Header {
     display: none;
+}
+
+.LoginScreen #Footer {
+    background: #eee;
+    border: 0px;
+    bottom: 0px;
+    box-sizing: border-box;
+    padding: 10px 0px;
+    position: fixed;
+    text-align: center;
+    text-shadow: 1px 1px 1px #fff;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.LoginScreen #Footer a {
+    color: #999;
+    display: inline-block;
+    position: relative;
+    padding-left: 18px;
+    transition: all ease 0.4s;
+}
+
+.LoginScreen #Footer a span {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: url(../img/signet_small_bw.png);
+    background-size: cover;
+    left: 0px;
+    top: -2px;
+    opacity: 0.5;
+    transition: all ease 0.4s;
+}
+
+.LoginScreen #Footer a:hover {
+    text-decoration: none;
+    color: #555;
+}
+
+.LoginScreen #Footer a:hover span {
+    opacity: 1;
 }
 
 #LoginBox,

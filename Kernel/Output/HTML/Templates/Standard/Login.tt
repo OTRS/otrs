@@ -291,7 +291,7 @@ X-OTRS-Login: [% Env("Baselink") %]
 
 <div id="Footer" class="ARIARoleContentinfo">
     <a href="https://www.otrs.com/otrs-business-solution-managed/" title="[% Config("Product") %]" target="_blank">
-        [% Translate("Powered by") | html %] [% Config("Product") %]
+        <span></span> [% Translate("Powered by") | html %] [% Config("Product") %]
     </a>
 </div>
 
