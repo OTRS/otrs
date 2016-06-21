@@ -341,9 +341,9 @@ sub SetIO {
         next ROW if !defined $Row;
         next ROW if ref $Row ne 'GLOB';
 
-        # set binmode
         # http://www.perlmonks.org/?node_id=644786
-        binmode( $Row, ':utf8' );
+        # http://bugs.otrs.org/show_bug.cgi?id=12100
+        binmode( $Row, ':utf8' );    ## no critic
     }
 
     return;
