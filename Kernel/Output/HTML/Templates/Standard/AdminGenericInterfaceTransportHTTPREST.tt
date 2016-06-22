@@ -153,24 +153,6 @@
                                     [% Translate("A \"-\" value means no authentication.") | html %]
                                 </p>
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#Authentication').bind('change', function(){
-    if ( $(this).val() === 'BasicAuth') {
-        $('.BasicAuthField').removeClass('Hidden');
-        $('.BasicAuthField').find('#User').each(function(){
-            $(this).addClass('Validate_Required');
-        });
-    }
-    else {
-        $('.BasicAuthField').addClass('Hidden');
-        $('.BasicAuthField').find('#User').each(function(){
-            $(this).removeClass('Validate_Required');
-        });
-    }
-});
-//]]></script>
-[% END %]
                             <div class="Clear"></div>
 
                             <div class="BasicAuthField [% Data.BasicAuthHidden | html %]">
@@ -205,34 +187,6 @@ $('#Authentication').bind('change', function(){
                                     [% Translate("Show or hide SSL options to connect to the remote system.") | html %]
                                 </p>
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#UseX509').bind('change', function(){
-    if ( $(this).val() === 'Yes') {
-        $('.X509Field').removeClass('Hidden');
-
-        $('.X509Field').find('#X509CertFile').each(function(){
-            $(this).addClass('Validate_Required');
-        });
-        $('.X509Field').find('#X509KeyFile').each(function(){
-            $(this).addClass('Validate_Required');
-        });
-    }
-
-    else {
-        $('.X509Field').addClass('Hidden');
-
-        $('.X509Field').find('#X509CertFile').each(function(){
-            $(this).removeClass('Validate_Required');
-        });
-        $('.X509Field').find('#X509KeyFile').each(function(){
-            $(this).removeClass('Validate_Required');
-        });
-    }
-});
-//]]></script>
-[% END %]
-
                             <div class="X509Field [% Data.X509Hidden | html %]">
                                 <fieldset class="TableLike">
 
@@ -283,13 +237,6 @@ $('#UseX509').bind('change', function(){
                                 [% Translate("or") | html %]
                                 <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                                 <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#SaveAndFinishButton').bind('click', function(){
-    $('#ReturnToWebservice').val(1);
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("SaveAndFinishButton") %]
                                 [% Translate("or") | html %]
                                 <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>

@@ -164,6 +164,7 @@
                 <Title Translatable="1">GenericInterface TransportHTTPREST GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
+                    <JavaScript>Core.Agent.Admin.GenericInterfaceTransportHTTPREST.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
