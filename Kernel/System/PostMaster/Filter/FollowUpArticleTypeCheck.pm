@@ -77,10 +77,10 @@ sub Run {
 
     # Email Reply-To address for forwarded emails
     my $ReplyToAddress;
-    if ($Param{GetParam}->{ReplyTo}) {
+    if ( $Param{GetParam}->{ReplyTo} ) {
         $ReplyToAddress = $Self->{ParserObject}->GetEmailAddress(
             Email => $Param{GetParam}->{ReplyTo},
-        )
+        );
     }
 
     # check if current sender is customer (do nothing)
