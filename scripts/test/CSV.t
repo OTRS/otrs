@@ -17,8 +17,8 @@ my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
 
 my $CSV = $CSVObject->Array2CSV(
     WithHeader => [ 'Title', 'Example' ],
-    Head       => [ 'RowA', 'RowB', 'RowC', ],
-    Data       => [
+    Head       => [ 'RowA',  'RowB', 'RowC', ],
+    Data => [
         [ 1,  4, 1 ],
         [ 7,  3, 2 ],
         [ 1,  9, 3 ],
