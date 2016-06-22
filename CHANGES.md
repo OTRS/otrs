@@ -1,4 +1,6 @@
-#5.0.11 2016-??-??
+#5.0.12 2016-??-??
+
+#5.0.11 2016-06-28
  - 2016-06-22 Updated translations, thanks to all translators.
  - 2016-06-22 Fixed bug#[12143](http://bugs.otrs.org/show_bug.cgi?id=12143) - TicketSearch: if you filter a search attribute and then select 'all', the search screen disappear.
  - 2016-06-21 Fixed bug#[12114](http://bugs.otrs.org/show_bug.cgi?id=12114) - Reply to an outbound email-internal may fail to be classified as email-internal.
