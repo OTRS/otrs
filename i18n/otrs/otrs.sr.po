@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-05-10 11:28+0000\n"
-"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"POT-Creation-Date: 2016-06-22 10:40+0000\n"
+"PO-Revision-Date: 2016-06-22 15:42+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -3260,8 +3260,16 @@ msgid "Select"
 msgstr "Изабери"
 
 #. Template: AdminCustomerCompany
+msgid "only"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "shown"
 msgstr "приказано"
+
+#. Template: AdminCustomerCompany
+msgid "more available"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "total"
@@ -3525,7 +3533,7 @@ msgstr "Обриши поље"
 
 #. Template: AdminDynamicField
 msgid "Deleting the field and its data. This may take a while..."
-msgstr ""
+msgstr "Брисање поља и података. Ово може мало потрајати..."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -3654,13 +3662,14 @@ msgid ""
 msgstr "Овде можете да унесете опциону HTTP везу за вредност поља у прозору општег и увећаног приказа екрана."
 
 #. Template: AdminDynamicFieldDateTime
-msgid "Enable link preview"
+msgid "Link for preview"
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
-"Activate this option to display a preview of the link configured above in "
-"AgentTicketZoom."
+"If filled in, this URL will be used for a preview which is shown when this "
+"link is hovered in ticket zoom. Please note that for this to work, the "
+"regular URL field above needs to be filled in, too."
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
@@ -5047,7 +5056,7 @@ msgstr "Да ли стварно желите да обришете овај в�
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Example Web Services"
-msgstr ""
+msgstr "Пример веб сервиса"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5057,12 +5066,12 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import example web service"
-msgstr ""
+msgstr "Увези пример веб сервиса"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example processes."
+"to be able to import some sophisticated example web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -6371,7 +6380,7 @@ msgstr "Слободни дијалози активности"
 
 #. Template: AdminProcessManagementActivity
 msgid "Name: %s, EntityID: %s"
-msgstr ""
+msgstr "Назив: %s, ИД ентитета: %s"
 
 #. Template: AdminProcessManagementActivity
 msgid "Create New Activity Dialog"
@@ -6464,7 +6473,7 @@ msgstr "Расположива поља"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Name: %s"
-msgstr ""
+msgstr "Назив: %s"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
@@ -7936,7 +7945,7 @@ msgstr "Елементи"
 
 #. Template: AdminSysConfigEdit
 msgid "Edit Config Settings in %s → %s"
-msgstr ""
+msgstr "Уреди конфигурациона подешавања у %s → %s"
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
@@ -8436,7 +8445,7 @@ msgstr "у"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "Затвори овај додатак"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
@@ -8642,12 +8651,8 @@ msgid "Select Target Object"
 msgstr "Изабери циљни објекат"
 
 #. Template: AgentLinkObject
-msgid "Link Object"
-msgstr "Повежи објекат"
-
-#. Template: AgentLinkObject
-msgid "with"
-msgstr "са"
+msgid "Link object %s with"
+msgstr "Повежи објекат %s  са"
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
@@ -9540,12 +9545,12 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
-msgstr ""
+msgstr "Затвори преглед"
 
 #. Template: AgentTicketZoom
 msgid ""
-"OTRS can't provide a preview of this website because it seems as if it "
-"didn't allow to be embedded."
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9772,6 +9777,10 @@ msgstr "Одјава %s %s"
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr "Подели квоту"
+
+#. Template: CustomerRichTextEditor
+msgid "Open link"
+msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10000,6 +10009,22 @@ msgstr "Отвори избор датума"
 #. Template: Error
 msgid "An error occurred."
 msgstr "Догодила се грешка."
+
+#. Template: Error
+msgid ""
+"Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
+"installation of OTRS."
+msgstr ""
+
+#. Template: Error
+msgid ""
+"With %s, our experts take care of correct installation and cover your back "
+"with support and periodic security updates."
+msgstr ""
+
+#. Template: Error
+msgid "Contact our service team now."
+msgstr "Контактирајте наш сервисним тим сада."
 
 #. Template: Error
 msgid "Send a bugreport"
@@ -10430,7 +10455,7 @@ msgstr "Данашња порука"
 
 #. Template: Motd
 msgid "This is the message of the day. You can edit this in %s."
-msgstr ""
+msgstr "Ово је дневна порука. Можете је уредити у %s."
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
@@ -10530,7 +10555,7 @@ msgstr ""
 
 #. Template: RichTextEditor
 msgid "Remove Quote"
-msgstr ""
+msgstr "Уклони квоту."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
@@ -10793,11 +10818,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
-msgstr ""
+msgstr "Регуларни израз"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
-msgstr ""
+msgstr "Регуларни израз (игнориши величину слова)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
@@ -10891,11 +10916,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "Спречава унос датума у будућности"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "Спречава унос датума у прошлости"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "This field value is duplicated."
@@ -10907,15 +10932,15 @@ msgstr "Изаберите бар једног примаоца."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "архивирај тикете"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "врати тикете из архиве"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Потребан је профил!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -10945,7 +10970,7 @@ msgstr "Позиваоц %s није регистрован"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "InvokerType %s is not registered"
-msgstr ""
+msgstr "Тип позиваоца %s није регистрован"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need Invoker"
@@ -10969,7 +10994,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
-msgstr ""
+msgstr "Задржи (остави непромењено)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop key/value pair)"
@@ -10989,7 +11014,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
-msgstr ""
+msgstr "Није могуће пронаћи потребну библиотеку %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Need OperationType"
@@ -11045,7 +11070,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
-msgstr ""
+msgstr "Није могуће прочитати %s!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
@@ -11087,7 +11112,7 @@ msgstr "Непознато обавештење %s!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "There was an error creating the Notification"
-msgstr ""
+msgstr "Дошло је до грешке приликом креирања обавештења"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid ""
@@ -11215,15 +11240,15 @@ msgstr "Нема таквог филтера: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
-msgstr ""
+msgstr "Потребан је пример процеса!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
-msgstr ""
+msgstr "Потребан је ИД процеса!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "Да (обавезно)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
@@ -11239,7 +11264,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
-msgstr ""
+msgstr "Дошло је до грешке приликом креирања Процеса"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
@@ -11248,19 +11273,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get data for ProcessID %s"
-msgstr ""
+msgstr "Не могу прибавити податке за Процес ИД %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
-msgstr ""
+msgstr "Дошло је до грешке приликом ажурирања Процеса"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s could not be deleted"
-msgstr ""
+msgstr "Процес: %s се не може обрисати"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
-msgstr ""
+msgstr "Дошло је до грешке при синхронизацији процеса."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
@@ -11288,7 +11313,7 @@ msgstr "Потребно %s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s is not Inactive"
-msgstr ""
+msgstr "Процес: %s није неактиван"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
@@ -11351,7 +11376,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error creating the ActivityDialog"
-msgstr ""
+msgstr "Дошло је до грешке приликом креирања Дијалога активности"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid ""
@@ -11361,7 +11386,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Need ActivityDialogID!"
-msgstr ""
+msgstr "Потребан ИД Дијалога активности!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
@@ -11369,11 +11394,11 @@ msgstr "Не могу прибавити податке за ИД дијалог
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
-msgstr ""
+msgstr "Дошло је до грешке приликом ажурирања Дијалога ктивности"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Edit Activity Dialog \"%s\""
-msgstr ""
+msgstr "Уреди Дијалог активност \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
@@ -11434,7 +11459,7 @@ msgstr "Дошло је до грешке приликом ажурирања Т
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
-msgstr ""
+msgstr "Уреди транзицију \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "xor"
@@ -11446,7 +11471,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
-msgstr ""
+msgstr "Модул валидације транзиције"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
@@ -11480,7 +11505,7 @@ msgstr "Дошло је до грешке приликом ажурирања Т
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Edit Transition Action \"%s\""
-msgstr ""
+msgstr "Уреди транзициону акцију \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Error: Not all keys seem to have values or vice versa."
@@ -11488,7 +11513,7 @@ msgstr "Грешка: Сви кључеви немају вредност или
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
-msgstr ""
+msgstr "Немојте користити :: у називу реда!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
@@ -11580,11 +11605,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error creating the System Maintenance"
-msgstr ""
+msgstr "Дошло је до грешке приликом креирања Одржавања система"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Need SystemMaintenanceID!"
-msgstr ""
+msgstr "Потребан ИД Одржавања система!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Could not get data for SystemMaintenanceID %s"
@@ -11659,12 +11684,12 @@ msgid "Can not delete link with %s!"
 msgstr "Не може се обрисати веза са %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Can not create link with %s!"
-msgstr "Не може се креирати веза са %s!"
+msgid "Can not create link with %s! Object already linked as %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Object already linked as %s."
-msgstr "Објект је већ повезан са %s!"
+msgid "Can not create link with %s!"
+msgstr "Не може се креирати веза са %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
@@ -11676,7 +11701,7 @@ msgstr "Неопходан параметар групе! "
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Parameter %s is missing."
-msgstr ""
+msgstr "Недостаје параметар %s."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Invalid Subaction."
@@ -11692,7 +11717,7 @@ msgstr "Молимо да учитате исправну датотеку ст�
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Export: Need StatID!"
-msgstr ""
+msgstr "Извоз: Потребан ИД статистике!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Delete: Get no StatID!"
@@ -11720,7 +11745,7 @@ msgstr "Није дат ИД Тикета!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
-msgstr ""
+msgstr "Потребне су вам %s дозволе!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
@@ -11736,7 +11761,7 @@ msgstr "Претходни власник"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "%s is needed!"
-msgstr ""
+msgstr "%s је неопходно!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Plain article not found for article %s!"
@@ -11748,11 +11773,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't bounce email!"
-msgstr ""
+msgstr "Не могу одбацити имејл!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't send email!"
-msgstr ""
+msgstr "Не могу послати имејл!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Wrong Subaction!"
@@ -11764,7 +11789,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket (%s) is not unlocked!"
-msgstr ""
+msgstr "Тикет (%s) није откључан!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
@@ -11782,7 +11807,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket"
-msgstr ""
+msgstr "Неопходно је да изаберете бар један тикет"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -11818,7 +11843,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Sorry, the current owner is %s!"
-msgstr ""
+msgstr "На жалост, актуелни власник је %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Please become the owner first."
@@ -11838,11 +11863,11 @@ msgstr "Тикет се не може повезати са собом!"
 
 #. Perl Module: Kernel/Modules/AgentTicketMove.pm
 msgid "You need move permissions!"
-msgstr ""
+msgstr "Неопходна вам је дозвола за премештање!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "Chat is not active."
-msgstr ""
+msgstr "Ћаскање није активно."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "No permission."
@@ -11896,7 +11921,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Parameter %s is missing in %s."
-msgstr ""
+msgstr "Недостаје параметар %s у %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No ActivityDialog configured for %s in _RenderAjax!"
@@ -11973,7 +11998,7 @@ msgstr "за стања* чекања"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
-msgstr ""
+msgstr "Недостаје ИД ентитета Дијалога активности!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
@@ -12016,11 +12041,11 @@ msgstr "Неважећи ИД тикета: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
-msgstr ""
+msgstr "Недостаје ИД ентитета активности на тикету %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
-msgstr ""
+msgstr "Недостаје ИД ентитета процеса на тикету %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -12085,7 +12110,7 @@ msgstr "Додата напомена"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added (Customer)"
-msgstr ""
+msgstr "Додата напомена (клијент)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email"
@@ -12097,19 +12122,19 @@ msgstr "Одлазни имејл (интерни)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Customer Email"
-msgstr ""
+msgstr "Долазни имејл клијента"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Dynamic Field Updated"
-msgstr ""
+msgstr "Ажурирано динамичко поље"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Phone Call"
-msgstr ""
+msgstr "Излазни телефонски позив"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Phone Call"
-msgstr ""
+msgstr "Улазни телефонски позив"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
@@ -12205,7 +12230,7 @@ msgstr "Послат аутоматски одговор"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
-msgstr ""
+msgstr "Време је обрачунато"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
@@ -12235,11 +12260,11 @@ msgstr "Подешавања филтера типа догађаја су са�
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Need ArticleID!"
-msgstr ""
+msgstr "Неопходан ИД Чланка!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Invalid ArticleID!"
-msgstr ""
+msgstr "Неважећи ИД Чланка!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
@@ -12259,7 +12284,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "No such attachment (%s)!"
-msgstr ""
+msgstr "Нема таквог прилога (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::QueueDefault."
@@ -12271,7 +12296,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
-msgstr ""
+msgstr "Неопходан ИД клијента!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
@@ -12315,7 +12340,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Check!"
-msgstr ""
+msgstr "Непозната провера!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "The check \"%s\" doesn't exist!"
@@ -12323,15 +12348,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "База података %s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
-msgstr ""
+msgstr "Непознат тип базе података \"%s\"."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back"
-msgstr ""
+msgstr "Молимо да се вратите"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12412,20 +12437,20 @@ msgid "The start time of a ticket has been set after the end time!"
 msgstr "Време почетка тикета је подешено после времена завршетка!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter not active"
-msgstr "филтер није активан"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter active"
-msgstr "филтер је активан"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr "сортирано растуће"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted descending"
 msgstr "сортирано опадајуће"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter not active"
+msgstr "филтер није активан"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter active"
+msgstr "филтер је активан"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -12455,7 +12480,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
-msgstr ""
+msgstr "Нема дозволе"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
@@ -12463,7 +12488,7 @@ msgstr "Повезано као"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Search Result"
-msgstr ""
+msgstr "Резултат претраге"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -12577,7 +12602,7 @@ msgstr "Сортирај по"
 
 #. Perl Module: Kernel/System/AuthSession/DB.pm
 msgid "Session per user limit reached!"
-msgstr ""
+msgstr "Достигнуто ограничење броја сесија по кориснику!"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
@@ -13351,7 +13376,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Успешна одјава."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Panic! Invalid Session!!!"
@@ -13359,7 +13384,7 @@ msgstr "Пажња! Неважећа сесија!!!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
-msgstr ""
+msgstr "Немате дозволу за  употребу овог корисничког модула!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact your administrator"
@@ -13367,7 +13392,7 @@ msgstr "Поништавање лозинке није успело. Молим�
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
-msgstr ""
+msgstr "Додато преко клијентског панела (%s)"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
@@ -13388,7 +13413,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "Акција \"%s\" није пронађена!"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
@@ -13876,7 +13901,7 @@ msgstr "Трајно додаје нерадне дане. Молимо Вас �
 
 #. SysConfig
 msgid "Admin Area."
-msgstr ""
+msgstr "Административни простор."
 
 #. SysConfig
 msgid "After"
@@ -13884,7 +13909,7 @@ msgstr "После"
 
 #. SysConfig
 msgid "Agent Name"
-msgstr ""
+msgstr "Име оператера"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
@@ -14110,6 +14135,13 @@ msgid ""
 "Allows extended search conditions in ticket search of the customer "
 "interface. With this feature you can search e. g. with this kind of "
 "conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Allows extended search conditions in ticket search of the generic agent "
+"interface. With this feature you can search e. g. ticket title with this "
+"kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
 
 #. SysConfig
@@ -14698,7 +14730,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer Information Center."
-msgstr ""
+msgstr "Клијентски информативни центар."
 
 #. SysConfig
 msgid "Customer Ticket Print Module."
@@ -14740,7 +14772,7 @@ msgstr "Клијентска ставка (икона) која показује
 
 #. SysConfig
 msgid "Customer preferences."
-msgstr ""
+msgstr "Клијентске поставке."
 
 #. SysConfig
 msgid "Customer request via web."
@@ -14748,15 +14780,15 @@ msgstr "Клијентски веб захтев."
 
 #. SysConfig
 msgid "Customer ticket overview"
-msgstr ""
+msgstr "Клијентски преглед тикета"
 
 #. SysConfig
 msgid "Customer ticket search."
-msgstr ""
+msgstr "Клијентска претрага тикета."
 
 #. SysConfig
 msgid "Customer ticket zoom"
-msgstr ""
+msgstr "Клијентски детаљни преглед тикета"
 
 #. SysConfig
 msgid "Customer user search"
@@ -14888,6 +14920,14 @@ msgstr "Подразумевана вредност за ИмеХ"
 
 #. SysConfig
 msgid ""
+"Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = \"complex\").\n"
+"            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,\n"
+"            Core.Agent.TableFilters.js.\n"
+"        "
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Define a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
@@ -14945,6 +14985,13 @@ msgstr "Дефиниши први дан у недељи за избор дат�
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "Дефиниши први дан у недељи за избор датума."
+
+#. SysConfig
+msgid ""
+"Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = \"complex\").\n"
+"            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.\n"
+"            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15011,10 +15058,11 @@ msgstr "Дефинише филтер за html излаз да би сте до
 msgid ""
 "Defines a filter to collect CVE numbers from article texts in "
 "AgentTicketZoom. The results will be displayed in a meta box next to the "
-"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
-"the URL when moving your mouse cursor above the link element. Please note "
-"that some websites deny being displayed within an iframe (e.g. Google) and "
-"thus won't work with the preview mode."
+"article. Fill in URLPreview if you would like to see a preview when moving "
+"your mouse cursor above the link element. This could be the same URL as in "
+"URL, but also an alternate one. Please note that some websites deny being "
+"displayed within an iframe (e.g. Google) and thus won't work with the "
+"preview mode."
 msgstr ""
 
 #. SysConfig
@@ -16914,6 +16962,12 @@ msgid "Deletes requested sessions if they have timed out."
 msgstr "Брише захтевану сесију ако је истекло време."
 
 #. SysConfig
+msgid ""
+"Delivers extended debugging information in the frontend in case any ajax "
+"errors occur, if enabled."
+msgstr ""
+
+#. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
 msgstr "Примени и управљај „OTRS пословно решење™”."
 
@@ -17314,7 +17368,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Edit Customer Users."
-msgstr ""
+msgstr "Уреди клијенте кориснике."
 
 #. SysConfig
 msgid "Edit customer company"
@@ -17755,7 +17809,7 @@ msgstr "Генериши статистике контролне табле."
 
 #. SysConfig
 msgid "Generic Info module."
-msgstr ""
+msgstr "Општи информациони модул"
 
 #. SysConfig
 msgid "GenericAgent"
@@ -18403,6 +18457,10 @@ msgid "Left"
 msgstr "Лево"
 
 #. SysConfig
+msgid "Link Object"
+msgstr "Повежи објекат"
+
+#. SysConfig
 msgid "Link Object."
 msgstr "Повежи објекат."
 
@@ -18921,7 +18979,7 @@ msgstr "Отворени тикети (клијент)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "Опција"
 
 #. SysConfig
 msgid ""
@@ -21116,7 +21174,7 @@ msgstr "Наведи корисничко име за ауторизацију �
 
 #. SysConfig
 msgid "Spell checker."
-msgstr ""
+msgstr "Провера правописа."
 
 #. SysConfig
 msgid ""
@@ -21336,7 +21394,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This is the default orange - black skin."
-msgstr ""
+msgstr "Ово је подразумевани наранџасто-црни изглед."
 
 #. SysConfig
 msgid ""
@@ -21760,7 +21818,7 @@ msgstr "Ваш избор омиљених услуга. Ако је актив�
 
 #. SysConfig
 msgid "attachment"
-msgstr ""
+msgstr "прилог"
 
 #. SysConfig
 msgid "debug"

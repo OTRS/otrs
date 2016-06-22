@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-05-10 11:28+0000\n"
-"PO-Revision-Date: 2016-05-10 19:16+0000\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2016-06-22 10:40+0000\n"
+"PO-Revision-Date: 2016-06-22 15:42+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -829,13 +829,13 @@ msgstr "Azzal a bejelentkező névvel nincs fiók."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr "Lépjen kapcsolatba az adminisztrátorral"
+msgstr "Vegye fel a kapcsolatot a rendszergazdával"
 
 #. Template: AAABase
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr "A hitelesítés sikerült, de nem található ügyfélrekord az ügyfél háttérprogramban. Lépjen kapcsolatba az adminisztrátorral."
+msgstr "A hitelesítés sikerült, de nem található ügyfélrekord az ügyfél háttérprogramban. Vegye fel a kapcsolatot a rendszergazdával."
 
 #. Template: AAABase
 msgid ""
@@ -3266,8 +3266,16 @@ msgid "Select"
 msgstr "Kiválasztás"
 
 #. Template: AdminCustomerCompany
+msgid "only"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "shown"
 msgstr "megjelenített"
+
+#. Template: AdminCustomerCompany
+msgid "more available"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "total"
@@ -3660,14 +3668,15 @@ msgid ""
 msgstr "Itt határozható meg egy opcionális HTTP hivatkozás a mező értékéhez az áttekintőben és a nagyítási képernyőkön."
 
 #. Template: AdminDynamicFieldDateTime
-msgid "Enable link preview"
-msgstr "Hivatkozás-előnézet engedélyezése"
+msgid "Link for preview"
+msgstr "Hivatkozás az előnézethez"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
-"Activate this option to display a preview of the link configured above in "
-"AgentTicketZoom."
-msgstr "Aktiválja ezt a lehetőséget a fent beállított hivatkozás előnézetének megjelenítéséhez az ügyintézői jegynagyításban."
+"If filled in, this URL will be used for a preview which is shown when this "
+"link is hovered in ticket zoom. Please note that for this to work, the "
+"regular URL field above needs to be filled in, too."
+msgstr "Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, amely akkor jelenik meg, amikor erre a hivatkozásra rámutatnak a jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos URL-mezőt is ki kell tölteni."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -5068,8 +5077,8 @@ msgstr "Példa webszolgáltatás importálása"
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example processes."
-msgstr "Szeretné élvezni a szakértők által létrehozott webszolgáltatások előnyeit? Ahhoz, hogy lehetősége legyen néhány kitapasztalt példafolyamat importálására, frissítsen a következőre: %s."
+"to be able to import some sophisticated example web services."
+msgstr "Szeretné élvezni a szakértők által létrehozott webszolgáltatások előnyeit? Ahhoz, hogy lehetősége legyen néhány kitapasztalt példa webszolgáltatás importálására, frissítsen a következőre: %s."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -8648,12 +8657,8 @@ msgid "Select Target Object"
 msgstr "Kijelölt célobjektum"
 
 #. Template: AgentLinkObject
-msgid "Link Object"
-msgstr "Objektum összekapcsolása"
-
-#. Template: AgentLinkObject
-msgid "with"
-msgstr "ezzel"
+msgid "Link object %s with"
+msgstr "%s objektum összekapcsolása ezzel"
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
@@ -9550,9 +9555,9 @@ msgstr "Előnézet bezárása"
 
 #. Template: AgentTicketZoom
 msgid ""
-"OTRS can't provide a preview of this website because it seems as if it "
-"didn't allow to be embedded."
-msgstr "Az OTRS nem tudja szolgáltatni a weboldal előnézetét, mert úgy tűnik, mintha nem engedné meg a beágyazását."
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
+msgstr "Ennek a weboldalnak nem lehet biztosítani az előnézetét, mert nem engedte meg a beágyazását."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -9778,6 +9783,10 @@ msgstr "Kilépés: %s %s"
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr "Idézet felosztása"
+
+#. Template: CustomerRichTextEditor
+msgid "Open link"
+msgstr "Hivatkozás megnyitása"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10006,6 +10015,22 @@ msgstr "Dátumkijelölés megnyitása"
 #. Template: Error
 msgid "An error occurred."
 msgstr "Hiba történt."
+
+#. Template: Error
+msgid ""
+"Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
+"installation of OTRS."
+msgstr "Valóban hiba? 10-ből 5 hibajelentés az OTRS hibás vagy befejezetlen telepítéséből származik."
+
+#. Template: Error
+msgid ""
+"With %s, our experts take care of correct installation and cover your back "
+"with support and periodic security updates."
+msgstr "A(z) %s használatával a szakértőink gondoskodnak a jelenlegi telepítésről, és támogatást nyújtanak, valamint rendszeres biztonsági frissítéseket biztosítanak."
+
+#. Template: Error
+msgid "Contact our service team now."
+msgstr "Vegye fel a kapcsolatot a szolgáltatási csapatunkkal most."
 
 #. Template: Error
 msgid "Send a bugreport"
@@ -11665,12 +11690,12 @@ msgid "Can not delete link with %s!"
 msgstr "A következővel való kapcsolat nem törölhető: %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Can not create link with %s!"
-msgstr "A következővel való kapcsolat nem hozható létre: %s!"
+msgid "Can not create link with %s! Object already linked as %s."
+msgstr "Nem lehet kapcsolatot létrehozni ezzel: %s! Az objektum már a következőként kapcsolódik: %s."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Object already linked as %s."
-msgstr "Az objektum már a következőként kapcsolódik: %s."
+msgid "Can not create link with %s!"
+msgstr "A következővel való kapcsolat nem hozható létre: %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
@@ -12418,20 +12443,20 @@ msgid "The start time of a ticket has been set after the end time!"
 msgstr "Egy jegy kezdési ideje a befejezési ideje után lett beállítva!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter not active"
-msgstr "a szűrő nem aktív"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter active"
-msgstr "a szűrő aktív"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr "növekvően rendezve"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted descending"
 msgstr "csökkenően rendezve"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter not active"
+msgstr "a szűrő nem aktív"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter active"
+msgstr "a szűrő aktív"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -12482,7 +12507,7 @@ msgstr "Egy rendszerkarbantartás időszak fog kezdődni ekkor: "
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "Please contact your administrator!"
-msgstr "Lépjen kapcsolatba az adminisztrátorral!"
+msgstr "Vegye fel a kapcsolatot a rendszergazdával!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
@@ -13369,7 +13394,7 @@ msgstr "Nincs jogosultsága ezen előtétprogram-modul használatához!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr "A jelszó visszaállítása sikertelen. Lépjen kapcsolatba az adminisztrátorral"
+msgstr "A jelszó visszaállítása sikertelen. Vegye fel a kapcsolatot a rendszergazdával"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -14109,7 +14134,7 @@ msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
 "With this feature you can search e. g. with this kind of conditions like "
 "\"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr "Lehetővé teszi a kiterjesztett keresési feltételeket az ügyintézői felület jegy keresésében. Ezzel a funkcióval például olyan típusú feltételekkel kereshet mint „(kulcs1&&kulcs2)” vagy „(kulcs1||kulcs2)”."
+msgstr "Lehetővé teszi a kiterjesztett keresési feltételeket az ügyintézői felület jegykeresésében. Ezzel a funkcióval például olyan típusú feltételekkel kereshet mint „(kulcs1&&kulcs2)” vagy „(kulcs1||kulcs2)”."
 
 #. SysConfig
 msgid ""
@@ -14117,6 +14142,13 @@ msgid ""
 "interface. With this feature you can search e. g. with this kind of "
 "conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
 msgstr "Kiterjesztett keresési feltételeket tesz lehetővé az ügyfélfelület jegykeresésében. Ezzel a szolgáltatással rákereshet például az olyan típusú feltételekre is, mint „(kulcs1&&kulcs2)” vagy „(kulcs1||kulcs2)”."
+
+#. SysConfig
+msgid ""
+"Allows extended search conditions in ticket search of the generic agent "
+"interface. With this feature you can search e. g. ticket title with this "
+"kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
+msgstr "Lehetővé teszi a kiterjesztett keresési feltételeket az általános ügyintézői felület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”."
 
 #. SysConfig
 msgid ""
@@ -14894,6 +14926,14 @@ msgstr "A NameX alapértelmezett értéke"
 
 #. SysConfig
 msgid ""
+"Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = \"complex\").\n"
+"            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,\n"
+"            Core.Agent.TableFilters.js.\n"
+"        "
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Define a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
@@ -14951,6 +14991,13 @@ msgstr "A hét kezdőnapjának meghatározása a jelzett naptár dátumválaszt�
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "A hét kezdőnapjának meghatározása a dátumválasztónál."
+
+#. SysConfig
+msgid ""
+"Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = \"complex\").\n"
+"            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.\n"
+"            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15017,11 +15064,12 @@ msgstr "Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bug
 msgid ""
 "Defines a filter to collect CVE numbers from article texts in "
 "AgentTicketZoom. The results will be displayed in a meta box next to the "
-"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
-"the URL when moving your mouse cursor above the link element. Please note "
-"that some websites deny being displayed within an iframe (e.g. Google) and "
-"thus won't work with the preview mode."
-msgstr "Egy szűrőt határoz meg CVE számok begyűjtéséhez a bejegyzés szövegeiből az ügyintézői jegynagyításban. Az eredmények egy metadobozban lesznek megjelenítve a bejegyzés mellett. Állítsa az EnableLinkPreview beállítást 1-re, ha látni szeretné az URL előnézetét, amikor az egérkurzort a linkelem fölé viszi. Ne feledje, hogy néhány weboldal (például Google) nem hagyja, hogy egy belső kereten belül jelenítsék meg, és emiatt az nem fog működni előnézeti módban."
+"article. Fill in URLPreview if you would like to see a preview when moving "
+"your mouse cursor above the link element. This could be the same URL as in "
+"URL, but also an alternate one. Please note that some websites deny being "
+"displayed within an iframe (e.g. Google) and thus won't work with the "
+"preview mode."
+msgstr "Egy szűrőt határoz meg CVE számok begyűjtéséhez a bejegyzés szövegeiből az ügyintézői jegynagyításban. Az eredmények egy metadobozban lesznek megjelenítve a bejegyzés mellett. Töltse ki az URLPreview mezőt, ha egy előnézetet szeretne látni, amikor az egérkurzort a linkelem fölé viszi. Ez lehet ugyanaz az URL mint az URL mezőben van, de lehet egy másik is. Ne feledje, hogy néhány weboldal (például Google) nem hagyja, hogy egy belső kereten belül jelenítsék meg, és emiatt az nem fog működni előnézeti módban."
 
 #. SysConfig
 msgid ""
@@ -16920,6 +16968,12 @@ msgid "Deletes requested sessions if they have timed out."
 msgstr "Törli a kért munkameneteket, ha túllépték az időkorlátot."
 
 #. SysConfig
+msgid ""
+"Delivers extended debugging information in the frontend in case any ajax "
+"errors occur, if enabled."
+msgstr "Kiterjesztett hibakeresési információkat szolgáltat az előtétprogramon abban az esetben, ha bármilyen AJAX-hiba történik, ha engedélyezve van."
+
+#. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
 msgstr "Az OTRS Business Solution™ telepítése és kezelése."
 
@@ -17961,7 +18015,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18407,6 +18461,10 @@ msgstr "Lett"
 #. SysConfig
 msgid "Left"
 msgstr "Bal"
+
+#. SysConfig
+msgid "Link Object"
+msgstr "Objektum összekapcsolása"
 
 #. SysConfig
 msgid "Link Object."
@@ -21782,7 +21840,7 @@ msgstr "információ"
 
 #. SysConfig
 msgid "inline"
-msgstr "sorközi"
+msgstr "beágyazott"
 
 #. SysConfig
 msgid "notice"

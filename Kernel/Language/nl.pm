@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.679722046746683;
+    $Self->{Completeness}        = 0.679764656440429;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -910,7 +910,9 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Wildcards zijn toegestaan.',
         'Add customer' => 'Nieuwe klant',
         'Select' => 'Selecteer',
+        'only' => '',
         'shown' => 'tonen',
+        'more available' => '',
         'total' => 'totaal',
         'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
         'Add Customer' => 'Klant toevoegen',
@@ -991,7 +993,7 @@ sub Data {
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             'Wilt u dit veld definitief verwijderen? Alle data in dit veld wordt ook verwijderd!',
         'Delete field' => 'Verwijder veld',
-        'Deleting the field and its data. This may take a while...' => '',
+        'Deleting the field and its data. This may take a while...' => 'Dit veld en al zijn data word verwijderd. Dit kan even duren....',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dynamische velden',
@@ -1033,8 +1035,8 @@ sub Data {
         'Show link' => 'Toon koppeling',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier kunt u een optionele hyperlink opgeven die getoond wordt in de overzichten en zoom-schermen.',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Beperk het invoeren van datumgegevens',
         'Here you can restrict the entering of dates of tickets.' => 'Hier kunt u het invoeren van datumgegevens van tickets beperken.',
@@ -1177,7 +1179,7 @@ sub Data {
         'new owner' => 'nieuwe eigenaar',
         'new responsible' => 'nieuwe verantwoordelijke',
         'Set new ticket lock' => 'Nieuwe vergrendeling',
-        'New customer user' => '',
+        'New customer user' => 'Nieuwe klant gebruiker',
         'New customer ID' => 'Nieuwe klantcode',
         'New title' => 'Nieuwe titel',
         'New type' => 'Nieuw type',
@@ -1419,7 +1421,7 @@ sub Data {
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'bijvoorbeeld /opt/otrs/var/certificates/SOAP/CA',
         'Sort options' => 'Sorteer voorkeuren',
         'Add new first level element' => 'Voeg nieuw eerste level element toe',
-        'Element' => '',
+        'Element' => 'Element',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             'Uitgaande sorteer volgorde voor xml velden (structuur begint onder functie naam warpper) - zie SOAP transport documentatie.',
 
@@ -1442,7 +1444,7 @@ sub Data {
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             '',
         'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Na opslaan blijft u in dit scherm.',
@@ -1842,7 +1844,7 @@ sub Data {
             'U kunt de elementen ook van volgorde te wijzigen door ze te slepen met de muis.',
         'Filter available Activity Dialogs' => 'Filter beschikbare dialogen',
         'Available Activity Dialogs' => 'Beschikbare dialogen',
-        'Name: %s, EntityID: %s' => '',
+        'Name: %s, EntityID: %s' => 'Naam: %s. ID: %s',
         'Create New Activity Dialog' => 'Nieuwe dialoog',
         'Assigned Activity Dialogs' => 'Toegewezen dialogen',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
@@ -1870,7 +1872,7 @@ sub Data {
             'U kunt velden aan deze dialoog toevoegen door de elementen met de muis van links naar rechts te slepen.',
         'Filter available fields' => 'Filter beschikbare velden',
         'Available Fields' => 'Beschikbare velden',
-        'Name: %s' => '',
+        'Name: %s' => 'Naam: %s',
         'Assigned Fields' => 'Toegewezen velden',
         'ArticleType' => 'Interactie-type',
         'Display' => 'Weergave',
@@ -2358,7 +2360,7 @@ sub Data {
         'Block' => 'Blok',
         'AccessKey' => 'Sneltoetskoppeling',
         'Add NavBar entry' => 'Navigatiebalk item toevoegen',
-        'NavBar module' => '',
+        'NavBar module' => 'Navigatiebalk module',
         'Year' => 'Jaar',
         'Month' => 'Maand',
         'Day' => 'Dag',
@@ -2442,7 +2444,7 @@ sub Data {
         'Switch to agent' => 'Omschakelen naar behandelaar',
         'Add Agent' => 'Nieuwe behandelaar',
         'Edit Agent' => 'Bewerk behandelaar',
-        'Title or salutation' => '',
+        'Title or salutation' => 'Titel of Aanhef',
         'Firstname' => 'Voornaam',
         'Lastname' => 'Achternaam',
         'A user with this username already exists!' => 'Er bestaat al een gebruiker met deze naam!',
@@ -2575,14 +2577,13 @@ sub Data {
         'Link Object: %s' => 'Koppel object: %s',
         'go to link delete screen' => 'ga naar koppeling-verwijder scherm',
         'Select Target Object' => 'Selecteer doel',
-        'Link Object' => 'Koppel object',
-        'with' => 'met',
+        'Link object %s with' => '',
         'Unlink Object: %s' => 'Verwijder de relatie met object: %s',
         'go to link add screen' => 'ga naar koppelscherm',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Bewerk uw voorkeuren',
-        'Did you know? You can help translating OTRS at %s.' => 'Wit je dat je kunt helpen om OTRS te vertalen via %s?',
+        'Did you know? You can help translating OTRS at %s.' => 'Wist je dat je kunt helpen om OTRS te vertalen via %s?',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Spellingcontrole',
@@ -2868,8 +2869,8 @@ sub Data {
         'Scale preview content' => '',
         'Open URL in new tab' => '',
         'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
-            '',
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
+            'Een preview is niet beschikbaar omdat het geen embedding toestaat. ',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Om uw privacy te beschermen is actieve inhoud geblokkeerd.',
@@ -2948,6 +2949,7 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Splits quote',
+        'Open link' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Service level agreement',
@@ -3021,6 +3023,11 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => 'Er is een fout opgetreden',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            'Is dit echt een fout? 5 van de 10 error reports zijn vanwege een kappotte installatie van OTRS',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            '',
+        'Contact our service team now.' => '',
         'Send a bugreport' => 'Een bug report indienen',
         'Error Details' => 'Error gegevens',
 
@@ -3619,8 +3626,8 @@ sub Data {
         'Please contact the admin.' => 'Neem contact op met de beheerder.',
         'You need ro permission!' => 'Je hebt ro rechten nodig!',
         'Can not delete link with %s!' => 'Kan relatie met %s niet verwijderen!',
+        'Can not create link with %s! Object already linked as %s.' => '',
         'Can not create link with %s!' => 'Kan relatie met %s niet aanmaken!',
-        'Object already linked as %s.' => 'Object relatie al gemaakt als %s.',
         'The object %s cannot link with other object!' => '',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -3888,10 +3895,10 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'filter not active' => '',
-        'filter active' => '',
         'sorted ascending' => '',
         'sorted descending' => '',
+        'filter not active' => '',
+        'filter active' => '',
         'This ticket has no title or subject' => 'Dit ticket heeft geen titel of onderwerp',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -4508,6 +4515,8 @@ Het Helpdesk Team
             'Staat het toe om uitgebreide zoekcondities in het zoekscherm van tickets te gebruiken in de agent interface. Met deze feature kun je zoeken met condities zoals "(key1&&key2)" of "(key1||key2)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4727,6 +4736,10 @@ Het Helpdesk Team
         'Default ticket ID used by the system in the customer interface.' =>
             '',
         'Default value for NameX' => '',
+        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
+            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
+            Core.Agent.TableFilters.js.
+        ' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4742,6 +4755,9 @@ Het Helpdesk Team
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
+        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
+            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
+            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4760,7 +4776,7 @@ Het Helpdesk Team
             '',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '',
@@ -5362,6 +5378,8 @@ Het Helpdesk Team
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
+        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+            '',
         'Deploy and manage OTRS Business Solution™.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '',
@@ -5808,6 +5826,7 @@ Het Helpdesk Team
         'Lastname, Firstname (UserLogin)' => '',
         'Latvian' => '',
         'Left' => '',
+        'Link Object' => 'Koppel object',
         'Link Object.' => '',
         'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
         'Link agents to roles.' => 'Koppel gebruikers aan rollen.',

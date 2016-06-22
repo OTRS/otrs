@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.788165929669404;
+    $Self->{Completeness}        = 0.786089514603908;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -904,7 +904,9 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Comodíns coma \'*\' están permitidos',
         'Add customer' => 'Engadir un cliente',
         'Select' => 'Seleccionar',
+        'only' => '',
         'shown' => '',
+        'more available' => '',
         'total' => '',
         'Please enter a search term to look for customers.' => 'Introduza un termo de busca para procurar clientes.',
         'Add Customer' => 'Engadir un cliente',
@@ -1027,8 +1029,8 @@ sub Data {
         'Show link' => 'Mostrar ligazón',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aquí pode especificar un enlace http opcional para o valor do campo nas pantallas Vistas Xerais e Zoom.',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Restrinxir entrada de datas.',
         'Here you can restrict the entering of dates of tickets.' => 'Aquí pode restrinxir entrada de datas nos tickets.',
@@ -1436,7 +1438,7 @@ sub Data {
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             '',
         'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Despois de gardar a configuración será redirixido novamente a pantalla de edición.',
@@ -2569,8 +2571,7 @@ sub Data {
         'Link Object: %s' => 'Ligar o obxecto: %s',
         'go to link delete screen' => 'vaia o enlace borrar pantalla',
         'Select Target Object' => 'Seleccione o Obxecto Obxetivo',
-        'Link Object' => 'Ligar o obxecto',
-        'with' => 'con',
+        'Link object %s with' => '',
         'Unlink Object: %s' => 'Desrelacione Obxecto: %s',
         'go to link add screen' => 'vaia o enlace engadir pantalla',
 
@@ -2862,7 +2863,7 @@ sub Data {
         'Scale preview content' => '',
         'Open URL in new tab' => '',
         'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
 
         # Template: AttachmentBlocker
@@ -2942,6 +2943,7 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Split Quote',
+        'Open link' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Acordo de nivel de servizo',
@@ -3015,6 +3017,11 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => '',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            '',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            '',
+        'Contact our service team now.' => '',
         'Send a bugreport' => 'Enviar un reporte de bugs',
         'Error Details' => 'Detalles do erro',
 
@@ -3613,8 +3620,8 @@ sub Data {
         'Please contact the admin.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => 'Non se pode eliminar a ligazón con %s!',
+        'Can not create link with %s! Object already linked as %s.' => '',
         'Can not create link with %s!' => 'Non se pode crear a ligazón con %s!',
-        'Object already linked as %s.' => 'Obxecto xa ligado coma %s.',
         'The object %s cannot link with other object!' => '',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -3882,10 +3889,10 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'filter not active' => '',
-        'filter active' => '',
         'sorted ascending' => '',
         'sorted descending' => '',
+        'filter not active' => '',
+        'filter active' => '',
         'This ticket has no title or subject' => 'Este ticket non ten título ou tema',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -4491,6 +4498,8 @@ Thanks for your help!
             'Permite condicións de busca estendidas na busca de ticket da interface de axente. Con esta función vostede pode buscar ex. con tipo de condicións como (key1&&key2) ou (key1||key2).',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permite ter unha visión xeral de ticket de formato medio (CustomerInfo => 1 - mostra tamén a información de clientes).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4710,6 +4719,10 @@ Thanks for your help!
         'Default ticket ID used by the system in the customer interface.' =>
             'ID de ticket por defecto utilizado polo sistema na interface de cliente.',
         'Default value for NameX' => 'Valor por defecto para NomeX',
+        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
+            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
+            Core.Agent.TableFilters.js.
+        ' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Define un filtro para que a saída de html engada enlaces detrás dun string definido. A Imaxe do elemento permite dous tipos de entrada. Ao mesmo tempo o nome dunha imaxe (p.ej. faq.png). Neste caso a ruta da imaxe de OTRS será utilizada. A segunda posiblidade é introducir o enlace á imaxe.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4725,6 +4738,9 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Defina o día de comezo da semana para o selector de datas para o calendario indicado.',
         'Define the start day of the week for the date picker.' => 'Defina o día de comezo da semana para o selector de datas.',
+        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
+            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
+            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Defina un elemento de cliente, o cal vai xerar un icono de LinkedIn ao final do bloque de información do cliente.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4743,7 +4759,7 @@ Thanks for your help!
             'Define un filtro para a saída de html que engada enlaces detrás dun string definido. A Imaxe de elemento permite dous tipos de entrada. Á vez o nome dunha imaxe (p.ex. faq.png). Neste caso a ruta de imaxe de OTRS será utilizada. A segunda posibilidade é introducir o enlace á imaxe.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Define un filtro para a saída de html que engada enlaces detrás dos números bugtraq. A Imaxe de elemento permite dous tipos de entrada. Á vez o nome dunha imaxe (p.ex. faq.png). Neste caso a ruta de imaxe de OTRS será utilizada. A segunda posibilidade é introducir o enlace á imaxe.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Define un filtro para procesar o texto nos artigos, para subliñar palabras clave predefinidas.',
@@ -5345,6 +5361,8 @@ Thanks for your help!
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Elimina unha sesión se o id de sesión foi empregado un enderexo IP remoto invalido.',
         'Deletes requested sessions if they have timed out.' => 'Elimina as sesións solicitadas se se lles esgotou o tempo.',
+        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+            '',
         'Deploy and manage OTRS Business Solution™.' => 'Despregue e dirixa OTRS Business Solution™.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Determina se a lista de posibles colas para mover o ticket debería ser mostrada nunha lista de dropdown ou nunha nova ventá na interface de axente. Se "Nova Ventá" é fixado pode engadir unha nota de movemento ao ticket.',
@@ -5791,6 +5809,7 @@ Thanks for your help!
         'Lastname, Firstname (UserLogin)' => 'Apelido, Nome (Nome de usuario)',
         'Latvian' => '',
         'Left' => 'Esquerda',
+        'Link Object' => 'Ligar o obxecto',
         'Link Object.' => '',
         'Link agents to groups.' => 'Ligar axentes a grupos.',
         'Link agents to roles.' => 'Ligar axentes a papeis.',

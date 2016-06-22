@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.666034954727311;
+    $Self->{Completeness}        = 0.667997478461862;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -436,7 +436,7 @@ sub Data {
         'There was a problem during the upgrade of %s.' => 'Hubo un problema durante la actualización de %s',
         '%s was correctly uninstalled.' => '%s fue correctamente desinstalado',
         'There was a problem uninstalling %s.' => 'Hubo un problema desinstalando %s',
-        'Enable cloud services to unleash all OTRS features!' => '',
+        'Enable cloud services to unleash all OTRS features!' => '¡Habilitar los servicios en la nube para liberar todas las características de OTRS!',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Año nuevo',
@@ -909,7 +909,9 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Se permiten caracteres comodín como \'*\'.',
         'Add customer' => 'Añadir un cliente',
         'Select' => 'Seleccionar',
+        'only' => '',
         'shown' => 'mostrados',
+        'more available' => '',
         'total' => 'Total',
         'Please enter a search term to look for customers.' => 'Introduzca un término de búsqueda para buscar clientes.',
         'Add Customer' => 'Añadir un cliente',
@@ -990,7 +992,7 @@ sub Data {
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             '¿Seguro que desea borrar este campo dinámico? ¡Se PERDERÁN TODOS los datos asociados!',
         'Delete field' => 'Borrar el campo',
-        'Deleting the field and its data. This may take a while...' => '',
+        'Deleting the field and its data. This may take a while...' => 'Borrar el campo y sus datos. Esto tomará unos momentos...',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinámicos',
@@ -1032,8 +1034,8 @@ sub Data {
         'Show link' => 'Mostrar el enlace',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aquí puede indicar un enlace HTTP opcional para el valor del campo en las pantallas de Vista general y Ampliación',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => 'Enlace de vista previa',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Restringir entrada de fechas',
         'Here you can restrict the entering of dates of tickets.' => 'Aquí puede restringir la entrada de fechas para los tickets.',
@@ -1437,11 +1439,11 @@ sub Data {
         'Configuration history' => 'Historial de Configuración',
         'Delete web service' => 'Eliminar servicio web',
         'Do you really want to delete this web service?' => '¿Realmente desea eliminar este servicio web?',
-        'Example Web Services' => '',
+        'Example Web Services' => 'Servicios web de ejemplo',
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
-            '',
+            'Aquí puede activar las mejores prácticas de ejemplos de servicios web que son parte de %s.   Por favor note que se requiere configuración adicional.',
         'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Después de salvar su configuración ud. será redireccionado de nuevo a la pantalla de edición',
@@ -1581,7 +1583,7 @@ sub Data {
         'At least one method is needed per notification.' => 'Se necesita al menos un método por notificación',
         'Active by default in agent preferences' => 'Activo por defecto en preferencias de agente',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'Este es el valor por defecto para los agentes receptores asignados que no realizaron una elección para esta notificación aún en sus preferencias. Si la casilla está activada, la notificación será enviada a dichos agentes.',
         'This feature is currently not available.' => 'Esta característica no está disponible en este momento.',
         'No data found' => 'No se encontró ningún dato.',
         'No notification method found.' => 'No se encontró un método de notificación.',
@@ -1687,13 +1689,13 @@ sub Data {
         # Template: AdminPGP
         'PGP Management' => 'Administración PGP',
         'PGP support is disabled' => '',
-        'To be able to use PGP in OTRS, you have to enable it first.' => '',
-        'Enable PGP support' => '',
-        'Faulty PGP configuration' => '',
+        'To be able to use PGP in OTRS, you have to enable it first.' => 'Para poder usar PGP en OTRS, deberá habilitarlo primero.',
+        'Enable PGP support' => 'Habilitar el soporte de PGP',
+        'Faulty PGP configuration' => 'Configuración PGP errónea',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
-        'Configure it here!' => '',
-        'Check PGP configuration' => '',
+        'Configure it here!' => 'Configuralo aquí!',
+        'Check PGP configuration' => 'Comprobar la configuración PGP',
         'Add PGP key' => 'Agregar Clave PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'De esta forma puede editar directamente el anillo de Claves configurado en Sysconfig',
@@ -1722,7 +1724,7 @@ sub Data {
         'Update repository information' => 'Actualizar información de repositorio',
         'Cloud services are currently disabled.' => '',
         'OTRS Verify™ can not continue!' => '',
-        'Enable cloud services' => '',
+        'Enable cloud services' => 'Habilitar servicios en la Nube',
         'Online Repository' => 'Repositorio en línea',
         'Module documentation' => 'Módulo de documentación',
         'Upgrade' => 'Actualizar',
@@ -1841,7 +1843,7 @@ sub Data {
             'Ordenar los elementos dentro de la lista también es posible mediante arrastrar y soltar .',
         'Filter available Activity Dialogs' => 'Filtros disponibles en Diálogos de Actividad ',
         'Available Activity Dialogs' => 'Dialogos Actividad Disponibles',
-        'Name: %s, EntityID: %s' => '',
+        'Name: %s, EntityID: %s' => 'Nombre: %s, IDdeEntidad: %s',
         'Create New Activity Dialog' => 'Cree Nueva Actividad de Diálogo',
         'Assigned Activity Dialogs' => 'Asignación de Diálogos Actividad',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
@@ -2574,8 +2576,7 @@ sub Data {
         'Link Object: %s' => 'Enlazar el objeto: %s',
         'go to link delete screen' => 'ir a la pantalla de borrado de enlaces',
         'Select Target Object' => 'Seleccione el objeto destino',
-        'Link Object' => 'Enlazar objeto',
-        'with' => 'con',
+        'Link object %s with' => '',
         'Unlink Object: %s' => 'Desenlazar el objeto: %s',
         'go to link add screen' => 'ir a la pantalla de añadir enlaces',
 
@@ -2867,7 +2868,7 @@ sub Data {
         'Scale preview content' => '',
         'Open URL in new tab' => '',
         'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
 
         # Template: AttachmentBlocker
@@ -2947,6 +2948,7 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Dividir Cita',
+        'Open link' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Acuerdo de nivel de servicio',
@@ -3020,6 +3022,11 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => 'Ha ocurrido un error.',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            '',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            '',
+        'Contact our service team now.' => '',
         'Send a bugreport' => 'Enviar un informe de error',
         'Error Details' => 'Detalles del error',
 
@@ -3618,8 +3625,8 @@ sub Data {
         'Please contact the admin.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => 'No se puede borrar el enlace con %s!',
+        'Can not create link with %s! Object already linked as %s.' => '',
         'Can not create link with %s!' => 'No se puede crear enlace con %s!',
-        'Object already linked as %s.' => 'Objeto ya enlazado como %s.',
         'The object %s cannot link with other object!' => '',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -3778,12 +3785,12 @@ sub Data {
         'Feature is not active' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
-        'Ticket Created' => '',
-        'Note Added' => '',
-        'Note Added (Customer)' => '',
-        'Outgoing Email' => '',
+        'Ticket Created' => 'Ticket Creado',
+        'Note Added' => 'Nota añadida',
+        'Note Added (Customer)' => 'Nota añadida (cliente)',
+        'Outgoing Email' => 'Mensaje saliente',
         'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => '',
+        'Incoming Customer Email' => 'Mensaje entrante de cliente',
         'Dynamic Field Updated' => '',
         'Outgoing Phone Call' => '',
         'Incoming Phone Call' => '',
@@ -3887,10 +3894,10 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'filter not active' => '',
-        'filter active' => '',
         'sorted ascending' => '',
         'sorted descending' => '',
+        'filter not active' => '',
+        'filter active' => '',
         'This ticket has no title or subject' => 'Este ticket no tiene título o asunto',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -4507,6 +4514,8 @@ Tu Equipo de Soporte
             'Permite condiciones de búsqueda extendidas en búsqueda de ticket de la interfaz de agente. Con esta función, puede buscar ej . con este tipo de condiciones como "( key1 && key2 )" o "(key1 || key2 )".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permite tener un formato medio de la vista general de ticket (InfoCliente => 1 - muestra también la información de cliente).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4726,6 +4735,10 @@ Tu Equipo de Soporte
         'Default ticket ID used by the system in the customer interface.' =>
             'ID de ticket por defecto usada por el sistema en la interfaz de cliente.',
         'Default value for NameX' => 'Valor por defecto para NombreX',
+        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
+            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
+            Core.Agent.TableFilters.js.
+        ' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Definir un filtro para la salida html para agregar enlaces detrás de un string definido. El elemento Imagen permite dos tipos de entrada. Al mismo tiempo el nombre de una imagen (por ejemplo faq.png ). En este caso se utilizará la ruta de la imagen OTRS. La segunda posibilidad es insertar el enlace a la imagen.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4741,6 +4754,9 @@ Tu Equipo de Soporte
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Definir el día de inicio de la semana para el selector de fecha para el calendario indicado.',
         'Define the start day of the week for the date picker.' => 'Definir el día de inicio de la semana para el selector de fecha.',
+        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
+            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
+            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Define un item del cliente, el cual genera un icono de LinkedIn en el extremo de un bloque de información del cliente.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4759,7 +4775,7 @@ Tu Equipo de Soporte
             '',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '',
@@ -5361,6 +5377,8 @@ Tu Equipo de Soporte
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
+        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+            '',
         'Deploy and manage OTRS Business Solution™.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '',
@@ -5807,6 +5825,7 @@ Tu Equipo de Soporte
         'Lastname, Firstname (UserLogin)' => '',
         'Latvian' => '',
         'Left' => 'Izquierda',
+        'Link Object' => 'Enlazar objeto',
         'Link Object.' => '',
         'Link agents to groups.' => 'Crea enlace de Agentes a Grupos',
         'Link agents to roles.' => 'Crea enlace de Agentes a Roles',

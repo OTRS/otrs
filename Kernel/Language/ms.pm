@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.881659296694041;
+    $Self->{Completeness}        = 0.879386425719689;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -903,7 +903,9 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Kad bebas seperti \'*\' adalah dibenarkan.',
         'Add customer' => 'menambah Pelanggan',
         'Select' => 'Pilih',
+        'only' => '',
         'shown' => 'ditunjukkan',
+        'more available' => '',
         'total' => 'jumlah',
         'Please enter a search term to look for customers.' => 'Sila masukkan kata kunci untuk mencari pelanggan.',
         'Add Customer' => 'Tambah pelanggan',
@@ -1026,8 +1028,8 @@ sub Data {
         'Show link' => 'Papar pautan',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Disini anda boleh menyatakan pilihan pautan HTTP untuk nilai bidang dalam gambaran keseluruhan dan skrin Zoom.',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Hadkan memasukkan tarikh',
         'Here you can restrict the entering of dates of tickets.' => 'Di sini anda boleh menyekat kemasukan tarikh tiket.',
@@ -1435,7 +1437,7 @@ sub Data {
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             '',
         'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Selepas anda menyimpan konfigurasi anda akan dibawa semula ke skrin sunting.',
@@ -2568,8 +2570,7 @@ sub Data {
         'Link Object: %s' => 'Objek pautan: %s',
         'go to link delete screen' => 'pergi untuk menghubungkan skrin padam',
         'Select Target Object' => 'Pilih Objek Sasaran',
-        'Link Object' => 'Objek pautan',
-        'with' => 'dengan',
+        'Link object %s with' => '',
         'Unlink Object: %s' => 'Nyahpaut Objek: %s',
         'go to link add screen' => 'pergi untuk menghubungkan skrin menambah',
 
@@ -2861,7 +2862,7 @@ sub Data {
         'Scale preview content' => '',
         'Open URL in new tab' => '',
         'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
 
         # Template: AttachmentBlocker
@@ -2941,6 +2942,7 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Pisah Petikan',
+        'Open link' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Perjanjian tahap perkhidmatan.',
@@ -3014,6 +3016,11 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => 'Kesilapan berlaku.',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            '',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            '',
+        'Contact our service team now.' => '',
         'Send a bugreport' => 'Hantar laporan bug',
         'Error Details' => 'Butiran kesilapan',
 
@@ -3612,8 +3619,8 @@ sub Data {
         'Please contact the admin.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => 'Tidak boleh memadam pautan dengan %s!',
+        'Can not create link with %s! Object already linked as %s.' => '',
         'Can not create link with %s!' => 'Tidak boleh mencipta pautan dengan %s!',
-        'Object already linked as %s.' => 'Objek sudah dipaut sebagai %s.',
         'The object %s cannot link with other object!' => '',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -3881,10 +3888,10 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'filter not active' => '',
-        'filter active' => '',
         'sorted ascending' => '',
         'sorted descending' => '',
+        'filter not active' => '',
+        'filter active' => '',
         'This ticket has no title or subject' => 'Tiket ini tidak mempunyai tajuk atau subjek',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -4503,6 +4510,8 @@ dalaman.',
             'Membolehkan keadaan carian diperluaskan di dalam pencarian tiket dalam interface pelanggan. Dengan fungsi ini, anda boleh mencari contoh: dengan keadaan seperti "(kunci1&&kunci2)" atau "(kunci1||kunci2)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Membolehkan mempunyai format tiket gambaran sederhana (CustomerInfo => 1 - juga menunjukkan maklumat pelanggan).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4722,6 +4731,10 @@ dalaman.',
         'Default ticket ID used by the system in the customer interface.' =>
             'Tiket ID asal digunakan oleh sistem di dalam paparan pengguna.',
         'Default value for NameX' => 'Nilai asal untuk NameX',
+        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
+            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
+            Core.Agent.TableFilters.js.
+        ' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Mentakrif tapisan untuk output html untuk menambah pautan di sebalik takrifan yang berkait. Imej unsur membolehkan 2 jenis input. Sekaligus nama sesuatu imej (Contohnya faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan kedua adalah untuk memasukkan pautan kepada imej.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4737,6 +4750,9 @@ dalaman.',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Menentukan hari permulaan minggu untuk pemilih tarikh untuk kalendar yang ditunjukkan.',
         'Define the start day of the week for the date picker.' => 'Menetukan hari permulaan mingguan untuk pemilih tarikh.',
+        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
+            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
+            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Mentakrifkan item pelanggan, yang menjana ikon LinkedIn pada akhir blok info pelanggan.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4755,7 +4771,7 @@ dalaman.',
             'Mentakrifkan tapisan untuk output html untuk menambah pautan di belakang string yang ditakrifkan. Imej unsur membolehkan dua jenis input. Sekaligus nama satu imej (contoh faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan yang kedua adalah memasukkan pautan pada imej.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Mentakrifkan tapisan untuk output html untuk menambah pautan di belakang nombor bugtraq. Imej unsur membolehkan dua jenis input. Sekaligus nama satu imej (contoh faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan yang kedua adalah memasukkan pautan pada imej.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Mentakrifkan tapisan untuk memproses teks dalam artikel, dalam usaha untuk menyerlahkan kata kunci yang dipratentukan.',
@@ -5358,6 +5374,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Memadam sesuatu sesi jika id sesi digunakan bersama alamat IP jarak jauh yang tidak sah.',
         'Deletes requested sessions if they have timed out.' => 'Memadam sesi yang diminta jika mereka telah tamat masa.',
+        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+            '',
         'Deploy and manage OTRS Business Solution™.' => 'Menggerakkan dan menguruskan Penyelesaian Bisnes OTRS™.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Menentukan jika senarai aturan yang mungkin untuk dipindahkan ke tiket perlu dipamerkan dalam senarai dropdown atau dalam window yang baru dalam paparan ejen.',
@@ -5804,6 +5822,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Lastname, Firstname (UserLogin)' => 'Namaakhir, Namapertama (LogmasukPengguna)',
         'Latvian' => 'Latvia',
         'Left' => 'Kiri',
+        'Link Object' => 'Objek pautan',
         'Link Object.' => '',
         'Link agents to groups.' => 'Pautan ejen kepada kumpulan.',
         'Link agents to roles.' => 'Pautan ejen kepada peranan.',

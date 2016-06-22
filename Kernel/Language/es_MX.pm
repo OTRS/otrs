@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.696357127816382;
+    $Self->{Completeness}        = 0.695314141626392;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -237,7 +237,7 @@ sub Data {
         'There is no acount with that user name.' => 'No existe una cuenta para ese nombre de usuario',
         'Please contact your administrator' => 'Favor de contactar a su administrador',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            '',
+            'La autenticación fue exitosa, pero no se encontró ningún registro de cliente en el sistema. Por favor contacte a sus administrador.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Esta dirección de correo ya existe. Por favor inicie su sesión o reestablezca su contraseña.',
         'Logout' => 'Cerrar Sesión',
@@ -291,7 +291,7 @@ sub Data {
         'You have Out of Office enabled, would you like to disable it?' =>
             'Tiene habilitado «Fuera de la oficina», ¿desea inhabilitarlo?',
         'News about OTRS releases!' => '¡Noticias sobre lanzamientos de OTRS!',
-        'Go to dashboard!' => '',
+        'Go to dashboard!' => '¡Ir al panel principal!',
         'Customer %s added' => 'Cliente %s añadido',
         'Role added!' => '¡Rol añadido!',
         'Role updated!' => '¡Rol actualizado!',
@@ -904,7 +904,9 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Están permitidos comodines como \'*\'.',
         'Add customer' => 'Añadir cliente',
         'Select' => 'Seleccionar',
+        'only' => '',
         'shown' => 'mostrar',
+        'more available' => '',
         'total' => 'total',
         'Please enter a search term to look for customers.' => 'Por favor, introduzca un parámetro de búsqueda para buscar clientes',
         'Add Customer' => 'Añadir Cliente',
@@ -1027,8 +1029,8 @@ sub Data {
         'Show link' => 'Mostrar enlace',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aquí puede indicar un enlace HTTP opcional para el valor del campo en las pantallas de Vista general y Ampliación',
-        'Enable link preview' => '',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Restringir el ingreso de fechas',
         'Here you can restrict the entering of dates of tickets.' => 'Aquí puede restringir el ingreso de fechas para los tickets.',
@@ -1338,7 +1340,7 @@ sub Data {
             'Un comando HTTP específico a usar en las peticiones con este invocador (opcional).',
         'Default command' => 'Comando por defecto',
         'The default HTTP command to use for the requests.' => 'El comando HTTP predeterminado para usar con las peticiones.',
-        'Authentication' => 'Atenticación',
+        'Authentication' => 'Autenticación',
         'The authentication mechanism to access the remote system.' => 'El mecanismo de autenticación para acceder al sistema remoto.',
         'A "-" value means no authentication.' => 'Un valor "-" significa que no estás autenticado.',
         'The user name to be used to access the remote system.' => 'El nombre de usuario para ser usado al acceder al sistema remoto.',
@@ -1436,7 +1438,7 @@ sub Data {
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             '',
         'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '',
@@ -2569,8 +2571,7 @@ sub Data {
         'Link Object: %s' => 'Objeto Vinculado: %s',
         'go to link delete screen' => 'ir a la ventana del vínculo de eliminar',
         'Select Target Object' => 'Seleccionar Objetivo',
-        'Link Object' => 'Enlazar Objeto',
-        'with' => 'con',
+        'Link object %s with' => '',
         'Unlink Object: %s' => 'Objecto desvinculado: %s',
         'go to link add screen' => 'ir a la ventana del vínculo de añadir',
 
@@ -2704,7 +2705,7 @@ sub Data {
         'Get all' => 'Obtener todos',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => 'Email de Saliente para %s%s',
+        'Outbound Email for %s%s' => 'Email saliente para %s%s',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => '',
@@ -2758,7 +2759,7 @@ sub Data {
         'Save Chat Into New Phone Ticket' => 'Guardar Chat En Nuevo Ticket Telefónico',
         'Create New Phone Ticket' => 'Crear un Ticket Telefónico Nuevo',
         'Please include at least one customer for the ticket.' => 'Por favor, Incluya al menos un cliente para el ticket',
-        'To queue' => 'Para la fila d espera',
+        'To queue' => 'Para la fila de espera',
         'Chat protocol' => 'Protocolo de Chat',
         'The chat will be appended as a separate article.' => 'El chat se agregará como un artículo separado.',
 
@@ -2862,7 +2863,7 @@ sub Data {
         'Scale preview content' => '',
         'Open URL in new tab' => '',
         'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
 
         # Template: AttachmentBlocker
@@ -2942,6 +2943,7 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Dividir Cita',
+        'Open link' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Acuerdo de nivel de servicio',
@@ -3015,6 +3017,11 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => 'Ocurrió un error.',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            '',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            '',
+        'Contact our service team now.' => '',
         'Send a bugreport' => 'Enviar un reporte de error',
         'Error Details' => 'Detalles del error',
 
@@ -3613,8 +3620,8 @@ sub Data {
         'Please contact the admin.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => '¡No se puede borrar el enlace con %s!',
+        'Can not create link with %s! Object already linked as %s.' => '',
         'Can not create link with %s!' => 'No se puede eliminar el enlace con %s!',
-        'Object already linked as %s.' => 'Objeto ya enlazado como %s.',
         'The object %s cannot link with other object!' => '',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -3882,10 +3889,10 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'filter not active' => '',
-        'filter active' => '',
         'sorted ascending' => '',
         'sorted descending' => '',
+        'filter not active' => '',
+        'filter active' => '',
         'This ticket has no title or subject' => 'Este ticket no tiene título o asunto',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -4491,6 +4498,8 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permite tener un formato de vista mediana para los tickets (InformaciónCliente => 1 - muestra además la información del cliente).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4710,6 +4719,10 @@ Thanks for your help!
         'Default ticket ID used by the system in the customer interface.' =>
             'ID de ticket usado por defecto por el sistema, en la interfaz del cliente.',
         'Default value for NameX' => '',
+        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
+            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
+            Core.Agent.TableFilters.js.
+        ' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Define un filtro para la salida html para añadir vínculos a ciertas cadenas. El elemento Imagen permite dos tipos de entrada: un nombre de imagen (por ejemplo: faq.png). En este caso, se usa la ruta de imágenes de OTRS. La otra posibilidad es insertar el vínculo a la imagen.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4725,6 +4738,9 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Define el día inicial de la para el selector de fecha.',
+        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
+            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
+            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Define un artículo de cliente que genera un ícono de VinculadoEn, al final de un bloque de información de cliente.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4743,7 +4759,7 @@ Thanks for your help!
             'Define un filtro para salida html para añadir vínculos a una cadena definida. El elemento Imagen permite dos tipos de entrada: un nombre de imagen (por ejemplo: faq.png). En este caso, se usa la ruta de imágenes de OTRS. La otra posibilidad es insertar el vínculo a la imagen.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Define un filtro para salida html para añadir vínculos a los números bugtraq. El elemento Imagen permite dos tipos de entrada: un nombre de imagen (por ejemplo: faq.png). En este caso, se usa la ruta de imágenes de OTRS. La otra posibilidad es insertar el vínculo a la imagen.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Define un filtro para procesar el texto de los artículos, con la finalidad de resaltar las palabras llave predefinidas.',
@@ -5345,6 +5361,8 @@ Thanks for your help!
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Elimina la sesión si el identificador de la misma está siendo usado con una dirección IP remota inválida.',
         'Deletes requested sessions if they have timed out.' => 'Elimina las sesiones solicitadas, si ya expiraron.',
+        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+            '',
         'Deploy and manage OTRS Business Solution™.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Determina si la lista de filas posibles a las que los tickets pueden ser movidos, deberá mostrarse en una lista desplegable o en una nueva ventana, en la interfaz del agente. Si se elije "Ventana nueva", es posible añadir una nota al mover el ticket.',
@@ -5465,7 +5483,7 @@ Thanks for your help!
         'DynamicField' => '',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
-        'E-Mail Outbound' => '',
+        'E-Mail Outbound' => 'Correo saliente',
         'Edit Customer Companies.' => '',
         'Edit Customer Users.' => '',
         'Edit customer company' => 'Editar compañía del cliente',
@@ -5791,6 +5809,7 @@ Thanks for your help!
         'Lastname, Firstname (UserLogin)' => '',
         'Latvian' => '',
         'Left' => '',
+        'Link Object' => 'Enlazar Objeto',
         'Link Object.' => '',
         'Link agents to groups.' => 'Vincular agentes con grupos.',
         'Link agents to roles.' => 'Vincular agentes con roles.',
@@ -6612,7 +6631,7 @@ Thanks for your help!
         'Stores cookies after the browser has been closed.' => 'Guarda las cookies después de que el explorador se cerró.',
         'Strips empty lines on the ticket preview in the queue view.' => 'Elimina las líneas en blanco de la vista previa de tickets, en la vista de filas.',
         'Strips empty lines on the ticket preview in the service view.' =>
-            '',
+            'Elimina las líneas en blanco de la vista previa de tickets, en la vista de servicio.',
         'Swahili' => 'Suajili',
         'Swedish' => 'Sueco',
         'System Address Display Name' => '',

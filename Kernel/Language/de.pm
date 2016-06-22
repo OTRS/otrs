@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.931019978969506;
+    $Self->{Completeness}        = 0.938642571968901;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -904,7 +904,9 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Platzhalter wie \'*\' sind erlaubt.',
         'Add customer' => 'Kunden hinzufügen',
         'Select' => 'Auswahl',
+        'only' => '',
         'shown' => 'angezeigt',
+        'more available' => '',
         'total' => 'gesamt',
         'Please enter a search term to look for customers.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen.',
         'Add Customer' => 'Kunden hinzufügen',
@@ -1437,7 +1439,7 @@ sub Data {
             'Hier können Sie "Best-Practice"-Beispiel-Webservices aktivieren, die Teil der %s sind. Bitte beachten Sie, dass weitere Konfiguration erforderlich sein kann.',
         'Import example web service' => 'Beispiel-Webservice importieren',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
-            '',
+            'Wollen Sie von Web-Diensten profitieren, die von Experten kreiert wurden? Aktualisieren Sie auf %s um einige anspruchsvolle Beispiel-Web-Dienste zu importieren.',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Nach dem Speichern der Konfiguration werden Sie wieder auf den Bearbeitungsbildschirm geleitet.',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -2000,7 +2002,7 @@ sub Data {
         'Only business hours are counted.' => 'Nur Geschäftszeiten werden berücksichtigt.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             'Wenn ein Agent ein Ticket sperrt und es vor der Entsperrzeit nicht schließt, wird es entsperrt und wieder für andere Agenten verfügbar gemacht.',
-        'Notify by' => 'Benachrichtigt nach',
+        'Notify by' => 'Benachrichtigung durch',
         '0 = no escalation' => '0 = keine Eskalation',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             'Wenn vor der definierten Zeit keine Kundenreaktion erfolgt (email-external oder phone), eskaliert das Ticket.',
@@ -4441,21 +4443,21 @@ Ihr Helpdesk-Team
         'Agent interface article notification module to check S/MIME.' =>
             'Benachrichtigungsmodul im Agenten-Interface das die S/MIME-Prüfung durchführt.',
         'Agent interface module to access CIC search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Agenten-Schnittstellen-Modul für den Zugriff auf die CIC-Suche über die Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Agenten-Schnittstellen-Modul für den Zugriff auf die Volltext-Suche über die Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Agenten-Schnittstellen-Modul für den Zugriff auf die Such-Profile über die Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Modul im Agenten-Interface um eingehende E-Mails in der TicketZoomView auf vorhandene und gültige S/MIME-Schlüssel zu überprüfen. ',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der gesperrten Tickets. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der Tickets, für die der Agent verantwortlich ist. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der Tickets in "Meien Dienste". Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der beobachteten Tickets. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
         'AgentCustomerSearch' => 'AgentCustomerSearch',
         'AgentCustomerSearch.' => 'AgentCustomerSearch.',
         'AgentUserSearch' => 'AgentUserSearch',
@@ -4507,7 +4509,7 @@ Ihr Helpdesk-Team
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Erlaubt erweiterte Suchbedingungen in der Ticketsuche im Kundenbereich. Mit diesem Feature können Sie Suchbedingungen wie "(key1&&key2)" oder "(key1||key2)" festlegen.',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            'Erlaubt erweiterte Suchbedingungen der generischen Agenten-Schnittstelle. Mit diesem Feature kann man z.B. Ticket-Titel mit Bedingungen wie dieser "(*key1*&&*key2*)" oder "(*key1*||*key2*)" durchsuchen.',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen  (Customer => 1 - zeigt auch die Kundeninformation).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4727,6 +4729,10 @@ Ihr Helpdesk-Team
         'Default ticket ID used by the system in the customer interface.' =>
             'Standard-Ticket-ID welche von OTRS in der Kundenoberfläche verwendet wird.',
         'Default value for NameX' => 'Standardwert für NameX',
+        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
+            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
+            Core.Agent.TableFilters.js.
+        ' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Definiert einen Filter für die HTML-Ausgabe um Links hinter einer bestimmten Zeichenfolge hinzufügen. Dieses Element erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4742,6 +4748,9 @@ Ihr Helpdesk-Team
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Definiert den Wochentag, mit dem die Woche im angegebenen Kalender beginnt.',
         'Define the start day of the week for the date picker.' => 'Definiert den Beginn einer Woche für den Datumswähler.',
+        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
+            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
+            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Definiert einen Punkt, welcher ein LinedIn-Symbol am Endes der Kundeninformation hinzufügt.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4761,7 +4770,7 @@ Ihr Helpdesk-Team
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Definiert einen Filter für die HTML-Ausgabe um Links hinter Bugtraq-Nummern hinzufügen. Das Element Bild erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
-            '',
+            'Definiert einen Filter zum Sammeln von CVE-Nummern von Artikel-Texten im AgentTicketZoom. Das Ergebnis wird in einer Meta-Box neben dem Artikel angezeigt. Füllen Sie URLPreview aus, wenn Sie beim halten des Cursors über dem Linkelement eine Vorschau sehen möchten. Das kann dieselbe URL wie in "URL", aber auch eine andere. Bitte beachten Sie, dass einige Webseiten es verbieten in einem iframe (z.B. Google) angezeigt zu werden. Diese würden mit dem Vorschau-Modus nicht funktionieren.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Definiert einen Filter, um den Text in den Artikel zu verarbeiten, um vordefinierte Schlüsselwörter zu markieren.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -4840,13 +4849,13 @@ Ihr Helpdesk-Team
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             'Steuert, ob das vorherige, gültige Token für die Authentifizierung akzeptiert werden soll. Dies ist etwas weniger sicher, gibt Nutzern aber 30 Sekunden mehr Zeit, Ihre Einmal-Passwort einzugeben.',
         'Defines if the values for filters should be retrieved from all available tickets. If set to "Yes", only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
-            '',
+            'Definiert, ob die Werte für Filter von allen verfügbaren Tickets abgerufen werden sollen. Wenn auf "Ja" gesetzt, stehen nur Werte, die aktuell in irgendeinem Ticket für die Filterung verwendet werden zur Verfügung. Bitte beachten Sie: Die Liste der Kunden wird immer auf diesem Wege abgerufen.',
         'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
             'Definiert ob die Zeiterfassung verpflichtend in der Agenten-Oberfläche ist. Wenn diese Funktion aktiviert ist, muss eine Notiz für alle Ticketaktionen (egal ob die Notiz als aktiv konfiguriert ist oder ursprünglich zwingend für die individuellen Ticket-Aktionen konfiguert wurde).',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Bestimmt, ob das Zeiterfassungs-Feld für alle Tickets im Stapelverarbeitungs-Bildschirm gesetzt werden soll.',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
-            '',
+            'Definiert "Nicht im Büro"-Nachrichten-Templates. Zwei String-Parameter (%s) stehen zur Verfügung: Enddatum und Anzahl der übrigen Tage.',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'Bestimmt die Queues, deren Tickets für die Anzeige als Kalender-Ereignisse berücksichtigt werden sollen.',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
@@ -4880,7 +4889,7 @@ Ihr Helpdesk-Team
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Definiert die Konfigurationsparamenter des Items, die in der Eigenschaftenanzeige angezeigt wird.',
         'Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.' =>
-            '',
+            'Definiert die Konfigurationsparameter dieses Elements, die in der Einstellungsansicht dargestellt werden.',
         'Defines the connections for http/ftp, via a proxy.' => 'Definiert Verbindungen für HTTP/FTP über einen Proxy.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Defininiert das Einstellungsfeld für Kunden, in dem der Share Secret-Key gespeichert wird.',
@@ -4942,7 +4951,7 @@ Ihr Helpdesk-Team
         'Defines the default selection at the drop down menu for permissions (Form: Common Specification).' =>
             'Definiert die Standardauswahl im Drop-down-Menü für Berechtigungen (Formular: Allgemeine Angaben)',
         'Defines the default selection at the drop down menu for stats format (Form: Common Specification). Please insert the format key (see Stats::Format).' =>
-            '',
+            'Legt die Standardauswahl im Dropdown-Menü für das Statistik-Format (Form: Gemeinsame Spezifikation) fest. Bitte legen Sie die Formattaste fest (siehe Stats::Format).',
         'Defines the default sender type for phone tickets in the ticket phone inbound screen of the agent interface.' =>
             'Bestimmt den Standard-Absendertyp für Telefon-Tickets in der Eingehende-Telefon-Tickets-Anzeige in der Agenten-Oberfläche.',
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' =>
@@ -4950,7 +4959,7 @@ Ihr Helpdesk-Team
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             'Bestimmt den Standard-Absendertp für Telefon-Tickets in der TicketZoom-Anzeige in der Agenten-Oberfläche.',
         'Defines the default shown ticket search attribute for ticket search screen (AllTickets/ArchivedTickets/NotArchivedTickets).' =>
-            '',
+            'Definiert das standardmäßig angezeigte Ticket-Such-Attribut für die Ticket-Suchmaske (AlleTickets/ArchivierteTickets/NichtArchivierteTickets).',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'Definiert die standardmäßig angezeigten Ticketsuchattribute für die Ticketsuche.',
         'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
@@ -5110,7 +5119,7 @@ Ihr Helpdesk-Team
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             'Definiert den Historien-Kommentar für die Aktion "Warten auf Erinnerung" welcher in der Ticket-Historie in der Agenten-Oberfläche angezeigt wird.',
         'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
-            '',
+            'Definiert den Verlauf-Kommentar für diese Operation, der für den Ticket-Verlauf in der Agenten-Schnittstelle verwendet wird.',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Definiert den Historien-Typ für die Aktion "Ticket Schließen" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird.',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -5134,26 +5143,26 @@ Ihr Helpdesk-Team
         'Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
             'Definiert den Historien-Typ für die Aktion "Ticket Verantwortlicher" welcher für die Ticket-Historie in der Agenten-Oberfläche benutzt wird.',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
-            '',
+            'Definiert den Verlaufstyp für die Ticket-Zoom-Aktion, der für den Ticket-Verlauf in der Kundenschnittstelle verwendet wird.',
         'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
-            '',
+            'Definiert den Verlaufstyp für diese Operation, der für den Ticket-Verlauf in der Agenten-Schnittstelle verwendet wird.',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
-            '',
+            'Definiert die Stunden und Wochentage des angegebenen Kalenders um die Arbeitszeit zu messen.',
         'Defines the hours and week days to count the working time.' => 'Definiert den Zeitraum und die Wochentage welche als Arbeitszeit zählen.',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
-            '',
+            'Definiert den Schlüssel, der mit dem Modul Kernel::Modules::AgentInfo geprüft wird. Wenn dieser Nutzer-Einstellungs-Schlüssel "wahr" ist, wird die Nachricht vom System akzeptiert.',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
-            '',
+            'Definiert den Schlüssel, der mit CustomerAccept geprüft wird. Wenn dieser Nutzer-Einstellungs-Schlüssel "wahr" ist, wird die Nachricht vom System akzeptiert.',
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
-            '',
+            'Definiert den Link-Typ \'Normal\'. Wenn der Name der Quelle dem des Ziels entspricht, ist der resultierende Link ein nicht-direktionaler Link; Ansonsten ist das Resultat ein direktionaler Link.',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
-            '',
+            'Definiert den Link-Typ \'ParentChild\'. Wenn der Quell- und der Zielname den selben Wert beinhalten, ist der Link nicht-direktional. Ansonsten ist das Ergebnis ein direktionaler Link.',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             'Definition der verschiedenen Verknüpfungsmöglichkeiten. Verknüpfungstpyen der selben Gruppe schließen sich gegenseitig aus. Beispiel: Wenn Ticket A mit dem Typ \'Normal\' mit Ticket B verlinkt wird, dann können diese beiden Tickets nicht noch zusätzlich mit dem Typ \'ElternKind\' miteinander verlinkt werden.',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
-            '',
+            'Definiert eine Liste von Online-Quellen. Andere Installationen können als Quelle genutzt werden z.B. Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Irgendein Name". ',
         'Defines the list of possible next actions on an error screen, a full path is required, then is possible to add external links if needed.' =>
-            '',
+            'Definiert die Liste der möglichen Folgeaktionen in einer Fehleranzeige. Mit einem vollständigen Pfad kann man bei Bedarf externe Links einfügen.',
         'Defines the list of types for templates.' => 'Definiert die Typenliste für Templates.',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
             'Definiert die Adresse der Online-Repository-Liste für zusätzliche Pakete. Das erste verfügbare Ergebnis wird genutzt.',
@@ -6617,9 +6626,9 @@ Ihr Helpdesk-Team
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
             '',
         'Specify the password to authenticate for the first mirror database.' =>
-            '',
+            'Geben Sie das Kennwort für die Authentifikation mit der ersten Spiegeldatenbank an.',
         'Specify the username to authenticate for the first mirror database.' =>
-            '',
+            'Geben Sie den Benutzernamen für die Authentifikation mit der ersten Spiegeldatenbank an.',
         'Spell checker.' => 'Rechtschreibprüfung.',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
@@ -6630,12 +6639,12 @@ Ihr Helpdesk-Team
         'Stat#' => 'Statistik Nr.',
         'Status view' => 'Ansicht nach Status',
         'Stores cookies after the browser has been closed.' => 'Speichert Cookies nach dem Schließen des Browsers.',
-        'Strips empty lines on the ticket preview in the queue view.' => '',
+        'Strips empty lines on the ticket preview in the queue view.' => 'Entfernt leere Zeilen in der Ticket-Vorschau in der Queue-Ansicht.',
         'Strips empty lines on the ticket preview in the service view.' =>
-            '',
+            'Entfernt leere Zeilen in der Ticket-Vorschau in der Service-Ansicht.',
         'Swahili' => 'Swahili',
         'Swedish' => 'Schwedisch',
-        'System Address Display Name' => '',
+        'System Address Display Name' => 'System-Adresse Anzeigename',
         'System Maintenance' => 'Systemwartung',
         'System Request (%s).' => 'Systemanfrage (%s).',
         'Target' => 'Ziel',
@@ -6647,9 +6656,9 @@ Ihr Helpdesk-Team
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             '',
         'The daemon registration for the scheduler cron task manager.' =>
-            '',
+            'Der Hintergrundprozess für den zeitgesteuerten Aufgabenplaner.',
         'The daemon registration for the scheduler future task manager.' =>
-            '',
+            'Der Hintergrundprozess für die zeitgesteuerte Planung der zukünftigen Aufgaben.',
         'The daemon registration for the scheduler generic agent task manager.' =>
             '',
         'The daemon registration for the scheduler task worker.' => '',
@@ -6761,9 +6770,9 @@ Ihr Helpdesk-Team
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
         'Ukrainian' => 'Ukrainisch',
-        'Unlock tickets that are past their unlock timeout.' => '',
+        'Unlock tickets that are past their unlock timeout.' => 'Geben Sie Tickets frei, deren Freigabe-Timeout abgelaufen ist.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
-            '',
+            'Geben Sie tickets frei, wenn eine Notiz hinzugefügt wurde und der Besitzer nicht im Büro ist.',
         'Unlocked ticket.' => 'Ticketsperre aufgehoben.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
@@ -6773,10 +6782,10 @@ Ihr Helpdesk-Team
         'Updated: %s' => 'Aktualisiert: %s',
         'Updated: %s=%s;%s=%s;%s=%s;' => 'Aktualisiert: %s=%s;%s=%s;%s=%s;',
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
-            '',
-        'Updates the ticket index accelerator.' => '',
+            'Aktualisiert den Ticket-Eskalations-Index nachdem ein Ticket-Attribut aktualisiert wurde.',
+        'Updates the ticket index accelerator.' => 'Aktualisiert den Ticket-Index-Beschleuniger.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
-            '',
+            'Nutzen Sie einen neuen Typ von Auswahl- und Autovervollständigen-Feldern in der Agenten-Schnittstelle, wo sie anwendbar sind (InputFields = Eingabefelder).',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
             '',
         'UserFirstname' => 'Benutzervorname',
@@ -6797,11 +6806,11 @@ Ihr Helpdesk-Team
             'Wir führen eine geplante Wartung durch. Wir werden bald wieder online sein.',
         'Web View' => 'Webansicht',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
+            'Wenn Tickets zusammengefasst werden, wird automatisch zu dem Ticket, das nicht länger aktiv ist, eine Notiz hinzugefügt. Hier können Sie den Textköper dieser Notiz definieren (dieser Text kann nicht durch den Agent verändert werden).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            '',
+            'Wenn Tickets zusammengefasst werden, wird automatisch zu dem Ticket, das nicht länger aktiv ist, eine Notiz hinzugefügt. Hier können Sie den Gegenstand dieser Notiz definieren (dieser Text kann nicht durch den Agent verändert werden).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
-            '',
+            'Wenn Tickets zusammengefasst werden, kann der Kunde durch Setzen des Kontrollkästchens "Sender informieren" per E-Mail informiert werden. In diesem Bereich können Sie einen vorformatierten Text definieren, der später durch die Agents modifiziert werden kann.',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             '',
         'Yes, but hide archived tickets' => 'Ja, aber archivierte Tickets verstecken',

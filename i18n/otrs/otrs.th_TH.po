@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-05-10 11:28+0000\n"
-"PO-Revision-Date: 2016-05-11 15:28+0000\n"
-"Last-Translator: OTRS SDN BHD <otrssdnbhd@gmail.com>\n"
+"POT-Creation-Date: 2016-06-22 10:40+0000\n"
+"PO-Revision-Date: 2016-06-22 15:42+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/otrs/OTRS/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3258,8 +3258,16 @@ msgid "Select"
 msgstr "เลือก"
 
 #. Template: AdminCustomerCompany
+msgid "only"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "shown"
 msgstr "แสดงให้เห็น"
+
+#. Template: AdminCustomerCompany
+msgid "more available"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "total"
@@ -3652,14 +3660,15 @@ msgid ""
 msgstr "คุณสามารถระบุตัวเลือกการเชื่อมโยง HTTPที่นี่ สำหรับข้อมูลในภาพรวมและหน้าจอซูม"
 
 #. Template: AdminDynamicFieldDateTime
-msgid "Enable link preview"
-msgstr "เปิดใช้งานตัวอย่างการเชื่อมโยง"
+msgid "Link for preview"
+msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
-"Activate this option to display a preview of the link configured above in "
-"AgentTicketZoom."
-msgstr "เปิดใช้งานตัวเลือกนี้เพื่อแสดงภาพตัวอย่างของการเชื่อมโยงกำหนดค่าดังกล่าวข้างต้นในAgentTicketZoom."
+"If filled in, this URL will be used for a preview which is shown when this "
+"link is hovered in ticket zoom. Please note that for this to work, the "
+"regular URL field above needs to be filled in, too."
+msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -5051,7 +5060,7 @@ msgstr "ตัวอย่างเช่น Web Services"
 msgid ""
 "Here you can activate best practice example web service that are part of %s."
 " Please note that some additional configuration may be required."
-msgstr ""
+msgstr "คุณสามารถเปิดใช้งานบริการที่ดีที่สุดเช่นการปฏิบัติเว็บที่เป็นส่วนหนึ่งของ %s ที่นี่ โปรดทราบว่าบการกำหนดค่าเพิ่มเติมบางอย่างอาจจำเป็นต้องใช้"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import example web service"
@@ -5060,7 +5069,7 @@ msgstr "นำเข้าบริการเว็บตัวอย่าง
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example processes."
+"to be able to import some sophisticated example web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -8640,12 +8649,8 @@ msgid "Select Target Object"
 msgstr "เลือกออบเจคของเป้าหมาย"
 
 #. Template: AgentLinkObject
-msgid "Link Object"
-msgstr "การเชื่อมโยงออบเจค"
-
-#. Template: AgentLinkObject
-msgid "with"
-msgstr "กับ"
+msgid "Link object %s with"
+msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
@@ -9534,7 +9539,7 @@ msgstr "ตัวอย่างสเกลเนื้อหา"
 
 #. Template: AgentTicketZoom
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "เปิด URL ในแท็บใหม่"
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
@@ -9542,8 +9547,8 @@ msgstr "ปิดการแสดงตัวอย่าง"
 
 #. Template: AgentTicketZoom
 msgid ""
-"OTRS can't provide a preview of this website because it seems as if it "
-"didn't allow to be embedded."
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9770,6 +9775,10 @@ msgstr "ออกจากระบบ %s %s"
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr "แยกการอ้างอิง"
+
+#. Template: CustomerRichTextEditor
+msgid "Open link"
+msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -9998,6 +10007,22 @@ msgstr "การเลือกวันที่เปิด"
 #. Template: Error
 msgid "An error occurred."
 msgstr "เกิดข้อผิดพลาด"
+
+#. Template: Error
+msgid ""
+"Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
+"installation of OTRS."
+msgstr ""
+
+#. Template: Error
+msgid ""
+"With %s, our experts take care of correct installation and cover your back "
+"with support and periodic security updates."
+msgstr ""
+
+#. Template: Error
+msgid "Contact our service team now."
+msgstr ""
 
 #. Template: Error
 msgid "Send a bugreport"
@@ -11197,15 +11222,15 @@ msgstr "ไม่ได้ตรวจสอบแพคเกจเนื่อ
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTRS Feature Add-on list server!"
-msgstr ""
+msgstr "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์คุณสมบัติ OTRS ที่อยู่ในรายการAdd-on !"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr ""
+msgstr "ไม่สามารถได้รับคุณสมบัติของเซิร์ฟเวอร์ OTRS ที่อยู่ในรายการAdd-on !"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on from server!"
-msgstr ""
+msgstr "ไม่สามารถได้รับคุณสมบัติ OTRS Add-on จากเซิร์ฟเวอร์!"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -11657,12 +11682,12 @@ msgid "Can not delete link with %s!"
 msgstr "ไม่สามารถลบการเชื่อมโยงด้วย %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Can not create link with %s!"
-msgstr "ไม่สามารถสร้างการเชื่อมโยงด้วย %s!"
+msgid "Can not create link with %s! Object already linked as %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Object already linked as %s."
-msgstr "ออบเจคถูกเชื่อมโยงเป็น %s"
+msgid "Can not create link with %s!"
+msgstr "ไม่สามารถสร้างการเชื่อมโยงด้วย %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
@@ -12035,7 +12060,7 @@ msgid ""
 "Wrong ActivityDialog Field config: %s can't be Display => 1 / Show field "
 "(Please change its configuration to be Display => 0 / Do not show field or "
 "Display => 2 / Show field as mandatory)!"
-msgstr ""
+msgstr "การตั้งค่าฟิลด์ Wrong ActivityDialog: %s ไม่สามารถแสดงผล => 1 / แสดงฟิลด์ (กรุณาเปลี่ยนการตั้งค่าให้เป็นการแสดงผล => 0 / ไม่แสดงข้อมูลหรือแสดงผล => 2 / แสดงข้อมูลเป็นจำเป็น)!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set %s for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
@@ -12410,20 +12435,20 @@ msgid "The start time of a ticket has been set after the end time!"
 msgstr "เวลาเริ่มต้นของตั๋วจะต้องตั้งค่าหลังเวลาสิ้นสุด!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter not active"
-msgstr "ตัวกรองไม่ได้ใช้งาน"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter active"
-msgstr "ตัวกรองที่ใช้งาน"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr "เรียงลำดับจากน้อยไปมาก"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted descending"
 msgstr "เรียงลำดับจากมากไปน้อย"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter not active"
+msgstr "ตัวกรองไม่ได้ใช้งาน"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter active"
+msgstr "ตัวกรองที่ใช้งาน"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -13341,7 +13366,7 @@ msgstr "รีเซ็ตหรือปลดล็อคเวลา"
 msgid ""
 "Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps"
 " the user is invalid."
-msgstr ""
+msgstr "ตื่นตระหนก ผู้ใช้ถูกตรวจสอบสิทธิ์แล้ว แต่ไม่มีข้อมูลของผู้ใช้ที่พบได้ใน OTRS DB !! บางทีผู้ใช้นี้ไม่ถูกต้อง"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID"
@@ -14109,6 +14134,13 @@ msgid ""
 "interface. With this feature you can search e. g. with this kind of "
 "conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
 msgstr "สามารถขยายเงื่อนไขการค้นหาในการค้นหาตั๋วของอินเตอร์เฟซลูกค้า ด้วยคุณสมบัตินี้คุณสามารถค้นหาเช่น กับชนิดของเงื่อนไขเช่นนี้ \"(key1&&key2)\" หรือ \"(key1||key2)\"."
+
+#. SysConfig
+msgid ""
+"Allows extended search conditions in ticket search of the generic agent "
+"interface. With this feature you can search e. g. ticket title with this "
+"kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14886,6 +14918,14 @@ msgstr "ค่าเริ่มต้นสำหรับ NameX"
 
 #. SysConfig
 msgid ""
+"Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = \"complex\").\n"
+"            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,\n"
+"            Core.Agent.TableFilters.js.\n"
+"        "
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Define a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
@@ -14943,6 +14983,13 @@ msgstr "กำหนดวันเริ่มต้นของสัปดา
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "กำหนดวันเริ่มต้นของสัปดาห์สำหรับตัวเลือกวัน"
+
+#. SysConfig
+msgid ""
+"Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = \"complex\").\n"
+"            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.\n"
+"            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15009,10 +15056,11 @@ msgstr "กำหนดตัวกรองสำหรับการแสด
 msgid ""
 "Defines a filter to collect CVE numbers from article texts in "
 "AgentTicketZoom. The results will be displayed in a meta box next to the "
-"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
-"the URL when moving your mouse cursor above the link element. Please note "
-"that some websites deny being displayed within an iframe (e.g. Google) and "
-"thus won't work with the preview mode."
+"article. Fill in URLPreview if you would like to see a preview when moving "
+"your mouse cursor above the link element. This could be the same URL as in "
+"URL, but also an alternate one. Please note that some websites deny being "
+"displayed within an iframe (e.g. Google) and thus won't work with the "
+"preview mode."
 msgstr ""
 
 #. SysConfig
@@ -15274,7 +15322,7 @@ msgid ""
 "tickets. If set to \"Yes\", only values which are actually used in any "
 "ticket will be available for filtering. Please note: The list of customers "
 "will always be retrieved like this."
-msgstr ""
+msgstr "กำหนดถ้าค่าสำหรับฟิลเตอร์ควรจะดึงมาจากตั๋วที่มีอยู่ทั้งหมด ถ้าตั้งค่าเป็น \"ใช่\" เฉพาะค่าที่ใช้จริงในการออกตั๋วใด ๆ จะสามารถใช้ได้สำหรับการกรอง โปรดทราบ: รายการของลูกค้าจะถูกดึงมาอย่างนี้"
 
 #. SysConfig
 msgid ""
@@ -15292,7 +15340,7 @@ msgstr "กำหนด หากการนับเวลาจะต้อ�
 msgid ""
 "Defines out of office message template. Two string parameters (%s) "
 "available: end date and number of days left."
-msgstr ""
+msgstr "กำหนดแม่แบบข้อความนอกสำนักงาน สองสตริงพารามิเตอร์ (% s) ที่สามารถใช้ได้: วันที่สิ้นสุดและจำนวนวันที่เหลือ"
 
 #. SysConfig
 msgid ""
@@ -16803,7 +16851,7 @@ msgid ""
 "This setting is only used as a variable, OTRS_CONFIG_HttpType which is found"
 " in all forms of messaging used by the application, to build links to the "
 "tickets within your system."
-msgstr ""
+msgstr "กำหนดประเภทของโปรโตคอลที่ใช้โดยเว็บเซิร์ฟเวอร์ที่จะให้บริการแอพลิเคชัน หากโปรโตคอล HTTPS จะถูกนำมาใช้แทน http ธรรมดาจะต้องมีการระบุไว้ที่นี่ เนื่องจากไม่มีผลต่อการตั้งค่าหรือพฤติกรรมเว็บเซิร์ฟเวอร์ก็จะไม่เปลี่ยนวิธีการในการเข้าถึงแอพลิเคชันและถ้ามันไม่ถูกต้องก็จะไม่ป้องกันคุณจากการเข้าสู่แอพลิเคชัน การตั้งค่านี้จะถูกใช้เป็นตัวแปร OTRS_CONFIG_HttpType ซึ่งพบได้ในทุกรูปแบบของข้อความที่ใช้โดยโปรแกรมเพื่อสร้างการเชื่อมโยงตั๋วภายในระบบของคุณเท่านั้น"
 
 #. SysConfig
 msgid ""
@@ -16912,6 +16960,12 @@ msgid "Deletes requested sessions if they have timed out."
 msgstr "ลบเซสชันที่ร้องขอหากหมดเวลา"
 
 #. SysConfig
+msgid ""
+"Delivers extended debugging information in the frontend in case any ajax "
+"errors occur, if enabled."
+msgstr ""
+
+#. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
 msgstr "ปรับใช้และจัดการ OTRS Business Solution™."
 
@@ -16976,7 +17030,7 @@ msgid ""
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
 "the recipient."
-msgstr ""
+msgstr "กำหนดเงื่อนไขที่จะแสดงเป็นผู้รับ (ไปยัง:) ตั๋วโทรศัพท์และเป็นผู้ส่ง (จาก:) ตั๋วอีเมลในอินเตอร์เฟซเอเย่นต์ คิวเป็น NewQueueSelectionType \"<คิว>\" จะแสดงชื่อของคิวและ SystemAddress ว่า \"<Realname> << อีเมล์ >>\" แสดงชื่อและอีเมล์ของผู้รับ"
 
 #. SysConfig
 msgid ""
@@ -16984,7 +17038,7 @@ msgid ""
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the recipient."
-msgstr ""
+msgstr "กำหนดเงื่อนไขที่จะแสดงเป็นผู้รับ (ไปยัง:) ตั๋วอีเมลในอินเตอร์เฟซลูกค้า คิวเป็น CustomerPanelSelectionType \"<คิว>\" จะแสดงชื่อของคิวและ SystemAddress ว่า \"<Realname> << อีเมล์ >>\" แสดงชื่อและอีเมล์ของผู้รับ"
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -17007,7 +17061,7 @@ msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
-msgstr ""
+msgstr "ปิดการใช้งานส่วนหัวของ HTTP \"X-Frame-Options: SAMEORIGIN\" เพื่อช่วยให้ OTRS ถูกรวมเป็น IFrame ในเว็บไซต์อื่น ๆ ปิดการใช้งานส่วนหัวของ HTTP นี้อาจจะเกิดปัญหาด้านความปลอดภัย! ปิดการใช้งานเมื่อคุณรู้ว่าสิ่งที่คุณกำลังทำคืออะไรเท่านั้น!"
 
 #. SysConfig
 msgid ""
@@ -17028,7 +17082,7 @@ msgid ""
 "system registration, support data sending, upgrading to and use of OTRS "
 "Business Solution™, OTRS Verify™, OTRS News and product News dashboard "
 "widgets, among others."
-msgstr ""
+msgstr "ปิดการใช้งานการสื่อสารระหว่างระบบนี้และเซิร์ฟเวอร์ OTRS กลุ่มที่ให้บริการระบบคลาวด์ หากใช้งาน ฟังก์ชั่นบางอย่างจะหายไปเช่น การลงทะเบียนระบบ การส่งข้อมูลสนับสนุน\nการอัพเกรดและการใช้ OTRS ธุรกิจโซลูชั่น™, OTRS ตรวจสอบ™, OTRS ข่าวสารและสินค้าแดชบอร์ดข่าวเครื่องมืออื่น ๆ ในกลุ่ม"
 
 #. SysConfig
 msgid ""
@@ -17037,7 +17091,7 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
-msgstr ""
+msgstr "ปิดใช้งานการติดตั้งเว็บ (http://yourhost.example.com/otrs/installer.pl) เพื่อป้องกันระบบจากการถูกแย่งชิง ถ้าตั้งค่าเป็น \"ไม่\" ระบบสามารถติดตั้งและการกำหนดค่าพื้นฐานในปัจจุบันจะถูกนำมาใช้เพื่อเติมคำถามภายในสคริปต์ติดตั้ง ถ้าไม่ได้ใช้งานก็จะปิดการใช้งาน GenericAgent, PackageManager และกล่อง SQL"
 
 #. SysConfig
 msgid ""
@@ -17113,7 +17167,7 @@ msgid ""
 "required. NOTE. If you want to display these fields also in the ticket zoom "
 "of the customer interface, you have to enable them in "
 "CustomerTicketZoom###DynamicField."
-msgstr ""
+msgstr "ตัวเลือกเขตข้อมูลแบบไดนามิกที่แสดงในหน้าจอข้อความตั๋วของอินเตอร์เฟซลูกค้า การตั้งค่าที่เป็นไปได้: 0 = ปิดการใช้งาน 1 = เปิดใช้งาน 2 = เปิดใช้งานและจำเป็นต้องใช้ หมายเหตุ. หากคุณต้องการแสดงเขตข้อมูลเหล่านี้ยังอยู่ในการซูมตั๋วของอินเตอร์เฟซของลูกค้าคุณต้องเปิดใช้งานพวกเขาใน CustomerTicketZoom ### DynamicField"
 
 #. SysConfig
 msgid ""
@@ -17174,7 +17228,7 @@ msgstr "ไดนามิคฟิลด์แสดงในหน้าตั
 msgid ""
 "Dynamic fields shown in the ticket medium format overview screen of the "
 "agent interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr ""
+msgstr "เขตข้อมูลแบบไดนามิกที่ปรากฏในรูปแบบภาพรวมของตั๋วขนาดกลางของอินเตอร์เฟซตัวแทน การตั้งค่าที่เป็นไปได้: 0 = ปิดการใช้งาน 1 = เปิดใช้งาน"
 
 #. SysConfig
 msgid ""
@@ -17348,7 +17402,7 @@ msgid ""
 "mail, it is HIGHLY recommended that the web server runs as the OTRS user. "
 "Otherwise, there will be problems with the privileges when accessing .gnupg "
 "folder."
-msgstr ""
+msgstr "เปิดใช้การสนับสนุน PGP เมื่อการสนับสนุน PGP เปิดใช้งานสำหรับการเซ็นชื่อและการเข้ารหัสอีเมลจึงขอแนะนำว่าเว็บเซิร์ฟเวอร์รันฐานะผู้ใช้ OTRS มิฉะนั้นจะมีปัญหาเกี่ยวกับสิทธิพิเศษเมื่อมีการเข้าถึงโฟลเดอร์ .gnupg"
 
 #. SysConfig
 msgid "Enables S/MIME support."
@@ -17368,7 +17422,7 @@ msgid ""
 "template caching for production environments for it will cause a massive "
 "performance drop! This setting should only be disabled for debugging "
 "reasons!"
-msgstr ""
+msgstr "เปิดหรือปิดใช้แคชสำหรับแม่แบบ คำเตือน: อย่าปิดการใช้งานแม่แบบแคชสำหรับสภาพแวดล้อมการผลิตจะทำให้ประสิทธิภาพการทำงานลดลงมหาศาล! การตั้งค่านี้ควรจะปิดการใช้งานสำหรับเหตุผลการดีบัก!"
 
 #. SysConfig
 msgid "Enables or disables the debug mode over frontend interface."
@@ -17384,7 +17438,7 @@ msgstr "เปิดหรือปิดใช้งานคุณลักษ
 msgid ""
 "Enables performance log (to log the page response time). It will affect the "
 "system performance. Frontend::Module###AdminPerformanceLog must be enabled."
-msgstr ""
+msgstr "เปิดใช้งานการล็อกผลการดำเนินงาน (เข้าสู่ระบบเวลาตอบสนองหน้า) มันจะส่งผลกระทบต่อประสิทธิภาพของระบบ ต้องเปิดใช้งาน Frontend::Module###AdminPerformanceLog"
 
 #. SysConfig
 msgid "Enables spell checker support."
@@ -17530,7 +17584,7 @@ msgstr "โมดูลเหตุการณ์ที่ปรับปรุ
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer."
-msgstr ""
+msgstr "โมดูลเหตุการณ์ที่ปรับปรุงตั๋วหลังจากการปรับปรุงของลูกค้า"
 
 #. SysConfig
 msgid "Events Ticket Calendar"
@@ -17544,37 +17598,37 @@ msgstr "_"
 msgid ""
 "Executes a custom command or module. Note: if module is used, function is "
 "required."
-msgstr ""
+msgstr "รันคำสั่งที่กำหนดเองหรือโมดูล หมายเหตุ: หากโมดูลมีการใช้ฟังก์ชั่นเป็นสิ่งจำเป็น"
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on In-Reply-To or References headers for mails "
 "that don't have a ticket number in the subject."
-msgstr ""
+msgstr "ดำเนินการตรวจการติดตามผลในการตรวจสอบใน In-Reply-To หรือการอ้างอิงข้อมูลส่วนหัวสำหรับอีเมลที่ไม่ได้หมายเลขตั๋วในเนื้อเรื่อง"
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on attachment contents for mails that don't have a"
 " ticket number in the subject."
-msgstr ""
+msgstr "ดำเนินการตรวจการติดตามผลในการตรวจสอบในเนื้อหาของสิ่งที่แนบมาสำหรับอีเมลที่ไม่ได้หมายเลขตั๋วในเนื้อเรื่อง"
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on email body for mails that don't have a ticket "
 "number in the subject."
-msgstr ""
+msgstr "ดำเนินการตรวจการติดตามผลในการตรวจสอบในเนื้อหาอีเมลสำหรับอีเมลที่ไม่ได้หมายเลขตั๋วในเนื้อเรื่อง"
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on the raw source email for mails that don't have "
 "a ticket number in the subject."
-msgstr ""
+msgstr "ดำเนินการตรวจการติดตามผลในการตรวจสอบในแหล่งที่มาอีเมลสำหรับอีเมลที่ไม่ได้หมายเลขตั๋วในเนื้อเรื่อง"
 
 #. SysConfig
 msgid ""
 "Exports the whole article tree in search result (it can affect the system "
 "performance)."
-msgstr ""
+msgstr "ส่งบทความทั้งหมดในผลการค้นหาออก (มันสามารถส่งผลกระทบต่อประสิทธิภาพการทำงานของระบบ)"
 
 #. SysConfig
 msgid "Fetch emails via fetchmail (using SSL)."
@@ -17590,25 +17644,25 @@ msgstr "ดึงข้อมูลอีเมลขาเข้าจากบ
 
 #. SysConfig
 msgid "Fetches packages via proxy. Overwrites \"WebUserAgent::Proxy\"."
-msgstr ""
+msgstr "เรียกแพคเกจผ่านพร็อกซี่ เขียนทับ \"WebUserAgent::Proxy\"."
 
 #. SysConfig
 msgid ""
 "File that is displayed in the Kernel::Modules::AgentInfo module, if located "
 "under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
-msgstr ""
+msgstr "ไฟล์ที่แสดงอยู่ในโมดูล Kernel::Modules::AgentInfo ซึ่งอยู่ใต้ Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
 
 #. SysConfig
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
 "format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
-msgstr ""
+msgstr "ตัวกรองสำหรับการดีบัก ACLs หมายเหตุ: คุณลักษณะตั๋วเพิ่มเติมสามารถเพิ่มในรูปแบบ <OTRS_TICKET_Attribute> เช่น <OTRS_TICKET_Priority>"
 
 #. SysConfig
 msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
 "format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
-msgstr ""
+msgstr "ตัวกรองสำหรับการดีบักการเปลี่ยนภาพ หมายเหตุ: ตัวกรองเพิ่มเติมสามารถเพิ่มในรูปแบบ<OTRS_TICKET_Attribute> เช่น <OTRS_TICKET_Priority>"
 
 #. SysConfig
 msgid "Filter incoming emails."
@@ -17660,11 +17714,11 @@ msgid ""
 "Forces to choose a different ticket state (from current) after lock action. "
 "Define the current state as key, and the next state after lock action as "
 "content."
-msgstr ""
+msgstr "บังคับให้เลือกสถานภาพของตั๋วที่แตกต่างกัน (จากปัจจุบัน) หลังจากการดำเนินการล็อค กําหนดสถานภาพในปัจจุบันเป็นคีย์และสถานภาพถัดไปหลังจากการดำเนินการล็อคเป็นเนื้อหา"
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
-msgstr ""
+msgstr "Forcesที่จะปลดล็อคตั๋วหลังจากที่ถูกย้ายไปยังอีกคิว"
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
@@ -17960,14 +18014,14 @@ msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and if you want to add a "
 "suffix to every customer login name, specifiy it here, e. g. you just want "
 "to write the username user but in your LDAP directory exists user@domain."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule และถ้าคุณต้องการที่จะเพิ่มคำต่อท้ายชื่อสำหรับเข้าสู่ระบบให้ลูกค้าทุกคน โปรดระบุที่นี่ เช่น คุณเพียงแค่เขียนชื่อผู้ใช้ แต่ในไดเรกทอรี LDAP จะเป็น user@domain."
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and special paramaters are"
 " needed for the Net::LDAP perl module, you can specify them here. See "
 "\"perldoc Net::LDAP\" for more information about the parameters."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule และพารามิเตอร์พิเศษที่มีความจำเป็นสำหรับโมดูล Perl Net::LDAP คุณสามารถระบุพวกเขาที่นี่ โปรดดูที่ \"perldoc Net::LDAP\" สำหรับข้อมูลเพิ่มเติมเกี่ยวกับพารามิเตอร์"
 
 #. SysConfig
 msgid ""
@@ -17989,39 +18043,39 @@ msgstr ""
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the BaseDN must be "
 "specified."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule จะต้องระบุ ฐาน DN "
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the LDAP host can be "
 "specified."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule สามารถระบุโฮสต์ LDAP ได้"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the user identifier must "
 "be specified."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule ตัวระบุผู้ใช้จะต้องระบุ"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, user attributes can be "
 "specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full "
 "user DN."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule ผู้ใช้สามารถระบุคุณลักษณะได้ สำหรับกลุ่ม LDAP POSIX ใช้UID, สำหรับผู้ที่ไม่ใช่กลุ่ม LDAP POSIX ผู้ใช้งานเต็มรูปแบบ DN"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, you can specify access "
 "attributes here."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule คุณสามารถระบุคุณลักษณะการเข้าถึงที่นี่"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, you can specify if the "
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule คุณสามารถระบุได้ว่าการใช้งานจะหยุดถ้าการเชื่อมต่อไปยังเซิร์ฟเวอร์ไม่สามารถสร้างเนื่องจากปัญหาเครือข่าย"
 
 #. SysConfig
 msgid ""
@@ -18029,13 +18083,13 @@ msgid ""
 " is allowed to authenticate because he is in a posixGroup, e.g. user needs "
 "to be in a group xyz to use OTRS. Specify the group, who may access the "
 "system."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule คุณสามารถตรวจสอบว่าผู้ใช้ที่ได้รับอนุญาตในการตรวจสอบเพราะเขาอยู่ใน posixGroup เช่น ผู้ใช้ต้องการที่จะอยู่ในกลุ่ม xyz เพื่อใช้ OTRS ระบุกลุ่มที่อาจเข้าสู่ระบบ"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected, you can add a filter to each LDAP query, e.g. "
 "(mail=*), (objectclass=user) or (!objectclass=computer)."
-msgstr ""
+msgstr "หาก \"LDAP\" ถูกเลือก คุณสามารถเพิ่มตัวกรองให้แต่ละแบบสอบถาม LDAP เช่น (mail=*), (objectclass=user) หรือ (!objectclass=computer)."
 
 #. SysConfig
 msgid ""
@@ -18066,7 +18120,7 @@ msgstr ""
 msgid ""
 "If \"SysLog\" was selected for LogModule, a special log facility can be "
 "specified."
-msgstr ""
+msgstr "หาก \"SysLog\" 5^dเลือกให้ LogModule สามารถระบุสิ่งอำนวยความสะดวกพิเศษการเข้าสู่ระบบได้"
 
 #. SysConfig
 msgid ""
@@ -18203,7 +18257,7 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
-msgstr ""
+msgstr "หากเปิดใช้งาน ตั๋วโทรศัพท์และตั๋วอีเมลจะเปิดในหน้าต่างใหม่"
 
 #. SysConfig
 msgid ""
@@ -18374,7 +18428,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"
-msgstr ""
+msgstr "หัวข้อล่าสุดของลูกค้า"
 
 #. SysConfig
 msgid "Lastname Firstname"
@@ -18399,6 +18453,10 @@ msgstr "ภาษาแลทเวีย"
 #. SysConfig
 msgid "Left"
 msgstr "ซ้าย"
+
+#. SysConfig
+msgid "Link Object"
+msgstr "การเชื่อมโยงออบเจค"
 
 #. SysConfig
 msgid "Link Object."
@@ -18538,11 +18596,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Mail Accounts"
-msgstr ""
+msgstr "บัญชีอีเมล"
 
 #. SysConfig
 msgid "Main menu registration."
-msgstr ""
+msgstr "การลงทะเบียนเมนูหลัก"
 
 #. SysConfig
 msgid ""
@@ -18599,7 +18657,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
+msgstr "ทำเครื่องหมายตั๋วนี้เป็นขยะ!"
 
 #. SysConfig
 msgid ""
@@ -18680,7 +18738,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "เบ็ดเตล็ด"
 
 #. SysConfig
 msgid ""
@@ -18745,7 +18803,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to generate ticket statistics."
-msgstr ""
+msgstr "โมดูลเพื่อสร้างสถิติตั๋ว"
 
 #. SysConfig
 msgid ""
@@ -18790,11 +18848,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to use database filter storage."
-msgstr ""
+msgstr "โมดูลที่จะใช้จัดเก็บฐานข้อมูลของตัวกรอง"
 
 #. SysConfig
 msgid "Multiselect"
-msgstr ""
+msgstr "หลายรายการ"
 
 #. SysConfig
 msgid "My Services"
@@ -19278,7 +19336,7 @@ msgstr "ตั๋วกระบวนการ"
 
 #. SysConfig
 msgid "Process pending tickets."
-msgstr ""
+msgstr "ตั๋วกระบวนการที่ค้างอยู่"
 
 #. SysConfig
 msgid "Process ticket"

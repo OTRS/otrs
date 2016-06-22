@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-05-10 11:28+0000\n"
-"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"POT-Creation-Date: 2016-06-22 10:40+0000\n"
+"PO-Revision-Date: 2016-06-22 15:42+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/otrs/OTRS/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -3258,7 +3258,15 @@ msgid "Select"
 msgstr "Seç"
 
 #. Template: AdminCustomerCompany
+msgid "only"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "shown"
+msgstr ""
+
+#. Template: AdminCustomerCompany
+msgid "more available"
 msgstr ""
 
 #. Template: AdminCustomerCompany
@@ -3652,13 +3660,14 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
-msgid "Enable link preview"
+msgid "Link for preview"
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
-"Activate this option to display a preview of the link configured above in "
-"AgentTicketZoom."
+"If filled in, this URL will be used for a preview which is shown when this "
+"link is hovered in ticket zoom. Please note that for this to work, the "
+"regular URL field above needs to be filled in, too."
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
@@ -5060,7 +5069,7 @@ msgstr ""
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example processes."
+"to be able to import some sophisticated example web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -8640,12 +8649,8 @@ msgid "Select Target Object"
 msgstr ""
 
 #. Template: AgentLinkObject
-msgid "Link Object"
-msgstr "Bağ Nesnesi"
-
-#. Template: AgentLinkObject
-msgid "with"
-msgstr "ile"
+msgid "Link object %s with"
+msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
@@ -9542,8 +9547,8 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid ""
-"OTRS can't provide a preview of this website because it seems as if it "
-"didn't allow to be embedded."
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9769,6 +9774,10 @@ msgstr ""
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
+msgstr ""
+
+#. Template: CustomerRichTextEditor
+msgid "Open link"
 msgstr ""
 
 #. Template: CustomerTicketMessage
@@ -9997,6 +10006,22 @@ msgstr "Seçili tarihi aç"
 
 #. Template: Error
 msgid "An error occurred."
+msgstr ""
+
+#. Template: Error
+msgid ""
+"Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
+"installation of OTRS."
+msgstr ""
+
+#. Template: Error
+msgid ""
+"With %s, our experts take care of correct installation and cover your back "
+"with support and periodic security updates."
+msgstr ""
+
+#. Template: Error
+msgid "Contact our service team now."
 msgstr ""
 
 #. Template: Error
@@ -11657,11 +11682,11 @@ msgid "Can not delete link with %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Can not create link with %s!"
+msgid "Can not create link with %s! Object already linked as %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Object already linked as %s."
+msgid "Can not create link with %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
@@ -12410,19 +12435,19 @@ msgid "The start time of a ticket has been set after the end time!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter not active"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter active"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted descending"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter not active"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter active"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
@@ -14112,6 +14137,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Allows extended search conditions in ticket search of the generic agent "
+"interface. With this feature you can search e. g. ticket title with this "
+"kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
 msgstr ""
@@ -14886,6 +14918,14 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = \"complex\").\n"
+"            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,\n"
+"            Core.Agent.TableFilters.js.\n"
+"        "
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Define a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
@@ -14942,6 +14982,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = \"complex\").\n"
+"            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.\n"
+"            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
 msgstr ""
 
 #. SysConfig
@@ -15009,10 +15056,11 @@ msgstr ""
 msgid ""
 "Defines a filter to collect CVE numbers from article texts in "
 "AgentTicketZoom. The results will be displayed in a meta box next to the "
-"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
-"the URL when moving your mouse cursor above the link element. Please note "
-"that some websites deny being displayed within an iframe (e.g. Google) and "
-"thus won't work with the preview mode."
+"article. Fill in URLPreview if you would like to see a preview when moving "
+"your mouse cursor above the link element. This could be the same URL as in "
+"URL, but also an alternate one. Please note that some websites deny being "
+"displayed within an iframe (e.g. Google) and thus won't work with the "
+"preview mode."
 msgstr ""
 
 #. SysConfig
@@ -16912,6 +16960,12 @@ msgid "Deletes requested sessions if they have timed out."
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Delivers extended debugging information in the frontend in case any ajax "
+"errors occur, if enabled."
+msgstr ""
+
+#. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
 msgstr ""
 
@@ -18399,6 +18453,10 @@ msgstr ""
 #. SysConfig
 msgid "Left"
 msgstr ""
+
+#. SysConfig
+msgid "Link Object"
+msgstr "Bağ Nesnesi"
 
 #. SysConfig
 msgid "Link Object."

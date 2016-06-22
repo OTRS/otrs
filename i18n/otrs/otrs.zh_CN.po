@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-05-10 11:28+0000\n"
-"PO-Revision-Date: 2016-05-10 16:30+0000\n"
+"POT-Creation-Date: 2016-06-22 10:40+0000\n"
+"PO-Revision-Date: 2016-06-22 15:42+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -3268,8 +3268,16 @@ msgid "Select"
 msgstr "选择"
 
 #. Template: AdminCustomerCompany
+msgid "only"
+msgstr ""
+
+#. Template: AdminCustomerCompany
 msgid "shown"
 msgstr "显示"
+
+#. Template: AdminCustomerCompany
+msgid "more available"
+msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "total"
@@ -3662,13 +3670,14 @@ msgid ""
 msgstr "可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。"
 
 #. Template: AdminDynamicFieldDateTime
-msgid "Enable link preview"
+msgid "Link for preview"
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
-"Activate this option to display a preview of the link configured above in "
-"AgentTicketZoom."
+"If filled in, this URL will be used for a preview which is shown when this "
+"link is hovered in ticket zoom. Please note that for this to work, the "
+"regular URL field above needs to be filled in, too."
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
@@ -5055,22 +5064,22 @@ msgstr "您真的想要删除这个Web服务吗？"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Example Web Services"
-msgstr ""
+msgstr "WEB服务示例"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate best practice example web service that are part of %s."
 " Please note that some additional configuration may be required."
-msgstr ""
+msgstr "在这里你可以激活%s一部分的WEB服务的最佳实践示例。请注意：可能需要一些额外的配置。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import example web service"
-msgstr ""
+msgstr "导入Web服务示例"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example processes."
+"to be able to import some sophisticated example web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -8052,7 +8061,7 @@ msgstr "添加导航栏条目"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBar module"
-msgstr ""
+msgstr "导航栏模块"
 
 #. Template: AdminSysConfigEdit
 msgid "Year"
@@ -8444,7 +8453,7 @@ msgstr "之内"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "关闭这个小部件"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
@@ -8650,12 +8659,8 @@ msgid "Select Target Object"
 msgstr "选择目标对象"
 
 #. Template: AgentLinkObject
-msgid "Link Object"
-msgstr "链接对象"
-
-#. Template: AgentLinkObject
-msgid "with"
-msgstr "和"
+msgid "Link object %s with"
+msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
@@ -9068,7 +9073,7 @@ msgstr "工单%s：首次响应时间将在%s/%s内超时！"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time is over (%s/%s)!"
-msgstr ""
+msgstr "工单%s：更新时间已超时(%s/%s)！"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
@@ -9540,20 +9545,20 @@ msgstr "不能打开信件！或许它在另外一个信件页面上打开了？
 
 #. Template: AgentTicketZoom
 msgid "Scale preview content"
-msgstr ""
+msgstr "缩放预览内容"
 
 #. Template: AgentTicketZoom
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "在新的标签页打开链接"
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
-msgstr ""
+msgstr "关闭预览"
 
 #. Template: AgentTicketZoom
 msgid ""
-"OTRS can't provide a preview of this website because it seems as if it "
-"didn't allow to be embedded."
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9780,6 +9785,10 @@ msgstr "退出 %s%s"
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr "拆分引用"
+
+#. Template: CustomerRichTextEditor
+msgid "Open link"
+msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10008,6 +10017,22 @@ msgstr "打开日历"
 #. Template: Error
 msgid "An error occurred."
 msgstr "发生了一个错误。"
+
+#. Template: Error
+msgid ""
+"Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
+"installation of OTRS."
+msgstr ""
+
+#. Template: Error
+msgid ""
+"With %s, our experts take care of correct installation and cover your back "
+"with support and periodic security updates."
+msgstr ""
+
+#. Template: Error
+msgid "Contact our service team now."
+msgstr ""
 
 #. Template: Error
 msgid "Send a bugreport"
@@ -10793,11 +10818,11 @@ msgstr "获得ID为%s 的ACL的数据时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "完全匹配"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
-msgstr ""
+msgstr "完全匹配取反"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
@@ -10805,15 +10830,15 @@ msgstr "正则表达式"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
-msgstr ""
+msgstr "正则表达式（忽略大小写）"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
-msgstr ""
+msgstr "正则表达式取反"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression (ignore case)"
-msgstr ""
+msgstr "正则表达式（忽略大小写）取反"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -10891,19 +10916,19 @@ msgstr "当前"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Unchecked"
-msgstr ""
+msgstr "未检查"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Checked"
-msgstr ""
+msgstr "已检查"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "防止未来的日期条目"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "防止过去的日期条目"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "This field value is duplicated."
@@ -10915,15 +10940,15 @@ msgstr "选择至少一个收件人。"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "归档工单"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "从归档中恢复工单"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "需要配置文件！"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -10977,27 +11002,27 @@ msgstr "不能更新WebserviceID %s的配置数据"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
-msgstr ""
+msgstr "保持（保持不变）"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop key/value pair)"
-msgstr ""
+msgstr "忽略（丢弃键/值对）"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Map to (use provided value as default)"
-msgstr ""
+msgstr "映射到（使用提供的值作为默认值）"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
-msgstr ""
+msgstr "准确值"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
-msgstr ""
+msgstr "忽略（丢弃键/值对）"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
-msgstr ""
+msgstr "不能找到需要的库%s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Need OperationType"
@@ -11049,7 +11074,7 @@ msgstr "需要名称！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
-msgstr ""
+msgstr "需要WEB服务示例！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -11075,7 +11100,7 @@ msgstr "没有 WebserviceHistoryID ！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Could not get history data for WebserviceHistoryID %s"
-msgstr ""
+msgstr "不能获取WebserviceHistoryID为%s的历史数据"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Notification updated!"
@@ -11207,15 +11232,15 @@ msgstr "不能验证软件包，因为与验证服务器无法正常通讯！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTRS Feature Add-on list server!"
-msgstr ""
+msgstr "不能连接到OTRS附加功能列表服务器！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr ""
+msgstr "不能从服务器获取OTRS附加功能列表！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on from server!"
-msgstr ""
+msgstr "不能从服务器获取OTRS附加功能！"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -11231,7 +11256,7 @@ msgstr "需要流程ID！"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "是（强制）"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
@@ -11568,7 +11593,7 @@ msgstr "问候语已添加！"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
-msgstr ""
+msgstr "不能读取文件%s！"
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Import not allowed!"
@@ -11667,12 +11692,12 @@ msgid "Can not delete link with %s!"
 msgstr "不能删除到%s的链接！"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Can not create link with %s!"
-msgstr "不能创建到%s的链接！"
+msgid "Can not create link with %s! Object already linked as %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Object already linked as %s."
-msgstr "对象已经链接为%s。"
+msgid "Can not create link with %s!"
+msgstr "不能创建到%s的链接！"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
@@ -12061,7 +12086,7 @@ msgstr "Process::Default%s 默认配置无效！"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
-msgstr ""
+msgstr "无标题"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
@@ -12323,15 +12348,15 @@ msgstr "如果你要使用安装器，设置WEB服务器用户对文件Kernel/Co
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Check!"
-msgstr ""
+msgstr "未知的检查！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "The check \"%s\" doesn't exist!"
-msgstr ""
+msgstr "检查“%s”不存在！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "数据库%s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
@@ -12420,20 +12445,20 @@ msgid "The start time of a ticket has been set after the end time!"
 msgstr "工单开始时间被设置在结束时间之后！"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter not active"
-msgstr "过滤器没有激活"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "filter active"
-msgstr "过滤器是活动的"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr "升序排序"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted descending"
 msgstr "降序排序"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter not active"
+msgstr "过滤器没有激活"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
+msgid "filter active"
+msgstr "过滤器是活动的"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -12459,7 +12484,7 @@ msgstr "这个用户当前不可用"
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "很抱歉，在这个工单的当前状态下你无权访问。你可以采取下列操作之一："
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
@@ -13345,7 +13370,7 @@ msgstr "问题"
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr ""
+msgstr "重置解锁时间。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -13359,7 +13384,7 @@ msgstr "不能移除会话ID"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "成功注销。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Panic! Invalid Session!!!"
@@ -13387,16 +13412,16 @@ msgstr "不能发送帐户信息！"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "SecureMode active!"
-msgstr ""
+msgstr "激活了安全模式！"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr ""
+msgstr "如果你要重新运行安装程序，请在系统配置中禁用安全模式"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "没有找到操作“%s”！"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
@@ -13721,7 +13746,7 @@ msgstr "（登录用户名）姓, 名"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr ""
+msgstr "*** %s前不在办公室（还有%s天）***"
 
 #. SysConfig
 msgid "100 (Expert)"
@@ -13892,11 +13917,11 @@ msgstr "在...之后"
 
 #. SysConfig
 msgid "Agent Name"
-msgstr ""
+msgstr "服务人员姓名"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
-msgstr ""
+msgstr "服务人员姓名 + 隔离符号 + 系统邮件地址显示姓名"
 
 #. SysConfig
 msgid "Agent Preferences."
@@ -14119,6 +14144,13 @@ msgid ""
 "interface. With this feature you can search e. g. with this kind of "
 "conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
 msgstr "允许在客户界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。"
+
+#. SysConfig
+msgid ""
+"Allows extended search conditions in ticket search of the generic agent "
+"interface. With this feature you can search e. g. ticket title with this "
+"kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14756,7 +14788,7 @@ msgstr "客户通过WEB提交的请求。"
 
 #. SysConfig
 msgid "Customer ticket overview"
-msgstr ""
+msgstr "客户工单概览"
 
 #. SysConfig
 msgid "Customer ticket search."
@@ -14764,7 +14796,7 @@ msgstr "客户工单搜索。"
 
 #. SysConfig
 msgid "Customer ticket zoom"
-msgstr ""
+msgstr "客户工单详情"
 
 #. SysConfig
 msgid "Customer user search"
@@ -14896,6 +14928,14 @@ msgstr "NameX的默认值"
 
 #. SysConfig
 msgid ""
+"Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = \"complex\").\n"
+"            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,\n"
+"            Core.Agent.TableFilters.js.\n"
+"        "
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Define a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
@@ -14953,6 +14993,13 @@ msgstr "为选定的日历定义日期选择器中一周的起始日。"
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "定义日期选择器中一周的起始日。"
+
+#. SysConfig
+msgid ""
+"Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = \"complex\").\n"
+"            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.\n"
+"            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15019,10 +15066,11 @@ msgstr "定义HTML输出结果中在BUG追踪号码后面添加链接的过滤�
 msgid ""
 "Defines a filter to collect CVE numbers from article texts in "
 "AgentTicketZoom. The results will be displayed in a meta box next to the "
-"article. Set EnableLinkPreview to 1 if you would like to see a preview of "
-"the URL when moving your mouse cursor above the link element. Please note "
-"that some websites deny being displayed within an iframe (e.g. Google) and "
-"thus won't work with the preview mode."
+"article. Fill in URLPreview if you would like to see a preview when moving "
+"your mouse cursor above the link element. This could be the same URL as in "
+"URL, but also an alternate one. Please note that some websites deny being "
+"displayed within an iframe (e.g. Google) and thus won't work with the "
+"preview mode."
 msgstr ""
 
 #. SysConfig
@@ -15302,7 +15350,7 @@ msgstr "定义在批量操作中是否设置所有工单的工时管理。"
 msgid ""
 "Defines out of office message template. Two string parameters (%s) "
 "available: end date and number of days left."
-msgstr ""
+msgstr "定义不在办公室的消息模板。有两个字符串参数（%s）：结束日期和剩余天数。"
 
 #. SysConfig
 msgid ""
@@ -16922,6 +16970,12 @@ msgid "Deletes requested sessions if they have timed out."
 msgstr "删除超时的会话请求。"
 
 #. SysConfig
+msgid ""
+"Delivers extended debugging information in the frontend in case any ajax "
+"errors occur, if enabled."
+msgstr ""
+
+#. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
 msgstr "部署并管理OTRS商业版。"
 
@@ -18384,7 +18438,7 @@ msgstr "搜索界面的JavaScript函数。"
 
 #. SysConfig
 msgid "Last customer subject"
-msgstr ""
+msgstr "最后客户主题"
 
 #. SysConfig
 msgid "Lastname Firstname"
@@ -18409,6 +18463,10 @@ msgstr "拉脱维亚语"
 #. SysConfig
 msgid "Left"
 msgstr "左"
+
+#. SysConfig
+msgid "Link Object"
+msgstr "链接对象"
 
 #. SysConfig
 msgid "Link Object."
@@ -18929,7 +18987,7 @@ msgstr "处理中的工单（客户）"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "选项"
 
 #. SysConfig
 msgid ""
@@ -19027,7 +19085,7 @@ msgstr "服务人员界面偏好设置刷新时间对象的参数。"
 
 #. SysConfig
 msgid "Parameters for the column filters of the small ticket overview."
-msgstr ""
+msgstr "工单概览简洁模式的字段过滤器参数。"
 
 #. SysConfig
 msgid ""
@@ -21177,7 +21235,7 @@ msgstr "瑞典语"
 
 #. SysConfig
 msgid "System Address Display Name"
-msgstr ""
+msgstr "系统邮件地址显示姓名"
 
 #. SysConfig
 msgid "System Maintenance"
@@ -21512,7 +21570,7 @@ msgstr "显示工单邮件的纯文本。"
 
 #. SysConfig
 msgid "Ticket title"
-msgstr ""
+msgstr "工单标题"
 
 #. SysConfig
 msgid "Ticket zoom view."
@@ -21742,7 +21800,7 @@ msgstr "工单被合并时，通过设置“通知发送人”复选框选项，
 msgid ""
 "Whether or not to collect meta information from articles using filters "
 "configured in Ticket::Frontend::ZoomCollectMetaFilters."
-msgstr ""
+msgstr "通过在Ticket::Frontend::ZoomCollectMetaFilters中配置的过滤器确定是否收集信件元信息。"
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"

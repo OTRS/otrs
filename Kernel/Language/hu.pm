@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.999159487287245;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -240,9 +240,9 @@ sub Data {
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Sikertelen bejelentkezés! A megadott felhasználónév vagy jelszó hibás.',
         'There is no acount with that user name.' => 'Azzal a bejelentkező névvel nincs fiók.',
-        'Please contact your administrator' => 'Lépjen kapcsolatba az adminisztrátorral',
+        'Please contact your administrator' => 'Vegye fel a kapcsolatot a rendszergazdával',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            'A hitelesítés sikerült, de nem található ügyfélrekord az ügyfél háttérprogramban. Lépjen kapcsolatba az adminisztrátorral.',
+            'A hitelesítés sikerült, de nem található ügyfélrekord az ügyfél háttérprogramban. Vegye fel a kapcsolatot a rendszergazdával.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Ez az e-mail cím már létezik. Jelentkezzen be, vagy állítsa vissza a jelszavát.',
         'Logout' => 'Kilépés',
@@ -909,7 +909,9 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Helyettesítő karakterek (például „*”) engedélyezettek.',
         'Add customer' => 'Ügyfél hozzáadása',
         'Select' => 'Kiválasztás',
+        'only' => '',
         'shown' => 'megjelenített',
+        'more available' => '',
         'total' => 'összesen',
         'Please enter a search term to look for customers.' => 'Adjon meg egy keresési kifejezést az ügyfelek kereséséhez.',
         'Add Customer' => 'Ügyfél hozzáadása',
@@ -1032,9 +1034,9 @@ sub Data {
         'Show link' => 'Hivatkozás megjelenítése',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Itt határozható meg egy opcionális HTTP hivatkozás a mező értékéhez az áttekintőben és a nagyítási képernyőkön.',
-        'Enable link preview' => 'Hivatkozás-előnézet engedélyezése',
-        'Activate this option to display a preview of the link configured above in AgentTicketZoom.' =>
-            'Aktiválja ezt a lehetőséget a fent beállított hivatkozás előnézetének megjelenítéséhez az ügyintézői jegynagyításban.',
+        'Link for preview' => 'Hivatkozás az előnézethez',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            'Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, amely akkor jelenik meg, amikor erre a hivatkozásra rámutatnak a jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos URL-mezőt is ki kell tölteni.',
         'Restrict entering of dates' => 'Korlátozás dátumok bevitelére',
         'Here you can restrict the entering of dates of tickets.' => 'Itt korlátozható a jegyek dátumának bevitele.',
 
@@ -1441,8 +1443,8 @@ sub Data {
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             'Itt kapcsolhatja be a legjobb gyakorlat szerinti példa webszolgáltatást, amely a következő része: %s. Ne feledje, hogy néhány további beállítás lehet szükséges.',
         'Import example web service' => 'Példa webszolgáltatás importálása',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            'Szeretné élvezni a szakértők által létrehozott webszolgáltatások előnyeit? Ahhoz, hogy lehetősége legyen néhány kitapasztalt példafolyamat importálására, frissítsen a következőre: %s.',
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
+            'Szeretné élvezni a szakértők által létrehozott webszolgáltatások előnyeit? Ahhoz, hogy lehetősége legyen néhány kitapasztalt példa webszolgáltatás importálására, frissítsen a következőre: %s.',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'A beállítások mentése után ismét átirányításra kerül a szerkesztő képernyőre.',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -2574,8 +2576,7 @@ sub Data {
         'Link Object: %s' => 'Objektum összekapcsolása: %s',
         'go to link delete screen' => 'ugrás a kapcsolat törlés képernyőre',
         'Select Target Object' => 'Kijelölt célobjektum',
-        'Link Object' => 'Objektum összekapcsolása',
-        'with' => 'ezzel',
+        'Link object %s with' => '%s objektum összekapcsolása ezzel',
         'Unlink Object: %s' => 'Objektum kapcsolatának törlése: %s',
         'go to link add screen' => 'ugrás a kapcsolat hozzáadás képernyőre',
 
@@ -2867,8 +2868,8 @@ sub Data {
         'Scale preview content' => 'Előnézet tartalmának méretezése',
         'Open URL in new tab' => 'URL megnyitása új lapon',
         'Close preview' => 'Előnézet bezárása',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
-            'Az OTRS nem tudja szolgáltatni a weboldal előnézetét, mert úgy tűnik, mintha nem engedné meg a beágyazását.',
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
+            'Ennek a weboldalnak nem lehet biztosítani az előnézetét, mert nem engedte meg a beágyazását.',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Az adatai védelme érdekében a távoli tartalom blokkolva lett.',
@@ -2947,6 +2948,7 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Idézet felosztása',
+        'Open link' => 'Hivatkozás megnyitása',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Szolgáltatási szint megállapodás',
@@ -3020,6 +3022,11 @@ sub Data {
 
         # Template: Error
         'An error occurred.' => 'Hiba történt.',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            'Valóban hiba? 10-ből 5 hibajelentés az OTRS hibás vagy befejezetlen telepítéséből származik.',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            'A(z) %s használatával a szakértőink gondoskodnak a jelenlegi telepítésről, és támogatást nyújtanak, valamint rendszeres biztonsági frissítéseket biztosítanak.',
+        'Contact our service team now.' => 'Vegye fel a kapcsolatot a szolgáltatási csapatunkkal most.',
         'Send a bugreport' => 'Hibajelentés küldése',
         'Error Details' => 'Hiba részletei',
 
@@ -3618,8 +3625,8 @@ sub Data {
         'Please contact the admin.' => 'Vegye fel a kapcsolatot a rendszergazdával.',
         'You need ro permission!' => 'Csak olvasható jogosultságra van szüksége!',
         'Can not delete link with %s!' => 'A következővel való kapcsolat nem törölhető: %s!',
+        'Can not create link with %s! Object already linked as %s.' => 'Nem lehet kapcsolatot létrehozni ezzel: %s! Az objektum már a következőként kapcsolódik: %s.',
         'Can not create link with %s!' => 'A következővel való kapcsolat nem hozható létre: %s!',
-        'Object already linked as %s.' => 'Az objektum már a következőként kapcsolódik: %s.',
         'The object %s cannot link with other object!' => 'A(z) %s objektum nem kapcsolható össze más objektummal!',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -3887,10 +3894,10 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => 'Egy jegy kezdési ideje a befejezési ideje után lett beállítva!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'filter not active' => 'a szűrő nem aktív',
-        'filter active' => 'a szűrő aktív',
         'sorted ascending' => 'növekvően rendezve',
         'sorted descending' => 'csökkenően rendezve',
+        'filter not active' => 'a szűrő nem aktív',
+        'filter active' => 'a szűrő aktív',
         'This ticket has no title or subject' => 'Ennek a jegynek nincs címe vagy tárgya',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -3915,7 +3922,7 @@ sub Data {
         'A system maintenance period will start at: ' => 'Egy rendszerkarbantartás időszak fog kezdődni ekkor: ',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => 'Lépjen kapcsolatba az adminisztrátorral!',
+        'Please contact your administrator!' => 'Vegye fel a kapcsolatot a rendszergazdával!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(folyamatban)',
@@ -4260,7 +4267,7 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Reset password unsuccessful. Please contact your administrator' =>
-            'A jelszó visszaállítása sikertelen. Lépjen kapcsolatba az adminisztrátorral',
+            'A jelszó visszaállítása sikertelen. Vegye fel a kapcsolatot a rendszergazdával',
         'Added via Customer Panel (%s)' => 'Hozzáadva az ügyfélpanelen keresztül (%s)',
         'Customer user can\'t be added!' => 'Az ügyfél-felhasználót nem lehet hozzáadni!',
         'Can\'t send account info!' => 'Nem lehet elküldeni a fiókinformációkat!',
@@ -4504,9 +4511,11 @@ Az Ön segélyszolgálat csapata
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Lehetővé teszi szolgáltatások és SLA-k meghatározását a jegyekhez (például e-mail, asztali, hálózat, …), és eszkalációs jellemzőket az SLA-khoz (ha a jegy szolgáltatás/SLA funkció engedélyezve van).',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Lehetővé teszi a kiterjesztett keresési feltételeket az ügyintézői felület jegy keresésében. Ezzel a funkcióval például olyan típusú feltételekkel kereshet mint „(kulcs1&&kulcs2)” vagy „(kulcs1||kulcs2)”.',
+            'Lehetővé teszi a kiterjesztett keresési feltételeket az ügyintézői felület jegykeresésében. Ezzel a funkcióval például olyan típusú feltételekkel kereshet mint „(kulcs1&&kulcs2)” vagy „(kulcs1||kulcs2)”.',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Kiterjesztett keresési feltételeket tesz lehetővé az ügyfélfelület jegykeresésében. Ezzel a szolgáltatással rákereshet például az olyan típusú feltételekre is, mint „(kulcs1&&kulcs2)” vagy „(kulcs1||kulcs2)”.',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            'Lehetővé teszi a kiterjesztett keresési feltételeket az általános ügyintézői felület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”.',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Lehetővé teszi a közepes formátumú jegyáttekintőt (CustomerInfo => 1 - megjeleníti az ügyfél-információkat is).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4726,6 +4735,10 @@ Az Ön segélyszolgálat csapata
         'Default ticket ID used by the system in the customer interface.' =>
             'A rendszer által alapértelmezetten használt jegyazonosító az ügyfélfelületen.',
         'Default value for NameX' => 'A NameX alapértelmezett értéke',
+        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
+            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
+            Core.Agent.TableFilters.js.
+        ' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon egy meghatározott szöveg mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4741,6 +4754,9 @@ Az Ön segélyszolgálat csapata
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'A hét kezdőnapjának meghatározása a jelzett naptár dátumválasztójánál.',
         'Define the start day of the week for the date picker.' => 'A hét kezdőnapjának meghatározása a dátumválasztónál.',
+        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
+            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
+            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Egy ügyfélelemet határoz meg, amely egy LinkedIn ikont állít elő az ügyfél információs blokk végén.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4759,8 +4775,8 @@ Az Ön segélyszolgálat csapata
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon egy meghatározott szöveg mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
-        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Set EnableLinkPreview to 1 if you would like to see a preview of the URL when moving your mouse cursor above the link element. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
-            'Egy szűrőt határoz meg CVE számok begyűjtéséhez a bejegyzés szövegeiből az ügyintézői jegynagyításban. Az eredmények egy metadobozban lesznek megjelenítve a bejegyzés mellett. Állítsa az EnableLinkPreview beállítást 1-re, ha látni szeretné az URL előnézetét, amikor az egérkurzort a linkelem fölé viszi. Ne feledje, hogy néhány weboldal (például Google) nem hagyja, hogy egy belső kereten belül jelenítsék meg, és emiatt az nem fog működni előnézeti módban.',
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+            'Egy szűrőt határoz meg CVE számok begyűjtéséhez a bejegyzés szövegeiből az ügyintézői jegynagyításban. Az eredmények egy metadobozban lesznek megjelenítve a bejegyzés mellett. Töltse ki az URLPreview mezőt, ha egy előnézetet szeretne látni, amikor az egérkurzort a linkelem fölé viszi. Ez lehet ugyanaz az URL mint az URL mezőben van, de lehet egy másik is. Ne feledje, hogy néhány weboldal (például Google) nem hagyja, hogy egy belső kereten belül jelenítsék meg, és emiatt az nem fog működni előnézeti módban.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Egy szűrőt határoz meg a bejegyzésekben lévő szöveg feldolgozásához annak érdekében, hogy kiemelje az előre meghatározott kulcsszavakat.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -5361,6 +5377,8 @@ Az Ön segélyszolgálat csapata
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Töröl egy munkamenetet, ha a munkamenet azonosítót egy érvénytelen távoli IP-vel használják.',
         'Deletes requested sessions if they have timed out.' => 'Törli a kért munkameneteket, ha túllépték az időkorlátot.',
+        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+            'Kiterjesztett hibakeresési információkat szolgáltat az előtétprogramon abban az esetben, ha bármilyen AJAX-hiba történik, ha engedélyezve van.',
         'Deploy and manage OTRS Business Solution™.' => 'Az OTRS Business Solution™ telepítése és kezelése.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Meghatározza, hogy a lehetséges várólisták listája, amelybe a jegyet áthelyezik, egy legördülő listában vagy egy új ablakban legyen megjelenítve az ügyintézői felületen. Ha „Új ablak” van beállítva, akkor egy áthelyezési megjegyzést adhat a jegyhez.',
@@ -5807,6 +5825,7 @@ Az Ön segélyszolgálat csapata
         'Lastname, Firstname (UserLogin)' => 'Vezetéknév, Keresztnév (Felhasználónév)',
         'Latvian' => 'Lett',
         'Left' => 'Bal',
+        'Link Object' => 'Objektum összekapcsolása',
         'Link Object.' => 'Objektum összekapcsolása.',
         'Link agents to groups.' => 'Ügyintézők összekapcsolása csoportokkal.',
         'Link agents to roles.' => 'Ügyintézők összekapcsolása szerepekkel.',
@@ -6811,7 +6830,7 @@ Az Ön segélyszolgálat csapata
         'debug' => 'hibakeresés',
         'error' => 'hiba',
         'info' => 'információ',
-        'inline' => 'sorközi',
+        'inline' => 'beágyazott',
         'notice' => 'értesítés',
 
     };
