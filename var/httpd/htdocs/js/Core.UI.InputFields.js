@@ -654,6 +654,9 @@ Core.UI.InputFields = (function (TargetNS) {
                         .each(function () {
                             $TreeObj.jstree('select_node', this);
                         });
+
+                    return false;
+
                 });
                 break;
 
@@ -682,6 +685,9 @@ Core.UI.InputFields = (function (TargetNS) {
                             $TreeObj.jstree('deselect_node', this);
                         }
                     });
+
+                    return false;
+
                 });
                 break;
 
