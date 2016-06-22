@@ -1,4 +1,5 @@
 #5.0.11 2016-??-??
+ - 2016-06-22 Fixed bug#[12143](http://bugs.otrs.org/show_bug.cgi?id=12143) - TicketSearch: if you filter a search attribute and then select 'all', the search screen disappear.
  - 2016-06-21 Fixed bug#[12114](http://bugs.otrs.org/show_bug.cgi?id=12114) - Reply to an outbound email-internal may fail to be classified as email-internal.
  - 2016-06-21 Fixed bug#[12100](http://bugs.otrs.org/show_bug.cgi?id=12100) - Error Premature end of script headers: index.pl when using long URL.
  - 2016-06-20 Improved performance of CustomerGroup::GroupMemberList(), thanks to Thorsten Eckel.
