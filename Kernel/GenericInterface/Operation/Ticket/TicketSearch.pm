@@ -374,7 +374,7 @@ sub _GetParams {
         qw(From To Cc Subject Body
         Agent ResultForm TimeSearchType ChangeTimeSearchType LastChangeTimeSearchType CloseTimeSearchType UseSubQueues
         ArticleTimeSearchType SearchInArchive
-        Fulltext ShownAttributes AttachmentName
+        Fulltext ContentSearch ShownAttributes AttachmentName
         )
         )
     {
