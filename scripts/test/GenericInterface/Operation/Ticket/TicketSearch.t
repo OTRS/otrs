@@ -1346,6 +1346,29 @@ my @Tests = (
         },
         Operation => 'TicketSearch',
     },
+
+    {
+        Name           => "Test ContentSearch Parameter" . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Body => 'not too long',
+            Subject => 'not too long',
+            ContentSearch => 'OR',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [$TicketID4],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID4,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
 );
 
 # Add a wrong value test for each possible parameter on direct search
