@@ -11800,10 +11800,7 @@ Thanks for your help!
     </ConfigItem>
 
     <ConfigItem Name="LinkObject::ComplexTable::SettingsVisibility###Ticket" Required="0" Valid="1">
-        <Description Translatable="1">Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
-            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
-            Core.Agent.TableFilters.js.
-        </Description>
+        <Description Translatable="1">Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::LinkObject</SubGroup>
         <Setting>
@@ -11813,9 +11810,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LinkObject::ComplexTable###Ticket" Required="0" Valid="1">
-        <Description Translatable="1">Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
-            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
-            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
+        <Description Translatable="1">Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::LinkObject</SubGroup>
         <Setting>
