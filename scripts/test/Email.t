@@ -36,12 +36,12 @@ my @Tests = (
     {
         Name => 'ascii',
         Data => {
-            From    => 'john.smith@example.com',
-            To      => 'john.smith2@example.com',
-            Subject => 'some subject',
-            Body    => 'Some Body',
-            Type    => 'text/plain',
-            Charset => 'utf8',
+            From     => 'john.smith@example.com',
+            To       => 'john.smith2@example.com',
+            Subject  => 'some subject',
+            Body     => 'Some Body',
+            MimeType => 'text/plain',
+            Charset  => 'utf8',
         },
     },
     {
@@ -51,9 +51,9 @@ my @Tests = (
             To   => '"Hans Kölner" <friend@example.com>',
             Subject =>
                 'This is a text with öäüßöäüß to check for problems äöüÄÖüßüöä!',
-            Body    => "Some Body\nwith\n\nöäüßüüäöäüß1öää?ÖÄPÜ",
-            Type    => 'text/plain',
-            Charset => 'utf8',
+            Body     => "Some Body\nwith\n\nöäüßüüäöäüß1öää?ÖÄPÜ",
+            MimeType => 'text/plain',
+            Charset  => 'utf8',
         },
     },
     {
@@ -63,20 +63,20 @@ my @Tests = (
             To   => 'friend@example.com',
             Subject =>
                 'это специальныйсабжект для теста системы тикетов',
-            Body    => "Some Body\nlala",
-            Type    => 'text/plain',
-            Charset => 'utf8',
+            Body     => "Some Body\nlala",
+            MimeType => 'text/plain',
+            Charset  => 'utf8',
         },
     },
     {
         Name => 'utf8 - high unicode characters',
         Data => {
-            From    => '"Служба поддержки (support)" <me@example.com>',
-            To      => 'friend@example.com',
-            Subject => 'Test related to bug#9832',
-            Body    => "\x{2660}",
-            Type    => 'text/plain',
-            Charset => 'utf8',
+            From     => '"Служба поддержки (support)" <me@example.com>',
+            To       => 'friend@example.com',
+            Subject  => 'Test related to bug#9832',
+            Body     => "\x{2660}",
+            MimeType => 'text/plain',
+            Charset  => 'utf8',
         },
     },
 );
