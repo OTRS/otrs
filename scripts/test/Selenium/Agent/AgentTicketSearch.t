@@ -202,6 +202,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MinCharString);
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
+
         # verify alert message
         my $ExpectedAlertText = "Fulltext: $MinCharString";
         $Self->True(
@@ -217,6 +219,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
+
         # verify alert message
         $ExpectedAlertText = "Fulltext: $MaxCharString";
         $Self->True(
@@ -231,6 +235,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "Fulltext", 'name' )->clear();
         $Selenium->find_element( "Fulltext", 'name' )->send_keys('because');
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
 
         # verify alert message
         $ExpectedAlertText = "Fulltext: because";
