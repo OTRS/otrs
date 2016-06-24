@@ -19,7 +19,28 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        # get sysconfig object
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # make sure we start with RuntimeDB search
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::SearchIndexModule',
+            Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
+        );
+
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        $ConfigObject->Set(
+            Key   => 'Ticket::SearchIndexModule',
+            Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
+        );
 
         # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -35,8 +56,11 @@ $Selenium->RunTest(
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+        # create random variable
+        my $RandomID = $Helper->GetRandomID();
+
         # create test ticket
-        my $TitleRandom  = "Title" . $Helper->GetRandomID();
+        my $TitleRandom  = "Title" . $RandomID;
         my $TicketNumber = $TicketObject->TicketCreateNumber();
         my $TicketID     = $TicketObject->TicketCreate(
             TN         => $TicketNumber,
@@ -54,13 +78,35 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
+        # create test article
+        my $MinCharString = 'ct';
+        my $MaxCharString = $RandomID . 'text' . $RandomID;
+        my $Subject       = 'SubjectTitle' . $RandomID;
+        my $ArticleID     = $TicketObject->ArticleCreate(
+            TicketID    => $TicketID,
+            ArticleType => 'note-internal',
+            SenderType  => 'agent',
+            Subject     => $Subject,
+            Body =>
+                "'maybe $MinCharString in an abbreviation' this is string with more than 30 characters $MaxCharString",
+            ContentType    => 'text/plain; charset=ISO-8859-15',
+            HistoryType    => 'OwnerUpdate',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+            NoAgentNotify  => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "Article is created - ID $ArticleID",
+        );
+
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AgentTicketSearch screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form and overlay has loaded, if neccessary
+        # wait until form and overlay has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # check ticket search page
@@ -87,7 +133,7 @@ $Selenium->RunTest(
         # navigate to AgentTicketSearch screen again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form and overlay has loaded, if neccessary
+        # wait until form and overlay has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # input wrong search parameters, result should be 'No ticket data found'
@@ -98,6 +144,115 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), "No ticket data found." ) > -1,
             "Ticket is not found on page",
+        );
+
+        # navigate to AgentTicketSearch screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+
+        # wait until form and overlay has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
+
+        # input wrong search parameters, result should be 'No ticket data found'
+        $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
+        $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
+
+        # check for expected result
+        $Self->True(
+            index( $Selenium->get_page_source(), $TitleRandom ) > -1,
+            "Ticket $TitleRandom found on page with RuntimeDB search with string longer then 30 characters",
+        );
+
+        # change search index module
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::SearchIndexModule',
+            Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
+        );
+
+        $ConfigObject->Set(
+            Key   => 'Ticket::SearchIndexModule',
+            Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
+        );
+
+        # enable warn on stop word usage
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::SearchIndex::WarnOnStopWordUsage',
+            Value => 1,
+        );
+
+        # allow mod_perl to pick up the configuration changes
+        sleep 1;
+
+        # Recreate TicketObject and update article index for staticdb
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        $TicketObject->ArticleIndexBuild(
+            ArticleID => $ArticleID,
+            UserID    => 1,
+        );
+
+        # navigate to AgentTicketSearch screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+
+        # wait until form and overlay has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
+
+        # try to search fulltext with string less then 3 characters
+        $Selenium->find_element( "Fulltext", 'name' )->send_keys($MinCharString);
+        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+
+        # verify alert message
+        my $ExpectedAlertText = "Fulltext: $MinCharString";
+        $Self->True(
+            $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
+            'Minimum character string search warning is found'
+        );
+
+        # accept alert
+        $Selenium->accept_alert();
+
+        # try to search fulltext with string more than 30 characters
+        $Selenium->find_element( "Fulltext", 'name' )->clear();
+        $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
+        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+
+        # verify alert message
+        $ExpectedAlertText = "Fulltext: $MaxCharString";
+        $Self->True(
+            $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
+            'Maximum character string search warning is found'
+        );
+
+        # accept alert
+        $Selenium->accept_alert();
+
+        # try to search fulltext with 'stop word' search
+        $Selenium->find_element( "Fulltext", 'name' )->clear();
+        $Selenium->find_element( "Fulltext", 'name' )->send_keys('because');
+        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+
+        # verify alert message
+        $ExpectedAlertText = "Fulltext: because";
+        $Self->True(
+            $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
+            'Stop word search string warning is found'
+        );
+
+        # accept alert
+        $Selenium->accept_alert();
+
+        # search fulltext with correct input
+        $Selenium->find_element( "Fulltext", 'name' )->clear();
+        $Selenium->find_element( "Fulltext", 'name' )->send_keys($Subject);
+        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->VerifiedClick();
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div.TicketZoom').length" );
+
+        # check for expected result
+        $Self->True(
+            index( $Selenium->get_page_source(), $TitleRandom ) > -1,
+            "Ticket $TitleRandom found on page with correct StaticDB search",
         );
 
         # clean up test data from the DB
