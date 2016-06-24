@@ -299,9 +299,10 @@ wait with increasing sleep intervals until the given condition is true or the wa
 Exactly one condition (JavaScript or WindowCount) must be specified.
 
     my $Success = $SeleniumObject->WaitFor(
-        JavaScript  => 'return $(".someclass").length',   # Javascript code that checks condition
-        WindowCount => 2,                                 # Wait until this many windows are open
-        Time        => 20,                                # optional, wait time in seconds (default 20)
+        JavaScript   => 'return $(".someclass").length',   # Javascript code that checks condition
+        AlertPresent => 1,                                 # Wait until an alert, confirm or prompt dialog is present
+        WindowCount  => 2,                                 # Wait until this many windows are open
+        Time         => 20,                                # optional, wait time in seconds (default 20)
     );
 
 =cut
@@ -309,8 +310,8 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
 sub WaitFor {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{JavaScript} && !$Param{WindowCount} ) {
-        die "Need JavaScript.";
+    if ( !$Param{JavaScript} && !$Param{WindowCount} && !$Param{AlertPresent} ) {
+        die "Need JavaScript, WindowCount or AlertPresent.";
     }
 
     local $Self->{SuppressCommandRecording} = 1;
@@ -325,6 +326,10 @@ sub WaitFor {
         }
         elsif ( $Param{WindowCount} ) {
             return 1 if scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
+        }
+        elsif ( $Param{AlertPresent} ) {
+            # Eval is needed because the method would throw if no alert is present (yet).
+            return 1 if eval { $Self->get_alert_text() };
         }
         sleep $Interval;
         $WaitedSeconds += $Interval;
