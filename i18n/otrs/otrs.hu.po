@@ -14,9 +14,9 @@
 # Balázs Úr <urbalazs@gmail.com>, 2014, 2015, 2016.
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS 4.0.16\n"
-"POT-Creation-Date: 2016-02-29 16:00+0200\n"
-"PO-Revision-Date: 2016-02-29 16:05+0100\n"
+"Project-Id-Version: OTRS 4.0.18\n"
+"POT-Creation-Date: 2016-06-23 13:09+0200\n"
+"PO-Revision-Date: 2016-06-23 14:56+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <forditas@otrs-megoldasok.hu>\n"
 "Language: hu\n"
@@ -1028,6 +1028,10 @@ msgstr "Engedélyezte az Irodán kívül funkciót, szeretné letiltani azt?"
 #. Template: AAABase
 msgid "News about OTRS releases!"
 msgstr "Az OTRS kiadásaival kapcsolatos hírek!"
+
+#. Template: AAABase
+msgid "Go to dashboard!"
+msgstr "Ugrás a vezérlőpultra!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -11961,10 +11965,15 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Automatically sets the owner of a ticket as the responsible for it (if ticket "
-"responsible feature is enabled)."
+"responsible feature is enabled). This will only work by manually actions of "
+"the logged in user. It does not work for automated actions e.g. "
+"GenericAgent, Postmaster and GenericInterface."
 msgstr ""
-"Automatikusan beállítja a jegy tulajdonosát felelősként (ha a jegy felelős "
-"szolgáltatás engedélyezve van)."
+"Automatikusan beállítja a jegy tulajdonosát annak felelőseként (ha a "
+"jegyfelelős szolgáltatás engedélyezve van). Ez csak a bejelentkezett "
+"felhasználó kézi műveleteinél fog működni. Nem működik olyan automatizált "
+"műveleteknél, mint például az általános ügyintéző, a levelezés és az "
+"általános felület."
 
 #. SysConfig
 msgid ""
@@ -14320,9 +14329,13 @@ msgstr ""
 "ository;File=” és Tartalom=„Valamilyen név”."
 
 #. SysConfig
-msgid "Defines the list of possible next actions on an error screen."
+msgid ""
+"Defines the list of possible next actions on an error screen, a full path is "
+"required, then is possible to add external links if needed."
 msgstr ""
-"Meghatározza a lehetséges következő műveletek listáját egy hibaképernyőn."
+"Meghatározza a lehetséges következő műveletek listáját egy hibaképernyőn. Egy "
+"teljes elérési út szükséges, ezután lehetséges külső hivatkozásokat "
+"hozzáadni, ha szükséges."
 
 #. SysConfig
 msgid "Defines the list of types for templates."
@@ -14547,10 +14560,9 @@ msgstr ""
 "munkamenet-azonosító vagy OTRS."
 
 #. SysConfig
-msgid ""
-"Defines the name of the table, where the customer preferences are stored."
+msgid "Defines the name of the table where the user preferences are stored."
 msgstr ""
-"Meghatározza annak a táblának a nevét, ahol az ügyfélbeállítások vannak "
+"Meghatározza annak a táblának a nevét, ahol a felhasználói beállítások vannak "
 "tárolva."
 
 #. SysConfig
@@ -15353,10 +15365,10 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disable restricted security for IFrames in IE. May be required for SSO to "
-"work in IE8."
+"work in IE."
 msgstr ""
 "Korlátozott biztonság letiltása Internet Explorerben az iFrame-eknél. Az SSO "
-"szükséges lehet, hogy működjön IE8 alatt."
+"szükséges lehet, hogy működjön IE alatt."
 
 #. SysConfig
 msgid ""
@@ -16334,11 +16346,11 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor "
 "megadhatja a felhasználónevek vezető részeinek levágását (például "
-"tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
+"tartományoknál, úgymint pelda_tartomany\\\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -17140,6 +17152,10 @@ msgid ""
 msgstr ""
 "Levelek méretének maximalizálása Kbyte-ban, amelyeket POP3/POP3S/IMAP/IMAPS "
 "kapcsolaton keresztül lehet letölteni (Kbyte-ban)."
+
+#. SysConfig
+msgid "Maximum Number of a calendar shown in a dropdown."
+msgstr "Egy legördülőben megjelenített naptár legnagyobb száma."
 
 #. SysConfig
 msgid ""

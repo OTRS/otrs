@@ -995,6 +995,10 @@ msgid "News about OTRS releases!"
 msgstr ""
 
 #. Template: AAABase
+msgid "Go to dashboard!"
+msgstr ""
+
+#. Template: AAABase
 msgid "Customer %s added"
 msgstr ""
 
@@ -10707,7 +10711,7 @@ msgid "Automatically lock and set owner to current Agent after selecting for an 
 msgstr ""
 
 #. SysConfig
-msgid "Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled)."
+msgid "Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface."
 msgstr ""
 
 #. SysConfig
@@ -12007,7 +12011,7 @@ msgid "Defines the list of online repositories. Another installations can be use
 msgstr ""
 
 #. SysConfig
-msgid "Defines the list of possible next actions on an error screen."
+msgid "Defines the list of possible next actions on an error screen, a full path is required, then is possible to add external links if needed."
 msgstr ""
 
 #. SysConfig
@@ -12131,7 +12135,7 @@ msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the name of the table, where the customer preferences are stored."
+msgid "Defines the name of the table where the user preferences are stored."
 msgstr ""
 
 #. SysConfig
@@ -12535,7 +12539,7 @@ msgid "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be i
 msgstr ""
 
 #. SysConfig
-msgid "Disable restricted security for IFrames in IE. May be required for SSO to work in IE8."
+msgid "Disable restricted security for IFrames in IE. May be required for SSO to work in IE."
 msgstr ""
 
 #. SysConfig
@@ -13135,7 +13139,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -13584,6 +13588,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes)."
+msgstr ""
+
+#. SysConfig
+msgid "Maximum Number of a calendar shown in a dropdown."
 msgstr ""
 
 #. SysConfig
