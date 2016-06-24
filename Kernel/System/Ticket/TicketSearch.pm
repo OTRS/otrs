@@ -1291,7 +1291,7 @@ sub TicketSearch {
 
     DYNAMIC_FIELD:
     for my $DynamicField ( @{$TicketDynamicFields}, @{$ArticleDynamicFields} ) {
-        my $SearchParam = $Param{ "DynamicField_" . $DynamicField->{Name} };
+        my $SearchParam = delete $Param{ "DynamicField_" . $DynamicField->{Name} };
 
         next DYNAMIC_FIELD if ( !$SearchParam );
         next DYNAMIC_FIELD if ( ref $SearchParam ne 'HASH' );
@@ -1380,6 +1380,21 @@ sub TicketSearch {
 
             $DynamicFieldJoinCounter++;
         }
+    }
+
+    # catch searches for non-existing dynamic fields
+    PARAMS:
+    for my $Key ( sort keys %Param ) {
+        next PARAMS if !$Param{$Key};
+        next PARAMS if $Key !~ /^DynamicField_(.*)$/;
+
+        my $DynamicFieldName = $1;
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'Error',
+            Message  => qq[No such dynamic field "$DynamicFieldName" (or it is inactive)],
+        );
+
+        return;
     }
 
     # get time object

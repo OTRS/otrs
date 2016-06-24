@@ -803,6 +803,23 @@ $Self->IsDeeply(
     'Search for two values in a same field, match one ticket using an array ',
 );
 
+
+# Check that searching for non-existing dynamic fields is an error
+my $Result = $TicketObject->TicketSearch(
+    Result      => 'COUNT',
+    UserID     => 1,
+    "DynamicField_DFT5_NOSUCHTHING_$RandomID" => {
+        Like => [ 'ticket2_field5', 'ticket4_field5' ],
+    },
+    Permission => 'rw',
+);
+
+$Self->IsDeeply(
+    $Result,
+    undef,
+    'Searching for a non-existing dynamic field is an error',
+);
+
 # cleanup is done by RestoreDatabase.
 
 1;
