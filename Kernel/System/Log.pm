@@ -303,7 +303,7 @@ sub CleanUp {
     # remove the shm
     if ( !shmctl( $Self->{Key}, 0, 0 ) ) {
         $Self->Log(
-            Priority => 'error',
+            Priority => 'notice',
             Message  => "Can't remove shm for log: $!",
         );
         return;
