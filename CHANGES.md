@@ -1,4 +1,5 @@
 #5.0.12 2016-??-??
+ - 2016-06-24 Don't write error log entry on first LDAP user login, thanks to Pawel Boguslawski.
  - 2016-06-24 Fixed bug#[9000](http://bugs.otrs.org/show_bug.cgi?id=9000) - shm errors on OTRS server startup.
  - 2016-06-23 Fixed bug#[11981](http://bugs.otrs.org/show_bug.cgi?id=11981) - GenericTicketConnector ignoring "<ContentSearch>OR</ContentSearch>" in full text search.
 
