@@ -198,7 +198,10 @@ sub Sync {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get current user id
-    my $UserID = $UserObject->UserLookup( UserLogin => $Param{User} );
+    my $UserID = $UserObject->UserLookup(
+        UserLogin       => $Param{User},
+        Silent => 1,
+    );
 
     # system permissions
     my %PermissionsEmpty =

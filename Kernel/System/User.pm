@@ -875,10 +875,12 @@ user login or id lookup
 
     my $UserLogin = $UserObject->UserLookup(
         UserID => 1,
+        Silent => 1, # optional, don't generate log entry if user was not found
     );
 
     my $UserID = $UserObject->UserLookup(
         UserLogin => 'some_user_login',
+        Silent    => 1, # optional, don't generate log entry if user was not found
     );
 
 =cut
@@ -925,10 +927,12 @@ sub UserLookup {
         }
 
         if ( !$ID ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "No UserID found for '$Param{UserLogin}'!",
-            );
+            if ( !$Param{Silent} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "No UserID found for '$Param{UserLogin}'!",
+                );
+            }
             return;
         }
 
@@ -968,10 +972,12 @@ sub UserLookup {
         }
 
         if ( !$Login ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "No UserLogin found for '$Param{UserID}'!",
-            );
+            if ( !$Param{Silent} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "No UserLogin found for '$Param{UserID}'!",
+                );
+            }
             return;
         }
 
