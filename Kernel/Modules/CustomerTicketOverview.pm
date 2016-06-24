@@ -49,7 +49,9 @@ sub Run {
 
     # check needed CustomerID
     if ( !$Self->{UserCustomerID} ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => Translatable('Need CustomerID!'),
         );
@@ -157,7 +159,9 @@ sub Run {
 
     # check if filter is valid
     if ( !$Filters{ $Self->{Subaction} }->{$FilterCurrent} ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Invalid Filter: %s!', $FilterCurrent ),
         );
@@ -538,12 +542,19 @@ sub Run {
     }
 
     # create & return output
+    my $Title = $Self->{Subaction};
+    if ( $Title eq 'MyTickets' ) {
+        $Title = Translatable('My Tickets');
+    }
+    elsif ( $Title eq 'CompanyTickets' ) {
+        $Title = Translatable('Company Tickets');
+    }
     my $Refresh = '';
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $LayoutObject->CustomerHeader(
-        Title   => $Self->{Subaction},
+        Title   => $Title,
         Refresh => $Refresh,
     );
 
@@ -655,7 +666,7 @@ sub ShowTicketStatus {
 
     # if there is no subject try with Ticket title or set to Untitled
     if ( !$Subject ) {
-        $Subject = $Ticket{Title} || 'Untitled!';
+        $Subject = $Ticket{Title} || Translatable('Untitled!');
     }
 
     # condense down the subject
