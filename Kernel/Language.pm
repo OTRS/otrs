@@ -16,6 +16,9 @@ use vars qw(@ISA);
 use Exporter qw(import);
 our @EXPORT_OK = qw(Translatable);    ## no critic
 
+use File::stat;
+use Digest::MD5;
+
 use Kernel::System::DateTime qw(:all);
 
 our @ObjectDependencies = (
@@ -497,6 +500,43 @@ sub Time {
     }
 
     return $ReturnString;
+}
+
+=item LanguageChecksum()
+
+This function returns an MD5 sum that is generated from all loaded language files and their modification timestamps.
+Whenever a file is changed, added or removed, this checksum will change.
+
+=cut
+
+sub LanguageChecksum {
+    my $Self = shift;
+
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+    my @Files;
+    for my $Class (@ISA) {
+        my $File = "$Home/$Class.pm";
+        $File =~ s{::}{/}smxg;
+        push @Files, $File;
+    }
+
+    # Create a string with filenames and file mtimes of the config files
+    my $LanguageString;
+    for my $File (@Files) {
+
+        # get file metadata
+        my $Stat = stat($File);
+
+        if ( !$Stat ) {
+            print STDERR "Error: cannot stat file '$File': $!";
+            return;
+        }
+
+        $LanguageString .= $File . $Stat->mtime();
+    }
+
+    return Digest::MD5::md5_hex($LanguageString);
 }
 
 1;

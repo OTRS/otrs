@@ -70,6 +70,7 @@ Uses caching internally.
             $Filename,
             $Filename2,
         ],
+        Checksum             => '...'       # optional, pass a checksum for the minified file
         Content              => '...'       # optional, pass direct (already minified) content instead of a file list
         Type                 => 'CSS',      # CSS | JavaScript
         TargetDirectory      => $TargetDirectory,
@@ -129,27 +130,33 @@ sub MinifyFiles {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $FileString = $Content;
-
-    if ( $Param{List} ) {
-        LOCATION:
-        for my $Location ( @{$List} ) {
-            if ( !-e $Location ) {
-                next LOCATION;
-            }
-            my $FileMTime = $MainObject->FileGetMTime(
-                Location => $Location
-            );
-
-            # For the caching, use both filename and mtime to make sure that
-            #   caches are correctly regenerated on changes.
-            $FileString .= "$Location:$FileMTime:";
-        }
+    my $Filename;
+    if ( $Param{Checksum} ) {
+        $Filename = $TargetFilenamePrefix . $Param{Checksum};
     }
+    else {
+        my $FileString;
 
-    my $Filename = $TargetFilenamePrefix . $MainObject->MD5sum(
-        String => \$FileString,
-    );
+        if ( $Param{List} ) {
+            LOCATION:
+            for my $Location ( @{$List} ) {
+                if ( !-e $Location ) {
+                    next LOCATION;
+                }
+                my $FileMTime = $MainObject->FileGetMTime(
+                    Location => $Location
+                );
+
+                # For the caching, use both filename and mtime to make sure that
+                #   caches are correctly regenerated on changes.
+                $FileString .= "$Location:$FileMTime:";
+            }
+        }
+
+        $Filename = $TargetFilenamePrefix . $MainObject->MD5sum(
+            String => \$FileString,
+        );
+    }
 
     if ( $Param{Type} eq 'CSS' ) {
         $Filename .= '.css';
