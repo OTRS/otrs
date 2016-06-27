@@ -1,4 +1,7 @@
 #4.0.18 2016-??-??
+ - 2016-06-27 Fixed bug#[12097](http://bugs.otrs.org/show_bug.cgi?id=12097) - Ticket responses with non-breaking whitespace cause PostgreSQL database error.
+ - 2016-06-27 Fixed bug#[11596](http://bugs.otrs.org/show_bug.cgi?id=11596) - Invalid byte sequence for encoding "UTF8": 0xa0 PostgreSQL.
+ - 2016-06-27 Fixed bug#[10970](http://bugs.otrs.org/show_bug.cgi?id=10970) - byte sequence errors on notifications.
  - 2016-06-24 Updated Hungarian translation, thanks to Ur Balazs.
  - 2016-06-21 Fixed bug#[12100](http://bugs.otrs.org/show_bug.cgi?id=12100) - Error Premature end of script headers: index.pl when using long URL.
  - 2016-06-17 Fixed bug#[12132](http://bugs.otrs.org/show_bug.cgi?id=12132) - Order of columns in Queue view broken when more than 9 columns are selected.
