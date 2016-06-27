@@ -1009,45 +1009,45 @@ sub _TicketIDStringGet {
 
     my $ColumnName = $Param{ColumnName} || 't.id';
 
+    if ( !$Param{TicketIDs} || ref $Param{TicketIDs} ne 'ARRAY' || !@{ $Param{TicketIDs} } ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TicketIDs.",
+        );
+        return;
+    }
+
+    # sort ids to cache the SQL query
+    my @SortedIDs = sort { $a <=> $b } @{ $Param{TicketIDs} };
+
+    # Error out if some values were not integers.
+    @SortedIDs = map { $Kernel::OM->Get('Kernel::System::DB')->Quote( $_, 'Integer' ) } @SortedIDs;
+    return if scalar @SortedIDs != scalar @{ $Param{TicketIDs} };
+
     my $TicketIDString = '';
-    if ( IsArrayRefWithData( $Param{TicketIDs} ) ) {
 
-        # get database object
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    # split IN statement with more than 900 elements in more statements bombined with OR
+    # because Oracle doesn't support more than 1000 elements in one IN statement.
+    my @SQLStrings;
+    while ( scalar @SortedIDs ) {
 
-        # sort ids to cache the SQL query
-        my @SortedIDs = sort { $a <=> $b } @{ $Param{TicketIDs} };
+        # remove section in the array
+        my @SortedIDsPart = splice @SortedIDs, 0, 900;
 
-        # quote values
-        SORTEDID:
-        for my $TicketID (@SortedIDs) {
-            next SORTEDID if !defined $DBObject->Quote( $TicketID, 'Integer' );
-        }
+        # link together IDs
+        my $IDString = join ', ', @SortedIDsPart;
 
-        # split IN statement with more than 900 elements in more statements bombined with OR
-        # because Oracle doesn't support more than 1000 elements in one IN statement.
-        my @SQLStrings;
-        while ( scalar @SortedIDs ) {
+        # add new statement
+        push @SQLStrings, " $ColumnName IN ($IDString) ";
+    }
 
-            # remove section in the array
-            my @SortedIDsPart = splice @SortedIDs, 0, 900;
+    my $SQLString = join ' OR ', @SQLStrings;
 
-            # link together IDs
-            my $IDString = join ',', @SortedIDsPart;
-
-            # add new statement
-            push @SQLStrings, " $ColumnName IN ($IDString) ";
-        }
-
-        my $SQLString = join ' OR ', @SQLStrings;
-
-        if ( $Param{IncludeAdd} ) {
-            $TicketIDString .= ' AND ( ' . $SQLString . ' ) ';
-        }
-        else {
-            $TicketIDString = $SQLString
-        }
-
+    if ( $Param{IncludeAdd} ) {
+        $TicketIDString .= ' AND ( ' . $SQLString . ' ) ';
+    }
+    else {
+        $TicketIDString = $SQLString
     }
 
     return $TicketIDString;
