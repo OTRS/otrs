@@ -383,7 +383,7 @@ $('#TypeID').bind('change', function (Event) {
 [% RenderBlockEnd("InformAdditionalAgents") %]
 [% RenderBlockStart("InformAgentsWithoutSelection") %]
                         <fieldset class="TableLike FixedLabel">
-                            <label>[% Translate("Text will also be received by:") | html %]:</label>
+                            <label>[% Translate("Text will also be received by") | html %]:</label>
                             <div class="Field">
                                 <input type="hidden" name="UserListWithoutSelection" value="[% Data.UserListWithoutSelection  | html %]" />
 [% RenderBlockStart("InformAgentsWithoutSelectionSingleUser") %]
