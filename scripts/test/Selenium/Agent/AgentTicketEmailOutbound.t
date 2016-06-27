@@ -141,7 +141,7 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $PriorityMsg ) > -1,
             "Ticket email outbound completed",
-        );
+        ) || die "Ticket email outbound not completed";
 
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
