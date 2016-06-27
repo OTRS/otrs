@@ -2395,25 +2395,28 @@ condition string from an array.
 sub _InConditionGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for my $Key (qw(TableColumn IDRef)) {
-        if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Key!",
-            );
-            return;
-        }
+    if ( !$Param{TableColumn} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TableColumn!",
+        );
+        return;
+    }
+
+    if ( !$Param{IDRef} || ref $Param{IDRef} ne 'ARRAY' || !@{ $Param{IDRef}} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need IDRef!",
+        );
+        return;
     }
 
     # sort ids to cache the SQL query
     my @SortedIDs = sort { $a <=> $b } @{ $Param{IDRef} };
 
-    # quote values
-    SORTEDID:
-    for my $Value (@SortedIDs) {
-        next SORTEDID if !defined $Kernel::OM->Get('Kernel::System::DB')->Quote( $Value, 'Integer' );
-    }
+    # Error out if some values were not integers.
+    @SortedIDs = map { $Kernel::OM->Get('Kernel::System::DB')->Quote( $_, 'Integer' ) } @SortedIDs;
+    return if scalar @SortedIDs != scalar @{ $Param{IDRef} };
 
     # split IN statement with more than 900 elements in more statements combined with OR
     # because Oracle doesn't support more than 1000 elements for one IN statement.
