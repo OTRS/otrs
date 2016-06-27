@@ -101,41 +101,11 @@
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterSystemMaintenances'), $('#SystemMaintenances'));
-//]]></script>
-[% END %]
             </div>
         </div>
     </div>
 
     <div class="Clear"></div>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.MasterAction').bind('click', function (Event) {
-    var $MasterActionLink = $(this).find('.MasterActionLink');
-    // only act if the link was not clicked directly
-    if (Event.target !== $MasterActionLink.get(0)) {
-        window.location = $MasterActionLink.attr('href');
-        return false;
-    }
-});
-
-$('.SystemMaintenanceDelete').bind('click', function (Event) {
-
-    if (window.confirm([% Translate("Do you really want to delete this scheduled system maintenance?") | JSON %])) {
-        return true;
-    }
-
-    // don't interfere with MasterAction
-    Event.stopPropagation();
-    Event.preventDefault();
-    return false;
-});
-//]]></script>
-[% END %]
 
 <!-- end -->

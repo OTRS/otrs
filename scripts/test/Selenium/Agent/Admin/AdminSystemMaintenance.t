@@ -211,16 +211,18 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
 
-        # delete test SystemMaintenance
-        my $Success = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceDelete(
-            ID     => $SysMainID,
-            UserID => 1,
-        );
-        $Self->True(
-            $Success,
-            "Deleted - $SysMainComment",
-        );
+        # click 'Go to overview'
+        $Selenium->find_element("//a[contains(\@href, 'AdminSystemMaintenance')]")->VerifiedClick();
 
+        # click to delete test SystemMaintenance
+        $Selenium->find_element("//a[contains(\@href, 'Subaction=Delete;SystemMaintenanceID=$SysMainID')]")->click();
+
+        # accept delete confirmation dialog
+        sleep 1;
+        $Self->True(
+            $Selenium->accept_alert(),
+            "Delete - $SysMainComment"
+        );
     }
 
 );

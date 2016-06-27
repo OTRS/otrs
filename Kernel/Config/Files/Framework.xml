@@ -9636,6 +9636,9 @@ via the Preferences button after logging in.
                     <Block>System</Block>
                     <Prio>501</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.SystemMaintenance.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
