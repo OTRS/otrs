@@ -138,6 +138,8 @@ Core.Agent = (function (TargetNS) {
             }
         }
 
+        TargetNS.ReorderNavigationItems(Core.Config.Get('NavbarOrderItems'));
+
         $('#Navigation > li')
             .addClass('CanDrag')
             .filter(function () {
@@ -472,9 +474,6 @@ Core.Agent = (function (TargetNS) {
 
             // append the reordered items
             $('#Navigation').empty().append(CurrentItems);
-
-            // re-init navigation
-            InitNavigation();
         }
 
         $('#Navigation').hide().css('visibility', 'visible').show();
@@ -623,7 +622,6 @@ Core.Agent = (function (TargetNS) {
         }
 
         Core.App.Responsive.CheckIfTouchDevice();
-        TargetNS.ReorderNavigationItems(Core.Config.Get('NavbarOrderItems'));
 
         InitNavigation();
     };
