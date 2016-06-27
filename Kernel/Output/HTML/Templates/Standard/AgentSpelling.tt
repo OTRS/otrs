@@ -63,9 +63,4 @@
         </form>
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketAction.InitSpellCheck();
-//]]></script>
-[% END %]
 [% RenderBlockEnd("SpellCheckerExtern") %]
