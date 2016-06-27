@@ -450,13 +450,14 @@ Core.Agent = (function (TargetNS) {
 
         if (NavbarCustomOrderItems && parseInt(Core.Config.Get('MenuDragDropEnabled'), 10) === 1) {
 
+            NavbarCustomOrderItems = JSON.parse(NavbarCustomOrderItems);
+
             CurrentItems = $('#Navigation').children('li').get();
             CurrentItems.sort(function(a, b) {
                 var IDA, IDB;
 
                 IDA = $(a).attr('id');
                 IDB = $(b).attr('id');
-
 
                 if ($.inArray(IDA, NavbarCustomOrderItems) < $.inArray(IDB, NavbarCustomOrderItems)) {
                     return -1;
@@ -622,6 +623,7 @@ Core.Agent = (function (TargetNS) {
         }
 
         Core.App.Responsive.CheckIfTouchDevice();
+        TargetNS.ReorderNavigationItems(Core.Config.Get('NavbarOrderItems'));
 
         InitNavigation();
     };
