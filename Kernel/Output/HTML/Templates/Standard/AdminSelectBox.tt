@@ -90,21 +90,6 @@
                         <div class="Field SpacingTop">
                             <button class="Primary CallForAction" type="submit" id="Run" value="[% Translate("Run Query") | html %]"><span>[% Translate("Run Query") | html %]</span></button>
                         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
-    Form.submit();
-
-    if ($('#ResultFormat option:selected').text() !== 'CSV'
-        && $('#ResultFormat option:selected').text() !== 'Excel'
-     ) {
-        window.setTimeout(function(){
-            Core.Form.DisableForm( $(Form) );
-        }, 0);
-    }
-});
-//]]></script>
-[% END %]
                     </fieldset>
                 </form>
             </div>
@@ -143,11 +128,6 @@ Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterResults'), $('#Results'));
-//]]></script>
-[% END %]
             </div>
         </div>
 [% RenderBlockEnd("Result") %]
