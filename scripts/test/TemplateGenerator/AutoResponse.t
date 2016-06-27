@@ -23,24 +23,24 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# disable rich text editor
+# force rich text editor
 my $Success = $ConfigObject->Set(
     Key   => 'Frontend::RichText',
-    Value => 0,
+    Value => 1,
 );
 $Self->True(
     $Success,
-    "Disable RichText with true",
+    'Force RichText with true',
 );
 
-# use NoSendMail email backend
+# use DoNotSendEmail email backend
 $Success = $ConfigObject->Set(
     Key   => 'SendmailModule',
-    Value => 'Kernel::System::Email::NoSendMail',
+    Value => 'Kernel::System::Email::DoNotSendEmail',
 );
 $Self->True(
     $Success,
-    "Set NoSendMail backend with true",
+    'Set DoNotSendEmail backend with true',
 );
 
 # set Default Language
@@ -50,7 +50,7 @@ $Success = $ConfigObject->Set(
 );
 $Self->True(
     $Success,
-    "Set default language to English",
+    'Set default language to English',
 );
 
 my $RandomID = $Helper->GetRandomID();
@@ -82,7 +82,7 @@ my $QueueID = $QueueObject->QueueAdd(%QueueTemplate);
 $Self->IsNot(
     $QueueID,
     undef,
-    "QueueAdd() - QueueID should not be undef",
+    'QueueAdd() - QueueID should not be undef',
 );
 
 # get auto response object
@@ -94,18 +94,17 @@ my %AutoResponseTemplate = (
     Name        => $AutoResonseName,
     ValidID     => 1,
     Subject     => 'Some Subject..',
-    Response    => '<OTRS_TICKET_State>',
-    Charset     => 'utf8',
-    ContentType => 'text/plain',
+    Response    => 'S:&nbsp;&lt;OTRS_TICKET_State&gt;',    # include non-breaking space (bug#12097)
+    ContentType => 'text/html',
     AddressID   => 1,
-    TypeID      => 4,                       # auto reply/new ticket
+    TypeID      => 4,                                      # auto reply/new ticket
     UserID      => 1,
 );
 my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(%AutoResponseTemplate);
 $Self->IsNot(
     $AutoResponseID,
     undef,
-    "AutoResponseAdd() - AutoResonseID should not be undef",
+    'AutoResponseAdd() - AutoResonseID should not be undef',
 );
 
 # assign auto response to queue
@@ -137,24 +136,26 @@ my $TicketID = $TicketObject->TicketCreate(
 $Self->IsNot(
     $TicketID,
     undef,
-    "TicketCreate() - TicketID should not be undef",
+    'TicketCreate() - TicketID should not be undef',
 );
 
+my $HTMLTemplate
+    = '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">%s</body></html>';
 my @Tests = (
     {
         Name           => 'English Language Customer',
         CustomerUser   => $TestUserLoginEN,
-        ExpectedResult => 'new',
+        ExpectedResult => sprintf( $HTMLTemplate, 'S:&nbsp;new' ),
     },
     {
         Name           => 'German Language Customer',
         CustomerUser   => $TestUserLoginDE,
-        ExpectedResult => 'neu',
+        ExpectedResult => sprintf( $HTMLTemplate, 'S:&nbsp;neu' ),
     },
     {
         Name           => 'Not existing Customer',
         CustomerUser   => 'customer@example.com',
-        ExpectedResult => 'new',
+        ExpectedResult => sprintf( $HTMLTemplate, 'S:&nbsp;new' ),
     },
 );
 
@@ -185,6 +186,21 @@ for my $Test (@Tests) {
         $AutoResponse{Text},
         $Test->{ExpectedResult},
         "$Test->{Name} AutoResponse() - Text"
+    );
+
+    # create auto response article (bug#12097)
+    my $ArticleID = $TicketObject->SendAutoResponse(
+        TicketID         => $TicketID,
+        AutoResponseType => 'auto reply/new ticket',
+        OrigHeader       => {
+            From => $Test->{CustomerUser},
+        },
+        UserID => 1,
+    );
+    $Self->IsNot(
+        $ArticleID,
+        undef,
+        "$Test->{Name} SendAutoResponse() - ArticleID should not be undef"
     );
 }
 

@@ -17,6 +17,7 @@ use MIME::Base64;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
 );
 
@@ -78,6 +79,9 @@ sub ToAscii {
             return;
         }
     }
+
+    # turn on utf8 flag (bug#10970, bug#11596 and bug#12097)
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Param{String} );
 
     # get length of line for forcing line breakes
     my $LineLength = $Self->{'Ticket::Frontend::TextAreaNote'} || 78;
