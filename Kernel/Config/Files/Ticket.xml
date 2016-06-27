@@ -8836,6 +8836,9 @@
                 <Description Translatable="1">Ticket History.</Description>
                 <Title Translatable="1">History</Title>
                 <NavBarName>Ticket</NavBarName>
+                <Loader>
+                    <JavaScript>Core.Agent.TicketHistory.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
