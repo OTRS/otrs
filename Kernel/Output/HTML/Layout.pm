@@ -2884,8 +2884,10 @@ sub NavigationBar {
             },
         );
 
-        # show sub menu
+        # show sub menu (only if sub elements available)
         next ITEM if !$Sub;
+        next ITEM if !keys %{$Sub};
+
         $Self->Block(
             Name => 'ItemAreaSub',
             Data => $Item,
