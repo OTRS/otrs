@@ -15,40 +15,6 @@ use vars (qw($Self));
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
-my $DragAndDrop = sub {
-    my (%Param) = @_;
-
-    # Value is optional parameter
-    for my $Needed (qw(From To)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!"
-            );
-            return;
-        }
-    }
-
-    my $DragFrom = $Selenium->find_element( $Param{From}, 'css' );
-    my $DragTo   = $Selenium->find_element( $Param{To},   'css' );
-
-    # Move mouse to from element, drag and drop
-    $Selenium->mouse_move_to_location( element => $DragFrom );
-
-    # Holds the mouse button on the element
-    $Selenium->button_down();
-
-    # Move mouse to the destination
-    $Selenium->mouse_move_to_location(
-        element => $DragTo,
-        xoffset => 1,
-        yoffset => 1,
-    );
-
-    # Release
-    $Selenium->button_up();
-};
-
 $Selenium->RunTest(
     sub {
 
@@ -275,15 +241,15 @@ $Selenium->RunTest(
         );
 
         # Remove Age from left side, and put it to the right side
-        $DragAndDrop->(
-            From => '#WidgetTicket li[data-fieldname="Age"]',
-            To   => '#AssignedFields-linkobject-Ticket',
+        $Selenium->DragAndDrop(
+            Element => '#WidgetTicket li[data-fieldname="Age"]',
+            Target  => '#AssignedFields-linkobject-Ticket',
         );
 
         # Remove State from right side, and put it to the left side
-        $DragAndDrop->(
-            From => '#WidgetTicket li[data-fieldname="State"]',
-            To   => '#AvailableField-linkobject-Ticket',
+        $Selenium->DragAndDrop(
+            Element => '#WidgetTicket li[data-fieldname="State"]',
+            Target  => '#AvailableField-linkobject-Ticket',
         );
 
         # save
