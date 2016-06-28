@@ -80,7 +80,8 @@ sub ToAscii {
         }
     }
 
-    # turn on utf8 flag (bug#10970, bug#11596 and bug#12097)
+    # make sure to flag the input string as unicode (utf8) because replacements below can
+    # introduce unicode encoded characters (see bug#10970, bug#11596 and bug#12097 for more info)
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Param{String} );
 
     # get length of line for forcing line breakes
