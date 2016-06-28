@@ -8912,6 +8912,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketForward.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

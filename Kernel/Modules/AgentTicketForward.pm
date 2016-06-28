@@ -1696,6 +1696,11 @@ sub _Mask {
         );
     }
 
+    $LayoutObject->AddJSData(
+        Key   => 'DynamicFieldNames',
+        Value => $DynamicFieldNames,
+    );
+
     # create & return output
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketForward',
