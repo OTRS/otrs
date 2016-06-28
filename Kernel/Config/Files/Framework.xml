@@ -8963,6 +8963,9 @@ via the Preferences button after logging in.
                 <Description Translatable="1">Link Object.</Description>
                 <Title Translatable="1">Link Object</Title>
                 <NavBarName></NavBarName>
+                <Loader>
+                    <JavaScript>Core.Agent.LinkObject.SearchForm.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

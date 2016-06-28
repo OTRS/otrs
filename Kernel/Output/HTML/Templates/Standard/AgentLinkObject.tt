@@ -15,28 +15,14 @@
         </h1>
         <p>
             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkAddCloseLink">[% Translate("Close") | html %]</a>
-
-[% RenderBlockStart("LinkAddTemporaryLink") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#LinkAddCloseLink').bind('click', function (Event) {
-        window.close();
-        return false;
-    });
-//]]></script>
-[% END %]
-[% RenderBlockEnd("LinkAddTemporaryLink") %]
-
 [% RenderBlockStart("LinkMenuDelete") %]
             [% Translate("or") | html %]
             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=LinkDelete;Mode=[% Data.Mode | uri %];SourceObject=[% Data.SourceObject | uri %];SourceKey=[% Data.SourceKey | uri %];TargetIdentifier=[% Data.TargetIdentifier | uri %]">
                 [% Translate("go to link delete screen") | html %]
             </a>
 [% RenderBlockEnd("LinkMenuDelete") %]
-
         </p>
     </div>
-
     <div class="Content">
         <form action="[% Env("CGIHandle") %]" method="post" name="compose" id="LinkSearchForm">
             <input type="hidden" name="Action" value="[% Env("Action") %]" />
@@ -55,50 +41,12 @@
                         </label>
                         <div class="Field">
                             [% Data.TargetObjectStrg %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#TargetIdentifier').bind('change', function (Event) {
-        $('#SubmitSelect').addClass('gotclicked');
-        $(this).closest('form').submit();
-    });
-    // Two submits in this form
-    // if SubmitSelect or AddLinks button was clicked,
-    // add "gotclicked" class to this button
-    $('#SubmitSelect, #AddLinks').bind('click.Submit', function () {
-       $('#SubmitSelect').addClass('gotclicked');
-    });
 
-    $('#LinkSearchForm').submit(function () {
-        // If SubmitSelect button was clicked,
-        // "gotclicked" was added as class to the button
-        // remove the class and do the search
-        if ( $('#SubmitSelect').hasClass('gotclicked') ) {
-            $('#SubmitSelect').removeClass('gotclicked');
-            return true;
-        }
-
-        var SearchValueFlag = false;
-        $('#LinkSearchForm input, #LinkSearchForm select').each(function () {
-            if ( $(this).attr('name') && $(this).attr('name').match(/^SEARCH\:\:/) ) {
-                if ( $(this).val() && $(this).val() !== '' ) {
-                    SearchValueFlag = true;
-                }
-            }
-        });
-
-        if ( !SearchValueFlag ) {
-           alert([% Translate("Please enter at least one search value or * to find anything.") | JSON %]);
-           return false;
-        }
-    });
-//]]></script>
-[% END %]
                             <button type="submit" id="SubmitSelect" name="SubmitSelect" value="[% Translate("Select") | html %]" class="CallForAction Inline"><span>[% Translate("Select") | html %]</span></button>
                         </div>
                     </fieldset>
                 </div>
             </div>
-
             <div class="WidgetSimple">
                 <div class="Header">
                     <h2>[% Translate("Search") | html %] [% Data.TargetRealname | html %]</h2>
@@ -119,7 +67,6 @@
                     </fieldset>
                 </div>
             </div>
-
 [% RenderBlockStart("LinkTableComplex") %]
             [% Data.LinkTableStrg %]
 [% RenderBlockEnd("LinkTableComplex") %]
@@ -137,17 +84,6 @@
         </h1>
         <p>
             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkDeleteCloseLink">[% Translate("Close") | html %]</a>
-
-[% RenderBlockStart("LinkDeleteTemporaryLink") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#LinkDeleteCloseLink').bind('click', function (Event) {
-        window.close();
-        return false;
-    });
-//]]></script>
-[% END %]
-[% RenderBlockEnd("LinkDeleteTemporaryLink") %]
 
             [% Translate("or") | html %]
             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Mode=[% Data.Mode | uri %];SourceObject=[% Data.SourceObject | uri %];SourceKey=[% Data.SourceKey | uri %];TargetIdentifier=[% Data.TargetIdentifier | uri %]" class="menuitem">

@@ -108,6 +108,10 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
+        $Selenium->find_element( "#SubmitSearch", 'css' )->click();
+        sleep 1;
+        $Selenium->accept_alert();
+
         # search for second created test ticket
         $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->send_keys( $TicketNumbers[1] );
         $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->VerifiedSubmit();

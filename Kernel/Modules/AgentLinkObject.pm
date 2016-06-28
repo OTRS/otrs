@@ -272,9 +272,9 @@ sub Run {
         # to close the popup without reloading the parent window
         if ( $Form{Mode} eq 'Temporary' ) {
 
-            $LayoutObject->Block(
-                Name => 'LinkDeleteTemporaryLink',
-                Data => {},
+            $LayoutObject->AddJSData(
+                Name => 'TemporaryLink',
+                Data => 1,
             );
         }
 
@@ -521,9 +521,9 @@ sub Run {
         # to close the popup without reloading the parent window
         if ( $Form{Mode} eq 'Temporary' ) {
 
-            $LayoutObject->Block(
-                Name => 'LinkAddTemporaryLink',
-                Data => {},
+            $LayoutObject->AddJSData(
+                Key   => 'TemporaryLink',
+                Value => 1,
             );
         }
 
