@@ -19,6 +19,20 @@ Core.Agent = Core.Agent || {};
  *      This namespace contains the special module functions for the Login.
  */
 Core.Agent.Login = (function (TargetNS) {
+
+    /**
+     * @name PreLogin
+     * @memberof Core.Agent.Login
+     * @function
+     * @description
+     *      Automatically submits the login form in case of a pre login scenario.
+     */
+    TargetNS.PreLogin = function() {
+        if ($('#LoginBox').hasClass('PreLogin')) {
+            $('#LoginBox form').submit();
+        }
+    };
+
     /**
      * @name Init
      * @memberof Core.Agent.Login
@@ -60,9 +74,20 @@ Core.Agent.Login = (function (TargetNS) {
             Core.UI.Animate($('#LoginBox'), 'Shake');
         }
 
-        // if in PreLogin mode, automatically submit form
-        if ($('#LoginBox').hasClass('PreLogin')) {
-            $('#LoginBox form').submit();
+        // display ad blocker warning
+        if (window.OTRSAdblockDisabled === undefined && !localStorage.getItem("UserDontShowAdBlockWarning") && !$('LoginBox').hasClass('PreLogin')) {
+            $('#LoginBox')
+                .prepend('<div class="ErrorBox" style="display: none;"><span>' + Core.Language.Translate("Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.") + ' <i class="fa fa-long-arrow-right"></i> <a href="#" id="HideAdBlockMessage">' + Core.Language.Translate("Do not show this warning again.") + '</a></span></div>')
+                .find('#HideAdBlockMessage')
+                .on('click', function() {
+                    localStorage.setItem('UserDontShowAdBlockWarning', 1); // do this in local storage because it needs to be saved per device
+                    $(this).closest('.ErrorBox').fadeOut('slow', function() {
+                        $(this).remove();
+                    });
+                    return false;
+                })
+                .closest('.ErrorBox')
+                .fadeIn('slow');
         }
     };
 

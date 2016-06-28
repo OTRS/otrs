@@ -249,6 +249,18 @@ dd {
     background: #8FB738;
 }
 
+.ErrorBox span a,
+.SuccessBox span a {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all ease 0.2s;
+}
+
+.ErrorBox span a:hover,
+.SuccessBox span a:hover {
+    border-color: #fff;
+}
+
 /**
  * @note    Use the class InvisibleText to hide text from the screen,
  *          while it is still recognized and read by screen readers.
