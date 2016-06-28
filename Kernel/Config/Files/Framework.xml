@@ -8892,6 +8892,7 @@ via the Preferences button after logging in.
                 <NavBarName>Preferences</NavBarName>
                 <Loader>
                     <CSS>Core.Agent.Preferences.css</CSS>
+                    <JavaScript>Core.Agent.Preferences.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
