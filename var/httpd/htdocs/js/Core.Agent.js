@@ -217,7 +217,7 @@ Core.Agent = (function (TargetNS) {
                 // That means that a subnavigation in mobile mode is still collapsed/expanded,
                 // although the link to the new page is clicked
                 // we force the redirect with this workaround
-                if ($Target.closest('ul').attr('id') !== 'Navigation') {
+                if (navigator && navigator.userAgent && navigator.userAgent.match(/Windows Phone/i) && $Target.closest('ul').attr('id') !== 'Navigation') {
                     window.location.href = $Target.closest('a').attr('href');
                     Event.stopPropagation();
                     Event.preventDefault();
