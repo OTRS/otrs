@@ -19,16 +19,6 @@ var Core = Core || {};
  *      This namespace contains main app functionalities.
  */
 Core.App = (function (TargetNS) {
-    /**
-     * @private
-     * @name Namespaces
-     * @memberof Core.App
-     * @member {Object}
-     * @description
-     *      Contains all registered JS namespaces,
-     *      organized in initialization blocks.
-     */
-    var Namespaces = {};
 
     if (!Core.Debug.CheckDependency('Core.App', 'Core.Exception', 'Core.Exception')) {
         return false;
