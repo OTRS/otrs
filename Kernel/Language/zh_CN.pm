@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.960945975265784;
+    $Self->{Completeness}        = 0.952699784017279;
 
     # csv separator
     $Self->{Separator} = '';
@@ -178,7 +178,7 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => '允许使用通配置符，例如\'*\'。',
         'Add customer' => '添加客户',
         'Select' => '选择',
-        'shown' => '显示',
+        'List (only %s shown - more available)' => '',
         'total' => '总共',
         'Please enter a search term to look for customers.' => '请输入搜索条件以便检索客户资料.',
         'CustomerID' => 'CustomerID',
@@ -193,6 +193,7 @@ sub Data {
         'Add customer user' => '添加客户联系人',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '工单的客户历史信息需要有客户联系人，客户界面登录也需要用客户联系人。',
+        'List (%s total)' => '',
         'Username' => '用户名',
         'Email' => '邮件地址',
         'Last Login' => '上次登录时间',
@@ -737,7 +738,7 @@ sub Data {
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             '',
         'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '保存配置文件后，页面将再次转到编辑页面。',
@@ -781,8 +782,6 @@ sub Data {
         'Your current web service configuration will be overwritten.' => '当前的Web服务配置将被覆盖',
 
         # Template: AdminGroup
-        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            '警告：当您更改\'管理\'组的名称时，在SysConfig作出相应的变化之前，你将被管理面板锁住！如果发生这种情况，请用SQL语句把组名改回到\'admin\'',
         'Group Management' => '组管理',
         'Add group' => '添加组',
         'Filter for log entries' => '',
@@ -844,7 +843,6 @@ sub Data {
         'Upload Notification configuration' => '上传通知配置',
         'Import Notification configuration' => '导入通知配置',
         'Delete this notification' => '删除通知',
-        'Do you really want to delete this notification?' => '您真的想要删除这个通知?',
         'Add Notification' => '添加通知',
         'Edit Notification' => '编辑通知',
         'Show in agent preferences' => '在服务人员偏好设置里显示',
@@ -1109,6 +1107,7 @@ sub Data {
         'Set email header' => '设置邮件头',
         'Set value' => '设置值',
         'The field needs to be a literal word.' => '该字段需要输入文字。',
+        'Save changes' => '',
         'Header' => '信息头',
 
         # Template: AdminPriority
@@ -1692,7 +1691,6 @@ sub Data {
         'Invalid year' => '无效的年份',
         'Invalid month' => '无效的月份',
         'Invalid day' => '无效的日期',
-        'Show more' => '显示更多',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => '系统邮件地址管理',
@@ -1720,8 +1718,6 @@ sub Data {
         'Start date' => '开始时间',
         'Stop date' => '结束时间',
         'Delete System Maintenance' => '删除系统维护',
-        'Do you really want to delete this scheduled system maintenance?' =>
-            '您真的要删除这个已安排的系统维护吗？',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => '编辑系统维护%s',
@@ -1752,7 +1748,7 @@ sub Data {
         'Your email address is' => '你的邮件地址是',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates <-> Attachments Relations' => '管理模板与附件的关系',
+        'Manage Templates-Attachments Relations' => '',
         'Change Template Relations for Attachment' => '为附件指定模板',
         'Change Attachment Relations for Template' => '为模板指定附件',
         'Toggle active for all' => '全部激活/不激活',
@@ -1911,10 +1907,7 @@ sub Data {
         'Link Object: %s' => '链接对象: %s',
         'go to link delete screen' => '转到删除链接窗口',
         'Select Target Object' => '选择目标对象',
-        'Link Object' => '链接对象',
-        'with' => '和',
-        'Please enter at least one search value or * to find anything.' =>
-            '请至少输入一个搜索条件或输入*搜索所有。',
+        'Link object %s with' => '',
         'Unlink Object: %s' => '取消连接对象：%s',
         'go to link add screen' => '转到添加链接窗口',
 
@@ -2004,7 +1997,7 @@ sub Data {
         'Inform involved agents' => '通知相关服务人员',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '你可以在这里选择额外的服务人员，以收到这封信件的通知。',
-        'Text will also be received by:' => '内容也将被以下人员接收到：',
+        'Text will also be received by' => '',
         'Spell check' => '拼写检查',
         'Text Template' => '内容模板',
         'Setting a template will overwrite any text or attachment.' => '设置一个模板将覆盖任何文本或附件。',
@@ -2345,6 +2338,11 @@ sub Data {
 
         # Template: Error
         'An Error Occurred' => '',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            '',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            '',
+        'Contact our service team now.' => '',
         'Send a bugreport' => '发送一个BUG报告',
         'Error Details' => '详细错误信息',
         'Expand' => '展开',
@@ -2356,7 +2354,7 @@ sub Data {
         'Scale preview content' => '',
         'Open URL in new tab' => '',
         'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
 
         # Template: Header
@@ -2503,10 +2501,6 @@ sub Data {
             '接收通知\'%s\'的消息，通过传输方法\'%s\'。',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '请注意，你不能禁用标记为强制的通知。',
-        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
-            '抱歉，你不能将标记为强制的通知的所有传输方法都禁用掉。',
-        'Sorry, but you can\'t disable all methods for this notification.' =>
-            '抱歉，你不能将本通知的所有传输方法都禁用掉。',
 
         # Template: ActivityDialogHeader
         'Process Information' => '流程信息',
@@ -3319,6 +3313,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '需要客户联系人ID！',
+        'My Tickets' => '我的工单',
+        'Company Tickets' => '单位工单',
+        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Created within the last' => '在最近...之内创建的',
@@ -3397,10 +3394,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'Shown Tickets' => '显示工单',
         'Shown Columns' => '显示字段',
-        'filter not active' => '过滤器没有激活',
-        'filter active' => '过滤器是活动的',
         'sorted ascending' => '升序排序',
         'sorted descending' => '降序排序',
+        'filter not active' => '过滤器没有激活',
+        'filter active' => '过滤器是活动的',
         'This ticket has no title or subject' => '这个工单没有标题或主题',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketStatsGeneric.pm
@@ -3503,14 +3500,15 @@ sub Data {
         'Please supply your new password!' => '请提供你的新密码!',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             '无法修改密码。新密码不一致，请重新输入！',
-        'Can\'t update password, it contains invalid characters!' => '无法修改密码，密码不能包含非法字符！',
+        'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.' =>
+            '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '无法修改密码，密码至少需要%s个字符！',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '无法修改密码，密码必须包含至少2个小写和2个大写字符！',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => '无法修改密码，密码至少需要1个数字字符！',
-        'Can\'t update password, it must contain at least 2 characters!' =>
-            '无法修改密码，密码至少需要2个字符！',
+        'Can\'t update password, it must contain at least 2 letter characters!' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
         'Time zone updated successfully!' => '',
@@ -4071,6 +4069,9 @@ sub Data {
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '该条目中包含子条目。您真的想要删除这个条目及其子条目吗？',
 
+        # JS File: Core.Agent.Admin.Attachment
+        'Do you really want to delete this attachment?' => '',
+
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => '删除选择',
         'Delete this Event Trigger' => '删除这个事件触发器',
@@ -4096,8 +4097,17 @@ sub Data {
         'Delete operation' => '删除操作',
         'Delete invoker' => '删除调用程序',
 
+        # JS File: Core.Agent.Admin.Group
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
+            '警告：当您更改\'管理\'组的名称时，在SysConfig作出相应的变化之前，你将被管理面板锁住！如果发生这种情况，请用SQL语句把组名改回到\'admin\'',
+        'Confirm' => '确认',
+
         # JS File: Core.Agent.Admin.NotificationEvent
         'Do you really want to delete this notification language?' => '您真的要删除这个通知语言吗？',
+        'Do you really want to delete this notification?' => '您真的想要删除这个通知?',
+
+        # JS File: Core.Agent.Admin.PostMasterFilter
+        'Do you really want to delete this filter?' => '',
 
         # JS File: Core.Agent.Admin.ProcessManagement.Canvas
         'Remove Entity from canvas' => '从画布中删除实体',
@@ -4123,6 +4133,16 @@ sub Data {
         'Hide EntityIDs' => '隐藏实体编号',
         'Edit Field Details' => '编辑字段详情',
         'Customer interface does not support internal article types.' => '客户界面不支持内部信件类型。',
+
+        # JS File: Core.Agent.Admin.SMIME
+        'Do you really want to delete this certificate?' => '',
+
+        # JS File: Core.Agent.Admin.SysConfig
+        'Show more' => '显示更多',
+
+        # JS File: Core.Agent.Admin.SystemMaintenance
+        'Do you really want to delete this scheduled system maintenance?' =>
+            '您真的要删除这个已安排的系统维护吗？',
 
         # JS File: Core.Agent.CustomerInformationCenterSearch
         'Loading...' => '加载中...',
@@ -4177,6 +4197,21 @@ sub Data {
         'Sa' => '六',
         'month' => '月',
 
+        # JS File: Core.Agent.LinkObject.SearchForm
+        'Please enter at least one search value or * to find anything.' =>
+            '请至少输入一个搜索条件或输入*搜索所有。',
+
+        # JS File: Core.Agent.Login
+        'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.' =>
+            '',
+        'Do not show this warning again.' => '',
+
+        # JS File: Core.Agent.Preferences
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            '抱歉，你不能将标记为强制的通知的所有传输方法都禁用掉。',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            '抱歉，你不能将本通知的所有传输方法都禁用掉。',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => '切换到桌面模式',
 
@@ -4222,7 +4257,6 @@ sub Data {
         'and %s more...' => '和%s 更多...',
         'Clear all' => '清除所有',
         'Filters' => '过滤器',
-        'Confirm' => '确认',
         'Clear search' => '清除搜索',
 
         # JS File: Core.UI.Popup
@@ -4356,8 +4390,8 @@ Thanks for your help!
             '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             '',
-        'Agents <-> Groups' => '服务人员 <-> 组',
-        'Agents <-> Roles' => '服务人员 <-> 角色',
+        'Agents ↔ Groups' => '',
+        'Agents ↔ Roles' => '',
         'All customer users of a CustomerID' => '一个客户ID的所有客户联系人',
         'All escalated tickets' => '所有升级的工单',
         'All new tickets, these tickets have not been worked on yet' => '所有新建工单，这些工单目前还没有被处理',
@@ -4408,6 +4442,8 @@ Thanks for your help!
             '允许在服务人员界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '允许在客户界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '允许拥有一个基本概览视图（如果CustomerInfo => 1还将显示客户信息）。',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4424,8 +4460,8 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '阿拉伯语（沙特阿拉伯）',
         'Archive state changed: "%s"' => '归档状态变更：“%s”',
         'ArticleTree' => '信件树',
-        'Attachments <-> Templates' => '附件 <-> 模板',
-        'Auto Responses <-> Queues' => '自动响应 <-> 队列',
+        'Attachments ↔ Templates' => '',
+        'Auto Responses ↔ Queues' => '',
         'AutoFollowUp sent to "%s".' => '自动跟进已发送给“%s”。',
         'AutoReject sent to "%s".' => '自动拒绝已发送给“%s”。',
         'AutoReply sent to "%s".' => '自动回复已发送给“%s”。',
@@ -4519,7 +4555,6 @@ Thanks for your help!
         'Comment2' => '注释2',
         'Communication' => '沟通',
         'Company Status' => '单位状态',
-        'Company Tickets' => '单位工单',
         'Company Tickets.' => '单位工单。',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '单位名称将作为X-Header包括在外出邮件中',
@@ -4584,12 +4619,13 @@ Thanks for your help!
             '显示给还没有工单的客户的网页定制文本（如果您需要翻译这些文本，将它们添加到定制翻译模块）。',
         'Customer Administration' => '客户管理',
         'Customer Companies' => '客户单位',
+        'Customer Company' => '',
         'Customer Information Center Search.' => '客户信息中心搜索。',
         'Customer Information Center.' => '客户信息中心。',
         'Customer Ticket Print Module.' => '客户工单打印模块。',
-        'Customer User <-> Groups' => '客户联系人 <-> 组',
-        'Customer User <-> Services' => '客户联系人 <-> 服务',
         'Customer User Administration' => '客户联系人管理',
+        'Customer User ↔ Groups' => '',
+        'Customer User ↔ Services' => '',
         'Customer Users' => '客户联系人',
         'Customer called us.' => '客户给我们打过电话。',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -4605,7 +4641,7 @@ Thanks for your help!
         'CustomerID search' => '客户ID搜索',
         'CustomerName' => '客户名称',
         'CustomerUser' => '客户联系人',
-        'Customers <-> Groups' => '客户 <-> 组',
+        'Customers ↔ Groups' => '',
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             '全文索引可定制的停用词，这些词将从搜索索引中移除。',
         'Czech' => '捷克语',
@@ -4639,6 +4675,8 @@ Thanks for your help!
         'Default ticket ID used by the system in the customer interface.' =>
             '在客户界面中系统使用的默认工单ID。',
         'Default value for NameX' => 'NameX的默认值',
+        'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
+            '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（例如：faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4654,6 +4692,8 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '为选定的日历定义日期选择器中一周的起始日。',
         'Define the start day of the week for the date picker.' => '定义日期选择器中一周的起始日。',
+        'Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '定义一个客户条目，以在客户信息块的尾部生成一个LinkedIn图标。',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4695,6 +4735,8 @@ Thanks for your help!
             '在客户界面个人偏好设置中定义ShownTickets（显示工单）对象的所有参数。',
         'Defines all the parameters for this item in the customer preferences.' =>
             '在客户偏好设置中定义这个条目的所有参数。',
+        'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
+            '',
         'Defines all the parameters for this notification transport.' => '为这个通知传输定义所有的参数。',
         'Defines all the possible stats output formats.' => '定义所有可能的统计输出格式。',
         'Defines an alternate URL, where the login link refers to.' => '定义一个用户登录链接的备选URL地址。',
@@ -4792,6 +4834,8 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => '定义自动完成功能的配置选项。',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '定义在个人偏好设置视图中显示这个条目的配置参数。',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
+            '',
         'Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.' =>
             '定义在个人偏好设置视图中显示这个条目的配置参数。注意维护在数据区安装到系统中的词典。',
         'Defines the connections for http/ftp, via a proxy.' => '定义通过代理到HTTP/FTP的连接。',
@@ -5277,11 +5321,14 @@ Thanks for your help!
         'Delete expired cache from core modules.' => '删除核心模块过期的缓存。',
         'Delete expired loader cache weekly (Sunday mornings).' => '每周删除过期的载入器缓存（星期天早晨）。',
         'Delete expired sessions.' => '删除过期的会话。',
+        'Delete expired upload cache hourly.' => '',
         'Delete this ticket' => '删除工单',
         'Deleted link to ticket "%s".' => '到工单“%s”的链接已删除。',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '如果会话ID被无效的远程IP地址使用则删除该会话。',
         'Deletes requested sessions if they have timed out.' => '删除超时的会话请求。',
+        'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
+            '',
         'Deploy and manage OTRS Business Solution™.' => '部署并管理OTRS商业版。',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '确定在服务人员界面转移工单到可能的队列列表是否在下拉列表中或新窗口显示。如果设置为“新窗口”，您可以为这个工单添加一个移动备注。',
@@ -5460,6 +5507,10 @@ Thanks for your help!
             '事件模块注册。为获得更好的性能你可以定义一个触发事件（例如：事件 => 工单创建），只有工单的所有动态字段需要同一事件时才可能。',
         'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
             '对TicketIndex（工单索引）执行更新语句以重命名列队名称（如果有重命名需要且使用静态数据库）的事件模块。',
+        'Event module that updates customer company object name for dynamic fields.' =>
+            '',
+        'Event module that updates customer user object name for dynamic fields.' =>
+            '',
         'Event module that updates customer user search profiles if login changes.' =>
             '登录用户变化时更新客户联系人搜索模板的事件模块。',
         'Event module that updates customer user service membership if login changes.' =>
@@ -5506,6 +5557,8 @@ Thanks for your help!
         'Firstname Lastname' => '名 姓',
         'Firstname Lastname (UserLogin)' => '名 姓（登录用户名）',
         'FollowUp for [%s]. %s' => '[%s]. %s的跟进',
+        'For these state types the ticket numbers are striked through in the link table.' =>
+            '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '外发邮件强制编码为（7bit|8bit|可打印|base64）。',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -5733,6 +5786,7 @@ Thanks for your help!
         'Lastname, Firstname (UserLogin)' => '姓, 名（登录用户名）',
         'Latvian' => '拉脱维亚语',
         'Left' => '左',
+        'Link Object' => '链接对象',
         'Link Object.' => '链接对象。',
         'Link agents to groups.' => '链接服务人员到组。',
         'Link agents to roles.' => '链接服务人员到角色。',
@@ -5863,7 +5917,6 @@ Thanks for your help!
         'Multiselect' => '多选',
         'My Queues' => '我的队列',
         'My Services' => '我的服务',
-        'My Tickets' => '我的工单',
         'My Tickets.' => '我的工单。',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '定制队列的名称。定制队列是您的首选队列，能够在偏好设置中选择。',
@@ -6012,8 +6065,8 @@ Thanks for your help!
         'Product News' => '产品新闻',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '针对CSRF（跨站请求伪造）漏洞利用的保护（参阅http://en.wikipedia.org/wiki/Cross-site_request_forgery获取更多信息）。',
-        'Provides a matrix overview of the tickets per state per queue.' =>
-            '提供一个按状态和队列的工单矩阵概览。',
+        'Provides a matrix overview of the tickets per state per queue' =>
+            '',
         'Queue view' => '队列视图',
         'Rebuild the ticket index for AgentTicketQueue.' => '为AgentTicketQueue（服务人员工单队列）重建工单索引。',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
@@ -6068,7 +6121,7 @@ Thanks for your help!
         'Retains all services in listings even if they are children of invalid elements.' =>
             '在列表中保留所有的服务，即使他们是无效的子元素。',
         'Right' => '右',
-        'Roles <-> Groups' => '角色 <-> 组',
+        'Roles ↔ Groups' => '',
         'Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '运行基于文件的自动任务（注意：需要在配置模块参数中指定模块名，如"Kernel::System::GenericAgent"）。',
         'Running Process Tickets' => '运行中的流程工单',
@@ -6601,7 +6654,7 @@ Thanks for your help!
         'System Maintenance' => '系统维护',
         'System Request (%s).' => '系统请求 (%s)。',
         'Target' => '目标',
-        'Templates <-> Queues' => '模板 <-> 队列',
+        'Templates ↔ Queues' => '',
         'Textarea' => '多行文本',
         'Thai' => '泰国语',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
@@ -6726,8 +6779,6 @@ Thanks for your help!
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '关闭SSL证书验证，例如在使用HTTPS透明代理时。使用这个设置风险自负！',
         'Turns on drag and drop for the main navigation.' => '开启主菜单的拖放功能。',
-        'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
-            '开启图形界面使用的动画。如果使用动画有问题（如性能问题），您可以在这里关闭动画。',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '开启远程IP地址检查，如果系统通过代理或拨号连接，应该设置为“否”，因为远程IP在每次请求时可能都不一样。',
         'Ukrainian' => '乌克兰语',
@@ -6807,6 +6858,7 @@ Thanks for your help!
         'Apply',
         'Apr',
         'April',
+        'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Aug',
         'August',
@@ -6821,6 +6873,7 @@ Thanks for your help!
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
         'Customer interface does not support internal article types.',
+        'Data Protection',
         'Dec',
         'December',
         'Delete',
@@ -6831,8 +6884,14 @@ Thanks for your help!
         'Delete this Invoker',
         'Delete this Operation',
         'Delete webservice',
+        'Do not show this warning again.',
         'Do you really want to continue?',
+        'Do you really want to delete this attachment?',
+        'Do you really want to delete this certificate?',
+        'Do you really want to delete this filter?',
         'Do you really want to delete this notification language?',
+        'Do you really want to delete this notification?',
+        'Do you really want to delete this scheduled system maintenance?',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
@@ -6901,13 +6960,18 @@ Thanks for your help!
         'Sep',
         'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show EntityIDs',
+        'Show more',
         'Show or hide the content.',
         'Slide the navigation bar',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
+        'Sorry, but you can\'t disable all methods for this notification.',
         'Su',
         'Sun',
         'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'System Registration',
         'Th',
         'The browser you are using is too old.',
         'There are currently no elements available to select from.',
@@ -6924,6 +6988,7 @@ Thanks for your help!
         'Tu',
         'Tue',
         'Tuesday',
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.',
         'We',
         'Wed',
         'Wednesday',

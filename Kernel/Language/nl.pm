@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.646995009763506;
+    $Self->{Completeness}        = 0.640388768898488;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -178,7 +178,7 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Wildcards zijn toegestaan.',
         'Add customer' => 'Nieuwe klant',
         'Select' => 'Selecteer',
-        'shown' => 'tonen',
+        'List (only %s shown - more available)' => '',
         'total' => 'totaal',
         'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
         'CustomerID' => 'Klantcode',
@@ -193,6 +193,7 @@ sub Data {
         'Add customer user' => 'Nieuwe klant',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via het klantenscherm.',
+        'List (%s total)' => '',
         'Username' => 'Gebruikersnaam',
         'Email' => 'E-mail',
         'Last Login' => 'Laatst ingelogd',
@@ -737,7 +738,7 @@ sub Data {
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
             '',
         'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
+        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Na opslaan blijft u in dit scherm.',
@@ -781,8 +782,6 @@ sub Data {
         'Your current web service configuration will be overwritten.' => 'De huidige webservice-configuratie zal worden overschreven.',
 
         # Template: AdminGroup
-        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            'WAARSCHUWING: Als u de naam van de groep \'admin\'aanpast voordat u de bijbehorende wijzigingen in de Systeemconfiguratie heeft aangebracht, zult u geen beheer-permissies meer hebben in OTRS. Als dit gebeurt, moet u de naam van de groep aanpassen met een SQL statement.',
         'Group Management' => 'Groepenbeheer',
         'Add group' => 'Groep toevoegen',
         'Filter for log entries' => '',
@@ -844,7 +843,6 @@ sub Data {
         'Upload Notification configuration' => 'Upload meldingconfiguratie',
         'Import Notification configuration' => 'Melding configuratie importeren',
         'Delete this notification' => 'Melding verwijderen',
-        'Do you really want to delete this notification?' => 'Wenst u deze melding te verwijderen?',
         'Add Notification' => 'Melding toevoegen',
         'Edit Notification' => 'Bewerk melding',
         'Show in agent preferences' => 'Tonen bij voorkeuren Agent',
@@ -1109,6 +1107,7 @@ sub Data {
         'Set email header' => 'Stel email kop in',
         'Set value' => 'Zet waarde',
         'The field needs to be a literal word.' => 'Dit veld moet een letterlijke waarde bevatten.',
+        'Save changes' => '',
         'Header' => 'Type',
 
         # Template: AdminPriority
@@ -1692,7 +1691,6 @@ sub Data {
         'Invalid year' => 'Ongeldig jaar',
         'Invalid month' => 'Ongeldige maand',
         'Invalid day' => 'Ongeldige dag',
-        'Show more' => 'Toon meer',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Systeem e-mailadressen beheer',
@@ -1720,8 +1718,6 @@ sub Data {
         'Start date' => 'Begindatum',
         'Stop date' => 'Einddatum',
         'Delete System Maintenance' => 'Verwijder Systeemonderhoudstijdsvak.',
-        'Do you really want to delete this scheduled system maintenance?' =>
-            'Weet je zeker dat je dit onderhoudstijdsvak wil verwijderen?',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Bewerk onderhoudsvenster %s',
@@ -1752,7 +1748,7 @@ sub Data {
         'Your email address is' => 'Uw e-mailadres is',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates <-> Attachments Relations' => 'Beheer Sjabloon <-> Bijlage koppelingen',
+        'Manage Templates-Attachments Relations' => '',
         'Change Template Relations for Attachment' => 'Verander gekoppelde sjablonen voor bijlage',
         'Change Attachment Relations for Template' => 'Verander gekoppelde bijlagen voor sjabloon',
         'Toggle active for all' => 'Actief aan/uit voor alles',
@@ -1911,10 +1907,7 @@ sub Data {
         'Link Object: %s' => 'Koppel object: %s',
         'go to link delete screen' => 'ga naar koppeling-verwijder scherm',
         'Select Target Object' => 'Selecteer doel',
-        'Link Object' => 'Koppel object',
-        'with' => 'met',
-        'Please enter at least one search value or * to find anything.' =>
-            'Geef één of meerdere tekens of een wildcard als * op om een zoekopdracht uit te voeren.',
+        'Link object %s with' => '',
         'Unlink Object: %s' => 'Verwijder de relatie met object: %s',
         'go to link add screen' => 'ga naar koppelscherm',
 
@@ -2004,7 +1997,7 @@ sub Data {
         'Inform involved agents' => 'Stel betrokken gebruikers op de hoogte',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Hier kun je extra gebruikers aanvinken die een notificatie zouden moeten krijgen over het nieuwe artikel.',
-        'Text will also be received by:' => 'Tekst wordt ook ontvangen door:',
+        'Text will also be received by' => '',
         'Spell check' => 'Spellingscontrole',
         'Text Template' => 'Tekstsjabloon',
         'Setting a template will overwrite any text or attachment.' => 'Het instellen van een template overschrijft alle testen en bijlagen.',
@@ -2345,6 +2338,11 @@ sub Data {
 
         # Template: Error
         'An Error Occurred' => '',
+        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
+            '',
+        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
+            '',
+        'Contact our service team now.' => '',
         'Send a bugreport' => 'Een bug report indienen',
         'Error Details' => 'Error gegevens',
         'Expand' => 'Klap uit',
@@ -2356,7 +2354,7 @@ sub Data {
         'Scale preview content' => '',
         'Open URL in new tab' => '',
         'Close preview' => '',
-        'OTRS can\'t provide a preview of this website because it seems as if it didn\'t allow to be embedded.' =>
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
 
         # Template: Header
@@ -2503,10 +2501,6 @@ sub Data {
             'Ontvang berichten vor notificatie \'%s\' via transport methode \'%s\'.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
             'Let op dat je verplichte notificaties niet volledig uit kun zetten.',
-        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
-            'Helaas, maar je kun niet alle methoden voor notificatie markeren als verplicht.',
-        'Sorry, but you can\'t disable all methods for this notification.' =>
-            'Helaas is het niet mogelijk om alle methodes voor deze notificatie uit te zetten.',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Procesinformatie',
@@ -3319,6 +3313,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '',
+        'My Tickets' => 'Mijn tickets',
+        'Company Tickets' => 'Tickets van groep',
+        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Created within the last' => 'Aangemaakt in de laatste',
@@ -3397,10 +3394,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'Shown Tickets' => 'Laat tickets zien',
         'Shown Columns' => 'Toon kolommen',
-        'filter not active' => '',
-        'filter active' => '',
         'sorted ascending' => '',
         'sorted descending' => '',
+        'filter not active' => '',
+        'filter active' => '',
         'This ticket has no title or subject' => 'Dit ticket heeft geen titel of onderwerp',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketStatsGeneric.pm
@@ -3503,14 +3500,15 @@ sub Data {
         'Please supply your new password!' => 'Geef je nieuwe wachtwoord op.',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             'Kan het wachtwoord niet bijwerken, de wachtwoorden komen niet overeen.',
-        'Can\'t update password, it contains invalid characters!' => 'Kan het wachtwoord niet bijwerken, het bevat ongeldige tekens.',
+        'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.' =>
+            '',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens %s tekens lang zijn.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Kan het wachtwoord niet bijwerken, het moet minstens twee kleine letters en twee hoofdletters bevatten.',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan het wachtwoord niet bijwerken, het moet minstens 1 cijfer bevatten.',
-        'Can\'t update password, it must contain at least 2 characters!' =>
-            'Kan het wachtwoord niet bijwerken, het moet minstens twee tekens lang zijn.',
+        'Can\'t update password, it must contain at least 2 letter characters!' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
         'Time zone updated successfully!' => '',
@@ -4071,6 +4069,9 @@ sub Data {
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             'Dit item bevat sub-items. Weet u zeker dat u dit item inclusief subitems wilt verwijderen?',
 
+        # JS File: Core.Agent.Admin.Attachment
+        'Do you really want to delete this attachment?' => '',
+
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Selectie verwijderen',
         'Delete this Event Trigger' => 'Verwijder deze event trigger.',
@@ -4096,8 +4097,17 @@ sub Data {
         'Delete operation' => 'Verwijder operatie',
         'Delete invoker' => 'Verwijder invoker',
 
+        # JS File: Core.Agent.Admin.Group
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
+            'WAARSCHUWING: Als u de naam van de groep \'admin\'aanpast voordat u de bijbehorende wijzigingen in de Systeemconfiguratie heeft aangebracht, zult u geen beheer-permissies meer hebben in OTRS. Als dit gebeurt, moet u de naam van de groep aanpassen met een SQL statement.',
+        'Confirm' => 'Bevestigen',
+
         # JS File: Core.Agent.Admin.NotificationEvent
         'Do you really want to delete this notification language?' => 'Weet je zeker dat je deze notificatie taal wil verwijderen?',
+        'Do you really want to delete this notification?' => 'Wenst u deze melding te verwijderen?',
+
+        # JS File: Core.Agent.Admin.PostMasterFilter
+        'Do you really want to delete this filter?' => '',
 
         # JS File: Core.Agent.Admin.ProcessManagement.Canvas
         'Remove Entity from canvas' => 'Verwijder van canvas',
@@ -4123,6 +4133,16 @@ sub Data {
         'Hide EntityIDs' => 'Verberg ID\'s',
         'Edit Field Details' => 'Bewerk veld-details',
         'Customer interface does not support internal article types.' => 'De klant-interface ondersteunt geeb interne interactie-typen.',
+
+        # JS File: Core.Agent.Admin.SMIME
+        'Do you really want to delete this certificate?' => '',
+
+        # JS File: Core.Agent.Admin.SysConfig
+        'Show more' => 'Toon meer',
+
+        # JS File: Core.Agent.Admin.SystemMaintenance
+        'Do you really want to delete this scheduled system maintenance?' =>
+            'Weet je zeker dat je dit onderhoudstijdsvak wil verwijderen?',
 
         # JS File: Core.Agent.CustomerInformationCenterSearch
         'Loading...' => 'Bezig met laden...',
@@ -4177,6 +4197,21 @@ sub Data {
         'Sa' => 'za',
         'month' => 'maand',
 
+        # JS File: Core.Agent.LinkObject.SearchForm
+        'Please enter at least one search value or * to find anything.' =>
+            'Geef één of meerdere tekens of een wildcard als * op om een zoekopdracht uit te voeren.',
+
+        # JS File: Core.Agent.Login
+        'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.' =>
+            '',
+        'Do not show this warning again.' => '',
+
+        # JS File: Core.Agent.Preferences
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
+            'Helaas, maar je kun niet alle methoden voor notificatie markeren als verplicht.',
+        'Sorry, but you can\'t disable all methods for this notification.' =>
+            'Helaas is het niet mogelijk om alle methodes voor deze notificatie uit te zetten.',
+
         # JS File: Core.Agent.Responsive
         'Switch to desktop mode' => 'Omschakelen naar desktop weergave',
 
@@ -4222,7 +4257,6 @@ sub Data {
         'and %s more...' => 'en nog %s meer...',
         'Clear all' => 'Alles weghalen',
         'Filters' => 'Filters',
-        'Confirm' => 'Bevestigen',
         'Clear search' => 'Verwijder zoekactie',
 
         # JS File: Core.UI.Popup
@@ -4358,8 +4392,8 @@ Het Helpdesk Team
             '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             '',
-        'Agents <-> Groups' => 'Behandelaars <-> Groepen',
-        'Agents <-> Roles' => 'Behandelaars <-> Rollen',
+        'Agents ↔ Groups' => '',
+        'Agents ↔ Roles' => '',
         'All customer users of a CustomerID' => 'Alle klanten accounts van een CustomerID',
         'All escalated tickets' => 'Alle geëscaleerde tickets',
         'All new tickets, these tickets have not been worked on yet' => 'Alle nieuwe tickets. Aan deze tickets is nog niet gewerkt',
@@ -4410,6 +4444,8 @@ Het Helpdesk Team
             'Staat het toe om uitgebreide zoekcondities in het zoekscherm van tickets te gebruiken in de agent interface. Met deze feature kun je zoeken met condities zoals "(key1&&key2)" of "(key1||key2)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4426,8 +4462,8 @@ Het Helpdesk Team
         'Arabic (Saudi Arabia)' => 'Arabisch (Saudi Arabië)',
         'Archive state changed: "%s"' => 'Archiefstatus veranderd: "%s"',
         'ArticleTree' => 'Interactie-boom',
-        'Attachments <-> Templates' => 'Bijlagen <-> Sjablonen',
-        'Auto Responses <-> Queues' => 'Wachtrijen <-> Automatische antwoorden',
+        'Attachments ↔ Templates' => '',
+        'Auto Responses ↔ Queues' => '',
         'AutoFollowUp sent to "%s".' => 'Automatische melding verstuurd aan "%s".',
         'AutoReject sent to "%s".' => 'Automatische afwijzing verstuurd aan "%s".',
         'AutoReply sent to "%s".' => 'Automatische beantwoording verstuurd aan "%s".',
@@ -4521,7 +4557,6 @@ Het Helpdesk Team
         'Comment2' => 'Comment2',
         'Communication' => 'Communicatie',
         'Company Status' => 'Klantstatus',
-        'Company Tickets' => 'Tickets van groep',
         'Company Tickets.' => '',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
@@ -4586,12 +4621,13 @@ Het Helpdesk Team
             '',
         'Customer Administration' => '',
         'Customer Companies' => 'Bedrijven',
+        'Customer Company' => '',
         'Customer Information Center Search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
-        'Customer User <-> Groups' => 'Klanten <-> Groepen',
-        'Customer User <-> Services' => 'Klanten <-> Services',
         'Customer User Administration' => 'Beheren van klanten',
+        'Customer User ↔ Groups' => '',
+        'Customer User ↔ Services' => '',
         'Customer Users' => 'Klanten',
         'Customer called us.' => 'Klant heeft gebeld.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -4607,7 +4643,7 @@ Het Helpdesk Team
         'CustomerID search' => '',
         'CustomerName' => '',
         'CustomerUser' => '',
-        'Customers <-> Groups' => 'Klanten <-> Groepen',
+        'Customers ↔ Groups' => '',
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Czech' => '',
@@ -4641,6 +4677,8 @@ Het Helpdesk Team
         'Default ticket ID used by the system in the customer interface.' =>
             '',
         'Default value for NameX' => '',
+        'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
+            '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4656,6 +4694,8 @@ Het Helpdesk Team
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
+        'Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4696,6 +4736,8 @@ Het Helpdesk Team
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
             '',
         'Defines all the parameters for this item in the customer preferences.' =>
+            '',
+        'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
             '',
         'Defines all the parameters for this notification transport.' => '',
         'Defines all the possible stats output formats.' => '',
@@ -4793,6 +4835,8 @@ Het Helpdesk Team
             '',
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
+            '',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
             '',
         'Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.' =>
             '',
@@ -5279,11 +5323,14 @@ Het Helpdesk Team
         'Delete expired cache from core modules.' => '',
         'Delete expired loader cache weekly (Sunday mornings).' => '',
         'Delete expired sessions.' => '',
+        'Delete expired upload cache hourly.' => '',
         'Delete this ticket' => 'Verwijder dit ticket',
         'Deleted link to ticket "%s".' => 'Koppeling naar "%s" verwijderd.',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
+        'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
+            '',
         'Deploy and manage OTRS Business Solution™.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '',
@@ -5462,6 +5509,10 @@ Het Helpdesk Team
             '',
         'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
             '',
+        'Event module that updates customer company object name for dynamic fields.' =>
+            '',
+        'Event module that updates customer user object name for dynamic fields.' =>
+            '',
         'Event module that updates customer user search profiles if login changes.' =>
             '',
         'Event module that updates customer user service membership if login changes.' =>
@@ -5508,6 +5559,8 @@ Het Helpdesk Team
         'Firstname Lastname' => 'Voornaam Achternaam',
         'Firstname Lastname (UserLogin)' => 'Voornaam Achternaam (Loginnaam)',
         'FollowUp for [%s]. %s' => 'Vervolg vraag voor [%s]. %s',
+        'For these state types the ticket numbers are striked through in the link table.' =>
+            '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -5735,6 +5788,7 @@ Het Helpdesk Team
         'Lastname, Firstname (UserLogin)' => '',
         'Latvian' => '',
         'Left' => '',
+        'Link Object' => 'Koppel object',
         'Link Object.' => '',
         'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
         'Link agents to roles.' => 'Koppel gebruikers aan rollen.',
@@ -5865,7 +5919,6 @@ Het Helpdesk Team
         'Multiselect' => 'Multiselect',
         'My Queues' => 'Mijn wachtrijen',
         'My Services' => 'Mijn Diensten',
-        'My Tickets' => 'Mijn tickets',
         'My Tickets.' => 'Mijn tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
@@ -6014,8 +6067,8 @@ Het Helpdesk Team
         'Product News' => 'Productnieuws',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
-        'Provides a matrix overview of the tickets per state per queue.' =>
-            'Levert een matrixoverzicht van tickets per status per wachtrij.',
+        'Provides a matrix overview of the tickets per state per queue' =>
+            '',
         'Queue view' => 'Wachtrijoverzicht',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
@@ -6070,7 +6123,7 @@ Het Helpdesk Team
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
         'Right' => '',
-        'Roles <-> Groups' => 'Rollen <-> Groepen',
+        'Roles ↔ Groups' => '',
         'Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => '',
@@ -6603,7 +6656,7 @@ Het Helpdesk Team
         'System Maintenance' => 'Systeemonderhoud',
         'System Request (%s).' => 'SystemRequest: "%s"',
         'Target' => '',
-        'Templates <-> Queues' => 'Sjablonen <-> Wachtrijen',
+        'Templates ↔ Queues' => '',
         'Textarea' => 'Tekstvak',
         'Thai' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
@@ -6728,8 +6781,6 @@ Het Helpdesk Team
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
-        'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
-            '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
         'Ukrainian' => '',
@@ -6809,6 +6860,7 @@ Het Helpdesk Team
         'Apply',
         'Apr',
         'April',
+        'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Aug',
         'August',
@@ -6823,6 +6875,7 @@ Het Helpdesk Team
         'Confirm',
         'Could not open popup window. Please disable any popup blockers for this application.',
         'Customer interface does not support internal article types.',
+        'Data Protection',
         'Dec',
         'December',
         'Delete',
@@ -6833,8 +6886,14 @@ Het Helpdesk Team
         'Delete this Invoker',
         'Delete this Operation',
         'Delete webservice',
+        'Do not show this warning again.',
         'Do you really want to continue?',
+        'Do you really want to delete this attachment?',
+        'Do you really want to delete this certificate?',
+        'Do you really want to delete this filter?',
         'Do you really want to delete this notification language?',
+        'Do you really want to delete this notification?',
+        'Do you really want to delete this scheduled system maintenance?',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
@@ -6903,13 +6962,18 @@ Het Helpdesk Team
         'Sep',
         'September',
         'Setting a template will overwrite any text or attachment.',
+        'Show EntityIDs',
+        'Show more',
         'Show or hide the content.',
         'Slide the navigation bar',
+        'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
+        'Sorry, but you can\'t disable all methods for this notification.',
         'Su',
         'Sun',
         'Sunday',
         'Switch to desktop mode',
         'Switch to mobile mode',
+        'System Registration',
         'Th',
         'The browser you are using is too old.',
         'There are currently no elements available to select from.',
@@ -6926,6 +6990,7 @@ Het Helpdesk Team
         'Tu',
         'Tue',
         'Tuesday',
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.',
         'We',
         'Wed',
         'Wednesday',
