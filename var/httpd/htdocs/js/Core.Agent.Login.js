@@ -21,19 +21,6 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Login = (function (TargetNS) {
 
     /**
-     * @name PreLogin
-     * @memberof Core.Agent.Login
-     * @function
-     * @description
-     *      Automatically submits the login form in case of a pre login scenario.
-     */
-    TargetNS.PreLogin = function() {
-        if ($('#LoginBox').hasClass('PreLogin')) {
-            $('#LoginBox form').submit();
-        }
-    };
-
-    /**
      * @name Init
      * @memberof Core.Agent.Login
      * @function
@@ -42,6 +29,7 @@ Core.Agent.Login = (function (TargetNS) {
      *      This function initializes the special module functions.
      */
     TargetNS.Init = function (LoginFailed) {
+
         // Browser is too old
         if (!Core.Agent.SupportedBrowser) {
             $('#LoginBox').hide();
@@ -74,8 +62,13 @@ Core.Agent.Login = (function (TargetNS) {
             Core.UI.Animate($('#LoginBox'), 'Shake');
         }
 
+        // Automatically submit the login form in case of a pre login scenario.
+        if ($('#LoginBox').hasClass('PreLogin')) {
+            $('#LoginBox form').submit();
+        }
+
         // display ad blocker warning
-        if (window.OTRSAdblockDisabled === undefined && !localStorage.getItem("UserDontShowAdBlockWarning") && !$('LoginBox').hasClass('PreLogin')) {
+        if (window.OTRSAdblockDisabled === undefined && !localStorage.getItem("UserDontShowAdBlockWarning") && !$('#LoginBox').hasClass('PreLogin')) {
             $('#LoginBox')
                 .prepend('<div class="ErrorBox" style="display: none;"><span>' + Core.Language.Translate("Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.") + ' <i class="fa fa-long-arrow-right"></i> <a href="#" id="HideAdBlockMessage">' + Core.Language.Translate("Do not show this warning again.") + '</a></span></div>')
                 .find('#HideAdBlockMessage')
