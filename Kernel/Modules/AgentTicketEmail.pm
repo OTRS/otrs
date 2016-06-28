@@ -2156,9 +2156,17 @@ sub _MaskEmailNew {
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # build customer search autocomplete field
-    $LayoutObject->Block(
-        Name => 'CustomerSearchAutoComplete',
+    # set JS data
+    my $ShowCustTickets   = $ConfigObject->Get('Ticket::Frontend::ShowCustomerTickets');
+    my $AllowMultipleFrom = $ConfigObject->Get('Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom');
+
+    $LayoutObject->AddJSData(
+        Key   => 'CustomerSearch.ShowCustomerTickets',
+        Value => $ShowCustTickets,
+    );
+    $LayoutObject->AddJSData(
+        Key   => 'Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom',
+        Value => $AllowMultipleFrom,
     );
 
     # build string

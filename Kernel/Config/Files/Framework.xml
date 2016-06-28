@@ -8946,6 +8946,7 @@ via the Preferences button after logging in.
                 <NavBarName></NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
+                    <JavaScript>Core.Agent.CustomerSearchAutoComplete.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.Book.js</JavaScript>
                 </Loader>

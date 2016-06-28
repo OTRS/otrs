@@ -6,8 +6,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% InsertTemplate("AgentCustomerSearch.tt") %]
-
 [% RenderBlockStart("Customer") %]
 <div class="LayoutPopup ARIARoleMain">
     <div class="Header">

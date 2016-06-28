@@ -6,7 +6,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% InsertTemplate("AgentCustomerSearch.tt") %]
 <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="Compose" id="Compose" class="Validate PreventMultipleSubmits">
     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
     <input type="hidden" name="Subaction" value="SendEmail"/>
