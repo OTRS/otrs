@@ -102,6 +102,14 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                             $.noop(Event);
                         }
 
+                        if (typeof Core.Config.Get('ParentReload') !== 'undefined' && parseInt(Core.Config.Get('ParentReload'), 10) === 1){
+                            if (Core.UI.Popup.IsPopupWindow()) {
+                                Core.UI.Popup.ExecuteInParentWindow(function (ParentWindow) {
+                                    ParentWindow.Core.UI.Popup.FirePopupEvent('Reload');
+                                });
+                            }
+                        }
+
                         // Handle special server errors (Response = <div class="ServerError" data-message="Message"></div>)
                         // Check if first element has class 'ServerError'
                         if ($ElementToUpdate.children().first().hasClass('ServerError')) {

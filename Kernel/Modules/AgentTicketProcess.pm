@@ -2161,8 +2161,9 @@ sub _OutputActivityDialog {
 
     # reload parent window
     if ( $Param{ParentReload} ) {
-        $LayoutObject->Block(
-            Name => 'ParentReload',
+        $LayoutObject->AddJSData(
+            Key   => 'ParentReload',
+            Value => 1,
         );
     }
 

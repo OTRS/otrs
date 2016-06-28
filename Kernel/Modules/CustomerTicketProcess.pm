@@ -1758,13 +1758,6 @@ sub _OutputActivityDialog {
         );
     }
 
-    # reload parent window
-    if ( $Param{ParentReload} ) {
-        $LayoutObject->Block(
-            Name => 'ParentReload',
-        );
-    }
-
     # Add the FormFooter
     $Output .= $LayoutObject->Output(
         TemplateFile => 'ProcessManagement/CustomerActivityDialogFooter',
