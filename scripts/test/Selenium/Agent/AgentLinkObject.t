@@ -29,14 +29,23 @@ my $DragAndDrop = sub {
         }
     }
 
+    # Make sure DragFrom is visible
+    $Selenium->WaitFor(
+        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{DragFrom} . ':visible\').length;',
+    );
     my $DragFrom = $Selenium->find_element( $Param{From}, 'css' );
-    my $DragTo   = $Selenium->find_element( $Param{To},   'css' );
 
     # Move mouse to from element, drag and drop
     $Selenium->mouse_move_to_location( element => $DragFrom );
 
     # Holds the mouse button on the element
     $Selenium->button_down();
+
+    # Make sure DragTo is visible
+    $Selenium->WaitFor(
+        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{DragTo} . ':visible\').length;',
+    );
+    my $DragTo = $Selenium->find_element( $Param{To}, 'css' );
 
     # Move mouse to the destination
     $Selenium->mouse_move_to_location(
@@ -382,7 +391,7 @@ $Selenium->RunTest(
                 "Delete ticket - $TicketID"
             );
         }
-    }
+        }
 );
 
 1;
