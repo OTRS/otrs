@@ -328,6 +328,7 @@ sub WaitFor {
             return 1 if scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
         }
         elsif ( $Param{AlertPresent} ) {
+
             # Eval is needed because the method would throw if no alert is present (yet).
             return 1 if eval { $Self->get_alert_text() };
         }
@@ -340,7 +341,7 @@ sub WaitFor {
 
 =item DragAndDrop()
 
-Drag and drop an element
+Drag and drop an element.
 
     $SeleniumObject->DragAndDrop(
         Element => '.Element', # css selector of element which should be dragged
@@ -360,14 +361,23 @@ sub DragAndDrop {
         }
     }
 
+    # Make sure Element is visible
+    $Self->WaitFor(
+        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{Element} . ':visible\').length;',
+    );
     my $Element = $Self->find_element( $Param{Element}, 'css' );
-    my $Target  = $Self->find_element( $Param{Target},  'css' );
 
     # Move mouse to from element, drag and drop
     $Self->mouse_move_to_location( element => $Element );
 
     # Holds the mouse button on the element
     $Self->button_down();
+
+    # Make sure Target is visible
+    $Self->WaitFor(
+        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{Target} . ':visible\').length;',
+    );
+    my $Target = $Self->find_element( $Param{Target}, 'css' );
 
     # Move mouse to the destination
     $Self->mouse_move_to_location(
