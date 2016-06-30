@@ -109,7 +109,7 @@ Core.App = (function (Namespace) {
                 TargetNS.Init = function () {
                     Core.App.Teststring += "1";
                 };
-                Core.App.RegisterNamespace(TargetNS, 'APP_INIT');
+                Core.Init.RegisterNamespace(TargetNS, 'APP_INIT');
                 return TargetNS;
             }(Core.UnitTest1 || {}));
 
@@ -118,7 +118,7 @@ Core.App = (function (Namespace) {
                 TargetNS.Init = function () {
                     Core.App.Teststring += "2";
                 };
-                Core.App.RegisterNamespace(TargetNS, 'APP_INIT');
+                Core.Init.RegisterNamespace(TargetNS, 'APP_INIT');
                 return TargetNS;
             }(Core.UnitTest2 || {}));
 
@@ -126,7 +126,7 @@ Core.App = (function (Namespace) {
                 TargetNS.Init = function () {
                     Core.App.Teststring += "3";
                 };
-                Core.App.RegisterNamespace(TargetNS, 'APP_INIT');
+                Core.Init.RegisterNamespace(TargetNS, 'APP_INIT');
                 return TargetNS;
             }(Core.UnitTest3 || {}));
 
@@ -134,7 +134,7 @@ Core.App = (function (Namespace) {
                 TargetNS.Init = function () {
                     Core.App.Teststring += "4";
                 };
-                Core.App.RegisterNamespace(TargetNS, 'APP_LATE_INIT');
+                Core.Init.RegisterNamespace(TargetNS, 'APP_LATE_INIT');
                 return TargetNS;
             }(Core.UnitTest4 || {}));
 
@@ -142,20 +142,20 @@ Core.App = (function (Namespace) {
                 TargetNS.Init = function () {
                     Core.App.Teststring += "5";
                 };
-                Core.App.RegisterNamespace(TargetNS, 'APP_LATE_INIT');
+                Core.Init.RegisterNamespace(TargetNS, 'APP_LATE_INIT');
                 return TargetNS;
             }(Core.UnitTest5 || {}));
 
             // empty call does nothing
-            Core.App.Init();
+            Core.Init.ExecuteInit();
             equal(Core.App.Teststring, "");
 
             // calling first block
-            Core.App.Init('APP_INIT');
+            Core.Init.ExecuteInit('APP_INIT');
             equal(Core.App.Teststring, "123");
 
             // calling second block
-            Core.App.Init('APP_LATE_INIT');
+            Core.Init.ExecuteInit('APP_LATE_INIT');
             equal(Core.App.Teststring, "12345");
         });
     };
