@@ -292,10 +292,10 @@ Core.Agent = (function (TargetNS) {
                             });
 
                             // save the new order to the users preferences
-                            TargetNS.PreferencesUpdate('UserNavBarItemsOrder', Core.JSON.Stringify(Items));
-
-                            $('#Navigation').after('<i class="fa fa-check"></i>').next('.fa-check').css('left', $('#Navigation').outerWidth() + 10).delay(200).fadeIn(function() {
-                                $(this).delay(1500).fadeOut();
+                            TargetNS.PreferencesUpdate('UserNavBarItemsOrder', Core.JSON.Stringify(Items), function() {
+                                $('#Navigation').after('<i class="fa fa-check"></i>').next('.fa-check').css('left', $('#Navigation').outerWidth() + 10).delay(200).fadeIn(function() {
+                                    $(this).delay(1500).fadeOut();
+                                });
                             });
 
                             // make sure to re-size the nav container to its initial height after
@@ -633,10 +633,11 @@ Core.Agent = (function (TargetNS) {
      * @returns {Boolean} returns true.
      * @param {jQueryObject} Key - The name of the setting.
      * @param {jQueryObject} Value - The value of the setting.
+     * @param {Function} SuccessCallback - Callback function to be executed on AJAX success (optional).
      * @description
      *      This function sets session and preferences setting at runtime.
      */
-    TargetNS.PreferencesUpdate = function (Key, Value) {
+    TargetNS.PreferencesUpdate = function (Key, Value, SuccessCallback) {
         var URL = Core.Config.Get('Baselink'),
             Data = {
                 Action: 'AgentPreferences',
@@ -644,8 +645,12 @@ Core.Agent = (function (TargetNS) {
                 Key: Key,
                 Value: Value
             };
-        // We need no callback here, but the called function needs one, so we send an "empty" function
-        Core.AJAX.FunctionCall(URL, Data, $.noop);
+
+        if (!$.isFunction(SuccessCallback)) {
+            SuccessCallback = $.noop;
+        }
+
+        Core.AJAX.FunctionCall(URL, Data, SuccessCallback);
         return true;
     };
 
