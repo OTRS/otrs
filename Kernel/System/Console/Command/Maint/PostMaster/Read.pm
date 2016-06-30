@@ -15,6 +15,7 @@ use base qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
+    'Kernel::System::Main',
     'Kernel::System::PostMaster',
 );
 
@@ -48,10 +49,9 @@ sub Configure {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    my $Debug = $Self->GetOption('debug');
-    my $Name  = $Self->Name();
+    my $Name = $Self->Name();
 
-    if ($Debug) {
+    if ( $Self->GetOption('debug') ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => "OTRS email handle ($Name) started.",
@@ -61,6 +61,15 @@ sub PreRun {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $Debug = $Self->GetOption('debug');
+
+    if ($Debug) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "Trying to read email from STDIN...",
+        );
+    }
 
     # get email from SDTIN
     my @Email = <STDIN>;
@@ -72,6 +81,13 @@ sub Run {
         return $Self->ExitCodeError(1);
     }
 
+    if ($Debug) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "Email with " . ( scalar @Email ) . " lines successfully read from STDIN.",
+        );
+    }
+
     # Wrap the main part of the script in an "eval" block so that any
     # unexpected (but probably transient) fatal errors (such as the
     # database being unavailable) can be trapped without causing a
@@ -81,12 +97,29 @@ sub Run {
             'Kernel::System::PostMaster' => {
                 Email   => \@Email,
                 Trusted => $Self->GetOption('untrusted') ? 0 : 1,
-                Debug   => $Self->GetOption('debug'),
+                Debug   => $Debug,
             },
         );
+
+        if ($Debug) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'debug',
+                Message  => "Processing email...",
+            );
+        }
+
         my @Return = $Kernel::OM->Get('Kernel::System::PostMaster')->Run(
             Queue => $Self->GetOption('target-queue'),
         );
+
+        if ($Debug) {
+            my $Dump = $Kernel::OM->Get('Kernel::System::Main')->Dump( \@Return );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'debug',
+                Message  => "Email processing completed, return data: $Dump",
+            );
+        }
+
         if ( !$Return[0] ) {
             die "Can't process mail, see log!\n";
         }
@@ -113,10 +146,9 @@ sub Run {
 sub PostRun {
     my ( $Self, %Param ) = @_;
 
-    my $Debug = $Self->GetOption('debug');
-    my $Name  = $Self->Name();
+    my $Name = $Self->Name();
 
-    if ($Debug) {
+    if ( $Self->GetOption('debug') ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => "OTRS email handle ($Name) stopped.",
