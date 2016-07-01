@@ -252,7 +252,7 @@ $Selenium->RunTest(
             Element      => '#WidgetTicket li[data-fieldname="Age"]',
             Target       => '#AssignedFields-linkobject-Ticket',
             TargetOffset => {
-                X => 145,
+                X => 185,
                 Y => 10,
             },
         );
@@ -262,7 +262,7 @@ $Selenium->RunTest(
             Element      => '#WidgetTicket li[data-fieldname="State"]',
             Target       => '#AvailableField-linkobject-Ticket',
             TargetOffset => {
-                X => 145,
+                X => 185,
                 Y => 10,
             },
         );
