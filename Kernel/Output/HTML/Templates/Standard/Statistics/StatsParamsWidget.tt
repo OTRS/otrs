@@ -80,7 +80,16 @@
         [% Translate("Scale") | html %]: [% Data.Count %] [% Translate(Data.Scale) | html %]
 [% RenderBlockEnd("TimeScaleFixed") %]
 [% RenderBlockStart("Fixed") %]
-        <div title="[% Data.Value | html %]">[% Data.Value | truncate(120) | html %]</div>
+        <div title="[% Data.Value | html %]">
+                <span class="DataTruncated">[% Data.Value | truncate(120) | html %]</span>
+            [% IF Data.Value.length > 120 %]
+                <span class="DataFull Hidden">[% Data.Value | html %]</span>
+                <a href="#" class="DataShowMore">
+                    <span class="More"><i class="fa fa-long-arrow-right"></i> [% Translate("show more") | html %]</span>
+                    <span class="Less Hidden"><i class="fa fa-long-arrow-left"></i> [% Translate("show less") | html %]</span>
+                </a>
+            [% END %]
+        </div>
 [% RenderBlockEnd("Fixed") %]
 [% RenderBlockStart("MultiSelectField") %]
         [% Data.SelectField %]
@@ -154,5 +163,37 @@
 [% IF Data.AJAX %]
 <script type="text/javascript">//<![CDATA[
 Core.UI.InputFields.Activate();
+//]]></script>
+[% END %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('.DataShowMore').on('click', function() {
+    if ($(this).find('.More').is(':visible')) {
+        $(this)
+            .find('.More')
+            .hide()
+            .next('.Less')
+            .show()
+            .parent()
+            .prev('.DataFull')
+            .show()
+            .prev('.DataTruncated')
+            .hide()
+    }
+    else {
+        $(this)
+            .find('.More')
+            .show()
+            .next('.Less')
+            .hide()
+            .parent()
+            .prev('.DataFull')
+            .hide()
+            .prev('.DataTruncated')
+            .show()
+    }
+    return false;
+});
 //]]></script>
 [% END %]
