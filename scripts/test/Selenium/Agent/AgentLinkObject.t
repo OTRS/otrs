@@ -93,6 +93,9 @@ $Selenium->RunTest(
             Value => '60',
         );
 
+        # change resolution (desktop mode)
+        $Selenium->set_window_size( 900, 1200 );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -295,7 +298,7 @@ $Selenium->RunTest(
             From     => '#WidgetTicket li[data-fieldname="Age"]',
             To       => '#AssignedFields-linkobject-Ticket',
             ToOffset => {
-                X => 230,
+                X => 185,
                 Y => 10,
             },
         );
@@ -305,7 +308,7 @@ $Selenium->RunTest(
             From     => '#WidgetTicket li[data-fieldname="State"]',
             To       => '#AvailableField-linkobject-Ticket',
             ToOffset => {
-                X => 230,
+                X => 185,
                 Y => 10,
             },
         );
