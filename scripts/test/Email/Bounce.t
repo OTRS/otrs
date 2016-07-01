@@ -11,11 +11,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# Set OTRS time zone to matching one.
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'OTRSTimeZone',
     Value => 'UTC',
 );
+
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::DoNotSendEmail',
+);
+
 
 my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SystemTime = $Kernel::OM->Create(
