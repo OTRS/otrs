@@ -91,7 +91,7 @@
                         <li>[% Translate("No data found.") | html %]</li>
 [% RenderBlockEnd("NoAutoResponsesFoundMsg") %]
 [% RenderBlockStart("ItemList") %]
-                        <li><a href="[% Env("Baselink") %]Action=AdminAutoResponse;Subaction=Change;ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %] ([% Data.Type | html %])</a></li>
+                        <li><a href="[% Env("Baselink") %]Action=AdminAutoResponse;Subaction=Change;ID=[% Data.ID | uri %]" class="AsBlock">[% Translate(Data.Name) | html %] ([% Data.Type | html %])</a></li>
 [% RenderBlockEnd("ItemList") %]
                     </ul>
                 </div>
