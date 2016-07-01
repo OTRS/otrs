@@ -88,6 +88,8 @@ sub Run {
         return 1 if lc $CustomerEmailAddress eq lc $SenderAddress;
     }
 
+    my @References = $Self->{ParserObject}->GetReferences();
+
     # check if current sender got an internal forward
     my $InternalForward;
     ARTICLE:
@@ -102,6 +104,7 @@ sub Run {
         # check recipients
         next ARTICLE if !$Article->{To};
 
+        # check based on recipient addresses of the article
         my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
             Line => $Article->{To},
         );
@@ -117,14 +120,23 @@ sub Run {
             );
             if ( lc $Recipient eq lc $SenderAddress ) {
                 $InternalForward = 1;
-                last EMAIL;
+                last ARTICLE;
             }
             if ( $ReplyToAddress && lc $Recipient eq lc $ReplyToAddress ) {
                 $InternalForward = 1;
-                last EMAIL;
+                last ARTICLE;
+            }
+        }
+
+        # check based on Message-ID of the article
+        for my $Reference (@References) {
+            if ($Article->{MessageID} && $Article->{MessageID} eq $Reference) {
+                $InternalForward = 1;
+                last ARTICLE;
             }
         }
     }
+
     return 1 if !$InternalForward;
 
     # get latest customer article (current arrival)

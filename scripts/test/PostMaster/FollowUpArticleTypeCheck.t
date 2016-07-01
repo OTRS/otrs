@@ -57,6 +57,7 @@ $Self->True(
 my $ArticleID = $TicketObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-external',
+    MessageID      => 'message-id-email-external',
     SenderType     => 'customer',
     From           => "Customer <$CustomerAddress>",
     To             => "Agent <$AgentAddress>",
@@ -77,6 +78,7 @@ $Self->True(
 $ArticleID = $TicketObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-internal',
+    MessageID      => 'message-id-email-internal',
     SenderType     => 'agent',
     From           => "Agent <$AgentAddress>",
     To             => "Provider <$InternalAddress>",
@@ -98,6 +100,7 @@ $Self->True(
 $ArticleID = $TicketObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-internal',
+    MessageID      => 'message-id-email-internal-customer',
     SenderType     => 'agent',
     From           => "Agent <$AgentAddress>",
     To             => "Customer <$CustomerAddress>",
@@ -218,6 +221,25 @@ Some Content in Body",
         Check => {
             ArticleType => 'note-report',
             SenderType  => 'system',
+        },
+        JobConfig => {
+            ArticleType => 'email-internal',
+            Module      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
+            SenderType  => 'customer',
+        },
+    },
+    # response from an unknown address, but in response to the internal article (References)
+    {
+        Name  => 'Response to internal mail from unknown sender',
+        Email => "From: Somebody <unknown\@address.com>
+To: Agent <$AgentAddress>
+References: <message-id-email-internal>
+Subject: $Subject
+
+Some Content in Body",
+        Check => {
+            ArticleType => 'email-internal',
+            SenderType  => 'customer',
         },
         JobConfig => {
             ArticleType => 'email-internal',
