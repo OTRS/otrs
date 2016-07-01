@@ -29,6 +29,14 @@ my $DragAndDrop = sub {
         }
     }
 
+    my %ToOffset;
+    if ( $Param{ToOffset} ) {
+        %ToOffset = (
+            xoffset => $Param{ToOffset}->{X} || 0,
+            yoffset => $Param{ToOffset}->{Y} || 0,
+        );
+    }
+
     # Make sure DragFrom is visible
     $Selenium->WaitFor(
         JavaScript => 'return typeof($) === "function" && $(\'' . $Param{DragFrom} . ':visible\').length;',
@@ -50,8 +58,7 @@ my $DragAndDrop = sub {
     # Move mouse to the destination
     $Selenium->mouse_move_to_location(
         element => $DragTo,
-        xoffset => 1,
-        yoffset => 1,
+        %ToOffset,
     );
 
     # Release
@@ -285,14 +292,22 @@ $Selenium->RunTest(
 
         # Remove Age from left side, and put it to the right side
         $DragAndDrop->(
-            From => '#WidgetTicket li[data-fieldname="Age"]',
-            To   => '#AssignedFields-linkobject-Ticket',
+            From     => '#WidgetTicket li[data-fieldname="Age"]',
+            To       => '#AssignedFields-linkobject-Ticket',
+            ToOffset => {
+                X => 230,
+                Y => 10,
+            },
         );
 
         # Remove State from right side, and put it to the left side
         $DragAndDrop->(
-            From => '#WidgetTicket li[data-fieldname="State"]',
-            To   => '#AvailableField-linkobject-Ticket',
+            From     => '#WidgetTicket li[data-fieldname="State"]',
+            To       => '#AvailableField-linkobject-Ticket',
+            ToOffset => {
+                X => 230,
+                Y => 10,
+            },
         );
 
         # save
