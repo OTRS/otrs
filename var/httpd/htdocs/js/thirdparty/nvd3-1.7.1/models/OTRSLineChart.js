@@ -30,7 +30,12 @@ nv.models.OTRSlineChart = function() {
         , tooltips = true
         , tooltip = function(key, x, y, e, graph) {
             return '<h3>' + key + '</h3>' +
-                '<p>' +  y + ' at ' + x + '</p>'
+// ---
+// OTRS
+// ---
+//                '<p>' +  y + ' at ' + x + '</p>'
+                '<p>' +  y + ' - ' + x + '</p>'
+// ---
         }
         , x
         , y
