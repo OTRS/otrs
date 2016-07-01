@@ -142,6 +142,21 @@ $Selenium->RunTest(
             "Queue preselected in URL"
         );
 
+        # test prefilling of some parameters with StoreNew
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage;Subject=TestSubject;Body=TestBody;Subaction=StoreNew;Expand=1");
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('#Subject').val();"),
+            'TestSubject',
+            "Subject preselected in URL"
+        );
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('#RichText').val();"),
+            'TestBody',
+            "Subject preselected in URL"
+        );
+
         # clean up test data from the DB
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
