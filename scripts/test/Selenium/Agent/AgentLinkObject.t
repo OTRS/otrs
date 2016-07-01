@@ -43,6 +43,9 @@ $Selenium->RunTest(
             Value => '60',
         );
 
+        # change resolution (desktop mode)
+        $Selenium->set_window_size( 900, 1200 );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -246,14 +249,22 @@ $Selenium->RunTest(
 
         # Remove Age from left side, and put it to the right side
         $Selenium->DragAndDrop(
-            Element => '#WidgetTicket li[data-fieldname="Age"]',
-            Target  => '#AssignedFields-linkobject-Ticket',
+            Element      => '#WidgetTicket li[data-fieldname="Age"]',
+            Target       => '#AssignedFields-linkobject-Ticket',
+            TargetOffset => {
+                X => 145,
+                Y => 10,
+            },
         );
 
         # Remove State from right side, and put it to the left side
         $Selenium->DragAndDrop(
-            Element => '#WidgetTicket li[data-fieldname="State"]',
-            Target  => '#AvailableField-linkobject-Ticket',
+            Element      => '#WidgetTicket li[data-fieldname="State"]',
+            Target       => '#AvailableField-linkobject-Ticket',
+            TargetOffset => {
+                X => 145,
+                Y => 10,
+            },
         );
 
         # save
@@ -352,7 +363,7 @@ $Selenium->RunTest(
                 "Delete ticket - $TicketID"
             );
         }
-    }
+        }
 );
 
 1;

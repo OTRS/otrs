@@ -344,8 +344,12 @@ sub WaitFor {
 Drag and drop an element.
 
     $SeleniumObject->DragAndDrop(
-        Element => '.Element', # css selector of element which should be dragged
-        Target  => '.Target',  # css selector of element on which the dragged element should be dropped
+        Element         => '.Element', # (required) css selector of element which should be dragged
+        Target          => '.Target',  # (required) css selector of element on which the dragged element should be dropped
+        TargetOffset    => {           # (optional) Offset for target. If not specified, the mouse will move to the middle of the element.
+            X   => 150,
+            Y   => 100,
+        }
     );
 
 =cut
@@ -359,6 +363,14 @@ sub DragAndDrop {
         if ( !$Param{$Needed} ) {
             die "Need $Needed";
         }
+    }
+
+    my %TargetOffset;
+    if ( $Param{TargetOffset} ) {
+        %TargetOffset = (
+            xoffset => $Param{TargetOffset}->{X} || 0,
+            yoffset => $Param{TargetOffset}->{Y} || 0,
+        );
     }
 
     # Make sure Element is visible
@@ -382,8 +394,7 @@ sub DragAndDrop {
     # Move mouse to the destination
     $Self->mouse_move_to_location(
         element => $Target,
-        xoffset => 1,
-        yoffset => 1,
+        %TargetOffset,
     );
 
     # Release
