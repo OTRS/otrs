@@ -55,6 +55,10 @@ $Selenium->RunTest(
         $Selenium->DragAndDrop(
             Element => 'li#nav-Admin',
             Target  => 'ul#Navigation',
+            TargetOffset    => {
+                X   => 0,
+                Y   => 0,
+            }
         );
 
         # wait for the success arrow to show up
