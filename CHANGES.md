@@ -1,4 +1,5 @@
 #5.0.12 2016-??-??
+ - 2016-07-01 Fixed bug#[12141](http://bugs.otrs.org/show_bug.cgi?id=12141) - Wrong check for needed objects.
  - 2016-07-01 Fixed bug#[8640](http://bugs.otrs.org/show_bug.cgi?id=8640) - Article bounce does not conform to rfc 2822.
  - 2016-07-01 Fixed bug#[12111](http://bugs.otrs.org/show_bug.cgi?id=12111) - Auto response sometimes not translated in German.
  - 2016-07-01 Fixed bug#[11248](http://bugs.otrs.org/show_bug.cgi?id=11248) - FollowUp handling on internal mails does not work at all times.
