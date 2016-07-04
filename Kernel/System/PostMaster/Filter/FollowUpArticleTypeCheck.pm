@@ -130,7 +130,7 @@ sub Run {
 
         # check based on Message-ID of the article
         for my $Reference (@References) {
-            if ($Article->{MessageID} && $Article->{MessageID} eq $Reference) {
+            if ( $Article->{MessageID} && $Article->{MessageID} eq $Reference ) {
                 $InternalForward = 1;
                 last ARTICLE;
             }

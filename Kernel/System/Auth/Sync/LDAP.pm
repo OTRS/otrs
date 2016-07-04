@@ -199,8 +199,8 @@ sub Sync {
 
     # get current user id
     my $UserID = $UserObject->UserLookup(
-        UserLogin       => $Param{User},
-        Silent => 1,
+        UserLogin => $Param{User},
+        Silent    => 1,
     );
 
     # system permissions
