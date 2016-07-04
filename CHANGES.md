@@ -1,4 +1,5 @@
 #5.0.12 2016-??-??
+ - 2016-07-04 Fixed bug#[12147](http://bugs.otrs.org/show_bug.cgi?id=12147) - Transition Action - to set Service and SLA.
  - 2016-07-04 Fixed bug#[8671](http://bugs.otrs.org/show_bug.cgi?id=8671) - Can not link to archived ticket.
  - 2016-07-01 Fixed bug#[12141](http://bugs.otrs.org/show_bug.cgi?id=12141) - Wrong check for needed objects.
  - 2016-07-01 Fixed bug#[8640](http://bugs.otrs.org/show_bug.cgi?id=8640) - Article bounce does not conform to rfc 2822.
