@@ -99,14 +99,40 @@ $Self->IsNot(
     "QueueAdd() - Added queue '$QueueData3{Name}' for ACL check - should not be undef"
 );
 
+my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate();
+
+# Get ServiceObject.
+my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+
+my $ServiceID = $ServiceObject->ServiceAdd(
+    Name    => $RandomID,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$ServiceObject->CustomerUserServiceMemberAdd(
+    CustomerUserLogin => $TestCustomerUserLogin,
+    ServiceID         => $ServiceID,
+    Active            => 1,
+    UserID            => 1,
+);
+
+my $SLAID = $Kernel::OM->Get('Kernel::System::SLA')->SLAAdd(
+    ServiceIDs => [$ServiceID],
+    Name       => $RandomID,
+    ValidID    => 1,
+    UserID     => 1,
+);
+
 my $TicketID = $CommonObject{TicketObject}->TicketCreate(
-    Title    => 'Process Unittest Testticket',
-    Queue    => $QueueData3{Name},
-    Lock     => 'unlock',
-    Priority => '3 normal',
-    State    => 'new',
-    OwnerID  => 1,
-    UserID   => 1,
+    Title        => 'Process Unittest Testticket',
+    Queue        => $QueueData3{Name},
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    OwnerID      => 1,
+    CustomerUser => $TestCustomerUserLogin,
+    UserID       => 1,
 );
 $Self->True(
     $TicketID || 0,
@@ -1853,7 +1879,107 @@ my @Tests = (
             TestType => 'True',
             }
     },
+
+ # Transition + TicketServiceSet + TicketSLASet TransitionAction on matching Transition change Service and SLA on Ticket
+    {
+        ProcessTransition => {
+            Config => {
+                'Process::Transition' => {
+                    'T1' => {
+                        Name      => 'Transition 1',
+                        Condition => {
+                            Cond1 => {
+                                Fields => {
+                                    TicketID => $TicketID,
+                                    Title    => 'Process Unittest Testticket',
+                                    TypeID   => '1',
+                                },
+                            },
+                        },
+                    },
+                },
+                'Process' => {
+                    'P1' => {
+                        Name                => 'Book Orders',
+                        CreateTime          => '16-02-2012 13:37:00',
+                        CreateBy            => '1',
+                        ChangeTime          => '17-02-2012 13:37:00',
+                        ChangeBy            => '1',
+                        State               => 'Active',
+                        StartActivity       => 'A1',
+                        StartActivityDialog => 'AD1',
+                        Path                => {
+                            'A1' => {
+                                'T1' => {
+                                    ActivityEntityID => 'A2',
+                                    TransitionAction => [ 'TA1', 'TA2' ],
+                                },
+                            },
+                            'A2' => {},
+                        },
+                    },
+                },
+                'Process::Activity' => {
+                    'A1' => {
+                        Name           => 'Activity 1 optional',
+                        CreateTime     => '16-02-2012 13:37:00',
+                        CreateBy       => '1',
+                        ChangeTime     => '17-02-2012 13:37:00',
+                        ChangeBy       => '1',
+                        ActivityDialog => [
+                            'AD1',
+                            'AD2',
+                        ],
+                    },
+                    'A2' => {
+                        Name           => 'Activity 2 optional',
+                        CreateTime     => '16-02-2012 13:37:00',
+                        CreateBy       => '1',
+                        ChangeTime     => '17-02-2012 13:37:00',
+                        ChangeBy       => '1',
+                        ActivityDialog => [
+                            'AD1',
+                            'AD2',
+                        ],
+                    },
+
+                },
+                'Process::TransitionAction' => {
+                    'TA1' => {
+                        Name => 'Service Set',
+                        Module =>
+                            'Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet',
+                        Config => {
+                            ServiceID => $ServiceID,
+                        },
+
+                    },
+                    'TA2' => {
+                        Name => 'SLA Set',
+                        Module =>
+                            'Kernel::System::ProcessManagement::TransitionAction::TicketSLASet',
+                        Config => {
+                            SLAID => $SLAID,
+                        },
+                    },
+                },
+            },
+            ProcessEntityID  => 'P1',
+            ActivityEntityID => 'A1',
+            TicketID         => $TicketID,
+            UserID           => 1,
+            CheckOnly        => 0,
+            Message =>
+                'ProcessTransition() (matching Transition Actions Service Set and SLA Set)',
+            TestType       => 'TicketValues',
+            ExpectedResult => {
+                ServiceID => $ServiceID,
+                SLAID     => $SLAID,
+            },
+        },
+    },
 );
+
 for my $Test (@Tests) {
     if ( $Test->{ProcessTransition} ) {
 
@@ -1911,6 +2037,23 @@ for my $Test (@Tests) {
                 $ExpectedResult,
                 $Test->{ProcessTransition}{Message},
             );
+        }
+        elsif ( $Test->{ProcessTransition}->{TestType} eq 'TicketValues' ) {
+
+            # ProcessTrnsition - Check ticket values after all transition actions
+            my %Ticket = $CommonObject{TicketObject}->TicketGet(
+                TicketID      => $TicketID,
+                DynamicFields => 1,
+                UserID        => 1,
+            );
+
+            for my $Attribute ( sort keys %{ $Test->{ProcessTransition}->{ExpectedResult} } ) {
+                $Self->Is(
+                    $Ticket{$Attribute} // '',
+                    $Test->{ProcessTransition}->{ExpectedResult}->{$Attribute},
+                    "$Test->{ProcessTransition}->{Message} - Ticket $Attribute",
+                );
+            }
         }
 
         # If we had a test with debug on, restore ProcessObject to default
