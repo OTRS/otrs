@@ -362,8 +362,11 @@ sub ProcessTransition {
 
     my %Data;
 
+    # Get Ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # Get Ticket Data
-    %Data = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    %Data = $TicketObject->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 1,
         UserID        => $Param{UserID},
@@ -559,6 +562,15 @@ sub ProcessTransition {
     }
 
     for my $TransitionAction ( @{$TransitionActions} ) {
+
+        # Refresh ticket data, as transition actions could already had modified the ticket
+        #   e.g TicketServiceSet -> TicketSLASet, SLA needs to already have a Service,
+        #   see bug#12147.
+        %Data = $TicketObject->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 1,
+            UserID        => $Param{UserID},
+        );
 
         my $TransitionActionModuleObject = $TransitionAction->{Module}->new();
 
