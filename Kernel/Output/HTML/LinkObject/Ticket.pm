@@ -305,7 +305,7 @@ sub TableCreateComplex {
     # Sort
     COLUMN:
     for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
-        next COLUMN if $Column eq 'TicketNumber';    # Always present, already added.
+        next COLUMN if $Column eq 'TicketNumber';      # Always present, already added.
 
         # if enabled by default
         if ( $UserColumns{$Column} == 2 ) {
@@ -739,6 +739,11 @@ sub SearchOptionList {
             Name => 'Priority',
             Type => 'List',
         },
+        {
+            Key  => 'Archived',
+            Name => 'Search archived',
+            Type => 'Checkbox',
+        }
     );
 
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
@@ -814,6 +819,30 @@ sub SearchOptionList {
                 Size       => 3,
                 Multiple   => 1,
                 Class      => 'Modernize',
+            );
+
+            next ROW;
+        }
+
+        if ( $Row->{Type} eq 'Checkbox' ) {
+
+            # get form data
+            $Row->{FormData} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Row->{FormKey} );
+
+            # parse the input text block
+            $Self->{LayoutObject}->Block(
+                Name => 'Checkbox',
+                Data => {
+                    Name    => $Row->{FormKey},
+                    Title   => $Row->{FormKey},
+                    Content => 'Archived',
+                    Checked => $Row->{FormData} || '',
+                },
+            );
+
+            # add the input string
+            $Row->{InputStrg} = $Self->{LayoutObject}->Output(
+                TemplateFile => 'LinkObject',
             );
 
             next ROW;

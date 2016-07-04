@@ -398,6 +398,73 @@ $Selenium->RunTest(
             "$ShortTitle - found in LinkDelete screen",
         );
 
+        # select all links
+        $Selenium->find_element( "#SelectAllLinks0", "css" )->click();
+
+        # make sure it's selected
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0:checked").length' );
+
+        # click on delete links
+        $Selenium->find_element( ".Primary", "css" )->click();
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#SelectAllLinks0").length' );
+
+        # archive 2nd ticket
+        my $SuccessArchived = $TicketObject->TicketArchiveFlagSet(
+            ArchiveFlag => 'y',
+            TicketID    => $TicketIDs[1],
+            UserID      => $TestUserID,
+        );
+
+        $Self->True(
+            $SuccessArchived,
+            "Check if 2nd ticket is archived successfully."
+        );
+
+        # check if there is "Search archived" checkbox
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#SEARCH\\\\:\\\\:Archived').length"
+            ),
+            'Search archive checkbox present.',
+        );
+
+        # search for 2nd ticket
+        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->send_keys( $TicketNumbers[1] );
+        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->VerifiedSubmit();
+
+        # make sure there are no results
+        $Self->False(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket').length"
+            ),
+            'No result.',
+        );
+
+        # select Search archived checkbox
+        $Selenium->find_element(".//*[\@id='SEARCH::Archived']")->VerifiedClick();
+        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->VerifiedSubmit();
+
+        # wait till search is loaded
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0").length' );
+
+        # link again
+        $Selenium->find_element( "#SelectAllLinks0",  "css" )->click();
+        $Selenium->find_element( "#AddLinks",         "css" )->VerifiedClick();
+        $Selenium->find_element( "#LinkAddCloseLink", "css" )->click();
+
+        # wait till popup is closed
+        $Selenium->WaitFor( WindowCount => 1 );
+
+        # switch to 1st window
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # make sure they are really linked.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#WidgetTicket").length' );
+        $Selenium->find_element( "#WidgetTicket", "css" );
+
         # delete created test tickets
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(

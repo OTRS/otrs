@@ -283,6 +283,9 @@ sub ObjectSearch {
     if ( $Param{SearchParams}->{TicketTitle} ) {
         $Search{Title} = '*' . $Param{SearchParams}->{TicketTitle} . '*';
     }
+    if ( $Param{SearchParams}->{Archived} ) {
+        $Search{ArchiveFlags} = [ 'y', 'n' ];
+    }
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
