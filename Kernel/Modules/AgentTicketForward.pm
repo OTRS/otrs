@@ -761,7 +761,7 @@ sub SendEmail {
                 Message =>
                     $LayoutObject->{LanguageObject}
                     ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
-                Comment => Translatable('Please contact the admin.'),
+                Comment => Translatable('Please contact the administrator.'),
             );
         }
 
@@ -1007,7 +1007,7 @@ sub SendEmail {
     if ( !$ArticleTypeID ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Can not determine the ArticleType!'),
-            Comment => Translatable('Please contact the admin.'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -1035,7 +1035,7 @@ sub SendEmail {
     # error page
     if ( !$ArticleID ) {
         return $LayoutObject->ErrorScreen(
-            Comment => Translatable('Please contact the admin.'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 

@@ -39,7 +39,7 @@ sub Run {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
             Message => Translatable('FileID and ArticleID are needed!'),
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
         $LogObject->Log(
             Message  => 'FileID and ArticleID are needed!',
@@ -61,7 +61,7 @@ sub Run {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'No TicketID for ArticleID (%s)!', $ArticleID ),
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
         $LogObject->Log(
             Message  => "No TicketID for ArticleID ($ArticleID)!",
@@ -91,7 +91,7 @@ sub Run {
         my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
         $Output .= $LayoutObject->CustomerError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'No such attachment (%s)!', $FileID ),
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
         $LogObject->Log(
             Message  => "No such attachment ($FileID)! May be an attack!!!",

@@ -178,7 +178,7 @@ sub Run {
     # check if password is not matching PasswordRegExp
     if ( $Config->{PasswordRegExp} && $Pw !~ /$Config->{PasswordRegExp}/ ) {
         $Self->{Error} = Translatable(
-            'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.'
+            'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.'
         );
         return;
     }

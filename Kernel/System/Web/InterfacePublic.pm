@@ -162,20 +162,20 @@ sub Run {
 
     if ( !$DBCanConnect ) {
         $LayoutObject->CustomerFatalError(
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
     if ( $ParamObject->Error() ) {
         $LayoutObject->CustomerFatalError(
             Message => $ParamObject->Error(),
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
     # run modules if a version value exists
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
         $LayoutObject->CustomerFatalError(
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
         return 1;
     }
@@ -189,7 +189,7 @@ sub Run {
                 "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
         );
         $LayoutObject->CustomerFatalError(
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
         return;
     }

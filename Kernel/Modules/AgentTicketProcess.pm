@@ -88,7 +88,7 @@ sub Run {
                         'Couldn\'t get ActivityDialogEntityID "%s"!',
                         $ActivityDialogEntityID,
                     ),
-                    Comment => Translatable('Please contact the admin.'),
+                    Comment => Translatable('Please contact the administrator.'),
                 );
             }
 
@@ -262,7 +262,7 @@ sub Run {
     if ( !IsHashRefWithData($ProcessList) && !IsHashRefWithData($FollowupProcessList) ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('No Process configured!'),
-            Comment => Translatable('Please contact the admin.'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -305,7 +305,7 @@ sub Run {
         if ( !IsHashRefWithData($ProcessList) ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('No Process configured!'),
-                Comment => Translatable('Please contact the admin.'),
+                Comment => Translatable('Please contact the administrator.'),
             );
         }
 
@@ -354,7 +354,7 @@ sub Run {
     {
         $LayoutObject->FatalError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Process %s is invalid!', $ProcessEntityID ),
-            Comment => Translatable('Please contact the admin.'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -412,7 +412,7 @@ sub Run {
     }
     return $LayoutObject->ErrorScreen(
         Message => Translatable('Subaction is invalid!'),
-        Comment => Translatable('Please contact the admin.'),
+        Comment => Translatable('Please contact the administrator.'),
     );
 }
 
@@ -880,7 +880,7 @@ sub _GetParam {
                 'Couldn\'t get ActivityDialogEntityID "%s"!',
                 $ActivityDialogEntityID,
             ),
-            Comment => Translatable('Please contact the admin.'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -4409,12 +4409,9 @@ sub _StoreActivityDialog {
                 # is not possible to a have an invisible field for this particular value
                 # on agent interface
                 if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
-
-                    my $InvisibleFieldMessage = Translatable(
-                        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!'
-                    );
                     $LayoutObject->FatalError(
-                        Message => $InvisibleFieldMessage,
+                        Message => Translatable('Couldn\'t use CustomerID as an invisible field.'),
+                        Comment => Translatable('Please contact the administrator.'),
                     );
                 }
 
@@ -4658,7 +4655,7 @@ sub _StoreActivityDialog {
                         $Param{ProcessEntityID},
                         $TicketID,
                     ),
-                    Comment => Translatable('Please contact the admin.'),
+                    Comment => Translatable('Please contact the administrator.'),
                 );
             }
 
@@ -4674,7 +4671,7 @@ sub _StoreActivityDialog {
                         'Could not store ActivityDialog, invalid TicketID: %s!',
                         $TicketID,
                     ),
-                    Comment => Translatable('Please contact the admin.'),
+                    Comment => Translatable('Please contact the administrator.'),
                 );
             }
             for my $DynamicFieldConfig (
@@ -4773,7 +4770,7 @@ sub _StoreActivityDialog {
                     $Param{ProcessEntityID},
                     $TicketID,
                 ),
-                Comment => Translatable('Please contact the admin.'),
+                Comment => Translatable('Please contact the administrator.'),
             );
         }
 
@@ -4817,7 +4814,7 @@ sub _StoreActivityDialog {
                     'Missing ActivityEntityID in Ticket %s!',
                     $Ticket{TicketID},
                 ),
-                Comment => Translatable('Please contact the admin.'),
+                Comment => Translatable('Please contact the administrator.'),
             );
         }
 
