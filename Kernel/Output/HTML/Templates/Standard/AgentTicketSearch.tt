@@ -20,13 +20,13 @@
                 [% Data.ProfilesStrg %]
                 <div id="SearchProfileAddBlock">
                     <input type="text" name="Name" id="SearchProfileAddName"/>
-                    <button type="button" title="[% Translate("Create Template") | html %]" id="SearchProfileAddAction">[% Translate("Add") | html %]</button>
+                    <button class="CallForAction" type="button" title="[% Translate("Create Template") | html %]" id="SearchProfileAddAction"><span>[% Translate("Add") | html %]</span></button>
                 </div>
             </div>
             <div class="Field">
-                <button id="SearchProfileNew" value="[% Translate("Create New") | html %]">[% Translate("Create New") | html %]</button>
-                <button id="SearchProfileDelete" class="Hidden" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
-                <button id="SearchProfileAsLink" class="Hidden" value="[% Translate("Profile link") | html %]">[% Translate("Profile link") | html %]</button>
+                <button class="CallForAction" id="SearchProfileNew" value="[% Translate("Create New") | html %]"><span>[% Translate("Create New") | html %]</span></button>
+                <button id="SearchProfileDelete" class="Hidden CallForAction" value="[% Translate("Delete") | html %]"><span>[% Translate("Delete") | html %]</span></button>
+                <button id="SearchProfileAsLink" class="Hidden CallForAction" value="[% Translate("Profile link") | html %]"><span>[% Translate("Profile link") | html %]</span></button>
             </div>
             <div class="Clear"></div>
             <label>[% Translate("Save changes in template") | html %]:</label>

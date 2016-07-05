@@ -31,8 +31,8 @@
                                 [% Translate("Just use this feature if you want to define group permissions for customers.") | html %]
                             </p>
                             <div class="Field SpacingTop">
-                                <button class="CallForAction" type="submit" value="[% Translate("Enable it here!") | html %]">
-                                    <span>[% Translate("Enable it here!") | html %]</span>
+                                <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Enable it here!") | html %]">
+                                    <span><i class="fa fa-unlock-alt"></i> [% Translate("Enable it here!") | html %]</span>
                                 </button>
                             </div>
                             <div class="Clear"></div>
