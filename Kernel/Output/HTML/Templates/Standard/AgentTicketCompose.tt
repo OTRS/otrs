@@ -116,24 +116,6 @@
 [% RenderBlockEnd("MultipleCustomerCounter") %]
                     </div>
                     <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('.CustomerTicketRemove').bind('click', function () {
-        Core.Agent.CustomerSearch.RemoveCustomerTicket( $(this) );
-        return false;
-    });
-//]]></script>
-[% END %]
-
-[% RenderBlockStart("PreFilledTo") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-[% RenderBlockStart("PreFilledToRow") %]
-    Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', [% Data.Email | JSON %] );
-[% RenderBlockEnd("PreFilledToRow") %]
-//]]></script>
-[% END %]
-[% RenderBlockEnd("PreFilledTo") %]
 
                     <label for="CcCustomer">[% Translate("Cc") | html %]:</label>
                     <div class="Field">
@@ -205,16 +187,6 @@
 [% RenderBlockEnd("CcMultipleCustomerCounter") %]
                     </div>
                     <div class="Clear"></div>
-
-[% RenderBlockStart("PreFilledCc") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-[% RenderBlockStart("PreFilledCcRow") %]
-    Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', [% Data.Email | JSON %] );
-[% RenderBlockEnd("PreFilledCcRow") %]
-//]]></script>
-[% END %]
-[% RenderBlockEnd("PreFilledCc") %]
 
                     <label for="BccCustomer">[% Translate("Bcc") | html %]:</label>
                     <div class="Field">
@@ -345,16 +317,6 @@
                                 [% Data.Filename | html %] ([% Data.Filesize | html %])
                                 <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="SpacingLeft">[% Translate("Delete") | html %]</button>
                                 <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#AttachmentDeleteButton[% Data.FileID | html %]').bind('click', function () {
-        var $Form = $('#AttachmentDeleteButton[% Data.FileID | html %]').closest('form');
-        $('#AttachmentDelete[% Data.FileID | html %]').val(1);
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.trigger('submit');
-    });
-//]]></script>
-[% END %]
                             </li>
 [% RenderBlockEnd("Attachment") %]
                             <li>
@@ -362,28 +324,12 @@
                                 <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
                             </li>
                         </ul>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#FileUpload').bind('change', function () {
-        var $Form = $('#FileUpload').closest('form');
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.find('#AttachmentUpload').val('1').end().submit();
-    });
-//]]></script>
-[% END %]
                     </div>
                     <div class="Clear"></div>
 
                     <label for="StateID">[% Translate("Next ticket state") | html %]:</label>
                     <div class="Field">
                         [% Data.NextStatesStrg %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#StateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#ComposeTicket'), 'AJAXUpdate', 'StateID', [ [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
                     </div>
                     <div class="Clear"></div>
 
@@ -457,11 +403,3 @@
         </div>
     </div>
 </form>
-
-#Layers
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketAction.Init();
-
-    //]]></script>
-[% END %]

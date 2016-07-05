@@ -1637,14 +1637,6 @@ sub _Mask {
         OnlyDynamicFields => 1
     );
 
-    # create a string with the quoted dynamic field names separated by commas
-    if ( IsArrayRefWithData($DynamicFieldNames) ) {
-        FIELD:
-        for my $Field ( @{$DynamicFieldNames} ) {
-            $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
-        }
-    }
-
     # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -1862,39 +1854,33 @@ sub _Mask {
         );
     }
 
+    my @EmailAddressesCc;
+
     # set preselected values for Cc field
     if ( $Param{Cc} && $Param{Cc} ne '' && !$CustomerCounterCc ) {
-        $LayoutObject->Block(
-            Name => 'PreFilledCc',
-        );
 
         # split To values
-        for my $Email ( Mail::Address->parse( $Param{Cc} ) ) {
-            $LayoutObject->Block(
-                Name => 'PreFilledCcRow',
-                Data => {
-                    Email => $Email->address(),
-                },
-            );
-        }
+        @EmailAddressesCc = map { $_->address() } ( Mail::Address->parse( $Param{Cc} ) );
+
+        $LayoutObject->AddJSData(
+            Key   => 'EmailAddressesCc',
+            Value => \@EmailAddressesCc,
+        );
+
         $Param{Cc} = '';
     }
 
     # set preselected values for To field
     if ( $Param{To} ne '' && !$CustomerCounter ) {
-        $LayoutObject->Block(
-            Name => 'PreFilledTo',
-        );
 
         # split To values
-        for my $Email ( Mail::Address->parse( $Param{To} ) ) {
-            $LayoutObject->Block(
-                Name => 'PreFilledToRow',
-                Data => {
-                    Email => $Email->address(),
-                },
-            );
-        }
+        my @EmailAddressesTo = map { $_->address() } ( Mail::Address->parse( $Param{To} ) );
+
+        $LayoutObject->AddJSData(
+            Key   => 'EmailAddressesTo',
+            Value => \@EmailAddressesTo,
+        );
+
         $Param{To} = '';
     }
 
@@ -2042,6 +2028,11 @@ sub _Mask {
             Data => $Attachment,
         );
     }
+
+    $LayoutObject->AddJSData(
+        Key   => 'DynamicFieldNames',
+        Value => $DynamicFieldNames,
+    );
 
     # create & return output
     return $LayoutObject->Output(
