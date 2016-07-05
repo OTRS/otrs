@@ -7,18 +7,19 @@
 # --
 
 <div id="MainBox">
-    <div class="Content">
-        <h2>
-            [% Translate("Error") | html %]: [% Translate(Data.Message) | html %]
-        </h2>
-        [% IF Data.Comment %]
+    <div class="Content Error">
+        <h1>[% Translate("An Error Occurred") | html %]</h1>
         <p>
-            [% Translate("Comment") | html %]: [% Translate(Data.Comment) | html %]
+            [% Translate(Data.Message) | html %]
         </p>
-        [% END %]
+    [% IF Data.Comment %]
         <p>
-            [% Translate("Traceback") | html %]:
+            [% Translate(Data.Comment) | html %]
         </p>
-        <code><pre>[% Data.BackendTraceback | html %]</pre></code>
+    [% END %]
+    [% IF Data.BackendTraceback %]
+        <h2>[% Translate("Traceback") | html %]</h2>
+        <pre>[% Data.BackendTraceback | html %]</pre>
+    [% END %]
     </div>
 </div>
