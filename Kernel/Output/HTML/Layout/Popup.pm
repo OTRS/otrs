@@ -67,20 +67,25 @@ sub PopupClose {
             $Param{URL} .= ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
         }
 
-        $Self->Block(
-            Name => 'LoadParentURLAndClose',
-            Data => {
-                URL => $Param{URL},
-            },
+        # send data to JS
+        $Self->AddJSData(
+            Key   => 'PopupClose',
+            Value => 'LoadParentURLAndClose',
+        );
+        $Self->AddJSData(
+            Key   => 'PopupURL',
+            Value => $Param{URL},
         );
     }
     else {
-        $Self->Block(
-            Name => 'ReloadParentAndClose',
+
+        # send data to JS
+        $Self->AddJSData(
+            Key   => 'PopupClose',
+            Value => 'ReloadParentAndClose',
         );
     }
 
-    $Output .= $Self->Output( TemplateFile => 'AgentTicketActionPopupClose' );
     $Output .= $Self->Footer( Type => 'Small' );
     return $Output;
 }
