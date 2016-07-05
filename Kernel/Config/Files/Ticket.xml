@@ -8901,6 +8901,9 @@
                 <Description Translatable="1">Ticket Compose Bounce Email.</Description>
                 <Title Translatable="1">Bounce</Title>
                 <NavBarName>Ticket</NavBarName>
+                <Loader>
+                    <JavaScript>Core.Agent.TicketBounce.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

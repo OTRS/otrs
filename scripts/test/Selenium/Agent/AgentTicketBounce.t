@@ -137,6 +137,35 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # check JS functionality
+        # click on checkbox - unchecked state
+        $Selenium->execute_script("\$('#InformSender').prop('checked', true)");
+        $Selenium->find_element( "#InformSender", 'css' )->click();
+
+        # check up if labels does not have class Mandatory
+        for my $Label (qw(To Subject RichText)) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('label[for=$Label]').hasClass('Mandatory')"),
+                0,
+                "Label '$Label' has not class 'Mandatory'",
+            );
+        }
+
+        # click on checkbox - checked state
+        $Selenium->find_element( "#InformSender", 'css' )->click();
+
+        # check up if labels have class Mandatory
+        for my $Label (qw(To Subject RichText)) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('label[for=$Label]').hasClass('Mandatory')"),
+                1,
+                "Label '$Label' has class 'Mandatory'",
+            );
+        }
+
+        # set on initial unchecked state of checkbox
+        $Selenium->find_element( "#InformSender", 'css' )->click();
+
         # bounce ticket to another test email
         $Selenium->find_element( "#BounceTo", 'css' )->send_keys("test\@localhost.com");
         $Selenium->execute_script("\$('#BounceStateID').val('4').trigger('redraw.InputField').trigger('change');");

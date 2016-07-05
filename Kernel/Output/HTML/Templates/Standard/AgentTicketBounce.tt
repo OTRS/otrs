@@ -83,40 +83,6 @@
                 </div>
                 <div class="Clear"></div>
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-
-# initial setting for to/subject/body
-SwitchMandatoryFields();
-
-# watch for changes of inform sender field
-$('#InformSender').bind('click', function(){
-    SwitchMandatoryFields();
-});
-
-# function to switch between mandatory and optional
-function SwitchMandatoryFields() {
-    var InformSenderChecked = $('#InformSender').prop('checked'),
-        $ElementsLabelObj = $('#To,#Subject,#RichText').parent().prev('label');
-
-    if ( InformSenderChecked ) {
-        $ElementsLabelObj
-            .addClass('Mandatory')
-            .find('.Marker')
-            .removeClass('Hidden');
-    }
-    else if ( !InformSenderChecked ) {
-        $ElementsLabelObj
-            .removeClass('Mandatory')
-            .find('.Marker')
-            .addClass('Hidden');
-    }
-
-    return;
-}
-//]]></script>
-[% END %]
-
                 <label for="To"><span class="Marker Hidden">*</span>[% Translate("To") | html %]:</label>
                 <div class="Field">
                     <input type="text" name="To" id="To" value="[% Data.To | html %]" class="W50pc Validate_DependingRequiredAND Validate_Depending_InformSender [% Data.ToInvalid | html %]"/>
