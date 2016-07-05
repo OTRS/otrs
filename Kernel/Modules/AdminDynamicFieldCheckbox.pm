@@ -85,7 +85,7 @@ sub _Add {
     my %GetParam;
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
         $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
-        if ( !$Needed ) {
+        if ( !$GetParam{$Needed} ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Need $Needed",
             );
@@ -215,7 +215,7 @@ sub _Change {
     my %GetParam;
     for my $Needed (qw(ObjectType FieldType)) {
         $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
-        if ( !$Needed ) {
+        if ( !$GetParam{$Needed} ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Need $Needed",
             );
