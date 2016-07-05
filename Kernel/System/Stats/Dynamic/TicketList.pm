@@ -124,7 +124,7 @@ sub GetObjectAttributes {
         20        => 20,
         50        => 50,
         100       => 100,
-        unlimited => 'unlimited',
+        unlimited => Translatable('unlimited'),
     );
 
     my %TicketAttributes = %{ $Self->_TicketAttributes() };
@@ -152,8 +152,8 @@ sub GetObjectAttributes {
     }
 
     my %SortSequence = (
-        Up   => 'ascending',
-        Down => 'descending',
+        Up   => Translatable('ascending'),
+        Down => Translatable('descending'),
     );
 
     my @ObjectAttributes = (
@@ -627,9 +627,9 @@ sub GetObjectAttributes {
             Block            => 'SelectField',
             Translation      => 1,
             Values           => {
-                ArchivedTickets    => 'Archived tickets',
-                NotArchivedTickets => 'Unarchived tickets',
-                AllTickets         => 'All tickets',
+                ArchivedTickets    => Translatable('Archived tickets'),
+                NotArchivedTickets => Translatable('Unarchived tickets'),
+                AllTickets         => Translatable('All tickets'),
             },
         );
 
