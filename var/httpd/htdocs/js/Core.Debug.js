@@ -77,14 +77,14 @@ Core.Debug = (function (TargetNS) {
      * @param {Boolean} Silent
      *      Do not issue an alert
      *
-     * @return true if the required item was found, false otherwise (an an alert and an exception will be issued in that case)
+     * @return true if the required item was found, false otherwise (an alert and an exception will be issued in that case)
      */
 
     /**
      * @name CheckDependency
      * @memberof Core.Debug
      * @function
-     * @returns {Boolean} True if the required item was found, false otherwise (an an alert and an exception will be issued in that case).
+     * @returns {Boolean} True if the required item was found, false otherwise (an alert and an exception will be issued in that case).
      * @param {String} TargetNamespace - Namespace for which the check is executed.
      * @param {String} Required - The name of the function/namespace whose presence is checked.
      * @param {String} RequiredLabel - Label for the required item which will be included in the error message.
@@ -110,8 +110,7 @@ Core.Debug = (function (TargetNS) {
             return true;
         }
         if (!Silent) {
-            ErrorMessage = 'Namespace ' + TargetNamespace + ' could not be initialized, because ' +
-                RequiredLabel + ' could not be found.';
+            ErrorMessage = Core.Language.Translate('Namespace %s could not be initialized, because %s could not be found.', TargetNamespace, RequiredLabel);
             alert(ErrorMessage);
             // don't use Core.Exception here, it may not be available
             throw ErrorMessage;

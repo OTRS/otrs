@@ -459,7 +459,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                 alert(Response.Message);
                             }
                             else {
-                                alert('Error during AJAX communication');
+                                alert(Core.Language.Translate('Error during AJAX communication'));
                             }
 
                             TargetNS.Canvas.ShowActivityAddActivityDialogError(Activity);
@@ -790,7 +790,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     alert(Response.Message);
                 }
                 else {
-                    alert('Error during AJAX communication');
+                    alert(Core.Language.Translate('Error during AJAX communication'));
                 }
                 return false;
             }
@@ -1249,7 +1249,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $(this).closest('.WidgetSimple').remove();
             }
             else {
-                alert("Sorry, the only existing condition can't be removed.");
+                alert(Core.Language.Translate("Sorry, the only existing condition can't be removed."));
             }
 
             return false;
@@ -1277,7 +1277,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $(this).parent().closest('fieldset').remove();
             }
             else {
-                alert("Sorry, the only existing field can't be removed.");
+                alert(Core.Language.Translate("Sorry, the only existing field can't be removed."));
             }
 
             return false;
@@ -1348,7 +1348,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $(this).closest('fieldset').remove();
             }
             else {
-                alert("Sorry, the only existing parameter can't be removed.");
+                alert(Core.Language.Translate("Sorry, the only existing parameter can't be removed."));
             }
             return false;
         });

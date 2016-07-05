@@ -484,7 +484,7 @@ Core.AJAX = (function (TargetNS) {
             },
             error: function (XHRObject, Status, Error) {
 
-                var ErrorMessage = "Error during AJAX communication. Status: " + Status + ", Error: " + Error;
+                var ErrorMessage = Core.Language.Translate('Error during AJAX communication. Status: %s, Error: %s', Status, Error);
 
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
@@ -551,7 +551,7 @@ Core.AJAX = (function (TargetNS) {
             },
             error: function (XHRObject, Status, Error) {
 
-                var ErrorMessage = "Error during AJAX communication. Status: " + Status + ", Error: " + Error;
+                var ErrorMessage = Core.Language.Translate('Error during AJAX communication. Status: %s, Error: %s', Status, Error);
 
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
@@ -610,7 +610,7 @@ Core.AJAX = (function (TargetNS) {
             },
             error: function (XHRObject, Status, Error) {
 
-                var ErrorMessage = "Error during AJAX communication. Status: " + Status + ", Error: " + Error;
+                var ErrorMessage = Core.Language.Translate('Error during AJAX communication. Status: %s, Error: %s', Status, Error);
 
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;

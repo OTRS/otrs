@@ -120,7 +120,7 @@ Core.Exception = (function (TargetNS) {
      *      This function handles the given error object (used as last possibility to catch the error).
      */
     TargetNS.HandleFinalError = function (ErrorObject, Trace) {
-        var UserErrorMessage = 'An error occurred! Do you want to see the complete error message?';
+        var UserErrorMessage = Core.Language.Translate('An error occurred! Do you want to see the complete error message?');
 
         if (ErrorObject instanceof TargetNS.ApplicationError) {
             // Suppress AJAX errors which were raised by leaving the page while the AJAX call was still running.
