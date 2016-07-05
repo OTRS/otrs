@@ -519,9 +519,9 @@ sub GetObjectAttributes {
             Block            => 'SelectField',
             Translation      => 1,
             Values           => {
-                ArchivedTickets    => 'Archived tickets',
-                NotArchivedTickets => 'Unarchived tickets',
-                AllTickets         => 'All tickets',
+                ArchivedTickets    => Translatable('Archived tickets'),
+                NotArchivedTickets => Translatable('Unarchived tickets'),
+                AllTickets         => Translatable('All tickets'),
             },
         );
 

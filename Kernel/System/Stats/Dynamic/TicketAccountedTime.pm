@@ -450,9 +450,9 @@ sub GetObjectAttributes {
             Block            => 'SelectField',
             Translation      => 1,
             Values           => {
-                ArchivedTickets    => 'Archived tickets',
-                NotArchivedTickets => 'Unarchived tickets',
-                AllTickets         => 'All tickets',
+                ArchivedTickets    => Translatable('Archived tickets'),
+                NotArchivedTickets => Translatable('Unarchived tickets'),
+                AllTickets         => Translatable('All tickets'),
             },
         );
 
@@ -1293,15 +1293,15 @@ sub _KindsOfReporting {
     my $Self = shift;
 
     my %KindsOfReporting = (
-        TotalTime        => 'Total Time',
-        TicketAverage    => 'Ticket Average',
-        TicketMinTime    => 'Ticket Min Time',
-        TicketMaxTime    => 'Ticket Max Time',
-        NumberOfTickets  => 'Number of Tickets',
-        ArticleAverage   => 'Article Average',
-        ArticleMinTime   => 'Article Min Time',
-        ArticleMaxTime   => 'Article Max Time',
-        NumberOfArticles => 'Number of Articles',
+        TotalTime        => Translatable('Total Time'),
+        TicketAverage    => Translatable('Ticket Average'),
+        TicketMinTime    => Translatable('Ticket Min Time'),
+        TicketMaxTime    => Translatable('Ticket Max Time'),
+        NumberOfTickets  => Translatable('Number of Tickets'),
+        ArticleAverage   => Translatable('Article Average'),
+        ArticleMinTime   => Translatable('Article Min Time'),
+        ArticleMaxTime   => Translatable('Article Max Time'),
+        NumberOfArticles => Translatable('Number of Articles'),
     );
     return \%KindsOfReporting;
 }

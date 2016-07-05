@@ -438,9 +438,9 @@ sub GetObjectAttributes {
             Block            => 'SelectField',
             Translation      => 1,
             Values           => {
-                ArchivedTickets    => 'Archived tickets',
-                NotArchivedTickets => 'Unarchived tickets',
-                AllTickets         => 'All tickets',
+                ArchivedTickets    => Translatable('Archived tickets'),
+                NotArchivedTickets => Translatable('Unarchived tickets'),
+                AllTickets         => Translatable('All tickets'),
             },
         );
 
@@ -1307,29 +1307,29 @@ sub _KindsOfReporting {
     my $Self = shift;
 
     my %KindsOfReporting = (
-        SolutionAverageAllOver => 'Solution Average',
-        SolutionMinTimeAllOver => 'Solution Min Time',
-        SolutionMaxTimeAllOver => 'Solution Max Time',
-        NumberOfTicketsAllOver => 'Number of Tickets',
-        SolutionAverage        => 'Solution Average (affected by escalation configuration)',
-        SolutionMinTime        => 'Solution Min Time (affected by escalation configuration)',
-        SolutionMaxTime        => 'Solution Max Time (affected by escalation configuration)',
+        SolutionAverageAllOver => Translatable('Solution Average'),
+        SolutionMinTimeAllOver => Translatable('Solution Min Time'),
+        SolutionMaxTimeAllOver => Translatable('Solution Max Time'),
+        NumberOfTicketsAllOver => Translatable('Number of Tickets'),
+        SolutionAverage        => Translatable('Solution Average (affected by escalation configuration)'),
+        SolutionMinTime        => Translatable('Solution Min Time (affected by escalation configuration)'),
+        SolutionMaxTime        => Translatable('Solution Max Time (affected by escalation configuration)'),
         SolutionWorkingTimeAverage =>
-            'Solution Working Time Average (affected by escalation configuration)',
+            Translatable('Solution Working Time Average (affected by escalation configuration)'),
         SolutionMinWorkingTime =>
-            'Solution Min Working Time (affected by escalation configuration)',
+            Translatable('Solution Min Working Time (affected by escalation configuration)'),
         SolutionMaxWorkingTime =>
-            'Solution Max Working Time (affected by escalation configuration)',
-        ResponseAverage => 'Response Average (affected by escalation configuration)',
-        ResponseMinTime => 'Response Min Time (affected by escalation configuration)',
-        ResponseMaxTime => 'Response Max Time (affected by escalation configuration)',
+            Translatable('Solution Max Working Time (affected by escalation configuration)'),
+        ResponseAverage => Translatable('Response Average (affected by escalation configuration)'),
+        ResponseMinTime => Translatable('Response Min Time (affected by escalation configuration)'),
+        ResponseMaxTime => Translatable('Response Max Time (affected by escalation configuration)'),
         ResponseWorkingTimeAverage =>
-            'Response Working Time Average (affected by escalation configuration)',
+            Translatable('Response Working Time Average (affected by escalation configuration)'),
         ResponseMinWorkingTime =>
-            'Response Min Working Time (affected by escalation configuration)',
+            Translatable('Response Min Working Time (affected by escalation configuration)'),
         ResponseMaxWorkingTime =>
-            'Response Max Working Time (affected by escalation configuration)',
-        NumberOfTickets => 'Number of Tickets (affected by escalation configuration)',
+            Translatable('Response Max Working Time (affected by escalation configuration)'),
+        NumberOfTickets => Translatable('Number of Tickets (affected by escalation configuration)'),
     );
     return \%KindsOfReporting;
 }
