@@ -148,6 +148,7 @@
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
                     <CSS>Core.Agent.SortedTree.css</CSS>
+                    <JavaScript>Core.Agent.Admin.GenericInterfaceTransportHTTPSOAP.js</JavaScript>
                     <JavaScript>Core.Agent.SortedTree.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>

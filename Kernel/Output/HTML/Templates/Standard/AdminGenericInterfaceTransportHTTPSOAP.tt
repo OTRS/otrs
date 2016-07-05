@@ -97,26 +97,12 @@
                                     [% Translate("'FreeText' is used as example for actual configured value.") | html %]
                                 </p>
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#RequestNameScheme').on('change', function(){
-    if ( $(this).val() === 'Append' || $(this).val() === 'Replace' ) {
-        $('.RequestNameFreeTextField').removeClass('Hidden');
-        $('#RequestNameFreeText').addClass('Validate_Required');
-    }
-    else {
-        $('.RequestNameFreeTextField').addClass('Hidden');
-        $('#RequestNameFreeText').removeClass('Validate_Required');
-    }
-});
-//]]></script>
-[% END %]
                             <div class="Clear"></div>
 
                             <div class="RequestNameFreeTextField [% Data.RequestNameFreeTextHidden | html %]">
                                 <fieldset class="TableLike">
 
-                                    <label class="Mandatory" for="RequestNameFreeText"><span class="Marker">*</span>[% Translate("Response name free text") | html %]:</label>
+                                    <label class="Mandatory" for="RequestNameFreeText"><span class="Marker">*</span>[% Translate("Request name free text") | html %]:</label>
                                     <div class="Field">
                                         <input id="RequestNameFreeText" class="W50pc [% Data.RequestNameFreeTextServerError | html %] [% Data.RequestNameFreeTextMandatory | html %]" type="text" maxlength="250" value="[% Data.RequestNameFreeText | html %]" name="RequestNameFreeText"/>
                                         <div id="RequestNameFreeTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
@@ -143,20 +129,6 @@ $('#RequestNameScheme').on('change', function(){
                                     [% Translate("'FreeText' is used as example for actual configured value.") | html %]
                                 </p>
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#ResponseNameScheme').on('change', function(){
-    if ( $(this).val() === 'Append' || $(this).val() === 'Replace' ) {
-        $('.ResponseNameFreeTextField').removeClass('Hidden');
-        $('#ResponseNameFreeText').addClass('Validate_Required');
-    }
-    else {
-        $('.ResponseNameFreeTextField').addClass('Hidden')
-        $('#ResponseNameFreeText').removeClass('Validate_Required');
-    }
-});
-//]]></script>
-[% END %]
                             <div class="Clear"></div>
 
                             <div class="ResponseNameFreeTextField [% Data.ResponseNameFreeTextHidden | html %]">
@@ -212,18 +184,6 @@ $('#ResponseNameScheme').on('change', function(){
                                     [% Translate("Set to \"No\" to send an empty SOAPAction header.") | html %]
                                 </p>
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#SOAPAction').on('change', function(){
-    if ( $(this).val() === 'Yes') {
-        $('.SOAPActionField').removeClass('Hidden');
-    }
-    else {
-        $('.SOAPActionField').addClass('Hidden');
-    }
-});
-//]]></script>
-[% END %]
                             <div class="Clear"></div>
 
                             <div class="SOAPActionField [% Data.SOAPActionHidden | html %]">
@@ -252,24 +212,6 @@ $('#SOAPAction').on('change', function(){
                                     [% Translate("A \"-\" value means no authentication.") | html %]
                                 </p>
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#Authentication').on('change', function(){
-    if ( $(this).val() === 'BasicAuth') {
-        $('.BasicAuthField').removeClass('Hidden');
-        $('.BasicAuthField').find('#UserName').each(function(){
-            $(this).addClass('Validate_Required');
-        });
-    }
-    else {
-        $('.BasicAuthField').addClass('Hidden');
-        $('.BasicAuthField').find('#User').each(function(){
-            $(this).removeClass('Validate_Required');
-        });
-    }
-});
-//]]></script>
-[% END %]
                             <div class="Clear"></div>
 
                             <div class="BasicAuthField [% Data.BasicAuthHidden | html %]">
@@ -332,32 +274,6 @@ $('#Authentication').on('change', function(){
                                     [% Translate("Show or hide SSL options to connect to the remote system.") | html %]
                                 </p>
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#UseSSL').on('change', function(){
-    if ( $(this).val() === 'Yes') {
-        $('.SSLField').removeClass('Hidden');
-        $('.SSLField').find('#SSLP12Certificate').each(function(){
-            $(this).addClass('Validate_Required');
-        });
-        $('.SSLField').find('#SSLP12Password').each(function(){
-            $(this).addClass('Validate_Required');
-        });
-    }
-
-    else {
-        $('.SSLField').addClass('Hidden');
-        $('.SSLField').find('#SSLP12Certificate').each(function(){
-            $(this).removeClass('Validate_Required');
-        });
-        $('.SSLField').find('#SSLP12Password').each(function(){
-            $(this).removeClass('Validate_Required');
-        });
-    }
-});
-//]]></script>
-[% END %]
-
                             <div class="SSLField [% Data.SSLHidden | html %]">
                                 <fieldset class="TableLike">
 
@@ -428,11 +344,6 @@ $('#UseSSL').on('change', function(){
                                 </p>
                                 <input type="hidden" name="Sort" id="Sort" value="" />
                             </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.SortedTree.Init( $('.SortableList'), $('#TransportConfigForm'), $('#Sort'), [% Data.Sort | JSON %] );
-//]]></script>
-[% END %]
 
                             <div class="Field SpacingTop">
                                 <button type="submit" class="Primary CallForAction" value="[% Translate("Save and continue") | html %]"><span>[% Translate("Save") | html %]</span></button>
@@ -440,13 +351,6 @@ $('#UseSSL').on('change', function(){
                                 [% Translate("or") | html %]
                                 <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                                 <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#SaveAndFinishButton').on('click', function(){
-    $('#ReturnToWebservice').val(1);
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("SaveAndFinishButton") %]
                                 [% Translate("or") | html %]
                                 <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
