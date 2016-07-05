@@ -252,10 +252,10 @@ sub ActivityDialogCompletedCheck {
     for my $Field ( sort keys %{ $ActivityDialog->{Fields} } ) {
 
         # Checks if Field was invisible
-        next FIELDLOOP if ( !$ActivityDialog->{Fields}{$Field}{Display} );
+        next FIELDLOOP if ( !$ActivityDialog->{Fields}->{$Field}->{Display} );
 
         # Checks if Field was visible but not required
-        next FIELDLOOP if ( $ActivityDialog->{Fields}{$Field}{Display} == 1 );
+        next FIELDLOOP if ( $ActivityDialog->{Fields}->{$Field}->{Display} == 1 );
 
         # checks if $Data->{Field} is defined and not an empty string
         return if ( !IsStringWithData( $Param{Data}->{$Field} ) );

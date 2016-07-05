@@ -181,7 +181,7 @@ sub ActivityList {
         return;
     }
 
-    my %ActivityList = map { $_ => $Activities->{$_}{Name} || '' } keys %{$Activities};
+    my %ActivityList = map { $_ => $Activities->{$_}->{Name} || '' } keys %{$Activities};
 
     return \%ActivityList;
 }

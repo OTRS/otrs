@@ -92,7 +92,7 @@ sub Validate {
         return;
     }
 
-    if ( $Param{Data}{Queue} && $Param{Data}{Queue} eq 'Raw' ) {
+    if ( $Param{Data}->{Queue} && $Param{Data}->{Queue} eq 'Raw' ) {
         return 1;
     }
 

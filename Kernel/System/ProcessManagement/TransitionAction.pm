@@ -110,9 +110,9 @@ sub TransitionActionGet {
     }
 
     if (
-        !$TransitionAction->{ $Param{TransitionActionEntityID} }{Module}
+        !$TransitionAction->{ $Param{TransitionActionEntityID} }->{Module}
         || !$Kernel::OM->Get('Kernel::System::Main')->Require(
-            $TransitionAction->{ $Param{TransitionActionEntityID} }{Module}
+            $TransitionAction->{ $Param{TransitionActionEntityID} }->{Module}
         )
         )
     {
@@ -216,9 +216,9 @@ sub TransitionActionList {
         }
 
         if (
-            !$TransitionAction->{$TransitionActionEntityID}{Module}
+            !$TransitionAction->{$TransitionActionEntityID}->{Module}
             || !$Kernel::OM->Get('Kernel::System::Main')->Require(
-                $TransitionAction->{$TransitionActionEntityID}{Module}
+                $TransitionAction->{$TransitionActionEntityID}->{Module}
             )
             )
         {
