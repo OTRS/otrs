@@ -142,6 +142,12 @@ $Selenium->RunTest(
             "Setting for toggle widgets found on page",
         );
 
+        # check if there is link to CIC search modal dialog from heading (name of the company)
+        $Self->True(
+            $Selenium->find_element( "#CustomerInformationCenterHeading", 'css' ),
+            'There is link to customer information center search modal dialog.',
+        );
+
         # test links in Company Status widget
         for my $TestLinks ( sort keys %TicketData ) {
 

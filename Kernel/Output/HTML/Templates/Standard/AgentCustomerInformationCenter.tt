@@ -12,15 +12,5 @@
 
 [% InsertTemplate("AgentDashboardCommon.tt") %]
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.Dashboard.Init();
-    $('#CustomerInformationCenterHeading').bind('click', function() {
-        Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog();
-        return false;
-    });
-//]]></script>
-[% END %]
-
 </div>
 [% RenderBlockEnd("Content") %]
