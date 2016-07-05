@@ -21,12 +21,11 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
 
-
 my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SystemTime = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
-        String =>   '2014-01-01 12:00:00',
+        String => '2014-01-01 12:00:00',
     },
 );
 $Helper->FixedTimeSet($SystemTime);

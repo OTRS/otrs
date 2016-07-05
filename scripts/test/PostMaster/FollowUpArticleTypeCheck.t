@@ -228,6 +228,7 @@ Some Content in Body",
             SenderType  => 'customer',
         },
     },
+
     # response from an unknown address, but in response to the internal article (References)
     {
         Name  => 'Response to internal mail from unknown sender',

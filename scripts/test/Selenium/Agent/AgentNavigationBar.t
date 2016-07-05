@@ -27,7 +27,7 @@ $Selenium->RunTest(
 
         my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups   => [ 'admin', 'users' ],
+            Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
         # get test user ID
@@ -53,12 +53,12 @@ $Selenium->RunTest(
 
         # try to drag the admin item to the front of the nav bar
         $Selenium->DragAndDrop(
-            Element => 'li#nav-Admin',
-            Target  => 'ul#Navigation',
-            TargetOffset    => {
-                X   => 0,
-                Y   => 0,
-            }
+            Element      => 'li#nav-Admin',
+            Target       => 'ul#Navigation',
+            TargetOffset => {
+                X => 0,
+                Y => 0,
+                }
         );
 
         # wait for the success arrow to show up
