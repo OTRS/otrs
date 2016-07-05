@@ -110,7 +110,11 @@ Core.Debug = (function (TargetNS) {
             return true;
         }
         if (!Silent) {
-            ErrorMessage = Core.Language.Translate('Namespace %s could not be initialized, because %s could not be found.', TargetNamespace, RequiredLabel);
+
+            ErrorMessage = 'Namespace ' + TargetNamespace + ' could not be initialized, because ' + RequiredLabel + ' could not be found.';
+            if (typeof Core.Language !== 'undefined') {
+                ErrorMessage = Core.Language.Translate('Namespace %s could not be initialized, because %s could not be found.', TargetNamespace, RequiredLabel);
+            }
             alert(ErrorMessage);
             // don't use Core.Exception here, it may not be available
             throw ErrorMessage;
