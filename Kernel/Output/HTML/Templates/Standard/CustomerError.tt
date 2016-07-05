@@ -11,9 +11,11 @@
         <h2>
             [% Translate("Error") | html %]: [% Translate(Data.Message) | html %]
         </h2>
+        [% IF Data.Comment %]
         <p>
-            [% Translate("Comment") | html %]: [% Translate(Data.Message) | html %]
+            [% Translate("Comment") | html %]: [% Translate(Data.Comment) | html %]
         </p>
+        [% END %]
         <p>
             [% Translate("Traceback") | html %]:
         </p>
