@@ -54,11 +54,12 @@ Core.Agent.TicketMerge = (function (TargetNS) {
      *      This function initializes the functionality for the TicketMerge screen.
      */
     TargetNS.Init = function () {
+
         // initial setting for to/subject/body
         SwitchMandatoryFields();
 
         // watch for changes of inform sender field
-        $('#InformSender').bind('click', function(){
+        $('#InformSender').on('click', function(){
             SwitchMandatoryFields();
         });
 
@@ -74,6 +75,8 @@ Core.Agent.TicketMerge = (function (TargetNS) {
             }
         });
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.TicketMerge || {}));

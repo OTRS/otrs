@@ -128,8 +128,3 @@
         </div>
     </div>
 </form>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketMerge.Init();
-//]]></script>
-[% END %]

@@ -92,6 +92,72 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # check JS functionality
+        # expand the widget if it is collapsed
+        my $Expanded = $Selenium->execute_script(
+            "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded')"
+        );
+
+        if ( $Expanded eq 'false' ) {
+            $Selenium->find_element( "#WidgetInformSender a[title=\'Toggle this widget\']", 'css' )->click();
+
+            # check if the widget is expanded
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded')"
+                ),
+                'true',
+                "The widget 'Inform Sender' is expanded",
+            );
+        }
+
+        # set checkbox to uncheck
+        $Selenium->execute_script("\$('#InformSender').prop('checked', true)");
+        $Selenium->find_element( "#InformSender", 'css' )->click();
+
+        # collapse the widget
+        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->click();
+
+        # check if the widget is collapsed
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded')"
+            ),
+            'false',
+            "The widget 'Inform Sender' is collapsed",
+        );
+
+        # expand the widget again
+        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->click();
+
+        # check if the widget is expanded
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded')"
+            ),
+            'true',
+            "The widget 'Inform Sender' is expanded",
+        );
+
+        # check if the checkbox is checked
+        $Self->Is(
+            $Selenium->execute_script("return \$('#InformSender').prop('checked')"),
+            1,
+            "The checkbox 'Inform sender' is checked",
+        );
+
+        # check if fields are mandatory
+        for my $Label (qw(To Subject RichText)) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('label[for=$Label]').hasClass('Mandatory')"),
+                1,
+                "Label '$Label' has class 'Mandatory'",
+            );
+        }
+
+        # set fields to be not mandatory
+        $Selenium->find_element( "#InformSender", 'css' )->click();
+
         # check client side validation
         my $Element = $Selenium->find_element( "#MainTicketNumber", 'css' );
         $Element->send_keys("");
