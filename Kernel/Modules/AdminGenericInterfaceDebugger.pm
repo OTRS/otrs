@@ -50,6 +50,12 @@ sub Run {
         );
     }
 
+    # send value to JS
+    $LayoutObject->AddJSData(
+        Key   => 'WebserviceID',
+        Value => $WebserviceID,
+    );
+
     if ( $Self->{Subaction} eq 'GetRequestList' ) {
         return $Self->_GetRequestList(
             %Param,

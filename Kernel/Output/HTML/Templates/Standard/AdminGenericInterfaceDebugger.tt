@@ -128,17 +128,3 @@
     </div>
     <div class="Clear"></div>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-
-Core.Agent.Admin.GenericInterfaceDebugger.Init([% Data.WebserviceID | html %]);
-
-$('#FilterRefresh').bind('click', Core.Agent.Admin.GenericInterfaceDebugger.GetRequestList);
-$('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceDebugger.ShowDeleteDialog);
-
-//Load Request list on startup without active filter
-Core.Agent.Admin.GenericInterfaceDebugger.GetRequestList();
-
-//]]></script>
-[% END %]
