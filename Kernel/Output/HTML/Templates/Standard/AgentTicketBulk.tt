@@ -217,16 +217,6 @@
                         </div>
                     </div>
                     <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#MergeTo').bind('blur', function() {
-    if ($(this).val()) {
-        $('#OptionMergeTo').prop('checked', true);
-    }
-});
-//]]></script>
-[% END %]
-
 
                     <label for="LinkTogether">[% Translate("Link together") | html %]:</label>
                     <div class="Field">
@@ -258,20 +248,5 @@ $('#MergeTo').bind('blur', function() {
         </div>
     </div>
 </form>
-[% RenderBlockStart("ParentReload") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
-    WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: '[% Env("Baselink") %][% Data.URL %]' }, false);
-});
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ParentReload") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketAction.Init();
-//]]></script>
-[% END %]
 
 [% RenderBlockEnd("BulkAction") %]

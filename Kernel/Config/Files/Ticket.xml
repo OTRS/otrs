@@ -9009,6 +9009,7 @@
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketBulk.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

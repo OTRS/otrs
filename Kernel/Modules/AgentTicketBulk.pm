@@ -1216,11 +1216,9 @@ sub _Mask {
             $URL .= ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
         }
 
-        $LayoutObject->Block(
-            Name => 'ParentReload',
-            Data => {
-                URL => $URL,
-            },
+        $LayoutObject->AddJSData(
+            Key   => 'TicketBulkURL',
+            Value => $LayoutObject->{Baselink} . $URL,
         );
 
         # show undo&close link
