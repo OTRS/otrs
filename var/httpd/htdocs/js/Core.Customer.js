@@ -77,6 +77,11 @@ Core.Customer = (function (TargetNS) {
                 + Core.Language.Translate('Please see the documentation or ask your admin for further information.')
             );
         }
+
+        // unveil full error details only on click
+        $('.TriggerFullErrorDetails').on('click', function() {
+            $('.Content.ErrorDetails').toggle();
+        });
     };
 
     /**
