@@ -92,6 +92,11 @@ Core.Customer = (function (TargetNS) {
         // Init tree selection/tree view for dynamic fields
         Core.UI.TreeSelection.InitTreeSelection();
         Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
+
+        // unveil full error details only on click
+        $('.TriggerFullErrorDetails').on('click', function() {
+            $('.Content.ErrorDetails').toggle();
+        });
     };
 
     /**

@@ -83,8 +83,6 @@ strong {
 .Content.Error h2 {
     margin-top: 20px;
     padding: 0px;
-    border-top: 1px solid #ccc;
-    padding-top: 20px;
 }
 
 .Content.Error pre {

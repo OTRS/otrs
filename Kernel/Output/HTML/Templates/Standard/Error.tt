@@ -14,9 +14,7 @@
                 <h2>[% Translate("An error occurred.") | html %]</h2>
             </div>
             <div class="Content">
-                <h4>
-                    [% Translate("Error Message") | html %]: <span class="Error">[% Translate(Data.Message) | html %]</span>
-                </h4>
+                <p>[% Translate(Data.Message) | truncate(200) | html %]</p>
                 <p class="SpacingTop">
                     [% Translate(Data.Comment) | html %].
                 </p>
