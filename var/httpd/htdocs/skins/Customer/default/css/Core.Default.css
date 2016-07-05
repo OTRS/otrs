@@ -67,6 +67,33 @@ strong {
 }
 
 /**
+ * @subsection  Error screen
+ */
+
+.Content.Error {
+    background: #eee;
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+.Content.Error h1 {
+    margin-top: 15px;
+}
+
+.Content.Error h2 {
+    margin-top: 20px;
+    padding: 0px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+.Content.Error pre {
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 11px;
+}
+
+/**
  * @subsection  Header
  */
 

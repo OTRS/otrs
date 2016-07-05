@@ -3855,7 +3855,7 @@ sub CustomerFatalError {
         Area  => 'Frontend',
         Title => 'Fatal Error'
     );
-    $Output .= $Self->Error(%Param);
+    $Output .= $Self->CustomerError(%Param);
     $Output .= $Self->CustomerFooter();
     $Self->Print( Output => \$Output );
     exit;
