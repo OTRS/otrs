@@ -183,10 +183,10 @@
     <div class="Placeholder">
 [% RenderBlockStart("EmptyDefault") %]
         <h2>[% Translate("Welcome!") | html %]</h2>
+[% RenderBlockStart("EmptyDefaultButton") %]
         <p>
             [% Translate("Please click the button below to create your first ticket.") | html %]
         </p>
-[% RenderBlockStart("EmptyDefaultButton") %]
         <a class="Button" href="[% Env("Baselink") %]Action=CustomerTicketMessage">[% Translate("Create your first ticket") | html %]</a>
 [% RenderBlockEnd("EmptyDefaultButton") %]
 [% RenderBlockEnd("EmptyDefault") %]
