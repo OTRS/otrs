@@ -41,7 +41,7 @@ addons:
 # Install nodejs from external source as it is outdated in 12.04
 before_install:
   - curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-  - sudo apt-get install -y nodejs
+  - sudo apt-get install -y nodejs npm
   - npm -g install eslint
 
 # We have to install the Perl modules via CPAN because the VMs use a perlbrew based Perl, not Ubuntu's system Perl.
@@ -54,7 +54,9 @@ install:
   - rm /tmp/OTRSCodePolicy/OTRSCodePolicy.sopm
   - cp -rf /tmp/OTRSCodePolicy/* .
   # install OTRS cpan dependencies
-  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack DBD::mysql DBD::Pg Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI DateTime
+  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI DateTime
+  - cpanm --quiet --notest DBD::mysql || echo "Suppressing exit code $?"
+  - cpanm --quiet --notest DBD::Pg    || echo "Suppressing exit code $?"
   # configure OTRS
   - scripts/tools/travis/setup.sh
   # start web server
