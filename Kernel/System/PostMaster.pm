@@ -19,6 +19,10 @@ use Kernel::System::PostMaster::Reject;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
+our %ObjectManagerFlags = (
+    NonSingleton => 1,
+);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
@@ -48,13 +52,14 @@ All postmaster functions. E. g. to process emails.
 create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
-        'Kernel::System::PostMaster' => {
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $PostMasterObject = $Kernel::OM->Create(
+        'Kernel::System::PostMaster',
+        ObjectParams => {
             Email        => \@ArrayOfEmailContent,
             Trusted      => 1, # 1|0 ignore X-OTRS header if false
         },
     );
-    my $PostMasterObject = $Kernel::OM->Get('Kernel::System::PostMaster');
 
 =cut
 

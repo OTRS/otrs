@@ -16,7 +16,6 @@ use base qw(Kernel::System::Console::BaseCommand);
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::PostMaster',
 );
 
 sub Configure {
@@ -93,14 +92,6 @@ sub Run {
     # database being unavailable) can be trapped without causing a
     # bounce
     eval {
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::PostMaster' => {
-                Email   => \@Email,
-                Trusted => $Self->GetOption('untrusted') ? 0 : 1,
-                Debug   => $Debug,
-            },
-        );
-
         if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
@@ -108,7 +99,16 @@ sub Run {
             );
         }
 
-        my @Return = $Kernel::OM->Get('Kernel::System::PostMaster')->Run(
+        my $PostMasterObject = $Kernel::OM->Create(
+            'Kernel::System::PostMaster',
+            ObjectParams => {
+                Email   => \@Email,
+                Trusted => $Self->GetOption('untrusted') ? 0 : 1,
+                Debug   => $Debug,
+            },
+        );
+
+        my @Return = $PostMasterObject->Run(
             Queue => $Self->GetOption('target-queue'),
         );
 

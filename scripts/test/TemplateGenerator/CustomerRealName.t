@@ -123,7 +123,6 @@ for my $Test (@Tests) {
         open STDOUT, '>:utf8', \$Result;          ## no critic
 
         $ExitCode = $CommandObject->Execute( '--target-queue', $QueueNameRand, '--debug' );
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PostMaster'] );
     }
 
     $Self->Is(
