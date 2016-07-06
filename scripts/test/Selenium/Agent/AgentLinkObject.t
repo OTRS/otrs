@@ -78,6 +78,7 @@ $Selenium->RunTest(
 
         # get sysconfig object
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 
         # set link object view mode to simple
         $SysConfigObject->ConfigItemUpdate(
@@ -91,6 +92,19 @@ $Selenium->RunTest(
             Valid => 1,
             Key   => 'Ticket::SubjectSize',
             Value => '60',
+        );
+
+        # Enable Ticket::ArchiveSystem
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::ArchiveSystem',
+            Value => 1,
+        );
+
+        # Enable Ticket::ArchiveSystem
+        $ConfigObject->Set(
+            Key   => 'Ticket::ArchiveSystem',
+            Value => 1,
         );
 
         # change resolution (desktop mode)
@@ -408,9 +422,8 @@ $Selenium->RunTest(
         $Selenium->find_element( ".Primary", "css" )->click();
 
         # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#SelectAllLinks0").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0").length' );
 
-        # archive 2nd ticket
         my $SuccessArchived = $TicketObject->TicketArchiveFlagSet(
             ArchiveFlag => 'y',
             TicketID    => $TicketIDs[1],
@@ -422,12 +435,12 @@ $Selenium->RunTest(
             "Check if 2nd ticket is archived successfully."
         );
 
-        # check if there is "Search archived" checkbox
+        # check if there is "Search archive" drop-down.
         $Self->True(
             $Selenium->execute_script(
-                "return \$('#SEARCH\\\\:\\\\:Archived').length"
+                "return \$('#SEARCH\\\\:\\\\:ArchiveID').length"
             ),
-            'Search archive checkbox present.',
+            'Search archive drop-down present.',
         );
 
         # search for 2nd ticket
@@ -442,9 +455,22 @@ $Selenium->RunTest(
             'No result.',
         );
 
-        # select Search archived checkbox
-        $Selenium->find_element(".//*[\@id='SEARCH::Archived']")->VerifiedClick();
-        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->VerifiedSubmit();
+        # click on the Archive search drop-down
+        $Selenium->find_element(".//*[\@id='SEARCH::ArchiveID_Search']")->VerifiedClick();
+
+        $Self->True(
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $(\'li[data-id="ArchivedTickets"]\').length'
+            ),
+            "Wait for ArchivedTickets option to appear."
+        );
+
+        # select Search archived
+        $Selenium->execute_script(
+            "\$('li[data-id=\"ArchivedTickets\"] a').click();"
+        );
+
+        $Selenium->find_element( "#SubmitSearch", "css" )->VerifiedClick();
 
         # wait till search is loaded
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0").length' );

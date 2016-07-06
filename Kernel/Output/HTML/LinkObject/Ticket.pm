@@ -739,11 +739,6 @@ sub SearchOptionList {
             Name => 'Priority',
             Type => 'List',
         },
-        {
-            Key  => 'Archived',
-            Name => 'Search archived',
-            Type => 'Checkbox',
-        }
     );
 
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
@@ -751,6 +746,15 @@ sub SearchOptionList {
             {
             Key  => 'TypeIDs',
             Name => 'Type',
+            Type => 'List',
+            };
+    }
+
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
+        push @SearchOptionList,
+            {
+            Key  => 'ArchiveID',
+            Name => 'Archive search',
             Type => 'List',
             };
     }
@@ -794,6 +798,8 @@ sub SearchOptionList {
             my @FormData = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => $Row->{FormKey} );
             $Row->{FormData} = \@FormData;
 
+            my $Multiple = 1;
+
             my %ListData;
             if ( $Row->{Key} eq 'StateIDs' ) {
                 %ListData = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -810,6 +816,17 @@ sub SearchOptionList {
                     UserID => $Self->{UserID},
                 );
             }
+            elsif ( $Row->{Key} eq 'ArchiveID' ) {
+                %ListData = (
+                    ArchivedTickets    => Translatable('Archived tickets'),
+                    NotArchivedTickets => Translatable('Unarchived tickets'),
+                    AllTickets         => Translatable('All tickets'),
+                );
+                if ( !scalar @{ $Row->{FormData} } ) {
+                    $Row->{FormData} = ['NotArchivedTickets'];
+                }
+                $Multiple = 0;
+            }
 
             # add the input string
             $Row->{InputStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -817,7 +834,7 @@ sub SearchOptionList {
                 Name       => $Row->{FormKey},
                 SelectedID => $Row->{FormData},
                 Size       => 3,
-                Multiple   => 1,
+                Multiple   => $Multiple,
                 Class      => 'Modernize',
             );
 
@@ -835,7 +852,7 @@ sub SearchOptionList {
                 Data => {
                     Name    => $Row->{FormKey},
                     Title   => $Row->{FormKey},
-                    Content => 'Archived',
+                    Content => $Row->{FormKey},
                     Checked => $Row->{FormData} || '',
                 },
             );
