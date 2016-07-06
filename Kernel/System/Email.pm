@@ -26,7 +26,6 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::HTMLUtils',
     'Kernel::System::Log',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -323,7 +322,8 @@ sub Send {
     }
 
     # add date header
-    $Header{Date} = 'Date: ' . $Kernel::OM->Get('Kernel::System::Time')->MailTimeStamp();
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    $Header{Date} = 'Date: ' . $DateTimeObject->ToEmailTimeStamp();
 
     # add organisation header
     my $Organization = $ConfigObject->Get('Organization');
@@ -846,11 +846,13 @@ sub Bounce {
     my $RealFrom = $Sender[0]->address();
 
     # add ReSent header (see https://www.ietf.org/rfc/rfc2822.txt A.3. Resent messages)
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
     my $HeaderObject = $EmailObject->head();
     $HeaderObject->replace( 'Resent-Message-ID', $MessageID );
     $HeaderObject->replace( 'Resent-To',         $Param{To} );
     $HeaderObject->replace( 'Resent-From',       $RealFrom );
-    $HeaderObject->replace( 'Resent-Date',       $Kernel::OM->Get('Kernel::System::Time')->MailTimeStamp() );
+    $HeaderObject->replace( 'Resent-Date',       $DateTimeObject->ToEmailTimeStamp() );
     my $Body         = $EmailObject->body();
     my $BodyAsString = '';
     for ( @{$Body} ) {
