@@ -36,11 +36,12 @@ addons:
   apt:
     packages:
     - libxml2-utils
-    - nodejs
     - gettext
 
-# npm is already available with nodejs
+# Install nodejs from external source as it is outdated in 12.04
 before_install:
+  - curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+  - sudo apt-get install -y nodejs
   - npm -g install eslint
 
 # We have to install the Perl modules via CPAN because the VMs use a perlbrew based Perl, not Ubuntu's system Perl.
