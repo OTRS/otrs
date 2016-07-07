@@ -7273,7 +7273,7 @@
         <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName" Translatable="1">Customer Company</Item>
+                <Item Key="DisplayName" Translatable="1">Customer</Item>
                 <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerCompany</Item>
                 <Item Key="Prio">120</Item>
                 <Item Key="UseObjectName">1</Item>

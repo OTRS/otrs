@@ -191,6 +191,9 @@ sub _ShowOverview {
             Class         => 'Modernize W75pc',
         );
 
+        my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
+            ->{ $ObjectType }->{DisplayName} || $ObjectType;
+
         # call ActionAddDynamicField block
         $LayoutObject->Block(
             Name => 'ActionAddDynamicField',
@@ -198,6 +201,7 @@ sub _ShowOverview {
                 %Param,
                 AddDynamicFieldStrg => $AddDynamicFieldStrg,
                 ObjectType          => $ObjectType,
+                ObjectTypeName      => $ObjectTypeName,
                 SelectName          => $SelectName,
             },
         );
