@@ -18,11 +18,11 @@ use vars (qw($Self));
 my @TestConfigs = (
     {
         Date1 => {
-            String   => '2016-02-28 14:59:00',
+            String   => '2014-02-28 14:59:00',
             TimeZone => 'Europe/Berlin',
         },
         Date2 => {
-            String   => '2018-02-14 14:54:10',
+            String   => '2016-02-15 14:54:10',
             TimeZone => 'Europe/Berlin',
         },
         ExpectedResult => {
@@ -33,16 +33,16 @@ my @TestConfigs = (
             Hours           => 23,
             Minutes         => 55,
             Seconds         => 10,
-            AbsoluteSeconds => 61948510,
+            AbsoluteSeconds => 61948511,
         },
     },
     {
         Date1 => {
-            String   => '2016-02-28 14:59:00',
+            String   => '2014-02-28 14:59:00',
             TimeZone => 'UTC',
         },
         Date2 => {
-            String   => '2018-02-14 14:54:10',
+            String   => '2016-02-15 14:54:10',
             TimeZone => 'America/New_York',
         },
         ExpectedResult => {
@@ -53,7 +53,7 @@ my @TestConfigs = (
             Hours           => 4,
             Minutes         => 55,
             Seconds         => 10,
-            AbsoluteSeconds => 61966510,
+            AbsoluteSeconds => 61966511,
         },
     },
     {
