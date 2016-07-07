@@ -95,6 +95,10 @@ sub Load {
 
 use base qw(Kernel::Config::Defaults);
 
+# Make sure snippets from Defaults.pm with Translatable() work correctly.
+sub Translatable {
+    return shift;
+}
 # -----------------------------------------------------#
 
 1;
