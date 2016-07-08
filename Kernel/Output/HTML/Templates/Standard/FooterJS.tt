@@ -120,7 +120,7 @@ Core.App.Ready(function () {
             true,
             [
                {
-                   Label: [% Translate('Close') | JSON %],
+                   Label: [% Translate('Close dialog') | JSON %],
                    Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('.OTRSBusinessRequiredDialog'));
