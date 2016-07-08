@@ -39,7 +39,7 @@ my $DragAndDrop = sub {
 
     # Make sure DragFrom is visible
     $Selenium->WaitFor(
-        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{DragFrom} . ':visible\').length;',
+        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{From} . ':visible\').length;',
     );
     my $DragFrom = $Selenium->find_element( $Param{From}, 'css' );
 
@@ -51,7 +51,7 @@ my $DragAndDrop = sub {
 
     # Make sure DragTo is visible
     $Selenium->WaitFor(
-        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{DragTo} . ':visible\').length;',
+        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{To} . ':visible\').length;',
     );
     my $DragTo = $Selenium->find_element( $Param{To}, 'css' );
 
@@ -309,7 +309,7 @@ $Selenium->RunTest(
 
         # Remove Age from left side, and put it to the right side
         $DragAndDrop->(
-            From     => '#WidgetTicket li[data-fieldname="Age"]',
+            From     => '#WidgetTicket #AvailableField-linkobject-Ticket li:nth-child(1)',
             To       => '#AssignedFields-linkobject-Ticket',
             ToOffset => {
                 X => 185,
@@ -319,7 +319,7 @@ $Selenium->RunTest(
 
         # Remove State from right side, and put it to the left side
         $DragAndDrop->(
-            From     => '#WidgetTicket li[data-fieldname="State"]',
+            From     => '#WidgetTicket #AssignedFields-linkobject-Ticket li:nth-child(4)',
             To       => '#AvailableField-linkobject-Ticket',
             ToOffset => {
                 X => 185,
