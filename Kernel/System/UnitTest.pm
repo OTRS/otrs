@@ -831,7 +831,7 @@ sub _Print {
     $Name ||= '->>No Name!<<-';
 
     my $PrintName = $Name;
-    if ( length $PrintName > 1000 ) {
+    if ( length $PrintName > 1000 && !$Self->{Verbose} ) {
         $PrintName = substr( $PrintName, 0, 1000 ) . "...";
     }
 
