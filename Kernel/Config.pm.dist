@@ -93,12 +93,9 @@ sub Load {
 # needed system stuff (don't edit this)                #
 # ---------------------------------------------------- #
 
+use Kernel::Config::Defaults; # import Translatable()
 use base qw(Kernel::Config::Defaults);
 
-# Make sure snippets from Defaults.pm with Translatable() work correctly.
-sub Translatable {
-    return shift;
-}
 # -----------------------------------------------------#
 
 1;
