@@ -44,6 +44,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.12 2016-??-??
+ - 2016-07-08 Fixed bug#[12179](http://bugs.otrs.org/show_bug.cgi?id=12179) - Wrong OTRS tags conversion in transition actions called by Generic Agent over multiple tickets.
  - 2016-07-08 Fixed bug#[12105](http://bugs.otrs.org/show_bug.cgi?id=12105) - "Create summation row" and "Create summation column" are transposed.
  - 2016-07-08 Fixed bug#[12177](http://bugs.otrs.org/show_bug.cgi?id=12177) - "Close ticket" and "Close window".
  - 2016-07-08 Fixed bug#[12150](http://bugs.otrs.org/show_bug.cgi?id=12150) - Ticket::HookDivider missing in TicketZoom and History View.
