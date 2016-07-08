@@ -573,6 +573,11 @@ sub ProcessTransition {
 
         my $TransitionActionModuleObject = $TransitionAction->{Module}->new();
 
+        # Transition actions could replace configuration tags with actual ticket values,
+        #   copying the configuration prevents unwanted results if same Transition action is called
+        #   for multiple tickets, see bug#12179
+        my %Config = %{ $TransitionAction->{Config} || {} };
+
         my $Success = $TransitionActionModuleObject->Run(
             UserID                   => $Param{UserID},
             Ticket                   => \%Data,
@@ -580,7 +585,7 @@ sub ProcessTransition {
             ActivityEntityID         => $Param{ActivityEntityID},
             TransitionEntityID       => $TransitionEntityID,
             TransitionActionEntityID => $TransitionAction->{TransitionActionEntityID},
-            Config                   => $TransitionAction->{Config} || {},
+            Config                   => \%Config,
         );
     }
 
