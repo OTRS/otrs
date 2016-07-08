@@ -30,6 +30,9 @@ use lib dirname($Bin) . '/Custom';
 use File::stat;
 use Digest::MD5;
 
+use Exporter qw(import);
+our @EXPORT = qw(Translatable);
+
 our @ObjectDependencies = ();
 
 sub LoadDefaults {
