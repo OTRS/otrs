@@ -96,6 +96,7 @@ sub Load {
 use base qw(Kernel::Config::Defaults);
 
 # Make sure snippets from Defaults.pm with Translatable() work correctly.
+## nofilter(TidyAll::Plugin::OTRS::Perl::Translatable)
 sub Translatable {
     return shift;
 }
