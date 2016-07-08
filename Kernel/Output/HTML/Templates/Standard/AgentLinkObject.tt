@@ -14,7 +14,7 @@
             [% Translate("Link Object: %s", Data.SourceObjectLong) | html %]
         </h1>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkAddCloseLink">[% Translate("Close") | html %]</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkAddCloseLink">[% Translate("Close dialog") | html %]</a>
 [% RenderBlockStart("LinkMenuDelete") %]
             [% Translate("or") | html %]
             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=LinkDelete;Mode=[% Data.Mode | uri %];SourceObject=[% Data.SourceObject | uri %];SourceKey=[% Data.SourceKey | uri %];TargetIdentifier=[% Data.TargetIdentifier | uri %]">
@@ -83,7 +83,7 @@
             [% Translate("Unlink Object: %s", Data.SourceObjectNormal) | html %]
         </h1>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkDeleteCloseLink">[% Translate("Close") | html %]</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkDeleteCloseLink">[% Translate("Close dialog") | html %]</a>
 
             [% Translate("or") | html %]
             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Mode=[% Data.Mode | uri %];SourceObject=[% Data.SourceObject | uri %];SourceKey=[% Data.SourceKey | uri %];TargetIdentifier=[% Data.TargetIdentifier | uri %]" class="menuitem">

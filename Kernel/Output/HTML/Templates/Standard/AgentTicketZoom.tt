@@ -271,7 +271,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
         Buttons: [
             {
                 Type: 'Close',
-                Label: [% Translate("Close") | JSON %],
+                Label: [% Translate("Close dialog") | JSON %],
                 Function: function() {
                     Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                     Core.Form.EnableForm($('form[name="compose"]'));
