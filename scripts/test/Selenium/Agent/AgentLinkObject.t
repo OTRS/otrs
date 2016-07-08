@@ -249,7 +249,7 @@ $Selenium->RunTest(
 
         # Remove Age from left side, and put it to the right side
         $Selenium->DragAndDrop(
-            Element      => '#WidgetTicket li[data-fieldname="Age"]',
+            Element      => '#WidgetTicket #AvailableField-linkobject-Ticket li:nth-child(1)',
             Target       => '#AssignedFields-linkobject-Ticket',
             TargetOffset => {
                 X => 185,
@@ -259,7 +259,7 @@ $Selenium->RunTest(
 
         # Remove State from right side, and put it to the left side
         $Selenium->DragAndDrop(
-            Element      => '#WidgetTicket li[data-fieldname="State"]',
+            Element      => '#WidgetTicket #AssignedFields-linkobject-Ticket li:nth-child(4)',
             Target       => '#AvailableField-linkobject-Ticket',
             TargetOffset => {
                 X => 185,
