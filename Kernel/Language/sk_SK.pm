@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.259718428241227;
+    $Self->{Completeness}        = 0.254693366708385;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -904,10 +904,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => '',
         'Add customer' => 'Pridať zákazníka',
         'Select' => 'Vybrať',
-        'only' => '',
-        'shown' => '',
-        'more available' => '',
-        'total' => '',
+        'List (only %s shown - more available)' => '',
+        'List (%s total)' => '',
         'Please enter a search term to look for customers.' => '',
         'Add Customer' => 'Pridať zákazníka',
 
@@ -1495,6 +1493,7 @@ sub Data {
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '',
         'It\'s useful for ASP solutions. ' => '',
+        'total' => '',
         'Add Group' => '',
         'Edit Group' => '',
 
@@ -2208,6 +2207,7 @@ sub Data {
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
+        'Close dialog' => '',
         'Certificate details' => '',
 
         # Template: AdminSalutation
@@ -2631,13 +2631,13 @@ sub Data {
             '',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => 'Zmeniť volný text v %s%s',
-        'Change Owner of %s%s' => 'Zmeniť vlastníka v %s%s',
-        'Close %s%s' => 'Uzatvoriť %s%s',
-        'Add Note to %s%s' => 'Pridať poznámku do %s%s',
-        'Set Pending Time for %s%s' => 'Nastaviť pozastavenie pre %s%s',
-        'Change Priority of %s%s' => 'Zmeniť prioritu %s%s',
-        'Change Responsible of %s%s' => 'Zmeniť Zodpovedného %s%s',
+        'Change Free Text of %s%s%s' => '',
+        'Change Owner of %s%s%s' => '',
+        'Close %s%s%s' => '',
+        'Add Note to %s%s%s' => '',
+        'Set Pending Time for %s%s%s' => '',
+        'Change Priority of %s%s%s' => '',
+        'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Všetky polia vyznačené hviezdičkou(*) sú povinné',
         'Service invalid.' => 'Chybný servis',
         'New Owner' => 'Nový vlastník',
@@ -2651,14 +2651,14 @@ sub Data {
         'Inform involved agents' => '',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Tu je možné vybrať dalších agentov ktorí budú prijimať notifikácie o novom článku',
-        'Text will also be received by:' => '',
+        'Text will also be received by' => '',
         'Spell check' => 'Skontroluj gramatiku',
         'Text Template' => 'Textová šablóna',
         'Setting a template will overwrite any text or attachment.' => 'Použitím šablóny prepíšete text alebo prílohy',
         'Note type' => 'Typ poznámky',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => '',
+        'Bounce %s%s%s' => '',
         'Bounce to' => 'Prehodiť na',
         'You need a email address.' => 'Potrebujete email adresu.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2679,7 +2679,7 @@ sub Data {
         'Execute Bulk Action' => '',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => 'Vytvorte odpoveď pre %s%s',
+        'Compose Answer for %s%s%s' => '',
         'This address is registered as system address and cannot be used: %s' =>
             '',
         'Please include at least one recipient' => 'Prosím doplňte aspoň jedného prijemcu',
@@ -2692,7 +2692,7 @@ sub Data {
         'Date Invalid!' => 'Chybný dátum',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => 'Zmeň klienta na %s%s',
+        'Change Customer of %s%s%s' => '',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Vytvoriť nový e-mail tiket',
@@ -2705,7 +2705,7 @@ sub Data {
         'Get all' => 'Vybrať všetko',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => 'Odchádzajúci email pre %s%s',
+        'Outbound Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Tiket %s: čas na prvú odozvu bol prekročený o (%s/%s)',
@@ -2716,22 +2716,22 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'Tiket %s: čas na vyriešenie bude prekročený za (%s/%s)',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => 'Preposlať %s%s',
+        'Forward %s%s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => 'História z %s%s',
+        'History of %s%s%s' => '',
         'History Content' => 'Obsah histórie',
         'Zoom view' => 'Zväčšiť pohľad',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => 'Zlúčiť s %s%s',
+        'Merge %s%s%s' => '',
         'Merge Settings' => 'Nastavenie zlučovania',
         'You need to use a ticket number!' => 'Potrebujete číslo tiketu!',
         'A valid ticket number is required.' => 'Je potrebné platné číslo tiketu.',
         'Need a valid email address.' => 'Je potrebná platná email adresa',
 
         # Template: AgentTicketMove
-        'Move %s%s' => 'Presunúť do %s%s',
+        'Move %s%s%s' => '',
         'New Queue' => 'Nový queue',
 
         # Template: AgentTicketOverviewMedium
@@ -2764,10 +2764,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'Tento čet bude pridaný ako samostatný článok',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => 'Telefón tiket pre %s%s',
+        'Phone Call for %s%s%s' => '',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => 'Prezriet email s prázdnym textom pre %s%s',
+        'View Email Plain Text for %s%s%s' => '',
         'Plain' => 'čistý',
         'Download this email' => 'Stiahnuť tento email',
 
@@ -2879,6 +2879,8 @@ sub Data {
         'go back to the previous page' => 'choďte naspať na predchádzajúcu stránku',
 
         # Template: CustomerError
+        'An Error Occurred' => '',
+        'Error Details' => 'Detaily chyby',
         'Traceback' => 'Tlačiť',
 
         # Template: CustomerFooter
@@ -3023,7 +3025,6 @@ sub Data {
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => 'Pošli report o chybách',
-        'Error Details' => 'Detaily chyby',
 
         # Template: FooterJS
         'Please enter at least one search value or * to find anything.' =>
@@ -3264,6 +3265,8 @@ sub Data {
         'Configurable params of static stat' => '',
         'No element selected.' => '',
         'Scale' => '',
+        'show more' => '',
+        'show less' => '',
 
         # Template: D3
         'Download SVG' => '',
@@ -3836,6 +3839,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '',
+        'My Tickets' => 'Moje tikety',
+        'Company Tickets' => '',
+        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -3933,6 +3939,7 @@ sub Data {
         'Please supply your new password!' => 'Prosím zadajte Vaše nové heslo',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
+        'No (not supported)' => 'Nie (nieje podporované)',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
@@ -3995,13 +4002,49 @@ sub Data {
         'Ticket Create Time' => 'Čas vytvorenia tiketu',
         'Ticket Close Time' => 'Čas uzatvorenia tiketu',
         'Accounted time by Agent' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+        'unlimited' => '',
+        'ascending' => '',
+        'descending' => '',
         'Attributes to be printed' => '',
         'Sort sequence' => '',
         'State Historic' => '',
         'State Type Historic' => '',
         'Historic Time Range' => '',
+
+        # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
+        'Solution Average' => '',
+        'Solution Min Time' => '',
+        'Solution Max Time' => '',
+        'Solution Average (affected by escalation configuration)' => '',
+        'Solution Min Time (affected by escalation configuration)' => '',
+        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Solution Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Solution Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Average (affected by escalation configuration)' => '',
+        'Response Min Time (affected by escalation configuration)' => '',
+        'Response Max Time (affected by escalation configuration)' => '',
+        'Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Dni',
@@ -4602,7 +4645,6 @@ Thanks for your help!
         'Comment2' => '',
         'Communication' => '',
         'Company Status' => '',
-        'Company Tickets' => '',
         'Company Tickets.' => '',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
@@ -4719,10 +4761,8 @@ Thanks for your help!
         'Default ticket ID used by the system in the customer interface.' =>
             '',
         'Default value for NameX' => '',
-        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
-            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
-            Core.Agent.TableFilters.js.
-        ' => '',
+        'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
+            '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4738,9 +4778,8 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
-        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
-            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
-            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
+        'Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4781,6 +4820,8 @@ Thanks for your help!
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
             '',
         'Defines all the parameters for this item in the customer preferences.' =>
+            '',
+        'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
             '',
         'Defines all the parameters for this notification transport.' => '',
         'Defines all the possible stats output formats.' => '',
@@ -4877,6 +4918,8 @@ Thanks for your help!
             '',
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
+            '',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
             '',
         'Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.' =>
             '',
@@ -5361,7 +5404,7 @@ Thanks for your help!
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
-        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+        'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             '',
         'Deploy and manage OTRS Business Solution™.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
@@ -5934,7 +5977,6 @@ Thanks for your help!
         'Module to use database filter storage.' => '',
         'Multiselect' => 'Hromadný výber',
         'My Services' => 'Moje služby',
-        'My Tickets' => 'Moje tikety',
         'My Tickets.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.679764656440429;
+    $Self->{Completeness}        = 0.67334167709637;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -910,10 +910,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Wildcards zijn toegestaan.',
         'Add customer' => 'Nieuwe klant',
         'Select' => 'Selecteer',
-        'only' => '',
-        'shown' => 'tonen',
-        'more available' => '',
-        'total' => 'totaal',
+        'List (only %s shown - more available)' => '',
+        'List (%s total)' => '',
         'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
         'Add Customer' => 'Klant toevoegen',
 
@@ -1501,6 +1499,7 @@ sub Data {
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'Maak nieuwe groepen aan om tickets te kunnen scheiden en de juiste wachtrijen aan behandelaars te tonen (bijv. support, sales, management).',
         'It\'s useful for ASP solutions. ' => 'Bruikbaar voor ASP situaties.',
+        'total' => 'totaal',
         'Add Group' => 'Groep toevoegen',
         'Edit Group' => 'Bewerk groep',
 
@@ -2214,6 +2213,7 @@ sub Data {
         'Relate this certificate' => 'Koppel dit certificaat',
 
         # Template: AdminSMIMECertRead
+        'Close dialog' => '',
         'Certificate details' => 'Certificaat details',
 
         # Template: AdminSalutation
@@ -2637,13 +2637,13 @@ sub Data {
             'Deze rapportage bevat configuratiefouten en kan niet worden gebruikt',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => 'Verander de vrije tekst van %s%s',
-        'Change Owner of %s%s' => 'Verander de eigenaar van %s%s',
-        'Close %s%s' => 'Sluit %s%s',
-        'Add Note to %s%s' => 'Voeg en notitie toe %s%s',
-        'Set Pending Time for %s%s' => 'Stel wachttijd in van %s%s',
-        'Change Priority of %s%s' => 'Verander de prioriteit van %s%s',
-        'Change Responsible of %s%s' => 'Verander de verantwoordelijke voor %s%s',
+        'Change Free Text of %s%s%s' => '',
+        'Change Owner of %s%s%s' => '',
+        'Close %s%s%s' => '',
+        'Add Note to %s%s%s' => '',
+        'Set Pending Time for %s%s%s' => '',
+        'Change Priority of %s%s%s' => '',
+        'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Alle velden met een asterisk (*) zijn verplicht.',
         'Service invalid.' => 'Service is ongeldig.',
         'New Owner' => 'Nieuwe eigenaar',
@@ -2657,14 +2657,14 @@ sub Data {
         'Inform involved agents' => 'Stel betrokken gebruikers op de hoogte',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Hier kun je extra gebruikers aanvinken die een notificatie zouden moeten krijgen over het nieuwe artikel.',
-        'Text will also be received by:' => 'Tekst wordt ook ontvangen door:',
+        'Text will also be received by' => '',
         'Spell check' => 'Spellingscontrole',
         'Text Template' => 'Tekstsjabloon',
         'Setting a template will overwrite any text or attachment.' => 'Het instellen van een template overschrijft alle testen en bijlagen.',
         'Note type' => 'Notitiesoort',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => 'Bounce %s%s',
+        'Bounce %s%s%s' => '',
         'Bounce to' => 'Bounce naar',
         'You need a email address.' => 'E-mailadres is verplicht.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2685,7 +2685,7 @@ sub Data {
         'Execute Bulk Action' => '',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => 'Maak een antword vor %s%s',
+        'Compose Answer for %s%s%s' => '',
         'This address is registered as system address and cannot be used: %s' =>
             'Dit adres is geregistreerd als een systee adres en kan niet worden gebruikt.',
         'Please include at least one recipient' => 'Voeg tenminste één ontvanger toe',
@@ -2698,7 +2698,7 @@ sub Data {
         'Date Invalid!' => 'Datum ongeldig.',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => 'Pas de klant aan van %s%s',
+        'Change Customer of %s%s%s' => '',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Maak nieuw e-mail ticket',
@@ -2711,7 +2711,7 @@ sub Data {
         'Get all' => 'Gebruik alle',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => 'Uitgaande email voor %s%s',
+        'Outbound Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Ticket %s: eerste antwoord tijd is voorbij (%s/%s)!',
@@ -2722,22 +2722,22 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'Ticket %s: oplossing tijd zal voorbij zijn binnen %s/%s!',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => 'Doorsturen %s%s',
+        'Forward %s%s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => 'Geschiedenis van %s%s',
+        'History of %s%s%s' => '',
         'History Content' => 'Inhoud',
         'Zoom view' => 'Detailoverzicht',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => 'Samenvoegen %s%s',
+        'Merge %s%s%s' => '',
         'Merge Settings' => 'Samenvoegingsinstellingen',
         'You need to use a ticket number!' => 'Gebruik een ticketnummer.',
         'A valid ticket number is required.' => 'Een geldig ticketnummer is verplicht.',
         'Need a valid email address.' => 'Geen geldig e-mailadres.',
 
         # Template: AgentTicketMove
-        'Move %s%s' => 'Verplaats %s%s',
+        'Move %s%s%s' => '',
         'New Queue' => 'Nieuwe wachtrij',
 
         # Template: AgentTicketOverviewMedium
@@ -2770,10 +2770,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'De chat wordt toegevoegd als een apart artikel',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => 'Telefoonoproep voor %s%s',
+        'Phone Call for %s%s%s' => '',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => 'Geef email als platte tekst weer vor %s%s',
+        'View Email Plain Text for %s%s%s' => '',
         'Plain' => 'Zonder opmaak',
         'Download this email' => 'Download deze e-mail',
 
@@ -2885,6 +2885,8 @@ sub Data {
         'go back to the previous page' => 'terug naar de vorige pagina',
 
         # Template: CustomerError
+        'An Error Occurred' => '',
+        'Error Details' => 'Error gegevens',
         'Traceback' => 'Traceback',
 
         # Template: CustomerFooter
@@ -3029,7 +3031,6 @@ sub Data {
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => 'Een bug report indienen',
-        'Error Details' => 'Error gegevens',
 
         # Template: FooterJS
         'Please enter at least one search value or * to find anything.' =>
@@ -3270,6 +3271,8 @@ sub Data {
         'Configurable params of static stat' => 'Configureerbare parameters voor rapport',
         'No element selected.' => 'Geen element geselecteerd.',
         'Scale' => 'Schaal',
+        'show more' => '',
+        'show less' => '',
 
         # Template: D3
         'Download SVG' => 'Download SVG',
@@ -3842,6 +3845,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '',
+        'My Tickets' => 'Mijn tickets',
+        'Company Tickets' => 'Tickets van groep',
+        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -3939,6 +3945,7 @@ sub Data {
         'Please supply your new password!' => 'Geef je nieuwe wachtwoord op.',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
+        'No (not supported)' => 'Nee (niet beschikbaar)',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Geen historische volledige of huidige aankomende volledige relatieve tijdswaarden geselecteerd.',
         'The selected time period is larger than the allowed time period.' =>
@@ -4001,13 +4008,49 @@ sub Data {
         'Ticket Create Time' => 'Aanmaaktijd ticket',
         'Ticket Close Time' => 'Sluittijd ticket',
         'Accounted time by Agent' => 'Bestede tijd per behandelaar',
+        'Total Time' => 'Totale tijd',
+        'Ticket Average' => 'Gemiddelde per ticket',
+        'Ticket Min Time' => 'Minimumtijd voor ticket',
+        'Ticket Max Time' => 'Maximumtijd voor ticket',
+        'Number of Tickets' => 'Aantal tickets',
+        'Article Average' => 'Gemiddelde per interactie',
+        'Article Min Time' => 'Minimumtijd voor interactie',
+        'Article Max Time' => 'Maximumtijd voor interactie',
+        'Number of Articles' => 'Aantal interacties',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+        'unlimited' => '',
+        'ascending' => 'aflopend',
+        'descending' => 'oplopend',
         'Attributes to be printed' => 'Attributen om af te drukken',
         'Sort sequence' => 'Sorteervolgorde',
         'State Historic' => 'Historische status',
         'State Type Historic' => 'Historische status type',
         'Historic Time Range' => 'Historische tijdsvenster',
+
+        # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
+        'Solution Average' => '',
+        'Solution Min Time' => '',
+        'Solution Max Time' => '',
+        'Solution Average (affected by escalation configuration)' => '',
+        'Solution Min Time (affected by escalation configuration)' => '',
+        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Solution Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Solution Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Average (affected by escalation configuration)' => '',
+        'Response Min Time (affected by escalation configuration)' => '',
+        'Response Max Time (affected by escalation configuration)' => '',
+        'Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Dagen',
@@ -4619,7 +4662,6 @@ Het Helpdesk Team
         'Comment2' => 'Comment2',
         'Communication' => 'Communicatie',
         'Company Status' => 'Klantstatus',
-        'Company Tickets' => 'Tickets van groep',
         'Company Tickets.' => '',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
@@ -4736,10 +4778,8 @@ Het Helpdesk Team
         'Default ticket ID used by the system in the customer interface.' =>
             '',
         'Default value for NameX' => '',
-        'Define Actions where Settings button is available in the Linked objects widget (LinkObject::ViewMode = "complex").
-            Please note that this Actions must have registered following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js,
-            Core.Agent.TableFilters.js.
-        ' => '',
+        'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
+            '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4755,9 +4795,8 @@ Het Helpdesk Team
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
-        'Define which columns are shown in the Linked tickets widget (LinkObject::ViewMode = "complex").
-            Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.
-            Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' => '',
+        'Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4798,6 +4837,8 @@ Het Helpdesk Team
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
             '',
         'Defines all the parameters for this item in the customer preferences.' =>
+            '',
+        'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
             '',
         'Defines all the parameters for this notification transport.' => '',
         'Defines all the possible stats output formats.' => '',
@@ -4894,6 +4935,8 @@ Het Helpdesk Team
             '',
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
+            '',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
             '',
         'Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.' =>
             '',
@@ -5378,7 +5421,7 @@ Het Helpdesk Team
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
-        'Delivers extended debugging information in the frontend in case any ajax errors occur, if enabled.' =>
+        'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             '',
         'Deploy and manage OTRS Business Solution™.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
@@ -5951,7 +5994,6 @@ Het Helpdesk Team
         'Module to use database filter storage.' => '',
         'Multiselect' => 'Multiselect',
         'My Services' => 'Mijn Diensten',
-        'My Tickets' => 'Mijn tickets',
         'My Tickets.' => 'Mijn tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
