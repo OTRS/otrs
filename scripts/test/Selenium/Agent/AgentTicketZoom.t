@@ -18,8 +18,29 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
+
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        # get sysconfig object
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # make sure we start with RuntimeDB search
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Hook',
+            Value => 'TestTicket#',
+        );
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::HookDivider',
+            Value => '::',
+        );
 
         # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -69,10 +90,14 @@ $Selenium->RunTest(
         # navigate to AgentTicketZoom for test created ticket
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # verify its right screen
         $Self->True(
-            index( $Selenium->get_page_source(), $TitleRandom ) > -1,
-            "Ticket $TitleRandom found on page",
+            $Selenium->execute_script("return \$('h1:contains(TestTicket#::)')"),
+            "Ticket::Hook and Ticket::HookDivider found",
+        );
+
+        $Self->True(
+            $Selenium->execute_script("return \$('h1:contains($TitleRandom)')"),
+            "Ticket $TitleRandom found",
         );
 
         # check page
