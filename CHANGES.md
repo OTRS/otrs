@@ -1,4 +1,5 @@
 #5.0.12 2016-??-??
+ - 2016-07-08 Fixed bug#[12105](http://bugs.otrs.org/show_bug.cgi?id=12105) - "Create summation row" and "Create summation column" are transposed.
  - 2016-07-08 Fixed bug#[12177](http://bugs.otrs.org/show_bug.cgi?id=12177) - "Close ticket" and "Close window".
  - 2016-07-08 Fixed bug#[12150](http://bugs.otrs.org/show_bug.cgi?id=12150) - Ticket::HookDivider missing in TicketZoom and History View.
  - 2016-07-08 Fixed bug#[7108](http://bugs.otrs.org/show_bug.cgi?id=7108) - Email not sent if FQDN has port number in it.

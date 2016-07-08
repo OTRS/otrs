@@ -844,7 +844,7 @@ sub SumBuild {
     my @Data = @{ $Param{Array} };
 
     # add sum y
-    if ( $Param{SumRow} ) {
+    if ( $Param{SumCol} ) {
 
         push @{ $Data[1] }, 'Sum';
 
@@ -875,7 +875,7 @@ sub SumBuild {
     }
 
     # add sum x
-    if ( $Param{SumCol} ) {
+    if ( $Param{SumRow} ) {
 
         my @SumRow = ();
         $SumRow[0] = 'Sum';

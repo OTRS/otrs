@@ -95,7 +95,7 @@
     <div class="Value">
         [% Data.SelectSumRow %]
         <p class="FieldExplanation">
-            [% Translate('Generate an additional row containing sums for all data columns.') | html %]
+            [% Translate('Generate an additional row containing sums for all data rows.') | html %]
         </p>
     </div>
     <div class="Clear"></div>
@@ -106,7 +106,7 @@
     <div class="Value">
         [% Data.SelectSumCol %]
         <p class="FieldExplanation">
-            [% Translate('Generate an additional column containing sums for all data rows.') | html %]
+            [% Translate('Generate an additional column containing sums for all data columns.') | html %]
         </p>
     </div>
     <div class="Clear"></div>
