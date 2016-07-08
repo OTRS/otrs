@@ -1,4 +1,5 @@
 #4.0.18 2016-??-??
+ - 2016-07-08 Fixed bug#[12179](http://bugs.otrs.org/show_bug.cgi?id=12179) - Wrong OTRS tags conversion in transition actions called by Generic Agent over multiple tickets.
  - 2016-07-01 Fixed bug#[8640](http://bugs.otrs.org/show_bug.cgi?id=8640) - Article bounce does not conform to rfc 2822.
  - 2016-07-01 Fixed bug#[12141](http://bugs.otrs.org/show_bug.cgi?id=12141) - Wrong check for needed objects.
  - 2016-07-04 Fixed bug#[12147](http://bugs.otrs.org/show_bug.cgi?id=12147) - Transition Action - to set Service and SLA.
