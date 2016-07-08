@@ -33,10 +33,14 @@ sub _Connect {
         }
     }
 
+    # Remove a possible port from the FQDN value
+    my $FQDN = $Param{FQDN};
+    $FQDN =~ s{:\d+}{}smx;
+
     # set up connection connection
     my $SMTP = Net::SMTP->new(
         $Param{MailHost},
-        Hello   => $Param{FQDN},
+        Hello   => $FQDN,
         Port    => $Param{SMTPPort} || 587,
         Timeout => 30,
         Debug   => $Param{SMTPDebug},
