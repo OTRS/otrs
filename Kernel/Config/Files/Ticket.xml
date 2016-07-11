@@ -8784,6 +8784,7 @@
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketMove.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

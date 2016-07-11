@@ -53,14 +53,6 @@
                             [% Data.MoveQueuesStrg %]
                             <div id="DestQueueIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="DestQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#DestQueueID').bind('change', function (Event) {
-        $('#NoSubmit').val('1');
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'NewStateID', 'NewPriorityID', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Queue") %]
@@ -73,22 +65,6 @@
                                 <span>[% Translate("Get all") | html %]</span>
                                 <i class="fa fa-refresh"></i>
                             </a>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#OwnerSelectionGetAll').bind('click', function (Event) {
-        $('#OwnerAll').val('1');
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OwnerAll', ['NewUserID'], function() {
-            $('#NewUserID').focus();
-        });
-        return false;
-    });
-
-    $('#NewUserID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewUserID', ['DestQueueID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
-
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Owner") %]
@@ -97,13 +73,6 @@
                         <label for="NewStateID">[% Translate("Next ticket state") | html %]:</label>
                         <div class="Field">
                             [% Data.NextStatesStrg %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewStateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
                         </div>
                         <div class="Clear"></div>
 
@@ -123,13 +92,6 @@
                         <label for="NewPriorityID">[% Translate("Priority") | html %]:</label>
                         <div class="Field">
                             [% Data.NextPrioritiesStrg %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewPriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'NewStateID' [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Priority") %]
@@ -240,16 +202,6 @@
                             <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") %]</p>
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#StandardTemplateID').bind('change', function (Event) {
-        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
-            Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
-        });
-        return false;
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("StandardTemplate") %]
 
 [% RenderBlockStart("RichTextLabel") %]
@@ -278,16 +230,6 @@
                                 [% Data.Filename | html %] ([% Data.Filesize | html %])
                                     <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="SpacingLeft">[% Translate("Delete") | html %]</button>
                                     <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#AttachmentDeleteButton[% Data.FileID | html %]').bind('click', function () {
-        var $Form = $('#AttachmentDeleteButton[% Data.FileID | html %]').closest('form');
-        $('#AttachmentDelete[% Data.FileID | html %]').val(1);
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.trigger('submit');
-    });
-//]]></script>
-[% END %]
                                 </li>
 [% RenderBlockEnd("Attachment") %]
                                 <li>
@@ -295,15 +237,6 @@
                                     <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
                                 </li>
                             </ul>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#FileUpload').bind('change', function () {
-        var $Form = $('#FileUpload').closest('form');
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.find('#AttachmentUpload').val('1').end().submit();
-    });
-//]]></script>
-[% END %]
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Note") %]
@@ -334,8 +267,3 @@
 </form>
 
 #Layers
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketAction.Init();
-//]]></script>
-[% END %]
