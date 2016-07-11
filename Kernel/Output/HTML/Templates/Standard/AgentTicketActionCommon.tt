@@ -89,13 +89,6 @@
                             <div id="TypeIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#TypeID').bind('change', function (Event) {
-    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'TypeID', [ 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Type") %]
 
 [% RenderBlockStart("Queue") %]
@@ -106,13 +99,6 @@ $('#TypeID').bind('change', function (Event) {
                             <div id="NewQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewQueueID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewQueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Queue") %]
 
 [% RenderBlockStart("Service") %]
@@ -122,13 +108,6 @@ $('#TypeID').bind('change', function (Event) {
                             <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>[% Translate("Service invalid.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#ServiceID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ServiceID', [ 'TypeID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Service") %]
 
 [% RenderBlockStart("ServiceMandatory") %]
@@ -139,13 +118,6 @@ $('#TypeID').bind('change', function (Event) {
                             <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>[% Translate("Service invalid.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#ServiceID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ServiceID', [ 'TypeID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ServiceMandatory") %]
 
 [% RenderBlockStart("SLA") %]
@@ -154,13 +126,6 @@ $('#TypeID').bind('change', function (Event) {
                             [% Data.SLAStrg %]
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#SLAID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'SLAID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("SLA") %]
 
 [% RenderBlockStart("SLAMandatory") %]
@@ -171,13 +136,6 @@ $('#TypeID').bind('change', function (Event) {
                             <div id="SLAIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#SLAID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'SLAID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("SLAMandatory") %]
 
 [% RenderBlockStart("Owner") %]
@@ -187,14 +145,6 @@ $('#TypeID').bind('change', function (Event) {
                             <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>[% Translate("Please set a new owner!") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewOwnerID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Owner") %]
 
 [% RenderBlockStart("OwnerMandatory") %]
@@ -205,14 +155,6 @@ $('#TypeID').bind('change', function (Event) {
                             <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>[% Translate("Please set a new owner!") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewOwnerID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("OwnerMandatory") %]
 
 [% RenderBlockStart("Responsible") %]
@@ -221,13 +163,6 @@ $('#TypeID').bind('change', function (Event) {
                             [% Data.ResponsibleStrg %]
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewResponsibleID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewResponsibleID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Responsible") %]
 
 [% RenderBlockStart("ResponsibleMandatory") %]
@@ -238,13 +173,6 @@ $('#TypeID').bind('change', function (Event) {
                             <div id="NewResponsibleIDServerError" class="TooltipErrorMessage"><p>[% Translate("Please set a new responsible!") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewResponsibleID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewResponsibleID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ResponsibleMandatory") %]
 
 [% RenderBlockStart("State") %]
@@ -253,13 +181,6 @@ $('#TypeID').bind('change', function (Event) {
                     [% Data.StateStrg %]
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewStateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewStateID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 
 [% RenderBlockStart("StatePending") %]
                         <label>[% Translate("Pending date") | html %]:</label>
@@ -279,13 +200,6 @@ $('#TypeID').bind('change', function (Event) {
                     [% Data.PriorityStrg %]
                         </div>
                         <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#NewPriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewPriorityID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Priority") %]
                     </div>
                 </div>
@@ -432,16 +346,6 @@ $('#TypeID').bind('change', function (Event) {
                                 <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") %]</p>
                             </div>
                             <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#StandardTemplateID').bind('change', function (Event) {
-        Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
-            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
-        });
-        return false;
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("StandardTemplate") %]
 
 [% RenderBlockStart("RichTextLabel") %]
@@ -469,16 +373,6 @@ $('#TypeID').bind('change', function (Event) {
                                     [% Data.Filename | html %] ([% Data.Filesize | html %])
                                         <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="SpacingLeft">[% Translate("Delete") | html %]</button>
                                         <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#AttachmentDeleteButton[% Data.FileID | html %]').bind('click', function () {
-        var $Form = $('#AttachmentDeleteButton[% Data.FileID | html %]').closest('form');
-        $('#AttachmentDelete[% Data.FileID | html %]').val(1);
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.trigger('submit');
-    });
-//]]></script>
-[% END %]
                                     </li>
 [% RenderBlockEnd("Attachment") %]
                                     <li>
@@ -486,15 +380,6 @@ $('#TypeID').bind('change', function (Event) {
                                         <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
                                     </li>
                                 </ul>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#FileUpload').bind('change', function (Event) {
-        var $Form = $('#FileUpload').closest('form');
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.find('#AttachmentUpload').val('1').end().submit();
-    });
-//]]></script>
-[% END %]
                             </div>
                             <div class="Clear"></div>
 
@@ -534,8 +419,3 @@ $('#TypeID').bind('change', function (Event) {
 [% RenderBlockEnd("Properties") %]
 
 #Layers
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketAction.Init();
-//]]></script>
-[% END %]
