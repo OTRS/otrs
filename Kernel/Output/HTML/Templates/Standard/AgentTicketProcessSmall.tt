@@ -42,13 +42,3 @@
         <div id="ActivityDialogContent"></div>
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketProcess.Init();
-//]]></script>
-[% RenderBlockStart("PreSelectProcess") %]
-<script type="text/javascript">//<![CDATA[
-$('#ProcessEntityID').val('[% Data.ProcessID | html %]').trigger('change');
-//]]></script>
-[% RenderBlockEnd("PreSelectProcess") %]
-[% END %]
