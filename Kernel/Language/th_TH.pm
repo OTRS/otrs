@@ -19,12 +19,12 @@ sub Data {
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
-    $Self->{DateFormat}          = '%M/%D/%Y %T';
-    $Self->{DateFormatLong}      = '%T - %M/%D/%Y';
-    $Self->{DateFormatShort}     = '%M/%D/%Y';
-    $Self->{DateInputFormat}     = '%M/%D/%Y';
-    $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.830669546436285;
+    $Self->{DateFormat}          = '%D/%M/%Y %T';
+    $Self->{DateFormatLong}      = '%T - %D/%M/%Y';
+    $Self->{DateFormatShort}     = '%D/%M/%Y';
+    $Self->{DateInputFormat}     = '%D/%M/%Y';
+    $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
+    $Self->{Completeness}        = 0.86462244472257;
 
     # csv separator
     $Self->{Separator} = ',';

@@ -44,6 +44,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.12 2016-??-??
+ - 2016-07-11 Corrected date format for Thai and added new Indonesian language translation, thanks to all translators.
  - 2016-07-11 Fixed bug#[11934](http://bugs.otrs.org/show_bug.cgi?id=11934) - GenericAgent - not possible to uncheck a checkbox.
  - 2016-07-08 Fixed bug#[12179](http://bugs.otrs.org/show_bug.cgi?id=12179) - Wrong OTRS tags conversion in transition actions called by Generic Agent over multiple tickets.
  - 2016-07-08 Fixed bug#[12105](http://bugs.otrs.org/show_bug.cgi?id=12105) - "Create summation row" and "Create summation column" are transposed.
