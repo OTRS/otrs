@@ -237,9 +237,3 @@
         </div>
     </div>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.ProcessManagement.InitActivityDialogEdit();
-//]]></script>
-[% END %]

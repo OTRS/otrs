@@ -155,6 +155,34 @@ $Selenium->RunTest(
             "ConfigValue stored value",
         );
 
+        # try to remove only possible Config Parameters
+        $Selenium->find_element( ".RemoveButton", 'css' )->click();
+        $Self->True(
+            $Selenium->accept_alert(),
+            "Unable to remove only field - JS is success"
+        );
+
+        # add new Config key and value
+        $Selenium->find_element( "#ConfigAdd", 'css' )->click();
+
+        # verify newly added fields
+        $Self->True(
+            $Selenium->find_element(".//*[\@id='ConfigKey[2]']"),
+            "New Config key field is added - JS is success"
+        );
+        $Self->True(
+            $Selenium->find_element(".//*[\@id='ConfigValue[2]']"),
+            "New Config value field is added - JS is success"
+        );
+
+        # remove new Config key and value fields
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$(\$('#ConfigParams').find('fieldset')[1]).find('.RemoveButton').click()"
+            ),
+            "New Config key and value fields are removed - JS is success"
+        );
+
         # edit test TransactionAction values
         my $TransitionActionKeyEdit   = $TransitionActionKey . "edit";
         my $TransitionActionValueEdit = $TransitionActionValue . "edit";

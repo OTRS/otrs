@@ -101,7 +101,7 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # input fields and submit
+        # input fields
         my $TransitionFieldName = "Field" . $Helper->GetRandomID();
         my $TransitionValueName = "Value" . $Helper->GetRandomID();
         $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionRandom);
@@ -116,7 +116,26 @@ $Selenium->RunTest(
             "\$('#ConditionLinking[_INDEX_]').val('String').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][1]']")->send_keys($TransitionValueName);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+
+        # try to remove Field, expecting JS error
+        $Selenium->find_element("//a[\@title='Remove this Field']")->click();
+        $Self->True(
+            $Selenium->accept_alert(),
+            "Unable to remove only field - JS is success"
+        );
+
+        # add new Field
+        $Selenium->find_element("//a[\@title='Add a new Field']")->click();
+        $Selenium->find_element(".//*[\@id='ConditionFieldName[1][2]']")->send_keys( $TransitionFieldName . '2' );
+        $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][2]']")->send_keys( $TransitionValueName . '2' );
+
+        # add new Condition and input fields
+        $Selenium->find_element("//button[\@id='ConditionAdd']")->click();
+        $Selenium->find_element(".//*[\@id='ConditionFieldName[2][1]']")->send_keys( $TransitionFieldName . '22' );
+        $Selenium->find_element(".//*[\@id='ConditionFieldValue[2][1]']")->send_keys( $TransitionValueName . '22' );
+
+        # submit form
+        $Selenium->find_element("//button[\@id='Submit']")->click();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -205,7 +224,18 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][$TransitionFieldName]']")->clear();
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][$TransitionFieldName]']")
             ->send_keys($TransitionValueNameEdit);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+
+        # remove Conditions, expecting JS error on last Condition removal
+        $Selenium->find_element("//a[\@name='ConditionRemove[2]']")->click();
+        $Selenium->find_element("//a[\@name='ConditionRemove[1]']")->click();
+
+        $Self->True(
+            $Selenium->accept_alert(),
+            "Unable to remove only condition - JS is success"
+        );
+
+        # submit form
+        $Selenium->find_element("//button[\@id='Submit']")->click();
 
         # return to main window
         $Selenium->WaitFor( WindowCount => 1 );
