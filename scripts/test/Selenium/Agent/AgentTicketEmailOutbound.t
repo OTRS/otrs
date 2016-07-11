@@ -18,15 +18,19 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get needed objects
+        my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+        my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+
         # get helper object
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
                 }
         );
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # disable check email addresses
         $ConfigObject->Set(
@@ -53,24 +57,49 @@ $Selenium->RunTest(
             Value => 0
         );
 
-        # create test user and login
+        # create test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
 
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        # get needed variables
+        my $RandomID = $Helper->GetRandomID();
+        my $DFName   = 'DF' . $RandomID;
+
+        # create a test dynamic field
+        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+            Name       => $DFName,
+            Label      => 'TestDF',
+            FieldOrder => 9991,
+            FieldType  => 'Multiselect',
+            ObjectType => 'Ticket',
+            Config     => {
+                DefaultValue   => '',
+                PossibleNone   => '0',
+                PossibleValues => {
+                    Key1 => '1',
+                    Key2 => '2',
+                },
+                TranslatableValues => '0',
+                TreeView           => '0',
+            },
+            ValidID => 1,
+            UserID  => $TestUserID,
+        );
+
+        # enable test dynamic field to show in AgentTicketEmailOutbound screen
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketEmailOutbound###DynamicField',
+            Value => {
+                $DFName => 1,
+            },
+        );
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -107,21 +136,63 @@ $Selenium->RunTest(
             "CustomerUserAdd - $TestCustomerUserID"
         );
 
+        # login
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # navigate to AgentTicketEmailOutbound screen of created test ticket
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmailOutbound;TicketID=$TicketID");
 
+        my $TestDynamicField = 'DynamicField_' . $DFName;
+        my @Elements         = (
+            'ToCustomer',
+            'Subject',
+            'RichText',
+            'FileUpload',
+            'ComposeStateID',
+            'ArticleTypeID',
+            'submitRichText',
+            $TestDynamicField
+        );
+
         # check page
-        for my $ID (
-            qw(ToCustomer Subject RichText FileUpload ComposeStateID ArticleTypeID submitRichText)
-            )
-        {
+        for my $ID (@Elements) {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
             $Element->is_displayed();
         }
+
+        # get state ID for 'open' state
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+        my $StateID     = $StateObject->StateLookup(
+            State => 'open',
+        );
+
+        # check update form with JS for dynamic field
+        $Self->Is(
+            $Selenium->execute_script("return \$('#AJAXLoaderDynamicField_$DFName').length"),
+            0,
+            "AJAX Loader for '$DFName' does not exist",
+        );
+        $Selenium->execute_script(
+            "\$('#ComposeStateID').val('$StateID').trigger('redraw.InputField').trigger('change')"
+        );
+
+        # wait for appearance of ajax update field
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#AJAXLoaderDynamicField_$DFName').length"
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#AJAXLoaderDynamicField_$DFName').length"),
+            1,
+            "AJAX Loader for '$DFName' exists - JS function was run",
+        );
 
         # fill in customer
         my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
@@ -137,9 +208,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm email outbound action
-        my $PriorityMsg = "Email sent to customer.";
         $Self->True(
-            index( $Selenium->get_page_source(), $PriorityMsg ) > -1,
+            index( $Selenium->get_page_source(), "Email sent to customer." ) > -1,
             "Ticket email outbound completed",
         ) || die "Ticket email outbound not completed";
 
@@ -150,7 +220,17 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket with ticket ID $TicketID is deleted",
+            "TicketID $TicketID is deleted",
+        );
+
+        # delete test created dynamic field
+        $Success = $DynamicFieldObject->DynamicFieldDelete(
+            ID     => $FieldID,
+            UserID => $TestUserID,
+        );
+        $Self->True(
+            $Success,
+            "DynamicFieldID $FieldID is deleted",
         );
 
         # delete created test customer user
@@ -162,13 +242,11 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Delete customer user - $TestCustomer",
+            "CustomerUser $TestCustomer is deleted",
         );
 
         # make sure the cache is correct
-        for my $Cache (
-            qw (Ticket CustomerUser )
-            )
+        for my $Cache (qw(Ticket CustomerUser))
         {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                 Type => $Cache,
