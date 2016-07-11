@@ -4135,6 +4135,12 @@ sub CustomerNavigationBar {
         }
     }
 
+    # send data to JS
+    $Self->AddJSData(
+        Key   => 'ChatEngine::Active',
+        Value => $ConfigObject->Get('ChatEngine::Active'),
+    );
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'CustomerNavigationBar',

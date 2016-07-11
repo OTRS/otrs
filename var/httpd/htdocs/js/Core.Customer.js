@@ -82,6 +82,10 @@ Core.Customer = (function (TargetNS) {
         $('.TriggerFullErrorDetails').on('click', function() {
             $('.Content.ErrorDetails').toggle();
         });
+
+        if (Core.Config.Get('ChatEngine::Active') === '1') {
+            TargetNS.InitCheckChatRequests();
+        }
     };
 
     /**
@@ -107,6 +111,59 @@ Core.Customer = (function (TargetNS) {
      */
     TargetNS.Enhance = function(){
         $('body').removeClass('NoJavaScript').addClass('JavaScriptAvailable');
+    };
+
+    /**
+     * @name InitCheckChatRequests
+     * @memberof Core.Customer
+     * @function
+     * @description
+     *      This function checks for new chat requests.
+     */
+    TargetNS.InitCheckChatRequests = function () {
+
+        window.setInterval(function() {
+
+            var Data = {
+                Action: 'CustomerChat',
+                Subaction: 'ChatGetOpenRequests'
+            };
+
+            Core.AJAX.FunctionCall(
+                Core.Config.Get('Baselink'),
+                Data,
+                function(Response) {
+                    if (!Response || parseInt(Response, 10) < 1) {
+                        $('.Individual .ChatRequests').fadeOut(function() {
+                            $(this).addClass('Hidden');
+                        });
+                    }
+                    else {
+                        $('.Individual .ChatRequests')
+                            .fadeIn(function() {
+                                $(this).removeClass('Hidden');
+                            })
+                            .find('.Counter')
+                            .text(Response);
+
+                        // show tooltip to get the users attention
+                        if (!$('.Individual .ChatRequests .ChatTooltip').length) {
+                            $('.Individual .ChatRequests')
+                                .append('<span class="ChatTooltip">' + Core.Language.Translate("You have unanswered chat requests") + '</span>')
+                                .find('.ChatTooltip')
+                                .bind('click', function(Event) {
+                                    $(this).fadeOut();
+                                    Event.stopPropagation();
+                                    return false;
+                                })
+                                .fadeIn();
+                        }
+                    }
+                },
+                'json'
+            );
+
+        }, 60000);
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL_EARLY');

@@ -30,52 +30,6 @@
         <li class="ChatRequests [% Data.Class | html %]">
             <a href="[% Env("Baselink") %]Action=CustomerChat;Subaction=ChatOverview;Filter=IncomingChatRequests;" title="[% Translate("Incoming Chat Requests") %]"><i class="fa fa-comments-o"></i> (<span class="Counter">[% Data.Count | html %]</span>)</a>
         </li>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    window.setInterval(function() {
-
-        var Data = {
-            Action: 'CustomerChat',
-            Subaction: 'ChatGetOpenRequests'
-        };
-
-        Core.AJAX.FunctionCall(
-            Core.Config.Get('Baselink'),
-            Data,
-            function(Response) {
-                if (!Response || parseInt(Response, 10) < 1) {
-                    $('.Individual .ChatRequests').fadeOut(function() {
-                        $(this).addClass('Hidden');
-                    });
-                }
-                else {
-                    $('.Individual .ChatRequests')
-                        .fadeIn(function() {
-                            $(this).removeClass('Hidden');
-                        })
-                        .find('.Counter')
-                        .text(Response);
-
-                    // show tooltip to get the users attention
-                    if (!$('.Individual .ChatRequests .ChatTooltip').length) {
-                        $('.Individual .ChatRequests')
-                            .append('<span class="ChatTooltip">' + [% Translate("You have unanswered chat requests") | JSON %] + '</span>')
-                            .find('.ChatTooltip')
-                            .bind('click', function(Event) {
-                                $(this).fadeOut();
-                                Event.stopPropagation();
-                                return false;
-                            })
-                            .fadeIn();
-                    }
-                }
-            },
-            'json'
-        );
-
-    }, 60000);
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ChatRequests") %]
 [% RenderBlockStart("Preferences") %]
         <li class="[% Data.Class | html %]"><a href="[% Env("Baselink") %]Action=CustomerPreferences" title="[% Translate("Edit personal preferences") | html %]">[% Translate("Preferences") | html %]</a></li>
