@@ -171,6 +171,7 @@
                 <Item Key="hi" Translatable="1">Hindi</Item>
                 <Item Key="hr" Translatable="1">Croatian</Item>
                 <Item Key="hu" Translatable="1">Hungarian</Item>
+                <Item Key="id" Translatable="1">Indonesian</Item>
                 <Item Key="it" Translatable="1">Italian</Item>
                 <Item Key="ja" Translatable="1">Japanese</Item>
                 <Item Key="lt" Translatable="1">Lithuanian</Item>
@@ -226,6 +227,7 @@
                 <Item Key="hi">हिन्दी</Item>
                 <Item Key="hr">Hrvatski</Item>
                 <Item Key="hu">Magyar</Item>
+                <Item Key="id">Bahasa Indonesia</Item>
                 <Item Key="it">Italiano</Item>
                 <Item Key="ja">日本語</Item>
                 <Item Key="lt">Lietuvių kalba</Item>
