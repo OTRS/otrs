@@ -22,28 +22,7 @@
                     [% Translate(Data.Comment) | html %]
 
                 <p class="SpacingTop">
-                    <a href="#" id="GoBack">[% Translate("Back to the previous page") | html %]</a>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#GoBack').bind('click', function (Event) {
-
-        // check if an older history entry is available
-        if (history.length > 1) {
-        history.back();
-        return false;
-        }
-
-        // if we're in a popup window, close it
-        if (Core.UI.Popup.CurrentIsPopupWindow()) {
-            Core.UI.Popup.ClosePopup();
-            return false;
-        }
-
-        // normal window, no history: no action possible
-        return false;
-    });
-//]]></script>
-[% END %]
+                    <a href="#" class="ReturnToPreviousPage">[% Translate("Back to the previous page") | html %]</a>
                 </p>
 
 [% RenderBlockStart("PossibleNextActionContainer") %]

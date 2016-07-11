@@ -291,5 +291,48 @@ Core.App = (function (TargetNS) {
         $.unsubscribe(Handle);
     };
 
+    /**
+     * @name Init
+     * @memberof Core.App
+     * @function
+     * @description
+     *      This function initializes the special functions.
+     */
+    TargetNS.Init = function () {
+
+        // Initialize return to previous page function.
+        TargetNS.ReturnToPreviousPage();
+    };
+
+    /**
+     * @name ReturnToPreviousPage
+     * @memberof Core.App
+     * @function
+     * @description
+     *      This function bind on click event to return on previous page.
+     */
+    TargetNS.ReturnToPreviousPage = function () {
+
+        $('.ReturnToPreviousPage').on('click', function () {
+
+            // Check if an older history entry is available
+            if (history.length > 1) {
+            history.back();
+            return false;
+            }
+
+            // If we're in a popup window, close it
+            if (Core.UI.Popup.CurrentIsPopupWindow()) {
+                Core.UI.Popup.ClosePopup();
+                return false;
+            }
+
+            // Normal window, no history: no action possible
+            return false;
+        });
+    };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
+
     return TargetNS;
 }(Core.App || {}));

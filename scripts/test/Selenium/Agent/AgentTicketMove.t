@@ -227,7 +227,7 @@ $Selenium->RunTest(
         );
 
         # click to return back to AgentTicketZoom screen
-        $Selenium->find_element( "#GoBack", 'css' )->VerifiedClick();
+        $Selenium->find_element( ".ReturnToPreviousPage", 'css' )->VerifiedClick();
 
         # click on 'Spam' and check for ACL error message
         $Selenium->find_element("//a[contains(\@title, 'Mark this ticket as junk!')]")->VerifiedClick();
@@ -281,7 +281,7 @@ $Selenium->RunTest(
             );
         }
 
-    }
+        }
 );
 
 1;

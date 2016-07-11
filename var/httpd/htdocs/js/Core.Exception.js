@@ -36,6 +36,7 @@ Core.Exception = (function (TargetNS) {
             // Use a public member so that we can also set it from a test case.
             TargetNS.AboutToLeave = true;
         });
+
     };
 
     /**
@@ -96,7 +97,7 @@ Core.Exception = (function (TargetNS) {
     };
 
     /**
-     * @name Throw
+     * @name IsErrorOfType
      * @memberof Core.Exception
      * @function
      * @returns {Boolean} True, if ErrorObject is of given type, false otherwise.
@@ -110,8 +111,8 @@ Core.Exception = (function (TargetNS) {
     };
 
     /**
-     * @name Throw
-     * @memberof Core.HandleFinalError
+     * @name HandleFinalError
+     * @memberof Core.Exception
      * @function
      * @returns {Boolean} If the error could be handled, returns if it was shown to the user or not.
      * @param {Object} ErrorObject - The error object
@@ -154,7 +155,7 @@ Core.Exception = (function (TargetNS) {
 
     /**
      * @name ShowError
-     * @memberof Core.HandleFinalError
+     * @memberof Core.Exception
      * @function
      * @param {String} ErrorMessage - The error message.
      * @param {String} ErrorType - The error type.

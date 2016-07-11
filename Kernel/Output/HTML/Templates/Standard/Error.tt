@@ -50,27 +50,7 @@ Traceback:
                     <p class="SpacingTop">
                         <button type="submit" class="Primary CallForAction" value="[% Translate("Send a bugreport") | html %]"><span>[% Translate("Send a bugreport") | html %]</span></button>
                         &nbsp;[% Translate("or") | html %]&nbsp;
-                        <a href="#" id="GoBack" class="CallForAction"><span>[% Translate("go back to the previous page") | html %]</spsn></a>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#GoBack').bind('click', function (Event) {
-    // check if an older history entry is available
-    if (history.length > 1) {
-        history.back();
-        return false;
-    }
-
-    // if we're in a popup window, close it
-    if (Core.UI.Popup.CurrentIsPopupWindow()) {
-        Core.UI.Popup.ClosePopup();
-        return false;
-    }
-
-    // normal window, no history: no action possible
-    return false;
-});
-//]]></script>
-[% END %]
+                        <a href="#" class="CallForAction ReturnToPreviousPage"><span>[% Translate("go back to the previous page") | html %]</spsn></a>
                     </p>
                 </form>
 
