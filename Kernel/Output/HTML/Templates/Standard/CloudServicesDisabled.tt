@@ -29,30 +29,9 @@
                             <span><i class="fa fa-cloud"></i> [% Translate("Enable cloud services") | html %]</span>
                         </button>
                         [% Translate("or") | html %]
-                        <a href="#" id="GoBack">[% Translate("go back to the previous page") | html %]</a>.
+                        <a href="#" class="ReturnToPreviousPage">[% Translate("go back to the previous page") | html %]</a>.
                     </fieldset>
                 </form>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#GoBack').bind('click', function (Event) {
-    // check if an older history entry is available
-    if (history.length > 1) {
-        history.back();
-        return false;
-    }
-
-    // if we're in a popup window, close it
-    if (Core.UI.Popup.CurrentIsPopupWindow()) {
-        Core.UI.Popup.ClosePopup();
-        return false;
-    }
-
-    // normal window, no history: no action possible
-    return false;
-});
-//]]></script>
-[% END %]
             </div>
         </div>
     </div>
