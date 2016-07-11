@@ -4,6 +4,7 @@
 # Dominik <dominik@reichardt-online.it>, 2015
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2016
 # Florian Edlhuber <florian.edlhuber@otrs.com>, 2015-2016
+# Gunther Müller <anonym50000@gmail.com>, 2016
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # Marc A. Bonsels, 2014
@@ -29,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-07-08 14:09+0000\n"
-"PO-Revision-Date: 2016-07-08 12:19+0000\n"
+"POT-Creation-Date: 2016-07-11 08:43+0000\n"
+"PO-Revision-Date: 2016-07-11 06:50+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -10605,16 +10606,16 @@ msgid "Create summation row"
 msgstr "Summenzeile erzeugen"
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional row containing sums for all data columns."
-msgstr "Eine zusätzliche Zeile mit Summen für alle Datenspalten erzeugen."
+msgid "Generate an additional row containing sums for all data rows."
+msgstr "Eine zusätzliche Zeile mit Summen für alle Datenzeilen erzeugen."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
 msgstr "Summenspalte erzeugen"
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional column containing sums for all data rows."
-msgstr "Eine zusätzliche Spalte mit Summen für alle Datenzeilen erzeugen."
+msgid "Generate an additional column containing sums for all data columns."
+msgstr "Eine zusätzliche Spalte mit Summen für alle Datenspalten erzeugen."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"

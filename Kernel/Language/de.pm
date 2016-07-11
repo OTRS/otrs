@@ -3221,11 +3221,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'Die ausgewählten Zeitperioden der Statistik sind Zeitzonen-unabhängig.',
         'Create summation row' => 'Summenzeile erzeugen',
-        'Generate an additional row containing sums for all data columns.' =>
-            'Eine zusätzliche Zeile mit Summen für alle Datenspalten erzeugen.',
+        'Generate an additional row containing sums for all data rows.' =>
+            'Eine zusätzliche Zeile mit Summen für alle Datenzeilen erzeugen.',
         'Create summation column' => 'Summenspalte erzeugen',
-        'Generate an additional column containing sums for all data rows.' =>
-            'Eine zusätzliche Spalte mit Summen für alle Datenzeilen erzeugen.',
+        'Generate an additional column containing sums for all data columns.' =>
+            'Eine zusätzliche Spalte mit Summen für alle Datenspalten erzeugen.',
         'Cache results' => 'Ergebnisse cachen',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Speichert Statistikergebnisse in einem Cache, der in weiteren Aufrufen mit derselben Konfiguration verwendet wird.',
