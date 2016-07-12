@@ -1441,11 +1441,6 @@ sub StatsResultRender {
     my $Title         = $TitleArrayRef->[0];
     my $HeadArrayRef  = shift @StatArray;
 
-    # if array = empty
-    if ( !@StatArray ) {
-        push @StatArray, [ ' ', 0 ];
-    }
-
     # Generate Filename
     my $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
         String   => $Stat->{Title} . ' Created',
@@ -1465,6 +1460,12 @@ sub StatsResultRender {
 
     # generate D3 output
     if ( $Param{Format} =~ m{^D3} ) {
+
+        # if array = empty
+        if ( !@StatArray ) {
+            push @StatArray, [ ' ', 0 ];
+        }
+
         my $Output = $LayoutObject->Header(
             Value => $Title,
             Type  => 'Small',

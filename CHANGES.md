@@ -44,6 +44,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.12 2016-??-??
+ - 2016-07-12 Fixed bug#[12083](http://bugs.otrs.org/show_bug.cgi?id=12083) - When no result is found for a stats the result is 0.
  - 2016-07-12 Fixed bug#[12182](http://bugs.otrs.org/show_bug.cgi?id=12182) - CIC - Customer Login still shows merged tickets as closes tickets.
  - 2016-07-12 Fixed bug#[12181](http://bugs.otrs.org/show_bug.cgi?id=12181) - Object StateAction -> Names are not readable.
  - 2016-07-11 Corrected date format for Thai and added new Indonesian language translation, thanks to all translators.
