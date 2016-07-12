@@ -313,7 +313,7 @@ sub Run {
         );
 
         my $TicketCountClosed = $TicketObject->TicketSearch(
-            StateType            => 'Closed',
+            StateType            => 'closed',
             CustomerUserLoginRaw => $CustomerKey,
             Result               => 'COUNT',
             Permission           => $Self->{Config}->{Permission},
