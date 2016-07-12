@@ -93,7 +93,6 @@ sub Run {
     my @PossibleStates;
     for my $StateID ( sort { $States{$a} cmp $States{$b} } keys %States ) {
         $States{$StateID} = $LanguageObject->Translate( $States{$StateID} );
-        $States{$StateID} =~ s/^(.{18}).*$/$1\.\.\./;
         push @PossibleStates, $States{$StateID};
     }
 
