@@ -111,7 +111,7 @@ sub Run {
         Link           => $LinkPage,
         AJAXReplace    => 'Dashboard' . $Self->{Name},
         IDPrefix       => 'Dashboard' . $Self->{Name},
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
 
     $LayoutObject->Block(
@@ -402,7 +402,7 @@ sub Run {
             %{ $Self->{Config} },
             Name => $Self->{Name},
         },
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
 
     return $Content;

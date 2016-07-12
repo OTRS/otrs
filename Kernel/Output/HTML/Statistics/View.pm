@@ -585,7 +585,7 @@ sub StatsParamsWidget {
             %{$Stat},
             AJAX => $Param{AJAX},
         },
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
     return $Output;
 }

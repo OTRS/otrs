@@ -235,7 +235,6 @@ sub _InstallOTRSExtensions {
                 my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
                     Data     => \%Data,
                     SortKeys => 1,
-                    Pretty   => 1,
                 );
                 $output .= "Core.Config.AddConfig($JSONString);\n";
             }

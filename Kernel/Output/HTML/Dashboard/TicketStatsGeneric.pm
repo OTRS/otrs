@@ -66,7 +66,7 @@ sub Run {
         return $LayoutObject->Output(
             TemplateFile   => 'AgentDashboardTicketStats',
             Data           => $Cache,
-            KeepScriptTags => $Param{AJAX},
+            AJAX => $Param{AJAX},
         );
     }
 
@@ -205,7 +205,7 @@ sub Run {
     my $Content = $LayoutObject->Output(
         TemplateFile   => 'AgentDashboardTicketStats',
         Data           => \%Data,
-        KeepScriptTags => $Param{AJAX},
+        AJAX           => $Param{AJAX},
     );
 
     return $Content;

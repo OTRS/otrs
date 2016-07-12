@@ -1,0 +1,66 @@
+# --
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+use strict;
+use warnings;
+use utf8;
+
+use vars (qw($Self));
+
+# get layout object
+my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+my @Tests = (
+    {
+        Name   => 'Simple Data',
+        Input  => { 'Key1' => 'Value1' },
+        Result => '
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.Config.AddConfig({"Key1":"Value1"});
+//]]></script>',
+    },
+    {
+        Name  => 'More complex Data',
+        Input => {
+            'Key1' => {
+                '1' => '2',
+                '3' => '4'
+            }
+        },
+        Result => '
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.Config.AddConfig({"Key1":{"1":"2","3":"4"}});
+//]]></script>',
+    },
+);
+
+for my $Test (@Tests) {
+
+    for my $JSData ( sort keys $Test->{Input} ) {
+        $LayoutObject->AddJSData(
+            Key   => $JSData,
+            Value => $Test->{Input}->{$JSData}
+        );
+    }
+
+    my $Output = $LayoutObject->Output(
+        Template => '',
+        Data     => {},
+        AJAX     => 1,
+    );
+
+    $Self->Is(
+        $Output,
+        $Test->{Result},
+        $Test->{Name},
+    );
+}
+
+1;

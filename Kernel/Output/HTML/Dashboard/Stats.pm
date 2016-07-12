@@ -233,7 +233,7 @@ sub Run {
             AgentStatisticsFrontendPermission => $AgentStatisticsFrontendPermission,
             Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
         },
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
 
     return $Content;

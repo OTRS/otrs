@@ -250,7 +250,7 @@ sub Run {
         WindowSize     => 5,
         AJAXReplace    => 'Dashboard' . $Self->{Name},
         IDPrefix       => 'Dashboard' . $Self->{Name},
-        KeepScriptTags => $Param{AJAX},
+        AJAX           => $Param{AJAX},
     );
 
     $LayoutObject->Block(
@@ -418,7 +418,7 @@ sub Run {
             NameHTML    => $NameHTML,
             RefreshTime => $Refresh,
         },
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
 
     return $Content;

@@ -160,7 +160,7 @@ sub Run {
             %{ $Self->{Config} },
             Name => $Self->{Name},
         },
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
 
     return $Content;

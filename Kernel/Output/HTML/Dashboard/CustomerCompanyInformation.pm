@@ -193,7 +193,7 @@ sub Run {
             Name => $Self->{Name},
             %CustomerCompany,
         },
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
 
     return $Content;

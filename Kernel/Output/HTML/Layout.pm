@@ -2712,7 +2712,7 @@ sub PageNavBar {
 
     $Param{SearchNavBar} = $Self->Output(
         TemplateFile   => 'Pagination',
-        KeepScriptTags => $Param{KeepScriptTags},
+        AJAX           => $Param{KeepScriptTags},
     );
 
     # only show total amount of pages if there is more than one

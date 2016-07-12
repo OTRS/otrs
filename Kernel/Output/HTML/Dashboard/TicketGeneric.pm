@@ -790,7 +790,7 @@ sub Run {
         Link           => $LinkPage,
         AJAXReplace    => 'Dashboard' . $Self->{Name},
         IDPrefix       => 'Dashboard' . $Self->{Name},
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
     $LayoutObject->Block(
         Name => 'ContentLargeTicketGenericFilterNavBar',
@@ -1676,7 +1676,7 @@ sub Run {
             FilterValue => $Self->{Filter},
             CustomerID  => $Self->{CustomerID},
         },
-        KeepScriptTags => $Param{AJAX},
+        AJAX => $Param{AJAX},
     );
 
     return $Content;
