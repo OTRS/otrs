@@ -333,7 +333,15 @@ Core.UI.Popup = (function (TargetNS) {
                 ParentWindow = GetWindowParentObject();
             }
 
+            // if the window has a name, it's most probably the popup itself, see bug#12185.
+            // This can happen if the parent window gets reloaded while the popup window tries
+            // to register itself to it. When there is no parent, GetWindowParentObject() will return
+            // the current window which is the popup itself. This leads to a situation where the popup window
+            // registers itself as popup in its own namespace, which will then lead to a confirmation
+            // message asking the user if they really want to navigate away from the current page when trying
+            // to close the popup by either submitting a form, closing it manually or using a close link.
             if (ParentWindow &&
+                !ParentWindow.name &&
                 ParentWindow.Core &&
                 ParentWindow.Core.UI &&
                 ParentWindow.Core.UI.Popup
