@@ -32,7 +32,7 @@
 [% RenderBlockStart("ContentSmallCustomerIDStatusClosedTickets") %]
     <label>[% Translate("Closed tickets") | html %]:</label>
     <div class="Field">
-        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerID=[% Data.CustomerID | uri %]">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=closed;CustomerID=[% Data.CustomerID | uri %]">
             [% Data.Count | html %]
         </a>
     </div>

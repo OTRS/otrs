@@ -61,7 +61,7 @@
 [% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerUserTicketsOpen") %]
 [% RenderBlockStart("ContentLargeCustomerUserListRowCustomerUserTicketsClosed") %]
             <td>
-                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerUserLogin=[% Data.CustomerKeySQL | uri %]" title="[% Translate("%s closed ticket(s) of %s", Data.Count, Data.CustomerKey) | html %]" class="AsBlock">
+                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=closed;CustomerUserLogin=[% Data.CustomerKeySQL | uri %]" title="[% Translate("%s closed ticket(s) of %s", Data.Count, Data.CustomerKey) | html %]" class="AsBlock">
                     [% Data.Count | html %]
                 </a>
             </td>

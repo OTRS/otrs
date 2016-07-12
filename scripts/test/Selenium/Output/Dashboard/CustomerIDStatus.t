@@ -72,7 +72,7 @@ $Selenium->RunTest(
         my $EscalatedTicketsLink = $ShortLink
             . "EscalationTimeSearchType=TimePoint;TicketEscalationTimePointStart=Before;TicketEscalationTimePointFormat=minute;TicketEscalationTimePoint=1;CustomerID=$TestCustomerID";
         my $OpenTicketsLink   = $ShortLink . "StateType=Open;CustomerID=$TestCustomerID";
-        my $ClosedTicketsLink = $ShortLink . "StateType=Closed;CustomerID=$TestCustomerID";
+        my $ClosedTicketsLink = $ShortLink . "StateType=closed;CustomerID=$TestCustomerID";
         my $AllTicketsLink    = $ShortLink . "CustomerID=$TestCustomerID";
         push @TicketsLinks, $EscalatedTicketsLink, $OpenTicketsLink, $ClosedTicketsLink, $AllTicketsLink;
 
