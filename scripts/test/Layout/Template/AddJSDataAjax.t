@@ -43,7 +43,7 @@ Core.Config.AddConfig({"Key1":{"1":"2","3":"4"}});
 
 for my $Test (@Tests) {
 
-    for my $JSData ( sort keys $Test->{Input} ) {
+    for my $JSData ( sort keys %{ $Test->{Input} } ) {
         $LayoutObject->AddJSData(
             Key   => $JSData,
             Value => $Test->{Input}->{$JSData}

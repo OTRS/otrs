@@ -365,20 +365,7 @@ console.log(22);
         Template => '
 [% PROCESS "JSDataInsert" -%]',
         Result => '
-Core.Config.AddConfig({
-   "Config.Test" : 123,
-   "Config.Test2" : [
-      1,
-      2,
-      {
-         "test" : "test"
-      }
-   ],
-   "Perl.Code" : {
-      "Perl" : "Data"
-   }
-}
-);
+Core.Config.AddConfig({"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"Perl.Code":{"Perl":"Data"}});
 ',
     },
     {
