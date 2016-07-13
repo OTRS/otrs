@@ -328,6 +328,7 @@ sub WaitFor {
             return 1 if scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
         }
         elsif ( $Param{AlertPresent} ) {
+
             # Eval is needed because the method would throw if no alert is present (yet).
             return 1 if eval { $Self->get_alert_text() };
         }
@@ -335,6 +336,70 @@ sub WaitFor {
         $WaitedSeconds += $Interval;
         $Interval += 0.1;
     }
+    return;
+}
+
+=item DragAndDrop()
+
+Drag and drop an element.
+
+    $SeleniumObject->DragAndDrop(
+        Element         => '.Element', # (required) css selector of element which should be dragged
+        Target          => '.Target',  # (required) css selector of element on which the dragged element should be dropped
+        TargetOffset    => {           # (optional) Offset for target. If not specified, the mouse will move to the middle of the element.
+            X   => 150,
+            Y   => 100,
+        }
+    );
+
+=cut
+
+sub DragAndDrop {
+
+    my ( $Self, %Param ) = @_;
+
+    # Value is optional parameter
+    for my $Needed (qw(Element Target)) {
+        if ( !$Param{$Needed} ) {
+            die "Need $Needed";
+        }
+    }
+
+    my %TargetOffset;
+    if ( $Param{TargetOffset} ) {
+        %TargetOffset = (
+            xoffset => $Param{TargetOffset}->{X} || 0,
+            yoffset => $Param{TargetOffset}->{Y} || 0,
+        );
+    }
+
+    # Make sure Element is visible
+    $Self->WaitFor(
+        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{Element} . ':visible\').length;',
+    );
+    my $Element = $Self->find_element( $Param{Element}, 'css' );
+
+    # Move mouse to from element, drag and drop
+    $Self->mouse_move_to_location( element => $Element );
+
+    # Holds the mouse button on the element
+    $Self->button_down();
+
+    # Make sure Target is visible
+    $Self->WaitFor(
+        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{Target} . ':visible\').length;',
+    );
+    my $Target = $Self->find_element( $Param{Target}, 'css' );
+
+    # Move mouse to the destination
+    $Self->mouse_move_to_location(
+        element => $Target,
+        %TargetOffset,
+    );
+
+    # Release
+    $Self->button_up();
+
     return;
 }
 

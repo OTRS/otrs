@@ -15,56 +15,6 @@ use vars (qw($Self));
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
-my $DragAndDrop = sub {
-    my (%Param) = @_;
-
-    # Value is optional parameter
-    for my $Needed (qw(From To)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!"
-            );
-            return;
-        }
-    }
-
-    my %ToOffset;
-    if ( $Param{ToOffset} ) {
-        %ToOffset = (
-            xoffset => $Param{ToOffset}->{X} || 0,
-            yoffset => $Param{ToOffset}->{Y} || 0,
-        );
-    }
-
-    # Make sure DragFrom is visible
-    $Selenium->WaitFor(
-        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{From} . ':visible\').length;',
-    );
-    my $DragFrom = $Selenium->find_element( $Param{From}, 'css' );
-
-    # Move mouse to from element, drag and drop
-    $Selenium->mouse_move_to_location( element => $DragFrom );
-
-    # Holds the mouse button on the element
-    $Selenium->button_down();
-
-    # Make sure DragTo is visible
-    $Selenium->WaitFor(
-        JavaScript => 'return typeof($) === "function" && $(\'' . $Param{To} . ':visible\').length;',
-    );
-    my $DragTo = $Selenium->find_element( $Param{To}, 'css' );
-
-    # Move mouse to the destination
-    $Selenium->mouse_move_to_location(
-        element => $DragTo,
-        %ToOffset,
-    );
-
-    # Release
-    $Selenium->button_up();
-};
-
 $Selenium->RunTest(
     sub {
 
@@ -302,26 +252,27 @@ $Selenium->RunTest(
         # check if column settings button is available in the Linked Ticket widget
         $Selenium->find_element( 'a#linkobject-Ticket-toggle', 'css' )->VerifiedClick();
 
+        # Wait for the complete widget to be fully slided in all the way down to the submit button.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#linkobject-Ticket-setting:visible").length;'
+                'return typeof($) === "function" && $("#linkobject-Ticket_submit:visible").length;'
         );
 
         # Remove Age from left side, and put it to the right side
-        $DragAndDrop->(
-            From     => '#WidgetTicket #AvailableField-linkobject-Ticket li:nth-child(1)',
-            To       => '#AssignedFields-linkobject-Ticket',
-            ToOffset => {
+        $Selenium->DragAndDrop(
+            Element      => '#WidgetTicket #AvailableField-linkobject-Ticket li[data-fieldname="Age"]',
+            Target       => '#AssignedFields-linkobject-Ticket',
+            TargetOffset => {
                 X => 185,
                 Y => 10,
             },
         );
 
         # Remove State from right side, and put it to the left side
-        $DragAndDrop->(
-            From     => '#WidgetTicket #AssignedFields-linkobject-Ticket li:nth-child(4)',
-            To       => '#AvailableField-linkobject-Ticket',
-            ToOffset => {
+        $Selenium->DragAndDrop(
+            Element      => '#WidgetTicket #AssignedFields-linkobject-Ticket li[data-fieldname="State"]',
+            Target       => '#AvailableField-linkobject-Ticket',
+            TargetOffset => {
                 X => 185,
                 Y => 10,
             },
