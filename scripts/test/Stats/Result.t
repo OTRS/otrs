@@ -13,6 +13,7 @@ use utf8;
 use vars (qw($Self));
 
 use Kernel::System::ObjectManager;
+use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -23,10 +24,12 @@ $ConfigObject->Set(
     Value => 'UTC',
 );
 
-my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
-my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+my $StatsObject               = $Kernel::OM->Get('Kernel::System::Stats');
+my $QueueObject               = $Kernel::OM->Get('Kernel::System::Queue');
+my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TimeObject                = $Kernel::OM->Get('Kernel::System::Time');
+my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -64,6 +67,43 @@ for my $Count ( 1 .. 3 ) {
 
     push @QueueIDs,   $QueueID;
     push @QueueNames, $QueueName;
+}
+
+# create some dynamic fields
+my @DynamicFieldProperties = (
+    {
+        Name       => "Text$RandomID",
+        FieldOrder => 9991,
+        FieldType  => 'Text',
+        Config     => {
+            DefaultValue => 'Default',
+        },
+    },
+    {
+        Name       => "TextArea$RandomID",
+        FieldOrder => 9992,
+        FieldType  => 'TextArea',
+        Config     => {
+            DefaultValue => 'Default',
+        },
+    },
+);
+
+my %DynamicFieldFieldConfig;
+
+for my $DynamicFieldProperty (@DynamicFieldProperties) {
+    my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+        %{$DynamicFieldProperty},
+        Label      => 'Label',
+        ObjectType => 'Ticket',
+        ValidID    => 1,
+        UserID     => 1,
+        Reorder    => 0,
+    );
+
+    $DynamicFieldFieldConfig{ $DynamicFieldProperty->{Name} } = $DynamicFieldObject->DynamicFieldGet(
+        ID => $FieldID,
+    );
 }
 
 # define the tickets for the statistic result tests
@@ -185,6 +225,10 @@ my @Tickets = (
             CustomerUser => 'customer@example.com',
             OwnerID      => 1,
             UserID       => 1,
+            DynamicFields => {
+                Text     => 'Example 123',
+                TextArea => 'Example 123',
+            },
         },
     },
 
@@ -236,6 +280,9 @@ my @Tickets = (
             CustomerUser => 'customer@example.com',
             OwnerID      => 1,
             UserID       => 1,
+            DynamicFields => {
+                TextArea => 'Example 123',
+            },
         },
     },
 );
@@ -266,6 +313,19 @@ for my $Ticket (@Tickets) {
     my $TicketID = $TicketObject->TicketCreate(
         %{ $Ticket->{TicketData} },
     );
+
+    if ( IsHashRefWithData( $Ticket->{TicketData}->{DynamicFields} ) ) {
+
+        for my $DynamicFieldName (sort keys %{ $Ticket->{TicketData}->{DynamicFields} } ) {
+
+            $DynamicFieldBackendObject->ValueSet(
+                DynamicFieldConfig => $DynamicFieldFieldConfig{ $DynamicFieldName . $RandomID },
+                ObjectID           => $TicketID,
+                Value              => $Ticket->{TicketData}->{DynamicFields}->{$DynamicFieldName},
+                UserID             => 1,
+            );
+        }
+    }
 
     # sanity check
     $Self->True(
@@ -2094,6 +2154,319 @@ my @Tests = (
                 0,
                 0,
                 5,
+            ],
+        ],
+    },
+
+    # ------------------------------------------------------------ #
+    # some special tests for dynamic fields text and textarea
+    # ------------------------------------------------------------ #
+
+    # Test with a relative time period and a restriction for a dynamic field textarea
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: 'TextArea' => 'Example*',
+    {
+        Description => 'Test stat with a restriction for a dynamic field textarea (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                SumRow => 0,
+                SumCol => 0,
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'DynamicField_TextArea' . $RandomID,
+                        'Block'          => 'InputField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Example*',
+                        ],
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Queue',
+                'Sat 8',
+                'Sun 9',
+                'Mon 10',
+                'Tue 11',
+                'Wed 12',
+                'Thu 13',
+                'Fri 14',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+            ],
+        ],
+    },
+
+    # Test with a relative time period and a restriction for a dynamic field text
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: 'Text' => 'Example*',
+    {
+        Description => 'Test stat with a restriction for a dynamic field text (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                SumRow => 0,
+                SumCol => 0,
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'DynamicField_Text' . $RandomID,
+                        'Block'          => 'InputField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Example*',
+                        ],
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Queue',
+                'Sat 8',
+                'Sun 9',
+                'Mon 10',
+                'Tue 11',
+                'Wed 12',
+                'Thu 13',
+                'Fri 14',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            ],
+        ],
+    },
+
+    # Test with a relative time period and a restriction for a dynamic field text and textarea
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: 'Text' => 'Example*',
+    {
+        Description => 'Test stat with a restriction for a dynamic field text and textarea (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                SumRow => 0,
+                SumCol => 0,
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'DynamicField_Text' . $RandomID,
+                        'Block'          => 'InputField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Example*',
+                        ],
+                    },
+                    {
+                        'Element'        => 'DynamicField_TextArea' . $RandomID,
+                        'Block'          => 'InputField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Example*',
+                        ],
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Queue',
+                'Sat 8',
+                'Sun 9',
+                'Mon 10',
+                'Tue 11',
+                'Wed 12',
+                'Thu 13',
+                'Fri 14',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
             ],
         ],
     },

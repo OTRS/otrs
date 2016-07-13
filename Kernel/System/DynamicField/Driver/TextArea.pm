@@ -412,11 +412,16 @@ sub SearchFieldParameterBuild {
 sub StatsSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
-    my $Operator = 'Equals';
-    my $Value    = $Param{Value};
+    my $Value = $Param{Value};
+
+    if ( !$Value ) {
+        return {
+            'Like' => '',
+        };
+    }
 
     return {
-        $Operator => $Value,
+        'Like' => '*' . $Value . '*',
     };
 }
 
