@@ -1492,12 +1492,12 @@ my @Tests = (
         ],
     },
 
-# Test with a relative time period and without a defined time zone
-# Fixed TimeStamp: '2015-08-20 20:00:00'
-# TimeZone: 0
-# X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 month'.
-# Y-Axis: 'CreateTime' with 'scale 1 year'
-# Restrictions: 'QueueIDs' to select only the created tickets for the test.
+    # Test with a relative time period and without a defined time zone
+    # Fixed TimeStamp: '2015-08-20 20:00:00'
+    # TimeZone: 0
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 month'.
+    # Y-Axis: 'CreateTime' with 'scale 1 year'
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
         Description =>
             'Test stat without a time zone (last complete 24 months and scale 1 month) and time element on Y-Axis',
@@ -1613,12 +1613,12 @@ my @Tests = (
         ],
     },
 
-# Test with a relative time period and without a defined time zone
-# Fixed TimeStamp: '2015-08-20 20:00:00'
-# TimeZone: 0
-# X-Axis: 'CreateTime' with a relative period 'the last complete 3 months and current+upcoming 1 months' and 'scale 1 month'.
-# Y-Axis: 'CreateTime' with 'scale 1 year'
-# Restrictions: 'QueueIDs' to select only the created tickets for the test.
+    # Test with a relative time period and without a defined time zone
+    # Fixed TimeStamp: '2015-08-20 20:00:00'
+    # TimeZone: 0
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 3 months and current+upcoming 1 months' and 'scale 1 month'.
+    # Y-Axis: 'CreateTime' with 'scale 1 year'
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
         Description =>
             'Test stat without a time zone (last complete 3 months and scale 1 month) and time element on Y-Axis',
@@ -1704,12 +1704,12 @@ my @Tests = (
         ],
     },
 
-# Test with a relative time period and without a defined time zone
-# Fixed TimeStamp: '2015-08-20 20:00:00'
-# TimeZone: 0
-# X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 quarter'.
-# Y-Axis: 'CreateTime' with 'scale 1 year'
-# Restrictions: 'QueueIDs' to select only the created tickets for the test.
+    # Test with a relative time period and without a defined time zone
+    # Fixed TimeStamp: '2015-08-20 20:00:00'
+    # TimeZone: 0
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 quarter'.
+    # Y-Axis: 'CreateTime' with 'scale 1 year'
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
         Description =>
             'Test stat without a time zone (last complete 24 months and scale 1 quarter) and time element on Y-Axis',
@@ -1789,6 +1789,311 @@ my @Tests = (
                 0,
                 7,
                 '',
+            ],
+        ],
+    },
+
+    # Test with a relative time period and with selected SumRow
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: -
+    # SumRow: 'Yes'
+    # SumCol: 'No'
+    {
+        Description => 'Test stat with selected SumRow (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                SumRow => 1,
+                SumCol => 0,
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Queue',
+                'Sat 8',
+                'Sun 9',
+                'Mon 10',
+                'Tue 11',
+                'Wed 12',
+                'Thu 13',
+                'Fri 14',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+            ],
+            [
+                'Sum',
+                0,
+                1,
+                2,
+                1,
+                1,
+                0,
+                0,
+            ],
+        ],
+    },
+
+    # Test with a relative time period and with selected SumCol
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: -
+    # SumRow: 'No'
+    # SumCol: 'Yes'
+    {
+        Description => 'Test stat with selected SumCol (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                SumRow => 0,
+                SumCol => 1,
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Queue',
+                'Sat 8',
+                'Sun 9',
+                'Mon 10',
+                'Tue 11',
+                'Wed 12',
+                'Thu 13',
+                'Fri 14',
+                'Sum',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+                3,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1,
+            ],
+        ],
+    },
+
+    # Test with a relative time period and with selected SumRow and SumCol
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: -
+    # SumRow: 'No'
+    # SumCol: 'Yes'
+    {
+        Description => 'Test stat with selected SumRow and SumCol (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                SumRow => 1,
+                SumCol => 1,
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Queue',
+                'Sat 8',
+                'Sun 9',
+                'Mon 10',
+                'Tue 11',
+                'Wed 12',
+                'Thu 13',
+                'Fri 14',
+                'Sum',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+                3,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                1,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1,
+            ],
+            [
+                'Sum',
+                0,
+                1,
+                2,
+                1,
+                1,
+                0,
+                0,
+                5,
             ],
         ],
     },
