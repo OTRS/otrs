@@ -59,12 +59,12 @@ $Selenium->RunTest(
                 TicketIDs     => [],
                 TicketLink    => 'Open',
             },
-            'Closed' => {
+            'closed' => {
                 TicketState   => 'closed successful',
                 TicketCount   => '',
                 TicketNumbers => [],
                 TicketIDs     => [],
-                TicketLink    => 'Closed',
+                TicketLink    => 'closed',
             },
         );
 
