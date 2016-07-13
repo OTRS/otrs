@@ -112,7 +112,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         $Selenium->find_element( "#SubmitSearch", 'css' )->click();
-        sleep 1;
+        $Selenium->WaitFor(
+            AlertPresent => 1,
+        );
         $Selenium->accept_alert();
 
         # search for second created test ticket
