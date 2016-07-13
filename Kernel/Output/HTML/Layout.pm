@@ -726,6 +726,7 @@ sub Login {
     $Self->LoaderCreateAgentCSSCalls();
     $Self->LoaderCreateAgentJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
+    $Self->LoaderCreateJavaScriptTemplateData();
 
     # we need the baselink for VerfifiedGet() of selenium tests
     $Self->AddJSData(
@@ -1472,6 +1473,7 @@ sub Footer {
     # generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
+    $Self->LoaderCreateJavaScriptTemplateData();
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {

@@ -10578,6 +10578,7 @@ via the Preferences button after logging in.
                 <Item>thirdparty/stacktrace-0.6.4/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
+                <Item>thirdparty/nunjucks-2.4.2/nunjucks.js</Item>
                 <Item>Core.Init.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
@@ -10585,6 +10586,7 @@ via the Preferences button after logging in.
                 <Item>Core.Data.js</Item>
                 <Item>Core.Config.js</Item>
                 <Item>Core.Language.js</Item>
+                <Item>Core.Template.js</Item>
                 <Item>Core.JSON.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
@@ -10670,6 +10672,7 @@ via the Preferences button after logging in.
                 <Item>thirdparty/stacktrace-0.6.4/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
+                <Item>thirdparty/nunjucks-2.4.2/nunjucks.js</Item>
                 <Item>Core.Init.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Exception.js</Item>
@@ -10678,6 +10681,7 @@ via the Preferences button after logging in.
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Config.js</Item>
                 <Item>Core.Language.js</Item>
+                <Item>Core.Template.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.App.Responsive.js</Item>
                 <Item>Core.AJAX.js</Item>

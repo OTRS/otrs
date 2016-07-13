@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-07-13 Added a javascript templating mechanism. Use Core.Template.Render() to fill given templates from either files or strings with data.
  - 2016-06-24 Improved TicketSearch() to return error on a search for inexistent dynamic fields instead of ignoring them, thanks to Moritz Lenz.
  - 2016-06-06 Added checks for length of words in search terms when using search index/StaticDB backend.
  - 2016-06-06 Fixed bug#[12020](http://bugs.otrs.org/show_bug.cgi?id=12020) - Option CaseSensitive has no impact on external customer database.

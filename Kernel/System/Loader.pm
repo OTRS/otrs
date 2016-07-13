@@ -443,6 +443,9 @@ sub CacheGenerate {
         $LocalLayoutObject->LoaderCreateJavaScriptTranslationData();
     }
 
+    # generate JS template cache
+    $LayoutObject->LoaderCreateJavaScriptTemplateData();
+
     return @Result;
 }
 

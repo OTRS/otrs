@@ -23,7 +23,7 @@ Core.UI.Floater = (function (TargetNS) {
     /**
      * @private
      * @name InitFloaters
-     * @memberof Core.Agent
+     * @memberof Core.UI
      * @function
      * @description
      *      This function initializes iframe floaters on links with certain trigger attributes. To provide
@@ -38,7 +38,7 @@ Core.UI.Floater = (function (TargetNS) {
         /**
          * @private
          * @name CreateFloaterOpenTimeout
-         * @memberof Core.Agent.InitFloaters
+         * @memberof Core.UI.Floater.Init
          * @function
          * @param {jQueryObject} $Element
          * @param {Function} TimeoutFunction
@@ -52,7 +52,7 @@ Core.UI.Floater = (function (TargetNS) {
         /**
          * @private
          * @name ClearFloaterOpenTimeout
-         * @memberof Core.Agent.InitFloaters
+         * @memberof Core.UI.Floater.Init
          * @function
          * @param {jQueryObject} $Element
          * @description
@@ -67,7 +67,7 @@ Core.UI.Floater = (function (TargetNS) {
         /**
          * @private
          * @name CreateFloaterOpenTimeout
-         * @memberof Core.Agent.InitFloaters
+         * @memberof Core.UI.Floater.Init
          * @function
          * @param {jQueryObject} $Element
          * @param {Function} TimeoutFunction
@@ -81,7 +81,7 @@ Core.UI.Floater = (function (TargetNS) {
         /**
          * @private
          * @name ClearFloaterCloseTimeout
-         * @memberof Core.Agent.InitFloaters
+         * @memberof Core.UI.Floater.Init
          * @function
          * @param {jQueryObject} $Element
          * @description
@@ -96,7 +96,7 @@ Core.UI.Floater = (function (TargetNS) {
         /**
          * @private
          * @name RemoveActiveFloater
-         * @memberof Core.Agent.RemoveActiveFloater
+         * @memberof Core.UI.Floater.Init
          * @function
          * @param {jQueryObject} $FloaterObj
          * @description
@@ -170,7 +170,8 @@ Core.UI.Floater = (function (TargetNS) {
                     FloaterWidth,
                     $FloaterObj,
                     Margin = 25,
-                    iFrameURL = $TriggerObj.data('floater-url');
+                    iFrameURL = $TriggerObj.data('floater-url'),
+                    FloaterTemplate = Core.Template.Render('MetaFloater');
 
                 if (!iFrameURL) {
                     return false;
@@ -184,13 +185,13 @@ Core.UI.Floater = (function (TargetNS) {
                 $('[data-trigger="floater"]').removeClass('FloaterOpen');
                 $TriggerObj.addClass('FloaterOpen');
 
-                $FloaterObj = $('#AppWrapper > .MetaFloater.Hidden').clone();
+                $FloaterObj = $(FloaterTemplate);
 
                 // only one floater at the same time, so close other ones
                 $('body > div.MetaFloater:visible').remove();
 
                 // show floater to be able to calculate its width
-                $FloaterObj.removeClass('Hidden').appendTo('body').css('display', 'none');
+                $FloaterObj.appendTo('body').css('display', 'none');
 
                 // calculate floater dimensions
                 FloaterWidth = parseInt($FloaterObj.outerWidth(), 10);
