@@ -75,7 +75,7 @@ $Selenium->RunTest(
 
         # create test ACL names
         for my $Name (qw(ACL NewACL)) {
-            my $TestACLName = $Name . $Helper->GetRandomNumber();
+            my $TestACLName = $Name . $Helper->GetRandomNumber() . ' $ @';
             push @TestACLNames, $TestACLName;
         }
 
