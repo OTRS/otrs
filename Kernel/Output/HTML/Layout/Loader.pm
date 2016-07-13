@@ -362,7 +362,7 @@ sub LoaderCreateJavaScriptTemplateData {
     }
 
     # generate a checksum only of the actual used files
-    for my $Checksum ( sort keys \%ChecksumData ) {
+    for my $Checksum ( sort keys %ChecksumData ) {
         $TemplateChecksum .= $ChecksumData{$Checksum};
     }
     $TemplateChecksum = Digest::MD5::md5_hex($TemplateChecksum);
