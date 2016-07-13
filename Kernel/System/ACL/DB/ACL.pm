@@ -1171,8 +1171,8 @@ sub _ACLItemOutput {
     $Output =~ s{\[empty\]}{}xmsg;
 
     my $Name = $Param{Key};
-    $Name =~ s{\"}{\\"}xmsg;
-    my $Key = '$Self->{TicketAcl}->{"' . $Name . '"}';
+    $Name =~ s{\'}{\\'}xmsg;
+    my $Key = '$Self->{TicketAcl}->{\'' . $Name . '\'}';
 
     $Output =~ s{\$VAR1}{$Key}mxs;
 

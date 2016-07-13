@@ -88,7 +88,7 @@ JAVASCRIPT
         );
 
         # create a real test queue
-        my $RandomID = $Helper->GetRandomID();
+        my $RandomID = 'ACL' . $Helper->GetRandomID() . ' $ @';
 
         # fill in test data
         $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
