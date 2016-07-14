@@ -43,8 +43,12 @@ $Selenium->RunTest(
             Value => '60',
         );
 
-        # change resolution (desktop mode)
-        $Selenium->set_window_size( 900, 1200 );
+        # Enable Ticket::ArchiveSystem
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::ArchiveSystem',
+            Value => 1,
+        );
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -249,6 +253,8 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $("#linkobject-Ticket_submit:visible").length;'
         );
+
+        sleep(1);
 
         # Remove Age from left side, and put it to the right side
         $Selenium->DragAndDrop(
