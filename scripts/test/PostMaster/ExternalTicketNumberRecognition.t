@@ -281,7 +281,30 @@ Some Content in Body Incident-' . $ExternalTicketID,
         },
         NewTicket => 2,
     },
-);
+    {
+        Name  => '#7 - Body Test Success with Complex TicketNumber / Regex; special characters must be escaped in the regex',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+Subject: An incident subject
+
+Some Content in Body Incident#/' . $ExternalTicketID,
+        Check => {
+            "DynamicField_$FieldName" => $ExternalTicketID,
+        },
+        JobConfig => {
+            ArticleType       => 'note-report',
+            DynamicFieldName  => $FieldName,
+            FromAddressRegExp => '\\s*@example.com',
+            Module            => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Name              => 'Some Description',
+            NumberRegExp      => '\\s*Incident\#\/(\\d.*)\\s*',
+            SearchInBody      => '1',
+            SearchInSubject   => '1',
+            SenderType        => 'system',
+            TicketStateTypes  => 'new;open',
+        },
+        NewTicket => 2,
+    },);
 
 for my $Test (@Tests) {
 
