@@ -839,7 +839,7 @@ INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from,
     VALUES
     (1, 1, 3, 'OTRS Feedback <marketing@otrs.com>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome to OTRS!
 
-Thank you for installing OTRS, the world’s most popular service management software available in 34 languages and used by 150,000 users worldwide.
+Thank you for installing OTRS, the world’s most popular service management software available in more than 35 languages and used by 150,000 companies worldwide.
 
 You can find updates and patches for OTRS Free at
 https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
@@ -848,7 +848,7 @@ Please be aware that we do not offer official vendor support for OTRS Free. In c
 
 - online documentation available at http://otrs.github.io/doc/
 - mailing lists available at http://lists.otrs.org/
-- webinars at https://www.otrs.com/category/webinar/
+- E-Learning with OTRS at https://www.otrs.com/e-learning-otrs/
 
 To meet higher business requirements, we recommend to use the OTRS Business Solution™, that offers
 
@@ -875,7 +875,7 @@ Content-Transfer-Encoding: 8bit
 
 Welcome to OTRS!
 
-Thank you for installing OTRS, the world’s most popular service management software available in 34 languages and used by 150,000 users worldwide.
+Thank you for installing OTRS, the world’s most popular service management software available in more than 35 languages and used by 150,000 companies worldwide.
 
 You can find updates and patches for OTRS Free at
 https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
@@ -884,7 +884,7 @@ Please be aware that we do not offer official vendor support for OTRS Free. In c
 
 - online documentation available at http://otrs.github.io/doc/
 - mailing lists available at http://lists.otrs.org/
-- webinars at https://www.otrs.com/category/webinar/
+- E-Learning with OTRS at https://www.otrs.com/e-learning-otrs/
 
 To meet higher business requirements, we recommend to use the OTRS Business Solution™, that offers
 
