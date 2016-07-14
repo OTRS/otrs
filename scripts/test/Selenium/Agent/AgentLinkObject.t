@@ -57,9 +57,6 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # change resolution (desktop mode)
-        $Selenium->set_window_size( 900, 1200 );
-
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -257,6 +254,8 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $("#linkobject-Ticket_submit:visible").length;'
         );
+
+        sleep(1);
 
         # Remove Age from left side, and put it to the right side
         $Selenium->DragAndDrop(
