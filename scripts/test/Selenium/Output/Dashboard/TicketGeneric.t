@@ -168,18 +168,27 @@ $Selenium->RunTest(
             # submit
             $Selenium->execute_script( "\$('#Dashboard$DashboardName" . "_submit').trigger('click');" );
 
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('th.Priority #PriorityOverviewControl$DashboardName').length"
+            # wait until block shows
+            $Self->True(
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('th.Priority #PriorityOverviewControl$DashboardName:visible').length"
+                    )
+                    || '',
+                "#PriorityOverviewControl$DashboardName is visible."
             );
 
             # sort by Priority
             $Selenium->execute_script("\$('th.Priority #PriorityOverviewControl$DashboardName').trigger('click');");
 
             # wait for AJAX to finish
-            $Selenium->WaitFor(
-                JavaScript =>
-                    'return typeof($) === "function" && $(".DashboardHeader.Priority.SortAscendingLarge").length'
+            $Self->True(
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $(".DashboardHeader.Priority.SortAscendingLarge:visible").length'
+                    )
+                    || '',
+                ".DashboardHeader.Priority.SortAscendingLarge is visible."
             );
 
             # validate that Priority sort is working
@@ -193,12 +202,24 @@ $Selenium->RunTest(
             $Selenium->WaitFor( JavaScript => "return \$('$Filter:visible').length" );
             $Selenium->find_element( $Filter, 'css' )->VerifiedClick();
 
+            my $TicketFound;
+
+            TICKET_WAIT:
+            for my $Count ( 0 .. 10 ) {
+                $TicketFound
+                    = index( $Selenium->get_page_source(), "Action=AgentTicketZoom;TicketID=$TicketID" ) > -1 ? 1 : 0;
+
+                last TICKET_WAIT if $TicketFound;
+
+                # Wait 1 second
+                sleep(1);
+            }
+
             # check for test ticket on current dashboard plugin
             $Self->True(
-                index( $Selenium->get_page_source(), "Action=AgentTicketZoom;TicketID=$TicketID" ) > -1,
+                $TicketFound,
                 "$DashboardName dashboard plugin test ticket link - found",
             );
-
         }
 
         # delete test tickets
@@ -238,7 +259,7 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-    }
+        }
 );
 
 1;
