@@ -184,7 +184,7 @@ my @Tests = (
         Name   => 'TextArea UTF8 DF',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
-            Value             => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            Value              => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
         },
         ExpectedResults => {
             Like => '*äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
@@ -194,7 +194,7 @@ my @Tests = (
         Name   => 'TextArea UTF8 Wildcard DF',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
-            Value             => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
+            Value              => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
         },
         ExpectedResults => {
             Like => '*äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß**',

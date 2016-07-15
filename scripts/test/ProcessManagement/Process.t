@@ -121,14 +121,14 @@ my $SLAID = $Kernel::OM->Get('Kernel::System::SLA')->SLAAdd(
 );
 
 my $TicketID = $CommonObject{TicketObject}->TicketCreate(
-    Title    => 'Process Unittest Testticket',
-    Queue    => $QueueData3{Name},               # or QueueID => 123,
-    Lock     => 'unlock',
-    Priority => '3 normal',                      # or PriorityID => 2,
-    State    => 'new',                           # or StateID => 5,
-    OwnerID  => 1,
+    Title        => 'Process Unittest Testticket',
+    Queue        => $QueueData3{Name},               # or QueueID => 123,
+    Lock         => 'unlock',
+    Priority     => '3 normal',                      # or PriorityID => 2,
+    State        => 'new',                           # or StateID => 5,
+    OwnerID      => 1,
     CustomerUser => $TestCustomerUserLogin,
-    UserID   => 1,
+    UserID       => 1,
 );
 $Self->True(
     $TicketID || 0,
