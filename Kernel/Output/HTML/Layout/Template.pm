@@ -195,8 +195,8 @@ sub Output {
         {
             Data => $Param{Data} // {},
             global => {
-                BlockData      => $Self->{BlockData}     // [],
-                KeepScriptTags => $Param{AJAX} // 0,
+                BlockData      => $Self->{BlockData} // [],
+                KeepScriptTags => $Param{AJAX}       // 0,
             },
         },
         \$Output,
@@ -302,7 +302,8 @@ sub Output {
                 Data     => \%Data,
                 SortKeys => 1,
             );
-            $Output .= "\n<script type=\"text/javascript\">//<![CDATA[\n\"use strict\";\nCore.Config.AddConfig($JSONString);\n//]]></script>";
+            $Output
+                .= "\n<script type=\"text/javascript\">//<![CDATA[\n\"use strict\";\nCore.Config.AddConfig($JSONString);\n//]]></script>";
         }
         delete $Self->{_JSData};
     }

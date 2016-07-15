@@ -157,7 +157,8 @@ $Selenium->RunTest(
         # add one sub level of first options
         $Selenium->execute_script("\$(\$('.SortableList').find('li')[1]).find('.Icon').click()");
         $Selenium->execute_script(
-            "\$(\$('.SortableList').find('li')[1]).find('ul').find('.Element').val('SortSubLevel1')");
+            "\$(\$('.SortableList').find('li')[1]).find('ul').find('.Element').val('SortSubLevel1')"
+        );
 
         # click on 'Save'
         $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();

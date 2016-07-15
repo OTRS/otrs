@@ -216,15 +216,15 @@ my @Tickets = (
     {
         TimeStamp  => '2015-08-12 22:00:00',
         TicketData => {
-            Title        => 'Statistic Ticket Title',
-            Queue        => $QueueNames[1],
-            Lock         => 'unlock',
-            Priority     => '3 normal',
-            State        => 'new',
-            CustomerID   => '123465',
-            CustomerUser => 'customer@example.com',
-            OwnerID      => 1,
-            UserID       => 1,
+            Title         => 'Statistic Ticket Title',
+            Queue         => $QueueNames[1],
+            Lock          => 'unlock',
+            Priority      => '3 normal',
+            State         => 'new',
+            CustomerID    => '123465',
+            CustomerUser  => 'customer@example.com',
+            OwnerID       => 1,
+            UserID        => 1,
             DynamicFields => {
                 Text     => 'Example 123',
                 TextArea => 'Example 123',
@@ -271,15 +271,15 @@ my @Tickets = (
     {
         TimeStamp  => '2015-08-11 12:00:00',
         TicketData => {
-            Title        => 'Statistic Ticket Title',
-            Queue        => $QueueNames[2],
-            Lock         => 'unlock',
-            Priority     => '3 normal',
-            State        => 'new',
-            CustomerID   => '123465',
-            CustomerUser => 'customer@example.com',
-            OwnerID      => 1,
-            UserID       => 1,
+            Title         => 'Statistic Ticket Title',
+            Queue         => $QueueNames[2],
+            Lock          => 'unlock',
+            Priority      => '3 normal',
+            State         => 'new',
+            CustomerID    => '123465',
+            CustomerUser  => 'customer@example.com',
+            OwnerID       => 1,
+            UserID        => 1,
             DynamicFields => {
                 TextArea => 'Example 123',
             },
@@ -316,7 +316,7 @@ for my $Ticket (@Tickets) {
 
     if ( IsHashRefWithData( $Ticket->{TicketData}->{DynamicFields} ) ) {
 
-        for my $DynamicFieldName (sort keys %{ $Ticket->{TicketData}->{DynamicFields} } ) {
+        for my $DynamicFieldName ( sort keys %{ $Ticket->{TicketData}->{DynamicFields} } ) {
 
             $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldFieldConfig{ $DynamicFieldName . $RandomID },
@@ -1552,12 +1552,12 @@ my @Tests = (
         ],
     },
 
-    # Test with a relative time period and without a defined time zone
-    # Fixed TimeStamp: '2015-08-20 20:00:00'
-    # TimeZone: 0
-    # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 month'.
-    # Y-Axis: 'CreateTime' with 'scale 1 year'
-    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+# Test with a relative time period and without a defined time zone
+# Fixed TimeStamp: '2015-08-20 20:00:00'
+# TimeZone: 0
+# X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 month'.
+# Y-Axis: 'CreateTime' with 'scale 1 year'
+# Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
         Description =>
             'Test stat without a time zone (last complete 24 months and scale 1 month) and time element on Y-Axis',
@@ -1673,12 +1673,12 @@ my @Tests = (
         ],
     },
 
-    # Test with a relative time period and without a defined time zone
-    # Fixed TimeStamp: '2015-08-20 20:00:00'
-    # TimeZone: 0
-    # X-Axis: 'CreateTime' with a relative period 'the last complete 3 months and current+upcoming 1 months' and 'scale 1 month'.
-    # Y-Axis: 'CreateTime' with 'scale 1 year'
-    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+# Test with a relative time period and without a defined time zone
+# Fixed TimeStamp: '2015-08-20 20:00:00'
+# TimeZone: 0
+# X-Axis: 'CreateTime' with a relative period 'the last complete 3 months and current+upcoming 1 months' and 'scale 1 month'.
+# Y-Axis: 'CreateTime' with 'scale 1 year'
+# Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
         Description =>
             'Test stat without a time zone (last complete 3 months and scale 1 month) and time element on Y-Axis',
@@ -1764,12 +1764,12 @@ my @Tests = (
         ],
     },
 
-    # Test with a relative time period and without a defined time zone
-    # Fixed TimeStamp: '2015-08-20 20:00:00'
-    # TimeZone: 0
-    # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 quarter'.
-    # Y-Axis: 'CreateTime' with 'scale 1 year'
-    # Restrictions: 'QueueIDs' to select only the created tickets for the test.
+# Test with a relative time period and without a defined time zone
+# Fixed TimeStamp: '2015-08-20 20:00:00'
+# TimeZone: 0
+# X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 quarter'.
+# Y-Axis: 'CreateTime' with 'scale 1 year'
+# Restrictions: 'QueueIDs' to select only the created tickets for the test.
     {
         Description =>
             'Test stat without a time zone (last complete 24 months and scale 1 quarter) and time element on Y-Axis',
@@ -1868,8 +1868,8 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                SumRow => 1,
-                SumCol => 0,
+                SumRow      => 1,
+                SumCol      => 0,
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1970,8 +1970,8 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                SumRow => 0,
-                SumCol => 1,
+                SumRow      => 0,
+                SumCol      => 1,
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -2066,8 +2066,8 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                SumRow => 1,
-                SumCol => 1,
+                SumRow      => 1,
+                SumCol      => 1,
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -2169,14 +2169,15 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: 'TextArea' => 'Example*',
     {
-        Description => 'Test stat with a restriction for a dynamic field textarea (last complete 7 days and scale 1 day)',
+        Description =>
+            'Test stat with a restriction for a dynamic field textarea (last complete 7 days and scale 1 day)',
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'en',
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                SumRow => 0,
-                SumCol => 0,
+                SumRow      => 0,
+                SumCol      => 0,
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -2275,8 +2276,8 @@ my @Tests = (
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                SumRow => 0,
-                SumCol => 0,
+                SumRow      => 0,
+                SumCol      => 0,
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -2369,14 +2370,15 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: 'Text' => 'Example*',
     {
-        Description => 'Test stat with a restriction for a dynamic field text and textarea (last complete 7 days and scale 1 day)',
+        Description =>
+            'Test stat with a restriction for a dynamic field text and textarea (last complete 7 days and scale 1 day)',
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'en',
         StatsUpdate => {
             StatID => $StatID,
             Hash   => {
-                SumRow => 0,
-                SumCol => 0,
+                SumRow      => 0,
+                SumCol      => 0,
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',

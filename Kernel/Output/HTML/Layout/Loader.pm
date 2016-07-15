@@ -410,7 +410,7 @@ sub LoaderCreateJavaScriptTemplateData {
                 $MainObject->FileRead(
                     Location => $Template,
                     Result   => 'SCALAR',
-                )
+                    )
             };
 
             # Remove DTL-style comments (lines starting with #)

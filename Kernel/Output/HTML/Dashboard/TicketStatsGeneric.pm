@@ -64,9 +64,9 @@ sub Run {
 
     if ( ref $Cache ) {
         return $LayoutObject->Output(
-            TemplateFile   => 'AgentDashboardTicketStats',
-            Data           => $Cache,
-            AJAX => $Param{AJAX},
+            TemplateFile => 'AgentDashboardTicketStats',
+            Data         => $Cache,
+            AJAX         => $Param{AJAX},
         );
     }
 
@@ -203,9 +203,9 @@ sub Run {
     }
 
     my $Content = $LayoutObject->Output(
-        TemplateFile   => 'AgentDashboardTicketStats',
-        Data           => \%Data,
-        AJAX           => $Param{AJAX},
+        TemplateFile => 'AgentDashboardTicketStats',
+        Data         => \%Data,
+        AJAX         => $Param{AJAX},
     );
 
     return $Content;

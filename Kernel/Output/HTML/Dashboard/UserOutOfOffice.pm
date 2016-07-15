@@ -188,15 +188,15 @@ sub Run {
 
         my $LinkPage = 'Subaction=Element;Name=' . $Self->{Name} . ';';
         my %PageNav  = $LayoutObject->PageNavBar(
-            StartHit       => $Self->{StartHit},
-            PageShown      => $Self->{PageShown},
-            AllHits        => $Total || 1,
-            Action         => 'Action=' . $LayoutObject->{Action},
-            Link           => $LinkPage,
-            WindowSize     => 5,
-            AJAXReplace    => 'Dashboard' . $Self->{Name},
-            IDPrefix       => 'Dashboard' . $Self->{Name},
-            AJAX           => $Param{AJAX},
+            StartHit    => $Self->{StartHit},
+            PageShown   => $Self->{PageShown},
+            AllHits     => $Total || 1,
+            Action      => 'Action=' . $LayoutObject->{Action},
+            Link        => $LinkPage,
+            WindowSize  => 5,
+            AJAXReplace => 'Dashboard' . $Self->{Name},
+            IDPrefix    => 'Dashboard' . $Self->{Name},
+            AJAX        => $Param{AJAX},
         );
 
         $LayoutObject->Block(

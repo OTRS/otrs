@@ -192,7 +192,7 @@ sub _ShowOverview {
         );
 
         my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
-            ->{ $ObjectType }->{DisplayName} || $ObjectType;
+            ->{$ObjectType}->{DisplayName} || $ObjectType;
 
         # call ActionAddDynamicField block
         $LayoutObject->Block(

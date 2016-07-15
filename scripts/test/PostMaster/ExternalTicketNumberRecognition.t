@@ -282,7 +282,8 @@ Some Content in Body Incident-' . $ExternalTicketID,
         NewTicket => 2,
     },
     {
-        Name  => '#7 - Body Test Success with Complex TicketNumber / Regex; special characters must be escaped in the regex',
+        Name =>
+            '#7 - Body Test Success with Complex TicketNumber / Regex; special characters must be escaped in the regex',
         Email => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 Subject: An incident subject
@@ -304,7 +305,8 @@ Some Content in Body Incident#/' . $ExternalTicketID,
             TicketStateTypes  => 'new;open',
         },
         NewTicket => 2,
-    },);
+    },
+);
 
 for my $Test (@Tests) {
 
