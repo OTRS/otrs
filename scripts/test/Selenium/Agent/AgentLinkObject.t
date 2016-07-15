@@ -43,19 +43,6 @@ $Selenium->RunTest(
             Value => '60',
         );
 
-        # Enable Ticket::ArchiveSystem
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::ArchiveSystem',
-            Value => 1,
-        );
-
-        # Enable Ticket::ArchiveSystem
-        $ConfigObject->Set(
-            Key   => 'Ticket::ArchiveSystem',
-            Value => 1,
-        );
-
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
