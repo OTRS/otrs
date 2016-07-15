@@ -143,7 +143,9 @@ $Selenium->RunTest(
         );
 
         # test prefilling of some parameters with StoreNew
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage;Subject=TestSubject;Body=TestBody;Subaction=StoreNew;Expand=1");
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}customer.pl?Action=CustomerTicketMessage;Subject=TestSubject;Body=TestBody;Subaction=StoreNew;Expand=1"
+        );
 
         $Self->Is(
             $Selenium->execute_script("return \$('#Subject').val();"),

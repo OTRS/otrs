@@ -1351,8 +1351,8 @@ my @Tests = (
         Name           => "Test ContentSearch Parameter" . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            Body => 'not too long',
-            Subject => 'not too long',
+            Body          => 'not too long',
+            Subject       => 'not too long',
             ContentSearch => 'OR',
         },
         ExpectedReturnLocalData => {

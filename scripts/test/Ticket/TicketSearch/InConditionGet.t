@@ -37,7 +37,7 @@ my @Tests = (
         Name   => 'Single Integer',
         Params => {
             TableColumn => 'test.table',
-            IDRef       => [ 1 ],
+            IDRef       => [1],
         },
         Result => ' AND (  test.table IN (1)  ) ',
     },
@@ -53,7 +53,7 @@ my @Tests = (
         Name   => 'Invalid value',
         Params => {
             TableColumn => 'test.table',
-            IDRef       => [ 1.1 ],
+            IDRef       => [1.1],
         },
         Result => undef,
     },
@@ -74,8 +74,6 @@ for my $Test (@Tests) {
         "$Test->{Name} _InConditionGet()"
     );
 }
-
-
 
 # cleanup is done by RestoreDatabase.
 
