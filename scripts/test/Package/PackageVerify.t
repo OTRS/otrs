@@ -90,6 +90,14 @@ my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
+my %Intervall = (
+    1 => 3,
+    2 => 15,
+    3 => 60,
+    4 => 60 * 3,
+    5 => 60 * 6,
+);
+
 my $Verification;
 TRY:
 for my $Try ( 1 .. 5 ) {
@@ -101,7 +109,7 @@ for my $Try ( 1 .. 5 ) {
 
     last TRY if $Verification ne 'unknown';
 
-    sleep 1;
+    sleep $Intervall{$Try};
 }
 
 $Self->Is(
@@ -130,7 +138,7 @@ for my $Try ( 1 .. 5 ) {
 
     last TRY if $Verification ne 'unknown';
 
-    sleep 1;
+    sleep $Intervall{$Try};
 }
 
 $Self->Is(
@@ -152,7 +160,7 @@ for my $Try ( 1 .. 5 ) {
 
     last TRY if $Verification ne 'unknown';
 
-    sleep 1;
+    sleep $Intervall{$Try};
 }
 
 $Self->Is(
@@ -175,14 +183,30 @@ $Self->True(
     'PackageInstall() - Package TestSecond',
 );
 
-my %VerifyAll = $PackageObject->PackageVerifyAll();
+TRY:
+for my $Try ( 1 .. 5 ) {
 
-for my $PackageName (qw( Test TestSecond )) {
-    $Self->Is(
-        $VerifyAll{$PackageName},
-        'not_verified',
-        "VerifyAll - result for $PackageName",
-    );
+    my %VerifyAll = $PackageObject->PackageVerifyAll();
+
+    my $Unknown;
+    for my $PackageName (qw( Test TestSecond )) {
+
+        if ( $Try < 5 && $VerifyAll{$PackageName} eq 'unknown' ) {
+            $Unknown = 1;
+        }
+        else {
+
+            $Self->Is(
+                $VerifyAll{$PackageName},
+                'not_verified',
+                "VerifyAll - result for $PackageName",
+            );
+        }
+    }
+
+    last TRY if !$Unknown;
+
+    sleep $Intervall{$Try};
 }
 
 my $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
