@@ -403,8 +403,15 @@ $Selenium->RunTest(
         # verify escalation times, warning should be active
         for my $EscalationTime ( sort keys %EscalationTimes ) {
             $EscalationTime = floor( $Ticket{$EscalationTime} / 60 );
+
+            # Check if warning is visible
             $Self->True(
-                $Selenium->find_element("//p[\@class='Warning'][\@title='Service Time: $EscalationTime m']"),
+
+                # Check for EscalationTime or EscalationTime + 1 (one minute tolerance, since it fails on fast systems)
+                $Selenium->find_element(
+                    "//p[\@class='Warning'][\@title='Service Time: $EscalationTime m' or \@title='Service Time: "
+                        . ( $EscalationTime + 1 ) . " m']"
+                ),
                 "Escalation Time $EscalationTime m , found in Ticket Information Widget",
             );
         }
@@ -484,7 +491,7 @@ $Selenium->RunTest(
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
 
-    }
+        }
 );
 
 1;
