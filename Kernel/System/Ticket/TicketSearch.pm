@@ -1958,7 +1958,7 @@ sub TicketSearch {
         )
     {
 
-        # get close state ids
+        # get pending state ids
         my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             StateType => [ 'pending reminder', 'pending auto' ],
             Result    => 'ID',
