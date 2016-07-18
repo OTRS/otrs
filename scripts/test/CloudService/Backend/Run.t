@@ -220,7 +220,7 @@ for my $Test (@Tests) {
             next TEST;
         }
 
-        if ( !defined $RequestResult ) {
+        if ( !defined $RequestResult && $Try < 5 ) {
 
             sleep $Intervall{$Try};
 
