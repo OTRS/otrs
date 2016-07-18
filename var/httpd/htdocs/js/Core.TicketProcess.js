@@ -34,6 +34,13 @@ Core.TicketProcess = (function (TargetNS) {
                 Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'TypeID' , Core.Config.Get('TypeFieldsToUpdate'));
             });
         }
+
+        // Bind event on State field
+        if (typeof Core.Config.Get('StateFieldsToUpdate') !== 'undefined') {
+            $('#StateID').on('change', function () {
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'StateID' , Core.Config.Get('StateFieldsToUpdate'));
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

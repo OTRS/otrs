@@ -4040,10 +4040,10 @@ sub _RenderState {
         Class         => "Modernize $ServerError",
     );
 
-    # set fields that will get an AJAX loader icon when this field changes
-    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
-        TriggerField        => 'StateID',
-        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'StateFieldsToUpdate',
+        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
