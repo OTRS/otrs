@@ -27,31 +27,10 @@
                             <p>[% Translate("Add new field for object") | html %]: [% Translate(Data.ObjectType) | html %]</p>
                         </div>
                     </li>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#[% Data.SelectName %]').bind('change', function() {
-    if ($(this).val() !== '') {
-        Core.Agent.Admin.DynamicField.Redirect($(this).val(), '[% Data.ObjectType %]');
-
-        // reset select value to none
-        $(this).val('');
-    }
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ActionAddDynamicField") %]
                 </ul>
             </div>
         </div>
-
-[% RenderBlockStart("ConfigSet") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Config.Set('DynamicFields', [% Data.FieldDialogsConfig %] );
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ConfigSet") %]
-
         <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterDynamicFields">[% Translate("Filter for Dynamic Fields") | html %]</label></h2>
@@ -106,23 +85,6 @@ $('#[% Data.SelectName %]').bind('change', function() {
                         </fieldset>
                     </form>
                 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#ShowContextSettingsDialog').bind('click', function (Event) {
-    Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), [% Translate("Settings") | JSON %], '20%', 'Center', true,
-        [
-            {
-                Label: [% Translate("Save") | JSON %],
-                Type: 'Submit',
-                Class: 'Primary'}
-        ]);
-    Event.preventDefault();
-    Event.stopPropagation();
-    return false;
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContextSettings") %]
 
             </div>
@@ -191,11 +153,6 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                         </tr>
                     </tbody>
                 </table>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterDynamicFields'), $('#DynamicFieldsTable'));
-//]]></script>
-[% END %]
             </div>
         </div>
 [% RenderBlockStart("MaxFieldOrder") %]
@@ -206,46 +163,3 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
     </div>
 </div>
 [% RenderBlockEnd("Main") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.MasterAction').bind('click', function (Event) {
-    var $MasterActionLink = $(this).find('.MasterActionLink');
-    // only act if the link was not clicked directly
-    if (Event.target !== $MasterActionLink.get(0)) {
-        window.location = $MasterActionLink.attr('href');
-        return false;
-    }
-});
-
-$('.DynamicFieldDelete').bind('click', function (Event) {
-
-    if (window.confirm([% Translate("Do you really want to delete this dynamic field? ALL associated data will be LOST!") | JSON %])) {
-
-        Core.UI.Dialog.ShowDialog({
-            Title: [% Translate("Delete field") | JSON %],
-            HTML: [% Translate("Deleting the field and its data. This may take a while...") | JSON %],
-            Modal: true,
-            CloseOnClickOutside: false,
-            CloseOnEscape: false,
-            PositionTop: '20%',
-            PositionLeft: 'Center',
-            Buttons: []
-        });
-
-        Core.AJAX.FunctionCall(
-            '[% Env("Baselink") %]',
-            $(this).data('query-string') + 'Confirmed=1;',
-            function() {
-                window.location.reload();
-            }
-        );
-    }
-
-    // don't interfere with MasterAction
-    Event.stopPropagation();
-    Event.preventDefault();
-    return false;
-});
-//]]></script>
-[% END %]

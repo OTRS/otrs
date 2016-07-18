@@ -168,6 +168,7 @@ sub _ShowOverview {
     my %ObjectTypeConfig = %{$ObjectTypeConfig};
 
     # cycle thought all objects to create the select add field selects
+    my @ObjectTypes;
     OBJECTTYPE:
     for my $ObjectType (
         sort {
@@ -194,6 +195,8 @@ sub _ShowOverview {
         my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
             ->{$ObjectType}->{DisplayName} || $ObjectType;
 
+        push @ObjectTypes, $ObjectType;
+
         # call ActionAddDynamicField block
         $LayoutObject->Block(
             Name => 'ActionAddDynamicField',
@@ -207,17 +210,16 @@ sub _ShowOverview {
         );
     }
 
-    # parse the fields dialogs as JSON structure
-    my $FieldDialogsConfig = $LayoutObject->JSONEncode(
-        Data => \%FieldDialogs,
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'ObjectTypes',
+        Value => \@ObjectTypes
     );
 
-    # set JS configuration
-    $LayoutObject->Block(
-        Name => 'ConfigSet',
-        Data => {
-            FieldDialogsConfig => $FieldDialogsConfig,
-        },
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'DynamicFields',
+        Value => \%FieldDialogs
     );
 
     # call hint block

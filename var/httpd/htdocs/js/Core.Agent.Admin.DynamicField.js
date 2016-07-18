@@ -93,5 +93,114 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         }, "");
     };
 
+    /**
+     * @name DynamicFieldAddAction
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @description
+     *      Bind event on dynamic field add action field.
+     */
+    TargetNS.DynamicFieldAddAction = function () {
+        var ObjectType = Core.Config.Get('ObjectTypes'),
+            Key;
+
+        // Bind event on dynamic field add action
+        function FieldAddAction(Type) {
+            $('#' + Type + 'DynamicField').on('change', function() {
+                if ($(this).val() !== '') {
+                    Core.Agent.Admin.DynamicField.Redirect($(this).val(), Type);
+
+                    // reset select value to none
+                    $(this).val('');
+                }
+            });
+        }
+        for (Key in ObjectType) {
+            FieldAddAction(ObjectType[Key]);
+        }
+    };
+
+    /**
+     * @name ShowContextSettingsDialog
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @description
+     *      Bind event on Setting button.
+     */
+    TargetNS.ShowContextSettingsDialog = function() {
+        $('#ShowContextSettingsDialog').on('click', function (Event) {
+            Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), Core.Language.Translate("Settings"), '20%', 'Center', true,
+                [
+                    {
+                        Label: Core.Language.Translate("Save"),
+                        Type: 'Submit',
+                        Class: 'Primary'}
+                ]);
+            Event.preventDefault();
+            Event.stopPropagation();
+            return false;
+        });
+    }
+
+    /**
+     * @name DynamicFieldDelete
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @description
+     *      Bind event on dynamic field delete button.
+     */
+    TargetNS.DynamicFieldDelete = function() {
+        $('.DynamicFieldDelete').on('click', function (Event) {
+
+            if (window.confirm(Core.Language.Translate("Do you really want to delete this dynamic field? ALL associated data will be LOST!"))) {
+
+                Core.UI.Dialog.ShowDialog({
+                    Title: Core.Language.Translate("Delete field"),
+                    HTML: Core.Language.Translate("Deleting the field and its data. This may take a while..."),
+                    Modal: true,
+                    CloseOnClickOutside: false,
+                    CloseOnEscape: false,
+                    PositionTop: '20%',
+                    PositionLeft: 'Center',
+                    Buttons: []
+                });
+
+                Core.AJAX.FunctionCall(
+                    Core.Config.Get('Baselink'),
+                    $(this).data('query-string') + 'Confirmed=1;',
+                    function() {
+                        window.location.reload();
+                    }
+                );
+            }
+
+            // don't interfere with MasterAction
+            Event.stopPropagation();
+            Event.preventDefault();
+            return false;
+        });
+    };
+
+    /**
+     * @name Init
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @description
+     *       Initialize module functionality
+     */
+    TargetNS.Init = function () {
+
+        // Initialize JS functions
+        TargetNS.ValidationInit();
+        TargetNS.DynamicFieldAddAction();
+        TargetNS.ShowContextSettingsDialog();
+        TargetNS.DynamicFieldDelete();
+
+        // Initialize dynamic field filter
+        Core.UI.Table.InitTableFilter($('#FilterDynamicFields'), $('#DynamicFieldsTable'));
+    };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
+
     return TargetNS;
 }(Core.Agent.Admin.DynamicField || {}));
