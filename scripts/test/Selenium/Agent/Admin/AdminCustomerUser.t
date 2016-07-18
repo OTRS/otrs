@@ -236,6 +236,8 @@ $Selenium->RunTest(
         # click to 'Add customer user'
         $Selenium->find_element("//button[\@class='CallForAction Fullsize Center']")->VerifiedClick();
 
+        sleep(1);
+
         # create new test customer user
         my $RandomID3 = 'TestCustomer' . $Helper->GetRandomID();
         my $UserEmail = $RandomID3 . "\@localhost.com";
