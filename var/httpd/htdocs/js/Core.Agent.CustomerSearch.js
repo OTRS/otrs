@@ -75,11 +75,12 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 // update services (trigger ServiceID change event)
                 Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'CryptKeyID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
             }
-            if (Core.Config.Get('Action') === 'AgentTicketProcess'){
+            if (Core.Config.Get('Action') === 'AgentTicketProcess' &&
+                typeof Core.Config.Get('CustomerFieldsToUpdate') !== 'undefined'){
                 // reset service
                 $('#ServiceID').attr('selectedIndex', 0);
                 // update services (trigger ServiceID change event)
-                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('ProcessManagement.UpdatableFields'));
+                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('CustomerFieldsToUpdate'));
             }
         });
     }
@@ -307,9 +308,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                         // reset customer info table
                         $('#CustomerInfo .Content').html(BackupData.CustomerInfo);
 
-                        if (Core.Config.Get('Action') === 'AgentTicketProcess'){
+                        if (Core.Config.Get('Action') === 'AgentTicketProcess' &&
+                            typeof Core.Config.Get('CustomerFieldsToUpdate') !== 'undefined'){
                             // update services (trigger ServiceID change event)
-                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('ProcessManagement.UpdatableFields'));
+                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('CustomerFieldsToUpdate'));
                         }
                     }
                 });

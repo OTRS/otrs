@@ -2800,12 +2800,11 @@ sub _RenderCustomer {
         $Data{SelectedCustomerUser} = $CustomerUserData{UserID}         || '';
     }
 
-    # set fields that will get an AJAX loader icon when this field changes
-    my $JSON = $LayoutObject->JSONEncode(
-        Data     => $Param{AJAXUpdatableFields},
-        NoQuotes => 0,
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'CustomerFieldsToUpdate',
+        Value => $Param{AJAXUpdatableFields},
     );
-    $Data{FieldsToUpdate} = $JSON;
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Customer',

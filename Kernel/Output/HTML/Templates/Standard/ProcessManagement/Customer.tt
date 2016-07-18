@@ -41,10 +41,5 @@
 [% RenderBlockEnd("rw:Customer:DescriptionShort") %]
 </div>
 <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Config.Set('ProcessManagement.UpdatableFields', [% Data.FieldsToUpdate %]);
-   //]]></script>
-[% END %]
 
 [% RenderBlockEnd("rw:Customer") %]
