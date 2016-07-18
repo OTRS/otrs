@@ -1034,6 +1034,7 @@ sub LoadDefaults {
         'Core.Agent.js',
         'Core.Agent.Search.js',
         'Core.Agent.CustomerInformationCenterSearch.js',
+        'Core.Agent.Header.js',
         'Core.UI.Notification.js',
         'Core.Agent.Responsive.js',
     ];
