@@ -4022,11 +4022,11 @@ sub _DisplayProcessList {
     }
 
     if ( $Param{PreSelectProcess} && $Param{ProcessID} ) {
-        $LayoutObject->Block(
-            Name => 'PreSelectProcess',
-            Data => {
-                ProcessID => $Param{ProcessID},
-            },
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'PreSelectedProcessID',
+            Value => $Param{ProcessID},
         );
     }
 

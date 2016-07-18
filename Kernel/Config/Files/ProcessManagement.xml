@@ -291,6 +291,7 @@
                 <Loader>
                     <CSS>Core.Customer.TicketProcess.css</CSS>
                     <JavaScript>Core.TicketProcess.js</JavaScript>
+                    <JavaScript>Core.Customer.TicketProcess.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
