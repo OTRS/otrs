@@ -306,25 +306,4 @@
     <button id="SearchFormSubmit" class="Primary CallForAction" value="[% Translate("Run search") | html %]"><span><i class="fa fa-search"></i> [% Translate("Run search") | html %]</span></button>
 </div>
 
-<script type="text/javascript">//<![CDATA[
-    window.setTimeout(function (){
-[% RenderBlockStart("SearchAJAXShow") %]
-        Core.Agent.Search.SearchAttributeAdd("[% Data.Attribute | html %]");
-[% RenderBlockEnd("SearchAJAXShow") %]
-        Core.Agent.Search.AdditionalAttributeSelectionRebuild();
-    }, 0);
-//]]></script>
-
 [% RenderBlockEnd("SearchAJAX") %]
-
-
-
-[% RenderBlockStart("Search") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.Search.OpenSearchDialog( '[% Env("Action") %]' );
-//]]></script>
-[% END %]
-
-[% RenderBlockEnd("Search") %]
