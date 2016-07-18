@@ -41,6 +41,13 @@ Core.TicketProcess = (function (TargetNS) {
                 Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'StateID' , Core.Config.Get('StateFieldsToUpdate'));
             });
         }
+
+        // Bind event on SLA field
+        if (typeof Core.Config.Get('SLAFieldsToUpdate') !== 'undefined') {
+            $('#SLAID').on('change', function () {
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'SLAID' , Core.Config.Get('SLAFieldsToUpdate'));
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
