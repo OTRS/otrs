@@ -190,8 +190,8 @@ $Selenium->RunTest(
             Value => 'Complex',
         );
 
-        # refresh screen
-        $Selenium->VerifiedRefresh();
+        # reload screen AgentTicketZoom
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
 
         # verify 'Linked Object' widget is in the main column with complex view
         $ParentElement = $Selenium->find_element( ".ContentColumn", 'css' );
