@@ -27,14 +27,6 @@
                     <div id="TypeIDServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.TypeIDInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
                     <div class="Clear"></div>
                 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#TypeID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'TypeID', ['Dest', 'PriorityID', 'ServiceID', 'SLAID', [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("TicketType") %]
 
 [% RenderBlockStart("Queue") %]
@@ -48,13 +40,6 @@
                     <div id="DestServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.QueueInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
                     <div class="Clear"></div>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#Dest').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'Dest', ['TypeID', 'PriorityID', 'ServiceID', 'SLAID', [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Queue") %]
 
 [% RenderBlockStart("TicketService") %]
@@ -71,13 +56,6 @@
                     [% END %]
                     <div class="Clear"></div>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#ServiceID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'PriorityID', 'SLAID', [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("TicketService") %]
 
 [% RenderBlockStart("TicketSLA") %]
@@ -95,13 +73,6 @@
                     [% END %]
                     <div class="Clear"></div>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#SLAID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'ServiceID', 'PriorityID', 'SignKeyID', 'CryptKeyID', [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("TicketSLA") %]
                 <div>
                     <label for="Subject" class="Mandatory">
@@ -130,30 +101,11 @@
                     <label for="Attachment">[% Translate("Attachment") | html %]:</label>
                     <input name="file_upload" id="Attachment" title="[% Translate("Attachment") | html %]" type="file" size="40" />
                     <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#Attachment').bind('change', function (Event) {
-        var $Form = $('#Attachment').closest('form');
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.find('#AttachmentUpload').val('1').end().submit();
-    });
-//]]></script>
-[% END %]
 [% RenderBlockStart("Attachment") %]
                     <div class="Attachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
                         [% Data.Filename | html %] ([% Data.Filesize | html %])
                         <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
                         <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#AttachmentDeleteButton[% Data.FileID | html %]').bind('click', function () {
-        var $Form = $('#AttachmentDeleteButton[% Data.FileID | html %]').closest('form');
-        $('#AttachmentDelete[% Data.FileID | html %]').val(1);
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.trigger('submit');
-    });
-//]]></script>
-[% END %]
                     </div>
 [% RenderBlockEnd("Attachment") %]
 
@@ -177,13 +129,6 @@
                     [% Data.PriorityStrg %]
                         <div class="Clear"></div>
                     </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#PriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'TypeID', 'Dest', 'ServiceID', 'SLAID', [% Data.DynamicFieldNamesStrg %]]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("Priority") %]
 
 [% RenderBlockStart("DynamicField") %]
