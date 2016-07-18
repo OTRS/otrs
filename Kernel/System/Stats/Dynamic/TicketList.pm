@@ -399,7 +399,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'UntilTime',
-            TimePeriodFormat => 'DateInputFormat',              # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',             # 'DateInputFormatLong',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketPendingTimeNewerDate',
