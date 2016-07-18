@@ -93,8 +93,3 @@
         [% Data.RestrictionsWidget %]
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Statistics.InitEditScreen();
-//]]></script>
-[% END %]

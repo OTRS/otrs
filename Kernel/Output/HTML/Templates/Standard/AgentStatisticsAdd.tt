@@ -84,9 +84,3 @@
         </form>
     </div>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Statistics.InitAddScreen();
-//]]></script>
-[% END %]
