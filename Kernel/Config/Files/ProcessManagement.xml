@@ -154,6 +154,7 @@
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketProcess.js</JavaScript>
+                    <JavaScript>Core.TicketProcess.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -289,6 +290,7 @@
                 </NavBar>
                 <Loader>
                     <CSS>Core.Customer.TicketProcess.css</CSS>
+                    <JavaScript>Core.TicketProcess.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
