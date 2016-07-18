@@ -1071,19 +1071,18 @@ sub _MaskPhone {
         OnlyDynamicFields => 1
     );
 
-    # create a string with the quoted dynamic field names separated by commas
-    if ( IsArrayRefWithData($DynamicFieldNames) ) {
-        for my $Field ( @{$DynamicFieldNames} ) {
-            $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
-        }
-    }
-
     # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get config of frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'DynamicFieldNames',
+        Value => $DynamicFieldNames,
+    );
 
     # build next states string
     my %Selected;
