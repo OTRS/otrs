@@ -185,7 +185,8 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      *      This function binds functions to the 'MessageHeader' and the 'Reply' button
      *      to toggle the visibility of the MessageBody and the reply form.
      *      Also it checks the iframes to re-size them to their full (inner) size
-     *      and hides the quotes inside the iframes + adds an anchor to toggle the visibility of the quotes
+     *      and hides the quotes inside the iframes + adds an anchor to toggle the visibility of the quotes.
+     *      Furthermore it execute field updates, add and remove of attachments.
      */
     TargetNS.Init = function(){
         var $Messages = $('#Messages > li'),
@@ -194,7 +195,10 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $MessageHeaders = $('.MessageHeader', $Messages),
             $FollowUp = $('#FollowUp'),
             $RTE = $('#RichText'),
-            ZoomExpand = $('#ZoomExpand').val();
+            ZoomExpand = $('#ZoomExpand').val(),
+            $Form,
+            FieldID,
+            DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
 
         $MessageHeaders.click(function(Event){
             ToggleMessage($(this).parent());
@@ -248,7 +252,40 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                 return false;
             });
         }
+
+        // Bind event to State field.
+        $('#StateID').on('change', function () {
+            Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', ['PriorityID', 'TicketID'].concat(DynamicFieldNames));
+        });
+
+        // Bind event to Priority field.
+        $('#PriorityID').on('change', function () {
+            Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', ['StateID', 'TicketID'].concat(DynamicFieldNames));
+        });
+
+        // Bind event to AttachmentUpload button.
+        $('#Attachment').on('change', function () {
+            var $Form = $('#Attachment').closest('form');
+            Core.Form.Validate.DisableValidation($Form);
+            $Form.find('#AttachmentUpload').val('1').end().submit();
+        });
+
+        // Bind event to AttachmentDelete button.
+        $('button[id*=AttachmentDeleteButton]').on('click', function () {
+            $Form = $(this).closest('form');
+            FieldID = $(this).attr('id').split('AttachmentDeleteButton')[1];
+            $('#AttachmentDelete' + FieldID).val(1);
+            Core.Form.Validate.DisableValidation($Form);
+            $Form.trigger('submit');
+        });
+
+        $('a.AsPopup').on('click', function () {
+            Core.UI.Popup.OpenPopup($(this).attr('href'), 'TicketAction');
+            return false;
+        });
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Customer.TicketZoom || {}));

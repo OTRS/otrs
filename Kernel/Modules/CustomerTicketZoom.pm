@@ -935,8 +935,10 @@ sub _Mask {
     my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-    my %AclAction       = %{ $Param{AclAction} };
-    my %AclActionLookup = reverse %AclAction;
+    my %AclActionLookup;
+    if ( $Param{AclAction} ) {
+        %AclActionLookup = reverse %{ $Param{AclAction} };
+    }
 
     $Param{FormID} = $Self->{FormID};
 
@@ -1799,12 +1801,11 @@ sub _Mask {
             OnlyDynamicFields => 1,
         );
 
-        # create a string with the quoted dynamic field names separated by commas
-        if ( IsArrayRefWithData($DynamicFieldNames) ) {
-            for my $Field ( @{$DynamicFieldNames} ) {
-                $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
-            }
-        }
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'DynamicFieldNames',
+            Value => $DynamicFieldNames,
+        );
 
         # check subject
         if ( !$Param{Subject} ) {

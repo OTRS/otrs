@@ -302,31 +302,12 @@
                             <label for="Attachment">[% Translate("Attachment") | html %]:</label>
                             <input name="file_upload" title="[% Translate("Attachment") | html %]" id="Attachment" type="file" size="30" />
                             <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#Attachment').bind('change', function (Event) {
-        var $Form = $('#Attachment').closest('form');
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.find('#AttachmentUpload').val('1').end().submit();
-    });
-//]]></script>
-[% END %]
 
 [% RenderBlockStart("FollowUpAttachment") %]
                             <div class="Attachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
                                 [% Data.Filename | html %] ([% Data.Filesize | html %])
                                 <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
                                 <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#AttachmentDeleteButton[% Data.FileID | html %]').bind('click', function () {
-        var $Form = $('#AttachmentDeleteButton[% Data.FileID | html %]').closest('form');
-        $('#AttachmentDelete[% Data.FileID | html %]').val(1);
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.trigger('submit');
-    });
-//]]></script>
-[% END %]
                             </div>
 [% RenderBlockEnd("FollowUpAttachment") %]
 
@@ -335,25 +316,11 @@
                         <div>
                             <label for="StateID">[% Translate("Next state") | html %]:</label> [% Data.NextStatesStrg %]
                         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#StateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', [ 'PriorityID', 'TicketID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("FollowUpState") %]
 [% RenderBlockStart("FollowUpPriority") %]
                         <div>
                             <label for="PriorityID">[% Translate("Priority") | html %]:</label> [% Data.PriorityStrg %]
                         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#PriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'StateID', 'TicketID' [% Data.DynamicFieldNamesStrg %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("FollowUpPriority") %]
 
 [% RenderBlockStart("FollowUpDynamicField") %]
@@ -398,15 +365,5 @@
 [% RenderBlockEnd("FollowUp") %]
             <div class="Clear"></div>
         </form>
-
     </div>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">
-    Core.Customer.TicketZoom.Init();
-    $('a.AsPopup').bind('click', function (Event) {
-        Core.UI.Popup.OpenPopup($(this).attr('href'), 'TicketAction');
-        return false;
-    });
-</script>
-[% END %]
