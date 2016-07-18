@@ -146,16 +146,6 @@
 </div>
 <!-- stop login -->
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Customer.Login.Init({LastLoginFailed: '[% Data.LoginFailed %]'});
-
-[% RenderBlockStart("SignupError") %]
-window.location.hash = 'Signup';
-[% RenderBlockEnd("SignupError") %]
-//]]></script>
-[% END %]
-
 <div id="Footer" class="ARIARoleContentinfo">
     <a href="https://www.otrs.com/otrs-business-solution-managed" title="[% Config("Product") %]" target="_blank">[% Translate("Powered by") | html %] [% Config("Product") %]</a>
     <div class="Clear"></div>

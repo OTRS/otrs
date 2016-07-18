@@ -50,7 +50,6 @@ Core.Customer.Login = (function (TargetNS) {
      * @memberof Core.Customer.Login
      * @function
      * @returns {Boolean} False if browser is not supported
-     * @param {Object} Options - Options, mainly passed through from the sysconfig
      * @description
      *      This function initializes the login functions.
      *      Time gets tracked in a hidden field.
@@ -60,14 +59,16 @@ Core.Customer.Login = (function (TargetNS) {
      *      3. user leaves input field -> if the field is blank the label gets shown again, 'focused' class gets removed
      *      4. first input field gets focused
      */
-    TargetNS.Init = function (Options) {
+    TargetNS.Init = function () {
         var $Inputs = $('input:not(:checked, :hidden, :radio)'),
             $LocalInputs,
             Location,
             Now = new Date(),
             Diff = Now.getTimezoneOffset(),
             $Label,
-            $SliderNavigationLinks = $('#Slider a');
+            $SliderNavigationLinks = $('#Slider a'),
+            LoginFailed = Core.Config.Get('LoginFailed'),
+            SignupError = Core.Config.Get('SignupError');
 
         // Browser is too old
         if (!Core.Customer.SupportedBrowser) {
@@ -181,10 +182,17 @@ Core.Customer.Login = (function (TargetNS) {
         });
 
         // shake login box on authentication failure
-        if (Options && Options.LastLoginFailed) {
+        if (typeof LoginFailed !== 'undefined' && parseInt(LoginFailed, 10) === 1) {
             Core.UI.Animate($('#Login'), 'Shake');
         }
+
+        // navigate to Signup when SignupError exists
+        if (typeof SignupError !== 'undefined' && parseInt(SignupError, 10) === 1) {
+            window.location.hash = 'Signup';
+        }
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Customer.Login || {}));

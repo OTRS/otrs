@@ -762,7 +762,13 @@ sub Run {
         # get user data
         my %UserData = $UserObject->CustomerUserDataGet( User => $GetParams{UserLogin} );
         if ( $UserData{UserID} || !$GetParams{UserLogin} ) {
-            $LayoutObject->Block( Name => 'SignupError' );
+
+            # send data to JS
+            $LayoutObject->AddJSData(
+                Key   => 'SignupError',
+                Value => 1,
+            );
+
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title => 'Login',
@@ -819,7 +825,13 @@ sub Run {
         }
 
         if ( ( @Whitelist && !$WhitelistMatched ) || ( @Blacklist && $BlacklistMatched ) ) {
-            $LayoutObject->Block( Name => 'SignupError' );
+
+            # send data to JS
+            $LayoutObject->AddJSData(
+                Key   => 'SignupError',
+                Value => 1,
+            );
+
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title => 'Login',
@@ -846,7 +858,13 @@ sub Run {
             UserID  => $ConfigObject->Get('CustomerPanelUserID'),
         );
         if ( !$Add ) {
-            $LayoutObject->Block( Name => 'SignupError' );
+
+            # send data to JS
+            $LayoutObject->AddJSData(
+                Key   => 'SignupError',
+                Value => 1,
+            );
+
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title         => 'Login',
