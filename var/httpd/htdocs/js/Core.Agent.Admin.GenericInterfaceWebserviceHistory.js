@@ -25,12 +25,23 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
      * @name Init
      * @memberof Core.Agent.Admin.GenericInterfaceWebserviceHistory
      * @function
-     * @param {Number} WebserviceID - ID of the webservice
      * @description
      *      This function initialize the module.
      */
-    TargetNS.Init = function (WebserviceID) {
-        TargetNS.WebserviceID = parseInt(WebserviceID, 10);
+    TargetNS.Init = function () {
+
+        TargetNS.WebserviceID = parseInt(Core.Config.Get('WebserviceID'), 10);
+
+        // add click binds
+        $('#ExportButton').on('click', function(){
+            $('#Subaction').attr('value','Export');
+            $('#ActionForm').submit();
+        });
+
+        $('#RollbackButton').on('click', TargetNS.ShowRollbackDialog);
+
+        TargetNS.GetWebserviceList();
+
     };
 
     /**
@@ -85,7 +96,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                 });
                 $('#WebserviceList tbody').html(HTML);
 
-                $('#WebserviceList a').bind('click', function() {
+                $('#WebserviceList a').on('click', function() {
                     var WebserviceHistoryID = $(this).blur().parents('tr').find('input.WebserviceHistoryID').val(),
                     WebserviceHistoryVersion = $(this).blur().parents('tr').find('input.WebserviceHistoryVersion').val();
 
@@ -197,6 +208,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
         return false;
     };
 
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.Admin.GenericInterfaceWebserviceHistory || {}));

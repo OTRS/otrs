@@ -43,6 +43,12 @@ sub Run {
         );
     }
 
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'WebserviceID',
+        Value => $WebserviceID
+    );
+
     my $WebserviceData = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
         ID => $WebserviceID,
     );
