@@ -40,6 +40,12 @@ sub Run {
         );
     }
 
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'WebserviceID',
+        Value => $WebserviceID
+    );
+
     my $WebserviceData = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
         ID => $WebserviceID,
     );
@@ -471,6 +477,14 @@ sub _ShowScreen {
         Name => 'Navigation' . $Param{Mode},
         Data => \%Param
     );
+
+    # send data to JS
+    if ( $Param{Operation} ) {
+        $LayoutObject->AddJSData(
+            Key   => 'Operation',
+            Value => $Param{Operation},
+        );
+    }
 
     my %TemplateData;
 

@@ -25,14 +25,50 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
      * @name Init
      * @memberof Core.Agent.Admin.GenericInterfaceOperation
      * @function
-     * @param {Object} Params - Initialization and internationalization parameters.
      * @description
-     *      This function initialize the module.
+     *      This function initialize the module functionality.
      */
-    TargetNS.Init = function (Params) {
-        TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
-        TargetNS.Operation = Params.Operation;
-        TargetNS.Action = Params.Action;
+    TargetNS.Init = function () {
+
+        TargetNS.WebserviceID = parseInt(Core.Config.Get('WebserviceID'), 10);
+        TargetNS.Operation = Core.Config.Get('Operation');
+        TargetNS.Action = 'AdminGenericInterfaceOperationDefault';
+
+        // Bind event to Inbound configure button
+        $('#MappingInboundConfigureButton').on('click', function(){
+            var URL;
+
+            if ($('#MappingInboundConfigDialog').val()) {
+                URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingInboundConfigDialog').val();
+                URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingInbound' + ';WebserviceID=' + $('#WebserviceID').val() ;
+                window.location.href = URL;
+            }
+        });
+
+        // Bind event to Outbound configure button
+        $('#MappingOutboundConfigureButton').on('click', function(){
+            var URL;
+
+            if ($('#MappingOutboundConfigDialog').val()) {
+                URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingOutboundConfigDialog').val();
+                URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingOutbound' + ';WebserviceID=' + $('#WebserviceID').val();
+                window.location.href = URL;
+            }
+        });
+
+        // Bind event to Save and Finish button
+        $('#SaveAndFinishButton').on('click', function(){
+            $('#ReturnToWebservice').val(1);
+        });
+
+        // Bind event to Name field
+        $('.RegisterChange').on('change.RegisterChange keyup.RegisterChange', function () {
+            $('.HideOnChange').hide();
+            $('.ShowOnChange').show();
+        });
+
+        // Bind event to Delete button
+        $('#DeleteButton').on('click', TargetNS.ShowDeleteDialog);
     };
 
     /**
@@ -80,7 +116,6 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
                                 WebserviceID: TargetNS.WebserviceID
                             });
 
-
                         }, 'json');
 
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
@@ -91,6 +126,8 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
 
         Event.stopPropagation();
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.Admin.GenericInterfaceOperation || {}));
