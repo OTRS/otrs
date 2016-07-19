@@ -55,6 +55,13 @@ Core.TicketProcess = (function (TargetNS) {
                 Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'ServiceID' , Core.Config.Get('ServiceFieldsToUpdate'));
             });
         }
+
+        // Bind event on Lock field
+        if (typeof Core.Config.Get('LockFieldsToUpdate') !== 'undefined') {
+            $('#LockID').on('change', function () {
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'LockID', Core.Config.Get('LockFieldsToUpdate'));
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

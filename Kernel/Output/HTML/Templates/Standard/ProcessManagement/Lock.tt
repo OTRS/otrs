@@ -22,13 +22,6 @@
     [% Data.Content %]
     <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#[% Data.FieldID %]').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', '[% Data.FieldID %]' , [ [% Data.FieldsToUpdate %] ]);
-    });
-//]]></script>
-[% END %]
 [% RenderBlockStart("rw:Lock:DescriptionShort") %]
     <div class="FieldExplanation">[% Data.DescriptionShort | html %]</div>
 [% RenderBlockEnd("rw:Lock:DescriptionShort") %]
