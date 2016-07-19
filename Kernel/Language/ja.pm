@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.616846652267819;
+    $Self->{Completeness}        = 0.611575562700965;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -124,7 +124,8 @@ sub Data {
         'You can use the following tags' => '次のタグを使用できます',
         'To get the first 20 character of the subject.' => '表題の最初の20文字を取得',
         'To get the first 5 lines of the email.' => 'メールの最初の5行を取得',
-        'To get the realname of the sender (if given).' => '送信者の実名を取得(可能な場合)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => '記事の属性を取得',
         ' e. g.' => '例',
         'Options of the current customer user data' => '現在の顧客ユーザーデータのオプション',
@@ -264,10 +265,6 @@ sub Data {
         'Order' => '順序',
         'Object' => '対象',
         'Delete this field' => 'この領域を削除',
-        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            'この動的領域を本当に削除しますか？全てのデータが失われます。',
-        'Delete field' => '動的領域',
-        'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'ダイナミック・フィールド',
@@ -671,7 +668,7 @@ sub Data {
             '',
         '\'FreeText\' is used as example for actual configured value.' =>
             '',
-        'Response name free text' => '',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             '',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -679,6 +676,7 @@ sub Data {
         'Response name scheme' => '',
         'Select how SOAP response function wrapper should be constructed.' =>
             '',
+        'Response name free text' => '',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             '',
         'Encoding' => '',
@@ -1520,7 +1518,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'S/MIME証明書',
-        'Close' => '完了',
+        'Close dialog' => '',
         'Certificate Details' => '',
 
         # Template: AdminSalutation
@@ -1959,7 +1957,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Export statistic %s' => '',
         'Delete statistic "%s"' => '',
         'Delete statistic %s' => '',
-        'Do you really want to delete this statistic?' => '',
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
@@ -1974,13 +1971,13 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => '',
-        'Change Owner of %s%s' => '',
-        'Close %s%s' => '',
-        'Add Note to %s%s' => '',
-        'Set Pending Time for %s%s' => '',
-        'Change Priority of %s%s' => '',
-        'Change Responsible of %s%s' => '',
+        'Change Free Text of %s%s%s' => '',
+        'Change Owner of %s%s%s' => '',
+        'Close %s%s%s' => '',
+        'Add Note to %s%s%s' => '',
+        'Set Pending Time for %s%s%s' => '',
+        'Change Priority of %s%s%s' => '',
+        'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'アスタリスク（*）が付いている全ての領域は必須入力です。',
         'Service invalid.' => '無効なサービスです',
         'New Owner' => '新しい所有者',
@@ -2003,7 +2000,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Invalid time!' => '無効な時間です。',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => '',
+        'Bounce %s%s%s' => '',
         'Bounce to' => 'バウンスto',
         'You need a email address.' => 'メールアドレスが必要です',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2025,7 +2022,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Execute Bulk Action' => '',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => '',
+        'Compose Answer for %s%s%s' => '',
         'This address is registered as system address and cannot be used: %s' =>
             '',
         'Please include at least one recipient' => '',
@@ -2039,7 +2036,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Date Invalid!' => '日時が無効です。',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => '',
+        'Change Customer of %s%s%s' => '',
         'Customer Information' => '顧客情報',
 
         # Template: AgentTicketEmail
@@ -2053,7 +2050,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Get all' => '全てを取得',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => '',
+        'Outbound Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => '',
@@ -2064,17 +2061,17 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => '',
+        'Forward %s%s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => '',
+        'History of %s%s%s' => '',
         'History Content' => '履歴内容',
         'Zoom' => 'ズーム',
         'Createtime' => '作成日時',
         'Zoom view' => 'ズームビュー',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => '',
+        'Merge %s%s%s' => '',
         'Merge Settings' => '',
         'You need to use a ticket number!' => '使用するチケット番号が必要です。',
         'A valid ticket number is required.' => '有効なチケット番号が必要です。',
@@ -2082,7 +2079,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Need a valid email address.' => '有効なメールアドレスが必要です。',
 
         # Template: AgentTicketMove
-        'Move %s%s' => '',
+        'Move %s%s%s' => '',
         'New Queue' => '新規キュー',
         'Move' => '移転',
 
@@ -2116,10 +2113,10 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'The chat will be appended as a separate article.' => 'チャットは新規記事として追加されます。',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => '',
+        'Phone Call for %s%s%s' => '',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => '',
+        'View Email Plain Text for %s%s%s' => '',
         'Plain' => '書式なし',
         'Download this email' => 'このメールをダウンロード',
 
@@ -2234,6 +2231,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'go back to the previous page' => '直前のページに戻る',
 
         # Template: CustomerError
+        'An Error Occurred' => '',
+        'Error Details' => 'エラーの詳細',
         'Traceback' => 'トレースバック',
 
         # Template: CustomerFooter
@@ -2272,7 +2271,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '受信チャット要求',
-        'You have unanswered chat requests' => '',
         'Edit personal preferences' => '個人設定の編集',
         'Preferences' => '個人設定',
         'Logout %s %s' => 'ログアウト %s %s',
@@ -2335,25 +2333,18 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Dynamic fields' => 'ダイナミック・フィールド',
 
         # Template: Error
-        'An Error Occurred' => '',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
             '',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => 'バグ報告を送信',
-        'Error Details' => 'エラーの詳細',
         'Expand' => '展開',
 
         # Template: FooterJS
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'この機能は %s の一部です。%s の更新についてサポートまでお問い合わせください。',
         'Find out more about the %s' => '',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
-        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
-            '',
 
         # Template: Header
         'Logout' => 'ログアウト',
@@ -2526,10 +2517,10 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
         'Create summation row' => '',
-        'Generate an additional row containing sums for all data columns.' =>
+        'Generate an additional row containing sums for all data rows.' =>
             '',
         'Create summation column' => '',
-        'Generate an additional column containing sums for all data rows.' =>
+        'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
@@ -2570,6 +2561,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Configurable Params of Static Stat' => '',
         'No element selected.' => '要素が選択されていません。',
         'Scale' => '目盛',
+        'show more' => '',
+        'show less' => '',
 
         # Template: D3
         'Download SVG' => 'SVG画像のダウンロード',
@@ -3028,7 +3021,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
-        'Please contact the admin.' => '',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => '',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3068,7 +3061,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '',
-        'Please contact your administrator' => '管理者に連絡してください',
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => '',
@@ -3163,8 +3155,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             '',
@@ -3184,8 +3174,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'for pending* states' => '状態:保留にする',
         'ActivityDialogEntityID missing!' => '',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            '',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             '',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3467,7 +3456,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRSデーモンが起動していません。',
-        'Please contact your administrator!' => '',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
@@ -3498,7 +3486,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Please supply your new password!' => '',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             'パスワードを更新できません。新しいパスワードが一致しません。再入力してください。',
-        'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.' =>
+        'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
             'パスワードを更新できません。%s文字以上必要です。',
@@ -3512,6 +3500,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Time zone updated successfully!' => '',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
+        'invalid' => '無効',
+        'valid' => '有効',
+        'No (not supported)' => '',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
@@ -3625,6 +3616,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Created State' => '作成時の状態',
         'CustomerUserLogin' => '顧客ユーザーログイン',
         'Create Time' => '作成日時',
+        'Until Time' => '',
         'Close Time' => '完了時間',
         'Escalation' => 'エスカレーション',
         'Escalation - First Response Time' => 'エスカレーション - 第1の応答時間',
@@ -3639,13 +3631,50 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Ticket Create Time' => 'チケット作成時間',
         'Ticket Close Time' => 'チケット完了時間',
         'Accounted time by Agent' => '担当者の作業時間',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+        'unlimited' => '',
+        'ascending' => '',
+        'descending' => '',
         'Attributes to be printed' => '印刷する属性',
         'Sort sequence' => '並べ替え順序',
         'State Historic' => '',
         'State Type Historic' => '',
+        'Until times' => '',
         'Historic Time Range' => '',
+
+        # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
+        'Solution Average' => '',
+        'Solution Min Time' => '',
+        'Solution Max Time' => '',
+        'Solution Average (affected by escalation configuration)' => '',
+        'Solution Min Time (affected by escalation configuration)' => '',
+        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Solution Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Solution Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Average (affected by escalation configuration)' => '',
+        'Response Min Time (affected by escalation configuration)' => '',
+        'Response Max Time (affected by escalation configuration)' => '',
+        'Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => '日',
@@ -3917,7 +3946,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'ログインできません。ユーザー名またはパスワードを確認してください。',
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
-        'Can`t remove SessionID' => '',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => '機能が有効になっていません。',
         'Sent password reset instructions. Please check your email.' => 'パスワードを初期化する手順を送信しました。メールを確認してください。',
@@ -3927,10 +3956,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'No Permission to use this frontend module!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            '承認に成功しましたが、顧客レコードが顧客バックエンドで見つかりませんでした。
-管理者に連絡してください。',
-        'Reset password unsuccessful. Please contact your administrator' =>
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
             '',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'このe-mailアドレスはすでに存在します。ログインまたはパスワードのリセットを行ってください。',
@@ -3944,13 +3972,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => '',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
             '',
         'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
-        'valid' => '有効',
-        'invalid' => '無効',
         'invalid-temporarily' => '無効-暫定',
         'Group for default access.' => '',
         'Group of all administrators.' => '',
@@ -4062,6 +4088,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.AJAX
+        'Error during AJAX communication. Status: %s, Error: %s' => '',
+
         # JS File: Core.Agent.Admin.ACL
         'Add all' => '全てを追加',
         'An item with this name is already present.' => 'この名前の項目は既に存在します。',
@@ -4070,6 +4099,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # JS File: Core.Agent.Admin.Attachment
         'Do you really want to delete this attachment?' => '',
+
+        # JS File: Core.Agent.Admin.DynamicField
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            'この動的領域を本当に削除しますか？全てのデータが失われます。',
+        'Delete field' => '動的領域',
+        'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => '選択項目を削除',
@@ -4123,6 +4158,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Delete Entity' => 'エンティティを削除',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'このアクティビティは既にプロセスで使用されています。2度追加できません。',
+        'Error during AJAX communication' => '',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
@@ -4132,6 +4168,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Hide EntityIDs' => 'エンティティIDを隠す',
         'Edit Field Details' => '領域の詳細を編集',
         'Customer interface does not support internal article types.' => '',
+        'Sorry, the only existing condition can\'t be removed.' => '',
+        'Sorry, the only existing field can\'t be removed.' => '',
+        'Sorry, the only existing parameter can\'t be removed.' => '',
 
         # JS File: Core.Agent.Admin.SMIME
         'Do you really want to delete this certificate?' => '',
@@ -4218,6 +4257,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Please remove the following words from your search as they cannot be searched for:' =>
             '',
 
+        # JS File: Core.Agent.Statistics
+        'Do you really want to delete this statistic?' => '',
+
         # JS File: Core.Agent.TicketAction
         'Please perform a spell check on the the text first.' => '',
         'Close this dialog' => 'このダイアログを閉じる',
@@ -4229,6 +4271,17 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'モバイルモードへ',
+
+        # JS File: Core.Customer
+        'You have unanswered chat requests' => '',
+
+        # JS File: Core.Debug
+        'Namespace %s could not be initialized, because %s could not be found.' =>
+            '',
+
+        # JS File: Core.Exception
+        'An error occurred! Do you want to see the complete error message?' =>
+            '',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => '一つ以上のエラーが発生しました。',
@@ -4250,6 +4303,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Invalid date (need a future date)!' => '無効な日付です。 (未来の日付が必要)',
         'Invalid date (need a past date)!' => '',
         'Invalid date!' => '無効な日付です。',
+
+        # JS File: Core.UI.Dialog
+        'Close' => '完了',
 
         # JS File: Core.UI.InputFields
         'Not available' => '',
@@ -4618,7 +4674,6 @@ Thanks for your help!
             '',
         'Customer Administration' => '顧客管理',
         'Customer Companies' => '顧客企業',
-        'Customer Company' => '',
         'Customer Information Center Search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
@@ -5762,6 +5817,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => '入力',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '利用者がスペル・チェッカーを使用したい場合、システム上にispellまたはaspellをインストールします。ご利用のオペレーティング・システム上で、aspellまたはispellへのパスを特定します。',
@@ -6856,6 +6912,7 @@ Thanks for your help!
         'Add all',
         'All-day',
         'An error occurred during communication.',
+        'An error occurred! Do you want to see the complete error message?',
         'An item with this name is already present.',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
         'Apply',
@@ -6863,6 +6920,7 @@ Thanks for your help!
         'April',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Attachments',
         'Aug',
         'August',
         'Cancel',
@@ -6881,25 +6939,31 @@ Thanks for your help!
         'December',
         'Delete',
         'Delete Entity',
+        'Delete field',
         'Delete invoker',
         'Delete operation',
         'Delete this Event Trigger',
         'Delete this Invoker',
         'Delete this Operation',
         'Delete webservice',
+        'Deleting the field and its data. This may take a while...',
         'Do not show this warning again.',
         'Do you really want to continue?',
         'Do you really want to delete this attachment?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this filter?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
+        'Do you really want to delete this statistic?',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this transition',
         'Error',
+        'Error during AJAX communication',
+        'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
         'Feb',
         'February',
@@ -6930,6 +6994,7 @@ Thanks for your help!
         'Mo',
         'Mon',
         'Monday',
+        'Namespace %s could not be initialized, because %s could not be found.',
         'Next',
         'No TransitionActions assigned.',
         'No data found.',
@@ -6963,12 +7028,16 @@ Thanks for your help!
         'Sep',
         'September',
         'Setting a template will overwrite any text or attachment.',
+        'Settings',
         'Show EntityIDs',
         'Show more',
         'Show or hide the content.',
         'Slide the navigation bar',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
         'Sorry, but you can\'t disable all methods for this notification.',
+        'Sorry, the only existing condition can\'t be removed.',
+        'Sorry, the only existing field can\'t be removed.',
+        'Sorry, the only existing parameter can\'t be removed.',
         'Su',
         'Sun',
         'Sunday',
@@ -6995,6 +7064,7 @@ Thanks for your help!
         'We',
         'Wed',
         'Wednesday',
+        'You have unanswered chat requests',
         'and %s more...',
         'day',
         'month',

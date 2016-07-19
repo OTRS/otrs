@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.853995680345572;
+    $Self->{Completeness}        = 0.842229367631297;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -121,7 +121,8 @@ sub Data {
         'You can use the following tags' => 'Можете користити следеће ознаке',
         'To get the first 20 character of the subject.' => 'Да видите првих 20 слова предмета',
         'To get the first 5 lines of the email.' => 'Да видите првих 5 линија имејла.',
-        'To get the realname of the sender (if given).' => 'Да видите име пошиљаоца (ако је доступно)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Да видите атрибуте чланка',
         ' e. g.' => 'нпр.',
         'Options of the current customer user data' => 'Опције података о актуелном клијенту кориснику',
@@ -261,10 +262,6 @@ sub Data {
         'Order' => 'Сортирање',
         'Object' => 'Објекат',
         'Delete this field' => 'Обриши ово поље',
-        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            'Да ли заиста желите да обришете ово динамичко поље? Сви повезани подаци ће бити ИЗГУБЉЕНИ!',
-        'Delete field' => 'Обриши поље',
-        'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Динамичка поља',
@@ -668,7 +665,7 @@ sub Data {
             '„НазивФункције” се користи као пример за стварно име позиваоца/операције.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '„Слободан текст” се користи као пример за стварну подешену вредност.',
-        'Response name free text' => 'Слободан текст имена одговора',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Текст који ће бити кориштен као наставак имена или замена омотача функције.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -676,6 +673,7 @@ sub Data {
         'Response name scheme' => 'Шема имена одговора',
         'Select how SOAP response function wrapper should be constructed.' =>
             'Изаберите како ће бити конструисан омотач функције „SOAP” одговора.',
+        'Response name free text' => 'Слободан текст имена одговора',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Овде можете унети максималну величину (у бајтима) SOAP порука које ће OTRS да обради.',
         'Encoding' => 'Кодни распоред',
@@ -1516,7 +1514,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'S/MIME сертификат',
-        'Close' => 'Затвори',
+        'Close dialog' => '',
         'Certificate Details' => '',
 
         # Template: AdminSalutation
@@ -1955,7 +1953,6 @@ sub Data {
         'Export statistic %s' => 'Измени статистику %s',
         'Delete statistic "%s"' => 'Обриши статистику "%s".',
         'Delete statistic %s' => 'Обриши статистику %s',
-        'Do you really want to delete this statistic?' => 'Да ли стварно желите да обришете ову статистику?',
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Статистика » Погледај %s%s — %s',
@@ -1970,13 +1967,13 @@ sub Data {
             'Ова статистика садржи конфигурационе грешке и сад се не може користити.',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => 'Промени слободни текст за %s%s',
-        'Change Owner of %s%s' => 'Промени власника за %s%s',
-        'Close %s%s' => 'Затвори %s%s',
-        'Add Note to %s%s' => 'Додај обавештење %s%s',
-        'Set Pending Time for %s%s' => 'Постави време чекања за %s%s',
-        'Change Priority of %s%s' => 'Промени приоритет за %s%s',
-        'Change Responsible of %s%s' => 'Промени одговорног за %s%s',
+        'Change Free Text of %s%s%s' => '',
+        'Change Owner of %s%s%s' => '',
+        'Close %s%s%s' => '',
+        'Add Note to %s%s%s' => '',
+        'Set Pending Time for %s%s%s' => '',
+        'Change Priority of %s%s%s' => '',
+        'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Сва поља означена звездицом (*) су обавезна.',
         'Service invalid.' => 'Неважећа услуга.',
         'New Owner' => 'Нови власник',
@@ -1999,7 +1996,7 @@ sub Data {
         'Invalid time!' => 'Неважеће време!',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => 'Одбаци %s%s',
+        'Bounce %s%s%s' => '',
         'Bounce to' => 'Преусмери на',
         'You need a email address.' => 'Потребна вам је имејл адреса.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2021,7 +2018,7 @@ sub Data {
         'Execute Bulk Action' => '',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => 'Напиши одговор за %s%s',
+        'Compose Answer for %s%s%s' => '',
         'This address is registered as system address and cannot be used: %s' =>
             'Ова адреса је регистрована као системска и не може бити коришћена: %s',
         'Please include at least one recipient' => 'Молимо да укључите бар једног примаоца',
@@ -2035,7 +2032,7 @@ sub Data {
         'Date Invalid!' => 'Неисправан датум!',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => 'Промени клијента %s%s',
+        'Change Customer of %s%s%s' => '',
         'Customer Information' => 'Информације о клијенту',
 
         # Template: AgentTicketEmail
@@ -2049,7 +2046,7 @@ sub Data {
         'Get all' => 'Узми све',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => 'Излазни имејл за %s%s',
+        'Outbound Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Тикет %s: време одзива је истекло (%s/%s)!',
@@ -2060,17 +2057,17 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'Тикет %s: време решавања истиче за %s/%s!',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => 'Проследи %s%s',
+        'Forward %s%s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => 'Историјат од %s%s',
+        'History of %s%s%s' => '',
         'History Content' => 'Садржај историје',
         'Zoom' => 'Увећај',
         'Createtime' => 'Време креирања',
         'Zoom view' => 'Увећани преглед',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => 'Споји %s%s',
+        'Merge %s%s%s' => '',
         'Merge Settings' => 'Подешавања спајања',
         'You need to use a ticket number!' => 'Молимо вас да користите број тикета!',
         'A valid ticket number is required.' => 'Неопходан је исправан број тикета.',
@@ -2078,7 +2075,7 @@ sub Data {
         'Need a valid email address.' => 'Потребна је исправна имејл адреса.',
 
         # Template: AgentTicketMove
-        'Move %s%s' => 'Премести %s%s',
+        'Move %s%s%s' => '',
         'New Queue' => 'Нови Ред',
         'Move' => 'Премести',
 
@@ -2112,10 +2109,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'Ћаскање ће бити додато као посебан чланак.',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => 'Телефонски позив за %s%s',
+        'Phone Call for %s%s%s' => '',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => 'Приказ имејла као обичан текст за %s%s',
+        'View Email Plain Text for %s%s%s' => '',
         'Plain' => 'Неформатирано',
         'Download this email' => 'Preuzmi ovu poruku',
 
@@ -2230,6 +2227,8 @@ sub Data {
         'go back to the previous page' => 'иди на претходну страну',
 
         # Template: CustomerError
+        'An Error Occurred' => '',
+        'Error Details' => 'Детаљи грешке',
         'Traceback' => 'Испрати уназад',
 
         # Template: CustomerFooter
@@ -2268,7 +2267,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Долазни захтеви за ћаскање',
-        'You have unanswered chat requests' => 'Имате неодговорене захтеве за ћаскање',
         'Edit personal preferences' => 'Уреди личне поставке',
         'Preferences' => 'Подешавања',
         'Logout %s %s' => 'Одјава %s %s',
@@ -2331,25 +2329,18 @@ sub Data {
         'Dynamic fields' => 'Динамичка поља',
 
         # Template: Error
-        'An Error Occurred' => '',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
             '',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => 'Пошаљи извештај о грешци',
-        'Error Details' => 'Детаљи грешке',
         'Expand' => 'Прошири',
 
         # Template: FooterJS
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ово својство је део %s.  Молимо да на с контактирате на %s за ажурирање.',
         'Find out more about the %s' => 'Пронађи још информација о %s',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
-        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
-            '',
 
         # Template: Header
         'Logout' => 'Одјава',
@@ -2522,11 +2513,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'Изабрани временски периоди у статистици су неутрални по питању временске зоне.',
         'Create summation row' => 'Креирај ред са збиром',
-        'Generate an additional row containing sums for all data columns.' =>
-            'Генериши додатни ред са збиром свих колона са подацима.',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'Креирај колону са збиром',
-        'Generate an additional column containing sums for all data rows.' =>
-            'Генериши додатну колону са збиром свих редова са подацима.',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'Кеширај резултате',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Чува резултате статистика у кешу за касније коришћење у прегледима са истим подешавањима.',
@@ -2566,6 +2557,8 @@ sub Data {
         'Configurable Params of Static Stat' => '',
         'No element selected.' => 'Није изабран ни један елемент.',
         'Scale' => 'Скала',
+        'show more' => '',
+        'show less' => '',
 
         # Template: D3
         'Download SVG' => 'Преузми SVG',
@@ -3024,7 +3017,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
-        'Please contact the admin.' => 'Молимо контактирајте администратора!',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => 'Не може се обрисати веза са %s!',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3064,7 +3057,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '',
-        'Please contact your administrator' => 'Молимо контактирајте вашег администратора',
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => '',
@@ -3159,8 +3151,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             '',
@@ -3180,8 +3170,7 @@ sub Data {
         'for pending* states' => 'за стања* чекања',
         'ActivityDialogEntityID missing!' => '',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            '',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             '',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3463,7 +3452,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => '„OTRS” сервис не ради.',
-        'Please contact your administrator!' => 'Молимо контактирајте вашег администратора!',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
@@ -3494,7 +3482,7 @@ sub Data {
         'Please supply your new password!' => 'Молимо да обезбедите нову лозинку!',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             'Лозинка не може бити ажурирана, нови уноси су различити. Молимо покушајте поново!',
-        'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.' =>
+        'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Лозинка не може бити ажурирана. Минимална дужина лозинке је %s знакова.',
@@ -3508,6 +3496,9 @@ sub Data {
         'Time zone updated successfully!' => '',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
+        'invalid' => 'неважећи',
+        'valid' => 'важећи',
+        'No (not supported)' => '',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Није одабрана временска вредност са комплетном прошлошћу или комплетним тренутним и будућим релативним периодом.',
         'The selected time period is larger than the allowed time period.' =>
@@ -3621,6 +3612,7 @@ sub Data {
         'Created State' => 'Креирани статус',
         'CustomerUserLogin' => 'Пријава клијента корисника',
         'Create Time' => 'Време креирања',
+        'Until Time' => '',
         'Close Time' => 'Време затварања',
         'Escalation' => 'Ескалација',
         'Escalation - First Response Time' => 'Ескалација - време првог одзива',
@@ -3635,13 +3627,50 @@ sub Data {
         'Ticket Create Time' => 'Време отварања тикета',
         'Ticket Close Time' => 'Време затварања тикета',
         'Accounted time by Agent' => 'Обрачунато време по оператеру',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+        'unlimited' => '',
+        'ascending' => '',
+        'descending' => '',
         'Attributes to be printed' => 'Атрибути за штампу',
         'Sort sequence' => 'Редослед сортирања',
         'State Historic' => 'Историјат статуса',
         'State Type Historic' => 'Историјат типа статуса',
+        'Until times' => '',
         'Historic Time Range' => 'Временски опсег историјата',
+
+        # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
+        'Solution Average' => '',
+        'Solution Min Time' => '',
+        'Solution Max Time' => '',
+        'Solution Average (affected by escalation configuration)' => '',
+        'Solution Min Time (affected by escalation configuration)' => '',
+        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Solution Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Solution Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Average (affected by escalation configuration)' => '',
+        'Response Min Time (affected by escalation configuration)' => '',
+        'Response Max Time (affected by escalation configuration)' => '',
+        'Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Дани',
@@ -3913,7 +3942,7 @@ sub Data {
             'Неуспешна пријава! Нетачно је унето ваше корисничко име или лозинка.',
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
-        'Can`t remove SessionID' => '',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Функција није активна!',
         'Sent password reset instructions. Please check your email.' => 'Упутство за ресет лозинке је послато. Молимо проверите ваше имејлове.',
@@ -3923,10 +3952,10 @@ sub Data {
         'No Permission to use this frontend module!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            'Аутентификација је успела али подаци о клијенту нису пронађени. Молимо контактирајте вашег администратора.',
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'Поништавање лозинке није успело. Молимо контактирајте вашег администратора',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Ова имејл адреса већ постоји. Молимо, пријавите се или ресетујте вашу лозинку.',
         'This email address is not allowed to register. Please contact support staff.' =>
@@ -3939,13 +3968,11 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => '',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
             '',
         'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
-        'valid' => 'важећи',
-        'invalid' => 'неважећи',
         'invalid-temporarily' => 'неважећи-привремено',
         'Group for default access.' => 'Група за подразумеван приступ.',
         'Group of all administrators.' => 'Група свих администратора.',
@@ -4057,6 +4084,9 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.AJAX
+        'Error during AJAX communication. Status: %s, Error: %s' => '',
+
         # JS File: Core.Agent.Admin.ACL
         'Add all' => 'Додај све',
         'An item with this name is already present.' => 'Већ је присутна тавка под овим именом.',
@@ -4065,6 +4095,12 @@ sub Data {
 
         # JS File: Core.Agent.Admin.Attachment
         'Do you really want to delete this attachment?' => '',
+
+        # JS File: Core.Agent.Admin.DynamicField
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            'Да ли заиста желите да обришете ово динамичко поље? Сви повезани подаци ће бити ИЗГУБЉЕНИ!',
+        'Delete field' => 'Обриши поље',
+        'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Уклони избор',
@@ -4118,6 +4154,7 @@ sub Data {
         'Delete Entity' => 'Избриши објекат',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Ова активност је већ коришћена у процесу. Не можете је додавати два пута.',
+        'Error during AJAX communication' => '',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             'Неповезана транзиција је већ постављена на површину. Молимо повежите прву транзицију пре него што поставите другу транзицију.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
@@ -4127,6 +4164,9 @@ sub Data {
         'Hide EntityIDs' => 'Сакриј ИД-ове објекта',
         'Edit Field Details' => 'Уреди детаље поља',
         'Customer interface does not support internal article types.' => 'Клијентски интерфејс не подржава интерне типове чланка.',
+        'Sorry, the only existing condition can\'t be removed.' => '',
+        'Sorry, the only existing field can\'t be removed.' => '',
+        'Sorry, the only existing parameter can\'t be removed.' => '',
 
         # JS File: Core.Agent.Admin.SMIME
         'Do you really want to delete this certificate?' => '',
@@ -4213,6 +4253,9 @@ sub Data {
         'Please remove the following words from your search as they cannot be searched for:' =>
             'Молимо да уклоните следеће речи из ваше претраге јер се не могу тражити:',
 
+        # JS File: Core.Agent.Statistics
+        'Do you really want to delete this statistic?' => 'Да ли стварно желите да обришете ову статистику?',
+
         # JS File: Core.Agent.TicketAction
         'Please perform a spell check on the the text first.' => 'Молимо да прво проверите правопис на тексту.',
         'Close this dialog' => 'Затвори овај дијалог',
@@ -4224,6 +4267,17 @@ sub Data {
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Пређи на мобилни мод',
+
+        # JS File: Core.Customer
+        'You have unanswered chat requests' => 'Имате неодговорене захтеве за ћаскање',
+
+        # JS File: Core.Debug
+        'Namespace %s could not be initialized, because %s could not be found.' =>
+            '',
+
+        # JS File: Core.Exception
+        'An error occurred! Do you want to see the complete error message?' =>
+            '',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'Дошло је до једне или више грешака!',
@@ -4245,6 +4299,9 @@ sub Data {
         'Invalid date (need a future date)!' => 'Неисправан датум (потебан будући датум)!',
         'Invalid date (need a past date)!' => 'Неисправан датум (потребан датум у прошлости)!',
         'Invalid date!' => 'Неважећи датум!',
+
+        # JS File: Core.UI.Dialog
+        'Close' => 'Затвори',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'Није доступно',
@@ -4615,7 +4672,6 @@ Thanks for your help!
             'Прилагођен текст за страницу која се приказује клијентима који још увек немају тикете (ако вам је тај текст потребан на другом језику, додајте га у прилагођен модул за преводе).',
         'Customer Administration' => 'Администрација клијената',
         'Customer Companies' => 'Фирме клијенти',
-        'Customer Company' => '',
         'Customer Information Center Search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
@@ -5756,6 +5812,7 @@ Thanks for your help!
         'Incoming Phone Call.' => 'Улазни телефонски позив.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => 'Унос',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             'Ако желите да користите проверу правописа инсталирајте „ispell” или „aspell” на систем. молимо да наведете путању до „ispell” или „aspell” датотеке на вашем оперативном сиситему.',
@@ -6849,6 +6906,7 @@ Thanks for your help!
         'Add all',
         'All-day',
         'An error occurred during communication.',
+        'An error occurred! Do you want to see the complete error message?',
         'An item with this name is already present.',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
         'Apply',
@@ -6856,6 +6914,7 @@ Thanks for your help!
         'April',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Attachments',
         'Aug',
         'August',
         'Cancel',
@@ -6874,25 +6933,31 @@ Thanks for your help!
         'December',
         'Delete',
         'Delete Entity',
+        'Delete field',
         'Delete invoker',
         'Delete operation',
         'Delete this Event Trigger',
         'Delete this Invoker',
         'Delete this Operation',
         'Delete webservice',
+        'Deleting the field and its data. This may take a while...',
         'Do not show this warning again.',
         'Do you really want to continue?',
         'Do you really want to delete this attachment?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this filter?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
+        'Do you really want to delete this statistic?',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this transition',
         'Error',
+        'Error during AJAX communication',
+        'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
         'Feb',
         'February',
@@ -6923,6 +6988,7 @@ Thanks for your help!
         'Mo',
         'Mon',
         'Monday',
+        'Namespace %s could not be initialized, because %s could not be found.',
         'Next',
         'No TransitionActions assigned.',
         'No data found.',
@@ -6956,12 +7022,16 @@ Thanks for your help!
         'Sep',
         'September',
         'Setting a template will overwrite any text or attachment.',
+        'Settings',
         'Show EntityIDs',
         'Show more',
         'Show or hide the content.',
         'Slide the navigation bar',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
         'Sorry, but you can\'t disable all methods for this notification.',
+        'Sorry, the only existing condition can\'t be removed.',
+        'Sorry, the only existing field can\'t be removed.',
+        'Sorry, the only existing parameter can\'t be removed.',
         'Su',
         'Sun',
         'Sunday',
@@ -6988,6 +7058,7 @@ Thanks for your help!
         'We',
         'Wed',
         'Wednesday',
+        'You have unanswered chat requests',
         'and %s more...',
         'day',
         'month',

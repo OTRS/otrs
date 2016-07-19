@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.411447084233261;
+    $Self->{Completeness}        = 0.407931404072883;
 
     # csv separator
     $Self->{Separator} = '';
@@ -123,7 +123,8 @@ sub Data {
         'You can use the following tags' => '您可以使用以下的標記',
         'To get the first 20 character of the subject.' => '顯示主題的前20個字節',
         'To get the first 5 lines of the email.' => '顯示郵件的前五行',
-        'To get the realname of the sender (if given).' => '顯示發件人的真實姓名',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => '信件數據屬性',
         ' e. g.' => '例如',
         'Options of the current customer user data' => '用戶資料屬性',
@@ -263,10 +264,6 @@ sub Data {
         'Order' => '順序',
         'Object' => '對象',
         'Delete this field' => '刪除這個字段',
-        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            '您確定要刪除這個動態字段嗎? 所有關聯的數據將丢失!',
-        'Delete field' => '刪除字段',
-        'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => '動態字段',
@@ -670,7 +667,7 @@ sub Data {
             '',
         '\'FreeText\' is used as example for actual configured value.' =>
             '',
-        'Response name free text' => '',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             '',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -678,6 +675,7 @@ sub Data {
         'Response name scheme' => '',
         'Select how SOAP response function wrapper should be constructed.' =>
             '',
+        'Response name free text' => '',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             '在這裡您可以指定OTRS能夠處理的SOAP消息的最大長度(以字節為單位)。',
         'Encoding' => '編碼',
@@ -1518,7 +1516,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'S/MIME証書',
-        'Close' => '關閉',
+        'Close dialog' => '',
         'Certificate Details' => '',
 
         # Template: AdminSalutation
@@ -1957,7 +1955,6 @@ sub Data {
         'Export statistic %s' => '',
         'Delete statistic "%s"' => '',
         'Delete statistic %s' => '',
-        'Do you really want to delete this statistic?' => '',
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => '',
@@ -1972,13 +1969,13 @@ sub Data {
             '',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => '',
-        'Change Owner of %s%s' => '',
-        'Close %s%s' => '',
-        'Add Note to %s%s' => '',
-        'Set Pending Time for %s%s' => '',
-        'Change Priority of %s%s' => '',
-        'Change Responsible of %s%s' => '',
+        'Change Free Text of %s%s%s' => '',
+        'Change Owner of %s%s%s' => '',
+        'Close %s%s%s' => '',
+        'Add Note to %s%s%s' => '',
+        'Set Pending Time for %s%s%s' => '',
+        'Change Priority of %s%s%s' => '',
+        'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => '所有带 * 的字段都是強制要求輸入的字段.',
         'Service invalid.' => '服務無效。',
         'New Owner' => '新所有者',
@@ -2001,7 +1998,7 @@ sub Data {
         'Invalid time!' => '無效時間!',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => '',
+        'Bounce %s%s%s' => '',
         'Bounce to' => '退回到 ',
         'You need a email address.' => '需要一個郵件地址。',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2023,7 +2020,7 @@ sub Data {
         'Execute Bulk Action' => '',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => '',
+        'Compose Answer for %s%s%s' => '',
         'This address is registered as system address and cannot be used: %s' =>
             '',
         'Please include at least one recipient' => '請包括至少一個收件人',
@@ -2037,7 +2034,7 @@ sub Data {
         'Date Invalid!' => '日期無效！',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => '',
+        'Change Customer of %s%s%s' => '',
         'Customer Information' => '用戶信息',
 
         # Template: AgentTicketEmail
@@ -2051,7 +2048,7 @@ sub Data {
         'Get all' => '獲取全部',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => '',
+        'Outbound Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => '',
@@ -2062,17 +2059,17 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => '',
+        'Forward %s%s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => '',
+        'History of %s%s%s' => '',
         'History Content' => '歷史内容',
         'Zoom' => '展開',
         'Createtime' => '創建時間',
         'Zoom view' => '缩放視圖',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => '',
+        'Merge %s%s%s' => '',
         'Merge Settings' => '',
         'You need to use a ticket number!' => '您需要使用一個工單編號!',
         'A valid ticket number is required.' => '需要有效的工單編號。',
@@ -2080,7 +2077,7 @@ sub Data {
         'Need a valid email address.' => '需要有效的郵件地址。',
 
         # Template: AgentTicketMove
-        'Move %s%s' => '',
+        'Move %s%s%s' => '',
         'New Queue' => '新隊列',
         'Move' => '轉移',
 
@@ -2114,10 +2111,10 @@ sub Data {
         'The chat will be appended as a separate article.' => '',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => '',
+        'Phone Call for %s%s%s' => '',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => '',
+        'View Email Plain Text for %s%s%s' => '',
         'Plain' => '純文本',
         'Download this email' => '下載該郵件',
 
@@ -2232,6 +2229,8 @@ sub Data {
         'go back to the previous page' => '返回上一頁',
 
         # Template: CustomerError
+        'An Error Occurred' => '',
+        'Error Details' => '詳細錯誤信息',
         'Traceback' => '追溯',
 
         # Template: CustomerFooter
@@ -2270,7 +2269,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
-        'You have unanswered chat requests' => '',
         'Edit personal preferences' => '編輯個人設置',
         'Preferences' => '首選項',
         'Logout %s %s' => '',
@@ -2333,25 +2331,18 @@ sub Data {
         'Dynamic fields' => '動態字段',
 
         # Template: Error
-        'An Error Occurred' => '',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
             '',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => '發送一個錯誤報告',
-        'Error Details' => '詳細錯誤信息',
         'Expand' => '展開',
 
         # Template: FooterJS
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
         'Find out more about the %s' => '',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
-        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
-            '',
 
         # Template: Header
         'Logout' => '退出',
@@ -2524,10 +2515,10 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
         'Create summation row' => '',
-        'Generate an additional row containing sums for all data columns.' =>
+        'Generate an additional row containing sums for all data rows.' =>
             '',
         'Create summation column' => '',
-        'Generate an additional column containing sums for all data rows.' =>
+        'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
@@ -2568,6 +2559,8 @@ sub Data {
         'Configurable Params of Static Stat' => '',
         'No element selected.' => '沒有被選参數',
         'Scale' => '時間刻度',
+        'show more' => '',
+        'show less' => '',
 
         # Template: D3
         'Download SVG' => '',
@@ -3026,7 +3019,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
-        'Please contact the admin.' => '',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => '',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3066,7 +3059,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '',
-        'Please contact your administrator' => '請聯繫管理員',
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => '',
@@ -3161,8 +3153,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             '',
@@ -3182,8 +3172,7 @@ sub Data {
         'for pending* states' => '針對掛起狀態',
         'ActivityDialogEntityID missing!' => '',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            '',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             '',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3465,7 +3454,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => '',
-        'Please contact your administrator!' => '',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
@@ -3496,7 +3484,7 @@ sub Data {
         'Please supply your new password!' => '',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             '無法更改密碼。新密碼不一致，請重新輸入！',
-        'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.' =>
+        'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '無法更改密碼，密碼至少需要%s個字符！',
@@ -3510,6 +3498,9 @@ sub Data {
         'Time zone updated successfully!' => '',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
+        'invalid' => '無效',
+        'valid' => '有效',
+        'No (not supported)' => '',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             '',
         'The selected time period is larger than the allowed time period.' =>
@@ -3623,6 +3614,7 @@ sub Data {
         'Created State' => '創建的狀態',
         'CustomerUserLogin' => '用戶登陸',
         'Create Time' => '創建時間',
+        'Until Time' => '',
         'Close Time' => '關閉時間',
         'Escalation' => '升級',
         'Escalation - First Response Time' => '',
@@ -3637,13 +3629,50 @@ sub Data {
         'Ticket Create Time' => '工單創建時間',
         'Ticket Close Time' => '工單關閉時間',
         'Accounted time by Agent' => '服務人員處理工單所用的時間',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+        'unlimited' => '',
+        'ascending' => '',
+        'descending' => '',
         'Attributes to be printed' => '打印的屬性',
         'Sort sequence' => '排序',
         'State Historic' => '',
         'State Type Historic' => '',
+        'Until times' => '',
         'Historic Time Range' => '',
+
+        # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
+        'Solution Average' => '',
+        'Solution Min Time' => '',
+        'Solution Max Time' => '',
+        'Solution Average (affected by escalation configuration)' => '',
+        'Solution Min Time (affected by escalation configuration)' => '',
+        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Solution Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Solution Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Average (affected by escalation configuration)' => '',
+        'Response Min Time (affected by escalation configuration)' => '',
+        'Response Max Time (affected by escalation configuration)' => '',
+        'Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => '',
@@ -3915,7 +3944,7 @@ sub Data {
             '登錄失敗！用戶名或密碼錯誤。',
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
-        'Can`t remove SessionID' => '',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => '該功能尚未激活!',
         'Sent password reset instructions. Please check your email.' => '密碼初始化說明已發送，請檢查郵件。',
@@ -3925,9 +3954,9 @@ sub Data {
         'No Permission to use this frontend module!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
             '',
-        'Reset password unsuccessful. Please contact your administrator' =>
+        'Reset password unsuccessful. Please contact the administrator.' =>
             '',
         'This e-mail address already exists. Please log in or reset your password.' =>
             '',
@@ -3941,13 +3970,11 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => '',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
             '',
         'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
-        'valid' => '有效',
-        'invalid' => '無效',
         'invalid-temporarily' => '暫時無效',
         'Group for default access.' => '',
         'Group of all administrators.' => '',
@@ -4059,6 +4086,9 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.AJAX
+        'Error during AJAX communication. Status: %s, Error: %s' => '',
+
         # JS File: Core.Agent.Admin.ACL
         'Add all' => '添加所有',
         'An item with this name is already present.' => '名稱相同的條目已存在。',
@@ -4067,6 +4097,12 @@ sub Data {
 
         # JS File: Core.Agent.Admin.Attachment
         'Do you really want to delete this attachment?' => '',
+
+        # JS File: Core.Agent.Admin.DynamicField
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            '您確定要刪除這個動態字段嗎? 所有關聯的數據將丢失!',
+        'Delete field' => '刪除字段',
+        'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => '',
@@ -4120,6 +4156,7 @@ sub Data {
         'Delete Entity' => '刪除實體',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             '流程中已包括這個環節，您不能重復添加環節。',
+        'Error during AJAX communication' => '',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '畫布上已經有一個未連接的轉向。在設置另一個轉向之前，請先連接這個轉向。',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
@@ -4129,6 +4166,9 @@ sub Data {
         'Hide EntityIDs' => '隱藏實體編號',
         'Edit Field Details' => '編輯字段詳情',
         'Customer interface does not support internal article types.' => '用戶界面不支援内部信件類型。',
+        'Sorry, the only existing condition can\'t be removed.' => '',
+        'Sorry, the only existing field can\'t be removed.' => '',
+        'Sorry, the only existing parameter can\'t be removed.' => '',
 
         # JS File: Core.Agent.Admin.SMIME
         'Do you really want to delete this certificate?' => '',
@@ -4215,6 +4255,9 @@ sub Data {
         'Please remove the following words from your search as they cannot be searched for:' =>
             '',
 
+        # JS File: Core.Agent.Statistics
+        'Do you really want to delete this statistic?' => '',
+
         # JS File: Core.Agent.TicketAction
         'Please perform a spell check on the the text first.' => '',
         'Close this dialog' => '關閉該對話',
@@ -4226,6 +4269,17 @@ sub Data {
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => '',
+
+        # JS File: Core.Customer
+        'You have unanswered chat requests' => '',
+
+        # JS File: Core.Debug
+        'Namespace %s could not be initialized, because %s could not be found.' =>
+            '',
+
+        # JS File: Core.Exception
+        'An error occurred! Do you want to see the complete error message?' =>
+            '',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => '一個或多個錯誤!',
@@ -4247,6 +4301,9 @@ sub Data {
         'Invalid date (need a future date)!' => '無效的日期（需使用未來的日期）！',
         'Invalid date (need a past date)!' => '',
         'Invalid date!' => '無效日期!',
+
+        # JS File: Core.UI.Dialog
+        'Close' => '關閉',
 
         # JS File: Core.UI.InputFields
         'Not available' => '',
@@ -4606,7 +4663,6 @@ Thanks for your help!
             '',
         'Customer Administration' => '',
         'Customer Companies' => '用戶單位',
-        'Customer Company' => '',
         'Customer Information Center Search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
@@ -5747,6 +5803,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
@@ -6840,6 +6897,7 @@ Thanks for your help!
         'Add all',
         'All-day',
         'An error occurred during communication.',
+        'An error occurred! Do you want to see the complete error message?',
         'An item with this name is already present.',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
         'Apply',
@@ -6847,6 +6905,7 @@ Thanks for your help!
         'April',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Attachments',
         'Aug',
         'August',
         'Cancel',
@@ -6865,25 +6924,31 @@ Thanks for your help!
         'December',
         'Delete',
         'Delete Entity',
+        'Delete field',
         'Delete invoker',
         'Delete operation',
         'Delete this Event Trigger',
         'Delete this Invoker',
         'Delete this Operation',
         'Delete webservice',
+        'Deleting the field and its data. This may take a while...',
         'Do not show this warning again.',
         'Do you really want to continue?',
         'Do you really want to delete this attachment?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this filter?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
+        'Do you really want to delete this statistic?',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this transition',
         'Error',
+        'Error during AJAX communication',
+        'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
         'Feb',
         'February',
@@ -6914,6 +6979,7 @@ Thanks for your help!
         'Mo',
         'Mon',
         'Monday',
+        'Namespace %s could not be initialized, because %s could not be found.',
         'Next',
         'No TransitionActions assigned.',
         'No data found.',
@@ -6947,12 +7013,16 @@ Thanks for your help!
         'Sep',
         'September',
         'Setting a template will overwrite any text or attachment.',
+        'Settings',
         'Show EntityIDs',
         'Show more',
         'Show or hide the content.',
         'Slide the navigation bar',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
         'Sorry, but you can\'t disable all methods for this notification.',
+        'Sorry, the only existing condition can\'t be removed.',
+        'Sorry, the only existing field can\'t be removed.',
+        'Sorry, the only existing parameter can\'t be removed.',
         'Su',
         'Sun',
         'Sunday',
@@ -6979,6 +7049,7 @@ Thanks for your help!
         'We',
         'Wed',
         'Wednesday',
+        'You have unanswered chat requests',
         'and %s more...',
         'day',
         'month',

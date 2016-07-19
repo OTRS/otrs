@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.846004319654428;
+    $Self->{Completeness}        = 0.834512325830654;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -120,7 +120,8 @@ sub Data {
         'You can use the following tags' => 'Tag berikut boleh digunakan',
         'To get the first 20 character of the subject.' => '20 aksara pertama subjek',
         'To get the first 5 lines of the email.' => 'Yang pertama lima baris mesej',
-        'To get the realname of the sender (if given).' => 'Nama pengguna (jika dinyatakan)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Atribut Seksyen',
         ' e. g.' => 'cth.',
         'Options of the current customer user data' => 'Atribut pelanggan semasa',
@@ -260,10 +261,6 @@ sub Data {
         'Order' => 'Menyusun',
         'Object' => 'Objek',
         'Delete this field' => 'Padam bidang ini',
-        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            'Adakah anda benar-benar mahu untuk memadam bidang ini yang dinamik? SEMUA data yang berkaitan akan HILANG!',
-        'Delete field' => 'Padam bidang',
-        'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Perlengkapan dinamik',
@@ -667,7 +664,7 @@ sub Data {
             '\'NamaFungsi\' adakah digunakan sebagai contoh untuk invoker sebenar/nama operasi.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'TeksBebas\' digunakan sebagai contoh untuk nilai dikonfigurasikan yang sebenar.',
-        'Response name free text' => 'Nama jawapan teks bebas',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Teks yang akan digunakan sebagai nama tugas pembungkus akhiran atau penggantian.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -675,6 +672,7 @@ sub Data {
         'Response name scheme' => 'Nama skema tindak balas',
         'Select how SOAP response function wrapper should be constructed.' =>
             'Pilih bagaimana pembalut fungsi tindakbalas SOAP patut dibina.',
+        'Response name free text' => 'Nama jawapan teks bebas',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Di sini anda boleh menentukan saiz maksimum (dalam byte) mesej SOAP yang akan diproses oleh OTRS.',
         'Encoding' => 'Pengekodan',
@@ -1515,7 +1513,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'Sijil S/MIME',
-        'Close' => 'Tutup',
+        'Close dialog' => '',
         'Certificate Details' => '',
 
         # Template: AdminSalutation
@@ -1954,7 +1952,6 @@ sub Data {
         'Export statistic %s' => 'Eksport statistik %s',
         'Delete statistic "%s"' => 'Padam statistik "%s"',
         'Delete statistic %s' => 'Padam statistik %s',
-        'Do you really want to delete this statistic?' => 'Adakah anda betul-betul ingin memadam statistik ini?',
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Statistik » Lihat %s%s — %s',
@@ -1969,13 +1966,13 @@ sub Data {
             'Statistik ini mengandungi ralat konfigurasi dan tidak boleh digunakan pada masa sekarang.',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => 'Tukar Teks Percuma %s%s',
-        'Change Owner of %s%s' => 'Mengubah pemilik %s%s',
-        'Close %s%s' => 'Tutup %s%s',
-        'Add Note to %s%s' => 'Tambah nota pada %s%s',
-        'Set Pending Time for %s%s' => 'Tetapkan masa menunggu untuk %s%s',
-        'Change Priority of %s%s' => 'Perubahan keutamaan %s%s',
-        'Change Responsible of %s%s' => 'Menukar tanggungjawab %s%s',
+        'Change Free Text of %s%s%s' => '',
+        'Change Owner of %s%s%s' => '',
+        'Close %s%s%s' => '',
+        'Add Note to %s%s%s' => '',
+        'Set Pending Time for %s%s%s' => '',
+        'Change Priority of %s%s%s' => '',
+        'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Semua medan bertanda bintang (*) adalah wajib.',
         'Service invalid.' => 'Perkhidmatan tidak sah.',
         'New Owner' => 'Pemilik baru',
@@ -1998,7 +1995,7 @@ sub Data {
         'Invalid time!' => 'Masa Tidak Sah!',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => 'Lantun %s%s',
+        'Bounce %s%s%s' => '',
         'Bounce to' => 'Bounce kepada',
         'You need a email address.' => 'Anda perlu alamat e-mel.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2020,7 +2017,7 @@ sub Data {
         'Execute Bulk Action' => '',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => 'Karang Jawapan untuk %s%s',
+        'Compose Answer for %s%s%s' => '',
         'This address is registered as system address and cannot be used: %s' =>
             'Alamat ini didaftarkan sebagai alamat sistem dan tidak boleh digunakan: %s',
         'Please include at least one recipient' => 'Sila sertakan sekurang-kurangnya satu penerima',
@@ -2034,7 +2031,7 @@ sub Data {
         'Date Invalid!' => 'Tarikh tidak sah!',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => 'Mengubah Pelanggan %s%s',
+        'Change Customer of %s%s%s' => '',
         'Customer Information' => 'Informasi Pelanggan',
 
         # Template: AgentTicketEmail
@@ -2048,7 +2045,7 @@ sub Data {
         'Get all' => 'Dapatkan semua.',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => 'Emel keluar untuk %s%s',
+        'Outbound Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Tiket %s: reaksi masa pertama sudah tamat (%s/%s)!',
@@ -2059,17 +2056,17 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'Tiket %s: masa penyelesaian akan tamat dalam %s/%s!',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => 'Kehadapan %s%s',
+        'Forward %s%s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => 'Sejarah %s%s',
+        'History of %s%s%s' => '',
         'History Content' => 'Kandungan sejarah',
         'Zoom' => 'zoom',
         'Createtime' => 'Cipta masa',
         'Zoom view' => 'Pandangan dibesarkan',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => 'Gabung %s%s',
+        'Merge %s%s%s' => '',
         'Merge Settings' => 'Gabung Aturan',
         'You need to use a ticket number!' => 'Anda perlu menggunakan nombor tiket!',
         'A valid ticket number is required.' => 'Nombor tiket yang sah diperlukan.',
@@ -2077,7 +2074,7 @@ sub Data {
         'Need a valid email address.' => 'Memerlukan alamat emel yang sah.',
 
         # Template: AgentTicketMove
-        'Move %s%s' => 'Pindah %s%s',
+        'Move %s%s%s' => '',
         'New Queue' => 'Barisan baru',
         'Move' => 'Gerak',
 
@@ -2111,10 +2108,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'Perbualan akan dilampirkan sebagai artikel berasingan.',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => 'Panggilan Telefon untuk %s%s',
+        'Phone Call for %s%s%s' => '',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => 'Lihat Email Teks Biasa untuk %s%s',
+        'View Email Plain Text for %s%s%s' => '',
         'Plain' => 'Biasa',
         'Download this email' => 'Muat turun emel ini',
 
@@ -2229,6 +2226,8 @@ sub Data {
         'go back to the previous page' => 'kembali ke halaman sebelum',
 
         # Template: CustomerError
+        'An Error Occurred' => '',
+        'Error Details' => 'Butiran kesilapan',
         'Traceback' => 'Menjejaki kembali',
 
         # Template: CustomerFooter
@@ -2267,7 +2266,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Kemasukan Permohonan Perbualan',
-        'You have unanswered chat requests' => 'Anda mempunyai permohonan perbualan yang tidak berjawab.',
         'Edit personal preferences' => 'Edit pilihan peribadi',
         'Preferences' => 'Pilihan',
         'Logout %s %s' => 'Log keluar %s %s',
@@ -2330,25 +2328,18 @@ sub Data {
         'Dynamic fields' => 'Medan dinamik',
 
         # Template: Error
-        'An Error Occurred' => '',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
             '',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => 'Hantar laporan bug',
-        'Error Details' => 'Butiran kesilapan',
         'Expand' => 'Kembang',
 
         # Template: FooterJS
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ciri ini adalah sebahagian daripada %s. Sila hubungi kami di %s untuk naik taraf.',
         'Find out more about the %s' => 'Cari tahu lebih mengenai %s',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
-        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
-            '',
 
         # Template: Header
         'Logout' => 'Log keluar',
@@ -2521,11 +2512,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'Tempoh masa yang dipilih di dalam statistik ialah zon masa neutral.',
         'Create summation row' => 'Cipta baris penjumlahan',
-        'Generate an additional row containing sums for all data columns.' =>
-            'Hasilkan baris tambahan yang mengandungi jumlah untuk semua lajur data.',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'Cipta lajur penjumlahan',
-        'Generate an additional column containing sums for all data rows.' =>
-            'Hasilkan lajur tambahan yang mengandungi jumlah untuk semua lajur baris.',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'Keputusan cache',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Simpan keputusan data statistik dalam cache untuk digunakan dalam paparan berikutnya dengan konfigurasi yang sama.',
@@ -2565,6 +2556,8 @@ sub Data {
         'Configurable Params of Static Stat' => '',
         'No element selected.' => 'Tiada unsur yang dipilih.',
         'Scale' => 'Skala',
+        'show more' => '',
+        'show less' => '',
 
         # Template: D3
         'Download SVG' => 'Muat turun SVG',
@@ -3023,7 +3016,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
-        'Please contact the admin.' => '',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => 'Tidak boleh memadam pautan dengan %s!',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3063,7 +3056,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '',
-        'Please contact your administrator' => 'Sila hubungi pentadbir anda',
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => '',
@@ -3158,8 +3150,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             '',
@@ -3179,8 +3169,7 @@ sub Data {
         'for pending* states' => 'Untuk status tertangguh',
         'ActivityDialogEntityID missing!' => '',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            '',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             '',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3462,7 +3451,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRS Daemon tidak berjalan.',
-        'Please contact your administrator!' => 'Sila hubungi pentadbir anda!',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
@@ -3493,7 +3481,7 @@ sub Data {
         'Please supply your new password!' => 'Sila berikan kata laluan baru anda!',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             'Tidak boleh kemas kini kata laluan, kata laluan baru anda tidak sama. Sila cuba sekali lagi!',
-        'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.' =>
+        'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Tidak boleh kemaskini kata laluan, ia mesti mengandungi sekurang kurangnya %s karakter panjang.',
@@ -3507,6 +3495,9 @@ sub Data {
         'Time zone updated successfully!' => '',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
+        'invalid' => 'tidak sah',
+        'valid' => 'sah',
+        'No (not supported)' => '',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Tiada lengkapan masa lalu atau nilai masa relatif lengkapan semasa+akan datang dipilih.',
         'The selected time period is larger than the allowed time period.' =>
@@ -3620,6 +3611,7 @@ sub Data {
         'Created State' => 'Status dicipta',
         'CustomerUserLogin' => 'LogMasukPenggunaPelanggan',
         'Create Time' => 'Masa dicipta',
+        'Until Time' => '',
         'Close Time' => 'Masa tutup',
         'Escalation' => 'Peningkatan',
         'Escalation - First Response Time' => 'Peningkatan - Waktu Tindak balas Pertama',
@@ -3634,13 +3626,50 @@ sub Data {
         'Ticket Create Time' => 'Tiket Mencipta Masa',
         'Ticket Close Time' => 'Tiket Menutup Masa',
         'Accounted time by Agent' => 'Menyumbang masa oleh ejen',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+        'unlimited' => '',
+        'ascending' => '',
+        'descending' => '',
         'Attributes to be printed' => 'Sifat-sifat untuk dicetak',
         'Sort sequence' => 'Susun urutan',
         'State Historic' => 'Sejarah Keadaan',
         'State Type Historic' => 'Sejarah Jenis Keadaan',
+        'Until times' => '',
         'Historic Time Range' => 'Julat Masa Bersejarah',
+
+        # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
+        'Solution Average' => '',
+        'Solution Min Time' => '',
+        'Solution Max Time' => '',
+        'Solution Average (affected by escalation configuration)' => '',
+        'Solution Min Time (affected by escalation configuration)' => '',
+        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Solution Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Solution Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Average (affected by escalation configuration)' => '',
+        'Response Min Time (affected by escalation configuration)' => '',
+        'Response Max Time (affected by escalation configuration)' => '',
+        'Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Hari',
@@ -3912,7 +3941,7 @@ sub Data {
             'Log masuk gagal. Kata nama anda atau kata laluan yang dimasukkan tidak tepat',
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
-        'Can`t remove SessionID' => '',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Ciri-ciri tidak aktif!',
         'Sent password reset instructions. Please check your email.' => 'Hantar arahan set semula kata laluan. Sila periksa emel anda.',
@@ -3922,10 +3951,10 @@ sub Data {
         'No Permission to use this frontend module!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            'Pengesahan berjaya , tetapi tiada rekod pelanggan didapati dilaman pelanggan. Sila hubungi pentadbir anda.',
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'Set semula kata laluan tidak berjaya. Sila hubungi pentadbir anda.',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Alamat emel ini telah wujud. Sila log masuk atau tetapkan semula kata laluan anda. ',
         'This email address is not allowed to register. Please contact support staff.' =>
@@ -3938,13 +3967,11 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => '',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
             '',
         'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
-        'valid' => 'sah',
-        'invalid' => 'tidak sah',
         'invalid-temporarily' => 'tidak sah-sementara',
         'Group for default access.' => 'Kumpulan untuk akses lalai.',
         'Group of all administrators.' => 'Kumpulan seluruh pentadbir.',
@@ -4056,6 +4083,9 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
+        # JS File: Core.AJAX
+        'Error during AJAX communication. Status: %s, Error: %s' => '',
+
         # JS File: Core.Agent.Admin.ACL
         'Add all' => 'Tambah semua',
         'An item with this name is already present.' => 'Item dengan nama ini sudah ada.',
@@ -4064,6 +4094,12 @@ sub Data {
 
         # JS File: Core.Agent.Admin.Attachment
         'Do you really want to delete this attachment?' => '',
+
+        # JS File: Core.Agent.Admin.DynamicField
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            'Adakah anda benar-benar mahu untuk memadam bidang ini yang dinamik? SEMUA data yang berkaitan akan HILANG!',
+        'Delete field' => 'Padam bidang',
+        'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Alih pilihan',
@@ -4117,6 +4153,7 @@ sub Data {
         'Delete Entity' => 'Padam Entiti',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Aktiviti ini telah digunakan dalam Proses. Anda tidak boleh menambah dua kali!',
+        'Error during AJAX communication' => '',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             'Peralihan yang tidak berkaitan sudah diletakkan di atas kanvas. Sila sambung peralihan ini terlebih dahulu sebelum meletakkan peralihan lain.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
@@ -4126,6 +4163,9 @@ sub Data {
         'Hide EntityIDs' => 'Sembunyi EntityIDs',
         'Edit Field Details' => 'EditPerincianMedan',
         'Customer interface does not support internal article types.' => 'Antara muka pelanggan tidak menyokong jenis artikel dalaman.',
+        'Sorry, the only existing condition can\'t be removed.' => '',
+        'Sorry, the only existing field can\'t be removed.' => '',
+        'Sorry, the only existing parameter can\'t be removed.' => '',
 
         # JS File: Core.Agent.Admin.SMIME
         'Do you really want to delete this certificate?' => '',
@@ -4212,6 +4252,9 @@ sub Data {
         'Please remove the following words from your search as they cannot be searched for:' =>
             'Sila keluarkan perkataan yang berikut daripada carian kerana ia tidak boleh dicari:',
 
+        # JS File: Core.Agent.Statistics
+        'Do you really want to delete this statistic?' => 'Adakah anda betul-betul ingin memadam statistik ini?',
+
         # JS File: Core.Agent.TicketAction
         'Please perform a spell check on the the text first.' => 'Sila jalankan pemeriksaan ejaan ke atas teks dahulu.',
         'Close this dialog' => 'Tutup dialog ini',
@@ -4223,6 +4266,17 @@ sub Data {
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Tukar kepada mod telefon bimbit',
+
+        # JS File: Core.Customer
+        'You have unanswered chat requests' => 'Anda mempunyai permohonan perbualan yang tidak berjawab.',
+
+        # JS File: Core.Debug
+        'Namespace %s could not be initialized, because %s could not be found.' =>
+            '',
+
+        # JS File: Core.Exception
+        'An error occurred! Do you want to see the complete error message?' =>
+            '',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'Satu atau lebih kesilapan berlaku!',
@@ -4244,6 +4298,9 @@ sub Data {
         'Invalid date (need a future date)!' => 'Tarikh tidak sah (memerlukan tarikh di hadapan)!',
         'Invalid date (need a past date)!' => 'Tarikh tidak sah (memerlukan tarikh yang lepas)!',
         'Invalid date!' => 'Tarikh Tidak Sah!',
+
+        # JS File: Core.UI.Dialog
+        'Close' => 'Tutup',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'Tidak tersedia',
@@ -4616,7 +4673,6 @@ dalaman.',
             'Teks kebiasaan untuk halaman yang ditunjukkan kepada pelanggan yang tidak mempunyai tiket lagi (jika anda memerlukan teks yang telah diterjemahkan tambahkan mereka kepada modul terjemahan kebiasaan).',
         'Customer Administration' => 'Pentadbiran Pelanggan',
         'Customer Companies' => 'Firma Pelanggan',
-        'Customer Company' => '',
         'Customer Information Center Search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
@@ -5758,6 +5814,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             'IndexAccelerator: untuk memilih modul backend TicketViewAccelerator anda/ "RuntimeDB" menjana setiap paparan aturan pada jadual dengan cepat dari jadual tiket (tiada masalah prestasi dijangka sehingga berjumlah 60,000 tiket dan 6,000 tiket terbuka di dalam sistem). "StaticDB" ialah modul yang berkuasa, ia menggunakan jadual indeks-tiket ekstra yang bekerja seperti paparan (disyorkan jika lebih daripada 80,000 dan 6,000 tiket buka disimpan dalam sistem). Gunakan arahan "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" untuk ciptaan indeks awalan.',
+        'Indonesian' => '',
         'Input' => 'Input',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             'Pasang ispell atau aspell pada sistem, jika anda mahu menggunakan penyemak ejaanSila tentukan laluan kepada binari aspell atau ispell pada sistem operasi anda.',
@@ -6851,6 +6908,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Add all',
         'All-day',
         'An error occurred during communication.',
+        'An error occurred! Do you want to see the complete error message?',
         'An item with this name is already present.',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
         'Apply',
@@ -6858,6 +6916,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'April',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Attachments',
         'Aug',
         'August',
         'Cancel',
@@ -6876,25 +6935,31 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'December',
         'Delete',
         'Delete Entity',
+        'Delete field',
         'Delete invoker',
         'Delete operation',
         'Delete this Event Trigger',
         'Delete this Invoker',
         'Delete this Operation',
         'Delete webservice',
+        'Deleting the field and its data. This may take a while...',
         'Do not show this warning again.',
         'Do you really want to continue?',
         'Do you really want to delete this attachment?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this filter?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
+        'Do you really want to delete this statistic?',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this transition',
         'Error',
+        'Error during AJAX communication',
+        'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
         'Feb',
         'February',
@@ -6925,6 +6990,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Mo',
         'Mon',
         'Monday',
+        'Namespace %s could not be initialized, because %s could not be found.',
         'Next',
         'No TransitionActions assigned.',
         'No data found.',
@@ -6958,12 +7024,16 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Sep',
         'September',
         'Setting a template will overwrite any text or attachment.',
+        'Settings',
         'Show EntityIDs',
         'Show more',
         'Show or hide the content.',
         'Slide the navigation bar',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
         'Sorry, but you can\'t disable all methods for this notification.',
+        'Sorry, the only existing condition can\'t be removed.',
+        'Sorry, the only existing field can\'t be removed.',
+        'Sorry, the only existing parameter can\'t be removed.',
         'Su',
         'Sun',
         'Sunday',
@@ -6990,6 +7060,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'We',
         'Wed',
         'Wednesday',
+        'You have unanswered chat requests',
         'and %s more...',
         'day',
         'month',

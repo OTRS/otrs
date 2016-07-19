@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.86462244472257;
+    $Self->{Completeness}        = 0.817792068595927;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -121,7 +121,8 @@ sub Data {
         'You can use the following tags' => 'คุณสามารถใช้แท็กต่อไปนี้',
         'To get the first 20 character of the subject.' => 'เพื่อให้ได้20 ตัวอักษรแรกของเนื้อเรื่อง',
         'To get the first 5 lines of the email.' => 'เพื่อให้ได้5 บรรทัดแรกของอีเมล',
-        'To get the realname of the sender (if given).' => 'เพื่อให้ได้ชื่อจริงของผู้ส่ง (ถ้ามี)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'เพื่อให้ได้คุณลักษณะของบทความ',
         ' e. g.' => 'ตัวอย่างเช่น',
         'Options of the current customer user data' => 'ตัวเลือกของลูกค้าผู้ใช้ข้อมูลในปัจจุบัน',
@@ -261,10 +262,6 @@ sub Data {
         'Order' => 'ลำดับ',
         'Object' => 'ออบเจค',
         'Delete this field' => 'ลบฟิลด์นี้',
-        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            'คุณแน่ใจหรือไม่ที่จะลบไดมานิคฟิลด์นี้? ข้อมูลที่เกี่ยวข้องทั้งหมดจะหายไป!',
-        'Delete field' => 'ลบฟิลด์',
-        'Deleting the field and its data. This may take a while...' => 'การลบฟิลด์และข้อมูล อาจจะใช้เวลาสักครู่ ...',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'ไดมานิคฟิลด์',
@@ -668,7 +665,7 @@ sub Data {
             '\'FunctionName\' ถูกนำมาใช้เป็นตัวอย่างที่เกิดขึ้นจริงสำหรับInvoker / ชื่อการดำเนินงาน',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'FREETEXT\' ถูกนำมาใช้เป็นตัวอย่างสำหรับค่าการกำหนดค่าที่แท้จริง',
-        'Response name free text' => 'ชื่อการตอบสนองข้อความฟรี',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'ข้อความที่จะนำมาใช้เพื่อเป็นชื่อต่อท้ายหรือทดแทนฟังก์ชั่นการห่อหุ้ม',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -676,6 +673,7 @@ sub Data {
         'Response name scheme' => 'รูปแบบชื่อการตอบสนอง',
         'Select how SOAP response function wrapper should be constructed.' =>
             'เลือกวิธีที่ SOAP ตอบสนองฟังก์ชั่นการห่อหุ้มที่ควรจะสร้าง',
+        'Response name free text' => 'ชื่อการตอบสนองข้อความฟรี',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'คุณสามารถระบุขนาดสูงสุด(ไบต์)ของข้อความSOAP ที่OTRS จะดำเนินการที่นี้',
         'Encoding' => 'การเข้ารหัส',
@@ -1520,7 +1518,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'ใบรับรอง S/MIME',
-        'Close' => 'ปิด',
+        'Close dialog' => '',
         'Certificate Details' => '',
 
         # Template: AdminSalutation
@@ -1960,7 +1958,6 @@ sub Data {
         'Export statistic %s' => 'แก้ไขสถิติ %s',
         'Delete statistic "%s"' => 'ลบสถิติ "%s"',
         'Delete statistic %s' => 'ลบสถิติ %s',
-        'Do you really want to delete this statistic?' => 'คุณต้องการที่จะลบสถิตินี้หรือไม่?',
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'สถิติ » ดู %s%s — %s',
@@ -1975,13 +1972,13 @@ sub Data {
             'สถิตินี้ประกอบด้วยข้อผิดพลาดการตั้งค่าและไม่สามารถใช้งานได้ในขณะนี้',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => 'เปลี่ยนข้อความฟรีของ',
-        'Change Owner of %s%s' => 'เปลี่ยนเจ้าของของ %s%s',
-        'Close %s%s' => 'ปิด %s%s',
-        'Add Note to %s%s' => 'เพิ่มโน้ตไปยัง %s%s',
-        'Set Pending Time for %s%s' => 'ระบุเวลาการรอดำเนินการสำหรับ %s%s',
-        'Change Priority of %s%s' => 'เปลี่ยนลำดับความสำคัญของ %s%s',
-        'Change Responsible of %s%s' => 'เปลี่ยนความรับผิดชอบของ %s%s',
+        'Change Free Text of %s%s%s' => '',
+        'Change Owner of %s%s%s' => '',
+        'Close %s%s%s' => '',
+        'Add Note to %s%s%s' => '',
+        'Set Pending Time for %s%s%s' => '',
+        'Change Priority of %s%s%s' => '',
+        'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'ฟิลด์ที่มีเครื่องหมายดอกจันทั้งหมด (*) มีผลบังคับใช้',
         'Service invalid.' => 'การบริการที่ใช้ไม่ได้',
         'New Owner' => 'เจ้าของใหม่',
@@ -2004,7 +2001,7 @@ sub Data {
         'Invalid time!' => 'เวลาไม่ถูกต้อง!',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => 'การตีกลับ %s%s',
+        'Bounce %s%s%s' => '',
         'Bounce to' => 'การตีกลับไปยัง',
         'You need a email address.' => 'คุณจำเป็นต้องมีที่อยู่อีเมล',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2026,7 +2023,7 @@ sub Data {
         'Execute Bulk Action' => 'เริ่มดำเนินการเป็นกลุ่ม',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => 'เขียนคำตอบสำหรับ %s%s',
+        'Compose Answer for %s%s%s' => '',
         'This address is registered as system address and cannot be used: %s' =>
             'ที่อยู่นี้ถูกลงทะเบียนเป็นที่อยู่ในระบบและไม่สามารถนำมาใช้: %s',
         'Please include at least one recipient' => 'โปรดระบุผู้รับอย่างน้อยหนึ่งคน',
@@ -2040,7 +2037,7 @@ sub Data {
         'Date Invalid!' => 'วันที่ไม่ถูกต้อง!',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => 'เปลี่ยนลูกค้าของ %s%s',
+        'Change Customer of %s%s%s' => '',
         'Customer Information' => 'ข้อมูลลูกค้า',
 
         # Template: AgentTicketEmail
@@ -2054,7 +2051,7 @@ sub Data {
         'Get all' => 'ได้รับทั้งหมด',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => 'อีเมล์ขาออกสำหรับ %s%s',
+        'Outbound Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'ตั๋ว %s: หมดเวลาสำหรับตอบสนองครั้งแรก (%s/%s)!',
@@ -2065,17 +2062,17 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'ตั๋ว %s: เวลาการแก้ปัญหาจะจบลงภายใน %s/%s!',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => 'ส่งต่อ %s%s',
+        'Forward %s%s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => 'ประวัติของ %s%s',
+        'History of %s%s%s' => '',
         'History Content' => 'เนื้อหาประวัติ',
         'Zoom' => 'ซูม',
         'Createtime' => 'เวลาที่สร้าง',
         'Zoom view' => 'มุมมองการซูม',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => 'ผสาน %s%s',
+        'Merge %s%s%s' => '',
         'Merge Settings' => 'การตั้งค่าการผสาน',
         'You need to use a ticket number!' => 'คุณจำเป็นต้องใช้หมายเลขตั๋ว!',
         'A valid ticket number is required.' => 'จำเป็นต้องใช้หมายเลขตั๋วที่ถูกต้อง',
@@ -2083,7 +2080,7 @@ sub Data {
         'Need a valid email address.' => 'ต้องการที่อยู่อีเมลที่ถูกต้อง',
 
         # Template: AgentTicketMove
-        'Move %s%s' => 'ย้าย %s%s',
+        'Move %s%s%s' => '',
         'New Queue' => 'คิวใหม่',
         'Move' => 'ย้าย',
 
@@ -2117,10 +2114,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'แชทจะถูกผนวกเป็นบทความที่แยกต่างหาก',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => 'โทรศัพท์สำหรับ %s%s',
+        'Phone Call for %s%s%s' => '',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => 'ดูอีเมล์ข้อความธรรมดาสำหรับ %s%s',
+        'View Email Plain Text for %s%s%s' => '',
         'Plain' => 'ว่าง',
         'Download this email' => 'ดาวน์โหลดอีเมล์นี้',
 
@@ -2235,6 +2232,8 @@ sub Data {
         'go back to the previous page' => 'กลับไปที่หน้าก่อนหน้านี้',
 
         # Template: CustomerError
+        'An Error Occurred' => '',
+        'Error Details' => 'รายละเอียด ข้อผิดพลาด',
         'Traceback' => 'ตรวจสอบย้อนกลับ',
 
         # Template: CustomerFooter
@@ -2273,7 +2272,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'การร้องขอแชทขาเข้า',
-        'You have unanswered chat requests' => 'คุณมีคำขอร้องแชทที่ยังไม่ได้ตอบ',
         'Edit personal preferences' => 'แก้ไขการตั้งค่าส่วนตัว',
         'Preferences' => 'การกำหนดลักษณะ',
         'Logout %s %s' => 'ออกจากระบบ %s %s',
@@ -2336,25 +2334,18 @@ sub Data {
         'Dynamic fields' => 'ไดมานิคฟิลด์',
 
         # Template: Error
-        'An Error Occurred' => '',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
             '',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => 'ส่งรายงานข้อบกพร่อง',
-        'Error Details' => 'รายละเอียด ข้อผิดพลาด',
         'Expand' => 'การขยาย',
 
         # Template: FooterJS
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'ฟีเจอร์นี้เป็นส่วนหนึ่งของ%s กรุณาติดต่อได้ที่%s สำหรับการอัพเกรด',
         'Find out more about the %s' => 'ค้นหาข้อมูลเพิ่มเติมเกี่ยวกับ %s',
-        'Scale preview content' => 'ตัวอย่างสเกลเนื้อหา',
-        'Open URL in new tab' => '',
-        'Close preview' => 'ปิดการแสดงตัวอย่าง',
-        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
-            '',
 
         # Template: Header
         'Logout' => 'ออกจากระบบ',
@@ -2527,11 +2518,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'ช่วงเวลาที่เลือกไว้ในสถิติเป็นโซนเวลาที่เป็นกลาง',
         'Create summation row' => 'สร้างแถวผลรวม',
-        'Generate an additional row containing sums for all data columns.' =>
-            'สร้างแถวเพิ่มเติมที่ประกอบด้วยผลรวมสำหรับคอลัมน์ข้อมูลทั้งหมด',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'สร้างคอลัมน์ผลรวม',
-        'Generate an additional column containing sums for all data rows.' =>
-            'สร้างคอลัมน์เพิ่มเติมที่ประกอบด้วยผลรวมสำหรับแถวข้อมูลทั้งหมด',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'ผลการแคช',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'เก็บข้อมูลผลสถิติในแคชเพื่อที่จะใช้ในมุมมองที่ตามมากับการตั้งค่าเดียวกัน',
@@ -2571,6 +2562,8 @@ sub Data {
         'Configurable Params of Static Stat' => '',
         'No element selected.' => 'ไม่มีองค์ประกอบที่ถูกเลือก',
         'Scale' => 'สเกล',
+        'show more' => '',
+        'show less' => '',
 
         # Template: D3
         'Download SVG' => 'ดาวน์โหลด SVG',
@@ -3029,7 +3022,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'ต้องการ SourceObject และ SourceKey!',
-        'Please contact the admin.' => 'กรุณาติดต่อผู้ดูแลระบบ',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => 'คุณจำเป็นต้องได้รับอนุญาต',
         'Can not delete link with %s!' => 'ไม่สามารถลบการเชื่อมโยงด้วย %s!',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3069,7 +3062,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '% s จำเป็น!',
-        'Please contact your administrator' => 'กรุณาติดต่อผู้ดูแลระบบ',
         'Plain article not found for article %s!' => 'ไม่พบบทความเปล่าสำหรับบทความ %s!',
         'Article does not belong to ticket %s!' => 'บทความไม่ได้เป็นของตั๋ว %s!',
         'Can\'t bounce email!' => 'ไม่สามารถตีกลับอีเมล!',
@@ -3164,8 +3156,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'ไม่สามารถรับตั๋วสำหรับ TicketID: %s in _GetParam!',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             'ไม่สามารถตรวจสอบ ActivityEntityID ได้เพราะไม่ได้ตั้งค่า DynamicField หรือ Config อย่างถูกต้อง!',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            'DynamicFieldConfig ขาดหายไปสำหรับฟิลด์:% s หรือไม่ได้เป็นฟิลด์ตั๋วแบบไดนามิก!',
         'Process::Default%s Config Value missing!' => 'Process::Default%s การกำหนดค่า ค่าที่หายไป!',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             'ไม่ได้รับ ProcessEntityID หรือ TicketID และ ActivityDialogEntityID!',
@@ -3185,8 +3175,7 @@ sub Data {
         'for pending* states' => 'สำหรับสถานะที่ค้างอยู่ *',
         'ActivityDialogEntityID missing!' => 'ActivityDialogEntityID หายไป!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'ไม่สามารถได้รับการกำหนดค่าสำหรับ ActivityDialogEntityID "%s"!',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            'ไม่สามารถใช้ CustomerID เป็นฟิลด์ซ่อน กรุณาติดต่อผู้ดูแลระบบของคุณ!',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'ProcessEntityID หายไป โปรดตรวจสอบ ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3468,7 +3457,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRS Daemonไม่ทำงาน',
-        'Please contact your administrator!' => 'กรุณาติดต่อผู้ดูแลระบบของคุณ!',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
@@ -3499,7 +3487,7 @@ sub Data {
         'Please supply your new password!' => 'กรุณาใส่รหัสผ่านใหม่ของคุณ!',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             'ไม่สามารถอัพเดตรหัสผ่าน เนื่องจากรหัสผ่านใหม่ของคุณไม่ตรงกัน กรุณาลองอีกครั้ง!',
-        'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.' =>
+        'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
             'ไม่สามารถอัพเดตรหัสผ่าน ต้องมีความยาวอักขระอย่างน้อย% s!',
@@ -3513,6 +3501,9 @@ sub Data {
         'Time zone updated successfully!' => '',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
+        'invalid' => 'ถูกต้อง',
+        'valid' => 'ถูกต้อง',
+        'No (not supported)' => '',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'ที่ผ่านมาหรือในปัจจุบัน+กำลังจะมาถึงไม่สมบูรณ์ในเวลาที่สัมพันธ์กันค่าที่เลือก',
         'The selected time period is larger than the allowed time period.' =>
@@ -3626,6 +3617,7 @@ sub Data {
         'Created State' => 'สถานะถูกสร้างแล้ว',
         'CustomerUserLogin' => 'CustomerUserLogin',
         'Create Time' => 'เวลาที่สร้าง',
+        'Until Time' => '',
         'Close Time' => 'เวลาที่ปิด',
         'Escalation' => 'การขยาย',
         'Escalation - First Response Time' => 'การขยาย - เวลาที่ตอบสนองครั้งแรก',
@@ -3640,13 +3632,50 @@ sub Data {
         'Ticket Create Time' => 'เวลาที่สร้างตั๋ว',
         'Ticket Close Time' => 'เวลาที่ปิดตั๋ว',
         'Accounted time by Agent' => 'เวลาที่คิดโดยเอเย่นต์',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+        'unlimited' => '',
+        'ascending' => '',
+        'descending' => '',
         'Attributes to be printed' => 'แอตทริบิวต์ที่จะพิมพ์',
         'Sort sequence' => 'เรียงลำดับ',
         'State Historic' => 'ประวัติสถานะ',
         'State Type Historic' => 'ประวัติประเภทสถานะ',
+        'Until times' => '',
         'Historic Time Range' => 'ช่วงเวลาของประวัติ',
+
+        # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
+        'Solution Average' => '',
+        'Solution Min Time' => '',
+        'Solution Max Time' => '',
+        'Solution Average (affected by escalation configuration)' => '',
+        'Solution Min Time (affected by escalation configuration)' => '',
+        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Solution Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Solution Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Average (affected by escalation configuration)' => '',
+        'Response Min Time (affected by escalation configuration)' => '',
+        'Response Max Time (affected by escalation configuration)' => '',
+        'Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'วัน',
@@ -3918,7 +3947,7 @@ sub Data {
             'เข้าระบบลงล้มเหลว! ชื่อผู้ใช้หรือรหัสผ่านของคุณไม่ถูกต้อง',
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
-        'Can`t remove SessionID' => 'ไม่สามารถลบ SessionID',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'ออกจากระบบประสบความสำเร็จ',
         'Feature not active!' => 'ฟีเจอร์ใช้งานไม่ได้!',
         'Sent password reset instructions. Please check your email.' => 'ได้ส่งคำแนะนำสำหรับการรีเซ็ตรหัสผ่านแล้ว กรุณาตรวจสอบอีเมลของคุณ',
@@ -3928,10 +3957,10 @@ sub Data {
         'No Permission to use this frontend module!' => 'ไม่มีการอนุญาตให้ใช้โมดูลส่วนหน้านี้!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            'การตรวจสอบสิทธิ์เสร็จสิ้นแล้วแต่ไม่พบบันทึกลูกค้าในแบ็กเอนด์ของลูกค้า กรุณาติดต่อผู้ดูแลระบบ',
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'รีเซ็ตรหัสผ่านไม่สำเร็จ กรุณาติดต่อผู้ดูแลระบบ',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'อีเมลนี้มีอยู่แล้วกรุณาเข้าสู่ระบบหรือรีเซ็ตรหัสผ่านของคุณ',
         'This email address is not allowed to register. Please contact support staff.' =>
@@ -3944,13 +3973,11 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'ใช้งาน SecureMode!',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            'หากคุณต้องการที่จะเรียกตัวติดตั้งปิดการใช้งานโหมดที่ปลอดภัยใน sysconfig',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'ไม่พบการกระทำ "%s"!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
-        'valid' => 'ถูกต้อง',
-        'invalid' => 'ถูกต้อง',
         'invalid-temporarily' => 'ไม่ถูกต้องชั่วคราว',
         'Group for default access.' => 'กลุ่มสำหรับการเข้าถึงเริ่มต้น',
         'Group of all administrators.' => 'กลุ่มของผู้บริหารทั้งหมด',
@@ -4062,6 +4089,9 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             'คุณจะได้รับการแจ้งเตือนหากบริการจองตั๋วมีการเปลี่ยนแปลงให้เป็นหนึ่งใน "บริการของฉัน"',
 
+        # JS File: Core.AJAX
+        'Error during AJAX communication. Status: %s, Error: %s' => '',
+
         # JS File: Core.Agent.Admin.ACL
         'Add all' => 'เพิ่มทั้งหมด',
         'An item with this name is already present.' => 'ไอเท็มที่ใช้ชื่อนี้ได้ถูกนำเสนอแล้ว',
@@ -4070,6 +4100,12 @@ sub Data {
 
         # JS File: Core.Agent.Admin.Attachment
         'Do you really want to delete this attachment?' => '',
+
+        # JS File: Core.Agent.Admin.DynamicField
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            'คุณแน่ใจหรือไม่ที่จะลบไดมานิคฟิลด์นี้? ข้อมูลที่เกี่ยวข้องทั้งหมดจะหายไป!',
+        'Delete field' => 'ลบฟิลด์',
+        'Deleting the field and its data. This may take a while...' => 'การลบฟิลด์และข้อมูล อาจจะใช้เวลาสักครู่ ...',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'ลบการคัดเลือก',
@@ -4123,6 +4159,7 @@ sub Data {
         'Delete Entity' => 'ลบเอ็นติตี้',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'กิจกรรมนี้ถูกใช้แล้วในกระบวนการนี้ คุณไม่สามารถเพิ่มอีกเป็นครั้งที่สอง!',
+        'Error during AJAX communication' => '',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             'การเปลี่ยนผ่านที่ไม่เกี่ยวเนื่องกันถูกวางไว้แล้วบนผ้าใบแล้วโปรดเชื่อมต่อการเปลี่ยนผ่านนี้ก่อนที่จะวางการเปลี่ยนผ่านอื่นๆ',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
@@ -4132,6 +4169,9 @@ sub Data {
         'Hide EntityIDs' => 'ซ่อน EntityIDs',
         'Edit Field Details' => 'แก้ไขรายละเอียดของฟิลด์',
         'Customer interface does not support internal article types.' => 'อินเตอร์เฟซของลูกค้าไม่สนับสนุนประเภทบทความภายใน',
+        'Sorry, the only existing condition can\'t be removed.' => '',
+        'Sorry, the only existing field can\'t be removed.' => '',
+        'Sorry, the only existing parameter can\'t be removed.' => '',
 
         # JS File: Core.Agent.Admin.SMIME
         'Do you really want to delete this certificate?' => '',
@@ -4218,6 +4258,9 @@ sub Data {
         'Please remove the following words from your search as they cannot be searched for:' =>
             'โปรดลบคำต่อไปนี้จากการค้นหาของคุณเนื่องจากไม่สามารถค้นหาได้:',
 
+        # JS File: Core.Agent.Statistics
+        'Do you really want to delete this statistic?' => 'คุณต้องการที่จะลบสถิตินี้หรือไม่?',
+
         # JS File: Core.Agent.TicketAction
         'Please perform a spell check on the the text first.' => 'โปรดดำเนินการตรวจสอบการสะกดในข้อความแรก',
         'Close this dialog' => 'ปิดไดอะล็อกนี้',
@@ -4229,6 +4272,17 @@ sub Data {
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'สลับเป็นโหมดมือถือ',
+
+        # JS File: Core.Customer
+        'You have unanswered chat requests' => 'คุณมีคำขอร้องแชทที่ยังไม่ได้ตอบ',
+
+        # JS File: Core.Debug
+        'Namespace %s could not be initialized, because %s could not be found.' =>
+            '',
+
+        # JS File: Core.Exception
+        'An error occurred! Do you want to see the complete error message?' =>
+            '',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'มีหนึ่งหรือมากกว่าหนึ่งข้อผิดพลาดเกิดขึ้น!',
@@ -4250,6 +4304,9 @@ sub Data {
         'Invalid date (need a future date)!' => 'วันที่ไม่ถูกต้อง (ต้องใช้วันที่ในอนาคต)!',
         'Invalid date (need a past date)!' => 'วันที่ไม่ถูกต้อง (ต้องใช้วันที่ผ่านมา)!',
         'Invalid date!' => 'วันที่ไม่ถูกต้อง!',
+
+        # JS File: Core.UI.Dialog
+        'Close' => 'ปิด',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'ไม่พร้อมใช้งาน',
@@ -4620,7 +4677,6 @@ Thanks for your help!
             'ข้อความที่กำหนดเองสำหรับหน้าเว็บที่แสดงลูกค้าที่ยังไม่มีตั๋ว(ถ้าคุณต้องการแปลข้อความเหล่านั้น ต้องเพิ่มเข้าไปในโมดูลการแปลที่กำหนดเอง)',
         'Customer Administration' => 'การบริหารลูกค้า',
         'Customer Companies' => 'บริษัทลูกค้า',
-        'Customer Company' => '',
         'Customer Information Center Search.' => 'การค้นหาศูนย์ข้อมูลลูกค้า',
         'Customer Information Center.' => 'ศูนย์ข้อมูลลูกค้า',
         'Customer Ticket Print Module.' => 'โมดูลพิมพ์ตั๋วลูกค้า',
@@ -5765,6 +5821,7 @@ Thanks for your help!
         'Incoming Phone Call.' => 'โทรศัพท์สายเข้า',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => 'การป้อนเข้า',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
@@ -6858,6 +6915,7 @@ Thanks for your help!
         'Add all',
         'All-day',
         'An error occurred during communication.',
+        'An error occurred! Do you want to see the complete error message?',
         'An item with this name is already present.',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
         'Apply',
@@ -6865,6 +6923,7 @@ Thanks for your help!
         'April',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Attachments',
         'Aug',
         'August',
         'Cancel',
@@ -6883,25 +6942,31 @@ Thanks for your help!
         'December',
         'Delete',
         'Delete Entity',
+        'Delete field',
         'Delete invoker',
         'Delete operation',
         'Delete this Event Trigger',
         'Delete this Invoker',
         'Delete this Operation',
         'Delete webservice',
+        'Deleting the field and its data. This may take a while...',
         'Do not show this warning again.',
         'Do you really want to continue?',
         'Do you really want to delete this attachment?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this filter?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
+        'Do you really want to delete this statistic?',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this transition',
         'Error',
+        'Error during AJAX communication',
+        'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
         'Feb',
         'February',
@@ -6932,6 +6997,7 @@ Thanks for your help!
         'Mo',
         'Mon',
         'Monday',
+        'Namespace %s could not be initialized, because %s could not be found.',
         'Next',
         'No TransitionActions assigned.',
         'No data found.',
@@ -6965,12 +7031,16 @@ Thanks for your help!
         'Sep',
         'September',
         'Setting a template will overwrite any text or attachment.',
+        'Settings',
         'Show EntityIDs',
         'Show more',
         'Show or hide the content.',
         'Slide the navigation bar',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
         'Sorry, but you can\'t disable all methods for this notification.',
+        'Sorry, the only existing condition can\'t be removed.',
+        'Sorry, the only existing field can\'t be removed.',
+        'Sorry, the only existing parameter can\'t be removed.',
         'Su',
         'Sun',
         'Sunday',
@@ -6997,6 +7067,7 @@ Thanks for your help!
         'We',
         'Wed',
         'Wednesday',
+        'You have unanswered chat requests',
         'and %s more...',
         'day',
         'month',

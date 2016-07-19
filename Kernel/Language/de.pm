@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.893304535637149;
+    $Self->{Completeness}        = 0.880385852090032;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -121,7 +121,8 @@ sub Data {
         'You can use the following tags' => 'Die folgenden Tags können benutzt werden',
         'To get the first 20 character of the subject.' => 'Die ersten 20 Zeichen des Betreffs',
         'To get the first 5 lines of the email.' => 'Die ersten fünf Zeilen der Nachricht',
-        'To get the realname of the sender (if given).' => 'Der Name des Benutzers (wenn angegeben)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Die Artikel-Attribute',
         ' e. g.' => 'z. B.',
         'Options of the current customer user data' => 'Attribute des aktuellen Kunden',
@@ -261,10 +262,6 @@ sub Data {
         'Order' => 'Sortierung',
         'Object' => 'Objekt',
         'Delete this field' => 'Dieses Feld löschen',
-        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            'Wollen Sie dieses dynamische Feld wirklich löschen? Alle darin enthaltenen Daten werden GELÖSCHT!',
-        'Delete field' => 'Feld löschen',
-        'Deleting the field and its data. This may take a while...' => 'Lösche das Feld und die zugehörigen Daten. Dies kann etwas dauern...',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dynamische Felder',
@@ -668,7 +665,7 @@ sub Data {
             '\'FunctionName\' wird als Beispiel für den tatsächlichen Namen eines Invokers / einer Operation verwendet.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'FreeText\' wird als Beispiel für einen tatsächlich konfigurierten Wert verwendet.',
-        'Response name free text' => 'Freitext für den Antwortnamen',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Text, der als Anhang oder Ersatz für den Funktionsnamen verwendet werden soll.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -676,6 +673,7 @@ sub Data {
         'Response name scheme' => 'Antwort-Namensschema',
         'Select how SOAP response function wrapper should be constructed.' =>
             'Wählen Sie, wie die SOAP-Antwort konstruiert werden soll.',
+        'Response name free text' => 'Freitext für den Antwortnamen',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Hier können Sie eine Maximalgröße für SOAP-Nachrichten (in Bytes) angeben, die OTRS verarbeitet.',
         'Encoding' => 'Kodierung',
@@ -1516,7 +1514,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'S/MIME-Zertifikat',
-        'Close' => 'Schließen',
+        'Close dialog' => '',
         'Certificate Details' => '',
 
         # Template: AdminSalutation
@@ -1955,7 +1953,6 @@ sub Data {
         'Export statistic %s' => 'Statistik %s exportieren',
         'Delete statistic "%s"' => 'Statistik "%s" löschen',
         'Delete statistic %s' => 'Statistik %s löschen',
-        'Do you really want to delete this statistic?' => 'Möchten Sie diese Statistik wirklich löschen?',
 
         # Template: AgentStatisticsView
         'Statistics » View %s%s — %s' => 'Statistiken » Ansicht %s%s — %s',
@@ -1970,13 +1967,13 @@ sub Data {
             'Diese Statistik enthält Konfigurationsfehler und kann momentan nicht verwendet werden.',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s' => 'Den Freitext von %s%s ändern',
-        'Change Owner of %s%s' => 'Eigentümer von %s%s ändern',
-        'Close %s%s' => '%s%s schließen',
-        'Add Note to %s%s' => 'Notiz zu %s%s hinzufügen',
-        'Set Pending Time for %s%s' => 'Wartezeit setzen für %s%s',
-        'Change Priority of %s%s' => 'Priorität von %s%s ändern',
-        'Change Responsible of %s%s' => 'Verantwortlichen von %s%s ändern',
+        'Change Free Text of %s%s%s' => '',
+        'Change Owner of %s%s%s' => '',
+        'Close %s%s%s' => '',
+        'Add Note to %s%s%s' => '',
+        'Set Pending Time for %s%s%s' => '',
+        'Change Priority of %s%s%s' => '',
+        'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Alle mit * gekennzeichneten Felder sind Pflichtfelder.',
         'Service invalid.' => 'Ungültiger Service',
         'New Owner' => 'Neuer Besitzer',
@@ -1999,7 +1996,7 @@ sub Data {
         'Invalid time!' => 'Ungültige Zeitangabe!',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s' => 'Umleiten %s%s',
+        'Bounce %s%s%s' => '',
         'Bounce to' => 'Umleiten an',
         'You need a email address.' => 'Sie benötigen eine E-Mail-Adresse',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2021,7 +2018,7 @@ sub Data {
         'Execute Bulk Action' => 'Sammelaktion ausführen',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s' => 'Antwort für %s%s verfassen',
+        'Compose Answer for %s%s%s' => '',
         'This address is registered as system address and cannot be used: %s' =>
             'Diese Adresse ist als Systemadresse registriert und kann daher nicht verwendet werden: %s.',
         'Please include at least one recipient' => 'Bitte geben sie mindestens einen Empfänger an',
@@ -2035,7 +2032,7 @@ sub Data {
         'Date Invalid!' => 'Ungültiges Datum!',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s' => 'Kunde von %s%s ändern',
+        'Change Customer of %s%s%s' => '',
         'Customer Information' => 'Kundeninformation',
 
         # Template: AgentTicketEmail
@@ -2049,7 +2046,7 @@ sub Data {
         'Get all' => 'Alles holen',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s' => 'Ausgehende E-Mail für %s%s',
+        'Outbound Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Ticket %s: erste Reaktionszeit ist abgelaufen (%s/%s)!',
@@ -2060,17 +2057,17 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'Ticket %s: Lösungszeit wird ablaufen in %s/%s!',
 
         # Template: AgentTicketForward
-        'Forward %s%s' => '%s%s weiterleiten',
+        'Forward %s%s%s' => '',
 
         # Template: AgentTicketHistory
-        'History of %s%s' => 'Verlauf von %s%s',
+        'History of %s%s%s' => '',
         'History Content' => 'Änderungsverlauf',
         'Zoom' => 'Inhalt',
         'Createtime' => 'Erstellt am',
         'Zoom view' => 'Großansicht',
 
         # Template: AgentTicketMerge
-        'Merge %s%s' => '%s%s zusammenführen',
+        'Merge %s%s%s' => '',
         'Merge Settings' => 'Zusammenführungseinstellungen',
         'You need to use a ticket number!' => 'Bitte eine Ticketnummer benutzen!',
         'A valid ticket number is required.' => 'Eine gültige Ticketnummer ist erforderlich.',
@@ -2078,7 +2075,7 @@ sub Data {
         'Need a valid email address.' => 'Benötige gültige E-Mail-Adresse.',
 
         # Template: AgentTicketMove
-        'Move %s%s' => '%s%s verschieben',
+        'Move %s%s%s' => '',
         'New Queue' => 'Neue Queue',
         'Move' => 'Verschieben',
 
@@ -2112,10 +2109,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'Der Chat wird als separater Artikel angefügt.',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s' => 'Anruf für %s%s',
+        'Phone Call for %s%s%s' => '',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s' => 'E-Mail-Klartext für %s%s ansehen',
+        'View Email Plain Text for %s%s%s' => '',
         'Plain' => 'Unformatiert',
         'Download this email' => 'Diese E-Mail herunterladen',
 
@@ -2230,6 +2227,8 @@ sub Data {
         'go back to the previous page' => 'zurück zur vorhergehenden Seite',
 
         # Template: CustomerError
+        'An Error Occurred' => '',
+        'Error Details' => 'Fehlerdetails',
         'Traceback' => 'Traceback',
 
         # Template: CustomerFooter
@@ -2268,7 +2267,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Eingehende Chatanfragen',
-        'You have unanswered chat requests' => 'Sie haben unbeantwortete Chatanfragen',
         'Edit personal preferences' => 'Persönliche Einstellungen vornehmen',
         'Preferences' => 'Einstellungen',
         'Logout %s %s' => '%s %s abmelden',
@@ -2331,25 +2329,18 @@ sub Data {
         'Dynamic fields' => 'Dynamische Felder',
 
         # Template: Error
-        'An Error Occurred' => '',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
             '',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => 'einen Fehlerbericht senden',
-        'Error Details' => 'Fehlerdetails',
         'Expand' => 'Ausklappen',
 
         # Template: FooterJS
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Diese Funktion ist Teil von %s. Bitte kontaktieren Sie uns unter %s bezüglich eines Upgrades.',
         'Find out more about the %s' => 'Erfahren Sie mehr über den %s',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
-        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
-            '',
 
         # Template: Header
         'Logout' => 'Abmelden',
@@ -2522,11 +2513,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'Die ausgewählten Zeitperioden der Statistik sind Zeitzonen-unabhängig.',
         'Create summation row' => 'Summenzeile erzeugen',
-        'Generate an additional row containing sums for all data columns.' =>
-            'Eine zusätzliche Zeile mit Summen für alle Datenspalten erzeugen.',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'Summenspalte erzeugen',
-        'Generate an additional column containing sums for all data rows.' =>
-            'Eine zusätzliche Spalte mit Summen für alle Datenzeilen erzeugen.',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'Ergebnisse cachen',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Speichert Statistikergebnisse in einem Cache, der in weiteren Aufrufen mit derselben Konfiguration verwendet wird.',
@@ -2566,6 +2557,8 @@ sub Data {
         'Configurable Params of Static Stat' => '',
         'No element selected.' => 'Es wurde kein Element ausgewählt.',
         'Scale' => 'Skalierung',
+        'show more' => '',
+        'show less' => '',
 
         # Template: D3
         'Download SVG' => 'SVG herunterladen',
@@ -3024,7 +3017,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Benötige SourceObject und SourceKey!',
-        'Please contact the admin.' => 'Bitte kontaktieren Sie einen Administrator.',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => 'Sie benötigen die ro-Berechtigung!',
         'Can not delete link with %s!' => 'Kann Link mit %s nicht entfernen.',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3064,7 +3057,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '%s wird benötigt!',
-        'Please contact your administrator' => 'Bitte kontaktieren Sie Ihren Administrator',
         'Plain article not found for article %s!' => 'Nur-Text-Version für Artikel %s nicht gefunden!',
         'Article does not belong to ticket %s!' => 'Artikel gehört nicht zu Ticket %s!',
         'Can\'t bounce email!' => 'Kann E-Mail nicht abweisen!',
@@ -3159,8 +3151,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'Konnte Ticket für TicketID %s in _GetParam nicht ermitteln!',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             'Konnte ActivityEntityID nicht ermitteln. Dynamisches Feld oder Konfiguration nicht korrekt.',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            'DynamicFieldConfig für Feld %s fehlt, oder es handelt sich dabei nicht um ein Dynamisches Feld für Tickets.',
         'Process::Default%s Config Value missing!' => 'Process::Default%s Konfigurationswert fehlt!',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             'Weder ProcessEntityID, noch TicketID und ActivityDialogEntityID empfangen!',
@@ -3180,8 +3170,7 @@ sub Data {
         'for pending* states' => 'für warten* Status',
         'ActivityDialogEntityID missing!' => 'ActivityDialogEntityID wird benötigt!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Konnte Konfiguration für ActivityDialogEntityID "%s" nicht ermitteln!',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            'Konnte CustomerID nicht als unsichtbares Feld verwenden. Bitte kontaktieren Sie Ihren Administrator.',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'ProcessEntityID fehlt, bitte prüfen Sie Ihre ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3463,7 +3452,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'Der OTRS Daemon läuft nicht.',
-        'Please contact your administrator!' => 'Bitte kontaktieren Sie ihren Administrator',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
@@ -3494,7 +3482,7 @@ sub Data {
         'Please supply your new password!' => 'Bitte bestätigen Sie ihr neues Passwort',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             'Das Passwort kann nicht aktualisiert werden, da die Eingaben unterschiedlich sind. Bitte versuchen Sie es erneut!',
-        'This password is forbidden by the current system configuration. Please contact your admin if you have additional questions.' =>
+        'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Das Passwort kann nicht aktualisiert werden. Es muss mindestens %s Zeichen lang sein.',
@@ -3508,6 +3496,9 @@ sub Data {
         'Time zone updated successfully!' => '',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
+        'invalid' => 'ungültig',
+        'valid' => 'gültig',
+        'No (not supported)' => '',
         'No past complete or the current+upcoming complete relative time value selected.' =>
             'Kein relativer Zeitraum ausgewählt.',
         'The selected time period is larger than the allowed time period.' =>
@@ -3621,6 +3612,7 @@ sub Data {
         'Created State' => 'Erstellt mit dem Status',
         'CustomerUserLogin' => 'Kundenlogin',
         'Create Time' => 'Erstellzeit',
+        'Until Time' => '',
         'Close Time' => 'Schließzeit',
         'Escalation' => 'Eskalation',
         'Escalation - First Response Time' => 'Eskalation - Zeit für die erste Reaktion',
@@ -3635,13 +3627,50 @@ sub Data {
         'Ticket Create Time' => 'Ticket-Erstellzeit',
         'Ticket Close Time' => 'Ticket-Schließzeit',
         'Accounted time by Agent' => 'Zeit zugewiesen von Agent',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+        'unlimited' => '',
+        'ascending' => '',
+        'descending' => '',
         'Attributes to be printed' => 'Auszugebene Attribute',
         'Sort sequence' => 'Sortierreihenfolge',
         'State Historic' => 'Statuschronik',
         'State Type Historic' => 'Statustypchronik',
+        'Until times' => '',
         'Historic Time Range' => 'Historischer Zeitbereich',
+
+        # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
+        'Solution Average' => '',
+        'Solution Min Time' => '',
+        'Solution Max Time' => '',
+        'Solution Average (affected by escalation configuration)' => '',
+        'Solution Min Time (affected by escalation configuration)' => '',
+        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Solution Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Solution Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Average (affected by escalation configuration)' => '',
+        'Response Min Time (affected by escalation configuration)' => '',
+        'Response Max Time (affected by escalation configuration)' => '',
+        'Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => '',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Tage',
@@ -3913,7 +3942,7 @@ sub Data {
             'Anmeldung fehlgeschlagen! Benutzername oder Passwort wurden falsch eingegeben.',
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Achtung, der Benutzer wurde authentifiziert, aber es konnten keine Benutzerdaten in der Datenbank gefunden worden. Möglicherweise ist der Benutzer ungültig.',
-        'Can`t remove SessionID' => 'Kann SessionID nicht enfernen',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Abmeldung erfolgreich.',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Sent password reset instructions. Please check your email.' => 'Anweisungen zum Zurücksetzen des Passworts wurden gesendet. Bitte prüfen Sie ihre E-Mail.',
@@ -3923,10 +3952,10 @@ sub Data {
         'No Permission to use this frontend module!' => 'Sie haben keine Berechtigung, dieses Modul zu nutzen!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            'Authentifizierung erfolgreich, aber im Kunden-Backend wurde kein Kunden-Eintrag gefunden. Bitte kontaktieren Sie Ihren Administrator.',
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'Passwort zurücksetzen fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Diese E-Mail-Adresse existiert bereits. Bitte melden Sie sich an oder setzen Ihr Passwort zurück.',
         'This email address is not allowed to register. Please contact support staff.' =>
@@ -3939,13 +3968,11 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'SecureMode ist aktiv!',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            'Wenn Sie den Installer erneut ausführen wollen, schalten Sie "SecureMode" in der SysConfig ab',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'Aktion "%s" nicht gefunden!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
-        'valid' => 'gültig',
-        'invalid' => 'ungültig',
         'invalid-temporarily' => 'ungültig-temporär',
         'Group for default access.' => 'Gruppe für den Standardzugriff.',
         'Group of all administrators.' => 'Gruppe aller Administratoren.',
@@ -4057,6 +4084,9 @@ sub Data {
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             'Sie erhalten eine Benachrichtigung, wenn für ein Ticket einer der Services ausgewählt wurde, die Sie unter "Meine Services" ausgewählt haben.',
 
+        # JS File: Core.AJAX
+        'Error during AJAX communication. Status: %s, Error: %s' => '',
+
         # JS File: Core.Agent.Admin.ACL
         'Add all' => 'Alle hinzufügen',
         'An item with this name is already present.' => 'Ein Eintrag mit diesem Namen existiert bereits.',
@@ -4065,6 +4095,12 @@ sub Data {
 
         # JS File: Core.Agent.Admin.Attachment
         'Do you really want to delete this attachment?' => '',
+
+        # JS File: Core.Agent.Admin.DynamicField
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            'Wollen Sie dieses dynamische Feld wirklich löschen? Alle darin enthaltenen Daten werden GELÖSCHT!',
+        'Delete field' => 'Feld löschen',
+        'Deleting the field and its data. This may take a while...' => 'Lösche das Feld und die zugehörigen Daten. Dies kann etwas dauern...',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Auswahl entfernen',
@@ -4118,6 +4154,7 @@ sub Data {
         'Delete Entity' => 'Eintrag löschen',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Diese Aktivität wird bereits im Prozess verwendet. Sie können sie nicht erneut hinzufügen!',
+        'Error during AJAX communication' => '',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             'Auf der Zeichenfläche ist ein nicht verbundener Übergang vorhanden. Bitte verbinden Sie diesen Übergang zuerst, bevor Sie einen weiteren Übergang platzieren.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
@@ -4127,6 +4164,9 @@ sub Data {
         'Hide EntityIDs' => 'EntityIDs ausblenden',
         'Edit Field Details' => 'Feld-Details bearbeiten',
         'Customer interface does not support internal article types.' => 'Die Kundenoberfläche unterstützt keine internen Artikeltypen.',
+        'Sorry, the only existing condition can\'t be removed.' => '',
+        'Sorry, the only existing field can\'t be removed.' => '',
+        'Sorry, the only existing parameter can\'t be removed.' => '',
 
         # JS File: Core.Agent.Admin.SMIME
         'Do you really want to delete this certificate?' => '',
@@ -4213,6 +4253,9 @@ sub Data {
         'Please remove the following words from your search as they cannot be searched for:' =>
             'Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, da nach ihnen nicht gesucht werden kann:',
 
+        # JS File: Core.Agent.Statistics
+        'Do you really want to delete this statistic?' => 'Möchten Sie diese Statistik wirklich löschen?',
+
         # JS File: Core.Agent.TicketAction
         'Please perform a spell check on the the text first.' => 'Bitte führen Sie zuerst eine Rechtschreibprüfung aus.',
         'Close this dialog' => 'Diesen Dialog schließen',
@@ -4224,6 +4267,17 @@ sub Data {
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Zur mobilen Ansicht wechseln',
+
+        # JS File: Core.Customer
+        'You have unanswered chat requests' => 'Sie haben unbeantwortete Chatanfragen',
+
+        # JS File: Core.Debug
+        'Namespace %s could not be initialized, because %s could not be found.' =>
+            '',
+
+        # JS File: Core.Exception
+        'An error occurred! Do you want to see the complete error message?' =>
+            '',
 
         # JS File: Core.Form.Validate
         'One or more errors occurred!' => 'Ein oder mehrere Fehler sind aufgetreten!',
@@ -4245,6 +4299,9 @@ sub Data {
         'Invalid date (need a future date)!' => 'Ungültiges Datum (benötige Datum in der Zukunft)!',
         'Invalid date (need a past date)!' => 'Ungültiges Datum (benötige Datum in der Vergangenheit)!',
         'Invalid date!' => 'Ungültige Zeitangabe!',
+
+        # JS File: Core.UI.Dialog
+        'Close' => 'Schließen',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'Nicht verfügbar',
@@ -4614,7 +4671,6 @@ Ihr Helpdesk-Team
             'Benutzerdefinierter Text für Kunden, die noch keine Tickets haben (wenn Sie für diesen Text eine Übersetzung wünschen, fügen Sie die Übersetzung in einem eigenen Übersetzungsmodul hinzu).',
         'Customer Administration' => 'Kundenverwaltung',
         'Customer Companies' => 'Kunden',
-        'Customer Company' => '',
         'Customer Information Center Search.' => 'Kunden-Informationszentrum-Suche.',
         'Customer Information Center.' => 'Kunden-Informationszentrum.',
         'Customer Ticket Print Module.' => 'Kunden-Ticketdruck-Modul.',
@@ -5755,6 +5811,7 @@ Ihr Helpdesk-Team
         'Incoming Phone Call.' => 'Eingehender Telefonanruf.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => 'Eingabe',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
@@ -6848,6 +6905,7 @@ Ihr Helpdesk-Team
         'Add all',
         'All-day',
         'An error occurred during communication.',
+        'An error occurred! Do you want to see the complete error message?',
         'An item with this name is already present.',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.',
         'Apply',
@@ -6855,6 +6913,7 @@ Ihr Helpdesk-Team
         'April',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
+        'Attachments',
         'Aug',
         'August',
         'Cancel',
@@ -6873,25 +6932,31 @@ Ihr Helpdesk-Team
         'December',
         'Delete',
         'Delete Entity',
+        'Delete field',
         'Delete invoker',
         'Delete operation',
         'Delete this Event Trigger',
         'Delete this Invoker',
         'Delete this Operation',
         'Delete webservice',
+        'Deleting the field and its data. This may take a while...',
         'Do not show this warning again.',
         'Do you really want to continue?',
         'Do you really want to delete this attachment?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this filter?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
+        'Do you really want to delete this statistic?',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this transition',
         'Error',
+        'Error during AJAX communication',
+        'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
         'Feb',
         'February',
@@ -6922,6 +6987,7 @@ Ihr Helpdesk-Team
         'Mo',
         'Mon',
         'Monday',
+        'Namespace %s could not be initialized, because %s could not be found.',
         'Next',
         'No TransitionActions assigned.',
         'No data found.',
@@ -6955,12 +7021,16 @@ Ihr Helpdesk-Team
         'Sep',
         'September',
         'Setting a template will overwrite any text or attachment.',
+        'Settings',
         'Show EntityIDs',
         'Show more',
         'Show or hide the content.',
         'Slide the navigation bar',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
         'Sorry, but you can\'t disable all methods for this notification.',
+        'Sorry, the only existing condition can\'t be removed.',
+        'Sorry, the only existing field can\'t be removed.',
+        'Sorry, the only existing parameter can\'t be removed.',
         'Su',
         'Sun',
         'Sunday',
@@ -6987,6 +7057,7 @@ Ihr Helpdesk-Team
         'We',
         'Wed',
         'Wednesday',
+        'You have unanswered chat requests',
         'and %s more...',
         'day',
         'month',
