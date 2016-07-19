@@ -9534,6 +9534,7 @@ via the Preferences button after logging in.
                 </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.SupportDataCollector.css</CSS>
+                    <JavaScript>Core.Agent.Admin.SupportDataCollector.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
