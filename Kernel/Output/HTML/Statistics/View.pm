@@ -2243,15 +2243,7 @@ sub _ColumnAndRowTranslation {
         }
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # create language object
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::Language' => {
-            UserLanguage => $Param{UserLanguage} || $ConfigObject->Get('DefaultLanguage') || 'en',
-            }
-    );
+    # get language object
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     # find out, if the column or row names should be translated
