@@ -266,28 +266,50 @@ sub Login {
 
     $Self->{UnitTestObject}->True( 1, 'Initiating login...' );
 
-    eval {
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+    # we will try several times to log in
+    my $MaxTries = 5;
 
-        if ( $Param{Type} eq 'Agent' ) {
-            $ScriptAlias .= 'index.pl';
+    TRY:
+    for my $Try ( 1 .. $MaxTries ) {
+
+        eval {
+            my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+            if ( $Param{Type} eq 'Agent' ) {
+                $ScriptAlias .= 'index.pl';
+            }
+            else {
+                $ScriptAlias .= 'customer.pl';
+            }
+
+            $Self->get("${ScriptAlias}");
+
+            $Self->delete_all_cookies();
+            $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
+
+            # login successful?
+            $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
+
+            $Self->{UnitTestObject}->True( 1, 'Login sequence ended...' );
+        };
+
+        # an error happend
+        if ($@) {
+
+            $Self->{UnitTestObject}->True( 1, "Login attempt $Try of $MaxTries not successful." );
+
+            # try again
+            next TRY if $Try < $MaxTries;
+
+            # log error
+            $Self->HandleError($@);
+            die "Login failed!";
         }
+
+        # login was sucessful
         else {
-            $ScriptAlias .= 'customer.pl';
+            last TRY;
         }
-
-        $Self->get("${ScriptAlias}");
-        $Self->delete_all_cookies();
-        $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
-
-        # login successful?
-        $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
-
-        $Self->{UnitTestObject}->True( 1, 'Login sequence ended...' );
-    };
-    if ($@) {
-        $Self->HandleError($@);
-        die "Login failed!";
     }
 
     return 1;
