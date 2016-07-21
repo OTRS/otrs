@@ -97,6 +97,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        sleep 2;
+
         # check for created test TransitionAction using filter on AdminProcessManagement screen
         $Selenium->WaitFor(
             JavaScript =>
@@ -196,6 +198,8 @@ $Selenium->RunTest(
         # return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        sleep 2;
 
         # check for edited test TransitionAction using filter on AdminProcessManagement screen
         my $TransitionActionRandomEdit = $TransitionActionRandom . "edit";

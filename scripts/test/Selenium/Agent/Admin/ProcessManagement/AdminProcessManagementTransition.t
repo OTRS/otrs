@@ -141,6 +141,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        sleep 1;
+
         # check for created test Transition using filter on AdminProcessManagement screen
         $Selenium->WaitFor(
             JavaScript =>
@@ -240,6 +242,8 @@ $Selenium->RunTest(
         # return to main window
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        sleep 1;
 
         # check for edited test Transition using filter on AdminProcessManagement screen
         my $TransitionRandomEdit = $TransitionRandom . "edit";
