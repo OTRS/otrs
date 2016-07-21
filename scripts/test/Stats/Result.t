@@ -212,13 +212,13 @@ my @Tickets = (
         },
     },
 
-    # add the ticket in the second statistic queue
-    # (for a time zones >= '+2' this ticket was created the next day)
+    # add the ticket in the third statistic queue
+    # (for a time zones = '+12' this ticket was created the next day)
     {
-        TimeStamp  => '2015-08-12 22:00:00',
+        TimeStamp  => '2015-08-11 12:00:00',
         TicketData => {
             Title         => 'Statistic Ticket Title',
-            Queue         => $QueueNames[1],
+            Queue         => $QueueNames[2],
             Lock          => 'unlock',
             Priority      => '3 normal',
             State         => 'new',
@@ -227,7 +227,6 @@ my @Tickets = (
             OwnerID       => 1,
             UserID        => 1,
             DynamicFields => {
-                Text     => 'Example 123',
                 TextArea => 'Example 123',
             },
         },
@@ -267,13 +266,14 @@ my @Tickets = (
         },
     },
 
-    # add the ticket in the third statistic queue
-    # (for a time zones = '+12' this ticket was created the next day)
+
+    # add the ticket in the second statistic queue
+    # (for a time zones >= '+2' this ticket was created the next day)
     {
-        TimeStamp  => '2015-08-11 12:00:00',
+        TimeStamp  => '2015-08-12 22:00:00',
         TicketData => {
             Title         => 'Statistic Ticket Title',
-            Queue         => $QueueNames[2],
+            Queue         => $QueueNames[1],
             Lock          => 'unlock',
             Priority      => '3 normal',
             State         => 'new',
@@ -282,6 +282,7 @@ my @Tickets = (
             OwnerID       => 1,
             UserID        => 1,
             DynamicFields => {
+                Text     => 'Example 123',
                 TextArea => 'Example 123',
             },
         },
@@ -334,7 +335,12 @@ for my $Ticket (@Tickets) {
         "TicketCreate() successful for test - TicketID $TicketID",
     );
 
-    push @TicketIDs, $TicketID;
+    my %TicketData = $TicketObject->TicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+
+    push @TicketIDs, \%TicketData;
 }
 continue {
     $Helper->FixedTimeUnset();
@@ -347,18 +353,19 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-my $StatID = $StatsObject->StatsAdd(
+# generate a dynamic matrix test statistic
+my $DynamicMatrixStatID = $StatsObject->StatsAdd(
     UserID => 1,
 );
 
 # sanity check
 $Self->True(
-    $StatID,
-    'StatsAdd() successful - StatID $StatID',
+    $DynamicMatrixStatID,
+    'StatsAdd() DynamicMatrix successful - StatID $DynamicMatrixStatID',
 );
 
 my $UpdateSuccess = $StatsObject->StatsUpdate(
-    StatID => $StatID,
+    StatID => $DynamicMatrixStatID,
     Hash   => {
         Title        => 'Title for result tests',
         Description  => 'some Description',
@@ -375,7 +382,39 @@ my $UpdateSuccess = $StatsObject->StatsUpdate(
 # sanity check
 $Self->True(
     $UpdateSuccess,
-    'StatsUpdate() successful - StatID $StatID',
+    'StatsUpdate() DynamicMatrix successful - StatID $DynamicMatrixStatID',
+);
+
+# generate a dynamic list test statistic
+my $DynamicListStatID = $StatsObject->StatsAdd(
+    UserID => 1,
+);
+
+# sanity check
+$Self->True(
+    $DynamicListStatID,
+    'StatsAdd() for DynamicList successful - StatID $DynamicListStatID',
+);
+
+$UpdateSuccess = $StatsObject->StatsUpdate(
+    StatID => $DynamicListStatID,
+    Hash   => {
+        Title        => 'Title for result tests',
+        Description  => 'some Description',
+        Object       => 'TicketList',
+        Format       => 'CSV',
+        ObjectModule => 'Kernel::System::Stats::Dynamic::TicketList',
+        StatType     => 'dynamic',
+        Cache        => 1,
+        Valid        => 1,
+    },
+    UserID => 1,
+);
+
+# sanity check
+$Self->True(
+    $UpdateSuccess,
+    'StatsUpdate() DynamicList successful - StatID $DynamicListStatID',
 );
 
 my @Tests = (
@@ -390,7 +429,7 @@ my @Tests = (
         Description => 'Test stat without a time zone (last complete 7 days and scale 1 day)',
         TimeStamp   => '2015-08-15 20:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 UseAsXvalue => [
                     {
@@ -477,7 +516,7 @@ my @Tests = (
         Description => 'Test stat without a time zone (last complete 7 and current+upcoming 2 days and scale 1 day)',
         TimeStamp   => '2015-08-15 20:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 UseAsXvalue => [
                     {
@@ -572,7 +611,7 @@ my @Tests = (
         Description => 'Test stat with time zone +10 (last complete 7 days and scale 1 day)',
         TimeStamp   => '2015-08-15 20:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'Australia/Brisbane',
                 UseAsXvalue => [
@@ -660,7 +699,7 @@ my @Tests = (
         Description => 'Test stat with time zone +2 (last complete 24 hours and scale 1 hour)',
         TimeStamp   => '2015-08-11 08:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'Europe/Berlin',
                 UseAsXvalue => [
@@ -764,7 +803,7 @@ my @Tests = (
         Description => 'Test stat with time zone -10 (last complete 24 hours and scale 1 hour)',
         TimeStamp   => '2015-08-11 06:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'Pacific/Honolulu',
                 UseAsXvalue => [
@@ -868,7 +907,7 @@ my @Tests = (
         Description => 'Test stat with time zone -2 (last complete 120 minutes and scale 1 hour)',
         TimeStamp   => '2015-08-10 12:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'America/Noronha',
                 UseAsXvalue => [
@@ -928,7 +967,7 @@ my @Tests = (
         Description => 'Test stat with time zone +2 (last complete 1 hours and scale 10 minutes)',
         TimeStamp   => '2015-08-09 20:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'Europe/Berlin',
                 UseAsXvalue => [
@@ -996,7 +1035,7 @@ my @Tests = (
         Description => 'Test stat with time zone +6 (last complete 5 and current+upcoming 1 days and scale 1 day)',
         TimeStamp   => '2015-08-12 20:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'Asia/Almaty',
                 UseAsXvalue => [
@@ -1080,7 +1119,7 @@ my @Tests = (
         Description => 'Test stat without a time zone (last complete 12 months and scale 1 month)',
         TimeStamp   => '2015-09-01 12:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'UTC',
                 UseAsXvalue => [
@@ -1189,7 +1228,7 @@ my @Tests = (
             'Test stat without a time zone (last complete 12 and current+upcoming 1 months and scale 1 month)',
         TimeStamp   => '2015-09-14 12:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'Europe/Sofia',
                 UseAsXvalue => [
@@ -1301,7 +1340,7 @@ my @Tests = (
         Description => 'Test stat with time zone -8 (time period 2015-08-10 00:00:00 - 2015-08-15 23:59:59)',
         TimeStamp   => '2015-08-15 20:00:00',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 TimeZone    => 'America/Anchorage',
                 UseAsXvalue => [
@@ -1376,7 +1415,7 @@ my @Tests = (
 
     # Test with a relative time period and without a defined time zone
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: 0
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1386,9 +1425,9 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'de',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
-                TimeZone    => '0',
+                TimeZone    => 'UTC',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1466,7 +1505,7 @@ my @Tests = (
 
     # Test with a relative time period and without a defined time zone
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: 0
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1476,9 +1515,9 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'es',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
-                TimeZone    => '0',
+                TimeZone    => 'UTC',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1556,7 +1595,7 @@ my @Tests = (
 
     # Test with a relative time period and a other language
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: 0
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1566,7 +1605,7 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'es_MX',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 UseAsXvalue => [
                     {
@@ -1645,7 +1684,7 @@ my @Tests = (
 
 # Test with a relative time period and without a defined time zone
 # Fixed TimeStamp: '2015-08-20 20:00:00'
-# TimeZone: 0
+# TimeZone: UTC
 # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 month'.
 # Y-Axis: 'CreateTime' with 'scale 1 year'
 # Restrictions: 'QueueIDs' to select only the created tickets for the test.
@@ -1655,9 +1694,9 @@ my @Tests = (
         TimeStamp   => '2015-08-20 14:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
-                TimeZone    => '0',
+                TimeZone    => 'UTC',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1766,7 +1805,7 @@ my @Tests = (
 
 # Test with a relative time period and without a defined time zone
 # Fixed TimeStamp: '2015-08-20 20:00:00'
-# TimeZone: 0
+# TimeZone: UTC
 # X-Axis: 'CreateTime' with a relative period 'the last complete 3 months and current+upcoming 1 months' and 'scale 1 month'.
 # Y-Axis: 'CreateTime' with 'scale 1 year'
 # Restrictions: 'QueueIDs' to select only the created tickets for the test.
@@ -1776,9 +1815,9 @@ my @Tests = (
         TimeStamp   => '2015-08-20 14:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
-                TimeZone    => '0',
+                TimeZone    => 'UTC',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1857,7 +1896,7 @@ my @Tests = (
 
 # Test with a relative time period and without a defined time zone
 # Fixed TimeStamp: '2015-08-20 20:00:00'
-# TimeZone: 0
+# TimeZone: UTC
 # X-Axis: 'CreateTime' with a relative period 'the last complete 24 months and current+upcoming 1 months' and 'scale 1 quarter'.
 # Y-Axis: 'CreateTime' with 'scale 1 year'
 # Restrictions: 'QueueIDs' to select only the created tickets for the test.
@@ -1867,9 +1906,9 @@ my @Tests = (
         TimeStamp   => '2015-08-20 14:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
-                TimeZone    => '0',
+                TimeZone    => 'UTC',
                 UseAsXvalue => [
                     {
                         Element                   => 'CreateTime',
@@ -1946,7 +1985,7 @@ my @Tests = (
 
     # Test with a relative time period and with selected SumRow
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: -
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -1957,7 +1996,7 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 SumRow      => 1,
                 SumCol      => 0,
@@ -2048,7 +2087,7 @@ my @Tests = (
 
     # Test with a relative time period and with selected SumCol
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: -
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -2059,7 +2098,7 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 SumRow      => 0,
                 SumCol      => 1,
@@ -2144,7 +2183,7 @@ my @Tests = (
 
     # Test with a relative time period and with selected SumRow and SumCol
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: -
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
@@ -2155,7 +2194,7 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 SumRow      => 1,
                 SumCol      => 1,
@@ -2255,7 +2294,7 @@ my @Tests = (
 
     # Test with a relative time period and a restriction for a dynamic field textarea
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: -
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: 'TextArea' => 'Example*',
@@ -2265,7 +2304,7 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 SumRow      => 0,
                 SumCol      => 0,
@@ -2356,7 +2395,7 @@ my @Tests = (
 
     # Test with a relative time period and a restriction for a dynamic field text
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: -
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: 'Text' => 'Example*',
@@ -2365,7 +2404,7 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 SumRow      => 0,
                 SumCol      => 0,
@@ -2456,7 +2495,7 @@ my @Tests = (
 
     # Test with a relative time period and a restriction for a dynamic field text and textarea
     # Fixed TimeStamp: '2015-08-15 20:00:00'
-    # TimeZone: -
+    # TimeZone: UTC
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: 'Text' => 'Example*' & 'TextArea' => 'Example*',
@@ -2466,7 +2505,7 @@ my @Tests = (
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'en',
         StatsUpdate => {
-            StatID => $StatID,
+            StatID => $DynamicMatrixStatID,
             Hash   => {
                 SumRow      => 0,
                 SumCol      => 0,
@@ -2563,6 +2602,247 @@ my @Tests = (
             ],
         ],
     },
+
+    # Test for a dynamic list with some selected columns and restrictions
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'TicketAttributes' - Number, TicketNumber, Title, Created, Queue
+    # Y-Axis: 'OrderBy' - TicketNumber, 'SortSequence' - Up
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test,
+    #               'CreateTime' with a relative period 'the last complete 7 days'
+    {
+        Description => 'Test dynamic list stat with some selected columns and a restriction for the create time',
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $DynamicListStatID,
+            Hash   => {
+                UseAsXvalue => [
+                    {
+                        'Element'        => 'TicketAttributes',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Number',
+                            'TicketNumber',
+                            'Title',
+                            'Created',
+                            'Queue',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'OrderBy',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'TicketNumber',
+                        ],
+                    },
+                    {
+                        'Element'        => 'SortSequence',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Up',
+                        ],
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        SelectedValues            => [],
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Number',
+                'Ticket#',
+                'Title',
+                'Created',
+                'Queue',
+            ],
+            [
+                1,
+                $TicketIDs[3]->{TicketNumber},
+                $TicketIDs[3]->{Title},
+                $TicketIDs[3]->{Created},
+                $TicketIDs[3]->{Queue},
+            ],
+            [
+                2,
+                $TicketIDs[4]->{TicketNumber},
+                $TicketIDs[4]->{Title},
+                $TicketIDs[4]->{Created},
+                $TicketIDs[4]->{Queue},
+            ],
+            [
+                3,
+                $TicketIDs[5]->{TicketNumber},
+                $TicketIDs[5]->{Title},
+                $TicketIDs[5]->{Created},
+                $TicketIDs[5]->{Queue},
+            ],
+            [
+                4,
+                $TicketIDs[6]->{TicketNumber},
+                $TicketIDs[6]->{Title},
+                $TicketIDs[6]->{Created},
+                $TicketIDs[6]->{Queue},
+            ],
+            [
+                5,
+                $TicketIDs[9]->{TicketNumber},
+                $TicketIDs[9]->{Title},
+                $TicketIDs[9]->{Created},
+                $TicketIDs[9]->{Queue},
+            ],
+        ],
+    },
+
+    # Test for a dynamic list with some selected columns and restrictions with other Language
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'TicketAttributes' - Number, TicketNumber, Title, Created, Queue
+    # Y-Axis: 'OrderBy' - TicketNumber, 'SortSequence' - Up
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test,
+    #               'CreateTime' with a relative period 'the last complete 7 days'
+    # Language: de
+    {
+        Description => "Test dynamic list stat with some selected columns and a restriction for the create time and language 'de'",
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'de',
+        StatsUpdate => {
+            StatID => $DynamicListStatID,
+            Hash   => {
+                UseAsXvalue => [
+                    {
+                        'Element'        => 'TicketAttributes',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Number',
+                            'TicketNumber',
+                            'Title',
+                            'Created',
+                            'Queue',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'OrderBy',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'TicketNumber',
+                        ],
+                    },
+                    {
+                        'Element'        => 'SortSequence',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Up',
+                        ],
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        SelectedValues            => [],
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Number', # TODO ad the moment Number is not translatable
+                'Ticket#',
+                'Titel',
+                'Erstellt',
+                'Queue',
+            ],
+            [
+                1,
+                $TicketIDs[3]->{TicketNumber},
+                $TicketIDs[3]->{Title},
+                $TicketIDs[3]->{Created},
+                $TicketIDs[3]->{Queue},
+            ],
+            [
+                2,
+                $TicketIDs[4]->{TicketNumber},
+                $TicketIDs[4]->{Title},
+                $TicketIDs[4]->{Created},
+                $TicketIDs[4]->{Queue},
+            ],
+            [
+                3,
+                $TicketIDs[5]->{TicketNumber},
+                $TicketIDs[5]->{Title},
+                $TicketIDs[5]->{Created},
+                $TicketIDs[5]->{Queue},
+            ],
+            [
+                4,
+                $TicketIDs[6]->{TicketNumber},
+                $TicketIDs[6]->{Title},
+                $TicketIDs[6]->{Created},
+                $TicketIDs[6]->{Queue},
+            ],
+            [
+                5,
+                $TicketIDs[9]->{TicketNumber},
+                $TicketIDs[9]->{Title},
+                $TicketIDs[9]->{Created},
+                $TicketIDs[9]->{Queue},
+            ],
+        ],
+    },
 );
 
 # ------------------------------------------------------------ #
@@ -2623,7 +2903,7 @@ for my $Test (@Tests) {
         "Test $TestCount: StatsUpdate() - Update stat - success.",
     );
 
-    my $Stat = $StatsObject->StatsGet( StatID => $StatID );
+    my $Stat = $StatsObject->StatsGet( StatID => $Test->{StatsUpdate}->{StatID} );
 
     $Self->True(
         $Stat->{Title},
@@ -2631,7 +2911,7 @@ for my $Test (@Tests) {
     );
 
     my $ResultData = $StatsObject->StatsRun(
-        StatID   => $StatID,
+        StatID   => $Test->{StatsUpdate}->{StatID},
         GetParam => $Stat,
         UserID   => 1,
     );
