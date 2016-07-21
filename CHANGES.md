@@ -1,4 +1,5 @@
 #4.0.18 2016-??-??
+ - 2016-07-21 Fixed bug#[11757](http://bugs.otrs.org/show_bug.cgi?id=11757) - otrs.Console.pl Maint::Stats::Generate - language option not working.
  - 2016-07-20 Fixed bug#[12105](http://bugs.otrs.org/show_bug.cgi?id=12105) - "Create summation row" and "Create summation column" are transposed.
  - 2016-07-13 Fixed bug#[12118](http://bugs.otrs.org/show_bug.cgi?id=12118) - Text Area filter doesn't work for Statistic.
  - 2016-07-13 Fixed bug#[12189](http://bugs.otrs.org/show_bug.cgi?id=12189) - ACL beginning with @ results in 500 internal server error.

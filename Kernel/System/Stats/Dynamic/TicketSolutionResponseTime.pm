@@ -16,6 +16,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Language',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
@@ -728,14 +729,17 @@ sub GetHeaderLine {
 
         my %Selected = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
 
+        # get language object
+        my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
         my $Attributes = $Self->_KindsOfReporting();
-        my @HeaderLine = ('Evaluation by');
+        my @HeaderLine = ( $LanguageObject->Translate('Evaluation by') );
         my $SortedRef  = $Self->_SortedKindsOfReporting();
 
         ATTRIBUTE:
         for my $Attribute ( @{$SortedRef} ) {
             next ATTRIBUTE if !$Selected{$Attribute};
-            push @HeaderLine, $Attributes->{$Attribute};
+            push @HeaderLine, $LanguageObject->Translate( $Attributes->{$Attribute} );
         }
         return \@HeaderLine;
 
