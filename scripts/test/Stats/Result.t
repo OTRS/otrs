@@ -73,6 +73,7 @@ for my $Count ( 1 .. 3 ) {
 my @DynamicFieldProperties = (
     {
         Name       => "Text$RandomID",
+        Label      => "Text$RandomID",
         FieldOrder => 9991,
         FieldType  => 'Text',
         Config     => {
@@ -81,6 +82,7 @@ my @DynamicFieldProperties = (
     },
     {
         Name       => "TextArea$RandomID",
+        Label      => "TextArea$RandomID",
         FieldOrder => 9992,
         FieldType  => 'TextArea',
         Config     => {
@@ -94,7 +96,6 @@ my %DynamicFieldFieldConfig;
 for my $DynamicFieldProperty (@DynamicFieldProperties) {
     my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
         %{$DynamicFieldProperty},
-        Label      => 'Label',
         ObjectType => 'Ticket',
         ValidID    => 1,
         UserID     => 1,
@@ -365,7 +366,8 @@ my $UpdateSuccess = $StatsObject->StatsUpdate(
         Format       => 'CSV',
         ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket',
         StatType     => 'dynamic',
-        Valid        => '1',
+        Cache        => 1,
+        Valid        => 1,
     },
     UserID => 1,
 );
@@ -1552,6 +1554,95 @@ my @Tests = (
         ],
     },
 
+    # Test with a relative time period and a other language
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: 0
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: -
+    # Language: es_MX
+    {
+        Description => "Test stat without a time zone (last complete 7 days and scale 1 day) and language 'es_MX'",
+        TimeStamp   => '2015-08-15 20:00:00',
+        Language    => 'es_MX',
+        StatsUpdate => {
+            StatID => $StatID,
+            Hash   => {
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
+            ],
+            [
+                'Fila',
+                'Sáb 8',
+                'Dom 9',
+                'Lun 10',
+                'Mar 11',
+                'Mié 12',
+                'Jue 13',
+                'Vie 14',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                1,
+                2,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+            ],
+        ],
+    },
+
 # Test with a relative time period and without a defined time zone
 # Fixed TimeStamp: '2015-08-20 20:00:00'
 # TimeZone: 0
@@ -2368,7 +2459,7 @@ my @Tests = (
     # TimeZone: -
     # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
-    # Restrictions: 'Text' => 'Example*',
+    # Restrictions: 'Text' => 'Example*' & 'TextArea' => 'Example*',
     {
         Description =>
             'Test stat with a restriction for a dynamic field text and textarea (last complete 7 days and scale 1 day)',

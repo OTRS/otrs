@@ -3717,10 +3717,9 @@ with the given parameters.
 
 sub _GetCacheString {
     my ( $Self, %Param ) = @_;
-    my $Result = '';
 
     # add the Language to the cache key
-    $Result .= 'Language:' . $Kernel::OM->Get('Kernel::Language')->{UserLanguage};
+    my $Result = 'Language:' . $Kernel::OM->Get('Kernel::Language')->{UserLanguage};
 
     if ( $Param{TimeZone} ) {
         $Result .= 'TimeZone:' . $Param{TimeZone};
