@@ -204,35 +204,33 @@ for my $Test (@Tests) {
     # get cloud service backend object
     my $CloudServiceBackend = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
+    my $RequestResult;
     TRY:
     for my $Try ( 1 .. 5 ) {
 
         # perform the request
-        my $RequestResult = $CloudServiceBackend->Request( %{ $Test->{Config} } );
+        $RequestResult = $CloudServiceBackend->Request( %{ $Test->{Config} } );
 
         if ( !$Test->{Success} ) {
             $Self->Is(
                 $RequestResult,
                 undef,
-                "$Test->{Name} Run Request()",
+                "$Test->{Name} - Expected unsuccessfull request",
             );
 
             next TEST;
         }
 
-        if ( !defined $RequestResult && $Try < 5 ) {
+        last TRY if $RequestResult;
 
-            sleep $Intervall{$Try};
-
-            next TRY;
-        }
-
-        $Self->IsDeeply(
-            $RequestResult,
-            $Test->{ExpectedResults},
-            "$Test->{Name} Run Request()",
-        );
+        sleep $Intervall{$Try};
     }
+
+    $Self->IsDeeply(
+        $RequestResult,
+        $Test->{ExpectedResults},
+        "$Test->{Name} - Expected request",
+    );
 }
 
 1;
