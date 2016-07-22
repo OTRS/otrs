@@ -135,7 +135,7 @@ $Selenium->RunTest(
         for my $Test (@Tests) {
 
             # navigate to split ticket of test ticket first article
-            $Selenium->get(
+            $Selenium->VerifiedGet(
                 "${ScriptAlias}index.pl?Action=AgentTicketPhone;TicketID=$TicketID;ArticleID=$Test->{ArticleID};LinkTicketID=$TicketID"
             );
 
