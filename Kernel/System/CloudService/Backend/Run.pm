@@ -333,19 +333,29 @@ sub Request {
     );
 
     # perform webservice request
-    my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
-        Type => 'POST',
-        URL  => $Self->{CloudServiceURL},
-        Data => {
-            Action       => 'PublicCloudService',
-            RequestData  => $RequestData,
-            UniqueIDAuth => $UniqueIDAuth,
-            OTRSIDAuth   => $OTRSIDAuth,
-        },
-    );
+    my %Response;
+    TRY:
+    for my $Try ( 1 .. 3 ) {
+
+        %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
+            Type => 'POST',
+            URL  => $Self->{CloudServiceURL},
+            Data => {
+                Action       => 'PublicCloudService',
+                RequestData  => $RequestData,
+                UniqueIDAuth => $UniqueIDAuth,
+                OTRSIDAuth   => $OTRSIDAuth,
+            },
+        );
+
+        last TRY if %Response
+            && $Response{Status} eq '200 OK'
+            && $Response{Content}
+            && ref $Response{Content} eq 'SCALAR';
+    }
 
     # test if the web response was successful
-    if ( $Response{Status} ne '200 OK' ) {
+    if ( !%Response || $Response{Status} ne '200 OK' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "PublicCloudService - Can't connect to server - $Response{Status}",
@@ -391,12 +401,9 @@ sub Request {
         );
         return;
     }
-    else {
 
-        # return data from server if defined
-        return $ResponseData->{Results} if defined $ResponseData->{Results};
-    }
-
+    # return data from server if defined
+    return $ResponseData->{Results} if defined $ResponseData->{Results};
     return;
 }
 
