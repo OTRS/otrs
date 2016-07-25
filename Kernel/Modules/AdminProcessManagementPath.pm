@@ -324,6 +324,14 @@ sub _ShowEdit {
     }
     $Param{Title} = Translatable('Edit Path');
 
+    # send data to JS
+    for my $AddJSData (qw(TransitionEntityID ProcessEntityID StartActivityID)) {
+        $LayoutObject->AddJSData(
+            Key   => $AddJSData,
+            Value => $Param{$AddJSData}
+        );
+    }
+
     my $Output = $LayoutObject->Header(
         Value => $Param{Title},
         Type  => 'Small',
