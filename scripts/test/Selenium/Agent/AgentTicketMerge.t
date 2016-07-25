@@ -72,7 +72,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # click on merge
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 
         # switch to merge window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -99,7 +99,7 @@ $Selenium->RunTest(
         );
 
         if ( $Expanded eq 'false' ) {
-            $Selenium->find_element( "#WidgetInformSender a[title=\'Toggle this widget\']", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#WidgetInformSender a[title=\'Toggle this widget\']", 'css' )->click();
 
             # check if the widget is expanded
             $Self->Is(
@@ -113,10 +113,10 @@ $Selenium->RunTest(
 
         # set checkbox to uncheck
         $Selenium->execute_script("\$('#InformSender').prop('checked', true)");
-        $Selenium->find_element( "#InformSender", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#InformSender", 'css' )->click();
 
         # collapse the widget
-        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->click();
 
         # check if the widget is collapsed
         $Self->Is(
@@ -128,7 +128,7 @@ $Selenium->RunTest(
         );
 
         # expand the widget again
-        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->click();
 
         # check if the widget is expanded
         $Self->Is(
@@ -156,7 +156,7 @@ $Selenium->RunTest(
         }
 
         # set fields to be not mandatory
-        $Selenium->find_element( "#InformSender", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#InformSender", 'css' )->click();
 
         # check client side validation
         my $Element = $Selenium->find_element( "#MainTicketNumber", 'css' );
@@ -188,7 +188,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # click on merge
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -202,7 +202,7 @@ $Selenium->RunTest(
 
         # merge with second test ticket
         $Selenium->find_element( "#MainTicketNumber", 'css' )->send_keys( $TicketNumbers[1] );
-        $Selenium->find_element( "#submitRichText",   'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText",   'css' )->click();
 
         # return back to zoom view and click on history and switch to its view
         $Selenium->WaitFor( WindowCount => 1 );
@@ -211,7 +211,7 @@ $Selenium->RunTest(
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
-        $Selenium->find_element("//*[text()='History']")->VerifiedClick();
+        $Selenium->find_element("//*[text()='History']")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();

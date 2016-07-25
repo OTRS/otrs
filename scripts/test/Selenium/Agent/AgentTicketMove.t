@@ -162,7 +162,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click on 'Move' and switch window
-        $Selenium->find_element("//a[contains(\@title, \'Change Queue' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@title, \'Change Queue' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -182,7 +182,7 @@ $Selenium->RunTest(
 
         # change ticket queue
         $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # return back to zoom view and click on history and switch to its view
         $Selenium->WaitFor( WindowCount => 1 );
@@ -191,7 +191,7 @@ $Selenium->RunTest(
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
-        $Selenium->find_element("//*[text()='History']")->VerifiedClick();
+        $Selenium->find_element("//*[text()='History']")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -208,7 +208,7 @@ $Selenium->RunTest(
         );
 
         # click on close window and switch back screen
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->VerifiedClick();
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );

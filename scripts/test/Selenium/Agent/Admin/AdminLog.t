@@ -103,7 +103,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Hide this message'
-        $Selenium->find_element( "#HideHint", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#HideHint", 'css' )->click();
         sleep 1;
 
         # check if sidebar column is shown

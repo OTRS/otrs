@@ -78,12 +78,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
 
         # click 'Address book' and switch to iframe
-        $Selenium->find_element( "#OptionAddressBook", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#OptionAddressBook", 'css' )->click();
         $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
         # search by $RandomNumber for all test customer users as result
         $Selenium->execute_script("\$('#Search').val($RandomNumber)");
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Search", 'css' )->submit();
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SearchResult").length' );
 
@@ -92,11 +92,11 @@ $Selenium->RunTest(
             my $RelCustomer = $Mail . 'Customer';
             $Selenium->find_element(
                 "a[rel=$RelCustomer][title*=\"$CustomerUsers{$Mail}->[0]->{UserEmail}\"]", 'css'
-            )->VerifiedClick();
+            )->click();
         }
 
         # click 'Apply'
-        $Selenium->find_element( "#Apply", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Apply", 'css' )->click();
 
         # switch back to the main window
         my $Handles = $Selenium->get_window_handles();
@@ -121,7 +121,7 @@ $Selenium->RunTest(
             );
 
             # click 'Address book'
-            $Selenium->find_element( "#OptionAddressBook", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#OptionAddressBook", 'css' )->click();
             $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
             # fill corresponding field to duplicate customer user
@@ -129,7 +129,7 @@ $Selenium->RunTest(
             my $EmailAddress =
                 "\"$CustomerUsers{$Mail}->[0]->{UserFirstname} $CustomerUsers{$Mail}->[0]->{UserLastname}\" <$CustomerUsers{$Mail}->[0]->{UserEmail}>";
             $Selenium->execute_script("\$('#$MailCustomer').val('$EmailAddress')");
-            $Selenium->find_element( "#Apply", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#Apply", 'css' )->click();
 
             $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[0] );
@@ -144,7 +144,7 @@ $Selenium->RunTest(
             );
 
             # click OK
-            $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#DialogButton1", 'css' )->click();
         }
 
         # cleanup

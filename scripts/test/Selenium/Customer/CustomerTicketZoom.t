@@ -145,7 +145,7 @@ $Selenium->RunTest(
         );
 
         # check reply button
-        $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->click();
         $Selenium->find_element("//button[contains(\@value, \'Submit' )]");
 
         # change the ticket state to 'merged'

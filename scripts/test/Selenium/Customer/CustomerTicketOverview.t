@@ -117,7 +117,7 @@ $Selenium->RunTest(
         # check All filter on CustomerTicketOverview screen
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]"
-        )->VerifiedClick();
+        )->click();
 
         # check if there is not the header of overview table for sorting tickets
         $Self->Is(

@@ -126,7 +126,7 @@ $Selenium->RunTest(
         }
 
         # click to 'Save' and verify client side validation for missing fields
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save and continue']")->click();
         for my $ValidationField (qw( NameSpace RequestNameFreeText ResponseNameFreeText MaxLength)) {
             $Self->Is(
                 $Selenium->execute_script(
@@ -150,9 +150,9 @@ $Selenium->RunTest(
 
         # add two sort level options
         $Selenium->find_element("//input[\@name='Element']")->send_keys('SortLevel1');
-        $Selenium->find_element("//button[\@class='CallForAction']")->VerifiedClick();
+        $Selenium->find_element("//button[\@class='CallForAction']")->click();
         $Selenium->find_element("//input[\@name='Element']")->send_keys('SortLevel2');
-        $Selenium->find_element("//button[\@class='CallForAction']")->VerifiedClick();
+        $Selenium->find_element("//button[\@class='CallForAction']")->click();
 
         # add one sub level of first options
         $Selenium->execute_script("\$(\$('.SortableList').find('li')[1]).find('.Icon').click()");
@@ -282,7 +282,7 @@ $Selenium->RunTest(
         }
 
         # click to 'Save' and verify client side validation for missing fields
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Save and continue']")->click();
         for my $ValidationField (qw( Endpoint NameSpace RequestNameFreeText SSLP12Certificate SSLP12Password )) {
             $Self->Is(
                 $Selenium->execute_script(

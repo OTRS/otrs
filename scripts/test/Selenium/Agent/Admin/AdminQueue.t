@@ -61,7 +61,7 @@ $Selenium->RunTest(
         $Element->send_keys("");
         $Element->VerifiedSubmit();
 
-        #$Element->VerifiedClick("button#Submit");
+        #$Element->click("button#Submit");
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"

@@ -230,7 +230,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
         # click on '[ Customer User ]' to test customer user creation from iframe
-        $Selenium->find_element( "#OptionCustomer", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#OptionCustomer", 'css' )->click();
         $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
         # click to 'Add customer user'
@@ -248,7 +248,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         # return focus back on AgentTicketPhone window
         my $Handles = $Selenium->get_window_handles();

@@ -90,9 +90,9 @@ $Selenium->RunTest(
         );
 
         # select both tickets and click on "bulk"
-        $Selenium->find_element("//input[\@value='$Tickets[0]->{TicketID}']")->VerifiedClick();
-        $Selenium->find_element("//input[\@value='$Tickets[1]->{TicketID}']")->VerifiedClick();
-        $Selenium->find_element( "Bulk", 'link_text' )->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$Tickets[0]->{TicketID}']")->click();
+        $Selenium->find_element("//input[\@value='$Tickets[1]->{TicketID}']")->click();
+        $Selenium->find_element( "Bulk", 'link_text' )->click();
 
         # switch to bulk window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -116,7 +116,7 @@ $Selenium->RunTest(
         # close state and change priority in bulk action for test tickets
         $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # return to status view
         $Selenium->WaitFor( WindowCount => 1 );

@@ -125,7 +125,7 @@ $Selenium->RunTest(
         );
 
         # go to AgentTicketCustomer, it causes open popup screen, wait will be done by WaitFor
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketCustomer' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketCustomer' )]")->click();
 
         # switch to another window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -156,7 +156,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
 
         # submit customer data, it causes close popup screen, wait will be done by WaitFor
-        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->submit();
 
         # wait for update
         $Selenium->WaitFor( WindowCount => 1 );

@@ -81,7 +81,7 @@ $Selenium->RunTest(
             "Link for priority popup is displayed and enabled",
         );
 
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]")->click();
 
         # wait for popup iframe to show
         $Selenium->WaitFor(
@@ -97,7 +97,7 @@ $Selenium->RunTest(
         # as long as the overlay is opened, elements below it should not be usable, e.g. the mobile navigation toggle
         my $Success;
         eval {
-            $Success = $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->VerifiedClick();
+            $Success = $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->click();
         };
 
         $Self->False(

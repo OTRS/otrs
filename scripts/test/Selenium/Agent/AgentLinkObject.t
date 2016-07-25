@@ -100,7 +100,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Link'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
 
         # switch to link object window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -108,7 +108,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
-        $Selenium->find_element( "#SubmitSearch", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#SubmitSearch", 'css' )->click();
         $Selenium->WaitFor(
             AlertPresent => 1,
         );
@@ -119,7 +119,7 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->VerifiedSubmit();
 
         # link created test tickets
-        $Selenium->find_element("//input[\@value='$TicketIDs[1]'][\@type='checkbox']")->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$TicketIDs[1]'][\@type='checkbox']")->click();
         $Selenium->execute_script(
             "\$('#TypeIdentifier').val('ParentChild::Target').trigger('redraw.InputField').trigger('change');"
         );
@@ -330,7 +330,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Link'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
 
         # switch to link object window
         $Selenium->WaitFor( WindowCount => 2 );

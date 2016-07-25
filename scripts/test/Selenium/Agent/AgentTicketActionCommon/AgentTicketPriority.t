@@ -82,7 +82,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Priority' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -108,13 +108,13 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#NewPriorityID').val('5').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # navigate to AgentTicketHistory of created test ticket
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm priority change action
         my $PriorityMsg = "Changed priority from \"3 normal\" (3) to \"5 very high\" (5).";

@@ -105,7 +105,7 @@ $Selenium->RunTest(
 
         # allocate test service to test customer user
         $Selenium->find_element("//a[contains(\@href, \'CustomerUserLogin=$CustomerUserName' )]")->VerifiedClick();
-        $Selenium->find_element("//input[\@value='$ServiceID']")->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$ServiceID']")->click();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check test customer user allocation to test service
@@ -118,7 +118,7 @@ $Selenium->RunTest(
         );
 
         # remove test customer user allocations from test service
-        $Selenium->find_element("//input[\@value=\"$CustomerUserName\"]")->VerifiedClick();
+        $Selenium->find_element("//input[\@value=\"$CustomerUserName\"]")->click();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check if there is any test service allocation towards test customer user

@@ -121,7 +121,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Responsible' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketResponsible;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketResponsible;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -163,7 +163,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#NewResponsibleID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # switch window back
         $Selenium->WaitFor( WindowCount => 1 );

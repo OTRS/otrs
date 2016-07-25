@@ -79,7 +79,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # import test selenium process
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);

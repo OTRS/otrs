@@ -322,7 +322,7 @@ $Selenium->RunTest(
         );
 
         # toggle to collapse 'Ticket Information' widget
-        $Selenium->find_element("//a[contains(\@title, \'Show or hide the content' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@title, \'Show or hide the content' )]")->click();
 
         # verify there is collapsed element on the screen
         $Self->True(

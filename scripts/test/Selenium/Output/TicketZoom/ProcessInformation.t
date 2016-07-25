@@ -82,7 +82,7 @@ $Selenium->RunTest(
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
-        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
 
         # wait until process is created
@@ -189,7 +189,7 @@ $Selenium->RunTest(
 
         # click on 'Priority' and switch screen
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority;TicketID=$TicketIDs[0]' )]")
-            ->VerifiedClick();
+            ->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -203,7 +203,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Subject",  'css' )->send_keys('TestSubject');
         $Selenium->find_element( "#RichText", 'css' )->send_keys('TestBody');
-        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@type='submit']")->click();
 
         # switch back screen
         $Selenium->WaitFor( WindowCount => 1 );

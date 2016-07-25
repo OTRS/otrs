@@ -138,7 +138,7 @@ $Selenium->RunTest(
         );
 
         # click on it
-        $Selenium->find_element( "Provider", 'link_text' )->VerifiedClick();
+        $Selenium->find_element( "Provider", 'link_text' )->click();
 
         # wait if necessary
         $Selenium->WaitFor(
@@ -164,7 +164,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#FilterType').val('Requester').trigger('redraw.InputField').trigger('change');");
 
         # click on 'Refresh' button and test JS GetRequestList function, expecting no result to find
-        $Selenium->find_element( "#FilterRefresh", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#FilterRefresh", 'css' )->click();
 
         # wait if necessary
         $Selenium->WaitFor(
@@ -180,7 +180,7 @@ $Selenium->RunTest(
         );
 
         # click to clear debugger log
-        $Selenium->find_element( "#DeleteButton", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DeleteButton", 'css' )->click();
 
         # verify delete dialog text
         $Self->Is(
@@ -190,7 +190,7 @@ $Selenium->RunTest(
         );
 
         # click to clear debug log
-        $Selenium->find_element( "#DialogButton2", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DialogButton2", 'css' )->click();
 
         # verify log table is empty
         $Self->Is(
