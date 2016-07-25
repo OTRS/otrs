@@ -48,7 +48,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # create new test Process
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
         $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
