@@ -22,8 +22,8 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-# add users
-my $UserRand1 = 'example-user' . int( rand(1000000) );
+# add user
+my $UserRand1 = 'unittest-user-' . time() . int rand 1000000;
 
 my $UserID = $UserObject->UserAdd(
     UserFirstname => 'John',
@@ -53,10 +53,12 @@ my %Tests = (
 );
 
 for my $Order ( sort keys %Tests ) {
+
     $ConfigObject->Set(
         Key   => 'FirstnameLastnameOrder',
         Value => $Order,
     );
+
     $Self->Is(
         $UserObject->UserName( UserID => $UserID ),
         $Tests{$Order},
