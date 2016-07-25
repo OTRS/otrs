@@ -30,68 +30,68 @@ my @Tests = (
         URL         => "",
         Timeout     => $TimeOut,
         Proxy       => $Proxy,
-        Success     => '0',
-        ErrorNumber => '400',
+        Success     => 0,
+        ErrorNumber => 400,
     },
     {
         Name        => 'GET - wrong url - Test ' . $TestNumber++,
         URL         => "wrongurl",
         Timeout     => $TimeOut,
         Proxy       => $Proxy,
-        Success     => '0',
-        ErrorNumber => '400',
+        Success     => 0,
+        ErrorNumber => 400,
     },
     {
         Name        => 'GET - invalid url - Test ' . $TestNumber++,
         URL         => "http://novalidurl",
         Timeout     => $TimeOut,
         Proxy       => $Proxy,
-        Success     => '0',
-        ErrorNumber => '500',
+        Success     => 0,
+        ErrorNumber => 500,
     },
     {
         Name        => 'GET - http - invalid proxy - Test ' . $TestNumber++,
         URL         => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout     => $TimeOut,
         Proxy       => 'http://NoProxy',
-        Success     => '0',
-        ErrorNumber => '500',
+        Success     => 0,
+        ErrorNumber => 500,
     },
     {
         Name        => 'GET - http - ftp proxy - Test ' . $TestNumber++,
         URL         => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout     => $TimeOut,
         Proxy       => 'ftp://NoProxy',
-        Success     => '0',
-        ErrorNumber => '400',
+        Success     => 0,
+        ErrorNumber => 400,
     },
     {
         Name    => 'GET - http - long timeout - Test ' . $TestNumber++,
         URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
-        Timeout => '100',
+        Timeout => 100,
         Proxy   => $Proxy,
-        Success => '1',
+        Success => 1,
     },
     {
         Name    => 'GET - http - Test ' . $TestNumber++,
         URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout => $TimeOut,
         Proxy   => $Proxy,
-        Success => '1',
+        Success => 1,
     },
     {
         Name    => 'GET - https - Test ' . $TestNumber++,
         URL     => "https://portal.otrs.com/",
         Timeout => $TimeOut,
         Proxy   => $Proxy,
-        Success => '1',
+        Success => 1,
     },
     {
         Name    => 'GET - http - Header ' . $TestNumber++,
         URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
-        Timeout => '100',
+        Timeout => 100,
         Proxy   => $Proxy,
-        Success => '1',
+        Success => 1,
         Header  => {
             Content_Type => 'text/json',
         },
@@ -101,9 +101,9 @@ my @Tests = (
     {
         Name        => 'GET - http - Credentials ' . $TestNumber++,
         URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
-        Timeout     => '100',
+        Timeout     => 100,
         Proxy       => $Proxy,
-        Success     => '1',
+        Success     => 1,
         Credentials => {
             User     => 'guest',
             Password => 'guest',
@@ -114,21 +114,21 @@ my @Tests = (
     {
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
         URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
-        Timeout     => '100',
+        Timeout     => 100,
         Proxy       => $Proxy,
-        Success     => '0',
+        Success     => 0,
         ErrorNumber => 401,
     },
     {
         Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
         URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
-        Timeout     => '100',
+        Timeout     => 100,
         Proxy       => $Proxy,
         Credentials => {
             User     => 'guest',
             Password => 'guest',
         },
-        Success     => '0',
+        Success     => 0,
         ErrorNumber => 401,
     },
 );
@@ -150,67 +150,82 @@ for my $URL ( @{$RepositoryRoot} ) {
 TEST:
 for my $Test (@Tests) {
 
-    my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
-        Timeout => $Test->{Timeout},
-        Proxy   => $Test->{Proxy},
-    );
+    TRY:
+    for my $Try ( 1 .. 3 ) {
 
-    $Self->Is(
-        ref $WebUserAgentObject,
-        'Kernel::System::WebUserAgent',
-        "$Test->{Name} - WebUserAgent object creation",
-    );
-
-    $Self->True(
-        1,
-        "$Test->{Name} - Performing request",
-    );
-
-    my %Response = $WebUserAgentObject->Request(
-        %{$Test},
-    );
-
-    $Self->True(
-        IsHashRefWithData( \%Response ),
-        "$Test->{Name} - WebUserAgent check structure from request",
-    );
-
-    if ( !$Test->{Success} ) {
-        $Self->False(
-            $Response{Content},
-            "$Test->{Name} - WebUserAgent fail test for URL: $Test->{URL}",
+        my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
+            Timeout => $Test->{Timeout},
+            Proxy   => $Test->{Proxy},
         );
+
         $Self->Is(
-            substr( $Response{Status}, 0, 3 ),
-            $Test->{ErrorNumber},
-            "$Test->{Name} - WebUserAgent - Check error number",
+            ref $WebUserAgentObject,
+            'Kernel::System::WebUserAgent',
+            "$Test->{Name} - WebUserAgent object creation",
         );
-        next TEST;
-    }
-    else {
+
+        my %Response = $WebUserAgentObject->Request(
+            %{$Test},
+        );
+
         $Self->True(
-            $Response{Content},
-            "$Test->{Name} - WebUserAgent - Success test for URL: $Test->{URL}",
-        );
-        $Self->Is(
-            substr( $Response{Status}, 0, 3 ),
-            '200',
-            "$Test->{Name} - WebUserAgent - Check request status",
+            IsHashRefWithData( \%Response ),
+            "$Test->{Name} - WebUserAgent check structure from request",
         );
 
-        if ( $Test->{Matches} ) {
+        my $Status = substr $Response{Status}, 0, 3;
+
+        if ( !$Test->{Success} ) {
+
+            if ( $Try < 3 && $Status eq 500 && $Test->{ErrorNumber} ne 500 ) {
+
+                sleep 1;
+
+                next TRY;
+            }
+
+            $Self->False(
+                $Response{Content},
+                "$Test->{Name} - WebUserAgent fail test for URL: $Test->{URL}",
+            );
+
+            $Self->Is(
+                $Status,
+                $Test->{ErrorNumber},
+                "$Test->{Name} - WebUserAgent - Check error number",
+            );
+
+            next TEST;
+        }
+        else {
+
             $Self->True(
-                ( ${ $Response{Content} } =~ $Test->{Matches} ) || undef,
-                "$Test->{Name} - Matches",
+                $Response{Content},
+                "$Test->{Name} - WebUserAgent - Success test for URL: $Test->{URL}",
+            );
+
+            $Self->Is(
+                $Status,
+                200,
+                "$Test->{Name} - WebUserAgent - Check request status",
+            );
+
+            if ( $Test->{Matches} ) {
+                $Self->True(
+                    ( ${ $Response{Content} } =~ $Test->{Matches} ) || undef,
+                    "$Test->{Name} - Matches",
+                );
+            }
+        }
+
+        if ( $Test->{Content} ) {
+
+            $Self->Is(
+                ${ $Response{Content} },
+                $Test->{Content},
+                "$Test->{Name} - WebUserAgent - Check request content",
             );
         }
-    }
-    if ( $Test->{Content} ) {
-        $Self->Is(
-            ${ $Response{Content} },
-            $Test->{Content},
-            "$Test->{Name} - WebUserAgent - Check request content",
-        );
     }
 }
 
