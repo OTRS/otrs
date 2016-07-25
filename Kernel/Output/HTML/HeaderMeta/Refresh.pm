@@ -28,12 +28,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    if ( $Param{Refresh} ) {
-        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Block(
-            Name => 'MetaHttpEquivRefresh',
-            Data => \%Param,
-        );
-    }
+    $Kernel::OM->Get('Kernel::Output::HTML::Layout')->AddJSData(
+        Key   => 'Refresh',
+        Value => $Param{Refresh},
+    );
+
     return 1;
 }
 

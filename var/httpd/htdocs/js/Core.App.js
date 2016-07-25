@@ -299,6 +299,24 @@ Core.App = (function (TargetNS) {
      *      This function initializes the special functions.
      */
     TargetNS.Init = function () {
+        var RefreshSeconds = parseInt(Core.Config.Get('Refresh'), 10) || 0;
+
+        if (RefreshSeconds !== 0) {
+            window.setInterval(function() {
+
+                // If there are any open overlay dialogs, don't refresh
+                if ($('.Dialog:visible').length) {
+                    return;
+                }
+
+                // If there are open child popup windows, don't refresh
+                if (Core && Core.UI && Core.UI.Popup && Core.UI.Popup.HasOpenPopups()) {
+                    return;
+                }
+                // Now we can reload
+                window.location.reload();
+            }, RefreshSeconds * 1000);
+        }
 
         // Initialize return to previous page function.
         TargetNS.ReturnToPreviousPage();

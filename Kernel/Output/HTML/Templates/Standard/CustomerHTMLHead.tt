@@ -22,9 +22,6 @@
             catch (Exception) {}
         }(document, window));
     </script>
-[% RenderBlockStart("MetaHttpEquivRefresh") %]
-[% INCLUDE "HTMLHeadRefresh.tt" %]
-[% RenderBlockEnd("MetaHttpEquivRefresh") %]
 [% RenderBlockStart("MetaLink") %]
     <link rel="[% Data.Rel | html %]" type="[% Data.Type | html %]" title="[% Data.Title | html %]" href="[% Data.Href %]" />
 [% RenderBlockEnd("MetaLink") %]
