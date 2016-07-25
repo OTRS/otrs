@@ -308,17 +308,6 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                     </div>
                 </div>
             </div>
-
-[% RenderBlockStart("ConfigSet") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Config.Set('Webservice.Transport', [% Data.TransportConfig %] );
-    Core.Config.Set('Webservice.Operation', [% Data.OperationConfig %] );
-    Core.Config.Set('Webservice.Invoker', [% Data.InvokerConfig %] );
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ConfigSet") %]
-
 [% RenderBlockStart("DetailsCommunicationType") %]
             <div class="WidgetSimple Expanded">
                 <div class="Header">
@@ -383,20 +372,11 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
 [% RenderBlockStart("DetailsActionsRowDelete") %]
                                     <a id="Delete[% Data.ActionType | html %][% Data.Name | html %]" class="TrashCan Delete[% Data.ActionType | html %]" href="#" title="[% Translate("Delete this action") | html %]">
                                                 [% Translate("Delete this action") | html %]
+                                        <i class="fa fa-trash-o"></i>
                                     </a>
                                     <span>
                                                 [% Data.Name | html %]
                                     </span>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.Admin.GenericInterfaceWebservice.BindDeleteActionDialog({
-        ElementID:                  'Delete[% Data.ActionType | html %][% Data.Name | html %]',
-        ActionName:                 "[% Data.Name | html %]",
-        ActionType:                 "[% Data.ActionType | html %]",
-        ElementSelector:            '#Delete[% Data.ActionType | html %][% Data.Name | html %]'
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("DetailsActionsRowDelete") %]
                                 </td>
                                 <td>[% Translate(Data.Description) | html %]</td>
@@ -445,13 +425,6 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                             [% Translate("or") | html %]
                             <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#SaveAndFinishButton').bind('click', function(){
-    $('#ReturnToWebservice').val(1);
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("SaveAndFinishButton") %]
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env('Action') %]">[% Translate("Cancel") | html %]</a>
@@ -483,12 +456,3 @@ $('#SaveAndFinishButton').bind('click', function(){
     <div class="Clear"></div>
 </div>
 [% RenderBlockEnd("Main") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.GenericInterfaceWebservice.Init({
-    WebserviceID: $('#WebserviceID').val(),
-    Action: "[% Data.Action | html %]"
-});
-//]]></script>
-[% END %]

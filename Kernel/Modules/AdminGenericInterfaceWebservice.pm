@@ -1103,6 +1103,7 @@ sub _ShowEdit {
         else {
 
             # output operation and invoker tables
+            my %JSData;
             for my $ActionName (
                 sort keys %{ $CommTypeConfig{$CommunicationType}->{ActionsConfig} }
                 )
@@ -1127,6 +1128,8 @@ sub _ShowEdit {
                     $NoControllerFound = 1;
                     $ControllerClass   = 'Error';
                 }
+
+                $JSData{ $ActionData{Name} } = $ActionData{ActionType};
 
                 $LayoutObject->Block(
                     Name => 'DetailsActionsRow',
@@ -1156,6 +1159,12 @@ sub _ShowEdit {
                     );
                 }
             }
+
+            # send data to JS
+            $LayoutObject->AddJSData(
+                Key   => 'JSData',
+                Value => \%JSData
+            );
         }
 
         if ($NoControllerFound) {
@@ -1186,27 +1195,14 @@ sub _OutputGIConfig {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # parse the transport config as JSON structure
-    my $TransportConfig = $LayoutObject->JSONEncode(
-        Data => $Param{GITransports},
-    );
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'Webservice',
+        Value => {
+            Transport => $Param{GITransports},
+            Operation => $Param{GIOperations},
+            Invoker   => $Param{GIInvokers},
 
-    # parse the operation config as JSON structure
-    my $OpertaionConfig = $LayoutObject->JSONEncode(
-        Data => $Param{GIOperations},
-    );
-
-    # parse the operation config as JSON structure
-    my $InvokerConfig = $LayoutObject->JSONEncode(
-        Data => $Param{GIInvokers},
-    );
-
-    $LayoutObject->Block(
-        Name => 'ConfigSet',
-        Data => {
-            TransportConfig => $TransportConfig,
-            OperationConfig => $OpertaionConfig,
-            InvokerConfig   => $InvokerConfig,
         },
     );
 
