@@ -128,7 +128,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
         $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",  'css' )->VerifiedSubmit();

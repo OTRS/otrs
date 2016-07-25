@@ -101,7 +101,7 @@ $Selenium->RunTest(
             ->VerifiedClick();
 
         # run test statistic
-        $Selenium->find_element( "#StartStatistic", 'css' )->click();
+        $Selenium->find_element( "#StartStatistic", 'css' )->VerifiedClick();
         $Selenium->WaitFor( WindowCount => 2 );
 
         # switch to another window

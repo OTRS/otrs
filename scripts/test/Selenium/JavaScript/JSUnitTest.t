@@ -32,7 +32,7 @@ $Selenium->RunTest(
             # Remove path
             $File =~ s{.*/}{}smx;
 
-            $Selenium->get("${WebPath}js/test/$File");
+            $Selenium->VerifiedGet("${WebPath}js/test/$File");
 
             my $JSModuleName = $File;
             $JSModuleName =~ s{\.UnitTest\.html}{}xms;

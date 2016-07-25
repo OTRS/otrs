@@ -128,10 +128,10 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # navigate to created test ticket in AgentTicketZoom page
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click on forward
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketForward;TicketID=$TicketID;' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketForward;TicketID=$TicketID;' )]")->VerifiedClick();
 
         # switch to forward window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -158,10 +158,10 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
         $Selenium->execute_script("\$('#ComposeStateID').val('4').trigger('redraw.InputField').trigger('change');");
 
-        $Selenium->find_element( "#ToCustomer", 'css' )->submit();
+        $Selenium->find_element( "#ToCustomer", 'css' )->VerifiedSubmit();
 
         # return back to AgentTicketZoom
         $Selenium->WaitFor( WindowCount => 1 );

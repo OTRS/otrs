@@ -142,7 +142,7 @@ $Selenium->RunTest(
         # change test CustomerUser relations for test Group
         $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
 
-        $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->click();
+        $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check test Group relation for test CustomerUser
@@ -161,8 +161,8 @@ $Selenium->RunTest(
         );
 
         # remove test Group relation for test CustomerUser
-        $Selenium->find_element("//input[\@value='$GroupID'][\@name='rw']")->click();
-        $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->click();
+        $Selenium->find_element("//input[\@value='$GroupID'][\@name='rw']")->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # get DB object

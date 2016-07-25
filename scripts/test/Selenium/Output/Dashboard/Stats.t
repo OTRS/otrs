@@ -95,12 +95,12 @@ $Selenium->RunTest(
 
         # enable stats widget on dashboard
         my $StatsInSettings = "Settings10" . $TestStatID . "-Stats";
-        $Selenium->find_element( ".SettingsWidget .Header a", "css" )->click();
+        $Selenium->find_element( ".SettingsWidget .Header a", "css" )->VerifiedClick();
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('.SettingsWidget.Expanded').length;"
         );
 
-        $Selenium->find_element( "#$StatsInSettings",      'css' )->click();
+        $Selenium->find_element( "#$StatsInSettings",      'css' )->VerifiedClick();
         $Selenium->find_element( ".SettingsWidget button", 'css' )->VerifiedClick();
 
         my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Stats::Dashboard::Generate');

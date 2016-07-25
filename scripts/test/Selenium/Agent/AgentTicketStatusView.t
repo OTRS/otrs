@@ -120,11 +120,11 @@ $Selenium->RunTest(
                 for my $TicketID (@TicketIDs) {
 
                     # select all created test tickets
-                    $Selenium->find_element("//input[\@type='checkbox'][\@value='$TicketID']")->click();
+                    $Selenium->find_element("//input[\@type='checkbox'][\@value='$TicketID']")->VerifiedClick();
                 }
 
                 # click on bulk action and switch window
-                $Selenium->find_element("//*[text()='Bulk']")->click();
+                $Selenium->find_element("//*[text()='Bulk']")->VerifiedClick();
 
                 $Selenium->WaitFor( WindowCount => 2 );
                 my $Handles = $Selenium->get_window_handles();
@@ -135,7 +135,7 @@ $Selenium->RunTest(
 
                 # change state to 'closed successful'
                 $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
-                $Selenium->find_element( "#submitRichText", 'css' )->click();
+                $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
                 # switch back to AgentTicketStatusView
                 $Selenium->WaitFor( WindowCount => 1 );

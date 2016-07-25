@@ -90,7 +90,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # go to history view to verify results
-        $Selenium->find_element("//*[text()='History']")->click();
+        $Selenium->find_element("//*[text()='History']")->VerifiedClick();
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );

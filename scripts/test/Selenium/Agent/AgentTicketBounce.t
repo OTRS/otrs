@@ -119,7 +119,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click to bounce ticket
-        $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketBounce') ]")->click();
+        $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketBounce') ]")->VerifiedClick();
 
         # switch to bounce window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -140,7 +140,7 @@ $Selenium->RunTest(
         # check JS functionality
         # click on checkbox - unchecked state
         $Selenium->execute_script("\$('#InformSender').prop('checked', true)");
-        $Selenium->find_element( "#InformSender", 'css' )->click();
+        $Selenium->find_element( "#InformSender", 'css' )->VerifiedClick();
 
         # check up if labels does not have class Mandatory
         for my $Label (qw(To Subject RichText)) {
@@ -152,7 +152,7 @@ $Selenium->RunTest(
         }
 
         # click on checkbox - checked state
-        $Selenium->find_element( "#InformSender", 'css' )->click();
+        $Selenium->find_element( "#InformSender", 'css' )->VerifiedClick();
 
         # check up if labels have class Mandatory
         for my $Label (qw(To Subject RichText)) {
@@ -164,12 +164,12 @@ $Selenium->RunTest(
         }
 
         # set on initial unchecked state of checkbox
-        $Selenium->find_element( "#InformSender", 'css' )->click();
+        $Selenium->find_element( "#InformSender", 'css' )->VerifiedClick();
 
         # bounce ticket to another test email
         $Selenium->find_element( "#BounceTo", 'css' )->send_keys("test\@localhost.com");
         $Selenium->execute_script("\$('#BounceStateID').val('4').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # wait for bounce to be handled
         $Selenium->WaitFor( WindowCount => 1 );

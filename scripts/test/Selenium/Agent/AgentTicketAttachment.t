@@ -111,7 +111,7 @@ $Selenium->RunTest(
         );
 
         # check ticket attachment
-        $Selenium->get(
+        $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentTicketAttachment;ArticleID=$ArticleID;FileID=1",
             {
                 NoVerify => 1,

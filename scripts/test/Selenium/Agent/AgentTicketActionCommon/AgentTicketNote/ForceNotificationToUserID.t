@@ -142,7 +142,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -173,7 +173,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );

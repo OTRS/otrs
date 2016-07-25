@@ -120,7 +120,7 @@ $Selenium->RunTest(
         }
 
         # add search filter by ticket number and run it
-        $Selenium->find_element( ".AddButton",   'css' )->click();
+        $Selenium->find_element( ".AddButton",   'css' )->VerifiedClick();
         $Selenium->find_element( "TicketNumber", 'name' )->send_keys($TicketNumber);
         $Selenium->find_element( "TicketNumber", 'name' )->VerifiedSubmit();
 
@@ -200,7 +200,7 @@ $Selenium->RunTest(
 
         # try to search fulltext with string less then 3 characters
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MinCharString);
-        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->VerifiedClick();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
 
@@ -217,7 +217,7 @@ $Selenium->RunTest(
         # try to search fulltext with string more than 30 characters
         $Selenium->find_element( "Fulltext", 'name' )->clear();
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
-        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->VerifiedClick();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
 
@@ -234,7 +234,7 @@ $Selenium->RunTest(
         # try to search fulltext with 'stop word' search
         $Selenium->find_element( "Fulltext", 'name' )->clear();
         $Selenium->find_element( "Fulltext", 'name' )->send_keys('because');
-        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->VerifiedClick();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
 

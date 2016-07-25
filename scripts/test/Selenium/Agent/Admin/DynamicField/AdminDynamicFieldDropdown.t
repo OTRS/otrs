@@ -101,7 +101,7 @@ $Selenium->RunTest(
 
             $Selenium->find_element( "#Name",     'css' )->send_keys($RandomID);
             $Selenium->find_element( "#Label",    'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#AddValue", 'css' )->click();
+            $Selenium->find_element( "#AddValue", 'css' )->VerifiedClick();
             $Selenium->find_element( "#Key_1",    'css' )->send_keys("Key1");
             $Selenium->find_element( "#Value_1",  'css' )->send_keys("Value1");
 
@@ -113,15 +113,15 @@ $Selenium->RunTest(
             );
 
             # add another possible value
-            $Selenium->find_element( "#AddValue", 'css' )->click();
+            $Selenium->find_element( "#AddValue", 'css' )->VerifiedClick();
             $Selenium->find_element( "#Key_2",    'css' )->send_keys("Key2");
             $Selenium->find_element( "#Value_2",  'css' )->send_keys("Value2");
 
             # add another possible value
-            $Selenium->find_element( "#AddValue", 'css' )->click();
+            $Selenium->find_element( "#AddValue", 'css' )->VerifiedClick();
 
             # submit form, expecting validation check
-            $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->click();
+            $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
             $Self->Is(
                 $Selenium->execute_script(
@@ -148,7 +148,7 @@ $Selenium->RunTest(
             );
 
             # remove added possible value
-            $Selenium->find_element( "#RemoveValue__3", 'css' )->click();
+            $Selenium->find_element( "#RemoveValue__3", 'css' )->VerifiedClick();
 
             # verify default value is changed
             $Self->Is(

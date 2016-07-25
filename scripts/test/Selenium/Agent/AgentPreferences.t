@@ -130,13 +130,13 @@ JAVASCRIPT
         );
 
         # now enable the checkbox and try to submit again, it should work this time
-        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->click();
+        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->VerifiedClick();
         $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->VerifiedClick();
 
         $Selenium->execute_script($CheckAlertJS);
 
         # now that the checkbox is checked, it should not be possible to disable it again
-        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->click();
+        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),

@@ -68,7 +68,7 @@ $Selenium->RunTest(
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
-        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
+        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->VerifiedClick();
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
@@ -131,7 +131,7 @@ $Selenium->RunTest(
         );
 
         # click on next step in process ticket
-        $Selenium->find_element("//a[contains(\@href, \'ProcessEntityID=$ListReverse{$ProcessName}' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'ProcessEntityID=$ListReverse{$ProcessName}' )]")->VerifiedClick();
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
@@ -141,7 +141,7 @@ $Selenium->RunTest(
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject", 'css' )->submit();
+        $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
 
         # return to main window
         $Selenium->WaitFor( WindowCount => 1 );

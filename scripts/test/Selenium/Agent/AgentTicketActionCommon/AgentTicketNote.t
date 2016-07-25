@@ -83,7 +83,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -129,7 +129,7 @@ $Selenium->RunTest(
         }
 
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # switch window back to agent ticket zoom view of created test ticket
         $Selenium->WaitFor( WindowCount => 1 );
@@ -142,7 +142,7 @@ $Selenium->RunTest(
         );
 
         # click on 'History' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -162,14 +162,14 @@ $Selenium->RunTest(
         );
 
         # close history window
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->VerifiedClick();
 
         # switch window back to agent ticket zoom view of created test ticket
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931
-        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->VerifiedClick();
 
         # switch window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -192,7 +192,7 @@ $Selenium->RunTest(
         );
 
         # close note window
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->VerifiedClick();
 
         # switch window back to agent ticket zoom view of created test ticket
         $Selenium->WaitFor( WindowCount => 1 );

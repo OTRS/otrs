@@ -255,9 +255,9 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Selenium Compose Text');
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
@@ -265,7 +265,7 @@ $Selenium->RunTest(
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
-        $Selenium->find_element("//*[text()='History']")->click();
+        $Selenium->find_element("//*[text()='History']")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();

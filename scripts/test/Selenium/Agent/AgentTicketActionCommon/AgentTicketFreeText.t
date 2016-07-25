@@ -82,7 +82,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Free Fields' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -104,7 +104,7 @@ $Selenium->RunTest(
         # change ticket title
         $Selenium->find_element( "#Title",          'css' )->clear();
         $Selenium->find_element( "#Title",          'css' )->send_keys('FreeText');
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );

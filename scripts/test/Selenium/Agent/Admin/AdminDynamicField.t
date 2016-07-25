@@ -166,7 +166,7 @@ JAVASCRIPT
 
                 $Selenium->find_element(
                     "//a[contains(\@data-query-string, \'Subaction=DynamicFieldDelete;ID=$DynamicFieldID' )]"
-                )->click();
+                )->VerifiedClick();
 
                 my $LanguageObject = Kernel::Language->new(
                     UserLanguage => $Language,

@@ -155,14 +155,14 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # click to 'Read certificate', verify JS will open a pop up window
-        $Selenium->find_element( ".CertificateRead", 'css' )->click();
+        $Selenium->find_element( ".CertificateRead", 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
         $Self->True(
-            $Selenium->find_element( ".CancelClosePopup", 'css' )->click(),
+            $Selenium->find_element( ".CancelClosePopup", 'css' )->VerifiedClick(),
             "Pop-up window is found - JS is successful"
         );
 
@@ -177,7 +177,7 @@ $Selenium->RunTest(
                 index( $Selenium->get_page_source(), "Type=$TestSMIME;Filename=" ) > -1,
                 "Test $TestSMIME SMIME found on table"
             );
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->click();
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->VerifiedClick();
 
             # accept JS delete confirmation dialog
             $Selenium->accept_alert();

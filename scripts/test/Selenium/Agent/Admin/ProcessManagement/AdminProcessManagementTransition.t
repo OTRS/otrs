@@ -54,13 +54,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
 
         # click on Transitions dropdown
-        $Selenium->find_element( "Transitions", 'link_text' )->click();
+        $Selenium->find_element( "Transitions", 'link_text' )->VerifiedClick();
 
         # wait to toggle element
         sleep 1;
 
         # click on "Create New Transition"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionNew' )]")->VerifiedClick();
 
         # switch to pop up window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -118,24 +118,24 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][1]']")->send_keys($TransitionValueName);
 
         # try to remove Field, expecting JS error
-        $Selenium->find_element("//a[\@title='Remove this Field']")->click();
+        $Selenium->find_element("//a[\@title='Remove this Field']")->VerifiedClick();
         $Self->True(
             $Selenium->accept_alert(),
             "Unable to remove only field - JS is success"
         );
 
         # add new Field
-        $Selenium->find_element("//a[\@title='Add a new Field']")->click();
+        $Selenium->find_element("//a[\@title='Add a new Field']")->VerifiedClick();
         $Selenium->find_element(".//*[\@id='ConditionFieldName[1][2]']")->send_keys( $TransitionFieldName . '2' );
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][2]']")->send_keys( $TransitionValueName . '2' );
 
         # add new Condition and input fields
-        $Selenium->find_element("//button[\@id='ConditionAdd']")->click();
+        $Selenium->find_element("//button[\@id='ConditionAdd']")->VerifiedClick();
         $Selenium->find_element(".//*[\@id='ConditionFieldName[2][1]']")->send_keys( $TransitionFieldName . '22' );
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[2][1]']")->send_keys( $TransitionValueName . '22' );
 
         # submit form
-        $Selenium->find_element("//button[\@id='Submit']")->click();
+        $Selenium->find_element("//button[\@id='Submit']")->VerifiedClick();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -172,7 +172,7 @@ $Selenium->RunTest(
         }
 
         # go to edit test Transition screen
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -228,8 +228,8 @@ $Selenium->RunTest(
             ->send_keys($TransitionValueNameEdit);
 
         # remove Conditions, expecting JS error on last Condition removal
-        $Selenium->find_element("//a[\@name='ConditionRemove[2]']")->click();
-        $Selenium->find_element("//a[\@name='ConditionRemove[1]']")->click();
+        $Selenium->find_element("//a[\@name='ConditionRemove[2]']")->VerifiedClick();
+        $Selenium->find_element("//a[\@name='ConditionRemove[1]']")->VerifiedClick();
 
         $Self->True(
             $Selenium->accept_alert(),
@@ -237,7 +237,7 @@ $Selenium->RunTest(
         );
 
         # submit form
-        $Selenium->find_element("//button[\@id='Submit']")->click();
+        $Selenium->find_element("//button[\@id='Submit']")->VerifiedClick();
 
         # return to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -260,7 +260,7 @@ $Selenium->RunTest(
         );
 
         # go to edit test ActivityDialog screen again
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->VerifiedClick();
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 

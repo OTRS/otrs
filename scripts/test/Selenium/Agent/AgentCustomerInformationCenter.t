@@ -154,7 +154,7 @@ $Selenium->RunTest(
             # click on link
             $Selenium->find_element(
                 "//a[contains(\@href, \'Subaction=Search;StateType=$TicketData{$TestLinks}->{TicketLink};CustomerID=$TestCustomerUserLogin' )]"
-            )->click();
+            )->VerifiedClick();
 
             # wait until page has loaded, if necessary
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
@@ -170,7 +170,7 @@ $Selenium->RunTest(
             # click on 'Change search option'
             $Selenium->find_element(
                 "//a[contains(\@href, \'AgentTicketSearch;Subaction=LoadProfile' )]"
-            )->click();
+            )->VerifiedClick();
 
             # wait until search dialog has been loaded
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SearchFormSubmit").length' );
@@ -179,7 +179,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#StateIDs", 'css' );
 
             # open CIC again for the next test case
-            $Selenium->get(
+            $Selenium->VerifiedGet(
                 "${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerUserLogin"
             );
 

@@ -105,7 +105,7 @@ $Selenium->RunTest(
         );
 
         # set tickets per page to 10
-        $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();
+        $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->VerifiedClick();
         $Selenium->execute_script(
             "\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');"
         );

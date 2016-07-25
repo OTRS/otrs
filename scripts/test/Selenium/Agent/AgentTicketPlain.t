@@ -120,7 +120,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click to show ticket in plain view
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPlain' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPlain' )]")->VerifiedClick();
 
         # switch to plain window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -145,7 +145,7 @@ $Selenium->RunTest(
         );
 
         # close plain view window
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->VerifiedClick();
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
