@@ -91,6 +91,13 @@ Core.TicketProcess = (function (TargetNS) {
                 return false;
             });
         }
+
+        // Bind event on Priority field
+        if (typeof Core.Config.Get('PriorityFieldsToUpdate') !== 'undefined') {
+            $('#PriorityID').on('change', function () {
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'PriorityID' , Core.Config.Get('PriorityFieldsToUpdate'));
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
