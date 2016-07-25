@@ -62,6 +62,21 @@ Core.TicketProcess = (function (TargetNS) {
                 Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'LockID', Core.Config.Get('LockFieldsToUpdate'));
             });
         }
+
+        if (typeof Core.Config.Get('OwnerFieldsToUpdate') !== 'undefined') {
+
+            // Bind event on Owner field
+            $('#OwnerID').on('change', function () {
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'OwnerID', Core.Config.Get('OwnerFieldsToUpdate'));
+            });
+
+            // Bind event on Owner get all button
+            $('#OwnerSelectionGetAll').on('click', function () {
+                $('#OwnerAll').val('1');
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'OwnerID', ['OwnerID']);
+                return false;
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
