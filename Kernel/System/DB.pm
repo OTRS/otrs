@@ -569,6 +569,13 @@ sub Prepare {
         return;
     }
 
+    if ( $Param{Bind} && ref $Param{Bind} ne 'ARRAY' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Bind must be and array reference!',
+        );
+    }
+
     $Self->{_PreparedOnSlaveDB} = 0;
 
     # Route SELECT statements to the DB slave if requested and a slave is configured.
