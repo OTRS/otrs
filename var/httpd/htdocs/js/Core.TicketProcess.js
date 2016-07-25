@@ -77,6 +77,20 @@ Core.TicketProcess = (function (TargetNS) {
                 return false;
             });
         }
+
+        // Bind event on Responsible field
+        if (typeof Core.Config.Get('ResponsibleFieldsToUpdate') !== 'undefined') {
+            $('#ResponsibleID').on('change', function () {
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'ResponsibleID' , Core.Config.Get('ResponsibleFieldsToUpdate'));
+            });
+
+            // Bind event on Responsible Get all button
+            $('#ResponsibleSelectionGetAll').on('click', function () {
+                $('#ResponsibleAll').val('1');
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'ResponsibleID' , ['ResponsibleID']);
+                return false;
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
