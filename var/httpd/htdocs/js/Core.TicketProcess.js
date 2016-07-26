@@ -115,6 +115,13 @@ Core.TicketProcess = (function (TargetNS) {
             $Form = $(this).closest('form');
             Core.Form.Validate.DisableValidation($Form);
         });
+
+        // Bind event on Queue field
+        if (typeof Core.Config.Get('QueueFieldsToUpdate') !== 'undefined') {
+            $('#QueueID').on('change', function () {
+                Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'QueueID' , Core.Config.Get('QueueFieldsToUpdate'));
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

@@ -3907,9 +3907,10 @@ sub _RenderQueue {
         PossibleNone  => 1,
     );
 
-    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
-        TriggerField        => 'QueueID',
-        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'QueueFieldsToUpdate',
+        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
