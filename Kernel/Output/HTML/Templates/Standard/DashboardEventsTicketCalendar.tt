@@ -6,50 +6,9 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-
-    $(document).ready(function() {
-        Core.Agent.Dashboard.EventsTicketCalendarInit({
-            FirstDay: [% Data.FirstDay | html %],
-            Events: [
-[% RenderBlockStart("CalendarEvent") %]
-                {
-                    id: [% Data.ID | html %],
-                    title: "[% Data.Title | html %]",
-                    start: new Date(    "[% Data.SYear | html %]",
-                                        "[% Data.SMonth | html %]",
-                                        "[% Data.SDay | html %]",
-                                        "[% Data.SHour | html %]",
-                                        "[% Data.SMinute | html %]",
-                                        "[% Data.SSecond | html %]"),
-                    end: new Date(      "[% Data.EYear | html %]",
-                                        "[% Data.EMonth | html %]",
-                                        "[% Data.EDay | html %]",
-                                        "[% Data.EHour | html %]",
-                                        "[% Data.EMinute | html %]",
-                                        "[% Data.ESecond | html %]"),
-                    color: "[% Data.Color | html %]",
-                    url: "[% Data.Url | html %]",
-                    description: "[% Data.Title | html %]<br />[% Data.QueueName | html %]<br />[% Data.Description | html %]",
-                    allDay: false
-                }
-[% RenderBlockStart("CalendarEventComma") %]
-                 ,
-[% RenderBlockEnd("CalendarEventComma") %]
-[% RenderBlockEnd("CalendarEvent") %]
-            ]
-        });
-
-    });
-
-//]]></script>
-[% END %]
-
 [% RenderBlockStart("CalendarDiv") %]
 <div style="width: [% Data.CalendarWidth | html %]%; margin: 0 auto; z-index: 10;" id='calendar'></div>
 [% RenderBlockEnd("CalendarDiv") %]
-
 
 <div class="Hidden" >
 
