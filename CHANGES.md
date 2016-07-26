@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-07-26 Added a new postmaster filter to decrypt and handle encrypted mails.
  - 2016-07-18 Fixed bug#[7860](http://bugs.otrs.org/show_bug.cgi?id=7860) - AgentTicketSearch and Statistics are missing TicketPending option.
  - 2016-07-13 Added a javascript templating mechanism. Use Core.Template.Render() to fill given templates from either files or strings with data.
  - 2016-06-24 Improved TicketSearch() to return error on a search for inexistent dynamic fields instead of ignoring them, thanks to Moritz Lenz.
