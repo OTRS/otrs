@@ -91,7 +91,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
 
         # test search filter by agent $UserRandomID
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminUser");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();

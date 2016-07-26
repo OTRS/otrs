@@ -142,11 +142,11 @@ $Selenium->RunTest(
                 for my $TicketID (@TicketIDs) {
 
                     # select all created test tickets
-                    $Selenium->find_element("//input[\@type='checkbox'][\@value='$TicketID']")->click();
+                    $Selenium->find_element("//input[\@type='checkbox'][\@value='$TicketID']")->VerifiedClick();
                 }
 
                 # click on bulk action and switch window
-                $Selenium->find_element("//*[text()='Bulk']")->click();
+                $Selenium->find_element("//*[text()='Bulk']")->VerifiedClick();
                 $Selenium->WaitFor( WindowCount => 2 );
                 my $Handles = $Selenium->get_window_handles();
                 $Selenium->switch_to_window( $Handles->[1] );
@@ -161,7 +161,6 @@ $Selenium->RunTest(
                 # switch back to AgentTicketResponsibleView
                 $Selenium->WaitFor( WindowCount => 1 );
                 $Selenium->switch_to_window( $Handles->[0] );
-
             }
 
             # switch back to AgentTicketResponsibleView

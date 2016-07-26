@@ -121,7 +121,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Responsible' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketResponsible;TicketID=$TicketID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketResponsible;TicketID=$TicketID' )]")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();

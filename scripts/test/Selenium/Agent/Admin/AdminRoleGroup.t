@@ -102,7 +102,7 @@ $Selenium->RunTest(
 
         # set permissions
         for my $Permission (qw(ro note owner)) {
-            $Selenium->find_element("//input[\@value='$GroupID'][\@name='$Permission']")->click();
+            $Selenium->find_element("//input[\@value='$GroupID'][\@name='$Permission']")->VerifiedClick();
         }
 
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
@@ -171,7 +171,7 @@ $Selenium->RunTest(
 
         # set permissions
         for my $Permission (qw(note move_into priority create)) {
-            $Selenium->find_element("//input[\@value='$RoleID'][\@name='$Permission']")->click();
+            $Selenium->find_element("//input[\@value='$RoleID'][\@name='$Permission']")->VerifiedClick();
         }
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 

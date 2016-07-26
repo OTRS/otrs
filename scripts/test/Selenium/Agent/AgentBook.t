@@ -78,12 +78,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
 
         # click 'Address book' and switch to iframe
-        $Selenium->find_element( "#OptionAddressBook", 'css' )->click();
+        $Selenium->find_element( "#OptionAddressBook", 'css' )->VerifiedClick();
         $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
         # search by $RandomNumber for all test customer users as result
         $Selenium->execute_script("\$('#Search').val($RandomNumber)");
-        $Selenium->find_element( "#Search", 'css' )->submit();
+        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SearchResult").length' );
 
@@ -92,7 +92,7 @@ $Selenium->RunTest(
             my $RelCustomer = $Mail . 'Customer';
             $Selenium->find_element(
                 "a[rel=$RelCustomer][title*=\"$CustomerUsers{$Mail}->[0]->{UserEmail}\"]", 'css'
-            )->click();
+            )->VerifiedClick();
         }
 
         # click 'Apply'
@@ -121,7 +121,7 @@ $Selenium->RunTest(
             );
 
             # click 'Address book'
-            $Selenium->find_element( "#OptionAddressBook", 'css' )->click();
+            $Selenium->find_element( "#OptionAddressBook", 'css' )->VerifiedClick();
             $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
             # fill corresponding field to duplicate customer user
@@ -144,7 +144,7 @@ $Selenium->RunTest(
             );
 
             # click OK
-            $Selenium->find_element( "#DialogButton1", 'css' )->click();
+            $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
         }
 
         # cleanup

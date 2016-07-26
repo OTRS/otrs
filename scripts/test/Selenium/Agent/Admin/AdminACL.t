@@ -83,7 +83,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",           'css' )->send_keys( $TestACLNames[0] );
         $Selenium->find_element( "#Comment",        'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
-        $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
+        $Selenium->find_element( "#StopAfterMatch", 'css' )->VerifiedClick();
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
@@ -166,7 +166,7 @@ JAVASCRIPT
         );
 
         # now lets add the CustomerUser element on level 2
-        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='CustomerUser']", 'css' )->click();
+        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='CustomerUser']", 'css' )->VerifiedClick();
 
         # now there should be a new .DataItem element with an input element
         $Self->Is(
@@ -192,7 +192,7 @@ JAVASCRIPT
 
         # now lets add the DynamicField element on level 2, which should create a new dropdown
         # element containing dynamic fields and an 'Add all' button
-        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )->click();
+        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#ACLMatch .DataItem .NewDataKeyDropdown', 'css' )->is_displayed(),

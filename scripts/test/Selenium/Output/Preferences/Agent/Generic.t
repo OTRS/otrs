@@ -74,7 +74,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to agent preferences
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
@@ -122,7 +122,7 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element( "#$Test->{Update}", 'css' )->click();
+            $Selenium->find_element( "#$Test->{Update}", 'css' )->VerifiedClick();
 
             # wait until form has loaded, if neccessary
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );

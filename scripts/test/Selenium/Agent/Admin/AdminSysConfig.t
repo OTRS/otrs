@@ -121,7 +121,7 @@ $Selenium->RunTest(
         );
 
         # disable sysconfig Ticket::InvalidOwner::StateChangeItemActive
-        $Selenium->find_element("//input[\@id='Ticket::InvalidOwner::StateChangeItemActive']")->click();
+        $Selenium->find_element("//input[\@id='Ticket::InvalidOwner::StateChangeItemActive']")->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -132,7 +132,7 @@ $Selenium->RunTest(
         );
 
         # enable sysconfig Ticket::InvalidOwner::StateChangeItemActive
-        $Selenium->find_element("//input[\@id='Ticket::InvalidOwner::StateChangeItemActive']")->click();
+        $Selenium->find_element("//input[\@id='Ticket::InvalidOwner::StateChangeItemActive']")->VerifiedClick();
 
         # restore edited values back to default
         for my $ResetDefault (
@@ -145,7 +145,7 @@ $Selenium->RunTest(
 
         # verify loaded JS on this screen
         # click on 'Show more'
-        $Selenium->find_element( ".DescriptionOverlay", 'css' )->click();
+        $Selenium->find_element( ".DescriptionOverlay", 'css' )->VerifiedClick();
 
         # verify dialog is open
         $Self->True(

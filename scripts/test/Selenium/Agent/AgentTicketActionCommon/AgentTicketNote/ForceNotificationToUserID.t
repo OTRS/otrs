@@ -34,21 +34,21 @@ $Selenium->RunTest(
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###InvolvedAgent',
-            Value => 1
+            Value => 1,
         );
 
         # enable involved agent feature
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###InformAgent',
-            Value => 1
+            Value => 1,
         );
 
         # do not check RichText
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0
+            Value => 0,
         );
 
         $SysConfigObject->ConfigItemUpdate(

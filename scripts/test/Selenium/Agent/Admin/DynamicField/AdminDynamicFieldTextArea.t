@@ -105,7 +105,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Label",                       'css' )->send_keys($RandomID);
             $Selenium->find_element( "#Rows",                        'css' )->send_keys("3");
             $Selenium->find_element( "#Cols",                        'css' )->send_keys("5");
-            $Selenium->find_element( "#AddRegEx",                    'css' )->click();
+            $Selenium->find_element( "#AddRegEx",                    'css' )->VerifiedClick();
             $Selenium->find_element( "#RegEx_1",                     'css' )->send_keys($RegEx);
             $Selenium->find_element( "#CustomerRegExErrorMessage_1", 'css' )->send_keys($RegExErrorTxt);
             $Selenium->find_element( "#Name",                        'css' )->VerifiedSubmit();

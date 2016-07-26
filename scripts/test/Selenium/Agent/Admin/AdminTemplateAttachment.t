@@ -129,7 +129,7 @@ $Selenium->RunTest(
         # change test Attachment relation for test Template
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$TemplateID' )]")->VerifiedClick();
 
-        $Selenium->find_element("//input[\@value='$AttachmentID'][\@type='checkbox']")->click();
+        $Selenium->find_element("//input[\@value='$AttachmentID'][\@type='checkbox']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check test Template relation for test Attachment
@@ -140,7 +140,7 @@ $Selenium->RunTest(
             "$AttachmentRandomID is in a relation with $TemplateRandomID",
         );
 
-        $Selenium->find_element("//input[\@value='$TemplateID'][\@type='checkbox']")->click();
+        $Selenium->find_element("//input[\@value='$TemplateID'][\@type='checkbox']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # since there are no tickets that rely on our test TemplateAttachment,

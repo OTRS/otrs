@@ -103,7 +103,7 @@ $Selenium->RunTest(
         $Selenium->find_element( $TicketNumber, 'link_text' )->VerifiedClick();
 
         # click on attachment to open it
-        $Selenium->find_element("//*[text()=\"$AttachmentName\"]")->click();
+        $Selenium->find_element("//*[text()=\"$AttachmentName\"]")->VerifiedClick();
 
         # switch to another window
         $Selenium->WaitFor( WindowCount => 2 );

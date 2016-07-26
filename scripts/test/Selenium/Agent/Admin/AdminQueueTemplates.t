@@ -126,12 +126,12 @@ $Selenium->RunTest(
         # change test Queue relation for the first Template
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$Templates[0]->{TemplateID}' )]")
             ->VerifiedClick();
-        $Selenium->find_element("//input[\@value='$QueueID'][\@type='checkbox']")->click();
+        $Selenium->find_element("//input[\@value='$QueueID'][\@type='checkbox']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # change test Template relation for test Queue
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Queue;ID=$QueueID' )]")->VerifiedClick();
-        $Selenium->find_element("//input[\@value='$Templates[1]->{TemplateID}'][\@type='checkbox']")->click();
+        $Selenium->find_element("//input[\@value='$Templates[1]->{TemplateID}'][\@type='checkbox']")->VerifiedClick();
 
         # test checked and unchecked values while filter is used for Template
         # test filter with "WrongFilterTemplate" to uncheck all values
@@ -151,7 +151,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # uncheck the second test standard template
-        $Selenium->find_element("//input[\@value='$Templates[1]->{TemplateID}'][\@type='checkbox']")->click();
+        $Selenium->find_element("//input[\@value='$Templates[1]->{TemplateID}'][\@type='checkbox']")->VerifiedClick();
 
         # test checked and unchecked values after using filter
         $Selenium->find_element( "#Filter", 'css' )->clear();

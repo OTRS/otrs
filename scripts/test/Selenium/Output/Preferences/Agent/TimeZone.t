@@ -40,7 +40,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to agent preferences
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
@@ -49,7 +49,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserTimeZone').val('Europe/Berlin').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#UserTimeZone", 'css' )->submit();
+        $Selenium->find_element( "#UserTimeZone", 'css' )->VerifiedSubmit();
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );

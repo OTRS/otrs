@@ -225,7 +225,7 @@ $Selenium->RunTest(
         $ExpectedAlertText = "Fulltext: $MaxCharString";
         $Self->True(
             $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
-            'Maximum character string search warning is found'
+            'Maximum character string search warning is found',
         );
 
         # accept alert

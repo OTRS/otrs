@@ -156,7 +156,7 @@ $Selenium->RunTest(
             # click on link
             $Selenium->find_element(
                 "//a[contains(\@href, \'$TicketData{$TestLinks}->{TicketLink};CustomerUserLogin=$TestCustomerUserLogin' )]"
-            )->click();
+            )->VerifiedClick();
 
             $Selenium->WaitFor( WindowCount => 2 );
 
@@ -178,7 +178,7 @@ $Selenium->RunTest(
             # click on 'Change search option'
             $Selenium->find_element(
                 "//a[contains(\@href, \'AgentTicketSearch;Subaction=LoadProfile' )]"
-            )->click();
+            )->VerifiedClick();
 
             # link open in new window switch to it
             $Handles = $Selenium->get_window_handles();

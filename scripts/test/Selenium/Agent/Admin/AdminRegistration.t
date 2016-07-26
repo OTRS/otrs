@@ -95,7 +95,7 @@ $Selenium->RunTest(
         for my $Dialog ( sort keys %Dialogs ) {
 
             # click on the linked text
-            $Selenium->find_element( "#$Dialog", 'css' )->click();
+            $Selenium->find_element( "#$Dialog", 'css' )->VerifiedClick();
 
             # check up if corresponding modal dialog exists on the page
             $Self->Is(
@@ -105,7 +105,7 @@ $Selenium->RunTest(
             );
 
             # close the modal dialog
-            $Selenium->find_element( ".Dialog.Modal .fa.fa-times", 'css' )->click();
+            $Selenium->find_element( ".Dialog.Modal .fa.fa-times", 'css' )->VerifiedClick();
         }
 
         # stop daemon

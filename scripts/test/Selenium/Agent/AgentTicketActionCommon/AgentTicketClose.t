@@ -30,7 +30,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0
+            Value => 0,
         );
 
         # create test user and login
@@ -76,7 +76,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click on 'Close' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();

@@ -54,7 +54,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
 
         # create new test Activity
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityNew' )]")->VerifiedClick();
 
         # switch to pop up window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -86,7 +86,7 @@ $Selenium->RunTest(
 
         # input name field and submit
         $Selenium->find_element( "#Name", 'css' )->send_keys($ActivityRandom);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -120,7 +120,7 @@ $Selenium->RunTest(
         }
 
         # check for stored value and edit test Activity
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityEdit;ID=$ActivityID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityEdit;ID=$ActivityID' )]")->VerifiedClick();
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );

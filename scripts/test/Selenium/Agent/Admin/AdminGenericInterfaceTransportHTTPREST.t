@@ -194,7 +194,7 @@ $Selenium->RunTest(
         );
 
         # click to 'Save' and verify client side validation for missing fields
-        $Selenium->find_element("//button[\@value='Save and continue']")->click();
+        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
         for my $ValidationField (qw( Host User X509CertFile X509KeyFile)) {
             $Self->Is(
                 $Selenium->execute_script(
