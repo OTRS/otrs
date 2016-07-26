@@ -380,9 +380,17 @@ sub Run {
             StandardForwards  => $StandardTemplates{Forward},
             Type              => 'OnLoad',
         );
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'MenuItems',
+            Value => $Self->{MenuItems},
+        );
+
         my $Content = $LayoutObject->Output(
             TemplateFile => 'AgentTicketZoom',
             Data         => { %Ticket, %Article, %AclAction },
+            AJAX         => 1,
         );
         if ( !$Content ) {
             $LayoutObject->FatalError(
@@ -956,6 +964,13 @@ sub MaskAgentZoom {
                 Type              => 'Static',
             );
         }
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'MenuItems',
+            Value => $Self->{MenuItems},
+        );
+
         $Param{ArticleItems} .= $LayoutObject->Output(
             TemplateFile => 'AgentTicketZoom',
             Data         => { %Ticket, %AclAction },
@@ -2412,6 +2427,8 @@ sub _ArticleItem {
             ArticleMetaData => \@ArticleMetaData
         },
     );
+
+    push @{ $Self->{MenuItems} }, \@MenuItems;
 
     # show created by if different from User ID 1
     if ( $Article{CreatedBy} > 1 ) {
