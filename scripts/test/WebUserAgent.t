@@ -199,6 +199,13 @@ for my $Test (@Tests) {
         }
         else {
 
+            if ( $Try < 3 && ( !$Response{Content} || !$Status || $Status ne 200 ) ) {
+
+                sleep 1;
+
+                next TRY;
+            }
+
             $Self->True(
                 $Response{Content},
                 "$Test->{Name} - WebUserAgent - Success test for URL: $Test->{URL}",
