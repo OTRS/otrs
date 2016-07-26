@@ -240,17 +240,25 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
      * @name Redirect
      * @memberof Core.Agent.Admin.GenericInterfaceWebservice
      * @function
-     * @param {String} ConfigKey
+     * @param {String} Config
      * @param {String} DataSource
      * @param {Object} Data
      * @description
      *      Redirects.
      */
-    TargetNS.Redirect = function(ConfigKey, DataSource, Data) {
+    TargetNS.Redirect = function(Config, DataSource, Data) {
         var WebserviceConfigPart, Action, ConfigElement;
 
         // get configuration
-        WebserviceConfigPart = Core.Config.Get(ConfigKey);
+        // after JS refactoring this is most probably already a config object
+        // and not a config key anymore
+        // keeping the old part for backwards compatibility (can be removed later)
+        if (typeof Config === 'object') {
+            WebserviceConfigPart = Config;
+        }
+        else {
+            WebserviceConfigPart = Core.Config.Get(Config);
+        }
 
         // get the Config Element name, if none it will have "null" value
         ConfigElement = $('#' + DataSource).val();
