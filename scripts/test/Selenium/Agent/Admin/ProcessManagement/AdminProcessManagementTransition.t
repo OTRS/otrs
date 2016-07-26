@@ -237,7 +237,7 @@ $Selenium->RunTest(
         );
 
         # submit form
-        $Selenium->find_element("//button[\@id='Submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@id='Submit']")->click();
 
         # return to main window
         $Selenium->WaitFor( WindowCount => 1 );

@@ -141,7 +141,7 @@ $Selenium->RunTest(
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # return to main window
         $Selenium->WaitFor( WindowCount => 1 );

@@ -86,7 +86,7 @@ $Selenium->RunTest(
 
         # input name field and submit
         $Selenium->find_element( "#Name", 'css' )->send_keys($ActivityRandom);
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Name", 'css' )->submit();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );

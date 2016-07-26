@@ -171,13 +171,12 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # check for test created Certificate and Privatekey and delete them
-        for my $TestSMIME (qw(key cert))
-        {
+        for my $TestSMIME (qw(key cert)) {
             $Self->True(
                 index( $Selenium->get_page_source(), "Type=$TestSMIME;Filename=" ) > -1,
-                "Test $TestSMIME SMIME found on table"
+                "Test $TestSMIME SMIME found on table",
             );
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->click();
 
             # accept JS delete confirmation dialog
             $Selenium->accept_alert();
