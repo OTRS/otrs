@@ -877,6 +877,12 @@ sub Login {
         }
     }
 
+    # send data to JS
+    $Self->AddJSData(
+        Key   => 'LoginFailed',
+        Value => $Param{LoginFailed},
+    );
+
     # create & return output
     $Output .= $Self->Output(
         TemplateFile => 'Login',

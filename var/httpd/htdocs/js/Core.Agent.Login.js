@@ -24,11 +24,12 @@ Core.Agent.Login = (function (TargetNS) {
      * @name Init
      * @memberof Core.Agent.Login
      * @function
-     * @param {Boolean} LoginFailed
      * @description
      *      This function initializes the special module functions.
      */
-    TargetNS.Init = function (LoginFailed) {
+    TargetNS.Init = function () {
+
+        var LoginFailed = Core.Config.Get('LoginFailed');
 
         // Browser is too old
         if (!Core.Agent.SupportedBrowser) {
@@ -58,7 +59,7 @@ Core.Agent.Login = (function (TargetNS) {
         $('#TimeZoneOffset').val((new Date()).getTimezoneOffset());
 
         // shake login box on authentication failure
-        if (LoginFailed) {
+        if (typeof LoginFailed !== 'undefined' && parseInt(LoginFailed, 10) === 1) {
             Core.UI.Animate($('#LoginBox'), 'Shake');
         }
 
@@ -82,7 +83,17 @@ Core.Agent.Login = (function (TargetNS) {
                 .closest('.ErrorBox')
                 .fadeIn('slow');
         }
+
+        // Clear chat availability
+        $('#LoginButton').click(function () {
+            localStorage.removeItem('Availability');
+
+            // continue
+            return true;
+        });
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.Login || {}));
