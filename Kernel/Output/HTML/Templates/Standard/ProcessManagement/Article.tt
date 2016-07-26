@@ -62,13 +62,6 @@
         <li>
             [% Data.Filename | html %] ([% Data.Filesize | html %])
             <button type="submit" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="SpacingLeft">[% Translate("Delete") | html %]</button>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#AttachmentDelete[% Data.FileID | html %]').bind('click', function () {
-        Core.Form.Validate.DisableValidation($('#AttachmentDelete[% Data.FileID | html %]').closest('form'));
-    });
-//]]></script>
-[% END %]
         </li>
 [% RenderBlockEnd("Attachment") %]
         <li>
@@ -76,15 +69,6 @@
             <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
         </li>
     </ul>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#FileUpload').bind('change', function (Event) {
-        var $Form = $('#FileUpload').closest('form');
-        Core.Form.Validate.DisableValidation($Form);
-        $Form.find('#AttachmentUpload').val('1').end().submit();
-    });
-//]]></script>
-[% END %]
 </div>
 <div class="Clear"></div>
 [% RenderBlockStart("TimeUnitsLabel") %]

@@ -98,6 +98,23 @@ Core.TicketProcess = (function (TargetNS) {
                 Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'PriorityID' , Core.Config.Get('PriorityFieldsToUpdate'));
             });
         }
+
+        // Bind event to FileUpload button
+        $('#FileUpload').on('change', function () {
+            var $Form;
+
+            $Form = $('#FileUpload').closest('form');
+            Core.Form.Validate.DisableValidation($Form);
+            $Form.find('#AttachmentUpload').val('1').end().submit();
+        });
+
+        // Bind event to AttachmentDelete button
+        $('button[id*=AttachmentDelete]').on('click', function () {
+            var $Form;
+
+            $Form = $(this).closest('form');
+            Core.Form.Validate.DisableValidation($Form);
+        });
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
