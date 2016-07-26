@@ -172,7 +172,8 @@ $Selenium->RunTest(
         }
 
         # go to edit test Transition screen
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -260,7 +261,8 @@ $Selenium->RunTest(
         );
 
         # go to edit test ActivityDialog screen again
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")
+            ->VerifiedClick();
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 

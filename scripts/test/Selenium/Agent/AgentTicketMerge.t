@@ -72,7 +72,8 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # click on merge
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")
+            ->VerifiedClick();
 
         # switch to merge window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -116,7 +117,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#InformSender", 'css' )->VerifiedClick();
 
         # collapse the widget
-        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )
+            ->VerifiedClick();
 
         # check if the widget is collapsed
         $Self->Is(
@@ -128,7 +130,8 @@ $Selenium->RunTest(
         );
 
         # expand the widget again
-        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )
+            ->VerifiedClick();
 
         # check if the widget is expanded
         $Self->Is(
@@ -188,7 +191,8 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # click on merge
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();

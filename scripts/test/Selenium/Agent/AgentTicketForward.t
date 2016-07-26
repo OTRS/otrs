@@ -131,7 +131,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click on forward
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketForward;TicketID=$TicketID;' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketForward;TicketID=$TicketID;' )]")
+            ->VerifiedClick();
 
         # switch to forward window
         $Selenium->WaitFor( WindowCount => 2 );

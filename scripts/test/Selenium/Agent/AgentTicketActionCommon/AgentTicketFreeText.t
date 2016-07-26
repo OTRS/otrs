@@ -82,7 +82,8 @@ $Selenium->RunTest(
         );
 
         # click on 'Free Fields' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
