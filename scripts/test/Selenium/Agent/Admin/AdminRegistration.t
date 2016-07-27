@@ -71,6 +71,8 @@ $Selenium->RunTest(
             $Selenium->execute_script("\$('#Password').val('$Test->{Value}')");
             $Selenium->find_element( "#OTRSID", 'css' )->VerifiedSubmit();
 
+            sleep 1;
+
             if ( $Test->{Name} ne 'Wrong email address' ) {
                 $Self->Is(
                     $Selenium->execute_script("return \$('#OTRSID').hasClass('Error')"),
