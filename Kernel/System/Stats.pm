@@ -3309,7 +3309,6 @@ sub _GenerateDynamicStats {
         }
     }
 
-
     # REMARK: it could be also useful to use the indiviual sort if difined
     # so you don't need this function
     if ( $StatObject->can('GetHeaderLine') ) {

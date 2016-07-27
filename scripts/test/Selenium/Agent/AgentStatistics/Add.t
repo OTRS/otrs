@@ -212,7 +212,8 @@ $Selenium->RunTest(
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Add");
 
             # add new statistics
-            $Selenium->find_element("//a[contains(\@data-statistic-preselection, \'$StatsData->{Type}\' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@data-statistic-preselection, \'$StatsData->{Type}\' )]")
+                ->VerifiedClick();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length' );
 
             my $Description = 'Description ' . $StatsData->{Title};
@@ -287,7 +288,8 @@ $Selenium->RunTest(
             for my $StatsFormat (@StatsFormat) {
 
                 # change preview format
-                $Selenium->find_element("//button[contains(\@data-format, \'$StatsFormat->{Format}')]")->VerifiedClick();
+                $Selenium->find_element("//button[contains(\@data-format, \'$StatsFormat->{Format}')]")
+                    ->VerifiedClick();
                 $Self->True(
                     $Selenium->execute_script("return \$('#$StatsFormat->{PreviewContent}').css('display')") eq 'block',
                     "StackedArea format is displayed",

@@ -273,7 +273,6 @@ my @Tickets = (
         },
     },
 
-
     # add the ticket in the second statistic queue
     # (for a time zones >= '+2' this ticket was created the next day)
     {
@@ -2739,7 +2738,8 @@ my @Tests = (
     #               'CreateTime' with a relative period 'the last complete 7 days'
     # Language: de
     {
-        Description => "Test dynamic list stat with some selected columns and a restriction for the create time and language 'de'",
+        Description =>
+            "Test dynamic list stat with some selected columns and a restriction for the create time and language 'de'",
         TimeStamp   => '2015-08-15 20:00:00',
         Language    => 'de',
         StatsUpdate => {
