@@ -87,24 +87,39 @@ sub new {
 
 creates a random ID that can be used in tests as a unique identifier.
 
-=cut
+It is guaranteed that within a test this function will never return a duplicate.
 
-# Make sure that every RandomID is only generated once in a process to
-#   ensure predictability for unit test runs.
-my %SeenRandomIDs;
+Please note that these numbers are not really random and should only be used
+to create test data.
+
+=cut
 
 sub GetRandomID {
     my ( $Self, %Param ) = @_;
 
-    LOOP:
-    for ( 1 .. 1_000 ) {
-        my $RandomID = 'test' . time() . int( rand(1_000_000_000) );
-        if ( !$SeenRandomIDs{$RandomID}++ ) {
-            return $RandomID;
-        }
-    }
+    return 'test' . $Self->GetRandomNumber();
+}
 
-    die "Could not generate RandomID!\n";
+=item GetRandomNumber()
+
+creates a random Number that can be used in tests as a unique identifier.
+
+It is guaranteed that within a test this function will never return a duplicate.
+
+Please note that these numbers are not really random and should only be used
+to create test data.
+
+=cut
+
+# Use package variables here (instead of attributes in $Self)
+# to make it work across several unit tests that run during the same second.
+my %GetRandomNumberPrevious;
+
+sub GetRandomNumber {
+
+    my $Prefix = $$ . substr time(), -5, 5;
+
+    return $Prefix . $GetRandomNumberPrevious{$Prefix}++ || 0;
 }
 
 =item TestUserCreate()
