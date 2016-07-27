@@ -3771,7 +3771,7 @@ sub _CreateStaticResultCacheFilename {
     );
 
     return
-          'Stats'
+        'Stats'
         . $Param{StatID} . '-'
         . $Kernel::OM->Get('Kernel::Language')->{UserLanguage} . '-'
         . $MD5Key
