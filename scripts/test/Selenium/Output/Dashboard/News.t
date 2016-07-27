@@ -32,7 +32,7 @@ $Selenium->RunTest(
         $SysConfigObject->ConfigItemUpdate(
             Valid => 0,
             Key   => 'DashboardBackend',
-            Value => \%$Config,
+            Value => $Config,
         );
 
         # get dashboard News plugin default sysconfig
@@ -61,6 +61,12 @@ $Selenium->RunTest(
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
+
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # navigate dashboard screen and wait until page has loaded
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
 
         # test if News plugin shows correct link
         my $NewsLink = "https://www.otrs.com/";
