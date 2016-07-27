@@ -130,20 +130,13 @@ to create test data.
 
 # Use package variables here (instead of attributes in $Self)
 # to make it work across several unit tests that run during the same second.
-my $GetRandomNumberPreviousEpoch = 0;
-my $GetRandomNumberCounter       = 0;
+my %GetRandomNumberPrevious;
 
 sub GetRandomNumber {
-    my ( $Self, %Param ) = @_;
 
-    my $Epoch = time();
-    $GetRandomNumberPreviousEpoch //= 0;
-    if ( $GetRandomNumberPreviousEpoch != $Epoch ) {
-        $GetRandomNumberPreviousEpoch = $Epoch;
-        $GetRandomNumberCounter       = 0;
-    }
+    my $Prefix = $$ . substr time(), -5, 5;
 
-    return $Epoch . $GetRandomNumberCounter++;
+    return $Prefix . $GetRandomNumberPrevious{$Prefix}++ || 0;
 }
 
 =item TestUserCreate()
