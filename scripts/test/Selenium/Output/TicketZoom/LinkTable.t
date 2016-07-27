@@ -190,6 +190,8 @@ $Selenium->RunTest(
             Value => 'Complex',
         );
 
+        sleep 1;
+
         # reload screen AgentTicketZoom
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
 
