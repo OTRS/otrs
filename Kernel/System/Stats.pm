@@ -2740,8 +2740,8 @@ sub _GenerateStaticStats {
 
         # these two lines are requirements of me, perhaps this
         # information is needed for former static stats
-        Format       => $Param{Format}->[0],
-        Module       => $Param{ObjectModule},
+        Format => $Param{Format}->[0],
+        Module => $Param{ObjectModule},
     );
 
     $Result[0]->[0] = $Param{Title} . ' ' . $Result[0]->[0];
@@ -3770,7 +3770,12 @@ sub _CreateStaticResultCacheFilename {
         Type     => 'md5',
     );
 
-    return 'Stats' . $Param{StatID} . '-' . $Kernel::OM->Get('Kernel::Language')->{UserLanguage} . '-' . $MD5Key . '.cache';
+    return
+          'Stats'
+        . $Param{StatID} . '-'
+        . $Kernel::OM->Get('Kernel::Language')->{UserLanguage} . '-'
+        . $MD5Key
+        . '.cache';
 }
 
 =item _SetResultCache()
