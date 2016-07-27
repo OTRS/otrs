@@ -89,7 +89,7 @@ $Selenium->RunTest(
         );
 
         # expand navigation bar
-        $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->click();
+        $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->VerifiedClick();
         sleep(1);
         $ItemVisible = $Selenium->execute_script(
             q{
@@ -103,7 +103,7 @@ $Selenium->RunTest(
         );
 
         # collapse navigation bar again
-        $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->click();
+        $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->VerifiedClick();
         sleep(1);
         $ItemVisible = $Selenium->execute_script(
             q{
@@ -117,7 +117,7 @@ $Selenium->RunTest(
         );
 
         # expand sidebar
-        $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->click();
+        $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->VerifiedClick();
         sleep(1);
         $ItemVisible = $Selenium->execute_script(
             q{
@@ -131,7 +131,7 @@ $Selenium->RunTest(
         );
 
         # collapse sidebar again
-        $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->click();
+        $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->VerifiedClick();
         sleep(1);
         $ItemVisible = $Selenium->execute_script(
             q{
@@ -145,7 +145,7 @@ $Selenium->RunTest(
         );
 
         # expand toolbar
-        $Selenium->find_element( "#Logo", "css" )->click();
+        $Selenium->find_element( "#Logo", "css" )->VerifiedClick();
         sleep(1);
         $ItemVisible = $Selenium->execute_script(
             q{
@@ -182,7 +182,7 @@ $Selenium->RunTest(
         );
 
         # collapse toolbar again
-        $Selenium->find_element( "#Logo", "css" )->click();
+        $Selenium->find_element( "#Logo", "css" )->VerifiedClick();
         sleep(1);
         $ItemVisible = $Selenium->execute_script(
             q{
@@ -232,7 +232,7 @@ $Selenium->RunTest(
         );
 
         # toggle the switch
-        $Selenium->find_element( "#ViewModeSwitch", "css" )->click();
+        $Selenium->find_element( "#ViewModeSwitch", "css" )->VerifiedClick();
 
         # wait until jquery is ready
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
@@ -272,7 +272,7 @@ $Selenium->RunTest(
         );
 
         # toggle the switch again
-        $Selenium->find_element( "#ViewModeSwitch", "css" )->click();
+        $Selenium->find_element( "#ViewModeSwitch", "css" )->VerifiedClick();
 
         # wait until jquery is ready
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );

@@ -114,7 +114,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Link'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->VerifiedClick();
 
         # switch to link object window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -127,7 +127,7 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->VerifiedSubmit();
 
         # link created test tickets
-        $Selenium->find_element("//input[\@value='$TicketIDs[1]'][\@type='checkbox']")->click();
+        $Selenium->find_element("//input[\@value='$TicketIDs[1]'][\@type='checkbox']")->VerifiedClick();
         $Selenium->execute_script(
             "\$('#TypeIdentifier').val('ParentChild::Target').trigger('redraw.InputField').trigger('change');"
         );
@@ -338,7 +338,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Link'
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->VerifiedClick();
 
         # switch to link object window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -363,13 +363,13 @@ $Selenium->RunTest(
         );
 
         # select all links
-        $Selenium->find_element( "#SelectAllLinks0", "css" )->click();
+        $Selenium->find_element( "#SelectAllLinks0", "css" )->VerifiedClick();
 
         # make sure it's selected
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0:checked").length' );
 
         # click on delete links
-        $Selenium->find_element( ".Primary", "css" )->click();
+        $Selenium->find_element( ".Primary", "css" )->VerifiedClick();
 
         # wait until page has loaded, if necessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0").length' );

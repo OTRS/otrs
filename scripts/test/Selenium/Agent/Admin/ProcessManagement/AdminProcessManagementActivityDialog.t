@@ -55,13 +55,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
 
         # click on ActivityDialog dropdown
-        $Selenium->find_element( "Activity Dialogs", 'link_text' )->click();
+        $Selenium->find_element( "Activity Dialogs", 'link_text' )->VerifiedClick();
 
         # wait to toggle element
         sleep 1;
 
         # click "Create New Activity Dialog"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogNew' )]")->VerifiedClick();
 
         # switch to pop up window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -110,7 +110,7 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('ul#ActivityDialogs li:contains($ActivityDialogRandom)').length"
         );
-        $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
+        $Selenium->find_element( "Activity Dialogs",      'link_text' )->VerifiedClick();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandom);
 
         # wait for filter to kick in
@@ -135,7 +135,7 @@ $Selenium->RunTest(
 
         # go to edit test ActivityDialog screen
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogEdit;ID=$ActivityDialogID' )]")
-            ->click();
+            ->VerifiedClick();
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
@@ -195,7 +195,7 @@ $Selenium->RunTest(
 
         # go to edit test ActivityDialog screen again
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogEdit;ID=$ActivityDialogID' )]")
-            ->click();
+            ->VerifiedClick();
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );

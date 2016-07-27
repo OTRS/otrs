@@ -84,13 +84,13 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysMainComment);
 
-        $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",     'css' )->click();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']", 'css' )->click();
+        $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",     'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']", 'css' )->VerifiedClick();
         $Selenium->execute_script(
             "\$('#StopDateYear').val('$YearWrong').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",  'css' )->click();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']", 'css' )->click();
+        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",  'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']", 'css' )->VerifiedClick();
 
         $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
         $Self->True(
@@ -109,20 +109,20 @@ $Selenium->RunTest(
         );
 
         # create real test SystemMaintenance
-        $Selenium->find_element( "#StartDateDay option[value='" . int($DayStart) . "']",     'css' )->click();
-        $Selenium->find_element( "#StartDateMonth option[value='" . int($MonthStart) . "']", 'css' )->click();
+        $Selenium->find_element( "#StartDateDay option[value='" . int($DayStart) . "']",     'css' )->VerifiedClick();
+        $Selenium->find_element( "#StartDateMonth option[value='" . int($MonthStart) . "']", 'css' )->VerifiedClick();
         $Selenium->execute_script(
             "\$('#StartDateYear').val('$YearStart').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StartDateHour option[value='" . int($HourStart) . "']",  'css' )->click();
-        $Selenium->find_element( "#StartDateMinute option[value='" . int($MinStart) . "']", 'css' )->click();
-        $Selenium->find_element( "#StopDateDay option[value='" . int($DayEnd) . "']",       'css' )->click();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthEnd) . "']",   'css' )->click();
+        $Selenium->find_element( "#StartDateHour option[value='" . int($HourStart) . "']",  'css' )->VerifiedClick();
+        $Selenium->find_element( "#StartDateMinute option[value='" . int($MinStart) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateDay option[value='" . int($DayEnd) . "']",       'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthEnd) . "']",   'css' )->VerifiedClick();
         $Selenium->execute_script(
             "\$('#StopDateYear').val('$YearEnd').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StopDateHour option[value='" . int($HourEnd) . "']",  'css' )->click();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->click();
+        $Selenium->find_element( "#StopDateHour option[value='" . int($HourEnd) . "']",  'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->VerifiedClick();
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($SysMainLogin);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($SysMainNotify);
         $Selenium->find_element( "#Comment",       'css' )->VerifiedSubmit();

@@ -119,7 +119,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click to bounce ticket
-        $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketBounce') ]")->click();
+        $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketBounce') ]")->VerifiedClick();
 
         # switch to bounce window
         $Selenium->WaitFor( WindowCount => 2 );

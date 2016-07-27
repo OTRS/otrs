@@ -90,9 +90,9 @@ $Selenium->RunTest(
         );
 
         # select both tickets and click on "bulk"
-        $Selenium->find_element("//input[\@value='$Tickets[0]->{TicketID}']")->click();
-        $Selenium->find_element("//input[\@value='$Tickets[1]->{TicketID}']")->click();
-        $Selenium->find_element( "Bulk", 'link_text' )->click();
+        $Selenium->find_element("//input[\@value='$Tickets[0]->{TicketID}']")->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$Tickets[1]->{TicketID}']")->VerifiedClick();
+        $Selenium->find_element( "Bulk", 'link_text' )->VerifiedClick();
 
         # switch to bulk window
         $Selenium->WaitFor( WindowCount => 2 );

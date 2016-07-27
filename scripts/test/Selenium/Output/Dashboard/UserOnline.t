@@ -81,7 +81,7 @@ $Selenium->RunTest(
         );
 
         # switch to online customers and test UserOnline plugin for customers
-        $Selenium->find_element("//a[contains(\@id, \'Customer' )]")->click();
+        $Selenium->find_element("//a[contains(\@id, \'Customer' )]")->VerifiedClick();
 
         # Wait for AJAX
         my $ExpectedCustomer = "$TestCustomerUserLogin";

@@ -112,7 +112,7 @@ $Selenium->RunTest(
         );
 
         # check test attachment in MIME-Viwer, WaitFor will be done after switch to window
-        $Selenium->find_element("//a[contains(\@title, \'Viewer' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'Viewer' )]")->VerifiedClick();
 
         # switch to link object window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -128,8 +128,6 @@ $Selenium->RunTest(
             );
         }
         $Selenium->close();
-
-        #$Selenium->switch_to_window( $Handles->[0] );
 
         # delete created test ticket
         my $Success = $TicketObject->TicketDelete(

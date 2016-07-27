@@ -36,7 +36,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to agent preferences
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
@@ -47,11 +47,11 @@ $Selenium->RunTest(
 
         # change test user out of office preference
         my $EndYear = $CurrentYear + 1;
-        $Selenium->find_element( "#OutOfOfficeOn", 'css' )->click();
+        $Selenium->find_element( "#OutOfOfficeOn", 'css' )->VerifiedClick();
         $Selenium->execute_script(
             "\$('#OutOfOfficeEndYear').val('$EndYear').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#Update", 'css' )->click();
+        $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
@@ -68,7 +68,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#OutOfOfficeStartYear').val('$StartYear').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#Update", 'css' )->click();
+        $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
