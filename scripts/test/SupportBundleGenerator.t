@@ -14,12 +14,11 @@ use utf8;
 use vars (qw($Self));
 
 use Archive::Tar;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject                 = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject                 = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper                       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject                   = $Kernel::OM->Get('Kernel::System::Main');
 my $SupportBundleGeneratorObject = $Kernel::OM->Get('Kernel::System::SupportBundleGenerator');
 my $PackageObject                = $Kernel::OM->Get('Kernel::System::Package');
@@ -84,9 +83,10 @@ if ($IsDevelopmentSystem) {
         );
         my $Output;
         my $File = 'Kernel/Config.pm';
+        LINE:
         for my $Line ( @{$ArchiveContent} ) {
             if ( $Line =~ m(\A\w+::$File\n\z) ) {
-                $Line = int( rand(1000000) ) . "::$File\n";
+                next LINE;
             }
             $Output .= $Line;
         }
@@ -183,7 +183,7 @@ for my $Test (@Tests) {
         for my $File ( @{ $Test->{ModifyFiles} } ) {
 
             # this operation is destructive be aware of it!
-            my $Content = $HelperObject->GetRandomID();
+            my $Content = $Helper->GetRandomID();
             $Content .= "\n";
             my $FileLocation = $MainObject->FileWrite(
                 Location => $File,
@@ -449,7 +449,7 @@ for my $Entry ( @{ $OriginalResult{Result} } ) {
 }
 $OriginalResult{Result} = \%OriginalIdentifiers;
 
-# for some strange reasons if mod_perl is activated, it happnes that some times it uses it and
+# for some strange reasons if mod_perl is activated, it happens that some times it uses it and
 # sometimes is doesn't for this test we delete the possible offending identifiers
 for my $Identifier (
     qw(
@@ -459,6 +459,7 @@ for my $Identifier (
     Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
+    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
     )
     )
 {
@@ -498,7 +499,7 @@ for my $Entry ( @{ $PerlStructureScalar->{Result} } ) {
 }
 $PerlStructureScalar->{Result} = \%NewIdentifiers;
 
-# for some strange reasons if mod_perl is activated, it happnes that some times it uses it and
+# for some strange reasons if mod_perl is activated, it happens that some times it uses it and
 # sometimes is doesn't for this test we delete the possible offending identifiers
 for my $Identifier (
     qw(
@@ -508,6 +509,7 @@ for my $Identifier (
     Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
+    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
     )
     )
 {
