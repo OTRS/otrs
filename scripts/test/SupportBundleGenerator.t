@@ -465,6 +465,7 @@ for my $Identifier (
     Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
+    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
     )
     )
 {
