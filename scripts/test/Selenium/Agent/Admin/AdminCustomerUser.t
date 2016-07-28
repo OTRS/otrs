@@ -230,7 +230,10 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
         # click on '[ Customer User ]' to test customer user creation from iframe
-        $Selenium->find_element( "#OptionCustomer", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#OptionCustomer", 'css' )->click();
+
+        sleep(1);
+
         $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
         # click to 'Add customer user'
