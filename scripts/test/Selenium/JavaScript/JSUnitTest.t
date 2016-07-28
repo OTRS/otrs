@@ -43,7 +43,7 @@ $Selenium->RunTest(
                     "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;"
             );
             $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $("#qunit-testresult.complete").length;'
+                JavaScript => 'return typeof($) === "function" && $("#qunit-testresult").hasClass("complete") && $("#qunit-testresult span.total").is(":visible");'
             );
 
             my $Completed = $Selenium->execute_script(
