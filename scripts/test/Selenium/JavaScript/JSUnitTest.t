@@ -37,41 +37,23 @@ $Selenium->RunTest(
             my $JSModuleName = $File;
             $JSModuleName =~ s{\.UnitTest\.html}{}xms;
 
-            # we want to try get the JS unit test results for up to 5 times
-            # because some tests run longer than others and cause problems why trying to
-            # detect if the test was finished or not
-            my $MaxTries = 5;
+            # Wait for the tests to complete.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;"
+            );
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $("#qunit-testresult.complete").length;'
+            );
 
-            TRY:
-            for my $Try (1 .. $MaxTries) {
+            my $Completed = $Selenium->execute_script(
+                "return \$('#qunit-testresult.complete').length"
+            );
 
-                # Wait for the tests to complete.
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;"
-                );
-                $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $("#qunit-testresult.complete").length;'
-                );
-
-                my $Completed;
-
-                # we don't want an error to be shown
-                eval {
-                    $Completed = $Selenium->execute_script(
-                        "return \$('#qunit-testresult.complete').length"
-                    );
-                };
-                # if there was an error we will try again
-                if ($@) {
-                    next TRY if $Try < $MaxTries;
-                }
-
-                $Self->True(
-                    $Completed,
-                    "$File - JavaScript unit tests completed"
-                );
-            }
+            $Self->True(
+                $Completed,
+                "$File - JavaScript unit tests completed"
+            );
 
             $Selenium->find_element( "#qunit-testresult span.failed", 'css' );
             $Selenium->find_element( "#qunit-testresult span.passed", 'css' );
