@@ -699,8 +699,8 @@ my @Tests = (
             Success => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: Namespace from SOAPAction"
-                . " 'http://otrs.org/InvalidSoapTestInterface/' does not match namespace"
-                . " from configuration 'http://otrs.org/SoapTestInterface/'",
+                . " 'http://otrs.org/InvalidSoapTestInterface' does not match namespace"
+                . " from configuration 'http://otrs.org/SoapTestInterface'",
 
         },
         WebserviceConfig => {
