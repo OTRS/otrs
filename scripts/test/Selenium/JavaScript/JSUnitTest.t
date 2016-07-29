@@ -38,7 +38,7 @@ $Selenium->RunTest(
             $JSModuleName =~ s{\.UnitTest\.html}{}xms;
 
             # we want to try get the JS unit test results for up to 5 times
-            # because some tests ru longer than others and cause problems why trying to
+            # because some tests run longer than others and cause problems why trying to
             # detect if the test was finished or not
             my $MaxTries = 5;
 
@@ -56,7 +56,7 @@ $Selenium->RunTest(
 
                 my $Completed;
 
-                # we don't want a error to be shown
+                # we don't want an error to be shown
                 eval {
                     $Completed = $Selenium->execute_script(
                         "return \$('#qunit-testresult.complete').length"
