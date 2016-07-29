@@ -175,7 +175,9 @@ sub ProviderProcessRequest {
             );
         }
 
-        # Remove trailing "/" form configuration for comparison
+        # Remove trailing "/" form configuration and request for comparison
+        $NameSpaceFromHeader =~ s{\A ( .+? ) / \z}{$1}msx;
+
         my $NameSpace = $Config->{NameSpace};
         $NameSpace =~ s{\A ( .+? ) / \z}{$1}msx;
 
