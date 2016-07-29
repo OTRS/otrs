@@ -32,7 +32,7 @@
  - 2016-05-21 Fixed bug#[12012](http://bugs.otrs.org/show_bug.cgi?id=12012) - JSON Response contains all Dynamic Fields in Article response.
  - 2016-05-20 Fixed bug#[12069](http://bugs.otrs.org/show_bug.cgi?id=12069) - enabling/disabling Article Filter show wrong article.
  - 2016-05-20 Fixed bug#[8153](http://bugs.otrs.org/show_bug.cgi?id=8153) - When configuration area is not activated, it is still editable.
- - 2016-05-19 Fixed bug#[9950](http://bugs.otrs.org/show_bug.cgi?id=9950) - Ticket Split takes uses system address as the customer.
+ - 2016-05-19 Followup for bug#[9950](http://bugs.otrs.org/show_bug.cgi?id=9950) - Ticket Split takes uses system address as the customer.
  - 2016-05-13 Fixed bug#[12045](http://bugs.otrs.org/show_bug.cgi?id=12045) - Not possible to create a Ticket using TransitionAction::TicketCreate with Owner instead of OwnerID.
  - 2016-05-12 Fixed bug#[9345](http://bugs.otrs.org/show_bug.cgi?id=9345) - OTRS exceeds 998 character limit in References Line of E-Mail Header.
 
