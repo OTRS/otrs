@@ -37,23 +37,36 @@ $Selenium->RunTest(
             my $JSModuleName = $File;
             $JSModuleName =~ s{\.UnitTest\.html}{}xms;
 
-            # Wait for the tests to complete.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;"
-            );
-            $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $("#qunit-testresult").hasClass("complete") && $("#qunit-testresult span.total").is(":visible");'
-            );
+            my $MaxTries = 5;
 
-            my $Completed = $Selenium->execute_script(
-                "return \$('#qunit-testresult.complete').length"
-            );
+            TRY:
+            for my $Try (1 .. $MaxTries) {
 
-            $Self->True(
-                $Completed,
-                "$File - JavaScript unit tests completed"
-            );
+                # Wait for the tests to complete.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;"
+                );
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("#qunit-testresult.complete").length;'
+                );
+
+                my $Completed;
+
+                eval {
+                    $Completed = $Selenium->execute_script(
+                        "return \$('#qunit-testresult.complete').length"
+                    );
+                };
+                if ($@) {
+                    next TRY if $Try < $MaxTries;
+                }
+
+                $Self->True(
+                    $Completed,
+                    "$File - JavaScript unit tests completed"
+                );
+            }
 
             $Selenium->find_element( "#qunit-testresult span.failed", 'css' );
             $Selenium->find_element( "#qunit-testresult span.passed", 'css' );
