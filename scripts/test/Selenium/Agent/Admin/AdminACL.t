@@ -209,8 +209,12 @@ JAVASCRIPT
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change')");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
+        sleep 1;
+
         # navigate to 'Create new ACL' screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLNew");
+
+        sleep 1;
 
         # add new ACL
         $Selenium->execute_script("\$('#Name').val('$TestACLNames[1]')");
