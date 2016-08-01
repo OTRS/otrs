@@ -6,14 +6,14 @@ use if $] >= 5.019, 'deprecate';
 our @EXPORT_OK = qw(rearrange rearrange_header make_attributes unescape escape
         expires ebcdic2ascii ascii2ebcdic);
 
-our $VERSION = '4.21';
+our $VERSION = '4.32';
 
 our $_EBCDIC = "\t" ne "\011";
 
-# This option is not documented and may change or go away.
-# The HTML spec does not require attributes to be sorted,
-# but it's useful for testing to get a predictable order back.
-our $SORT_ATTRIBUTES;
+my $appease_cpants_kwalitee = q/
+use strict;
+use warnings;
+#/;
 
 # (ord('^') == 95) for codepage 1047 as on os390, vmesa
 our @A2E = (
@@ -150,10 +150,7 @@ sub make_attributes {
 
     my $quote = $do_not_quote ? '' : '"';
 
-    my @attr_keys= keys %$attr;
-    if ($SORT_ATTRIBUTES) {
-        @attr_keys= sort @attr_keys;
-    }
+    my @attr_keys= sort keys %$attr;
     my(@att);
     foreach (@attr_keys) {
     my($key) = $_;

@@ -6,12 +6,16 @@ CGI::HTML::Functions - Documentation for CGI.pm Legacy HTML Functionality
 
 Nothing here - please do not use this functionality, it is considered to
 be legacy and essentially deprecated. This documentation exists solely to
-aid in maintenance and migration of legacy code using this functionality.
-
-This functionality is likely to be removed in future versions of CGI.pm so
-you are strongly encouraged to migrate away from it. If you are working
+aid in maintenance and migration of legacy code using this functionality
+and you are strongly encouraged to migrate away from it. If you are working
 on new code you should be using a template engine. For more information see
 L<CGI::Alternatives>.
+
+If you really want to continue using the HTML generation functionality of CGI.pm
+then you should take a look at L<HTML::Tiny> instead, which may give you a migration
+path away from CGI.pm's html generation functions; i strongly encourage you to
+move towards template driven page generation for anything involving markup as
+it will make porting your app to other frameworks much easier in the long run.
 
 =head1 DESCRIPTION
 
@@ -300,7 +304,7 @@ The B<-onLoad> and B<-onUnload> parameters point to fragments of JavaScript code
 to execute when the page is respectively opened and closed by the browser.
 Usually these parameters are calls to functions defined in the B<-script> field:
 
-    $query = CGI->new;
+    $q = CGI->new;
     print header;
     $JSCRIPT = <<END;
         // Ask a silly question
@@ -654,8 +658,8 @@ your ability to incorporate special HTML character sequences, such as &Aacute;,
 into your fields.  If you wish to turn off automatic escaping, call the
 autoEscape() method with a false value immediately after creating the CGI object:
 
-   $query = CGI->new;
-   $query->autoEscape(0);
+   $q = CGI->new;
+   $q->autoEscape(0);
 
 Note that autoEscape() is exclusively used to effect the behavior of how some
 CGI.pm HTML generation functions handle escaping. Calling escapeHTML()
@@ -1904,21 +1908,19 @@ Produces something that looks like:
 As a shortcut, you can interpolate the entire CGI object into a string
 and it will be replaced with the a nice HTML dump shown above:
 
-    $query=CGI->new;
-    print "<h2>Current Values</h2> $query\n";
+    $q=CGI->new;
+    print "<h2>Current Values</h2> $q\n";
 
 
 =head1 BUGS
 
 Address bug reports and comments to: L<https://github.com/leejo/CGI.pm/issues>
 
-The original bug tracker can be found at: L<https://rt.cpan.org/Public/Dist/Display.html?Queue=CGI.pm>
+See the L<https://github.com/leejo/CGI.pm/blob/master/CONTRIBUTING.md> file for information
+on raising issues and contributing
 
-However as stated this functionality is no longer being maintained and is
-considered deprecated. Any feature requests, bug reports, issues, pull
-requests, etc, for this functionality will almost certainly be rejected without
-any action being taken place - this includes fixes to utterly broken page
-rendering, invalid HTML, nonsensical output, and annoyances.
+The original bug tracker can be found at:
+L<https://rt.cpan.org/Public/Dist/Display.html?Queue=CGI.pm>
 
 =head1 SEE ALSO
 
