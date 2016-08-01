@@ -145,7 +145,7 @@ Core.UI.InputFields = (function (Namespace) {
                     Selection = "6",
                     $Nodes,
                     OptionNumber = $SelectObj.find('option').not("[value='']").length,
-                    $InputContainerObj = $SelectObj.prev(),
+                    $InputListContainerObj,
                     ListNumber,
                     ExpandSubscription,
                     Done1 = Assert.async();
