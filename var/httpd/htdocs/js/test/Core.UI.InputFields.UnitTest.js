@@ -63,7 +63,6 @@ Core.UI.InputFields = (function (Namespace) {
 
                 var $SelectObj = $Element,
                     $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized'))),
-                    $InputContainerObj = $SelectObj.prev(),
                     $InputListContainerObj,
                     $Nodes,
                     Selection = ['1', '2', '4'],
@@ -147,7 +146,6 @@ Core.UI.InputFields = (function (Namespace) {
                     $Nodes,
                     OptionNumber = $SelectObj.find('option').not("[value='']").length,
                     $InputContainerObj = $SelectObj.prev(),
-                    $InputListContainerObj,
                     ListNumber,
                     ExpandSubscription,
                     Done1 = Assert.async();
@@ -216,7 +214,6 @@ Core.UI.InputFields = (function (Namespace) {
                 $Nodes,
                 OptionNumber = $SelectObj.find('option').not("[value='']").length,
                 OptionNumberTotal = $SelectObj.find('option').length,
-                $InputContainerObj = $SelectObj.prev(),
                 $InputListContainerObj,
                 ListNumber,
                 ExpandSubscription,
