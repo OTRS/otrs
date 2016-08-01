@@ -30,9 +30,28 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-# add users
-my $UserRand = 'user' . $Helper->GetRandomID();
+# create non existing user login
+my $UserRand;
+TRY:
+for my $Try ( 1 .. 20 ) {
 
+    $UserRand = 'unittest-' . $Helper->GetRandomID();
+
+    my $UserID = $UserObject->UserLookup(
+        UserLogin => $UserRand,
+    );
+
+    last TRY if !$UserID;
+
+    next TRY if $Try ne 20;
+
+    $Self->True(
+        0,
+        'Find non existing user login.',
+    );
+}
+
+# add user
 my $UserID = $UserObject->UserAdd(
     UserFirstname => 'Firstname Test1',
     UserLastname  => 'Lastname Test1',
