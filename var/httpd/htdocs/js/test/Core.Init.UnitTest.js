@@ -13,12 +13,12 @@ Core.Init = Core.Init || {};
 
 Core.Init = (function (Namespace) {
     Namespace.RunUnitTests = function(){
-        module('Core.Init');
+        QUnit.module('Core.Init');
 
-        test('Register and init namespaces', function () {
+        QUnit.test('Register and init namespaces', function (Assert) {
             Core.Init.Teststring = "";
 
-            expect(3);
+            Assert.expect(3);
 
             Core.UnitTest1 = (function (TargetNS) {
                 TargetNS.Init = function () {
@@ -63,15 +63,15 @@ Core.Init = (function (Namespace) {
 
             // empty call does nothing
             Core.Init.ExecuteInit();
-            equal(Core.Init.Teststring, "");
+            Assert.equal(Core.Init.Teststring, "");
 
             // calling first block
             Core.Init.ExecuteInit('APP_GLOBAL');
-            equal(Core.Init.Teststring, "123");
+            Assert.equal(Core.Init.Teststring, "123");
 
             // calling second block
             Core.Init.ExecuteInit('FINISH');
-            equal(Core.Init.Teststring, "12345");
+            Assert.equal(Core.Init.Teststring, "12345");
         });
     };
 

@@ -12,8 +12,8 @@ var Core = Core || {};
 
 Core.Template = (function (Namespace) {
     Namespace.RunUnitTests = function(){
-        module('Core.Template');
-        test('Core.Template.Render()', function(){
+        QUnit.module('Core.Template');
+        QUnit.test('Core.Template.Render()', function(Assert){
 
             var Templates = {
                 'Basetemplate' : 'Basetemplate with {{one}}, {{two}}, {{three}}.',
@@ -33,10 +33,10 @@ Core.Template = (function (Namespace) {
                 'User with %s and %s' : 'Benutzer mit %s und %s'
             });
 
-            equal(Core.Template.Render('Basetemplate', { 'one' : '1', 'two' : '2', 'three' : '3' }), 'Basetemplate with 1, 2, 3.');
-            equal(Core.Template.Render('Translation', {}), 'Another template with Benutzer');
-            equal(Core.Template.Render('TranslationComplex', {}), 'Another template with Benutzer mit 1 und 2');
-            equal(Core.Template.Render('TranslationComplexWithData', { 'var_1' : 'var_1_result', 'var_2' : 'var_2_result' }), 'Another template with Benutzer mit var_1_result und var_2_result');
+            Assert.equal(Core.Template.Render('Basetemplate', { 'one' : '1', 'two' : '2', 'three' : '3' }), 'Basetemplate with 1, 2, 3.');
+            Assert.equal(Core.Template.Render('Translation', {}), 'Another template with Benutzer');
+            Assert.equal(Core.Template.Render('TranslationComplex', {}), 'Another template with Benutzer mit 1 und 2');
+            Assert.equal(Core.Template.Render('TranslationComplexWithData', { 'var_1' : 'var_1_result', 'var_2' : 'var_2_result' }), 'Another template with Benutzer mit var_1_result und var_2_result');
         });
     };
 

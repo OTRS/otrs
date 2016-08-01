@@ -13,58 +13,58 @@ Core.App = Core.App || {};
 
 Core.App = (function (Namespace) {
     Namespace.RunUnitTests = function(){
-        module('Core.App');
+        QUnit.module('Core.App');
 
-        test('Core.App.GetSessionInformation()', function(){
-            expect(2);
+        QUnit.test('Core.App.GetSessionInformation()', function(Assert){
+            Assert.expect(2);
 
             Core.Config.Set('SessionName', 'CSID');
             Core.Config.Set('SessionID', '1234');
             Core.Config.Set('CustomerPanelSessionName', 'CPanelSID');
             Core.Config.Set('ChallengeToken', 'C123');
 
-            deepEqual(Core.App.GetSessionInformation(), {
+            Assert.deepEqual(Core.App.GetSessionInformation(), {
                 CSID: '1234',
                 CPanelSID: '1234',
                 ChallengeToken: 'C123'
             });
 
             Core.Config.Set('SessionIDCookie', true);
-            deepEqual(Core.App.GetSessionInformation(), {
+            Assert.deepEqual(Core.App.GetSessionInformation(), {
                 ChallengeToken: 'C123'
             });
         });
 
-        test('Core.App.EscapeSelector()', function () {
+        QUnit.test('Core.App.EscapeSelector()', function (Assert) {
             var Selector = 'ConfigItemClass::Config::Hardware::MapTypeAdd::Attribute###SubItem',
                 Id,
                 Value;
 
-            expect(13);
-            equal(Core.App.EscapeSelector(Selector), 'ConfigItemClass\\:\\:Config\\:\\:Hardware\\:\\:MapTypeAdd\\:\\:Attribute\\#\\#\\#SubItem');
-            equal(Core.App.EscapeSelector('ID-mit_anderen_Sonderzeichen'), 'ID-mit_anderen_Sonderzeichen');
-            equal(Core.App.EscapeSelector('#:.\[\]@!"$'), '\\#\\:\\.\\[\\]\\@\\!\\"\\$');
-            equal(Core.App.EscapeSelector('%&<=>'), '\\%\\&\\<\\=\\>');
-            equal(Core.App.EscapeSelector("'"), "\\'");
-            equal(Core.App.EscapeSelector('()*+,?/;'), '\\(\\)\\*\\+\\,\\?\\/\\;');
-            equal(Core.App.EscapeSelector('\\'), '\\\\');
-            equal(Core.App.EscapeSelector('^'), '\\^');
-            equal(Core.App.EscapeSelector('{}'), '\\{\\}');
-            equal(Core.App.EscapeSelector('`'), '\\`');
-            equal(Core.App.EscapeSelector('|'), '\\|');
-            equal(Core.App.EscapeSelector('~'), '\\~');
+            Assert.expect(13);
+            Assert.equal(Core.App.EscapeSelector(Selector), 'ConfigItemClass\\:\\:Config\\:\\:Hardware\\:\\:MapTypeAdd\\:\\:Attribute\\#\\#\\#SubItem');
+            Assert.equal(Core.App.EscapeSelector('ID-mit_anderen_Sonderzeichen'), 'ID-mit_anderen_Sonderzeichen');
+            Assert.equal(Core.App.EscapeSelector('#:.\[\]@!"$'), '\\#\\:\\.\\[\\]\\@\\!\\"\\$');
+            Assert.equal(Core.App.EscapeSelector('%&<=>'), '\\%\\&\\<\\=\\>');
+            Assert.equal(Core.App.EscapeSelector("'"), "\\'");
+            Assert.equal(Core.App.EscapeSelector('()*+,?/;'), '\\(\\)\\*\\+\\,\\?\\/\\;');
+            Assert.equal(Core.App.EscapeSelector('\\'), '\\\\');
+            Assert.equal(Core.App.EscapeSelector('^'), '\\^');
+            Assert.equal(Core.App.EscapeSelector('{}'), '\\{\\}');
+            Assert.equal(Core.App.EscapeSelector('`'), '\\`');
+            Assert.equal(Core.App.EscapeSelector('|'), '\\|');
+            Assert.equal(Core.App.EscapeSelector('~'), '\\~');
 
             $('<div id="testcase"><label for="Testcase::Element###SubItem">Elementlabeltext</label><input type="text" id="Testcase::Element###SubItem" value="5"/></div>').appendTo('body');
             Id = $('#testcase').find('input').attr('id');
             Value = $('#testcase').find('label[for=' + Core.App.EscapeSelector(Id) + ']').text();
-            equal(Value, 'Elementlabeltext');
+            Assert.equal(Value, 'Elementlabeltext');
             $('#testcase').remove();
         });
 
-        test('Core.App.Publish()/Subscribe()', function () {
+        QUnit.test('Core.App.Publish()/Subscribe()', function (Assert) {
             var Counter = 0, Handle;
 
-            expect(4);
+            Assert.expect(4);
             // Subscribe to channel
             Handle = Core.App.Subscribe('UNITTEST1', function () {
                 Counter++;
@@ -73,7 +73,7 @@ Core.App = (function (Namespace) {
             // publish channel
             Core.App.Publish('UNITTEST1');
 
-            equal(Counter, 1);
+            Assert.equal(Counter, 1);
 
             // unsubscribe from channel
             Core.App.Unsubscribe(Handle);
@@ -82,7 +82,7 @@ Core.App = (function (Namespace) {
             Core.App.Publish('UNITTEST1');
 
             // counter may not have changed
-            equal(Counter, 1);
+            Assert.equal(Counter, 1);
 
             Handle = Core.App.Subscribe('UNITTEST2', function (Count) {
                 Counter = Count;
@@ -91,19 +91,19 @@ Core.App = (function (Namespace) {
             // publish with arguments
             Core.App.Publish('UNITTEST2', [5]);
 
-            equal(Counter, 5);
+            Assert.equal(Counter, 5);
 
             Core.App.Unsubscribe(Handle);
 
             Core.App.Publish('UNITTEST2', [10]);
 
-            equal(Counter, 5);
+            Assert.equal(Counter, 5);
         });
 
-        test('Register and init namespaces', function () {
+        QUnit.test('Register and init namespaces', function (Assert) {
             Core.App.Teststring = "";
 
-            expect(3);
+            Assert.expect(3);
 
             Core.UnitTest1 = (function (TargetNS) {
                 TargetNS.Init = function () {
@@ -148,15 +148,15 @@ Core.App = (function (Namespace) {
 
             // empty call does nothing
             Core.Init.ExecuteInit();
-            equal(Core.App.Teststring, "");
+            Assert.equal(Core.App.Teststring, "");
 
             // calling first block
             Core.Init.ExecuteInit('APP_INIT');
-            equal(Core.App.Teststring, "123");
+            Assert.equal(Core.App.Teststring, "123");
 
             // calling second block
             Core.Init.ExecuteInit('APP_LATE_INIT');
-            equal(Core.App.Teststring, "12345");
+            Assert.equal(Core.App.Teststring, "12345");
         });
     };
 

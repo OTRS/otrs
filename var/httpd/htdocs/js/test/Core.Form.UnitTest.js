@@ -12,8 +12,8 @@ var Core = Core || {};
 
 Core.Form = (function (Namespace) {
     Namespace.RunUnitTests = function(){
-        module('Core.Form');
-        test('Core.Form.DisableForm() and Core.Form.EnableForm()', function(){
+        QUnit.module('Core.Form');
+        QUnit.test('Core.Form.DisableForm() and Core.Form.EnableForm()', function(Assert){
 
             /*
              * Create a form containter for the tests
@@ -42,9 +42,9 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.DisableForm($('#TestForm'));
 
-            expect(26);
+            Assert.expect(26);
 
-            equal($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled');
+            Assert.equal($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled');
 
             $.each($('#TestForm').find("input, textarea, select, button"), function() {
 
@@ -55,14 +55,14 @@ Core.Form = (function (Namespace) {
                 var disabledValue = $(this).attr('disabled');
 
                 if (tagnameValue === "BUTTON") {
-                    equal(disabledValue, 'disabled', 'disabledValue for BUTTON');
+                    Assert.equal(disabledValue, 'disabled', 'disabledValue for BUTTON');
                 }
                 else {
                     if (typeValue === "hidden") {
-                        equal(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue);
+                        Assert.equal(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue);
                     }
                     else {
-                        equal(readonlyValue, 'readonly', 'readonlyValue for ' + tagnameValue);
+                        Assert.equal(readonlyValue, 'readonly', 'readonlyValue for ' + tagnameValue);
                     }
                 }
             });
@@ -73,7 +73,7 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.EnableForm($('#TestForm'));
 
-            equal($('#TestForm').hasClass("AlreadyDisabled"), false, 'Form is not already disabled');
+            Assert.equal($('#TestForm').hasClass("AlreadyDisabled"), false, 'Form is not already disabled');
 
             $.each($('#TestForm').find("input, textarea, select, button"), function() {
 
@@ -86,14 +86,14 @@ Core.Form = (function (Namespace) {
 
 
                 if (tagnameValue === "BUTTON") {
-                    equal(disabledValue, expectedDisabledValue, 'enabledValue for BUTTON');
+                    Assert.equal(disabledValue, expectedDisabledValue, 'enabledValue for BUTTON');
                 }
                 else {
                     if (typeValue === "hidden") {
-                        equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue);
+                        Assert.equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue);
                     }
                     else {
-                        equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue);
+                        Assert.equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue);
                     }
                 }
             });
