@@ -75,15 +75,15 @@ sub NotificationList {
         $Data{ $Row[0] } = $Row[1];
     }
 
-    if ( $Param{Details} ) {
-        for my $ItemID ( sort keys %Data ) {
+    return %Data if !$Param{Details};
 
-            my %NotificationData = $Self->NotificationGet(
-                ID     => $ItemID,
-                UserID => 1,
-            );
-            $Data{$ItemID} = \%NotificationData;
-        }
+    for my $ItemID ( sort keys %Data ) {
+
+        my %NotificationData = $Self->NotificationGet(
+            ID     => $ItemID,
+            UserID => 1,
+        );
+        $Data{$ItemID} = \%NotificationData;
     }
 
     return %Data;
@@ -189,7 +189,8 @@ sub NotificationGet {
         SQL => '
             SELECT event_key, event_value
             FROM notification_event_item
-            WHERE notification_id = ?',
+            WHERE notification_id = ?
+            ORDER BY event_key ASC',
         Bind => [ \$Data{ID} ],
     );
 
@@ -706,11 +707,13 @@ sub NotificationImport {
             return {
                 Success => 0,
                 Message => "$Needed is missing can not continue.",
-                }
+            };
         }
     }
 
-    my $NotificationData = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => $Param{Content} );
+    my $NotificationData = $Kernel::OM->Get('Kernel::System::YAML')->Load(
+        Data => $Param{Content},
+    );
 
     if ( ref $NotificationData ne 'ARRAY' ) {
         return {
@@ -724,7 +727,9 @@ sub NotificationImport {
     my @AddedNotifications;
     my @NotificationErrors;
 
-    my %CurrentNotifications = $Self->NotificationList( UserID => $Param{UserID} );
+    my %CurrentNotifications = $Self->NotificationList(
+        UserID => $Param{UserID},
+    );
     my %ReverseCurrentNotifications = reverse %CurrentNotifications;
 
     Notification:
@@ -769,7 +774,7 @@ sub NotificationImport {
         AddedNotifications   => join( ', ', @AddedNotifications ) || '',
         UpdatedNotifications => join( ', ', @UpdatedNotifications ) || '',
         NotificationErrors   => join( ', ', @NotificationErrors ) || '',
-        }
+    };
 }
 
 1;
