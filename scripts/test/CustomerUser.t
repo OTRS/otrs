@@ -36,7 +36,26 @@ my $SearchCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{Searc
 my $UserID = '';
 for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
 
-    my $UserRand = 'Example-Customer-User' . $Key . int( rand(1000000) );
+    # create non existing customer user login
+    my $UserRand;
+    TRY:
+    for my $Try ( 1 .. 20 ) {
+
+        $UserRand = 'unittest-' . $Key . int rand 1_000_000;
+
+        my %UserData = $CustomerUserObject->CustomerUserDataGet(
+            User => $UserRand,
+        );
+
+        last TRY if !%UserData;
+
+        next TRY if $Try ne 20;
+
+        $Self->True(
+            0,
+            'Find non existing customer user login.',
+        );
+    }
 
     $UserID = $UserRand;
     my $UserID = $CustomerUserObject->CustomerUserAdd(
