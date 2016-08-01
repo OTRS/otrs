@@ -11,6 +11,8 @@ package Kernel::System::LinkObject::Ticket;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
@@ -282,6 +284,18 @@ sub ObjectSearch {
     }
     if ( $Param{SearchParams}->{TicketTitle} ) {
         $Search{Title} = '*' . $Param{SearchParams}->{TicketTitle} . '*';
+    }
+
+    if ( IsArrayRefWithData( $Param{SearchParams}->{ArchiveID} ) ) {
+        if ( $Param{SearchParams}->{ArchiveID}->[0] eq 'AllTickets' ) {
+            $Search{ArchiveFlags} = [ 'y', 'n' ];
+        }
+        elsif ( $Param{SearchParams}->{ArchiveID}->[0] eq 'NotArchivedTickets' ) {
+            $Search{ArchiveFlags} = ['n'];
+        }
+        elsif ( $Param{SearchParams}->{ArchiveID}->[0] eq 'ArchivedTickets' ) {
+            $Search{ArchiveFlags} = ['y'];
+        }
     }
 
     # get ticket object

@@ -47,6 +47,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.12 2016-??-??
+ - 2016-08-01 Fixed bug#[8671](http://bugs.otrs.org/show_bug.cgi?id=8671) - Can not link to archived ticket.
  - 2016-07-29 Fixed bug#[12196](http://bugs.otrs.org/show_bug.cgi?id=12196) - SOAP Response missing trailing slash.
  - 2016-07-24 Followup for bug#[12090](http://bugs.otrs.org/show_bug.cgi?id=12090) - 2 second sleep between email fetching causes bad performance on systems with high email traffic.
  - 2016-07-13 Fixed bug#[12118](http://bugs.otrs.org/show_bug.cgi?id=12118) - Text Area filter doesn't work for Statistic.

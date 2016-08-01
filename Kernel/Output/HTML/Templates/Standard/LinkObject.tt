@@ -41,7 +41,12 @@ if (Core.UI.Popup.CurrentIsPopupWindow()) {
 [% RenderBlockEnd("Date") %]
 
 [% RenderBlockStart("Checkbox") %]
-<input type="checkbox" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="[% Data.Content | html %]" alt="[% Data.Title | html %]" title="[% Data.Title | html %]"/>
+<input type="checkbox" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="[% Data.Content | html %]" alt="[% Data.Title | html %]"
+    title="[% Data.Title | html %]"
+[% IF Data.Checked %]
+    checked="checked"
+[% END %]
+    />
 &nbsp;<br/>
 [% RenderBlockEnd("Checkbox") %]
 
