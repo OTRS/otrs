@@ -147,11 +147,19 @@ for my $URL ( @{$RepositoryRoot} ) {
     push @Tests, \%NewEntry;
 }
 
+my %Intervall = (
+    1 => 3,
+    2 => 15,
+    3 => 60,
+    4 => 60 * 3,
+    5 => 60 * 6,
+);
+
 TEST:
 for my $Test (@Tests) {
 
     TRY:
-    for my $Try ( 1 .. 3 ) {
+    for my $Try ( 1 .. 5 ) {
 
         my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
             Timeout => $Test->{Timeout},
@@ -177,9 +185,9 @@ for my $Test (@Tests) {
 
         if ( !$Test->{Success} ) {
 
-            if ( $Try < 3 && $Status eq 500 && $Test->{ErrorNumber} ne 500 ) {
+            if ( $Try < 5 && $Status eq 500 && $Test->{ErrorNumber} ne 500 ) {
 
-                sleep 1;
+                sleep $Intervall{$Try};
 
                 next TRY;
             }
@@ -199,9 +207,9 @@ for my $Test (@Tests) {
         }
         else {
 
-            if ( $Try < 3 && ( !$Response{Content} || !$Status || $Status ne 200 ) ) {
+            if ( $Try < 5 && ( !$Response{Content} || !$Status || $Status ne 200 ) ) {
 
-                sleep 1;
+                sleep $Intervall{$Try};
 
                 next TRY;
             }
