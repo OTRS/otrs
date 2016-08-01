@@ -195,6 +195,8 @@ $Selenium->RunTest(
         # navigate to AgentTicketSearch screen again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
+        sleep 2;
+
         # wait until form and overlay has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
