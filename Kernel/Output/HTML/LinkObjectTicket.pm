@@ -593,7 +593,7 @@ sub SearchOptionList {
                 Name       => $Row->{FormKey},
                 SelectedID => $Row->{FormData},
                 Size       => 3,
-                Multiple   => 1,
+                Multiple   => $Multiple,
             );
 
             next ROW;
