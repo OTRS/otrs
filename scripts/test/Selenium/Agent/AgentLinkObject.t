@@ -248,7 +248,7 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $("#linkobject-Ticket_submit:visible").length;'
         );
 
-        sleep(1);
+        sleep 1;
 
         # Remove Age from left side, and put it to the right side
         $Selenium->DragAndDrop(

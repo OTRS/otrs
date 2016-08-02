@@ -110,7 +110,7 @@ $Selenium->RunTest(
             $Selenium->execute_script( 'CKEDITOR.instances.RichText.setData("' . $TestCase->{Input} . '");' );
 
             # we wait a second to make sure the content has been set correctly
-            sleep(1);
+            sleep 1;
 
             $Self->Is(
                 $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),

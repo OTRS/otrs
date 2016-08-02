@@ -232,14 +232,14 @@ $Selenium->RunTest(
         # click on '[ Customer User ]' to test customer user creation from iframe
         $Selenium->find_element( "#OptionCustomer", 'css' )->click();
 
-        sleep(1);
+        sleep 1;
 
         $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
         # click to 'Add customer user'
         $Selenium->find_element("//button[\@class='CallForAction Fullsize Center']")->VerifiedClick();
 
-        sleep(1);
+        sleep 1;
 
         # create new test customer user
         my $RandomID3 = 'TestCustomer' . $Helper->GetRandomID();
