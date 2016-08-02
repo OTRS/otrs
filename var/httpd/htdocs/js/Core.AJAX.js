@@ -283,7 +283,7 @@ Core.AJAX = (function (TargetNS) {
             }
         }
         else {
-            alert('$JSText{"This window must be called from compose window"}');
+            alert(Core.Language.Translate('This window must be called from compose window.'));
             return;
         }
     }

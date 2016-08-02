@@ -130,7 +130,7 @@ Core.App = (function (TargetNS) {
             });
             return AppropriateBrowser;
         }
-        alert('Error: Browser Check failed!');
+        alert(Core.Language.Translate('Error: Browser Check failed!'));
     };
 
     /**
