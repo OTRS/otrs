@@ -90,7 +90,7 @@ $Selenium->RunTest(
 
         # expand navigation bar
         $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->VerifiedClick();
-        sleep(1);
+        sleep 1;
         $ItemVisible = $Selenium->execute_script(
             q{
                 return $('#NavigationContainer:visible').length;
@@ -104,7 +104,7 @@ $Selenium->RunTest(
 
         # collapse navigation bar again
         $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->VerifiedClick();
-        sleep(1);
+        sleep 1;
         $ItemVisible = $Selenium->execute_script(
             q{
                 return $('#NavigationContainer:visible').length;
@@ -118,7 +118,7 @@ $Selenium->RunTest(
 
         # expand sidebar
         $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->VerifiedClick();
-        sleep(1);
+        sleep 1;
         $ItemVisible = $Selenium->execute_script(
             q{
                 return $('.ResponsiveSidebarContainer:visible').length;
@@ -132,7 +132,7 @@ $Selenium->RunTest(
 
         # collapse sidebar again
         $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->VerifiedClick();
-        sleep(1);
+        sleep 1;
         $ItemVisible = $Selenium->execute_script(
             q{
                 return $('.ResponsiveSidebarContainer:visible').length;
@@ -146,7 +146,7 @@ $Selenium->RunTest(
 
         # expand toolbar
         $Selenium->find_element( "#Logo", "css" )->VerifiedClick();
-        sleep(1);
+        sleep 1;
         $ItemVisible = $Selenium->execute_script(
             q{
                 return $('#ToolBar').css('height');
@@ -183,7 +183,7 @@ $Selenium->RunTest(
 
         # collapse toolbar again
         $Selenium->find_element( "#Logo", "css" )->VerifiedClick();
-        sleep(1);
+        sleep 1;
         $ItemVisible = $Selenium->execute_script(
             q{
                 return $('#ToolBar').css('height');

@@ -212,7 +212,7 @@ $Selenium->RunTest(
                 last TICKET_WAIT if $TicketFound;
 
                 # Wait 1 second
-                sleep(1);
+                sleep 1;
             }
 
             # check for test ticket on current dashboard plugin
