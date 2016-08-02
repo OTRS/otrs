@@ -23,9 +23,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $UserID   = 1;
-my $RandomID = $Helper->GetRandomID();
+my $UserID = 1;
 
 my @Tests = (
 
