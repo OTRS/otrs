@@ -53,8 +53,8 @@ my @Tests = (
                         Value => 123,
                     },
                     456,
-                    ]
-                }
+                ],
+            },
         },
         Name => 'Complex structure with unicode data',
     }
@@ -62,17 +62,17 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    # We 'abuse' the setting Frontend::DebugMode. It will be
+    # We 'abuse' the setting UnitTest::Option. It will be
     #   restored to the original value in the destructor by
     #   the HelperObject.
 
     $SysConfigObject->ConfigItemUpdate(
         Valid => 1,
-        Key   => 'Frontend::DebugMode',
+        Key   => 'UnitTest::Option',
         Value => $Test->{Value},
     );
 
-    # Force a reload of ZZZAuto.pm to get the new value
+    # force a reload of ZZZAuto.pm to get the new value
     for my $Module ( sort keys %INC ) {
         if ( $Module =~ m/ZZZAuto\.pm$/ ) {
             delete $INC{$Module};
@@ -83,7 +83,7 @@ for my $Test (@Tests) {
     my $ConfigObject = Kernel::Config->new();
 
     $Self->IsDeeply(
-        $ConfigObject->Get('Frontend::DebugMode'),
+        $ConfigObject->Get('UnitTest::Option'),
         $Test->{Value},
         "ConfigItemUdpate() - $Test->{Name}",
     );
