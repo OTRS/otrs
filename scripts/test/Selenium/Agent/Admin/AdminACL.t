@@ -224,6 +224,8 @@ JAVASCRIPT
         # click 'Save and Finish'
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
+        sleep 1;
+
         # check if both ACL exist in the table
         $Self->IsNot(
             $Selenium->execute_script(
