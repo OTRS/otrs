@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerCompany.pm,v 1.26.2.4 2012-12-03 11:07:54 jh Exp $
 # --

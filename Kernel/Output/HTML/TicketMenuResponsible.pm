@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuResponsible.pm
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuResponsible.pm,v 1.15 2010-09-07 10:18:12 mb Exp $
 # --

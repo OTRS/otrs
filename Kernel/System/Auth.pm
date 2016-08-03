@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Auth.pm - provides the authentication
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: Auth.pm,v 1.56 2012-04-16 11:11:59 mg Exp $
 # --

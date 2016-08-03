@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/fcgi-bin/customer.pl - the global FCGI handle file (incl. auth) for OTRS
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: customer.pl,v 1.4 2011-03-08 14:15:54 mb Exp $
 # --

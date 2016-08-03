@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketZoom.pm,v 1.177.2.2 2013-01-02 13:02:46 mn Exp $
 # --

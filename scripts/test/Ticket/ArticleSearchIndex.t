@@ -1,6 +1,6 @@
 # --
 # ArticleSearchIndex.t - ticket module testscript
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleSearchIndex.t,v 1.2 2011-09-05 10:19:25 mg Exp $
 # --

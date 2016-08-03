@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CSV.pm - all csv functions
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: CSV.pm,v 1.27 2011-04-27 19:21:13 mb Exp $
 # --

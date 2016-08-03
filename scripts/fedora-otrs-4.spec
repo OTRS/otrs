@@ -1,6 +1,6 @@
 # --
 # RPM spec file for Fedora of the OTRS package
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: fedora-otrs-4.spec,v 1.17.2.1 2012-10-03 08:13:36 mb Exp $
 # --

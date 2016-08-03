@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuMove.pm
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuMove.pm,v 1.2 2010-11-02 13:29:55 mg Exp $
 # --

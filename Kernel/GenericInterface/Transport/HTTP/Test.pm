@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.pm,v 1.16 2011-03-16 10:15:54 mg Exp $
 # --

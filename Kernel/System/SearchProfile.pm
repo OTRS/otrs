@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SearchProfile.pm - module to manage search profiles
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: SearchProfile.pm,v 1.19 2012-03-26 21:47:00 mh Exp $
 # --

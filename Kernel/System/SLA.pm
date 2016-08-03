@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SLA.pm - all sla functions
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: SLA.pm,v 1.40 2011-06-17 08:14:12 mb Exp $
 # --

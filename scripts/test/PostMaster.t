@@ -1,6 +1,6 @@
 # --
 # PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: PostMaster.t,v 1.34.2.1 2012-07-20 05:51:14 cr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketPrint.pm,v 1.48 2011-12-12 10:52:00 mg Exp $
 # --

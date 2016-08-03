@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/SLAPreferencesGeneric.pm
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: SLAPreferencesGeneric.pm,v 1.2 2009-07-07 15:45:19 mh Exp $
 # --

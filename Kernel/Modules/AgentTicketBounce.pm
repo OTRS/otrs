@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketBounce.pm,v 1.56 2012-03-05 09:51:33 mg Exp $
 # --

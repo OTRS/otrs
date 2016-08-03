@@ -1,6 +1,6 @@
 # --
 # CSV.t - CSV tests
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: CSV.t,v 1.15 2010-10-29 05:03:20 en Exp $
 # --

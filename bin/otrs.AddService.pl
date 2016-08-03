@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddService.pl - add new Services
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddService.pl,v 1.1.2.4 2012-10-29 09:19:06 ub Exp $
 # --

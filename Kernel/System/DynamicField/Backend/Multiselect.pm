@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: Multiselect.pm,v 1.51.2.2 2012-12-20 16:01:27 cr Exp $
 # --

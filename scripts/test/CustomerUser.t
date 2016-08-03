@@ -1,6 +1,6 @@
 # --
 # CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerUser.t,v 1.21 2012-03-18 13:50:42 mh Exp $
 # --

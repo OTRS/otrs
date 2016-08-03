@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminCustomerCompany.pm,v 1.26 2011-12-21 13:27:27 mg Exp $
 # --

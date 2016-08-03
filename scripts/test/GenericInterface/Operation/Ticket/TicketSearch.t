@@ -1,6 +1,6 @@
 # --
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketSearch.t,v 1.15.2.2 2012-11-09 23:52:35 cr Exp $
 # --

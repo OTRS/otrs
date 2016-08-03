@@ -1,6 +1,6 @@
 # --
 # Transport.t - GenericInterface transport interface tests
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: Transport.t,v 1.11 2011-03-09 11:56:57 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminNotificationEvent.pm,v 1.37.2.2 2012-11-14 22:03:55 cr Exp $
 # --
