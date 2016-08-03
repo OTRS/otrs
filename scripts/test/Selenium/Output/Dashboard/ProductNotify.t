@@ -76,6 +76,12 @@ EOF
                 Password => $TestUserLogin,
             );
 
+            # wait until page has loaded, if necessary
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $(".WidgetSimple").length;'
+            );
+
             # test if ProductNotify plugin shows correct link
             my $ProductNotifyLink = "https://www.otrs.com/release-notes-otrs-help-desk";
             $Self->True(
