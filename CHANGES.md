@@ -1,4 +1,6 @@
-#4.0.18 2016-??-??
+#4.0.19 2016-??-??
+
+#4.0.18 2016-08-09
  - 2016-08-01 Fixed bug#[8671](http://bugs.otrs.org/show_bug.cgi?id=8671) - Can not link to archived ticket.
  - 2016-07-24 Followup for bug#[12090](http://bugs.otrs.org/show_bug.cgi?id=12090) - 2 second sleep between email fetching causes bad performance on systems with high email traffic.
  - 2016-07-21 Fixed bug#[11757](http://bugs.otrs.org/show_bug.cgi?id=11757) - otrs.Console.pl Maint::Stats::Generate - language option not working.
