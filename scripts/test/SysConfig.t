@@ -1,6 +1,6 @@
 # --
 # SysConfig.t - SysConfig tests
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: SysConfig.t,v 1.13 2011-12-21 09:52:28 mg Exp $
 # --
@@ -56,8 +56,8 @@ my @Tests = (
                         Value => 123,
                     },
                     456,
-                    ]
-                }
+                ],
+            },
         },
         Name => 'Complex structure with unicode data',
     }
@@ -65,13 +65,13 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    # We 'abuse' the setting Frontend::DebugMode. It will be
+    # We 'abuse' the setting UnitTest::Option. It will be
     #   restored to the original value in the destructor by
     #   the HelperObject.
 
     $SysConfigObject->ConfigItemUpdate(
         Valid => 1,
-        Key   => 'Frontend::DebugMode',
+        Key   => 'UnitTest::Option',
         Value => $Test->{Value},
     );
 
@@ -85,7 +85,7 @@ for my $Test (@Tests) {
     my $ConfigObject = Kernel::Config->new();
 
     $Self->IsDeeply(
-        $ConfigObject->Get('Frontend::DebugMode'),
+        $ConfigObject->Get('UnitTest::Option'),
         $Test->{Value},
         "ConfigItemUdpate() - $Test->{Name}",
     );
