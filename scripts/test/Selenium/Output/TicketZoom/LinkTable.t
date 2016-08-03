@@ -190,7 +190,8 @@ $Selenium->RunTest(
             Value => 'Complex',
         );
 
-        sleep 1;
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 3;
 
         # reload screen AgentTicketZoom
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
