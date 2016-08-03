@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-07-08 14:09+0000\n"
-"PO-Revision-Date: 2016-07-08 12:09+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-08-03 10:16+0000\n"
+"PO-Revision-Date: 2016-08-03 15:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/otrs/OTRS/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10580,7 +10580,7 @@ msgid "Create summation row"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional row containing sums for all data columns."
+msgid "Generate an additional row containing sums for all data rows."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -10588,7 +10588,7 @@ msgid "Create summation column"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional column containing sums for all data rows."
+msgid "Generate an additional column containing sums for all data columns."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -11950,11 +11950,6 @@ msgstr ""
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -18168,7 +18163,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18515,6 +18510,10 @@ msgid ""
 "80.000 and 6.000 open tickets are stored in the system). Use the command "
 "\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
+msgstr ""
+
+#. SysConfig
+msgid "Indonesian"
 msgstr ""
 
 #. SysConfig

@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.871297455152274;
+    $Self->{Completeness}        = 0.870880267000417;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3220,11 +3220,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'Tempoh masa yang dipilih di dalam statistik ialah zon masa neutral.',
         'Create summation row' => 'Cipta baris penjumlahan',
-        'Generate an additional row containing sums for all data columns.' =>
-            'Hasilkan baris tambahan yang mengandungi jumlah untuk semua lajur data.',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'Cipta lajur penjumlahan',
-        'Generate an additional column containing sums for all data rows.' =>
-            'Hasilkan lajur tambahan yang mengandungi jumlah untuk semua lajur baris.',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'Keputusan cache',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Simpan keputusan data statistik dalam cache untuk digunakan dalam paparan berikutnya dengan konfigurasi yang sama.',
@@ -3722,8 +3722,6 @@ sub Data {
             '',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
-            '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
             '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
@@ -5841,6 +5839,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             'IndexAccelerator: untuk memilih modul backend TicketViewAccelerator anda/ "RuntimeDB" menjana setiap paparan aturan pada jadual dengan cepat dari jadual tiket (tiada masalah prestasi dijangka sehingga berjumlah 60,000 tiket dan 6,000 tiket terbuka di dalam sistem). "StaticDB" ialah modul yang berkuasa, ia menggunakan jadual indeks-tiket ekstra yang bekerja seperti paparan (disyorkan jika lebih daripada 80,000 dan 6,000 tiket buka disimpan dalam sistem). Gunakan arahan "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" untuk ciptaan indeks awalan.',
+        'Indonesian' => '',
         'Input' => 'Input',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             'Pasang ispell atau aspell pada sistem, jika anda mahu menggunakan penyemak ejaanSila tentukan laluan kepada binari aspell atau ispell pada sistem operasi anda.',

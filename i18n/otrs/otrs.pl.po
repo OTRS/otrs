@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-07-08 14:09+0000\n"
-"PO-Revision-Date: 2016-07-08 12:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-08-03 10:16+0000\n"
+"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -485,7 +485,7 @@ msgstr "Podpisy"
 
 #. Template: AAABase
 msgid "Customer"
-msgstr "Pełna nazwa klienta"
+msgstr "Nazwa klienta"
 
 #. Template: AAABase
 msgid "CustomerID"
@@ -497,7 +497,7 @@ msgstr "Identyfikatory klientów"
 
 #. Template: AAABase
 msgid "customer"
-msgstr "pełna nazwa klienta"
+msgstr "klient"
 
 #. Template: AAABase
 msgid "agent"
@@ -8622,7 +8622,7 @@ msgstr "poza biurem"
 
 #. Template: AgentDashboardUserOnline
 msgid "Selected agent is not available for chat"
-msgstr ""
+msgstr "Wybrany agent nie jest dostępny poprzez czat"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -8837,7 +8837,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
-msgstr ""
+msgstr "Dodaj notatkę do %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
@@ -10589,7 +10589,7 @@ msgid "Create summation row"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional row containing sums for all data columns."
+msgid "Generate an additional row containing sums for all data rows."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -10597,7 +10597,7 @@ msgid "Create summation column"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional column containing sums for all data rows."
+msgid "Generate an additional column containing sums for all data columns."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -11893,7 +11893,7 @@ msgstr "Brak uprawnień!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
-msgstr ""
+msgstr "%s opuścił czat."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "This chat has been closed and will be removed in %s hours."
@@ -11959,11 +11959,6 @@ msgstr ""
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -18177,7 +18172,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18527,6 +18522,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Indonesian"
+msgstr ""
+
+#. SysConfig
 msgid "Input"
 msgstr ""
 
@@ -18623,7 +18622,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Left"
-msgstr ""
+msgstr "Lewo"
 
 #. SysConfig
 msgid "Link Object"
@@ -21821,7 +21820,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr ""
+msgstr "Odblokowuj zgłoszenia jeżeli zostałą dodana notatka a właściciel jest poza biurem."
 
 #. SysConfig
 msgid "Unlocked ticket."

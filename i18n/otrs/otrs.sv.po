@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-07-08 14:09+0000\n"
-"PO-Revision-Date: 2016-07-08 12:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-08-03 10:16+0000\n"
+"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/otrs/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1390,7 +1390,7 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr ""
+msgstr "<br>Om du fortsätter att installera det här paketet, kan följande inträffa!<br><br>&nbsp;-Säkerhetsproblem<br>&nbsp;-Stabilitetsproblem<br>&nbsp;-Prestandaproblem<br><br>Vänligen notera att problem som uppstår på grund av användandet av detta paket inte täcks av serviceavtal med OTRS!<br><br>"
 
 #. Template: AAABase
 msgid "Mark"
@@ -3864,7 +3864,7 @@ msgstr "Namnet du angav finns redan."
 
 #. Template: AdminGenericAgent
 msgid "Toggle this widget"
-msgstr ""
+msgstr "Ändra denna widget"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution (multiple tickets)"
@@ -3872,19 +3872,19 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
-msgstr ""
+msgstr "Exekveringsschema"
 
 #. Template: AdminGenericAgent
 msgid "Schedule minutes"
-msgstr ""
+msgstr "Schemalagda minuter"
 
 #. Template: AdminGenericAgent
 msgid "Schedule hours"
-msgstr ""
+msgstr "Schemalagda timmar"
 
 #. Template: AdminGenericAgent
 msgid "Schedule days"
-msgstr ""
+msgstr "Schemalagda dagar"
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -3902,11 +3902,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
-msgstr ""
+msgstr "Händelsetrigger"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "Lista över alla konfigurerade händelser"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
@@ -3948,7 +3948,7 @@ msgstr "Duplicera händelse."
 
 #. Template: AdminGenericAgent
 msgid "This event is already attached to the job, Please use a different one."
-msgstr ""
+msgstr "Denna händelse är redan knuten till jobbet, vänligen använd en annan."
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
@@ -3992,7 +3992,7 @@ msgstr "Ärendelås"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
-msgstr ""
+msgstr "Skapat-tider"
 
 #. Template: AdminGenericAgent
 msgid "No create time settings."
@@ -4008,7 +4008,7 @@ msgstr "Ärendet skapat mellan"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Senast ändrade-tider"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
@@ -4024,7 +4024,7 @@ msgstr "Ärende senast ändrat mellan"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
-msgstr ""
+msgstr "Ändrade-tider"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
@@ -4040,7 +4040,7 @@ msgstr "Ärende ändrat mellan"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
-msgstr ""
+msgstr "Stängd-tider"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
@@ -4056,7 +4056,7 @@ msgstr "Ärende stängt mellan"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
-msgstr ""
+msgstr "Väntande-tider"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
@@ -4072,7 +4072,7 @@ msgstr "Ärende väntetid nådd mellan"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
-msgstr ""
+msgstr "Eskalerings-tider"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
@@ -4172,7 +4172,7 @@ msgstr "Ange nytt ärendelås"
 
 #. Template: AdminGenericAgent
 msgid "New customer user"
-msgstr ""
+msgstr "Ny kundanvändare"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -4236,11 +4236,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Param %s key"
-msgstr ""
+msgstr "Parameter %s nyckel"
 
 #. Template: AdminGenericAgent
 msgid "Param %s value"
-msgstr ""
+msgstr "Parameter %s värde"
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
@@ -4437,7 +4437,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
-msgstr ""
+msgstr "Asynkron"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -4573,7 +4573,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Insert XSLT stylesheet."
-msgstr ""
+msgstr "Infoga XSLT-stilmall."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
@@ -4692,7 +4692,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
-msgstr ""
+msgstr "Skicka keep-alive"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4706,11 +4706,11 @@ msgstr "Värd"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
-msgstr ""
+msgstr "Fjärrvärdens URL för REST-förfrågningar."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "t.ex. https://www.otrs.com:10745/api/v1.0 (utan avslutande snedstreck)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -4735,7 +4735,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "Standardkommando"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
@@ -4919,23 +4919,23 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Server"
-msgstr ""
+msgstr "Proxy-server"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI of a proxy server to be used (if needed)."
-msgstr ""
+msgstr "URI för proxy-server som ska användas (om det behövs)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://proxy_hostname:8080"
-msgstr ""
+msgstr "t.ex. http://proxy_hostname:8080"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy User"
-msgstr ""
+msgstr "Proxy-användare"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The user name to be used to access the proxy server."
-msgstr ""
+msgstr "Användarnamnet som ska användas för åtkomst till proxyservern."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Password"
@@ -4952,7 +4952,7 @@ msgstr "Fullständig sökväg till SSL-csrtifikatet i .p12-format."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.p12"
-msgstr ""
+msgstr "t.ex. /opt/otrs/var/certificates/SOAP/certificate.p12"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password to open the SSL certificate."
@@ -4984,7 +4984,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
-msgstr ""
+msgstr "Sorteringsalternativ"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
@@ -5735,11 +5735,11 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
-msgstr ""
+msgstr "%s Uppdatering tillgänglig"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
-msgstr ""
+msgstr "En uppdatering för din %s finns tillgänglig! Vänligen uppdatera så snart som möjligt!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
@@ -5851,33 +5851,33 @@ msgstr "PGP-hantering"
 
 #. Template: AdminPGP
 msgid "PGP support is disabled"
-msgstr ""
+msgstr "PGP-stöd är inaktiverat"
 
 #. Template: AdminPGP
 msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr ""
+msgstr "För att använda PGP i OTRS, måste du aktivera det först."
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
-msgstr ""
+msgstr "Aktivera PGP-stöd"
 
 #. Template: AdminPGP
 msgid "Faulty PGP configuration"
-msgstr ""
+msgstr "Felaktig PGP-konfiguration"
 
 #. Template: AdminPGP
 msgid ""
 "PGP support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
-msgstr ""
+msgstr "PGP-stöd är aktiverat, men den tillhörande konfigurationen innehåller fel. Vänligen kontrollera konfigurationen genom att använda knappen nedan."
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Konfigurera den här!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
-msgstr ""
+msgstr "Kontrollera PGP-konfiguration"
 
 #. Template: AdminPGP
 msgid "Add PGP key"
@@ -5943,7 +5943,7 @@ msgstr "Installera om paket"
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
-msgstr ""
+msgstr "Vill du verkligen ominstallera det här paketet? Eventuella manuella ändringar kommer försvinna."
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -5970,15 +5970,15 @@ msgstr "Uppdatera information om repo"
 
 #. Template: AdminPackageManager
 msgid "Cloud services are currently disabled."
-msgstr ""
+msgstr "Molntjänster är fört tillfället inaktiverade."
 
 #. Template: AdminPackageManager
 msgid "OTRS Verify™ can not continue!"
-msgstr ""
+msgstr "OTRS Verify™ kan inte fortsätta!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
-msgstr ""
+msgstr "Aktivera molntjänster"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -5998,7 +5998,7 @@ msgstr "Local Repository"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTRSverify (tm)"
-msgstr ""
+msgstr "Det här paketet är verifierat av OTRSverify (tm)"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -6072,7 +6072,7 @@ msgstr "SQL"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
-msgstr ""
+msgstr "Filskillnader för fil %s"
 
 #. Template: AdminPerformanceLog
 msgid "Performance Log"
@@ -6100,7 +6100,7 @@ msgstr "Loggfilen är för stor!"
 
 #. Template: AdminPerformanceLog
 msgid "The logfile is too large, you need to reset it"
-msgstr ""
+msgstr "Loggfilen är för stor, du behöver återställa den"
 
 #. Template: AdminPerformanceLog
 msgid "Overview"
@@ -6190,27 +6190,27 @@ msgstr "Ändra PostMaster-Filter"
 
 #. Template: AdminPostMasterFilter
 msgid "The name is required."
-msgstr ""
+msgstr "Namnet krävs."
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
-msgstr ""
+msgstr "Filter-villkor"
 
 #. Template: AdminPostMasterFilter
 msgid "AND Condition"
-msgstr ""
+msgstr "OCH-villkor"
 
 #. Template: AdminPostMasterFilter
 msgid "Check email header"
-msgstr ""
+msgstr "Kontrollera e-posthuvud"
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
-msgstr ""
+msgstr "Negera"
 
 #. Template: AdminPostMasterFilter
 msgid "Look for value"
-msgstr ""
+msgstr "Sök efter värde"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
@@ -6218,11 +6218,11 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
-msgstr ""
+msgstr "Sätt e-posthuvud"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr ""
+msgstr "Sätt e-posthvuud"
 
 #. Template: AdminPostMasterFilter
 msgid "Set value"
@@ -6285,7 +6285,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Example processes"
-msgstr ""
+msgstr "Exempelprocesser"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6295,7 +6295,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Import example process"
-msgstr ""
+msgstr "Importera exempelprocess"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6382,7 +6382,7 @@ msgstr "Tillgängliga aktivitetsdialoger"
 
 #. Template: AdminProcessManagementActivity
 msgid "Name: %s, EntityID: %s"
-msgstr ""
+msgstr "Namn: %s, EntityID: %s"
 
 #. Template: AdminProcessManagementActivity
 msgid "Create New Activity Dialog"
@@ -6417,7 +6417,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity Dialog"
-msgstr ""
+msgstr "Aktivitetsdialog"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity dialog Name"
@@ -6425,15 +6425,15 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available in"
-msgstr ""
+msgstr "Tillgänglig om"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (short)"
-msgstr ""
+msgstr "Beskrivning (kort)"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (long)"
-msgstr ""
+msgstr "Beskrivning (lång)"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected permission does not exist."
@@ -6471,15 +6471,15 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available Fields"
-msgstr ""
+msgstr "Tillgängliga fält"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Name: %s"
-msgstr ""
+msgstr "Namn: %s"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
-msgstr ""
+msgstr "Tilldelade fält"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
@@ -6499,7 +6499,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
-msgstr ""
+msgstr "Sökväg"
 
 #. Template: AdminProcessManagementPath
 msgid "Edit this transition"
@@ -10589,7 +10589,7 @@ msgid "Create summation row"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional row containing sums for all data columns."
+msgid "Generate an additional row containing sums for all data rows."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -10597,7 +10597,7 @@ msgid "Create summation column"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional column containing sums for all data rows."
+msgid "Generate an additional column containing sums for all data columns."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -11959,11 +11959,6 @@ msgstr ""
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -18177,7 +18172,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18524,6 +18519,10 @@ msgid ""
 "80.000 and 6.000 open tickets are stored in the system). Use the command "
 "\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
+msgstr ""
+
+#. SysConfig
+msgid "Indonesian"
 msgstr ""
 
 #. SysConfig

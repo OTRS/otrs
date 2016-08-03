@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-07-11 11:09+0000\n"
+"POT-Creation-Date: 2016-08-03 10:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11427,10 +11427,6 @@ msgid "Couldn't determine ActivityEntityID. DynamicField or Config isn't set pro
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process::Default%s Config Value missing!"
 msgstr ""
 
@@ -16350,7 +16346,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

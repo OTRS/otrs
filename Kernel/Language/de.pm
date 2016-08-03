@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.935753024614101;
+    $Self->{Completeness}        = 0.936795994993742;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3724,8 +3724,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'Konnte Ticket für TicketID %s in _GetParam nicht ermitteln!',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             'Konnte ActivityEntityID nicht ermitteln. Dynamisches Feld oder Konfiguration nicht korrekt.',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            'DynamicFieldConfig für Feld %s fehlt, oder es handelt sich dabei nicht um ein Dynamisches Feld für Tickets.',
         'Process::Default%s Config Value missing!' => 'Process::Default%s Konfigurationswert fehlt!',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             'Weder ProcessEntityID, noch TicketID und ActivityDialogEntityID empfangen!',
@@ -5838,6 +5836,7 @@ Ihr Helpdesk-Team
         'Incoming Phone Call.' => 'Eingehender Telefonanruf.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => 'Eingabe',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
@@ -5851,8 +5850,8 @@ Ihr Helpdesk-Team
         'Italian' => 'Italienisch',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
-        'Ivory' => '',
-        'Ivory (Slim)' => '',
+        'Ivory' => 'Elfenbein',
+        'Ivory (Slim)' => 'Elfenbein (Schlank)',
         'Japanese' => 'Japanisch',
         'JavaScript function for the search frontend.' => '',
         'Last customer subject' => '',
@@ -6019,7 +6018,7 @@ Ihr Helpdesk-Team
         'Online' => 'Online',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
-        'Option' => '',
+        'Option' => 'Option',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
@@ -6190,8 +6189,8 @@ Ihr Helpdesk-Team
         'Schedule a maintenance period.' => 'Systemwartung planen',
         'Screen' => 'Bildschirm',
         'Search Customer' => 'Kunden suchen',
-        'Search Ticket.' => '',
-        'Search Tickets.' => '',
+        'Search Ticket.' => 'Ticket suchen.',
+        'Search Tickets.' => 'Tickets suchen.',
         'Search User' => 'Benutzer suchen',
         'Search backend default router.' => '',
         'Search backend router.' => '',
@@ -6220,7 +6219,7 @@ Ihr Helpdesk-Team
         'Serbian Cyrillic' => 'Kyrillisches Serbisch',
         'Serbian Latin' => 'Lateinisches Serbisch',
         'Service view' => 'Ansicht nach Services',
-        'ServiceView' => '',
+        'ServiceView' => 'DienstAnsicht',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
         'Set sender email addresses for this system.' => 'Absendeadressen für dieses System verwalten.',

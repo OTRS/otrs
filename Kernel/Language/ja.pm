@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.686691697955778;
+    $Self->{Completeness}        = 0.687526074259491;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2212,7 +2212,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
-        'Close dialog' => '',
+        'Close dialog' => 'ダイアログを閉じる',
         'Certificate details' => '',
 
         # Template: AdminSalutation
@@ -3090,7 +3090,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Inbound mail user' => '受信メールユーザー',
         'User for inbound mail.' => 'メールを受信するユーザー',
         'Inbound mail password' => '受信メールパスワード',
-        'Password for inbound mail.' => 'メールを受信するパスワード',
+        'Password for inbound mail.' => '受信メールのパスワード',
         'Result of mail configuration check' => 'メール設定チェックの結果',
         'Check mail configuration' => 'メール設定チェック',
         'Skip this step' => 'この手順を飛ばす',
@@ -3226,10 +3226,10 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
         'Create summation row' => '',
-        'Generate an additional row containing sums for all data columns.' =>
+        'Generate an additional row containing sums for all data rows.' =>
             '',
         'Create summation column' => '',
-        'Generate an additional column containing sums for all data rows.' =>
+        'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
@@ -3729,8 +3729,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             '',
@@ -4178,7 +4176,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Tickets Per Month (avg)' => '月毎のチケット数(平均)',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
-        'Default SOAP Username And Password' => '',
+        'Default SOAP Username And Password' => 'デフォルトのSOAPユーザ名とパスワード',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
             'セキュリティーリスク: SOAP::User 及び SOAP::Password のデフォルト設定を利用しています、変更を行ってください。',
 
@@ -4310,7 +4308,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Reset password unsuccessful. Please contact your administrator' =>
-            '',
+            'パスワードのリセットができません。管理者に連絡してください。',
         'Added via Customer Panel (%s)' => '',
         'Customer user can\'t be added!' => '',
         'Can\'t send account info!' => '',
@@ -5845,6 +5843,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => '入力',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '利用者がスペル・チェッカーを使用したい場合、システム上にispellまたはaspellをインストールします。ご利用のオペレーティング・システム上で、aspellまたはispellへのパスを特定します。',
@@ -6676,7 +6675,7 @@ Thanks for your help!
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
             '',
         'Specify the password to authenticate for the first mirror database.' =>
-            '',
+            'データベースの第一ミラーの認証パスワードを指定してください。',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',

@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.560909470171047;
+    $Self->{Completeness}        = 0.560492282019191;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1102,15 +1102,15 @@ Opdater venligst dit framework først!',
             'Denne automatisk agent vil i øjeblikket ikke køre.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'For at aktivere automatisk kørsel, vælg mindst en værdi fra minutter, timer og dage.',
-        'Event based execution (single ticket)' => 'Hændelses baseret tidsplan (enkelt sag)',
-        'Event Triggers' => 'Hændelses udløsere',
+        'Event based execution (single ticket)' => 'Hændelsesbaseret tidsplan (enkelt sag)',
+        'Event Triggers' => 'Hændelsens udløsere',
         'List of all configured events' => 'Liste med alle konfigurerede hændelser',
         'Delete this event' => 'Slet denne hændelse',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
             '',
-        'Do you really want to delete this event trigger?' => 'Ønsker du at slette denne hændelses-udløser',
+        'Do you really want to delete this event trigger?' => 'Ønsker du at slette denne hændelses udløser',
         'Add Event Trigger' => 'Tilføj hændelses-udløser',
         'Add Event' => 'Tilføj hændelse',
         'To add a new event select the event object and event name and click on the "+" button' =>
@@ -2820,7 +2820,7 @@ Opdater venligst dit framework først!',
         'Article Type' => 'Indlægstype',
         'Sender Type' => 'Afsendertype',
         'Save filter settings as default' => 'Gem disse filterinstillinger som standard',
-        'Event Type Filter' => 'Hændelsestype filter',
+        'Event Type Filter' => 'Hændelsestype-filter',
         'Event Type' => 'Hændelsestype',
         'Save as default' => 'Gem som standard',
         'Archive' => 'Arkiver',
@@ -3223,11 +3223,11 @@ Opdater venligst dit framework først!',
         'The selected time periods in the statistic are time zone neutral.' =>
             'De valgte tidsperioder i rapportern tager ikke højde for tidszoner.',
         'Create summation row' => 'Summer rækker',
-        'Generate an additional row containing sums for all data columns.' =>
-            'Generer en ekstra række med summer for alle data-kolonner.',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'Summer kolonner',
-        'Generate an additional column containing sums for all data rows.' =>
-            'Opret en ekstra kolonne med summer for alle rækker.',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'Gem resultater i cache',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Gem rapportens resultat i en cache, der kan bruges til fremtidige visninger med samme parametre.',
@@ -3725,8 +3725,6 @@ Opdater venligst dit framework først!',
             '',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
-            '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
             '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
@@ -5830,6 +5828,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',

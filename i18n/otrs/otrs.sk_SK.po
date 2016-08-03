@@ -2,12 +2,13 @@
 # Translators:
 # Adam Sadovsky <sadovsky.adam@gmail.com>, 2015
 # Daniel Pogač <dano.pogac@gmail.com>, 2015
+# Jaroslav Abaffy <jabaffy@unitedclassifieds.sk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-07-08 14:09+0000\n"
-"PO-Revision-Date: 2016-07-08 12:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-08-03 10:16+0000\n"
+"PO-Revision-Date: 2016-08-03 15:17+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/otrs/OTRS/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +66,7 @@ msgstr "zrušiť"
 
 #. Template: AAABase
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 #. Template: AAABase
 msgid "more than ... ago"
@@ -425,7 +426,7 @@ msgstr "výsledky"
 
 #. Template: AAABase
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #. Template: AAABase
 msgid "Standard"
@@ -773,15 +774,15 @@ msgstr "Prosim odpovedajte na tento tiket"
 
 #. Template: AAABase
 msgid "You have %s new message(s)!"
-msgstr ""
+msgstr "Máte % nových správ!"
 
 #. Template: AAABase
 msgid "You have %s reminder ticket(s)!"
-msgstr ""
+msgstr "Máte % pripomienok!"
 
 #. Template: AAABase
 msgid "The recommended charset for your language is %s!"
-msgstr ""
+msgstr "Odporúčanáznaková sada pre Váš jazyk je %!"
 
 #. Template: AAABase
 msgid "Change your password."
@@ -1025,7 +1026,7 @@ msgstr "Novinky o OTRS vydaniach!"
 
 #. Template: AAABase
 msgid "Go to dashboard!"
-msgstr ""
+msgstr "Choď na dashboard!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1121,11 +1122,11 @@ msgstr "Zmluva"
 
 #. Template: AAABase
 msgid "Online Customer: %s"
-msgstr ""
+msgstr "Používateľov online: %"
 
 #. Template: AAABase
 msgid "Online Agent: %s"
-msgstr ""
+msgstr "Agentov online: %"
 
 #. Template: AAABase
 msgid "Calendar"
@@ -1714,7 +1715,7 @@ msgstr "Ostané nastavenia"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Nastavenie notifikácií"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -1862,7 +1863,7 @@ msgstr "Fronta"
 
 #. Template: AAATicket
 msgid "Queues"
-msgstr ""
+msgstr "Fronty"
 
 #. Template: AAATicket
 msgid "Priority"
@@ -1894,7 +1895,7 @@ msgstr "Signatúra zaktualizovaná!"
 
 #. Template: AAATicket
 msgid "SLA"
-msgstr ""
+msgstr "SLA"
 
 #. Template: AAATicket
 msgid "Service Level Agreement"
@@ -2835,27 +2836,27 @@ msgstr "Sob"
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Správa ACL"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Filter pre ACL"
 
 #. Template: AdminACL
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #. Template: AdminACL
 msgid "ACL Name"
-msgstr ""
+msgstr "Názov ACL"
 
 #. Template: AdminACL
 msgid "Actions"
-msgstr ""
+msgstr "Akcia"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Vytvoriť nové ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
@@ -2863,7 +2864,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Exportovať ACL"
 
 #. Template: AdminACL
 msgid "Configuration import"
@@ -2877,7 +2878,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "This field is required."
-msgstr ""
+msgstr "Toto pole je povinné."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
@@ -2885,11 +2886,11 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "Nahrať ACL konfiguráciu"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "Importovať ACL konfiguráciu"
 
 #. Template: AdminACL
 msgid ""
@@ -2906,7 +2907,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "ACL"
 
 #. Template: AdminACL
 msgid ""
@@ -2917,7 +2918,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Názov ACL"
 
 #. Template: AdminACL
 msgid "Validity"
@@ -2925,27 +2926,27 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Copy"
-msgstr ""
+msgstr "Kopírovať"
 
 #. Template: AdminACL
 msgid "No data found."
-msgstr ""
+msgstr "Neboli nájdene žiadne dáta."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Upraviť ACL %"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
-msgstr ""
+msgstr "Prejsť na prehľad"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Zmazať ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Zmazať chybný ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
@@ -2960,7 +2961,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Zmena nastavenia"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -2974,7 +2975,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "documentation"
-msgstr ""
+msgstr "dokumentácia"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -2994,19 +2995,19 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 #. Template: AdminACLEdit
 msgid "or"
-msgstr ""
+msgstr "alebo"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "Uložiť a skončiť"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "Určite chcete zmazať toto ACL?"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -3020,11 +3021,11 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Add all"
-msgstr ""
+msgstr "Pridať všetky"
 
 #. Template: AdminACLEdit
 msgid "There was an error reading the ACL data."
-msgstr ""
+msgstr "Pri čítani ACL dát nastala chyba."
 
 #. Template: AdminACLNew
 msgid ""
@@ -3038,27 +3039,27 @@ msgstr "riadenie príloh"
 
 #. Template: AdminAttachment
 msgid "Add attachment"
-msgstr ""
+msgstr "Pridať prílohu"
 
 #. Template: AdminAttachment
 msgid "List"
-msgstr ""
+msgstr "Zoznam"
 
 #. Template: AdminAttachment
 msgid "Download file"
-msgstr ""
+msgstr "Stiahnúť prílohu"
 
 #. Template: AdminAttachment
 msgid "Delete this attachment"
-msgstr ""
+msgstr "Vymazať túto prílohu"
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
-msgstr ""
+msgstr "Pridať prílohu"
 
 #. Template: AdminAttachment
 msgid "Edit Attachment"
-msgstr ""
+msgstr "Upraviť prílohu"
 
 #. Template: AdminAutoResponse
 msgid "Auto Response Management"
@@ -3066,15 +3067,15 @@ msgstr "riadenie automatických odpovedí"
 
 #. Template: AdminAutoResponse
 msgid "Add auto response"
-msgstr ""
+msgstr "Pridať automatickú odpoveď"
 
 #. Template: AdminAutoResponse
 msgid "Add Auto Response"
-msgstr ""
+msgstr "Pridať automatickú odpoveď"
 
 #. Template: AdminAutoResponse
 msgid "Edit Auto Response"
-msgstr ""
+msgstr "Upraviť automatickú odpoveď"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -3082,11 +3083,11 @@ msgstr "Odpoveď"
 
 #. Template: AdminAutoResponse
 msgid "Auto response from"
-msgstr ""
+msgstr "Automatická odpoveď od"
 
 #. Template: AdminAutoResponse
 msgid "Reference"
-msgstr ""
+msgstr "Referencia"
 
 #. Template: AdminAutoResponse
 msgid "You can use the following tags"
@@ -10581,7 +10582,7 @@ msgid "Create summation row"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional row containing sums for all data columns."
+msgid "Generate an additional row containing sums for all data rows."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -10589,7 +10590,7 @@ msgid "Create summation column"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional column containing sums for all data rows."
+msgid "Generate an additional column containing sums for all data columns."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -11951,11 +11952,6 @@ msgstr ""
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -18169,7 +18165,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18516,6 +18512,10 @@ msgid ""
 "80.000 and 6.000 open tickets are stored in the system). Use the command "
 "\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
+msgstr ""
+
+#. SysConfig
+msgid "Indonesian"
 msgstr ""
 
 #. SysConfig

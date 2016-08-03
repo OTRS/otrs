@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.988527325823947;
+    $Self->{Completeness}        = 0.989570296203588;
 
     # csv separator
     $Self->{Separator} = '';
@@ -2213,7 +2213,7 @@ sub Data {
         'Relate this certificate' => '关联这个证书',
 
         # Template: AdminSMIMECertRead
-        'Close dialog' => '',
+        'Close dialog' => '关闭对话',
         'Certificate details' => '证书详细信息',
 
         # Template: AdminSalutation
@@ -2640,8 +2640,8 @@ sub Data {
         'Change Free Text of %s%s%s' => '',
         'Change Owner of %s%s%s' => '',
         'Close %s%s%s' => '',
-        'Add Note to %s%s%s' => '',
-        'Set Pending Time for %s%s%s' => '',
+        'Add Note to %s%s%s' => '添加备注到',
+        'Set Pending Time for %s%s%s' => '为%s%s%s添加挂起时间',
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => '所有带“*”的字段都是强制要求输入的字段.',
@@ -3029,7 +3029,7 @@ sub Data {
             '',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
-        'Contact our service team now.' => '',
+        'Contact our service team now.' => '联系服务团队',
         'Send a bugreport' => '发送一个BUG报告',
 
         # Template: FooterJS
@@ -3227,11 +3227,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             '统计的选定时间段是时区中立的（无时区）。',
         'Create summation row' => '创建汇总行',
-        'Generate an additional row containing sums for all data columns.' =>
-            '创建额外一行，以汇总所有的数据列。',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => '创建汇总列',
-        'Generate an additional column containing sums for all data rows.' =>
-            '创建额外一列，以汇总所有的数据行。',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => '缓存结果',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             '将统计结果数据保存到缓存中，以在随后同样配置的视图中使用。',
@@ -3271,8 +3271,8 @@ sub Data {
         'Configurable params of static stat' => '静态统计的配置参数',
         'No element selected.' => '没有选择元素。',
         'Scale' => '时间刻度',
-        'show more' => '',
-        'show less' => '',
+        'show more' => '显示更多',
+        'show less' => '收起',
 
         # Template: D3
         'Download SVG' => '下载SVG',
@@ -3730,8 +3730,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '在函数_GetParam 中不能获取工单编号为 %s 的工单！',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             '不能确定活动实体ID，动态字段或配置不正确！',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            '动态字段 %s 的配置缺失，或者不是一个工单动态字段！',
         'Process::Default%s Config Value missing!' => 'Process::Default%s 没有配置值！',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             '没有获得流程实体ID，或者没有获得工单ID和活动对话框实体ID！',
@@ -3847,7 +3845,7 @@ sub Data {
         'Need CustomerID!' => '需要客户联系人ID！',
         'My Tickets' => '我的工单',
         'Company Tickets' => '单位工单',
-        'Untitled!' => '',
+        'Untitled!' => '未命名！',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -4019,7 +4017,7 @@ sub Data {
         'Number of Articles' => '信件数',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => '',
+        'unlimited' => '无限制',
         'ascending' => '升序',
         'descending' => '降序',
         'Attributes to be printed' => '要打印的属性',
@@ -5843,6 +5841,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '来电。',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '索引加速器：选择您的后端工单视图加速器模块。“RuntimeDB（运行时数据库）”实时生成每个队列视图（工单总数不超过60000个且系统打开的工单不超过6000个时没有性能问题）。“StaticDB（静态数据库）是最强大的模块，它使用额外的类似于视图的工单索引表（工单总数超过80000且系统打开的工单超过6000时推荐使用），使用命令"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild"来初始化索引。',
+        'Indonesian' => '',
         'Input' => 'Input（输入）',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '如果您想使用拼写检查器，请在系统中安装ispell 或 aspell。请指定ispell 或 aspell在操作系统中的程序路径。',

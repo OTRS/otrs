@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-07-08 14:09+0000\n"
-"PO-Revision-Date: 2016-07-08 12:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-08-03 10:16+0000\n"
+"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3261,11 +3261,11 @@ msgstr "Изабери"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "Листа (само %s је приказано - расположиво више)"
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
-msgstr ""
+msgstr "Листа (%s укупно)"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -3655,7 +3655,7 @@ msgstr "Овде можете да унесете опциону HTTP везу �
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Link for preview"
-msgstr ""
+msgstr "Веза за преглед"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
@@ -5867,7 +5867,7 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Подесите то овде!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
@@ -7580,7 +7580,7 @@ msgstr "Повежи овај сертификат"
 
 #. Template: AdminSMIMECertRead
 msgid "Close dialog"
-msgstr ""
+msgstr "Затворите дијалог"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate details"
@@ -7777,7 +7777,7 @@ msgstr "Тип статуса"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTRS Group is not possible!"
-msgstr ""
+msgstr "Слање података за подршку за „OTRS Group” није могуће!"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
@@ -8819,31 +8819,31 @@ msgstr "Ова статистика садржи конфигурационе г
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s%s"
-msgstr ""
+msgstr "Промени слободни текст за %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
-msgstr ""
+msgstr "Промени власника за %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "Затвори %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
-msgstr ""
+msgstr "Додај напомену %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
-msgstr ""
+msgstr "Постави време чекања за %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s%s"
-msgstr ""
+msgstr "Промени приоритет за %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s%s"
-msgstr ""
+msgstr "Промени одговорног за %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
@@ -8897,7 +8897,7 @@ msgstr "Овде можете изабрати додатне оператере
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by"
-msgstr ""
+msgstr "Текст ће такође примити и:"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -8917,7 +8917,7 @@ msgstr "Тип напомене"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
-msgstr ""
+msgstr "Одбаци %s%s%s"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -8977,11 +8977,11 @@ msgstr "Откључај тикете"
 
 #. Template: AgentTicketBulk
 msgid "Execute Bulk Action"
-msgstr ""
+msgstr "Изврши масовну акцију"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
-msgstr ""
+msgstr "Напиши одговор за %s%s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
@@ -9017,7 +9017,7 @@ msgstr "Неисправан датум!"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
-msgstr ""
+msgstr "Промени клијента за %s%s%s"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -9053,7 +9053,7 @@ msgstr "Узми све"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s%s"
-msgstr ""
+msgstr "Излазни имејл за %s%s%s"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
@@ -9065,7 +9065,7 @@ msgstr "Тикет %s: време одзива ће истећи за %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time is over (%s/%s)!"
-msgstr ""
+msgstr "Тикет %s: време ажурирања је преко (%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
@@ -9081,11 +9081,11 @@ msgstr "Тикет %s: време решавања истиче за %s/%s!"
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s%s"
-msgstr ""
+msgstr "Проследи %s%s%s"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s%s"
-msgstr ""
+msgstr "Историјат од %s%s%s"
 
 #. Template: AgentTicketHistory
 msgid "History Content"
@@ -9097,7 +9097,7 @@ msgstr "Увећани преглед"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s%s"
-msgstr ""
+msgstr "Споји %s%s%s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
@@ -9117,7 +9117,7 @@ msgstr "Потребна је исправна имејл адреса."
 
 #. Template: AgentTicketMove
 msgid "Move %s%s%s"
-msgstr ""
+msgstr "Премести %s%s%s"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
@@ -9209,11 +9209,11 @@ msgstr "Ћаскање ће бити додато као посебан члан
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
-msgstr ""
+msgstr "Телефонски позив за %s%s%s"
 
 #. Template: AgentTicketPlain
 msgid "View Email Plain Text for %s%s%s"
-msgstr ""
+msgstr "Приказ имејла као обичан текст за %s%s%s"
 
 #. Template: AgentTicketPlain
 msgid "Plain"
@@ -9579,7 +9579,7 @@ msgstr "иди на претходну страну"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr ""
+msgstr "Догодила се грешка"
 
 #. Template: CustomerError
 msgid "Error Details"
@@ -10583,16 +10583,16 @@ msgid "Create summation row"
 msgstr "Креирај ред са збиром"
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional row containing sums for all data columns."
-msgstr "Генериши додатни ред са збиром свих колона са подацима."
+msgid "Generate an additional row containing sums for all data rows."
+msgstr "Генериши додатни ред који садржи суме за све редове са подацима."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
 msgstr "Креирај колону са збиром"
 
 #. Template: GeneralSpecificationsWidget
-msgid "Generate an additional column containing sums for all data rows."
-msgstr "Генериши додатну колону са збиром свих редова са подацима."
+msgid "Generate an additional column containing sums for all data columns."
+msgstr "Генериши додатну колону која садржи суме за све колоне са подацима."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
@@ -10708,11 +10708,11 @@ msgstr "Скала"
 
 #. Template: StatsParamsWidget
 msgid "show more"
-msgstr ""
+msgstr "прикажи више"
 
 #. Template: StatsParamsWidget
 msgid "show less"
-msgstr ""
+msgstr "прикажи мање"
 
 #. Template: D3
 msgid "Download SVG"
@@ -11309,7 +11309,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
-msgstr ""
+msgstr "Није могуће обрисати %s:%s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
@@ -11317,7 +11317,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get %s"
-msgstr ""
+msgstr "Није могуће прибавити %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need %s!"
@@ -11597,7 +11597,7 @@ msgstr "Поздрав додат!"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
-msgstr ""
+msgstr "Датотеку %s није могуће прочитати!"
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Import not allowed!"
@@ -11613,7 +11613,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
-msgstr ""
+msgstr "Датум почетка не би требало одредити после датума завршетка!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error creating the System Maintenance"
@@ -11895,7 +11895,7 @@ msgstr "Ово ћаскање је затворено и биће уклоњен
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid "No ArticleID!"
-msgstr ""
+msgstr "Нема ИД Чланка!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid ""
@@ -11953,11 +11953,6 @@ msgstr ""
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12330,7 +12325,7 @@ msgstr "Молимо да уклоните следеће речи  јер се 
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
-msgstr ""
+msgstr "Тикет се не може поново отворити, није могуће у овом реду!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
@@ -12338,7 +12333,7 @@ msgstr "Направи нови тикет!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
-msgstr ""
+msgstr "Директоријум \"%s\" не постоји!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure \"Home\" in Kernel/Config.pm first!"
@@ -12350,7 +12345,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" not found!"
-msgstr ""
+msgstr "Директоријум \"%s\" није пронађен!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Kernel/Config.pm isn't writable!"
@@ -12454,7 +12449,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Successful decryption"
-msgstr ""
+msgstr "Успешно дешифровање"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
@@ -13297,12 +13292,12 @@ msgstr "Имате више од 60.000 тикета и треба да кори
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "Invalid Users with Locked Tickets"
-msgstr ""
+msgstr "Неисправни корисници са закључаним тикетима"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
-msgstr ""
+msgstr "Постоје неисправни корисници са закључаним тикетима."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -14820,7 +14815,7 @@ msgstr "Креирање новог тикета."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)."
-msgstr ""
+msgstr "Отвори нови имејл тикет и пошаљи ово (одлазни)."
 
 #. SysConfig
 msgid "Create new email ticket."
@@ -14828,7 +14823,7 @@ msgstr "Креирање новог Имејл тикета."
 
 #. SysConfig
 msgid "Create new phone ticket (inbound)."
-msgstr ""
+msgstr "Креирај нови телефонски тикет (долазни позив)."
 
 #. SysConfig
 msgid "Create new phone ticket."
@@ -16637,7 +16632,7 @@ msgstr "Дефинише назив кључа сесије. Нпр. Сесиј�
 
 #. SysConfig
 msgid "Defines the name of the table where the user preferences are stored."
-msgstr ""
+msgstr "Одређује назив табеле где се смештају подешавања корисника."
 
 #. SysConfig
 msgid ""
@@ -17543,7 +17538,7 @@ msgstr "Имејл адресе"
 
 #. SysConfig
 msgid "Email Outbound"
-msgstr ""
+msgstr "Одлазни имејл"
 
 #. SysConfig
 msgid "Email sent to \"%s\"."
@@ -18171,7 +18166,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18521,6 +18516,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Indonesian"
+msgstr ""
+
+#. SysConfig
 msgid "Input"
 msgstr "Унос"
 
@@ -18841,7 +18840,7 @@ msgstr "Максимална величина (у редовима) оквира
 #. SysConfig
 msgid ""
 "Max size of the subjects in an email reply and in some overview screens."
-msgstr ""
+msgstr "Максимална величина предмета у имејл одговору и неким екранима прегледа."
 
 #. SysConfig
 msgid ""
@@ -21378,7 +21377,7 @@ msgstr "Уклања празне линије у приказу тикета н
 
 #. SysConfig
 msgid "Swahili"
-msgstr ""
+msgstr "Свахили"
 
 #. SysConfig
 msgid "Swedish"
@@ -21410,7 +21409,7 @@ msgstr "Област текста"
 
 #. SysConfig
 msgid "Thai"
-msgstr ""
+msgstr "Тајландски"
 
 #. SysConfig
 msgid ""
@@ -21633,27 +21632,27 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket FreeText."
-msgstr ""
+msgstr "Слободни текст тикета."
 
 #. SysConfig
 msgid "Ticket History."
-msgstr ""
+msgstr "Историјат тикета."
 
 #. SysConfig
 msgid "Ticket Lock."
-msgstr ""
+msgstr "Закључавање тикета"
 
 #. SysConfig
 msgid "Ticket Merge."
-msgstr ""
+msgstr "Спајање тикета."
 
 #. SysConfig
 msgid "Ticket Move."
-msgstr ""
+msgstr "Померање тикета."
 
 #. SysConfig
 msgid "Ticket Note."
-msgstr ""
+msgstr "Напомена тикета."
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -21665,7 +21664,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Owner."
-msgstr ""
+msgstr "Власник тикета."
 
 #. SysConfig
 msgid "Ticket Pending."
@@ -21677,7 +21676,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Priority."
-msgstr ""
+msgstr "Приоритет тикета."
 
 #. SysConfig
 msgid "Ticket Queue Overview"
@@ -21693,7 +21692,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Zoom."
-msgstr ""
+msgstr "Детаљи тикета."
 
 #. SysConfig
 msgid "Ticket bulk module."
@@ -21721,7 +21720,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket title"
-msgstr ""
+msgstr "Наслов тикета"
 
 #. SysConfig
 msgid "Ticket zoom view."
@@ -21751,7 +21750,7 @@ msgstr ""
 
 #. SysConfig
 msgid "To download attachments."
-msgstr ""
+msgstr "За преузимање прилога."
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."

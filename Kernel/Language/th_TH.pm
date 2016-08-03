@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.86462244472257;
+    $Self->{Completeness}        = 0.863996662494785;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -3226,11 +3226,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'ช่วงเวลาที่เลือกไว้ในสถิติเป็นโซนเวลาที่เป็นกลาง',
         'Create summation row' => 'สร้างแถวผลรวม',
-        'Generate an additional row containing sums for all data columns.' =>
-            'สร้างแถวเพิ่มเติมที่ประกอบด้วยผลรวมสำหรับคอลัมน์ข้อมูลทั้งหมด',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'สร้างคอลัมน์ผลรวม',
-        'Generate an additional column containing sums for all data rows.' =>
-            'สร้างคอลัมน์เพิ่มเติมที่ประกอบด้วยผลรวมสำหรับแถวข้อมูลทั้งหมด',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'ผลการแคช',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'เก็บข้อมูลผลสถิติในแคชเพื่อที่จะใช้ในมุมมองที่ตามมากับการตั้งค่าเดียวกัน',
@@ -3729,8 +3729,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'ไม่สามารถรับตั๋วสำหรับ TicketID: %s in _GetParam!',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             'ไม่สามารถตรวจสอบ ActivityEntityID ได้เพราะไม่ได้ตั้งค่า DynamicField หรือ Config อย่างถูกต้อง!',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            'DynamicFieldConfig ขาดหายไปสำหรับฟิลด์:% s หรือไม่ได้เป็นฟิลด์ตั๋วแบบไดนามิก!',
         'Process::Default%s Config Value missing!' => 'Process::Default%s การกำหนดค่า ค่าที่หายไป!',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             'ไม่ได้รับ ProcessEntityID หรือ TicketID และ ActivityDialogEntityID!',
@@ -5849,6 +5847,7 @@ Thanks for your help!
         'Incoming Phone Call.' => 'โทรศัพท์สายเข้า',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => 'การป้อนเข้า',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',

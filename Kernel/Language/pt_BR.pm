@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.671881518564873;
+    $Self->{Completeness}        = 0.671464330413016;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3226,11 +3226,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'O período selecionado na estatística é neutro quanto ao fuso horário.',
         'Create summation row' => 'Criar coluna de somatório',
-        'Generate an additional row containing sums for all data columns.' =>
-            'Gerar uma coluna adicional contendo somas para todas as linhas de dados.',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'Criar coluna de somatório',
-        'Generate an additional column containing sums for all data rows.' =>
-            'Gerar uma coluna adicional contendo somas para todas as linhas de dados.',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'Resultado em cache',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Armazena em cache os dados de resultados das estatísticas para serem utilizados em visualizações subsequentes com a mesma configuração.',
@@ -3728,8 +3728,6 @@ sub Data {
             '',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
-            '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
             '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
@@ -5833,6 +5831,7 @@ Thanks for your help!
         'Incoming Phone Call.' => 'Telefonema Recebido.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',

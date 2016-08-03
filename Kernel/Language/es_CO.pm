@@ -3221,10 +3221,10 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
         'Create summation row' => '',
-        'Generate an additional row containing sums for all data columns.' =>
+        'Generate an additional row containing sums for all data rows.' =>
             '',
         'Create summation column' => '',
-        'Generate an additional column containing sums for all data rows.' =>
+        'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
@@ -3723,8 +3723,6 @@ sub Data {
             '',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
-            '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
             '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
@@ -5828,6 +5826,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             'Instala ispell o aspell en el sistema, si se desea usar el corrector ortográfico. Por favor, especifique la ruta al aspell o ispell binario en su sistema operativo.',

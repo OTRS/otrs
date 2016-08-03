@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.254693366708385;
+    $Self->{Completeness}        = 0.2636629119733;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -44,7 +44,7 @@ sub Data {
         'end' => 'koniec',
         'Done' => 'hotovo',
         'Cancel' => 'zrušiť',
-        'Reset' => '',
+        'Reset' => 'Reset',
         'more than ... ago' => 'pred viac ako ...',
         'in more than ...' => 'vo viacej ako ...',
         'within the last ...' => 'v posledných ...',
@@ -134,7 +134,7 @@ sub Data {
         'Child' => 'dieťa',
         'Hit' => 'výsledok',
         'Hits' => 'výsledky',
-        'Text' => '',
+        'Text' => 'Text',
         'Standard' => 'Štandard',
         'Lite' => 'Odľahčený',
         'User' => 'Užívateľ',
@@ -224,7 +224,7 @@ sub Data {
             'Prosim odpovedajte na tento tiket',
         'You have %s new message(s)!' => 'Máte % nových správ!',
         'You have %s reminder ticket(s)!' => 'Máte % pripomienok!',
-        'The recommended charset for your language is %s!' => 'Odporúčaná znaková sada pre Váš jazyk je %',
+        'The recommended charset for your language is %s!' => 'Odporúčanáznaková sada pre Váš jazyk je %!',
         'Change your password.' => 'Zmeniť heslo',
         'Please activate %s first!' => 'Najskôr aktivujte %s prosím.',
         'No suggestions' => 'Žiadne návrhy.',
@@ -291,7 +291,7 @@ sub Data {
         'You have Out of Office enabled, would you like to disable it?' =>
             'Máte nastavenú Neprítomnosť v kancelárii. Chcete toto nastavenie zrušiť ?',
         'News about OTRS releases!' => 'Novinky o OTRS vydaniach!',
-        'Go to dashboard!' => '',
+        'Go to dashboard!' => 'Choď na dashboard!',
         'Customer %s added' => 'Zákazník %s pridaný',
         'Role added!' => 'Roľa pridaná!',
         'Role updated!' => 'Roľa aktualizovaná!',
@@ -315,8 +315,8 @@ sub Data {
         'System e-mail address added!' => 'Systémová mail adresa pridaná!',
         'System e-mail address updated!' => 'Systémová mail adresa aktualizovaná!',
         'Contract' => 'Zmluva',
-        'Online Customer: %s' => 'Online používateľ: %',
-        'Online Agent: %s' => 'Online Agent %',
+        'Online Customer: %s' => 'Používateľov online: %',
+        'Online Agent: %s' => 'Agentov online: %',
         'Calendar' => 'Kalendár',
         'File' => 'Súbor',
         'Filename' => 'Názov súboru',
@@ -478,7 +478,7 @@ sub Data {
         'User Profile' => 'Užívateľský profil',
         'Email Settings' => 'Email nastavenia',
         'Other Settings' => 'Ostané nastavenia',
-        'Notification Settings' => '',
+        'Notification Settings' => 'Nastavenie notifikácií',
         'Change Password' => 'Zmena hesla',
         'Current password' => 'Aktuálne heslo',
         'New password' => 'Nové heslo',
@@ -521,7 +521,7 @@ sub Data {
         'Subject' => 'Predmet',
         'Move' => 'Presunúť',
         'Queue' => 'Fronta',
-        'Queues' => '',
+        'Queues' => 'Fronty',
         'Priority' => 'Priorita',
         'Priorities' => 'Priorita',
         'Priority Update' => 'Zmena priority',
@@ -529,7 +529,7 @@ sub Data {
         'Priority updated!' => 'Priorita zaktualizovaná!',
         'Signature added!' => 'Pridaná signatúra',
         'Signature updated!' => 'Signatúra zaktualizovaná!',
-        'SLA' => '',
+        'SLA' => 'SLA',
         'Service Level Agreement' => 'SLA zmluva',
         'Service Level Agreements' => 'SLA zmluvy',
         'Service' => 'Servis',
@@ -777,59 +777,59 @@ sub Data {
         'Sat' => 'Sob',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
-        'Filter' => '',
-        'ACL Name' => '',
-        'Actions' => '',
-        'Create New ACL' => '',
+        'ACL Management' => 'Správa ACL',
+        'Filter for ACLs' => 'Filter pre ACL',
+        'Filter' => 'Filter',
+        'ACL Name' => 'Názov ACL',
+        'Actions' => 'Akcia',
+        'Create New ACL' => 'Vytvoriť nové ACL',
         'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Export ACLs' => 'Exportovať ACL',
         'Configuration import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
-        'This field is required.' => '',
+        'This field is required.' => 'Toto pole je povinné.',
         'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Upload ACL configuration' => 'Nahrať ACL konfiguráciu',
+        'Import ACL configuration(s)' => 'Importovať ACL konfiguráciu',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             '',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
-        'ACLs' => '',
+        'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'Názov ACL',
         'Validity' => '',
-        'Copy' => '',
-        'No data found.' => '',
+        'Copy' => 'Kopírovať',
+        'No data found.' => 'Neboli nájdene žiadne dáta.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
-        'Go to overview' => '',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Edit ACL %s' => 'Upraviť ACL %',
+        'Go to overview' => 'Prejsť na prehľad',
+        'Delete ACL' => 'Zmazať ACL',
+        'Delete Invalid ACL' => 'Zmazať chybný ACL',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Zmena nastavenia',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
-        'documentation' => '',
+        'documentation' => 'dokumentácia',
         'Show or hide the content' => '',
         'Edit ACL information' => '',
         'Stop after match' => '',
         'Edit ACL structure' => '',
-        'Save' => '',
-        'or' => '',
-        'Save and finish' => '',
-        'Do you really want to delete this ACL?' => '',
+        'Save' => 'Uložiť',
+        'or' => 'alebo',
+        'Save and finish' => 'Uložiť a skončiť',
+        'Do you really want to delete this ACL?' => 'Určite chcete zmazať toto ACL?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
-        'Add all' => '',
-        'There was an error reading the ACL data.' => '',
+        'Add all' => 'Pridať všetky',
+        'There was an error reading the ACL data.' => 'Pri čítani ACL dát nastala chyba.',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -837,21 +837,21 @@ sub Data {
 
         # Template: AdminAttachment
         'Attachment Management' => 'riadenie príloh',
-        'Add attachment' => '',
-        'List' => '',
-        'Download file' => '',
-        'Delete this attachment' => '',
-        'Add Attachment' => '',
-        'Edit Attachment' => '',
+        'Add attachment' => 'Pridať prílohu',
+        'List' => 'Zoznam',
+        'Download file' => 'Stiahnúť prílohu',
+        'Delete this attachment' => 'Vymazať túto prílohu',
+        'Add Attachment' => 'Pridať prílohu',
+        'Edit Attachment' => 'Upraviť prílohu',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'riadenie automatických odpovedí',
-        'Add auto response' => '',
-        'Add Auto Response' => '',
-        'Edit Auto Response' => '',
+        'Add auto response' => 'Pridať automatickú odpoveď',
+        'Add Auto Response' => 'Pridať automatickú odpoveď',
+        'Edit Auto Response' => 'Upraviť automatickú odpoveď',
         'Response' => 'Odpoveď',
-        'Auto response from' => '',
-        'Reference' => '',
+        'Auto response from' => 'Automatická odpoveď od',
+        'Reference' => 'Referencia',
         'You can use the following tags' => '',
         'To get the first 20 character of the subject.' => '',
         'To get the first 5 lines of the email.' => '',
@@ -3221,10 +3221,10 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             '',
         'Create summation row' => '',
-        'Generate an additional row containing sums for all data columns.' =>
+        'Generate an additional row containing sums for all data rows.' =>
             '',
         'Create summation column' => '',
-        'Generate an additional column containing sums for all data rows.' =>
+        'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
@@ -3723,8 +3723,6 @@ sub Data {
             '',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
-            '',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
             '',
         'Process::Default%s Config Value missing!' => '',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
@@ -5828,6 +5826,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',

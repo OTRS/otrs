@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.999374348279458;
+    $Self->{Completeness}        = 0.999791405924072;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -3224,10 +3224,10 @@ bin/otrs.Daemon.pl status\').',
             'Periode waktu yang dipilih dalam statistik adalah zona waktu yang netral.',
         'Create summation row' => 'Buat baris penjumlahan',
         'Generate an additional row containing sums for all data rows.' =>
-            '',
+            'Menghasilkan baris yang mengandung jumlah untuk semua baris data.',
         'Create summation column' => 'Mencipta kolom penjumlahan',
         'Generate an additional column containing sums for all data columns.' =>
-            '',
+            'Menghasilkan kolom yang berisi tambahan jumlah untuk semua kolom data.',
         'Cache results' => 'Hasil cache',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Statistik yang tersimpan menghasilkan data dalam cache untuk digunakan dalam tampilan berikutnya dengan konfigurasi yang sama.',
@@ -3726,8 +3726,6 @@ bin/otrs.Daemon.pl status\').',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'Tidak bisa mendapatkan tiket untuk TiketID di _GetParam!',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             'Tidak dapat menentukan Kegiatan EntityID. DynamicField atau konfigurasi tidak diatur dengan benar!',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            'DynamicFieldConfig hilang untuk bidang: %s, atau bukan Bidang Dinamis Tiket!',
         'Process::Default%s Config Value missing!' => 'Proses :: default%s vs Nilai Konfigurasi hilang!',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             'Tidak mendapat ProcessEntityID atau TicketID dan ActivityDialogEntityID!',
@@ -3766,7 +3764,7 @@ bin/otrs.Daemon.pl status\').',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Tidak bisa set PendingTime untuk Ticket dengan ID "%s" di ActivityDialog "%s"!',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
-            'Salah Kegiatan Dialog Lapangan config:% s tidak bisa Tampilkan => 1 / Tampilkan lapangan (Silahkan ubah konfigurasi menjadi Tampilan => 0 / Jangan tampilkan lapangan atau Tampilan => 2 / Tampilkan lapangan sebagai wajib)!',
+            'Salah Kegiatan Dialog Lapangan config:%s tidak bisa Tampilkan => 1 / Tampilkan lapangan (Silahkan ubah konfigurasi menjadi Tampilan => 0 / Jangan tampilkan lapangan atau Tampilan => 2 / Tampilkan lapangan sebagai wajib)!',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Tidak bisa mengatur %s untuk Ticket dengan ID "%s" di Dialog Activity "!',
         'Default Config for Process::Default%s missing!' => 'Default Config untuk Proses :: Default hilang!',

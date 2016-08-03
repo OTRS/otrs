@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.67334167709637;
+    $Self->{Completeness}        = 0.673133083020442;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -65,13 +65,13 @@ sub Data {
         'day(s)' => 'dag(en)',
         'd' => 'd',
         'hour' => 'uur',
-        'hours' => 'uur',
-        'hour(s)' => 'uur',
+        'hours' => 'uren',
+        'hour(s)' => 'u(u)r(en)',
         'Hours' => 'Uren',
         'h' => 'u',
         'minute' => 'minuut',
         'minutes' => 'minuten',
-        'minute(s)' => 'minuten',
+        'minute(s)' => 'minu(u)t(en)',
         'Minutes' => 'Minuten',
         'm' => 'm',
         'month' => 'maand',
@@ -3227,11 +3227,11 @@ sub Data {
         'The selected time periods in the statistic are time zone neutral.' =>
             'De geselecteerd tijdsperiode in de statistieken zijn tijdzone neutraal.',
         'Create summation row' => 'Voeg somrij toe',
-        'Generate an additional row containing sums for all data columns.' =>
-            'Genereer een extra rij die de som van alle data in de kolommen bevat.',
+        'Generate an additional row containing sums for all data rows.' =>
+            '',
         'Create summation column' => 'Voeg somkolom toe',
-        'Generate an additional column containing sums for all data rows.' =>
-            'Voeg een extra kolom toe die de som van alle kolommen bevat.',
+        'Generate an additional column containing sums for all data columns.' =>
+            '',
         'Cache results' => 'Cace resultaten',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Sla statische resultaat gegevens op in een cache om weer te geven in volgende views met dezelfde configuratie.',
@@ -3730,8 +3730,6 @@ sub Data {
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'Geen Ticket voor TicketID: %s in _GetParam!',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
             'Kon geen ActiviteitEntiteitID bepalen. Dynamisch veld of Configuratie is niet juist ingesteld!',
-        'DynamicFieldConfig missing for field: %s, or is not a Ticket Dynamic Field!' =>
-            'DynamischVeldConfiguratie ontbreekt voor veld: %s, of is geen Ticket Dynamisch Veld!',
         'Process::Default%s Config Value missing!' => 'Process::Default%s Configuratie Waarde ontbreekt!',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             'Heb geen ProcesEntiteitID of TicketID en ActiviteitDialoogEntiteitID!',
@@ -4634,7 +4632,7 @@ Het Helpdesk Team
         'Chinese (Simplified)' => 'Chinees (Vereenvoudigd)',
         'Chinese (Traditional)' => 'Chinees (Traditioneel)',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
-            '',
+            'Kies voor welk type ticket u notificaties wilt ontvangen.',
         'Closed tickets (customer user)' => 'Gesloten tickets (klant gebruiker)',
         'Closed tickets (customer)' => 'Gesloten tickets (klant)',
         'Cloud Services' => 'Cloud Diensten',
@@ -4662,7 +4660,7 @@ Het Helpdesk Team
         'Comment2' => 'Comment2',
         'Communication' => 'Communicatie',
         'Company Status' => 'Klantstatus',
-        'Company Tickets.' => '',
+        'Company Tickets.' => 'Bedrijf tickets.',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Compat module for AgentZoom to AgentTicketZoom.' => '',
@@ -5845,6 +5843,7 @@ Het Helpdesk Team
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
+        'Indonesian' => '',
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
