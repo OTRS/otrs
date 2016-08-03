@@ -18,6 +18,7 @@
  - 2016-07-08 Fixed bug#[12150](http://bugs.otrs.org/show_bug.cgi?id=12150) - Ticket::HookDivider missing in TicketZoom and History View.
  - 2016-07-08 Fixed bug#[7108](http://bugs.otrs.org/show_bug.cgi?id=7108) - Email not sent if FQDN has port number in it.
  - 2016-07-07 Fixed bug#[12178](http://bugs.otrs.org/show_bug.cgi?id=12178) - CustomerUser in Config.pm breaks the system.
+ - 2016-07-06 Fixed bug#[8671](http://bugs.otrs.org/show_bug.cgi?id=8671) - Can not link to archived ticket.
  - 2016-07-04 Fixed bug#[12147](http://bugs.otrs.org/show_bug.cgi?id=12147) - Transition Action - to set Service and SLA.
  - 2016-07-04 Fixed bug#[8671](http://bugs.otrs.org/show_bug.cgi?id=8671) - Can not link to archived ticket.
  - 2016-07-01 Fixed bug#[12141](http://bugs.otrs.org/show_bug.cgi?id=12141) - Wrong check for needed objects.
