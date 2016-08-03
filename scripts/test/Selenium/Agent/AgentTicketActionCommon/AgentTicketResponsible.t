@@ -169,16 +169,22 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        sleep 3;
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
 
-        # navigate to AgentTicketHistory of created test ticket
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+        # get ticket attributes
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID => $TicketID,
+            UserID   => $UserID[0],
+        );
 
-        # confirm responsible action
-        my $ResponsibleMsg = "New responsible is \"$TestUser[1]\" (ID=$UserID[1]).";
-        $Self->True(
-            index( $Selenium->get_page_source(), $ResponsibleMsg ) > -1,
-            "Ticket responsible action completed",
+        $Self->Is(
+            $Ticket{ResponsibleID},
+            $UserID[1],
+            'New responsible correctly set',
         );
 
         # delete created test tickets
