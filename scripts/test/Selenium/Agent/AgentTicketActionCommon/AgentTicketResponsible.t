@@ -169,13 +169,14 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # wait until new responsible has been saved
+        sleep 2;
+
         # wait until page has loaded, if necessary
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
-
-        sleep 2;
 
         # get ticket attributes
         my %Ticket = $TicketObject->TicketGet(
