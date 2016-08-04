@@ -71,8 +71,6 @@ $Selenium->RunTest(
             $Selenium->execute_script("\$('#Password').val('$Test->{Value}')");
             $Selenium->find_element( "#OTRSID", 'css' )->VerifiedSubmit();
 
-            sleep 1;
-
             if ( $Test->{Name} ne 'Wrong email address' ) {
                 $Self->Is(
                     $Selenium->execute_script("return \$('#OTRSID').hasClass('Error')"),
@@ -81,8 +79,12 @@ $Selenium->RunTest(
                 );
             }
             else {
+
+                # wait for message box to show up with the error message
+                $Selenium->WaitFor( JavaScript => 'return $("div.MessageBox.Error p").text().match(/Wrong OTRSID or Password/) != null' );
+
                 $Self->True(
-                    index( $Selenium->get_page_source(), 'Wrong OTRSID or Password' ) > -1,
+                    $Selenium->execute_script('return $("div.MessageBox.Error p").text().match(/Wrong OTRSID or Password/) != null'),
                     $Test->{Name},
                 );
             }
