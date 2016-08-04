@@ -31,7 +31,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0
+            Value => 0,
         );
 
         # create test user and login
@@ -193,12 +193,8 @@ $Selenium->RunTest(
             "Reply-To note #Subject pre-loaded value",
         );
 
-        # close note window
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-
-        # switch window back to agent ticket zoom view of created test ticket
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
+        # close note pop-up window
+        $Selenium->close();
 
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
@@ -207,14 +203,13 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket is deleted - ID $TicketID"
+            "Ticket is deleted - ID $TicketID",
         );
 
         # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
-
     }
 );
 
