@@ -64,6 +64,9 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # wait for RSS plugin to show up
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Dashboard0410-RSS").length' );
+
         # test if RSS plugin shows correct link
         my $RSSLink = "https://www.otrs.com/";
         $Self->True(
