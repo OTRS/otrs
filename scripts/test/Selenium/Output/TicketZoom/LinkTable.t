@@ -149,7 +149,7 @@ $Selenium->RunTest(
             $Selenium->find_elements(
                 "//a[contains(\@class, 'LinkObjectLink')][contains(\@title, '$TicketTitles[0]')][contains(\@href, 'TicketID=$TicketIDs[0]')]"
             ),
-            "Link to parent ticket found"
+            "Link to parent ticket found",
         );
 
         # verify there is link to child ticket
@@ -157,13 +157,13 @@ $Selenium->RunTest(
             $Selenium->find_elements(
                 "//a[contains(\@class, 'LinkObjectLink')][contains(\@title, '$TicketTitles[2]')][contains(\@href, 'TicketID=$TicketIDs[2]')]"
             ),
-            "Link to child ticket found"
+            "Link to child ticket found",
         );
 
         # verify there is no collapsed elements on the screen
         $Self->True(
             $Selenium->find_element("//div[contains(\@class, 'WidgetSimple DontPrint Expanded')]"),
-            "Linked Objects Widget is expanded"
+            "Linked Objects Widget is expanded",
         );
 
         # toggle to collapse 'Linked Objects' widget
@@ -172,7 +172,7 @@ $Selenium->RunTest(
         # verify there is collapsed element on the screen
         $Self->True(
             $Selenium->find_element("//div[contains(\@class, 'WidgetSimple DontPrint Collapsed')]"),
-            "Linked Objects Widget is collapsed"
+            "Linked Objects Widget is collapsed",
         );
 
         # verify 'Linked Objects' widget is in the side bar with simple view
@@ -194,7 +194,9 @@ $Selenium->RunTest(
         sleep 3;
 
         # reload screen AgentTicketZoom
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
+        $Selenium->VerifiedRefresh();
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#WidgetTicket > .Header > h2").text() == "Linked: Ticket"' );
 
         # verify 'Linked Object' widget is in the main column with complex view
         $ParentElement = $Selenium->find_element( ".ContentColumn", 'css' );
@@ -213,7 +215,7 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "TicketID $TicketDelete is deleted"
+                "TicketID $TicketDelete is deleted",
             );
         }
 
