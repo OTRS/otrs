@@ -116,16 +116,27 @@ if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
 }
 
 for my $BaseURL ( sort keys %Frontends ) {
+
     FRONTEND:
     for my $Frontend ( sort keys %{ $Frontends{$BaseURL} } ) {
+
         next FRONTEND if $Frontend =~ m/Login|Logout/;
 
         my $URL = $BaseURL . "Action=$Frontend";
 
-        $Response = $UserAgent->get($URL);
+        my $Status;
+        TRY:
+        for my $Try ( 1 .. 2 ) {
+
+            $Response = $UserAgent->get($URL);
+
+            $Status = scalar $Response->code();
+
+            last TRY if $Status ne 504;
+        }
 
         $Self->Is(
-            scalar $Response->code(),
+            $Status,
             200,
             "Module $Frontend status code ($URL)",
         );
@@ -140,7 +151,7 @@ for my $BaseURL ( sort keys %Frontends ) {
             "Module $Frontend is no OTRS login screen ($URL)",
         );
 
-        # Check response contents
+        # check response contents
         if ( $Response->header('Content-type') =~ 'html' ) {
             $Self->True(
                 scalar $Response->content() =~ m{<body|<div|<script}xms,
@@ -148,7 +159,10 @@ for my $BaseURL ( sort keys %Frontends ) {
             );
         }
         elsif ( $Response->header('Content-type') =~ 'json' ) {
-            my $Data = $JSONObject->Decode( Data => $Response->content() );
+
+            my $Data = $JSONObject->Decode(
+                Data => $Response->content()
+            );
 
             $Self->True(
                 scalar $Data,
@@ -157,5 +171,8 @@ for my $BaseURL ( sort keys %Frontends ) {
         }
     }
 }
+
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;
