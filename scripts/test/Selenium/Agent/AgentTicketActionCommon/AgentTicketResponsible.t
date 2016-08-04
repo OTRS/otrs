@@ -175,6 +175,8 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
+        sleep 2;
+
         # get ticket attributes
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
