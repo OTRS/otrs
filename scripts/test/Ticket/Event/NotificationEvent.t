@@ -1103,33 +1103,17 @@ for my $Test (@Tests) {
         }
 
         # de-reference body
-        $Email->{Body} = ${ $Email->{Body} }
+        $Email->{Body} = ${ $Email->{Body} };
     }
 
-    my $IsDeeply = 0;
+    my @EmailSorted           = sort { $a->{ToArray}->[0] cmp $b->{ToArray}->[0] } @{$Emails};
+    my @ExpectedResultsSorted = sort { $a->{ToArray}->[0] cmp $b->{ToArray}->[0] } @{ $Test->{ExpectedResults} };
 
-    # check if expected ToArray exists, order does not matter
-    for my $CheckedEmail ( @{$Emails} ) {
-        for my $ExpectedResults ( @{ $Test->{ExpectedResults} } ) {
-            if ( $CheckedEmail->{ToArray}->[0] eq $ExpectedResults->{ToArray}->[0] ) {
-                $IsDeeply++;
-            }
-        }
-    }
-    if ( $IsDeeply eq scalar @{$Emails} ) {
-        $Self->Is(
-            $IsDeeply,
-            scalar @{$Emails},
-            "$Test->{Name} - Recipients (sorted)",
-        );
-    }
-    else {
-        $Self->IsDeeply(
-            $Emails,
-            $Test->{ExpectedResults},
-            "$Test->{Name} - Recipients",
-        );
-    }
+    $Self->IsDeeply(
+        \@EmailSorted,
+        \@ExpectedResultsSorted,
+        "$Test->{Name} - Recipients",
+    );
 
     # check if there is email-notification-int article type when sending notification
     # to customer see bug#11592

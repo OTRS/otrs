@@ -190,7 +190,7 @@ sub NotificationGet {
             SELECT event_key, event_value
             FROM notification_event_item
             WHERE notification_id = ?
-            ORDER BY event_key ASC',
+            ORDER BY event_key, event_value ASC',
         Bind => [ \$Data{ID} ],
     );
 
@@ -658,7 +658,8 @@ sub NotificationEventCheck {
             WHERE ne.id = nei.notification_id
                 AND ne.valid_id IN ( $ValidIDString )
                 AND nei.event_key = 'Events'
-                AND nei.event_value = ?",
+                AND nei.event_value = ?
+            ORDER BY nei.notification_id ASC",
         Bind => [ \$Param{Event} ],
     );
 
