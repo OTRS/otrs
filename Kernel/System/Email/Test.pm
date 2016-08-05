@@ -34,8 +34,7 @@ sub Send {
     my $Emails = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Key  => $Self->{CacheKey},
         Type => $Self->{CacheType},
-    );
-    $Emails //= [];
+    ) // [];
 
     push @{$Emails}, \%Param;
 
