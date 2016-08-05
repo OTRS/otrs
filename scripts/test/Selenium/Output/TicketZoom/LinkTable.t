@@ -193,8 +193,8 @@ $Selenium->RunTest(
         # let mod_perl / Apache2::Reload pick up the changed configuration
         sleep 3;
 
-        # reload screen AgentTicketZoom
-        $Selenium->VerifiedRefresh();
+        # navigate to AgentTicketZoom for test created second ticket again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#WidgetTicket > .Header > h2").text() == "Linked: Ticket"' );
 
