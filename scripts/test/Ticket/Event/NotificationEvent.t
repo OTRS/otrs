@@ -660,7 +660,7 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name => 'Recipients Write Permissions - xyz',
+        Name => 'Recipients Write Permissions',
         Data => {
             Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
             Recipients => ['AgentWritePermissions'],
