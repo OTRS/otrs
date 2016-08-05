@@ -50,6 +50,7 @@
 #5.0.13 2016-??-??
 
 #5.0.12 2016-08-09
+ - 2016-08-05 Fixed bug#[12086](http://bugs.otrs.org/show_bug.cgi?id=12086) - Labels overflows for some languages.
  - 2016-08-05 Fixed bug#[12221](http://bugs.otrs.org/show_bug.cgi?id=12221) - Key/value fields are very small in AdminProcessManagementTransitionAction.
  - 2016-08-03 Updated translations, thanks to all translators.
  - 2016-07-29 Fixed bug#[12196](http://bugs.otrs.org/show_bug.cgi?id=12196) - SOAP Response missing trailing slash.
