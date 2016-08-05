@@ -601,6 +601,14 @@ em.EntityID:after {
     margin: 0px 3px 0px 5px;
 }
 
+#TransitionForm #ConfigParams input {
+    width: 40%;
+}
+
+#TransitionForm #ConfigParams input + label {
+    margin-left: 5px;
+}
+
 /**
  * @subsubsection     Path popup
  */
