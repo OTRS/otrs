@@ -1,4 +1,5 @@
 #4.0.19 2016-??-??
+ - 2016-08-08 Fixed bug#[12205](http://bugs.otrs.org/show_bug.cgi?id=12205) - Default setting for Ticket::Frontend::CustomerTicketMessage###TicketTypeDefault incorrect.
 
 #4.0.18 2016-08-09
  - 2016-08-01 Fixed bug#[8671](http://bugs.otrs.org/show_bug.cgi?id=8671) - Can not link to archived ticket.
