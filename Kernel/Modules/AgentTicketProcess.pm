@@ -2776,11 +2776,6 @@ sub _RenderCustomer {
         $Data{CustomerIDServerError} = 'ServerError';
     }
 
-    # set some customer search autocomplete properties
-    $LayoutObject->Block(
-        Name => 'CustomerSearchAutoComplete',
-    );
-
     if (
         ( IsHashRefWithData( $Param{Ticket} ) && $Param{Ticket}->{CustomerUserID} )
         || $SubmittedCustomerUserID

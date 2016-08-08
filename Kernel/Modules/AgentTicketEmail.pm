@@ -2157,16 +2157,11 @@ sub _MaskEmailNew {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # set JS data
-    my $ShowCustTickets   = $ConfigObject->Get('Ticket::Frontend::ShowCustomerTickets');
-    my $AllowMultipleFrom = $ConfigObject->Get('Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom');
-
     $LayoutObject->AddJSData(
-        Key   => 'CustomerSearch.ShowCustomerTickets',
-        Value => $ShowCustTickets,
-    );
-    $LayoutObject->AddJSData(
-        Key   => 'Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom',
-        Value => $AllowMultipleFrom,
+        Key   => 'CustomerSearch',
+        Value => {
+            ShowCustomerTickets => $ConfigObject->Get('Ticket::Frontend::ShowCustomerTickets'),
+        },
     );
 
     # build string

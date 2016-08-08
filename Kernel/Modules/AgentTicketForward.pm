@@ -1390,19 +1390,6 @@ sub _Mask {
         );
     }
 
-    # set JS data
-    my $ShowCustTickets   = $ConfigObject->Get('Ticket::Frontend::ShowCustomerTickets');
-    my $AllowMultipleFrom = $ConfigObject->Get('Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom');
-
-    $LayoutObject->AddJSData(
-        Key   => 'CustomerSearch.ShowCustomerTickets',
-        Value => $ShowCustTickets,
-    );
-    $LayoutObject->AddJSData(
-        Key   => 'Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom',
-        Value => $AllowMultipleFrom,
-    );
-
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $Error ( sort keys %{ $Param{Errors} } ) {

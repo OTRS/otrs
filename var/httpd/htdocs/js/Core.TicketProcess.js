@@ -122,6 +122,11 @@ Core.TicketProcess = (function (TargetNS) {
                 Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'QueueID' , Core.Config.Get('QueueFieldsToUpdate'));
             });
         }
+
+        if (typeof Core.Config.Get('CustomerSearch') !== 'undefined') {
+            Core.Agent.CustomerSearch.Init($("#CustomerAutoComplete, .CustomerAutoComplete"));
+        }
+
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

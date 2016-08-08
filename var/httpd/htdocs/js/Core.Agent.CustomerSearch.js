@@ -105,7 +105,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         };
 
         // check if customer tickets should be shown
-        if (!parseInt(Core.Config.Get('CustomerSearch.ShowCustomerTickets'), 10)) {
+        if (!parseInt(Core.Config.Get('CustomerSearch').ShowCustomerTickets, 10)) {
             return;
         }
 
@@ -181,7 +181,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         }
 
         // Check if multiple from entries are allowed
-        if (Core.Config.Get('Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom') === "1") {
+        if (parseInt(Core.Config.Get('CustomerSearch').AllowMultipleFrom, 10)) {
             return;
         }
 
