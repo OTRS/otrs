@@ -35,7 +35,7 @@ Core.Config = (function (TargetNS) {
      * @description
      *      The prefix for all config keys to avoid name conflicts
      */
-        ConfigPrefix = 'Config';
+        ConfigPrefix = '';
 
     if (!Core.Debug.CheckDependency('Core.Config', 'Core.Data', 'Core.Data')) {
         return false;
@@ -135,7 +135,7 @@ Core.Config = (function (TargetNS) {
 
         if (typeof ConfigKey === 'undefined') {
             $.each(Data, function (Key, Value) {
-                ConfigLevel[ConfigPrefix + Key] = Value;
+                TargetNS.Set(Key,Value);
             });
         }
         else {
