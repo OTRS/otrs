@@ -210,7 +210,8 @@ Core.Agent.Statistics = (function (TargetNS) {
      *      This function initializes the module functionality.
      */
     TargetNS.Init = function () {
-        var RestrictionElements;
+        var RestrictionElements,
+            XAxisElements;
 
         // Initialize the Add screen
         TargetNS.InitAddScreen();
@@ -243,9 +244,16 @@ Core.Agent.Statistics = (function (TargetNS) {
         });
 
         RestrictionElements = Core.Config.Get('RestrictionElements');
-        if (typeof RestrictionElements !== 'undefined'){
-            $.each(RestrictionElements, function(){
+        if (typeof RestrictionElements !== 'undefined') {
+            $.each(RestrictionElements, function() {
                 TargetNS.ElementAdd('Restrictions', this);
+            });
+        }
+
+        XAxisElements = Core.Config.Get('XAxisElements');
+        if (typeof XAxisElements !== 'undefined') {
+            $.each(XAxisElements, function() {
+                TargetNS.ElementAdd('XAxis', this);
             });
         }
     };

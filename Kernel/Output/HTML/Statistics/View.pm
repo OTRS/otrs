@@ -806,6 +806,8 @@ sub XAxisWidget {
         $Stat->{UseAsXvalue}[0]{Fixed}    = 1;
     }
 
+    my @XAxisElements;
+
     for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
         my %BlockData;
         $BlockData{Fixed}   = 'checked="checked"';
@@ -872,12 +874,21 @@ sub XAxisWidget {
             $Block = 'MultiSelectField';
         }
 
+        # store data, which will be sent to JS
+        push @XAxisElements, $BlockData{Element} if $BlockData{Checked};
+
         # show the input element
         $LayoutObject->Block(
             Name => $Block,
             Data => \%BlockData,
         );
     }
+
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'XAxisElements',
+        Value => \@XAxisElements,
+    );
 
     my $Output .= $LayoutObject->Output(
         TemplateFile => 'Statistics/XAxisWidget',
