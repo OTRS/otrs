@@ -1,4 +1,5 @@
 #4.0.19 2016-??-??
+ - 2016-08-08 Fixed bug#[11981](http://bugs.otrs.org/show_bug.cgi?id=11981) - GenericTicketConnector ignoring "<ContentSearch>OR</ContentSearch>" in full text search.
  - 2016-08-08 Fixed bug#[12205](http://bugs.otrs.org/show_bug.cgi?id=12205) - Default setting for Ticket::Frontend::CustomerTicketMessage###TicketTypeDefault incorrect.
 
 #4.0.18 2016-08-09
