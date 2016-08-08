@@ -129,13 +129,4 @@
         </div>
     </form>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#ButtonCheckDB').bind('click',Core.Installer.CheckDBData);
-    $('#ButtonBack').bind('click', function() {
-        parent.history.back();
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("DatabaseMSSQL") %]
