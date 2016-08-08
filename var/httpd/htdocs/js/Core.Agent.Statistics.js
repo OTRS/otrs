@@ -211,7 +211,8 @@ Core.Agent.Statistics = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         var RestrictionElements,
-            XAxisElements;
+            XAxisElements,
+            YAxisElements;
 
         // Initialize the Add screen
         TargetNS.InitAddScreen();
@@ -254,6 +255,13 @@ Core.Agent.Statistics = (function (TargetNS) {
         if (typeof XAxisElements !== 'undefined') {
             $.each(XAxisElements, function() {
                 TargetNS.ElementAdd('XAxis', this);
+            });
+        }
+
+        YAxisElements = Core.Config.Get('YAxisElements');
+        if (typeof YAxisElements !== 'undefined') {
+            $.each(YAxisElements, function() {
+                TargetNS.ElementAdd('YAxis', this);
             });
         }
     };

@@ -908,6 +908,8 @@ sub YAxisWidget {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    my @YAxisElements;
+
     OBJECTATTRIBUTE:
     for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
         my %BlockData;
@@ -978,12 +980,21 @@ sub YAxisWidget {
             $Block = 'MultiSelectField';
         }
 
+        # store data, which will be sent to JS
+        push @YAxisElements, $BlockData{Element} if $BlockData{Checked};
+
         # show the input element
         $LayoutObject->Block(
             Name => $Block,
             Data => \%BlockData,
         );
     }
+
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'YAxisElements',
+        Value => \@YAxisElements,
+    );
 
     my $Output .= $LayoutObject->Output(
         TemplateFile => 'Statistics/YAxisWidget',
