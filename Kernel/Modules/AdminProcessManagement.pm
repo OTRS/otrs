@@ -1743,36 +1743,21 @@ sub _ShowEdit {
         ResultType => 'HASH',
         UserID     => $Self->{UserID},
     );
-    my $ProcessConfigJSON = $LayoutObject->JSONEncode(
-        Data => $ProcessDump->{Process},
-    );
-    my $ActivityConfigJSON = $LayoutObject->JSONEncode(
-        Data => $ProcessDump->{Activity},
-    );
-    my $ActivityDialogConfigJSON = $LayoutObject->JSONEncode(
-        Data => $ProcessDump->{ActivityDialog},
-    );
-    my $TransitionConfigJSON = $LayoutObject->JSONEncode(
-        Data => $ProcessDump->{Transition},
-    );
-    my $TransitionActionConfigJSON = $LayoutObject->JSONEncode(
-        Data => $ProcessDump->{TransitionAction},
-    );
 
-    my $ProcessLayoutJSON = $LayoutObject->JSONEncode(
-        Data => $ProcessData->{Layout},
-    );
-
-    $LayoutObject->Block(
-        Name => 'ConfigSet',
-        Data => {
-            ProcessConfig          => $ProcessConfigJSON,
-            ProcessLayout          => $ProcessLayoutJSON,
-            ActivityConfig         => $ActivityConfigJSON,
-            ActivityDialogConfig   => $ActivityDialogConfigJSON,
-            TransitionConfig       => $TransitionConfigJSON,
-            TransitionActionConfig => $TransitionActionConfigJSON,
-        },
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'ConfigProcess',
+        Value => {
+            Process           => $ProcessDump->{Process},
+            ProcessLayout     => $ProcessData->{Layout},
+            Activity          => $ProcessDump->{Activity},
+            ActivityDialog    => $ProcessDump->{ActivityDialog},
+            Transition        => $ProcessDump->{Transition},
+            TransitionAction  => $ProcessDump->{TransitionAction},
+            PopupPathActivity => $LayoutObject->{Baselink}
+                . 'Action=AdminProcessManagementActivity;Subaction=ActivityEdit;',
+            PopupPathPath => $LayoutObject->{Baselink} . 'Action=AdminProcessManagementPath;Subaction=PathEdit;',
+            }
     );
 
     $Output .= $LayoutObject->Output(

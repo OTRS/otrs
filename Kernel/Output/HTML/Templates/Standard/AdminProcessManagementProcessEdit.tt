@@ -299,25 +299,3 @@
         <p class="SpacingTop"><strong><span class="EntityName"></span></strong></p>
     </div>
 </div>
-
-[% RenderBlockStart("ConfigSet") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Config.Set('Config.Process', [% Data.ProcessConfig %] );
-    Core.Config.Set('Config.ProcessLayout', [% Data.ProcessLayout %] );
-    Core.Config.Set('Config.Activity', [% Data.ActivityConfig %] );
-    Core.Config.Set('Config.ActivityDialog', [% Data.ActivityDialogConfig %] );
-    Core.Config.Set('Config.Transition', [% Data.TransitionConfig %] );
-    Core.Config.Set('Config.TransitionAction', [% Data.TransitionActionConfig %] );
-    Core.Config.Set('Config.ImagePath', "[% Config("Frontend::ImagePath") %]");
-    Core.Config.Set('Config.PopupPathActivity', "[% Env("Baselink") %]Action=AdminProcessManagementActivity;Subaction=ActivityEdit;");
-    Core.Config.Set('Config.PopupPathPath', "[% Env("Baselink") %]Action=AdminProcessManagementPath;Subaction=PathEdit;");
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ConfigSet") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.ProcessManagement.InitProcessEdit();
-//]]></script>
-[% END %]
