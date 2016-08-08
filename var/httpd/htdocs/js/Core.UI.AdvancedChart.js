@@ -686,6 +686,14 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                 DrawLineChart(RawData, Element, Options);
                 break;
         }
+
+        $('#download-svg').on('click', function() {
+            // window.btoa() does not work because it does not support Unicode DOM strings.
+            this.href = TargetNS.ConvertSVGtoBase64($('#svg-container'));
+        });
+        $('#download-png').on('click', function() {
+            this.href = TargetNS.ConvertSVGtoPNG($('#svg-container'));
+        });
     };
 
     /**

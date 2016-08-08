@@ -28,23 +28,3 @@
         </a>
     </div>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">
-$('#download-svg').on('click', function() {
-    // window.btoa() does not work because it does not support Unicode DOM strings.
-    this.href = Core.UI.AdvancedChart.ConvertSVGtoBase64( $('#svg-container') );
-});
-$('#download-png').on('click', function() {
-    this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#svg-container'));
-});
-Core.UI.AdvancedChart.Init(
-    [% Data.Format | JSON %],
-    [% JSON(Data.RawData) %],
-    'svg#ChartContent',
-    {
-        Duration: 250
-    }
-);
-</script>
-[% END %]

@@ -212,7 +212,8 @@ Core.Agent.Statistics = (function (TargetNS) {
     TargetNS.Init = function () {
         var RestrictionElements,
             XAxisElements,
-            YAxisElements;
+            YAxisElements,
+            D3Data;
 
         // Initialize the Add screen
         TargetNS.InitAddScreen();
@@ -263,6 +264,18 @@ Core.Agent.Statistics = (function (TargetNS) {
             $.each(YAxisElements, function() {
                 TargetNS.ElementAdd('YAxis', this);
             });
+        }
+
+        D3Data = Core.Config.Get('D3Data');
+        if (typeof D3Data !== 'undefined') {
+            Core.UI.AdvancedChart.Init(
+                D3Data.Format,
+                D3Data.RawData,
+                'svg#ChartContent',
+                {
+                    Duration: 250
+                }
+            );
         }
     };
 
