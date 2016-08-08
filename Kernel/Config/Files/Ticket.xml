@@ -7875,7 +7875,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
-            <String Regex="">default</String>
+            <String Regex="">Unclassified</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###Service" Required="1" Valid="1">
