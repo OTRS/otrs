@@ -1107,6 +1107,12 @@ sub PreviewWidget {
         );
     }
 
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'PreviewResult',
+        Value => $Frontend{PreviewResult},
+    );
+
     my $Output .= $LayoutObject->Output(
         TemplateFile => 'Statistics/PreviewWidget',
         Data         => {

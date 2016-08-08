@@ -138,31 +138,6 @@
                 [% Translate('Please note that the preview uses random data and does not consider data filters.') | html %]
             </span>
         </div>
-        [% WRAPPER JSOnDocumentComplete %]
-        <script type="text/javascript">
-        $('.SwitchPreviewFormat').on('click', function() {
-            var Format = $(this).data('format'),
-                FormatCleaned = Format.replace('::', '');
-            $('.SwitchPreviewFormat').removeClass('Active');
-            $(this).addClass('Active');
-            $('.PreviewContent:visible').hide();
-            $('svg.PreviewContent').empty();
-            $('#PreviewContent' + FormatCleaned).show();
-            if (Format.match(/D3/)) {
-                Core.UI.AdvancedChart.Init(
-                    Format,
-                    [% JSON(Data.PreviewResult) %],
-                    'svg#PreviewContent' + FormatCleaned,
-                    {
-                        HideLegend: true
-                    }
-                );
-            }
-            return false;
-        });
-        $('.SwitchPreviewFormat').first().trigger('click');
-        </script>
-        [% END %]
     [% END %]
 
     <div class="Preview">

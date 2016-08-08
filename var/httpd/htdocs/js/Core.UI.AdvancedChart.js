@@ -124,7 +124,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                     return;
                 }
                 // Ignore sum col
-                if (HeadingElement === 'Sum') {
+                if (typeof HeadingElement === 'undefined' ||  HeadingElement === 'Sum') {
                     return;
                 }
 
@@ -395,7 +395,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                     return;
                 }
                 // Ignore sum col
-                if (HeadingElement === 'Sum') {
+                if (typeof HeadingElement === 'undefined' ||  HeadingElement === 'Sum') {
                     return;
                 }
 
@@ -552,7 +552,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                     return;
                 }
                 // Ignore sum col
-                if (HeadingElement === 'Sum') {
+                if (typeof HeadingElement === 'undefined' ||  HeadingElement === 'Sum') {
                     return;
                 }
 

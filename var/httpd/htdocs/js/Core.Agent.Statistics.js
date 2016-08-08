@@ -175,6 +175,31 @@ Core.Agent.Statistics = (function (TargetNS) {
 
             return false;
         });
+
+       $('.SwitchPreviewFormat').on('click', function() {
+            var Format = $(this).data('format'),
+                FormatCleaned = Format.replace('::', ''),
+                StatsPreviewResult;
+
+            StatsPreviewResult = Core.Data.CopyObject(Core.Config.Get('PreviewResult'));
+            $('.SwitchPreviewFormat').removeClass('Active');
+            $(this).addClass('Active');
+            $('.PreviewContent:visible').hide();
+            $('svg.PreviewContent').empty();
+            $('#PreviewContent' + FormatCleaned).show();
+            if (Format.match(/D3/)) {
+                Core.UI.AdvancedChart.Init(
+                    Format,
+                    StatsPreviewResult,
+                    'svg#PreviewContent' + FormatCleaned,
+                    {
+                        HideLegend: true
+                    }
+                );
+            }
+            return false;
+        });
+        $('.SwitchPreviewFormat').first().trigger('click');
     }
 
     /**
