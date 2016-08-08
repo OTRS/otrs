@@ -154,10 +154,4 @@
 
 [% InsertTemplate("InstallerFinish.tt") %]
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#InstallerContinueWithJS').show();
-//]]></script>
-[% END %]
-
 </div>

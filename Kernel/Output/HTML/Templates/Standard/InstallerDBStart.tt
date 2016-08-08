@@ -47,21 +47,4 @@
         </div>
     </form>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-// Allow only CreateDB if database is not Oracle
-$('select#DBType').bind('change', function(){
-    if (/oracle/.test($(this).val())) {
-        $("#DBInstallTypeUseDB").attr("checked", true);
-        $("#DBInstallTypeUseDB").attr("disabled", "disabled");
-        $("#DBInstallTypeCreateDB").attr("disabled", "disabled");
-    }
-    else {
-        $("#DBInstallTypeUseDB").removeAttr("disabled");
-        $("#DBInstallTypeCreateDB").removeAttr("disabled");
-        $("#DBInstallTypeCreateDB").attr("checked", true);
-    }
-}).trigger('change');
-//]]></script>
-[% END %]
 [% RenderBlockEnd("DatabaseStart") %]

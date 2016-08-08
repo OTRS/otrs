@@ -151,20 +151,4 @@
         </div>
     </form>
 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#ButtonCheckMail').bind('click', Core.Installer.CheckMailConfig);
-    $('#ButtonSkipMail').bind('click', function() {
-        Core.Installer.SkipMailConfig();
-        return false;
-    });
-    $('#SMTPAuth').bind('change', function () {
-        Core.Installer.CheckSMTPAuth($(this));
-    });
-    $('#OutboundMailType').bind('change', function () {
-        Core.Installer.SelectOutboundMailType($(this));
-    });
-    $('#OutboundMailType').trigger('change');
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ConfigureMail") %]
