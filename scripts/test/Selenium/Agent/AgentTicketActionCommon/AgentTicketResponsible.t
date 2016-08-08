@@ -161,6 +161,11 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
+        # make sure the cache is correct
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'Ticket',
+        );
+
         # get ticket attributes
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
@@ -187,7 +192,6 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
-
     }
 );
 
