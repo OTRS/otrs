@@ -210,6 +210,7 @@ Core.Agent.Statistics = (function (TargetNS) {
      *      This function initializes the module functionality.
      */
     TargetNS.Init = function () {
+        var RestrictionElements;
 
         // Initialize the Add screen
         TargetNS.InitAddScreen();
@@ -240,6 +241,13 @@ Core.Agent.Statistics = (function (TargetNS) {
                 $Form.removeAttr('target');
             }
         });
+
+        RestrictionElements = Core.Config.Get('RestrictionElements');
+        if (typeof RestrictionElements !== 'undefined'){
+            $.each(RestrictionElements, function(){
+                TargetNS.ElementAdd('Restrictions', this);
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

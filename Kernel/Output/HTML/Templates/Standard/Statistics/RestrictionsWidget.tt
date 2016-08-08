@@ -66,13 +66,6 @@
         </label>
         <div class="Clear"></div>
     </fieldset>
-[% IF Data.Checked %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">
-    Core.Agent.Statistics.ElementAdd('Restrictions', '[% Data.Element | html %]');
-</script>
-[% END %]
-[% END %]
 [% RenderBlockEnd("Attribute") %]
 
 </div>

@@ -796,9 +796,8 @@ sub XAxisWidget {
 
     my $Stat = $Param{Stat};
 
+    # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    #my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # if only one value is available select this value
@@ -894,9 +893,8 @@ sub YAxisWidget {
 
     my $Stat = $Param{Stat};
 
+    # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    #my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     OBJECTATTRIBUTE:
@@ -990,10 +988,11 @@ sub RestrictionsWidget {
 
     my $Stat = $Param{Stat};
 
+    # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    #my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my @RestrictionElements;
 
     for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
         my %BlockData;
@@ -1066,12 +1065,21 @@ sub RestrictionsWidget {
             %BlockData = ( %BlockData, %TimeData );
         }
 
+        # store data, which will be sent to JS
+        push @RestrictionElements, $BlockData{Element} if $BlockData{Checked};
+
         # show the input element
         $LayoutObject->Block(
             Name => $ObjectAttribute->{Block},
             Data => \%BlockData,
         );
     }
+
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'RestrictionElements',
+        Value => \@RestrictionElements,
+    );
 
     my $Output .= $LayoutObject->Output(
         TemplateFile => 'Statistics/RestrictionsWidget',
