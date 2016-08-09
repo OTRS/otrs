@@ -196,8 +196,10 @@ $Selenium->RunTest(
         # navigate to AgentTicketZoom for test created second ticket again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
 
-        $Selenium->WaitFor( JavaScript =>
-                'return typeof($) === "function" && $("#WidgetTicket > .Header > h2").text() == "Linked: Ticket"' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#WidgetTicket > .Header > h2").text() == "Linked: Ticket"',
+        );
 
         # verify 'Linked Object' widget is in the main column with complex view
         $ParentElement = $Selenium->find_element( ".ContentColumn", 'css' );
