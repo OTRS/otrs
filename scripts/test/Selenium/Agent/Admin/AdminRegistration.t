@@ -81,10 +81,12 @@ $Selenium->RunTest(
             else {
 
                 # wait for message box to show up with the error message
-                $Selenium->WaitFor( JavaScript => 'return $("div.MessageBox.Error p").text().match(/Wrong OTRSID or Password/) != null' );
+                $Selenium->WaitFor( JavaScript =>
+                        'return $("div.MessageBox.Error p").text().match(/Wrong OTRSID or Password/) != null' );
 
                 $Self->True(
-                    $Selenium->execute_script('return $("div.MessageBox.Error p").text().match(/Wrong OTRSID or Password/) != null'),
+                    $Selenium->execute_script(
+                        'return $("div.MessageBox.Error p").text().match(/Wrong OTRSID or Password/) != null'),
                     $Test->{Name},
                 );
             }
