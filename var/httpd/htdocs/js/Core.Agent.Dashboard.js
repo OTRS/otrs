@@ -256,6 +256,16 @@ Core.Agent.Dashboard = (function (TargetNS) {
      *      Initializes the dashboard module.
      */
     TargetNS.Init = function () {
+        var StatsData,
+            DashboardStats = Core.Config.Get('DashboardStatsIDs');
+
+        // initializes dashboards stats widget functionality
+        $.each(DashboardStats, function (Index, Value) {
+            StatsData = Core.Config.Get('StatsData' + Value);
+            if (typeof StatsData !== 'undefined') {
+                TargetNS.InitStatsWidget(StatsData);
+            }
+        });
 
         // initializes events ticket calendar
         EventsTicketCalendarInitialization();
@@ -686,6 +696,59 @@ Core.Agent.Dashboard = (function (TargetNS) {
             }
         }
     }
+
+    /**
+     * @name InitStatsWidget
+     * @memberof Core.Agent.Dashboard
+     * @param {Object} StatsData - Hash with different config options.
+     * @function
+     * @description
+     *      Initializes the stats dashboard widget functionality.
+     */
+     TargetNS.InitStatsWidget = function (StatsData) {
+        (function(){
+            var Timeout = 500;
+            // check if the container is already expanded, otherwise the graph
+            // would have the wrong size after the widget settings have been saved
+            // and the content is being reloaded using ajax.
+            if ($('#GraphWidget' + Core.App.EscapeSelector(StatsData.Name)).parent().is(':visible')) {
+                Timeout = 0;
+            }
+
+            window.setTimeout(function () {
+                Core.UI.AdvancedChart.Init(
+                    StatsData.Format,
+                    Core.JSON.Parse(StatsData.StatResultData),
+                    'svg.GraphWidget' + StatsData.Name,
+                    {
+                        PreferencesKey: 'GraphWidget' + StatsData.Name,
+                        PreferencesData: StatsData.Preferences,
+                        Duration: 250
+                    }
+                );
+            }, Timeout);
+
+        }());
+
+        $('#DownloadSVG' + Core.App.EscapeSelector(StatsData.Name)).on('click', function() {
+            this.href = Core.UI.AdvancedChart.ConvertSVGtoBase64($('#GraphWidgetContainer' + Core.App.EscapeSelector(StatsData.Name)));
+        });
+        $('#DownloadPNG' + Core.App.EscapeSelector(StatsData.Name)).on('click', function() {
+            this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#GraphWidgetContainer' + Core.App.EscapeSelector(StatsData.Name)));
+        });
+
+        $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).prependTo($('#GraphWidget' + Core.App.EscapeSelector(StatsData.Name)).closest('.WidgetSimple').find('.ActionMenu'));
+        $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).find('a.TriggerTooltip').bind('click', function(){
+            $(this).next('.WidgetTooltip').toggleClass('Hidden');
+            return false;
+        });
+        $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).find('.WidgetTooltip').find('a').bind('click', function(){
+            $(this).closest('.WidgetTooltip').addClass('Hidden');
+        });
+        $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).closest('.Header').bind('mouseleave.WidgetTooltip', function(){
+            $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).find('.WidgetTooltip').addClass('Hidden');
+        });
+    };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

@@ -236,6 +236,27 @@ sub Run {
         AJAX => $Param{AJAX},
     );
 
+    my $StatsResultDataJSON = $LayoutObject->JSONEncode(
+        Data     => $CachedData,
+        NoQuotes => 1,
+    );
+
+    my $StatsFormatJSON = $LayoutObject->JSONEncode(
+        Data     => $Format,
+        NoQuotes => 1,
+    );
+
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'StatsData' . $StatID,
+        Value => {
+            Name           => $Self->{Name},
+            Format         => $StatsFormatJSON,
+            StatResultData => $StatsResultDataJSON,
+            Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
+            }
+    );
+
     return $Content;
 }
 

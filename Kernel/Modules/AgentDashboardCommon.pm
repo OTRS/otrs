@@ -54,6 +54,7 @@ sub Run {
 
     # Get all configured statistics from the system that should be shown as a dashboard widget
     #   and register them dynamically in the configuration.
+    my @StatsIDs;
     if ( $Self->{Action} eq 'AgentDashboard' ) {
 
         my $StatsHash = $Kernel::OM->Get('Kernel::System::Stats')->StatsListGet(
@@ -96,9 +97,16 @@ sub Run {
                     'Description' => $Description,
                     'Group'       => $StatsPermissionGroups,
                 };
+                push @StatsIDs, $StatID;
             }
         }
     }
+
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'DashboardStatsIDs',
+        Value => \@StatsIDs
+    );
 
     # get needed objects
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');

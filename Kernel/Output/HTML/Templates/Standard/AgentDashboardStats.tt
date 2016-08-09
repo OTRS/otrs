@@ -70,55 +70,6 @@
                 </ul>
             </div>
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-(function(){
-    var Timeout = 500;
-    // check if the container is already expanded, otherwise the graph
-    // would have the wrong size after the widget settings have been saved
-    // and the content is being reloaded using ajax.
-    if ($('#GraphWidget' + Core.App.EscapeSelector('[% Data.Name | html %]')).parent().is(':visible')) {
-        Timeout = 0;
-    }
-
-    window.setTimeout(function () {
-        Core.UI.AdvancedChart.Init(
-            [% Data.Format | JSON %],
-            [% JSON(Data.StatResultData) %],
-            'svg.GraphWidget[% Data.Name | html %]',
-            {
-                PreferencesKey: 'GraphWidget[% Data.Name | html %]',
-                PreferencesData: [% Data.Preferences %],
-                Duration: 250
-            }
-        );
-    }, Timeout);
-
-}());
-
-$('#DownloadSVG' + Core.App.EscapeSelector('[% Data.Name | html %]')).on('click', function() {
-    this.href = Core.UI.AdvancedChart.ConvertSVGtoBase64($('#GraphWidgetContainer' + Core.App.EscapeSelector('[% Data.Name | html %]')));
-});
-
-$('#DownloadPNG' + Core.App.EscapeSelector('[% Data.Name | html %]')).on('click', function() {
-    this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#GraphWidgetContainer' + Core.App.EscapeSelector('[% Data.Name | html %]')));
-});
-
-$('#GraphWidgetLink' + Core.App.EscapeSelector('[% Data.Name | html %]')).prependTo( $('#GraphWidget' + Core.App.EscapeSelector('[% Data.Name | html %]')).closest('.WidgetSimple').find('.ActionMenu') );
-$('#GraphWidgetLink' + Core.App.EscapeSelector('[% Data.Name | html %]')).find('a.TriggerTooltip').bind('click', function(){
-    $(this).next('.WidgetTooltip').toggleClass('Hidden');
-    return false;
-});
-$('#GraphWidgetLink' + Core.App.EscapeSelector('[% Data.Name | html %]')).find('.WidgetTooltip').find('a').bind('click', function(){
-    $(this).closest('.WidgetTooltip').addClass('Hidden');
-});
-$('#GraphWidgetLink' + Core.App.EscapeSelector('[% Data.Name | html %]')).closest('.Header').bind('mouseleave.WidgetTooltip', function(){
-    $('#GraphWidgetLink' + Core.App.EscapeSelector('[% Data.Name | html %]')).find('.WidgetTooltip').addClass('Hidden');
-});
-//]]></script>
-[% END %]
-
-
         [% ELSE %]
 
             <div class="MessageBox Warning">
