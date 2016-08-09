@@ -28,10 +28,13 @@ Core.Agent.CustomerInformationCenter = (function (TargetNS) {
      *      This function binds click event for opening search dialog.
      */
     TargetNS.Init = function () {
+
+        // Binds event for opening search dialog
         $('#CustomerInformationCenterHeading').on('click', function() {
             Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog();
             return false;
         });
+
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
