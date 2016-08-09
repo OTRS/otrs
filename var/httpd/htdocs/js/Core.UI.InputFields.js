@@ -304,6 +304,11 @@ Core.UI.InputFields = (function (TargetNS) {
             $SearchObj
                 .attr('readonly', 'readonly')
                 .attr('title', Core.Language.Translate('Not available'));
+
+            // when the original field does no longer provide any valid options,
+            // we also want to remove existing selections
+            $InputContainerObj.find('.InputField_Selection').remove();
+            $InputContainerObj.find('.InputField_More').remove();
         }
         else {
 

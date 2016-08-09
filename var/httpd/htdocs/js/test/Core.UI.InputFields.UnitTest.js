@@ -40,7 +40,7 @@ Core.UI.InputFields = (function (Namespace) {
         */
         QUnit.test('Initialize fields', function (Assert) {
 
-            Assert.expect(12);
+            Assert.expect(14);
 
             Core.UI.InputFields.Activate('*');
 
@@ -293,12 +293,36 @@ Core.UI.InputFields = (function (Namespace) {
             Assert.equal($SearchObj.attr('title'), Core.Language.Translate('Not available'), 'Check if field has appropriate title');
         });
 
+        $TestForm.append('<div class="Field"><select class="Validate_Required Modernize" id="SingleSelectClear" name="SingleSelectClear"><option value="">-</option><option value="1" selected>Entry 1</option><option value="2">Entry 2</option><option value="-" disabled="disabled">Entry 3</option><option value="4">Entry 4</option><option value="-" disabled="disabled">Entry 5</option><option value="6">Entry 6</option></select></div>');
+
+        // Also initialize new field
+        Core.UI.InputFields.Activate('*');
+
+        // check if field is cleared properly when the original select loses it's options
+        QUnit.test('Check field clearance', function (Assert) {
+
+            var $SelectObj = $('#SingleSelectClear'),
+                $InputContainerObj = $SelectObj.prev();
+
+            Assert.expect(2);
+
+            Assert.equal($InputContainerObj.find('.InputField_Selection').find('.Text').text(), 'Entry 1', 'Check if initial selection is correct');
+
+            // now remove the options from the original select and add an empty one
+            $SelectObj.find('option').remove();
+            $SelectObj.append('<option value="">-</option>');
+            $SelectObj.triggerHandler('redraw.InputField');
+
+            // the selected value should be gone now
+            Assert.equal($InputContainerObj.find('.InputField_Selection').length, 0, 'Check if the field still has any selection');
+        });
+
         /*
         * Turn off Expand, make selection and close multiselect field
         */
         QUnit.test('Revert fields', function (Assert) {
 
-            Assert.expect(6);
+            Assert.expect(7);
 
             Core.UI.InputFields.Deactivate('*');
 
