@@ -612,7 +612,10 @@ sub ConfigSettingChange {
     $KeyDump =~ s|\#{3}|'}->{'|smxg;
 
     # Also set at runtime in the ConfigObject. This will be destroyed at the end of the unit test.
-    $Kernel::OM->Get('Kernel::Config')->Set(%Param);
+    $Kernel::OM->Get('Kernel::Config')->Set(
+        Key => $Key,
+        Value => $Valid ? $Value : undef,
+    );
 
     my $ValueDump;
     if ($Valid) {
