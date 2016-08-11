@@ -23,7 +23,11 @@
 [% RenderBlockStart("ParentReload") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-window.opener.Core.UI.Popup.FirePopupEvent('Reload');
+Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
+    if (WindowObject.Core.UI.Popup.GetWindowMode() !== 'Iframe') {
+        WindowObject.Core.UI.Popup.FirePopupEvent('Reload');
+    }
+});
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ParentReload") %]

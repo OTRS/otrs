@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-08-11 Fixed bug#[12238](http://bugs.otrs.org/show_bug.cgi?id=12238) - JavaScript error when opening an activity dialog from AgentTicketZoom.
  - 2016-08-08 Fixed bug#[12205](http://bugs.otrs.org/show_bug.cgi?id=12205) - Default setting for Ticket::Frontend::CustomerTicketMessage###TicketTypeDefault incorrect.
 
 #5.0.12 2016-08-09
