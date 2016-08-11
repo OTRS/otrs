@@ -132,10 +132,7 @@ sub _GenerateOTP {
     # get unix timestamp divided by 30
     #
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-
-    # add local GMT offset to time stamp (is this really right? Google does not work with real GMT time stamps?)
-    my $TimeStamp = $DateTimeObject->ToEpoch() + $DateTimeObject->Format( Format => '%{offset}' );
-
+    my $TimeStamp = $DateTimeObject->ToEpoch();
     $TimeStamp = int( $TimeStamp / 30 );
 
     # on request use previous 30-second time period
