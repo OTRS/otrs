@@ -177,12 +177,12 @@ my @Tests = (
         FixedTimeSet       => 60,
     },
     {
-        Name               => 'Valid token for different time zone',
+        Name               => 'Valid token for different time zone (time zone actually must not matter)',
         ExpectedAuthResult => 1,
         Secret             => 'UNITTESTUNITTEST',
-        TwoFactorToken     => '281099',
+        TwoFactorToken     => '761321',
         FixedTimeSet       => 0,
-        TimeZone => 'Europe/Berlin',    # offset + 1 hour, because fixed times tamp 0 is in January
+        TimeZone           => 'Europe/Berlin',
     },
 );
 
