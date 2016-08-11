@@ -25,11 +25,10 @@ $Selenium->RunTest(
             },
         );
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # disable 'Ticket Information', 'Customer Information' and 'Linked Objects' widgets in AgentTicketZoom screen
         for my $WidgetDisable (qw(0100-TicketInformation 0200-CustomerInformation 0300-LinkTable)) {
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 0,
                 Key   => "Ticket::Frontend::AgentTicketZoom###Widgets###$WidgetDisable",
                 Value => '',
@@ -37,7 +36,7 @@ $Selenium->RunTest(
         }
 
         # set 'Linked Objects' widget to simple view
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'LinkObject::ViewMode',
             Value => 'Simple',
@@ -132,12 +131,13 @@ $Selenium->RunTest(
         );
 
         # reset 'Linked Objects' widget sysconfig, enable it and refresh screen
-        $SysConfigObject->ConfigItemReset(
-            Name => 'Ticket::Frontend::AgentTicketZoom###Widgets###0300-LinkTable',
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketZoom###Widgets###0300-LinkTable',
+            Value => {
+                Module => 'Kernel::Output::HTML::TicketZoom::LinkTable',
+            },
         );
-
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 1;
 
         $Selenium->VerifiedRefresh();
 
@@ -187,14 +187,11 @@ $Selenium->RunTest(
         );
 
         # change view to complex
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'LinkObject::ViewMode',
             Value => 'Complex',
         );
-
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 1;
 
         # navigate to AgentTicketZoom for test created second ticket again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
