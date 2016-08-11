@@ -99,6 +99,10 @@ $Selenium->RunTest(
             Key   => 'CustomerPanelSelectionType',
             Value => 'SystemAddress'
         );
+
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 1;
+
         $Selenium->VerifiedRefresh();
 
         # check for system address queue destination
