@@ -135,6 +135,10 @@ $Selenium->RunTest(
         $SysConfigObject->ConfigItemReset(
             Name => 'Ticket::Frontend::AgentTicketZoom###Widgets###0300-LinkTable',
         );
+
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 1;
+
         $Selenium->VerifiedRefresh();
 
         # verify there is 'Linked Objects' widget, it's enabled
@@ -176,9 +180,8 @@ $Selenium->RunTest(
         );
 
         # verify 'Linked Objects' widget is in the side bar with simple view
-        my $ParentElement = $Selenium->find_element( ".SidebarColumn", 'css' );
         $Self->Is(
-            $Selenium->find_child_element( $ParentElement, '.Header>h2', 'css' )->get_text(),
+            $Selenium->find_element( '.SidebarColumn .Header>h2', 'css' )->get_text(),
             'Linked Objects',
             'Linked Objects widget is positioned in the side bar with simple view',
         );
@@ -191,20 +194,14 @@ $Selenium->RunTest(
         );
 
         # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 3;
+        sleep 1;
 
         # navigate to AgentTicketZoom for test created second ticket again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
 
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#WidgetTicket > .Header > h2").text() == "Linked: Ticket"',
-        );
-
         # verify 'Linked Object' widget is in the main column with complex view
-        $ParentElement = $Selenium->find_element( ".ContentColumn", 'css' );
         $Self->Is(
-            $Selenium->find_child_element( $ParentElement, '.Header>h2', 'css' )->get_text(),
+            $Selenium->find_element( '.ContentColumn .Header>h2', 'css' )->get_text(),
             'Linked: Ticket',
             'Linked Objects widget is positioned in the main column with complex view',
         );
