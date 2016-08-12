@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-08-12 Fixed bug#[4439](http://bugs.otrs.org/show_bug.cgi?id=4439) - Ticket sort order is based on database ids.
  - 2016-08-12 Fixed bug#[12224](http://bugs.otrs.org/show_bug.cgi?id=12224) - Plain password stored in database temporarily when adding new users.
  - 2016-08-12 Follow-up fix for bug#[12150](http://bugs.otrs.org/show_bug.cgi?id=12150) - Ticket::HookDivider missing in TicketZoom and History View.
  - 2016-08-11 Fixed bug#[12238](http://bugs.otrs.org/show_bug.cgi?id=12238) - JavaScript error when opening an activity dialog from AgentTicketZoom.
