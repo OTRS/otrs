@@ -11695,6 +11695,17 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="StandardTemplate2QueueByCreating" Required="0" Valid="0">
+        <Description Translatable="1">List of default Standard Templates which are assigned automatically to new Queues upon creation.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Array>
+                <Item></Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="DefaultOverviewColumns" Required="1" Valid="1">
         <Description Translatable="1">General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.</Description>
         <Group>Ticket</Group>
