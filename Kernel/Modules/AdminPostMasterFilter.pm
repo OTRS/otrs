@@ -94,12 +94,12 @@ sub Run {
         my %Not;
 
         for my $Number ( 1 .. $ConfigObject->Get('PostmasterHeaderFieldCount') ) {
-            if ( $GetParam{"MatchHeader$Number"} && $GetParam{"MatchValue$Number"} ) {
+            if ( $GetParam{"MatchHeader$Number"} && length $GetParam{"MatchValue$Number"} ) {
                 $Match{ $GetParam{"MatchHeader$Number"} } = $GetParam{"MatchValue$Number"};
                 $Not{ $GetParam{"MatchHeader$Number"} }   = $GetParam{"MatchNot$Number"};
             }
 
-            if ( $GetParam{"SetHeader$Number"} && $GetParam{"SetValue$Number"} ) {
+            if ( $GetParam{"SetHeader$Number"} && length $GetParam{"SetValue$Number"} ) {
                 $Set{ $GetParam{"SetHeader$Number"} } = $GetParam{"SetValue$Number"};
             }
         }
@@ -124,7 +124,7 @@ sub Run {
             my $InvalidCount = 0;
             for my $SetKey ( sort keys %Set ) {
                 $InvalidCount++;
-                if ( !defined $Set{$SetKey} ) {
+                if ( !length $Set{$SetKey} ) {
                     $Errors{"SetHeader${InvalidCount}Invalid"} = 'ServerError';
                     $Errors{"SetValue${InvalidCount}Invalid"}  = 'ServerError';
                 }
@@ -217,7 +217,7 @@ sub _MaskUpdate {
     my $Counter = 0;
     if ( $Data{Match} ) {
         for my $MatchKey ( sort keys %{ $Data{Match} } ) {
-            if ( $MatchKey && $Data{Match}->{$MatchKey} ) {
+            if ( $MatchKey && length $Data{Match}->{$MatchKey} ) {
                 $Counter++;
                 $Data{"MatchValue$Counter"}  = $Data{Match}->{$MatchKey};
                 $Data{"MatchHeader$Counter"} = $MatchKey;
@@ -228,7 +228,7 @@ sub _MaskUpdate {
     $Counter = 0;
     if ( $Data{Set} ) {
         for my $SetKey ( sort keys %{ $Data{Set} } ) {
-            if ( $SetKey && $Data{Set}->{$SetKey} ) {
+            if ( $SetKey && length $Data{Set}->{$SetKey} ) {
                 $Counter++;
                 $Data{"SetValue$Counter"}  = $Data{Set}->{$SetKey};
                 $Data{"SetHeader$Counter"} = $SetKey;

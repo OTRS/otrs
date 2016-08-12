@@ -173,6 +173,28 @@ $Selenium->RunTest(
             "#SetValue1 updated value",
         );
 
+        # Make sure that 0 can be stored in match and set as well (see http://bugs.otrs.org/show_bug.cgi?id=12218)
+        $Selenium->find_element( "#MatchValue1", 'css' )->clear();
+        $Selenium->find_element( "#MatchValue1", 'css' )->send_keys('0');
+        $Selenium->find_element( "#SetValue1", 'css' )->clear();
+        $Selenium->find_element( "#SetValue1", 'css' )->send_keys('0');
+        $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
+
+        # check edited test PostMasterFilter values
+        $Selenium->find_element( $PostMasterRandomID, 'link_text' )->VerifiedClick();
+
+        $Self->Is(
+            $Selenium->find_element( '#MatchValue1', 'css' )->get_value(),
+            0,
+            "#SetValue1 updated value",
+        );
+
+        $Self->Is(
+            $Selenium->find_element( '#SetValue1', 'css' )->get_value(),
+            0,
+            "#SetValue1 updated value",
+        );
+
         # go back to AdminPostMasterFilter screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
 
