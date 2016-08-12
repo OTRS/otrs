@@ -2271,7 +2271,7 @@ ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been created i
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha  creado en la fila <OTRS_TICKET_Queue>.
+el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha creado en la fila <OTRS_TICKET_Queue>.
 
 <OTRS_CUSTOMER_REALNAME> escribió:
 <OTRS_CUSTOMER_BODY[30]>
