@@ -752,7 +752,7 @@ sub GetQueueGroupID {
 
 add queue with attributes
 
-    $QueueObject->QueueAdd(
+    my $QueueID = $QueueObject->QueueAdd(
         Name                => 'Some::Queue',
         ValidID             => 1,
         GroupID             => 1,
@@ -1070,7 +1070,7 @@ sub QueueGet {
 
 update queue attributes
 
-    $QueueObject->QueueUpdate(
+    my $Success = $QueueObject->QueueUpdate(
         QueueID             => 123,
         Name                => 'Some::Queue',
         ValidID             => 1,
