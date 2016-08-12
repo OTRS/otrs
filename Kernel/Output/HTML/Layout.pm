@@ -1973,8 +1973,8 @@ sub CustomerAgeInHours {
     my $HourDsc   = Translatable('h');
     my $MinuteDsc = Translatable('m');
     if ( $Kernel::OM->Get('Kernel::Config')->Get('TimeShowCompleteDescription') ) {
-        $HourDsc   = Translatable('hour');
-        $MinuteDsc = Translatable('minute');
+        $HourDsc   = Translatable('hour(s)');
+        $MinuteDsc = Translatable('minute(s)');
     }
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;
@@ -2008,9 +2008,9 @@ sub CustomerAge {
     my $HourDsc   = Translatable('h');
     my $MinuteDsc = Translatable('m');
     if ( $ConfigObject->Get('TimeShowCompleteDescription') ) {
-        $DayDsc    = Translatable('day');
-        $HourDsc   = Translatable('hour');
-        $MinuteDsc = Translatable('minute');
+        $DayDsc    = Translatable('day(s)');
+        $HourDsc   = Translatable('hour(s)');
+        $MinuteDsc = Translatable('minute(s)');
     }
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;
