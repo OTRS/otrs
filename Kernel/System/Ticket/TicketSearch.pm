@@ -2145,7 +2145,7 @@ sub TicketSearch {
                 # include first and last name in select
                 $SQLSelect
                     .= ', ' . $SortOptions{ $SortByArray[$Count] }
-                    . ", CONCAT(u.first_name, ' ', u.last_name) ";
+                    . ", u.first_name, u.last_name ";
 
                 # join the users table on user's id
                 $SQLFrom
@@ -2153,7 +2153,8 @@ sub TicketSearch {
                     . ' ON ' . $SortOptions{ $SortByArray[$Count] } . ' = u.id ';
 
                 # sort by first and last name
-                $SQLExt .= " CONCAT(u.first_name, ' ', u.last_name) ";
+                my $OrderBySuffix = $OrderByArray[$Count] eq 'Up' ? 'ASC' : 'DESC';
+                $SQLExt .= " u.first_name $OrderBySuffix, u.last_name ";
             }
             else {
 
