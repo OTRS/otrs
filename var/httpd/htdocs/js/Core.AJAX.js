@@ -318,7 +318,10 @@ Core.AJAX = (function (TargetNS) {
             if ($Element.is('select')) {
                 $Element.empty();
                 $.each(DataValue, function (Index, Value) {
-                    var NewOption = new Option(Value[1], Value[0], Value[2], Value[3]);
+                    var NewOption,
+                        OptionText = Core.App.EscapeHTML(Value[1]);
+
+                    NewOption = new Option(OptionText, Value[0], Value[2], Value[3]);
 
                     // Check if option must be disabled.
                     if (Value[4]) {
@@ -327,7 +330,7 @@ Core.AJAX = (function (TargetNS) {
 
                     // Overwrite option text, because of wrong html quoting of text content.
                     // (This is needed for IE.)
-                    NewOption.innerHTML = Value[1];
+                    NewOption.innerHTML = OptionText;
                     $Element.append(NewOption);
 
                 });
