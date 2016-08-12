@@ -390,6 +390,10 @@ sub UserAdd {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # Don't store the user's password in plaintext initially. It will be stored in a
+    #   hashed version later with SetPassword().
+    my $RandomPassword = $Self->GenerateRandomPassword();
+
     # sql
     return if !$DBObject->Do(
         SQL => "INSERT INTO $Self->{UserTable} "
@@ -400,7 +404,7 @@ sub UserAdd {
             . " (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
         Bind => [
             \$Param{UserTitle}, \$Param{UserFirstname}, \$Param{UserLastname},
-            \$Param{UserLogin}, \$Param{UserPw},        \$Param{ValidID},
+            \$Param{UserLogin}, \$RandomPassword,       \$Param{ValidID},
             \$Param{ChangeUserID}, \$Param{ChangeUserID},
         ],
     );
