@@ -211,7 +211,8 @@ sub TableCreateComplex {
     );
 
     # define the block data
-    my $TicketHook = $ConfigObject->Get('Ticket::Hook');
+    my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
+    my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
 
     my @Headline = (
         {
@@ -366,7 +367,7 @@ sub TableCreateComplex {
                 Link    => $Self->{LayoutObject}->{Baselink}
                     . 'Action=AgentTicketZoom;TicketID='
                     . $TicketID,
-                Title    => "Ticket# $Ticket->{TicketNumber}",
+                Title    => "$TicketHook$TicketHookDivider$Ticket->{TicketNumber}",
                 CssClass => $CssClass,
             },
         );
@@ -570,7 +571,8 @@ sub TableCreateSimple {
         return;
     }
 
-    my $TicketHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook');
+    my $TicketHook        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook');
+    my $TicketHookDivider = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::HookDivider');
     my %LinkOutputData;
     for my $LinkType ( sort keys %{ $Param{ObjectLinkListWithData} } ) {
 
@@ -598,7 +600,7 @@ sub TableCreateSimple {
                 my %Item = (
                     Type    => 'Link',
                     Content => 'T:' . $Ticket->{TicketNumber},
-                    Title   => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
+                    Title   => "$TicketHook$TicketHookDivider$Ticket->{TicketNumber}: $Ticket->{Title}",
                     Link    => $Self->{LayoutObject}->{Baselink}
                         . 'Action=AgentTicketZoom;TicketID='
                         . $TicketID,
