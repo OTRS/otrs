@@ -222,6 +222,7 @@ sub ObjectDescriptionGet {
     return if !%Ticket;
 
     my $ParamHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook') || 'Ticket#';
+    $ParamHook .= $Kernel::OM->Get('Kernel::Config')->Get('Ticket::HookDivider') || '';
 
     # create description
     %Description = (

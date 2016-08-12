@@ -99,7 +99,7 @@
 [% RenderBlockEnd("MetaIcon") %]
 [% RenderBlockEnd("Meta") %]
             <h2>
-                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" class="MasterActionLink">[% Config("Ticket::Hook") %]: [% Data.TicketNumber %] &ndash; [% Data.Title | html %]</a>
+                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" class="MasterActionLink">[% Config("Ticket::Hook") %][% Config("Ticket::HookDivider") %][% Data.TicketNumber %] &ndash; [% Data.Title | html %]</a>
             </h2>
 [% RenderBlockStart("MenuItem") %]
             <a href="[% Env("Baselink") %][% Data.Link %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
