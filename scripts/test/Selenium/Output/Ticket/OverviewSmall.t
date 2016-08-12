@@ -19,7 +19,19 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        # disable check email address
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -191,10 +203,10 @@ $Selenium->RunTest(
             # sort by column, order up
             $Selenium->find_element("//a[\@name='OverviewControl'][contains(\@title, '$Column')]")->VerifiedClick();
 
-            # check for user with 1 in their name on first page
+            # check user with 1 in their name is shown
             # and verify that user with 9 in their name is not present
             $Self->True(
-                index( $Selenium->get_page_source(), $Users{ $UserIDs[0] } ) > -1,
+                index( $Selenium->get_page_source(), $Users{ $UserIDs[9] } ) > -1,
                 "$Users{ $UserIDs[0] } - found on screen"
             );
             $Self->True(
@@ -202,36 +214,13 @@ $Selenium->RunTest(
                 "$Users{ $UserIDs[8] } - not found on screen"
             );
 
-            # switch to 2nd page to test pagination
-            $Selenium->find_element( "#AgentTicketStatusViewPage2", 'css' )->VerifiedClick();
-
-            # check for user with 9 in their name
-            $Self->True(
-                index( $Selenium->get_page_source(), $Users{ $UserIDs[8] } ) > -1,
-                "$Users{ $UserIDs[8] } - found on screen"
-            );
-
             # sort by column, order down
             $Selenium->find_element("//a[\@name='OverviewControl'][contains(\@title, '$Column')]")->VerifiedClick();
 
-            # check for user with 9 in their name on first page
-            # and verify that user with 1 in their name is not present
+            # check user with 9 in their name is shown
             $Self->True(
                 index( $Selenium->get_page_source(), $Users{ $UserIDs[8] } ) > -1,
                 "$Users{ $UserIDs[8] } - found on screen"
-            );
-            $Self->True(
-                index( $Selenium->get_page_source(), $Users{ $UserIDs[0] } ) == -1,
-                "$Users{ $UserIDs[0] } - not found on screen"
-            );
-
-            # switch to 2nd page to test pagination
-            $Selenium->find_element( "#AgentTicketStatusViewPage2", 'css' )->VerifiedClick();
-
-            # check for user with 1 in their name
-            $Self->True(
-                index( $Selenium->get_page_source(), $Users{ $UserIDs[0] } ) > -1,
-                "$Users{ $UserIDs[0] } - found on screen"
             );
         }
 

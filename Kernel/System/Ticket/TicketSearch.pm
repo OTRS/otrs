@@ -2142,16 +2142,18 @@ sub TicketSearch {
                 || $SortByArray[$Count] eq 'Responsible'
                 )
             {
-                $SQLSelect .= ', ' . $SortOptions{ $SortByArray[$Count] };
+                # include first and last name in select
+                $SQLSelect
+                    .= ', ' . $SortOptions{ $SortByArray[$Count] }
+                    . ", CONCAT(u.first_name, ' ', u.last_name) ";
 
                 # join the users table on user's id
                 $SQLFrom
                     .= ' JOIN users u '
                     . ' ON ' . $SortOptions{ $SortByArray[$Count] } . ' = u.id ';
 
-                # sort by first, then last name
-                my $OrderBySuffix = $OrderByArray[$Count] eq 'Up' ? 'ASC' : 'DESC';
-                $SQLExt .= " u.first_name $OrderBySuffix, u.last_name ";
+                # sort by first and last name
+                $SQLExt .= " CONCAT(u.first_name, ' ', u.last_name) ";
             }
             else {
 
