@@ -118,9 +118,6 @@ sub new {
 
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
-    # permission check
-    die if !$Self->_FileSystemCheck();
-
     # init of event handler
     $Self->EventHandlerInit(
         Config => 'Package::EventModulePost',
@@ -473,6 +470,9 @@ sub PackageInstall {
         }
     }
 
+    # permission check
+    die if !$Self->_FileSystemCheck();
+
     # check OS
     if ( $Structure{OS} && !$Param{Force} ) {
         return if !$Self->_OSCheck( OS => $Structure{OS} );
@@ -639,6 +639,9 @@ sub PackageReinstall {
     # parse source file
     my %Structure = $Self->PackageParse(%Param);
 
+    # permission check
+    die if !$Self->_FileSystemCheck();
+
     # check OS
     if ( $Structure{OS} && !$Param{Force} ) {
         return if !$Self->_OSCheck( OS => $Structure{OS} );
@@ -746,6 +749,9 @@ sub PackageUpgrade {
         );
         return;
     }
+
+    # permission check
+    die if !$Self->_FileSystemCheck();
 
     # check OS
     if ( $Structure{OS} && !$Param{Force} ) {
@@ -1133,6 +1139,9 @@ sub PackageUninstall {
     if ( !$Param{Force} ) {
         return if !$Self->_CheckPackageDepends( Name => $Structure{Name}->{Content} );
     }
+
+    # permission check
+    die if !$Self->_FileSystemCheck();
 
     # uninstall code (pre)
     if ( $Structure{CodeUninstall} ) {
@@ -2587,6 +2596,9 @@ returns true if the distribution package (located under ) can get installed
 sub PackageInstallDefaultFiles {
     my ( $Self, %Param ) = @_;
 
+    # permission check
+    die if !$Self->_FileSystemCheck();
+
     my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages';
     my @PackageFiles = $Self->{MainObject}->DirectoryRead(
         Directory => $Directory,
@@ -3514,6 +3526,8 @@ sub _ReadDistArchive {
 sub _FileSystemCheck {
     my ( $Self, %Param ) = @_;
 
+    return 1 if $Self->{FileSystemCheckAlreadyDone};
+
     my $Home = $Param{Home} || $Self->{Home};
 
     # check Home
@@ -3551,6 +3565,8 @@ sub _FileSystemCheck {
         # delete test file
         $Self->{MainObject}->FileDelete( Location => $Location );
     }
+
+    $Self->{FileSystemCheckAlreadyDone} = 1;
 
     return 1;
 }
