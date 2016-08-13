@@ -179,6 +179,7 @@ sub RepositoryList {
     # fetch the data
     my @Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
+
         my %Package = (
             Name    => $Row[0],
             Version => $Row[1],
@@ -194,13 +195,11 @@ sub RepositoryList {
         if ( $Row[3] && $Result eq 'Short' ) {
 
             push @Data, {%Package};
-
         }
         elsif ( $Row[3] ) {
 
             my %Structure = $Self->PackageParse( String => \$Row[3] );
             push @Data, { %Package, %Structure };
-
         }
     }
 
@@ -228,7 +227,7 @@ get a package from local repository
         Name            => 'Application A',
         Version         => '1.0',
         Result          => 'SCALAR',
-        DisableWarnings => 1,         # optional
+        DisableWarnings => 1,                 # optional
     );
 
 =cut
@@ -277,12 +276,12 @@ sub RepositoryGet {
 
     if ( !$Package ) {
 
-        if ( !$Param{DisableWarnings} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'notice',
-                Message  => "No such package: $Param{Name}-$Param{Version}!",
-            );
-        }
+        return if $Param{DisableWarnings};
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'notice',
+            Message  => "No such package: $Param{Name}-$Param{Version}!",
+        );
 
         return;
     }
@@ -304,8 +303,8 @@ sub RepositoryGet {
 add a package to local repository
 
     $PackageObject->RepositoryAdd(
-        String => $FileString,
-        FromCloud => 0, # optional 1 or 0, it indicates if package came from Cloud or not
+        String    => $FileString,
+        FromCloud => 0,             # optional 1 or 0, it indicates if package came from Cloud or not
     );
 
 =cut
@@ -425,7 +424,7 @@ sub RepositoryRemove {
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => $SQL,
-        Bind => \@Bind
+        Bind => \@Bind,
     );
 
     # get cache object
@@ -447,8 +446,8 @@ sub RepositoryRemove {
 install a package
 
     $PackageObject->PackageInstall(
-        String    => $FileString
-        FromCloud => 1, # optional 1 or 0, it indicates if package's origin is Cloud or not
+        String    => $FileString,
+        FromCloud => 1,             # optional 1 or 0, it indicates if package's origin is Cloud or not
     );
 
 =cut
@@ -523,12 +522,6 @@ sub PackageInstall {
 
     # check files
     my $FileCheckOk = 1;
-    if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
-        for my $File ( @{ $Structure{Filelist} } ) {
-
-            #print STDERR "Notice: Want to install $File->{Location}!\n";
-        }
-    }
     if ( !$FileCheckOk && !$Param{Force} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -573,7 +566,7 @@ sub PackageInstall {
     # add package
     return if !$Self->RepositoryAdd(
         String    => $Param{String},
-        FromCloud => $FromCloud
+        FromCloud => $FromCloud,
     );
 
     # update package status
@@ -681,7 +674,7 @@ sub PackageReinstall {
             # install file
             $Self->_FileInstall(
                 File      => $File,
-                Reinstall => 1
+                Reinstall => 1,
             );
         }
     }
@@ -729,8 +722,6 @@ upgrade a package
 sub PackageUpgrade {
     my ( $Self, %Param ) = @_;
 
-    my %InstalledStructure;
-
     # check needed stuff
     if ( !defined $Param{String} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -744,10 +735,13 @@ sub PackageUpgrade {
     my %Structure = $Self->PackageParse(%Param);
 
     # check if package is already installed
+    my %InstalledStructure;
     my $Installed        = 0;
     my $InstalledVersion = 0;
     for my $Package ( $Self->RepositoryList() ) {
+
         if ( $Structure{Name}->{Content} eq $Package->{Name}->{Content} ) {
+
             if ( $Package->{Status} =~ /^installed$/i ) {
                 $Installed          = 1;
                 $InstalledVersion   = $Package->{Version}->{Content};
@@ -755,6 +749,7 @@ sub PackageUpgrade {
             }
         }
     }
+
     if ( !$Installed ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
