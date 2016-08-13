@@ -85,7 +85,7 @@ sub FormIDRemove {
 sub FormIDAddFile {
     my ( $Self, %Param ) = @_;
 
-    for (qw(FormID Filename Content ContentType)) {
+    for (qw(FormID Filename ContentType)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -94,6 +94,8 @@ sub FormIDAddFile {
             return;
         }
     }
+
+    $Param{Content} = '' if !defined( $Param{Content} );
 
     # create content id
     my $ContentID = $Param{ContentID};
@@ -249,37 +251,32 @@ sub FormIDGetAllFilesData {
         my $FileSize = -s $File;
 
         # human readable file size
-        if ($FileSize) {
+        if ( defined $FileSize ) {
 
             # remove meta data in files
             if ( $FileSize > 30 ) {
                 $FileSize = $FileSize - 30
             }
-            if ( $FileSize > 1048576 ) {    # 1024 * 1024
-                $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
-            }
-            elsif ( $FileSize > 1024 ) {
-                $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
-            }
-            else {
-                $FileSize = $FileSize . ' Bytes';
-            }
+
+            $FileSize = $MainObject->HumanReadableDataSize(
+                Size => $FileSize,
+            );
         }
         my $Content = $MainObject->FileRead(
             Location => $File,
-            Mode     => 'binmode',                                             # optional - binmode|utf8
+            Mode     => 'binmode',    # optional - binmode|utf8
         );
         next FILE if !$Content;
 
         my $ContentType = $MainObject->FileRead(
             Location => "$File.ContentType",
-            Mode     => 'binmode',                                             # optional - binmode|utf8
+            Mode     => 'binmode',             # optional - binmode|utf8
         );
         next FILE if !$ContentType;
 
         my $ContentID = $MainObject->FileRead(
             Location => "$File.ContentID",
-            Mode     => 'binmode',                                             # optional - binmode|utf8
+            Mode     => 'binmode',             # optional - binmode|utf8
         );
         next FILE if !$ContentID;
 
@@ -290,7 +287,7 @@ sub FormIDGetAllFilesData {
 
         my $Disposition = $MainObject->FileRead(
             Location => "$File.Disposition",
-            Mode     => 'binmode',                                             # optional - binmode|utf8
+            Mode     => 'binmode',             # optional - binmode|utf8
         );
         next FILE if !$Disposition;
 
@@ -354,32 +351,27 @@ sub FormIDGetAllFilesMeta {
         my $FileSize = -s $File;
 
         # human readable file size
-        if ($FileSize) {
+        if ( defined $FileSize ) {
 
             # remove meta data in files
             if ( $FileSize > 30 ) {
                 $FileSize = $FileSize - 30
             }
-            if ( $FileSize > 1048576 ) {    # 1024 * 1024
-                $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
-            }
-            elsif ( $FileSize > 1024 ) {
-                $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
-            }
-            else {
-                $FileSize = $FileSize . ' Bytes';
-            }
+
+            $FileSize = $MainObject->HumanReadableDataSize(
+                Size => $FileSize,
+            );
         }
 
         my $ContentType = $MainObject->FileRead(
             Location => "$File.ContentType",
-            Mode     => 'binmode',                                             # optional - binmode|utf8
+            Mode     => 'binmode',             # optional - binmode|utf8
         );
         next FILE if !$ContentType;
 
         my $ContentID = $MainObject->FileRead(
             Location => "$File.ContentID",
-            Mode     => 'binmode',                                             # optional - binmode|utf8
+            Mode     => 'binmode',             # optional - binmode|utf8
         );
         next FILE if !$ContentID;
 
@@ -390,7 +382,7 @@ sub FormIDGetAllFilesMeta {
 
         my $Disposition = $MainObject->FileRead(
             Location => "$File.Disposition",
-            Mode     => 'binmode',                                             # optional - binmode|utf8
+            Mode     => 'binmode',             # optional - binmode|utf8
         );
         next FILE if !$Disposition;
 

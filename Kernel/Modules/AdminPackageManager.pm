@@ -407,20 +407,12 @@ sub Run {
                     elsif ( $Hash->{Tag} =~ /^(File)$/ ) {
 
                         # add human readable file size
-                        if ( $Hash->{Size} ) {
-
-                            # remove meta data in files
-                            if ( $Hash->{Size} > ( 1024 * 1024 ) ) {
-                                $Hash->{Size} = sprintf "%.1f MBytes",
-                                    ( $Hash->{Size} / ( 1024 * 1024 ) );
-                            }
-                            elsif ( $Hash->{Size} > 1024 ) {
-                                $Hash->{Size} = sprintf "%.1f KBytes", ( ( $Hash->{Size} / 1024 ) );
-                            }
-                            else {
-                                $Hash->{Size} = $Hash->{Size} . ' Bytes';
-                            }
+                        if ( defined $Hash->{Size} ) {
+                            $Hash->{Size} = $MainObject->HumanReadableDataSize(
+                                Size => $Hash->{Size},
+                            );
                         }
+
                         $LayoutObject->Block(
                             Name => "PackageItemFilelistFile",
                             Data => {
@@ -710,20 +702,12 @@ sub Run {
                     elsif ( $Hash->{Tag} =~ /^(File)$/ ) {
 
                         # add human readable file size
-                        if ( $Hash->{Size} ) {
-
-                            # remove meta data in files
-                            if ( $Hash->{Size} > ( 1024 * 1024 ) ) {
-                                $Hash->{Size} = sprintf "%.1f MBytes",
-                                    ( $Hash->{Size} / ( 1024 * 1024 ) );
-                            }
-                            elsif ( $Hash->{Size} > 1024 ) {
-                                $Hash->{Size} = sprintf "%.1f KBytes", ( ( $Hash->{Size} / 1024 ) );
-                            }
-                            else {
-                                $Hash->{Size} = $Hash->{Size} . ' Bytes';
-                            }
+                        if ( defined $Hash->{Size} ) {
+                            $Hash->{Size} = $MainObject->HumanReadableDataSize(
+                                Size => $Hash->{Size},
+                            );
                         }
+
                         $LayoutObject->Block(
                             Name => 'PackageItemFilelistFile',
                             Data => {

@@ -898,7 +898,7 @@ sub LinkQuote {
     }
 
     # check ref && return result like called
-    if ($StringScalar) {
+    if ( defined $StringScalar ) {
         return ${$String};
     }
     return $String;

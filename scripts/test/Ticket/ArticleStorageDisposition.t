@@ -40,7 +40,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.pdf',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'application/pdf',
@@ -60,7 +60,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.pdf',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'application/pdf',
@@ -80,7 +80,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.pdf',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'application/pdf',
@@ -100,7 +100,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.pdf',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'application/pdf',
@@ -120,7 +120,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.pdf',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'application/pdf',
@@ -140,7 +140,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.pdf',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'application/pdf',
@@ -162,7 +162,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.png',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'image/png',
@@ -182,7 +182,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.png',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'image/png',
@@ -204,7 +204,7 @@ my @Tests = (
         # images with content id and no disposition should be inline
         ExpectedResults => {
             Filename           => 'testing.png',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'image/png',
@@ -224,7 +224,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.png',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'image/png',
@@ -244,7 +244,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.png',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'image/png',
@@ -264,7 +264,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'testing.png',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'image/png',
@@ -286,7 +286,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'file-2',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'text/html',
@@ -306,7 +306,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'file-2',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'text/html',
@@ -328,7 +328,7 @@ my @Tests = (
         # special attachments with no disposition should be inline
         ExpectedResults => {
             Filename           => 'file-2',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'text/html',
@@ -348,7 +348,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'file-2',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'text/html',
@@ -368,7 +368,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'file-2',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '',
             ContentType        => 'text/html',
@@ -388,7 +388,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Filename           => 'file-2',
-            Filesize           => '3 Bytes',
+            Filesize           => '3 B',
             FilesizeRaw        => 3,
             ContentID          => '<testing123@example.com>',
             ContentType        => 'text/html',

@@ -83,7 +83,7 @@ returns
         Preferences => {
 
             # generated automatically
-            Filesize           => '12.4 KBytes',
+            Filesize           => '12.4 KB',
             FilesizeRaw        => 12345,
 
             # optional
@@ -227,15 +227,14 @@ sub Write {
     # size calculation
     $Param{Preferences}->{FilesizeRaw} = bytes::length( ${ $Param{Content} } );
     my $Filesize = $Param{Preferences}->{FilesizeRaw};
-    if ( $Filesize > ( 1024 * 1024 ) ) {
-        $Filesize = sprintf "%.1f MBytes", ( $Filesize / ( 1024 * 1024 ) );
+
+    # human readable file size
+    if ( defined $Filesize ) {
+        $Filesize = $Kernel::OM->Get('Kernel::System::Main')->HumanReadableDataSize(
+            Size => $Filesize,
+        );
     }
-    elsif ( $Filesize > 1024 ) {
-        $Filesize = sprintf "%.1f KBytes", ( $Filesize / 1024 );
-    }
-    else {
-        $Filesize = $Filesize . ' Bytes';
-    }
+
     $Param{Preferences}->{Filesize} = $Filesize;
 
     # insert preferences
