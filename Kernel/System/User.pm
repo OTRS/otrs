@@ -397,7 +397,7 @@ sub UserAdd {
             . " (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
         Bind => [
             \$Param{UserTitle}, \$Param{UserFirstname}, \$Param{UserLastname},
-            \$Param{UserLogin}, \$RandomPassword,       \$Param{ValidID},
+            \$Param{UserLogin}, \$RandomPassword, \$Param{ValidID},
             \$Param{ChangeUserID}, \$Param{ChangeUserID},
         ],
     );
