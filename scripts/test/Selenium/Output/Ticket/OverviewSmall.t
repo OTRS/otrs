@@ -33,6 +33,13 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # disable check mx record
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'CheckMXRecord',
+            Value => 0,
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
