@@ -595,11 +595,10 @@ Please note that this will not work correctly in clustered environments.
 sub ConfigSettingChange {
     my ( $Self, %Param ) = @_;
 
-
     my $Valid = $Param{Valid};
     die "Need 'Valid'" if !defined $Valid;
 
-    my $Key   = $Param{Key};
+    my $Key = $Param{Key};
     die "Need 'Key'" if !$Key;
 
     my $Value = $Param{Value};
@@ -613,13 +612,13 @@ sub ConfigSettingChange {
 
     # Also set at runtime in the ConfigObject. This will be destroyed at the end of the unit test.
     $Kernel::OM->Get('Kernel::Config')->Set(
-        Key => $Key,
+        Key   => $Key,
         Value => $Valid ? $Value : undef,
     );
 
     my $ValueDump;
     if ($Valid) {
-        $ValueDump = $Kernel::OM->Get('Kernel::System::Main')->Dump( $Value );
+        $ValueDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Value);
         $ValueDump =~ s/\$VAR1/$KeyDump/;
     }
     else {
@@ -642,12 +641,12 @@ sub Load {
 }
 1;
 EOF
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my $FileName = "$Home/Kernel/Config/Files/$PackageName.pm";
     $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $FileName,
-        Mode => 'utf8',
-        Content => \$Content,
+        Mode     => 'utf8',
+        Content  => \$Content,
     ) || die "Could not write $FileName";
 
     return 1;
@@ -662,7 +661,7 @@ remove all config setting changes from ConfigSettingChange();
 sub ConfigSettingCleanup {
     my ( $Self, %Param ) = @_;
 
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Home  = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => "$Home/Kernel/Config/Files",
         Filter    => "ZZZZUnitTest*.pm",

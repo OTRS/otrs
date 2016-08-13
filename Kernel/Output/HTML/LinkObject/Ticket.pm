@@ -574,8 +574,8 @@ sub TableCreateSimple {
         return;
     }
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $TicketHook   = $ConfigObject->Get('Ticket::Hook');
+    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
+    my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
     my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
 
     my %LinkOutputData;

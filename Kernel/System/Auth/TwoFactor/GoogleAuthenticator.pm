@@ -132,7 +132,7 @@ sub _GenerateOTP {
     # get unix timestamp divided by 30
     #
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $TimeStamp = $DateTimeObject->ToEpoch();
+    my $TimeStamp      = $DateTimeObject->ToEpoch();
     $TimeStamp = int( $TimeStamp / 30 );
 
     # on request use previous 30-second time period
