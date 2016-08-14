@@ -26,19 +26,15 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # disable check email address
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'CheckEmailAddresses',
-            Value => 0,
-        );
-
-        # disable check mx record
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'CheckMXRecord',
-            Value => 0,
-        );
+        # do not check email addresses and mx records
+        # change settings in both runtime and disk configuration
+        for my $Key (qw(CheckEmailAddresses CheckMXRecord)) {
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => $Key,
+                Value => 0,
+            );
+        }
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
