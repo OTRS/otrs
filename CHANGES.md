@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-08-15 Fixed a problem with the axis exchange not working correctly in the OTRS Business Solution™ reports.
  - 2016-08-12 Fixed bug#[4389](http://bugs.otrs.org/show_bug.cgi?id=4389) - Singular/plural issue with age.
  - 2016-08-12 Fixed bug#[12218](http://bugs.otrs.org/show_bug.cgi?id=12218) - PostmasterFilter, not possible to set X-OTRS-DynamicField.
  - 2016-08-12 Fixed bug#[4439](http://bugs.otrs.org/show_bug.cgi?id=4439) - Ticket sort order is based on database ids.
