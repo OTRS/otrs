@@ -103,6 +103,7 @@ Kernel/Output/HTML/Preferences/CustomChatChannel.pm
 Kernel/Output/HTML/QueuePreferences/ChatChannel.pm
 Kernel/Output/HTML/ToolBar/NotificationView.pm
 Kernel/Output/HTML/TicketMenu/AttachmentView.pm
+Kernel/Output/HTML/FilterElementPost/AddDynamicFieldNames.pm
 Kernel/Output/HTML/FilterElementPost/ContactWithData.pm
 Kernel/Output/HTML/FilterElementPost/SLASelectionDialog.pm
 Kernel/Output/HTML/Layout/NotificationView.pm
