@@ -107,7 +107,7 @@
                             [% Data.MappingInboundStrg %]
                             <input type="hidden" id="MappingInboundConfigDialog" value="[% Data.MappingInboundConfigDialog | html %]" />
 [% RenderBlockStart("MappingInboundConfigureButton") %]
-                            <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="[% Translate("Configure") | html %]">[% Translate("Configure") | html %]</button>
+                            <button type="button" class="CallForAction HideOnChange" id="MappingInboundConfigureButton" value="[% Translate("Configure") | html %]"><span>[% Translate("Configure") | html %]</span></button>
 [% RenderBlockEnd("MappingInboundConfigureButton") %]
                             <p class="FieldExplanation">
                                 [% Translate("The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.") | html %]
