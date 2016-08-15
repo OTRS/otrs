@@ -8,6 +8,11 @@
 
 [% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
 
+<script type="text/javascript">//<![CDATA[
+    "use strict";
+
+    var CKEDITOR_BASEPATH = '[% Config("Frontend::RichTextPath") %]';
+//]]></script>
 [% RenderBlockStart("CommonJS") %]
 <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory %][% Data.Filename %]"></script>
 [% RenderBlockEnd("CommonJS") %]

@@ -5,9 +5,6 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-[% RenderBlockStart("RichText") %]
-<script src="[% Config("Frontend::RichTextPath") %]ckeditor.js" type="text/javascript"></script>
-[% RenderBlockEnd("RichText") %]
 
 <div class="MainBox ARIARoleMain FormScreen">
     <h1>[% Translate("Create New Process Ticket") | html %]</h1>

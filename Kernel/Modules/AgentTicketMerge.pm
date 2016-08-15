@@ -250,10 +250,6 @@ sub Run {
                 $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
                 $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
-                $LayoutObject->Block(
-                    Name => 'RichText',
-                );
-
                 # set up rich text editor
                 $LayoutObject->SetRichTextParameters(
                     Data => \%Param,
@@ -309,10 +305,6 @@ sub Run {
                 # use height/width defined for this screen
                 $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
                 $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
-
-                $LayoutObject->Block(
-                    Name => 'RichText',
-                );
 
                 # set up rich text editor
                 $LayoutObject->SetRichTextParameters(
@@ -442,10 +434,6 @@ sub Run {
             # use height/width defined for this screen
             $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
             $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
-
-            $LayoutObject->Block(
-                Name => 'RichText',
-            );
 
             # set up rich text editor
             $LayoutObject->SetRichTextParameters(

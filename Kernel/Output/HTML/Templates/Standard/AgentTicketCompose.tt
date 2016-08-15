@@ -300,9 +300,6 @@
 
                     <label class="Mandatory" for="RichText"><span class="Marker">*</span>[% Translate("Text") | html %]:</label>
                     <div class="RichTextField">
-[% RenderBlockStart("RichText") %]
-[% InsertTemplate("RichTextEditor.tt") %]
-[% RenderBlockEnd("RichText") %]
                         <textarea id="RichText" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaEmail") %]" class="RichText Validate_Required [% Data.BodyInvalid | html %]">[% Data.ResponseFormat %]</textarea>
                         <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>

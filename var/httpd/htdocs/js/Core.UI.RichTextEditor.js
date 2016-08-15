@@ -70,6 +70,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             UserLanguage,
             UploadURL = '';
 
+        if (typeof CKEDITOR === 'undefined') {
+            return false;
+        }
+
         if (isJQueryObject($EditorArea) && $EditorArea.hasClass('HasCKEInstance')) {
             return false;
         }
@@ -220,6 +224,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      This function initializes as a rich text editor every textarea element that containing the RichText class.
      */
     TargetNS.InitAllEditors = function () {
+        if (typeof CKEDITOR === 'undefined') {
+            return;
+        }
+
         $('textarea.RichText').each(function () {
             TargetNS.InitEditor($(this));
         });
@@ -233,6 +241,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      This function initializes JS functionality.
      */
     TargetNS.Init = function () {
+        if (typeof CKEDITOR === 'undefined') {
+            return;
+        }
+
         TargetNS.InitAllEditors();
     };
 

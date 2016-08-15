@@ -515,10 +515,6 @@
                 <div class="Content">
                     <div class ="NotificationLanguageContainer">
 
-[% RenderBlockStart("RichText") %]
-[% InsertTemplate("RichTextEditor.tt") %]
-[% RenderBlockEnd("RichText") %]
-
 [% RenderBlockStart("NotificationLanguage") %]
                         <div class="NotificationLanguage">
                             <div class="WidgetSimple SpacingTop [% IF !Data.Language %] Collapsed [% END %] ">

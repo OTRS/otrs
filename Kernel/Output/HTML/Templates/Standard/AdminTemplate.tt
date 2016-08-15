@@ -115,10 +115,6 @@
 [% RenderBlockEnd("OverviewResult") %]
 [% RenderBlockStart("OverviewUpdate") %]
 
-[% RenderBlockStart("RichText") %]
-[% InsertTemplate("RichTextEditor.tt") %]
-[% RenderBlockEnd("RichText") %]
-
         <div class="WidgetSimple">
             <div class="Header">
 [% RenderBlockStart("HeaderAdd") %]

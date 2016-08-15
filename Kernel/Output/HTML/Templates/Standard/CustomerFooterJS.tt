@@ -6,6 +6,11 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<script type="text/javascript">//<![CDATA[
+    "use strict";
+
+    var CKEDITOR_BASEPATH = '[% Config("Frontend::RichTextPath") %]';
+//]]></script>
 [% RenderBlockStart("CommonJS") %]
     <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
 [% RenderBlockEnd("CommonJS") %]

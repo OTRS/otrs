@@ -419,9 +419,6 @@ sub _Edit {
 
     # add rich text editor
     if ( $LayoutObject->{BrowserRichText} ) {
-        $LayoutObject->Block(
-            Name => 'RichText',
-        );
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(
