@@ -38,7 +38,7 @@ create an object
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoReponse');
+    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 
 =cut
 
