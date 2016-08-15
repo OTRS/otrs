@@ -35,6 +35,14 @@ Core.Agent.TicketProcess = (function (TargetNS) {
             $('#ProcessEntityID').val(ProcessID).trigger('change');
         }
 
+        if (typeof Core.Config.Get('ParentReload') !== 'undefined' && parseInt(Core.Config.Get('ParentReload'), 10) === 1){
+            Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
+                if (WindowObject.Core.UI.Popup.GetWindowMode() !== 'Iframe') {
+                    WindowObject.Core.UI.Popup.FirePopupEvent('Reload');
+                }
+            });
+        }
+
         $('#ProcessEntityID').on('change', function () {
             var Data = {
                 Action: 'AgentTicketProcess',
@@ -106,14 +114,6 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                         catch (Event) {
                             // do nothing here (code needed  to not have an empty block here)
                             $.noop(Event);
-                        }
-
-                        if (typeof Core.Config.Get('ParentReload') !== 'undefined' && parseInt(Core.Config.Get('ParentReload'), 10) === 1){
-                            if (Core.UI.Popup.IsPopupWindow()) {
-                                Core.UI.Popup.ExecuteInParentWindow(function (ParentWindow) {
-                                    ParentWindow.Core.UI.Popup.FirePopupEvent('Reload');
-                                });
-                            }
                         }
 
                         // Handle special server errors (Response = <div class="ServerError" data-message="Message"></div>)
