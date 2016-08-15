@@ -248,7 +248,7 @@ sub Run {
 
         # overwrite the default stats timezone with the given timezone
         my $TimeZone = $Self->GetOption('timezone');
-        if ( length $TimeZone ) {
+        if ( defined $TimeZone && length $TimeZone ) {
             $GetParam{TimeZone} = $TimeZone;
         }
     }
