@@ -1330,6 +1330,10 @@ sub _MaskNew {
 
         $LayoutObject->Block(
             Name => 'RichText',
+        );
+
+        # set up customer rich text editor
+        $LayoutObject->CustomerSetRichTextParameters(
             Data => \%Param,
         );
     }

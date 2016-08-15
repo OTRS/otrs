@@ -252,6 +252,10 @@ sub Run {
 
                 $LayoutObject->Block(
                     Name => 'RichText',
+                );
+
+                # set up rich text editor
+                $LayoutObject->SetRichTextParameters(
                     Data => \%Param,
                 );
 
@@ -308,9 +312,12 @@ sub Run {
 
                 $LayoutObject->Block(
                     Name => 'RichText',
-                    Data => \%Param,
                 );
 
+                # set up rich text editor
+                $LayoutObject->SetRichTextParameters(
+                    Data => \%Param,
+                );
             }
 
             $Output .= $LayoutObject->Output(
@@ -438,6 +445,10 @@ sub Run {
 
             $LayoutObject->Block(
                 Name => 'RichText',
+            );
+
+            # set up rich text editor
+            $LayoutObject->SetRichTextParameters(
                 Data => \%Param,
             );
         }

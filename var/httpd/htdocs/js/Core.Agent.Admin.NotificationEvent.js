@@ -187,7 +187,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
 
         // initialize the rich text editor if set
         if (parseInt(Core.Config.Get('RichTextSet'), 10) === 1) {
-            Core.UI.RichTextEditor.InitAll();
+            Core.UI.RichTextEditor.InitAllEditors();
         }
 
         // bind click function to remove button

@@ -127,6 +127,8 @@ Core.TicketProcess = (function (TargetNS) {
             Core.Agent.CustomerSearch.Init($("#CustomerAutoComplete, .CustomerAutoComplete"));
         }
 
+        // initialize rich text editor
+        Core.UI.RichTextEditor.Init();
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

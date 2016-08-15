@@ -1488,6 +1488,10 @@ sub AgentMove {
 
             $LayoutObject->Block(
                 Name => 'RichText',
+            );
+
+            # set up rich text editor
+            $LayoutObject->SetRichTextParameters(
                 Data => \%Param,
             );
         }
