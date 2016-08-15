@@ -124,8 +124,12 @@ sub PostValueSet {
     $TicketObject->EventHandler(
         Event => 'ArticleDynamicFieldUpdate',
         Data  => {
+            FieldName => $Param{DynamicFieldConfig}->{Name},
+            Value     => $Param{Value},
+            OldValue  => $Param{OldValue},
             TicketID  => $Article{TicketID},
             ArticleID => $Param{ObjectID},
+            UserID    => $Param{UserID},
         },
         UserID => $Param{UserID},
     );
