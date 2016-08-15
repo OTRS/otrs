@@ -48,7 +48,7 @@ $Selenium->RunTest(
             %Config = map { $_->{Key} => $_->{Content} }
                 grep { defined $_->{Key} } @{ $Config{Setting}->[1]->{Hash}->[1]->{Item} };
 
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => $SysConfigName,
                 Value => \%Config,

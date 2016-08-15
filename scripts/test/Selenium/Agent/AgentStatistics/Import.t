@@ -56,7 +56,7 @@ $Selenium->RunTest(
             ],
         };
 
-        my $Success = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        my $Success = $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1,

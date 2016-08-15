@@ -36,7 +36,7 @@ $Selenium->RunTest(
         my %ImageUpdate = map { $_->{Key} => $_->{Content} }
             grep { defined $_->{Key} } @{ $ImageConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0200-Image',
             Value => \%ImageUpdate,

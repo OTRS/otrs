@@ -30,14 +30,14 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # enable TimeZoneUser
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TimeZoneUser',
             Value => 1,
         );
 
         # disable TimeZoneUserBrowserAutoOffset
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TimeZoneUserBrowserAutoOffset',
             Value => 0,

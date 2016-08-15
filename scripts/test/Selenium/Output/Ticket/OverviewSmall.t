@@ -37,7 +37,7 @@ $Selenium->RunTest(
                 Key   => $Key,
                 Value => 0,
             );
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => $Key,
                 Value => 0,

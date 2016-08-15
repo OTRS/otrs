@@ -38,7 +38,7 @@ $Selenium->RunTest(
             Module      => 'Kernel::Output::HTML::Dashboard::CmdOutput',
             Title       => 'Sample command output'
         );
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0420-CmdOutput',
             Value => \%CmdParam,

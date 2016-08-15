@@ -30,7 +30,7 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # enable MIME-Viewer for PDF attachment
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'MIME-Viewer###application/pdf',
             Value => "echo 'OTRS.org TEST'",

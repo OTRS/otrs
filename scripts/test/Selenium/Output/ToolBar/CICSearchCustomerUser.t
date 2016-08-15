@@ -50,7 +50,7 @@ $Selenium->RunTest(
             Value => \%CICSearchCustomerUser,
         );
 
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::ToolBarModule###14-Ticket::CICSearchCustomerUser',
             Value => \%CICSearchCustomerUser,

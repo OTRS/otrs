@@ -31,7 +31,7 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # enable PGP
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'PGP',
             Value => 1
@@ -44,7 +44,7 @@ $Selenium->RunTest(
         my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp";
         mkpath( [$PGPPath], 0, 0770 );    ## no critic
 
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'PGP::Options',
             Value => "--homedir $PGPPath --batch --no-tty --yes",

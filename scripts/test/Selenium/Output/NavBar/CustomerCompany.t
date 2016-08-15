@@ -39,15 +39,14 @@ $Selenium->RunTest(
 
         # get SysConfigObject object
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 
         # disable frontend AdminCustomerCompany module
-        my %AdminCustomerCompany = $SysConfigObject->ConfigItemGet(
-            Name => 'Frontend::Module###AdminCustomerCompany',
-        );
-        $SysConfigObject->ConfigItemUpdate(
+        my $AdminCustomerCompany = $ConfigObject->Get('Frontend::Module')->{AdminCustomerCompany};
+        $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => 'Frontend::Module###AdminCustomerCompany',
-            Value => \%AdminCustomerCompany,
+            Value => {},
         );
 
         # check for NavBarCustomerCompany button when frontend AdminCustomerCompany module is disabled
@@ -58,12 +57,11 @@ $Selenium->RunTest(
             "NavBar 'Customer Administration' button NOT available when frontend AdminCustomerCompany module is disabled",
         );
 
-        # sleep a little bit to allow mod_perl to pick up the changed config files
-        sleep 1;
-
         # enable frontend AdminCustomerCompany module
-        $SysConfigObject->ConfigItemReset(
-            Name => 'Frontend::Module###AdminCustomerCompany',
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::Module###AdminCustomerCompany',
+            Value => $AdminCustomerCompany,
         );
 
         # check for NavBarCustomerCompany button when frontend AdminCustomerCompany module is enabled

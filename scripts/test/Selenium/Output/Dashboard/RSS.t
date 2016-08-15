@@ -31,7 +31,7 @@ $Selenium->RunTest(
 
         # disable all dashboard plugins
         my $Config = $Kernel::OM->Get('Kernel::Config')->Get('DashboardBackend');
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => 'DashboardBackend',
             Value => \%$Config,
@@ -47,7 +47,7 @@ $Selenium->RunTest(
         %RSSConfig = map { $_->{Key} => $_->{Content} }
             grep { defined $_->{Key} } @{ $RSSConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0410-RSS',
             Value => \%RSSConfig,

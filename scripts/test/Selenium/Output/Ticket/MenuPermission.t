@@ -125,7 +125,7 @@ $Selenium->RunTest(
         for my $Test (@Tests) {
 
             # update config
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => 'Ticket::Frontend::MenuModule###450-Close',
                 Value => {
@@ -133,9 +133,6 @@ $Selenium->RunTest(
                     Group => 'rw:' . $Test->{Group},
                 },
             );
-
-            # let mod_perl / Apache2::Reload pick up the changed configuration
-            sleep 1;
 
             # navigate to AgentTicketZoom screen of created test ticket
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");

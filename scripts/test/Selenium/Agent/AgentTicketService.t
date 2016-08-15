@@ -34,7 +34,7 @@ $Selenium->RunTest(
         );
 
         # enable ticket service feature
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1

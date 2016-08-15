@@ -37,7 +37,7 @@ $Selenium->RunTest(
         my %MOTDConfigUpdate = map { $_->{Key} => $_->{Content} }
             grep { defined $_->{Key} } @{ $MOTDConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0210-MOTD',
             Value => \%MOTDConfigUpdate,
