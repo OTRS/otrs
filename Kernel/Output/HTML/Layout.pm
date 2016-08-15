@@ -5677,35 +5677,78 @@ sub CustomerSetRichTextParameters {
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
     my $EditingAreaCSS       = 'body { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
 
-    my @Toolbar = [
-        [
-            'Bold',          'Italic',       'Underline',      'Strike', '-',    'NumberedList',
-            'BulletedList',  '-',            'Outdent',        'Indent', '-',    'JustifyLeft',
-            'JustifyCenter', 'JustifyRight', 'JustifyBlock',   '-',      'Link', 'Unlink',
-            '-',             'Image',        'HorizontalRule', '-',      'Undo', 'Redo',
-            '-',             'Find',         'SpellCheck'
-        ],
-        '/',
-        [
-            'Format',       'Font', 'FontSize',    '-',          'TextColor', 'BGColor',
-            'RemoveFormat', '-',    'SpecialChar', 'SplitQuote', '-',         'Maximize'
-        ]
-    ];
+    # decide if we need to use the enhanced mode (with tables)
+    my @Toolbar;
+    my @ToolbarWithoutImage;
 
-    my @ToolbarWithoutImage = [
-        [
-            'Bold',          'Italic',         'Underline',    'Strike', '-',    'NumberedList',
-            'BulletedList',  '-',              'Outdent',      'Indent', '-',    'JustifyLeft',
-            'JustifyCenter', 'JustifyRight',   'JustifyBlock', '-',      'Link', 'Unlink',
-            '-',             'HorizontalRule', '-',            'Undo',   'Redo', '-',
-            'Find',          'SpellCheck'
-        ],
-        '/',
-        [
-            'Format',       'Font', 'FontSize',    '-',          'TextColor', 'BGColor',
-            'RemoveFormat', '-',    'SpecialChar', 'SplitQuote', '-',         'Maximize'
-        ]
-    ];
+    if ( $ConfigObject->Get("Frontend::RichText::EnhancedMode::Customer") == '1' ) {
+        @Toolbar = [
+            [
+                'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
+                '-',      'NumberedList', 'BulletedList', 'Table',         '-',            'Outdent',
+                'Indent', '-',            'JustifyLeft',  'JustifyCenter', 'JustifyRight', 'JustifyBlock',
+                '-',      'Link',         'Unlink',       'Undo',          'Redo',         'SelectAll'
+            ],
+            '/',
+            [
+                'Image',   'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote',
+                '-',       '-',              'Find',      'Replace',       'SpellCheck', 'TextColor',
+                'BGColor', 'RemoveFormat',   '-',         'ShowBlocks',    'Source',     'SpecialChar',
+                '-',       'Maximize'
+            ],
+            [ 'Format', 'Font', 'FontSize' ]
+        ];
+        @ToolbarWithoutImage = [
+            [
+                'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
+                '-',      'NumberedList', 'BulletedList', 'Table',         '-',            'Outdent',
+                'Indent', '-',            'JustifyLeft',  'JustifyCenter', 'JustifyRight', 'JustifyBlock',
+                '-',      'Link',         'Unlink',       'Undo',          'Redo',         'SelectAll'
+            ],
+            '/',
+            [
+                'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote', '-',
+                '-',              'Find',      'Replace',       'SpellCheck', 'TextColor',   'BGColor',
+                'RemoveFormat',   '-',         'ShowBlocks',    'Source',     'SpecialChar', '-',
+                'Maximize'
+            ],
+            [ 'Format', 'Font', 'FontSize' ]
+        ];
+    }
+    else {
+        @Toolbar = [
+            [
+                'Bold',          'Italic',       'Underline',      'Strike', '-',    'NumberedList',
+                'BulletedList',  '-',            'Outdent',        'Indent', '-',    'JustifyLeft',
+                'JustifyCenter', 'JustifyRight', 'JustifyBlock',   '-',      'Link', 'Unlink',
+                '-',             'Image',        'HorizontalRule', '-',      'Undo', 'Redo',
+                '-',             'Find',         'SpellCheck'
+            ],
+            '/',
+            [
+                'Format',       'Font', 'FontSize', '-',           'TextColor',  'BGColor',
+                'RemoveFormat', '-',    'Source',   'SpecialChar', 'SplitQuote', 'RemoveQuote',
+                '-',            'Maximize'
+            ]
+        ];
+        @ToolbarWithoutImage = [
+            [
+                'Bold',          'Italic',       'Underline',    'Strike',
+                '-',             'NumberedList', 'BulletedList', '-',
+                'Outdent',       'Indent',       '-',            'JustifyLeft',
+                'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
+                'Link',          'Unlink',       '-',            'HorizontalRule',
+                '-',             'Undo',         'Redo',         '-',
+                'Find',          'SpellCheck'
+            ],
+            '/',
+            [
+                'Format',       'Font', 'FontSize', '-',           'TextColor',  'BGColor',
+                'RemoveFormat', '-',    'Source',   'SpecialChar', 'SplitQuote', 'RemoveQuote',
+                '-',            'Maximize'
+            ]
+        ];
+    }
 
     # set data with AddJSData()
     $Self->AddJSData(
