@@ -1192,6 +1192,11 @@ sub StatsParamsGet {
         $GetParam{TimeZone} = $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone};
     }
 
+    # get ExchangeAxis param
+    if ( length $LocalGetParam->( Param => 'ExchangeAxis' ) ) {
+        $GetParam{ExchangeAxis} = $LocalGetParam->( Param => 'ExchangeAxis' ) // $Stat->{ExchangeAxis};
+    }
+
     #
     # Static statistics
     #
