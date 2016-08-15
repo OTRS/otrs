@@ -7565,7 +7565,7 @@
                 <Item Key="Module">Kernel::Output::HTML::Preferences::CustomQueue</Item>
                 <Item Key="Column" Translatable="1">Notification Settings</Item>
                 <Item Key="Label" Translatable="1">My Queues</Item>
-                <Item Key="Desc" Translatable="1">Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.</Item>
+                <Item Key="Desc" Translatable="1">Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.</Item>
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Permission">ro</Item>
@@ -7582,7 +7582,7 @@
                 <Item Key="Module">Kernel::Output::HTML::Preferences::CustomService</Item>
                 <Item Key="Column" Translatable="1">Notification Settings</Item>
                 <Item Key="Label" Translatable="1">My Services</Item>
-                <Item Key="Desc" Translatable="1">Your service selection of your favorite services. You also get notified about those services via email if enabled.</Item>
+                <Item Key="Desc" Translatable="1">Your service selection of your preferred services. You also get notified about those services via email if enabled.</Item>
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Active">1</Item>
