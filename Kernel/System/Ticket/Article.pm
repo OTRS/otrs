@@ -185,9 +185,10 @@ sub ArticleCreate {
     # get html utils object
     my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
+    # add 'no body' if there is no body there!
     my @AttachmentConvert;
-    if ( !defined( $Param{Body} ) ) {
-        $Param{Body} = '';
+    if ( !length $Param{Body} ) {    # allow '0' as body
+        $Param{Body} = 'No body';
     }
 
     # process html article
@@ -3047,7 +3048,7 @@ returns:
         ContentID          => "",
         ContentType        => "application/pdf",
         Filename           => "StdAttachment-Test1.pdf",
-        Filesize           => "4.6 KB",
+        Filesize           => "4.6 KBytes",
         FilesizeRaw        => 4722,
         Disposition        => 'attachment',
     );
@@ -3099,7 +3100,7 @@ returns:
         '1' => {
             ContentAlternative => '',
             ContentID          => '',
-            Filesize           => '4.6 KB',
+            Filesize           => '4.6 KBytes',
             ContentType        => 'application/pdf',
             Filename           => 'StdAttachment-Test1.pdf',
             FilesizeRaw        => 4722,
@@ -3108,7 +3109,7 @@ returns:
         '2' => {
             ContentAlternative => '',
             ContentID          => '',
-            Filesize           => '183 B',
+            Filesize           => '183 Bytes',
             ContentType        => 'text/html; charset="utf-8"',
             Filename           => 'file-2',
             FilesizeRaw        => 183,
@@ -3241,8 +3242,8 @@ sub ArticleAttachmentIndex {
 
                 # check size by tolerance of 1.1 factor (because of charset difs)
                 if (
-                    $BodySize / 1.1 <= $AttachmentFilePlain{FilesizeRaw}
-                    && $BodySize * 1.1 >= $AttachmentFilePlain{FilesizeRaw}
+                    $BodySize / 1.1 < $AttachmentFilePlain{FilesizeRaw}
+                    && $BodySize * 1.1 > $AttachmentFilePlain{FilesizeRaw}
                     )
                 {
                     delete $Attachments{$AttachmentIDPlain};

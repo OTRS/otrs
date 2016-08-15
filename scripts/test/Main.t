@@ -680,43 +680,4 @@ $Self->Is(
     'Test output for hex chars in 1000 generated random strings with hex dictionary',
 );
 
-# HumanReadableDataSize() tests
-
-my $FileSizeStr;
-
-$FileSizeStr = $MainObject->HumanReadableDataSize( Size => 13 );
-$Self->Is(
-    $FileSizeStr || '',
-    '13 B',
-    'HumanReadableDataSize() - 13',
-);
-
-$FileSizeStr = $MainObject->HumanReadableDataSize( Size => 1536 );
-$Self->Is(
-    $FileSizeStr || '',
-    '1.5 KB',
-    'HumanReadableDataSize() - 1536',
-);
-
-$FileSizeStr = $MainObject->HumanReadableDataSize( Size => 46626123 );
-$Self->Is(
-    $FileSizeStr || '',
-    '44.5 MB',
-    'HumanReadableDataSize() - 46626123',
-);
-
-$FileSizeStr = $MainObject->HumanReadableDataSize( Size => 34508675518 );
-$Self->Is(
-    $FileSizeStr || '',
-    '32.1 GB',
-    'HumanReadableDataSize() - 34458675518',
-);
-
-$FileSizeStr = $MainObject->HumanReadableDataSize( Size => 238870572100000 );
-$Self->Is(
-    $FileSizeStr || '',
-    '217.3 TB',
-    'HumanReadableDataSize() - 238870572100000',
-);
-
 1;

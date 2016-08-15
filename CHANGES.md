@@ -1,6 +1,4 @@
 #6.0.0.beta1 2016-??-??
- - 2016-08-12 Improved file size unit names, thanks to Pawel Boguslawski.
- - 2016-08-12 Fixed bug#[10509](http://bugs.otrs.org/show_bug.cgi?id=10509) - Incorrect handling of empty mime parts, thanks to Pawel Boguslawski.
  - 2016-08-12 Fixed bug#[12229](http://bugs.otrs.org/show_bug.cgi?id=12229) - Queue is not selectable if the name contains "<" or ">" characters.
  - 2015-08-01 Updated CPAN module CGI to version 4.32.
  - 2016-07-26 Added a new postmaster filter to decrypt and handle encrypted mails.
@@ -16,7 +14,6 @@
  - 2016-06-03 Improved web upload cache performance, thanks to Pawel Boguslawski.
  - 2016-06-03 Added an interactive OTRS API shell (Dev::Tools::Shell, aka REPL), special thanks to Thorsten Eckel.
  - 2016-06-03 Added dynamic field support for customer users and companies. To set it up: 1) Add dynamic fields for the new types (via AdminDynamicField). 2) Extend the CustomerUser and CustomerCompany mapping with the dynamic fields. See example mappings in Kernel::Config::Defaults.
- - 2016-06-03 Fixed empty attachment ignoring and hardcoced english file size unit names.
  - 2016-05-04 Added the possiblity to configure the responsible field as mandatory (enabled by default for AgentTicketResponsible, if responsible feature is enabled), thanks to S7.
  - 2016-04-29 Reduced error log noise by reducing the log level of less important messages, thanks to Pawel Boguslawski.
  - 2016-04-29 Fixed parsing CSV data with quoted values containing newlines, thanks to Pawel Boguslawski.

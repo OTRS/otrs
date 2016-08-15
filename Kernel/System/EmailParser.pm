@@ -452,7 +452,7 @@ sub GetMessageBody {
     my ( $Self, %Param ) = @_;
 
     # check if message body is already there
-    return $Self->{MessageBody} if defined $Self->{MessageBody};
+    return $Self->{MessageBody} if $Self->{MessageBody};
 
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -667,8 +667,9 @@ sub PartsAttachments {
         if ( !$PartData{Content} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message  => "Empty attachment part ($PartCounter)",
+                Message  => "Totally empty attachment part ($PartCounter)",
             );
+            return;
         }
     }
 

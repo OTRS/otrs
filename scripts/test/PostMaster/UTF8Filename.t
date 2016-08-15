@@ -75,7 +75,7 @@ for my $Backend (qw(DB FS)) {
         {
             ContentAlternative => '',
             ContentID          => '',
-            Filesize           => '132 B',
+            Filesize           => '132 Bytes',
             ContentType        => 'application/pdf; name="=?UTF-8?Q?Documentacio=CC=81n=2Epdf?="',
             Filename           => 'Documentación.pdf',
             FilesizeRaw        => '132',

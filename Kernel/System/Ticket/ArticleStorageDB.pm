@@ -265,7 +265,7 @@ sub ArticleWriteAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Filename ContentType ArticleID UserID)) {
+    for (qw(Content Filename ContentType ArticleID UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -452,10 +452,16 @@ sub ArticleAttachmentIndexRaw {
 
         # human readable file size
         my $FileSizeRaw = $Row[2];
-        if ( defined $Row[2] ) {
-            $Row[2] = $Kernel::OM->Get('Kernel::System::Main')->HumanReadableDataSize(
-                Size => $Row[2],
-            );
+        if ( $Row[2] ) {
+            if ( $Row[2] > ( 1024 * 1024 ) ) {
+                $Row[2] = sprintf "%.1f MBytes", ( $Row[2] / ( 1024 * 1024 ) );
+            }
+            elsif ( $Row[2] > 1024 ) {
+                $Row[2] = sprintf "%.1f KBytes", ( ( $Row[2] / 1024 ) );
+            }
+            else {
+                $Row[2] = $Row[2] . ' Bytes';
+            }
         }
 
         my $Disposition = $Row[5];
@@ -528,10 +534,16 @@ sub ArticleAttachmentIndexRaw {
         next FILENAME if $Filename =~ /\/plain.txt$/;
 
         # human readable file size
-        if ( defined $FileSize ) {
-            $FileSize = $MainObject->HumanReadableDataSize(
-                Size => $FileSize,
-            );
+        if ($FileSize) {
+            if ( $FileSize > ( 1024 * 1024 ) ) {
+                $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
+            }
+            elsif ( $FileSize > 1024 ) {
+                $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
+            }
+            else {
+                $FileSize = $FileSize . ' Bytes';
+            }
         }
 
         # read content type

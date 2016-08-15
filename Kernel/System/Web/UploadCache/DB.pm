@@ -18,7 +18,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::Log',
-    'Kernel::System::Main',
 );
 
 sub new {
@@ -64,7 +63,7 @@ sub FormIDRemove {
 sub FormIDAddFile {
     my ( $Self, %Param ) = @_;
 
-    for (qw(FormID Filename ContentType)) {
+    for (qw(FormID Filename Content ContentType)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -73,8 +72,6 @@ sub FormIDAddFile {
             return;
         }
     }
-
-    $Param{Content} = '' if !defined( $Param{Content} );
 
     # get file size
     $Param{Filesize} = bytes::length( $Param{Content} );
@@ -182,10 +179,16 @@ sub FormIDGetAllFilesData {
         $Counter++;
 
         # human readable file size
-        if ( defined $Row[2] ) {
-            $Row[2] = $Kernel::OM->Get('Kernel::System::Main')->HumanReadableDataSize(
-                Size => $Row[2],
-            );
+        if ( $Row[2] ) {
+            if ( $Row[2] > ( 1024 * 1024 ) ) {
+                $Row[2] = sprintf "%.1f MBytes", ( $Row[2] / ( 1024 * 1024 ) );
+            }
+            elsif ( $Row[2] > 1024 ) {
+                $Row[2] = sprintf "%.1f KBytes", ( ( $Row[2] / 1024 ) );
+            }
+            else {
+                $Row[2] = $Row[2] . ' Bytes';
+            }
         }
 
         # encode attachment if it's a postgresql backend!!!
@@ -242,10 +245,16 @@ sub FormIDGetAllFilesMeta {
         $Counter++;
 
         # human readable file size
-        if ( defined $Row[2] ) {
-            $Row[2] = $Kernel::OM->Get('Kernel::System::Main')->HumanReadableDataSize(
-                Size => $Row[2],
-            );
+        if ( $Row[2] ) {
+            if ( $Row[2] > ( 1024 * 1024 ) ) {
+                $Row[2] = sprintf "%.1f MBytes", ( $Row[2] / ( 1024 * 1024 ) );
+            }
+            elsif ( $Row[2] > 1024 ) {
+                $Row[2] = sprintf "%.1f KBytes", ( ( $Row[2] / 1024 ) );
+            }
+            else {
+                $Row[2] = $Row[2] . ' Bytes';
+            }
         }
 
         # add the info
