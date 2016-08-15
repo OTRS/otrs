@@ -28,21 +28,21 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # do not check RichText
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 0
         );
 
         # do not check Service
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 0
         );
 
         # do not check Type
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Type',
             Value => 0
@@ -125,16 +125,13 @@ $Selenium->RunTest(
             "Queue preselected in URL"
         );
 
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'CustomerPanelOwnSelection',
             Value => {
                 Junk => 'First Queue',
             },
         );
-
-        # allow mod_perl to pick up the changed configuration
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage;Dest=3||Junk");
 
         $Self->Is(
             $Selenium->execute_script("return \$('#Dest').val();"),

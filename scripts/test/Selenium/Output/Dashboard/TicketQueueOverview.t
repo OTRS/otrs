@@ -29,15 +29,33 @@ $Selenium->RunTest(
 
         # disable all dashboard plugins
         my $Config = $Kernel::OM->Get('Kernel::Config')->Get('DashboardBackend');
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => 'DashboardBackend',
             Value => \%$Config,
         );
 
         # reset TicketQueueOverview dashboard sysconfig
-        $SysConfigObject->ConfigItemReset(
-            Name => 'DashboardBackend###0270-TicketQueueOverview',
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'DashboardBackend###0270-TicketQueueOverview',
+            Value => {
+                'Block'                => 'ContentLarge',
+                'CacheTTLLocal'        => '0.5',
+                'Default'              => '1',
+                'Description'          => 'Provides a matrix overview of the tickets per state per queue.',
+                'Group'                => '',
+                'Module'               => 'Kernel::Output::HTML::Dashboard::TicketQueueOverview',
+                'Permission'           => 'rw',
+                'QueuePermissionGroup' => 'users',
+                'Sort'                 => 'SortBy=Age;OrderBy=Up',
+                'States'               => {
+                    '1' => 'new',
+                    '4' => 'open',
+                    '6' => 'pending reminder'
+                },
+                'Title' => 'Ticket Queue Overview'
+            },
         );
 
         # create test queue

@@ -29,7 +29,7 @@ $Selenium->RunTest(
 
         # disable 'Ticket Information', 'Customer Information' and 'Linked Object' widgets in AgentTicketZoom screen
         for my $WidgetDisable (qw(0100-TicketInformation 0200-CustomerInformation 0300-LinkTable)) {
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 0,
                 Key   => "Ticket::Frontend::AgentTicketZoom###Widgets###$WidgetDisable",
                 Value => '',
@@ -142,12 +142,14 @@ $Selenium->RunTest(
         );
 
         # reset 'Customer Information' widget sysconfig, enable it and refresh screen
-        $SysConfigObject->ConfigItemReset(
-            Name => 'Ticket::Frontend::AgentTicketZoom###Widgets###0200-CustomerInformation',
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketZoom###Widgets###0200-CustomerInformation',
+            Value => {
+                'Location' => 'Sidebar',
+                'Module'   => 'Kernel::Output::HTML::TicketZoom::CustomerInformation'
+            },
         );
-
-        # wait for mod_perl to pick up the changes
-        sleep 3;
 
         $Selenium->VerifiedRefresh();
 

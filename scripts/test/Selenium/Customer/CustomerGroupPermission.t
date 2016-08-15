@@ -29,7 +29,7 @@ $Selenium->RunTest(
         my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # enable customer group support
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'CustomerGroupSupport',
             Value => 1,
@@ -74,11 +74,6 @@ $Selenium->RunTest(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
-        );
-
-        # reset CustomerFrontend::Module###CustomerTicketOverview sysconfig
-        $SysConfigObject->ConfigItemReset(
-            Name => 'CustomerFrontend::Module###CustomerTicketOverview',
         );
 
         # create test group

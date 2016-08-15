@@ -104,6 +104,167 @@ $Selenium->RunTest(
         # wait 5 minutes to have escalation trigger
         $Helper->FixedTimeAddSeconds(300);
 
+        my %Configs = (
+            '0100-TicketPendingReminder' => {
+                'Attributes' =>
+                    'TicketPendingTimeOlderMinutes=1;StateType=pending reminder;SortBy=PendingTime;OrderBy=Down;',
+                'Block'          => 'ContentLarge',
+                'CacheTTLLocal'  => '0.5',
+                'Default'        => '1',
+                'DefaultColumns' => {
+                    'Age'                    => '2',
+                    'Changed'                => '1',
+                    'Created'                => '1',
+                    'CustomerCompanyName'    => '1',
+                    'CustomerID'             => '1',
+                    'CustomerName'           => '1',
+                    'CustomerUserID'         => '1',
+                    'EscalationResponseTime' => '1',
+                    'EscalationSolutionTime' => '1',
+                    'EscalationTime'         => '1',
+                    'EscalationUpdateTime'   => '1',
+                    'Lock'                   => '1',
+                    'Owner'                  => '1',
+                    'PendingTime'            => '1',
+                    'Priority'               => '1',
+                    'Queue'                  => '1',
+                    'Responsible'            => '1',
+                    'SLA'                    => '1',
+                    'Service'                => '1',
+                    'State'                  => '1',
+                    'TicketNumber'           => '2',
+                    'Title'                  => '2',
+                    'Type'                   => '1'
+                },
+                'Description' => 'All tickets with a reminder set where the reminder date has been reached',
+                'Filter'      => 'Locked',
+                'Group'       => '',
+                'Limit'       => '10',
+                'Module'      => 'Kernel::Output::HTML::Dashboard::TicketGeneric',
+                'Permission'  => 'rw',
+                'Time'        => 'UntilTime',
+                'Title'       => 'Reminder Tickets'
+            },
+            '0110-TicketEscalation' => {
+                'Attributes'     => 'TicketEscalationTimeOlderMinutes=1;SortBy=EscalationTime;OrderBy=Down;',
+                'Block'          => 'ContentLarge',
+                'CacheTTLLocal'  => '0.5',
+                'Default'        => '1',
+                'DefaultColumns' => {
+                    'Age'                    => '2',
+                    'Changed'                => '1',
+                    'Created'                => '1',
+                    'CustomerCompanyName'    => '1',
+                    'CustomerID'             => '1',
+                    'CustomerName'           => '1',
+                    'CustomerUserID'         => '1',
+                    'EscalationResponseTime' => '1',
+                    'EscalationSolutionTime' => '1',
+                    'EscalationTime'         => '1',
+                    'EscalationUpdateTime'   => '1',
+                    'Lock'                   => '1',
+                    'Owner'                  => '1',
+                    'PendingTime'            => '1',
+                    'Priority'               => '1',
+                    'Queue'                  => '1',
+                    'Responsible'            => '1',
+                    'SLA'                    => '1',
+                    'Service'                => '1',
+                    'State'                  => '1',
+                    'TicketNumber'           => '2',
+                    'Title'                  => '2',
+                    'Type'                   => '1'
+                },
+                'Description' => 'All escalated tickets',
+                'Filter'      => 'All',
+                'Group'       => '',
+                'Limit'       => '10',
+                'Module'      => 'Kernel::Output::HTML::Dashboard::TicketGeneric',
+                'Permission'  => 'rw',
+                'Time'        => 'EscalationTime',
+                'Title'       => 'Escalated Tickets'
+            },
+            '0120-TicketNew' => {
+                'Attributes'     => 'StateType=new;',
+                'Block'          => 'ContentLarge',
+                'CacheTTLLocal'  => '0.5',
+                'Default'        => '1',
+                'DefaultColumns' => {
+                    'Age'                    => '2',
+                    'Changed'                => '1',
+                    'Created'                => '1',
+                    'CustomerCompanyName'    => '1',
+                    'CustomerID'             => '1',
+                    'CustomerName'           => '1',
+                    'CustomerUserID'         => '1',
+                    'EscalationResponseTime' => '1',
+                    'EscalationSolutionTime' => '1',
+                    'EscalationTime'         => '1',
+                    'EscalationUpdateTime'   => '1',
+                    'Lock'                   => '1',
+                    'Owner'                  => '1',
+                    'PendingTime'            => '1',
+                    'Priority'               => '1',
+                    'Queue'                  => '1',
+                    'Responsible'            => '1',
+                    'SLA'                    => '1',
+                    'Service'                => '1',
+                    'State'                  => '1',
+                    'TicketNumber'           => '2',
+                    'Title'                  => '2',
+                    'Type'                   => '1'
+                },
+                'Description' => 'All new tickets, these tickets have not been worked on yet',
+                'Filter'      => 'All',
+                'Group'       => '',
+                'Limit'       => '10',
+                'Module'      => 'Kernel::Output::HTML::Dashboard::TicketGeneric',
+                'Permission'  => 'rw',
+                'Time'        => 'Age',
+                'Title'       => 'New Tickets'
+            },
+            '0130-TicketOpen' => {
+                'Attributes'     => 'StateType=open;',
+                'Block'          => 'ContentLarge',
+                'CacheTTLLocal'  => '0.5',
+                'Default'        => '1',
+                'DefaultColumns' => {
+                    'Age'                    => '2',
+                    'Changed'                => '1',
+                    'Created'                => '1',
+                    'CustomerCompanyName'    => '1',
+                    'CustomerID'             => '1',
+                    'CustomerName'           => '1',
+                    'CustomerUserID'         => '1',
+                    'EscalationResponseTime' => '1',
+                    'EscalationSolutionTime' => '1',
+                    'EscalationTime'         => '1',
+                    'EscalationUpdateTime'   => '1',
+                    'Lock'                   => '1',
+                    'Owner'                  => '1',
+                    'PendingTime'            => '1',
+                    'Priority'               => '1',
+                    'Queue'                  => '1',
+                    'Responsible'            => '1',
+                    'SLA'                    => '1',
+                    'Service'                => '1',
+                    'State'                  => '1',
+                    'TicketNumber'           => '2',
+                    'Title'                  => '2',
+                    'Type'                   => '1'
+                },
+                'Description' => 'All open tickets, these tickets have already been worked on, but need a response',
+                'Filter'      => 'All',
+                'Group'       => '',
+                'Limit'       => '10',
+                'Module'      => 'Kernel::Output::HTML::Dashboard::TicketGeneric',
+                'Permission'  => 'rw',
+                'Time'        => 'Age',
+                'Title'       => 'Open Tickets / Need to be answered'
+            },
+
+        );
+
         # create test params
         my @Test = ( "0100-TicketPendingReminder", "0110-TicketEscalation", "0120-TicketNew", "0130-TicketOpen" );
 
@@ -139,15 +300,17 @@ $Selenium->RunTest(
 
             # disable all dashboard plugins
             my $Config = $ConfigObject->Get('DashboardBackend');
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 0,
                 Key   => 'DashboardBackend',
                 Value => \%$Config,
             );
 
             # enable current needed dashboard plugin sysconfig
-            $SysConfigObject->ConfigItemReset(
-                Name => "DashboardBackend###" . $DashboardName,
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => "DashboardBackend###" . $DashboardName,
+                Value => $Configs{$DashboardName},
             );
 
             # refresh dashboard screen and clean it's cache

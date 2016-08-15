@@ -30,7 +30,7 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # make sure Ticket::Frontend::CustomerTicketMessage###Queue sysconfig is set to 'Yes'
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::CustomerTicketMessage###Queue',
             Value => 1
@@ -94,14 +94,11 @@ $Selenium->RunTest(
         );
 
         # switch to system address as new destination for customer new ticket
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'CustomerPanelSelectionType',
             Value => 'SystemAddress'
         );
-
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 1;
 
         $Selenium->VerifiedRefresh();
 

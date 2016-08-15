@@ -28,14 +28,14 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # do not check Service
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1,
         );
 
         # do not check Type
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Type',
             Value => 1,

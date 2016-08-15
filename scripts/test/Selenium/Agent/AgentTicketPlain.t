@@ -34,7 +34,7 @@ $Selenium->RunTest(
         );
 
         # check to see tickets in plain view
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::PlainView',
             Value => 1

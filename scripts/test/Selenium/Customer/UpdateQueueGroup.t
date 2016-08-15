@@ -28,7 +28,7 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # make sure that CustomerGroupSupport is disabled
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'CustomerGroupSupport',
             Value => 0

@@ -46,7 +46,7 @@ $Selenium->RunTest(
             Key   => 'TimeWorkingHours',
             Value => \%Week,
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TimeWorkingHours',
             Value => \%Week,
@@ -57,7 +57,7 @@ $Selenium->RunTest(
             Key   => 'TimeVacationDays',
             Value => {},
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TimeVacationDays',
             Value => {},

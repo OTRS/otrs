@@ -89,9 +89,6 @@ $Selenium->RunTest(
         # synchronize process
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 3;
-
         # get process list
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
@@ -223,9 +220,6 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 3;
-
         # log in customer
         $Selenium->Login(
             Type     => 'Customer',
@@ -246,14 +240,11 @@ $Selenium->RunTest(
         my %NavBarCustomerTicketProcess = $SysConfigObject->ConfigItemGet(
             Name => 'CustomerFrontend::NavBarModule###10-CustomerTicketProcesses',
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => 'CustomerFrontend::NavBarModule###10-CustomerTicketProcesses',
             Value => \%NavBarCustomerTicketProcess,
         );
-
-        # sleep a little bit to allow mod_perl to pick up the changed config files
-        sleep 3;
 
         $Selenium->VerifiedRefresh();
         $Self->True(

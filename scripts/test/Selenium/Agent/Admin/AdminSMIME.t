@@ -54,14 +54,11 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # disabled SMIME in config
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SMIME',
             Value => 0
         );
-
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 1;
 
         # navigate to AdminSMIME screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSMIME");
@@ -77,26 +74,23 @@ $Selenium->RunTest(
         );
 
         # enable SMIME in config
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SMIME',
             Value => 1
         );
 
         # set SMIME paths in sysConfig
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SMIME::CertPath',
             Value => '/SomeCertPath',
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SMIME::PrivatePath',
             Value => '/SomePrivatePath',
         );
-
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 1;
 
         # refresh AdminSMIME screen
         $Selenium->VerifiedRefresh();
@@ -112,19 +106,16 @@ $Selenium->RunTest(
         );
 
         # set SMIME paths in sysConfig
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SMIME::CertPath',
             Value => $CertPath,
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SMIME::PrivatePath',
             Value => $PrivatePath,
         );
-
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 1;
 
         # refresh AdminSMIME screen
         $Selenium->VerifiedRefresh();

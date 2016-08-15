@@ -38,7 +38,7 @@ $Selenium->RunTest(
             Key   => 'TicketOverviewMenuSort###SortAttributes',
             Value => \%SortOverview,
         );
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TicketOverviewMenuSort###SortAttributes',
             Value => \%SortOverview,

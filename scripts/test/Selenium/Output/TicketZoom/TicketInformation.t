@@ -31,7 +31,7 @@ $Selenium->RunTest(
 
         # disable 'Ticket Information', 'Customer Information' and 'Linked Objects' widgets in AgentTicketZoom screen
         for my $WidgetDisable (qw(0100-TicketInformation 0200-CustomerInformation 0300-LinkTable)) {
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 0,
                 Key   => "Ticket::Frontend::AgentTicketZoom###Widgets###$WidgetDisable",
                 Value => '',
@@ -43,7 +43,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Service',
             Value => 1,
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1
@@ -52,7 +52,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type',
             Value => 1,
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Type',
             Value => 1
@@ -61,7 +61,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Responsible',
             Value => 1,
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Responsible',
             Value => 1
@@ -78,7 +78,7 @@ $Selenium->RunTest(
             Key   => 'TimeWorkingHours',
             Value => \%Week,
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TimeWorkingHours',
             Value => \%Week,
@@ -89,7 +89,7 @@ $Selenium->RunTest(
             Key   => 'TimeVacationDays',
             Value => {},
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TimeVacationDays',
             Value => {},
@@ -222,7 +222,7 @@ $Selenium->RunTest(
         );
 
         # enable test dynamic field to show in AgentTicketZoom screen in 'Ticket Information' widget
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketZoom###DynamicField',
             Value => {
@@ -299,12 +299,14 @@ $Selenium->RunTest(
         );
 
         # reset 'Ticket Information' widget sysconfig, enable it and refresh screen
-        $SysConfigObject->ConfigItemReset(
-            Name => 'Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation',
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation',
+            Value => {
+                'Location' => 'Sidebar',
+                'Module'   => 'Kernel::Output::HTML::TicketZoom::TicketInformation'
+            },
         );
-
-        # wait for mod_perl to pick up the changes
-        sleep 3;
 
         $Selenium->VerifiedRefresh();
 

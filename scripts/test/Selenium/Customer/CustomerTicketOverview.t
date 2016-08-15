@@ -53,7 +53,7 @@ $Selenium->RunTest(
         );
 
         # enable CustomerTicketOverviewSortable
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::CustomerTicketOverviewSortable',
             Value => 'Sortable',
@@ -108,7 +108,7 @@ $Selenium->RunTest(
         );
 
         # disable CustomerTicketOverviewSortable
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::CustomerTicketOverviewSortable',
             Value => 0

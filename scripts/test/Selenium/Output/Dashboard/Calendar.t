@@ -39,7 +39,7 @@ $Selenium->RunTest(
             Key   => 'TimeWorkingHours',
             Value => \%Week,
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TimeWorkingHours',
             Value => \%Week,
@@ -50,7 +50,7 @@ $Selenium->RunTest(
             Key   => 'TimeVacationDays',
             Value => {},
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'TimeVacationDays',
             Value => {},
@@ -58,15 +58,27 @@ $Selenium->RunTest(
 
         # disable other dashboard modules
         my $Config = $ConfigObject->Get('DashboardBackend');
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => 'DashboardBackend',
             Value => \%$Config,
         );
 
         # restore ticket calendar sysconfig
-        $SysConfigObject->ConfigItemReset(
-            Name => 'DashboardBackend###0260-TicketCalendar',
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'DashboardBackend###0260-TicketCalendar',
+            Value => {
+                'Block'      => 'ContentSmall',
+                'CacheTTL'   => '2',
+                'Default'    => '1',
+                'Group'      => '',
+                'Limit'      => '6',
+                'Module'     => 'Kernel::Output::HTML::Dashboard::Calendar',
+                'OwnerOnly'  => '',
+                'Permission' => 'rw',
+                'Title'      => 'Upcoming Events'
+            },
         );
 
         # create test user and login

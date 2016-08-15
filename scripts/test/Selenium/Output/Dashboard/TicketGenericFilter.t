@@ -98,14 +98,11 @@ $Selenium->RunTest(
         # turn on the CustomerUserID column by default
         my $Config = $ConfigObject->Get('DashboardBackend')->{'0120-TicketNew'};
         $Config->{DefaultColumns}->{CustomerUserID} = '2';
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0120-TicketNew',
             Value => $Config,
         );
-
-        # allow mod_perl to pick up the changed configuration
-        sleep 1;
 
         # refresh dashboard screen and clean it's cache
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -254,14 +251,11 @@ $Selenium->RunTest(
         $Config                                     = $ConfigObject->Get('DashboardBackend')->{'0120-TicketNew'};
         $Config->{DefaultColumns}->{CustomerUserID} = '0';
         $Config->{DefaultColumns}->{CustomerID}     = '2';
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0120-TicketNew',
             Value => $Config,
         );
-
-        # allow mod_perl to pick up the changed configuration
-        sleep 1;
 
         # refresh dashboard screen and clean it's cache
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(

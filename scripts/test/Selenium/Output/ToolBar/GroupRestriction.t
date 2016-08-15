@@ -31,14 +31,14 @@ $Selenium->RunTest(
         my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
 
         # enable ticket responsible
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Responsible',
             Value => 1
         );
 
         # enable ticket watcher feature
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Watcher',
             Value => 1
@@ -108,7 +108,7 @@ $Selenium->RunTest(
 
             $ToolBarConfig{Group} = "ro:$TestGroup";
 
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => 'Frontend::ToolBarModule###' . $ConfigUpdate->{ToolBarModule},
                 Value => \%ToolBarConfig,

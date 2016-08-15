@@ -108,7 +108,7 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # set test Type as a default ticket type
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Type::Default',
             Value => $TypeRandomID
@@ -131,7 +131,7 @@ $Selenium->RunTest(
         );
 
         # reset default ticket type
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Type::Default',
             Value => $DefaultTicketType

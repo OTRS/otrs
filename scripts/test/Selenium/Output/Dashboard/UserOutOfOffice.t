@@ -37,7 +37,7 @@ $Selenium->RunTest(
             grep { defined $_->{Key} } @{ $UserOutOfOfficeSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
         # enable UserOutOfOffice and set it to load as default plugin
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0390-UserOutOfOffice',
             Value => \%UserOutOfOfficeSysConfig,

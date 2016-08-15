@@ -27,7 +27,7 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # show more stats per page as the default 50
-        my $Success = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        my $Success = $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Stats::SearchPageShown',
             Value => 99,

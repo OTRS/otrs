@@ -45,7 +45,7 @@ $Selenium->RunTest(
             Value => \%AgentTicketEmail,
         );
 
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::ToolBarModule###5-Ticket::AgentTicketEmail',
             Value => \%AgentTicketEmail

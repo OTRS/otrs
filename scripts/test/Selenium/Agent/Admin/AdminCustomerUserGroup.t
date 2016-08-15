@@ -34,7 +34,7 @@ $Selenium->RunTest(
         );
 
         # enable CustomerGroupSupport
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'CustomerGroupSupport',
             Value => 1

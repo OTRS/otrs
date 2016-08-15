@@ -30,7 +30,7 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # make sure we start with RuntimeDB search
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::SearchIndexModule',
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
@@ -163,7 +163,7 @@ $Selenium->RunTest(
         );
 
         # change search index module
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::SearchIndexModule',
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
@@ -175,14 +175,11 @@ $Selenium->RunTest(
         );
 
         # enable warn on stop word usage
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::SearchIndex::WarnOnStopWordUsage',
             Value => 1,
         );
-
-        # allow mod_perl to pick up the configuration changes
-        sleep 3;
 
         # Recreate TicketObject and update article index for staticdb
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );

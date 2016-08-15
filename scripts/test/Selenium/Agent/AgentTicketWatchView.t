@@ -34,7 +34,7 @@ $Selenium->RunTest(
         );
 
         # enable ticket watcher feature
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Watcher',
             Value => 1,

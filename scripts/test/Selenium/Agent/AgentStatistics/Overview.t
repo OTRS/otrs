@@ -32,7 +32,7 @@ $Selenium->RunTest(
         ) || die "Did not get test user";
 
         # update the number of max stats shown on one page
-        my $Success = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        my $Success = $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Stats::SearchPageShown',
             Value => 1000,

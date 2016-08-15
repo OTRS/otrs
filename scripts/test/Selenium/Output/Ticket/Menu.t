@@ -31,7 +31,7 @@ $Selenium->RunTest(
 
         # enable ticket responsible and watch feature
         for my $SysConfigResWatch (qw( Responsible Watcher )) {
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => "Ticket::$SysConfigResWatch",
                 Value => 1
@@ -96,7 +96,7 @@ $Selenium->RunTest(
                 Key   => $SysConfigItem->{Key},
                 Value => $SysConfigItem->{SysConfigItem},
             );
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => $SysConfigItem->{Key},
                 Value => $SysConfigItem->{SysConfigItem},

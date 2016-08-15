@@ -46,7 +46,7 @@ $Selenium->RunTest(
             Value => \%AgentTicketQueue,
         );
 
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::ToolBarModule###1-Ticket::AgentTicketQueue',
             Value => \%AgentTicketQueue

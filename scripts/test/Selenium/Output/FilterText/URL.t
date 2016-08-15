@@ -99,7 +99,7 @@ $Selenium->RunTest(
             Name    => 'Frontend::Output::FilterText###AAAURL',
             Default => 1,
         );
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => 'Frontend::Output::FilterText###AAAURL',
             Value => \%TextURL,

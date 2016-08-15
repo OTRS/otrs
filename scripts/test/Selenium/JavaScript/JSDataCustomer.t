@@ -73,7 +73,7 @@ $Selenium->RunTest(
             next TEST if $Test->{Environment};
 
             # set the item to the expected value
-            $SysConfigObject->ConfigItemUpdate(
+            $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => $Test->{Key},
                 Value => $Test->{ExpectedValue}

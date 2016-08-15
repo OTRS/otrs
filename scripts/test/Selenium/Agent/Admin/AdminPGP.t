@@ -43,14 +43,11 @@ $Selenium->RunTest(
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # disable PGP in config
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'PGP',
             Value => 0,
         );
-
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 1;
 
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -76,21 +73,18 @@ $Selenium->RunTest(
         );
 
         # enable PGP in config
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'PGP',
             Value => 1,
         );
 
         # set PGP path in config
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'PGP::Options',
             Value => "--homedir $PGPPath --batch --no-tty --yes",
         );
-
-        # let mod_perl / Apache2::Reload pick up the changed configuration
-        sleep 1;
 
         # refresh AdminSPGP screen
         $Selenium->VerifiedRefresh();

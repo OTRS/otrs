@@ -32,7 +32,7 @@ $Selenium->RunTest(
 
         # disable all dashboard plugins
         my $Config = $ConfigObject->Get('DashboardBackend');
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => 'DashboardBackend',
             Value => \%$Config,
@@ -47,7 +47,7 @@ $Selenium->RunTest(
             grep { defined $_->{Key} } @{ $EventsTicketCalendarSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
         # enable EventsTicketCalendar and set it to load as default plugin
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0280-DashboardEventsTicketCalendar',
             Value => {

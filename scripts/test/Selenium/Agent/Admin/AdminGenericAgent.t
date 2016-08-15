@@ -31,14 +31,14 @@ $Selenium->RunTest(
         my $RandomID = $Helper->GetRandomID();
 
         # set generic agent run limit
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::GenericAgentRunLimit',
             Value => 10
         );
 
         # enable extended condition search for generic agent ticket search
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::GenericAgentTicketSearch###ExtendedSearchCondition',
             Value => 1,
@@ -177,14 +177,11 @@ $Selenium->RunTest(
         );
 
         # disable extended condition search for generic agent ticket search
-        $SysConfigObject->ConfigItemUpdate(
+        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::GenericAgentTicketSearch###ExtendedSearchCondition',
             Value => 0,
         );
-
-        # allow mod_perl to pick up the changes
-        sleep 1;
 
         # navigate to AgentGenericAgent screen again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent");
