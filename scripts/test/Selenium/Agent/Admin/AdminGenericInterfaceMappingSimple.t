@@ -88,16 +88,19 @@ $Selenium->RunTest(
 
         # select 'Ticket::TicketCreate' as option
         $Selenium->execute_script(
-            "\$('#OperationList').val('Ticket::TicketCreate').trigger('redraw.InputField').trigger('change');");
+            "\$('#OperationList').val('Ticket::TicketCreate').trigger('redraw.InputField').trigger('change');"
+        );
 
         # create webservice operation
         $Selenium->find_element( "#Operation", 'css' )->send_keys('SeleniumOperation');
 
         # select simple mapping for inbound and outbound data
         $Selenium->execute_script(
-            "\$('#MappingInbound').val('Simple').trigger('redraw.InputField').trigger('change');");
+            "\$('#MappingInbound').val('Simple').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->execute_script(
-            "\$('#MappingOutbound').val('Simple').trigger('redraw.InputField').trigger('change');");
+            "\$('#MappingOutbound').val('Simple').trigger('redraw.InputField').trigger('change');"
+        );
 
         # submit operation
         $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
@@ -128,11 +131,13 @@ $Selenium->RunTest(
             # change default type
             if ( $DefaultMapTo eq 'DefaultKeyMapTo' ) {
                 $Selenium->execute_script(
-                    "\$('#DefaultKeyType').val('MapTo').trigger('redraw.InputField').trigger('change');");
+                    "\$('#DefaultKeyType').val('MapTo').trigger('redraw.InputField').trigger('change');"
+                );
             }
             else {
                 $Selenium->execute_script(
-                    "\$('#DefaultValueType').val('MapTo').trigger('redraw.InputField').trigger('change');");
+                    "\$('#DefaultValueType').val('MapTo').trigger('redraw.InputField').trigger('change');"
+                );
             }
 
             $Self->False(

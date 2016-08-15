@@ -301,7 +301,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'PendingUntilTime',
-            TimePeriodFormat => 'DateInputFormat',            # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',                    # 'DateInputFormatLong',
             Block            => 'Time',
             TimeStop         => $Today,
             Values           => {

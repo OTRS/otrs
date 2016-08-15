@@ -168,7 +168,8 @@ $Selenium->RunTest(
 
         # wait for page to load if necessary
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#MappingInboundConfigureButton").length' );
+            JavaScript => 'return typeof($) === "function" && $("#MappingInboundConfigureButton").length'
+        );
 
         # click on configure inbound mapping XSLT again
         $Selenium->find_element("//button[\@id='MappingInboundConfigureButton']")->VerifiedClick();

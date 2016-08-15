@@ -204,6 +204,7 @@ sub Run {
 
     # add rich text editor
     if ( $LayoutObject->{BrowserRichText} ) {
+
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(
             Data => \%Param,
