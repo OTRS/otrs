@@ -249,22 +249,12 @@
                             <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                             [% Translate("or") | html %]
                             <button class="CallForAction" type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
-                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#SaveAndFinishButton').bind('click', function(){
-    $('#ReturnToAction').val(1);
-});
-//]]></script>
-[% END %]
-
+                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />s
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
                         </div>
-
                     </fieldset>
                     <div class="Clear"></div>
-
                 </form>
             </div>
         </div>
