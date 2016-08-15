@@ -668,11 +668,8 @@ sub LoaderCreateCustomerJSCalls {
 
         my @FileList;
 
-print STDERR "RichText: " . $ConfigObject->Get('Frontend::RichText');
-
         KEY:
         for my $Key ( sort keys %{$CommonJSList} ) {
-print STDERR $Key;
             next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
             push @FileList, @{ $CommonJSList->{$Key} };
         }
