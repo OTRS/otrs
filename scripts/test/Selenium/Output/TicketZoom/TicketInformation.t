@@ -351,7 +351,7 @@ $Selenium->RunTest(
         );
 
         # add accounted time to the ticket
-        my $AccountedTime = $Helper->GetRandomNumber() / 1000;
+        my $AccountedTime = 123;
         $Success = $TicketObject->TicketAccountTime(
             TicketID  => $TicketID,
             ArticleID => $ArticleID,
@@ -379,10 +379,9 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'AgentCustomerInformationCenter;CustomerID=$Customer' )]"),
             "Customer link to 'Customer Information Center' found"
         );
-
         # verify accounted time value
         $Self->True(
-            index( $Selenium->get_page_source(), "$AccountedTime" ) > -1,
+            index( $Selenium->get_page_source(), qq|<p class="Value">$AccountedTime</p>| ) > -1,
             "Accounted Time found in Ticket Information Widget",
         );
 
