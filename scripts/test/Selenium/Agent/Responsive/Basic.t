@@ -21,7 +21,6 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         $Selenium->set_window_size( 600, 400 );
