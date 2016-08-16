@@ -20,9 +20,8 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # disable 'Ticket Information', 'Customer Information' and 'Linked Objects' widgets in AgentTicketZoom screen
         for my $WidgetDisable (qw(0100-TicketInformation 0200-CustomerInformation 0300-LinkTable)) {
@@ -374,6 +373,7 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'AgentCustomerInformationCenter;CustomerID=$Customer' )]"),
             "Customer link to 'Customer Information Center' found"
         );
+
         # verify accounted time value
         $Self->True(
             index( $Selenium->get_page_source(), qq|<p class="Value">$AccountedTime</p>| ) > -1,

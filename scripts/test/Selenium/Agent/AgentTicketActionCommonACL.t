@@ -18,6 +18,7 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         $Helper->ConfigSettingChange(
@@ -31,9 +32,6 @@ $Selenium->RunTest(
             Key   => 'Ticket::Frontend::AgentTicketNote###Service',
             Value => 1,
         );
-
-        # get helper object
-
 
         # get ACL object
         my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
