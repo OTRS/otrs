@@ -131,5 +131,4 @@ $Self->Is(
     "Runtime config still has the changed value, it will be destroyed at the end of every test",
 );
 
-
 1;
