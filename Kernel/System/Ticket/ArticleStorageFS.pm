@@ -36,16 +36,18 @@ sub ArticleStorageInit {
     );
     $Self->{ArticleContentPath} = $Year . '/' . $Month . '/' . $Day;
 
-    my $PermissionTestPath = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/";
+    my $ArticleDir = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/";
+
+    File::Path::mkpath( $ArticleDir, 0, 0770 );
 
     # check write permissions
-    if ( !-w $PermissionTestPath ) {
+    if ( !-w $ArticleDir ) {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "Can't write $PermissionTestPath! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
+            Message  => "Can't write $ArticleDir! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
         );
-        die "Can't write $PermissionTestPath! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
+        die "Can't write $ArticleDir! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
 
     # get config object
