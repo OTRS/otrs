@@ -134,7 +134,8 @@ $Selenium->RunTest(
         );
 
         # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -208,7 +209,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket is deleted - ID $TicketID"
+            "Ticket is deleted - ID $TicketID",
         );
 
         # make sure the cache is correct

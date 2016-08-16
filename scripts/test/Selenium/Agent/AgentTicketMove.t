@@ -156,7 +156,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # click on 'Move' and switch window
-        $Selenium->find_element("//a[contains(\@title, \'Change Queue' )]")->click();
+        $Selenium->find_element("//a[contains(\@title, \'Change Queue' )]")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -185,7 +185,7 @@ $Selenium->RunTest(
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
-        $Selenium->find_element("//*[text()='History']")->click();
+        $Selenium->find_element("//*[text()='History']")->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -221,7 +221,7 @@ $Selenium->RunTest(
         );
 
         # click to return back to AgentTicketZoom screen
-        $Selenium->find_element( ".ReturnToPreviousPage", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#GoBack", 'css' )->VerifiedClick();
 
         # click on 'Spam' and check for ACL error message
         $Selenium->find_element("//a[contains(\@title, 'Mark this ticket as junk!')]")->VerifiedClick();

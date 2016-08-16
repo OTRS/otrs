@@ -199,7 +199,7 @@ $Selenium->RunTest(
 
                 $Self->True(
                     $Success,
-                    "Delete ticket - $TicketID"
+                    "Delete ticket - $TicketID",
                 );
             }
         }

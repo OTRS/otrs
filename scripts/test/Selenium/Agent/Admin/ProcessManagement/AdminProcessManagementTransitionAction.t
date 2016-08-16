@@ -54,13 +54,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
 
         # click on Transition Actions dropdown
-        $Selenium->find_element( "Transition Actions", 'link_text' )->click();
+        $Selenium->find_element( "Transition Actions", 'link_text' )->VerifiedClick();
 
         # wait to toggle element
         sleep 1;
 
         # click "Create New Transition Action"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionNew' )]")->VerifiedClick();
 
         # switch to pop up window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -126,7 +126,7 @@ $Selenium->RunTest(
 
         # go to edit test TransitionAction screen
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
-            ->click();
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -204,7 +204,7 @@ $Selenium->RunTest(
         # check for edited test TransitionAction using filter on AdminProcessManagement screen
         my $TransitionActionRandomEdit = $TransitionActionRandom . "edit";
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#TransitionActionFilter').length" );
-        $Selenium->find_element( "Transition Actions", 'link_text' )->click();
+        $Selenium->find_element( "Transition Actions", 'link_text' )->VerifiedClick();
 
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandomEdit);
 
@@ -215,7 +215,7 @@ $Selenium->RunTest(
 
         # go to edit test TransitionAction screen again
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
-            ->click();
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();

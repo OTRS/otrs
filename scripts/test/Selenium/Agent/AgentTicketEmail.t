@@ -31,19 +31,19 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0
+            Value => 0,
         );
 
         # do not check service and type
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
-            Value => 0
+            Value => 0,
         );
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Type',
-            Value => 0
+            Value => 0,
         );
 
         # create test user and login
