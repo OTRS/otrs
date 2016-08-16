@@ -480,8 +480,8 @@ sub PackageInstall {
         }
     }
 
-    # permission check
-    die if !$Self->_FileSystemCheck();
+    # write permission check
+    return if !$Self->_FileSystemCheck();
 
     # check OS
     if ( $Structure{OS} && !$Param{Force} ) {
@@ -650,8 +650,8 @@ sub PackageReinstall {
     # parse source file
     my %Structure = $Self->PackageParse(%Param);
 
-    # permission check
-    die if !$Self->_FileSystemCheck();
+    # write permission check
+    return if !$Self->_FileSystemCheck();
 
     # check OS
     if ( $Structure{OS} && !$Param{Force} ) {
@@ -761,8 +761,8 @@ sub PackageUpgrade {
         return;
     }
 
-    # permission check
-    die if !$Self->_FileSystemCheck();
+    # write permission check
+    return if !$Self->_FileSystemCheck();
 
     # check OS
     if ( $Structure{OS} && !$Param{Force} ) {
@@ -1152,8 +1152,8 @@ sub PackageUninstall {
         return if !$Self->_CheckPackageDepends( Name => $Structure{Name}->{Content} );
     }
 
-    # permission check
-    die if !$Self->_FileSystemCheck();
+    # write permission check
+    return if !$Self->_FileSystemCheck();
 
     # uninstall code (pre)
     if ( $Structure{CodeUninstall} ) {
@@ -2621,8 +2621,8 @@ returns true if the distribution package (located under ) can get installed
 sub PackageInstallDefaultFiles {
     my ( $Self, %Param ) = @_;
 
-    # permission check
-    die if !$Self->_FileSystemCheck();
+    # write permission check
+    return if !$Self->_FileSystemCheck();
 
     my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages';
     my @PackageFiles = $Self->{MainObject}->DirectoryRead(
