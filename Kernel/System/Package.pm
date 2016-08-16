@@ -117,8 +117,6 @@ sub new {
 
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
-$Self->_FileSystemCheck();
-
     # init of event handler
     $Self->EventHandlerInit(
         Config => 'Package::EventModulePost',
