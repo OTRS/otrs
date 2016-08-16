@@ -36,22 +36,16 @@ sub ArticleStorageInit {
     );
     $Self->{ArticleContentPath} = $Year . '/' . $Month . '/' . $Day;
 
-    # Check fs write permissions.
-    # Generate a thread-safe article check directory.
-    my ( $Seconds, $Microseconds ) = Time::HiRes::gettimeofday();
-    my $PermissionCheckDirectory
-        = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
-    my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/" . $PermissionCheckDirectory;
-    if ( File::Path::mkpath( $Path, 0, 0770 ) ) {    ## no critic
-        rmdir $Path;
-    }
-    else {
-        my $Error = $!;
+    my $PermissionTestPath = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/";
+
+    # check write permissions
+    if ( !-w $PermissionTestPath ) {
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
+            Message  => "Can't write $PermissionTestPath! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
         );
-        die "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
+        die "Can't write $PermissionTestPath! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
 
     # get config object

@@ -35,23 +35,14 @@ sub new {
         mkdir $Self->{DataDir} || die $!;
     }
 
-    # Check fs write permissions.
-    # Generate a thread-safe article check directory.
-    my ( $Seconds, $Microseconds ) = Time::HiRes::gettimeofday();
-    my $PermissionCheckDirectory
-        = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
-    my $Path = "$Self->{DataDir}/$PermissionCheckDirectory";
+    # check write permissions
+    if ( !-w $Self->{DataDir} ) {
 
-    if ( mkdir( $Path, 0750 ) ) {
-        rmdir $Path;
-    }
-    else {
-        my $Error = $!;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
+            Message  => "Can't write $Self->{DataDir}! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
         );
-        die "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
+        die "Can't write $Self->{DataDir}! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
 
     # config (not used right now)
