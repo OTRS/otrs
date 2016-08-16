@@ -130,8 +130,10 @@ $Selenium->RunTest(
             Key   => 'CustomerPanelOwnSelection',
             Value => {
                 Junk => 'First Queue',
-                }
+            },
         );
+
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage;Dest=3||Junk");
 
         $Self->Is(
             $Selenium->execute_script("return \$('#Dest').val();"),
