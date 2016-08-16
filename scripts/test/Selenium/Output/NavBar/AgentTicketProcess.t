@@ -26,7 +26,6 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # create and log in test user

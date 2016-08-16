@@ -24,7 +24,6 @@ $Selenium->RunTest(
         my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # get helper object
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get needed variables
