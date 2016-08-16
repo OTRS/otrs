@@ -19,11 +19,10 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $GroupObject     = $Kernel::OM->Get('Kernel::System::Group');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-        my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 
         # enable ticket responsible
         $Helper->ConfigSettingChange(
@@ -93,7 +92,7 @@ $Selenium->RunTest(
 
         # set group restriction for each toolbar module
         for my $ConfigUpdate (@Tests) {
-            my %ToolBarConfig = $SysConfigObject->ConfigItemGet(
+            my %ToolBarConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
                 Name    => 'Frontend::ToolBarModule###' . $ConfigUpdate->{ToolBarModule},
                 Default => 1,
             );

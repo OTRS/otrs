@@ -291,7 +291,6 @@ $Selenium->RunTest(
             }
 
             # get sysconfig object
-            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
             # disable all dashboard plugins
             my $Config = $ConfigObject->Get('DashboardBackend');

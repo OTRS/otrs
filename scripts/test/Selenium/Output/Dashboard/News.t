@@ -18,9 +18,8 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        # get helper object
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # disable all dashboard plugins
         my $Config = $Kernel::OM->Get('Kernel::Config')->Get('DashboardBackend');
@@ -31,7 +30,7 @@ $Selenium->RunTest(
         );
 
         # get dashboard News plugin default sysconfig
-        my %NewsConfig = $SysConfigObject->ConfigItemGet(
+        my %NewsConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
             Name    => 'DashboardBackend###0405-News',
             Default => 1,
         );

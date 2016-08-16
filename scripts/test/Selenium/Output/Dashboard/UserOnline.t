@@ -21,12 +21,11 @@ $Selenium->RunTest(
         # ok, first we delete all pre-existing sessions
         $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Session::DeleteAll')->Execute();
 
-        # get needed objects
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        # get helper object
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get UserOnline config
-        my %UserOnlineSysConfig = $SysConfigObject->ConfigItemGet(
+        my %UserOnlineSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
             Name    => 'DashboardBackend###0400-UserOnline',
             Default => 1,
         );

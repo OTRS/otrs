@@ -21,9 +21,6 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
         # disable all dashboard plugins
         my $Config = $Kernel::OM->Get('Kernel::Config')->Get('DashboardBackend');
         $Helper->ConfigSettingChange(
@@ -33,7 +30,7 @@ $Selenium->RunTest(
         );
 
         # get dashboard RSS plugin default sysconfig
-        my %RSSConfig = $SysConfigObject->ConfigItemGet(
+        my %RSSConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
             Name    => 'DashboardBackend###0410-RSS',
             Default => 1,
         );

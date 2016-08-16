@@ -99,9 +99,6 @@ $Selenium->RunTest(
         # get current value of Ticket::Type::Default
         my $DefaultTicketType = $ConfigObject->Get('Ticket::Type::Default');
 
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
         # set test Type as a default ticket type
         $Helper->ConfigSettingChange(
             Valid => 1,
