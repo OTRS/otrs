@@ -140,12 +140,13 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check for test created Certificate and Privatekey and delete them
-        for my $TestSMIME (qw(key cert))
-        {
+        for my $TestSMIME (qw(key cert)) {
+
             $Self->True(
                 index( $Selenium->get_page_source(), "Type=$TestSMIME;Filename=" ) > -1,
                 "Test $TestSMIME SMIME found on table"
             );
+
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")
                 ->VerifiedClick();
         }
@@ -158,9 +159,7 @@ $Selenium->RunTest(
                 "Directory deleted - '$Directory'",
             );
         }
-
     }
-
 );
 
 1;

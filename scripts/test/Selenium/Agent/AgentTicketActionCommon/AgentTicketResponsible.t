@@ -25,21 +25,21 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::ChangeOwnerToEveryone',
-            Value => 1
+            Value => 1,
         );
 
         # enable ticket responsible feature
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Responsible',
-            Value => 1
+            Value => 1,
         );
 
         # do not check RichText
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0
+            Value => 0,
         );
 
         my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AgentTicketResponsible');
@@ -177,7 +177,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "Ticket is deleted - ID $TicketID"
+            "Ticket is deleted - ID $TicketID",
         );
 
         # make sure the cache is correct

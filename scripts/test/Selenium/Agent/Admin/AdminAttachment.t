@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
+# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
