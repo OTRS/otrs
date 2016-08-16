@@ -55,7 +55,7 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Email::Test',
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'SendmailModule',
             Value => 'Kernel::System::Email::Test',
         );

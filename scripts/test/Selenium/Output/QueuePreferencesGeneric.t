@@ -32,7 +32,7 @@ $Selenium->RunTest(
         );
 
         # enable QueuePreferences
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'QueuePreferences###Comment2',
             Value => \%QueuePreferences,
         );

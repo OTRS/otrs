@@ -21,8 +21,7 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # enable meta floaters for AgentTicketZoom
         $Helper->ConfigSettingChange(

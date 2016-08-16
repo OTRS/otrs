@@ -31,7 +31,7 @@ $Selenium->RunTest(
         }
 
         # do not check email addresses
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );

@@ -25,7 +25,7 @@ $Selenium->RunTest(
         my $LanguageObject     = $Kernel::OM->Get('Kernel::Language');
 
         # disable check email addresses
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );

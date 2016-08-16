@@ -34,7 +34,7 @@ $Selenium->RunTest(
             Priority    => '1990010',
         );
 
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Frontend::ToolBarModule###11-Ticket::TicketSearchProfile',
             Value => \%TicketSearchProfile,
         );

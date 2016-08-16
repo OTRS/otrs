@@ -33,7 +33,7 @@ $Selenium->RunTest(
         }
 
         # enable ticket service, type, responsible
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Ticket::Service',
             Value => 1,
         );
@@ -42,7 +42,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Service',
             Value => 1
         );
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Ticket::Type',
             Value => 1,
         );
@@ -51,7 +51,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type',
             Value => 1
         );
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Ticket::Responsible',
             Value => 1,
         );
@@ -68,7 +68,7 @@ $Selenium->RunTest(
         for my $Day (@Days) {
             $Week{$Day} = [ 0 .. 23 ];
         }
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'TimeWorkingHours',
             Value => \%Week,
         );
@@ -79,7 +79,7 @@ $Selenium->RunTest(
         );
 
         # disable default Vacation days
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'TimeVacationDays',
             Value => {},
         );

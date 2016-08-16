@@ -44,7 +44,7 @@ $Selenium->RunTest(
             );
 
             my $Key = "PreferencesGroups###TicketOverview" . $View . "PageShown";
-            $Kernel::OM->Get('Kernel::Config')->Set(
+            $Helper->ConfigSettingChange(
                 Key   => $Key,
                 Value => \%TicketOverViewPageShown,
             );

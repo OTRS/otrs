@@ -36,7 +36,7 @@ $Selenium->RunTest(
             Priority  => '1010030',
         );
 
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Frontend::ToolBarModule###3-Ticket::AgentTicketEscalationView',
             Value => \%AgentTicketEscalationView,
         );

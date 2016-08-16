@@ -26,7 +26,7 @@ $Selenium->RunTest(
         my $Helper                = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # disable email checks when create new customer user
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
