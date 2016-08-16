@@ -79,7 +79,7 @@ $Selenium->RunTest(
                 ExpectedValue => '7',
             },
             {
-                Key           => 'Frontend::OpenMainMenuOnHover',
+                Key           => 'OpenMainMenuOnHover',
                 JSKey         => 'OpenMainMenuOnHover',
                 ExpectedValue => '8',
             },
