@@ -86,11 +86,8 @@ $Selenium->RunTest(
             "TextURL link $BodyText on zoom view - found",
         );
 
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
         # turn off OutputFilter TextURL in sysconfig
-        my %TextURL = $SysConfigObject->ConfigItemGet(
+        my %TextURL = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
             Name    => 'Frontend::Output::FilterText###AAAURL',
             Default => 1,
         );

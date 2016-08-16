@@ -18,10 +18,9 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-        my $GroupObject     = $Kernel::OM->Get('Kernel::System::Group');
-        my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
-        my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+        my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -46,7 +45,7 @@ $Selenium->RunTest(
         );
 
         # get original config for menu module 'Close'
-        my %MenuModuleCloseSysConfig = $SysConfigObject->ConfigItemGet(
+        my %MenuModuleCloseSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
             Name => 'Ticket::Frontend::MenuModule###450-Close',
         );
 

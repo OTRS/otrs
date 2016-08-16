@@ -19,11 +19,10 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get dashboard IFrame plugin default sysconfig
-        my %IFrameConfig = $SysConfigObject->ConfigItemGet(
+        my %IFrameConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
             Name    => 'DashboardBackend###0300-IFrame',
             Default => 1,
         );

@@ -26,9 +26,6 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
         # do not check RichText
         $Helper->ConfigSettingChange(
             Valid => 1,

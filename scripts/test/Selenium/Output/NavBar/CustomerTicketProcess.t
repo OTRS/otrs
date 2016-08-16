@@ -231,8 +231,7 @@ $Selenium->RunTest(
 
         # check if NavBarCustomerTicketProcess button is available
         # when NavBarCustomerTicketProcess module is disabled and no process is available
-        my $SysConfigObject             = $Kernel::OM->Get('Kernel::System::SysConfig');
-        my %NavBarCustomerTicketProcess = $SysConfigObject->ConfigItemGet(
+        my %NavBarCustomerTicketProcess = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
             Name => 'CustomerFrontend::NavBarModule###10-CustomerTicketProcesses',
         );
         $Helper->ConfigSettingChange(

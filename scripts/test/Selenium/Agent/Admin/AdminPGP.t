@@ -34,9 +34,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get sysconfig object
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
         # disable PGP in config
         $Helper->ConfigSettingChange(
             Valid => 1,

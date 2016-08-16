@@ -87,8 +87,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # get config objects
-        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # turn on the CustomerUserID column by default
         my $Config = $ConfigObject->Get('DashboardBackend')->{'0120-TicketNew'};

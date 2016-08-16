@@ -19,11 +19,10 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get dashboard ProductNotify plugin default sysconfig
-        my %ProductNotifyConfig = $SysConfigObject->ConfigItemGet(
+        my %ProductNotifyConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
             Name    => 'DashboardBackend###0000-ProductNotify',
             Default => 1,
         );

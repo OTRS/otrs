@@ -20,7 +20,6 @@ $Selenium->RunTest(
 
         # get needed objects
         my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-        my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
         my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
