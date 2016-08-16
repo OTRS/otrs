@@ -21,7 +21,7 @@ $Selenium->RunTest(
         # ok, first we delete all pre-existing sessions
         $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Session::DeleteAll')->Execute();
 
-        # get needed objects
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get UserOnline config
