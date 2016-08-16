@@ -20,7 +20,6 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
