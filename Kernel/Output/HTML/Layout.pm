@@ -1579,7 +1579,7 @@ sub Footer {
         RichTextSet                    => $ConfigObject->Get('Frontend::RichText'),
         CheckEmailAddresses            => $ConfigObject->Get('CheckEmailAddresses'),
         MenuDragDropEnabled            => $ConfigObject->Get('Frontend::MenuDragDropEnabled'),
-        OpenMainMenuOnHover            => $ConfigObject->Get('Frontend::OpenMainMenuOnHover'),
+        OpenMainMenuOnHover            => $ConfigObject->Get('OpenMainMenuOnHover'),
         CustomerInfoSet                => $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose'),
         IncludeUnknownTicketCustomers  => $ConfigObject->Get('Ticket::IncludeUnknownTicketCustomers'),
         InputFieldsActivated           => $ConfigObject->Get('ModernizeFormFields'),
