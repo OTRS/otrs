@@ -21,11 +21,7 @@ $Selenium->RunTest(
     sub {
 
         # get needed object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 1,
-            },
-        );
+
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
