@@ -133,6 +133,8 @@ $Selenium->RunTest(
             },
         );
 
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage;Dest=3||Junk");
+
         $Self->Is(
             $Selenium->execute_script("return \$('#Dest').val();"),
             '3||First Queue',
