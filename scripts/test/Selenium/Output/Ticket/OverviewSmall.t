@@ -21,13 +21,10 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get needed objects
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
         # do not check email addresses and mx records
         # change settings in both runtime and disk configuration
         for my $Key (qw(CheckEmailAddresses CheckMXRecord)) {
-            $ConfigObject->Set(
+            $Helper->ConfigSettingChange(
                 Key   => $Key,
                 Value => 0,
             );

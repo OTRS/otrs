@@ -39,7 +39,7 @@ $Selenium->RunTest(
         );
 
         # enable ServicePreferences
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'ServicePreferences###Comment2',
             Value => \%ServicePreferences,
         );

@@ -29,8 +29,6 @@ $Selenium->RunTest(
 
         for my $SysConfigChange (@CustomerSysConfig) {
 
-            # get sysconfig object
-
             # get default sysconfig
             my $SysConfigName = 'Frontend::CustomerUser::Item###' . $SysConfigChange;
             my %Config        = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(

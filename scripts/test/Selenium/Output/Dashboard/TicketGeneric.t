@@ -290,8 +290,6 @@ $Selenium->RunTest(
                 );
             }
 
-            # get sysconfig object
-
             # disable all dashboard plugins
             my $Config = $ConfigObject->Get('DashboardBackend');
             $Helper->ConfigSettingChange(

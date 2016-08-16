@@ -131,11 +131,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         # set test PGP in config so we can delete them
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'PGP',
             Value => 1,
         );
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'PGP::Options',
             Value => "--homedir $PGPPath --batch --no-tty --yes",
         );

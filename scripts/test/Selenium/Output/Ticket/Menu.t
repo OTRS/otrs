@@ -84,7 +84,7 @@ $Selenium->RunTest(
 
         # enable delete and spam menu in sysconfig
         for my $SysConfigItem (@TicketMenu) {
-            $Kernel::OM->Get('Kernel::Config')->Set(
+            $Helper->ConfigSettingChange(
                 Key   => $SysConfigItem->{Key},
                 Value => $SysConfigItem->{SysConfigItem},
             );

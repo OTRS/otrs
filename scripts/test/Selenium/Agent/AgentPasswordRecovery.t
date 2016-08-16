@@ -30,7 +30,7 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Email::Test',
         );
 
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );

@@ -32,7 +32,7 @@ $Selenium->RunTest(
             Size        => '10',
         );
 
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Frontend::ToolBarModule###12-Ticket::TicketSearchFulltext',
             Value => \%TicketSearchFulltext,
         );

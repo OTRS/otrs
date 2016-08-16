@@ -19,8 +19,7 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # set link object view mode to simple
         $Helper->ConfigSettingChange(
@@ -44,7 +43,7 @@ $Selenium->RunTest(
         );
 
         # Enable Ticket::ArchiveSystem
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Ticket::ArchiveSystem',
             Value => 1,
         );

@@ -39,7 +39,7 @@ $Selenium->RunTest(
         );
 
         # enable SLAPreferences
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'SLAPreferences###Comment2',
             Value => \%SLAPreferences,
         );

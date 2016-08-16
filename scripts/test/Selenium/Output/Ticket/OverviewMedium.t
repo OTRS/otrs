@@ -29,7 +29,7 @@ $Selenium->RunTest(
         );
 
         # defines from which ticket attributes the agent can select the result order
-        $Kernel::OM->Get('Kernel::Config')->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'TicketOverviewMenuSort###SortAttributes',
             Value => \%SortOverview,
         );

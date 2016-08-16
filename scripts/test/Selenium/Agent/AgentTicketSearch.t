@@ -28,8 +28,7 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
         );
 
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Ticket::SearchIndexModule',
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
         );
@@ -161,7 +160,7 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
         );
 
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Ticket::SearchIndexModule',
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
         );

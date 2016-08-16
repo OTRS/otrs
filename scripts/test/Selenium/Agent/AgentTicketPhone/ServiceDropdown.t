@@ -16,7 +16,7 @@ use vars (qw($Self));
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # do not checkmx
-$ConfigObject->Set(
+$Kernel::OM->Get('Kernel::System::UnitTest::Helper')->ConfigSettingChange(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );

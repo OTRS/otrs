@@ -35,7 +35,7 @@ $Selenium->RunTest(
             Priority => '1020020',
         );
 
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Frontend::ToolBarModule###5-Ticket::AgentTicketEmail',
             Value => \%AgentTicketEmail,
         );

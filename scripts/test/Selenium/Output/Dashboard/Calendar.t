@@ -29,7 +29,7 @@ $Selenium->RunTest(
         for my $Day (@Days) {
             $Week{$Day} = [ 0 .. 23 ];
         }
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'TimeWorkingHours',
             Value => \%Week,
         );
@@ -40,7 +40,7 @@ $Selenium->RunTest(
         );
 
         # disable default Vacation days
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'TimeVacationDays',
             Value => {},
         );

@@ -36,7 +36,7 @@ $Selenium->RunTest(
             Priority  => '1010010',
         );
 
-        $ConfigObject->Set(
+        $Helper->ConfigSettingChange(
             Key   => 'Frontend::ToolBarModule###1-Ticket::AgentTicketQueue',
             Value => \%AgentTicketQueue,
         );
