@@ -38,7 +38,7 @@ sub ArticleStorageInit {
 
     my $ArticleDir = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/";
 
-    File::Path::mkpath( $ArticleDir, 0, 0770 );
+    File::Path::mkpath( $ArticleDir, 0, 0770 );    ## no critic
 
     # check write permissions
     if ( !-w $ArticleDir ) {
