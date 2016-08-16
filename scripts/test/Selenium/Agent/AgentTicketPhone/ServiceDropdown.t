@@ -17,6 +17,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # do not checkmx
 $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->ConfigSettingChange(
+    Valid => 1,
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
