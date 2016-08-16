@@ -11,8 +11,6 @@ package Kernel::System::VirtualFS::FS;
 use strict;
 use warnings;
 
-use Time::HiRes qw();
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
@@ -60,7 +58,7 @@ sub Read {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -98,7 +96,7 @@ sub Write {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -129,13 +127,17 @@ sub Write {
 
     DIRECTORY:
     for my $Dir (@Dirs) {
+
         $DataDir .= '/' . $Dir;
+
         next DIRECTORY if -e $Self->{DataDir} . $DataDir;
         next DIRECTORY if mkdir $Self->{DataDir} . $DataDir;
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't create $Self->{DataDir}$DataDir: $!",
         );
+
         return;
     }
 
@@ -147,6 +149,7 @@ sub Write {
         Content    => $Param{Content},
         Permission => $Self->{Permission},
     );
+
     return if !$Filename;
 
     my $BackendKey = $Self->_BackendKeyGenerate(
@@ -164,14 +167,12 @@ sub Delete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(BackendKey)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
+    if ( !$Param{BackendKey} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need $_!",
+        );
+        return;
     }
 
     my $Attributes = $Self->_BackendKeyParse(%Param);
@@ -197,14 +198,12 @@ sub _BackendKeyParse {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(BackendKey)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
+    if ( !$Param{BackendKey} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need $_!",
+        );
+        return;
     }
 
     my @Pairs = split /;/, $Param{BackendKey};
@@ -222,14 +221,12 @@ sub _SplitDir {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Filename)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
+    if ( !$Param{Filename} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need $_!",
+        );
+        return;
     }
 
     my @Dir;
