@@ -22,7 +22,6 @@ $Selenium->RunTest(
         my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
         # get helper object
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # set log module in sysconfig

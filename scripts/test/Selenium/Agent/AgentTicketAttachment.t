@@ -16,7 +16,6 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
         # get helper object
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # set download type to inline
