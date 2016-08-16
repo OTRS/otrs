@@ -33,11 +33,7 @@ $Selenium->RunTest(
         );
 
         # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 1,
-            },
-        );
+
 
         # get ACL object
         my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');

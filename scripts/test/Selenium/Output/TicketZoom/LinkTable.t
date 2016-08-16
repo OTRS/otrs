@@ -19,11 +19,7 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 1,
-            },
-        );
+
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # disable 'Ticket Information', 'Customer Information' and 'Linked Objects' widgets in AgentTicketZoom screen
