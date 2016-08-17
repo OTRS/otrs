@@ -585,9 +585,9 @@ This will be reset when the Helper object is destroyed.
 Please note that this will not work correctly in clustered environments.
 
     $Helper->ConfigSettingChange(
-        Valid => 1,             # (optional) enable or disable setting
-        Key   => 'MySetting'    # setting name
-        Value => { ... }        # setting value
+        Valid => 1,            # (optional) enable or disable setting
+        Key   => 'MySetting',  # setting name
+        Value => { ... } ,     # setting value
     );
 
 =cut
@@ -596,11 +596,10 @@ sub ConfigSettingChange {
     my ( $Self, %Param ) = @_;
 
     my $Valid = $Param{Valid} // 1;
-
-    my $Key = $Param{Key};
-    die "Need 'Key'" if !$Key;
-
+    my $Key   = $Param{Key};
     my $Value = $Param{Value};
+
+    die "Need 'Key'" if !defined $Key;
 
     my $RandomNumber = $Self->GetRandomNumber();
 
