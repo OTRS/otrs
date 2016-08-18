@@ -36,7 +36,7 @@ $Selenium->RunTest(
             my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
                 Name            => $QueueName,
                 ValidID         => 1,
-                GroupID         => 1,
+                GroupID         => 1, # users
                 SystemAddressID => 1,
                 SalutationID    => 1,
                 SignatureID     => 1,
@@ -89,7 +89,7 @@ $Selenium->RunTest(
 
         # create test ACL with possible not selection of test queues
         my $ACLID = $ACLObject->ACLAdd(
-            Name           => 'ACL' . $Helper->GetRandomID(),
+            Name           => 'AACL' . $Helper->GetRandomID(),
             Comment        => 'Selenium ACL',
             Description    => 'Description',
             StopAfterMatch => 1,
@@ -221,7 +221,7 @@ $Selenium->RunTest(
         );
 
         # click to return back to AgentTicketZoom screen
-        $Selenium->find_element( "#GoBack", 'css' )->VerifiedClick();
+        $Selenium->find_element( ".ReturnToPreviousPage", 'css' )->VerifiedClick();
 
         # click on 'Spam' and check for ACL error message
         $Selenium->find_element("//a[contains(\@title, 'Mark this ticket as junk!')]")->VerifiedClick();
