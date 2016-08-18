@@ -11,30 +11,21 @@ package Kernel::System::PostMaster::LoopProtection::FS;
 use strict;
 use warnings;
 
+use base 'Kernel::System::PostMaster::LoopProtection::Common';
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+    'Kernel::System::DateTime',
 );
 
 sub new {
     my ( $Type, %Param ) = @_;
+    my $Self = $Type->SUPER::new(%Param);
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # get config options
-    $Self->{LoopProtectionLog} = $ConfigObject->Get('LoopProtectionLog')
+    $Self->{LoopProtectionLog} = $Kernel::OM->Get('Kernel::Config')->Get('LoopProtectionLog')
         || die 'No Config option "LoopProtectionLog"!';
-
-    $Self->{PostmasterMaxEmails} = $ConfigObject->Get('PostmasterMaxEmails') || 40;
-
-    # create logfile name
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    $Self->{LoopProtectionLog} .= $DateTimeObject->ToCTimeString() . '.log';
+    $Self->{LoopProtectionLog} .= '-' . $Self->{LoopProtectionDate} . '.log';
 
     return $Self;
 }
@@ -99,7 +90,9 @@ sub Check {
     }
 
     # check possible loop
-    if ( $Count >= $Self->{PostmasterMaxEmails} ) {
+    my $Max = $Self->{PostmasterMaxEmailsPerAddress}{ lc $To } // $Self->{PostmasterMaxEmails};
+
+    if ( $Max && $Count >= $Max ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message =>

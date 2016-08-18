@@ -10059,6 +10059,15 @@
             <String Regex="^[0-9]{1,3}$">40</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PostmasterMaxEmailsPerAddress" Required="0" Valid="1">
+        <Description Translatable="1">Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="PostMasterMaxEmailSize" Required="1" Valid="1">
         <Description Translatable="1">Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).</Description>
         <Group>Ticket</Group>

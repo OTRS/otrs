@@ -28,6 +28,14 @@ for my $Module (qw(DB FS)) {
 
     # get rand sender address
     my $UserRand1 = 'example-user' . $RandomID . '@example.com';
+    my $UserRand2 = 'example-user' . $RandomID . '@example.org';
+
+    $ConfigObject->Set(
+        Key   => 'PostmasterMaxEmailsPerAddress',
+        Value => { $UserRand2 => 5 },
+    );
+
+    my $LoopProtectionObject = Kernel::System::PostMaster::LoopProtection->new();
 
     my $Check = $LoopProtectionObject->Check( To => $UserRand1 );
 
@@ -49,6 +57,23 @@ for my $Module (qw(DB FS)) {
     $Self->False(
         $Check || 0,
         "#$Module - Check() - $UserRand1",
+    );
+
+    # now test with per-address limit
+    my $SendEmail = $LoopProtectionObject->SendEmail( To => $UserRand2 );
+    for ( 1 .. 6 ) {
+        my $SendEmail = $LoopProtectionObject->SendEmail( To => $UserRand2 );
+        $Self->True(
+            $SendEmail || 0,
+            "#$Module - SendEmail() - $UserRand2 #$_ (with custom limit)",
+        );
+        $Check = $LoopProtectionObject->Check( To => $UserRand2 );
+    }
+
+    $Check = $LoopProtectionObject->Check( To => $UserRand2 );
+    $Self->False(
+        $Check || 0,
+        "#$Module - Check() - $UserRand2 (with custom limit)",
     );
 }
 

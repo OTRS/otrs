@@ -11,28 +11,14 @@ package Kernel::System::PostMaster::LoopProtection::DB;
 use strict;
 use warnings;
 
+use base 'Kernel::System::PostMaster::LoopProtection::Common';
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
     'Kernel::System::Log',
+    'Kernel::System::DateTime',
 );
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get config options
-    $Self->{PostmasterMaxEmails} = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterMaxEmails') || 40;
-
-    # create logfile name
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    $Self->{LoopProtectionDate} = $DateTimeObject->Format( Format => '%Y-%m-%d' );
-
-    return $Self;
-}
 
 sub SendEmail {
     my ( $Self, %Param ) = @_;
@@ -79,8 +65,10 @@ sub Check {
         $Count = $Row[0];
     }
 
+    my $Max = $Self->{PostmasterMaxEmailsPerAddress}{ lc $To } // $Self->{PostmasterMaxEmails};
+
     # check possible loop
-    if ( $Count >= $Self->{PostmasterMaxEmails} ) {
+    if ( $Max && $Count >= $Max ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message =>
