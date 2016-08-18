@@ -339,6 +339,22 @@ my @Tests = (
         Name   => 'LinkQuote - address with =; ',
         Target => '',
     },
+    {
+        Input =>
+            '<img title="00073905.TMH_plausible-921733-edited.jpg" alt="00073905.TMH_plausible-921733-edited.jpg" src="http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=96" data-constrained="true" style="vertical-align:bottom; -ms-interpolation-mode:bicubic; width:96px; max-width:96px; margin:0px 0px 10px 10px; float:right" align="right" width="96" srcset="http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=48 48w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=96 96w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=144 144w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=192 192w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=240 240w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=288 288w" sizes="(max-width: 96px) 100vw, 96px">',
+        Result =>
+            '<img title="00073905.TMH_plausible-921733-edited.jpg" alt="00073905.TMH_plausible-921733-edited.jpg" src="http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=96" data-constrained="true" style="vertical-align:bottom; -ms-interpolation-mode:bicubic; width:96px; max-width:96px; margin:0px 0px 10px 10px; float:right" align="right" width="96" srcset="http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=48 48w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=96 96w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=144 144w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=192 192w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=240 240w, http://info.isightpartners.com/hs-fs/hubfs/00073905.TMH_plausible-921733-edited.jpg?t=1467377990501&width=288 288w" sizes="(max-width: 96px) 100vw, 96px">',
+        Name   => 'Complex tag with nested URLs',
+        Target => '',
+    },
+    {
+        Input =>
+            '<img src="http://www.test.com" data-link="http://www.test.com, http://www.test2.com">Test</img>',
+        Result =>
+            '<img src="http://www.test.com" data-link="http://www.test.com, http://www.test2.com">Test</img>',
+        Name   => 'Complex tag with nested URLs',
+        Target => '',
+    },
 );
 
 for my $Test (@Tests) {

@@ -778,7 +778,7 @@ sub LinkQuote {
 
         # add target to existing "<a href"
         ${$String} =~ s{
-            (<a\s{1,10})(.+?)>
+            (<a\s{1,10})([^>]+)>
         }
         {
             my $Start = $1;
@@ -792,28 +792,30 @@ sub LinkQuote {
         }egxsi;
     }
 
-    # remove existing "<a href" on all other tags (to find not linked urls) and remember it
+    my $Marker = "§" x 10;
+
+    # Remove existing <a>...</a> tags and their content to be re-inserted later, this must not be quoted.
+    # Also remove other tags to avoid quoting in tag parameters.
     my $Counter = 0;
-    my %LinkHash;
+    my %TagHash;
     ${$String} =~ s{
-        (<a\s.+?>.+?</a>)
+        (<a\s[^>]*?>[^>]*</a>|<[^>]+?>)
     }
     {
         my $Content = $1;
-        $Counter++;
-        my $Key  = "############LinkHash-$Counter############";
-        $LinkHash{$Key} = $Content;
+        my $Key     = "${Marker}TagHash-$Counter${Marker}";
+        $TagHash{$Counter++} = $Content;
         $Key;
     }egxism;
 
-    # replace not "<a href" found urls and link it
+    # Add <a> tags for URLs in the content.
     my $Target = '';
     if ( $Param{Target} ) {
         $Target = " target=\"$Param{Target}\"";
     }
     ${$String} =~ s{
         (                                          # $1 greater-than and less-than sign
-            > | < | \s+ | \#{6} |
+            > | < | \s+ | §{10} |
             (?: &[a-zA-Z0-9]+; )                   # get html entities
         )
         (                                          # $2
@@ -854,7 +856,7 @@ sub LinkQuote {
                 | (?: &[a-zA-Z0-9]+; )+            # html entities
                 | $                                # bug# 2715
             )
-            | \#{6}                                # ending LinkHash
+            | §{10}                                # ending TagHash
         )
     }
     {
@@ -890,12 +892,8 @@ sub LinkQuote {
         $Start . "<a href=\"$HrefLink\"$Target title=\"$HrefLink\">$DisplayLink<\/a>" . $End;
     }egxism;
 
-    my ( $Key, $Value );
-
-    # add already existing "<a href" again
-    while ( ( $Key, $Value ) = each(%LinkHash) ) {
-        ${$String} =~ s{$Key}{$Value};
-    }
+    # Re-add previously removed tags.
+    ${$String} =~ s{${Marker}TagHash-(\d+)${Marker}}{$TagHash{$1}}egsxim;
 
     # check ref && return result like called
     if ($StringScalar) {
