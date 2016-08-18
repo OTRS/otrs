@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-08-18 Fixed bug#[12252](http://bugs.otrs.org/show_bug.cgi?id=12252) - Support Bundle cannot be created via GUI if cloud services are disabled.
  - 2016-08-15 Fixed bug#[12245](http://bugs.otrs.org/show_bug.cgi?id=12245) - Missing information for Article Dynamic Fields update event thanks to Rene (rwese).
  - 2016-08-15 Fixed bug#[12229](http://bugs.otrs.org/show_bug.cgi?id=12229) - Queue is not selectable if the name contains "<" or ">" characters.
  - 2016-08-15 Fixed a problem with the axis exchange not working correctly in the OTRS Business Solution™ reports.

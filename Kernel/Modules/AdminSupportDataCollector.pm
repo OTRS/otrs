@@ -97,18 +97,15 @@ sub _SupportDataCollectorView {
             $LayoutObject->Block(
                 Name => 'NoteNotRegisteredNotSending',
             );
-            $LayoutObject->Block(
-                Name => 'NoteSupportBundle',
-            );
         }
         else {
             $LayoutObject->Block(
                 Name => 'NoteRegisteredSending',
             );
-            $LayoutObject->Block(
-                Name => 'NoteSupportBundle',
-            );
         }
+        $LayoutObject->Block(
+            Name => 'NoteSupportBundle',
+        );
 
         $LayoutObject->Block(
             Name => 'SupportData',
