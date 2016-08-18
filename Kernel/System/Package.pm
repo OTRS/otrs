@@ -3574,8 +3574,16 @@ sub _FileSystemCheck {
 
     my $Home = $Param{Home} || $Self->{Home};
 
+    # check Home
+    if ( !-e $Home ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "No such home directory: $Home!",
+        );
+        return;
+    }
+
     my @Filepaths = (
-        '',
         '/bin/',
         '/Kernel/',
         '/Kernel/System/',
