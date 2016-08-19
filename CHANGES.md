@@ -50,6 +50,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.13 2016-??-??
+ - 2016-08-19 Fixed bug#[9460](http://bugs.otrs.org/show_bug.cgi?id=9460) - Under some circumstances OTRS does not join Tickets to the Customernumber.
  - 2016-08-18 Fixed bug#[12246](http://bugs.otrs.org/show_bug.cgi?id=12246) - HTML mail not displayed correctly.
  - 2016-08-18 Fixed bug#[12252](http://bugs.otrs.org/show_bug.cgi?id=12252) - Support Bundle cannot be created via GUI if cloud services are disabled.
  - 2016-08-15 Fixed bug#[12245](http://bugs.otrs.org/show_bug.cgi?id=12245) - Missing information for Article Dynamic Fields update event thanks to Rene (rwese).

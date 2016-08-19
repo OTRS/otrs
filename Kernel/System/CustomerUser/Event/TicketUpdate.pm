@@ -61,12 +61,12 @@ sub Run {
 
         # perform search
         my @Tickets = $TicketObject->TicketSearch(
-            Result            => 'ARRAY',
-            Limit             => 100_000,
-            CustomerUserLogin => $Param{Data}->{OldData}->{UserLogin},
-            CustomerID        => $Param{Data}->{OldData}->{UserCustomerID},
-            ArchiveFlags      => [ 'y', 'n' ],
-            UserID            => 1,
+            Result               => 'ARRAY',
+            Limit                => 100_000,
+            CustomerUserLoginRaw => $Param{Data}->{OldData}->{UserLogin},
+            CustomerIDRaw        => $Param{Data}->{OldData}->{UserCustomerID},
+            ArchiveFlags         => [ 'y', 'n' ],
+            UserID               => 1,
         );
 
         # update the customer ID and login of tickets
