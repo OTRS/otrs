@@ -82,6 +82,11 @@ my $DatabasePw   = $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
 my $DatabaseDSN  = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');
 my $ArticleDir   = $Kernel::OM->Get('Kernel::Config')->Get('ArticleDir');
 
+# decrypt pw (if needed)
+if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
+    $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
+}
+
 # check db backup support
 if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DB     = 'MySQL';
