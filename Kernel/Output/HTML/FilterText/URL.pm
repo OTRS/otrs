@@ -49,7 +49,7 @@ sub Pre {
             .*?               # this part should be better defined!
         )
         (                               # $3
-            [\?,;!\.\)\]] (?: \s | $ )    # \)\s this construct is because of bug#2450 and bug#7288
+            [\?,;!\.\]] (?: \s | $ )    # \)\s this construct is because of bug#2450 and bug#7288
             | \s
             | \"
             | &quot;
