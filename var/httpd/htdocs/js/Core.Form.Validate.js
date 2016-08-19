@@ -331,7 +331,14 @@ Core.Form.Validate = (function (TargetNS) {
         DateMonthClassPrefix = 'Validate_DateMonth_',
         DateHourClassPrefix = 'Validate_DateHour_',
         DateMinuteClassPrefix = 'Validate_DateMinute_',
-        DateCheck;
+        DateCheck,
+        $UsedObj;
+
+        // Skip validation if field is not used (bug#12210)
+        $UsedObj = $(Element).siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+        if ($UsedObj.length > 0 && $UsedObj.is(':checked') === false) {
+            return true;
+        }
 
         RegExYear = new RegExp(DateYearClassPrefix);
         RegExMonth = new RegExp(DateMonthClassPrefix);
@@ -682,7 +689,7 @@ Core.Form.Validate = (function (TargetNS) {
      * @name ValidateElement
      * @memberof Core.Form.Validate
      * @function
-     * @returns {Boolean} Truem, if element validates, false otherwise.
+     * @returns {Boolean} True, if element validates, false otherwise.
      * @param {jQueryObject} $Element
      * @description
      *      Validate a single element.

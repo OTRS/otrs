@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-08-19 Fixed bug#[12210](http://bugs.otrs.org/show_bug.cgi?id=12210) - GenericAgent can not be submitted if a dynamic field (Date) requires future date.
  - 2016-08-19 Fixed bug#[12222](http://bugs.otrs.org/show_bug.cgi?id=12222) - closing curly bracket in hyperlink.
  - 2016-08-19 Fixed bug#[12243](http://bugs.otrs.org/show_bug.cgi?id=12243) - Modern input fields leaves broken selection on search field remove.
  - 2016-08-19 Fixed bug#[12256](http://bugs.otrs.org/show_bug.cgi?id=12256) - Parameter "Active" in method QueueStandardTemplateMemberAdd is optional but method returns if not set.
