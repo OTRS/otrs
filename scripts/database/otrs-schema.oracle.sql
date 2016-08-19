@@ -2713,6 +2713,7 @@ CREATE INDEX FK_dynamic_field_value_field90 ON dynamic_field_value (field_id);
 CREATE INDEX dynamic_field_value_field_va6e ON dynamic_field_value (object_id, field_id);
 CREATE INDEX dynamic_field_value_search_db3 ON dynamic_field_value (field_id, value_date);
 CREATE INDEX dynamic_field_value_search_int ON dynamic_field_value (field_id, value_int);
+CREATE INDEX dynamic_field_value_search_tbc ON dynamic_field_value (field_id, value_text);
 -- ----------------------------------------------------------
 --  create table dynamic_field
 -- ----------------------------------------------------------

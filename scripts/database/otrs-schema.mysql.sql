@@ -1253,7 +1253,8 @@ CREATE TABLE dynamic_field_value (
     PRIMARY KEY(id),
     INDEX dynamic_field_value_field_values (object_id, field_id),
     INDEX dynamic_field_value_search_date (field_id, value_date),
-    INDEX dynamic_field_value_search_int (field_id, value_int)
+    INDEX dynamic_field_value_search_int (field_id, value_int),
+    INDEX dynamic_field_value_search_text (field_id, value_text(150))
 );
 # ----------------------------------------------------------
 #  create table dynamic_field

@@ -39,5 +39,6 @@ BEGIN
 END;
 /
 --;
+CREATE INDEX dynamic_field_value_search_tbc ON dynamic_field_value (field_id, value_text);
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;

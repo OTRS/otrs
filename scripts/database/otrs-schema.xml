@@ -1913,6 +1913,10 @@
     <Column Name="value_int" Required="false" Type="BIGINT" />
 
     <!-- search objects with certain field content -->
+    <Index Name="dynamic_field_value_search_text">
+        <IndexColumn Name="field_id"/>
+        <IndexColumn Name="value_text" Size="150"/>
+    </Index>
     <Index Name="dynamic_field_value_search_date">
         <IndexColumn Name="field_id"/>
         <IndexColumn Name="value_date"/>

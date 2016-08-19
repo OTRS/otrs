@@ -11,3 +11,4 @@ CREATE TABLE dynamic_field_obj_id_name (
     PRIMARY KEY(object_id),
     UNIQUE INDEX dynamic_field_object_name (object_name, object_type)
 );
+CREATE INDEX dynamic_field_value_search_text ON dynamic_field_value (field_id, value_text(150));
