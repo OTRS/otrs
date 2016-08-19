@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-08-19 Fixed bug#[9460](http://bugs.otrs.org/show_bug.cgi?id=9460) - Under some circumstances OTRS does not join Tickets to the Customernumber.
  - 2016-08-19 Fixed bug#[12249](http://bugs.otrs.org/show_bug.cgi?id=12249) - A submission of a note with attachment results in the display of empty message with attachment.
  - 2016-08-18 Fixed bug#[12246](http://bugs.otrs.org/show_bug.cgi?id=12246) - HTML mail not displayed correctly.
  - 2016-08-18 Fixed bug#[12252](http://bugs.otrs.org/show_bug.cgi?id=12252) - Support Bundle cannot be created via GUI if cloud services are disabled.
