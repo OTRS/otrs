@@ -347,7 +347,7 @@ sub Run {
         next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
         my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
 
-        if ( length $GetParam{$Key} ) {
+        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
 
             # get dynamic field config
             my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
@@ -380,8 +380,12 @@ sub Run {
     for my $Item ( sort keys %Values ) {
         for my $Count ( 1 .. 16 ) {
             my $Key = $Item . $Count;
-            if ( length $GetParam{$Key} && $DynamicFieldListReversed{ $Values{$Item} . $Count } ) {
-
+            if (
+                defined $GetParam{$Key}
+                && length $GetParam{$Key}
+                && $DynamicFieldListReversed{ $Values{$Item} . $Count }
+                )
+            {
                 # get dynamic field config
                 my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
@@ -408,7 +412,7 @@ sub Run {
 
         my $Key = 'X-OTRS-TicketTime' . $Count;
 
-        if ( length $GetParam{$Key} ) {
+        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
 
             # get time object
             my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
@@ -517,7 +521,7 @@ sub Run {
         next DYNAMICFIELDID if !$DynamicFieldID;
         next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
         my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
-        if ( length $GetParam{$Key} ) {
+        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
 
             # get dynamic field config
             my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
@@ -550,8 +554,12 @@ sub Run {
     for my $Item ( sort keys %Values ) {
         for my $Count ( 1 .. 16 ) {
             my $Key = $Item . $Count;
-            if ( length $GetParam{$Key} && $DynamicFieldListReversed{ $Values{$Item} . $Count } ) {
-
+            if (
+                defined $GetParam{$Key}
+                && length $GetParam{$Key}
+                && $DynamicFieldListReversed{ $Values{$Item} . $Count }
+                )
+            {
                 # get dynamic field config
                 my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
