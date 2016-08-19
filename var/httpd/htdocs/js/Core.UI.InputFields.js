@@ -2172,6 +2172,11 @@ Core.UI.InputFields = (function (TargetNS) {
                             break;
                     }
 
+                })
+
+                // Close dropdown if search field has been removed from DOM (bug#12243)
+                .off('remove.InputField').on('remove.InputField', function () {
+                    CloseOpenSelections();
                 });
 
                 // Handle custom redraw event on original select field
