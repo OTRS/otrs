@@ -636,6 +636,23 @@ my @Tests = (
         Success => 1,
     },
     {
+        Name   => 'Correct today date for date field which only allow old dates (search value)',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyPast},
+            Value              => (
+                split(
+                    /\s/,
+                    $TimeObject->SystemTime2TimeStamp(
+                        SystemTime => $TimeObject->SystemTime(),
+                        )
+                    )
+                )[0]
+                . " 00:00:00",
+            UserID => $UserID,
+        },
+        Success => 1,
+    },
+    {
         Name   => 'Correct future date for date field which only allow future dates (search value)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyFuture},
@@ -644,6 +661,23 @@ my @Tests = (
                     /\s/,
                     $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $TimeObject->SystemTime() + 259200,
+                        )
+                    )
+                )[0]
+                . " 00:00:00",
+            UserID => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct today date for date field which only allow future dates (search value)',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyFuture},
+            Value              => (
+                split(
+                    /\s/,
+                    $TimeObject->SystemTime2TimeStamp(
+                        SystemTime => $TimeObject->SystemTime(),
                         )
                     )
                 )[0]
