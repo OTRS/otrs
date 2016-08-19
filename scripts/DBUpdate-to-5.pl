@@ -1436,6 +1436,36 @@ sub _MigrateConfigs {
     }
 
     print "...done.\n";
+    print "--- Article attachment modules...";
+
+    # Article View Modules
+    for my $Type (qw(Ticket::Frontend::ArticleAttachmentModule)) {
+
+        $Setting = $ConfigObject->Get($Type);
+
+        ARTICLEMODULE:
+        for my $ArticleAttachmentModule ( sort keys %{$Setting} ) {
+
+            # update module location
+            my $Module = $Setting->{$ArticleAttachmentModule}->{'Module'};
+            next ARTICLEMODULE if ( $Module !~ m{Kernel::Output::HTML::ArticleAttachment(\w+)} );
+
+            $Module =~ s{Kernel::Output::HTML::ArticleAttachment(\w+)}{Kernel::Output::HTML::ArticleAttachment::$1}xmsg;
+            next ARTICLEMODULE if ( $Setting->{$ArticleAttachmentModule}->{'Module'} eq $Module );
+
+            # update sysconfig if it is necessary
+            $Setting->{$ArticleAttachmentModule}->{'Module'} = $Module;
+
+            # set new setting
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Type . '###' . $ArticleAttachmentModule,
+                Value => $Setting->{$ArticleAttachmentModule},
+            );
+        }
+    }
+
+    print "...done.\n";
     print "--- NavBar menu modules...";
 
     # NavBar Menu Modules
