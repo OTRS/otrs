@@ -84,6 +84,9 @@ $Selenium->RunTest(
         # synchronize process
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
+        # we have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache
+        sleep 1;
+
         # get process list
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
@@ -214,6 +217,9 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
+
+        # we have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache
+        sleep 1;
 
         # log in customer
         $Selenium->Login(
