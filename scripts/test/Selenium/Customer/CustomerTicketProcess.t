@@ -133,6 +133,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
