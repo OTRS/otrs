@@ -1279,6 +1279,14 @@ sub _MaskRun {
         }
     }
 
+    # remove residual dynamic field data from job definition
+    # they are passed through dedicated variable anyway
+    PARAM_NAME:
+    for my $ParamName ( sort keys %JobData ) {
+        next PARAM_NAME if !( $ParamName =~ /^DynamicField_/ );
+        delete $JobData{$ParamName};
+    }
+
     # get needed objects
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
