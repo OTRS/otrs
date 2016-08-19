@@ -416,6 +416,7 @@ sub Run {
                 TicketID  => $TicketID,
                 GetParam  => $GetParam,
                 JobConfig => $Jobs{$Job},
+                Return    => $Return[0],
             );
 
             if ( !$Run ) {
