@@ -29,7 +29,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my $RandomID = $Helper->GetRandomID();
 
 # create a dynamic field
-my $FieldName = 'ExternalTNRecognition' . $RandomID;
+my $FieldName = 'Text' . $RandomID;
 my $FieldID   = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldAdd(
     Name       => $FieldName,
     Label      => $FieldName . "_test",
