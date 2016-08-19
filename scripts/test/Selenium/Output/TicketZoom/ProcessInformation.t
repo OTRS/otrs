@@ -79,13 +79,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
 
-        # wait until process is created
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Notice").length' );
-
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # wait until process is synchronized
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Notice").length' );
+        # we have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache
+        sleep 1;
 
         # get process object
         my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
