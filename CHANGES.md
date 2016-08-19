@@ -51,6 +51,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.13 2016-??-??
+ - 2016-08-19 Fixed bug#[12225](http://bugs.otrs.org/show_bug.cgi?id=12225) - actual day can not be added if a dynamic field (Date) requires future date.
  - 2016-08-19 Fixed bug#[12258](http://bugs.otrs.org/show_bug.cgi?id=12258) - restore.pl doesn't work with crypted passwords.
  - 2016-08-19 Fixed bug#[12222](http://bugs.otrs.org/show_bug.cgi?id=12222) - closing curly bracket in hyperlink.
  - 2016-08-19 Fixed bug#[12210](http://bugs.otrs.org/show_bug.cgi?id=12210) - GenericAgent can not be submitted if a dynamic field (Date) requires future date.

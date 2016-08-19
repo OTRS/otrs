@@ -169,8 +169,27 @@ sub ValueValidate {
             String => $Param{Value},
         );
         my $SystemTime = $TimeObject->SystemTime();
+        my ( $SystemTimePast, $SystemTimeFuture ) = $SystemTime;
 
-        if ( $DateRestriction eq 'DisableFutureDates' && $ValueSystemTime > $SystemTime ) {
+        # if validating date only value, allow today for selection
+        if ( $Param{DynamicFieldConfig}->{FieldType} eq 'Date' ) {
+
+            # calculate today system time boundaries
+            my @Today = $TimeObject->SystemTime2Date(
+                SystemTime => $SystemTime,
+            );
+            $SystemTimePast = $TimeObject->Date2SystemTime(
+                Year   => $Today[5],
+                Month  => $Today[4],
+                Day    => $Today[3],
+                Hour   => 0,
+                Minute => 0,
+                Second => 0,
+            );
+            $SystemTimeFuture = $SystemTimePast + 60 * 60 * 24 - 1;    # 23:59:59
+        }
+
+        if ( $DateRestriction eq 'DisableFutureDates' && $ValueSystemTime > $SystemTimeFuture ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
@@ -178,7 +197,7 @@ sub ValueValidate {
             );
             return;
         }
-        elsif ( $DateRestriction eq 'DisablePastDates' && $ValueSystemTime < $SystemTime ) {
+        elsif ( $DateRestriction eq 'DisablePastDates' && $ValueSystemTime < $SystemTimePast ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
@@ -506,12 +525,31 @@ sub EditFieldValueValidate {
             String => $ManualTimeStamp,
         );
         my $SystemTime = $TimeObject->SystemTime();
+        my ( $SystemTimePast, $SystemTimeFuture ) = $SystemTime;
 
-        if ( $DateRestriction eq 'DisableFutureDates' && $ValueSystemTime > $SystemTime ) {
+        # if validating date only value, allow today for selection
+        if ( $Param{DynamicFieldConfig}->{FieldType} eq 'Date' ) {
+
+            # calculate today system time boundaries
+            my @Today = $TimeObject->SystemTime2Date(
+                SystemTime => $SystemTime,
+            );
+            $SystemTimePast = $TimeObject->Date2SystemTime(
+                Year   => $Today[5],
+                Month  => $Today[4],
+                Day    => $Today[3],
+                Hour   => 0,
+                Minute => 0,
+                Second => 0,
+            );
+            $SystemTimeFuture = $SystemTimePast + 60 * 60 * 24 - 1;    # 23:59:59
+        }
+
+        if ( $DateRestriction eq 'DisableFutureDates' && $ValueSystemTime > $SystemTimeFuture ) {
             $ServerError  = 1;
             $ErrorMessage = "Invalid date (need a past date)!";
         }
-        elsif ( $DateRestriction eq 'DisablePastDates' && $ValueSystemTime < $SystemTime ) {
+        elsif ( $DateRestriction eq 'DisablePastDates' && $ValueSystemTime < $SystemTimePast ) {
             $ServerError  = 1;
             $ErrorMessage = "Invalid date (need a future date)!";
         }
