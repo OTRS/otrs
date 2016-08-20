@@ -1,4 +1,5 @@
 #4.0.19 2016-??-??
+ - 2016-08-19 Fixed bug#[12236](http://bugs.otrs.org/show_bug.cgi?id=12236) - ACL - negate a role.
  - 2016-08-19 Fixed bug#[12242](http://bugs.otrs.org/show_bug.cgi?id=12242) - GenericInterface Dynamic Fields with multiple values not possible (TicketCreate).
  - 2016-08-19 Fixed bug#[12258](http://bugs.otrs.org/show_bug.cgi?id=12258) - restore.pl doesn't work with crypted passwords.
  - 2016-08-19 Fixed bug#[12212](http://bugs.otrs.org/show_bug.cgi?id=12212) - otrs.PendingJobs.pl: Pending Reminder notification not sent if pending auto states are deactivated.
