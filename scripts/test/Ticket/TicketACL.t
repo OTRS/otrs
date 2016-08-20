@@ -3874,7 +3874,7 @@ my $NumberOfTests = $#TestsNormal;
 for my $TestCase ( sort keys %TestModifiers ) {
     for my $Index ( 0 .. $NumberOfTests ) {
 
-        my $Test = Storable::dclone( $TestsNormal[$Index] );
+        my $Test = $StorableObject->Clone( Data => $TestsNormal[$Index] );
 
         $Test->{Name} = $TestModifiers{$TestCase}->[$Index]->{Name};
         $Test->{ACLs}->{'Role-Test'}->{Properties}->{User}->{Role} = $TestModifiers{$TestCase}->[$Index]->{Role};
