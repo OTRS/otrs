@@ -22,16 +22,6 @@
 <a class="AsBlock LinkObjectLink" href="[% Data.Link %]" title="[% Data.Title | html %]" >[% Data.Content | truncate(Data.MaxLength) | html %]</a>
 [% RenderBlockEnd("Link") %]
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-// Make sure that (only!) from a popup window, links are always opened in a new tab of the main window.
-if (Core.UI.Popup.CurrentIsPopupWindow()) {
-    $('a.LinkObjectLink').attr('target', '_blank');
-}
-//]]></script>
-[% END %]
-
-
 [% RenderBlockStart("TimeLong") %]
 [% Data.Content | Localize("TimeLong") %]
 [% RenderBlockEnd("TimeLong") %]
@@ -86,14 +76,6 @@ if (Core.UI.Popup.CurrentIsPopupWindow()) {
                         <i class="fa fa-cog"></i>
                     </a>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-// register click on settings button
-Core.UI.RegisterToggleTwoContainer($('#linkobject-' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-toggle'),
-    $('#linkobject-' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'),
-    $('#' + Core.App.EscapeSelector('[% Data.Name | html %]')));
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargePreferences") %]
             <div class="Clear"></div>
         </div>
@@ -151,19 +133,6 @@ Core.UI.RegisterToggleTwoContainer($('#linkobject-' + Core.App.EscapeSelector('[
                         </div>
                     </div>
                     <div class="Clear"></div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-// Update preferences and load linked table via AJAX
-Core.Agent.LinkObject.RegisterUpdatePreferences($('#linkobject-' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_submit'),
-    "Widget" + Core.App.EscapeSelector('[% Data.Name | html %]'),
-    $('#linkobject-' + Core.App.EscapeSelector('[% Data.NameForm | html %]') + '_setting_form'));
-
-// toggle two containers when user press Cancel
-Core.UI.RegisterToggleTwoContainer($('#linkobject-' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_cancel'),
-    $('#linkobject-' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'),
-    $('#' + Core.App.EscapeSelector('[% Data.Name | html %]')));
-//]]></script>
-[% END %]
 
 [% RenderBlockEnd("ContentLargePreferencesItemAllocationList") %]
 [% RenderBlockStart("ContentLargePreferencesItemRawHTML") %]
@@ -229,12 +198,3 @@ Core.UI.RegisterToggleTwoContainer($('#linkobject-' + Core.App.EscapeSelector('[
 [% RenderBlockEnd("TableComplexBlock") %]
 
 [% RenderBlockEnd("TableComplex") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('.SelectAll').bind('click', function () {
-        var Status = $(this).prop('checked');
-        $(this).closest('.WidgetSimple').find('table input[type=checkbox]').prop('checked', Status);
-    });
-//]]></script>
-[% END %]

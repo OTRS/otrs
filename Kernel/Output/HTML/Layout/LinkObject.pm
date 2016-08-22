@@ -334,6 +334,12 @@ sub LinkObjectTableCreateComplex {
                 $SourceObjectData = "<input type='hidden' name='$Block->{ObjectName}' value='$Block->{ObjectID}' />";
             }
 
+            # send data to JS
+            $LayoutObject->AddJSData(
+                Key   => 'LinkObjectName',
+                Value => $Block->{Blockname},
+            );
+
             $LayoutObject->Block(
                 Name => 'ContentLargePreferences',
                 Data => {
@@ -344,6 +350,12 @@ sub LinkObjectTableCreateComplex {
             my %Preferences = $Self->ComplexTablePreferencesGet(
                 Config  => $Config->{ $Block->{Blockname} },
                 PrefKey => "LinkObject::ComplexTable-" . $Block->{Blockname},
+            );
+
+            # send data to JS
+            $LayoutObject->AddJSData(
+                Key   => 'LinkObjectPreferences',
+                Value => \%Preferences,
             );
 
             $LayoutObject->Block(

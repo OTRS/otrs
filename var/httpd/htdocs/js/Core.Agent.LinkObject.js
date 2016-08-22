@@ -44,7 +44,50 @@ Core.Agent.LinkObject = (function (TargetNS) {
         }
     };
 
-    Core.Agent.TableFilters.SetAllocationList();
+    /**
+     * @name Init
+     * @memberof Core.Agent.LinkObject
+     * @function
+     * @description
+     *      This function initializes module functionality.
+     */
+    TargetNS.Init = function () {
+
+        var Name = Core.Config.Get('LinkObjectName');
+        var Preferences = Core.Config.Get('LinkObjectPreferences');
+
+        // events for link object complex table
+        if (typeof Name !== 'undefined') {
+
+            // initialize allocation list
+            if (typeof Preferences !== 'undefined') {
+                Core.Agent.TableFilters.SetAllocationList();
+            }
+
+            // Update preferences and load linked table via AJAX
+            TargetNS.RegisterUpdatePreferences(
+                $('#linkobject-' + Core.App.EscapeSelector(Name) + '_submit'),
+                'Widget' + Core.App.EscapeSelector(Name),
+                $('#linkobject-' + Core.App.EscapeSelector(Name) + '_setting_form')
+            );
+
+            // register click on settings button
+            Core.UI.RegisterToggleTwoContainer(
+                $('#linkobject-' + Core.App.EscapeSelector(Name) + '-toggle'),
+                $('#linkobject-' + Core.App.EscapeSelector(Name) + '-setting'),
+                $('#' + Core.App.EscapeSelector(Name))
+            );
+
+            // toggle two containers when user press Cancel
+            Core.UI.RegisterToggleTwoContainer(
+                $('#linkobject-' + Core.App.EscapeSelector(Name) + '_cancel'),
+                $('#linkobject-' + Core.App.EscapeSelector(Name) + '-setting'),
+                $('#' + Core.App.EscapeSelector(Name))
+            );
+        }
+    };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.LinkObject || {}));

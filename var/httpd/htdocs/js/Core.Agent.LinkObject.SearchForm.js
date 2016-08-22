@@ -30,7 +30,8 @@ Core.Agent.LinkObject.SearchForm = (function (TargetNS) {
     TargetNS.Init = function () {
 
         var SearchValueFlag,
-            TemporaryLink = Core.Config.Get('TemporaryLink');
+            TemporaryLink = Core.Config.Get('TemporaryLink'),
+            Status;
 
         if (typeof TemporaryLink !== 'undefined' && parseInt(TemporaryLink, 10) === 1) {
             $('#LinkAddCloseLink, #LinkDeleteCloseLink').on('click', function () {
@@ -74,6 +75,22 @@ Core.Agent.LinkObject.SearchForm = (function (TargetNS) {
                alert(Core.Language.Translate("Please enter at least one search value or * to find anything."));
                return false;
             }
+        });
+
+        // Make sure that (only!) from a popup window, links are always opened in a new tab of the main window.
+        if (Core.UI.Popup.CurrentIsPopupWindow()) {
+            $('a.LinkObjectLink').attr('target', '_blank');
+        }
+
+        // event for 'Select All' checkbox
+        $('.SelectAll').on('click', function () {
+            Status = $(this).prop('checked');
+            $(this).closest('.WidgetSimple').find('table input[type=checkbox]').prop('checked', Status);
+        });
+
+        // event for checkboxes
+        $('input[type="checkbox"][name="LinkTargetKeys"]').on('click', function () {
+            Core.Form.SelectAllCheckboxes($(this), $(this).closest('.WidgetSimple').find('.SelectAll'));
         });
     };
 
