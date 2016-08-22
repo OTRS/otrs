@@ -40,14 +40,7 @@ $Self->Is(
     "Event handler added to config",
 );
 
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
 # helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-    },
-);
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 

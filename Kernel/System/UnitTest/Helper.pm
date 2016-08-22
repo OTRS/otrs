@@ -41,8 +41,6 @@ construct a helper object.
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::UnitTest::Helper' => {
-            RestoreSystemConfiguration => 1,        # optional, save ZZZAuto.pm
-                                                    # and restore it in the destructor
             RestoreDatabase            => 1,        # runs the test in a transaction,
                                                     # and roll it back in the destructor
                                                     #
@@ -67,15 +65,6 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     $Self->{UnitTestObject} = $Kernel::OM->Get('Kernel::System::UnitTest');
-
-    # make backup of system configuration if needed
-    if ( $Param{RestoreSystemConfiguration} ) {
-        $Self->{SysConfigObject} = Kernel::System::SysConfig->new();
-
-        $Self->{SysConfigBackup} = $Self->{SysConfigObject}->Download();
-
-        $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration.' );
-    }
 
     # Remove any leftover configuration changes from aborted previous runs.
     $Self->ConfigSettingCleanup();
@@ -481,14 +470,6 @@ sub DESTROY {
     FixedTimeUnset();
 
     # FixedDateTimeObjectUnset();
-
-    #
-    # Restore system configuration if needed
-    #
-    if ( $Self->{SysConfigBackup} ) {
-        $Self->{SysConfigObject}->Upload( Content => $Self->{SysConfigBackup} );
-        $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
-    }
 
     # Remove any configuration changes.
     $Self->ConfigSettingCleanup();

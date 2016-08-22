@@ -20,12 +20,11 @@ use Kernel::System::VariableCheck qw(:all);
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-        RestoreDatabase            => 1,
+
+        RestoreDatabase => 1,
     },
 );
-my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
 
@@ -34,12 +33,12 @@ my $SOAPUser     = 'User' . $RandomID;
 my $SOAPPassword = $RandomID;
 
 # update sysconfig settings
-$SysConfigObject->ConfigItemUpdate(
+$Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'SOAP::User',
     Value => $SOAPUser,
 );
-$SysConfigObject->ConfigItemUpdate(
+$Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'SOAP::Password',
     Value => $SOAPPassword,
