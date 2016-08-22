@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-08-22 Fixed bug#[12264](http://bugs.otrs.org/show_bug.cgi?id=12264) - Incorrect link to ACL documentation.
  - 2016-08-19 Fixed bug#[12236](http://bugs.otrs.org/show_bug.cgi?id=12236) - ACL - negate a role.
  - 2016-08-19 Fixed bug#[12242](http://bugs.otrs.org/show_bug.cgi?id=12242) - GenericInterface Dynamic Fields with multiple values not possible (TicketCreate).
  - 2016-08-19 Fixed bug#[12261](http://bugs.otrs.org/show_bug.cgi?id=12261) - SupportBundle generator dialog has double separator lines.
