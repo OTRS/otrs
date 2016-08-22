@@ -14,7 +14,7 @@ use vars (qw($Self));
 
 use Kernel::Config;
 
-## nofilter(TidyAll::Plugin::OTRS::Perl::UnitTestSysConfigRestore)
+## nofilter(TidyAll::Plugin::OTRS::Perl::UnitTestConfigChanges)
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 #
