@@ -48,11 +48,6 @@
                         <i class="fa fa-cog"></i>
                     </a>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-toggle'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')));
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentSmallPreferences") %]
 [% RenderBlockStart("ContentSmallRefresh") %]
                 <div class="WidgetAction Refresh">
@@ -60,18 +55,6 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% 
                         <i class="fa fa-refresh"></i>
                     </a>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_toggle').on('click', function() {
-    $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-    Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-    });
-    clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
-    return false;
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentSmallRefresh") %]
                 <div class="WidgetAction Close">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
@@ -117,12 +100,6 @@ $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_toggle').
                             <button id="Dashboard[% Data.Name | html %]_submit" class="button DontPrint CallForAction Primary" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save Changes") | html %]</span></button>
                             <button id="Dashboard[% Data.Name | html %]_cancel" class="button DontPrint CallForAction" type="submit" value="[% Translate("Cancel") | html %]"><span>[% Translate("Cancel") | html %]</span></button>
                         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_submit'), 'Dashboard[% Data.Name | html %]', $('#Dashboard' + Core.App.EscapeSelector('[% Data.NameForm | html %]') + '_setting_form'));
-Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_cancel'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')));
-//]]></script>
-[% END %]
                     </fieldset>
                 </form>
             </div>
@@ -164,11 +141,6 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% 
                         <i class="fa fa-cog"></i>
                     </a>
                 </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-toggle'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')));
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargePreferences") %]
                 <div class="WidgetAction Close">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
@@ -243,12 +215,6 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% 
                             &nbsp;[% Translate("or") | html %]&nbsp;
                             <button id="Dashboard[% Data.Name | html %]_cancel" class="CallForAction DontPrint" type="submit" value="[% Translate("Cancel") | html %]"><span>[% Translate("Cancel") | html %]</span></button>
                         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_submit'), 'Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]'),$('#Dashboard' + Core.App.EscapeSelector('[% Data.NameForm | html %]') + '_setting_form'));
-Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_cancel'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-setting'), $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')));
-//]]></script>
-[% END %]
                     </fieldset>
                 </form>
             </div>
@@ -264,13 +230,3 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector('[% 
 [% RenderBlockEnd("ContentLarge") %]
 </div>
 <div class="Clear"></div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Config.AddConfig({
-[% RenderBlockStart("ColumnTranslation") %]
-        'Column[% Data.ColumnName | html %]': [% Translate(Data.TranslateString) | JSON %][% RenderBlockStart("ColumnTranslationSeparator") %],[% RenderBlockEnd("ColumnTranslationSeparator") %]
-[% RenderBlockEnd("ColumnTranslation") %]
-    });
-//]]></script>
-[% END %]
