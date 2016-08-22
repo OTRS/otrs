@@ -23,22 +23,21 @@ use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 # get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-        SkipSSLVerify              => 1,
+
+        SkipSSLVerify => 1,
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
 
-$SysConfigObject->ConfigItemUpdate(
+$Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Ticket::Type',
     Value => '1',
@@ -47,7 +46,7 @@ $ConfigObject->Set(
     Key   => 'Ticket::Type',
     Value => 1,
 );
-$SysConfigObject->ConfigItemUpdate(
+$Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Ticket::Frontend::AccountTime',
     Value => '1',
@@ -56,7 +55,7 @@ $ConfigObject->Set(
     Key   => 'Ticket::Frontend::AccountTime',
     Value => 1,
 );
-$SysConfigObject->ConfigItemUpdate(
+$Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Ticket::Frontend::NeedAccountedTime',
     Value => '1',
@@ -67,7 +66,7 @@ $ConfigObject->Set(
 );
 
 # disable DNS lookups
-$SysConfigObject->ConfigItemUpdate(
+$Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'CheckMXRecord',
     Value => '0',
@@ -76,7 +75,7 @@ $ConfigObject->Set(
     Key   => 'CheckMXRecord',
     Value => 0,
 );
-$SysConfigObject->ConfigItemUpdate(
+$Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'CheckEmailAddresses',
     Value => '1',

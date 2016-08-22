@@ -14,13 +14,7 @@ use vars (qw($Self));
 
 use Kernel::Config;
 
-# get needed objects
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-    },
-);
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+## nofilter(TidyAll::Plugin::OTRS::Perl::UnitTestSysConfigRestore)
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 #
@@ -86,6 +80,10 @@ for my $Test (@Tests) {
         $ConfigObject->Get('UnitTest::Option'),
         $Test->{Value},
         "ConfigItemUdpate() - $Test->{Name}",
+    );
+
+    $SysConfigObject->ConfigItemReset(
+        Name => 'UnitTest::Option',
     );
 }
 
