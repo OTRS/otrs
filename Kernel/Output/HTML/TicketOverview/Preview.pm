@@ -160,12 +160,6 @@ sub ActionRow {
         }
     }
 
-    # init for table control
-    $LayoutObject->Block(
-        Name => 'DocumentReadyStart',
-        Data => \%Param,
-    );
-
     my $Output = $LayoutObject->Output(
         TemplateFile => 'AgentTicketOverviewPreview',
         Data         => \%Param,
@@ -267,6 +261,16 @@ sub Run {
                 }
             }
         }
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'ReplyFieldsFormID',
+            Value => $Self->{ReplyFieldsFormID},
+        );
+        $LayoutObject->AddJSData(
+            Key   => 'ActionRowTickets',
+            Value => $Self->{ActionRowTickets},
+        );
     }
     else {
         $LayoutObject->Block( Name => 'NoTicketFound' );
@@ -1098,6 +1102,7 @@ sub _Show {
                         }
                     }
                 }
+
                 if ($Access) {
                     $LayoutObject->Block(
                         Name => 'ArticlePreviewActionRow',
@@ -1160,6 +1165,8 @@ sub _Show {
                         },
                     );
 
+                    push @{ $Self->{ReplyFieldsFormID} }, 'Reply' . $ArticleItem->{ArticleID};
+
                     # check if reply all is needed
                     my $Recipients = '';
                     KEY:
@@ -1221,6 +1228,8 @@ sub _Show {
                                 ReplyAll              => 1,
                             },
                         );
+
+                        push @{ $Self->{ReplyFieldsFormID} }, 'ReplyAll' . $ArticleItem->{ArticleID};
                     }
                 }
             }
@@ -1230,13 +1239,17 @@ sub _Show {
     # add action items as js
     if ( @ActionItems && !$Param{Config}->{TicketActionsPerTicket} ) {
 
-        $LayoutObject->Block(
-            Name => 'DocumentReadyActionRowAdd',
-            Data => {
-                TicketID => $Param{TicketID},
-                Data     => \@ActionItems,
-            },
-        );
+        # replace TT directives from string with values
+        for my $ActionItem (@ActionItems) {
+            $ActionItem->{Link} = $LayoutObject->Output(
+                Template => $ActionItem->{Link},
+                Data     => {
+                    TicketID => $Article{TicketID},
+                },
+            );
+        }
+
+        $Self->{ActionRowTickets}->{ $Param{TicketID} } = $LayoutObject->JSONEncode( Data => \@ActionItems );
     }
 
     # create & return output
