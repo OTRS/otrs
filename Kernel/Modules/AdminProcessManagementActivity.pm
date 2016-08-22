@@ -195,8 +195,6 @@ sub Run {
             EntityID => $EntityID,
         );
 
-        my $ConfigJSON = $LayoutObject->JSONEncode( Data => $ActivityConfig );
-
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
@@ -220,7 +218,7 @@ sub Run {
                     ID        => $RedirectID,
                     EntityID  => $RedirectID,
                 },
-                ConfigJSON => $ConfigJSON,
+                ConfigJSON => $ActivityConfig,
             );
         }
         else {
@@ -234,7 +232,7 @@ sub Run {
                 # close the popup
                 return $Self->_PopupResponse(
                     ClosePopup => 1,
-                    ConfigJSON => $ConfigJSON,
+                    ConfigJSON => $ActivityConfig,
                 );
             }
             else {
@@ -243,7 +241,7 @@ sub Run {
                 return $Self->_PopupResponse(
                     Redirect   => 1,
                     Screen     => $LastScreen,
-                    ConfigJSON => $ConfigJSON,
+                    ConfigJSON => $ActivityConfig,
                 );
             }
         }
@@ -406,8 +404,6 @@ sub Run {
             EntityID => $ActivityData->{EntityID},
         );
 
-        my $ConfigJSON = $LayoutObject->JSONEncode( Data => $ActivityConfig );
-
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
@@ -431,7 +427,7 @@ sub Run {
                     ID        => $RedirectID,
                     EntityID  => $RedirectID,
                 },
-                ConfigJSON => $ConfigJSON,
+                ConfigJSON => $ActivityConfig,
             );
         }
         else {
@@ -445,7 +441,7 @@ sub Run {
                 # close the popup
                 return $Self->_PopupResponse(
                     ClosePopup => 1,
-                    ConfigJSON => $ConfigJSON,
+                    ConfigJSON => $ActivityConfig,
                 );
             }
             else {
@@ -454,7 +450,7 @@ sub Run {
                 return $Self->_PopupResponse(
                     Redirect   => 1,
                     Screen     => $LastScreen,
-                    ConfigJSON => $ConfigJSON,
+                    ConfigJSON => $ActivityConfig,
                 );
             }
         }
@@ -628,6 +624,7 @@ sub Run {
         # close the popup
         return $Self->_PopupResponse(
             ClosePopup => 1,
+            ConfigJSON => '',
         );
     }
 
@@ -966,20 +963,24 @@ sub _PopupResponse {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( $Param{Redirect} && $Param{Redirect} eq 1 ) {
-        $LayoutObject->Block(
-            Name => 'Redirect',
-            Data => {
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'Redirect',
+            Value => {
                 ConfigJSON => $Param{ConfigJSON},
                 %{ $Param{Screen} },
-            },
+                }
         );
     }
     elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
-        $LayoutObject->Block(
-            Name => 'ClosePopup',
-            Data => {
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'ClosePopup',
+            Value => {
                 ConfigJSON => $Param{ConfigJSON},
-            },
+                }
         );
     }
 

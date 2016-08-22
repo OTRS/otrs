@@ -32,6 +32,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
+        // Initialize Popup response (Redirect and close Popup)
+        InitProcessPopupsResponse();
+
         // Initialize table filter
         Core.UI.Table.InitTableFilter($('#Filter'), $('#Processes'), 0);
 
@@ -122,6 +125,63 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // Remove onbeforeunload event (which is only needed if you close the popup via the window "X")
             $(window).off("beforeunload.PMPopup");
         });
+    }
+
+    /**
+     * @private
+     * @name InitProcessPopupsResponse
+     * @memberof Core.Agent.Admin.ProcessManagement
+     * @function
+     * @description
+     *      Initializes redirect and close popups response.
+     */
+    function InitProcessPopupsResponse() {
+        var Redirect = Core.Config.Get('Redirect'),
+            ClosePopup = Core.Config.Get('ClosePopup'),
+            Data;
+
+        if (typeof Redirect !== 'undefined') {
+
+            Data = {
+                Action: Redirect.Action,
+                Subaction: Redirect.Subaction,
+                ID: Redirect.ID,
+                EntityID: Redirect.EntityID,
+                Field: Redirect.Field,
+                StartActivityID: Redirect.StartActivityID
+            };
+
+            // send results to main window
+            window.opener.Core.Agent.Admin.ProcessManagement.UpdateConfig(Redirect.ConfigJSON);
+
+            // reload popup
+            Core.App.InternalRedirect(Data);
+        }
+        else if (typeof ClosePopup !== 'undefined') {
+
+            window.opener.Core.Agent.Admin.ProcessManagement.UpdateScreensPath(window, function (WindowObject) {
+                //send results to main window
+                WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateConfig(ClosePopup.ConfigJSON);
+
+                // update accordion
+                WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateAccordion();
+
+                // update sync message
+                WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateSyncMessage();
+
+                // redraw canvas
+                WindowObject.opener.Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
+
+                // remove overlay
+                WindowObject.opener.Core.Agent.Admin.ProcessManagement.HideOverlay();
+
+                // remove onbeforeunload event (which is only needed if you close the popup via the window "X")
+                $(WindowObject).unbind("beforeunload.PMPopup");
+
+                // close popup
+                WindowObject.close();
+            });
+        }
     }
 
     /**
