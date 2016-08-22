@@ -30,8 +30,8 @@ Core.Agent.Dashboard = (function (TargetNS) {
      */
     TargetNS.InitCustomerIDAutocomplete = function ($Input) {
         $Input.autocomplete({
-            minLength: Core.Config.Get('CustomerIDAutocomplete').MinQueryLength,
-            delay: Core.Config.Get('CustomerIDAutocomplete').QueryDelay,
+            minLength: Core.Config.Get('CustomerIDAutocomplete.MinQueryLength'),
+            delay: Core.Config.Get('CustomerIDAutocomplete.QueryDelay'),
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
@@ -43,7 +43,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     Subaction: 'SearchCustomerID',
                     IncludeUnknownTicketCustomers: parseInt(Core.Config.Get('IncludeUnknownTicketCustomers'), 10),
                     Term: Request.term,
-                    MaxResults: Core.Config.Get('CustomerIDAutocomplete').MaxResultsDisplayed
+                    MaxResults: Core.Config.Get('CustomerIDAutocomplete.MaxResultsDisplayed')
                 };
 
                 // if an old ajax request is already running, stop the old request and start the new one
@@ -87,8 +87,8 @@ Core.Agent.Dashboard = (function (TargetNS) {
      */
     TargetNS.InitCustomerUserAutocomplete = function ($Input) {
         $Input.autocomplete({
-            minLength: Core.Config.Get('CustomerUserAutocomplete').MinQueryLength,
-            delay: Core.Config.Get('CustomerUserAutocomplete').QueryDelay,
+            minLength: Core.Config.Get('CustomerUserAutocomplete.MinQueryLength'),
+            delay: Core.Config.Get('CustomerUserAutocomplete.QueryDelay'),
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
@@ -99,7 +99,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     Action: 'AgentCustomerSearch',
                     IncludeUnknownTicketCustomers: parseInt(Core.Config.Get('IncludeUnknownTicketCustomers'), 10),
                     Term: Request.term,
-                    MaxResults: Core.Config.Get('CustomerUserAutocomplete').MaxResultsDisplayed
+                    MaxResults: Core.Config.Get('CustomerUserAutocomplete.MaxResultsDisplayed')
                 };
 
                 // if an old ajax request is already running, stop the old request and start the new one
@@ -145,8 +145,8 @@ Core.Agent.Dashboard = (function (TargetNS) {
      */
     TargetNS.InitUserAutocomplete = function ($Input, Subaction) {
         $Input.autocomplete({
-            minLength: Core.Config.Get('UserAutocomplete').MinQueryLength,
-            delay: Core.Config.Get('UserAutocomplete').QueryDelay,
+            minLength: Core.Config.Get('UserAutocomplete.MinQueryLength'),
+            delay: Core.Config.Get('UserAutocomplete.QueryDelay'),
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
@@ -157,7 +157,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     Action: 'AgentUserSearch',
                     Subaction: Subaction,
                     Term: Request.term,
-                    MaxResults: Core.Config.Get('UserAutocomplete').MaxResultsDisplayed
+                    MaxResults: Core.Config.Get('UserAutocomplete.MaxResultsDisplayed')
                 };
 
                 // if an old ajax request is already running, stop the old request and start the new one
