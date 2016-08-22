@@ -155,15 +155,15 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $TicketSubject ) > -1,
             "$TicketSubject found on page",
-        );
+        ) || die "$TicketSubject not found on page";
         $Self->True(
             index( $Selenium->get_page_source(), $TicketBody ) > -1,
             "$TicketBody found on page",
-        );
+        ) || die "$TicketBody not found on page";
         $Self->True(
             index( $Selenium->get_page_source(), $TestCustomer ) > -1,
             "$TestCustomer found on page",
-        );
+        ) || die "$TestCustomer not found on page";
 
         # Test bug #12229
         my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(

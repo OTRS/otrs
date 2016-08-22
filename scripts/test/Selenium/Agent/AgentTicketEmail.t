@@ -137,30 +137,31 @@ $Selenium->RunTest(
 
         $Self->True(
             $TicketID,
-            "Ticket created"
+            "Ticket was created and found - $TicketID",
         ) || die;
 
         $Self->True(
-            index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-            "Ticket with ticket id $TicketID is created"
+            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom;TicketID=$TicketID' )]"),
+            "Ticket with ticket number $TicketNumber is created",
         );
 
         # go to ticket zoom page of created test ticket
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom;TicketID=$TicketID' )]")
+            ->VerifiedClick();
 
         # check if test ticket values are genuine
         $Self->True(
             index( $Selenium->get_page_source(), $TicketSubject ) > -1,
             "$TicketSubject found on page",
-        );
+        ) || die "$TicketSubject not found on page";
         $Self->True(
             index( $Selenium->get_page_source(), $TicketBody ) > -1,
             "$TicketBody found on page",
-        );
+        ) || die "$TicketBody not found on page";
         $Self->True(
             index( $Selenium->get_page_source(), $TestCustomer ) > -1,
             "$TestCustomer found on page",
-        );
+        ) || die "$TestCustomer not found on page";
 
         # delete created test ticket
         my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
