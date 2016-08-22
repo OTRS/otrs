@@ -261,12 +261,14 @@ Core.Agent.Dashboard = (function (TargetNS) {
             WidgetContainers = Core.Config.Get('ContainerNames');
 
         // initializes dashboards stats widget functionality
-        $.each(DashboardStats, function (Index, Value) {
-            StatsData = Core.Config.Get('StatsData' + Value);
-            if (typeof StatsData !== 'undefined') {
-                TargetNS.InitStatsWidget(StatsData);
-            }
-        });
+        if (typeof DashboardStats !== 'undefined') {
+            $.each(DashboardStats, function (Index, Value) {
+                StatsData = Core.Config.Get('StatsData' + Value);
+                if (typeof StatsData !== 'undefined') {
+                    TargetNS.InitStatsWidget(StatsData);
+                }
+            });
+        }
 
         // initializes events ticket calendar
         EventsTicketCalendarInitialization();
@@ -274,10 +276,13 @@ Core.Agent.Dashboard = (function (TargetNS) {
         // Initializes events customer user list
         InitCustomerUserList();
 
-        // Initializes show and save preferences for widget containers
-        $.each(WidgetContainers, function (Index, Value) {
-            InitWidgetContainerPref(Value);
-        });
+        // Initializes preferences for widget containers
+        // (if widgets are available)
+        if (typeof WidgetContainers !== 'undefined') {
+            $.each(WidgetContainers, function (Index, Value) {
+                InitWidgetContainerPref(Value);
+            });
+        }
 
         // Initializes refresh event for user online widget
         InitUserOnlineRefresh();
