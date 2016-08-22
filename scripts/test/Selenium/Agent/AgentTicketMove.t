@@ -36,7 +36,7 @@ $Selenium->RunTest(
             my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
                 Name            => $QueueName,
                 ValidID         => 1,
-                GroupID         => 1, # users
+                GroupID         => 1,                       # users
                 SystemAddressID => 1,
                 SalutationID    => 1,
                 SignatureID     => 1,

@@ -2543,7 +2543,7 @@ sub _ArticleItem {
     for my $Key (qw(From To Cc)) {
         next KEY if !$Article{$Key};
 
-        my $DisplayType = $Key         eq 'From'     ? $SenderDisplayType : $RecipientDisplayType;
+        my $DisplayType = $Key eq 'From'             ? $SenderDisplayType : $RecipientDisplayType;
         my $HiddenType  = $DisplayType eq 'Realname' ? 'Value'            : 'Realname';
         $LayoutObject->Block(
             Name => 'RowRecipient',
@@ -3320,7 +3320,7 @@ sub _ArticleCollectMeta {
         my @Matches;
         for my $RegExp ( @{ $Filter->{RegExp} } ) {
 
-            my @Count = $RegExp =~ m{\(}gx;
+            my @Count    = $RegExp =~ m{\(}gx;
             my $Elements = scalar @Count;
 
             if ( my @MatchData = $Article{Body} =~ m{([\s:]$RegExp)}gxi ) {
@@ -3363,13 +3363,13 @@ sub _ArticleCollectMeta {
 
                 # replace the whole keyword
                 my $MatchLinkEncode = $LayoutObject->LinkEncode( $Match->{Name} );
-                $URL        =~ s/<MATCH>/$MatchLinkEncode/g;
+                $URL =~ s/<MATCH>/$MatchLinkEncode/g;
                 $URLPreview =~ s/<MATCH>/$MatchLinkEncode/g;
 
                 # replace the keyword components
                 for my $Part ( sort keys %{ $Match->{Parts} || {} } ) {
                     $MatchLinkEncode = $LayoutObject->LinkEncode( $Match->{Parts}->{$Part} );
-                    $URL        =~ s/<MATCH$Part>/$MatchLinkEncode/g;
+                    $URL =~ s/<MATCH$Part>/$MatchLinkEncode/g;
                     $URLPreview =~ s/<MATCH$Part>/$MatchLinkEncode/g;
                 }
 
