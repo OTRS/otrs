@@ -28,11 +28,6 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
         );
 
-        $Helper->ConfigSettingChange(
-            Key   => 'Ticket::SearchIndexModule',
-            Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
-        );
-
         # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -160,11 +155,6 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
         );
 
-        $Helper->ConfigSettingChange(
-            Key   => 'Ticket::SearchIndexModule',
-            Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
-        );
-
         # enable warn on stop word usage
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -190,7 +180,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MinCharString);
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
-        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
 
         # verify alert message
         my $ExpectedAlertText = "Fulltext: $MinCharString";
@@ -207,7 +197,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
-        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
 
         # verify alert message
         $ExpectedAlertText = "Fulltext: $MaxCharString";
@@ -224,7 +214,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "Fulltext", 'name' )->send_keys('because');
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
-        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
         # verify alert message
         $ExpectedAlertText = "Fulltext: because";
