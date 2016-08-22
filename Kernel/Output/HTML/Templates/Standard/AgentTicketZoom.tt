@@ -7,42 +7,6 @@
 # --
 
 [% RenderBlockStart("ArticleFilterDialog") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#SetArticleFilter').bind('click', function (Event) {
-        Core.UI.Dialog.ShowContentDialog($('#ArticleFilterDialog'), [% Translate("Article filter") | JSON %], '20px', 'Center', true, [
-            {
-                Label: [% Translate("Apply") | JSON %],
-                Function: function () {
-                    var Data = Core.AJAX.SerializeForm($('#ArticleFilterDialogForm'));
-                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
-                        location.reload();
-                    }, 'text');
-                }
-            },
-            {
-                Label: [% Translate("Reset") | JSON %],
-                Function: function () {
-                    $('#ArticleTypeFilter').val('').trigger('redraw.InputField');
-                    $('#ArticleSenderTypeFilter').val('').trigger('redraw.InputField');
-                }
-            }
-        ]);
-        return false;
-    });
-    $('#ResetArticleFilter').bind('click', function (Event) {
-        var Data = {
-            Action:       'AgentTicketZoom',
-            Subaction:    'ArticleFilterSet',
-            TicketID:     "[% Data.TicketID | html %]",
-            SaveDefaults: 1
-        };
-        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
-            location.reload();
-        });
-    });
-//]]></script>
-[% END %]
 <div id="ArticleFilterDialog" class="Hidden">
     <form action="[% Env("CGIHandle") %]" method="post" id="ArticleFilterDialogForm" name="ArticleFilterDialogForm">
         <input type="hidden" value="AgentTicketZoom" name="Action"/>
@@ -69,42 +33,6 @@
 [% RenderBlockEnd("ArticleFilterDialog") %]
 
 [% RenderBlockStart("EventTypeFilterDialog") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#SetArticleFilter').bind('click', function (Event) {
-        $('#EventTypeFilterDialog').find('form').css('width', '500px');
-        Core.UI.Dialog.ShowContentDialog($('#EventTypeFilterDialog'), [% Translate("Event Type Filter") | JSON %], '20px', 'Center', true, [
-            {
-                Label: [% Translate("Apply") | JSON %],
-                Function: function () {
-                    var Data = Core.AJAX.SerializeForm($('#EventTypeFilterDialogForm'));
-                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
-                        location.reload();
-                    }, 'text');
-                }
-            },
-            {
-                Label: [% Translate("Reset") | JSON %],
-                Function: function () {
-                    $('#EventTypeFilter').val('').trigger('redraw.InputField');
-                }
-            }
-        ]);
-        return false;
-    });
-    $('#ResetArticleFilter').bind('click', function (Event) {
-        var Data = {
-            Action:       'AgentTicketZoom',
-            Subaction:    'EvenTypeFilterSet',
-            TicketID:     "[% Data.TicketID | html %]",
-            SaveDefaults: 1
-        };
-        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
-            location.reload();
-        });
-    });
-//]]></script>
-[% END %]
 <div id="EventTypeFilterDialog" class="Hidden">
     <form action="[% Env("CGIHandle") %]" method="post" id="EventTypeFilterDialogForm" name="EventTypeFilterDialogForm">
         <input type="hidden" value="AgentTicketZoom" name="Action"/>
@@ -179,20 +107,6 @@
                                     <label for="[% Data.PhoneElementID | html %]" class="InvisibleText">[% Translate(Data.Name) | html %]:</label>
                                     [% Data.StandardReplyStrg %]
                                 </form>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#[% Data.FormID | html %] select[name=[% Data.PhoneElementID | html %]]').bind('change', function (Event) {
-    var URL;
-
-    if ($(this).val() > 0) {
-        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
-        // reset the select box so that it can be used again from the same window
-        $(this).val('0');
-    }
-});
-//]]></script>
-[% END %]
                             </li>
 [% RenderBlockEnd("TicketMenuPhoneAsDropdown") %]
 [% RenderBlockStart("MoveLink") %]
@@ -204,13 +118,6 @@ $('#[% Data.FormID | html %] select[name=[% Data.PhoneElementID | html %]]').bin
                                     <label for="DestQueueID" class="InvisibleText">[% Translate("Queue") | html %]:</label>
                                     [% Data.MoveQueuesStrg %]
                                 </form>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#DestQueueID').bind('change', function (Event) {
-        $(this).closest('form').submit();
-    });
-//]]></script>
-[% END %]
                             </li>
 [% RenderBlockEnd("MoveLink") %]
 [% RenderBlockStart("MoveForm") %]
@@ -225,64 +132,6 @@ $('#[% Data.FormID | html %] select[name=[% Data.PhoneElementID | html %]]').bin
             </div>
 
 [% RenderBlockStart("ProcessWidget") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-var WidgetWidth   = parseInt($('#DynamicFieldsWidget').innerWidth() - 15, 10),
-    FieldsPerRow  = 4,
-    FieldMargin   = parseInt($('.DynamicFieldAutoResize').css('margin-right'), 10) + 2,
-    FieldWidth    = 0;
-
-// define amount of fields per row depending on display resolution
-if ( WidgetWidth < 1000 ) {
-    FieldsPerRow = 3;
-}
-if ( WidgetWidth < 600 ) {
-    FieldsPerRow = 2;
-}
-if ( WidgetWidth < 400 ) {
-    FieldsPerRow = 1;
-}
-
-// determine the needed field width and resize the fields
-
-if (FieldsPerRow === 1) {
-    FieldWidth = '100%';
-}
-else {
-    FieldWidth = parseInt(WidgetWidth / FieldsPerRow - FieldMargin - 1, 10);
-}
-
-$('.DynamicFieldAutoResize').width(FieldWidth);
-
-$('.ShowFieldInfoOverlay').bind('click', function() {
-
-    var OverlayTitle  = $(this).closest('label').attr('title'),
-        OverlayHTML   = $(this).closest('.FieldContainer').find('.Value').html();
-
-    OverlayHTML = '<div class="FieldOverlay">' + OverlayHTML + '</div>';
-
-    Core.UI.Dialog.ShowDialog({
-        Modal: true,
-        Title: OverlayTitle,
-        HTML: OverlayHTML,
-        PositionTop: '100px',
-        PositionLeft: 'Center',
-        CloseOnEscape: true,
-        Buttons: [
-            {
-                Type: 'Close',
-                Label: [% Translate("Close dialog") | JSON %],
-                Function: function() {
-                    Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
-                    Core.Form.EnableForm($('form[name="compose"]'));
-                    return false;
-                }
-            }
-        ]
-    });
-});
-//]]></script>
-[% END %]
             <div class="WidgetSimple Expanded" id="DynamicFieldsWidget">
                 <div class="Header">
                     <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a></div>
@@ -617,51 +466,6 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
             <div class="Clear"></div>
             <span><i class="fa fa-spinner fa-spin"></i></span>
         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-
-[% IF Config("TimelineViewEnabled") == 1 %]
-var TicketID    = [% Data.TicketID | JSON %],
-    ArticleID   = [% Data.ArticleID | JSON %],
-    ListObjects = [
-[% FOREACH Item IN Data.Items %]
-    {
-        'orientation'   : [% Item.Orientation | JSON %],
-        'order'         : [% Item.Counter | JSON %],
-        'id'            : "[% IF Item.ArticleID %]ArticleID_[% Item.ArticleID %][% END %]",
-        'class'         : [% Item.Class | JSON %],
-        'time'          : [% Item.CreateTime | JSON %],
-        'time_long'     : [% Item.CreateTime | Localize("TimeLong") | JSON %],
-        'type'          : [% Item.HistoryType | JSON %],
-        'type_readable' : [% Translate(Item.HistoryTypeReadable) | JSON %],
-        'name'          : [% Item.Name | JSON %],
-        'article_id'    : [% Item.ArticleID | JSON %],
-        'is_chat'       : [% Item.IsChatArticle | JSON %],
-        'article_data'  : {
-        [% IF Item.ArticleID %]
-            'sender_type' : [% Item.ArticleData.SenderType | html | JSON %],
-            'article_type' : [% Item.ArticleData.ArticleType | html | JSON %],
-            'subject': [% Item.ArticleData.Subject | html | JSON %],
-            'from'   : [% Item.ArticleData.From | html | JSON %],
-            'to'     : [% Item.ArticleData.To | html | JSON %],
-            'cc'     : [% Item.ArticleData.Cc | html | JSON %],
-            'is_important' : [% Item.ArticleData.ArticleIsImportant | JSON %],
-            'is_seen' : [% Item.ArticleData.ArticleIsSeen | JSON %],
-            'text'   : [% IF Item.IsChatArticle %][% Item.ArticleData.BodyChat | JSON %][% ELSE %][% Item.ArticleData.Body | truncate(650) | JSON %][% END %],
-            'text_long' : [% IF Item.IsChatArticle %][% JSON(Item.ArticleData.ChatMessages) %][% ELSE %][% IF !Item.ArticleData.AttachmentIDOfHTMLBody %][% Item.ArticleData.Body | JSON %][% ELSE %]""[% END %][% END %],
-            'attachment_id' : [% Item.ArticleData.AttachmentIDOfHTMLBody | JSON %],
-            'iframe_html' : '<iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" data-url="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Item.ArticleID | html %];FileID=[% Item.ArticleData.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]" width="100%" frameborder="0" id="Iframe[% Item.ArticleID | html %]" class="TimelineArticleiFrame" src=""></iframe>'
-        [% END %]
-        }
-    }[% IF !loop.last %],[% END %]
-[% END %]
-];
-
-Core.Agent.TicketZoom.TimelineView.Init(TicketID, ListObjects, ArticleID);
-
-[% END %]
-//]]></script>
-[% END %]
 
 [% RenderBlockEnd("TimelineView") %]
 
@@ -844,64 +648,8 @@ function CheckIFrameHeight(IFrameID) {
         </div>
     </div>
 </div>
-[% RenderBlockStart("ArticleItemMarkAsSeen") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketZoom.MarkAsSeen([% Data.TicketID | html %], [% Data.ArticleID | html %]);
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ArticleItemMarkAsSeen") %]
 [% RenderBlockEnd("ArticleItem") %]
 
-[% RenderBlockStart("TicketItemMarkAsSeen") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketZoom.MarkTicketAsSeen([% Data.TicketID | html %]);
-//]]></script>
-[% END %]
-[% RenderBlockEnd("TicketItemMarkAsSeen") %]
-
 [% RenderBlockStart("TicketZoomInit") %]
-
 [% INCLUDE "ChatStartForm.tt" %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.Agent.TicketZoom.Init({ ArticleTableHeight: parseInt('[% Env("UserTicketZoomArticleTableHeight") %]', 10)});
-    Core.Config.Set('Ticket::Frontend::HTMLArticleHeightDefault', parseInt("[% Config("Ticket::Frontend::HTMLArticleHeightDefault") %]" || 0, 10));
-    Core.Config.Set('Ticket::Frontend::HTMLArticleHeightMax', parseInt("[% Config("Ticket::Frontend::HTMLArticleHeightMax") %]" || 0, 10));
-    Core.Config.Set('Language.AttachmentViewMessage', [% Translate('Article could not be opened! Perhaps it is on another article page?') | JSON %]);
-
-    $('a.CreateChatRequest').bind('click', function() {
-        var UserID = $(this).data('user-id'),
-            $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
-
-        $Dialog.find('input[name=ChatStartUserID]').val($(this).data('customer-user-id'));
-        $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
-        $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
-        $Dialog.find('input[name=TicketID]').val($(this).data('ticket-id'));
-        $Dialog.find('input[name=ChannelID]').val($(this).data('channel-id'));
-
-        Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
-
-        // Only enable button if there is a message
-        $('.Dialog textarea[name="ChatStartFirstMessage"]').on('keyup', function(){
-            $('.Dialog button').prop('disabled', $(this).val().length ? false : true );
-        });
-
-        $('.Dialog form').on('submit', function(){
-            if (!$('.Dialog textarea[name=ChatStartFirstMessage]').val().length) {
-                return false;
-            }
-            // Close after submit
-            window.setTimeout(function(){
-                Core.UI.Dialog.CloseDialog($('.Dialog'));
-            }, 1);
-        });
-
-        return false;
-    });
-
-//]]></script>
-[% END %]
 [% RenderBlockEnd("TicketZoomInit") %]
