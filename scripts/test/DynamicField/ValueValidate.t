@@ -732,9 +732,6 @@ my @Tests = (
     },
 );
 
-# UTC tests
-local $ENV{TZ} = 'UTC';
-
 # execute tests
 for my $Test (@Tests) {
     my $Success = $DFBackendObject->ValueValidate( %{ $Test->{Config} } );
