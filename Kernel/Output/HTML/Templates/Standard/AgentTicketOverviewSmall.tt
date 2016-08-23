@@ -22,44 +22,6 @@
 [% RenderBlockEnd("DocumentActionRow") %]
 
 [% RenderBlockStart("DocumentContent") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.ActionRow.Init();
-
-    $('a.AsPopup').bind('click', function (Event) {
-        Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
-        return false;
-    });
-
-    $('.ColumnFilter').bind('change', function (Event) {
-        var URL, ColumnFilter, NewColumnFilterStrg, MyRegEx, SessionInformation;
-
-        // define variables
-        URL = Core.Config.Get('Baselink') + 'Action=' + '[% Env("Action") %]' + ';[% Data.LinkPage %]';
-        SessionInformation = Core.App.GetSessionInformation();
-        $.each(SessionInformation, function (Key, Value) {
-            URL += encodeURIComponent(Key) + '=' + encodeURIComponent(Value) + ';';
-        });
-        ColumnFilter = $(this)[0].name;
-        NewColumnFilterStrg = $(this)[0].name + '=' + $(this).val() + ';';
-        MyRegEx = new  RegExp(ColumnFilter+"=[^;]*;");
-
-        // check for already set parameter and replace
-        if (URL.match(MyRegEx)) {
-            URL = URL.replace(MyRegEx, NewColumnFilterStrg);
-        }
-
-        // otherwise add the new column filter
-        else {
-            URL = URL + NewColumnFilterStrg;
-        }
-
-        // redirect
-        window.location.href =  URL;
-    });
-//]]></script>
-[% END %]
-
 <div id="OverviewBody" class="Overview TicketList">
 [% RenderBlockStart("NoTicketFound") %]
     <div id="EmptyMessageSmall">
@@ -117,14 +79,6 @@
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch") %]
                                 <input type="text" class="CustomerUserAutoComplete" autocomplete="off" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Config.Set('CustomerUserAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
-Core.Config.Set('CustomerUserAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
-Core.Config.Set('CustomerUserAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
-Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete") );
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch") %]
 
                             </div>
@@ -142,26 +96,10 @@ Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComple
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch") %]
                                 <input type="text" class="CustomerIDAutoComplete" autocomplete="off" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Config.Set('CustomerIDAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
-Core.Config.Set('CustomerIDAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
-Core.Config.Set('CustomerIDAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
-Core.Agent.TableFilters.InitCustomerIDAutocomplete( $(".CustomerIDAutoComplete") );
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch") %]
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch") %]
                                 <input type="text" class="UserAutoComplete" autocomplete="off" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Config.Set('UserAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
-Core.Config.Set('UserAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
-Core.Config.Set('UserAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
-Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch") %]
                             </div>
                         </div>
@@ -287,99 +225,6 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                    </th>
 # ---
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function() {
-
-    var $TriggerObj = $(this),
-        FilterName;
-
-    if ($TriggerObj.hasClass('Active')) {
-
-        $TriggerObj
-            .next('.ColumnSettingsContainer')
-            .find('.ColumnSettingsBox')
-            .fadeOut('fast', function() {
-                $TriggerObj.removeClass('Active');
-            });
-    }
-    else {
-
-        // slide up all open settings widgets
-        $('.ColumnSettingsTrigger')
-            .next('.ColumnSettingsContainer')
-            .find('.ColumnSettingsBox')
-            .fadeOut('fast', function() {
-                $(this).parent().prev('.ColumnSettingsTrigger').removeClass('Active');
-            });
-
-        // show THIS settings widget
-        $TriggerObj
-            .next('.ColumnSettingsContainer')
-            .find('.ColumnSettingsBox')
-            .fadeIn('fast', function() {
-
-                $TriggerObj.addClass('Active');
-
-                // refresh filter dropdown
-                FilterName = $TriggerObj
-                    .next('.ColumnSettingsContainer')
-                    .find('select')
-                    .attr('name');
-
-                if (
-                        $TriggerObj.closest('th').hasClass('CustomerID') ||
-                        $TriggerObj.closest('th').hasClass('CustomerUserID') ||
-                        $TriggerObj.closest('th').hasClass('Responsible') ||
-                        $TriggerObj.closest('th').hasClass('Owner')
-                    ) {
-
-                    if (!$TriggerObj.parent().find('.SelectedValue').length) {
-                        Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
-                            var AutoCompleteValue = $TriggerObj
-                                    .next('.ColumnSettingsContainer')
-                                    .find('select')
-                                    .val(),
-                                AutoCompleteText  = $TriggerObj
-                                    .next('.ColumnSettingsContainer')
-                                    .find('select')
-                                    .find('option:selected')
-                                    .text();
-
-                            if (AutoCompleteValue !== 'DeleteFilter') {
-
-                                $TriggerObj
-                                    .next('.ColumnSettingsContainer')
-                                    .find('select')
-                                    .after('<span class="SelectedValue Hidden"><a href="#">x</a>' + AutoCompleteText + ' (' + AutoCompleteValue + ')</span>')
-                                    .parent()
-                                    .find('.SelectedValue')
-                                    .find('a')
-                                    .off()
-                                    .on('click', function() {
-                                        $(this)
-                                            .closest('.ColumnSettingsContainer')
-                                            .find('select')
-                                            .val('DeleteFilter')
-                                            .trigger('change');
-
-                                        return false;
-                                    });
-                            }
-                        });
-                    }
-                }
-                else {
-                    Core.AJAX.FormUpdate($('#ColumnFilterAttributes'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
-                }
-        });
-    }
-
-    return false;
-});
-
-//]]></script>
-[% END %]
                 </tr>
             </thead>
 [% RenderBlockEnd("TableHeader") %]
@@ -511,17 +356,6 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 
                 </tr>
 
-[% RenderBlockStart("DocumentReadyActionRowAdd") %]
-[% FOREACH MenuElement IN Data.Data %]
-    [% MenuElement.Link = Interpolate(MenuElement.Link) %]
-[% END %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.ActionRow.AddActions($('#TicketID_[% Data.TicketID | html %]'), [% JSON(Data.Data) %]);
-//]]></script>
-[% END %]
-[% RenderBlockEnd("DocumentReadyActionRowAdd") %]
-
 [% RenderBlockEnd("Record") %]
             </tbody>
 [% RenderBlockEnd("TableBody") %]
@@ -529,30 +363,6 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 [% RenderBlockEnd("OverviewTable") %]
     </form>
 </div>
-[% RenderBlockStart("DocumentReadyStart") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.InitCheckboxSelection($('table td.Checkbox'));
-    $('.MasterAction').bind('click', function (Event) {
-        var $MasterActionLink = $(this).find('.MasterActionLink');
-        // prevent MasterAction on Dynamic Fields links
-        if ($(Event.target).hasClass('DynamicFieldLink')) {
-            return true;
-        }
-        // only act if the link was not clicked directly
-        if (Event.target !== $MasterActionLink.get(0)) {
-            if (Event.ctrlKey || Event.metaKey) {
-                window.open($MasterActionLink.attr('href'));
-            }
-            else {
-                window.location = $MasterActionLink.attr('href');
-            }
-            return false;
-        }
-    });
-//]]></script>
-[% END %]
-[% RenderBlockEnd("DocumentReadyStart") %]
 [% RenderBlockEnd("DocumentContent") %]
 
 [% RenderBlockStart("DocumentMenuItemMoveForm") %]
@@ -564,13 +374,6 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
         <label for="DestQueueID" class="InvisibleText">[% Translate("Change queue") | html %]:</label>
         [% Data.MoveQueuesStrg %]
     </form>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('.OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
-        $(this).closest('form').submit();
-    });
-//]]></script>
-[% END %]
 </li>
 [% RenderBlockEnd("DocumentMenuItemMoveForm") %]
 

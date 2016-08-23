@@ -36,9 +36,15 @@ Core.Agent.TableFilters = (function (TargetNS) {
      *      Initialize autocompletion for CustomerID.
      */
     TargetNS.InitCustomerIDAutocomplete = function ($Input) {
+        var AutoCompleteConfig = Core.Config.Get('CustomerIDAutocomplete');
+
+        if (typeof AutoCompleteConfig === 'undefined') {
+            return;
+        }
+
         $Input.autocomplete({
-            minLength: Core.Config.Get('CustomerIDAutocomplete.MinQueryLength'),
-            delay: Core.Config.Get('CustomerIDAutocomplete.QueryDelay'),
+            minLength: AutoCompleteConfig.MinQueryLength,
+            delay: AutoCompleteConfig.QueryDelay,
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
@@ -50,7 +56,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
                     Subaction: 'SearchCustomerID',
                     IncludeUnknownTicketCustomers: parseInt(Core.Config.Get('IncludeUnknownTicketCustomers'), 10),
                     Term: Request.term,
-                    MaxResults: Core.Config.Get('CustomerIDAutocomplete.MaxResultsDisplayed')
+                    MaxResults: AutoCompleteConfig.MaxResultsDisplayed
                 };
 
                 // if an old ajax request is already running, stop the old request and start the new one
@@ -93,9 +99,15 @@ Core.Agent.TableFilters = (function (TargetNS) {
      *      Initialize autocompletion for Customer User.
      */
     TargetNS.InitCustomerUserAutocomplete = function ($Input) {
+        var AutoCompleteConfig = Core.Config.Get('CustomerUserAutocomplete');
+
+        if (typeof AutoCompleteConfig === 'undefined') {
+            return;
+        }
+
         $Input.autocomplete({
-            minLength: Core.Config.Get('CustomerUserAutocomplete.MinQueryLength'),
-            delay: Core.Config.Get('CustomerUserAutocomplete.QueryDelay'),
+            minLength: AutoCompleteConfig.MinQueryLength,
+            delay: AutoCompleteConfig.QueryDelay,
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
@@ -106,7 +118,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
                     Action: 'AgentCustomerSearch',
                     IncludeUnknownTicketCustomers: parseInt(Core.Config.Get('IncludeUnknownTicketCustomers'), 10),
                     Term: Request.term,
-                    MaxResults: Core.Config.Get('CustomerUserAutocomplete.MaxResultsDisplayed')
+                    MaxResults: AutoCompleteConfig.MaxResultsDisplayed
                 };
 
                 // if an old ajax request is already running, stop the old request and start the new one
@@ -151,9 +163,15 @@ Core.Agent.TableFilters = (function (TargetNS) {
      *      Initialize autocompletion for User.
      */
     TargetNS.InitUserAutocomplete = function ($Input, Subaction) {
+        var AutoCompleteConfig = Core.Config.Get('UserAutocomplete');
+
+        if (typeof AutoCompleteConfig === 'undefined') {
+            return;
+        }
+
         $Input.autocomplete({
-            minLength: Core.Config.Get('UserAutocomplete.MinQueryLength'),
-            delay: Core.Config.Get('UserAutocomplete.QueryDelay'),
+            minLength: AutoCompleteConfig.MinQueryLength,
+            delay: AutoCompleteConfig.QueryDelay,
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
@@ -164,7 +182,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
                     Action: 'AgentUserSearch',
                     Subaction: Subaction,
                     Term: Request.term,
-                    MaxResults: Core.Config.Get('UserAutocomplete.MaxResultsDisplayed')
+                    MaxResults: AutoCompleteConfig.MaxResultsDisplayed
                 };
 
                 // if an old ajax request is already running, stop the old request and start the new one
@@ -317,7 +335,6 @@ Core.Agent.TableFilters = (function (TargetNS) {
             });
         }
     };
-
 
     return TargetNS;
 }(Core.Agent.TableFilters || {}));

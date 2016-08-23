@@ -28,25 +28,6 @@
 [% RenderBlockEnd("DocumentActionRow") %]
 
 [% RenderBlockStart("DocumentHeader") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.ActionRow.Init();
-
-    $('a.AsPopup').bind('click', function (Event) {
-        var Matches,
-            PopupType = 'TicketAction';
-
-        Matches = $(this).attr('class').match(/PopupType_(\w+)/);
-        if (Matches) {
-            PopupType = Matches[1];
-        }
-
-        Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
-        return false;
-    });
-//]]></script>
-[% END %]
-
 <ul id="TicketOverviewMedium" class="Overview OverviewMedium">
 [% RenderBlockEnd("DocumentHeader") %]
 
@@ -69,18 +50,6 @@
                 [% Data.HTML %]
 [% RenderBlockEnd("InlineActionRowItemHTML") %]
             </ul>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    // Stop propagation on click on a part of the InlienActionRow without a link
-    // Otherwise that would trigger the li-wide link to the ticketzoom
-    $('ul.InlineActions').click(function (Event) {
-        Event.cancelBubble = true;
-        if (Event.stopPropagation) {
-            Event.stopPropagation();
-        }
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("InlineActionRow") %]
 [% RenderBlockStart("Bulk") %]
             <div class="Checkbox">
@@ -276,56 +245,5 @@
         <label for="DestQueueID" class="InvisibleText">[% Translate("Change queue") | html %]:</label>
         [% Data.MoveQueuesStrg %]
     </form>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('.InlineActions, .OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
-        $(this).closest('form').submit();
-    });
-//]]></script>
-[% END %]
 </li>
 [% RenderBlockEnd("DocumentMenuItemMoveForm") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-[% RenderBlockStart("DocumentReadyActionRowAdd") %]
-[% FOREACH MenuElement IN Data.Data %]
-    [% MenuElement.Name = Interpolate(MenuElement.Name) %]
-    [% MenuElement.Link = Interpolate(MenuElement.Link) %]
-    [% MenuElement.Description = Interpolate(MenuElement.Description) %]
-[% END %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.ActionRow.AddActions($('#TicketID_[% Data.TicketID | html %]'), [% JSON(Data.Data) %]);
-//]]></script>
-[% RenderBlockEnd("DocumentReadyActionRowAdd") %]
-[% RenderBlockStart("DocumentReadyStart") %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.InitCheckboxSelection($('div.Checkbox'));
-    $('.MasterAction').bind('click', function (Event) {
-        var $MasterActionLink = $(this).find('.MasterActionLink');
-        // prevent MasterAction on Dynamic Fields links
-        if ($(Event.target).hasClass('DynamicFieldLink')) {
-            return true;
-        }
-        // only act if the link was not clicked directly
-        if (Event.target !== $MasterActionLink.get(0)) {
-            if (Event.ctrlKey || Event.metaKey) {
-                window.open($MasterActionLink.attr('href'));
-            }
-            else {
-                window.location = $MasterActionLink.attr('href');
-            }
-            return false;
-        }
-    });
-
-    if ($('body').hasClass('TouchDevice')) {
-        $('ul.InlineActions li:not(.ResponsiveActionMenu)').hide();
-    }
-    $('li.ResponsiveActionMenu').on('click.ToggleResponsiveActionMenu', function () {
-        $(this).siblings().toggle();
-        $(this).toggleClass('Opened')
-        return false;
-    });
-//]]></script>
-[% RenderBlockEnd("DocumentReadyStart") %]
-[% END %]
