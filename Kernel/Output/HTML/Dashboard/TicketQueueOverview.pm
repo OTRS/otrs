@@ -253,10 +253,11 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
         my $NameHTML = $Self->{Name};
         $NameHTML =~ s{-}{_}xmsg;
-        $LayoutObject->Block(
-            Name => 'ContentLargeTicketQueueOverviewRefresh',
-            Data => {
-                %{ $Self->{Config} },
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'QueueOverview',
+            Value => {
                 Name        => $Self->{Name},
                 NameHTML    => $NameHTML,
                 RefreshTime => $Refresh,

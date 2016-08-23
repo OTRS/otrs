@@ -287,6 +287,10 @@ Core.Agent.Dashboard = (function (TargetNS) {
         // Initializes refresh event for user online widget
         InitUserOnlineRefresh();
 
+        // Initializes events ticket queue overview
+        InitTicketQueueOverview();
+
+
         // Disable drag and drop of dashboard widgets on mobile / touch devices
         // to prevent accidentally moved widgets while tabbing/swiping
         if (!Core.App.Responsive.IsTouchDevice()) {
@@ -799,6 +803,34 @@ Core.Agent.Dashboard = (function (TargetNS) {
         TargetNS.RegisterUpdatePreferences($('#Dashboard' + Core.App.EscapeSelector(Params.Name) + '_submit'), 'Dashboard' + Core.App.EscapeSelector(Params.Name),$('#Dashboard' + Core.App.EscapeSelector(Params.NameForm) + '_setting_form'));
         Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector(Params.Name) + '-toggle'), $('#Dashboard' + Core.App.EscapeSelector(Params.Name) + '-setting'), $('#Dashboard' + Core.App.EscapeSelector(Params.Name)));
         Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector(Params.Name) + '_cancel'), $('#Dashboard' + Core.App.EscapeSelector(Params.Name) + '-setting'), $('#Dashboard' + Core.App.EscapeSelector(Params.Name)));
+    }
+
+
+    /**
+     * @private
+     * @name InitTicketQueueOverview
+     * @memberof Core.Agent.Dashboard
+     * @function
+     * @description
+     *      This function initialize ticket queue overview in Dashboard screen.
+     */
+    function InitTicketQueueOverview () {
+        var QueueOverview = Core.Config.Get('QueueOverview');
+
+        if (typeof QueueOverview !== 'undefined') {
+            Core.Config.Set('RefreshSeconds_' + QueueOverview.NameHTML, parseInt(QueueOverview.RefreshTime, 10) || 0);
+            if (Core.Config.Get('RefreshSeconds_' + QueueOverview.NameHTML)) {
+                Core.Config.Set('Timer_' + QueueOverview.NameHTML, window.setTimeout(function() {
+
+                    $('#Dashboard' + Core.App.EscapeSelector(QueueOverview.Name) + '-box').addClass('Loading');
+                    Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(QueueOverview.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + QueueOverview.Name, function () {
+                        $('#Dashboard' + Core.App.EscapeSelector(QueueOverview.Name) + '-box').removeClass('Loading');
+                        InitTicketQueueOverview();
+                    });
+                    clearTimeout(Core.Config.Get('Timer_' + QueueOverview.NameHTML));
+                }, Core.Config.Get('RefreshSeconds_' + QueueOverview.NameHTML) * 1000));
+            }
+        }
     }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
