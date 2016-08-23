@@ -290,6 +290,8 @@ Core.Agent.Dashboard = (function (TargetNS) {
         // Initializes events ticket queue overview
         InitTicketQueueOverview();
 
+        // Initialize dashboard ticket stats
+        InitDashboardTicketStats();
 
         // Disable drag and drop of dashboard widgets on mobile / touch devices
         // to prevent accidentally moved widgets while tabbing/swiping
@@ -746,29 +748,26 @@ Core.Agent.Dashboard = (function (TargetNS) {
      *      Initializes the stats dashboard widget functionality.
      */
      TargetNS.InitStatsWidget = function (StatsData) {
-        (function(){
-            var Timeout = 500;
-            // check if the container is already expanded, otherwise the graph
-            // would have the wrong size after the widget settings have been saved
-            // and the content is being reloaded using ajax.
-            if ($('#GraphWidget' + Core.App.EscapeSelector(StatsData.Name)).parent().is(':visible')) {
-                Timeout = 0;
-            }
+        var Timeout = 500;
+        // check if the container is already expanded, otherwise the graph
+        // would have the wrong size after the widget settings have been saved
+        // and the content is being reloaded using ajax.
+        if ($('#GraphWidget' + Core.App.EscapeSelector(StatsData.Name)).parent().is(':visible')) {
+            Timeout = 0;
+        }
 
-            window.setTimeout(function () {
-                Core.UI.AdvancedChart.Init(
-                    StatsData.Format,
-                    Core.JSON.Parse(StatsData.StatResultData),
-                    'svg.GraphWidget' + StatsData.Name,
-                    {
-                        PreferencesKey: 'GraphWidget' + StatsData.Name,
-                        PreferencesData: StatsData.Preferences,
-                        Duration: 250
-                    }
-                );
-            }, Timeout);
-
-        }());
+        window.setTimeout(function () {
+            Core.UI.AdvancedChart.Init(
+                StatsData.Format,
+                Core.JSON.Parse(StatsData.StatResultData),
+                'svg.GraphWidget' + StatsData.Name,
+                {
+                    PreferencesKey: 'GraphWidget' + StatsData.Name,
+                    PreferencesData: StatsData.Preferences,
+                    Duration: 250
+                }
+            );
+        }, Timeout);
 
         $('#DownloadSVG' + Core.App.EscapeSelector(StatsData.Name)).on('click', function() {
             this.href = Core.UI.AdvancedChart.ConvertSVGtoBase64($('#GraphWidgetContainer' + Core.App.EscapeSelector(StatsData.Name)));
@@ -805,7 +804,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
         Core.UI.RegisterToggleTwoContainer($('#Dashboard' + Core.App.EscapeSelector(Params.Name) + '_cancel'), $('#Dashboard' + Core.App.EscapeSelector(Params.Name) + '-setting'), $('#Dashboard' + Core.App.EscapeSelector(Params.Name)));
     }
 
-
     /**
      * @private
      * @name InitTicketQueueOverview
@@ -830,6 +828,36 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     clearTimeout(Core.Config.Get('Timer_' + QueueOverview.NameHTML));
                 }, Core.Config.Get('RefreshSeconds_' + QueueOverview.NameHTML) * 1000));
             }
+        }
+    }
+
+    /**
+     * @private
+     * @name InitDashboardTicketStats
+     * @memberof Core.Agent.Dashboard
+     * @function
+     * @description
+     *      This function initialize dashboard ticket stats widget.
+     */
+    function InitDashboardTicketStats () {
+        var Timeout = 500,
+            DashboardTicketStats = Core.Config.Get('DashboardTicketStats');
+
+        if (typeof DashboardTicketStats !== 'undefined') {
+
+            console.log(DashboardTicketStats);
+
+            window.setTimeout(function () {
+                Core.UI.AdvancedChart.Init(
+                    "D3::SimpleLineChart",
+                    Core.JSON.Parse(DashboardTicketStats.ChartData),
+                    'svg.GraphWidget' + DashboardTicketStats.Key,
+                    {
+                        Duration: 250,
+                        ReduceXTicks: false
+                    }
+                );
+            }, Timeout);
         }
     }
 

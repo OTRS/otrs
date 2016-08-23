@@ -63,6 +63,13 @@ sub Run {
     );
 
     if ( ref $Cache ) {
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'DashboardTicketStats',
+            Value => $Cache,
+        );
+
         return $LayoutObject->Output(
             TemplateFile => 'AgentDashboardTicketStats',
             Data         => $Cache,
@@ -183,14 +190,10 @@ sub Run {
         [ $ClosedText,  reverse @TicketsClosed ],
     );
 
-    my $ChartDataJSON = $LayoutObject->JSONEncode(
-        Data => \@ChartData,
-    );
-
     my %Data = (
         %{ $Self->{Config} },
         Key       => int rand 99999,
-        ChartData => $ChartDataJSON,
+        ChartData => \@ChartData,
     );
 
     if ( $Self->{Config}->{CacheTTLLocal} ) {
@@ -201,6 +204,12 @@ sub Run {
             TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
     }
+
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'DashboardTicketStats',
+        Value => \%Data
+    );
 
     my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardTicketStats',
