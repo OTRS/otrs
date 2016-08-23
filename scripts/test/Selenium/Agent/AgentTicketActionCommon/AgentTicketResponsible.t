@@ -177,7 +177,8 @@ $Selenium->RunTest(
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $UserID[0],
-        );
+        ) || die 'New responsible not correctly set';
+
         $Self->True(
             $Success,
             "Ticket is deleted - ID $TicketID",
