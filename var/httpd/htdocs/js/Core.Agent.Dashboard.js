@@ -845,8 +845,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
         if (typeof DashboardTicketStats !== 'undefined') {
 
-            console.log(DashboardTicketStats);
-
             window.setTimeout(function () {
                 Core.UI.AdvancedChart.Init(
                     "D3::SimpleLineChart",
