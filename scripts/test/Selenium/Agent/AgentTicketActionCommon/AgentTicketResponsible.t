@@ -152,6 +152,13 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
+        # reload screen to get a consistent state
+        $Selenium->VerifiedRefresh();
+        #$Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketResponsible;TicketID=$TicketID");
+
+        $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test');
+
         # change ticket user responsible
         $Selenium->execute_script(
             "\$('#NewResponsibleID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');"
@@ -186,7 +193,7 @@ $Selenium->RunTest(
             $Ticket{ResponsibleID},
             $UserID[1],
             'New responsible correctly set',
-        );
+        ) || die 'New responsible not correctly set';
 
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
