@@ -154,6 +154,7 @@ $Selenium->RunTest(
 
         # reload screen to get a consistent state
         $Selenium->VerifiedRefresh();
+
         #$Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketResponsible;TicketID=$TicketID");
 
         $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
