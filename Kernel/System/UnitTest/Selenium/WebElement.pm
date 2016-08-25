@@ -28,7 +28,7 @@ sub VerifiedSubmit {
 
     $Self->driver()->WaitFor(
         JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.Config) == "object" && Core.Config.Get("Baselink")'
+            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
     ) || die "OTRS API verification failed after element submit.";
 
     return;
@@ -52,7 +52,7 @@ sub VerifiedClick {    ## no critic
 
     $Self->driver()->WaitFor(
         JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.Config) == "object" && Core.Config.Get("Baselink")'
+            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
     ) || die "OTRS API verification failed after element click.";
 
     return;

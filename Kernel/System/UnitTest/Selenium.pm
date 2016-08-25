@@ -210,7 +210,7 @@ sub VerifiedGet {
 
     $Self->WaitFor(
         JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.Config) == "object" && Core.Config.Get("Baselink")'
+            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
     ) || die "OTRS API verification failed after page load.";
 
     return;
@@ -232,7 +232,7 @@ sub VerifiedRefresh {
 
     $Self->WaitFor(
         JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.Config) == "object" && Core.Config.Get("Baselink")'
+            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
     ) || die "OTRS API verification failed after page load.";
 
     return;

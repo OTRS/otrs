@@ -55,6 +55,8 @@ Core.App.UnblockEvents = function() {
     else {
         document.detachEvent('onclick', IgnoreEvent);
     }
+    // allow tests to wait for complete page load
+    Core.App.PageLoadComplete = true;
 };
 
 // Now block all click events on the page to make sure that
