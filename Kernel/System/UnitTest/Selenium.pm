@@ -324,6 +324,7 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
         JavaScript   => 'return $(".someclass").length',   # Javascript code that checks condition
         AlertPresent => 1,                                 # Wait until an alert, confirm or prompt dialog is present
         WindowCount  => 2,                                 # Wait until this many windows are open
+        Callback     => sub { ... }                        # Wait until function returns true
         Time         => 20,                                # optional, wait time in seconds (default 20)
     );
 
@@ -332,7 +333,7 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
 sub WaitFor {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{JavaScript} && !$Param{WindowCount} && !$Param{AlertPresent} ) {
+    if ( !$Param{JavaScript} && !$Param{WindowCount} && !$Param{AlertPresent} && !$Param{Callback} ) {
         die "Need JavaScript, WindowCount or AlertPresent.";
     }
 
@@ -353,6 +354,9 @@ sub WaitFor {
 
             # Eval is needed because the method would throw if no alert is present (yet).
             return 1 if eval { $Self->get_alert_text() };
+        }
+        elsif ( $Param{Callback} ) {
+            return 1 if $Param{Callback}->();
         }
         sleep $Interval;
         $WaitedSeconds += $Interval;
