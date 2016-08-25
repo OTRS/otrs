@@ -13,6 +13,8 @@ package Kernel::System::UnitTest::Helper;
 use strict;
 use warnings;
 
+use File::Path qw(rmtree);
+
 use Kernel::System::SysConfig;
 
 our @ObjectDependencies = (
@@ -66,7 +68,7 @@ sub new {
 
     $Self->{UnitTestObject} = $Kernel::OM->Get('Kernel::System::UnitTest');
 
-    # Remove any leftover configuration changes from aborted previous runs.
+    # remove any leftover configuration changes from aborted previous runs
     $Self->ConfigSettingCleanup();
 
     # set environment variable to skip SSL certificate verification if needed
@@ -80,6 +82,11 @@ sub new {
 
         $Self->{RestoreSSLVerify} = 1;
         $Self->{UnitTestObject}->True( 1, 'Skipping SSL certificates verification' );
+    }
+
+    # switch article dir to a temporary one to avoid collisions
+    if ( $Param{UseTmpArticleDir} ) {
+        $Self->UseTmpArticleDir();
     }
 
     if ( $Param{RestoreDatabase} ) {
@@ -466,17 +473,15 @@ BEGIN {
 sub DESTROY {
     my $Self = shift;
 
-    # Reset time freeze
+    # reset time freeze
     FixedTimeUnset();
 
     # FixedDateTimeObjectUnset();
 
-    # Remove any configuration changes.
+    # remove any configuration changes.
     $Self->ConfigSettingCleanup();
 
-    #
-    # Restore environment variable to skip SSL certificate verification if needed
-    #
+    # restore environment variable to skip SSL certificate verification if needed
     if ( $Self->{RestoreSSLVerify} ) {
 
         $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};
@@ -486,7 +491,7 @@ sub DESTROY {
         $Self->{UnitTestObject}->True( 1, 'Restored SSL certificates verification' );
     }
 
-    # Restore database, clean caches
+    # restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
         my $RollbackSuccess = $Self->Rollback();
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
@@ -496,6 +501,11 @@ sub DESTROY {
     # disable email checks to create new user
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     local $ConfigObject->{CheckEmailAddresses} = 0;
+
+    # cleanup temporary article directory
+    if ( $Self->{TmpArticleDir} && -d $Self->{TmpArticleDir} ) {
+        File::Path::rmtree( $Self->{TmpArticleDir} );
+    }
 
     # invalidate test users
     if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
@@ -650,6 +660,38 @@ sub ConfigSettingCleanup {
             Location => $File,
         ) || die "Could not delete $File";
     }
+    return 1;
+}
+
+=item UseTmpArticleDir()
+
+switch the article storage directory to a temporary one to prevent collisions;
+
+=cut
+
+sub UseTmpArticleDir {
+    my ( $Self, %Param ) = @_;
+
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+    my $TmpArticleDir;
+    TRY:
+    for my $Try ( 1 .. 100 ) {
+
+        $TmpArticleDir = $Home . '/var/tmp/unittest-article-' . $Self->GetRandomNumber();
+
+        next TRY if -e $TmpArticleDir;
+        last TRY;
+    }
+
+    $Self->ConfigSettingChange(
+        Valid => 1,
+        Key   => 'ArticleDir',
+        Value => $TmpArticleDir,
+    );
+
+    $Self->{TmpArticleDir} = $TmpArticleDir;
+
     return 1;
 }
 
