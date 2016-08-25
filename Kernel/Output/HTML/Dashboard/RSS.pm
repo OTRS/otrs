@@ -79,17 +79,22 @@ sub Run {
     }
 
     # get content
-    my $Feed = eval {
-        XML::FeedPP->new(
-            $FeedURL,
-            'xml_deref' => 1,
-            'utf8_flag' => 1,
-        );
-    };
+    my $Feed;
+
+    TRY:
+    for (1 .. 3) {
+        $Feed = eval {
+            XML::FeedPP->new(
+                $FeedURL,
+                'xml_deref' => 1,
+                'utf8_flag' => 1,
+            );
+        };
+        last TRY if $Feed;
+    }
 
     if ( !$Feed ) {
         my $Content = "Can't connect to $FeedURL";
-
         return $Content;
     }
 
