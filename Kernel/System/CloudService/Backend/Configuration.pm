@@ -108,22 +108,17 @@ sub CloudServiceAdd {
     # dump config as string
     my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
-    # md5 of content
-    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-        String => $Param{Name},
-    );
-
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # sql
     return if !$DBObject->Do(
         SQL =>
-            'INSERT INTO cloud_service_config (name, config, config_md5, valid_id, '
+            'INSERT INTO cloud_service_config (name, config, valid_id, '
             . ' create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . ' VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Config, \$MD5, \$Param{ValidID},
+            \$Param{Name}, \$Config, \$Param{ValidID},
             \$Param{UserID}, \$Param{UserID},
         ],
     );

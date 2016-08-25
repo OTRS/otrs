@@ -1173,14 +1173,12 @@ CREATE TABLE gi_webservice_config (
     id serial NOT NULL,
     name VARCHAR (200) NOT NULL,
     config TEXT NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT gi_webservice_config_config_md5 UNIQUE (config_md5),
     CONSTRAINT gi_webservice_config_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
@@ -1440,13 +1438,11 @@ CREATE TABLE cloud_service_config (
     id serial NOT NULL,
     name VARCHAR (200) NOT NULL,
     config TEXT NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT cloud_service_config_config_md5 UNIQUE (config_md5),
     CONSTRAINT cloud_service_config_name UNIQUE (name)
 );

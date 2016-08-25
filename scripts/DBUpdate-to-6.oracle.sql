@@ -40,5 +40,15 @@ END;
 /
 --;
 CREATE INDEX dynamic_field_value_search_tbc ON dynamic_field_value (field_id, value_text);
+ALTER TABLE gi_webservice_config DROP CONSTRAINT gi_webservice_config_config_89;
+-- ----------------------------------------------------------
+--  alter table gi_webservice_config
+-- ----------------------------------------------------------
+ALTER TABLE gi_webservice_config DROP COLUMN config_md5;
+ALTER TABLE cloud_service_config DROP CONSTRAINT cloud_service_config_config_39;
+-- ----------------------------------------------------------
+--  alter table cloud_service_config
+-- ----------------------------------------------------------
+ALTER TABLE cloud_service_config DROP COLUMN config_md5;
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;

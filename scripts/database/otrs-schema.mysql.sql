@@ -1172,14 +1172,12 @@ CREATE TABLE gi_webservice_config (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     config LONGBLOB NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX gi_webservice_config_config_md5 (config_md5),
     UNIQUE INDEX gi_webservice_config_name (name)
 );
 # ----------------------------------------------------------
@@ -1439,13 +1437,11 @@ CREATE TABLE cloud_service_config (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     config LONGBLOB NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX cloud_service_config_config_md5 (config_md5),
     UNIQUE INDEX cloud_service_config_name (name)
 );

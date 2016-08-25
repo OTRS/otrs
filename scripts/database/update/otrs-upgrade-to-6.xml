@@ -20,4 +20,14 @@
         </IndexCreate>
     </TableAlter>
 
+    <!-- remove unneeded MD5 columns -->
+    <TableAlter Name="gi_webservice_config">
+        <UniqueDrop Name="gi_webservice_config_config_md5"/>
+        <ColumnDrop Name="config_md5"/>
+    </TableAlter>
+    <TableAlter Name="cloud_service_config">
+        <UniqueDrop Name="cloud_service_config_config_md5"/>
+        <ColumnDrop Name="config_md5"/>
+    </TableAlter>
+
 </database>
