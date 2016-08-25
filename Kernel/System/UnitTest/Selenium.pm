@@ -358,7 +358,13 @@ sub WaitFor {
         $WaitedSeconds += $Interval;
         $Interval += 0.1;
     }
-    return;
+
+    my $Argument = '';
+    for my $Key (qw(JavaScript WindowCount AlertPresent)) {
+        $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+    }
+
+    die "WaitFor($Argument) failed.";
 }
 
 =item DragAndDrop()
