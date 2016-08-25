@@ -110,7 +110,7 @@ sub CloudServiceAdd {
 
     # md5 of content
     my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-        String => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() . int( rand(1000000) ),
+        String => $Param{Name},
     );
 
     # get database object
@@ -129,8 +129,8 @@ sub CloudServiceAdd {
     );
 
     return if !$DBObject->Prepare(
-        SQL  => 'SELECT id FROM cloud_service_config WHERE config_md5 = ?',
-        Bind => [ \$MD5 ],
+        SQL  => 'SELECT id FROM cloud_service_config WHERE name = ?',
+        Bind => [ \$Param{Name} ],
     );
 
     my $ID;
@@ -305,11 +305,6 @@ sub CloudServiceUpdate {
     # dump config as string
     my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
-    # md5 of content
-    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-        String => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() . int( rand(1000000) ),
-    );
-
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -336,10 +331,10 @@ sub CloudServiceUpdate {
     # sql
     return if !$DBObject->Do(
         SQL => 'UPDATE cloud_service_config SET name = ?, config = ?, '
-            . ' config_md5 = ?, valid_id = ?, change_time = current_timestamp, '
+            . ' valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Config, \$MD5, \$Param{ValidID}, \$Param{UserID},
+            \$Param{Name}, \$Config, \$Param{ValidID}, \$Param{UserID},
             \$Param{ID},
         ],
     );

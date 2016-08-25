@@ -38,6 +38,14 @@ my @Tests = (
             ValidID => 1,
             UserID  => 1,
         },
+        Update           => {
+            Config => {
+                Name        => 'SMSCloudServiceUpdate',
+                Description => 'Cloud Service Update for sending SMS requests.',
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
     },
     {
         Name          => 'test 2',

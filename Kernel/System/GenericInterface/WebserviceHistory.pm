@@ -87,7 +87,7 @@ sub WebserviceHistoryAdd {
 
     # md5 of content
     my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-        String => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() . int( rand(1000000) ),
+        String => $Param{WebserviceID} . $Param{Config} . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString( Length => 32 )
     );
 
     # get database object
@@ -211,21 +211,16 @@ sub WebserviceHistoryUpdate {
     # dump config as string
     my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
-    # md5 of content
-    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-        String => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() . int( rand(1000000) ),
-    );
-
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # sql
     return if !$DBObject->Do(
         SQL => 'UPDATE gi_webservice_config_history
-                SET config_id = ?, config = ?, config_md5 = ?, hange_time = current_timestamp, change_by = ?
+                SET config_id = ?, config = ?, change_time = current_timestamp, change_by = ?
                 WHERE id = ?',
         Bind => [
-            \$Param{WebserviceID}, \$Config, \$MD5, \$Param{UserID}, \$Param{ID},
+            \$Param{WebserviceID}, \$Config, \$Param{UserID}, \$Param{ID},
         ],
     );
 
