@@ -66,7 +66,7 @@ $Selenium->RunTest(
 
         # create test article
         my $MinCharString = 'ct';
-        my $MaxCharString = $RandomID . 'text' . $RandomID;
+        my $MaxCharString = $RandomID . ('t' x 50);
         my $Subject       = 'SubjectTitle' . $RandomID;
         my $ArticleID     = $TicketObject->ArticleCreate(
             TicketID    => $TicketID,
@@ -123,7 +123,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # input wrong search parameters, result should be 'No ticket data found'
-        $Selenium->find_element( "Fulltext", 'name' )->send_keys("abcdfgh");
+        $Selenium->find_element( "Fulltext", 'name' )->send_keys("abcdfgh_nonexisting_ticket_text");
         $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
 
         # check for expected result
@@ -138,7 +138,7 @@ $Selenium->RunTest(
         # wait until form and overlay has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
-        # input wrong search parameters, result should be 'No ticket data found'
+        # search for $MaxCharString with RuntimeDB - ticket must be found
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
         $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
 
