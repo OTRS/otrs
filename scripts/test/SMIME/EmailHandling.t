@@ -363,7 +363,7 @@ my @TestVariations;
 for my $Test (@Tests) {
     push @TestVariations, {
         %{$Test},
-        Name        => $Test->{Name} . " sign only",
+        Name        => $Test->{Name} . " (old API) sign only",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From => 'unittest@example.org',
@@ -380,7 +380,7 @@ for my $Test (@Tests) {
 
     push @TestVariations, {
         %{$Test},
-        Name        => $Test->{Name} . " crypt only",
+        Name        => $Test->{Name} . " (old API) crypt only",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From  => 'unittest@example.org',
@@ -396,7 +396,7 @@ for my $Test (@Tests) {
 
     push @TestVariations, {
         %{$Test},
-        Name        => $Test->{Name} . " sign and crypt",
+        Name        => $Test->{Name} . " (old API) sign and crypt",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From => 'unittest@example.org',
@@ -417,7 +417,7 @@ for my $Test (@Tests) {
 
     push @TestVariations, {
         %{$Test},
-        Name        => $Test->{Name} . " chain CA cert sign only",
+        Name        => $Test->{Name} . " (old API) chain CA cert sign only",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From => 'smimeuser1@test.com',
@@ -434,7 +434,7 @@ for my $Test (@Tests) {
 
     push @TestVariations, {
         %{$Test},
-        Name        => $Test->{Name} . " chain CA cert crypt only",
+        Name        => $Test->{Name} . " (old API) chain CA cert crypt only",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From  => 'smimeuser1@test.com',
@@ -450,7 +450,7 @@ for my $Test (@Tests) {
 
     push @TestVariations, {
         %{$Test},
-        Name        => $Test->{Name} . " chain CA cert sign and crypt",
+        Name        => $Test->{Name} . " (old API) chain CA cert sign and crypt",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From => 'smimeuser1@test.com',
@@ -468,6 +468,129 @@ for my $Test (@Tests) {
         VerifySignature  => 1,
         VerifyDecryption => 1,
     };
+
+    # here starts the tests for new API
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " sign only",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest@example.org',
+            To            => 'unittest@example.org',
+            EmailSecurity => {
+                Backend => 'SMIME',
+                Method  => 'Detached',
+                SignKey => $Check1Hash . '.0',
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 0,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " crypt only",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest@example.org',
+            To            => 'unittest@example.org',
+            EmailSecurity => {
+                Backend     => 'SMIME',
+                Method      => 'Detached',
+                EncryptKeys => [ $Check1Hash . '.0', $OTRSUserCertHash . '.0' ],
+            },
+        },
+        VerifySignature  => 0,
+        VerifyDecryption => 1,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " crypt only (multiple recipients)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest@example.org',
+            To            => 'unittest@example.org, smimeuser1@test.com',
+            EmailSecurity => {
+                Backend     => 'SMIME',
+                Method      => 'Detached',
+                EncryptKeys => [ $Check1Hash . '.0' ],
+            },
+        },
+        VerifySignature  => 0,
+        VerifyDecryption => 1,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " sign and crypt",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest@example.org',
+            To            => 'unittest@example.org',
+            EmailSecurity => {
+                Backend     => 'SMIME',
+                SubType     => 'Detached',
+                SignKey     => $Check1Hash . '.0',
+                EncryptKeys => [ $Check1Hash . '.0' ],
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 1,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " chain CA cert sign only",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'smimeuser1@test.com',
+            To            => 'smimeuser1@test.com',
+            EmailSecurity => {
+                Backend => 'SMIME',
+                SubType => 'Detached',
+                SignKey => $OTRSUserCertHash . '.0',
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 0,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " chain CA cert crypt only",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'smimeuser1@test.com',
+            To            => 'smimeuser1@test.com',
+            EmailSecurity => {
+                Backend     => 'SMIME',
+                EncryptKeys => [ $OTRSUserCertHash . '.0' ],
+            },
+        },
+        VerifySignature  => 0,
+        VerifyDecryption => 1,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " chain CA cert sign and crypt",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'smimeuser1@test.com',
+            To            => 'smimeuser1@test.com',
+            EmailSecurity => {
+                Backend     => 'SMIME',
+                SubType     => 'Detached',
+                SignKey     => $OTRSUserCertHash . '.0',
+                EncryptKeys => [ $OTRSUserCertHash . '.0' ],
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 1,
+    };
+
 }
 
 for my $Test (@TestVariations) {

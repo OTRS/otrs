@@ -2154,6 +2154,46 @@ send article via email and create article with attachments
                 Filename    => 'lala1.txt',
             },
         ],
+        EmailSecurity => {
+            Backend     => 'PGP',                       # PGP or SMIME
+            Method      => 'Detached',                  # Optional Detached or Inline (defaults to Detached)
+            SignKey     => '81877F5E',                  # Optional
+            EncryptKeys => [ '81877F5E', '3b630c80' ],  # Optional
+        }
+        HistoryType    => 'OwnerUpdate',  # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+        HistoryComment => 'Some free text!',
+        NoAgentNotify  => 0,            # if you don't want to send agent notifications
+        UserID         => 123,
+    );
+
+
+    my $ArticleID = $TicketObject->ArticleSend(                (Backwards compatibility)
+        TicketID    => 123,
+        ArticleType => 'note-internal',                                        # email-external|email-internal|phone|fax|...
+        SenderType  => 'agent',                                                # agent|system|customer
+        From        => 'Some Agent <email@example.com>',                       # not required but useful
+        To          => 'Some Customer A <customer-a@example.com>',             # not required but useful
+        Cc          => 'Some Customer B <customer-b@example.com>',             # not required but useful
+        ReplyTo     => 'Some Customer B <customer-b@example.com>',             # not required, is possible to use 'Reply-To' instead
+        Subject     => 'some short description',                               # required
+        Body        => 'the message text',                                     # required
+        InReplyTo   => '<asdasdasd.12@example.com>',                           # not required but useful
+        References  => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
+        Charset     => 'iso-8859-15'
+        MimeType    => 'text/plain',
+        Loop        => 0, # 1|0 used for bulk emails
+        Attachment => [
+            {
+                Content     => $Content,
+                ContentType => $ContentType,
+                Filename    => 'lala.txt',
+            },
+            {
+                Content     => $Content,
+                ContentType => $ContentType,
+                Filename    => 'lala1.txt',
+            },
+        ],
         Sign => {
             Type    => 'PGP',
             SubType => 'Inline|Detached',

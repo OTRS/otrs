@@ -470,7 +470,7 @@ my @TestVariations;
 
 for my $Test (@Tests) {
     push @TestVariations, {
-        Name        => $Test->{Name} . " sign only (Detached)",
+        Name        => $Test->{Name} . " (old API) sign only (Detached)",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From => 'unittest@example.org',
@@ -486,7 +486,7 @@ for my $Test (@Tests) {
     };
 
     push @TestVariations, {
-        Name        => $Test->{Name} . " crypt only (Detached)",
+        Name        => $Test->{Name} . " (old API) crypt only (Detached)",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From  => 'unittest2@example.org',
@@ -502,7 +502,7 @@ for my $Test (@Tests) {
     };
 
     push @TestVariations, {
-        Name        => $Test->{Name} . " sign and crypt (Detached)",
+        Name        => $Test->{Name} . " (old API) sign and crypt (Detached)",
         ArticleData => {
             %{ $Test->{ArticleData} },
             From => 'unittest2@example.org',
@@ -525,6 +525,109 @@ for my $Test (@Tests) {
     # TODO: currently inline signatures tests does not work as OTRS does not save the signature
     #    in the Article{Body}, the body remains intact after sending the email, only the email has
     #    the signature
+
+    # here starts the tests for new API
+
+    push @TestVariations, {
+        Name        => $Test->{Name} . " sign only (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest@example.org',
+            To            => 'unittest@example.org',
+            EmailSecurity => {
+                Backend => 'PGP',
+                Method  => 'Detached',
+                SignKey => $Check{1}->{KeyPrivate},
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 0,
+    };
+
+    push @TestVariations, {
+        Name        => $Test->{Name} . " crypt only (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest2@example.org',
+            To            => 'unittest2@example.org',
+            EmailSecurity => {
+                Backend     => 'PGP',
+                Method      => 'Detached',
+                EncryptKeys => [ $Check{2}->{Key} ],
+            },
+        },
+        VerifySignature  => 0,
+        VerifyDecryption => 1,
+    };
+
+    push @TestVariations, {
+        Name        => $Test->{Name} . " sign and crypt (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest2@example.org',
+            To            => 'unittest2@example.org',
+            EmailSecurity => {
+                Backend     => 'PGP',
+                Method      => 'Detached',
+                SignKey     => $Check{2}->{KeyPrivate},
+                EncryptKeys => [ $Check{2}->{Key} ],
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 1,
+    };
+
+    # start tests with 2 recipients
+
+    push @TestVariations, {
+        Name        => $Test->{Name} . " sign only (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest@example.org',
+            To            => 'unittest@example.org, unittest2@example.org',
+            EmailSecurity => {
+                Backend => 'PGP',
+                Method  => 'Detached',
+                SignKey => $Check{1}->{KeyPrivate},
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 0,
+    };
+
+    push @TestVariations, {
+        Name        => $Test->{Name} . " crypt only (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest2@example.org',
+            To            => 'unittest@example.org, unittest2@example.org',
+            EmailSecurity => {
+                Backend     => 'PGP',
+                Method      => 'Detached',
+                EncryptKeys => [ $Check{1}->{Key}, $Check{2}->{Key} ],
+            },
+        },
+        VerifySignature  => 0,
+        VerifyDecryption => 1,
+    };
+
+    push @TestVariations, {
+        Name        => $Test->{Name} . " sign and crypt (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From          => 'unittest2@example.org',
+            To            => 'unittest@example.org, unittest2@example.org',
+            EmailSecurity => {
+                Backend     => 'PGP',
+                Method      => 'Detached',
+                SignKey     => $Check{2}->{KeyPrivate},
+                EncryptKeys => [ $Check{1}->{Key}, $Check{2}->{Key} ],
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 1,
+    };
+
 }
 
 my $TicketID = $TicketObject->TicketCreate(

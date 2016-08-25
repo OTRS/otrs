@@ -31,6 +31,7 @@ Core.Agent.TicketEmailOutbound = (function (TargetNS) {
 
         var $Form,
             FieldID,
+            ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
             DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
 
         // remove customers
@@ -67,6 +68,15 @@ Core.Agent.TicketEmailOutbound = (function (TargetNS) {
         $('#ComposeStateID').on('change', function () {
             Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ComposeStateID', DynamicFieldNames);
         });
+
+        // change article compose options
+        if (typeof ArticleComposeOptions !== 'undefined') {
+            $.each(ArticleComposeOptions, function (Key, Value) {
+                $('#'+Value.Name).bind('change', function () {
+                    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value.Name, Value.Fields);
+                });
+            });
+        }
 
         // initialize the ticket action popup
         Core.Agent.TicketAction.Init();

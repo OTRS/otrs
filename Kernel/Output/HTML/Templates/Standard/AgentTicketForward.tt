@@ -273,6 +273,9 @@
                 <div class="Field">
                     [% Data.Value %]
                     <div id="[% Data.Name | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.Invalid | html %]</p></div>
+                    [% IF Data.FieldExplanation.length %]
+                        <p class="FieldExplanation">[% Translate(Data.FieldExplanation) | html %]</p>
+                    [% END %]
                 </div>
                 <div class="Clear"></div>
 [% RenderBlockEnd("Option") %]

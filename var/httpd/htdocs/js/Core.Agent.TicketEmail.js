@@ -33,6 +33,7 @@ Core.Agent.TicketEmail = (function (TargetNS) {
             CustomerKey,
             $Form,
             FieldID,
+            ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
             DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
             DataEmail = Core.Config.Get('DataEmail'),
             DataCustomer = Core.Config.Get('DataCustomer');
@@ -145,6 +146,16 @@ Core.Agent.TicketEmail = (function (TargetNS) {
         if (typeof DataEmail !== 'undefined' && typeof DataCustomer !== 'undefined') {
             Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', DataEmail, DataCustomer, true);
         }
+
+        // change article compose options
+        if (typeof ArticleComposeOptions !== 'undefined') {
+            $.each(ArticleComposeOptions, function (Key, Value) {
+                $('#'+Value.Name).bind('change', function () {
+                    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value.Name, Value.Fields);
+                });
+            });
+        }
+
         // initialize the ticket action popup
         Core.Agent.TicketAction.Init();
 

@@ -6233,23 +6233,36 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###1-SignEmail" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###1-EmailSecurity" Required="1" Valid="1">
+        <Description Translatable="1">Module to define the email security options to use (PGP or S/MIME).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ArticleComposeModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleCompose::Security</Item>
+                <Item Key="ParamType">Single</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###2-SignEmail" Required="1" Valid="1">
         <Description Translatable="1">Module to compose signed messages (PGP or S/MIME).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleComposeModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ArticleCompose::Sign</Item>
+                <Item Key="ParamType">Single</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###2-CryptEmail" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###3-CryptEmail" Required="1" Valid="1">
         <Description Translatable="1">Module to encrypt composed messages (PGP or S/MIME).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleComposeModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ArticleCompose::Crypt</Item>
+                <Item Key="ParamType">Multiple</Item>
             </Hash>
         </Setting>
     </ConfigItem>

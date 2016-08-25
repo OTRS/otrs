@@ -591,8 +591,7 @@ sub Run {
         my %ArticleParam;
 
         # run compose modules
-        if ( ref $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' )
-        {
+        if ( ref $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
 
             # use ticket QueueID in compose modules
             $GetParam{QueueID} = $Ticket{QueueID};
@@ -606,18 +605,50 @@ sub Run {
                 }
                 my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug} );
 
+                my $Multiple;
+
                 # get params
-                for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-                    $GetParam{$_} = $ParamObject->GetParam( Param => $_ );
+                PARAMETER:
+                for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                    if ( $Jobs{$Job}->{ParamType} && $Jobs{$Job}->{ParamType} ne 'Single' ) {
+                        @{ $GetParam{$Parameter} } = $ParamObject->GetArray( Param => $Parameter );
+                        $Multiple = 1;
+                        next PARAMETER;
+                    }
+
+                    $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter );
                 }
 
                 # run module
-                $Object->Run( %GetParam, Config => $Jobs{$Job} );
+                $Object->Run(
+                    %GetParam,
+                    StoreNew => 1,
+                    Config   => $Jobs{$Job}
+                );
+
+                # get options that have been removed from the selection
+                # and add them back to the selection so that the submit
+                # will contain options that were hidden from the agent
+                my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
+
+                if ( $Object->can('GetOptionsToRemoveAJAX') ) {
+                    my @RemovedOptions = $Object->GetOptionsToRemoveAJAX(%GetParam);
+                    if (@RemovedOptions) {
+                        if ($Multiple) {
+                            for my $RemovedOption (@RemovedOptions) {
+                                push @{ $GetParam{$Key} }, $RemovedOption;
+                            }
+                        }
+                        else {
+                            $GetParam{$Key} = shift @RemovedOptions;
+                        }
+                    }
+                }
 
                 # ticket params
                 %ArticleParam = (
                     %ArticleParam,
-                    $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} ),
+                    $Object->ArticleOption( %GetParam, %ArticleParam, Config => $Jobs{$Job} ),
                 );
 
                 # get errors
@@ -970,8 +1001,17 @@ sub Run {
                     Debug => $Self->{Debug},
                 );
 
+                my $Multiple;
+
                 # get params
+                PARAMETER:
                 for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                    if ( $Jobs{$Job}->{ParamType} && $Jobs{$Job}->{ParamType} ne 'Single' ) {
+                        @{ $GetParam{$Parameter} } = $ParamObject->GetArray( Param => $Parameter );
+                        $Multiple = 1;
+                        next PARAMETER;
+                    }
+
                     $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter );
                 }
 
@@ -983,16 +1023,28 @@ sub Run {
                     %GetParam = ( %GetParam, $Object->GetParamAJAX(%GetParam) )
                 }
 
+                # get options that have to be removed from the selection visible
+                # to the agent. These options will be added again on submit.
+                if ( $Object->can('GetOptionsToRemoveAJAX') ) {
+                    my @OptionsToRemove = $Object->GetOptionsToRemoveAJAX(%GetParam);
+
+                    for my $OptionToRemove (@OptionsToRemove) {
+                        delete $Data{$OptionToRemove};
+                    }
+                }
+
                 my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
                 if ($Key) {
                     push(
                         @ExtendedData,
                         {
-                            Name        => $Key,
-                            Data        => \%Data,
-                            SelectedID  => $GetParam{$Key},
-                            Translation => 1,
-                            Max         => 150,
+                            Name         => $Key,
+                            Data         => \%Data,
+                            SelectedID   => $GetParam{$Key},
+                            Translation  => 1,
+                            PossibleNone => 1,
+                            Multiple     => $Multiple,
+                            Max          => 150,
                         }
                     );
                 }
@@ -1003,7 +1055,7 @@ sub Run {
             %GetParam,
         );
 
-        # update Dynamc Fields Possible Values via AJAX
+        # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
 
         # cycle trough the activated Dynamic Fields for this screen
@@ -1235,7 +1287,7 @@ sub Run {
         else {
 
             # prepare body, subject, ReplyTo ...
-            # rewrap body if exists
+            # re-wrap body if exists
             if ( $Data{Body} ) {
                 $Data{Body} =~ s/\t/ /g;
                 my $Quote = $ConfigObject->Get('Ticket::Frontend::Quote');
@@ -1561,8 +1613,8 @@ sub Run {
         my $References = ( $Data{MessageID} || '' ) . ( $Data{References} || '' );
 
         # run compose modules
-        if ( ref $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' )
-        {
+        if ( ref $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
+
             my %Jobs = %{ $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') };
             for my $Job ( sort keys %Jobs ) {
 
@@ -1573,8 +1625,14 @@ sub Run {
                 my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug} );
 
                 # get params
-                for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-                    $GetParam{$_} = $ParamObject->GetParam( Param => $_ );
+                PARAMETER:
+                for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                    if ( $Jobs{$Job}->{ParamType} && $Jobs{$Job}->{ParamType} ne 'Single' ) {
+                        @{ $GetParam{$Parameter} } = $ParamObject->GetArray( Param => $Parameter );
+                        next PARAMETER;
+                    }
+
+                    $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter );
                 }
 
                 # run module

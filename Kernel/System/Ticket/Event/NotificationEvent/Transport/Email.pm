@@ -174,16 +174,16 @@ sub SendNotification {
         my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
         my $Sent = $EmailObject->Send(
-            From       => $From,
-            To         => $Recipient{UserEmail},
-            Subject    => $Notification{Subject},
-            MimeType   => $Notification{ContentType},
-            Type       => $Notification{ContentType},
-            Charset    => 'utf-8',
-            Body       => $Notification{Body},
-            Loop       => 1,
-            Attachment => $Param{Attachments},
-            %{$SecurityOptions},
+            From          => $From,
+            To            => $Recipient{UserEmail},
+            Subject       => $Notification{Subject},
+            MimeType      => $Notification{ContentType},
+            Type          => $Notification{ContentType},
+            Charset       => 'utf-8',
+            Body          => $Notification{Body},
+            Loop          => 1,
+            Attachment    => $Param{Attachments},
+            EmailSecurity => $SecurityOptions || {},
         );
 
         if ( !$Sent ) {
@@ -277,7 +277,7 @@ sub SendNotification {
             UserID         => $Param{UserID},
             Loop           => 1,
             Attachment     => $Param{Attachments},
-            %{$SecurityOptions},
+            EmailSecurity  => $SecurityOptions || {},
         );
 
         if ( !$ArticleID ) {
@@ -547,31 +547,34 @@ sub IsUsable {
 sub SecurityOptionsGet {
     my ( $Self, %Param ) = @_;
 
-    # TODO: Check the new SecutiryOptionformat after MultipleRecipientEncryption feature is merged
-
-    # verify security options are enabled
+    # Verify security options are enabled.
     my $EnableSecuritySettings = $Param{Notification}->{Data}->{EmailSecuritySettings}->[0] || '';
 
-    # sign notification
-    my $SignCryptNotification = $Param{Notification}->{Data}->{EmailSigningCrypting}->[0] || '';
+    # Return empty hash ref to continue with email sending (without security options).
+    return {} if !$EnableSecuritySettings;
 
-    if ( !$EnableSecuritySettings || !$SignCryptNotification ) {
-        return {};
-    }
+    # Verify if the notification has to be signed or encrypted
+    my $SignEncryptNotification = $Param{Notification}->{Data}->{EmailSigningCrypting}->[0] || '';
+
+    # Return empty hash ref to continue with email sending (without security options).
+    return {} if !$SignEncryptNotification;
 
     my %Queue = %{ $Param{Queue} || {} };
 
-    # define who is going to be the sender
+    # Define who is going to be the sender (from the given parameters)
     my $NotificationSenderEmail = $Param{FromEmail};
 
-    # define options container
-    my %SignCryptOptions;
-    my @SignKeys;
-    my @CryptKeys;
-    my $KeyField;
-    my $Method;
+    # Define security options container
+    my %SecurityOptions = (
+        Method => 'Detached',
+    );
 
-    if ( $SignCryptNotification =~ /^PGP/i ) {
+    my @SignKeys;
+    my @EncryptKeys;
+    my $KeyField;
+
+    # Get private and public keys for the given backend (PGP or SMIME)
+    if ( $SignEncryptNotification =~ /^PGP/i ) {
         @SignKeys = $Kernel::OM->Get('Kernel::System::Crypt::PGP')->PrivateKeySearch(
             Search => $NotificationSenderEmail,
         );
@@ -580,44 +583,59 @@ sub SecurityOptionsGet {
         @SignKeys = grep { $_->{Status} eq 'good' } @SignKeys;
 
         # get public keys
-        @CryptKeys = $Kernel::OM->Get('Kernel::System::Crypt::PGP')->PublicKeySearch(
+        @EncryptKeys = $Kernel::OM->Get('Kernel::System::Crypt::PGP')->PublicKeySearch(
             Search => $Param{Recipient}->{UserEmail},
         );
 
-        $Method   = 'PGP';
+        # Get PGP method (Detached or In-line).
+        if ( !$Kernel::OM->Get('Kernel::Output::HTML::Layout')->{BrowserRichText} ) {
+            $SecurityOptions{Method} = $Kernel::OM->Get('Kernel::Config')->Get('PGP::Method') || 'Detached';
+        }
+
+        $SecurityOptions{Backend} = 'PGP';
         $KeyField = 'Key';
     }
-    elsif ( $SignCryptNotification =~ /^SMIME/i ) {
+    elsif ( $SignEncryptNotification =~ /^SMIME/i ) {
         @SignKeys = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->PrivateSearch(
             Search => $NotificationSenderEmail,
         );
 
-        @CryptKeys = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->CertificateSearch(
+        @EncryptKeys = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->CertificateSearch(
             Search => $Param{Recipient}->{UserEmail},
         );
 
-        $Method   = 'SMIME';
+        $SecurityOptions{Backend} = 'SMIME';
         $KeyField = 'Filename';
     }
 
-    # initialize sign key container
+    # Initialize sign key container
     my %SignKey;
 
-    # initialize crypt key container
-    my %CryptKey;
+    # Initialize crypt key container
+    my %EncryptKey;
 
-    # TODO: Check the new DefultSignKey format after MultipleRecipientEncryption feature is merged
-    # get Default key
+    # Get default signing key from the queue (if applies).
     if ( $Queue{DefaultSignKey} ) {
-        my @DefaultKey = split '::', $Queue{DefaultSignKey};
 
-        if ( grep { $_->{$KeyField} eq $DefaultKey[2] } @SignKeys ) {
-            $SignKey{$KeyField} = $DefaultKey[2];
+        my $DefaultSignKey;
+
+        # Convert legacy stored default sign keys.
+        if ( $Queue{DefaultSignKey} =~ m{ (?: Inline|Detached ) }msx ) {
+            my ( $Type, $SubType, $Key ) = split /::/, $Queue{DefaultSignKey};
+            $DefaultSignKey = $Key;
+        }
+        else {
+            my ( $Type, $Key ) = split /::/, $Queue{DefaultSignKey};
+            $DefaultSignKey = $Key;
+        }
+
+        if ( grep { $_->{$KeyField} eq $DefaultSignKey } @SignKeys ) {
+            $SignKey{$KeyField} = $DefaultSignKey;
         }
     }
 
-    # take the first key available
-    else {
+    # Otherwise take the first signing key available.
+    if ( !%SignKey ) {
         SIGNKEY:
         for my $SignKey (@SignKeys) {
             %SignKey = %{$SignKey};
@@ -625,88 +643,84 @@ sub SecurityOptionsGet {
         }
     }
 
+    # Also take the first encryption key available.
     CRYPTKEY:
-    for my $CryptKey (@CryptKeys) {
-
-        # get first key available
-        %CryptKey = %{$CryptKey};
+    for my $EncryptKey (@EncryptKeys) {
+        %EncryptKey = %{$EncryptKey};
         last CRYPTKEY;
     }
 
-    # what to do if not key found
-    my $MissingKeysCerts = $Param{Notification}->{Data}->{EmailMissingSigningKeys}->[0] || '';
+    my $OnMissingSigningKeys = $Param{Notification}->{Data}->{EmailMissingSigningKeys}->[0] || '';
 
-    if ( $SignCryptNotification =~ /Sign/i ) {
+    # Add options to sign the notification
+    if ( $SignEncryptNotification =~ /Sign/i ) {
 
+        # Take an action if there are missing signing keys.
         if ( !IsHashRefWithData( \%SignKey ) ) {
 
             my $Message
-                = "Could not sign notification '$Param{Notification}->{Name}' due to missing $Method sign key for '$NotificationSenderEmail'";
+                = "Could not sign notification '$Param{Notification}->{Name}' due to missing $SecurityOptions{Backend} sign key for '$NotificationSenderEmail'";
 
-            if ( $MissingKeysCerts eq 'Skip' ) {
+            if ( $OnMissingSigningKeys eq 'Skip' ) {
 
-                # log skipping notification
+                # Log skipping notification (return nothing to stop email sending).
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'notice',
                     Message  => $Message . ', skipping notification distribution!',
                 );
+
                 return;
             }
 
-            # log sending unsigned notification
+            # Log sending unsigned notification.
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => $Message . ', sending unsigned!',
             );
         }
 
-        # sign the notification if a sign key is available
+        # Add signature option if a sign key is available
         else {
-            $SignCryptOptions{Sign} = {
-                Type    => $Method,
-                SubType => 'Detached',
-                Key     => $SignKey{$KeyField},
-            };
+            $SecurityOptions{SignKey} = $SignKey{$KeyField};
         }
     }
 
-    # crypt notification
-    my $MissingEncryptKeysCerts = $Param{Notification}->{Data}->{EmailMissingCryptingKeys}->[0] || '';
+    my $OnMissingEncryptionKeys = $Param{Notification}->{Data}->{EmailMissingCryptingKeys}->[0] || '';
 
-    if ( $SignCryptNotification =~ /Crypt/i ) {
-        if ( !IsHashRefWithData( \%CryptKey ) ) {
+    # Add options to encrypt the notification
+    if ( $SignEncryptNotification =~ /Crypt/i ) {
+
+        # Take an action if there are missing encryption keys.
+        if ( !IsHashRefWithData( \%EncryptKey ) ) {
 
             my $Message
-                = "Could not encrypt notification '$Param{Notification}->{Name}' due to missing $Method encryption key for '$Param{Recipient}->{UserEmail}'";
+                = "Could not encrypt notification '$Param{Notification}->{Name}' due to missing $SecurityOptions{Backend} encryption key for '$Param{Recipient}->{UserEmail}'";
 
-            if ( $MissingEncryptKeysCerts eq 'Skip' ) {
+            if ( $OnMissingEncryptionKeys eq 'Skip' ) {
 
-                # log skipping notification
+                # Log skipping notification (return nothing to stop email sending).
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'notice',
                     Message  => $Message . ', skipping notification distribution!',
                 );
+
                 return;
             }
 
-            # log sending unencrypted notification
+            # Log sending unencrypted notification.
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => $Message . ', sending unencrypted!',
             );
         }
 
-        # then crypt is possible
+        # Add encrypt option if a encrypt key is available
         else {
-            $SignCryptOptions{Crypt} = {
-                Type    => $Method,
-                SubType => 'Detached',
-                Key     => $CryptKey{$KeyField},
-            };
+            $SecurityOptions{EncryptKeys} = [ $EncryptKey{$KeyField}, ];
         }
     }
 
-    return \%SignCryptOptions;
+    return \%SecurityOptions;
 
 }
 

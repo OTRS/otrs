@@ -91,6 +91,15 @@ crypt a message
 
     my $Message = $CryptObject->Crypt(
         Message => $Message,
+        Key     => [
+            $PGPPublicKeyID,
+            $PGPPublicKeyID2,
+            # ...
+        ],
+    );
+
+    my $Message = $CryptObject->Crypt(
+        Message => $Message,
         Key     => $PGPPublicKeyID,
     );
 
@@ -100,15 +109,33 @@ sub Crypt {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $ParamName (qw( Message Key )) {
-        if ( !$Param{$ParamName} ) {
+    for my $Needed (qw( Message Key )) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $ParamName!"
+                Message  => "Need $Needed!"
             );
             return;
         }
     }
+
+    my @PublicKeys;
+    if ( ref $Param{Key} eq 'ARRAY' ) {
+        @PublicKeys = @{ $Param{Key} };
+    }
+    elsif ( ref $Param{Key} eq '' ) {
+        push @PublicKeys, $Param{Key};
+    }
+
+    if ( !@PublicKeys ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Message  => "Got no keys!",
+            Priority => 'error',
+        );
+        return;
+    }
+
+    my $KeyStr = join ' ', map {"-r $_"} @PublicKeys;
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Message} );
 
@@ -121,7 +148,7 @@ sub Crypt {
 
     my ( $FHCrypt, $FilenameCrypt ) = $FileTempObject->TempFile();
     close $FHCrypt;
-    my $GPGOptions = "--always-trust --yes --encrypt --armor -o $FilenameCrypt -r $Param{Key} $Filename";
+    my $GPGOptions = "--always-trust --yes --encrypt --armor -o $FilenameCrypt $KeyStr $Filename";
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
 
     # get crypted content

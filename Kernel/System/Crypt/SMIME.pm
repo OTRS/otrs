@@ -11,6 +11,8 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
@@ -131,6 +133,20 @@ sub Check {
 crypt a message
 
     my $Message = $CryptObject->Crypt(
+        Message      => $Message,
+        Certificates => [
+            {
+                Filename => $CertificateFilename,
+            },
+            {
+                Hash        => $CertificateHash,
+                Fingerprint => $CertificateFingerprint,
+            },
+            # ...
+        ]
+    );
+
+    my $Message = $CryptObject->Crypt(
         Message  => $Message,
         Filename => $CertificateFilename,
     );
@@ -147,17 +163,24 @@ sub Crypt {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Message)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(Message)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
     }
 
-    if ( !$Param{Filename} && !( $Param{Hash} || $Param{Fingerprint} ) ) {
+    if ( $Param{Certificates} && ref $Param{Certificates} ne 'ARRAY' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Certificates Param: Must be an array reference!",
+        );
+    }
+
+    if ( !$Param{Certificates} && !$Param{Filename} && !( $Param{Hash} || $Param{Fingerprint} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Message  => "Need Param: Filename or Hash and Fingerprint!",
             Priority => 'error',
@@ -165,20 +188,53 @@ sub Crypt {
         return;
     }
 
+    # backwards compatibility
+    my @CertificateSearchParams;
+    if ( $Param{Certificates} ) {
+        @CertificateSearchParams = @{ $Param{Certificates} };
+    }
+    else {
+        my %SearchParam = %Param;
+        delete $SearchParam{Message};
+        push @CertificateSearchParams, \%SearchParam;
+    }
+
     # get temp file object
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
 
-    my $Certificate = $Self->CertificateGet(%Param);
-    my ( $FHCertificate, $CertFile ) = $FileTempObject->TempFile();
-    print $FHCertificate $Certificate;
-    close $FHCertificate;
+    my @CertFiles;
+
+    SEARCHPARAM:
+    for my $SearchParam (@CertificateSearchParams) {
+
+        next SEARCHPARAM if !IsHashRefWithData($SearchParam);
+
+        my $Certificate = $Self->CertificateGet( %{$SearchParam} );
+        my ( $FHCertificate, $CertFile ) = $FileTempObject->TempFile();
+        print $FHCertificate $Certificate;
+        close $FHCertificate;
+
+        push @CertFiles, $CertFile;
+    }
+
+    if ( !@CertFiles ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "No certificates found!",
+        );
+        return;
+    }
+
+    my $CertFileStrg = join ' ', @CertFiles;
+
     my ( $FH, $PlainFile ) = $FileTempObject->TempFile();
     print $FH $Param{Message};
     close $FH;
+
     my ( $FHCrypted, $CryptedFile ) = $FileTempObject->TempFile();
     close $FHCrypted;
 
-    my $Options    = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFile";
+    my $Options    = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFileStrg";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

@@ -30,6 +30,7 @@ Core.Agent.TicketCompose = (function (TargetNS) {
     TargetNS.Init = function () {
 
         var $Form, FieldID, i,
+            ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
             EmailAddressesTo = Core.Config.Get('EmailAddressesTo'),
             EmailAddressesCc = Core.Config.Get('EmailAddressesCc');
 
@@ -77,6 +78,14 @@ Core.Agent.TicketCompose = (function (TargetNS) {
             }
         }
 
+        // change article compose options
+        if (typeof ArticleComposeOptions !== 'undefined') {
+            $.each(ArticleComposeOptions, function (Key, Value) {
+                $('#'+Value.Name).bind('change', function () {
+                    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value.Name, Value.Fields);
+                });
+            });
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
