@@ -791,9 +791,51 @@ sub Run {
                 $GetParam{ArticleType} = $Config->{ArticleTypeDefault};
             }
 
+            # get pre loaded attachment
+            my @Attachments = $UploadCacheObject->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
+            );
+
+            # get submit attachment
+            my %UploadStuff = $ParamObject->GetUploadAll(
+                Param => 'FileUpload',
+            );
+            if (%UploadStuff) {
+                push @Attachments, \%UploadStuff;
+            }
+
             my $MimeType = 'text/plain';
             if ( $LayoutObject->{BrowserRichText} ) {
                 $MimeType = 'text/html';
+
+                # remove unused inline images
+                my @NewAttachmentData;
+                ATTACHMENT:
+                for my $Attachment (@Attachments) {
+                    my $ContentID = $Attachment->{ContentID};
+                    if (
+                        $ContentID
+                        && ( $Attachment->{ContentType} =~ /image/i )
+                        && ( $Attachment->{Disposition} eq 'inline' )
+                        )
+                    {
+                        my $ContentIDHTMLQuote = $LayoutObject->Ascii2Html(
+                            Text => $ContentID,
+                        );
+
+                        # workaround for link encode of rich text editor, see bug#5053
+                        my $ContentIDLinkEncode = $LayoutObject->LinkEncode($ContentID);
+                        $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
+
+                        # ignore attachment if not linked in body
+                        next ATTACHMENT
+                            if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                    }
+
+                    # remember inline images and normal attachments
+                    push @NewAttachmentData, \%{$Attachment};
+                }
+                @Attachments = @NewAttachmentData;
 
                 # verify html document
                 $GetParam{Body} = $LayoutObject->RichTextDocumentComplete(
@@ -838,6 +880,7 @@ sub Run {
                 ForceNotificationToUserID       => \@NotifyUserIDs,
                 ExcludeMuteNotificationToUserID => \@NotifyDone,
                 UnlockOnAway                    => $UnlockOnAway,
+                Attachment                      => \@Attachments,
                 %GetParam,
             );
             if ( !$ArticleID ) {
@@ -850,53 +893,6 @@ sub Run {
                     TicketID  => $Self->{TicketID},
                     ArticleID => $ArticleID,
                     TimeUnit  => $GetParam{TimeUnits},
-                    UserID    => $Self->{UserID},
-                );
-            }
-
-            # get pre loaded attachment
-            my @Attachments = $UploadCacheObject->FormIDGetAllFilesData(
-                FormID => $Self->{FormID},
-            );
-
-            # get submit attachment
-            my %UploadStuff = $ParamObject->GetUploadAll(
-                Param => 'FileUpload',
-            );
-            if (%UploadStuff) {
-                push @Attachments, \%UploadStuff;
-            }
-
-            # write attachments
-            ATTACHMENT:
-            for my $Attachment (@Attachments) {
-
-                # skip, deleted not used inline images
-                my $ContentID = $Attachment->{ContentID};
-                if (
-                    $ContentID
-                    && $LayoutObject->{BrowserRichText}
-                    && ( $Attachment->{ContentType} =~ /image/i )
-                    && ( $Attachment->{Disposition} eq 'inline' )
-                    )
-                {
-                    my $ContentIDHTMLQuote = $LayoutObject->Ascii2Html(
-                        Text => $ContentID,
-                    );
-
-                    # workaround for link encode of rich text editor, see bug#5053
-                    my $ContentIDLinkEncode = $LayoutObject->LinkEncode($ContentID);
-                    $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
-
-                    # ignore attachment if not linked in body
-                    next ATTACHMENT
-                        if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
-                }
-
-                # write existing file to backend
-                $TicketObject->ArticleWriteAttachment(
-                    %{$Attachment},
-                    ArticleID => $ArticleID,
                     UserID    => $Self->{UserID},
                 );
             }
@@ -1445,7 +1441,7 @@ sub _Mask {
     if (
         ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} )
         ||
-        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} )     ||
+        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} ) ||
         ( $ConfigObject->Get('Ticket::Responsible') && $Config->{Responsible} ) ||
         $Config->{Title} ||
         $Config->{Queue} ||
