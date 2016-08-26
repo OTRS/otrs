@@ -76,6 +76,58 @@ $Selenium->RunTest(
         # edit test mail account and set it to invalid
         $Selenium->find_element( $TestMailHost, 'link_text' )->VerifiedClick();
 
+        my %Check = (
+            Type          => 'IMAP',
+            LoginEdit     => $RandomID,
+            PasswordEdit  => 'otrs-dummy-password-placeholder',    # real password is not sent to user
+            HostEdit      => 'pop3.example.com',
+            Trusted       => 0,
+            DispatchingBy => 'Queue',
+            Comment       => "Selenium test AdminMailAccount",
+        );
+
+        for my $CheckKey ( sort keys %Check ) {
+
+            $Self->Is(
+                $Selenium->find_element( "#$CheckKey", 'css' )->get_value(),
+                $Check{$CheckKey},
+                "Value '$CheckKey' of created email account",
+            );
+        }
+
+        my $MailAccountID = $Selenium->find_element( 'input[name=ID]', 'css' )->get_value();
+        my %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
+        $Self->Is(
+            scalar $MailAccount{Password},
+            'SomePassword',
+            'Password after adding',    # make sure real password was stored
+        );
+
+        # Save current screen and verify that the password is not changed even though it was not sent to the user.
+        $Selenium->find_element( "#LoginEdit", 'css' )->VerifiedSubmit();
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount;Subaction=Update;ID=$MailAccountID");
+        %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
+        $Self->Is(
+            scalar $MailAccount{Password},
+            'SomePassword',
+            'Password after edit without change'
+        );
+
+        # Update password and verify that it is changed in DB.
+        $Selenium->find_element( "#PasswordEdit", 'css' )->clear();
+        $Selenium->find_element( "#PasswordEdit", 'css' )->send_keys("SomePassword2");
+        $Selenium->find_element( "#LoginEdit",    'css' )->VerifiedSubmit();
+
+        %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
+        $Self->Is(
+            scalar $MailAccount{Password},
+            'SomePassword2',
+            'Password after change'
+        );
+
+        # disable account
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount;Subaction=Update;ID=$MailAccountID");
         $Selenium->find_element( "#HostEdit", 'css' )->clear();
         $Selenium->find_element( "#HostEdit", 'css' )->send_keys("pop3edit.example.com");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
