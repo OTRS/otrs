@@ -81,6 +81,26 @@ $Selenium->RunTest(
             "Dynamic field $DynamicFieldName - ID $DynamicFieldID - created",
         );
 
+        # create also a dynamic field of type checkbox
+        my $CheckboxDynamicFieldName = 'TestCheckbox' . $RandomID;
+        my $CheckboxDynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
+            Name       => $CheckboxDynamicFieldName,
+            Label      => $CheckboxDynamicFieldName,
+            FieldOrder => 9992,
+            FieldType  => 'Checkbox',
+            ObjectType => 'Ticket',
+            Config     => {
+                DefaultValue => 0,
+            },
+            ValidID => 1,
+            UserID  => $UserID,
+        );
+
+        $Self->True(
+            $DynamicFieldID,
+            "Dynamic field $CheckboxDynamicFieldName - ID $CheckboxDynamicFieldID - created",
+        );
+
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -147,6 +167,8 @@ $Selenium->RunTest(
         # see bug#12210 for more information
         $Selenium->find_element( "#DynamicField_${DynamicFieldName}Year", 'css' )->send_keys('2015');
 
+        $Selenium->find_element( "#DynamicField_${CheckboxDynamicFieldName}Used1", 'css' )->VerifiedClick();
+
         # save job
         $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
@@ -191,6 +213,14 @@ $Selenium->RunTest(
 
         # toggle Execute Ticket Commands widget
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
+
+        # check if the checkbox from dynamicfield is selected
+        $Self->Is(
+            $Selenium->find_element( "#DynamicField_${CheckboxDynamicFieldName}Used1", 'css' )->is_selected(),
+            1,
+            "$CheckboxDynamicFieldName Used1 is selected",
+        );
+
         $Selenium->execute_script("\$('#NewDelete').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
 
