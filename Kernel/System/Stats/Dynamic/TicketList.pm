@@ -307,11 +307,19 @@ sub GetObjectAttributes {
             Block            => 'InputField',
         },
         {
-            Name             => Translatable('CustomerUserLogin'),
+            Name             => Translatable('CustomerUserLogin (complex search)'),
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'CustomerUserLogin',
+            Block            => 'InputField',
+        },
+        {
+            Name             => Translatable('CustomerUserLogin (exact match)'),
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'CustomerUserLoginRaw',
             Block            => 'InputField',
         },
         {
@@ -604,16 +612,26 @@ sub GetObjectAttributes {
     }
     else {
 
-        my %ObjectAttribute = (
-            Name             => Translatable('CustomerID'),
-            UseAsXvalue      => 0,
-            UseAsValueSeries => 0,
-            UseAsRestriction => 1,
-            Element          => 'CustomerID',
-            Block            => 'InputField',
+        my @CustomerIDAttributes = (
+            {
+                Name             => Translatable('CustomerID (complex search)'),
+                UseAsXvalue      => 0,
+                UseAsValueSeries => 0,
+                UseAsRestriction => 1,
+                Element          => 'CustomerID',
+                Block            => 'InputField',
+            },
+            {
+                Name             => Translatable('CustomerID (exact match)'),
+                UseAsXvalue      => 0,
+                UseAsValueSeries => 0,
+                UseAsRestriction => 1,
+                Element          => 'CustomerIDRaw',
+                Block            => 'InputField',
+            },
         );
 
-        push @ObjectAttributes, \%ObjectAttribute;
+        push @ObjectAttributes, @CustomerIDAttributes;
     }
 
     if ( $ConfigObject->Get('Ticket::ArchiveSystem') ) {
@@ -1373,7 +1391,7 @@ sub ExportWrapper {
                 }
             }
             elsif (
-                $ElementName eq 'OwnerIDs'
+                $ElementName    eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
@@ -1468,7 +1486,7 @@ sub ImportWrapper {
                 }
             }
             elsif (
-                $ElementName eq 'OwnerIDs'
+                $ElementName    eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
