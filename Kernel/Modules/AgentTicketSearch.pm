@@ -2365,6 +2365,12 @@ sub Run {
         Key   => 'NonAJAXSearch',
         Value => 1,
     );
+    if ( $Self->{Profile} ) {
+        $LayoutObject->AddJSData(
+            Key   => 'Profile',
+            Value => $Self->{Profile},
+        );
+    }
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentTicketSearch',
         Data         => \%Param,

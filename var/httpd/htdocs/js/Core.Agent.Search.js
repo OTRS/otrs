@@ -635,7 +635,7 @@ Core.Agent.Search = (function (TargetNS) {
         var NonAJAXSearch = Core.Config.Get('NonAJAXSearch');
 
         if (typeof NonAJAXSearch !== 'undefined' && parseInt(NonAJAXSearch, 10) === 1) {
-            Core.Agent.Search.OpenSearchDialog(Core.Config.Get('Action'));
+            Core.Agent.Search.OpenSearchDialog(Core.Config.Get('Action'), Core.Config.Get('Profile'));
         }
     };
 
