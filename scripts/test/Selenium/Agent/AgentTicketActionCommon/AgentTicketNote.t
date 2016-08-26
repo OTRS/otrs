@@ -191,6 +191,121 @@ $Selenium->RunTest(
         # close note pop-up window
         $Selenium->close();
 
+        # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # turn on RichText for next test
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => 1,
+        );
+
+        # get image attachment
+        my $AttachmentName = "StdAttachment-Test1.png";
+        my $Location       = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/StdAttachment/$AttachmentName";
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+        );
+        my $Content   = ${$ContentRef};
+        my $ContentID = 'inline173020.131906379.1472199795.695365.264540139@localhost';
+
+        # create test note with inline attachment
+        my $ArticleID = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'note-internal',
+            SenderType     => 'agent',
+            Subject        => 'Selenium subject test',
+            Body           => '<!DOCTYPE html><html><body><img src="cid:' . $ContentID . '" /></body></html>',
+            ContentType    => 'text/html',
+            HistoryType    => 'AddNote',
+            HistoryComment => 'Added note (Note)',
+            UserID         => 1,
+            Attachment     => [
+                {
+                    Content     => $Content,
+                    ContentID   => $ContentID,
+                    ContentType => 'image/png; name="' . $AttachmentName . '"',
+                    Disposition => 'inline',
+                    FileID      => 1,
+                    Filename    => $AttachmentName,
+                },
+            ],
+            NoAgentNotify => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "ArticleCreate - ID $ArticleID",
+        );
+
+        # navigate to added note article
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleID");
+
+        # click 'Reply to note'
+        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->VerifiedClick();
+
+        # switch window
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        # submit note
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+        # switch window back to agent ticket zoom view of created test ticket
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # get last article id
+        my @ArticleIDs = $TicketObject->ArticleIndex(
+            TicketID => $TicketID,
+        );
+        my $LastArticleID = pop @ArticleIDs;
+
+        # get articles attachments
+        my $InlineContentID = $Helper->GetRandomID();    # non-empty
+        for my $FileID ( reverse 1 .. 2 ) {
+            my %Attachment = $TicketObject->ArticleAttachment(
+                ArticleID => $LastArticleID,
+                FileID    => $FileID,
+                UserID    => 1,
+            );
+
+            # image attachment
+            if ( $FileID == 2 ) {
+                $Self->Is(
+                    $Attachment{Filename},
+                    $AttachmentName,
+                    'Image attachment filename',
+                );
+
+                # save content id
+                if ( $Attachment{ContentID} ) {
+                    $InlineContentID = $Attachment{ContentID};
+                    $InlineContentID =~ s/<|>//g;
+                }
+            }
+
+            # html attachment
+            elsif ( $FileID == 1 ) {
+
+                # check if inline attachment is present in the note reply (see bug#12259)
+                $Self->True(
+                    index( $Attachment{Content}, $InlineContentID ) > -1,
+                    'Inline attachment found in note reply',
+                );
+            }
+        }
+
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
@@ -205,7 +320,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
-    }
+    },
 );
 
 1;
