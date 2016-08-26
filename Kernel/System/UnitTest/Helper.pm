@@ -133,8 +133,7 @@ my %GetRandomNumberPrevious;
 
 sub GetRandomNumber {
 
-    my $PID = sprintf '%.6d', $$;
-    my $Prefix = $PID . substr time(), -5, 5;
+    my $Prefix = $$ . substr time(), -5, 5;
 
     return $Prefix . $GetRandomNumberPrevious{$Prefix}++ || 0;
 }
