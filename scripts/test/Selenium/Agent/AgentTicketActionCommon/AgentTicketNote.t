@@ -220,7 +220,7 @@ $Selenium->RunTest(
             SenderType     => 'agent',
             Subject        => 'Selenium subject test',
             Body           => '<!DOCTYPE html><html><body><img src="cid:' . $ContentID . '" /></body></html>',
-            ContentType    => 'text/html',
+            ContentType    => 'text/html; charset="utf8"',
             HistoryType    => 'AddNote',
             HistoryComment => 'Added note (Note)',
             UserID         => 1,
@@ -253,17 +253,26 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+
+        # wait for the CKE to load
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple").length;'
+                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
         );
 
         # submit note
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-        # switch window back to agent ticket zoom view of created test ticket
+        # wait until popup has closed
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function";'
+        );
 
         # get last article id
         my @ArticleIDs = $TicketObject->ArticleIndex(
@@ -271,9 +280,15 @@ $Selenium->RunTest(
         );
         my $LastArticleID = pop @ArticleIDs;
 
-        # get articles attachments
-        my $InlineContentID = $Helper->GetRandomID();    # non-empty
-        for my $FileID ( reverse 1 .. 2 ) {
+        # get article attachments
+        my $HTMLContent     = '';
+        my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+            ArticleID => $LastArticleID,
+            UserID    => 1,
+        );
+
+        # go through all attachments
+        for my $FileID ( sort keys %AttachmentIndex ) {
             my %Attachment = $TicketObject->ArticleAttachment(
                 ArticleID => $LastArticleID,
                 FileID    => $FileID,
@@ -281,30 +296,31 @@ $Selenium->RunTest(
             );
 
             # image attachment
-            if ( $FileID == 2 ) {
+            if ( $Attachment{ContentType} =~ /^image\/png/ ) {
                 $Self->Is(
-                    $Attachment{Filename},
-                    $AttachmentName,
-                    'Image attachment filename',
+                    $Attachment{Disposition},
+                    'inline',
+                    'Inline image attachment found',
                 );
 
                 # save content id
                 if ( $Attachment{ContentID} ) {
-                    $InlineContentID = $Attachment{ContentID};
-                    $InlineContentID =~ s/<|>//g;
+                    $ContentID = $Attachment{ContentID};
+                    $ContentID =~ s/<|>//g;
                 }
             }
 
             # html attachment
-            elsif ( $FileID == 1 ) {
-
-                # check if inline attachment is present in the note reply (see bug#12259)
-                $Self->True(
-                    index( $Attachment{Content}, $InlineContentID ) > -1,
-                    'Inline attachment found in note reply',
-                );
+            elsif ( $Attachment{ContentType} =~ /^text\/html/ ) {
+                $HTMLContent = $Attachment{Content};
             }
         }
+
+        # check if inline attachment is present in the note reply (see bug#12259)
+        $Self->True(
+            index( $HTMLContent, $ContentID ) > -1,
+            'Inline attachment found in note reply',
+        );
 
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
