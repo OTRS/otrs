@@ -242,21 +242,14 @@ Core.App = (function (TargetNS) {
      *      corresponding entities.
      */
     TargetNS.EscapeHTML = function (StringToEscape) {
-        var Result,
-            HTMLEntities = {
+        var HTMLEntities = {
             '&': '&amp;',
             '<': '&lt;',
             '>': '&gt;'
         };
-
-        Result = StringToEscape.replace(/[&<>]/g, function(Entity) {
+        return StringToEscape.replace(/[&<>]/g, function(Entity) {
             return HTMLEntities[Entity] || Entity;
         });
-
-        // Fix if string already had some characters escaped (&nbsp;)
-        Result = Result.replace("&amp;nbsp;", "&nbsp;");
-
-        return Result;
     };
 
     /**
