@@ -3103,7 +3103,7 @@ sub BuildDateSelection {
             }
         }
         else {
-            for ( $Y - 10 .. $Y + 1 + ( $Param{YearDiff} || 0 ) ) {
+            for ( 2001 .. $Y + 1 + ( $Param{YearDiff} || 0 ) ) {
                 $Year{$_} = $_;
             }
         }
