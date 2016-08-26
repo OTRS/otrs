@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-08-26 Fixed bug#[12233](http://bugs.otrs.org/show_bug.cgi?id=12233) - ACL for restricting services depending on queue does not work as exspected.
  - 2016-08-26 Fixed bug#[10608](http://bugs.otrs.org/show_bug.cgi?id=10608) - Can't search tickets by CustomerID that contain quotes.
  - 2016-08-26 Fixed bug#[12270](http://bugs.otrs.org/show_bug.cgi?id=12270) - AdminMailAccount - Mail account password returned back to form.
  - 2016-08-26 Fixed bug#[12259](http://bugs.otrs.org/show_bug.cgi?id=12259) - Images in a note are lost when using "reply to note".
