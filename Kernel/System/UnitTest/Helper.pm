@@ -117,7 +117,9 @@ my %GetRandomNumberPrevious;
 
 sub GetRandomNumber {
 
-    my $PID = sprintf '%.6d', $$;
+    my $PIDReversed = reverse $$;
+    my $PID = reverse sprintf '%.6d', $PIDReversed;
+
     my $Prefix = $PID . substr time(), -5, 5;
 
     return $Prefix . $GetRandomNumberPrevious{$Prefix}++ || 0;
