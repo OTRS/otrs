@@ -29,11 +29,6 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # create test user
-        my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
-        ) || die "Did not get test user";
-
         # create test customer
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
         ) || die "Did not get test customer user";
@@ -63,13 +58,6 @@ $Selenium->RunTest(
             push @TicketNumbers, $TicketNumber;
         }
 
-        # login test user
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
         # create test group
         my $GroupName = 'Group' . $Helper->GetRandomID();
         my $GroupID   = $Kernel::OM->Get('Kernel::System::Group')->GroupAdd(
@@ -82,24 +70,22 @@ $Selenium->RunTest(
             "Group is created - $GroupName",
         );
 
-        # get script alias
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        # disable frontend service module
+        my $FrontendCustomerTicketOverview = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Module')->{CustomerTicketOverview};
 
-        # navigate to sysconfig CustomerFrontend::Module###CustomerTicketOverview screen
-        $Selenium->VerifiedGet(
-            "${ScriptAlias}index.pl?Action=AdminSysConfig;Subaction=Edit;SysConfigSubGroup=Frontend%3A%3ACustomer%3A%3AModuleRegistration;SysConfigGroup=Ticket"
+        # change the group for the CompanyTickets
+        for my $NavBarItem ( @{ $FrontendCustomerTicketOverview->{NavBar} } ) {
+
+            if ( $NavBarItem->{Name} eq 'Company Tickets' ) {
+                push @{ $NavBarItem->{Group} }, $GroupName;
+            }
+        }
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CustomerFrontend::Module###CustomerTicketOverview',
+            Value => $FrontendCustomerTicketOverview,
         );
-
-        # add test group as group restriction for company ticket subaction screen
-        $Selenium->find_element(
-            "//button[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#NewGroupElement'][\@type='submit']"
-        )->VerifiedClick();
-
-        my $ConfigGroupElement = $Selenium->find_element(
-            "//input[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#Group[]']"
-        );
-        $ConfigGroupElement->send_keys($GroupName);
-        $ConfigGroupElement->VerifiedSubmit();
 
         # login test customer user
         $Selenium->Login(
@@ -107,6 +93,9 @@ $Selenium->RunTest(
             User     => $TestCustomerUserLogin,
             Password => $TestCustomerUserLogin,
         );
+
+        # get script alias
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to CompanyTickets subaction screen
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
