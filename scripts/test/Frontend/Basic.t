@@ -123,8 +123,9 @@ for my $BaseURL ( sort keys %Frontends ) {
             $Response = $UserAgent->get($URL);
 
             $Status = scalar $Response->code();
+            my $StatusGroup = substr $Status, 0, 1;
 
-            last TRY if $Status ne 504;
+            last TRY if $StatusGroup ne 5;
         }
 
         $Self->Is(
