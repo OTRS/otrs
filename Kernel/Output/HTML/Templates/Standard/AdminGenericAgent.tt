@@ -8,6 +8,30 @@
 <!-- start form -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Generic Agent") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Generic Agent'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Subaction %]
+        [% CASE 'Update' %]
+            [% IF Data.Profile %]
+                [% USE EditJob = String(Translate("Edit job")) %]
+                [% BreadcrumbPath.push({ Name => EditJob.append( ': ', Data.Profile ) }) %]
+            [% ELSE %]
+                [% BreadcrumbPath.push({ Name => Translate("Add job"),}) %]
+            [% END %]
+        [% CASE 'Run' %]
+            [% USE RunJob = String(Translate("Run job")) %]
+            [% BreadcrumbPath.push({ Name => RunJob.append( ': ', Data.Profile ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
     <div class="SidebarColumn">
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
@@ -109,6 +133,9 @@
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
                     <input type="hidden" name="ScheduleLastRun" value="[% Data.ScheduleLastRun | html %]"/>
                     <input type="hidden" name="OldProfile" value="[% Data.Profile | html %]"/>
+                    [% IF Data.Profile %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
                     <fieldset class="TableLike">
                         <label for="Profile" class="Mandatory"><span class="Marker">*</span> [% Translate("Job name") | html %]:</label>
                         <div class="Field">
@@ -878,10 +905,16 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
-                        <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") |  html %]</span></button>
+                        <div class="Field SpacingTop SaveButtons">
+                            [% IF Data.Profile %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
                             [% Translate("or") | html %]
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
