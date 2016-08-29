@@ -31,31 +31,16 @@ Core.Customer.TicketMessage = (function (TargetNS) {
 
         var $Form,
             FieldID,
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
+            DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
+            Fields = ['TypeID', 'Dest', 'PriorityID', 'ServiceID', 'SLAID'],
+            ModifiedFields;
 
-        // bind event to Type field
-        $('#TypeID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'TypeID', ['Dest', 'PriorityID', 'ServiceID', 'SLAID'].concat(DynamicFieldNames));
-        });
+        // Bind events to specific fields
+        $.each(Fields, function(Index, Value) {
+            ModifiedFields = Core.Data.CopyObject(Fields).concat(DynamicFieldNames);
+            ModifiedFields.splice(Index, 1);
 
-        // bind event to Dest field (Queue)
-        $('#Dest').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'Dest', ['TypeID', 'PriorityID', 'ServiceID', 'SLAID'].concat(DynamicFieldNames));
-        });
-
-        // bind event to Service field
-        $('#ServiceID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'PriorityID', 'SLAID'].concat(DynamicFieldNames));
-        });
-
-        // bind event to SLA field
-        $('#SLAID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'ServiceID', 'PriorityID', 'SignKeyID', 'CryptKeyID'].concat(DynamicFieldNames));
-        });
-
-        // bind event to Priority field
-        $('#PriorityID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'PriorityID', ['TypeID', 'Dest', 'ServiceID', 'SLAID'].concat(DynamicFieldNames));
+            FieldUpdate(Value, ModifiedFields);
         });
 
         // choose attachment
@@ -73,8 +58,23 @@ Core.Customer.TicketMessage = (function (TargetNS) {
             Core.Form.Validate.DisableValidation($Form);
             $Form.trigger('submit');
         });
-
     };
+
+   /**
+     * @private
+     * @name FieldUpdate
+     * @memberof Core.Customer.TicketMessage.Init
+     * @function
+     * @param {String} Value - FieldID
+     * @param {Array} ModifiedFields - Fields
+     * @description
+     *      Create on change event handler
+     */
+    function FieldUpdate (Value, ModifiedFields) {
+        $('#' + Value).on('change', function () {
+            Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', Value, ModifiedFields);
+        });
+    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

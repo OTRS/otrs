@@ -28,7 +28,6 @@ Core.Agent.TicketEmail = (function (TargetNS) {
      *      This function initializes the module functionality.
      */
     TargetNS.Init = function () {
-
         var SignatureURL,
             CustomerKey,
             $Form,
@@ -36,37 +35,16 @@ Core.Agent.TicketEmail = (function (TargetNS) {
             ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
             DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
             DataEmail = Core.Config.Get('DataEmail'),
-            DataCustomer = Core.Config.Get('DataCustomer');
+            DataCustomer = Core.Config.Get('DataCustomer'),
+            Fields = ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID'],
+            ModifiedFields;
 
-        // change type
-        $('#TypeID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'TypeID', ['Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID'].concat(DynamicFieldNames));
-        });
+        // Bind events to specific fields
+        $.each(Fields, function(Index, Value) {
+            ModifiedFields = Core.Data.CopyObject(Fields).concat(DynamicFieldNames);
+            ModifiedFields.splice(Index, 1);
 
-        // change queue
-        $('#Dest').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'Dest', ['TypeID', 'Signature', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID'].concat(DynamicFieldNames));
-
-            SignatureURL = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Signature;Dest=' + $(this).val();
-            if (!Core.Config.Get('SessionIDCookie')) {
-                SignatureURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
-            }
-            $('#Signature').attr('src', SignatureURL);
-        });
-
-        // change service
-        $('#ServiceID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID'].concat(DynamicFieldNames));
-        });
-
-        // change SLA
-        $('#SLAID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'ServiceID', 'NextStateID', 'PriorityID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID'].concat(DynamicFieldNames));
-        });
-
-        // change owner
-        $('#NewUserID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'NewUserID', ['TypeID', 'Dest', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID'].concat(DynamicFieldNames));
+            FieldUpdate(Value, ModifiedFields);
         });
 
         // get all owners
@@ -78,11 +56,6 @@ Core.Agent.TicketEmail = (function (TargetNS) {
             return false;
         });
 
-        // change responsible
-        $('#NewResponsibleID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'NewResponsibleID', ['TypeID', 'Dest', 'NewUserID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID'].concat(DynamicFieldNames));
-        });
-
         // get all responsibles
         $('#ResponsibleSelectionGetAll').on('click', function () {
             $('#ResponsibleAll').val('1');
@@ -90,16 +63,6 @@ Core.Agent.TicketEmail = (function (TargetNS) {
                 $('#NewResponsibleID').focus();
             });
             return false;
-        });
-
-        // change next state
-        $('#NextStateID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'NextStateID', ['TypeID', 'Dest', 'NewUserID','NewResponsibleID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID'].concat(DynamicFieldNames));
-        });
-
-        // change priority
-        $('#PriorityID').on('change', function () {
-            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'PriorityID', ['TypeID', 'Dest', 'NewUserID','NewResponsibleID', 'NextStateID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID'].concat(DynamicFieldNames));
         });
 
         // change standard template
@@ -160,6 +123,31 @@ Core.Agent.TicketEmail = (function (TargetNS) {
         Core.Agent.TicketAction.Init();
 
     };
+
+    /**
+     * @private
+     * @name FieldUpdate
+     * @memberof Core.Agent.TicketEmail
+     * @function
+     * @param {String} Value - FieldID
+     * @param {Array} ModifiedFields - Fields
+     * @description
+     *      Create on change event handler
+     */
+    function FieldUpdate (Value, ModifiedFields) {
+        var SignatureURL;
+        $('#' + Value).on('change', function () {
+            Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value, ModifiedFields);
+
+            if (Value === 'Dest') {
+                SignatureURL = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Signature;Dest=' + $(this).val();
+                if (!Core.Config.Get('SessionIDCookie')) {
+                    SignatureURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
+                }
+                $('#Signature').attr('src', SignatureURL);
+            }
+        });
+    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
