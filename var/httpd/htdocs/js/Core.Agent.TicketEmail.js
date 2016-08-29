@@ -28,8 +28,7 @@ Core.Agent.TicketEmail = (function (TargetNS) {
      *      This function initializes the module functionality.
      */
     TargetNS.Init = function () {
-        var SignatureURL,
-            CustomerKey,
+        var CustomerKey,
             $Form,
             FieldID,
             ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
