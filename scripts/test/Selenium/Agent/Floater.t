@@ -130,13 +130,11 @@ $Selenium->RunTest(
             $Selenium->find_element( ".ArticleMeta", "css" );
 
             # hover one of the meta elements
-            $Selenium->execute_script("\$('.ArticleMeta').first().find('a:first-child').first().mouseenter();");
+            $Selenium->execute_script("\$('.ArticleMeta').first().find('li:first-child a:first-child').mouseenter();");
 
             # wait for the floater to be fully visible
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && parseInt(\$('.MetaFloater:visible').css('opacity'), 10) == 1"
-            );
+                JavaScript => "return parseInt(\$('div.MetaFloater:visible').css('opacity'), 10) == 1" );
 
             # see if we have a floater visible now
             $Self->Is(
@@ -146,19 +144,13 @@ $Selenium->RunTest(
             );
 
             # wait for the close button to fade in
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.MetaFloater:visible a.Close:visible').length == 1"
-            );
+            $Selenium->WaitFor( JavaScript => "return \$('.MetaFloater:visible a.Close:visible').length === 1" );
 
             # close the floater again
             $Selenium->execute_script("\$('.MetaFloater a.Close').click();");
 
             # wait until the floater is gone
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && parseInt(\$('.MetaFloater:visible').length, 10) == 1"
-            );
+            $Selenium->WaitFor( JavaScript => "return \$('.MetaFloater:visible').length === 1" );
         }
     }
 );
