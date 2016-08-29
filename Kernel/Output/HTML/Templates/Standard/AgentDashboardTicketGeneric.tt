@@ -50,42 +50,10 @@
 [% RenderBlockStart("ContentLargeTicketGenericHeaderMetaLink") %]
                     <a id="[% Data.HeaderColumnName | html %]FlagOverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" ></a>
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + 'FlagOverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
-        var Filter, LinkPage, ColumnFilterName, CustomerID;
-
-        Filter  = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
-        LinkPage = '';
-        CustomerID = $('input[name=CustomerID]').val() || '';
-
-        // get all column filters
-        $('.ColumnFilter').each(function(){
-            ColumnFilterName  = $(this).attr('name');
-
-            // get all options of current column filter
-            $(this).children().each( function() {
-                if ( $(this).attr('value') && $(this).attr('selected') ) {
-                    LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
-                }
-            });
-        });
-
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %]', function () {
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-        });
-        Event.preventDefault();
-        return false;
-    });
-//]]></script>
-[% END %]
-
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderMetaLink") %]
 [% RenderBlockStart("ContentLargeTicketGenericHeaderMetaEmpty") %]
                     <span title="[% Translate(Data.HeaderColumnName) | html %]"></span>
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderMetaEmpty") %]
-
                 </th>
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderMeta") %]
 
@@ -93,36 +61,6 @@
 [% RenderBlockStart("ContentLargeTicketGenericHeaderTicketNumberColumn") %]
                 <th class="DashboardHeader TicketNumber [% Data.CSS | html %]" data-column="TicketNumber">
                     <a id="TicketNumberOverviewControl[% Data.Name | html %]" name="TicketNumberOverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" >[% Config("Ticket::Hook") %]</a>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#TicketNumberOverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
-        var Filter, LinkPage, ColumnFilterName, CustomerID;
-
-        Filter  = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
-        LinkPage = '';
-        CustomerID = $('input[name=CustomerID]').val() || '';
-
-        // get all column filters
-        $('.ColumnFilter').each(function(){
-            ColumnFilterName  = $(this).attr('name');
-
-            // get all options of current column filter
-            $(this).children().each( function() {
-                if ( $(this).attr('value') && $(this).attr('selected') ) {
-                    LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
-                }
-            });
-        });
-
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + ''), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';SortBy=TicketNumber;OrderBy=[% Data.OrderBy | html %]', function () {
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-        });
-        Event.preventDefault();
-        return false;
-    });
-//]]></script>
-[% END %]
                 </th>
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderTicketNumberColumn") %]
 
@@ -138,159 +76,21 @@
                             [% Data.ColumnFilterStrg %]
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch") %]
                             <input type="text" class="CustomerIDAutoComplete" autocomplete="off" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Config.Set('CustomerIDAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
-Core.Config.Set('CustomerIDAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
-Core.Config.Set('CustomerIDAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
-Core.Agent.Dashboard.InitCustomerIDAutocomplete( $(".CustomerIDAutoComplete") );
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch") %]
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch") %]
                             <input type="text" class="UserAutoComplete" autocomplete="off" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Config.Set('UserAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
-Core.Config.Set('UserAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
-Core.Config.Set('UserAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
-Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch") %]
                             <a href="#" class="DeleteFilter Hidden"><i class="fa fa-trash-o"></i></a>
                         </div>
                     </div>
 
                     <a id="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" >[% Data.HeaderNameTranslated | html %]</a>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#ColumnFilter' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('change').bind('change', function(){
-        var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
 
-        LinkPage = '';
-        Filter   = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
-        CustomerID = $('input[name=CustomerID]').val() || '';
-
-        // set ColumnFilter value for current ColumnFilter
-        ColumnFilterName = $(this).attr('name');
-        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).val() + ';';
-
-        // remember the current ColumnFilter ID
-        ColumnFilterID = $(this).attr('ID');
-
-        // get all column filters
-        $('.ColumnFilter').each(function(){
-            ColumnFilterName  = $(this).attr('name');
-
-            // exclude current column filter, apparently the selected option is not set to
-            // selected at this point and uses the old value
-            if ($(this).attr('ID') !== ColumnFilterID) {
-
-                // get all options of current column filter
-                $(this).children().each( function() {
-                    if ( $(this).attr('value') && $(this).attr('selected') ) {
-                        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
-                    }
-                });
-            }
-        });
-
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.SortBy | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-        });
-        return false;
-    });
-
-    $('#' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + 'OverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
-        var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
-
-        LinkPage = '';
-        Filter   = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
-        CustomerID = $('input[name=CustomerID]').val() || '';
-
-        // set ColumnFilter value for current ColumnFilter
-        ColumnFilterName = $(this).attr('name');
-        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).val() + ';';
-
-        // remember the current ColumnFilter ID
-        ColumnFilterID = $(this).attr('ID');
-
-        // get all column filters
-        $('.ColumnFilter').each(function(){
-            ColumnFilterName  = $(this).attr('name');
-
-            // exclude current column filter, apparently the selected option is not set to
-            // selected at this point and uses the old value
-            if ($(this).attr('ID') !== ColumnFilterID) {
-
-                // get all options of current column filter
-                $(this).children().each( function() {
-                    if ( $(this).attr('value') && $(this).attr('selected') ) {
-                        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
-                    }
-                });
-            }
-        });
-
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-        });
-        Event.preventDefault();
-        return false;
-    });
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLink") %]
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnLink") %]
                     <a id="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" >[% Data.HeaderNameTranslated | html %]</a>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + 'OverviewControl' + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('click').bind('click', function (Event) {
-        var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
-
-        LinkPage = '';
-        Filter   = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
-        CustomerID = $('input[name=CustomerID]').val() || '';
-
-        // set ColumnFilter value for current ColumnFilter
-        ColumnFilterName = $(this).attr('name');
-        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).val() + ';';
-
-        // remember the current ColumnFilter ID
-        ColumnFilterID = $(this).attr('ID');
-
-        // get all column filters
-        $('.ColumnFilter').each(function(){
-            ColumnFilterName  = $(this).attr('name');
-
-            // exclude current column filter, apparently the selected option is not set to
-            // selected at this point and uses the old value
-            if ($(this).attr('ID') !== ColumnFilterID) {
-
-                // get all options of current column filter
-                $(this).children().each( function() {
-                    if ( $(this).attr('value') && $(this).attr('selected') ) {
-                        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
-                    }
-                });
-            }
-        });
-
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID +';SortBy=[% Data.HeaderColumnName | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-        });
-        Event.preventDefault();
-        return false;
-    });
-//]]></script>
-[% END %]
-
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnLink") %]
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilter") %]
@@ -302,60 +102,10 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
                             [% Data.ColumnFilterStrg %]
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch") %]
                             <input type="text" class="CustomerUserAutoComplete" autocomplete="off" />
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Config.Set('CustomerUserAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
-Core.Config.Set('CustomerUserAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
-Core.Config.Set('CustomerUserAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
-Core.Agent.Dashboard.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete") );
-//]]></script>
-[% END %]
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch") %]
                             <a href="#" class="DeleteFilter Hidden"><i class="fa fa-trash-o"></i></a>
                         </div>
                     </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#ColumnFilter' + Core.App.EscapeSelector('[% Data.HeaderColumnName | html %]') + Core.App.EscapeSelector('[% Data.Name | html %]')).unbind('change').bind('change', function(){
-        var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
-
-        LinkPage = '';
-        Filter   = $('#Filter' + Core.App.EscapeSelector('[% Data.Name | html %]')).val() || 'All';
-        CustomerID = $('input[name=CustomerID]').val() || '';
-
-        // set ColumnFilter value for current ColumnFilter
-        ColumnFilterName = $(this).attr('name');
-        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).val() + ';';
-
-        // remember the current ColumnFilter ID
-        ColumnFilterID = $(this).attr('ID');
-
-        // get all column filters
-        $('.ColumnFilter').each(function(){
-            ColumnFilterName  = $(this).attr('name');
-
-            // exclude current column filter, apparently the selected option is not set to
-            // selected at this point and uses the old value
-            if ($(this).attr('ID') !== ColumnFilterID) {
-
-                // get all options of current column filter
-                $(this).children().each( function() {
-                    if ( $(this).attr('value') && $(this).attr('selected') ) {
-                        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
-                    }
-                });
-            }
-        });
-
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=[% Data.SortBy | html %];OrderBy=[% Data.OrderBy | html %];' + LinkPage, function () {
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-[% END %]
                     <span class="Gray" title="[% Data.Title | html %]" >[% Data.HeaderNameTranslated | html %]</span>
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilter") %]
 
@@ -369,96 +119,6 @@ Core.Agent.Dashboard.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete"
 [% RenderBlockEnd("GeneralOverviewHeader") %]
 
             </tr>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', function() {
-
-    var $TriggerObj = $(this),
-        $ColumnSettingsContainer = $TriggerObj.next('.ColumnSettingsContainer'),
-        FilterName;
-
-    if ($TriggerObj.hasClass('Active')) {
-
-        $TriggerObj
-            .next('.ColumnSettingsContainer')
-            .find('.ColumnSettingsBox')
-            .fadeOut('fast', function() {
-                $TriggerObj.removeClass('Active');
-            });
-    }
-    else {
-
-        // slide up all open settings widgets
-        $('.ColumnSettingsTrigger')
-            .next('.ColumnSettingsContainer')
-            .find('.ColumnSettingsBox')
-            .fadeOut('fast', function() {
-                $(this).parent().prev('.ColumnSettingsTrigger').removeClass('Active');
-            });
-
-        // show THIS settings widget
-        $ColumnSettingsContainer
-            .find('.ColumnSettingsBox')
-            .fadeIn('fast', function() {
-
-                $TriggerObj.addClass('Active');
-
-                // only show and use the delete filter icon in case of autocomplete fields
-                // because in regular dropdowns we have a different way to delete the filter
-                if ($TriggerObj.closest('th').hasClass('FilterActive') && $ColumnSettingsContainer.find('select.ColumnFilter').hasClass('Hidden')) {
-                    $ColumnSettingsContainer
-                        .find('.DeleteFilter')
-                        .removeClass('Hidden')
-                        .off()
-                        .on('click', function() {
-                            $(this)
-                                .closest('.ColumnSettingsContainer')
-                                .find('select')
-                                .val('DeleteFilter')
-                                .trigger('change');
-
-                            return false;
-                        });
-                }
-
-                // refresh filter dropdown
-                FilterName = $ColumnSettingsContainer
-                    .find('select')
-                    .attr('name');
-
-                if ( $TriggerObj.closest('th').hasClass('CustomerID') || $TriggerObj.closest('th').hasClass('CustomerUserID') || $TriggerObj.closest('th').hasClass('Responsible') || $TriggerObj.closest('th').hasClass('Owner') ) {
-
-                    if (!$TriggerObj.parent().find('.SelectedValue').length) {
-                        Core.AJAX.FormUpdate($TriggerObj.parents('form'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
-                            var AutoCompleteValue = $ColumnSettingsContainer
-                                    .find('select')
-                                    .val(),
-                                AutoCompleteText  = $ColumnSettingsContainer
-                                    .find('select')
-                                    .find('option:selected')
-                                    .text();
-
-                            if (AutoCompleteValue !== 'DeleteFilter') {
-
-                                $ColumnSettingsContainer
-                                    .find('select')
-                                    .after('<span class="SelectedValue Hidden"><span title="' + AutoCompleteText + ' (' + AutoCompleteValue + ')">' + AutoCompleteText + ' (' + AutoCompleteValue + ')</span></span>');
-                            }
-                        });
-                    }
-                }
-                else {
-                    Core.AJAX.FormUpdate($TriggerObj.parents('form'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
-                }
-        });
-    }
-
-    return false;
-});
-
-//]]></script>
-[% END %]
 
 [% RenderBlockEnd("ContentLargeTicketGenericHeader") %]
         </thead>
@@ -543,7 +203,6 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
 [% RenderBlockEnd("ContentLargeTicketGenericDynamicField") %]
 
 [% RenderBlockEnd("GeneralOverviewRow") %]
-
             </tr>
 [% RenderBlockEnd("ContentLargeTicketGenericRow") %]
 [% RenderBlockStart("ContentLargeTicketGenericNone") %]
@@ -552,108 +211,7 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
                     [% Translate("none") | html %]
                 </td>
             </tr>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.AutoColspan').each(function() {
-    var ColspanCount = $(this).closest('table').find('th').length;
-    $(this).attr('colspan', ColspanCount);
-});
-//]]></script>
-[% END %]
-
 [% RenderBlockEnd("ContentLargeTicketGenericNone") %]
         </tbody>
     </table>
 </form>
-
-[% RenderBlockStart("ContentLargeTicketGenericRefresh") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Config.Set('RefreshSeconds_[% Data.NameHTML | html %]', parseInt("[% Data.RefreshTime | html %]", 10) || 0);
-if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
-    Core.Config.Set('Timer_[% Data.NameHTML | html %]', window.setTimeout(function() {
-
-        // get active filter
-        var Filter      = $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.Tab.Actions li.Selected a').attr('data-filter'),
-            $OrderByObj = $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('th.SortDescendingLarge, th.SortAscendingLarge'),
-            SortBy      = $OrderByObj.attr('data-column') || '',
-            OrderBy     = '';
-
-        if ($OrderByObj && $OrderByObj.hasClass('SortDescendingLarge')) {
-            OrderBy = 'Up';
-        }
-        else if ($OrderByObj && $OrderByObj.hasClass('SortAscendingLarge')) {
-            OrderBy = 'Down';
-        }
-
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=[% Data.CustomerID | html %];SortBy=' + SortBy + ';OrderBy=' + OrderBy, function () {
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-        });
-        clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
-    }, Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]') * 1000));
-}
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ContentLargeTicketGenericRefresh") %]
-
-[% RenderBlockStart("ContentLargeTicketGenericRemoveFilters") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-if (!$('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.ActionMenu').find('.RemoveFilters').length) {
-    $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box')
-        .find('.ActionMenu')
-        .prepend('<div class="WidgetAction RemoveFilters"><a href="#" id="Dashboard[% Data.Name | html %]-remove-filters" title="[% Translate("Remove active filters for this widget.") | html %]"><i class="fa fa-trash-o"></i></a></div>')
-        .find('.RemoveFilters')
-        .on('click', function() {
-
-            // get active filter
-            var Filter = $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.Tab.Actions li.Selected a').attr('data-filter');
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-            Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=[% Data.CustomerID | html %];RemoveFilters=1', function () {
-                $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-            });
-            return false;
-        });
-}
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ContentLargeTicketGenericRemoveFilters") %]
-
-[% RenderBlockStart("ContentLargeTicketGenericRemoveFiltersRemove") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.RemoveFilters').remove();
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ContentLargeTicketGenericRemoveFiltersRemove") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('.MasterAction').bind('click', function (Event) {
-        var $MasterActionLink = $(this).find('.MasterActionLink');
-        // prevent MasterAction on Dynamic Fields links
-        if ($(Event.target).hasClass('DynamicFieldLink')) {
-            return true;
-        }
-        // only act if the link was not clicked directly
-        if (Event.target !== $MasterActionLink.get(0)) {
-            window.location = $MasterActionLink.attr('href');
-            return false;
-        }
-    });
-
-    $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').find('.Tab.Actions li a').unbind('click').bind('click', function() {
-        var Filter = $(this).attr('data-filter'),
-        CustomerID;
-
-        CustomerID = $('input[name=CustomerID]').val() || '';
-
-        $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]')), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + encodeURIComponent(CustomerID), function () {
-            $('#Dashboard' + Core.App.EscapeSelector('[% Data.Name | html %]') + '-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-[% END %]
