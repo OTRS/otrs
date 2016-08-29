@@ -87,23 +87,22 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
-            # update group
-            if (
-                $AutoResponseObject->AutoResponseUpdate(
-                    %GetParam, UserID => $Self->{UserID}
-                )
-                )
+            # update auto response
+            my $Update = $AutoResponseObject->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} );
+
+            if ($Update)
             {
-                $Self->_Overview();
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => Translatable('Response updated!') );
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'AdminAutoResponse',
-                    Data         => \%Param,
-                );
-                $Output .= $LayoutObject->Footer();
-                return $Output;
+
+                # if the user would like to continue editing the auto response, just redirect to the edit screen
+                if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+                    my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=Change;ID=$ID" );
+                }
+                else {
+
+                    # otherwise return to overview
+                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+                }
             }
         }
 
@@ -185,7 +184,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => Translatable('Response added!') );
+                $Output .= $LayoutObject->Notify( Info => Translatable('Auto Response added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAutoResponse',
                     Data         => \%Param,
@@ -298,14 +297,6 @@ sub _Edit {
             %{ $Param{Errors} },
         },
     );
-
-    # shows header
-    if ( $Param{Action} eq 'Change' ) {
-        $LayoutObject->Block( Name => 'HeaderEdit' );
-    }
-    else {
-        $LayoutObject->Block( Name => 'HeaderAdd' );
-    }
 
     if ( $LayoutObject->{BrowserRichText} ) {
 

@@ -50,8 +50,48 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # click 'Add auto response'
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminAutoResponse;Subaction=Add' )]")->VerifiedClick();
+
+        # get needed variables
+        my $Count;
+        my $IsLinkedBreadcrumbText;
+
+        # check breadcrumb on Add screen
+        $Count = 0;
+        for my $BreadcrumbText ( 'You are here:', 'Auto Response Management', 'Add Auto Response' ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+
+            if ( $BreadcrumbText eq 'Auto Response Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
 
         # check page
         for my $ID (
@@ -74,6 +114,12 @@ $Selenium->RunTest(
             ),
             '1',
             'Client side validation correctly detected missing input value',
+        );
+
+        # check form action
+        $Self->True(
+            $Selenium->find_element( '#Submit', 'css' ),
+            "Submit is found on Add screen.",
         );
 
         # get needed variables
@@ -113,6 +159,48 @@ $Selenium->RunTest(
 
         # edit test job and set it to invalid
         $Selenium->find_element( $AutoResponseNames[0], 'link_text' )->VerifiedClick();
+
+        # check breadcrumb on Edit screen
+        $Count = 0;
+        for my $BreadcrumbText (
+            'You are here:', 'Auto Response Management',
+            'Edit Auto Response: ' . $AutoResponseNames[0]
+            )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+
+            if ( $BreadcrumbText eq 'Auto Response Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
+        # check form actions
+        for my $Action (qw(Submit SubmitAndContinue)) {
+            $Self->True(
+                $Selenium->find_element( "#$Action", 'css' ),
+                "$Action is found on Edit screen.",
+            );
+        }
 
         $AutoResponseNames[0] = 'Update' . $AutoResponseNames[0];
         $Selenium->find_element( "#Name", 'css' )->clear();
