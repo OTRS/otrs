@@ -28,7 +28,7 @@ Core.JSON = (function (Namespace) {
             ObjectOne = Core.JSON.Parse(StringOne);
             ReturnOne = Core.JSON.Stringify(ObjectOne);
 
-            Assert.expect(16);
+            Assert.expect(20);
 
             Assert.equal(StringOne, ReturnOne, 'okay');
             Assert.equal(ObjectOne.ItemOne, '1234', 'okay');
@@ -129,6 +129,15 @@ Core.JSON = (function (Namespace) {
             ObjectSeven.five = ObjectTwo;
             ResultCompare7 = Core.Data.CompareObject(ObjectSevenParse, ObjectSeven);
             Assert.notEqual(ResultCompare7, true, 'okay');
+
+            /* Round 5*/
+            // test undefined value
+            Assert.deepEqual(Core.JSON.Parse(undefined), {}, 'undefined is parsed to an empty object');
+            // test parsing of non-strings
+            Assert.deepEqual(Core.JSON.Parse({Key: 'Value'}), {Key: 'Value'}, 'objects are not parsed and returned unchanged');
+            Assert.equal(Core.JSON.Parse(42), 42, 'numbers are not parsed and returned unchanged');
+            // test string but not JSON
+            Assert.deepEqual(Core.JSON.Parse('Live long and prosper!'), {}, 'Non-JSON strings are ignored and converted to an empty object');
 
         });
     };
