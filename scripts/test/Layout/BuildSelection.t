@@ -225,19 +225,19 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">&nbsp;&nbsp;AttributeA</option>
-  <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="5">&nbsp;&nbsp;AttributeB</option>
-  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="7">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="2" selected="selected">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="5">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="7">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="8">Object2</option>
-  <option value="9">&nbsp;&nbsp;AttributeA</option>
-  <option value="10">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="11">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="12">&nbsp;&nbsp;AttributeB</option>
-  <option value="13">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="9">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="10">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="11">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="12">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="13">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="14">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -248,27 +248,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '2', '&nbsp;&nbsp;AttributeA',
+                    '2', "\xA0\xA0AttributeA",
                     $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
-                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '3', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '4', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '5', '&nbsp;&nbsp;AttributeB',
+                    '5', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '6', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '7', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse,
                     $JSONFalse,
                 ],
@@ -277,27 +277,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '9', '&nbsp;&nbsp;AttributeA',
+                    '9', "\xA0\xA0AttributeA",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '10', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '10', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '11', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '11', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '12', '&nbsp;&nbsp;AttributeB',
+                    '12', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '13', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '13', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '14', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '14', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
@@ -462,19 +462,19 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
-  <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
-  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="7">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="7">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="-" disabled="disabled">Object2</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
-  <option value="10">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="11">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
-  <option value="13">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="10">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="11">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="13">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="14">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -485,54 +485,54 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeA',
+                    '-', "\xA0\xA0AttributeA",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '3', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '4', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeB',
+                    '-', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '6', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '7', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', 'Object2', $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeA',
+                    '-', "\xA0\xA0AttributeA",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '10', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '10', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '11', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '11', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeB',
+                    '-', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '13', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '13', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '14', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '14', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
@@ -574,15 +574,15 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">&nbsp;&nbsp;AttributeA</option>
-  <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="5">&nbsp;&nbsp;AttributeB</option>
-  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="7">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="2" selected="selected">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="5">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="7">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="8">Object2</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
-  <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="14">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -593,27 +593,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '2', '&nbsp;&nbsp;AttributeA',
+                    '2', "\xA0\xA0AttributeA",
                     $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
-                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '3', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '4', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '5', '&nbsp;&nbsp;AttributeB',
+                    '5', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '6', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '7', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
@@ -621,11 +621,11 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeB',
+                    '-', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '14', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '14', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
@@ -674,19 +674,19 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="Object1">Object1</option>
-  <option value="Object1::AttributeA" selected="selected">&nbsp;&nbsp;AttributeA</option>
-  <option value="Object1::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object1::AttributeA::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="Object1::AttributeB">&nbsp;&nbsp;AttributeB</option>
-  <option value="Object1::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object1::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="Object1::AttributeA" selected="selected">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="Object1::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object1::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="Object1::AttributeB">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="Object1::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object1::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="Object2">Object2</option>
-  <option value="Object2::AttributeA">&nbsp;&nbsp;AttributeA</option>
-  <option value="Object2::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object2::AttributeA::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="Object2::AttributeB">&nbsp;&nbsp;AttributeB</option>
-  <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="Object2::AttributeA">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="Object2::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object2::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="Object2::AttributeB">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="Object2::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object2::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -697,27 +697,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeA', '&nbsp;&nbsp;AttributeA',
+                    'Object1::AttributeA', "\xA0\xA0AttributeA",
                     $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object1::AttributeA::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object1::AttributeA::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeB', '&nbsp;&nbsp;AttributeB',
+                    'Object1::AttributeB', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object1::AttributeB::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object1::AttributeB::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
@@ -725,27 +725,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeA', '&nbsp;&nbsp;AttributeA',
+                    'Object2::AttributeA', "\xA0\xA0AttributeA",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object2::AttributeA::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object2::AttributeA::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeB', '&nbsp;&nbsp;AttributeB',
+                    'Object2::AttributeB', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object2::AttributeB::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object2::AttributeB::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
@@ -787,19 +787,19 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="Object1">Object1</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
-  <option value="Object1::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object1::AttributeA::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
-  <option value="Object1::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object1::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="Object1::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object1::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="Object1::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object1::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="-" disabled="disabled">Object2</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
-  <option value="Object2::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object2::AttributeA::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
-  <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="Object2::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object2::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="Object2::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object2::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -810,54 +810,54 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeA',
+                    '-', "\xA0\xA0AttributeA",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    'Object1::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object1::AttributeA::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object1::AttributeA::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeB',
+                    '-', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    'Object1::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object1::AttributeB::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object1::AttributeB::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', 'Object2', $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeA',
+                    '-', "\xA0\xA0AttributeA",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    'Object2::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object2::AttributeA::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object2::AttributeA::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeB',
+                    '-', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    'Object2::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object2::AttributeB::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object2::AttributeB::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
@@ -900,16 +900,16 @@ my @Tests = (
         Response =>
             '<select autocomplete="off" id="Select1ID" name="Select1" onchange="onchangeJS" onclick="onclickJS" title="Title&quot;\'&lt;&gt;">
   <option value="Object1">Object1</option>
-  <option value="Object1::AttributeA" selected="selected">&nbsp;&nbsp;AttributeA</option>
-  <option value="Object1::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object1::AttributeA::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="Object1::AttributeB">&nbsp;&nbsp;AttributeB</option>
-  <option value="Object1::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object1::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="Object1::AttributeA" selected="selected">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="Object1::AttributeA::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object1::AttributeA::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="Object1::AttributeB">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="Object1::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object1::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
   <option value="Object2">Object2</option>
-  <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
-  <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="-" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="Object2::AttributeB::Value1">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="Object2::AttributeB::Value2">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -920,27 +920,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeA', '&nbsp;&nbsp;AttributeA',
+                    'Object1::AttributeA', "\xA0\xA0AttributeA",
                     $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object1::AttributeA::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object1::AttributeA::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeB', '&nbsp;&nbsp;AttributeB',
+                    'Object1::AttributeB', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object1::AttributeB::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object1::AttributeB::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
@@ -948,15 +948,15 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', '&nbsp;&nbsp;AttributeB',
+                    '-', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    'Object2::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    'Object2::AttributeB::Value1', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object2::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    'Object2::AttributeB::Value2', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
@@ -1255,12 +1255,12 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
-  <option value="2" selected="selected">&nbsp;&nbsp;Attr[...]</option>
-  <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="5">&nbsp;&nbsp;Attr[...]</option>
-  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="7">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="2" selected="selected">' . "\xA0\xA0" . 'Attr[...]</option>
+  <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="5">' . "\xA0\xA0" . 'Attr[...]</option>
+  <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="7">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -1271,27 +1271,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '2', '&nbsp;&nbsp;Attr[...]',
+                    '2', "\xA0\xA0Attr[...]",
                     $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
-                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '3', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '4', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '5', '&nbsp;&nbsp;Attr[...]',
+                    '5', "\xA0\xA0Attr[...]",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '6', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '7', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse,
                     $JSONFalse,
                 ],
@@ -1332,12 +1332,12 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1&lt;test1&gt;</option>
-  <option value="2" selected="selected">&nbsp;&nbsp;AttributeA[...]</option>
-  <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1&lt;test3&gt;</option>
-  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2&lt;test3&gt;</option>
-  <option value="5">&nbsp;&nbsp;AttributeB[...]</option>
-  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1&lt;test3&gt;</option>
-  <option value="7">&nbsp;&nbsp;&nbsp;&nbsp;Value2&lt;test3&gt;</option>
+  <option value="2" selected="selected">' . "\xA0\xA0" . 'AttributeA[...]</option>
+  <option value="3">' . "\xA0\xA0\xA0\xA0" . 'Value1&lt;test3&gt;</option>
+  <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2&lt;test3&gt;</option>
+  <option value="5">' . "\xA0\xA0" . 'AttributeB[...]</option>
+  <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1&lt;test3&gt;</option>
+  <option value="7">' . "\xA0\xA0\xA0\xA0" . 'Value2&lt;test3&gt;</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success     => 1,
         ExecuteJSON => 1,
@@ -1350,27 +1350,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '2', '&nbsp;&nbsp;AttributeA[...]',
+                    '2', "\xA0\xA0AttributeA[...]",
                     $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
-                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1<test3>',
+                    '3', "\xA0\xA0\xA0\xA0Value1<test3>",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2<test3>',
+                    '4', "\xA0\xA0\xA0\xA0Value2<test3>",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '5', '&nbsp;&nbsp;AttributeB[...]',
+                    '5', "\xA0\xA0AttributeB[...]",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1<test3>',
+                    '6', "\xA0\xA0\xA0\xA0Value1<test3>",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2<test3>',
+                    '7', "\xA0\xA0\xA0\xA0Value2<test3>",
                     $JSONFalse, $JSONFalse,
                     $JSONFalse,
                 ],
@@ -1678,12 +1678,12 @@ my @Tests = (
         Response =>
             '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
-  <option value="Object1::AttributeA_Disabled" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
-  <option value="3" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-  <option value="Object1::AttributeB_Disabled" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
-  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
-  <option value="7" disabled="disabled">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="Object1::AttributeA_Disabled" disabled="disabled">' . "\xA0\xA0" . 'AttributeA</option>
+  <option value="3" selected="selected">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="4">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
+  <option value="Object1::AttributeB_Disabled" disabled="disabled">' . "\xA0\xA0" . 'AttributeB</option>
+  <option value="6">' . "\xA0\xA0\xA0\xA0" . 'Value1</option>
+  <option value="7" disabled="disabled">' . "\xA0\xA0\xA0\xA0" . 'Value2</option>
 </select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
         Success      => 1,
         ExecuteJSON  => 1,
@@ -1694,27 +1694,27 @@ my @Tests = (
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeA_Disabled', '&nbsp;&nbsp;AttributeA',
+                    'Object1::AttributeA_Disabled', "\xA0\xA0AttributeA",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '3', "\xA0\xA0\xA0\xA0Value1",
                     $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
-                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '4', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    'Object1::AttributeB_Disabled', '&nbsp;&nbsp;AttributeB',
+                    'Object1::AttributeB_Disabled', "\xA0\xA0AttributeB",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
-                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    '6', "\xA0\xA0\xA0\xA0Value1",
                     $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    '7', "\xA0\xA0\xA0\xA0Value2",
                     $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
             ],
