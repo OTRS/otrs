@@ -275,7 +275,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             });
         }
 
-        // Initializes refresh event for User Online widget
+        // Initializes refresh event for user online widget
         InitUserOnlineRefresh();
 
         // Initializes events ticket queue overview
