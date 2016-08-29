@@ -221,21 +221,6 @@ sub Run {
         }
     }
 
-    my $Content = $LayoutObject->Output(
-        TemplateFile => 'AgentDashboardStats',
-        Data         => {
-            Name                              => $Self->{Name},
-            StatConfigurationValid            => $StatConfigurationValid,
-            StatParametersValid               => $StatParametersValid,
-            StatResultData                    => $CachedData,
-            Stat                              => $Stat,
-            Format                            => $Format,
-            AgentStatisticsFrontendPermission => $AgentStatisticsFrontendPermission,
-            Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
-        },
-        AJAX => $Param{AJAX},
-    );
-
     my $StatsResultDataJSON = $LayoutObject->JSONEncode(
         Data     => $CachedData,
         NoQuotes => 1,
@@ -254,7 +239,23 @@ sub Run {
             Format         => $StatsFormatJSON,
             StatResultData => $StatsResultDataJSON,
             Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
-            }
+            MaxXaxisAttributes => $Kernel::OM->Get('Kernel::Config')->Get('Stats::MaxXaxisAttributes'),
+        },
+    );
+
+    my $Content = $LayoutObject->Output(
+        TemplateFile => 'AgentDashboardStats',
+        Data         => {
+            Name                              => $Self->{Name},
+            StatConfigurationValid            => $StatConfigurationValid,
+            StatParametersValid               => $StatParametersValid,
+            StatResultData                    => $CachedData,
+            Stat                              => $Stat,
+            Format                            => $Format,
+            AgentStatisticsFrontendPermission => $AgentStatisticsFrontendPermission,
+            Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
+        },
+        AJAX => $Param{AJAX},
     );
 
     return $Content;
