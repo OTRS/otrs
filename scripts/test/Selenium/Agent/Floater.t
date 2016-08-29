@@ -150,7 +150,7 @@ $Selenium->RunTest(
             $Selenium->execute_script("\$('.MetaFloater a.Close').click();");
 
             # wait until the floater is gone
-            $Selenium->WaitFor( JavaScript => "return \$('.MetaFloater:visible').length === 1" );
+            $Selenium->WaitFor( JavaScript => "return \$('.MetaFloater:visible').length === 0" );
         }
     }
 );
