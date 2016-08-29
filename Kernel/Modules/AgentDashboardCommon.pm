@@ -99,14 +99,14 @@ sub Run {
                 };
                 push @StatsIDs, $StatID;
             }
+
+            # send data to JS
+            $LayoutObject->AddJSData(
+                Key   => 'DashboardStatsIDs',
+                Value => \@StatsIDs
+            );
         }
     }
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'DashboardStatsIDs',
-        Value => \@StatsIDs
-    );
 
     # get needed objects
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');

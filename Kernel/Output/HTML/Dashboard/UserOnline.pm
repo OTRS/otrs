@@ -421,6 +421,16 @@ sub Run {
         AJAX => $Param{AJAX},
     );
 
+    # send data to JS
+    $LayoutObject->AddJSData(
+        Key   => 'UserOnline',
+        Value => {
+            Name        => $Self->{Name},
+            NameHTML    => $NameHTML,
+            RefreshTime => $Refresh,
+        },
+    );
+
     return $Content;
 }
 
