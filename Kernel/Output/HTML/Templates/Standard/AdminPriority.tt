@@ -10,6 +10,25 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Priority Management") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Priority Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate('Add Priority'),}) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit Priority")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
 
@@ -28,7 +47,7 @@
 [% RenderBlockStart("ActionAdd") %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center">
-                            <span><i class="fa fa-plus-square"></i>[% Translate("Add priority") | html %]</span>
+                            <span><i class="fa fa-plus-square"></i>[% Translate("Add Priority") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
@@ -98,12 +117,11 @@
 
 [% RenderBlockStart("OverviewUpdate") %]
             <div class="Header">
-[% RenderBlockStart("HeaderAdd") %]
-                <h2>[% Translate("Add Priority") | html %]</h2>
-[% RenderBlockEnd("HeaderAdd") %]
-[% RenderBlockStart("HeaderEdit") %]
-                <h2>[% Translate("Edit Priority") | html %]</h2>
-[% RenderBlockEnd("HeaderEdit") %]
+                [% IF Data.Action == 'Add' %]
+                    <h2>[% Translate("Add Priority") | html %]</h2>
+                [% ELSE %]
+                    <h2>[% Translate("Edit Priority") | html %]</h2>
+                [% END %]
             </div>
             <div class="Content">
 
@@ -111,6 +129,9 @@
                     <input type="hidden" name="Action" value="[% Env("Action") %]" />
                     <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action" />
                     <input type="hidden" name="PriorityID" value="[% Data.PriorityID | html %]" />
+                    [% IF Data.Action == 'Change' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
                         <div class="Field">
@@ -137,7 +158,13 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% IF Data.Action == 'Change' %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </div>
