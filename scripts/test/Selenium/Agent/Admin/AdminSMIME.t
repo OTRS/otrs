@@ -139,6 +139,27 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Secret",     'css' )->send_keys("secret");
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
+        # click to 'Read certificate', verify JS will open a pop up window
+        $Selenium->find_element( ".CertificateRead", 'css' )->VerifiedClick();
+
+        $Selenium->WaitFor( WindowCount => 2 );
+        my $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # Wait for page to be fully loaded
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("a.CancelClosePopup:visible").length === 1;'
+        );
+
+        $Self->True(
+            $Selenium->find_element( "a.CancelClosePopup", 'css' )->click(),
+            "Pop-up window is found - JS is successful"
+        );
+
+        # switch window back
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
         # check for test created Certificate and Privatekey and delete them
         for my $TestSMIME (qw(key cert)) {
 
