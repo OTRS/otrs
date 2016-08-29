@@ -36,9 +36,6 @@ Core.App.Ready(function() {
     Core.Init.ExecuteInit('APP_GLOBAL_EARLY');
     Core.Init.ExecuteInit('APP_GLOBAL');
     Core.Init.ExecuteInit('APP_GLOBAL_LATE');
-
-[% InsertTemplate("Datepicker.tt") %]
-
 });
 //]]></script>
 

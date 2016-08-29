@@ -1490,18 +1490,15 @@ sub Footer {
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {
-        my $VacationDays     = $Self->DatepickerGetVacationDays();
-        my $VacationDaysJSON = $Self->JSONEncode(
-            Data => $VacationDays,
-        );
-
+        my $VacationDays = $Self->DatepickerGetVacationDays();
         my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
 
-        $Self->Block(
-            Name => 'DatepickerData',
-            Data => {
-                VacationDays  => $VacationDaysJSON,
-                IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
+        # send data to JS
+        $Self->AddJSData(
+            Key   => 'Datepicker',
+            Value => {
+                VacationDays => $VacationDays,
+                IsRTL        => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
     }
@@ -3789,18 +3786,15 @@ sub CustomerFooter {
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {
-        my $VacationDays     = $Self->DatepickerGetVacationDays();
-        my $VacationDaysJSON = $Self->JSONEncode(
-            Data => $VacationDays,
-        );
-
+        my $VacationDays = $Self->DatepickerGetVacationDays();
         my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
 
-        $Self->Block(
-            Name => 'DatepickerData',
-            Data => {
-                VacationDays  => $VacationDaysJSON,
-                IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
+        # send data to JS
+        $Self->AddJSData(
+            Key   => 'Datepicker',
+            Value => {
+                VacationDays => $VacationDays,
+                IsRTL        => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
     }

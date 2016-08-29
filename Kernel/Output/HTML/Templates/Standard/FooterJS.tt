@@ -37,8 +37,6 @@ Core.App.Ready(function () {
     Core.Init.ExecuteInit('APP_GLOBAL');
     Core.Init.ExecuteInit('APP_GLOBAL_LATE');
 
-[% InsertTemplate("Datepicker.tt") %]
-
 [% IF !Data.OTRSBusinessIsInstalled %]
     $('body').on('click', 'a.OTRSBusinessRequired', function() {
         Core.UI.Dialog.ShowContentDialog(
