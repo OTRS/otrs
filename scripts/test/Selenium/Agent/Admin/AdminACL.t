@@ -39,11 +39,21 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminACL screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
+
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
 
         # click 'Create new ACL' link
         $Selenium->find_element( "a.Create", 'css' )->VerifiedClick();
@@ -57,6 +67,42 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
         }
+
+        # check breadcrumb on Create New screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        my $FirstBreadcrumbText  = $LanguageObject->Translate('You are here') . ':';
+        my $SecondBreadcrumbText = $LanguageObject->Translate('ACL Management');
+        my $ThirdBreadcrumbText  = $LanguageObject->Translate('Create New ACL');
+        for my $BreadcrumbText ( $FirstBreadcrumbText, $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+
+            if ( $BreadcrumbText eq $SecondBreadcrumbText ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
+        sleep 10;
 
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
@@ -86,6 +132,36 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopAfterMatch", 'css' )->VerifiedClick();
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+
+        # check breadcrumb on Edit screen
+        $Count = 0;
+        for my $BreadcrumbText ( $FirstBreadcrumbText, $SecondBreadcrumbText, 'Edit ACL: ' . $TestACLNames[0] ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+
+            if ( $BreadcrumbText eq $SecondBreadcrumbText ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
 
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
@@ -153,10 +229,6 @@ JAVASCRIPT
         # now we should not be able to add the same element again, an alert box should appear
         $Selenium->execute_script(
             "\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
-        );
-
-        my $LanguageObject = Kernel::Language->new(
-            UserLanguage => $Language,
         );
 
         $Self->Is(
