@@ -834,7 +834,7 @@ sub ExportWrapper {
                 }
             }
             elsif (
-                $ElementName    eq 'OwnerIDs'
+                $ElementName eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
@@ -930,7 +930,7 @@ sub ImportWrapper {
                 }
             }
             elsif (
-                $ElementName    eq 'OwnerIDs'
+                $ElementName eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )

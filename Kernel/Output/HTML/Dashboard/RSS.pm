@@ -82,7 +82,7 @@ sub Run {
     my $Feed;
 
     TRY:
-    for (1 .. 3) {
+    for ( 1 .. 3 ) {
         $Feed = eval {
             XML::FeedPP->new(
                 $FeedURL,
