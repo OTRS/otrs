@@ -26,6 +26,8 @@ $Selenium->RunTest(
         # get needed variables
         my $Home = $ConfigObject->Get('Home');
         my %Attachments;
+        my $Count;
+        my $IsLinkedBreadcrumbText;
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -49,11 +51,53 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # create test standard attachments
         for my $File (qw(xls txt doc png pdf)) {
 
             # click 'add new attachment' link
             $Selenium->find_element("//a[contains(\@href, \'Action=AdminAttachment;Subaction=Add' )]")->VerifiedClick();
+
+            # check breadcrumb on Add screen
+            $Count = 0;
+            for my $BreadcrumbText ( 'You are here:', 'Attachment Management', 'Add Attachment' ) {
+                $Self->Is(
+                    $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                    $BreadcrumbText,
+                    "Breadcrumb text '$BreadcrumbText' is found on screen"
+                );
+
+                $IsLinkedBreadcrumbText =
+                    $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+
+                if ( $BreadcrumbText eq 'Attachment Management' ) {
+                    $Self->Is(
+                        $IsLinkedBreadcrumbText,
+                        1,
+                        "Breadcrumb text '$BreadcrumbText' is linked"
+                    );
+                }
+                else {
+                    $Self->Is(
+                        $IsLinkedBreadcrumbText,
+                        0,
+                        "Breadcrumb text '$BreadcrumbText' is not linked"
+                    );
+                }
+
+                $Count++;
+            }
+
+            # check form action
+            $Self->True(
+                $Selenium->find_element( '#Submit', 'css' ),
+                "Submit is found on Add screen.",
+            );
 
             # file checks
             my $Location = $Home . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
@@ -66,7 +110,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->find_element( "#Name",       'css' )->VerifiedSubmit();
 
-            # check if standard attachment show on AdminAttacnment screen
+            # check if standard attachment show on AdminAttachment screen
             $Self->True(
                 index( $Selenium->get_page_source(), $AttachmentName ) > -1,
                 "Attachment $AttachmentName is found on page",
@@ -77,6 +121,44 @@ $Selenium->RunTest(
 
             # go to new standard attachment again and edit
             $Selenium->find_element( $AttachmentName, 'link_text' )->VerifiedClick();
+
+            # check breadcrumb on Edit screen
+            $Count = 0;
+            for my $BreadcrumbText ( 'You are here:', 'Attachment Management', 'Edit Attachment: ' . $AttachmentName ) {
+                $Self->Is(
+                    $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                    $BreadcrumbText,
+                    "Breadcrumb text '$BreadcrumbText' is found on screen"
+                );
+
+                $IsLinkedBreadcrumbText =
+                    $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+
+                if ( $BreadcrumbText eq 'Attachment Management' ) {
+                    $Self->Is(
+                        $IsLinkedBreadcrumbText,
+                        1,
+                        "Breadcrumb text '$BreadcrumbText' is linked"
+                    );
+                }
+                else {
+                    $Self->Is(
+                        $IsLinkedBreadcrumbText,
+                        0,
+                        "Breadcrumb text '$BreadcrumbText' is not linked"
+                    );
+                }
+
+                $Count++;
+            }
+
+            # check form actions
+            for my $Action (qw(Submit SubmitAndContinue)) {
+                $Self->True(
+                    $Selenium->find_element( "#$Action", 'css' ),
+                    "$Action is found on Edit screen.",
+                );
+            }
 
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test attachment');

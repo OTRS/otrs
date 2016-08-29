@@ -1,0 +1,23 @@
+# --
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<ul class="BreadCrumb">
+    <li>[% Translate("You are here") | html %]:</li>
+    [% FOREACH Item IN Path %]
+        <li>
+
+            <!-- link is not needed if there is only one or for the last item in breadcrumb -->
+            [% IF Item.Link && Path.size() > 1 %]
+                <a href="[% Env('Baselink') %]Action=[% Item.Link %]">[% Item.Name | html %]</a>
+            [% ELSE %]
+                [% Item.Name | html %]
+            [% END %]
+        </li>
+    [% END %]
+</ul>
+<div class="Clear"></div>

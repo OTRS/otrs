@@ -439,6 +439,23 @@ Core.Agent = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name InitSubmitAndContinue
+     * @memberof Core.Agent
+     * @function
+     * @description
+     *      This function initializes the SubmitAndContinue button.
+     */
+    function InitSubmitAndContinue() {
+
+        // bind event on click for #SubmitAndContinue button
+        $('#SubmitAndContinue').on('click', function() {
+            $('#ContinueAfterSave').val(1);
+            $('#Submit').click();
+        });
+    }
+
+    /**
      * @name ReorderNavigationItems
      * @memberof Core.Agent
      * @function
@@ -624,6 +641,8 @@ Core.Agent = (function (TargetNS) {
         Core.App.Responsive.CheckIfTouchDevice();
 
         InitNavigation();
+
+        InitSubmitAndContinue();
     };
 
     /**
