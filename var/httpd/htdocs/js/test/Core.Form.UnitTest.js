@@ -18,7 +18,7 @@ Core.Form = (function (Namespace) {
             /*
              * Create a form containter for the tests
              */
-            var $TestForm = $('<form id="TestForm"></form>');
+            var $TestForm = $('<form id="TestForm"></form>'), Checkboxes, CheckboxesSelected;
             $TestForm.append('<input type="text" value="ObjectOne" id="ObjectOne" name="ObjectOne" />');
             $TestForm.append('<input type="text" readonly="readonly" data-initially-readonly="readonly" value="ObjectOne" id="ObjectOne" name="ObjectOne" />');
             $TestForm.append('<input type="password" value="ObjectTwo" id="ObjectTwo" name="ObjectTwo" />');
@@ -31,6 +31,10 @@ Core.Form = (function (Namespace) {
             $TestForm.append('<button value="ObjectNine" type="submit" id="ObjectNine">ObjectNine</button>');
             $TestForm.append('<button value="ObjectTen" type="button" id="ObjectTen">ObjectTen</button>');
             $TestForm.append('<button value="ObjectTen" type="button" disabled="disabled" data-initially-disabled="disabled" id="ObjectTen">ObjectTen</button>');
+            $TestForm.append('<input type="checkbox" name="ItemsSelected" id="SelectAllItemsSelected"  value="" />');
+            $TestForm.append('<input type="checkbox" name="ItemsSelected" id="CheckboxOne" value="CheckboxOne" />');
+            $TestForm.append('<input type="checkbox" name="ItemsSelected" id="CheckboxTwo" value="CheckboxTwo" />');
+            $TestForm.append('<input type="checkbox" name="ItemsSelected" id="CheckboxThree" value="CheckboxThree" />');
             $('body').append($TestForm);
 
             /*
@@ -42,7 +46,7 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.DisableForm($('#TestForm'));
 
-            Assert.expect(26);
+            Assert.expect(42);
 
             Assert.equal($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled');
 
@@ -96,6 +100,45 @@ Core.Form = (function (Namespace) {
                         Assert.equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue);
                     }
                 }
+            });
+
+            /*
+             * Select all checkboxes
+             */
+
+            // initialize "SelectAll" checkbox and bind click event on "SelectAll" for each relation item
+            Core.Form.InitSelectAllCheckboxes($('input[type="checkbox"][name=ItemsSelected]'), $('#SelectAllItemsSelected'));
+
+            $('input[type="checkbox"][name=ItemsSelected]').click(function () {
+                Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
+            });
+
+            // select all checkbox in group
+            $('#SelectAllItemsSelected').click();
+
+            Checkboxes = [ 'SelectAllItemsSelected', 'CheckboxOne', 'CheckboxTwo', 'CheckboxThree'];
+
+            // check if there are all check boxes selected
+            $.each(Checkboxes, function() {
+                var expectedSelectedValue = $('#' + this).is(":checked") ? 'checked' : undefined;
+                Assert.equal(expectedSelectedValue, 'checked', 'Selected for ' + this);
+            });
+
+            // deselect one checkbox in the group
+            $('#CheckboxTwo').click();
+
+            CheckboxesSelected =
+            { 'SelectAllItemsSelected': false,
+              'CheckboxOne': true,
+              'CheckboxTwo': false,
+              'CheckboxThree': true
+            };
+
+            $.each(CheckboxesSelected,function(index, value){
+                var expectedSelectedValue = $('#' + index).is(":checked");
+                var testMessageSelected =  expectedSelectedValue ? 'Selected' : 'Deselected';
+
+                Assert.equal(expectedSelectedValue, value, testMessageSelected + ' for ' + index);
             });
 
             /*
