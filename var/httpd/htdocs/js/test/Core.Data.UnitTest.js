@@ -20,6 +20,7 @@ Core.Data = (function (Namespace) {
              */
             var Sign, ObjectOne, ObjectTwo, ResultOneEmpty, NonexistingResult,
                 ResultOne, ResultTwo,
+                ObjectThree, ObjectFour, ResultCompare,
                 $TestDiv = $('<div id="Container"></div>');
             $TestDiv.append('<span id="ElementOne"></span>');
             $TestDiv.append('<span id="ElementTwo"></span>');
@@ -29,7 +30,7 @@ Core.Data = (function (Namespace) {
              * Run the tests
              */
 
-            Assert.expect(5);
+            Assert.expect(9);
 
             Sign = 'Save This Information';
             ObjectOne = $('#ElementOne');
@@ -50,6 +51,23 @@ Core.Data = (function (Namespace) {
             Assert.equal(ResultOne, Sign, 'okay');
             Assert.equal(ResultTwo, Sign, 'okay');
             Assert.equal(ResultOne, ResultTwo, 'okay');
+
+            /* test CopyObject and CompareObject functions */
+            ObjectThree = {
+                "ItemOne": "abcd"
+            };
+
+            ObjectFour = Core.Data.CopyObject(ObjectThree);
+            Assert.deepEqual(ObjectThree, ObjectFour, 'okay');
+
+            ResultCompare = Core.Data.CompareObject(ObjectThree, ObjectFour);
+            Assert.equal(ResultCompare, true, 'okay');
+
+            ObjectThree.ItemTwo = "1234";
+            Assert.notDeepEqual(ObjectThree, ObjectFour, 'okay');
+
+            ResultCompare = Core.Data.CompareObject(ObjectThree, ObjectFour);
+            Assert.equal(ResultCompare, false, 'okay');
 
              /*
              * Cleanup div container and contents
