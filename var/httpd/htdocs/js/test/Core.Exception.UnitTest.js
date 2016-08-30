@@ -35,7 +35,7 @@ Core.Exception = (function (Namespace) {
                     Assert.equal(Core.Exception.IsErrorOfType(ExceptionObject,this), true, 'Exception type is - ' +  this);
 
                     // test Thrown function
-                    Core.Exception.Thrown(ErrorMessage, this);
+                    Core.Exception.Throw(ErrorMessage, this);
                 }
                 catch (Error) {
 
