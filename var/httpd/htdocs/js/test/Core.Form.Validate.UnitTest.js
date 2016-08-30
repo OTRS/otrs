@@ -432,6 +432,63 @@ Core.Form.Validate = (function (Namespace) {
             // Cleanup div container and contents
             $('#TestForm').remove();
         });
+
+        QUnit.test('HighlightError() and UnHighlightError()', function(Assert){
+
+            /*
+             * Create a form container for the tests
+             */
+            var $TestForm = $('<form id="TestForm" class="Validate"></form>');
+
+            $TestForm.append('<label class="Mandatory" for="ObjectOne"><span class="Marker">*</span>ObjectOne</label>');
+            $TestForm.append('<input type="text" value="" id="ObjectOne" name="ObjectOne"/>');
+            $TestForm.append('<label class="Mandatory" for="ObjectTwo"><span class="Marker">*</span>ObjectTwo</label>');
+            $TestForm.append('<input type="text" value="" id="ObjectTwo" name="ObjectTwo" class="ServerError"/>');
+            $('body').append($TestForm);
+
+            /*
+             * Run the tests
+             */
+
+            Core.Form.Validate.Init();
+
+            Assert.expect(15);
+
+            // Test HighlightError()
+            Assert.equal($('#ObjectOne').hasClass('Error'), false, 'No Error class before HighlightError() for Error type');
+
+            Core.Form.Validate.HighlightError($('#ObjectOne'), 'Error');
+            Assert.equal($('#ObjectOne').hasClass('Error'), true, 'Error class after HighlightError() for Error type');
+            Assert.equal($('#ObjectOne').attr('aria-invalid'), "true", 'Attribute aria-invalid is true after HighlightError() for Error type');
+            Assert.equal($('#TestForm').find("label[for=ObjectOne]").hasClass('LabelError'), false, 'No LabelError class for label after HighlightError() for Error type');
+
+            // For ServerError type HighlightError() is done in Core.Form.Validate.Init()
+            Assert.equal($('#ObjectTwo').hasClass('Error'), true, 'Error class after HighlightError() for ServerError type');
+            Assert.equal($('#ObjectTwo').attr('aria-invalid'), "true", 'Attribute aria-invalid is true after HighlightError() for ServerError type');
+            Assert.equal($('#TestForm').find("label[for=ObjectTwo]").hasClass('LabelError'), true, 'LabelError class for label after HighlightError() for ServerError type');
+
+            // Test UnHighlightError()
+            Core.Form.Validate.UnHighlightError($('#ObjectOne'));
+            Assert.equal($('#ObjectOne').hasClass('Error'), false, 'No Error class after UnHighlightError() for Error type');
+            Assert.equal($('#ObjectOne').attr('aria-invalid'), "false", 'Attribute aria-invalid is false after UnHighlightError() for Error type');
+
+            // For ServerError type, we need to change field value to remove error class
+            Core.Form.Validate.UnHighlightError($('#ObjectTwo'));
+            Assert.equal($('#ObjectTwo').hasClass('Error'), true, 'Error class after UnHighlightError() for ServerError type');
+            Assert.equal($('#ObjectTwo').attr('aria-invalid'), "true", 'Attribute aria-invalid is true after UnHighlightError() for ServerError type');
+            Assert.equal($('#TestForm').find("label[for=ObjectTwo]").hasClass('LabelError'), true, 'LabelError class for label after UnHighlightError() for ServerError type');
+
+            $('#ObjectTwo').val('abc');
+            $('#ObjectTwo').blur();
+
+            Assert.equal($('#ObjectTwo').hasClass('Error'), false, 'No Error class after inputed value for ServerError type');
+            Assert.equal($('#ObjectTwo').attr('aria-invalid'), "false", 'Attribute aria-invalid is false after inputed value for ServerError type');
+            Assert.equal($('#TestForm').find("label[for=ObjectTwo]").hasClass('LabelError'), false, 'No LabelError class for label after inputed value for ServerError type');
+
+            // Cleanup div container and contents
+            $('#TestForm').remove();
+        });
+
     };
 
     return Namespace;
