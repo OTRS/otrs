@@ -810,10 +810,6 @@ sub Run {
     # define which meta items will be shown
     my @MetaItems = $LayoutObject->TicketMetaItemsCount();
 
-    # remove (-) from name for JS config
-    my $WidgetName = $Self->{Name};
-    $WidgetName =~ s{-}{}g;
-
     # show non-labeled table headers
     my $CSS = '';
     my $OrderBy;
@@ -857,17 +853,6 @@ sub Run {
             );
         }
         else {
-
-            # send data to JS
-            $LayoutObject->AddJSData(
-                Key   => 'HeaderMeta' . $WidgetName,
-                Value => {
-                    Name             => $Self->{Name},
-                    OrderBy          => $OrderBy || 'Up',
-                    HeaderColumnName => $Item,
-                },
-            );
-
             $LayoutObject->Block(
                 Name => 'ContentLargeTicketGenericHeaderMetaLink',
                 Data => {
@@ -880,12 +865,6 @@ sub Run {
             );
         }
     }
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'HeaderColumn' . $WidgetName,
-        Value => \@Columns
-    );
 
     # show all needed headers
     HEADERCOLUMN:
@@ -953,16 +932,6 @@ sub Run {
             );
 
             if ( $HeaderColumn eq 'TicketNumber' ) {
-
-                # send data to JS
-                $LayoutObject->AddJSData(
-                    Key   => 'TicketNumberColumn' . $WidgetName,
-                    Value => {
-                        Name    => $Self->{Name},
-                        OrderBy => $OrderBy || 'Up',
-                    },
-                );
-
                 $LayoutObject->Block(
                     Name => 'ContentLargeTicketGenericHeaderTicketNumberColumn',
                     Data => {
@@ -1019,17 +988,6 @@ sub Run {
                     Css        => $Css,
                 );
 
-                # send data to JS
-                $LayoutObject->AddJSData(
-                    Key   => 'ColumnFilterSort' . $HeaderColumn . $WidgetName,
-                    Value => {
-                        HeaderColumnName => $HeaderColumn,
-                        Name             => $Self->{Name},
-                        SortBy           => $Self->{SortBy} || 'Age',
-                        OrderBy          => $OrderBy || 'Up',
-                    },
-                );
-
                 $LayoutObject->Block(
                     Name => 'ContentLargeTicketGenericHeaderColumnFilterLink',
                     Data => {
@@ -1048,34 +1006,24 @@ sub Run {
 
                 if ( $HeaderColumn eq 'CustomerID' ) {
 
-                    # send data to JS
-                    $LayoutObject->AddJSData(
-                        Key   => 'CustomerIDAutocomplete',
-                        Value => {
-                            QueryDelay          => 100,
-                            MaxResultsDisplayed => 20,
-                            MinQueryLength      => 2,
-                            }
-                    );
                     $LayoutObject->Block(
                         Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch',
-                        Data => {},
+                        Data => {
+                            minQueryLength      => 2,
+                            queryDelay          => 100,
+                            maxResultsDisplayed => 20,
+                        },
                     );
                 }
                 elsif ( $HeaderColumn eq 'Responsible' || $HeaderColumn eq 'Owner' ) {
 
-                    # send data to JS
-                    $LayoutObject->AddJSData(
-                        Key   => 'UserAutocomplete',
-                        Value => {
-                            QueryDelay          => 100,
-                            MaxResultsDisplayed => 20,
-                            MinQueryLength      => 2,
-                            }
-                    );
                     $LayoutObject->Block(
                         Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch',
-                        Data => {},
+                        Data => {
+                            minQueryLength      => 2,
+                            queryDelay          => 100,
+                            maxResultsDisplayed => 20,
+                        },
                     );
                 }
             }
@@ -1094,17 +1042,6 @@ sub Run {
                     Css        => $Css,
                 );
 
-                # send data to JS
-                $LayoutObject->AddJSData(
-                    Key   => 'ColumnFilter' . $HeaderColumn . $WidgetName,
-                    Value => {
-                        HeaderColumnName => $HeaderColumn,
-                        Name             => $Self->{Name},
-                        SortBy           => $Self->{SortBy} || 'Age',
-                        OrderBy          => $OrderBy || 'Up',
-                    },
-                );
-
                 $LayoutObject->Block(
                     Name => 'ContentLargeTicketGenericHeaderColumnFilter',
                     Data => {
@@ -1121,36 +1058,19 @@ sub Run {
 
                 if ( $HeaderColumn eq 'CustomerUserID' ) {
 
-                    # send data to JS
-                    $LayoutObject->AddJSData(
-                        Key   => 'CustomerUserAutocomplete',
-                        Value => {
-                            QueryDelay          => 100,
-                            MaxResultsDisplayed => 20,
-                            MinQueryLength      => 2,
-                            }
-                    );
                     $LayoutObject->Block(
                         Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch',
-                        Data => {},
+                        Data => {
+                            minQueryLength      => 2,
+                            queryDelay          => 100,
+                            maxResultsDisplayed => 20,
+                        },
                     );
                 }
             }
 
             # verify if column is just sortable
             elsif ( $Self->{ValidSortableColumns}->{$HeaderColumn} ) {
-
-                # send data to JS
-                $LayoutObject->AddJSData(
-                    Key   => 'ColumnSortable' . $HeaderColumn . $WidgetName,
-                    Value => {
-                        HeaderColumnName => $HeaderColumn,
-                        Name             => $Self->{Name},
-                        SortBy           => $Self->{SortBy} || $HeaderColumn,
-                        OrderBy          => $OrderBy || 'Up',
-                    },
-                );
-
                 $LayoutObject->Block(
                     Name => 'ContentLargeTicketGenericHeaderColumnLink',
                     Data => {
@@ -1272,17 +1192,6 @@ sub Run {
                         Label      => $Label,
                     );
 
-                    # send data to JS
-                    $LayoutObject->AddJSData(
-                        Key   => 'ColumnFilterSort' . $DynamicFieldName . $WidgetName,
-                        Value => {
-                            HeaderColumnName => $DynamicFieldName,
-                            Name             => $Self->{Name},
-                            SortBy           => $Self->{SortBy} || 'Age',
-                            OrderBy          => $OrderBy || 'Up',
-                        },
-                    );
-
                     # output sortable and filterable dynamic field
                     $LayoutObject->Block(
                         Name => 'ContentLargeTicketGenericHeaderColumnFilterLink',
@@ -1303,17 +1212,6 @@ sub Run {
 
                 # otherwise the dynamic field is only sortable (sortable check was made before)
                 else {
-
-                    # send data to JS
-                    $LayoutObject->AddJSData(
-                        Key   => 'ColumnSortable' . $DynamicFieldName . $WidgetName,
-                        Value => {
-                            HeaderColumnName => $DynamicFieldName,
-                            Name             => $Self->{Name},
-                            SortBy           => $Self->{SortBy} || $DynamicFieldName,
-                            OrderBy          => $OrderBy || 'Up',
-                        },
-                    );
 
                     # output sortable dynamic field
                     $LayoutObject->Block(
@@ -1350,17 +1248,6 @@ sub Run {
                 my $ColumnFilterHTML = $Self->_InitialColumnFilter(
                     ColumnName => $DynamicFieldName,
                     Label      => $Label,
-                );
-
-                # send data to JS
-                $LayoutObject->AddJSData(
-                    Key   => 'ColumnFilter' . $DynamicFieldName . $WidgetName,
-                    Value => {
-                        HeaderColumnName => $DynamicFieldName,
-                        Name             => $Self->{Name},
-                        SortBy           => $Self->{SortBy} || 'Age',
-                        OrderBy          => $OrderBy || 'Up',
-                    },
                 );
 
                 # output filterable (not sortable) dynamic field
@@ -1746,34 +1633,39 @@ sub Run {
     my $Refresh = '';
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
-
-        # send data to JS
-        $LayoutObject->AddJSData(
-            Key   => 'WidgetRefresh' . $WidgetName,
-            Value => {
+        my $NameHTML = $Self->{Name};
+        $NameHTML =~ s{-}{_}xmsg;
+        $LayoutObject->Block(
+            Name => 'ContentLargeTicketGenericRefresh',
+            Data => {
+                %{ $Self->{Config} },
                 Name        => $Self->{Name},
-                NameHTML    => $WidgetName,
+                NameHTML    => $NameHTML,
                 RefreshTime => $Refresh,
                 CustomerID  => $Param{CustomerID},
+                %{$Summary},
             },
         );
     }
 
     # check for active filters and add a 'remove filters' button to the widget header
-    my $FilterActive = 0;
     if ( $Self->{GetColumnFilterSelect} && IsHashRefWithData( $Self->{GetColumnFilterSelect} ) ) {
-        $FilterActive = 1;
+        $LayoutObject->Block(
+            Name => 'ContentLargeTicketGenericRemoveFilters',
+            Data => {
+                Name       => $Self->{Name},
+                CustomerID => $Param{CustomerID},
+            },
+        );
     }
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'WidgetContainer' . $WidgetName,
-        Value => {
-            Name         => $Self->{Name},
-            CustomerID   => $Param{CustomerID},
-            FilterActive => $FilterActive,
-        },
-    );
+    else {
+        $LayoutObject->Block(
+            Name => 'ContentLargeTicketGenericRemoveFiltersRemove',
+            Data => {
+                Name => $Self->{Name},
+            },
+        );
+    }
 
     my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardTicketGeneric',
