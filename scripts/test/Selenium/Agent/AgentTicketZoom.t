@@ -75,6 +75,28 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
+        # create two ticket articles
+        my @ArticleIDs;
+        for my $ArticleCreate ( 1 .. 2 ) {
+            my $ArticleID = $TicketObject->ArticleCreate(
+                TicketID       => $TicketID,
+                ArticleType    => 'note-internal',
+                SenderType     => 'agent',
+                Subject        => 'Selenium subject test',
+                Body           => "Article $ArticleCreate",
+                ContentType    => 'text/plain; charset=ISO-8859-15',
+                HistoryType    => 'OwnerUpdate',
+                HistoryComment => 'Some free text!',
+                UserID         => 1,
+                NoAgentNotify  => 1,
+            );
+            $Self->True(
+                $ArticleID,
+                "ArticleCreate - ID $ArticleID",
+            );
+            push @ArticleIDs, $ArticleID;
+        }
+
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
@@ -103,6 +125,41 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
         }
+
+        # verify article order in zoom screen
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\$('table tbody tr')[0]).attr('id')"
+            ),
+            'Row2',
+            "First Article in table is second created article",
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\$('table tbody tr')[1]).attr('id')"
+            ),
+            'Row1',
+            "Second Article in table is first created article",
+        );
+
+        # click to sort by article number
+        $Selenium->find_element("//th[\@class='No Sortable header']")->click();
+
+        # verify change in article order on column header click, test Core.UI.Table.Sort.js
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\$('table tbody tr')[0]).attr('id')"
+            ),
+            'Row1',
+            "First Article in table is first created article - JS success",
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\$('table tbody tr')[1]).attr('id')"
+            ),
+            'Row2',
+            "Second Article in table is second created article - JS success",
+        );
 
         # clean up test data from the DB
         my $Success = $TicketObject->TicketDelete(
