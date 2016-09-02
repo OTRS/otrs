@@ -575,7 +575,8 @@ em.EntityID:after {
     margin-bottom: 0px;
 }
 
-#TransitionForm #PresentConditionsContainer > label {
+#TransitionForm #PresentConditionsContainer > label,
+#TransitionForm #PresentConditionsContainer p {
     width: auto;
     display: inline-block;
     margin-right: 5px;
