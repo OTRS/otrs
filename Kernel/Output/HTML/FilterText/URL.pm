@@ -41,15 +41,15 @@ sub Pre {
     ${ $Param{Data} } =~ s{
         ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
 
-        (                                              #2
+        (                                            #2
             (?:                                      # http or only www
-                (?: (?: http s? | ftp ) :\/\/) |        # http://,https:// and ftp://
-                (?: (?: \w*www | ftp ) \. \w+ )                 # www.something and ftp.something
+                (?: (?: http s? | ftp ) :\/\/) |     # http://,https:// and ftp://
+                (?: (?: \w*www | ftp ) \. \w+ )      # www.something and ftp.something
             )
-            .*?               # this part should be better defined!
+            .*?                           # this part should be better defined!
         )
-        (                               # $3
-            [\?,;!\.\]] (?: \s | $ )    # \)\s this construct is because of bug#2450 and bug#7288
+        (                                 # $3
+            [\?,;!\.] (?: \s | $ )        # this construct was root cause of bug#2450 and bug#7288
             | \s
             | \"
             | &quot;
