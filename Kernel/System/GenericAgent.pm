@@ -953,6 +953,9 @@ sub _JobRunTicket {
     if ( $Param{Config}->{New}->{SendNoNotification} ) {
         $TicketObject->{SendNoNotification} = 1;
     }
+    else {
+        $TicketObject->{SendNoNotification} = 0;
+    }
 
     # move ticket
     if ( $Param{Config}->{New}->{Queue} ) {
