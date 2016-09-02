@@ -441,9 +441,24 @@ sub _NotificationFilter {
 
                 next VALUE if !$IsNotificationEventCondition;
 
+                # Get match value from the dynamic field backend, if applicable (bug#12257).
+                my $MatchValue;
+                my $SearchFieldParameter = $DynamicFieldBackendObject->SearchFieldParameterBuild(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Profile            => {
+                        $Key => $Value,
+                    },
+                );
+                if ( defined $SearchFieldParameter->{Parameter}->{Equals} ) {
+                    $MatchValue = $SearchFieldParameter->{Parameter}->{Equals};
+                }
+                else {
+                    $MatchValue = $Value;
+                }
+
                 $Match = $DynamicFieldBackendObject->ObjectMatch(
                     DynamicFieldConfig => $DynamicFieldConfig,
-                    Value              => $Value,
+                    Value              => $MatchValue,
                     ObjectAttributes   => $Param{Ticket},
                 );
 
