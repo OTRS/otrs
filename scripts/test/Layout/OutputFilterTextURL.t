@@ -28,11 +28,14 @@ my @Tests = (
         Name  => 'URL with round brackets',
         Input => 'http://www.url.com/file(1)name/file(2)name',
     },
-
-    # {
-    #     Name     => 'URL with square brackets',
-    #     Input    => 'http://www.url.com?host[0]=hostname;[1]',
-    # },
+    {
+        Name  => 'URL with square brackets',
+        Input => 'http://www.url.com?host[0]=hostname;[1]',
+    },
+    {
+        Name  => 'URL with curly brackets',
+        Input => 'http://www.url.com?host{0}=hostname;{1}',
+    },
 );
 
 for my $Test (@Tests) {
