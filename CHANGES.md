@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-09-02 Fixed bug#[12257](http://bugs.otrs.org/show_bug.cgi?id=12257) - Ticketnotification: Ticketfilter of a uncheck checkbox doesn't work.
  - 2016-09-02 Fixed bug#[7288](http://bugs.otrs.org/show_bug.cgi?id=7288) - Hyperlink creation cuts URLs after a closing square bracket.
  - 2016-09-01 Fixed bug#[12106](http://bugs.otrs.org/show_bug.cgi?id=12106) - Use of uninitialized value in splice.
  - 2016-08-26 Fixed bug#[12233](http://bugs.otrs.org/show_bug.cgi?id=12233) - ACL for restricting services depending on queue does not work as exspected.
