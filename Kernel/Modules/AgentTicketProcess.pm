@@ -4922,7 +4922,7 @@ sub _StoreActivityDialog {
 
             my $TicketID = $UpdateTicketID || $NewTicketID;
 
-            if ( $Param{GetParam}{Subject} && $Param{GetParam}{Body} ) {
+            if ( $Param{GetParam}->{Subject} && $Param{GetParam}->{Body} ) {
 
                 # add note
                 my $ArticleID = '';
@@ -4931,12 +4931,12 @@ sub _StoreActivityDialog {
                     $MimeType = 'text/html';
 
                     # verify html document
-                    $Param{GetParam}{Body} = $LayoutObject->RichTextDocumentComplete(
-                        String => $Param{GetParam}{Body},
+                    $Param{GetParam}->{Body} = $LayoutObject->RichTextDocumentComplete(
+                        String => $Param{GetParam}->{Body},
                     );
                 }
 
-                my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+                my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
                 $ArticleID = $TicketObject->ArticleCreate(
                     TicketID                  => $TicketID,
                     SenderType                => 'agent',
