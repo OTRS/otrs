@@ -21,18 +21,32 @@ use Kernel::GenericInterface::Operation::Session::SessionCreate;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-
         SkipSSLVerify => 1,
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# search old test tickets
+my @OldTicketIDs = $TicketObject->TicketSearch(
+    CustomerUserLogin => '*@example.com',
+    Result            => 'ARRAY',
+    UserID            => 1,
+);
+
+# delete old test ticket to have a clean environment
+for my $TicketID (@OldTicketIDs) {
+    $TicketObject->TicketDelete(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+}
 
 # get a random number
 my $RandomID = $Helper->GetRandomNumber();
@@ -194,12 +208,9 @@ for my $DynamicFieldProperty (@DynamicFieldProperties) {
     );
 }
 
-# create ticket object
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
 # create 3 tickets
 
-#ticket id container
+# ticket id container
 my @TicketIDs;
 
 # create ticket 1
