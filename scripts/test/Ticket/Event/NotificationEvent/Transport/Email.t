@@ -180,22 +180,16 @@ my @Tests = (
         ],
     },
     {
-        Name => 'RecipientAgent + RecipientEmail + CustomerNotifyJustToRealCustomer',
+        Name => 'Recipient Customer - JustToRealCustomer enabled',
         Data => {
-            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
-            RecipientAgents => [$UserID],
-            RecipientEmail  => ['test@otrsexample.com'],
+            Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients => ['Customer'],
         },
-        ExpectedResults => [
-            {
-                ToArray => [ $UserData{UserEmail} ],
-                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
-            },
-        ],
+        ExpectedResults    => [],
         JustToRealCustomer => 1,
     },
     {
-        Name => 'Recipient Customer',
+        Name => 'Recipient Customer - JustToRealCustomer disabled',
         Data => {
             Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
             Recipients => ['Customer'],
@@ -206,6 +200,7 @@ my @Tests = (
                 Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
+        JustToRealCustomer => 0,
     },
 );
 

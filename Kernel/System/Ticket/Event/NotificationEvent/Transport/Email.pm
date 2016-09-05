@@ -93,16 +93,11 @@ sub SendNotification {
     # get recipient data
     my %Recipient = %{ $Param{Recipient} };
 
-    if (
-        $Recipient{Type} eq 'Customer'
-        && $ConfigObject->Get('CustomerNotifyJustToRealCustomer')
-        )
-    {
-        # return if not customer user ID
-        return if !$Recipient{CustomerUserID};
+    # Verify a customer have an email
+    if ( $Recipient{Type} eq 'Customer' && $Recipient{UserID} && !$Recipient{UserEmail} ) {
 
         my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-            User => $Recipient{CustomerUserID},
+            User => $Recipient{UserID},
         );
 
         if ( !$CustomerUser{UserEmail} ) {
@@ -113,6 +108,9 @@ sub SendNotification {
             );
             return;
         }
+
+        # Set calculated email.
+        $Recipient{UserEmail} = $CustomerUser{UserEmail};
     }
 
     return if !$Recipient{UserEmail};
