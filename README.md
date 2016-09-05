@@ -2,11 +2,11 @@
 
 What is OTRS?
 =============
-OTRS is an Open source Ticket Request System with many features to manage
-customer telephone calls and e-mails. It is distributed under the GNU
-AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
-FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
-want to answer them with a team of agents? You're going to love OTRS!
+OTRS (the former Open Ticket Request System now stands for Open Technology
+ – Real Service) is an open source ticket request system with many features
+to manage customer telephone calls and e-mails. It is distributed under the
+GNU AFFERO General Public License (AGPL) and tested on various Linux platforms.
+Do you receive many e-mails and want to answer them with a team of agents? You're going to love OTRS!
 
 You can find a list of features in the
 [online documentation](http://otrs.github.io/doc/manual/admin/6.0/en/html/otrs.html#features-of-otrs).
