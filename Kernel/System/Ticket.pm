@@ -104,13 +104,6 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-    # load ticket number generator
-    my $GeneratorModule = $ConfigObject->Get('Ticket::NumberGenerator')
-        || 'Kernel::System::Ticket::Number::AutoIncrement';
-    if ( !$MainObject->RequireBaseClass($GeneratorModule) ) {
-        die "Can't load ticket number generator backend module $GeneratorModule! $@";
-    }
-
     # load ticket index generator
     my $GeneratorIndexModule = $ConfigObject->Get('Ticket::IndexModule')
         || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
@@ -173,7 +166,32 @@ creates a new ticket number
 
 =cut
 
-# use it from Kernel/System/Ticket/Number/*.pm
+sub TicketCreateNumber {
+    my ( $Self, %Param ) = @_;
+
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::NumberGenerator')
+        || 'Kernel::System::Ticket::Number::AutoIncrement';
+
+    return $Kernel::OM->Get($GeneratorModule)->TicketCreateNumber(%Param);
+}
+
+=item GetTNByString()
+
+creates a new ticket number
+
+    my $TicketNumber = $TicketObject->GetTNByString($Subject);
+
+=cut
+
+sub GetTNByString {
+    my ( $Self, $String ) = @_;
+
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::NumberGenerator')
+        || 'Kernel::System::Ticket::Number::AutoIncrement';
+
+    return $Kernel::OM->Get($GeneratorModule)->GetTNByString($String);
+}
+
 
 =item TicketCheckNumber()
 

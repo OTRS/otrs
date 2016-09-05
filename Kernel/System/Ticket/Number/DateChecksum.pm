@@ -27,8 +27,16 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Ticket',
     'Kernel::System::Time',
 );
+
+sub new {
+    my ( $Type ) = @_;
+
+    my $Self = {};
+    bless( $Self, $Type );
+}
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -61,16 +69,7 @@ sub TicketCreateNumber {
         );
 
         if ( $ContentSCALARRef && ${$ContentSCALARRef} ) {
-
             ( $Count, $LastModify ) = split( /;/, ${$ContentSCALARRef} );
-
-            # just debug
-            if ( $Self->{Debug} > 0 ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'debug',
-                    Message  => "Read counter from $CounterLog: $Count",
-                );
-            }
         }
     }
 
@@ -89,16 +88,6 @@ sub TicketCreateNumber {
         Location => $CounterLog,
         Content  => \$Content,
     );
-
-    if ($Write) {
-
-        if ( $Self->{Debug} > 0 ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'debug',
-                Message  => "Write counter: $Count",
-            );
-        }
-    }
 
     # pad ticket number with leading '0' to length 5
     $Count = sprintf "%.5u", $Count;
@@ -132,7 +121,7 @@ sub TicketCreateNumber {
     $Tn = $Tn . $ChkSum;
 
     # Check ticket number. If exists generate new one!
-    if ( $Self->TicketCheckNumber( Tn => $Tn ) ) {
+    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketCheckNumber( Tn => $Tn ) ) {
 
         $Self->{LoopProtectionCounter}++;
 

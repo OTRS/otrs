@@ -17,7 +17,15 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+    'Kernel::System::Ticket',
 );
+
+sub new {
+    my ( $Type ) = @_;
+
+    my $Self = {};
+    bless( $Self, $Type );
+}
 
 sub TicketCreateNumber {
     my $Self = shift;
@@ -37,7 +45,7 @@ sub TicketCreateNumber {
     my $Tn = $SystemID . $Count;
 
     # Check ticket number. If exists generate new one!
-    if ( $Self->TicketCheckNumber( Tn => $Tn ) ) {
+    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketCheckNumber( Tn => $Tn ) ) {
 
         $Self->{LoopProtectionCounter}++;
 

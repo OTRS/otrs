@@ -19,8 +19,16 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Ticket',
     'Kernel::System::Time',
 );
+
+sub new {
+    my ( $Type ) = @_;
+
+    my $Self = {};
+    bless( $Self, $Type );
+}
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -52,16 +60,7 @@ sub TicketCreateNumber {
         );
 
         if ( $ContentSCALARRef && ${$ContentSCALARRef} ) {
-
             ($Count) = split( /;/, ${$ContentSCALARRef} );
-
-            # just debug
-            if ( $Self->{Debug} > 0 ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'debug',
-                    Message  => "Read counter from $CounterLog: $Count",
-                );
-            }
         }
     }
 
@@ -75,16 +74,6 @@ sub TicketCreateNumber {
         Content  => \$Count,
     );
 
-    if ($Write) {
-
-        if ( $Self->{Debug} > 0 ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'debug',
-                Message  => "Write counter: $Count",
-            );
-        }
-    }
-
     if ( $ConfigObject->Get('Ticket::NumberGenerator::Date::UseFormattedCounter') ) {
         my $MinSize = $ConfigObject->Get('Ticket::NumberGenerator::MinCounterSize')
             || 5;
@@ -95,7 +84,7 @@ sub TicketCreateNumber {
     my $Tn = $Year . $Month . $Day . $SystemID . $Count;
 
     # Check ticket number. If exists generate new one!
-    if ( $Self->TicketCheckNumber( Tn => $Tn ) ) {
+    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketCheckNumber( Tn => $Tn ) ) {
 
         $Self->{LoopProtectionCounter}++;
 
