@@ -287,6 +287,17 @@ sub Run {
                     next BUNDLE;
                 }
 
+                # Check if notification should not send to the customer.
+                if (
+                    $Bundle->{Recipient}->{Type} eq 'Customer'
+                    && $ConfigObject->Get('CustomerNotifyJustToRealCustomer')
+                    )
+                {
+
+                    # return if not customer user ID
+                    return if !$Bundle->{Recipient}->{UserID};
+                }
+
                 my $Success = $Self->_SendRecipientNotification(
                     TicketID              => $Param{Data}->{TicketID},
                     Notification          => $Bundle->{Notification},
