@@ -104,13 +104,6 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-    # load ticket index generator
-    my $GeneratorIndexModule = $ConfigObject->Get('Ticket::IndexModule')
-        || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-    if ( !$MainObject->RequireBaseClass($GeneratorIndexModule) ) {
-        die "Can't load ticket index backend module $GeneratorIndexModule! $@";
-    }
-
     # load article storage module
     my $StorageModule = $ConfigObject->Get('Ticket::StorageModule')
         || 'Kernel::System::Ticket::ArticleStorageDB';
@@ -191,7 +184,6 @@ sub GetTNByString {
 
     return $Kernel::OM->Get($GeneratorModule)->GetTNByString($String);
 }
-
 
 =item TicketCheckNumber()
 
@@ -7315,6 +7307,51 @@ sub SearchUnknownTicketCustomers {
     }
 
     return $UnknownTicketCustomerList;
+}
+
+sub TicketAcceleratorUpdate {
+    my ( $Self, %Param ) = @_;
+
+    my $TicketIndexModule = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule')
+        || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+
+    return $Kernel::OM->Get($TicketIndexModule)->TicketAcceleratorUpdate(%Param);
+}
+
+sub TicketAcceleratorDelete {
+    my ( $Self, %Param ) = @_;
+
+    my $TicketIndexModule = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule')
+        || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+
+    return $Kernel::OM->Get($TicketIndexModule)->TicketAcceleratorDelete(%Param);
+}
+
+sub TicketAcceleratorAdd {
+    my ( $Self, %Param ) = @_;
+
+    my $TicketIndexModule = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule')
+        || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+
+    return $Kernel::OM->Get($TicketIndexModule)->TicketAcceleratorAdd(%Param);
+}
+
+sub TicketAcceleratorIndex {
+    my ( $Self, %Param ) = @_;
+
+    my $TicketIndexModule = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule')
+        || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+
+    return $Kernel::OM->Get($TicketIndexModule)->TicketAcceleratorIndex(%Param);
+}
+
+sub TicketAcceleratorRebuild {
+    my ( $Self, %Param ) = @_;
+
+    my $TicketIndexModule = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule')
+        || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+
+    return $Kernel::OM->Get($TicketIndexModule)->TicketAcceleratorRebuild(%Param);
 }
 
 sub DESTROY {

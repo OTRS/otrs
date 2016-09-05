@@ -54,11 +54,6 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
     # create test ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    $Self->True(
-        $TicketObject->isa("Kernel::System::Ticket::IndexAccelerator::$Module"),
-        "TicketObject loaded the correct backend",
-    );
-
     my @TicketIDs;
 
     # create tickets
