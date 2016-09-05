@@ -282,6 +282,9 @@ sub GetLog {
         shmread( $Self->{Key}, $String, 0, $Self->{IPCSize} ) || die "$!";
     }
 
+    # Remove \0 bytes that shmwrite adds for padding.
+    $String =~ s{\0}{}smxg;
+
     # encode the string
     $Self->{EncodeObject}->EncodeInput( \$String );
 
@@ -309,6 +312,9 @@ sub CleanUp {
         );
         return;
     }
+
+    # Re-initialize SHM segment.
+    $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) );
 
     return 1;
 }
