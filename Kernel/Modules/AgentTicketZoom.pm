@@ -2805,14 +2805,12 @@ sub _ArticleItem {
                     Article => \%Article,
                 );
 
-                # check for the display of the filesize
-                if ( $Job eq '2-HTML-Viewer' ) {
-                    $Data{DataFileSize} = ", " . $File{Filesize};
+                if (%Data) {
+                    $LayoutObject->Block(
+                        Name => $Data{Block} || 'ArticleAttachmentRowLink',
+                        Data => {%Data},
+                    );
                 }
-                $LayoutObject->Block(
-                    Name => $Data{Block} || 'ArticleAttachmentRowLink',
-                    Data => {%Data},
-                );
             }
         }
     }

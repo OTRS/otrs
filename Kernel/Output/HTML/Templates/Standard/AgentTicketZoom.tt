@@ -570,11 +570,14 @@
                     <p class="Value">
 [% RenderBlockStart("ArticleAttachmentRow") %]
 [% RenderBlockStart("ArticleAttachmentRowLink") %]
-                        <a class="[% Data.Class | html %]" href="[% Data.Link %]" [% Data.Target %] title="[% Translate(Data.Action) | html %]">[% Data.Filename | html %]</a> [% Data.DataFileSize | html %]
+                        <a class="[% Data.Class | html %]" href="[% Data.Link %]" [% Data.Target %] title="[% Translate(Data.Action) | html %]">[% Data.Filename | html %]</a>
 [% RenderBlockEnd("ArticleAttachmentRowLink") %]
 [% RenderBlockStart("ArticleAttachmentRowNoLink") %]
-                        [% Data.Filename | html %], [% Data.Filesize | html %]
+                        [% Data.Filename | html %]
 [% RenderBlockEnd("ArticleAttachmentRowNoLink") %]
+                        [% IF Data.Filesize %]
+                            ([% Data.Filesize | html %])
+                        [% END %]
                         <br />
 [% RenderBlockEnd("ArticleAttachmentRow") %]
                     </p>

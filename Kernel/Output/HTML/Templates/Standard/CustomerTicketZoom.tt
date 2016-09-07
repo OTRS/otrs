@@ -128,11 +128,14 @@
                                     <i class="fa fa-paperclip"></i>
                                     <span class="DownloadAttachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
 [% RenderBlockStart("ArticleAttachmentRowLink") %]
-                                        <a href="[% Data.Link %]" [% Data.Target %] title="[% Translate(Data.Action) | html %]">[% Data.Filename | html %]</a>, [% Data.Filesize | html %]
+                                        <a href="[% Data.Link %]" [% Data.Target %] title="[% Translate(Data.Action) | html %]">[% Data.Filename | html %]</a>
 [% RenderBlockEnd("ArticleAttachmentRowLink") %]
 [% RenderBlockStart("ArticleAttachmentRowNoLink") %]
-                                        [% Data.Filename | html %], [% Data.Filesize | html %]
+                                        [% Data.Filename | html %]
 [% RenderBlockEnd("ArticleAttachmentRowNoLink") %]
+                                        [% IF Data.Filesize %]
+                                            ([% Data.Filesize | html %])
+                                        [% END %]
                                     </span>
 [% RenderBlockEnd("ArticleAttachmentRow") %]
                                 </div>
