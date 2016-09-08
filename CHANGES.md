@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-09-08 Made possible to define ServiceIDs and SLAIDs as default shown ticket search attributes, thanks to Paweł Bogusławski.
  - 2016-09-08 Fixed status passing and redundant TicketGet calls, thanks to Paweł Bogusławski.
  - 2016-09-08 Fixed bug#[5420](http://bugs.otrs.org/show_bug.cgi?id=5420) - Email received with many recipients or large 'From' can't be created in OTRS.
  - 2016-09-07 Fixed empty attachment links and file size formatting, thanks to Paweł Bogusławski.
