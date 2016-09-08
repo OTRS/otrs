@@ -4234,6 +4234,7 @@ sub TicketStateSet {
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
+        StateID      => $State{ID},
         ArticleID    => $ArticleID,
         QueueID      => $Ticket{QueueID},
         Name         => "\%\%$Ticket{State}\%\%$State{Name}\%\%",
@@ -5651,39 +5652,49 @@ sub HistoryAdd {
         $Param{QueueID} = $Self->TicketQueueID( TicketID => $Param{TicketID} );
     }
 
+    my %Ticket;
+
     # get type
     if ( !$Param{TypeID} ) {
-        my %Ticket = $Self->TicketGet(
-            %Param,
-            DynamicFields => 0,
-        );
+        if ( !%Ticket ) {
+            %Ticket = $Self->TicketGet(
+                %Param,
+                DynamicFields => 0,
+            );
+        }
         $Param{TypeID} = $Ticket{TypeID};
     }
 
     # get owner
     if ( !$Param{OwnerID} ) {
-        my %Ticket = $Self->TicketGet(
-            %Param,
-            DynamicFields => 0,
-        );
+        if ( !%Ticket ) {
+            %Ticket = $Self->TicketGet(
+                %Param,
+                DynamicFields => 0,
+            );
+        }
         $Param{OwnerID} = $Ticket{OwnerID};
     }
 
     # get priority
     if ( !$Param{PriorityID} ) {
-        my %Ticket = $Self->TicketGet(
-            %Param,
-            DynamicFields => 0,
-        );
+        if ( !%Ticket ) {
+            %Ticket = $Self->TicketGet(
+                %Param,
+                DynamicFields => 0,
+            );
+        }
         $Param{PriorityID} = $Ticket{PriorityID};
     }
 
     # get state
     if ( !$Param{StateID} ) {
-        my %Ticket = $Self->TicketGet(
-            %Param,
-            DynamicFields => 0,
-        );
+        if ( !%Ticket ) {
+            %Ticket = $Self->TicketGet(
+                %Param,
+                DynamicFields => 0,
+            );
+        }
         $Param{StateID} = $Ticket{StateID};
     }
 
