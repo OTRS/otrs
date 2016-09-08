@@ -23,4 +23,34 @@ ALTER TABLE cloud_service_config DROP CONSTRAINT cloud_service_config_config_md5
 --  alter table cloud_service_config
 -- ----------------------------------------------------------
 ALTER TABLE cloud_service_config DROP config_md5;
+-- ----------------------------------------------------------
+--  alter table article
+-- ----------------------------------------------------------
+ALTER TABLE article ALTER a_from TYPE VARCHAR;
+ALTER TABLE article ALTER a_from DROP DEFAULT;
+-- ----------------------------------------------------------
+--  alter table article
+-- ----------------------------------------------------------
+ALTER TABLE article ALTER a_reply_to TYPE VARCHAR;
+ALTER TABLE article ALTER a_reply_to DROP DEFAULT;
+-- ----------------------------------------------------------
+--  alter table article
+-- ----------------------------------------------------------
+ALTER TABLE article ALTER a_to TYPE VARCHAR;
+ALTER TABLE article ALTER a_to DROP DEFAULT;
+-- ----------------------------------------------------------
+--  alter table article
+-- ----------------------------------------------------------
+ALTER TABLE article ALTER a_cc TYPE VARCHAR;
+ALTER TABLE article ALTER a_cc DROP DEFAULT;
+-- ----------------------------------------------------------
+--  alter table article
+-- ----------------------------------------------------------
+ALTER TABLE article ALTER a_references TYPE VARCHAR;
+ALTER TABLE article ALTER a_references DROP DEFAULT;
+-- ----------------------------------------------------------
+--  alter table article
+-- ----------------------------------------------------------
+ALTER TABLE article ALTER a_in_reply_to TYPE VARCHAR;
+ALTER TABLE article ALTER a_in_reply_to DROP DEFAULT;
 SET standard_conforming_strings TO ON;

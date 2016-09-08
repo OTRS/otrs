@@ -30,4 +30,14 @@
         <ColumnDrop Name="config_md5"/>
     </TableAlter>
 
+    <!-- Increase column sizes, see bug#5420. -->
+    <TableAlter Name="article">
+        <ColumnChange NameOld="a_from" NameNew="a_from" Required="false" Size="1800000" Type="VARCHAR"/>
+        <ColumnChange NameOld="a_reply_to" NameNew="a_reply_to" Required="false" Size="1800000" Type="VARCHAR"/>
+        <ColumnChange NameOld="a_to" NameNew="a_to" Required="false" Size="1800000" Type="VARCHAR"/>
+        <ColumnChange NameOld="a_cc" NameNew="a_cc" Required="false" Size="1800000" Type="VARCHAR"/>
+        <ColumnChange NameOld="a_references" NameNew="a_references" Required="false" Size="1800000" Type="VARCHAR"/>
+        <ColumnChange NameOld="a_in_reply_to" NameNew="a_in_reply_to" Required="false" Size="1800000" Type="VARCHAR"/>
+    </TableAlter>
+
 </database>

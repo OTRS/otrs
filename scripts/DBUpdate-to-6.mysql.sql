@@ -22,3 +22,27 @@ ALTER TABLE cloud_service_config DROP INDEX cloud_service_config_config_md5;
 #  alter table cloud_service_config
 # ----------------------------------------------------------
 ALTER TABLE cloud_service_config DROP config_md5;
+# ----------------------------------------------------------
+#  alter table article
+# ----------------------------------------------------------
+ALTER TABLE article CHANGE a_from a_from MEDIUMTEXT NULL;
+# ----------------------------------------------------------
+#  alter table article
+# ----------------------------------------------------------
+ALTER TABLE article CHANGE a_reply_to a_reply_to MEDIUMTEXT NULL;
+# ----------------------------------------------------------
+#  alter table article
+# ----------------------------------------------------------
+ALTER TABLE article CHANGE a_to a_to MEDIUMTEXT NULL;
+# ----------------------------------------------------------
+#  alter table article
+# ----------------------------------------------------------
+ALTER TABLE article CHANGE a_cc a_cc MEDIUMTEXT NULL;
+# ----------------------------------------------------------
+#  alter table article
+# ----------------------------------------------------------
+ALTER TABLE article CHANGE a_references a_references MEDIUMTEXT NULL;
+# ----------------------------------------------------------
+#  alter table article
+# ----------------------------------------------------------
+ALTER TABLE article CHANGE a_in_reply_to a_in_reply_to MEDIUMTEXT NULL;
