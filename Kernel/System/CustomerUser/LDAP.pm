@@ -1107,10 +1107,6 @@ sub _CustomerUserCacheClear {
         Type => $Self->{CacheType} . '_CustomerSearch',
     );
 
-    $Self->{CacheObject}->CleanUp(
-        Type => 'CustomerGroup',
-    );
-
     return 1;
 }
 

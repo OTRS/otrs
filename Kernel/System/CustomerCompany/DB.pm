@@ -471,7 +471,7 @@ sub CustomerCompanyUpdate {
     FIELD:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
         next FIELD if $Entry->[0] =~ /^UserPassword$/i;
-        next FIELD if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
+        next FIELD if $Entry->[5] eq 'dynamic_field';     # skip dynamic fields
         push @Fields, $Entry->[2] . ' = ?';
         push @Values, \$Param{ $Entry->[0] };
     }

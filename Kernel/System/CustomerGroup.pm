@@ -14,7 +14,6 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
-    'Kernel::System::CustomerUser',
     'Kernel::System::DB',
     'Kernel::System::Group',
     'Kernel::System::Log',
@@ -202,7 +201,6 @@ sub GroupMemberList {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
-
     if ($Cache) {
         return @{$Cache} if ref $Cache eq 'ARRAY';
         return %{$Cache} if ref $Cache eq 'HASH';
@@ -241,45 +239,22 @@ sub GroupMemberList {
             $SQL .= " gu.group_id = " . $DBObject->Quote( $Param{GroupID}, 'Integer', ) . "";
         }
         $DBObject->Prepare( SQL => $SQL );
-
-        my @Values;
-
         while ( my @Row = $DBObject->FetchrowArray() ) {
+            my $Key   = '';
+            my $Value = '';
             if ( $Param{UserID} ) {
-                push @Values, {
-                    Users => {
-                        $Row[0] => $Row[1],
-                    },
-                };
+                $Key   = $Row[0];
+                $Value = $Row[1];
             }
             else {
-                push @Values, {
-                    CustomerUser => {
-                        $Row[4] => $Row[1],
-                    },
-                };
-            }
-        }
-
-        KEY:
-        for my $Value (@Values) {
-
-            my ($UserType) = keys %{$Value};
-            my ($Login)    = keys %{ $Value->{$UserType} };
-
-            # Bugfix #12285 - Check if customer user is valid.
-            if ( $Param{GroupID} && $UserType eq 'CustomerUser' ) {
-
-                my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                    User => $Login,
-                );
-
-                next KEY if defined $User{ValidID} && $User{ValidID} != 1;
+                $Key   = $Row[4];
+                $Value = $Row[1];
             }
 
-            $Data{$Login} = $Value->{$UserType}->{$Login};
-            push @Name, $Value->{$UserType}->{$Login};
-            push @ID,   $Login;
+            # get permissions
+            $Data{$Key} = $Value;
+            push @Name, $Value;
+            push @ID,   $Key;
         }
     }
 
