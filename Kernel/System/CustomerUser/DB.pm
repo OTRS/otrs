@@ -924,7 +924,7 @@ sub CustomerUserAdd {
 
     MAPENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next MAPENTRY if $Entry->[5] eq 'dynamic_field';            # skip dynamic fields
+        next MAPENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
         next MAPENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next MAPENTRY if $SeenKey{ $Entry->[2] }++;
         push @ColumnNames, $Entry->[2];
@@ -943,7 +943,7 @@ sub CustomerUserAdd {
 
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next ENTRY if $Entry->[5] eq 'dynamic_field';            # skip dynamic fields
+        next ENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
         next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next ENTRY if $SeenValue{ $Entry->[2] }++;
         $BindColumns++;
@@ -1081,7 +1081,7 @@ sub CustomerUserUpdate {
     my %SeenKey;    # If the map contains duplicated field names, insert only once.
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next ENTRY if $Entry->[5] eq 'dynamic_field';            # skip dynamic fields
+        next ENTRY if $Entry->[5] eq 'dynamic_field';    # skip dynamic fields
         next ENTRY if $Entry->[7];                               # skip readonly fields
         next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next ENTRY if $SeenKey{ $Entry->[2] }++;
@@ -1400,6 +1400,10 @@ sub _CustomerUserCacheClear {
     );
     $Self->{CacheObject}->CleanUp(
         Type => $Self->{CacheType} . '_CustomerSearch',
+    );
+
+    $Self->{CacheObject}->CleanUp(
+        Type => 'CustomerGroup',
     );
 
     for my $Function (qw(CustomerUserList)) {

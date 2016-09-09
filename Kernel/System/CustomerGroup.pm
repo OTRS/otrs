@@ -274,7 +274,7 @@ sub GroupMemberList {
                     User => $Login,
                 );
 
-                next KEY if %User && $User{CustomerCompanyValidID} != 1;
+                next KEY if defined $User{ValidID} && $User{ValidID} != 1;
             }
 
             $Data{$Login} = $Value->{$UserType}->{$Login};

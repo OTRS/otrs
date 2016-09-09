@@ -35,10 +35,9 @@ $ConfigObject->Set(
 );
 
 # create local objects
-my $CustomerGroupObject   = $Kernel::OM->Get('Kernel::System::CustomerGroup');
-my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
-my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-my $GroupObject           = $Kernel::OM->Get('Kernel::System::Group');
+my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $GroupObject         = $Kernel::OM->Get('Kernel::System::Group');
 
 my $RandomID = $Helper->GetRandomID();
 my $UserID   = 1;
@@ -879,34 +878,12 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-# create 2 customers
-my $CustomerID1 = $CustomerCompanyObject->CustomerCompanyAdd(
-    CustomerID          => 'test_Customer_1',
-    CustomerCompanyName => 'Test_Customer_1',
-    ValidID             => 1,
-    UserID              => 1,
-);
-$Self->True(
-    $CustomerID1,
-    "Customer #1 created."
-);
-my $CustomerID2 = $CustomerCompanyObject->CustomerCompanyAdd(
-    CustomerID          => 'test_Customer_2',
-    CustomerCompanyName => 'Test_Customer_2',
-    ValidID             => 1,
-    UserID              => 1,
-);
-$Self->True(
-    $CustomerID2,
-    "Customer #2 created."
-);
-
 # create 2 customer users
 my $CustomerUser1 = $CustomerUserObject->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => 'John 1',
     UserLastname   => 'Doe',
-    UserCustomerID => $CustomerID1,
+    UserCustomerID => 'jdoe1',
     UserLogin      => 'jdoe1',
     UserEmail      => 'jdoe1@example.com',
     ValidID        => 1,
@@ -920,7 +897,7 @@ my $CustomerUser2 = $CustomerUserObject->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => 'John 2',
     UserLastname   => 'Doe',
-    UserCustomerID => $CustomerID2,
+    UserCustomerID => 'jdoe2',
     UserLogin      => 'jdoe2',
     UserEmail      => 'jdoe2@example.com',
     ValidID        => 1,
@@ -974,12 +951,15 @@ $Self->True(
     "Customer #2 added to the group."
 );
 
-# First get members while both companies are Valid
+# First get members while both users are Valid
 my @Members1 = $CustomerGroupObject->GroupMemberList(
     GroupID => $GroupID2,
     Result  => 'ID',
     Type    => 'ro',
 );
+
+@Members1 = sort { $a cmp $b } @Members1;
+
 $Self->IsDeeply(
     \@Members1,
     [
@@ -989,17 +969,21 @@ $Self->IsDeeply(
     "GroupMemberList() - 2 Customer users."
 );
 
-# set 2nd Customer company to invalid state
-my $CustomerInvalid = $CustomerCompanyObject->CustomerCompanyUpdate(
-    CustomerCompanyID   => $CustomerID2,
-    CustomerID          => 'test_Customer_2',
-    CustomerCompanyName => 'Test_Customer_2',
-    ValidID             => 2,
-    UserID              => 1,
+# set 2nd user to invalid state
+my $CustomerUserInvalid = $CustomerUserObject->CustomerUserUpdate(
+    Source         => 'CustomerUser',
+    ID             => $CustomerUser2,
+    UserCustomerID => $CustomerUser2,
+    UserLogin      => 'jdoe2',               # new user login
+    UserFirstname  => 'John 2',
+    UserLastname   => 'Doe',
+    UserEmail      => 'jdoe2@example.com',
+    ValidID        => 2,
+    UserID         => 1,
 );
 $Self->True(
-    $CustomerInvalid,
-    "Set 2nd Customer company to invalid",
+    $CustomerUserInvalid,
+    "Set 2nd Customer user to invalid",
 );
 
 # Get group members again
@@ -1008,6 +992,7 @@ my @Members2 = $CustomerGroupObject->GroupMemberList(
     Result  => 'ID',
     Type    => 'ro',
 );
+
 $Self->IsDeeply(
     \@Members2,
     [

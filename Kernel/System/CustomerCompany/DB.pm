@@ -535,10 +535,6 @@ sub _CustomerCompanyCacheClear {
         Type => $Self->{CacheType} . '_CustomerCompanyList',
     );
 
-    $Self->{CacheObject}->CleanUp(
-        Type => 'CustomerGroup',
-    );
-
     for my $Function (qw(CustomerCompanyList)) {
         for my $Valid ( 0 .. 1 ) {
             $Self->{CacheObject}->Delete(
