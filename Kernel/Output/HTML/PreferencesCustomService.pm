@@ -54,8 +54,9 @@ sub Param {
 
     # get all services
     my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
-        Valid  => 1,
-        UserID => $Self->{UserID},
+        KeepChildren => $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::KeepChildren'),
+        Valid        => 1,
+        UserID       => $Self->{UserID},
     );
 
     if ( $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' ) ) {
