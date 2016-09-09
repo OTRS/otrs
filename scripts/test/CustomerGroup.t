@@ -869,6 +869,16 @@ for my $Test (@Tests) {
     }
 }
 
+# Disable email checks
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+$ConfigObject->Set(
+    Key   => 'CheckMXRecord',
+    Value => 0,
+);
+
 # create 2 customers
 my $CustomerID1 = $CustomerCompanyObject->CustomerCompanyAdd(
     CustomerID          => 'test_Customer_1',
