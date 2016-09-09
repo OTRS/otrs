@@ -56,6 +56,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.13 2016-??-??
+ - 2016-09-09 Fixed bug#[12273](http://bugs.otrs.org/show_bug.cgi?id=12273) - ACLs do not work if referencing on DF with value 0.
  - 2016-09-05 Added new console commands to print (Maint::Log::Print) and clear (Maint::Log::Clear) the OTRS log.
  - 2016-09-05 Followup for bug#[11922](http://bugs.otrs.org/show_bug.cgi?id=11922) - Notification to non RealCustomer.
  - 2016-09-02 Fixed bug#[12199](http://bugs.otrs.org/show_bug.cgi?id=12199) - ProcessManagement: Comma separated Lastnames are not shown correctly on article creation.
