@@ -35,9 +35,10 @@ $ConfigObject->Set(
 );
 
 # create local objects
-my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
-my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
-my $GroupObject         = $Kernel::OM->Get('Kernel::System::Group');
+my $CustomerGroupObject   = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+my $GroupObject           = $Kernel::OM->Get('Kernel::System::Group');
 
 my $RandomID = $Helper->GetRandomID();
 my $UserID   = 1;
@@ -138,7 +139,6 @@ my @Tests = (
         },
         Success => 1,
     },
-
 );
 
 for my $Test (@Tests) {
@@ -868,6 +868,143 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# create 2 customers
+my $CustomerID1 = $CustomerCompanyObject->CustomerCompanyAdd(
+    CustomerID          => 'test_Customer_1',
+    CustomerCompanyName => 'Test_Customer_1',
+    ValidID             => 1,
+    UserID              => 1,
+);
+$Self->True(
+    $CustomerID1,
+    "Customer #1 created."
+);
+my $CustomerID2 = $CustomerCompanyObject->CustomerCompanyAdd(
+    CustomerID          => 'test_Customer_2',
+    CustomerCompanyName => 'Test_Customer_2',
+    ValidID             => 1,
+    UserID              => 1,
+);
+$Self->True(
+    $CustomerID2,
+    "Customer #2 created."
+);
+
+# create 2 customer users
+my $CustomerUser1 = $CustomerUserObject->CustomerUserAdd(
+    Source         => 'CustomerUser',
+    UserFirstname  => 'John 1',
+    UserLastname   => 'Doe',
+    UserCustomerID => $CustomerID1,
+    UserLogin      => 'jdoe1',
+    UserEmail      => 'jdoe1@example.com',
+    ValidID        => 1,
+    UserID         => 1,
+);
+$Self->True(
+    $CustomerUser1,
+    "Customer user #1 created."
+);
+my $CustomerUser2 = $CustomerUserObject->CustomerUserAdd(
+    Source         => 'CustomerUser',
+    UserFirstname  => 'John 2',
+    UserLastname   => 'Doe',
+    UserCustomerID => $CustomerID2,
+    UserLogin      => 'jdoe2',
+    UserEmail      => 'jdoe2@example.com',
+    ValidID        => 1,
+    UserID         => 1,
+);
+$Self->True(
+    $CustomerUser2,
+    "Customer user #2 created."
+);
+my $GroupID2 = $GroupObject->GroupAdd(
+    Name    => 'Test_customer_group_#1',
+    ValidID => 1,
+    UserID  => 1,
+);
+$Self->True(
+    $GroupID2,
+    "Customer Group created."
+);
+my $SuccessGroupMemberAdd1 = $CustomerGroupObject->GroupMemberAdd(
+    GID        => $GroupID2,
+    UID        => $CustomerUser1,
+    Permission => {
+        ro        => 1,
+        move_into => 1,
+        create    => 1,
+        owner     => 1,
+        priority  => 0,
+        rw        => 0,
+    },
+    UserID => 1,
+);
+$Self->True(
+    $SuccessGroupMemberAdd1,
+    "Customer #1 added to the group."
+);
+my $SuccessGroupMemberAdd2 = $CustomerGroupObject->GroupMemberAdd(
+    GID        => $GroupID2,
+    UID        => $CustomerUser2,
+    Permission => {
+        ro        => 1,
+        move_into => 1,
+        create    => 1,
+        owner     => 1,
+        priority  => 0,
+        rw        => 0,
+    },
+    UserID => 1,
+);
+$Self->True(
+    $SuccessGroupMemberAdd2,
+    "Customer #2 added to the group."
+);
+
+# First get members while both companies are Valid
+my @Members1 = $CustomerGroupObject->GroupMemberList(
+    GroupID => $GroupID2,
+    Result  => 'ID',
+    Type    => 'ro',
+);
+$Self->IsDeeply(
+    \@Members1,
+    [
+        'jdoe1',
+        'jdoe2'
+    ],
+    "GroupMemberList() - 2 Customer users."
+);
+
+# set 2nd Customer company to invalid state
+my $CustomerInvalid = $CustomerCompanyObject->CustomerCompanyUpdate(
+    CustomerCompanyID   => $CustomerID2,
+    CustomerID          => 'test_Customer_2',
+    CustomerCompanyName => 'Test_Customer_2',
+    ValidID             => 2,
+    UserID              => 1,
+);
+$Self->True(
+    $CustomerInvalid,
+    "Set 2nd Customer company to invalid",
+);
+
+# Get group members again
+my @Members2 = $CustomerGroupObject->GroupMemberList(
+    GroupID => $GroupID2,
+    Result  => 'ID',
+    Type    => 'ro',
+);
+$Self->IsDeeply(
+    \@Members2,
+    [
+        'jdoe1',
+    ],
+    "GroupMemberList() - 2 Customer users."
+);
 
 # cleanup is done by RestoreDatabase
 
