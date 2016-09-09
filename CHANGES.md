@@ -1,4 +1,5 @@
 #4.0.19 2016-??-??
+ - 2016-09-09 Fixed bug#[5149](http://bugs.otrs.org/show_bug.cgi?id=5149) - Incomplete multipart/mixed processing causes incomplete display of e-mails.
  - 2016-09-09 Fixed bug#[12273](http://bugs.otrs.org/show_bug.cgi?id=12273) - ACLs do not work if referencing on DF with value 0.
  - 2016-09-09 Fixed bug#[11250](http://bugs.otrs.org/show_bug.cgi?id=11250) - Kernel\Output\HTML\PreferencesCustomService.pm Param() sub calls Service.pm ServiceList() without KeepChildren param.
  - 2016-09-02 Fixed bug#[12199](http://bugs.otrs.org/show_bug.cgi?id=12199) - ProcessManagement: Comma separated Lastnames are not shown correctly on article creation.
