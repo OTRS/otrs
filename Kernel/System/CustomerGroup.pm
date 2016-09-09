@@ -267,7 +267,7 @@ sub GroupMemberList {
             my ($UserType) = keys %{$Value};
             my ($Login)    = keys %{ $Value->{$UserType} };
 
-            # Bugfix #12285 - check if customer company is invalid and skip if so
+            # Bugfix #12285 - Check if customer user is valid.
             if ( $Param{GroupID} && $UserType eq 'CustomerUser' ) {
 
                 my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
