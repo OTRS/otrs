@@ -114,11 +114,11 @@ sub new {
         $ObjectType = [ 'Ticket', 'Article' ];
     }
 
-    # Get all registered dynamic fields, not just those configured to show on this screen, since
-    #   they might be used in ACLs.
+    # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => $ObjectType,
+        Valid       => 1,
+        ObjectType  => $ObjectType,
+        FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
 
     return $Self;
@@ -283,41 +283,28 @@ sub Run {
         ResponsibleID => $GetParam{NewResponsibleID},
     );
 
-    # Get dynamic field values from HTTP request and the ticket.
+    # get dynamic field values form http request
     my %DynamicFieldValues;
 
+    # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # If the dynamic field is configured to show on this screen, extract the value from the web
-        #   request.
-        if ( $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } ) {
-            $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldValueGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ParamObject        => $Self->{ParamObject},
-                LayoutObject       => $Self->{LayoutObject},
-            );
-        }
-
-        # Otherwise, get the current dynamic field value from the ticket.
-        else {
-            $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
-                = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-        }
+        # extract the dynamic field value form the web request
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ParamObject        => $Self->{ParamObject},
+            LayoutObject       => $Self->{LayoutObject},
+        );
     }
 
-    # Convert dynamic field values into a structure for ACLs. Make sure not to skip zero-values,
-    #   please see bug#12273 for more information.
+    # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
     for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
-        next DYNAMICFIELD if
-            !(
-            defined $DynamicFieldValues{$DynamicField}
-            && length $DynamicFieldValues{$DynamicField}
-            );
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
         $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
@@ -999,17 +986,12 @@ sub Run {
         my $QueueID = $GetParam{NewQueueID} || $Ticket{QueueID};
         my $StateID = $GetParam{NewStateID} || $Ticket{StateID};
 
-        # Convert dynamic field values into a structure for ACLs. Make sure not to skip zero-values,
-        #   please see bug#12273 for more information.
+        # convert dynamic field values into a structure for ACLs
         my %DynamicFieldACLParameters;
         DYNAMICFIELD:
         for my $DynamicField ( sort keys %DynamicFieldValues ) {
             next DYNAMICFIELD if !$DynamicField;
-            next DYNAMICFIELD if
-                !(
-                defined $DynamicFieldValues{$DynamicField}
-                && length $DynamicFieldValues{$DynamicField}
-                );
+            next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
             $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
         }
@@ -1079,7 +1061,6 @@ sub Run {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} };
 
             my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -1394,7 +1375,6 @@ sub Run {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} };
 
             my $PossibleValuesFilter;
 
@@ -1909,8 +1889,8 @@ sub _Mask {
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !$Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} };
 
         # skip fields that HTML could not be retrieved
         next DYNAMICFIELD if !IsHashRefWithData(
@@ -2541,7 +2521,6 @@ sub _GetFieldsToUpdate {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !$Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} };
 
         my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
