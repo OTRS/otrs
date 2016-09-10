@@ -58,7 +58,6 @@
 #5.0.13 2016-??-??
  - 2016-09-09 Fixed bug#[12290](http://bugs.otrs.org/show_bug.cgi?id=12290) - LDAP Size Limit exceeded is marked as error.
  - 2016-09-09 Fixed bug#[5149](http://bugs.otrs.org/show_bug.cgi?id=5149) - Incomplete multipart/mixed processing causes incomplete display of e-mails.
- - 2016-09-09 Fixed bug#[12273](http://bugs.otrs.org/show_bug.cgi?id=12273) - ACLs do not work if referencing on DF with value 0.
  - 2016-09-05 Added new console commands to print (Maint::Log::Print) and clear (Maint::Log::Clear) the OTRS log.
  - 2016-09-05 Followup for bug#[11922](http://bugs.otrs.org/show_bug.cgi?id=11922) - Notification to non RealCustomer.
  - 2016-09-02 Fixed bug#[12199](http://bugs.otrs.org/show_bug.cgi?id=12199) - ProcessManagement: Comma separated Lastnames are not shown correctly on article creation.
