@@ -830,43 +830,43 @@ sub _Overview {
         );
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # same Limit as $Self->{CustomerUserMap}->{CustomerUserSearchListLimit}
-    # smallest Limit from all sources
-    my $Limit = 400;
-    SOURCE:
-    for my $Count ( '', 1 .. 10 ) {
-        next SOURCE if !$ConfigObject->Get("CustomerUser$Count");
-        my $CustomerUserMap = $ConfigObject->Get("CustomerUser$Count");
-        next SOURCE if !$CustomerUserMap->{CustomerUserSearchListLimit};
-        if ( $CustomerUserMap->{CustomerUserSearchListLimit} < $Limit ) {
-            $Limit = $CustomerUserMap->{CustomerUserSearchListLimit};
-        }
-    }
-
-    my %ListAllItems = $CustomerUserObject->CustomerSearch(
-        Search => $Param{Search},
-        Limit  => $Limit + 1,
-        Valid  => 0,
-    );
-
-    if ( keys %ListAllItems <= $Limit ) {
-        my $ListAllItems = keys %ListAllItems;
-        $LayoutObject->Block(
-            Name => 'OverviewHeader',
-            Data => {
-                ListAll => $ListAllItems,
-                Limit   => $Limit,
-            },
-        );
-    }
-
-    # when there is no data to show, a message is displayed on the table with this colspan
-    my $ColSpan = 6;
-
     if ( $Param{Search} ) {
+
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # when there is no data to show, a message is displayed on the table with this colspan
+        my $ColSpan = 6;
+
+        # same Limit as $Self->{CustomerUserMap}->{CustomerUserSearchListLimit}
+        # smallest Limit from all sources
+        my $Limit = 400;
+        SOURCE:
+        for my $Count ( '', 1 .. 10 ) {
+            next SOURCE if !$ConfigObject->Get("CustomerUser$Count");
+            my $CustomerUserMap = $ConfigObject->Get("CustomerUser$Count");
+            next SOURCE if !$CustomerUserMap->{CustomerUserSearchListLimit};
+            if ( $CustomerUserMap->{CustomerUserSearchListLimit} < $Limit ) {
+                $Limit = $CustomerUserMap->{CustomerUserSearchListLimit};
+            }
+        }
+
+        my %ListAllItems = $CustomerUserObject->CustomerSearch(
+            Search => $Param{Search},
+            Limit  => $Limit + 1,
+            Valid  => 0,
+        );
+
+        if ( keys %ListAllItems <= $Limit ) {
+            my $ListAllItems = keys %ListAllItems;
+            $LayoutObject->Block(
+                Name => 'OverviewHeader',
+                Data => {
+                    ListAll => $ListAllItems,
+                    Limit   => $Limit,
+                },
+            );
+        }
 
         my %List = $CustomerUserObject->CustomerSearch(
             Search => $Param{Search},
