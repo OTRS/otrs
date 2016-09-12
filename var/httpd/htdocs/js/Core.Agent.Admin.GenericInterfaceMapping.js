@@ -25,20 +25,34 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
      * @name Init
      * @memberof Core.Agent.Admin.GenericInterfaceMapping
      * @function
+     * @description
+     *      This function initialize module functionality.
+     */
+    TargetNS.Init = function () {
+        var MappingSimpleData = Core.Config.Get('MappingSimple');
+
+        if (typeof MappingSimpleData !== 'undefined') {
+            TargetNS.MappingSimpleInit(MappingSimpleData);
+        }
+    };
+
+    /**
+     * @name MappingSimpleInit
+     * @memberof Core.Agent.Admin.GenericInterfaceMapping
+     * @function
      * @param {Object} Params - Initialization and internationalization parameters.
      * @description
      *      This function initialize correctly all other function according to the local language.
      */
-    TargetNS.Init = function (Params) {
+    TargetNS.MappingSimpleInit = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
-        TargetNS.Localization = Params.Localization;
         TargetNS.DeletedString = Params.DeletedString;
 
         // remove Validate_Required class from templates, if not
         // a validation is fire on hidden fields
         $('.KeyTemplate').find(':input').removeClass('Validate_Required');
 
-        $('.DefaultType').bind('change', function(){
+        $('.DefaultType').on('change', function(){
 
             // call function to hide or show
             // MapTo field
@@ -46,26 +60,26 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
         });
 
         // register add of attribute
-        $('#AddKeyMapping').bind('click', function () {
+        $('#AddKeyMapping').on('click', function () {
             TargetNS.AddKeyMapping();
             return false;
         });
 
         // register change new key name action
-        $('.NewValue').bind('change', function(){
+        $('.NewValue').on('change', function(){
 
             // modified title
             $(this).closest('.WidgetKey').find('.Title').html('Mapping for Key ' + $(this).val());
         });
 
         // register remove key action
-        $('.AdditionalInformation .KeyMapRemove').bind('click', function () {
+        $('.AdditionalInformation .KeyMapRemove').on('click', function () {
             TargetNS.ShowDeleteDialog($(this).attr('id'));
             return false;
         });
 
         // bind click function to add button
-        $('.ValueAdd').bind('click', function () {
+        $('.ValueAdd').on('click', function () {
             TargetNS.AddValueMapping(
                 $(this).closest('fieldset').parent().find('.ValueInsert'),
                 $(this).closest('fieldset').parent().find('.KeyIndex').val()
@@ -74,14 +88,14 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
         });
 
         // bind click function to remove button
-        $('.ValueRemove').bind('click', function () {
+        $('.ValueRemove').on('click', function () {
             TargetNS.RemoveValueMapping($(this));
         //            $(this).parent().remove();
             return false;
         });
 
         // bind click function to save and finish button
-        $('#SaveAndFinishButton').bind('click', function(){
+        $('#SaveAndFinishButton').on('click', function(){
             $('#ReturnToAction').val(1);
         });
     };
@@ -120,7 +134,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
             if($(this).hasClass('ValueAdd')) {
 
                 // bind click function to add button
-                $(this).bind('click', function () {
+                $(this).on('click', function () {
                     TargetNS.AddValueMapping($(this).closest('fieldset').parent().find('.ValueInsert'), KeyCounter);
                     return false;
                 });
@@ -129,14 +143,14 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
             if($(this).hasClass('KeyMapRemove')) {
 
                 // bind click function to remove button
-                $(this).bind('click', function () {
+                $(this).on('click', function () {
                     TargetNS.ShowDeleteDialog($(this).attr('id'));
                     return false;
                 });
             }
 
             if($(this).hasClass('DefaultType')) {
-                $(this).bind('change', function(){
+                $(this).on('change', function(){
 
                     // call function to hide or show
                     // MapTo field
@@ -145,7 +159,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
             }
 
             if($(this).hasClass('NewValue')) {
-                $(this).bind('change', function(){
+                $(this).on('change', function(){
 
                     // modified title
                     $(this).closest('.WidgetKey').find('.Title').html('Mapping for Key ' + $(this).val());
@@ -219,7 +233,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
             if($(this).hasClass('ValueRemove')) {
 
                 // bind click function to remove button
-                $(this).bind('click', function () {
+                $(this).on('click', function () {
                     // remove row
                     TargetNS.RemoveValueMapping($(this));
                     return false;
@@ -300,20 +314,20 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
     TargetNS.ShowDeleteDialog = function(IDSelector){
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteDialogContainer'),
-            TargetNS.Localization.DeleteKeyMappingtMsg,
+            Core.Language.Translate('Delete this Key Mapping'),
             '240px',
             'Center',
             true,
             [
                {
-                   Label: TargetNS.Localization.DeleteMsg,
+                   Label: Core.Language.Translate('Delete'),
                    Function: function () {
                        $('#' + IDSelector).closest('.WidgetKey').remove();
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
                    }
                },
                {
-                   Label: TargetNS.Localization.CancelMsg,
+                   Label: Core.Language.Translate('Cancel'),
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
                    }
@@ -321,6 +335,8 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
            ]
         );
     };
+
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.Agent.Admin.GenericInterfaceMapping || {}));

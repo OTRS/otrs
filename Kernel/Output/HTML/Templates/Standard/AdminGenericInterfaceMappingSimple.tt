@@ -269,12 +269,3 @@
     </p>
     <div class="SpacingTop"></div>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.GenericInterfaceMapping.Init({
-    WebserviceID: [% Data.WebserviceID | html %],
-    DeletedString: "[% Data.DeletedString | html %]"
-});
-//]]></script>
-[% END %]
