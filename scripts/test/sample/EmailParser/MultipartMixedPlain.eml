@@ -25,11 +25,11 @@ Content-Transfer-Encoding: 7bit
 1
 
 --Apple-Mail=_45B3B511-DB24-43C9-8C4C-BE38C57C5140
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=utf-8
 
 
 
-second part
+second part äöø
 --Apple-Mail=_45B3B511-DB24-43C9-8C4C-BE38C57C5140--
