@@ -172,10 +172,4 @@
     <div class="Clear"></div>
 </div>
 
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#Filter'), $('#UserRoles'));
-//]]></script>
-[% END %]
-
 [% RenderBlockEnd("Change") %]
