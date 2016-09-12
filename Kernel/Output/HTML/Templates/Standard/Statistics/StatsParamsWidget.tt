@@ -122,31 +122,6 @@
         [% Data.TimeScaleUnit %]
     </div>
     <div class="Clear"></div>
-[% IF Data.Use == 'UseAsValueSeries' %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-    $('#[% Data.XAxisTimeScaleElementID %]').on('change', function() {
-        var TimeScaleYAxis = [% JSON(Data.TimeScaleYAxis) %],
-        $TimeScaleElement = $('#[% Data.TimeScaleElementID %]'),
-        XAxisTimeScaleValue = $(this).val();
-
-        // reset the current time scale dropdown for the y axis
-        $TimeScaleElement.empty();
-
-        if ( XAxisTimeScaleValue in TimeScaleYAxis ) {
-            $.each(TimeScaleYAxis[XAxisTimeScaleValue], function (Index, Item) {
-                var TimeScaleOption = new Option(Item.Value, Item.Key);
-
-                // Overwrite option text, because of wrong html quoting of text content.
-                // (This is needed for IE.)
-                TimeScaleOption.innerHTML = Item.Value;
-                $TimeScaleElement.append(TimeScaleOption);
-            });
-        }
-    });
-//]]></script>
-[% END %]
-[% END %]
 [% RenderBlockEnd("TimeScale") %]
 
 [% RenderBlockStart("TimePeriodRelative") %]
@@ -160,40 +135,3 @@
 [% RenderBlockEnd("Element") %]
 </fieldset>
 [% RenderBlockEnd("Dynamic") %]
-[% IF Data.AJAX %]
-<script type="text/javascript">//<![CDATA[
-Core.UI.InputFields.Activate();
-//]]></script>
-[% END %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('.DataShowMore').on('click', function() {
-    if ($(this).find('.More').is(':visible')) {
-        $(this)
-            .find('.More')
-            .hide()
-            .next('.Less')
-            .show()
-            .parent()
-            .prev('.DataFull')
-            .show()
-            .prev('.DataTruncated')
-            .hide()
-    }
-    else {
-        $(this)
-            .find('.More')
-            .show()
-            .next('.Less')
-            .hide()
-            .parent()
-            .prev('.DataFull')
-            .hide()
-            .prev('.DataTruncated')
-            .show()
-    }
-    return false;
-});
-//]]></script>
-[% END %]

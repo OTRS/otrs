@@ -8804,6 +8804,7 @@ via the Preferences button after logging in.
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                     <JavaScript>Core.Agent.Dashboard.js</JavaScript>
+                    <JavaScript>Core.Agent.Statistics.ParamsWidget.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9872,6 +9873,7 @@ via the Preferences button after logging in.
                     <JavaScript>thirdparty/StringView-8/stringview.js</JavaScript>
                     <JavaScript>Core.Agent.Statistics.js</JavaScript>
                     <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
+                    <JavaScript>Core.Agent.Statistics.ParamsWidget.js</JavaScript>
                     <CSS>thirdparty/nvd3-1.7.1/nv.d3.css</CSS>
                     <CSS>Core.Agent.Statistics.css</CSS>
                 </Loader>

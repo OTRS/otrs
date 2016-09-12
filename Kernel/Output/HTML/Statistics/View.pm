@@ -543,7 +543,14 @@ sub StatsParamsWidget {
                                 Name => 'TimeScale',
                                 Data => {
                                     %BlockData,
-                                    Use => $Use,
+                                },
+                            );
+
+                            # send data to JS
+                            $LayoutObject->AddJSData(
+                                Key   => 'StatsParamData',
+                                Value => {
+                                    %BlockData
                                 },
                             );
                         }
@@ -577,6 +584,15 @@ sub StatsParamsWidget {
 
     for my $Field (qw(CreatedBy ChangedBy)) {
         $Stat->{$Field} = $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Stat->{$Field} );
+    }
+
+    if ( $Param{AJAX} ) {
+
+        # send data to JS
+        $LayoutObject->AddJSData(
+            Key   => 'StatsWidgetAJAX',
+            Value => $Param{AJAX}
+        );
     }
 
     $Output .= $LayoutObject->Output(
