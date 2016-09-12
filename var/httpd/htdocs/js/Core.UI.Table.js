@@ -40,7 +40,7 @@ Core.UI.Table = (function (TargetNS) {
             $Rows = $Rows.find('td:eq(' + ColumnNumber + ')');
         }
 
-        $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
+        $FilterInput.off('keydown.FilterInput').on('keydown.FilterInput', function () {
 
             window.clearTimeout(Timeout);
             Timeout = window.setTimeout(function () {
@@ -109,7 +109,7 @@ Core.UI.Table = (function (TargetNS) {
         });
 
         // Prevent submit when the Return key was pressed
-        $FilterInput.unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
+        $FilterInput.off('keypress.FilterInput').on('keypress.FilterInput', function (Event) {
             if ((Event.charCode || Event.keyCode) === 13) {
                 Event.preventDefault();
             }
