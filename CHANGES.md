@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-09-12 Fixed bug#[12296](http://bugs.otrs.org/show_bug.cgi?id=12296) - ArticleComposeCrypt.pm not in @INC  after upgrade from 4 to 5.
  - 2016-09-09 Fixed bug#[12290](http://bugs.otrs.org/show_bug.cgi?id=12290) - LDAP Size Limit exceeded is marked as error.
  - 2016-09-09 Fixed bug#[5149](http://bugs.otrs.org/show_bug.cgi?id=5149) - Incomplete multipart/mixed processing causes incomplete display of e-mails.
  - 2016-09-05 Added new console commands to print (Maint::Log::Print) and clear (Maint::Log::Clear) the OTRS log.
