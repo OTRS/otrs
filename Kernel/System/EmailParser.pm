@@ -643,7 +643,9 @@ sub PartsAttachments {
     # get attachment meta stuff
     my %PartData;
 
-    $PartData{ContentAlternative} = $ContentAlternative if ($ContentAlternative);
+    if ($ContentAlternative) {
+        $PartData{ContentAlternative} = $ContentAlternative;
+    }
 
     # get ContentType
     $Part->head()->unfold();
@@ -777,26 +779,41 @@ sub PartsAttachments {
         )
     {
         # Is it a plain or HTML body?
-        my $AttachmentKey
-            = $PartData{ContentType} =~ /text\/html/i ? 'HTMLContentAttachment' : 'PlainContentAttachment';
+        my $MimeType = $PartData{ContentType} =~ /text\/html/i ? 'text/html' : 'text/plain';
+        my $AttachmentKey = 'AttachmentFor_' . $MimeType;
+
+        # For concatenating multipart/mixed text parts, we have to convert all of them to utf-8 to be sure that
+        #   the contents fit together and that all characters can be displayed.
+        $PartData{Content} = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+            Text  => $PartData{Content},
+            From  => $PartData{Charset},
+            Check => 1,
+        );
+        $PartData{ContentType} = "$MimeType; charset=utf-8";
+        my $OldCharset = $PartData{Charset};
+        $PartData{Charset} = "utf-8";
+
+        # Also replace charset in meta tags of HTML emails.
+        if ( $MimeType eq 'text/html' ) {
+            $PartData{Content} =~ s/(<meta[^>]+charset=("|'|))\Q$OldCharset\E/$1utf-8/gi;
+        }
+
+        $PartData{Filesize} = bytes::length( $PartData{Content} );
 
         # Is it the first body element found? Then remember it.
         if ( !$Self->{$AttachmentKey} ) {
             $Self->{$AttachmentKey} = \%PartData;
         }
+
         # Is it a subsequent body element? Then concatenate it to the first one and skip it as attachment.
-        elsif (
-            $PartData{Charset} eq $Self->{$AttachmentKey}->{Charset}
-            && $PartData{ContentType} eq $Self->{$AttachmentKey}->{ContentType}
-            )
-        {
+        else {
+            # This concatenation only works if all parts have the utf-8 flag on (from Convert2CharsetInternal).
             $Self->{$AttachmentKey}->{Content} .= $PartData{Content};
             $Self->{$AttachmentKey}->{Filesize} += $PartData{Filesize};
-            return 1;   # Don't create an attachment for this part.
+            return 1;    # Don't create an attachment for this part.
         }
     }
 
-    # store data
     push @{ $Self->{Attachments} }, \%PartData;
     return 1;
 }
