@@ -6,8 +6,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
-
 <script type="text/javascript">//<![CDATA[
     "use strict";
 
@@ -36,43 +34,6 @@ Core.App.Ready(function () {
     Core.Init.ExecuteInit('APP_GLOBAL_EARLY');
     Core.Init.ExecuteInit('APP_GLOBAL');
     Core.Init.ExecuteInit('APP_GLOBAL_LATE');
-
-[% IF !Data.OTRSBusinessIsInstalled %]
-    $('body').on('click', 'a.OTRSBusinessRequired', function() {
-        Core.UI.Dialog.ShowContentDialog(
-            '<div class="OTRSBusinessRequiredDialog">' + [% Translate('This feature is part of the %s.  Please contact us at %s for an upgrade.', OTRSBusinessLabel, 'sales@otrs.com') | JSON %] + '<a class="Hidden" href="http://www.otrs.com/solutions/" target="_blank"><span></span></a></div>',
-            '',
-            '240px',
-            'Center',
-            true,
-            [
-               {
-                   Label: [% Translate('Close dialog') | JSON %],
-                   Class: 'Primary',
-                   Function: function () {
-                       Core.UI.Dialog.CloseDialog($('.OTRSBusinessRequiredDialog'));
-                   }
-               },
-               {
-                   Label: [% Translate('Find out more about the %s', 'OTRS Business Solution™') | JSON %],
-                   Class: 'Primary',
-                   Function: function () {
-                       $('.OTRSBusinessRequiredDialog').find('a span').trigger('click');
-                   }
-               }
-            ]
-        );
-        return false;
-    });
-[% END %]
-
-[% RenderBlockStart("NewTicketInNewWindow") %]
-    $('#nav-Tickets-Newphoneticket a').attr('target', '_blank');
-    $('#nav-Tickets-Newemailticket a').attr('target', '_blank');
-    $('.PhoneTicket a').attr('target', '_blank');
-    $('.EmailTicket a').attr('target', '_blank');
-    $('.ProcessTicket a').attr('target', '_blank');
-[% RenderBlockEnd("NewTicketInNewWindow") %]
 
 });
 //]]></script>

@@ -67,14 +67,14 @@
             </td>
 [% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerUserTicketsClosed") %]
 [% RenderBlockStart("ContentLargeCustomerUserListNewAgentTicketPhone") %]
-            <td>
+            <td class="PhoneTicket">
                 <a href="[% Env("Baselink") %]Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=[% Data.CustomerKey | uri %]" title="[% Translate("New phone ticket from %s", Data.CustomerKey) | html %]">
                     <span>[% Translate("Create") | html %]</span>
                 </a>
             </td>
 [% RenderBlockEnd("ContentLargeCustomerUserListNewAgentTicketPhone") %]
 [% RenderBlockStart("ContentLargeCustomerUserListNewAgentTicketEmail") %]
-            <td>
+            <td class="EmailTicket">
                 <a href="[% Env("Baselink") %]Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=[% Data.CustomerKey | uri %]" title="[% Translate("New email ticket to %s", Data.CustomerKey) | html %]">
                     <span>[% Translate("Create") | html %]</span>
                 </a>

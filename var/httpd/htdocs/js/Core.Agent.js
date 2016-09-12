@@ -646,6 +646,16 @@ Core.Agent = (function (TargetNS) {
 
         // Initialize pagination
         TargetNS.InitPagination();
+
+        // Initialize OTRSBusinessRequired dialog
+        if (!parseInt(Core.Config.Get('OTRSBusinessIsInstalled'), 10)) {
+            InitOTRSBusinessRequiredDialog();
+        }
+
+        // Initialize ticket in new window
+        if (parseInt(Core.Config.Get('NewTicketInNewWindow'), 10)) {
+            InitTicketInNewWindow();
+        }
     };
 
     /**
@@ -741,6 +751,62 @@ Core.Agent = (function (TargetNS) {
                 return false;
             });
         }
+    }
+
+    /**
+     * @private
+     * @name InitOTRSBusinessRequiredDialog
+     * @memberof Core.Agent
+     * @function
+     * @description
+     *      Initialize OTRSBusinessRequired dialog on click
+     */
+    function InitOTRSBusinessRequiredDialog () {
+        var OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™';
+
+        $('body').on('click', 'a.OTRSBusinessRequired', function() {
+            Core.UI.Dialog.ShowContentDialog(
+                '<div class="OTRSBusinessRequiredDialog">' + Core.Language.Translate('This feature is part of the %s.  Please contact us at %s for an upgrade.', OTRSBusinessLabel, 'sales@otrs.com') + '<a class="Hidden" href="http://www.otrs.com/solutions/" target="_blank"><span></span></a></div>',
+                '',
+                '240px',
+                'Center',
+                true,
+                [
+                   {
+                       Label: Core.Language.Translate('Close dialog'),
+                       Class: 'Primary',
+                       Function: function () {
+                           Core.UI.Dialog.CloseDialog($('.OTRSBusinessRequiredDialog'));
+                       }
+                   },
+                   {
+                       Label: Core.Language.Translate('Find out more about the %s', 'OTRS Business Solution™'),
+                       Class: 'Primary',
+                       Function: function () {
+                           $('.OTRSBusinessRequiredDialog').find('a span').trigger('click');
+                       }
+                   }
+                ]
+            );
+            return false;
+        });
+    }
+
+    /**
+     * @private
+     * @name InitTicketInNewWindow
+     * @memberof Core.Agent
+     * @function
+     * @description
+     *      Initializes ticket in new window
+     */
+    function InitTicketInNewWindow () {
+        $('#nav-Tickets-Newphoneticket a').attr('target', '_blank');
+        $('#nav-Tickets-Newemailticket a').attr('target', '_blank');
+        $('#nav-Tickets-Newprocessticket a').attr('target', '_blank');
+        $('.PhoneTicket a').attr('target', '_blank');
+        $('.EmailTicket a').attr('target', '_blank');
+        $('.ProcessTicket a').attr('target', '_blank');
     }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL_EARLY');

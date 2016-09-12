@@ -1506,10 +1506,11 @@ sub Footer {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # NewTicketInNewWindow
+    # send data to JS if NewTicketInNewWindow is enabled
     if ( $ConfigObject->Get('NewTicketInNewWindow::Enabled') ) {
-        $Self->Block(
-            Name => 'NewTicketInNewWindow',
+        $Self->AddJSData(
+            Key   => 'NewTicketInNewWindow',
+            Value => 1,
         );
     }
 
