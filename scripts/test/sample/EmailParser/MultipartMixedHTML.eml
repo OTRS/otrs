@@ -8,15 +8,15 @@ X-Mailer: Apple Mail (2.3124)
 
 
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=utf-8
 
 first part
 
 
 
-second part
+second part äöø
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10
 Content-Type: multipart/mixed;
 	boundary="Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655"
@@ -38,11 +38,11 @@ Content-Transfer-Encoding: 7bit
 1
 
 --Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Type: text/html;
-	charset=us-ascii
+	charset=utf-8
 
-<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div class=""></div><div class=""><br class=""></div><div class="">second part</div></body></html>
+<html><head><meta http-equiv="Content-Type" content="text/html charset=utf-8"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div class=""></div><div class=""><br class=""></div><div class="">second part äöø</div></body></html>
 --Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655--
 
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--

@@ -18,98 +18,103 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my @Tests = (
     {
-        Name     => "plain email",
+        Name     => "plain email with ascii and utf-8 part",
         RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedPlain.eml",
         Body     => 'first part
 
 
 
-second part',
+second part äöø',
         Attachments => [
-            # Look for the concatenated plain body part.
+
+            # Look for the concatenated plain body part that was converted to utf-8.
             {
-                'Charset' => 'us-ascii',
+                'Charset' => 'utf-8',
                 'Content' => 'first part
 
 
 
-second part',
+second part äöø',
                 'ContentID'       => undef,
                 'ContentLocation' => undef,
-                'ContentType'     => 'text/plain; charset=us-ascii',
+                'ContentType'     => 'text/plain; charset=utf-8',
                 'Disposition'     => undef,
                 'Filename'        => 'file-1',
-                'Filesize'        => 25,
+                'Filesize'        => 32,
                 'MimeType'        => 'text/plain'
             },
+
             # Look for the attachment.
             {
-                'Charset' => '',
-                'Content' => "1\n",
+                'Charset'            => '',
+                'Content'            => "1\n",
                 'ContentDisposition' => "attachment; filename=1.txt\n",
-                'ContentID'       => undef,
-                'ContentLocation' => undef,
-                'ContentType'     => 'text/plain; name="1.txt"',
-                'Disposition'     => 'attachment; filename=1.txt',
-                'Filename'        => '1.txt',
-                'Filesize'        => 2,
-                'MimeType'        => 'text/plain'
+                'ContentID'          => undef,
+                'ContentLocation'    => undef,
+                'ContentType'        => 'text/plain; name="1.txt"',
+                'Disposition'        => 'attachment; filename=1.txt',
+                'Filename'           => '1.txt',
+                'Filesize'           => 2,
+                'MimeType'           => 'text/plain'
             }
         ],
     },
     {
-        Name     => "plain email",
+        Name     => "HTML email with ascii and utf-8 part",
         RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedHTML.eml",
         Body     => 'first part
 
 
 
-second part',
+second part äöø',
         Attachments => [
+
             # Look for the plain body part.
             {
-                'Charset' => 'us-ascii',
+                'Charset' => 'utf-8',
                 'Content' => 'first part
 
 
 
-second part',
+second part äöø',
                 'ContentAlternative' => 1,
                 'ContentID'          => undef,
                 'ContentLocation'    => undef,
-                'ContentType'        => 'text/plain; charset=us-ascii',
+                'ContentType'        => 'text/plain; charset=utf-8',
                 'Disposition'        => undef,
                 'Filename'           => 'file-1',
-                'Filesize'           => 25,
+                'Filesize'           => 32,
                 'MimeType'           => 'text/plain'
             },
-            # Look for the concatenated HTML body part.
+
+            # Look for the concatenated HTML body part that was converted to utf-8.
             {
-                'Charset' => 'us-ascii',
+                'Charset' => 'utf-8',
                 'Content' =>
-                    '<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><b class="">first</b> part<div class=""><br class=""></div><div class=""></div></body></html><html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div class=""></div><div class=""><br class=""></div><div class="">second part</div></body></html>',
+                    '<html><head><meta http-equiv="Content-Type" content="text/html charset=utf-8"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><b class="">first</b> part<div class=""><br class=""></div><div class=""></div></body></html><html><head><meta http-equiv="Content-Type" content="text/html charset=utf-8"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div class=""></div><div class=""><br class=""></div><div class="">second part äöø</div></body></html>',
                 'ContentAlternative' => 1,
                 'ContentID'          => undef,
                 'ContentLocation'    => undef,
-                'ContentType'        => 'text/html; charset=us-ascii',
+                'ContentType'        => 'text/html; charset=utf-8',
                 'Disposition'        => undef,
                 'Filename'           => 'file-2',
-                'Filesize'           => 589,
+                'Filesize'           => 590,
                 'MimeType'           => 'text/html'
             },
+
             # Look for the attachment.
             {
-                'Charset' => '',
-                'Content' => "1\n",
+                'Charset'            => '',
+                'Content'            => "1\n",
                 'ContentAlternative' => 1,
                 'ContentDisposition' => "attachment; filename=1.txt\n",
-                'ContentID'       => undef,
-                'ContentLocation' => undef,
-                'ContentType'     => 'text/plain; name="1.txt"',
-                'Disposition'     => 'attachment; filename=1.txt',
-                'Filename'        => '1.txt',
-                'Filesize'        => 2,
-                'MimeType'        => 'text/plain'
+                'ContentID'          => undef,
+                'ContentLocation'    => undef,
+                'ContentType'        => 'text/plain; name="1.txt"',
+                'Disposition'        => 'attachment; filename=1.txt',
+                'Filename'           => '1.txt',
+                'Filesize'           => 2,
+                'MimeType'           => 'text/plain'
             }
         ],
     },
@@ -136,6 +141,13 @@ for my $Test (@Tests) {
         $Test->{Body},
         "Test->{Name} - body",
     );
+
+    # Turn on utf-8 flag for parts that were not converted but are still utf-8 for correct comparison.
+    for my $Attachment (@Attachments) {
+        if ( $Attachment->{Charset} eq 'utf-8' ) {
+            Encode::_utf8_on( $Attachment->{Content} );
+        }
+    }
 
     $Self->IsDeeply(
         \@Attachments,
