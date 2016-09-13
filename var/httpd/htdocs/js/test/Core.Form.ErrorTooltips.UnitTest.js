@@ -49,12 +49,12 @@ Core.Form.ErrorTooltips = (function (Namespace) {
             Assert.notOk($(ErrorTooltipID).find('div:eq(1)').length, 'Not found ErrorTooltip on InitTooltip() without focus on the field');
 
             // Put focus on test field
-            $('#TestField').focus();
+            $('#TestField').triggerHandler('focus');
             Assert.ok($(ErrorTooltipID).find('div:eq(1)').length, 'Found ErrorTooltip on InitTooltip() with focus on the field');
             Assert.equal($(ErrorTooltipID).find('div:eq(1)').text(), ErrorTooltipMessage, 'ErrorTooltip message is correct');
 
             // Remove focus from test field
-            $('#TestField').blur();
+            $('#TestField').triggerHandler('blur');
             Assert.notOk($(ErrorTooltipID).find('div:eq(1)').length, 'Not found ErrorTooltip on InitTooltip() when focus is removed again');
 
             // Test RemoveTooltip() function
@@ -62,7 +62,7 @@ Core.Form.ErrorTooltips = (function (Namespace) {
             Assert.notOk($(ErrorTooltipID).find('div:eq(1)').length, 'Not found ErrorTooltip on RemoveTooltip() without focus on the field');
 
             // Put focus on test field
-            $('#TestField').focus();
+            $('#TestField').triggerHandler('focus');
             Assert.notOk($(ErrorTooltipID).find('div:eq(1)').length, 'Not found ErrorTooltip on RemoveTooltip() with focus on the field');
 
             /*
