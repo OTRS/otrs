@@ -294,8 +294,8 @@ sub Run {
                     )
                 {
 
-                    # return if not customer user ID
-                    return if !$Bundle->{Recipient}->{UserID};
+                    # Not UserID means it's not a mapped customer.
+                    next BUNDLE if !$Bundle->{Recipient}->{UserID};
                 }
 
                 my $Success = $Self->_SendRecipientNotification(
