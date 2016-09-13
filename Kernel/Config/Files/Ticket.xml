@@ -7816,7 +7816,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerNotifyJustToRealCustomer" Required="1" Valid="1">
-        <Description Translatable="1">Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.</Description>
+        <Description Translatable="1">Sends customer notifications just to the mapped customer.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
