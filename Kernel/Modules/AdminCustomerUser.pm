@@ -431,25 +431,19 @@ sub Run {
 
                 # get user data and show screen again
                 if ( !$Note ) {
-                    $Self->_Overview(
-                        Nav    => $Nav,
-                        Search => $Search,
-                    );
-                    my $Output = $NavBar . $Note;
-                    $Output .= $LayoutObject->Notify( Info => Translatable('Customer updated!') );
-                    $Output .= $LayoutObject->Output(
-                        TemplateFile => 'AdminCustomerUser',
-                        Data         => \%Param,
-                    );
 
-                    if ( $Nav eq 'None' ) {
-                        $Output .= $LayoutObject->Footer( Type => 'Small' );
+                    # if the user would like to continue editing the priority, just redirect to the edit screen
+                    if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+                        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+                        return $LayoutObject->Redirect(
+                            OP => "Action=$Self->{Action};Subaction=Change;ID=$ID;Search=$Search;Nav=$Nav"
+                        );
                     }
                     else {
-                        $Output .= $LayoutObject->Footer();
-                    }
 
-                    return $Output;
+                        # otherwise return to overview
+                        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+                    }
                 }
             }
             else {
