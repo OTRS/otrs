@@ -1,4 +1,6 @@
-#5.0.13 2016-??-??
+#5.0.14 2016-??-??
+
+#5.0.13 2016-09-20
  - 2016-09-14 Updated translations, thanks to all translators.
  - 2016-09-12 Fixed bug#[11365](http://bugs.otrs.org/show_bug.cgi?id=11365) - ACLs editor shows actions where ACLs does not apply.
  - 2016-09-12 Fixed bug#[12297](http://bugs.otrs.org/show_bug.cgi?id=12297) - AdminCustomerUser and AdminCustomerCompany generate log errors if RunInitialWildcardSearch is disabled.
