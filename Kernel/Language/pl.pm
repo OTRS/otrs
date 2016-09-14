@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.704839382561535;
+    $Self->{Completeness}        = 0.704914618908788;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -245,7 +245,7 @@ sub Data {
             'Wpisany adres e-mail już istnieje. Wystarczy się zalogować lub skorzystać z funkcji resetowania hasła.',
         'Logout' => 'Wyloguj',
         'Logout successful. Thank you for using %s!' => 'Wylogowanie udane. Dziękujemy za używanie %s!',
-        'Feature not active!' => 'Funkcja nie aktywna!',
+        'Feature not active!' => 'Funkcja nieaktywna!',
         'Agent updated!' => 'Agent został zaktualizowany!',
         'Database Selection' => 'Wybór bazy danych',
         'Create Database' => 'Utwórz bazę danych',
@@ -792,13 +792,13 @@ sub Data {
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             'Tutaj możesz wgrać pliki konfiguracyjne ACL do systemu. Plik musi być w formacie .yml takim jaki jest eksportowany z modułu edytora ACL.',
         'This field is required.' => 'To pole jest wymagane.',
-        'Overwrite existing ACLs?' => 'Nadpisać bieżący ACL?',
+        'Overwrite existing ACLs?' => 'Nadpisać istniejący ACL?',
         'Upload ACL configuration' => 'Wgraj konfigurację ACL',
         'Import ACL configuration(s)' => 'Importuj konfigurację ACL',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             'By utworzyć nowy ACL możesz importować te uprzednio eksportowane z innego systemu lub utworzyć kompletnie nowe.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            'Zmiany dokonane tu dla ACLi będą mieć znaczenie dla twojego systemu dopiero po ich zatwierdzeniu. Zatwierdzająć ACLe nowe dane zostaną zapisane w konfiguracji.',
+            'Zmiany dokonane tu dla reguł ACL będą mieć wpływ na zachowanie systemu dopiero po ich wdrożeniu. Podczas wdrażania danych ACL, zmiany zostaną zapisane w konfiguracji.',
         'ACLs' => 'ACLe',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Proszę zapamiętaj: Ta tabela reprezentuje kolejność wykonania ACLi. Jeśli potrzebujesz by kolejność była inna wówczas proszę zmień odpowiednio ich nazwy.',
@@ -858,7 +858,8 @@ sub Data {
         'You can use the following tags' => 'Możesz używać następujących znaczników',
         'To get the first 20 character of the subject.' => 'Pokaż pierwsze 20 znaków tematu.',
         'To get the first 5 lines of the email.' => 'Pokaż 5 linii wiadomości e-mail.',
-        'To get the realname of the sender (if given).' => 'Pokaż imię i nazwisko nadawcy (jeżeli podał).',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Pokaż właściwości wiadomości',
         ' e. g.' => 'np.',
         'Options of the current customer user data' => 'Opcje danych obecnego użytkownika',
@@ -908,7 +909,7 @@ sub Data {
         'Add customer' => 'Dodaj użytkownika',
         'Select' => 'Zaznacz',
         'List (only %s shown - more available)' => '',
-        'List (%s total)' => '',
+        'List (%s total)' => 'Lista (%s wszystkich)',
         'Please enter a search term to look for customers.' => 'Prosimy wprowadź frazę wyszukiwania by odszukać klientów.',
         'Add Customer' => 'Dodaj użytkownika',
 
@@ -944,7 +945,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Możesz zarządzać tymi grupami poprzez parametr "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtr dla grup.',
-        'Just start typing to filter...' => 'Aby filtrować, wystarczy zacąć pisać',
+        'Just start typing to filter...' => 'Aby filtrować, wystarczy zacząć pisać',
         'Select the customer:group permissions.' => 'Wybierz uprawnienia klient:grupa',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Jeśli nic nie zostało zaznaczone, wtedy nie ma uprawnień w tej grupie (zgłoszenia nie będą dostępne dla klienta).',
@@ -1194,6 +1195,12 @@ sub Data {
         'Param %s key' => 'Klucz parametru %s',
         'Param %s value' => 'Wartość parametru %s',
         'Save Changes' => 'Zapisz zmiany',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => 'Atrybuty danych obecnego użytkownika klienta',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => 'Wyniki',
         '%s Tickets affected! What do you want to do?' => 'Liczba wybranych zgłoszeń %s. Co chcesz zrobić?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1591,7 +1598,6 @@ sub Data {
         'Message body' => 'Treść wiadomości',
         'Add new notification language' => 'Dodaj nowy język powiadomienia',
         'Do you really want to delete this notification language?' => 'Czy na pewno chcesz usunąć ten język powiadomienia?',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Powiadomienia są wysyłane do agenta obsługi lub klienta',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Aby uzyskać pierwsze 20 znaków tematu (najnowszej wiadomości agenta).',
@@ -1601,14 +1607,11 @@ sub Data {
             'Aby uzyskać pierwsze 20 znaków tematu (najnowszej wiadomości klienta).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Aby uzyskać pierwsze 5 linii treści (najnowszej wiadomości klienta).',
-        'Attributes of the current customer user data' => 'Atrybuty danych obecnego użytkownika klienta',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => 'Przykładowe powiadomienie',
@@ -1804,7 +1807,7 @@ sub Data {
         'Process Management' => 'Zarządzanie procesami',
         'Filter for Processes' => 'Filtr procesów',
         'Create New Process' => 'Utwórz nowy proces',
-        'Deploy All Processes' => '',
+        'Deploy All Processes' => 'Wdróż wszystkie procesy',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Tutaj możesz załadować plik konfiguracji aby zaimportować proces do twojego systemu. Plik musi być w formacie .yml wyeksportowanym z modułu zarządzania procesami.',
         'Overwrite existing entities' => '',
@@ -1880,7 +1883,7 @@ sub Data {
         'Edit this transition' => 'Edytuj to przejście',
         'Transition Actions' => 'Akcje przejścia',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
-            'Możesz przypisać akcje przejścia do tego przejścia za pomoca przeciągania elementów myszką z listy po lewej stronie do listy po prawej stronie.',
+            'Możesz przypisać akcje przejścia do tego przejścia za pomocą przeciągania elementów myszką z listy po lewej stronie do listy po prawej stronie.',
         'Filter available Transition Actions' => 'Filtruj dostępne akcje przejścia',
         'Available Transition Actions' => 'Dostępne akcje przejścia',
         'Create New Transition Action' => 'Utwórz nową akcję przejścia',
@@ -1974,6 +1977,7 @@ sub Data {
             'Zwróć uwagę, że zmiana tego przejścia wpłynie na następujące procesy',
         'Transition' => 'Przejście',
         'Transition Name' => 'Nazwa przejścia',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Typ połączenia pomiędzy warunkami',
         'Remove this Condition' => 'Usuń ten warunek',
         'Type of Linking' => 'Typ połączenia',
@@ -2744,7 +2748,7 @@ sub Data {
         'Select this ticket' => 'Zaznacz to zgłoszenie',
         'First Response Time' => 'Czas pozostały do pierwszej odpowiedzi',
         'Update Time' => 'Czas pozostały do aktualizacji',
-        'Solution Time' => 'Czas pozostały do rozwiazania',
+        'Solution Time' => 'Czas pozostały do rozwiązania',
         'Move ticket to a different queue' => 'Przenieś zgłoszenie do innej kolejki',
         'Change queue' => 'Zmień kolejkę',
 
@@ -2795,7 +2799,10 @@ sub Data {
         'Remove' => 'Usuń',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Wyszukiwanie wg. parametrów Od, Do, CC, Tytuł, Treść ignoruje inne kryteria o tej samej nazwie.',
-        'Customer User Login' => 'Identyfikator użytkownika klienta',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Nazwa załącznika',
         '(e. g. m*file or myfi*)' => '(np. m*jplik lub mójpl*)',
         'Created in Queue' => 'Utworzono w kolejce',
@@ -2987,12 +2994,12 @@ sub Data {
         'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '',
+        'Start a chat from this ticket' => 'Rozpocznij czat z tego zgłoszenia',
         'Expand article' => 'Rozwiń wiadomość',
         'Information' => 'Informacje',
         'Next Steps' => 'Następne kroki',
         'Reply' => 'Odpowiedź',
-        'Chat Protocol' => '',
+        'Chat Protocol' => 'Protokół Czatu',
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => 'całodobowo',
@@ -3122,7 +3129,7 @@ sub Data {
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
-            'Musisz wpisać następujące polecenie w linii komend (Terminal/Shell).',
+            'Musisz wpisać następujące polecenie w linii komend (Terminal/Shell) jako root.',
         'Restart your webserver' => 'Uruchom ponownie serwer WWW',
         'After doing so your OTRS is up and running.' => 'Po zakończeniu tych czynności Twój system OTRS będzie gotowy do pracy.',
         'Start page' => 'Strona startowa',
@@ -3443,7 +3450,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => '',
-        'Yes, but require at least one active notification method' => '',
+        'Yes, but require at least one active notification method' => 'Tak, ale wymagaj przynajmniej jednej aktywnej metody powiadomienia',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3478,7 +3485,7 @@ sub Data {
         'Unknown Process %s!' => '',
         'There was an error generating a new EntityID for this Process' =>
             '',
-        'The StateEntityID for state Inactive does not exists' => '',
+        'The StateEntityID for state Inactive does not exists' => 'Nie istnieje identyfikator stanu "nieaktywny"',
         'There was an error creating the Process' => '',
         'There was an error setting the entity sync status for Process entity: %s' =>
             '',
@@ -3700,7 +3707,7 @@ sub Data {
         'You need move permissions!' => 'Wymaga uprawnień do przenoszenia!',
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
-        'Chat is not active.' => '',
+        'Chat is not active.' => 'Czat jest nieaktywny.',
         'No permission.' => 'Brak uprawnień!',
         '%s has left the chat.' => '%s opuścił czat.',
         'This chat has been closed and will be removed in %s hours.' => '',
@@ -3988,7 +3995,8 @@ sub Data {
         'State Type' => '',
         'Created Priority' => 'Utworzony priorytet',
         'Created State' => 'Utworzony stan',
-        'CustomerUserLogin' => 'Identyfikator użytkownika klienta',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Czas utworzenia',
         'Close Time' => 'Data zamknięcia',
         'Escalation - First Response Time' => '',
@@ -4876,6 +4884,8 @@ Thanks for your help!
             'Definiuje czy musi być sprawdzona ortografia w nowo tworzonej wiadomości interfejsu agenta.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
@@ -5627,7 +5637,7 @@ Thanks for your help!
         'FirstResponse' => 'Pierwsza odpowiedź',
         'FirstResponseDiffInMin' => 'Pierwsza odpowiedź w min. - różnica',
         'FirstResponseInMin' => 'Pierwsza odpowiedź w min.',
-        'Firstname Lastname' => 'Imię i Nazwisko',
+        'Firstname Lastname' => 'Imię Nazwisko',
         'Firstname Lastname (UserLogin)' => 'Imię Nazwisko (Login)',
         'FollowUp for [%s]. %s' => 'Nowa wiadomość nawiązująca do [%s]. %s',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
@@ -5776,7 +5786,7 @@ Thanks for your help!
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             'Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie zmiany priorytetu zgłoszenia w panelu agenta.',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
-            '',
+            'Jeśli aktywne, żadne z wyrażeń regularnych nie może pasować do adresu e-mail użytkownika by mógł on się zarejestrować.',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
@@ -5829,7 +5839,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
-        'Indonesian' => '',
+        'Indonesian' => 'Indonezyjski',
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
@@ -5848,8 +5858,8 @@ Thanks for your help!
         'Japanese' => '',
         'JavaScript function for the search frontend.' => '',
         'Last customer subject' => '',
-        'Lastname Firstname' => '',
-        'Lastname Firstname (UserLogin)' => 'Nazwisko Imie (Login)',
+        'Lastname Firstname' => 'Nazwisko Imię',
+        'Lastname Firstname (UserLogin)' => 'Nazwisko Imię (Login)',
         'Lastname, Firstname' => 'Nazwisko, Imię',
         'Lastname, Firstname (UserLogin)' => 'Nazwisko, Imię (Login)',
         'Latvian' => '',
@@ -6202,8 +6212,7 @@ Thanks for your help!
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Umieszcza wskazany adres jako BCC dla wszystkich wychodzących wiadomości e-mail. Proszę korzystać jedynie dla tworzenia kopii zapasowych.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6215,7 +6224,7 @@ Thanks for your help!
         'ServiceView' => 'PrzeglądUsług',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
-        'Set sender email addresses for this system.' => 'Ustaw adresa nadawcy dla tego systemu',
+        'Set sender email addresses for this system.' => 'Ustaw adresy e-mail nadawcy dla tego systemu',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Ustaw domyślną wysokość (w pixelach) dla artykułów HTML w AgentTicketZoom',
         'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
@@ -6638,7 +6647,7 @@ Thanks for your help!
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com).' =>
             '',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
-            'Wskazuje kolejność sortowania imion i nazwisk agentów.',
+            'Określa kolejność wyświetlania imienia i nazwiska agentów.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
             'Wskazuje ścieżkę do pliku dla logo w nagłówku strony (gif|jpg|png, 700 x 100 pixel).',
         'Specifies the path of the file for the performance log.' => 'skazuje ścieżkę do pliku z logiem wydajności.',
@@ -6840,7 +6849,7 @@ Thanks for your help!
             '',
         'Web View' => 'Widok strony',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            ' ',
+            'W momencie scalenia zgłoszeń, do zgłoszenia, które nie będzie aktywne zostanie dodana notatka. Tu można zdefiniować treść tej notatki (ten tekst nie może zostać zmieniony przez agenta).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
@@ -6850,9 +6859,9 @@ Thanks for your help!
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Twój wybór ulubionych kolejek. Będziesz również informowany e-mailami o tych kolejkach jeśli włączysz powiadamianie.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => 'załącznik',
         'debug' => 'debug',

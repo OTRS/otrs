@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.673133083020442;
+    $Self->{Completeness}        = 0.671178675551853;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -861,7 +861,8 @@ sub Data {
         'You can use the following tags' => 'U kunt de volgende tags gebruiken',
         'To get the first 20 character of the subject.' => 'Voor de eerste 20 tekens van het onderwerp.',
         'To get the first 5 lines of the email.' => 'Voor de eerste vijf regels van het e-mail bericht.',
-        'To get the realname of the sender (if given).' => 'Voor de echte naam van de afzender (indien beschikbaar).',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Voor de attributen van de interactie',
         ' e. g.' => ' bijv.',
         'Options of the current customer user data' => 'Attributen van de huidige klant',
@@ -1197,6 +1198,12 @@ sub Data {
         'Param %s key' => 'Parameter %s sleutel',
         'Param %s value' => 'Parameter %s waarde',
         'Save Changes' => 'Wijzigingen opslaan',
+        'Tag Reference' => 'Tag verwijzing',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => 'Attributen van de huidige klantengegevens',
+        'Attributes of the ticket data' => 'Eigenschappen van de ticket gegevens',
+        'Ticket dynamic fields internal key values' => 'Ticket dynamisch veld voor interne sleutelwaarden',
+        'Example note' => '',
         'Results' => 'Resultaten',
         '%s Tickets affected! What do you want to do?' => '%s tickets gevonden! Wat wilt u doen?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1594,7 +1601,6 @@ sub Data {
         'Message body' => 'Berichttekst',
         'Add new notification language' => 'Voeg nieuwe notificatie taal toe',
         'Do you really want to delete this notification language?' => 'Weet je zeker dat je deze notificatie taal wil verwijderen?',
-        'Tag Reference' => 'Tag verwijzing',
         'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een behandelaar.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Om de eerste 20 karakters van het onderwerp van de nieuwste behandelaars-interactie te tonen.',
@@ -1604,14 +1610,11 @@ sub Data {
             'Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie te tonen.',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Om de eerste vijf regels van de tekst van de nieuwste klant-interactie te tonen.',
-        'Attributes of the current customer user data' => 'Attributen van de huidige klantengegevens',
         'Attributes of the current ticket owner user data' => 'Eigenschappen van de huidige ticket eigenaar',
         'Attributes of the current ticket responsible user data' => 'Eigenschappen van de huidige ticket responsible',
         'Attributes of the current agent user who requested this action' =>
             'Eigenschappen van de agent die deze actie uitvoert',
         'Attributes of the recipient user for the notification' => 'Eigenschappen van de ontvanger van de notificatie',
-        'Attributes of the ticket data' => 'Eigenschappen van de ticket gegevens',
-        'Ticket dynamic fields internal key values' => 'Ticket dynamisch veld voor interne sleutelwaarden',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'Ticket dynamisch veld weergave waarden, handig voor dropdown en multiselect velden',
         'Example notification' => 'Voorbeeld notificatie',
@@ -1977,6 +1980,7 @@ sub Data {
             'Let op: het wijzigen van deze transitie heeft invloed op de volgende processen',
         'Transition' => 'Transitie',
         'Transition Name' => 'Naam',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Type koppeling tussen condities',
         'Remove this Condition' => 'Verwijder conditie',
         'Type of Linking' => 'Type koppeling',
@@ -2798,7 +2802,10 @@ sub Data {
         'Remove' => 'Verwijderen',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Doorzoek de velden Van, Aan, Cc, Onderwerp en de berichttekst, vervangt deze zoekvelden.',
-        'Customer User Login' => 'Klant login',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Bijlage Naam',
         '(e. g. m*file or myfi*)' => '(b.v. m*bestand of mijnbe*)',
         'Created in Queue' => 'Aangemaakt in wachtrij',
@@ -3991,7 +3998,8 @@ sub Data {
         'State Type' => 'Status type',
         'Created Priority' => 'Aangemaakt met prioriteit',
         'Created State' => 'Aangemaakt met status',
-        'CustomerUserLogin' => 'Klantlogin',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Aangemaakt op',
         'Close Time' => 'Afsluitingstijd',
         'Escalation - First Response Time' => 'Escalatie - eerste reactietijd',
@@ -4889,6 +4897,8 @@ Het Helpdesk Team
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6216,8 +6226,7 @@ Het Helpdesk Team
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6864,9 +6873,9 @@ Het Helpdesk Team
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Uw selectie van favoriete wachtrijen. U ontvangt automatisch een melding van nieuwe tickets in deze wachtrij, als u hiervoor heeft gekozen.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
         'debug' => '',

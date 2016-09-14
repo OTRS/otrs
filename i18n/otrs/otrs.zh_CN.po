@@ -16,8 +16,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -3112,8 +3112,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "获取邮件的前五行"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "获取发件人的真实姓名（如果有）"
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr "获取工单中客户联系人的真实姓名(如果有)"
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3270,11 +3270,11 @@ msgstr "选择"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "列表 (目前显示%s-显示更多)"
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
-msgstr ""
+msgstr "列表（总共 %s）"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -3671,7 +3671,7 @@ msgid ""
 "If filled in, this URL will be used for a preview which is shown when this "
 "link is hovered in ticket zoom. Please note that for this to work, the "
 "regular URL field above needs to be filled in, too."
-msgstr ""
+msgstr "如果填写了内容，在工单详情窗口中当鼠标移动到这个URL上方时将显示URL的预览。请注意：要使这个功能生效，还需要上面的常规URL字段也填写好了内容。"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -4248,6 +4248,30 @@ msgstr "参数 %s 的值"
 #. Template: AdminGenericAgent
 msgid "Save Changes"
 msgstr "保存更改"
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr "标签参考"
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr "在备注部分，你可以使用以下的标记"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "客户联系人的属性"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr "工单的属性"
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr "工单动态字段内部键值"
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr "范例备注"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5073,7 +5097,7 @@ msgstr "导入Web服务示例"
 msgid ""
 "Do you want to benefit from web services created by experts? Upgrade to %s "
 "to be able to import some sophisticated example web services."
-msgstr ""
+msgstr "你想从专家创建的WEB服务中受益吗？升级到%s 就能导入一些复杂的WEB服务样例。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5584,10 +5608,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "您真的要删除这个通知语言吗？"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr "标签参考"
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "发送给服务人员或客户的通知。"
 
@@ -5611,10 +5631,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "获取邮件正文内容前5行（最新的客户信件）"
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "客户联系人的属性"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "工单所有者的属性"
 
@@ -5629,14 +5645,6 @@ msgstr "请示此动作的服务人员的属性"
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "通知收件人的属性"
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr "工单的属性"
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
-msgstr "工单动态字段内部键值"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6815,6 +6823,10 @@ msgstr "转换"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "转换名称"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr "条件只能作用于非空字段。"
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -8828,15 +8840,15 @@ msgstr "统计包含有错误配置，当前不能使用。"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s%s"
-msgstr ""
+msgstr "修改%s%s%s的自定义文本。"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
-msgstr ""
+msgstr "变更工单%s%s%s的所有者"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "关闭%s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
@@ -8848,11 +8860,11 @@ msgstr "为%s%s%s添加挂起时间"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s%s"
-msgstr ""
+msgstr "变更工单%s%s%s的优先级"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s%s"
-msgstr ""
+msgstr "变更工单%s%s%s的负责人"
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
@@ -8906,7 +8918,7 @@ msgstr "你可以在这里选择额外的服务人员，以收到这封信件的
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by"
-msgstr ""
+msgstr "内容也将被以下人员接收到："
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -8926,7 +8938,7 @@ msgstr "备注类型"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
-msgstr ""
+msgstr "退回%s%s%s"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -8990,7 +9002,7 @@ msgstr "执行批量操作"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
-msgstr ""
+msgstr "撰写工单%s%s%s的回复邮件"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
@@ -9026,7 +9038,7 @@ msgstr "日期无效！"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
-msgstr ""
+msgstr "变更工单%s%s%s的客户联系人"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -9062,7 +9074,7 @@ msgstr "获取全部"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s%s"
-msgstr ""
+msgstr "%s%s%s的外发邮件"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
@@ -9090,11 +9102,11 @@ msgstr "工单%s：解决时间将在%s/%s内超时！"
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s%s"
-msgstr ""
+msgstr "转发%s%s%s"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s%s"
-msgstr ""
+msgstr "%s%s%s历史"
 
 #. Template: AgentTicketHistory
 msgid "History Content"
@@ -9106,7 +9118,7 @@ msgstr "详情视图"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s%s"
-msgstr ""
+msgstr "合并%s%s%s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
@@ -9126,7 +9138,7 @@ msgstr "需要有效的邮件地址。"
 
 #. Template: AgentTicketMove
 msgid "Move %s%s%s"
-msgstr ""
+msgstr "转移%s%s%s"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
@@ -9218,11 +9230,11 @@ msgstr "将聊天内容作为单独的信件追加到工单"
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
-msgstr ""
+msgstr "%s%s%s的电话"
 
 #. Template: AgentTicketPlain
 msgid "View Email Plain Text for %s%s%s"
-msgstr ""
+msgstr "查看%s%s%s的邮件纯文本"
 
 #. Template: AgentTicketPlain
 msgid "Plain"
@@ -9295,8 +9307,20 @@ msgid ""
 msgstr "只搜索From、To、Cc、主题和信件正文，不管其它属性。"
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "客户联系人登录名"
+msgid "CustomerID (complex search)"
+msgstr "CustomerID(复合搜索)"
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr "CustomerID(精确匹配)"
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr "客户联系人登录名(复合搜索)"
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr "客户联系人登录名(精确匹配)"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -9560,7 +9584,7 @@ msgstr "关闭预览"
 msgid ""
 "A preview of this website can't be provided because it didn't allow to be "
 "embedded."
-msgstr ""
+msgstr "这个网站不允许被嵌入，无法提供预览。"
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -9588,7 +9612,7 @@ msgstr "返回上一页"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr ""
+msgstr "发生了一个错误"
 
 #. Template: CustomerError
 msgid "Error Details"
@@ -9600,7 +9624,7 @@ msgstr "追溯"
 
 #. Template: CustomerFooter
 msgid "Powered by"
-msgstr "Powered by"
+msgstr "技术支持："
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
@@ -9777,7 +9801,7 @@ msgstr "您的邮件地址（这将是你的登录用户名）"
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr "进入的会话请求"
+msgstr "进入的聊天请求"
 
 #. Template: CustomerNavigationBar
 msgid "You have unanswered chat requests"
@@ -10031,13 +10055,13 @@ msgstr "发生了一个错误。"
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
 "installation of OTRS."
-msgstr ""
+msgstr "真的是一个BUG吗？十个BUG报告有五个起因于错误或不完整的OTRS安装。"
 
 #. Template: Error
 msgid ""
 "With %s, our experts take care of correct installation and cover your back "
 "with support and periodic security updates."
-msgstr ""
+msgstr "通过%s，我们的专家通过技术支持和定期安全更新来确保正确安装且后台程序正常。"
 
 #. Template: Error
 msgid "Contact our service team now."
@@ -10593,7 +10617,7 @@ msgstr "创建汇总行"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
-msgstr ""
+msgstr "生成一个额外的行来包含所有数据行的汇总。"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
@@ -10601,7 +10625,7 @@ msgstr "创建汇总列"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
-msgstr ""
+msgstr "生成一个额外的列来包含所有数据列的汇总。"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
@@ -12673,8 +12697,12 @@ msgid "Created State"
 msgstr "创建的状态"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "客户联系人登录"
+msgid "CustomerUserLogin (complex search)"
+msgstr "客户联系人登录名(复合搜索)"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr "客户联系人登录名(精确匹配)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -12794,67 +12822,67 @@ msgstr "历史信息的时间范围"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
-msgstr ""
+msgstr "平均解决时间"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time"
-msgstr ""
+msgstr "最小解决时间"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time"
-msgstr ""
+msgstr "最大解决时间"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average (affected by escalation configuration)"
-msgstr ""
+msgstr "平均解决时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小解决时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最大解决时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Working Time Average (affected by escalation configuration)"
-msgstr ""
+msgstr "平均解决工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小解决工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最大解决工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Response Average (affected by escalation configuration)"
-msgstr ""
+msgstr "平均响应时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Response Min Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小响应时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Response Max Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最大响应时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Response Working Time Average (affected by escalation configuration)"
-msgstr ""
+msgstr "平均响应工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Response Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小响应工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Response Max Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最大响应工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Number of Tickets (affected by escalation configuration)"
-msgstr ""
+msgstr "工单数量（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Static/StateAction.pm
 msgid "Days"
@@ -14286,7 +14314,7 @@ msgid ""
 "Allows extended search conditions in ticket search of the generic agent "
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "允许在自动任务界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。"
 
 #. SysConfig
 msgid ""
@@ -15065,7 +15093,7 @@ msgid ""
 "must have registered the following JS and CSS files: "
 "Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, "
 "Core.Agent.TableFilters.js."
-msgstr ""
+msgstr "定义链接对象小部件(LinkObject::ViewMode = \\\"complex\\\")设置按钮中的操作。请注意，这些操作必须已经在以下JS和CSS文件中注册：Core.AllocationList.css、Core.UI.AllocationList.js、 Core.UI.Table.Sort.js、Core.Agent.TableFilters.js。"
 
 #. SysConfig
 msgid ""
@@ -15133,7 +15161,7 @@ msgid ""
 "(LinkObject::ViewMode = \"complex\"). Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
-msgstr ""
+msgstr "定义链接对象小部件(LinkObject::ViewMode = \"complex\")要显示的列。注意：只有工单属性和动态字段（DynamicField_NameX）才能作为默认列，可用的设置值为：0 = 禁用，1 = 可用， 2 = 默认启用。"
 
 #. SysConfig
 msgid ""
@@ -15205,7 +15233,7 @@ msgid ""
 "URL, but also an alternate one. Please note that some websites deny being "
 "displayed within an iframe (e.g. Google) and thus won't work with the "
 "preview mode."
-msgstr ""
+msgstr "定义一个在服务人员工单详情窗口从信件文本中搜集CVE编号的过滤器，并在靠近信件的一个自定义区块中显示结果。如果想要在鼠标移到到链接元素上时显示内容预览，就填写URLPreview字段。它可以与URL中的地址相同，也可以是另外一个URL。请注意：一些网站不能在iframe框架中显示（如Google），这样就无法在预览模式中正常显示内容。"
 
 #. SysConfig
 msgid ""
@@ -15280,7 +15308,7 @@ msgid ""
 "password needs to contain at least 2 letter characters (set to 0 or 1). "
 "'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to "
 "control)."
-msgstr ""
+msgstr "定义在客户偏好设置中这个条目的所有参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）。"
 
 #. SysConfig
 msgid "Defines all the parameters for this notification transport."
@@ -15462,6 +15490,12 @@ msgstr "定义是否允许因在个人偏好设置中没有存储共享密钥而
 #. SysConfig
 msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
+msgstr "定义客户界面是否使用增强模式（启用表格、替换、下标、上标、从WORD粘贴等功能）。"
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.)."
 msgstr "定义是否使用增加模式（可以使用表格、替换、下标、上标、从WORD中粘贴等等）。"
 
@@ -15613,7 +15647,7 @@ msgid ""
 "1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1"
 " to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-"
 "temporarily if max failed logins reached."
-msgstr ""
+msgstr "定义在偏好设置中这个条目的配置参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）；'PasswordMaxLoginFailed'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。"
 
 #. SysConfig
 msgid ""
@@ -17132,7 +17166,7 @@ msgstr "删除超时的会话请求。"
 msgid ""
 "Delivers extended debugging information in the frontend in case any AJAX "
 "errors occur, if enabled."
-msgstr ""
+msgstr "启用后，如果发生了任何的AJAX错误，就在前端传递扩展的调试信息。"
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
@@ -18176,7 +18210,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\\user变为user）。"
 
 #. SysConfig
 msgid ""
@@ -18526,7 +18560,7 @@ msgstr "索引加速器：选择您的后端工单视图加速器模块。“Run
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "印度尼西亚语"
 
 #. SysConfig
 msgid "Input"
@@ -19846,10 +19880,8 @@ msgid ""
 msgstr "通过BCC（密件抄送）发送所有外发邮件到指定地址。请只在备份情况下使用这个选项。"
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
-msgstr "只给映射客户发送客户通知。一般地，如果没有客户映射，最后的客户发件人将收到这个通知。"
+msgid "Sends customer notifications just to the mapped customer."
+msgstr ""
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."
@@ -21973,15 +22005,15 @@ msgstr "您的工单号为“<OTRS_TICKET>”的邮件已经退回给“<OTRS_BO
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "您收藏的队列，如果您设置了邮件通知，您将会得到该队列的状态通知。"
+msgstr "你的优先队列中选择的队列，如果启用了，你还会得到有关这些队列的电子邮件通知。"
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr "您收藏的服务，如果您设置了邮件通知，您将会得到该服务的状态通知。"
+msgstr "你的优先服务中选择的服务，如果启用了，你还会得到有关这些队列的电子邮件通知。"
 
 #. SysConfig
 msgid "attachment"

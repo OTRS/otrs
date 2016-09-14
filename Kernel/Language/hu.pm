@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999791405924072;
+    $Self->{Completeness}        = 0.999791753436068;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -727,7 +727,7 @@ sub Data {
             'Küldjön egy értesítést, ha egy jegyet a „Saját várólistáim” egyikébe helyeztek át.',
         'Send ticket move notifications' => 'Jegy áthelyezési értesítések küldése',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            'A kedvenc várólisták várólista kijelölése. Értesítve lesz azokról a várólistákról is e-mailben, ha engedélyezve van.',
+            'Az előnyben részesített várólistáknak a várólista kiválasztása. Értesítést is kaphat azokról a várólistákról e-mailben, ha engedélyezve van.',
         'Custom Queue' => 'Egyéni várólista',
         'QueueView refresh time' => 'Várólista nézet frissítési ideje',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
@@ -860,7 +860,8 @@ sub Data {
         'You can use the following tags' => 'A következő címkéket használhatja',
         'To get the first 20 character of the subject.' => 'A tárgy első 20 karakterének lekéréséhez.',
         'To get the first 5 lines of the email.' => 'Az e-mail első 5 sorának lekéréséhez.',
-        'To get the realname of the sender (if given).' => 'A küldő valódi nevének lekéréséhez (ha meg van adva).',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            'A jegy ügyfél-felhasználója valódi nevének lekéréséhez (ha meg van adva).',
         'To get the article attribute' => 'A bejegyzés jellemzőjének lekéréséhez',
         ' e. g.' => ' például',
         'Options of the current customer user data' => 'A jelenlegi ügyfél-felhasználó adatainak beállításai',
@@ -1196,6 +1197,12 @@ sub Data {
         'Param %s key' => '%s paraméter kulcs',
         'Param %s value' => '%s paraméter érték',
         'Save Changes' => 'Változtatások mentése',
+        'Tag Reference' => 'Címke hivatkozás',
+        'In the note section, you can use the following tags' => 'A jegyzet szakaszban a következő címkéket használhatja',
+        'Attributes of the current customer user data' => 'A jelenlegi ügyfél-felhasználó adatainak jellemzői',
+        'Attributes of the ticket data' => 'A jegy adatainak jellemzői',
+        'Ticket dynamic fields internal key values' => 'A jegy dinamikus mezőinek belső kulcs értékei',
+        'Example note' => 'Példa jegyzet',
         'Results' => 'Eredmények',
         '%s Tickets affected! What do you want to do?' => '%s jegy érintett! Mit szeretne tenni?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1593,7 +1600,6 @@ sub Data {
         'Message body' => 'Üzenettörzs',
         'Add new notification language' => 'Új értesítési nyelv hozzáadása',
         'Do you really want to delete this notification language?' => 'Valóban törölni szeretné ezt az értesítési nyelvet?',
-        'Tag Reference' => 'Címke hivatkozás',
         'Notifications are sent to an agent or a customer.' => 'Az értesítések ügyintézőnek vagy ügyfélnek kerülnek elküldésre.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '(A legutóbbi ügyintéző bejegyzés) tárgya első 20 karakterének lekéréséhez.',
@@ -1603,14 +1609,11 @@ sub Data {
             '(A legutóbbi ügyfél bejegyzés) tárgya első 20 karakterének lekéréséhez.',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '(A legutóbbi ügyfél bejegyzés) törzse első 5 sorának lekéréséhez.',
-        'Attributes of the current customer user data' => 'A jelenlegi ügyfél-felhasználó adatainak jellemzői',
         'Attributes of the current ticket owner user data' => 'A jelenlegi jegytulajdonos felhasználóadatainak jellemzői',
         'Attributes of the current ticket responsible user data' => 'A jelenlegi jegyfelelős felhasználóadatainak jellemzői',
         'Attributes of the current agent user who requested this action' =>
             'A jelenlegi ügyintéző-felhasználó jellemzői, aki ezt a műveletet kérte',
         'Attributes of the recipient user for the notification' => 'A címzett felhasználó jellemzői az értesítésnél',
-        'Attributes of the ticket data' => 'A jegy adatainak jellemzői',
-        'Ticket dynamic fields internal key values' => 'A jegy dinamikus mezőinek belső kulcs értékei',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'A jegy dinamikus mezőinek megjelenített értékei, legördülő és többválasztós mezőknél hasznos',
         'Example notification' => 'Példa értesítés',
@@ -1976,6 +1979,7 @@ sub Data {
             'Ne feledje, hogy az átmenet módosítása érinteni fogja a következő folyamatokat',
         'Transition' => 'Átmenet',
         'Transition Name' => 'Átmenet neve',
+        'Conditions can only operate on non-empty fields.' => 'A feltételek csak nem üres mezőkön működhetnek.',
         'Type of Linking between Conditions' => 'Kapcsolat típusa a feltételek között',
         'Remove this Condition' => 'Feltétel eltávolítása',
         'Type of Linking' => 'Kapcsolat típusa',
@@ -2797,7 +2801,10 @@ sub Data {
         'Remove' => 'Eltávolítás',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Keresés a feladó, címzett, másolat, tárgy és a bejegyzéstörzs jellemzőkben, felülbírálva más hasonló nevű jellemzőket.',
-        'Customer User Login' => 'Ügyfél-felhasználó belépés',
+        'CustomerID (complex search)' => 'Ügyfél-azonosító (összetett keresés)',
+        'CustomerID (exact match)' => 'Ügyfél-azonosító (pontos egyezés)',
+        'Customer User Login (complex search)' => 'Ügyfél-felhasználó belépés (összetett keresés)',
+        'Customer User Login (exact match)' => 'Ügyfél-felhasználó belépés (pontos egyezés)',
         'Attachment Name' => 'Melléklet neve',
         '(e. g. m*file or myfi*)' => '(például f*jlom vagy fájl*)',
         'Created in Queue' => 'Létrehozva a várólistában',
@@ -2964,7 +2971,7 @@ sub Data {
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => 'például 10*5155 vagy 105658*',
         'Customer ID' => 'Ügyfél-azonosító',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Szabad-szavas keresés a jegyekben (például „John*n” vagy „Will*”).',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Szabad-szavas keresés a jegyekben (például „Kata*n” vagy „Gerg*”).',
         'Recipient' => 'Címzett',
         'Carbon Copy' => 'Másolat',
         'e. g. m*file or myfi*' => 'például f*jlom vagy fájl*',
@@ -3990,7 +3997,8 @@ sub Data {
         'State Type' => 'Állapot típusa',
         'Created Priority' => 'Létrehozott prioritás',
         'Created State' => 'Létrehozott állapot',
-        'CustomerUserLogin' => 'Ügyfél-felhasználó bejelentkezőnév',
+        'CustomerUserLogin (complex search)' => 'Ügyfél-felhasználó belépés (összetett keresés)',
+        'CustomerUserLogin (exact match)' => 'Ügyfél-felhasználó belépés (pontos egyezés)',
         'Create Time' => 'Létrehozás ideje',
         'Close Time' => 'Lezárás ideje',
         'Escalation - First Response Time' => 'Eszkaláció - első válaszidő',
@@ -4481,7 +4489,7 @@ Az Ön segélyszolgálat csapata
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Hozzáadja az állandó munkaszüneti napokat. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
         'Admin Area.' => 'Adminisztrációs terület.',
-        'After' => 'Ez után:',
+        'After' => 'Ez után',
         'Agent Name' => 'Ügyintézőnév',
         'Agent Name + FromSeparator + System Address Display Name' => 'Ügyintézőnév + feladóelválasztó + rendszercím megjelenített neve',
         'Agent Preferences.' => 'Ügyintézői beállítások.',
@@ -4889,6 +4897,8 @@ Az Ön segélyszolgálat csapata
             'Meghatározza, hogy a megírt üzeneteken helyesírás-ellenőrzést kelljen végezni az ügyintézői felületen.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Meghatározza, hogy engedélyezni kell-e az ügyfeleknek a bejelentkezést, ha nincs megosztott titok eltárolva a beállításaikban, és következésképpen nem használnak kétlépcsős hitelesítést.',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+            'Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó index, felső index, beillesztés Wordből, stb. használatát engedélyezi) az ügyfélfelületen.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             'Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó index, felső index, beillesztés Wordből, stb. használatát engedélyezi).',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
@@ -5842,7 +5852,7 @@ Az Ön segélyszolgálat csapata
         'Incoming Phone Call.' => 'Bejövő telefonhívás.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             'IndexAccelerator: a TicketViewAccelerator háttérprogram modul választásához. A „RuntimeDB” minden egyes várólista nézetet valós időben állít elő a jegytáblából (nincs teljesítmény-probléma a rendszeren körülbelül 60.000 összes jegyig és 6.000 nyitott jegyig). A „StaticDB” a legerősebb modul, amely egy további jegyindex táblát használ, amely úgy működik mint egy nézet (javasolt, ha több mint 80.000 és 6.000 nyitott jegy van a rendszeren tárolva). Használja a „bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild” parancsot a kezdeti index létrehozásához.',
-        'Indonesian' => '',
+        'Indonesian' => 'Indonéz',
         'Input' => 'Beviteli mező',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             'Telepítse az ispell vagy az aspell programokat a rendszerére, ha egy helyesírás-ellenőrzőt szeretne használni. Adja meg az aspell vagy ispell bináris útvonalát az operációs rendszerén.',
@@ -6037,7 +6047,7 @@ Az Ön segélyszolgálat csapata
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Túlterheli (újra meghatározza) a Kernel::System::Ticket helyen meglévő függvényeket. Személyre szabások könnyű hozzáadásához használható.',
         'Overview Escalated Tickets.' => 'Eszkalált jegyek áttekintése.',
-        'Overview Refresh Time' => 'Frissítési idő áttekintése',
+        'Overview Refresh Time' => 'Áttekintő frissítési ideje',
         'Overview of all escalated tickets.' => 'Összes eszkalált jegy áttekintése.',
         'Overview of all open Tickets.' => 'Az összes nyitott jegy áttekintése.',
         'Overview of all open tickets.' => 'Összes nyitott jegy áttekintése.',
@@ -6215,8 +6225,7 @@ Az Ön segélyszolgálat csapata
             'Csak a tulajdonosnak küld ügyintéző követő értesítést, ha a jegy fel van oldva (az alapértelmezett, hogy minden ügyintézőnek elküldi az értesítést).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ez csak biztonsági mentés céljából használja.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'Az ügyfél értesítéseket csak a leképezett ügyfélnek küldi el. Normális esetben, ha nincs leképezett ügyfél, akkor a legutóbbi ügyfél küldő kapja az értesítést.',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => 'Regisztrációs információkat küld az OTRS csoportnak.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Elküldi a feloldott jegy emlékeztető értesítéseit az emlékeztető dátum elérése után (csak a jegy tulajdonosának küldi).',
@@ -6863,10 +6872,10 @@ Az Ön segélyszolgálat csapata
         'Yes, but hide archived tickets' => 'Igen, de az archivált jegyek elrejtése',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Az Ön „<OTRS_TICKET>” számú jegyhez rendelt e-mailje visszaküldésre került a következő címre: „<OTRS_BOUNCE_TO>”. További információkért vegye fel ezzel a címmel a kapcsolatot.',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'A kedvenc várólistáknak a várólista kiválasztása. Értesítést is kaphat azokról a várólistákról e-mailben, ha engedélyezve van.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            'A kedvenc szolgáltatásoknak a szolgáltatás kiválasztása. Értesítést is kaphat azokról a szolgáltatásokról e-mailben, ha engedélyezve van.',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            'Az előnyben részesített várólistáknak a várólista kiválasztása. Értesítést is kaphat azokról a várólistákról e-mailben, ha engedélyezve van.',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            'Az előnyben részesített szolgáltatásoknak a szolgáltatás kiválasztása. Értesítést is kaphat azokról a szolgáltatásokról e-mailben, ha engedélyezve van.',
         'attachment' => 'melléklet',
         'debug' => 'hibakeresés',
         'error' => 'hiba',

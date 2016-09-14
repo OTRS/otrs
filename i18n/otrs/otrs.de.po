@@ -19,7 +19,7 @@
 # Matze208, 2015
 # Matze208, 2015
 # mbank <michael.bank@fh-koeln.de>, 2015
-# nilsleideck <nils.leideck@leidex.net>, 2015
+# nilsleideck <nils.leideck@leidex.net>, 2015-2016
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # Patrik Z., 2016
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -3126,8 +3126,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Die ersten fünf Zeilen der Nachricht"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "Der Name des Benutzers (wenn angegeben)"
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr "Der Name des Ticket-Kundenbenutzers (wenn angegeben)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4262,6 +4262,30 @@ msgstr "Wert für Parameter %s"
 #. Template: AdminGenericAgent
 msgid "Save Changes"
 msgstr "Änderungen speichern"
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr "Tag-Referenz"
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr "Im Notiz-Bereich können folgende Tags benutzt werden"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "Attribute des aktuellen Kundenbenutzer-Datensatzes"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr "Attribute der Ticketdaten"
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr "Interne Schlüssel der dynamischen Felder des Tickets"
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr "Beispielnotiz"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5598,10 +5622,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "Möchten Sie diese Benachrichtigungssprache wirklich löschen?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr "Tag-Referenz"
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Benachrichtigungen werden an Agenten und Kunden gesendet."
 
@@ -5625,10 +5645,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikels)."
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "Attribute des aktuellen Kundenbenutzer-Datensatzes"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "Attribute der Nutzerdaten des aktuellen Ticket-Besitzers"
 
@@ -5643,14 +5659,6 @@ msgstr "Attribute der Benutzerdaten des Agenten, der die Aktion ausgelöst hat"
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "Attribute der Benutzerdaten des Empfängers der Benachrichtigung"
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr "Attribute der Ticketdaten"
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
-msgstr "Interne Schlüssel der dynamischen Felder des Tickets"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6829,6 +6837,10 @@ msgstr "Übergang"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "Name des Übergangs"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr "Bedingungen können nur Felder prüfen, die nicht leer sind."
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -9309,8 +9321,20 @@ msgid ""
 msgstr "Sucht in den Attributen Von, Cc, Betreff, Artikelinhalt und überschreibt Attribute mit dem selben Namen."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "Anmeldung Kundenkontakt"
+msgid "CustomerID (complex search)"
+msgstr "Kundennummer (komplexe Suche)"
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr "Kundennummer (genaue Übereinstimmung)"
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr "Kundenbenutzer (komplexe Suche)"
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr "Kundenbenutzer (genaue Übereinstimmung)"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -12687,8 +12711,12 @@ msgid "Created State"
 msgstr "Erstellt mit dem Status"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "Kundenlogin"
+msgid "CustomerUserLogin (complex search)"
+msgstr "Kundenbenutzer (komplexe Suche)"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr "Kundenbenutzer (genaue Übereinstimmung)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -12808,15 +12836,15 @@ msgstr "Historischer Zeitbereich"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
-msgstr ""
+msgstr "Durchschnittliche Lösungszeit"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time"
-msgstr ""
+msgstr "Minimale Lösungszeit"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time"
-msgstr ""
+msgstr "Maximale Lösungszeit"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average (affected by escalation configuration)"
@@ -15476,6 +15504,12 @@ msgstr "Steuert, ob Kunden, die die Zweifaktor-Authentifizierung nicht nutzen, s
 #. SysConfig
 msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.)."
 msgstr "Bestimmt, ob der erweiterte Modus genutzt werden soll (schaltet die Benutzung von Tabellen, Suchen & Ersetzen, Tiefstellen, Hochstellen, aus Word einfügen, etc. frei)."
 
@@ -16102,7 +16136,7 @@ msgstr "Definiert die Standard-Ticketpriorität in der 'Verantwortlicher'-Oberfl
 msgid ""
 "Defines the default ticket type for new customer tickets in the customer "
 "interface."
-msgstr "Definiert die Standard-Ticketpriorität für neue Kundentickets im Kunden-Interface."
+msgstr "Definiert den Standard-Ticket-Typ für neue Kundentickets in der  Kundenoberfläche."
 
 #. SysConfig
 msgid "Defines the default ticket type."
@@ -17330,7 +17364,7 @@ msgstr "Dynamic Fields-Oberfläche für Textfelder"
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
-msgstr ""
+msgstr "Dynamic Fields welche beim Export des Suchergebnisses im CSV-Format auszugeben sind."
 
 #. SysConfig
 msgid ""
@@ -18190,7 +18224,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Wenn \"HTTPBasicAuth\" als Customer::AuthModule ausgewählt ist, können Sie hier angeben, ob führende Teile von Benutzernamen (z.B. zur Umwandlung von Domänen wie \"example_domain\\user\" zu \"user\")."
 
 #. SysConfig
 msgid ""
@@ -19860,9 +19894,7 @@ msgid ""
 msgstr "Versendet alle ausgehenden E-Mails via BCC zu der angegebenen Adresse. Bitte nutzen Sie dies ausschließlich für Backups."
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -21987,15 +22019,15 @@ msgstr "Ihre E-Mail mit Ticket-Nummer \"<OTRS_TICKET>\" wurde an \"<OTRS_BOUNCE_
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr "Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. "
+msgstr ""
 
 #. SysConfig
 msgid "attachment"

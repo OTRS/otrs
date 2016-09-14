@@ -1,4 +1,5 @@
 #5.0.13 2016-??-??
+ - 2016-09-14 Updated translations, thanks to all translators.
  - 2016-09-12 Fixed bug#[11365](http://bugs.otrs.org/show_bug.cgi?id=11365) - ACLs editor shows actions where ACLs does not apply.
  - 2016-09-12 Fixed bug#[12297](http://bugs.otrs.org/show_bug.cgi?id=12297) - AdminCustomerUser and AdminCustomerCompany generate log errors if RunInitialWildcardSearch is disabled.
  - 2016-09-12 Fixed bug#[12296](http://bugs.otrs.org/show_bug.cgi?id=12296) - ArticleComposeCrypt.pm not in @INC  after upgrade from 4 to 5.

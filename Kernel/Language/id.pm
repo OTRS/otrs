@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.999791405924072;
+    $Self->{Completeness}        = 0.997084548104956;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -855,7 +855,8 @@ sub Data {
         'You can use the following tags' => 'Anda dapat menggunakan tag berikut ini',
         'To get the first 20 character of the subject.' => 'Untuk mendapatkan 20 karakter pertama dari subjek',
         'To get the first 5 lines of the email.' => 'untuk mendapatkan 5 baris pertama dari email.',
-        'To get the realname of the sender (if given).' => 'Untuk mendapatkan namaasli pengirim (jika diberikan)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Untuk mendapatkan atribut artikel',
         ' e. g.' => 'Misalnya',
         'Options of the current customer user data' => 'Pilihan dari data pelanggan pengguna saat ini',
@@ -1191,6 +1192,12 @@ sub Data {
         'Param %s key' => 'Param %s kunci',
         'Param %s value' => 'Param %s nilai',
         'Save Changes' => 'Simpan pengubahan',
+        'Tag Reference' => 'Tandakan referensi',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => 'Atribut pelanggan pengguna data saat ini',
+        'Attributes of the ticket data' => 'Atribut data tiket',
+        'Ticket dynamic fields internal key values' => 'Bidang tiket yang dinamis untuk nilai kunci internal ',
+        'Example note' => '',
         'Results' => 'Hasil',
         '%s Tickets affected! What do you want to do?' => '%s Tiket terpengaruh! Apa yang anda ingin lakukan?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1588,7 +1595,6 @@ sub Data {
         'Message body' => 'Badan Pesan',
         'Add new notification language' => 'Tambahkan pemberitahuan bahasa baru',
         'Do you really want to delete this notification language?' => 'Apakah anda ingin menghapus pemberitahuan bahasa?',
-        'Tag Reference' => 'Tandakan referensi',
         'Notifications are sent to an agent or a customer.' => 'Pemberitahuan telah dikirim ke agen atau pelanggan',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Untuk mendapatkan 20 karakter pertama dari subyek (artikel agen terbaru)',
@@ -1598,14 +1604,11 @@ sub Data {
             'Untuk mendapatkan 20 karakter pertama dari subyek (Artikel pelanggan terbaru).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Untuk mendapatkan 5 baris pertama dari isi (Artikel pelanggan terbaru).',
-        'Attributes of the current customer user data' => 'Atribut pelanggan pengguna data saat ini',
         'Attributes of the current ticket owner user data' => 'Atribut dari pemilik tiket pengguna data saat ini',
         'Attributes of the current ticket responsible user data' => 'Atribut tiket yang bertanggungjawab untuk pengguna data saat ini',
         'Attributes of the current agent user who requested this action' =>
             'Atribut pengguna agen saat ini yang meminta tindakan ',
         'Attributes of the recipient user for the notification' => 'Atribut dari pengguna penerima untuk pemberitahuan',
-        'Attributes of the ticket data' => 'Atribut data tiket',
-        'Ticket dynamic fields internal key values' => 'Bidang tiket yang dinamis untuk nilai kunci internal ',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'Bidang dinamis tiket yang menampilkan nilai, berguna untuk Dropdown dan Multiselecet',
         'Example notification' => 'Contoh pemberitahuan',
@@ -1972,6 +1975,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
             'Perlu diingat bahwa perubahan transisi ini akan mempengaruhi proses berikut',
         'Transition' => 'Transisi',
         'Transition Name' => 'Nama transisi',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Syarat untuk setiap jenis perhubungan',
         'Remove this Condition' => 'Membuang syarat ',
         'Type of Linking' => 'Jenis penghubung',
@@ -2794,7 +2798,10 @@ bin/otrs.Daemon.pl status\').',
         'Remove' => 'Menghapus',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Pencarian di atribut Dari, Untuk, Cc, Subjek dan tubuh artikel, mengesampingkan atribut lainnya dengan nama yang sama.',
-        'Customer User Login' => 'Memasukan pengguna nasabah',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Lampirkan nama',
         '(e. g. m*file or myfi*)' => '(Contoh: m*file atau myfl*)',
         'Created in Queue' => 'Telah dibuat didalam queue',
@@ -3987,7 +3994,8 @@ bin/otrs.Daemon.pl status\').',
         'State Type' => 'Jenis stat',
         'Created Priority' => 'dibuat Prioritas',
         'Created State' => 'Menciptakan State',
-        'CustomerUserLogin' => 'PelangganMasuk',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Buat Waktu',
         'Close Time' => 'Tutup Waktu',
         'Escalation - First Response Time' => 'Eskalasi - Waktu respon pertama',
@@ -4883,6 +4891,8 @@ Helpdesk Team Anda
             'Mendefinisikan jika pesan yang ditulis harus mantra diperiksa di antarmuka agen.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Mendefinisikan jika pelanggan harus diizinkan untuk login jika mereka tidak memiliki rahasia bersama disimpan dalam preferensi mereka dan oleh karena itu tidak menggunakan otentikasi dua faktor.',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             'Mendefinisikan jika modus ditingkatkan harus digunakan (memungkinkan penggunaan tabel, mengganti, subscript, superscript, pasta dari kata, dll).',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
@@ -5726,7 +5736,7 @@ Helpdesk Team Anda
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Jika "HTTPBasicAuth" dipilih untuk Customer::AuthModule, Anda dapat menentukan (dengan menggunakan regex) untuk strip bagian REMOTE_USER (e. g. untuk menghapus mengikuti domain). RegExp-Note, $1 akan menjadi baru Login.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            'Jika "HTTPBasicAuth" dipilih untuk Customer::AuthModule,',
+            'Jika "HTTP Basic Auth" dipilih untuk Pelanggan :: AuthModule, Anda dapat menentukan untuk melucuti bagian terkemuka nama pengguna (e. G. Untuk domain seperti misalnya domain \ pengguna ke pengguna).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Jika "HTTPBasicAuth" dipilih untuk Customer::AuthModule, dan jika Anda ingin menambahkan akhiran untuk setiap nama login pelanggan, tentukan di sini, e. g. Anda hanya ingin menulis pengguna nama pengguna tetapi dalam direktori LDAP ada user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -5837,7 +5847,7 @@ Helpdesk Team Anda
         'Incoming Phone Call.' => 'Masuk Panggilan Telepon.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             'IndexAccelerator: untuk memilih modul backend TicketViewAccelerator Anda. "RuntimeDB" menghasilkan setiap tampilan antrian pada terbang dari meja tiket (tidak ada masalah kinerja sampai dengan kira-kira. 60.000 tiket total dan 6.000 tiket terbuka dalam sistem). "StaticDB" adalah modul yang paling kuat, itu menggunakan tiket-indeks tabel tambahan yang bekerja seperti pandangan (dianjurkan jika lebih dari 80.000 dan 6.000 tiket terbuka disimpan dalam sistem). Gunakan perintah "bin / otrs.Console.pl Maint :: Ticket :: QueueIndexRebuild" untuk penciptaan indeks awal.',
-        'Indonesian' => '',
+        'Indonesian' => 'Indonesia',
         'Input' => 'Input',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             'Menginstal ispell atau aspell pada sistem, jika Anda ingin menggunakan spell checker. Silakan tentukan path ke binari ispell atau aspell pada sistem operasi Anda.',
@@ -6210,8 +6220,7 @@ Helpdesk Team Anda
             'Mengirimkan agen tindak lanjut pemberitahuan hanya untuk pemilik, jika tiket dibuka (default adalah untuk mengirim pemberitahuan ke semua agen).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Mengirimkan semua email keluar melalui bcc ke alamat yang ditentukan. Silakan gunakan ini hanya untuk alasan cadangan.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'Mengirimkan pemberitahuan pelanggan hanya untuk pelanggan dipetakan. Biasanya, jika ada pelanggan yang dipetakan, pengirim pelanggan terbaru mendapat pemberitahuan.',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => 'Mengirimkan informasi pendaftaran untuk kelompok OTRS.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Mengirimkan pemberitahuan amaran terkunci tiket setelah mencapai tanggal yang ditetapkan (hanya dikirim ke pemilik tiket).',
@@ -6858,10 +6867,10 @@ Helpdesk Team Anda
         'Yes, but hide archived tickets' => 'Ya, tapi sembunyikan tiket yang telah di arsipkan.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Email anda dengan nomor tiket "<OTRS_TICKET>" telah di gabung menjadi "<OTRS_BOUNCE_TO>". Hubungi alamat ini untuk informasi libel lanjut.',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Pilihan antrian dari antrian-antrian favorit anda. Anda juga akan mendapatkan pemeberitahuan tentang antrian-antrian tersebut melalui email jika di aktifkan.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            'Pilihan layanan anda dari layanan favorit anda. Anda juga akan mendapatkan pemeberitahuan tentang layanan-layanan tersebut melalui email jika di aktifkan',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            '',
         'attachment' => 'Lampiran',
         'debug' => 'Debug',
         'error' => 'eror',

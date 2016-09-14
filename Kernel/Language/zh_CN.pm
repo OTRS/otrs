@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.989570296203588;
+    $Self->{Completeness}        = 0.999791753436068;
 
     # csv separator
     $Self->{Separator} = '';
@@ -861,7 +861,8 @@ sub Data {
         'You can use the following tags' => '你可以使用以下的标记',
         'To get the first 20 character of the subject.' => '获取主题的前20个字节',
         'To get the first 5 lines of the email.' => '获取邮件的前五行',
-        'To get the realname of the sender (if given).' => '获取发件人的真实姓名（如果有）',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '获取工单中客户联系人的真实姓名(如果有)',
         'To get the article attribute' => '获取邮件的属性信息',
         ' e. g.' => '例如',
         'Options of the current customer user data' => '客户联系人资料属性',
@@ -910,8 +911,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => '允许使用通配置符，例如\'*\'。',
         'Add customer' => '添加客户',
         'Select' => '选择',
-        'List (only %s shown - more available)' => '',
-        'List (%s total)' => '',
+        'List (only %s shown - more available)' => '列表 (目前显示%s-显示更多)',
+        'List (%s total)' => '列表（总共 %s）',
         'Please enter a search term to look for customers.' => '请输入搜索条件以便检索客户资料.',
         'Add Customer' => '添加客户',
 
@@ -1035,7 +1036,7 @@ sub Data {
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
         'Link for preview' => '连接预览',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            '',
+            '如果填写了内容，在工单详情窗口中当鼠标移动到这个URL上方时将显示URL的预览。请注意：要使这个功能生效，还需要上面的常规URL字段也填写好了内容。',
         'Restrict entering of dates' => '限制输入日期',
         'Here you can restrict the entering of dates of tickets.' => '在这里可以限制输入工单日期。',
 
@@ -1197,6 +1198,12 @@ sub Data {
         'Param %s key' => '参数 %s 的键',
         'Param %s value' => '参数 %s 的值',
         'Save Changes' => '保存更改',
+        'Tag Reference' => '标签参考',
+        'In the note section, you can use the following tags' => '在备注部分，你可以使用以下的标记',
+        'Attributes of the current customer user data' => '客户联系人的属性',
+        'Attributes of the ticket data' => '工单的属性',
+        'Ticket dynamic fields internal key values' => '工单动态字段内部键值',
+        'Example note' => '范例备注',
         'Results' => '结果',
         '%s Tickets affected! What do you want to do?' => '%s 个工单将被影响！你确定要这么做?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1443,7 +1450,7 @@ sub Data {
             '在这里你可以激活%s一部分的WEB服务的最佳实践示例。请注意：可能需要一些额外的配置。',
         'Import example web service' => '导入Web服务示例',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
-            '',
+            '你想从专家创建的WEB服务中受益吗？升级到%s 就能导入一些复杂的WEB服务样例。',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '保存配置文件后，页面将再次转到编辑页面。',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1594,7 +1601,6 @@ sub Data {
         'Message body' => '消息正文',
         'Add new notification language' => '添加通知语言',
         'Do you really want to delete this notification language?' => '您真的要删除这个通知语言吗？',
-        'Tag Reference' => '标签参考',
         'Notifications are sent to an agent or a customer.' => '发送给服务人员或客户的通知。',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '获取主题的前20个字符（最新的服务人员信件）',
@@ -1604,14 +1610,11 @@ sub Data {
             '获取邮件主题的前20个字符（最新的客户信件）',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '获取邮件正文内容前5行（最新的客户信件）',
-        'Attributes of the current customer user data' => '客户联系人的属性',
         'Attributes of the current ticket owner user data' => '工单所有者的属性',
         'Attributes of the current ticket responsible user data' => '工单负责人的属性',
         'Attributes of the current agent user who requested this action' =>
             '请示此动作的服务人员的属性',
         'Attributes of the recipient user for the notification' => '通知收件人的属性',
-        'Attributes of the ticket data' => '工单的属性',
-        'Ticket dynamic fields internal key values' => '工单动态字段内部键值',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '工单动态字段显示值，对下拉式和多项选择字段有用',
         'Example notification' => '通知样例',
@@ -1977,6 +1980,7 @@ sub Data {
             '请注意，修改这个转换将影响以下流程',
         'Transition' => '转换',
         'Transition Name' => '转换名称',
+        'Conditions can only operate on non-empty fields.' => '条件只能作用于非空字段。',
         'Type of Linking between Conditions' => '条件之间的逻辑关系',
         'Remove this Condition' => '删除这个条件',
         'Type of Linking' => '链接关系',
@@ -2637,13 +2641,13 @@ sub Data {
             '统计包含有错误配置，当前不能使用。',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s%s' => '',
-        'Change Owner of %s%s%s' => '',
-        'Close %s%s%s' => '',
+        'Change Free Text of %s%s%s' => '修改%s%s%s的自定义文本。',
+        'Change Owner of %s%s%s' => '变更工单%s%s%s的所有者',
+        'Close %s%s%s' => '关闭%s%s%s',
         'Add Note to %s%s%s' => '添加备注到',
         'Set Pending Time for %s%s%s' => '为%s%s%s添加挂起时间',
-        'Change Priority of %s%s%s' => '',
-        'Change Responsible of %s%s%s' => '',
+        'Change Priority of %s%s%s' => '变更工单%s%s%s的优先级',
+        'Change Responsible of %s%s%s' => '变更工单%s%s%s的负责人',
         'All fields marked with an asterisk (*) are mandatory.' => '所有带“*”的字段都是强制要求输入的字段.',
         'Service invalid.' => '服务无效。',
         'New Owner' => '新的所有者',
@@ -2657,14 +2661,14 @@ sub Data {
         'Inform involved agents' => '通知相关服务人员',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '你可以在这里选择额外的服务人员，以收到这封信件的通知。',
-        'Text will also be received by' => '',
+        'Text will also be received by' => '内容也将被以下人员接收到：',
         'Spell check' => '拼写检查',
         'Text Template' => '内容模板',
         'Setting a template will overwrite any text or attachment.' => '设置一个模板将覆盖任何文本或附件。',
         'Note type' => '备注类型',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s%s' => '',
+        'Bounce %s%s%s' => '退回%s%s%s',
         'Bounce to' => '退回到 ',
         'You need a email address.' => '需要一个邮件地址。',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2685,7 +2689,7 @@ sub Data {
         'Execute Bulk Action' => '执行批量操作',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s%s' => '',
+        'Compose Answer for %s%s%s' => '撰写工单%s%s%s的回复邮件',
         'This address is registered as system address and cannot be used: %s' =>
             '这个邮件地址：%s已被注册为系统邮件地址，不能使用。',
         'Please include at least one recipient' => '请包括至少一个收件人',
@@ -2698,7 +2702,7 @@ sub Data {
         'Date Invalid!' => '日期无效！',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s%s' => '',
+        'Change Customer of %s%s%s' => '变更工单%s%s%s的客户联系人',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '创建邮件工单',
@@ -2711,7 +2715,7 @@ sub Data {
         'Get all' => '获取全部',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s%s' => '',
+        'Outbound Email for %s%s%s' => '%s%s%s的外发邮件',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => '工单%s：首次响应时间已超时(%s/%s)！',
@@ -2722,22 +2726,22 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => '工单%s：解决时间将在%s/%s内超时！',
 
         # Template: AgentTicketForward
-        'Forward %s%s%s' => '',
+        'Forward %s%s%s' => '转发%s%s%s',
 
         # Template: AgentTicketHistory
-        'History of %s%s%s' => '',
+        'History of %s%s%s' => '%s%s%s历史',
         'History Content' => '历史值',
         'Zoom view' => '详情视图',
 
         # Template: AgentTicketMerge
-        'Merge %s%s%s' => '',
+        'Merge %s%s%s' => '合并%s%s%s',
         'Merge Settings' => '合并设置',
         'You need to use a ticket number!' => '您需要使用一个工单编号!',
         'A valid ticket number is required.' => '需要有效的工单编号。',
         'Need a valid email address.' => '需要有效的邮件地址。',
 
         # Template: AgentTicketMove
-        'Move %s%s%s' => '',
+        'Move %s%s%s' => '转移%s%s%s',
         'New Queue' => '新队列',
 
         # Template: AgentTicketOverviewMedium
@@ -2770,10 +2774,10 @@ sub Data {
         'The chat will be appended as a separate article.' => '将聊天内容作为单独的信件追加到工单',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s%s' => '',
+        'Phone Call for %s%s%s' => '%s%s%s的电话',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s%s' => '',
+        'View Email Plain Text for %s%s%s' => '查看%s%s%s的邮件纯文本',
         'Plain' => '纯文本',
         'Download this email' => '下载该邮件',
 
@@ -2798,7 +2802,10 @@ sub Data {
         'Remove' => '移除',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             '只搜索From、To、Cc、主题和信件正文，不管其它属性。',
-        'Customer User Login' => '客户联系人登录名',
+        'CustomerID (complex search)' => 'CustomerID(复合搜索)',
+        'CustomerID (exact match)' => 'CustomerID(精确匹配)',
+        'Customer User Login (complex search)' => '客户联系人登录名(复合搜索)',
+        'Customer User Login (exact match)' => '客户联系人登录名(精确匹配)',
         'Attachment Name' => '附件名',
         '(e. g. m*file or myfi*)' => '（例如：m*file或myfi*）',
         'Created in Queue' => '由队列中创建',
@@ -2870,7 +2877,7 @@ sub Data {
         'Open URL in new tab' => '在新的标签页打开链接',
         'Close preview' => '关闭预览',
         'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
-            '',
+            '这个网站不允许被嵌入，无法提供预览。',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '为了保护你的隐私,远程内容被阻挡。',
@@ -2885,12 +2892,12 @@ sub Data {
         'go back to the previous page' => '返回上一页',
 
         # Template: CustomerError
-        'An Error Occurred' => '',
+        'An Error Occurred' => '发生了一个错误',
         'Error Details' => '详细错误信息',
         'Traceback' => '追溯',
 
         # Template: CustomerFooter
-        'Powered by' => 'Powered by',
+        'Powered by' => '技术支持：',
 
         # Template: CustomerFooterJS
         'One or more errors occurred!' => '发生了一个或多个错误!',
@@ -2944,7 +2951,7 @@ sub Data {
         'Your email address (this will become your username)' => '您的邮件地址（这将是你的登录用户名）',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => '进入的会话请求',
+        'Incoming Chat Requests' => '进入的聊天请求',
         'You have unanswered chat requests' => '你有未响应的聊天请求',
         'Edit personal preferences' => '编辑个人偏好设置',
         'Logout %s %s' => '退出 %s%s',
@@ -3026,9 +3033,9 @@ sub Data {
         # Template: Error
         'An error occurred.' => '发生了一个错误。',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
-            '',
+            '真的是一个BUG吗？十个BUG报告有五个起因于错误或不完整的OTRS安装。',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            '',
+            '通过%s，我们的专家通过技术支持和定期安全更新来确保正确安装且后台程序正常。',
         'Contact our service team now.' => '联系服务团队',
         'Send a bugreport' => '发送一个BUG报告',
 
@@ -3228,10 +3235,10 @@ sub Data {
             '统计的选定时间段是时区中立的（无时区）。',
         'Create summation row' => '创建汇总行',
         'Generate an additional row containing sums for all data rows.' =>
-            '',
+            '生成一个额外的行来包含所有数据行的汇总。',
         'Create summation column' => '创建汇总列',
         'Generate an additional column containing sums for all data columns.' =>
-            '',
+            '生成一个额外的列来包含所有数据列的汇总。',
         'Cache results' => '缓存结果',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             '将统计结果数据保存到缓存中，以在随后同样配置的视图中使用。',
@@ -3991,7 +3998,8 @@ sub Data {
         'State Type' => '工单状态类型',
         'Created Priority' => '创建的优先级',
         'Created State' => '创建的状态',
-        'CustomerUserLogin' => '客户联系人登录',
+        'CustomerUserLogin (complex search)' => '客户联系人登录名(复合搜索)',
+        'CustomerUserLogin (exact match)' => '客户联系人登录名(精确匹配)',
         'Create Time' => '创建时间',
         'Close Time' => '关闭时间',
         'Escalation - First Response Time' => '升级 - 首次响应时间',
@@ -4027,28 +4035,28 @@ sub Data {
         'Historic Time Range' => '历史信息的时间范围',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-        'Solution Average' => '',
-        'Solution Min Time' => '',
-        'Solution Max Time' => '',
-        'Solution Average (affected by escalation configuration)' => '',
-        'Solution Min Time (affected by escalation configuration)' => '',
-        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Average' => '平均解决时间',
+        'Solution Min Time' => '最小解决时间',
+        'Solution Max Time' => '最大解决时间',
+        'Solution Average (affected by escalation configuration)' => '平均解决时间（受升级配置影响）',
+        'Solution Min Time (affected by escalation configuration)' => '最小解决时间（受升级配置影响）',
+        'Solution Max Time (affected by escalation configuration)' => '最大解决时间（受升级配置影响）',
         'Solution Working Time Average (affected by escalation configuration)' =>
-            '',
+            '平均解决工作时间（受升级配置影响）',
         'Solution Min Working Time (affected by escalation configuration)' =>
-            '',
+            '最小解决工作时间（受升级配置影响）',
         'Solution Max Working Time (affected by escalation configuration)' =>
-            '',
-        'Response Average (affected by escalation configuration)' => '',
-        'Response Min Time (affected by escalation configuration)' => '',
-        'Response Max Time (affected by escalation configuration)' => '',
+            '最大解决工作时间（受升级配置影响）',
+        'Response Average (affected by escalation configuration)' => '平均响应时间（受升级配置影响）',
+        'Response Min Time (affected by escalation configuration)' => '最小响应时间（受升级配置影响）',
+        'Response Max Time (affected by escalation configuration)' => '最大响应时间（受升级配置影响）',
         'Response Working Time Average (affected by escalation configuration)' =>
-            '',
+            '平均响应工作时间（受升级配置影响）',
         'Response Min Working Time (affected by escalation configuration)' =>
-            '',
+            '最小响应工作时间（受升级配置影响）',
         'Response Max Working Time (affected by escalation configuration)' =>
-            '',
-        'Number of Tickets (affected by escalation configuration)' => '',
+            '最大响应工作时间（受升级配置影响）',
+        'Number of Tickets (affected by escalation configuration)' => '工单数量（受升级配置影响）',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => '天',
@@ -4555,7 +4563,7 @@ Thanks for your help!
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '允许在客户界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            '允许在自动任务界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '允许拥有一个基本概览视图（如果CustomerInfo => 1还将显示客户信息）。',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4775,7 +4783,7 @@ Thanks for your help!
             '在客户界面中系统使用的默认工单ID。',
         'Default value for NameX' => 'NameX的默认值',
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
-            '',
+            '定义链接对象小部件(LinkObject::ViewMode = \"complex\")设置按钮中的操作。请注意，这些操作必须已经在以下JS和CSS文件中注册：Core.AllocationList.css、Core.UI.AllocationList.js、 Core.UI.Table.Sort.js、Core.Agent.TableFilters.js。',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（例如：faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
@@ -4792,7 +4800,7 @@ Thanks for your help!
             '为选定的日历定义日期选择器中一周的起始日。',
         'Define the start day of the week for the date picker.' => '定义日期选择器中一周的起始日。',
         'Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
-            '',
+            '定义链接对象小部件(LinkObject::ViewMode = "complex")要显示的列。注意：只有工单属性和动态字段（DynamicField_NameX）才能作为默认列，可用的设置值为：0 = 禁用，1 = 可用， 2 = 默认启用。',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '定义一个客户条目，以在客户信息块的尾部生成一个LinkedIn图标。',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4812,7 +4820,7 @@ Thanks for your help!
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '定义HTML输出结果中在BUG追踪号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
-            '',
+            '定义一个在服务人员工单详情窗口从信件文本中搜集CVE编号的过滤器，并在靠近信件的一个自定义区块中显示结果。如果想要在鼠标移到到链接元素上时显示内容预览，就填写URLPreview字段。它可以与URL中的地址相同，也可以是另外一个URL。请注意：一些网站不能在iframe框架中显示（如Google），这样就无法在预览模式中正常显示内容。',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '定义信件中处理文本的过滤器，以便高亮预定义的关键词。',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -4835,7 +4843,7 @@ Thanks for your help!
         'Defines all the parameters for this item in the customer preferences.' =>
             '在客户偏好设置中定义这个条目的所有参数。',
         'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
-            '',
+            '定义在客户偏好设置中这个条目的所有参数。\'PasswordRegExp\'保证密码不匹配一个正则表达式；\'PasswordMinSize\'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，\'PasswordMin2Characters\'定义密码如果要包含至少2个字母字符（设置为0或1）；\'PasswordNeedDigit\'控制是否至少包含1个数字（设置为0或1）。',
         'Defines all the parameters for this notification transport.' => '为这个通知传输定义所有的参数。',
         'Defines all the possible stats output formats.' => '定义所有可能的统计输出格式。',
         'Defines an alternate URL, where the login link refers to.' => '定义一个用户登录链接的备选URL地址。',
@@ -4888,6 +4896,8 @@ Thanks for your help!
             '定义在服务人员界面中编写消息时是否进行拼写检查。',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             '定义是否允许因在个人偏好设置中没有存储共享密钥而不能使用双因素身份验证的客户联系人登录。',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+            '定义客户界面是否使用增强模式（启用表格、替换、下标、上标、从WORD粘贴等功能）。',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '定义是否使用增加模式（可以使用表格、替换、下标、上标、从WORD中粘贴等等）。',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
@@ -4933,7 +4943,7 @@ Thanks for your help!
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '定义在个人偏好设置视图中显示这个条目的配置参数。',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
-            '',
+            '定义在偏好设置中这个条目的配置参数。\'PasswordRegExp\'保证密码不匹配一个正则表达式；\'PasswordMinSize\'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，\'PasswordMin2Characters\'定义密码如果要包含至少2个字母字符（设置为0或1）；\'PasswordNeedDigit\'控制是否至少包含1个数字（设置为0或1）；\'PasswordMaxLoginFailed\'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。',
         'Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.' =>
             '定义在个人偏好设置视图中显示这个条目的配置参数。注意维护在数据区安装到系统中的词典。',
         'Defines the connections for http/ftp, via a proxy.' => '定义通过代理到HTTP/FTP的连接。',
@@ -5418,7 +5428,7 @@ Thanks for your help!
             '如果会话ID被无效的远程IP地址使用则删除该会话。',
         'Deletes requested sessions if they have timed out.' => '删除超时的会话请求。',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
-            '',
+            '启用后，如果发生了任何的AJAX错误，就在前端传递扩展的调试信息。',
         'Deploy and manage OTRS Business Solution™.' => '部署并管理OTRS商业版。',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '确定在服务人员界面转移工单到可能的队列列表是否在下拉列表中或新窗口显示。如果设置为“新窗口”，您可以为这个工单添加一个移动备注。',
@@ -5730,7 +5740,7 @@ Thanks for your help!
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             '如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以使用正则表达式剥去REMOTE_USER的部分内容（如剥去尾部的域名）。正则表达式注释：$1将是新的登录名。',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥去用户名称的主要部分（例如域名，如从example_domain\user变为user）。',
+            '如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\user变为user）。',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             '如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且如果您想给每个客户登录名添加一个前缀，则在这里指定，例如，你只想写入用户名user，但在您的LDAP目录存在user@domain。',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -5841,7 +5851,7 @@ Thanks for your help!
         'Incoming Phone Call.' => '来电。',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '索引加速器：选择您的后端工单视图加速器模块。“RuntimeDB（运行时数据库）”实时生成每个队列视图（工单总数不超过60000个且系统打开的工单不超过6000个时没有性能问题）。“StaticDB（静态数据库）是最强大的模块，它使用额外的类似于视图的工单索引表（工单总数超过80000且系统打开的工单超过6000时推荐使用），使用命令"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild"来初始化索引。',
-        'Indonesian' => '',
+        'Indonesian' => '印度尼西亚语',
         'Input' => 'Input（输入）',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '如果您想使用拼写检查器，请在系统中安装ispell 或 aspell。请指定ispell 或 aspell在操作系统中的程序路径。',
@@ -6214,8 +6224,7 @@ Thanks for your help!
             '如果一个工单未锁定发送服务人员的跟进通知只给所有者（默认会发送通知到所有服务人员）。',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '通过BCC（密件抄送）发送所有外发邮件到指定地址。请只在备份情况下使用这个选项。',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '只给映射客户发送客户通知。一般地，如果没有客户映射，最后的客户发件人将收到这个通知。',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '发送注册信息到OTRS集团。',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '在到达提醒时间后发送解锁工单的提醒通知（只发送给工单所有者）。',
@@ -6862,10 +6871,10 @@ Thanks for your help!
         'Yes, but hide archived tickets' => '是的，但是隐藏已归档的工单。',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '您的工单号为“<OTRS_TICKET>”的邮件已经退回给“<OTRS_BOUNCE_TO>”，请联系这个地址以获得更多的信息。',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            '您收藏的队列，如果您设置了邮件通知，您将会得到该队列的状态通知。',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            '您收藏的服务，如果您设置了邮件通知，您将会得到该服务的状态通知。',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '你的优先队列中选择的队列，如果启用了，你还会得到有关这些队列的电子邮件通知。',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            '你的优先服务中选择的服务，如果启用了，你还会得到有关这些队列的电子邮件通知。',
         'attachment' => '附件',
         'debug' => '调试',
         'error' => '错误',

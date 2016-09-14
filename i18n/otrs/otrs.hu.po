@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2648,7 +2648,7 @@ msgstr "Jegy áthelyezési értesítések küldése"
 msgid ""
 "Your queue selection of your favourite queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "A kedvenc várólisták várólista kijelölése. Értesítve lesz azokról a várólistákról is e-mailben, ha engedélyezve van."
+msgstr "Az előnyben részesített várólistáknak a várólista kiválasztása. Értesítést is kaphat azokról a várólistákról e-mailben, ha engedélyezve van."
 
 #. Template: AAATicket
 msgid "Custom Queue"
@@ -3109,8 +3109,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Az e-mail első 5 sorának lekéréséhez."
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "A küldő valódi nevének lekéréséhez (ha meg van adva)."
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr "A jegy ügyfél-felhasználója valódi nevének lekéréséhez (ha meg van adva)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4245,6 +4245,30 @@ msgstr "%s paraméter érték"
 #. Template: AdminGenericAgent
 msgid "Save Changes"
 msgstr "Változtatások mentése"
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr "Címke hivatkozás"
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr "A jegyzet szakaszban a következő címkéket használhatja"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "A jelenlegi ügyfél-felhasználó adatainak jellemzői"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr "A jegy adatainak jellemzői"
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr "A jegy dinamikus mezőinek belső kulcs értékei"
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr "Példa jegyzet"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5581,10 +5605,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "Valóban törölni szeretné ezt az értesítési nyelvet?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr "Címke hivatkozás"
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Az értesítések ügyintézőnek vagy ügyfélnek kerülnek elküldésre."
 
@@ -5608,10 +5628,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "(A legutóbbi ügyfél bejegyzés) törzse első 5 sorának lekéréséhez."
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "A jelenlegi ügyfél-felhasználó adatainak jellemzői"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "A jelenlegi jegytulajdonos felhasználóadatainak jellemzői"
 
@@ -5626,14 +5642,6 @@ msgstr "A jelenlegi ügyintéző-felhasználó jellemzői, aki ezt a műveletet 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "A címzett felhasználó jellemzői az értesítésnél"
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr "A jegy adatainak jellemzői"
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
-msgstr "A jegy dinamikus mezőinek belső kulcs értékei"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6812,6 +6820,10 @@ msgstr "Átmenet"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "Átmenet neve"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr "A feltételek csak nem üres mezőkön működhetnek."
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -9292,8 +9304,20 @@ msgid ""
 msgstr "Keresés a feladó, címzett, másolat, tárgy és a bejegyzéstörzs jellemzőkben, felülbírálva más hasonló nevű jellemzőket."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "Ügyfél-felhasználó belépés"
+msgid "CustomerID (complex search)"
+msgstr "Ügyfél-azonosító (összetett keresés)"
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr "Ügyfél-azonosító (pontos egyezés)"
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr "Ügyfél-felhasználó belépés (összetett keresés)"
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr "Ügyfél-felhasználó belépés (pontos egyezés)"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -9826,7 +9850,7 @@ msgstr "Ügyfél-azonosító"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")"
-msgstr "Szabad-szavas keresés a jegyekben (például „John*n” vagy „Will*”)."
+msgstr "Szabad-szavas keresés a jegyekben (például „Kata*n” vagy „Gerg*”)."
 
 #. Template: CustomerTicketSearch
 msgid "Recipient"
@@ -12670,8 +12694,12 @@ msgid "Created State"
 msgstr "Létrehozott állapot"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "Ügyfél-felhasználó bejelentkezőnév"
+msgid "CustomerUserLogin (complex search)"
+msgstr "Ügyfél-felhasználó belépés (összetett keresés)"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr "Ügyfél-felhasználó belépés (pontos egyezés)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -14046,7 +14074,7 @@ msgstr "Adminisztrációs terület."
 
 #. SysConfig
 msgid "After"
-msgstr "Ez után:"
+msgstr "Ez után"
 
 #. SysConfig
 msgid "Agent Name"
@@ -15455,6 +15483,12 @@ msgid ""
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
 msgstr "Meghatározza, hogy engedélyezni kell-e az ügyfeleknek a bejelentkezést, ha nincs megosztott titok eltárolva a beállításaikban, és következésképpen nem használnak kétlépcsős hitelesítést."
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
+msgstr "Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó index, felső index, beillesztés Wordből, stb. használatát engedélyezi) az ügyfélfelületen."
 
 #. SysConfig
 msgid ""
@@ -18173,7 +18207,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -18523,7 +18557,7 @@ msgstr "IndexAccelerator: a TicketViewAccelerator háttérprogram modul választ
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonéz"
 
 #. SysConfig
 msgid "Input"
@@ -19185,7 +19219,7 @@ msgstr "Eszkalált jegyek áttekintése."
 
 #. SysConfig
 msgid "Overview Refresh Time"
-msgstr "Frissítési idő áttekintése"
+msgstr "Áttekintő frissítési ideje"
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
@@ -19843,10 +19877,8 @@ msgid ""
 msgstr "Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ez csak biztonsági mentés céljából használja."
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
-msgstr "Az ügyfél értesítéseket csak a leképezett ügyfélnek küldi el. Normális esetben, ha nincs leképezett ügyfél, akkor a legutóbbi ügyfél küldő kapja az értesítést."
+msgid "Sends customer notifications just to the mapped customer."
+msgstr ""
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."
@@ -21970,15 +22002,15 @@ msgstr "Az Ön „<OTRS_TICKET>” számú jegyhez rendelt e-mailje visszaküld�
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "A kedvenc várólistáknak a várólista kiválasztása. Értesítést is kaphat azokról a várólistákról e-mailben, ha engedélyezve van."
+msgstr "Az előnyben részesített várólistáknak a várólista kiválasztása. Értesítést is kaphat azokról a várólistákról e-mailben, ha engedélyezve van."
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr "A kedvenc szolgáltatásoknak a szolgáltatás kiválasztása. Értesítést is kaphat azokról a szolgáltatásokról e-mailben, ha engedélyezve van."
+msgstr "Az előnyben részesített szolgáltatásoknak a szolgáltatás kiválasztása. Értesítést is kaphat azokról a szolgáltatásokról e-mailben, ha engedélyezve van."
 
 #. SysConfig
 msgid "attachment"

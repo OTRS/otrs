@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.728827701293283;
+    $Self->{Completeness}        = 0.726364014993753;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -859,7 +859,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'You can use the following tags' => 'Unaweza kutumia lebo zifuatazo',
         'To get the first 20 character of the subject.' => 'Kupata herufi 20 za kwanza za somo',
         'To get the first 5 lines of the email.' => 'Kupata mistari 5 ya kwanza ya barua pepe.',
-        'To get the realname of the sender (if given).' => 'Kupata jina halisi la mtumaji ( kama limetolewa)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Kupata sifa za makala',
         ' e. g.' => 'Mfano',
         'Options of the current customer user data' => 'Chaguo la data za mtumiaji za mteja wa sasa',
@@ -1195,6 +1196,12 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Param %s key' => 'Ufunguo wa kigezo %s',
         'Param %s value' => 'Thamani ya kigezo %s',
         'Save Changes' => 'Hifadhi mabadiliko',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => 'matokeo',
         '%s Tickets affected! What do you want to do?' => 'Tiketi %s zimeathirika. Unataka kufanya nini?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1592,7 +1599,6 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Taarifa zimetumwa kwa wakala au mteja',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Kupata herufi 20 za kwanza za somo (kutoka kwa wakala wa karibuni)',
@@ -1602,14 +1608,11 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             'Kupata herufi 20 za kwanza za somo (kutoka kwa makala ya mteja wa karibuni)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Kupata mistari 5 ya kwanza ya kiini (kutoka kwa makala ya mteja wa karibuni)',
-        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -1975,6 +1978,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             'Tafadhali zingatia kwamba kubadili mpito huu utaathiri michakato ifuatayo',
         'Transition' => 'Mpito',
         'Transition Name' => 'Jina la mpito',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Aina ya kunganisha kati ya masharti',
         'Remove this Condition' => 'Ondoa sharti hili',
         'Type of Linking' => 'Aina ya kiunganishi',
@@ -2796,7 +2800,10 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Remove' => 'Ondoa',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Tafuta katika sifa Kutoka, Kwenda, Cc, Somo na kiini cha makala, geuza sifa nyingine zenye jina sawa.',
-        'Customer User Login' => 'Kuingia kwa mtimiaji wa mteja',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Jina la kiambatanishi',
         '(e. g. m*file or myfi*)' => '(Mfano m*file au myfil*) ',
         'Created in Queue' => 'Tengenezwa katika foleni',
@@ -3989,7 +3996,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'State Type' => '',
         'Created Priority' => 'Kipaumbele kilichotengenezwa',
         'Created State' => 'Hali iliyotengenezwa',
-        'CustomerUserLogin' => 'MtejaMtumiajiIngia',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Muda wa kutengeneza',
         'Close Time' => 'Muda wa kufunga',
         'Escalation - First Response Time' => 'Kupanda - Muda wa kwanza wa kujibu',
@@ -4879,6 +4887,8 @@ Mfano:
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Inafafanua kama tiketi iliyotungwa inahitaji kuangaliwa herufi katika kiolesura cha wakala.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             'Inafafanua kama hali timizi ya uimarishaji itumike(Wezesha matumizi ya jedwali, kubadilisha,hati chini, hati juu, Bandika kutoka kwenye Word, n.k.).',
@@ -6207,8 +6217,7 @@ Mfano:
             'Tuma taarifa za ufuatiliaji za wakala kwa mmiliki tu, kama tiketi imefunguliwa (Chaguo-msingi ni kutuma taarifa kwa mawakala wote).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Tuma bariu pepe za kwenda nje zote kupitia bcc kwa anwani iliyobainishwa.Tafadhali tumia hii kwa sababu za chelezo.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'Tuma taarifa za mteja kwa mteja wa kuunganisha. Kawaida, kama hakuna mteja aliyeunganishwa, mtumaji wa mteja wa sasa atapata taarifa.',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Tuma taarifa za kukumbusha za tiketi iliyofunguliwa baada ya kufikia tarehe kukumbushwa. (Inatumwa kwa mmiliki wa tiketi tu).',
@@ -6855,10 +6864,10 @@ Mfano:
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Chaguo lako la foleni kwa foleni uzipendazo. Pia utapata kujulishwa kuhusu foleni hizi kwa kupitia barua pepe kama imewezeshwa.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            'Chaguo lako la huduma la huduma uzipendazo. Pia utapata kujulishwa kuhusu hizo huduma kwa kupitia barua pepe kama imewezeshwa.',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            '',
         'attachment' => '',
         'debug' => '',
         'error' => '',

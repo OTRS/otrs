@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.649353358364622;
+    $Self->{Completeness}        = 0.64743856726364;
 
     # csv separator
     $Self->{Separator} = '';
@@ -863,7 +863,8 @@ sub Data {
         'You can use the following tags' => 'Puoi usare i seguenti tag',
         'To get the first 20 character of the subject.' => 'Usa i primi 20 caratteri dell\'oggetto.',
         'To get the first 5 lines of the email.' => 'Usa le prime 5 righe dell\'email.',
-        'To get the realname of the sender (if given).' => 'Usa il realname dello user (se presente).',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Usa l\'attributo dell\'articolo',
         ' e. g.' => 'ad es.',
         'Options of the current customer user data' => 'Opzioni dei dati del cliente corrente',
@@ -1199,6 +1200,12 @@ sub Data {
         'Param %s key' => 'Chiave parametro %s',
         'Param %s value' => 'Valore parametro %s',
         'Save Changes' => 'Salva cambiamenti',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => 'Attributi dei dati utente del cliente attuale',
+        'Attributes of the ticket data' => 'Attributi dei dati del ticket',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => 'Risultati',
         '%s Tickets affected! What do you want to do?' => '%s ticket corrispondenti! Cosa vuoi fare?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1596,7 +1603,6 @@ sub Data {
         'Message body' => 'Corpo del messaggio',
         'Add new notification language' => 'Aggiungi nuova lingua delle notifiche',
         'Do you really want to delete this notification language?' => 'Vuoi davvero eliminare questa lingua delle notifiche?',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Le notifiche sono inviate ad un operatore o a un cliente',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Per avere i primi 20 caratteri mail - subject (agent) ',
@@ -1606,14 +1612,11 @@ sub Data {
             'Per avere i primi 20 caratteri mail - subject (customer).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Per avere le prime 5 righe corpo mail (customer).',
-        'Attributes of the current customer user data' => 'Attributi dei dati utente del cliente attuale',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             'Attributi dell\'utente dell\'operatore attuale che ha richiesto questa azione',
         'Attributes of the recipient user for the notification' => 'Attributi dell\'utente destinatario delle notifiche',
-        'Attributes of the ticket data' => 'Attributi dei dati del ticket',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => 'Notifica di esempio',
@@ -1979,6 +1982,7 @@ sub Data {
             'Attenzione, i cambiamenti a questa transizione impattano sui seguenti processi',
         'Transition' => 'Transizione',
         'Transition Name' => 'Nome della Transizione',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Tipo del collegamento tra le Condizioni',
         'Remove this Condition' => 'Rimuovi questa Condizione',
         'Type of Linking' => 'Tipo di Collegamento',
@@ -2800,7 +2804,10 @@ sub Data {
         'Remove' => 'Rimuovi',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Cerca negli attributi Da, A, Cc, Oggetto e nel corpo dell\'articolo, ignorando gli altri attributi con lo stesso nome.',
-        'Customer User Login' => 'Identificativo di Accesso del Cliente',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Nome allegato',
         '(e. g. m*file or myfi*)' => '(ad es. m*file o miofi*)',
         'Created in Queue' => 'Creata nella Coda',
@@ -3993,7 +4000,8 @@ sub Data {
         'State Type' => 'Tipo di stato',
         'Created Priority' => 'Priorità creata',
         'Created State' => 'Stato ticket',
-        'CustomerUserLogin' => 'Login Utente Cliente',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Tempo di Creazione',
         'Close Time' => 'Tempo di Chiusura',
         'Escalation - First Response Time' => '',
@@ -4880,6 +4888,8 @@ Thanks for your help!
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Definisce se i messaggi devono essere controllati ortograficamente nell\'interfaccia degli operatori.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6207,8 +6217,7 @@ Thanks for your help!
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => 'Invia le informazioni di registrazione a OTRS Group.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6855,9 +6864,9 @@ Thanks for your help!
         'Yes, but hide archived tickets' => 'Sì, ma nascondi i ticket archiviati',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'La tua selezione delle code preferite. Se attivata, riceverai notifiche tramite posta anche per queste code.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => 'allegato',
         'debug' => 'debug',

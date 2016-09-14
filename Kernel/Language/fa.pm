@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.304338756779307;
+    $Self->{Completeness}        = 0.311745106205748;
 
     # csv separator
     $Self->{Separator} = '';
@@ -50,46 +50,46 @@ sub Data {
         'Done' => 'انجام شد',
         'Cancel' => 'لغو',
         'Reset' => 'ورود مجدد',
-        'more than ... ago' => '',
-        'in more than ...' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'more than ... ago' => 'بیش از ... قبل',
+        'in more than ...' => 'در بیش از ...',
+        'within the last ...' => 'در آخرین ...',
+        'within the next ...' => 'در بعدی ...',
+        'Created within the last' => 'ایجاد شده در آخرین',
+        'Created more than ... ago' => 'ایجاد شده بیشتر از ... قبل',
         'Today' => 'امروز ',
         'Tomorrow' => 'فردا ',
-        'Next week' => '',
+        'Next week' => 'هفته آینده',
         'day' => 'روز',
         'days' => 'روز',
         'day(s)' => 'روز',
-        'd' => '',
+        'd' => 'd',
         'hour' => 'ساعت',
         'hours' => 'ساعت',
         'hour(s)' => 'ساعت',
         'Hours' => 'ساعت',
-        'h' => '',
+        'h' => 'h',
         'minute' => 'دقیقه',
         'minutes' => 'دقیقه',
         'minute(s)' => 'دقیقه',
-        'Minutes' => '',
-        'm' => '',
+        'Minutes' => 'دقیقه',
+        'm' => 'm',
         'month' => 'ماه',
         'months' => 'ماه',
         'month(s)' => 'ماه',
         'week' => 'هفته',
         'week(s)' => 'هفته',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'یک چهارم',
+        'quarter(s)' => 'یک چهارم(ها)',
+        'half-year' => 'نیمی از سال',
+        'half-year(s)' => 'نیمی از سال(ها)',
         'year' => 'سال',
         'years' => 'سال',
         'year(s)' => 'سال',
         'second(s)' => 'ثانیه',
         'seconds' => 'ثانیه',
         'second' => 'ثانیه',
-        's' => '',
-        'Time unit' => '',
+        's' => 's',
+        'Time unit' => 'واحد زمان',
         'wrote' => 'نوشته شد',
         'Message' => 'پیام',
         'Error' => 'خطا',
@@ -107,7 +107,7 @@ sub Data {
         'valid' => 'معتبر',
         'Valid' => 'معتبر',
         'invalid' => 'غیر معتبر',
-        'Invalid' => '',
+        'Invalid' => 'نامعتبر',
         '* invalid' => 'غیر معتبر',
         'invalid-temporarily' => 'موقتا غیر معتبر',
         ' 2 minutes' => '۲ دقیقه',
@@ -194,7 +194,7 @@ sub Data {
         'Search' => 'جستجو',
         'and' => 'و',
         'between' => 'بین',
-        'before/after' => '',
+        'before/after' => 'قبل/بعد',
         'Fulltext Search' => 'جستجوی متنی',
         'Data' => 'داده‌ها',
         'Options' => 'گزینه‌ها',
@@ -219,10 +219,10 @@ sub Data {
         'Medium' => 'متوسط',
         'Large' => 'بزرگ',
         'Date picker' => 'تقویم',
-        'Show Tree Selection' => '',
-        'The field content is too long!' => '',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'Show Tree Selection' => ' انتخاب درخت را نشان بده',
+        'The field content is too long!' => 'محتویات این فیلد طولانی است!',
+        'Maximum size is %s characters.' => 'حداکثر اندازه %s کاراکتر است.',
+        'This field is required or' => 'این فیلد اجباری یا',
         'New message' => 'پیام جدید',
         'New message!' => 'پیام جدید !',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -249,19 +249,19 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'این ویژگی فعال نیست.',
         'Agent updated!' => 'کارشناس به روز شد!',
-        'Database Selection' => '',
+        'Database Selection' => 'انتخاب پایگاه داده',
         'Create Database' => 'ایجاد بانک',
         'System Settings' => 'تنظیمات سیستم',
         'Mail Configuration' => 'پیکربندی پست الکترونیک',
         'Finished' => 'پایان یافت',
-        'Install OTRS' => '',
-        'Intro' => '',
+        'Install OTRS' => 'نصب  OTRS',
+        'Intro' => 'معرفی',
         'License' => 'مجوز بهره برداری سیستم',
         'Database' => 'پایگاه داده',
-        'Configure Mail' => '',
-        'Database deleted.' => '',
-        'Enter the password for the administrative database user.' => '',
-        'Enter the password for the database user.' => '',
+        'Configure Mail' => 'پیکربندی ایمیل',
+        'Database deleted.' => 'پایگاه داده حذف شد.',
+        'Enter the password for the administrative database user.' => 'کلمه عبور کاربر مدیر پایگاه داده را وارد کنید.',
+        'Enter the password for the database user.' => 'کلمه عبور برای کاربر پایگاه داده وارد کنید.',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
         'Database already contains data - it should be empty!' => '',
@@ -768,7 +768,7 @@ sub Data {
             'تمام درخواست‌هایی که برای آن‌ها یک یادآوری تنظیم شده و زمان یادآوری فرا رسیده است',
         'Archived tickets' => '',
         'Unarchived tickets' => '',
-        'Ticket Information' => '',
+        'Ticket Information' => 'اطلاعات درخواست',
         'including subqueues' => '',
         'excluding subqueues' => '',
 
@@ -860,7 +860,8 @@ sub Data {
         'You can use the following tags' => 'شما می‌توانید از برچسب‌های زیر استفاده نمایید.',
         'To get the first 20 character of the subject.' => 'برای دریافت ۲۰ حرف اول موضوع',
         'To get the first 5 lines of the email.' => 'برای دریافت ۵ خط اول نامه',
-        'To get the realname of the sender (if given).' => 'برای دریافت نام فرستنده',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'برای گرفتن ویژگی مطلب',
         ' e. g.' => 'به عنوان مثال',
         'Options of the current customer user data' => 'گزینه‌هایی از داده مشترک کنونی',
@@ -1196,6 +1197,12 @@ sub Data {
         'Param %s key' => '',
         'Param %s value' => '',
         'Save Changes' => 'ذخیره‌سازی تغییرات',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => 'نتیجه',
         '%s Tickets affected! What do you want to do?' => '%s درخواست تاثیر خواهند پذیرفت! می‌خواهید چه کاری انجام دهید؟',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1246,7 +1253,7 @@ sub Data {
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
         'Mapping for outgoing request data' => '',
-        'Configure' => '',
+        'Configure' => 'تنظیمات',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
         'Mapping for incoming response data' => '',
@@ -1258,7 +1265,7 @@ sub Data {
             '',
         'Synchronous event triggers would be processed directly during the web request.' =>
             '',
-        'Save and continue' => '',
+        'Save and continue' => 'ذخیره و ادامه',
         'Delete this Invoker' => '',
 
         # Template: AdminGenericInterfaceMappingSimple
@@ -1312,7 +1319,7 @@ sub Data {
         'Mapping for outgoing response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
-        'Delete this Operation' => '',
+        'Delete this Operation' => 'حذف این عملیات',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => '',
@@ -1341,7 +1348,7 @@ sub Data {
         'Valid request command for Invoker' => '',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             '',
-        'Default command' => '',
+        'Default command' => 'دستور پیش فرض',
         'The default HTTP command to use for the requests.' => '',
         'Authentication' => '',
         'The authentication mechanism to access the remote system.' => '',
@@ -1593,7 +1600,6 @@ sub Data {
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'اعلام به یک کارشناس یا مشترک ارسال شد.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'برای گرفتن ۲۰ کاراکتر اول موضوع (از آخرین نوشته کارشناس).',
@@ -1603,14 +1609,11 @@ sub Data {
             'برای گرفتن اولین ۲۰ کاراکتر موضوع (از آخرین نوشته مشتری).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'برای گرفتن اولین ۵ خط بدنه (از آخرین نوشته مشتری).',
-        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -1976,6 +1979,7 @@ sub Data {
             '',
         'Transition' => '',
         'Transition Name' => '',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
@@ -2546,16 +2550,16 @@ sub Data {
             '',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
+        'My locked tickets' => 'درخواست‎های قفل شده من',
         'My watched tickets' => '',
         'My responsibilities' => '',
-        'Tickets in My Queues' => '',
-        'Tickets in My Services' => '',
+        'Tickets in My Queues' => 'درخواستهای در صفهای من',
+        'Tickets in My Services' => 'درخواستهای در سرویسهای من',
         'Service Time' => 'زمان سرویس',
         'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
-        'Totals' => '',
+        'Totals' => 'مجموع',
 
         # Template: AgentDashboardUserOnline
         'out of office' => '',
@@ -2797,7 +2801,10 @@ sub Data {
         'Remove' => 'حذف کردن',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             '',
-        'Customer User Login' => 'ورود مشترک به سیستم',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => '',
         '(e. g. m*file or myfi*)' => '',
         'Created in Queue' => 'ایجاد شده در صف درخواست',
@@ -3990,7 +3997,8 @@ sub Data {
         'State Type' => '',
         'Created Priority' => 'اولویت ایجاد',
         'Created State' => 'وضعیت ایجاد',
-        'CustomerUserLogin' => 'نام کاربری مشترک',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'زمان ایجاد ',
         'Close Time' => 'زمان بسته شدن',
         'Escalation - First Response Time' => '',
@@ -4877,6 +4885,8 @@ Thanks for your help!
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6083,7 +6093,7 @@ Thanks for your help!
         'ParentChild' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
-        'People' => '',
+        'People' => 'کاربران',
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             '',
         'Permitted width for compose email windows.' => '',
@@ -6121,7 +6131,7 @@ Thanks for your help!
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Reports' => '',
+        'Reports' => 'گزارشات',
         'Reports (OTRS Business Solution™)' => '',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
@@ -6204,8 +6214,7 @@ Thanks for your help!
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6769,7 +6778,7 @@ Thanks for your help!
         'Ticket Pending.' => '',
         'Ticket Print.' => '',
         'Ticket Priority.' => '',
-        'Ticket Queue Overview' => '',
+        'Ticket Queue Overview' => 'بررسی اجمالی صف درخواست',
         'Ticket Responsible.' => '',
         'Ticket Watcher' => '',
         'Ticket Zoom.' => '',
@@ -6852,9 +6861,9 @@ Thanks for your help!
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'شما از طریق ایمیل از وضعیت لیست خود مطلع خواهید شد - در صورتیکه این گزینه در سیستم فعال باشد',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
         'debug' => '',

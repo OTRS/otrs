@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.978514810179391;
+    $Self->{Completeness}        = 0.982299042065806;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -866,7 +866,8 @@ sub Data {
         'You can use the following tags' => 'Вы можете использовать следующие теги',
         'To get the first 20 character of the subject.' => 'Чтобы получить первые 20 символов темы',
         'To get the first 5 lines of the email.' => 'Чтобы получить первые 5 строк email',
-        'To get the realname of the sender (if given).' => 'Чтобы получить реальное имя отправителя (если указано)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Чтобы получить атрибут сообщения',
         ' e. g.' => ' например,',
         'Options of the current customer user data' => 'Атрибуты данных о пользователе текущего клиента',
@@ -915,8 +916,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Разрешены шаблоны типа \'*\'.',
         'Add customer' => 'Добавить компанию',
         'Select' => 'Выбор',
-        'List (only %s shown - more available)' => '',
-        'List (%s total)' => '',
+        'List (only %s shown - more available)' => 'Список (%s показано, доступно еще)',
+        'List (%s total)' => 'Список (%s всего)',
         'Please enter a search term to look for customers.' => 'Введите запрос для поиска компании.',
         'Add Customer' => 'Добавить компанию',
 
@@ -1202,6 +1203,12 @@ sub Data {
         'Param %s key' => 'Параметр %s ключ',
         'Param %s value' => 'Параметр %s значение',
         'Save Changes' => 'Сохранить изменения',
+        'Tag Reference' => 'Справка по тэгам',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => 'Атрибуты данных текущего клиента',
+        'Attributes of the ticket data' => 'Атрибуты данных заявки',
+        'Ticket dynamic fields internal key values' => 'Значения внутренних ключей динамических полей заявки',
+        'Example note' => '',
         'Results' => 'Результаты',
         '%s Tickets affected! What do you want to do?' => 'Затронуто %s заявок! Что желаете сделать?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1445,10 +1452,10 @@ sub Data {
         'Do you really want to delete this web service?' => 'Вы действительно желаете удалить этот веб-сервис',
         'Example Web Services' => 'Примеры Веб-сервисов',
         'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
-            '',
+            'Здесь вы можете попробовать, основанный на лучших практиках примерный процесс, который являются частью %s. Пожалуйста, обратите внимание, что  могут потребоваться некоторые дополнительные настройки.',
         'Import example web service' => 'Импорт примера Веб-сервиса',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
-            '',
+            'Вы хотите извлечь выгоду из web-сервисов, созданных специалистами? Обновитесь до % s, чтобы иметь возможность импортировать некоторые сложные примерные web-сервисов.',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'После сохранения конфигурации вы вернетесь обратно на экран редактирования',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1588,7 +1595,7 @@ sub Data {
         'At least one method is needed per notification.' => 'Должен быть выбран хотя бы один способ для каждого уведомления',
         'Active by default in agent preferences' => 'Включен по умолчанию в настройках агента',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'Это умалчиваемое значение назначаемое агентам получателям, которые не имеют возможности сделать выбор для этого уведомления в своих настройках. Если включено, уведомление будет отправляться таким агентам.',
         'This feature is currently not available.' => 'Эта функция в данный момент не доступна',
         'No data found' => 'Данные не найдены',
         'No notification method found.' => 'Не задан метод уведомлений.',
@@ -1599,7 +1606,6 @@ sub Data {
         'Message body' => 'Содержание уведомления',
         'Add new notification language' => 'Добавить дополнительный язык для уведомлений',
         'Do you really want to delete this notification language?' => 'Вы действительно желаете удалить этот язык для Уведомлений?',
-        'Tag Reference' => 'Справка по тэгам',
         'Notifications are sent to an agent or a customer.' => 'Уведомления отправляются агенту или клиенту',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Первые 20 символов темы из последнего сообщения агента',
@@ -1609,14 +1615,11 @@ sub Data {
             'Первые 20 символов темы из последнего сообщения клиента',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Первые 5 строк последнего сообщения клиента',
-        'Attributes of the current customer user data' => 'Атрибуты данных текущего клиента',
         'Attributes of the current ticket owner user data' => 'Атрибуты текущего владельца тикета',
         'Attributes of the current ticket responsible user data' => 'Атрибуты текущего ответственного по тикету',
         'Attributes of the current agent user who requested this action' =>
             'Атрибуты текущего агента, запросившего это действие',
         'Attributes of the recipient user for the notification' => 'Атрибуты пользователя - получателя уведомления',
-        'Attributes of the ticket data' => 'Атрибуты данных заявки',
-        'Ticket dynamic fields internal key values' => 'Значения внутренних ключей динамических полей заявки',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'Отображаемые значения динамических полей заявки, полезно при использовании полей типа Dropdown и Multiselect',
         'Example notification' => 'Пример уведомления',
@@ -1982,6 +1985,7 @@ sub Data {
             'Имейте в виду, что изменение в этом Переходе повлияет на следующие Процессы',
         'Transition' => 'Переход',
         'Transition Name' => 'Имя Перехода',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Тип связи между Условиями',
         'Remove this Condition' => 'Удалить это Условие',
         'Type of Linking' => 'Тип связи',
@@ -2803,7 +2807,10 @@ sub Data {
         'Remove' => 'Удалить',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Искать в свойствах От, Для, Копия, Тема и тело сообщения, перекрывая другие атрибуты с тем же именем.',
-        'Customer User Login' => 'Логин клиента',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Имя вложения',
         '(e. g. m*file or myfi*)' => '(например, m*file or myfi*)',
         'Created in Queue' => 'Создана в очереди',
@@ -3033,7 +3040,7 @@ sub Data {
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
             'Вы уверены, что это ошибка? В 5 случаях из 10 ошибки возникают из-за некорректной или незавершенной установки OTRS.',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            '',
+            'С %s, наши специалисты позаботятся о правильности установки  и осуществят поддержку и проведение периодических обновлений безопасности.',
         'Contact our service team now.' => 'Свяжитесь с нашей командой поддержки.',
         'Send a bugreport' => 'Отправить сообщение об ошибке',
 
@@ -3233,10 +3240,10 @@ sub Data {
             'Выбранный период времени для отчета не зависит от временНой зоны.',
         'Create summation row' => 'Создать итоговую строку',
         'Generate an additional row containing sums for all data rows.' =>
-            '',
+            'Генерирует дополнительную строку, содержащую суммы для всех строк данных.',
         'Create summation column' => 'Создать итоговую колонку',
         'Generate an additional column containing sums for all data columns.' =>
-            '',
+            'Генерирует дополнительную колонку, содержащую суммы по всем колонкам данных.',
         'Cache results' => 'Кэширование результатов',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
             'Сохраняет результирующие данные отчета в кэше для использования в последующих обзорах с такими же настройками.',
@@ -3749,19 +3756,19 @@ sub Data {
             'Невозможно получить конфигурацию ActivityDialog для ActivityDialogEntityID "%s"!',
         'Can\'t get data for Field "%s" of ActivityDialog "%s"!' => 'Невозможно получить данные для поля "%s" в ActivityDialog "%s"!',
         'PendingTime can just be used if State or StateID is configured for the same ActivityDialog. ActivityDialog: %s!' =>
-            '',
+            'PendingTime может просто использоваться если State или StateID настроены для такого же ActivityDialog. ActivityDialog: %s!',
         'Pending Date' => 'Ожидать до',
         'for pending* states' => 'для состояний "ожидает ..."',
         'ActivityDialogEntityID missing!' => 'Отсутствует ActivityDialogEntityID!',
-        'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
+        'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Невозможно получить Config для ActivityDialogEntityID "%s"!',
         'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            '',
+            'Невозможно использовать CustomerID в качестве невидимого поля. Пожалуйста, обратитесь к системному администратору!',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
-            '',
+            'Отсутствует ProcessEntityID, проверьте ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
-            '',
+            'Отсутствует StartActivityDialog или StartActivityDialog для Процесса "%s" !',
         'Couldn\'t create ticket for Process with ProcessEntityID "%s"!' =>
-            '',
+            'Невозможно создать заявку для Процесса с ProcessEntityID "%s"!',
         'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!' => 'Не удалось установить ProcessEntityID "%s" на TicketID "%s"!',
         'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!' => 'Не удалось установить ActivityEntityID "%s" на TicketID "%s"!',
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Не удалось сохранить ActivityDialog, не верный TicketID: %s!',
@@ -3769,13 +3776,13 @@ sub Data {
         'Missing ActivityEntityID in Ticket %s!' => 'Отсутствует ActivityEntityID в Ticket %s!',
         'Missing ProcessEntityID in Ticket %s!' => 'Отсутствует ProcessEntityID в Ticket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
+            'Невозможно установить значение динамического поля %s для заявки с ID "%s" in ActivityDialog "%s"!',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
+            'Невозможно установить PendingTime для заявки с ID "%s" в ActivityDialog "%s"!',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
-            '',
+            'Неверная настройка для ActivityDialog Field: %s не отображать => 1 / Показать поле (Пожалуйста, его настройку отображения на => 0 / Не показывать поле или  => 2 /Показывать обязательно)!',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
+            'Невозможно установить %s для заявки с ID "%s" в ActivityDialog "%s"!',
         'Default Config for Process::Default%s missing!' => 'Настройки по умолчанию для Process::Default%s не указаны!',
         'Default Config for Process::Default%s invalid!' => 'Настройки по умолчанию для Process::Default%s недопустимы!',
 
@@ -3954,7 +3961,7 @@ sub Data {
         'The selected time period is larger than the allowed time period.' =>
             'Выбранный период времени больше, чем разрешенный период.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
-            '',
+            'Не назначено значение шкалы времени для текущего выбранного значения шкалы времени на оси X.',
         'The selected date is not valid.' => 'Выбранная дата неверна.',
         'The selected end time is before the start time.' => 'Указанное время окончания раньше времени начала.',
         'There is something wrong with your time selection.' => 'какая-то ошибка при указании времени.',
@@ -3996,7 +4003,8 @@ sub Data {
         'State Type' => 'Тип состояния',
         'Created Priority' => 'Созданный Приоритет',
         'Created State' => 'Созданное Состояние',
-        'CustomerUserLogin' => 'Логин клиента',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Время создания',
         'Close Time' => 'Время закрытия',
         'Escalation - First Response Time' => 'Эскалация - Время Первого Отклика',
@@ -4022,7 +4030,7 @@ sub Data {
         'Number of Articles' => 'Количество сообщений',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => '',
+        'unlimited' => 'неограничено',
         'ascending' => 'По возрастанию',
         'descending' => 'По убыванию',
         'Attributes to be printed' => 'Атрибуты для печати',
@@ -4489,28 +4497,28 @@ Thanks for your help!
         'Admin Area.' => 'Панель администратора.',
         'After' => 'После',
         'Agent Name' => 'Имя Агента',
-        'Agent Name + FromSeparator + System Address Display Name' => '',
+        'Agent Name + FromSeparator + System Address Display Name' => 'Agent Name + FromSeparator + System Address Display Name',
         'Agent Preferences.' => 'Предпочтения агента.',
         'Agent called customer.' => 'Сотрудник позвонил клиенту',
         'Agent interface article notification module to check PGP.' => 'Модуль уведомления для проверки PGP в интерфейсе агента.',
         'Agent interface article notification module to check S/MIME.' =>
             'Модуль уведомления для проверки S/MIME в интерфейсе агента.',
         'Agent interface module to access CIC search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Модуль для интерфейса агента для доступа к поиску CIC из навигационной панели. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
         'Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Модуль для интерфейса агента для доступа к полнотекстовому поиску из навигационной панели. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
         'Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Модуль для интерфейса агента для доступа к поиску по сохраненным шаблонам из навигационной панели. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Модуль проверки входящих emails в окне Ticket-Zoom-View если S/MIME-key доступен и верен.',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Модуль отображения количества заблокированных заявок в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Модуль отображения количества заявок за которые агент является ответственным в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
         'Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Модуль отображения количества заявок в Моих Сервисах в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Модуль отображения количества наблюдаемых заявок в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
         'AgentCustomerSearch' => 'AgentCustomerSearch',
         'AgentCustomerSearch.' => 'AgentCustomerSearch.',
         'AgentUserSearch' => 'AgentUserSearch',
@@ -4560,9 +4568,9 @@ Thanks for your help!
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Позволяет задать расширенные возможности поиска в интерфейсе агента. При включении его, появится возможность поска с использованием конструкций типа "(key1&&key2)" или "(key1||key2)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            '',
+            'Позволяет задать расширенные возможности поиска в интерфейсе клиента. При включении его, появится возможность поиска с использованием конструкций типа "(key1&&key2)" или "(key1||key2)".',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            'Позволяет задать расширенные возможности поиска в интерфейсе агента в заданиях Планировщика. При включении его, появится возможность поиска с использованием конструкций типа "(key1&&key2)" или "(key1||key2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Допускает использование medium режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4590,7 +4598,7 @@ Thanks for your help!
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'Автоматически блокирует заявку и назначает текущего агента владельцем при выборе массового действия',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface.' =>
-            '',
+            'Автоматически устанавливает владельца заявки ответственным за нее (если механизм ответственных включен). Это работает лишь при ручных операциях активного/logged агента. Не работает для автоматически выполняемых работах типа GenericAgent/Планировщик, Postmaster или GenericInterface.',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Автоматически назначает Ответственного (если это еще не произошло) после первой смены Владельца.',
         'Balanced white skin by Felix Niklas (slim version).' => 'Сбалансированный белый окрас интерфейса от Felix Niklas (уменьшенная версия).',
@@ -4669,7 +4677,7 @@ Thanks for your help!
         'Company name which will be included in outgoing emails as an X-Header.' =>
             'Имя Компании, включаемое в исходящее письмо как X-Header.',
         'Compat module for AgentZoom to AgentTicketZoom.' => '',
-        'Complex' => '',
+        'Complex' => 'Complex/Комплексный',
         'Configure Processes.' => 'Настройка Процессов',
         'Configure and manage ACLs.' => 'Настройка и управление ACL.',
         'Configure any additional readonly mirror databases that you want to use.' =>
@@ -4895,6 +4903,8 @@ Thanks for your help!
             'Включает проверку правописания при написании сообщений.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Задает возможность входа для клиента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация.',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             'Включает расширенные средства редактирования.',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
@@ -6221,8 +6231,7 @@ Thanks for your help!
             'Отправлять уведомления агентам об откликах только владельцу, если заявка разблокирована (по умолчанию уведомляются все агенты).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Отсылать всю исходящую почту через bcc на заданные адреса. Используйте эту опцию только резервного копирования.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'Посылать уведомление клиента показанным клиентам. Если не показано ни одного клиента, последний отправитель получит уведомление.',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => 'Отправляет регистрационные данные в OTRS group.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Посылать напоминание о разблокированных заявках после истечения времени напоминания (посылается только владельцу заявки).',
@@ -6869,10 +6878,10 @@ Thanks for your help!
         'Yes, but hide archived tickets' => 'Да, скрыть архивированные заявки',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Ваше письмо с номером заявки "<OTRS_TICKET>" переправлено адресату "<OTRS_BOUNCE_TO>". Контактируйте по этому адресу для получения дальнейшей информации.',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Выбор очередей, которые вас интересуют. Вы также будете уведомляться по электронной почте, если эта функция включена.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            'Выбор сервисов, которые вас интересуют. Вы также будете уведомляться по электронной почте об этих сервисах, если эта функция включена.',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            '',
         'attachment' => 'Вложение',
         'debug' => 'Отладка',
         'error' => 'Ошибка',

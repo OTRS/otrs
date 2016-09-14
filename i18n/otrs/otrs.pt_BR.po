@@ -7,11 +7,13 @@
 # Davi Albergaria <davialbergaria@gmail.com>, 2016
 # Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
 # eder.brito <ederbritoo@gmail.com>, 2015
-# Edson Silva Freitas <edson.s.freitas@gmail.com>, 2016
+# Edson S Freitas <edson.s.freitas@gmail.com>, 2016
 # Felipe Augusto Nunes Ribeiro <felipeaugustoti@gmail.com>, 2016
 # Felipe Braga <fbobraga@gmail.com>, 2015-2016
 # Felipe Rozelio <feliperozelio@gmail.com>, 2016
-# José Junior <joserribeiro26@gmail.com>, 2014-2015
+# Glauber Caires <glaubercaires@gmail.com>, 2016
+# João Paulo Avelar de Araújo Pontes <meunomejoaopaulo@gmail.com>, 2016
+# José Ribeiro <joserribeiro26@gmail.com>, 2014-2015
 # Leandro “Lê Corſetti van Utrecht” Guimarães Faria Corcete DUTRA <l@dutras.org>, 2015
 # Leandro “Lê Corſetti van Utrecht” Guimarães Faria Corcete DUTRA <l@dutras.org>, 2016
 # Marcos Aurélio Silvério <marcos.aurelio@infracerta.com.br>, 2014
@@ -24,8 +26,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -3120,8 +3122,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Para obter as primeiras 5 linhas do e-mail."
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "Para obter o nome real do remetente (se fornecido)."
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3278,11 +3280,11 @@ msgstr "Selecionar"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "Listar(somente %s mostrado - mais disponível)"
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
-msgstr ""
+msgstr "Listar (%s total)"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -4258,6 +4260,30 @@ msgid "Save Changes"
 msgstr "Salvar Alterações"
 
 #. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr "Referência de Tag"
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "Atributos  de dados do usuário cliente atual"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr "Atributos dos dados do chamado"
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr "Chave de valores interna dos campos dinâmicos do chamado"
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Results"
 msgstr "Resultados"
 
@@ -5071,7 +5097,7 @@ msgstr "Exemplos de Web Services"
 msgid ""
 "Here you can activate best practice example web service that are part of %s."
 " Please note that some additional configuration may be required."
-msgstr ""
+msgstr "Aqui você pode ativar exemplos de boas práticas de web service que fazem parte do %s. Por favor, note que alguma configuração adicional poderá ser necessária."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import example web service"
@@ -5081,7 +5107,7 @@ msgstr "Importar exemplo de web service"
 msgid ""
 "Do you want to benefit from web services created by experts? Upgrade to %s "
 "to be able to import some sophisticated example web services."
-msgstr ""
+msgstr "Você quer se beneficiar de serviços web criados por experts? Dê um upgrade para %s para poder importar alguns exemplos de serviço web sofisticados."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5592,10 +5618,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "Você realmente quer apagar este idioma notificação?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr "Referência de Tag"
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Notificações serão enviadas para um Atendente ou Cliente."
 
@@ -5619,10 +5641,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Para buscar as primeiras 5 linhas do corpo (do último artigo do cliente)"
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "Atributos  de dados do usuário cliente atual"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "Atributos de dados do usuário atual proprietário do chamado"
 
@@ -5637,14 +5655,6 @@ msgstr "Atributos do usuário agente atual que solicitaram esta ação"
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "Atributos do usuário destinatário da notificação"
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr "Atributos dos dados do chamado"
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
-msgstr "Chave de valores interna dos campos dinâmicos do chamado"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5838,11 +5848,11 @@ msgstr "Visão de linha do tempo nos detalhes do chamado"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
-msgstr ""
+msgstr "CampoDinâmico ContatoComDados"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField Database"
-msgstr ""
+msgstr "CampoDinâmico BaseDeDados"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "SLA Selection Dialog"
@@ -5866,7 +5876,7 @@ msgstr "Suporte a PGP desabilitado"
 
 #. Template: AdminPGP
 msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr ""
+msgstr "Para poder usar PGP no OTRS, você precisa ativar isto primeiro."
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
@@ -6825,6 +6835,10 @@ msgid "Transition Name"
 msgstr "Nome da Transição"
 
 #. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
 msgstr "Tipo de Ligação Entre as Condições"
 
@@ -7490,7 +7504,7 @@ msgstr "Suporte a SMIME desabilitado"
 
 #. Template: AdminSMIME
 msgid "To be able to use SMIME in OTRS, you have to enable it first."
-msgstr ""
+msgstr "Para poder usar o SMIME no OTRS, você precisa ativar isto primeiro."
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
@@ -7498,13 +7512,13 @@ msgstr "Habilitar suporte SMIME"
 
 #. Template: AdminSMIME
 msgid "Faulty SMIME configuration"
-msgstr ""
+msgstr "Erro na configuração de SMIME"
 
 #. Template: AdminSMIME
 msgid ""
 "SMIME support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
-msgstr ""
+msgstr "Suporte SMIME está ativo, mas configurações importantes estão com erro. Por favor verifique as configurações usando o botão abaixo."
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
@@ -7597,7 +7611,7 @@ msgstr "Relacionar este certificado"
 
 #. Template: AdminSMIMECertRead
 msgid "Close dialog"
-msgstr ""
+msgstr "Fechar diálogo"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate details"
@@ -7794,7 +7808,7 @@ msgstr "Tipo de Estado"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTRS Group is not possible!"
-msgstr ""
+msgstr "Envio de dados de suporte para o grupo OTRS não é possível"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
@@ -8070,7 +8084,7 @@ msgstr "Adicionar entrada de barra de navegação"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBar module"
-msgstr ""
+msgstr "Modulo NavBar"
 
 #. Template: AdminSysConfigEdit
 msgid "Year"
@@ -8462,7 +8476,7 @@ msgstr "em"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "Fechar este widget"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
@@ -8669,7 +8683,7 @@ msgstr "Selecionar o Objeto Alvo"
 
 #. Template: AgentLinkObject
 msgid "Link object %s with"
-msgstr ""
+msgstr "Associe objeto %s com"
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
@@ -8836,31 +8850,31 @@ msgstr "Esta estatística contém erros de configuração e não pode ser gerada
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s%s"
-msgstr ""
+msgstr "Alterar Texto Livre de %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
-msgstr ""
+msgstr "Mudar proprietário de %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "Fechar %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
-msgstr ""
+msgstr "Adicionar nota para %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
-msgstr ""
+msgstr "Configurar horário de pendência para %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s%s"
-msgstr ""
+msgstr "Alterar Prioridade de %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s%s"
-msgstr ""
+msgstr "Alterar Responsável de %s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
@@ -8914,7 +8928,7 @@ msgstr "Aqui você pode selecionar atendentes adicionais que deveriam receber um
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by"
-msgstr ""
+msgstr "Texto também será recebido por"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -8998,7 +9012,7 @@ msgstr "Executar Ação em Massa"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
-msgstr ""
+msgstr "Compor resposta para %s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
@@ -9034,7 +9048,7 @@ msgstr "Data Inválida!"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
-msgstr ""
+msgstr "Alterar Cliente de %s%s"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -9070,7 +9084,7 @@ msgstr "Obter todos"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s%s"
-msgstr ""
+msgstr "E-mail de saída para %s%s"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
@@ -9082,7 +9096,7 @@ msgstr "Chamado %s: tempo de resposta inicial será ultrapassado em %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time is over (%s/%s)!"
-msgstr ""
+msgstr "Chamado %s: tempo de atualização está ultrapassado (%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
@@ -9098,11 +9112,11 @@ msgstr "Chamado %s: tempo de solução será ultrapassado em %s/%s!"
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s%s"
-msgstr ""
+msgstr "Encaminhar %s%s"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s%s"
-msgstr ""
+msgstr "Histórico de %s%s"
 
 #. Template: AgentTicketHistory
 msgid "History Content"
@@ -9114,7 +9128,7 @@ msgstr "Visão de detalhe"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s%s"
-msgstr ""
+msgstr "Agrupar %s%s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
@@ -9134,7 +9148,7 @@ msgstr "É necessário um endereço de e-mail válido."
 
 #. Template: AgentTicketMove
 msgid "Move %s%s%s"
-msgstr ""
+msgstr "Mover %s%s"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
@@ -9226,11 +9240,11 @@ msgstr "A conversa será adicionada como um artigo separado."
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
-msgstr ""
+msgstr "Telefonema para %s%s"
 
 #. Template: AgentTicketPlain
 msgid "View Email Plain Text for %s%s%s"
-msgstr ""
+msgstr "Visualizar texto do E-mail para %s%s%s"
 
 #. Template: AgentTicketPlain
 msgid "Plain"
@@ -9303,8 +9317,20 @@ msgid ""
 msgstr "Buscas pelos atributos De, Para, Cc, Assunto e corpo do artigo, sobrescreve outros atributos com o mesmo nome."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "Login de Usuário Cliente"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -9554,11 +9580,11 @@ msgstr "O artigo não pôde ser aberto! Talvez ele esteja em outra página de ar
 
 #. Template: AgentTicketZoom
 msgid "Scale preview content"
-msgstr ""
+msgstr "Escalar conteúdo anterior"
 
 #. Template: AgentTicketZoom
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "Abrir URL em nova aba"
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
@@ -9596,7 +9622,7 @@ msgstr "retornar à página anterior"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr ""
+msgstr "Ocorreu um erro."
 
 #. Template: CustomerError
 msgid "Error Details"
@@ -9805,7 +9831,7 @@ msgstr "Marca de citação"
 
 #. Template: CustomerRichTextEditor
 msgid "Open link"
-msgstr ""
+msgstr "Abrir link"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10049,7 +10075,7 @@ msgstr ""
 
 #. Template: Error
 msgid "Contact our service team now."
-msgstr ""
+msgstr "Contacte agora a nossa equipe de serviço."
 
 #. Template: Error
 msgid "Send a bugreport"
@@ -10601,7 +10627,7 @@ msgstr "Criar coluna de somatório"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
-msgstr ""
+msgstr "Gerar uma linha adicional contendo somas para todas as linhas de dados."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
@@ -10609,7 +10635,7 @@ msgstr "Criar coluna de somatório"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
-msgstr ""
+msgstr "Gerar uma coluna adicional contendo somas para todas as colunas de dados."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
@@ -10725,11 +10751,11 @@ msgstr "Escala"
 
 #. Template: StatsParamsWidget
 msgid "show more"
-msgstr ""
+msgstr "Mostrar mais"
 
 #. Template: StatsParamsWidget
 msgid "show less"
-msgstr ""
+msgstr "Mostrar menos"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10839,11 +10865,11 @@ msgstr "Houve um erro ao obter dados da ACL com ID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Correspondência exata"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
-msgstr ""
+msgstr "Correspondência exata negada"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
@@ -10851,15 +10877,15 @@ msgstr "Expressão Regular"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
-msgstr ""
+msgstr "Expressão Regular(ignora maiúsculas)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
-msgstr ""
+msgstr "Expressão Regular negada"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression (ignore case)"
-msgstr ""
+msgstr "Expressão Regular negada(ignora maiúsculas)"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -10929,7 +10955,7 @@ msgstr "O nome desse campo não pode ser alterado."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not update the field %s"
-msgstr ""
+msgstr "Não foi possível atualizar o campo %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Currently"
@@ -10937,19 +10963,19 @@ msgstr "Atualmente"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Unchecked"
-msgstr ""
+msgstr "Desmarcado"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Checked"
-msgstr ""
+msgstr "Marcado"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "Prevenir entrada de datas no futuro"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "Prevenir entrada de datas no passado"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "This field value is duplicated."
@@ -10961,15 +10987,15 @@ msgstr "Selecione pelo menos um destinatário."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "arquivar chamados"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "restaurar chamados do arquivo"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Usuário Necessário!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -10983,7 +11009,7 @@ msgstr "Por favor, remova as seguintes palavras, porque não podem ser utilizado
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Need WebserviceID!"
-msgstr ""
+msgstr "WebserviceID Necessário!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Could not get data for WebserviceID %s"
@@ -11003,7 +11029,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need Invoker"
-msgstr ""
+msgstr "Necessário Invoker"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
@@ -11023,11 +11049,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
-msgstr ""
+msgstr "Ignorar (deixar inalterado)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop key/value pair)"
-msgstr ""
+msgstr "Ignorar (apagar par chave/valor)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Map to (use provided value as default)"
@@ -11035,7 +11061,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
-msgstr ""
+msgstr "Valor(es) exato(s)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
@@ -11059,7 +11085,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Need Operation"
-msgstr ""
+msgstr "Necessário Operação"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -11091,7 +11117,7 @@ msgstr "Web service \"%s\" criado!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need Name!"
-msgstr ""
+msgstr "Necessário Nome!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
@@ -11099,11 +11125,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
-msgstr ""
+msgstr "Não pôde ser lido %s!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
-msgstr ""
+msgstr "Necessário um arquivo para importar!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid ""
@@ -11137,11 +11163,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Unknown Notification %s!"
-msgstr ""
+msgstr "Notificação Desconhecida %s!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "There was an error creating the Notification"
-msgstr ""
+msgstr "Houve algum erro ao criar a Notificação"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid ""
@@ -11224,7 +11250,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
-msgstr ""
+msgstr "Não existe este pacote!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -11236,11 +11262,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
-msgstr ""
+msgstr "Não pôde ser lido %s!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
-msgstr ""
+msgstr "Pacote possui arquivos locais modificados."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No packages or no new packages found in selected repository."
@@ -11273,11 +11299,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
-msgstr ""
+msgstr "Necessário ProcessID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "Sim (mandatório)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
@@ -11359,7 +11385,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Need ActivityID!"
-msgstr ""
+msgstr "Necessário ActivityID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
@@ -11375,7 +11401,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Activity not found!"
-msgstr ""
+msgstr "Atividade não localizada!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "ActivityDialog not found!"
@@ -11415,7 +11441,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Need ActivityDialogID!"
-msgstr ""
+msgstr "Necessário ActivityDialogID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
@@ -11431,11 +11457,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr ""
+msgstr "Interface do Agente"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "Interface do Cliente"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
@@ -12681,8 +12707,12 @@ msgid "Created State"
 msgstr "Criado com o Estado"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "Usuário do Cliente"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -14088,7 +14118,7 @@ msgid ""
 "Agent interface module to access CIC search via nav bar. Additional access "
 "control to show or not show this link can be done by using Key \"Group\" and"
 " Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Módulo de interface de agente para acesso pesquisa CIC pela nav bar. Controle de acesso adicional para mostrar ou não este link pode ser feito usando Key \"Group\"  e conteúdos como \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -15465,6 +15495,12 @@ msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 
 #. SysConfig
@@ -19854,9 +19890,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -21782,7 +21816,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Transport selection for ticket notifications."
-msgstr ""
+msgstr "Transportar seleção de notificação de chamados."
 
 #. SysConfig
 msgid "Tree view"
@@ -21870,7 +21904,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Updates the ticket index accelerator."
-msgstr ""
+msgstr "Atualizar o indexador Acelerador de Chamados."
 
 #. SysConfig
 msgid ""
@@ -21981,15 +22015,15 @@ msgstr "Seu e-mail com o número de chamado \"<OTRS_TICKET>\" foi devolvido para
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "Sua seleção de fila de suas filas favoritas. Você também será notificado sobre essas filas por e-mail se habilitado."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr "Sua seleção de serviço de seus serviços favoritos. Você também é notificado sobre esses serviços via e-mail se habilitado."
+msgstr ""
 
 #. SysConfig
 msgid "attachment"

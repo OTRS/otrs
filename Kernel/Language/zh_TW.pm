@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.48456403838131;
+    $Self->{Completeness}        = 0.482923781757601;
 
     # csv separator
     $Self->{Separator} = '';
@@ -857,7 +857,8 @@ sub Data {
         'You can use the following tags' => '您可以使用以下的標記',
         'To get the first 20 character of the subject.' => '顯示主題的前20個字節',
         'To get the first 5 lines of the email.' => '顯示郵件的前五行',
-        'To get the realname of the sender (if given).' => '顯示發件人的真實姓名',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => '信件數據屬性',
         ' e. g.' => '例如',
         'Options of the current customer user data' => '用戶資料屬性',
@@ -1193,6 +1194,12 @@ sub Data {
         'Param %s key' => '参數 %s key',
         'Param %s value' => '参數 %s value',
         'Save Changes' => '保存更改',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => '結果',
         '%s Tickets affected! What do you want to do?' => '%s 個工單將被影響！您確定要這麼做?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1590,7 +1597,6 @@ sub Data {
         'Message body' => '訊息內容',
         'Add new notification language' => '添加新通知語言',
         'Do you really want to delete this notification language?' => '您確定要刪除此通知語言？',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => '發送給服務人員或用戶的通知。',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '截取主題的前20個字符（最新的服務人員信件）',
@@ -1600,14 +1606,11 @@ sub Data {
             '截取郵件主題的前20個字符（最新的用戶信件）',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '截取郵件正文内容前5行（最新的用戶信件）',
-        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '通知範例',
@@ -1973,6 +1976,7 @@ sub Data {
             '請注意，修改這個轉向將影響以下流程。',
         'Transition' => '轉向',
         'Transition Name' => '轉向名稱',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '條件之間的邏輯關系',
         'Remove this Condition' => '刪除這個條件',
         'Type of Linking' => '鏈接類型',
@@ -2794,7 +2798,10 @@ sub Data {
         'Remove' => '刪除',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             '搜索範圍覆蓋From, To, Cc, 主題和信件.',
-        'Customer User Login' => '用戶登錄用戶名',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => '',
         '(e. g. m*file or myfi*)' => '',
         'Created in Queue' => '隊列中創建',
@@ -3987,7 +3994,8 @@ sub Data {
         'State Type' => '狀態類別',
         'Created Priority' => '創建的優先級',
         'Created State' => '創建的狀態',
-        'CustomerUserLogin' => '用戶登陸',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => '創建時間',
         'Close Time' => '關閉時間',
         'Escalation - First Response Time' => '',
@@ -4874,6 +4882,8 @@ Thanks for your help!
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6201,8 +6211,7 @@ Thanks for your help!
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6849,9 +6858,9 @@ Thanks for your help!
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            '您的最常用隊列，如果您設置了郵件通知，您將會得到該隊列的狀態通知.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '附件',
         'debug' => '',

@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -852,7 +852,7 @@ msgstr "Wylogowanie udane. Dziękujemy za używanie %s!"
 
 #. Template: AAABase
 msgid "Feature not active!"
-msgstr "Funkcja nie aktywna!"
+msgstr "Funkcja nieaktywna!"
 
 #. Template: AAABase
 msgid "Agent updated!"
@@ -2889,7 +2889,7 @@ msgstr "To pole jest wymagane."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr "Nadpisać bieżący ACL?"
+msgstr "Nadpisać istniejący ACL?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
@@ -2910,7 +2910,7 @@ msgid ""
 "Changes to the ACLs here only affect the behavior of the system, if you "
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
-msgstr "Zmiany dokonane tu dla ACLi będą mieć znaczenie dla twojego systemu dopiero po ich zatwierdzeniu. Zatwierdzająć ACLe nowe dane zostaną zapisane w konfiguracji."
+msgstr "Zmiany dokonane tu dla reguł ACL będą mieć wpływ na zachowanie systemu dopiero po ich wdrożeniu. Podczas wdrażania danych ACL, zmiany zostaną zapisane w konfiguracji."
 
 #. Template: AdminACL
 msgid "ACLs"
@@ -3109,8 +3109,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Pokaż 5 linii wiadomości e-mail."
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "Pokaż imię i nazwisko nadawcy (jeżeli podał)."
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3271,7 +3271,7 @@ msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
-msgstr ""
+msgstr "Lista (%s wszystkich)"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -3380,7 +3380,7 @@ msgstr "Filtr dla grup."
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr "Aby filtrować, wystarczy zacąć pisać"
+msgstr "Aby filtrować, wystarczy zacząć pisać"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -4245,6 +4245,30 @@ msgstr "Wartość parametru %s"
 #. Template: AdminGenericAgent
 msgid "Save Changes"
 msgstr "Zapisz zmiany"
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "Atrybuty danych obecnego użytkownika klienta"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5581,10 +5605,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "Czy na pewno chcesz usunąć ten język powiadomienia?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Powiadomienia są wysyłane do agenta obsługi lub klienta"
 
@@ -5608,10 +5628,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Aby uzyskać pierwsze 5 linii treści (najnowszej wiadomości klienta)."
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "Atrybuty danych obecnego użytkownika klienta"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
@@ -5625,14 +5641,6 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -6262,7 +6270,7 @@ msgstr "Utwórz nowy proces"
 
 #. Template: AdminProcessManagement
 msgid "Deploy All Processes"
-msgstr ""
+msgstr "Wdróż wszystkie procesy"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6513,7 +6521,7 @@ msgstr "Akcje przejścia"
 msgid ""
 "You can assign Transition Actions to this Transition by dragging the "
 "elements with the mouse from the left list to the right list."
-msgstr "Możesz przypisać akcje przejścia do tego przejścia za pomoca przeciągania elementów myszką z listy po lewej stronie do listy po prawej stronie."
+msgstr "Możesz przypisać akcje przejścia do tego przejścia za pomocą przeciągania elementów myszką z listy po lewej stronie do listy po prawej stronie."
 
 #. Template: AdminProcessManagementPath
 msgid "Filter available Transition Actions"
@@ -6812,6 +6820,10 @@ msgstr "Przejście"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "Nazwa przejścia"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -9155,7 +9167,7 @@ msgstr "Czas pozostały do aktualizacji"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Solution Time"
-msgstr "Czas pozostały do rozwiazania"
+msgstr "Czas pozostały do rozwiązania"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
@@ -9292,8 +9304,20 @@ msgid ""
 msgstr "Wyszukiwanie wg. parametrów Od, Do, CC, Tytuł, Treść ignoruje inne kryteria o tej samej nazwie."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "Identyfikator użytkownika klienta"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -9910,7 +9934,7 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Start a chat from this ticket"
-msgstr ""
+msgstr "Rozpocznij czat z tego zgłoszenia"
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
@@ -9930,7 +9954,7 @@ msgstr "Odpowiedź"
 
 #. Template: CustomerTicketZoom
 msgid "Chat Protocol"
-msgstr ""
+msgstr "Protokół Czatu"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
@@ -10329,7 +10353,7 @@ msgstr "Port"
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "Musisz wpisać następujące polecenie w linii komend (Terminal/Shell)."
+msgstr "Musisz wpisać następujące polecenie w linii komend (Terminal/Shell) jako root."
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
@@ -11186,7 +11210,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Yes, but require at least one active notification method"
-msgstr ""
+msgstr "Tak, ale wymagaj przynajmniej jednej aktywnej metody powiadomienia"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11278,7 +11302,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The StateEntityID for state Inactive does not exists"
-msgstr ""
+msgstr "Nie istnieje identyfikator stanu \"nieaktywny\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
@@ -11885,7 +11909,7 @@ msgstr "Wymaga uprawnień do przenoszenia!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "Chat is not active."
-msgstr ""
+msgstr "Czat jest nieaktywny."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "No permission."
@@ -12670,8 +12694,12 @@ msgid "Created State"
 msgstr "Utworzony stan"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "Identyfikator użytkownika klienta"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -15459,6 +15487,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.)."
 msgstr ""
 
@@ -17860,7 +17894,7 @@ msgstr "Pierwsza odpowiedź w min."
 
 #. SysConfig
 msgid "Firstname Lastname"
-msgstr "Imię i Nazwisko"
+msgstr "Imię Nazwisko"
 
 #. SysConfig
 msgid "Firstname Lastname (UserLogin)"
@@ -18358,7 +18392,7 @@ msgstr "Jeśli Agent dodał notatkę, ustawia stan zgłoszenia w oknie zmiany pr
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
-msgstr ""
+msgstr "Jeśli aktywne, żadne z wyrażeń regularnych nie może pasować do adresu e-mail użytkownika by mógł on się zarejestrować."
 
 #. SysConfig
 msgid ""
@@ -18523,7 +18557,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonezyjski"
 
 #. SysConfig
 msgid "Input"
@@ -18602,11 +18636,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname Firstname"
-msgstr ""
+msgstr "Nazwisko Imię"
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr "Nazwisko Imie (Login)"
+msgstr "Nazwisko Imię (Login)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
@@ -19843,9 +19877,7 @@ msgid ""
 msgstr "Umieszcza wskazany adres jako BCC dla wszystkich wychodzących wiadomości e-mail. Proszę korzystać jedynie dla tworzenia kopii zapasowych."
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -19888,7 +19920,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
-msgstr "Ustaw adresa nadawcy dla tego systemu"
+msgstr "Ustaw adresy e-mail nadawcy dla tego systemu"
 
 #. SysConfig
 msgid ""
@@ -21261,7 +21293,7 @@ msgstr ""
 msgid ""
 "Specifies the order in which the firstname and the lastname of agents will "
 "be displayed."
-msgstr "Wskazuje kolejność sortowania imion i nazwisk agentów."
+msgstr "Określa kolejność wyświetlania imienia i nazwiska agentów."
 
 #. SysConfig
 msgid ""
@@ -21936,7 +21968,7 @@ msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
-msgstr " "
+msgstr "W momencie scalenia zgłoszeń, do zgłoszenia, które nie będzie aktywne zostanie dodana notatka. Tu można zdefiniować treść tej notatki (ten tekst nie może zostać zmieniony przez agenta)."
 
 #. SysConfig
 msgid ""
@@ -21970,13 +22002,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "Twój wybór ulubionych kolejek. Będziesz również informowany e-mailami o tych kolejkach jeśli włączysz powiadamianie."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
 msgstr ""
 
