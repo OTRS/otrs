@@ -73,7 +73,7 @@ sub Run {
         }
 
         # match 'Match => ???' stuff
-        my $Matched       = '';
+        my $Matched       = 0;  # Numbers are required because of the bitwise or in the negation.
         my $MatchedNot    = 0;
         my $MatchedResult = '';
         for ( sort keys %Match ) {
