@@ -50,7 +50,7 @@ Traceback:
                     <p class="SpacingTop">
                         <button type="submit" class="Primary CallForAction" value="[% Translate("Send a bugreport") | html %]"><span>[% Translate("Send a bugreport") | html %]</span></button>
                         &nbsp;[% Translate("or") | html %]&nbsp;
-                        <a href="#" id="GoBack" class="CallForAction"><span>[% Translate("go back to the previous page") | html %]</spsn></a>
+                        <a href="#" id="GoBack" class="CallForAction"><span>[% Translate("go back to the previous page") | html %]</span></a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 $('#GoBack').bind('click', function (Event) {
