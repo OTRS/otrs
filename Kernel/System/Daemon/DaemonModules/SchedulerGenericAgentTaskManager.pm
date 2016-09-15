@@ -41,33 +41,33 @@ Scheduler generic agent task daemon
 
 =item new()
 
-create scheduler future task manager object.
+Create scheduler future task manager object.
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
+    # Allocate new hash for object.
     my $Self = {};
     bless $Self, $Type;
 
-    # get objects in constructor to save performance
+    # Get objects in constructor to save performance.
     $Self->{CacheObject}        = $Kernel::OM->Get('Kernel::System::Cache');
     $Self->{GenericAgentObject} = $Kernel::OM->Get('Kernel::System::GenericAgent');
     $Self->{DBObject}           = $Kernel::OM->Get('Kernel::System::DB');
     $Self->{SchedulerDBObject}  = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
-    # disable in memory cache to be clusterable
+    # Disable in memory cache to be clusterable.
     $Self->{CacheObject}->Configure(
         CacheInMemory  => 0,
         CacheInBackend => 1,
     );
 
-    # get the NodeID from the SysConfig settings, this is used on High Availability systems.
+    # Get the NodeID from the SysConfig settings, this is used on High Availability systems.
     $Self->{NodeID} = $Kernel::OM->Get('Kernel::Config')->Get('NodeID') || 1;
 
-    # check NodeID, if does not match is impossible to continue
+    # Check NodeID, if does not match is impossible to continue.
     if ( $Self->{NodeID} !~ m{ \A \d+ \z }xms && $Self->{NodeID} > 0 && $Self->{NodeID} < 1000 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -91,7 +91,7 @@ sub new {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    # check if database is on-line
+    # Check if database is on-line.
     return 1 if $Self->{DBObject}->Ping();
 
     sleep 10;
@@ -121,12 +121,12 @@ sub PostRun {
         print "  $Self->{DaemonName} Discard Count: $Self->{DiscardCount}\n";
     }
 
-    # unlock long locked tasks
+    # Unlock long locked tasks.
     $Self->{SchedulerDBObject}->RecurrentTaskUnlockExpired(
         Type => 'GenericAgent',
     );
 
-    # remove obsolete tasks before destroy
+    # Remove obsolete tasks before destroy.
     if ( $Self->{DiscardCount} == 0 ) {
         $Self->{SchedulerDBObject}->GenericAgentTaskCleanup();
     }

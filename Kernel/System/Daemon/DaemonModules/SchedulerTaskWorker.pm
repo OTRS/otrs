@@ -44,18 +44,18 @@ Scheduler worker daemon
 
 =item new()
 
-create scheduler task worker object.
+Create scheduler task worker object.
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
+    # Allocate new hash for object.
     my $Self = {};
     bless $Self, $Type;
 
-    # get objects in constructor to save performance
+    # Get objects in constructor to save performance.
     $Self->{ConfigObject}      = $Kernel::OM->Get('Kernel::Config');
     $Self->{CacheObject}       = $Kernel::OM->Get('Kernel::System::Cache');
     $Self->{TimeObject}        = $Kernel::OM->Get('Kernel::System::Time');
@@ -64,16 +64,16 @@ sub new {
     $Self->{StorableObject}    = $Kernel::OM->Get('Kernel::System::Storable');
     $Self->{SchedulerDBObject} = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
-    # disable in memory cache to be clusterable
+    # Disable in memory cache to be clusterable.
     $Self->{CacheObject}->Configure(
         CacheInMemory  => 0,
         CacheInBackend => 1,
     );
 
-    # get the NodeID from the SysConfig settings, this is used on High Availability systems.
+    # Get the NodeID from the SysConfig settings, this is used on High Availability systems.
     $Self->{NodeID} = $Self->{ConfigObject}->Get('NodeID') || 1;
 
-    # check NodeID, if does not match is impossible to continue
+    # Check NodeID, if does not match is impossible to continue.
     if ( $Self->{NodeID} !~ m{ \A \d+ \z }xms && $Self->{NodeID} > 0 && $Self->{NodeID} < 1000 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -82,14 +82,14 @@ sub new {
         return;
     }
 
-    # get pid directory
+    # Get pid directory.
     $Self->{PIDDir}  = $Self->{ConfigObject}->Get('Home') . '/var/run/Daemon/Scheduler/';
     $Self->{PIDFile} = $Self->{PIDDir} . "Worker-NodeID-$Self->{NodeID}.pid";
 
-    # check pid hash and pid file
+    # Check pid hash and pid file.
     return if !$Self->_WorkerPIDsCheck();
 
-    # get the maximum number of workers (forks to execute the tasks)
+    # Get the maximum number of workers (forks to execute the tasks).
     $Self->{MaximumWorkers} = $Self->{ConfigObject}->Get('Daemon::SchedulerTaskWorker::MaximumWorkers') || 5;
 
     # Do not change the following values!
@@ -108,10 +108,10 @@ sub new {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    # check each 10 seconds
+    # Check each 10 seconds.
     return 1 if $Self->{DiscardCount} % ( 10 / $Self->{SleepPost} );
 
-    # set running daemon cache
+    # Set running daemon cache.
     $Self->{CacheObject}->Set(
         Type           => 'DaemonRunning',
         Key            => $Self->{NodeID},
@@ -121,7 +121,7 @@ sub PreRun {
         CacheInBackend => 1,
     );
 
-    # check if database is on-line
+    # Check if database is on-line.
     return 1 if $Self->{DBObject}->Ping();
 
     sleep 10;
@@ -134,7 +134,6 @@ sub Run {
 
     $Self->{CurrentWorkersCount} = scalar keys %{ $Self->{CurrentWorkers} };
 
-    # get all unlocked tasks
     my @TaskList = $Self->{SchedulerDBObject}->TaskListUnlocked();
 
     TASK:
@@ -142,24 +141,24 @@ sub Run {
 
         last TASK if $Self->{CurrentWorkersCount} >= $Self->{MaximumWorkers};
 
-        # disconnect database before fork
+        # Disconnect database before fork.
         $Self->{DBObject}->Disconnect();
 
-        # create a fork of the current process
-        # parent gets the PID of the child
-        # child gets PID = 0
+        # Create a fork of the current process
+        #   parent gets the PID of the child
+        #   child gets PID = 0
         my $PID = fork;
 
-        # at the child, execute task
+        # At the child, execute task.
         if ( !$PID ) {
 
-            # define the ZZZ files
+            # Define the ZZZ files.
             my @ZZZFiles = (
                 'ZZZAAuto.pm',
                 'ZZZAuto.pm',
             );
 
-            # reload the ZZZ files
+            # Reload the ZZZ files.
             for my $ZZZFile (@ZZZFiles) {
 
                 PREFIX:
@@ -171,21 +170,20 @@ sub Run {
                 }
             }
 
-            # destroy objects
+            # Destroy objects.
             $Kernel::OM->ObjectsDiscard(
                 ForcePackageReload => 1,
             );
 
-            # disable in memory cache because many processes runs at the same time
+            # Disable in memory cache because many processes runs at the same time.
             $Kernel::OM->Get('Kernel::System::Cache')->Configure(
                 CacheInMemory  => 0,
                 CacheInBackend => 1,
             );
 
-            # get scheduler database object
             my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
-            # try to lock the task
+            # Try to lock the task.
             my $LockSucess = $SchedulerDBObject->TaskLock(
                 TaskID => $TaskID,
                 NodeID => $Self->{NodeID},
@@ -194,15 +192,13 @@ sub Run {
 
             exit 1 if !$LockSucess;
 
-            # get task
             my %Task = $SchedulerDBObject->TaskGet(
                 TaskID => $TaskID,
             );
 
-            # error handling
+            # Do error handling.
             if ( !%Task || !$Task{Type} || !$Task{Data} || ref $Task{Data} ne 'HASH' ) {
 
-                # delete the task
                 $SchedulerDBObject->TaskDelete(
                     TaskID => $TaskID,
                 );
@@ -210,7 +206,6 @@ sub Run {
                 my $TaskName = $Task{Name} || '';
                 my $TaskType = $Task{Type} || '';
 
-                # log the error
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Task $TaskType $TaskName ($TaskID) was deleted due missing task data!",
@@ -221,7 +216,6 @@ sub Run {
 
             my $TaskHandlerModule = 'Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::' . $Task{Type};
 
-            # create task handler object
             my $TaskHandlerObject;
             eval {
 
@@ -234,10 +228,9 @@ sub Run {
                 $TaskHandlerObject = $Kernel::OM->Get($TaskHandlerModule);
             };
 
-            # error handling
+            # Do error handling.
             if ( !$TaskHandlerObject ) {
 
-                # delete the task
                 $SchedulerDBObject->TaskDelete(
                     TaskID => $TaskID,
                 );
@@ -245,7 +238,6 @@ sub Run {
                 my $TaskName = $Task{Name} || '';
                 my $TaskType = $Task{Type} || '';
 
-                # log the error
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Task $TaskType $TaskName ($TaskID) was deleted due missing handler object!",
@@ -254,17 +246,15 @@ sub Run {
                 exit 1;
             }
 
-            # call run method on task handler object
             $TaskHandlerObject->Run(
                 TaskID   => $TaskID,
                 TaskName => $Task{Name} || '',
                 Data     => $Task{Data},
             );
 
-            # force transactional events to run by discarding all objects before deleting the task
+            # Force transactional events to run by discarding all objects before deleting the task.
             $Kernel::OM->ObjectEventsHandle();
 
-            # delete the task
             $SchedulerDBObject->TaskDelete(
                 TaskID => $TaskID,
             );
@@ -272,7 +262,7 @@ sub Run {
             exit 0;
         }
 
-        # check if fork was not possible
+        # Check if fork was not possible.
         if ( $PID < 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -281,7 +271,7 @@ sub Run {
             next TASK;
         }
 
-        # populate current workers hash to the parent knows witch task is executing each worker
+        # Populate current workers hash to the parent knows witch task is executing each worker.
         $Self->{CurrentWorkers}->{$PID} = {
             PID       => $PID,
             TaskID    => $TaskID,
@@ -299,7 +289,7 @@ sub PostRun {
 
     sleep $Self->{SleepPost};
 
-    # check pid hash and pid file after sleep time to give the workers time to finish
+    # Check pid hash and pid file after sleep time to give the workers time to finish.
     return if !$Self->_WorkerPIDsCheck();
 
     $Self->{DiscardCount}--;
@@ -308,24 +298,24 @@ sub PostRun {
         print "  $Self->{DaemonName} Discard Count: $Self->{DiscardCount}\n";
     }
 
-    # update task locks and remove expired each 60 seconds
+    # Update task locks and remove expired each 60 seconds.
     if ( !int $Self->{DiscardCount} % ( 60 / $Self->{SleepPost} ) ) {
 
-        # extract current working task IDs
+        # Extract current working task IDs.
         my @LockedTaskIDs = map { $Self->{CurrentWorkers}->{$_}->{TaskID} } sort keys %{ $Self->{CurrentWorkers} };
 
-        # update locks (only for this node)
+        # Update locks (only for this node).
         if (@LockedTaskIDs) {
             $Self->{SchedulerDBObject}->TaskLockUpdate(
                 TaskIDs => \@LockedTaskIDs,
             );
         }
 
-        # unlock expired tasks (for all nodes)
+        # Unlock expired tasks (for all nodes).
         $Self->{SchedulerDBObject}->TaskUnlockExpired();
     }
 
-    # remove obsolete tasks before destroy
+    # Remove obsolete tasks before destroy.
     if ( $Self->{DiscardCount} == 0 ) {
         $Self->{SchedulerDBObject}->TaskCleanup();
     }
@@ -343,7 +333,7 @@ sub Summary {
 sub _WorkerPIDsCheck {
     my ( $Self, %Param ) = @_;
 
-    # check pid directory
+    # Check pid directory.
     if ( !-e $Self->{PIDDir} ) {
 
         File::Path::mkpath( $Self->{PIDDir}, 0, 0770 );    ## no critic
@@ -359,13 +349,12 @@ sub _WorkerPIDsCheck {
         }
     }
 
-    # load current workers initially
+    # Load current workers initially.
     if ( !defined $Self->{CurrentWorkers} ) {
 
         # read pid file
         if ( -e $Self->{PIDFile} ) {
 
-            # read file content
             my $PIDFileContent = $Self->{MainObject}->FileRead(
                 Location        => $Self->{PIDFile},
                 Mode            => 'binmode',
@@ -374,7 +363,7 @@ sub _WorkerPIDsCheck {
                 DisableWarnings => 1,
             );
 
-            # deserialize the content
+            # Deserialize the content of the PID file.
             if ($PIDFileContent) {
 
                 my $WorkerPIDs = $Self->{StorableObject}->Deserialize(
@@ -388,14 +377,13 @@ sub _WorkerPIDsCheck {
         $Self->{CurrentWorkers} ||= {};
     }
 
-    # check worker PIDs
+    # Check worker PIDs.
     WORKERPID:
     for my $WorkerPID ( sort keys %{ $Self->{CurrentWorkers} } ) {
 
-        # check if PID is still alive
+        # Check if PID is still alive.
         next WORKERPID if kill 0, $WorkerPID;
 
-        # delete worker
         delete $Self->{CurrentWorkers}->{$WorkerPID};
     }
 
@@ -404,18 +392,18 @@ sub _WorkerPIDsCheck {
     my $PidsString = join '-', sort keys %{ $Self->{CurrentWorkers} };
     $PidsString ||= '';
 
-    # return if nothing has changed
+    # Return if nothing has changed.
     return 1 if $PidsString eq $Self->{WrittenPids};
 
-    # update pid file
+    # Update pid file.
     if ( %{ $Self->{CurrentWorkers} } ) {
 
-        # serialize the current worker hash
+        # Serialize the current worker hash.
         my $CurrentWorkersString = $Self->{StorableObject}->Serialize(
             Data => $Self->{CurrentWorkers},
         );
 
-        # write new pid file
+        # Write new pid file.
         my $Success = $Self->{MainObject}->FileWrite(
             Location   => $Self->{PIDFile},
             Content    => \$CurrentWorkersString,
@@ -428,11 +416,11 @@ sub _WorkerPIDsCheck {
     }
     elsif ( -e $Self->{PIDFile} ) {
 
-        # remove empty file
+        # Remove empty file.
         return if !unlink $Self->{PIDFile};
     }
 
-    # save last written PIDs
+    # Save last written PIDs.
     $Self->{WrittenPids} = $PidsString;
 
     return 1;
