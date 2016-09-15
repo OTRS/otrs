@@ -33,7 +33,7 @@ Base class for scheduler daemon task worker modules.
 
 =item _HandleError()
 
-creates a system error message and sends an email with the error messages form a task execution
+Creates a system error message and sends an email with the error messages form a task execution.
 
     my $Success = $TaskWorkerObject->_HandleError(
         TaskName     => 'some name',
@@ -53,7 +53,6 @@ sub _HandleError {
         Message  => $Param{LogMessage},
     );
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $From = $ConfigObject->Get('NotificationSenderName') . ' <'
@@ -80,7 +79,7 @@ sub _HandleError {
 
 =item _CheckTaskParams()
 
-performs basic checks for common task parameters
+Performs basic checks for common task parameters.
 
     my $Success = $TaskWorkerObject->_CheckTaskParams(
         TaskID               => 123,
@@ -95,7 +94,6 @@ performs basic checks for common task parameters
 sub _CheckTaskParams {
     my ( $Self, %Param ) = @_;
 
-    # check needed
     for my $Needed (qw(TaskID Data)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -107,7 +105,7 @@ sub _CheckTaskParams {
         }
     }
 
-    # check data
+    # Check data.
     if ( ref $Param{Data} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -117,7 +115,7 @@ sub _CheckTaskParams {
         return;
     }
 
-    # check mandatory attributes in Data
+    # Check mandatory attributes in Data.
     if ( $Param{NeededDataAttributes} && ref $Param{NeededDataAttributes} eq 'ARRAY' ) {
 
         for my $Needed ( @{ $Param{NeededDataAttributes} } ) {
@@ -132,7 +130,7 @@ sub _CheckTaskParams {
         }
     }
 
-    # check the structure of Data params
+    # Check the structure of Data params.
     if ( $Param{DataParamsRef} ) {
 
         if ( $Param{Data}->{Params} && ref $Param{Data}->{Params} ne uc $Param{DataParamsRef} ) {
