@@ -50,7 +50,7 @@ Traceback:
                     <p class="SpacingTop">
                         <button type="submit" class="Primary CallForAction" value="[% Translate("Send a bugreport") | html %]"><span>[% Translate("Send a bugreport") | html %]</span></button>
                         &nbsp;[% Translate("or") | html %]&nbsp;
-                        <a href="#" class="CallForAction ReturnToPreviousPage"><span>[% Translate("go back to the previous page") | html %]</spsn></a>
+                        <a href="#" class="CallForAction ReturnToPreviousPage"><span>[% Translate("go back to the previous page") | html %]</span></a>
                     </p>
                 </form>
 
