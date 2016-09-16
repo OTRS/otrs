@@ -15,6 +15,7 @@ use base qw(Kernel::System::SupportDataCollector::PluginAsynchronous);
 
 use Date::Pcalc qw(Add_Delta_YMD Add_Delta_DHMS);
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -36,7 +37,7 @@ sub Run {
 
     # the table details data
     $Self->AddResultInformation(
-        Label => 'Concurrent Users Details',
+        Label => Translatable('Concurrent Users Details'),
         Value => $ConcurrentUsers || [],
     );
 
@@ -74,7 +75,7 @@ sub Run {
         }
 
         $Self->AddResultInformation(
-            DisplayPath => 'OTRS/Concurrent Users',
+            DisplayPath => Translatable('OTRS') . '/' . Translatable('Concurrent Users'),
             Identifier  => $Identifier,
             Label       => "Max. $Label",
             Value       => $MaxValue,

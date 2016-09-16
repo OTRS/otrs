@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 );
 
 sub GetDisplayPath {
-    return Translatable('OTRS/Package List');
+    return Translatable('OTRS') . '/' . Translatable('Package List');
 }
 
 sub Run {
