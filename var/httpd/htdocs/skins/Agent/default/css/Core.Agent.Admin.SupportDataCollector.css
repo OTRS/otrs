@@ -41,7 +41,7 @@
 .AdminSupportDataCollector .CheckResults > li h3.Heading {
     position: relative;
     padding-left: 28px;
-    line-height: 130%;
+    font-size: 13px;
     margin-bottom: 0px;
 }
 
@@ -109,7 +109,7 @@
 .AdminSupportDataCollector .Flag {
     position: absolute;
     left: 0px;
-    top: 5px;
+    top: 2px;
 }
 
 .AdminSupportDataCollector .DataTable .Flag {
