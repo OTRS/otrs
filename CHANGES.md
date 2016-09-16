@@ -1,4 +1,5 @@
 #4.0.19 2016-??-??
+ - 2016-09-16 Fixed bug#[12305](http://bugs.otrs.org/show_bug.cgi?id=12305) - Incorrect charset handling in content type of SOAP messages.
  - 2016-09-15 Fixed bug#[12301](http://bugs.otrs.org/show_bug.cgi?id=12301) - CSV reading code is broken, thanks to Pawel Boguslawski.
  - 2016-09-14 Fixed bug#[12134](http://bugs.otrs.org/show_bug.cgi?id=12134) - Tag <OTRS_CUSTOMER_REALNAME> wrongly documented.
  - 2016-09-13 Fixed bug#[11922](http://bugs.otrs.org/show_bug.cgi?id=11922) - Notification to non RealCustomer.
