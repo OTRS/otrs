@@ -922,11 +922,10 @@ sub FutureTaskAdd {
         );
 
         my @FilteredList = @List;
-
-        if ( $Param{Name} ) {
+        if ( $Param{Name} && @List ) {
 
             # remove all tasks that does not match specified task name
-            @FilteredList = grep { $_->{Name} eq $Param{Name} } @List;
+            @FilteredList = grep { ( $_->{Name} || '' ) eq $Param{Name} } @List;
         }
 
         # compare the number of task with the maximum parallel limit

@@ -543,7 +543,7 @@ for my $Test (@Tests) {
         Type => 'UnitTest',
     );
 
-    my @FilteredList = grep { $_->{Name} eq $TaskTemplate{Name} } @List;
+    my @FilteredList = grep { ( $_->{Name} || '' ) eq $TaskTemplate{Name} } @List;
 
     my $ExpectedTaskNumber = $Test->{MaximumParallelInstances} || 10;
 
