@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 );
 
 sub GetDisplayPath {
-    return Translatable('OTRS/Time Settings');
+    return Translatable('OTRS') . '/' . Translatable('Time Settings');
 }
 
 sub Run {
