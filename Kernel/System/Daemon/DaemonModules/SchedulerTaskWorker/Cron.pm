@@ -128,6 +128,11 @@ sub Run {
 
     eval {
 
+        # Restore child signal to default, main daemon set it to 'IGNORE' to be able to create
+        #   multiple process at the same time, but in workers this causes problems if function does
+        #   system calls (on linux), since system calls returns -1. See bug#12126.
+        local $SIG{CHLD} = 'DEFAULT';
+
         # Localize the standard error, everything will be restored after the eval block.
         local *STDERR;
 
