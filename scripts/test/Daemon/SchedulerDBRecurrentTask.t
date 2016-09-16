@@ -32,15 +32,7 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     sleep $SleepTime;
 }
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-# get scheduler database object
+my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
 $Self->Is(
@@ -49,7 +41,6 @@ $Self->Is(
     "Kernel::System::Daemon::SchedulerDB->new()",
 );
 
-# get task worker object
 my $TaskWorkerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
 
 # wait until task is executed
@@ -79,7 +70,6 @@ $CacheObject->CleanUp(
 # freeze time
 $Helper->FixedTimeSet();
 
-# get time object
 my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
 my $SystemTime = $TimeObject->SystemTime();
@@ -646,11 +636,19 @@ for my $Test (@Tests) {
 
 }
 
+# System cleanup.
+my $Success = $SchedulerDBObject->RecurrentTaskDelete(
+    TaskID => $List[0]->{TaskID},
+);
+
+$Self->True(
+    $Success,
+    "Deleted Task $List[0]->{TaskID}",
+);
+
 # start daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     system("$Daemon start");
 }
-
-# cleanup is done by RestoreDatabase.
 
 1;
