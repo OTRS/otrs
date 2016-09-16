@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.93731778425656;
+    $Self->{Completeness}        = 0.937343880099917;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4130,7 +4130,7 @@ sub Data {
             'Die Partition, auf der OTRS sich befindet, hat keine Platzprobleme.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => 'Betriebssystem/Festplattenpartitionsbelegung',
+        'Disk Partitions Usage' => 'Belegung der Festplatten-Partitionen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Distribution',
@@ -4156,16 +4156,16 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Es sollten nicht mehr als 200 MB Auslagerungsspeicher verwendet werden.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => 'OTRS/Konfigurationseinstellungen',
+        'OTRS' => 'OTRS',
+        'Config Settings' => 'Konfigurationseinstellungen',
         'Could not determine value.' => 'Konnte Wert nicht ermitteln.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
-        'Daemon' => 'Prozess',
+        'Daemon' => 'Daemon',
         'Daemon is not running.' => 'Daemon läuft nicht.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => 'OTRS/Datenbankeinträge',
+        'Database Records' => 'Datenbankeinträge',
         'Tickets' => 'Tickets',
         'Ticket History Entries' => 'Ticket-Historien-Einträge',
         'Articles' => 'Artikel',
@@ -4208,7 +4208,7 @@ sub Data {
         'Some packages are not correctly installed.' => 'Es wurden Pakete gefunden, die nicht korrekt installiert sind.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => 'OTRS/Paketliste',
+        'Package List' => 'Paketliste',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4247,7 +4247,7 @@ sub Data {
             'Die Tabelle ticket_index enthält verwaiste Einträge. Bitte führen Sie otrs/bin/otrs.CleanTicketIndex.pl aus um sie zu entfernen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => 'OTRS/Zeiteinstellungen',
+        'Time Settings' => 'Zeiteinstellungen',
         'Server time zone' => 'Serverzeitzone',
         'Computed server time offset' => 'Berechneter Serverzeitversatz',
         'OTRS TimeZone setting (global time offset)' => 'OTRS-Zeitzoneneinstellung (globaler Zeitversatz)',
@@ -4258,10 +4258,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => 'OTRS-Zeitzoneneinstellung für Kalender',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => 'Webserver/Geladene Apache-Module',
+        'Webserver' => 'Webserver',
+        'Loaded Apache Modules' => 'Geladene Apache-Module',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Webserver',
         'MPM model' => 'MPM-Modell',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'OTRS benötigt das Apache \'prefork\' MPM Modul',
@@ -4284,7 +4284,7 @@ sub Data {
             'Nutzen Sie Apache2::DBI, um eine höhere Leistung im Zusammenhang mit persistenten Datenbankverbindungen zu erreichen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => 'Webserver/Umgebungsvariablen',
+        'Environment Variables' => 'Umgebungsvariablen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Sie sollten PerlEx verwenden, um die Geschwindigkeit zu steigern.',
@@ -4292,6 +4292,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webserver-Version',
         'Could not determine webserver version.' => 'Konnte Webserver-Version nicht ermitteln.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => 'Details der gleichzeitigen Nutzer',
+        'Concurrent Users' => 'Gleichzeitige Nutzer',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Unbekannt',
