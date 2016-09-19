@@ -69,7 +69,7 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
             </div>
         </div>
 
-        <div class="WidgetSimple">
+        <div class="WidgetSimple" id="ExampleProcesses">
             <div class="Header">
                 <h2>[% Translate("Example Processes") | html %]</h2>
             </div>
