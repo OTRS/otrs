@@ -10,6 +10,24 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("SLA Management") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('SLA Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.SLAID %]
+        [% USE EditTitle = String(Translate("Edit SLA")) %]
+        [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.SLAName ) }) %]
+    [% ELSIF Data.Subaction == "SLAEdit"  %]
+        [% BreadcrumbPath.push({ Name => Translate("Add SLA"),}) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
 
 [% RenderBlockStart("ActionList") %]
@@ -97,12 +115,11 @@
 
 [% RenderBlockStart("SLAEdit") %]
             <div class="Header">
-[% RenderBlockStart("HeaderAdd") %]
+            [% IF !Data.SLAID %]
                 <h2>[% Translate("Add SLA") | html %]</h2>
-[% RenderBlockEnd("HeaderAdd") %]
-[% RenderBlockStart("HeaderEdit") %]
-                <h2>[% Translate("Edit SLA") | html %]</h2>
-[% RenderBlockEnd("HeaderEdit") %]
+            [% ELSE %]
+                <h2>[% Translate("Edit SLA") | html %] : [% Data.Name | html %]</h2>
+            [% END %]
             </div>
             <div class="Content">
 
@@ -110,6 +127,9 @@
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="SLASave"/>
                     <input type="hidden" name="SLAID" value="[% Data.SLAID | html %]"/>
+                    [% IF Data.SLAID %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
                     <fieldset class="TableLike">
 
                         <label for="Name">[% Translate("SLA") | html %]:</label>
@@ -232,7 +252,13 @@
 [% RenderBlockEnd("Password") %]
 [% RenderBlockEnd("SLAItem") %]
                         <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% IF Data.SLAID %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </div>
