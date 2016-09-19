@@ -1,0 +1,319 @@
+# --
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+package Kernel::System::Console::Command::Maint::SMIME::FetchFromCustomer;
+
+use strict;
+use warnings;
+
+use base qw(Kernel::System::Console::BaseCommand);
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Crypt::SMIME',
+    'Kernel::System::User',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::CheckItem',
+);
+
+sub Configure {
+    my ( $Self, %Param ) = @_;
+
+    $Self->Description('Refresh existing Keys for new ones from the LDAP.');
+    $Self->AddOption(
+        Name        => 'verbose',
+        Description => "Print detailed command output.",
+        Required    => 0,
+        HasValue    => 0,
+    );
+    $Self->AddOption(
+        Name        => 'force',
+        Description => "Execute even if SMIME is not enabled in SysConfig.",
+        Required    => 0,
+        HasValue    => 0,
+        ValueRegex  => qr/.*/smx,
+    );
+    $Self->AddOption(
+        Name        => 'renew',
+        Description => "Only renew existing certificates from customer-users.",
+        Required    => 0,
+        HasValue    => 0,
+        ValueRegex  => qr/.*/smx,
+    );
+    $Self->AddOption(
+        Name        => 'add-all',
+        Description => "Add All found Certs from the LDAP into the system ( ! ! This might take lot of time ! ! ).",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/.*/smx,
+    );
+    $Self->AddArgument(
+        Name        => 'mail',
+        Description => "Get certificate for just this one address.",
+        Required    => 1,
+        HasValue    => 1,
+        ValueRegex  => qr/.*/smx,
+    );
+
+    return;
+}
+
+sub PreRun {
+    my ( $Self, %Param ) = @_;
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $Self->GetOption('force') ) {
+        $ConfigObject->Set(
+            Key   => 'SMIME',
+            Value => 1,
+        );
+    }
+
+    my $SMIMEActivated = $ConfigObject->Get('SMIME');
+    if ( !$SMIMEActivated ) {
+        die "SMIME is not activated in SysConfig!\n";
+    }
+
+    my $Message = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->Check();
+
+    die $Message if $Message;
+
+    my $SMIMESyncActivated = $ConfigObject->Get('SMIME::FetchFromCustomer');
+    if ( !$SMIMESyncActivated ) {
+        die "'SMIME from LDAP' Sync is not activated in SysConfig!\n";
+    }
+
+    my $CryptObject;
+    eval {
+        $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    };
+    if ( !$CryptObject ) {
+        die "No SMIME support!.\n"
+    }
+
+    return;
+}
+
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    my $Count     = 1;
+    my $CertCount = 0;
+
+    #$Kernel::OM->Get('Kernel::System::Log')->Dumper('Run');
+    my $DetailLevel = $Self->GetOption('verbose') ? 'Details' : 'ShortDetails';
+
+    if ( $DetailLevel ne 'Details' ) {
+        $Self->Print("<yellow>$Count) Refreshing SMIME Keys...</yellow>\n");
+        $Count++;
+    }
+
+    my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
+    # Get all existing certificates.
+    my @CertList = $CryptObject->CertificateList();
+
+    # ---
+    # only when Email specified
+    # ---
+    if ( $Self->GetArgument('mail') ) {
+        my $Emailaddress = substr( $Self->GetArgument('mail'), 7 );
+
+        my $ValidEmail = $Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail(
+            Address => $Emailaddress,
+        );
+        if ( !$ValidEmail ) {
+            $Self->Print("<red>$Count) $Emailaddress NOT valid ($ValidEmail)</red>\n");
+            return 1;
+        }
+
+        if ( $DetailLevel ne 'Details' ) {
+            $Self->Print("<yellow>$Count) '$Emailaddress' is a valid Email ($ValidEmail)</yellow>\n");
+            $Count++;
+        }
+        my @Files = $CryptObject->FetchFromCustomer(
+            Search => $Emailaddress
+        );
+
+        $CertCount += @Files;
+
+        if ( $CertCount > 0 ) {
+            if ( $DetailLevel ne 'Details' ) {
+                $Self->Print("$CertCount added\n");
+            }
+        }
+        @CertList = @Files;
+    }
+
+    # ---
+
+    my %ListOfEmailCertificates;
+    my @ActiveCustomerUserCertificates;
+
+    # Check all existing certificates for emails.
+    CERTIFICATE:
+    for my $Certname (@CertList) {
+
+        if ( $DetailLevel ne 'Details' ) {
+            $Self->Print( 'CN: ' . $Certname . "\n" );
+        }
+
+        my $CertificateString = $CryptObject->CertificateGet(
+            Filename => $Certname,
+        );
+
+        my %CertificateAttributes = $CryptObject->CertificateAttributes(
+            Certificate => $CertificateString,
+            Filename    => $Certname,
+        );
+
+        # all SMIME certificates must have an Email Attribute
+        next CERTIFICATE if !$CertificateAttributes{Email};
+
+        my $ValidEmail = $Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail(
+            Address => $CertificateAttributes{Email},
+        );
+
+        next CERTIFICATE if !$ValidEmail;
+
+        # Remember certificate (don't need to be added again).
+        $ListOfEmailCertificates{$CertificateString} = $CertificateString;
+
+        # Save email for checking for new certificate.
+        push @ActiveCustomerUserCertificates, $CertificateAttributes{Email};
+    }
+    if ( $DetailLevel ne 'Details' ) {
+        $Self->Print(
+            "<yellow>$Count) Found " . @ActiveCustomerUserCertificates . " Customer-Certificate...</yellow>\n"
+        );
+        $Count++;
+    }
+
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+    # Check saved CustomerUser-emails for userSMIMECertificate
+    if ( $Self->GetOption('renew') && @ActiveCustomerUserCertificates ) {
+        if ( $DetailLevel ne 'Details' ) {
+            $Self->Print("<yellow>$Count) Only renew existing Customer-Certificates...</yellow>\n");
+            $Count++;
+        }
+        my %CustomerUsers = $CustomerUserObject->CustomerSearch(
+            PostMasterSearch => @ActiveCustomerUserCertificates,
+        );
+
+        # if not AddAll
+        CUSTOMERUSER:
+        for my $Login ( sort keys %CustomerUsers ) {
+            if ( $DetailLevel ne 'Details' ) {
+                $Self->Print( 'CU: ' . $Login . "\n" );
+            }
+            my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
+                User => $Login,
+            );
+
+            # Add Certificate if available
+            if ( $CustomerUser{SMIMECertificate} ) {
+
+                # Certificate already existing
+                next CUSTOMERUSER if $ListOfEmailCertificates{ $CustomerUser{SMIMECertificate} };
+
+                my $ConvertedCertificate = $CryptObject->ConvertCertFormat(
+                    String => $CustomerUser{SMIMECertificate},
+                );
+
+                my %Result = $CryptObject->CertificateAdd(
+                    Certificate => $ConvertedCertificate,
+                );
+                if ( $Result{Successful} && $Result{Successful} == 1 ) {
+                    if ( $DetailLevel ne 'Details' ) {
+                        $Self->Print("$Result{Filename} added\n");
+                    }
+                    $CertCount++;
+                }
+            }
+        }
+    }
+
+    if ( $Self->GetOption('add-all') ) {
+
+        #check LDAP-Users for userSMIMECertificate (Limit = CustomerUserSearchListLimit from LDAP-Config)
+        my %CustomerUsers = $CustomerUserObject->CustomerSearch(
+            Search => '*',
+        );
+        %CustomerUsers = (
+            %CustomerUsers,
+            $CustomerUserObject->CustomerSearch(
+                PostMasterSearch => '*',
+                )
+        );
+        if ( $DetailLevel ne 'Details' ) {
+            $Self->Print("<yellow>$Count) Get All Users to check them...</yellow>\n");
+        }
+        for my $Login ( sort keys %CustomerUsers ) {
+            my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
+                User => $Login,
+            );
+            if ( $DetailLevel ne 'Details' ) {
+                $Self->Print("CU: $Login\n");
+            }
+
+            # only add, if CustomerUser has Certificate, and Certificate not already in List available
+            if ( $CustomerUser{SMIMECertificate} && !$ListOfEmailCertificates{ $CustomerUser{SMIMECertificate} } ) {
+                if ( $DetailLevel ne 'Details' ) {
+                    $Self->Print("Add? - ");
+                }
+
+                my $ConvertedCertificate = $CryptObject->ConvertCertFormat(
+                    String => $CustomerUser{SMIMECertificate}
+                );
+
+                my %Result = $CryptObject->CertificateAdd(
+                    Certificate => $ConvertedCertificate,
+                );
+
+                if ( $Result{Successful} && $Result{Successful} == 1 ) {
+                    if ( $DetailLevel ne 'Details' ) {
+                        $Self->Print("$Result{Filename} added");
+                    }
+                    $CertCount++;
+                }
+                if ( $DetailLevel ne 'Details' ) {
+                    $Self->Print("\n");
+                }
+            }
+        }
+    }
+
+    my $CheckCertPathResult = $CryptObject->CheckCertPath();
+
+    if ( $CheckCertPathResult->{$DetailLevel} ) {
+        $Self->Print( $CheckCertPathResult->{$DetailLevel} );
+    }
+
+    if ( !$CheckCertPathResult->{Success} ) {
+        return $Self->ExitCodeError();
+    }
+
+    $Self->Print("<green>Done. ($CertCount)</green>\n");
+    return $Self->ExitCodeOk();
+}
+
+1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
