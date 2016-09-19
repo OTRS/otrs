@@ -15,9 +15,8 @@ use File::Copy;
 
 use vars (qw($Self));
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-my $Home   = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otrs.Daemon.pl';
 
 # Get current daemon status.
@@ -37,10 +36,19 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $TaskWorkerObject  = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
 my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+my $TaskWorkerObject  = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
 
 my $ActiveSleep = sub {
+
+    my $ErrorMessage;
+
+    # Localize the standard error, to prevent redefining warnings.
+    #   WARNING: This also hides any task run errors.
+    local *STDERR;
+
+    # Redirect the standard error to a variable.
+    open STDERR, ">>", \$ErrorMessage;
 
     # Wait until task is executed.
     ACTIVESLEEP:
@@ -60,6 +68,48 @@ my $ActiveSleep = sub {
 };
 
 $ActiveSleep->();
+
+my $RandomID = $Helper->GetRandomID();
+
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+my $GATicketID = $TicketObject->TicketCreate(
+    Title    => $RandomID,
+    QueueID  => 1,
+    Lock     => 'unlock',
+    Priority => '3 normal',
+    State    => 'new',
+    OwnerID  => 1,
+    UserID   => 1,
+);
+$Self->IsNot(
+    $GATicketID,
+    undef,
+    "TicketCreate() - TicketID"
+);
+
+my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
+
+my $Success = $GenericAgentObject->JobAdd(
+    Name => $RandomID,
+    Data => {
+        ScheduleDays  => [ 0, 1, 2, 3, 4, 5, 6, ],
+        ScheduleHours => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, ],
+        ScheduleMinutes => [
+            0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+            20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+            40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+        ],
+        Title => $RandomID,    # to pass GA search validation in JobRun()
+        NewModule => "scripts::test::sample::GenericAgent::TestSystemCallModule",
+        Valid     => 1,
+    },
+    UserID => 1,
+);
+$Self->True(
+    $Success,
+    "GenericAgent JobAdd() - for $RandomID with true",
+);
 
 my $SourcePath = "$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box";
 my $TargetPath = "$Home/var/spool/Test.eml";
@@ -101,10 +151,30 @@ my @Tests = (
             },
         },
     },
+    {
+        Name    => 'GenericAgent',
+        TaskAdd => {
+            Type                     => 'GenericAgent',
+            Name                     => 'TestGASpoolMailsReprocess',
+            Attempts                 => 1,
+            MaximumParallelInstances => 1,
+            Data                     => {
+                Name  => $RandomID,
+                Valid => 1,
+            },
+        },
+    },
 );
 
 TESTCASE:
 for my $Test (@Tests) {
+
+    # prevent mails send
+    $Helper->ConfigSettingChange(
+        Key   => 'SendmailModule',
+        Value => 'Kernel::System::Email::DoNotSendEmail',
+        Valid => 1,
+    );
 
     local $SIG{CHLD} = "IGNORE";
 
@@ -144,8 +214,6 @@ $Self->False(
     "Final Test email still exists - with false",
 );
 
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
 my @TicketIDs = $TicketObject->TicketSearch(
     Result  => 'ARRAY',
     From    => '%skywalker@otrs.org%',
@@ -154,7 +222,7 @@ my @TicketIDs = $TicketObject->TicketSearch(
     UserID  => 1,
 );
 
-for my $TicketID (@TicketIDs) {
+for my $TicketID ( @TicketIDs, $GATicketID ) {
     my $Success = $TicketObject->TicketDelete(
         TicketID => $TicketID,
         UserID   => 1,
@@ -164,6 +232,15 @@ for my $TicketID (@TicketIDs) {
         "TicketDelete() for TicketID $TicketID"
     );
 }
+
+$Success = $GenericAgentObject->JobDelete(
+    Name   => $RandomID,
+    UserID => 1,
+);
+$Self->True(
+    $Success,
+    "GenericAgent JobDelete() - for $RandomID with true",
+);
 
 # Start daemon if it was already running before this test.
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
