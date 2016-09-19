@@ -83,6 +83,7 @@ bin/DatabaseInstall.pl
 var/git
 
 # OTRSBusiness
+
 CHANGES-OTRSBusiness.md
 doc/*/OTRSBusiness.*
 i18n/OTRSBusiness
@@ -92,6 +93,10 @@ Kernel/Modules/AdminCloudServiceSMS.pm
 Kernel/Modules/*Chat*
 Kernel/Modules/*ContactWithData*
 Kernel/Modules/*DynamicFieldDatabase*
+Kernel/Modules/AgentAppointmentResourceOverview.pm
+Kernel/Modules/AgentAppointmentTeam.pm
+Kernel/Modules/AgentAppointmentTeamList.pm
+Kernel/Modules/AgentAppointmentTeamUser.pm
 Kernel/Modules/AgentNotificationView.pm
 Kernel/Modules/AgentStatisticsReports.pm
 Kernel/Modules/AgentTicketAttachmentView.pm
@@ -118,6 +123,9 @@ Kernel/Output/HTML/Templates/Standard/AdminChatChannel.tt
 Kernel/Output/HTML/Templates/Standard/AdminChatChannelRole.tt
 Kernel/Output/HTML/Templates/Standard/AdminCloudServiceSMS.tt
 Kernel/Output/HTML/Templates/Standard/AdminNotificationEventTransportSMSSettings.tt
+Kernel/Output/HTML/Templates/Standard/AgentAppointmentResourceOverview.tt
+Kernel/Output/HTML/Templates/Standard/AgentAppointmentTeam.tt
+Kernel/Output/HTML/Templates/Standard/AgentAppointmentTeamUser.tt
 Kernel/Output/HTML/Templates/Standard/AgentChat.tt
 Kernel/Output/HTML/Templates/Standard/AgentChatAppend.tt
 Kernel/Output/HTML/Templates/Standard/AgentChatPopup.tt
@@ -125,7 +133,9 @@ Kernel/Output/HTML/Templates/Standard/AgentChatPreview.tt
 Kernel/Output/HTML/Templates/Standard/AgentNotificationViewNavBar.tt
 Kernel/Output/HTML/Templates/Standard/AgentNotificationViewSmall.tt
 Kernel/Output/HTML/Templates/Standard/AgentTicketAttachmentView.tt
+Kernel/Output/HTML/Templates/Standard/AgentVideoChat.tt
 Kernel/Output/HTML/Templates/Standard/CustomerChat.tt
+Kernel/Output/HTML/Templates/Standard/CustomerVideoChat.tt
 Kernel/Output/HTML/Templates/Standard/PublicChat.tt
 Kernel/Output/HTML/TicketMenu/AttachmentView.pm
 Kernel/Output/HTML/ToolBar/*Chat*
@@ -154,14 +164,18 @@ scripts/test/NotificationView*
 scripts/test/Selenium/Agent/Admin/AdminContactWithData.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldContactWithData.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldDatabase.t
+scripts/test/Selenium/Agent/AgentAppointmentResourceOverview.t
 scripts/test/Selenium/Agent/AgentContactWithDataSearch.t
 scripts/test/Selenium/Agent/AgentDynamicFieldDatabase.t
 scripts/test/Selenium/Agent/AgentNotificationView.t
 scripts/test/Selenium/Agent/AgentStatisticsReports.t
 scripts/test/Selenium/Agent/AgentTicketAttachmentView.t
 scripts/test/Selenium/Agent/Chat.t
+scripts/test/Selenium/Agent/VideoChat.t
 scripts/test/Selenium/Customer/Chat.t
 scripts/test/Selenium/Customer/CustomerDynamicFieldDatabase.t
+scripts/test/Selenium/Customer/VideoChat.t
+scripts/test/Selenium/Public/Chat.t
 scripts/test/Selenium/Output/FilterElementPost/SLASelectionDialog.t
 scripts/test/Selenium/Public/Chat.t
 scripts/test/StatsReport.t
@@ -175,6 +189,7 @@ var/httpd/htdocs/js/Core.Agent.DynamicField.ContactWithData.js
 var/httpd/htdocs/js/Core.Agent.DynamicFieldDatabaseSearch.js
 var/httpd/htdocs/js/Core.Agent.NotificationView.js
 var/httpd/htdocs/js/Core.Agent.TicketAttachmentView.js
+var/httpd/htdocs/js/thirdparty/adapter.js-1.4.0/
 var/httpd/htdocs/skins/Agent/business*
 var/httpd/htdocs/skins/Agent/default/css/*Chat*
 var/httpd/htdocs/skins/Agent/default/css/*StatisticsReports*
@@ -184,7 +199,13 @@ var/httpd/htdocs/skins/Agent/default/css/DynamicFieldDatabase.css
 var/httpd/htdocs/skins/Customer/default/css/*Chat*
 var/httpd/htdocs/skins/Customer/default/css/DynamicFieldDatabase.css
 var/packagesetup/OTRSBusiness.pm
+var/processes/examples/Conference_Room_Reservation.yml
+var/processes/examples/Conference_Room_Reservation_pre.pm
 var/processes/examples/ITIL_Incident_Management.yml
+var/processes/examples/Office_Materials_Procurement.yml
+var/processes/examples/Office_Materials_Procurement_pre.pm
 var/processes/examples/Order_Request_Management.yml
 var/processes/examples/Request_For_Leave_Management.yml
+var/processes/examples/Start_RMA.yml
+var/processes/examples/Start_RMA_pre.pm
 var/thirdparty/phantomjs

@@ -52,7 +52,7 @@ $Selenium->RunTest(
 
         # select Application for leave process
         $Selenium->execute_script(
-            "\$('#ExampleProcess').val('Sample_process_Application_for_leave.yml')" .
+            "\$('#ExampleProcess').val('Application_for_leave.yml')" .
                 ".trigger('redraw.InputField').trigger('change');"
         );
 

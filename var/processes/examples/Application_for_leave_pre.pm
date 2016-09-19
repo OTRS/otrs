@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package var::processes::examples::Sample_process_Application_for_leave_pre;
+package var::processes::examples::Application_for_leave_pre;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::PerlCritic)
 
 use strict;
@@ -155,7 +155,13 @@ sub Run {
             UserID  => 1,
         );
 
-        if ( !$ID ) {
+        if ( $ID ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'info',
+                Message  => "System created Dynamic field ($DynamicField->{Name})!"
+            );
+        }
+        else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "System couldn't create Dynamic field ($DynamicField->{Name})!"
