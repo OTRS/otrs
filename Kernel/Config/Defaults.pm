@@ -17,8 +17,8 @@ use strict;
 use warnings;
 use utf8;
 
-# Perl 5.10.0 is the required minimum version to use OTRS.
-use 5.010_000;
+# Perl 5.16.0 is the required minimum version to use OTRS.
+use 5.016_000;
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;

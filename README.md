@@ -47,7 +47,7 @@ or benefit from an inhouse training that covers all the specific needs of your c
 Software requirements
 =====================
 Perl
-- Perl 5.10.0 or higher
+- Perl 5.16.0 or higher
 
 Webserver
 - Webserver with CGI support (CGI is not recommended)
