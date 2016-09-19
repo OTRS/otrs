@@ -32,6 +32,7 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
 
     # ------------------------------------------------------------ #
     # change
@@ -45,6 +46,8 @@ sub Run {
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Info => Translatable('Role updated!') )
+            if ( $Notification && $Notification eq 'Update' );
         $Self->_Edit(
             Action => 'Change',
             %Data,
@@ -86,16 +89,17 @@ sub Run {
             );
 
             if ($RoleUpdate) {
-                $Self->_Overview();
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => Translatable('Role updated!') );
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'AdminRole',
-                    Data         => \%Param,
-                );
-                $Output .= $LayoutObject->Footer();
-                return $Output;
+
+                # if the user would like to continue editing the role, just redirect to the edit screen
+                # otherwise return to overview
+                if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Subaction=Change;ID=$GetParam{ID};Notification=Update"
+                    );
+                }
+                else {
+                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Update" );
+                }
             }
             else {
                 $Note = $LogObject->GetLogEntry(
@@ -220,8 +224,12 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview();
+
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Info => Translatable('Role updated!') )
+            if ( $Notification && $Notification eq 'Update' );
+
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRole',
             Data         => \%Param,
@@ -260,14 +268,6 @@ sub _Edit {
         Name => 'OverviewUpdate',
         Data => \%Param,
     );
-
-    # shows header
-    if ( $Param{Action} eq 'Change' ) {
-        $LayoutObject->Block( Name => 'HeaderEdit' );
-    }
-    else {
-        $LayoutObject->Block( Name => 'HeaderAdd' );
-    }
 
     return 1;
 }
