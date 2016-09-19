@@ -87,7 +87,9 @@ sub WebserviceHistoryAdd {
 
     # md5 of content
     my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-        String => $Param{WebserviceID} . $Param{Config} . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString( Length => 32 )
+        String => $Param{WebserviceID}
+            . $Param{Config}
+            . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString( Length => 32 )
     );
 
     # get database object

@@ -66,7 +66,7 @@ $Selenium->RunTest(
 
         # create test article
         my $MinCharString = 'ct';
-        my $MaxCharString = $RandomID . ('t' x 50);
+        my $MaxCharString = $RandomID . ( 't' x 50 );
         my $Subject       = 'SubjectTitle' . $RandomID;
         my $ArticleID     = $TicketObject->ArticleCreate(
             TicketID    => $TicketID,
