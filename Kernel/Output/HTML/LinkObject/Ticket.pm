@@ -73,7 +73,7 @@ sub new {
     $Self->{ObjectData} = {
         Object     => 'Ticket',
         Realname   => 'Ticket',
-        ObjectName => 'TicketID',
+        ObjectName => 'SourceObjectID',
     };
 
     # get the dynamic fields for this screen
