@@ -29,8 +29,99 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-# create crypt object
-my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+my $HomeDir = $ConfigObject->Get('Home');
+
+# create directory for certificates and private keys
+my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
+my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
+mkpath( [$CertPath],    0, 0770 );    ## no critic
+mkpath( [$PrivatePath], 0, 0770 );    ## no critic
+
+# set SMIME paths
+$ConfigObject->Set(
+    Key   => 'SMIME::CertPath',
+    Value => $CertPath,
+);
+$ConfigObject->Set(
+    Key   => 'SMIME::PrivatePath',
+    Value => $PrivatePath,
+);
+
+my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
+
+# set config
+$ConfigObject->Set(
+    Key   => 'SMIME',
+    Value => 1,
+);
+
+# check if openssl is located there
+if ( !-e $OpenSSLBin ) {
+
+    # maybe it's a mac with macport
+    if ( -e '/opt/local/bin/openssl' ) {
+        $ConfigObject->Set(
+            Key   => 'SMIME::Bin',
+            Value => '/opt/local/bin/openssl',
+        );
+    }
+}
+
+my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
+if ( !$SMIMEObject ) {
+    print STDERR "NOTICE: No SMIME support!\n";
+
+    if ( !-e $OpenSSLBin ) {
+        $Self->False(
+            1,
+            "No such $OpenSSLBin!",
+        );
+    }
+    elsif ( !-x $OpenSSLBin ) {
+        $Self->False(
+            1,
+            "$OpenSSLBin not executable!",
+        );
+    }
+    elsif ( !-e $CertPath ) {
+        $Self->False(
+            1,
+            "No such $CertPath!",
+        );
+    }
+    elsif ( !-d $CertPath ) {
+        $Self->False(
+            1,
+            "No such $CertPath directory!",
+        );
+    }
+    elsif ( !-w $CertPath ) {
+        $Self->False(
+            1,
+            "$CertPath not writable!",
+        );
+    }
+    elsif ( !-e $PrivatePath ) {
+        $Self->False(
+            1,
+            "No such $PrivatePath!",
+        );
+    }
+    elsif ( !-d $Self->{PrivatePath} ) {
+        $Self->False(
+            1,
+            "No such $PrivatePath directory!",
+        );
+    }
+    elsif ( !-w $PrivatePath ) {
+        $Self->False(
+            1,
+            "$PrivatePath not writable!",
+        );
+    }
+    return 1;
+}
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -40,17 +131,15 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $HomeDir = $ConfigObject->Get('Home');
-
 # get existing certificates
-my @CertList  = $CryptObject->CertificateList();
+my @CertList  = $SMIMEObject->CertificateList();
 my $CertCount = 0;
 for my $Cert ( sort @CertList ) {
     $CertCount++;
 }
 
-# - first stage
-my $TableName             = 'UnitTest_Customer_User_Table_1983272';
+# first stage
+my $TableName             = 'UT_Customer_User_Table_1983272';
 my @UnitTestCustomerUsers = (
     {
         FirstName       => 'Hans',
@@ -130,29 +219,35 @@ wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
     }
 );
 
-# TODO - SQL as XML (preprocess?)
 # Create Table
-$DBObject->Do(
-    SQL =>
-        "CREATE TABLE $TableName (
-        id INTEGER NOT NULL AUTO_INCREMENT,
-        login VARCHAR (200) NOT NULL,
-        email VARCHAR (150) NOT NULL,
-        customer_id VARCHAR (150) NOT NULL,
-        pw VARCHAR (64) NULL,
-        title VARCHAR (50) NULL,
-        first_name VARCHAR (100) NOT NULL,
-        last_name VARCHAR (100) NOT NULL,
-        userSMIMECertificate LONGBLOB NULL,
-        valid_id SMALLINT(6) NOT NULL,
-        create_time DATETIME NOT NULL,
-        create_by INTEGER NOT NULL,
-        change_time DATETIME NOT NULL,
-        change_by INTEGER NOT NULL,
-        PRIMARY KEY(id),
-        UNIQUE INDEX customer_user_login (login)
-    )"
-);
+{
+    my $XMLLoginTable = '<Table Name="'.$TableName.'">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+        <Column Name="login" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="email" Required="true" Size="150" Type="VARCHAR"/>
+        <Column Name="customer_id" Required="true" Size="150" Type="VARCHAR"/>
+        <Column Name="pw" Required="false" Size="64" Type="VARCHAR"/>
+        <Column Name="title" Required="false" Size="50" Type="VARCHAR"/>
+        <Column Name="first_name" Required="true" Size="100" Type="VARCHAR"/>
+        <Column Name="last_name" Required="true" Size="100" Type="VARCHAR"/>
+        <Column Name="userSMIMECertificate" Required="false" Type="LONGBLOB"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Index Name="customer_user_login">
+            <IndexColumn Name="login"/>
+        </Index>
+    </Table>';
+    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XMLLoginTable );
+    my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    my @SQLPost = $DBObject->SQLProcessorPost( Database => \@XMLARRAY );
+
+    for my $SQL ( @SQL, @SQLPost ) {
+        $DBObject->Do( SQL => $SQL );
+    }
+}
 
 # Fill Table
 my $SQL = "INSERT INTO $TableName
@@ -186,101 +281,78 @@ foreach my $CustomerUser (@UnitTestCustomerUsers) {
 }
 
 # Add Table as CustomerUser Table in Config
-# TODO - delete config-file-stuff
-my $SetFromFile = 2;
 my $NewConfig;
 my $FileLocation;
-if ( $SetFromFile == 1 ) {
-    my $ConfigFile = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => 'LDAPFetchUnitTest.pm',
-    );
-    $FileLocation = $MainObject->FileWrite(
-        Directory => $ConfigObject->Get('Home') . "/Kernel/Config/Files/",
-        Filename  => 'LDAPFetchUnitTest.pm',
-        Mode      => 'utf8',
-        Content   => $ConfigFile,
-    );
 
-    # discard $Kernel::OM->Get('Kernel::Config');
-    # ForcePackageReload => 1,
+$ConfigObject->Set(
+    Key   => "Customer::AuthModule10",
+    Value => 'Kernel::System::CustomerAuth::DB',
+);
+$ConfigObject->Set(
+    Key   => "Customer::AuthModule::DB::Table10",
+    Value => $TableName,
+);
+$ConfigObject->Set(
+    Key   => "Customer::AuthModule::DB::CustomerKey10",
+    Value => 'login',
+);
+$ConfigObject->Set(
+    Key   => "Customer::AuthModule::DB::CustomerPassword10",
+    Value => 'pw',
+);
+$ConfigObject->Set(
+    Key   => "Customer::AuthModule::DB::CryptType10",
+    Value => 'plain',
+);
+my %CustomerUserConfig = (
+    Name   => 'Database Backend',
+    Module => 'Kernel::System::CustomerUser::DB',
+    Params => {
+        Table => $TableName,
+    },
+    ReadOnly => 1,
 
-    $Self->True(
-        $NewConfig,
-        "Table was added as another Login Method into Config",
-    );
-}
-else {
-    $ConfigObject->Set(
-        Key   => "Customer::AuthModule10",
-        Value => 'Kernel::System::CustomerAuth::DB',
-    );
-    $ConfigObject->Set(
-        Key   => "Customer::AuthModule::DB::Table10",
-        Value => $TableName,
-    );
-    $ConfigObject->Set(
-        Key   => "Customer::AuthModule::DB::CustomerKey10",
-        Value => 'login',
-    );
-    $ConfigObject->Set(
-        Key   => "Customer::AuthModule::DB::CustomerPassword10",
-        Value => 'pw',
-    );
-    $ConfigObject->Set(
-        Key   => "Customer::AuthModule::DB::CryptType10",
-        Value => 'plain',
-    );
-    my %CustomerUserConfig = (
-        Name   => 'Database Backend',
-        Module => 'Kernel::System::CustomerUser::DB',
-        Params => {
-            Table => $TableName,
-        },
-        ReadOnly => 1,
+    # customer unique id
+    CustomerKey => 'login',
 
-        # customer unique id
-        CustomerKey => 'login',
+    # customer #
+    CustomerID                         => 'customer_id',
+    CustomerUserListFields             => [ 'first_name', 'last_name', 'email' ],
+    CustomerUserSearchFields           => [ 'login', 'first_name', 'last_name', 'customer_id' ],
+    CustomerUserSearchPrefix           => '*',
+    CustomerUserSearchSuffix           => '*',
+    CustomerUserSearchListLimit        => 250,
+    CustomerUserPostMasterSearchFields => ['email'],
+    CustomerUserNameFields     => [ 'title', 'first_name', 'last_name' ],
+    CustomerUserEmailUniqCheck => 1,
 
-        # customer #
-        CustomerID                         => 'customer_id',
-        CustomerUserListFields             => [ 'first_name', 'last_name', 'email' ],
-        CustomerUserSearchFields           => [ 'login', 'first_name', 'last_name', 'customer_id' ],
-        CustomerUserSearchPrefix           => '*',
-        CustomerUserSearchSuffix           => '*',
-        CustomerUserSearchListLimit        => 250,
-        CustomerUserPostMasterSearchFields => ['email'],
-        CustomerUserNameFields     => [ 'title', 'first_name', 'last_name' ],
-        CustomerUserEmailUniqCheck => 1,
+    # show now own tickets in customer panel, CompanyTickets
+    CustomerUserExcludePrimaryCustomerID => 0,
 
-        # show now own tickets in customer panel, CompanyTickets
-        CustomerUserExcludePrimaryCustomerID => 0,
+    # admin can't change customer preferences
+    AdminSetPreferences => 0,
 
-        # admin can't change customer preferences
-        AdminSetPreferences => 0,
+    # cache time to live in sec. - cache any ldap queries
+    CacheTTL => 120,
+    Map      => [
 
-        # cache time to live in sec. - cache any ldap queries
-        CacheTTL => 120,
-        Map      => [
-
-            # note: Login, Email and CustomerID are mandatory!
-            # if you need additional attributes from AD, just map them here.
-            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
-            [ 'UserSalutation',   'Title or salutation', 'title',                1, 0, 'var', '', 0 ],
-            [ 'UserFirstname',    'Firstname',           'first_name',           1, 1, 'var', '', 0 ],
-            [ 'UserLastname',     'Lastname',            'last_name',            1, 1, 'var', '', 0 ],
-            [ 'UserLogin',        'Username',            'login',                1, 1, 'var', '', 0 ],
-            [ 'UserPassword',     'Password',            'pw',                   0, 0, 'var', '', 0 ],
-            [ 'UserEmail',        'Email',               'email',                1, 1, 'var', '', 0 ],
-            [ 'UserCustomerID',   'CustomerID',          'customer_id',          0, 1, 'var', '', 0 ],
-            [ 'SMIMECertificate', 'SMIMECertificate',    'userSMIMECertificate', 0, 1, 'var', '', 0 ],
-        ],
-    );
-    my $Return = $ConfigObject->Set(
-        Key   => "CustomerUser10",
-        Value => \%CustomerUserConfig,
-    );
-}
+        # note: Login, Email and CustomerID are mandatory!
+        # if you need additional attributes from AD, just map them here.
+        # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
+        [ 'UserSalutation',   'Title or salutation', 'title',                1, 0, 'var', '', 0 ],
+        [ 'UserFirstname',    'Firstname',           'first_name',           1, 1, 'var', '', 0 ],
+        [ 'UserLastname',     'Lastname',            'last_name',            1, 1, 'var', '', 0 ],
+        [ 'UserLogin',        'Username',            'login',                1, 1, 'var', '', 0 ],
+        [ 'UserPassword',     'Password',            'pw',                   0, 0, 'var', '', 0 ],
+        [ 'UserEmail',        'Email',               'email',                1, 1, 'var', '', 0 ],
+        [ 'UserCustomerID',   'CustomerID',          'customer_id',          0, 1, 'var', '', 0 ],
+        [ 'SMIMECertificate', 'SMIMECertificate',    'userSMIMECertificate', 0, 1, 'var', '', 0 ],
+    ],
+);
+my $Return = $ConfigObject->Set(
+    Key   => "CustomerUser10",
+    Value => \%CustomerUserConfig,
+);
 
 my $AuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
 
@@ -291,8 +363,6 @@ $DBObject->Prepare(
 my %Customers;
 while ( my @Row = $DBObject->FetchrowArray() ) {
     $Customers{ $Row[1] } = $Row[2];
-
-    #$Kernel::OM->Get('Kernel::System::Log')->Dumper( 'row', \@Row )
 }
 
 for my $Customer ( sort keys %Customers ) {
@@ -301,7 +371,6 @@ for my $Customer ( sort keys %Customers ) {
         Pw   => $Customers{$Customer},
     );
 
-    #$Kernel::OM->Get('Kernel::System::Log')->Dumper( 'login?', $AuthResult );
     $Self->Is(
         $AuthResult,
         $Customer,
@@ -309,10 +378,9 @@ for my $Customer ( sort keys %Customers ) {
     );
 }
 
-#sleep(15);
 
 # check against existing certificates
-@CertList = $CryptObject->CertificateList();
+@CertList = $SMIMEObject->CertificateList();
 my $OldOKCount = 0;
 for my $Cert ( sort @CertList ) {
     $OldOKCount++;
@@ -341,22 +409,22 @@ for my $CustomerUser ( sort keys %List ) {
 
     # 1st try with CertificateSearch
     # add
-    my @CertificateFilename = $CryptObject->CertificateSearch(
+    my @CertificateFilename = $SMIMEObject->CertificateSearch(
         Search => $User{UserEmail},
     );
 
     $Self->True(
         $CertificateFilename[0]{Filename},
-        'Certificate for $User{UserEmail} was imported',
+        "Certificate for $User{UserEmail} was imported",
     );
 
     # check
-    my $Certificate = $CryptObject->CertificateGet(
+    my $Certificate = $SMIMEObject->CertificateGet(
         Filename => $CertificateFilename[0]{Filename},
     );
 
     # remove
-    my %Remove = $CryptObject->CertificateRemove(
+    my %Remove = $SMIMEObject->CertificateRemove(
         Filename => $CertificateFilename[0]{Filename},
     );
     $Self->False(
@@ -376,7 +444,7 @@ for my $CustomerUser ( sort keys %List ) {
     # check & add
     $ExitCode = $CommandObject->Execute( '--mail', $User{UserEmail}, '--force' );
 
-    my @CertificateFilename2nd = $CryptObject->CertificateSearch(
+    my @CertificateFilename2nd = $SMIMEObject->CertificateSearch(
         Search  => $User{UserEmail},
         DontAdd => 1,
     );
@@ -387,7 +455,7 @@ for my $CustomerUser ( sort keys %List ) {
     );
 
     # remove
-    my %Remove2nd = $CryptObject->CertificateRemove(
+    my %Remove2nd = $SMIMEObject->CertificateRemove(
         Filename => $CertificateFilename2nd[0]{Filename},
     );
     $Self->False(
@@ -397,11 +465,8 @@ for my $CustomerUser ( sort keys %List ) {
 
 }
 
-# create second customer-table - OK
-# use as login - OK
-# test fetch and convert as it would be a real ldap - OK
 
-# - second stage
+# TODO - second stage
 # creat a real LDAP server to test against
 
 $DBObject->Do( SQL => 'Drop table ' . $TableName );
