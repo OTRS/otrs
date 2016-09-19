@@ -54,6 +54,10 @@ $ConfigObject->Set(
     Key   => 'SMIME',
     Value => 1,
 );
+$ConfigObject->Set(
+    Key   => 'SMIME::FetchFromCustomer',
+    Value => 1,
+);
 
 # check if openssl is located there
 if ( !-e $ConfigObject->Get('SMIME::Bin') ) {

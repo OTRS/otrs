@@ -54,6 +54,10 @@ $ConfigObject->Set(
     Key   => 'SMIME',
     Value => 1,
 );
+$ConfigObject->Set(
+    Key   => 'SMIME::FetchFromCustomer',
+    Value => 1,
+);
 
 # check if openssl is located there
 if ( !-e $OpenSSLBin ) {
@@ -130,6 +134,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Random = $Helper->GetRandomID();
 
 # get existing certificates
 my @CertList  = $SMIMEObject->CertificateList();
@@ -139,7 +144,7 @@ for my $Cert ( sort @CertList ) {
 }
 
 # first stage
-my $TableName             = 'UT_Customer_User_Table_1983272';
+my $TableName             = 'UT_CustomerUser_' . $Random;
 my @UnitTestCustomerUsers = (
     {
         FirstName       => 'Hans',
@@ -221,7 +226,7 @@ wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
 
 # Create Table
 {
-    my $XMLLoginTable = '<Table Name="'.$TableName.'">
+    my $XMLLoginTable = '<Table Name="' . $TableName . '">
         <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
         <Column Name="login" Required="true" Size="200" Type="VARCHAR"/>
         <Column Name="email" Required="true" Size="150" Type="VARCHAR"/>
@@ -236,16 +241,16 @@ wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
         <Column Name="create_by" Required="true" Type="INTEGER"/>
         <Column Name="change_time" Required="true" Type="DATE"/>
         <Column Name="change_by" Required="true" Type="INTEGER"/>
-        <Index Name="customer_user_login">
-            <IndexColumn Name="login"/>
-        </Index>
     </Table>';
     my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XMLLoginTable );
     my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     my @SQLPost = $DBObject->SQLProcessorPost( Database => \@XMLARRAY );
 
     for my $SQL ( @SQL, @SQLPost ) {
-        $DBObject->Do( SQL => $SQL );
+        $Self->True(
+            $DBObject->Do( SQL => $SQL ),
+            "Login-table $TableName created",
+        );
     }
 }
 
@@ -378,7 +383,6 @@ for my $Customer ( sort keys %Customers ) {
     );
 }
 
-
 # check against existing certificates
 @CertList = $SMIMEObject->CertificateList();
 my $OldOKCount = 0;
@@ -464,7 +468,6 @@ for my $CustomerUser ( sort keys %List ) {
     );
 
 }
-
 
 # TODO - second stage
 # creat a real LDAP server to test against
