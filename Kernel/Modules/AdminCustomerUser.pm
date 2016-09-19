@@ -237,12 +237,15 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Change' ) {
-        my $User = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my $User         = $ParamObject->GetParam( Param => 'ID' )           || '';
+        my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
 
         # get user data
         my %UserData = $CustomerUserObject->CustomerUserDataGet( User => $User );
 
         my $Output = $NavBar;
+        $Output .= $LayoutObject->Notify( Info => Translatable('Customer updated!') )
+            if ( $Notification && $Notification eq 'Update' );
         $Output .= $Self->_Edit(
             Nav    => $Nav,
             Action => 'Change',
@@ -436,13 +439,14 @@ sub Run {
                     if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
                         my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
                         return $LayoutObject->Redirect(
-                            OP => "Action=$Self->{Action};Subaction=Change;ID=$ID;Search=$Search;Nav=$Nav"
+                            OP =>
+                                "Action=$Self->{Action};Subaction=Change;ID=$ID;Search=$Search;Nav=$Nav;Notification=Update"
                         );
                     }
                     else {
 
                         # otherwise return to overview
-                        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+                        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Update" );
                     }
                 }
             }
@@ -769,7 +773,12 @@ sub Run {
             Nav    => $Nav,
             Search => $Search,
         );
+
+        my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
         my $Output = $NavBar;
+        $Output .= $LayoutObject->Notify( Info => Translatable('Customer user updated!') )
+            if ( $Notification && $Notification eq 'Update' );
+
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminCustomerUser',
             Data         => \%Param,
