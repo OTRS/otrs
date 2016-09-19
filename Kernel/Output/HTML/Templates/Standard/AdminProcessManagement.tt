@@ -14,6 +14,15 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Process Management") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Process Management'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">

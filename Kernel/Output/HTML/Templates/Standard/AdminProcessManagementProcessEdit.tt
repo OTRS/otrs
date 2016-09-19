@@ -9,6 +9,19 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst ProcessManagementEditScreen">
     <h1>[% Translate("Edit Process") | html %] "[% Data.Name | html %]"</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Process Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% USE EditTitle = String(Translate("Edit Process")) %]
+    [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">

@@ -963,11 +963,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
 
-        $('#SubmitAndContinue').on('click', function() {
-            $('#ContinueAfterSave').val(1);
-            $('#Submit').click();
-        });
-
         // Init submit function
         $('#Submit').on('click', function () {
             var ProcessEntityID = $('#ProcessEntityID').val(),
