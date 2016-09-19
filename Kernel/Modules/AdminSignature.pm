@@ -32,6 +32,8 @@ sub Run {
     my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
+    my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
@@ -42,6 +44,9 @@ sub Run {
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Info => Translatable('Signature updated!') )
+            if ( $Notification && $Notification eq 'Update' );
+
         $Self->_Edit(
             Action => 'Change',
             %Data,
@@ -94,16 +99,19 @@ sub Run {
                 UserID      => $Self->{UserID},
             );
             if ($Update) {
-                $Self->_Overview();
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Notify( Info => Translatable('Signature updated!') );
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'AdminSignature',
-                    Data         => \%Param,
-                );
-                $Output .= $LayoutObject->Footer();
-                return $Output;
+
+                # if the user would like to continue editing the signature, just redirect to the edit screen
+                if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+                    my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Subaction=Change;ID=$ID;Notification=Update"
+                    );
+                }
+                else {
+
+                    # otherwise return to overview
+                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Update" );
+                }
             }
         }
 
@@ -222,6 +230,9 @@ sub Run {
         $Self->_Overview();
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Info => Translatable('Signature updated!') )
+            if ( $Notification && $Notification eq 'Update' );
+
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSignature',
             Data         => \%Param,
