@@ -21,9 +21,6 @@ use Kernel::System::Crypt::SMIME;
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-# create crypt object
-my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -33,48 +30,6 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $HomeDir = $ConfigObject->Get('Home');
-
-=item $CertificateSearch->()
-
-searching for unittest-added certificates
-returns found certificates with attributes
-
-    my $Result = $CertificateSearch->();
-
-Returns:
-    same return as $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->CertificateSearch(
-        Search => 'SearchString'
-    );
-
-=cut
-
-my $CertificateSearch = sub {
-    my ( $Self, %Param ) = @_;
-
-    my @Result;
-    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-    for my $SearchString ( ( '@example.org', 'smimeuser1@test.com' ) ) {
-        push @Result, $SMIMEObject->CertificateSearch(
-            Search => $SearchString,
-        );
-    }
-
-    #$Kernel::OM->Get('Kernel::System::Log')->Dumper( 'search', \@Result );
-    return @Result;
-};
-
-# ---
-# delete all before running
-# ---
-my @PreRunSearchResult = $CertificateSearch->();
-
-for my $Cert (@PreRunSearchResult) {
-    $SMIMEObject->CertificateRemove(
-        Filename => $Cert->{Filename},
-    );
-}
-
-# ---
 
 # create directory for certificates and private keys
 my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
@@ -111,6 +66,9 @@ if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
         );
     }
 }
+
+my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
 if ( !$SMIMEObject ) {
     print STDERR "NOTICE: No SMIME support!\n";
 
@@ -164,6 +122,48 @@ if ( !$SMIMEObject ) {
     }
     return 1;
 }
+
+=item $CertificateSearch->()
+
+searching for unittest-added certificates
+returns found certificates with attributes
+
+    my $Result = $CertificateSearch->();
+
+Returns:
+    same return as $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->CertificateSearch(
+        Search => 'SearchString'
+    );
+
+=cut
+
+my $CertificateSearch = sub {
+    my ( $Self, %Param ) = @_;
+
+    my @Result;
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    for my $SearchString ( ( '@example.org', 'smimeuser1@test.com' ) ) {
+        push @Result, $SMIMEObject->CertificateSearch(
+            Search => $SearchString,
+        );
+    }
+
+    #$Kernel::OM->Get('Kernel::System::Log')->Dumper( 'search', \@Result );
+    return @Result;
+};
+
+# ---
+# delete all before running
+# ---
+my @PreRunSearchResult = $CertificateSearch->();
+
+for my $Cert (@PreRunSearchResult) {
+    $SMIMEObject->CertificateRemove(
+        Filename => $Cert->{Filename},
+    );
+}
+
+# ---
 
 # All certificates for testing
 my @Certificates = (
