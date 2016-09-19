@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type ) = @_;
+    my ($Type) = @_;
 
     my $Self = {};
     return bless( $Self, $Type );

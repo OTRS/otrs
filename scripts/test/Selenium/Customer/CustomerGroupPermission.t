@@ -71,7 +71,8 @@ $Selenium->RunTest(
         );
 
         # disable frontend service module
-        my $FrontendCustomerTicketOverview = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Module')->{CustomerTicketOverview};
+        my $FrontendCustomerTicketOverview
+            = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Module')->{CustomerTicketOverview};
 
         # change the group for the CompanyTickets
         for my $NavBarItem ( @{ $FrontendCustomerTicketOverview->{NavBar} } ) {
