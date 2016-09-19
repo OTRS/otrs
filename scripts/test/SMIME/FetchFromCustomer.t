@@ -24,6 +24,11 @@ use Kernel::System::Console::Command::Maint::SMIME::FetchFromCustomer;
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # copy all
 # discard main + config
 
