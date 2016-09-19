@@ -168,10 +168,15 @@ sub Run {
         }
 
         # redirect to edit screen
-        return $LayoutObject->Redirect(
-            OP =>
-                "Action=$Self->{Action};Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SystemMaintenanceID;Saved=1"
-        );
+        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+            return $LayoutObject->Redirect(
+                OP =>
+                    "Action=$Self->{Action};Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SystemMaintenanceID;Notification=Add"
+            );
+        }
+        else {
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Add" );
+        }
     }
 
     # ------------------------------------------------------------ #
@@ -214,12 +219,21 @@ sub Run {
             );
         }
 
-        if ( $ParamObject->GetParam( Param => 'Saved' ) ) {
+        if ( $ParamObject->GetParam( Param => 'Notification' ) eq 'Add' ) {
 
             # add notification
             push @NotifyData, {
                 Priority => 'Notice',
-                Info     => Translatable('System Maintenance was saved successfully!'),
+                Info     => Translatable('System Maintenance was added successfully!'),
+            };
+        }
+
+        if ( $ParamObject->GetParam( Param => 'Notification' ) eq 'Update' ) {
+
+            # add notification
+            push @NotifyData, {
+                Priority => 'Notice',
+                Info     => Translatable('System Maintenance was updated successfully!'),
             };
         }
 
@@ -340,10 +354,16 @@ sub Run {
         }
 
         # redirect to edit screen
-        return $LayoutObject->Redirect(
-            OP =>
-                "Action=$Self->{Action};Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SystemMaintenanceID;Saved=1"
-        );
+        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+            return $LayoutObject->Redirect(
+                OP =>
+                    "Action=$Self->{Action};Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SystemMaintenanceID;Notification=Update"
+            );
+        }
+        else {
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Update" );
+        }
+
     }
 
     # ------------------------------------------------------------ #
@@ -428,6 +448,18 @@ sub Run {
         # generate output
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+
+        if ( $ParamObject->GetParam( Param => 'Notification' ) eq 'Update' ) {
+            $Output .= $LayoutObject->Notify(
+                Info => Translatable('System Maintenance was updated successfully!')
+            );
+        }
+        elsif ( $ParamObject->GetParam( Param => 'Notification' ) eq 'Add' ) {
+            $Output .= $LayoutObject->Notify(
+                Info => Translatable('System Maintenance was added successfully!')
+            );
+        }
+
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemMaintenance',
         );

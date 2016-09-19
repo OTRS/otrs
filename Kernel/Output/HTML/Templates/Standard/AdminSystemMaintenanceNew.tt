@@ -9,6 +9,20 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Schedule New System Maintenance") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate("System Maintenance Management"),
+                Link => Env("Action"),
+            },
+            {
+                Name => Translate("Schedule New System Maintenance")
+            }
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -33,6 +47,7 @@
                 <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="SystemMaintenanceNewAction"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
                     <fieldset class="TableLike">
 
                         <label class="Mandatory" ><span class="Marker">*</span> [% Translate("Start date") | html %]:</label>
@@ -90,7 +105,9 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                            <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>

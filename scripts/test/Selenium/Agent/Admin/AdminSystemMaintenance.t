@@ -15,6 +15,42 @@ use vars (qw($Self));
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
+my $CheckBredcrumb = sub {
+
+    my %Param = @_;
+
+    my $BreadcrumbText = $Param{BreadcrumbText} || '';
+    my $Count = 0;
+
+    for my $BreadcrumbText ( 'You are here:', 'System Maintenance Management', $BreadcrumbText ) {
+        $Self->Is(
+            $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+            $BreadcrumbText,
+            "Breadcrumb text '$BreadcrumbText' is found on screen"
+        );
+
+        my $IsLinkedBreadcrumbText =
+            $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+        if ( $BreadcrumbText eq 'System Maintenance Management' ) {
+            $Self->Is(
+                $IsLinkedBreadcrumbText,
+                1,
+                "Breadcrumb text '$BreadcrumbText' is linked"
+            );
+        }
+        else {
+            $Self->Is(
+                $IsLinkedBreadcrumbText,
+                0,
+                "Breadcrumb text '$BreadcrumbText' is not linked"
+            );
+        }
+
+        $Count++;
+    }
+};
+
 $Selenium->RunTest(
     sub {
 
@@ -43,6 +79,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # click "Schedule New System Maintenance"
         $Selenium->find_element("//a[contains(\@href, \'Subaction=SystemMaintenanceNew' )]")->VerifiedClick();
 
@@ -57,6 +99,9 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
         }
+
+        # check breadcrumb on Add screen
+        $CheckBredcrumb->( BreadcrumbText => 'Schedule New System Maintenance' );
 
         # check client side validation
         $Selenium->find_element( "#Comment", 'css' )->clear();
@@ -125,10 +170,14 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->VerifiedClick();
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($SysMainLogin);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($SysMainNotify);
-        $Selenium->find_element( "#Comment",       'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        # return to overview AdminSystemMaintenance
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->VerifiedClick();
+        # check if notification exists after adding
+        my $Notification = 'System Maintenance was added successfully!';
+        $Self->True(
+            $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
+            "$Notification - notification is found."
+        );
 
         # check for created test SystemMaintenance
         $Self->True(
@@ -175,13 +224,21 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
+        # check breadcrumb on Edit screen
+        $CheckBredcrumb->( BreadcrumbText => 'Edit System Maintenance' );
+
         # edit test SystemMaintenance and set it to invalid
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys("-update");
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys("-update");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->VerifiedClick();
+        # check if notification exists after updating
+        $Notification = 'System Maintenance was updated successfully!';
+        $Self->True(
+            $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
+            "$Notification - notification is found."
+        );
 
         # check class of invalid SystemMaintenance in the overview table
         $Self->True(
