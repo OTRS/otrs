@@ -133,7 +133,14 @@ sub Run {
             );
         }
 
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        # if the user would like to continue editing the role-user relation just redirect to the edit screen
+        # otherwise return to relations overview
+        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=Role;ID=$ID" );
+        }
+        else {
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        }
     }
 
     # ------------------------------------------------------------ #
@@ -170,7 +177,14 @@ sub Run {
             );
         }
 
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        # if the user would like to continue editing the role-user relation just redirect to the edit screen
+        # otherwise return to relations overview
+        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=User;ID=$ID" );
+        }
+        else {
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        }
     }
 
     # ------------------------------------------------------------ #
@@ -198,6 +212,12 @@ sub _Change {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    $Param{BreadcrumbTitle} = $LayoutObject->{LanguageObject}->Translate("Change Role Relations for Agent");
+
+    if ( $Type eq 'Role' ) {
+        $Param{BreadcrumbTitle} = $LayoutObject->{LanguageObject}->Translate("Change Agent Relations for Role");
+    }
+
     $LayoutObject->Block(
         Name => 'Change',
         Data => {
@@ -208,8 +228,6 @@ sub _Change {
             VisibleNeType => $VisibleType{$NeType},
         },
     );
-
-    $LayoutObject->Block( Name => "ChangeHeader$VisibleType{$NeType}" );
 
     $LayoutObject->Block(
         Name => 'ChangeHeader',
