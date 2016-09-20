@@ -10,6 +10,23 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Manage Role-Group Relations") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Manage Role-Group Relations'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.Type %]
+            [% USE EditTitle = String(Data.BreadcrumbTitle) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( " '", Data.Name, "'" ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+[% RenderBlockStart("OverviewAction") %]
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -63,12 +80,9 @@
         </div>
     </div>
     <div class="Clear"></div>
-</div>
+[% RenderBlockEnd("OverviewAction") %]
 
-[% RenderBlockEnd("Overview") %]
 [% RenderBlockStart("Change") %]
-<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Manage Role-Group Relations") | html %]</h1>
     <div class="SidebarColumn">
 
 [% RenderBlockStart("ActionList") %]
@@ -113,12 +127,7 @@
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>
-[% RenderBlockStart("ChangeHeaderRole") %]
-                    [% Translate("Change Role Relations for Group") | html %]
-[% RenderBlockEnd("ChangeHeaderRole") %]
-[% RenderBlockStart("ChangeHeaderGroup") %]
-                    [% Translate("Change Group Relations for Role") | html %]
-[% RenderBlockEnd("ChangeHeaderGroup") %]
+                    [% Data.BreadcrumbTitle | html %]
                     <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
                 </h2>
             </div>
@@ -127,6 +136,7 @@
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="Change[% Data.Type | html %]"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
                     <table class="DataTable VariableWidth" id="UserGroups">
                         <thead>
                             <tr>
@@ -163,7 +173,9 @@
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">
-                        <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                        <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                        [% Translate("or") | html %]
+                        <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>
@@ -219,6 +231,6 @@
 
     </div>
     <div class="Clear"></div>
-</div>
-
 [% RenderBlockEnd("Change") %]
+</div>
+[% RenderBlockEnd("Overview") %]

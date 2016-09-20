@@ -66,6 +66,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Roles",  'css' );
         $Selenium->find_element( "#Groups", 'css' );
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         $Self->True(
             index( $Selenium->get_page_source(), $RoleName ) > -1,
             "$RoleName role found on page",
@@ -99,6 +105,41 @@ $Selenium->RunTest(
 
         # edit group relations for test role
         $Selenium->find_element( $RoleName, 'link_text' )->VerifiedClick();
+
+        # check breadcrumb on change screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText (
+            'You are here:', 'Manage Role-Group Relations',
+            'Change Group Relations for Role \'' . $RoleName . '\''
+            )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Manage Role-Group Relations' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
 
         # set permissions
         for my $Permission (qw(ro note owner)) {
