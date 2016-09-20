@@ -10,6 +10,24 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("PostMaster Filter Management") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('PostMaster Filter Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'AddAction' %]
+            [% BreadcrumbPath.push({ Name => Translate('Add PostMaster Filter'),}) %]
+        [% CASE 'Update' %]
+            [% USE EditTitle = String(Translate('Edit PostMaster Filter')) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
     <div class="SidebarColumn">
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
@@ -112,17 +130,19 @@
         <form action="[% Env("CGIHandle") %]" method="post" class="FilterFields Validate">
             <div class="WidgetSimple">
                 <div class="Header">
-[% RenderBlockStart("HeaderAdd") %]
+                [% IF Data.Action == 'AddAction' %]
                     <h2>[% Translate("Add PostMaster Filter") | html %]</h2>
-[% RenderBlockEnd("HeaderAdd") %]
-[% RenderBlockStart("HeaderEdit") %]
+                [% ELSE %]
                     <h2>[% Translate("Edit PostMaster Filter") | html %]</h2>
-[% RenderBlockEnd("HeaderEdit") %]
+                [% END %]
                 </div>
                 <div class="Content">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
                     <input type="hidden" name="OldName" value="[% Data.Name | html %]"/>
+                    [% IF Data.Action == 'Update' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="EditName"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
                         <div class="Field">
@@ -208,7 +228,13 @@
                     <h2>[% Translate("Save Changes") | html %]</h2>
                 </div>
                 <div class="Content Center">
-                    <button class="CallForAction Primary" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save changes") | html %]</span></button>
+                    [% IF Data.Action == 'Update' %]
+                        <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                        [% Translate("or") | html %]
+                        <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                    [% ELSE %]
+                        <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                    [% END %]
                     [% Translate("or") | html %]
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                 </div>

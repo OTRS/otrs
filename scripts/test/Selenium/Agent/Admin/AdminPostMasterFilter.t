@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::Language;
+
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -35,8 +37,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        # get needed objects
+        my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
 
         # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
@@ -48,6 +53,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
+
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
 
         # click 'Add filter'
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminPostMasterFilter;Subaction=AddAction' )]")
@@ -90,12 +101,46 @@ $Selenium->RunTest(
             }
         }
 
+        # check breadcrumb on Add screen
+        my $FirstBreadcrumbText  = $LanguageObject->Translate('You are here') . ':';
+        my $SecondBreadcrumbText = $LanguageObject->Translate('PostMaster Filter Management');
+        my $ThirdBreadcrumbText  = $LanguageObject->Translate('Add PostMaster Filter');
+        my $Count                = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText ( $FirstBreadcrumbText, $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq $SecondBreadcrumbText ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
         # add test PostMasterFilter
-        my $PostMasterRandomID = "postmasterfilter" . $Helper->GetRandomID();
+        my $PostMasterName     = "postmasterfilter" . $Helper->GetRandomID();
         my $PostMasterBody     = "Selenium test for PostMasterFilter";
         my $PostMasterPriority = "2 low";
 
-        $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterRandomID);
+        $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterName);
         $Selenium->execute_script("\$('#MatchHeader1').val('Body').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#MatchNot1",   'css' )->VerifiedClick();
         $Selenium->find_element( "#MatchValue1", 'css' )->send_keys($PostMasterBody);
@@ -107,16 +152,16 @@ $Selenium->RunTest(
 
         # check for created test PostMasterFilter on screen
         $Self->True(
-            index( $Selenium->get_page_source(), $PostMasterRandomID ) > -1,
-            "$PostMasterRandomID PostMasterFilter found on page",
+            index( $Selenium->get_page_source(), $PostMasterName ) > -1,
+            "$PostMasterName PostMasterFilter found on page",
         );
 
         # check new test PostMasterFilter values
-        $Selenium->find_element( $PostMasterRandomID, 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $PostMasterName, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#EditName', 'css' )->get_value(),
-            $PostMasterRandomID,
+            $PostMasterName,
             "#EditName stored value",
         );
         $Self->Is(
@@ -145,6 +190,37 @@ $Selenium->RunTest(
             "#SetValue1 stored value",
         );
 
+        # check breadcrumb on Edit screen
+        $Count               = 0;
+        $ThirdBreadcrumbText = $LanguageObject->Translate('Edit PostMaster Filter') . ": $PostMasterName";
+        for my $BreadcrumbText ( $FirstBreadcrumbText, $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq $SecondBreadcrumbText ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
         # edit test PostMasterFilter
         my $EditPostMasterPriority = "4 high";
 
@@ -155,7 +231,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
 
         # check edited test PostMasterFilter values
-        $Selenium->find_element( $PostMasterRandomID, 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $PostMasterName, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#StopAfterMatch', 'css' )->get_value(),
@@ -181,7 +257,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#EditName",    'css' )->VerifiedSubmit();
 
         # check edited test PostMasterFilter values
-        $Selenium->find_element( $PostMasterRandomID, 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $PostMasterName, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element( '#MatchValue1', 'css' )->get_value(),
@@ -215,12 +291,8 @@ JAVASCRIPT
 
         $Selenium->execute_script($ConfirmJS);
         $Selenium->find_element(
-            "//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]"
+            "//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterName' )]"
         )->VerifiedClick();
-
-        my $LanguageObject = Kernel::Language->new(
-            UserLanguage => $Language,
-        );
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastConfirm()"),
@@ -238,7 +310,7 @@ JAVASCRIPT
 
         $Selenium->execute_script($CheckConfirmJS);
         $Selenium->find_element(
-            "//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]"
+            "//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterName' )]"
         )->VerifiedClick();
 
         # navigate to AdminPostMasterFilter screen
@@ -246,9 +318,9 @@ JAVASCRIPT
 
         # check up if postmaster filter is deleted
         $Self->Is(
-            $Selenium->execute_script("return \$('#PostMasterFilters a.AsBlock[href*=$PostMasterRandomID]').length"),
+            $Selenium->execute_script("return \$('#PostMasterFilters a.AsBlock[href*=$PostMasterName]').length"),
             0,
-            "Postmaster Filter $PostMasterRandomID is deleted",
+            "Postmaster Filter $PostMasterName is deleted",
         );
 
     }
