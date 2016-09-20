@@ -182,10 +182,9 @@ for my $Hours ( sort keys %WorkingHours ) {
         # wait 1 second to have escalations
         $HelperObject->FixedTimeAddSeconds(1);
 
-        if ( $ConfigObject->Get('EscalationBundleGetCacheTime') ) {
-            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-            $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-        }
+        # renew object because of transaction
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 
@@ -341,7 +340,6 @@ for my $Hours ( sort keys %WorkingHours ) {
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationResponseTimeStart}++;
         }
-
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
@@ -384,6 +382,11 @@ for my $Hours ( sort keys %WorkingHours ) {
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationUpdateTimeStart}++;
         }
+
+        # renew object because of transaction
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
@@ -443,7 +446,6 @@ for my $Hours ( sort keys %WorkingHours ) {
             $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
             $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
         }
-
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
