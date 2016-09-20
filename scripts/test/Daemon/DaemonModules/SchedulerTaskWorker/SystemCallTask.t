@@ -56,6 +56,7 @@ my $ActiveSleep = sub {
 
         # Run the worker.
         $TaskWorkerObject->Run();
+        $TaskWorkerObject->_WorkerPIDsCheck();
 
         my @List = $SchedulerDBObject->TaskList();
 
@@ -67,6 +68,10 @@ my $ActiveSleep = sub {
     }
 };
 
+$Self->True(
+    1,
+    "Initial Task Cleanup...",
+);
 $ActiveSleep->();
 
 my $RandomID = $Helper->GetRandomID();
@@ -87,6 +92,22 @@ $Self->IsNot(
     undef,
     "TicketCreate() - TicketID"
 );
+
+# Discard ticket object to process all transactional events
+#   In Daemon environment objects are forked and discarded, any transactional event will be
+#   repeated endlessly on each fork
+$Kernel::OM->ObjectsDiscard(
+    Objects => [ 'Kernel::System::Ticket', ]
+);
+
+# Execute tasks (ticket transactional events).
+$Self->True(
+    1,
+    "Post TicketCreate() Task Cleanup...",
+);
+$ActiveSleep->();
+
+$TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
@@ -232,6 +253,17 @@ for my $TicketID ( @TicketIDs, $GATicketID ) {
         "TicketDelete() for TicketID $TicketID"
     );
 }
+
+$Kernel::OM->ObjectsDiscard(
+    Objects => [ 'Kernel::System::Ticket', ]
+);
+
+# Execute tasks (ticket transactional events).
+$Self->True(
+    1,
+    "Post TicketDelete() Task Cleanup...",
+);
+$ActiveSleep->();
 
 $Success = $GenericAgentObject->JobDelete(
     Name   => $RandomID,
