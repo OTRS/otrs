@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::Language',
     'Kernel::System::DynamicField',
     'Kernel::System::Log',
 );
@@ -29,6 +30,10 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my %Response = (
+        Success => 1,
+    );
 
     # Dynamic fields definition
     my @DynamicFields = (
@@ -147,7 +152,30 @@ sub Run {
     # add Dynamic Fields
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
+    DYNAMIC_FIELD:
     for my $DynamicField (@DynamicFields) {
+
+        # check if already exists
+        my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
+            Name => $DynamicField->{Name},
+        );
+
+        if ($DynamicFieldData) {
+            if (
+                $DynamicFieldData->{ObjectType}   ne $DynamicField->{ObjectType}
+                || $DynamicFieldData->{FieldType} ne $DynamicField->{FieldType}
+                )
+            {
+                $Response{Success} = 0;
+                $Response{Error}   = $Kernel::OM->Get('Kernel::Language')->Translate(
+                    "Dynamic field %s already exists, but definition is wrong.",
+                    $DynamicField->{Name},
+                );
+                last DYNAMIC_FIELD;
+            }
+
+            next DYNAMIC_FIELD;
+        }
 
         my $ID = $DynamicFieldObject->DynamicFieldAdd(
             %{$DynamicField},
@@ -155,21 +183,22 @@ sub Run {
             UserID  => 1,
         );
 
-        if ( $ID ) {
+        if ($ID) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
                 Message  => "System created Dynamic field ($DynamicField->{Name})!"
             );
         }
         else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "System couldn't create Dynamic field ($DynamicField->{Name})!"
+            $Response{Success} = 0;
+            $Response{Error}   = $Kernel::OM->Get('Kernel::Language')->Translate(
+                "Dynamic field %s couldn't be created.",
+                $DynamicField->{Name},
             );
         }
     }
 
-    return 1;
+    return %Response;
 }
 
 1;
