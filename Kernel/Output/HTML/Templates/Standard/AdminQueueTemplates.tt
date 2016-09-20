@@ -10,6 +10,22 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Manage Template-Queue Relations") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Manage Template-Queue Relations'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.BreadcrumbTitle %]
+            [% USE EditTitle = String(Data.BreadcrumbTitle) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( " '", Data.Name, "'" ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
 
 [% RenderBlockStart("ActionList") %]
@@ -102,12 +118,7 @@
 [% RenderBlockStart("Change") %]
             <div class="Header">
                 <h2>
-[% RenderBlockStart("ChangeHeaderQueue") %]
-                    [% Translate("Change Queue Relations for Template") | html %]
-[% RenderBlockEnd("ChangeHeaderQueue") %]
-[% RenderBlockStart("ChangeHeaderTemplate") %]
-                    [% Translate("Change Template Relations for Queue") | html %]
-[% RenderBlockEnd("ChangeHeaderTemplate") %]
+                    [% Data.BreadcrumbTitle | html %]
                     <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;[% Data.Queue | uri %]ID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
                 </h2>
             </div>
@@ -116,6 +127,7 @@
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="Change[% Data.Type | html %]"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
                     <table class="DataTable VariableWidth" id="ItemsTable">
                         <thead>
                             <tr>
@@ -152,7 +164,9 @@
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">
-                        <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                        <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                        [% Translate("or") | html %]
+                        <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>

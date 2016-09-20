@@ -97,6 +97,12 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # check for test template and test queue on screen
         $Self->True(
             index( $Selenium->get_page_source(), $Templates[0]->{Name} ) > -1,
@@ -126,6 +132,43 @@ $Selenium->RunTest(
         # change test Queue relation for the first Template
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$Templates[0]->{TemplateID}' )]")
             ->VerifiedClick();
+
+        # check breadcrumb on change screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText (
+            'You are here:',
+            'Manage Template-Queue Relations',
+            'Change Queue Relations for Template \'Answer - ' . $Templates[0]->{Name} . '\''
+            )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Manage Template-Queue Relations' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
         $Selenium->find_element("//input[\@value='$QueueID'][\@type='checkbox']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
