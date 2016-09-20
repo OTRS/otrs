@@ -89,6 +89,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "#FilterGroups",       'css' );
         $Selenium->find_element( "#AlwaysGroups",       'css' );
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         #check for Customer default Groups
         my @CustomerAlwaysGroups = @{ $ConfigObject->Get('CustomerGroupAlwaysGroups') };
         if (@CustomerAlwaysGroups) {
@@ -135,6 +141,41 @@ $Selenium->RunTest(
 
         # change test CustomerUser relations for test Group
         $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
+
+        # check breadcrumb on change screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText (
+            'You are here:', 'Manage Customer-Group Relations',
+            'Change Customer Relations for Group \'' . $GroupRandomID . '\''
+            )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+
+            if ( $BreadcrumbText eq 'Manage Customer-Group Relations' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
 
         $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
