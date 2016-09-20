@@ -149,7 +149,7 @@ for my $Cert ( sort @CertList ) {
 }
 
 # first stage
-my $TableName             = 'UT_CustomerUser_' . $Random;
+my $TableName             = 'UT_' . $Random;
 my @UnitTestCustomerUsers = (
     {
         FirstName       => 'Hans',
