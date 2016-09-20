@@ -5576,25 +5576,8 @@ sub SetRichTextParameters {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
 
     # get needed variables
-    my $ScreenRichTextHeight;
-    my $ScreenRichTextWidth;
-
-    # set variable for 'RichText.Height' property
-    if ( $Param{Data}->{RichTextHeight} > 0 ) {
-        $ScreenRichTextHeight = $Param{Data}->{RichTextHeight};
-    }
-    else {
-        $ScreenRichTextHeight = $ConfigObject->Get("Frontend::RichTextHeight");
-    }
-
-    # set variable for 'RichText.Width' property
-    if ( $Param{Data}->{RichTextWidth} > 0 ) {
-        $ScreenRichTextWidth = $Param{Data}->{RichTextWidth};
-    }
-    else {
-        $ScreenRichTextWidth = $ConfigObject->Get("Frontend::RichTextWidth");
-    }
-
+    my $ScreenRichTextHeight = $Param{Data}->{RichTextHeight} || $ConfigObject->Get("Frontend::RichTextHeight");
+    my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}  || $ConfigObject->Get("Frontend::RichTextWidth");
     my $PictureUploadAction = $Param{Data}->{RichTextPictureUploadAction} || '';
     my $TextDir             = $Self->{TextDirection}                      || '';
     my $SpellChecker        = $Self->{BrowserSpellCheckerInline}          || '';
