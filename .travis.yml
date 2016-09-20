@@ -51,8 +51,10 @@ install:
   - git clone --depth=1 https://github.com/OTRS/otrscodepolicy.git /tmp/OTRSCodePolicy
   - rm /tmp/OTRSCodePolicy/OTRSCodePolicy.sopm
   - cp -rf /tmp/OTRSCodePolicy/* .
+  # Workaround: force older versions of DateTime, DateTime::Locale and DateTime::TimeZone to avoid broken dependencies on broken Specio 0.25. Actually "DateTime" would be sufficient to install.
+  - cpanm --quiet --notest DateTime::Locale@1.05 DateTime::TimeZone@2.01 DateTime@1.36
   # install OTRS cpan dependencies
-  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI DateTime
+  - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI
   - cpanm --quiet --notest DBD::mysql || echo "Suppressing exit code $?"
   - cpanm --quiet --notest DBD::Pg    || echo "Suppressing exit code $?"
   # configure OTRS
