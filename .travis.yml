@@ -17,8 +17,6 @@ env:
 # Travis currently offers us 5 parallel builds, so limit to those for faster response time.
 matrix:
   exclude:
-    - perl: "5.14"
-      env: DB=postgresql
     - perl: "5.16"
       env: DB=mysql
     - perl: "5.18"
