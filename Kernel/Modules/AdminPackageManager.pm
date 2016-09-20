@@ -563,6 +563,9 @@ sub Run {
             return $LayoutObject->ErrorScreen( Message => $Package );
         }
         my %Structure = $PackageObject->PackageParse( String => $Package );
+
+        $Frontend{Name} = $Structure{Name}->{Content};
+
         $LayoutObject->Block(
             Name => 'Package',
             Data => { %Param, %Frontend, },
