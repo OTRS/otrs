@@ -43,6 +43,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # click 'Add Service'
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
@@ -71,6 +77,37 @@ $Selenium->RunTest(
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
             $Element->is_displayed();
+        }
+
+        # check breadcrumb on Add screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText ( 'You are here:', 'Service Management', 'Add Service' ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Service Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
         }
 
         # create first test Service
@@ -117,6 +154,36 @@ $Selenium->RunTest(
             1,
             "#ValidID stored value",
         );
+
+        # check breadcrumb on Edit screen
+        $Count = 0;
+        for my $BreadcrumbText ( 'You are here:', 'Service Management', 'Edit Service: ' . $ServiceRandomID2 ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Service Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
 
         # get service object
         my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');

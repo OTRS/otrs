@@ -145,8 +145,17 @@ sub Run {
                     }
                 }
 
-                # redirect to overview
-                return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+                # if the user would like to continue editing the service, just redirect to the edit screen
+                if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+                    my $ID = $ParamObject->GetParam( Param => 'ServiceID' ) || '';
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Subaction=ServiceEdit;ServiceID=$ID" );
+                }
+                else {
+
+                    # otherwise return to overview
+                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+                }
             }
         }
 
@@ -274,7 +283,11 @@ sub _MaskNew {
     # output overview
     $LayoutObject->Block(
         Name => 'Overview',
-        Data => { %Param, },
+        Data => {
+            ServiceID   => $ServiceData{ServiceID},
+            ServiceName => $ServiceData{Name},
+            %Param,
+        },
     );
 
     $LayoutObject->Block( Name => 'ActionList' );
@@ -317,17 +330,6 @@ sub _MaskNew {
         Name => 'ServiceEdit',
         Data => { %Param, %ServiceData, },
     );
-
-    # shows header
-    if ( $ServiceData{ServiceID} ne 'NEW' ) {
-        $LayoutObject->Block(
-            Name => 'HeaderEdit',
-            Data => {%ServiceData},
-        );
-    }
-    else {
-        $LayoutObject->Block( Name => 'HeaderAdd' );
-    }
 
     # show each preferences setting
     my %Preferences = ();
