@@ -43,7 +43,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # click 'add group' linK
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
+        # click 'Add group' linK
         $Selenium->find_element("//button[\@value='Add'][\@type='submit']")->VerifiedClick();
 
         # check add page
@@ -52,6 +58,37 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Selenium->find_element( "#Comment", 'css' );
         $Selenium->find_element( "#ValidID", 'css' );
+
+        # check breadcrumb on Add screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText ( 'You are here:', 'Group Management', 'Add Group' ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Group Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
 
         # check client side validation
         $Selenium->find_element( "#GroupName", 'css' )->clear();
@@ -65,8 +102,8 @@ $Selenium->RunTest(
         );
 
         # create a real test group
-        my $RandomID = 'TestGroup' . $Helper->GetRandomID();
-        $Selenium->find_element( "#GroupName", 'css' )->send_keys($RandomID);
+        my $GroupName = 'TestGroup' . $Helper->GetRandomID();
+        $Selenium->find_element( "#GroupName", 'css' )->send_keys($GroupName);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",   'css' )->send_keys('Selenium test group');
         $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
@@ -74,8 +111,8 @@ $Selenium->RunTest(
         # after add group followed screen is AddUserGroup(Subaction=Group),
         # there is posible to set permission for added group
         $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID found on page",
+            index( $Selenium->get_page_source(), $GroupName ) > -1,
+            "$GroupName found on page",
         );
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
@@ -91,8 +128,8 @@ $Selenium->RunTest(
 
         # check if test group is present in AdminUserGroup
         $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID found on page",
+            index( $Selenium->get_page_source(), $GroupName ) > -1,
+            "$GroupName found on page",
         );
 
         # check overview AdminUserGroup
@@ -100,7 +137,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "div.Size1of2 #Groups", 'css' );
 
         # edit test group permissions
-        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $GroupName, 'link_text' )->VerifiedClick();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->VerifiedClick();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='ro']")->VerifiedClick();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='note']")->VerifiedClick();
@@ -108,22 +145,22 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check edited test group permissions
-        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $GroupName, 'link_text' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element("//input[\@value='$UserID'][\@name='move_into']")->is_selected(),
             1,
-            "move_into permission for group $RandomID is enabled",
+            "move_into permission for group $GroupName is enabled",
         );
         $Self->Is(
             $Selenium->find_element("//input[\@value='$UserID'][\@name='create']")->is_selected(),
             1,
-            "create permission for group $RandomID is enabled",
+            "create permission for group $GroupName is enabled",
         );
         $Self->Is(
             $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->is_selected(),
             0,
-            "rw permission for group $RandomID is disabled",
+            "rw permission for group $GroupName is disabled",
         );
 
         # go back to overview
@@ -144,12 +181,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
 
         # check link to AdminGroup from AdminUserGroup
-        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $GroupName, 'link_text' )->VerifiedClick();
 
         # check test group values
         $Self->Is(
             $Selenium->find_element( '#GroupName', 'css' )->get_value(),
-            $RandomID,
+            $GroupName,
             "#GroupName stored value",
         );
         $Self->Is(
@@ -163,25 +200,62 @@ $Selenium->RunTest(
             "#Comment stored value",
         );
 
+        # check breadcrumb on Edit screen
+        $Count = 0;
+        for my $BreadcrumbText ( 'You are here:', 'Group Management', 'Edit Group: ' . $GroupName ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Group Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
         # set test group to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment",   'css' )->clear();
         $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
 
+        #check is there notification after group is updated
+        my $Notification = 'Group updated!';
+        $Self->True(
+            $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
+            "$Notification - notification is found."
+        );
+
         # chack class of invalid Group in the overview table
         $Self->True(
             $Selenium->execute_script(
-                "return \$('tr.Invalid td a:contains($RandomID)').length"
+                "return \$('tr.Invalid td a:contains($GroupName)').length"
             ),
             "There is a class 'Invalid' for test Group",
         );
 
         # since there are no tickets that rely on our test group, we can remove them again
         # from the DB.
-        if ($RandomID) {
+        if ($GroupName) {
             my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
             my $GroupID  = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
-                Group => $RandomID,
+                Group => $GroupName,
             );
 
             my $Success = $DBObject->Do(
@@ -190,18 +264,18 @@ $Selenium->RunTest(
             if ($Success) {
                 $Self->True(
                     $Success,
-                    "GroupUserDelete - $RandomID",
+                    "GroupUserDelete - $GroupName",
                 );
             }
 
-            $RandomID = $DBObject->Quote($RandomID);
-            $Success  = $DBObject->Do(
+            $GroupName = $DBObject->Quote($GroupName);
+            $Success   = $DBObject->Do(
                 SQL  => "DELETE FROM groups WHERE name = ?",
-                Bind => [ \$RandomID ],
+                Bind => [ \$GroupName ],
             );
             $Self->True(
                 $Success,
-                "GroupDelete - $RandomID",
+                "GroupDelete - $GroupName",
             );
         }
 

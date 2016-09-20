@@ -10,6 +10,24 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Group Management") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Group Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate("Add Group"),}) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit Group")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
     <div class="SidebarColumn">
 
 [% RenderBlockStart("ActionList") %]
@@ -106,12 +124,11 @@
 
 [% RenderBlockStart("OverviewUpdate") %]
             <div class="Header">
-[% RenderBlockStart("HeaderAdd") %]
+            [% IF Data.Action == 'Add' %]
                 <h2>[% Translate("Add Group") | html %]</h2>
-[% RenderBlockEnd("HeaderAdd") %]
-[% RenderBlockStart("HeaderEdit") %]
+            [% ELSE %]
                 <h2>[% Translate("Edit Group") | html %]</h2>
-[% RenderBlockEnd("HeaderEdit") %]
+            [% END %]
             </div>
             <div class="Content">
                 <form id="GroupUpdate" action="[% Env("CGIHandle") %]" method="post" name="GroupUpdate" class="Validate PreventMultipleSubmits">
@@ -119,6 +136,9 @@
                     <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
                     <input type="hidden" name="NameOld" id="GroupOldName" value="[% Data.Name | html %]"/>
+                    [% IF Data.Action == 'Change' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
                     <fieldset class="TableLike">
 
                         <label class="Mandatory" for="GroupName"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
@@ -148,7 +168,13 @@
 
 
                         <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" type="submit" id="Submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% IF Data.Action == 'Change' %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </div>
