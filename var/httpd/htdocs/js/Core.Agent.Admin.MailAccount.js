@@ -21,6 +21,55 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  */
  Core.Agent.Admin.MailAccount = (function (TargetNS) {
 
+    /**
+     * @name MailAccountDelete
+     * @memberof Core.Agent.Admin.MailAccount
+     * @function
+     * @description
+     *      Bind event on mail account delete button.
+     */
+    TargetNS.MailAccountDelete = function() {
+        $('.MailAccountDelete').on('click', function () {
+            var MailAccountDelete = $(this);
+
+            Core.UI.Dialog.ShowContentDialog(
+                $('#DeleteMailAccountDialogContainer'),
+                Core.Language.Translate('Delete this Mail Account'),
+                '240px',
+                'Center',
+                true,
+                [
+                    {
+                        Class: 'CallForAction Primary',
+                        Label: Core.Language.Translate("Confirm"),
+                        Function: function() {
+                            $('.Dialog .InnerContent .Center').text(Core.Language.Translate("Deleting the mail account and its data. This may take a while..."));
+                            $('.Dialog .Content .ContentFooter').remove();
+
+                            Core.AJAX.FunctionCall(
+                                Core.Config.Get('Baselink'),
+                                MailAccountDelete.data('query-string'),
+                                function() {
+                                   Core.App.InternalRedirect({
+                                       Action: 'AdminMailAccount'
+                                   });
+                                }
+                            );
+                        }
+                    },
+                    {
+                        Class: 'CallForAction',
+                        Label: Core.Language.Translate("Cancel"),
+                        Function: function () {
+                            Core.UI.Dialog.CloseDialog($('#DeleteMailAccountDialog'));
+                        }
+                    }
+                ]
+            );
+            return false;
+        });
+    };
+
     /*
     * @name Init
     * @memberof Core.Agent.Admin.MailAccount
@@ -52,6 +101,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         }).trigger('change');
 
         Core.UI.Table.InitTableFilter($("#FilterMailAccounts"), $("#MailAccounts"));
+
+        TargetNS.MailAccountDelete();
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

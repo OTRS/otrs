@@ -76,7 +76,12 @@ sub Run {
         if ( !$Delete ) {
             return $LayoutObject->ErrorScreen();
         }
-        return $LayoutObject->Redirect( OP => 'Action=AdminMailAccount' );
+        return $LayoutObject->Attachment(
+            ContentType => 'text/html',
+            Content     => $Delete,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
     }
 
     # ------------------------------------------------------------ #

@@ -294,18 +294,24 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount");
 
         # test mail account delete button
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        my $Success  = $DBObject->Prepare(
-            SQL => "SELECT id FROM mail_account WHERE login='$RandomID'",
+        $Selenium->find_element("//a[contains(\@data-query-string, \'Subaction=Delete;ID=$MailAccountID' )]")->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
+
+        # verify delete dialog message
+        my $DeleteMessage = 'Do you really want to delete this mail account?';
+        $Self->True(
+            index( $Selenium->get_page_source(), $DeleteMessage ) > -1,
+            "Delete message is found",
         );
 
-        if ($Success) {
-            my $MailAccountID;
-            while ( my @Row = $DBObject->FetchrowArray() ) {
-                $MailAccountID = $Row[0];
-            }
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$MailAccountID' )]")->VerifiedClick();
-        }
+        # confirm delete action
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+
+        # check if mail account is deleted
+        $Self->True(
+            index( $Selenium->get_page_source(), $TestMailHost ) == -1,
+            "$TestMailHost is not found on page after deleting",
+        );
 
     }
 

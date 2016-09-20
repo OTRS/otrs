@@ -116,7 +116,9 @@
                             <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
                             <td class="Center">
-                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete account") | html %]">[% Translate("Delete account") | html %]<i class="fa fa-trash-o"></i></a>
+                                <a class="TrashCan MailAccountDelete" href="#" data-query-string="Action=AdminMailAccount;Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete account") | html %]">[% Translate("Delete account") | html %]
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
                             </td>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Run;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Fetch mail") | html %]</a>
@@ -128,6 +130,12 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="Hidden" id="DeleteMailAccountDialogContainer">
+                <div id ="DeleteMailAccountDialog" class="InnerContent GenericInterfaceDialog">
+                    <p class="Center Spacing">[% Translate("Do you really want to delete this mail account?") | html %]</p>
+                    <div class="SpacingTop"></div>
+                </div>
             </div>
 [% RenderBlockEnd("OverviewResult") %]
 
