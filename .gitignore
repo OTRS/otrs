@@ -205,7 +205,11 @@ var/processes/examples/ITIL_Incident_Management.yml
 var/processes/examples/Office_Materials_Procurement.yml
 var/processes/examples/Office_Materials_Procurement_pre.pm
 var/processes/examples/Order_Request_Management.yml
+var/processes/examples/Release_And_Deployment_Management.yml
+var/processes/examples/Release_And_Deployment_Management_pre.pm
 var/processes/examples/Request_For_Leave_Management.yml
 var/processes/examples/Start_RMA.yml
 var/processes/examples/Start_RMA_pre.pm
+var/processes/examples/Travel_expense.yml
+var/processes/examples/Travel_expense_pre.pm
 var/thirdparty/phantomjs
