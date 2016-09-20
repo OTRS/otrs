@@ -12,6 +12,30 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("System Registration Management") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Registration Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Subaction %]
+        [% CASE 'Edit' %]
+            [% BreadcrumbPath.push({ Name => Translate("Edit System Registration"),}) %]
+        [% CASE 'SentDataOverview' %]
+            [% BreadcrumbPath.push({ Name => Translate("System Registration Overview"),}) %]
+        [% CASE 'Register' %]
+            [% BreadcrumbPath.push({ Name => Translate("Register System"),}) %]
+        [% CASE 'OTRSIDValidate' %]
+            [% BreadcrumbPath.push({ Name => Translate("Validate OTRS-ID"),}) %]
+        [% CASE 'Deregister' %]
+            [% BreadcrumbPath.push({ Name => Translate("Deregister System"),}) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
 
 [% RenderBlockStart("ActionList") %]
