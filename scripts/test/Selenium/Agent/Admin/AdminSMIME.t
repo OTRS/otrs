@@ -57,6 +57,12 @@ $Selenium->RunTest(
         # navigate to AdminSMIME screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSMIME");
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # check widget sidebar when SMIME sysconfig is disabled
         $Self->True(
             $Selenium->find_element( 'h3 span.Warning', 'css' ),
@@ -120,9 +126,41 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
         $Selenium->find_element( "#FilterSMIME",      'css' );
 
-        # click 'Add Certificate'
+        # click 'Add certificate'
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ShowAddCertificate' )]")->VerifiedClick();
 
+        # check breadcrumb on 'Add Certificate' screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText ( 'You are here:', 'S/MIME Management', 'Add Certificate' ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'S/MIME Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
+        # add certificate
         my $CertLocation = $ConfigObject->Get('Home')
             . "/scripts/test/sample/SMIME/SMIMECertificate-smimeuser1.crt";
 
@@ -132,6 +170,37 @@ $Selenium->RunTest(
         # click 'Add private key'
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ShowAddPrivate' )]")->VerifiedClick();
 
+        # check breadcrumb on 'Add Private Key' screen
+        $Count = 0;
+        for my $BreadcrumbText ( 'You are here:', 'S/MIME Management', 'Add Private Key' ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'S/MIME Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
+        # add private key
         my $PrivateLocation = $ConfigObject->Get('Home')
             . "/scripts/test/sample/SMIME/SMIMEPrivateKey-smimeuser1.pem";
 
