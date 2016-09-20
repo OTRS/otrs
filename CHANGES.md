@@ -57,6 +57,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.14 2016-??-??
+ - 2016-09-20 Fixed bug#[12310](http://bugs.otrs.org/show_bug.cgi?id=12310) - Error when invoking the installer with SecureMode = 1.
  - 2016-09-19 Fixed bug#[12309](http://bugs.otrs.org/show_bug.cgi?id=12309) - LinkObject Complex Table column sorting only works for tickets.
  - 2016-09-16 Fixed bug#[12305](http://bugs.otrs.org/show_bug.cgi?id=12305) - Incorrect charset handling in content type of SOAP messages.
  - 2016-09-15 Fixed bug#[12126](http://bugs.otrs.org/show_bug.cgi?id=12126) - Daemon's Task SpoolMailsReprocess causes loop tickets.

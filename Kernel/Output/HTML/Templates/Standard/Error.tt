@@ -19,7 +19,7 @@
                     [% Translate(Data.Comment) | html %]
                 </p>
 
-                [% IF !Data.OTRSBusinessIsInstalled %]
+                [% IF Data.ShowOTRSBusinessHint %]
                 <div class="MessageBox Info">
                     <p class="SpacingTop">
                         [% Translate("Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.") | html %]
