@@ -8,8 +8,12 @@
 
 
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Statistics » Edit %s%s — %s", Config('Stats::StatsHook'), Data.StatNumber, Data.Title) | html %]</h1>
+    <h1>[% Translate("Statistics Overview") | html %]</h1>
 
+    [% Data.BreadcrumbPath.push({ Name => Translate("Edit %s%s", Config('Stats::StatsHook'), Data.StatNumber) }) %]
+    [% INCLUDE "Breadcrumb.tt" Path = Data.BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -18,7 +22,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                     [% IF Data.Valid %]
                     <li>
@@ -36,6 +40,18 @@
             <input type="hidden" name="Subaction" value="EditAction"/>
             <input type="hidden" name="StatID"    value="[% Data.StatID | html %]"/>
 
+            <div class="WidgetSimple Collapsed">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("General Specification") | html %]</h2>
+                </div>
+                <div class="Content">
+                    [% Data.GeneralSpecificationsWidget %]
+                </div>
+            </div>
+
             [% IF Data.StatType == 'dynamic' %]
             <div class="WidgetSimple PreviewWidget">
                 <div class="Header">
@@ -49,18 +65,6 @@
                 </div>
             </div>
             [% END %]
-
-            <div class="WidgetSimple Collapsed">
-                <div class="Header">
-                    <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
-                    </div>
-                    <h2>[% Translate("General Specification") | html %]</h2>
-                </div>
-                <div class="Content">
-                    [% Data.GeneralSpecificationsWidget %]
-                </div>
-            </div>
 
             <div class="WidgetSimple">
                 <div class="Header">
@@ -79,7 +83,7 @@
                                 <span>[% Translate("Save and finish") | html %]</span>
                             </button>
                             [% Translate('or') | html %]
-                            <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]">
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
                                 [% Translate('Cancel') | html %]
                             </a>
                         </div>

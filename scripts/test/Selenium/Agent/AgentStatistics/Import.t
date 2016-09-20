@@ -116,15 +116,57 @@ $Selenium->RunTest(
             push @SLAIDs, $SLAID;
         }
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
+        # check breadcrumb on Import screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText ( 'You are here:', 'Statistics Overview', 'Import Statistics Configuration' )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Statistics Overview' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
         # import test selenium statistic
-        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+        my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Stats/Stats.TicketOverview.de.xml";
         $Selenium->find_element( "#File", 'css' )->send_keys($Location);
 
         $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->VerifiedClick();
+
+        # check if notification exists after importing
+        my $Notification = 'Statistics imported sucessfully!';
+        $Self->True(
+            $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
+            "$Notification - notification is found."
+        );
 
         # create params for import test stats
         my %StatsValues = (
@@ -155,7 +197,7 @@ $Selenium->RunTest(
             UserID   => 1,
         );
 
-        my $Count       = scalar @{$StatsIDs};
+        $Count = scalar @{$StatsIDs};
         my $StatsIDLast = $StatsIDs->[ $Count - 1 ];
 
         # check for imported stats on overview screen

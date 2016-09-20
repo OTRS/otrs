@@ -18,8 +18,9 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        # get needed objects
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -39,13 +40,19 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview");
 
         # check layout screen
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
+
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
 
         # check add button
         $Self->True(
@@ -68,7 +75,6 @@ $Selenium->RunTest(
         );
 
         # open the default stats
-        STATID:
         for my $StatID ( @{$StatsIDs} ) {
 
             # check edit link
@@ -131,6 +137,55 @@ $Selenium->RunTest(
             $Selenium->find_element( "Cancel", 'link_text' )->VerifiedClick();
 
         }
+
+        # define the first statsID
+        my $StatsIDFirst = $StatsIDs->[0];
+
+        # go to Edit screen of the first statistics
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDFirst");
+
+        # get data for the first statistics
+        my $StatsData = $StatsObject->StatsGet(
+            StatID => $StatsIDFirst,
+            UserID => 1,
+        );
+
+        # check breadcrumb on Edit screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText (
+            'You are here:',
+            'Statistics Overview',
+            'Edit ' . $ConfigObject->Get('Stats::StatsHook') . $StatsData->{StatNumber} . ' - ' . $StatsData->{Title}
+            )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Statistics Overview' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
     }
 );
 

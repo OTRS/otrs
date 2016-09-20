@@ -9,8 +9,12 @@
 ## nofilter(TidyAll::Plugin::OTRS::TT::Format)
 
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Statistics » View %s%s — %s", Config('Stats::StatsHook'), Data.StatNumber, Data.Title) | html %]</h1>
+    <h1>[% Translate("Statistics Overview") | html %]</h1>
 
+    [% Data.BreadcrumbPath.push({ Name => Translate("View %s%s - %s", Config('Stats::StatsHook'), Data.StatNumber, Data.Title) }) %]
+    [% INCLUDE "Breadcrumb.tt" Path = Data.BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -19,7 +23,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                     [% IF Data.AccessRw %]
                         <li>
@@ -32,7 +36,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Statistic Information") | html %]</h2>
+                <h2>[% Translate("Statistics Information") | html %]</h2>
             </div>
             <div class="Content">
                 <fieldset class="TableLike FixedLabelSmall">
@@ -101,7 +105,7 @@
                                     <span><i class="fa fa-caret-square-o-right"></i> [% Translate("Run now") | html %]</span>
                                 </button>
                                 or
-                                <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]">Cancel</a>
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">Cancel</a>
                             </div>
                         </fieldset>
 

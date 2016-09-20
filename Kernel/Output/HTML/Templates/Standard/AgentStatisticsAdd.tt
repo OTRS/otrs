@@ -7,8 +7,12 @@
 # --
 
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Statistics » Add") | html %]</h1>
+    <h1>[% Translate("Statistics Overview") | html %]</h1>
 
+    [% Data.BreadcrumbPath.push({ Name => Translate("Add Statistics") }) %]
+    [% INCLUDE "Breadcrumb.tt" Path = Data.BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -17,7 +21,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %][% Env("LastStatsOverview") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -31,7 +35,7 @@
 
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>[% Translate("Add New Statistic") | html %]</h2>
+                    <h2>[% Translate("Add Statistics") | html %]</h2>
                 </div>
                 <div class="Content BigButtonsContainer">
                     <div class="BigButtons">
@@ -74,7 +78,7 @@
                                 <span>[% Translate("Save") | html %]</span>
                             </button>
                             [% Translate('or') | html %]
-                            <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]">
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
                                 [% Translate('Cancel') | html %]
                             </a>
                         </div>
