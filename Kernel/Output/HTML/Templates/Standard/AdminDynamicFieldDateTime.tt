@@ -7,7 +7,31 @@
 # --
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Dynamic Fields") | html %] - [% Translate(Data.ObjectTypeName) | html %]: [% Translate(Data.Mode) | html %] [% Translate(Data.FieldTypeName) | html %] [% Translate("Field") | html %]</h1>
+    <h1>
+        [% Translate("Dynamic Fields") | html %] - [% Translate(Data.ObjectTypeName) | html %]:
+        [% USE Title = String(Data.Mode) %]
+        [% Title = Translate(Title.append( ' ', Data.FieldTypeName, ' Field')) %]
+        [% Title | html %]
+    </h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Dynamic Fields Management'),
+                Link => 'AdminDynamicField',
+            },
+        ]
+    %]
+
+    [% USE BreadcrumbName = String(Translate(Data.ObjectTypeName)) %]
+
+    [% SWITCH Data.Mode %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => BreadcrumbName.append( ': ', Title ) }) %]
+        [% CASE 'Change' %]
+            [% BreadcrumbPath.push({ Name => BreadcrumbName.append( ': ', Title, ' - ', Data.Name ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
     <div class="Clear"></div>
 
@@ -114,6 +138,7 @@
                     <h2>[% Translate(Data.FieldTypeName) | html %] [% Translate("Field Settings") | html %]</h2>
                 </div>
                 <div class="Content">
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
                     <fieldset class="TableLike">
                         <label for="DefaultValue">[% Translate("Default date difference") | html %]:</label>
                         <div class="Field">
@@ -183,7 +208,13 @@
             </div>
             <fieldset class="TableLike">
                 <div class="Field SpacingTop">
-                    <button type="submit" class="Primary CallForAction" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                    [% IF Data.Mode == 'Change' %]
+                    <button class="Primary CallForAction" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                    [% Translate("or") | html %]
+                    <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                    [% ELSE %]
+                    <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                    [% END %]
                     [% Translate("or") | html %]
                     <a href="[% Env("Baselink") %]Action=AdminDynamicField">[% Translate("Cancel") | html %]</a>
                 </div>

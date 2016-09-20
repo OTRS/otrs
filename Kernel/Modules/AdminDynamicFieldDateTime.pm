@@ -462,9 +462,18 @@ sub _ChangeAction {
         );
     }
 
-    return $LayoutObject->Redirect(
-        OP => "Action=AdminDynamicField",
-    );
+    # if the user would like to continue editing the dynamic field, just redirect to the change screen
+    if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+        return $LayoutObject->Redirect(
+            OP =>
+                "Action=$Self->{Action};Subaction=Change;ObjectType=$DynamicFieldData->{ObjectType};FieldType=$DynamicFieldData->{FieldType};ID=$FieldID"
+        );
+    }
+    else {
+
+        # otherwise return to overview
+        return $LayoutObject->Redirect( OP => "Action=AdminDynamicField" );
+    }
 }
 
 sub _ShowScreen {
