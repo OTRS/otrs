@@ -57,6 +57,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # click "Add notification"
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminNotificationEvent;Subaction=Add' )]")
             ->VerifiedClick();
@@ -69,6 +75,37 @@ $Selenium->RunTest(
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
             $Element->is_displayed();
+        }
+
+        # check breadcrumb on Add screen
+        my $Count = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText ( 'You are here:', 'Ticket Notification Management', 'Add Notification' ) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Ticket Notification Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
         }
 
         # toggle Ticket filter widget
@@ -92,6 +129,13 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $NotifEventRandomID ) > -1,
             "$NotifEventRandomID NotificaionEvent found on page",
+        );
+
+        # check is there notification 'Notification added!' after notification is added
+        my $Notification = 'Notification added!';
+        $Self->True(
+            $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
+            "$Notification - notification is found."
         );
 
         # check test NotificationEvent values
@@ -128,6 +172,40 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
+        # check breadcrumb on Edit screen
+        $Count = 0;
+        for my $BreadcrumbText (
+            'You are here:', 'Ticket Notification Management',
+            'Edit Notification: ' . $NotifEventRandomID
+            )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Ticket Notification Management' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Count++;
+        }
+
         # edit test NotificationEvent and set it to invalid
         my $EditNotifEventText = "Selenium edited NotificationEvent test";
 
@@ -143,6 +221,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ArticleBodyMatch",    'css' )->send_keys($EditNotifEventText);
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+
+        # check is there notification 'Notification updated!' after notification is added
+        $Notification = 'Notification updated!';
+        $Self->True(
+            $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
+            "$Notification - notification is found."
+        );
 
         # check edited NotifcationEvent values
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
