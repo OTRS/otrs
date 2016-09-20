@@ -9,6 +9,28 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Performance Log") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate("Performance Log"),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.Minute %]
+        [% BreadcrumbPath.push({ Name => Translate("Range") _ ' (' _ Translate("last") _ ' ' _ Data.Age _ ')' }) %]
+    [% END %]
+
+    [% IF Data.Interface %]
+        [% BreadcrumbPath.push({ Name => Data.Interface, Link => Env("Action") _ ';Subaction=View;Interface=Agent;Minute=' _ Data.Minute, }) %]
+    [% END %]
+
+    [% IF Data.Module %]
+        [% BreadcrumbPath.push({ Name => Data.Module }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
     <div class="SidebarColumn">
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">

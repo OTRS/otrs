@@ -81,8 +81,9 @@ sub Run {
         my $MaxRequest  = 0;
         my $Slot        = 60;
         my $MinuteSlot  = $ParamObject->GetParam( Param => 'Minute' );
-        my $Interface   = $ParamObject->GetParam( Param => 'Interface' );
-        my $Module      = $ParamObject->GetParam( Param => 'Module' );
+        $Param{Minute} = $MinuteSlot;
+        my $Interface = $ParamObject->GetParam( Param => 'Interface' );
+        my $Module    = $ParamObject->GetParam( Param => 'Module' );
         if ( $MinuteSlot < 31 ) {
             $Slot = 1;
         }
@@ -108,6 +109,14 @@ sub Run {
                 Period    => $Slot,
             },
         );
+
+        $Param{Age} = $LayoutObject->CustomerAge(
+            Age   => $MinuteSlot * 60,
+            Space => ' '
+        );
+        $Param{Interface} = $Interface;
+        $Param{Module}    = $Module;
+
         my $Minute = 0;
         my $Count  = 1;
         while ( $Count <= $MinuteSlot ) {
