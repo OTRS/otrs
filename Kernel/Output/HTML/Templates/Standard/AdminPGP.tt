@@ -9,6 +9,22 @@
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("PGP Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate("PGP Management"),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.Subaction == 'Add' %]
+        [% BreadcrumbPath.push({ Name => Translate('Add PGP Key'), }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
 [% RenderBlockStart("Notice") %]
         <div class="WidgetSimple">
@@ -124,7 +140,7 @@
                             <th>[% Translate("Fingerprint") | html %]</th>
                             <th>[% Translate("Created") | html %]</th>
                             <th>[% Translate("Expires") | html %]</th>
-                            <th>[% Translate("Delete") | html %]</th>
+                            <th class="Center">[% Translate("Delete") | html %]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -188,7 +204,7 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit">[% Translate("Add") | html %]</button>
+                            <button class="Primary CallForAction" type="submit"><span>[% Translate("Add") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>
