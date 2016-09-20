@@ -20,7 +20,7 @@
 
     [% IF Data.Action == 'Detail' %]
         [% USE DetailView = String(Translate("Detail Session View for")) %]
-        [% BreadcrumbPath.push({ Name => DetailView.append( ' ', Data.UserType, ' ', Data.UserFirstname, ' ', Data.UserLastname ) })%]
+        [% BreadcrumbPath.push({ Name => DetailView.append( ' ', Data.UserType, ': ', Data.UserFirstname, ' ', Data.UserLastname ) })%]
     [% END %]
 
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]

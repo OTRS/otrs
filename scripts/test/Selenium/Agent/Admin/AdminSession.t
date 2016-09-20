@@ -99,7 +99,7 @@ $Selenium->RunTest(
         # check breadcrumb on detail view screen
         my $Count = 0;
         my $IsLinkedBreadcrumbText;
-        my $DetailViewBreadcrumbText = "Detail Session View for User - $TestUserLogin $TestUserLogin";
+        my $DetailViewBreadcrumbText = "Detail Session View for User: $TestUserLogin $TestUserLogin";
         for my $BreadcrumbText ( 'You are here:', 'Session Management', $DetailViewBreadcrumbText ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
