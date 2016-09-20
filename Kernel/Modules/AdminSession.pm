@@ -139,6 +139,10 @@ sub Run {
 
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSession',
+            Data         => {
+                Action => $Self->{Subaction},
+                %Data,
+            },
         );
 
         $Output .= $LayoutObject->Footer();

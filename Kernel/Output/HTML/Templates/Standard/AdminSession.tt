@@ -10,6 +10,22 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1 class="Header">[% Translate("Session Management") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Session Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.Action == 'Detail' %]
+        [% USE DetailView = String(Translate("Detail Session View for")) %]
+        [% BreadcrumbPath.push({ Name => DetailView.append( ' ', Data.UserType, ' ', Data.UserFirstname, ' ', Data.UserLastname ) })%]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
 
 [% RenderBlockStart("ActionList") %]
