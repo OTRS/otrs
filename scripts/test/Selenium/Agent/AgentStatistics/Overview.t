@@ -75,6 +75,8 @@ $Selenium->RunTest(
         );
 
         # open the default stats
+        my $Counter = 0;
+        STATS:
         for my $StatID ( @{$StatsIDs} ) {
 
             # check edit link
@@ -136,6 +138,9 @@ $Selenium->RunTest(
             # go to overview screen
             $Selenium->find_element( "Cancel", 'link_text' )->VerifiedClick();
 
+            last STATS if $Counter > 5;
+
+            $Counter++;
         }
 
         # define the first statsID
@@ -156,7 +161,7 @@ $Selenium->RunTest(
         for my $BreadcrumbText (
             'You are here:',
             'Statistics Overview',
-            'Edit ' . $ConfigObject->Get('Stats::StatsHook') . $StatsData->{StatNumber} . ' - ' . $StatsData->{Title}
+            'Edit ' . $ConfigObject->Get('Stats::StatsHook') . $StatsData->{StatNumber}
             )
         {
             $Self->Is(

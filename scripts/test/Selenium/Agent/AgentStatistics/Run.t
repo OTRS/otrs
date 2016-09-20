@@ -108,7 +108,7 @@ $Selenium->RunTest(
         for my $BreadcrumbText (
             'You are here:',
             'Statistics Overview',
-            'View ' . $ConfigObject->Get('Stats::StatsHook') . $StatData->{StatNumber} . ' - ' . $StatsValues{Title}
+            'View ' . $ConfigObject->Get('Stats::StatsHook') . $StatData->{StatNumber}
             )
         {
             $Self->Is(

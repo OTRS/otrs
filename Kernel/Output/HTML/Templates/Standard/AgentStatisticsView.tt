@@ -11,7 +11,7 @@
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Statistics Overview") | html %]</h1>
 
-    [% Data.BreadcrumbPath.push({ Name => Translate("View %s%s - %s", Config('Stats::StatsHook'), Data.StatNumber, Data.Title) }) %]
+    [% Data.BreadcrumbPath.push({ Name => Translate("View %s%s", Config('Stats::StatsHook'), Data.StatNumber) }) %]
     [% INCLUDE "Breadcrumb.tt" Path = Data.BreadcrumbPath %]
 
     <div class="Clear"></div>
