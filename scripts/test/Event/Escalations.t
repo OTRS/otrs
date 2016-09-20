@@ -442,10 +442,10 @@ for my $Hours ( sort keys %WorkingHours ) {
             NoAgentNotify => 1,    # if you don't want to send agent notifications
         );
 
-        if ( $ConfigObject->Get('EscalationBundleGetCacheTime') ) {
-            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-            $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-        }
+        # renew object because of transaction
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
