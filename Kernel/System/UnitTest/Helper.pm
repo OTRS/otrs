@@ -160,22 +160,33 @@ the login name of the new user, the password is the same.
 sub TestUserCreate {
     my ( $Self, %Param ) = @_;
 
-    # create test user
-    my $TestUserLogin = $Self->GetRandomID();
-
     # disable email checks to create new user
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     local $ConfigObject->{CheckEmailAddresses} = 0;
 
-    my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserAdd(
-        UserFirstname => $TestUserLogin,
-        UserLastname  => $TestUserLogin,
-        UserLogin     => $TestUserLogin,
-        UserPw        => $TestUserLogin,
-        UserEmail     => $TestUserLogin . '@localunittest.com',
-        ValidID       => 1,
-        ChangeUserID  => 1,
-    ) || die "Could not create test user";
+    # create test user
+    my $TestUserID;
+    my $TestUserLogin;
+    COUNT:
+    for my $Count ( 1 .. 10 ) {
+
+        $TestUserLogin = $Self->GetRandomID();
+
+        $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserAdd(
+            UserFirstname => $TestUserLogin,
+            UserLastname  => $TestUserLogin,
+            UserLogin     => $TestUserLogin,
+            UserPw        => $TestUserLogin,
+            UserEmail     => $TestUserLogin . '@localunittest.com',
+            ValidID       => 1,
+            ChangeUserID  => 1,
+        );
+
+        last COUNT if $TestUserID;
+    }
+
+    die 'Could not create test user login' if !$TestUserLogin;
+    die 'Could not create test user' if !$TestUserID;
 
     # Remember UserID of the test user to later set it to invalid
     #   in the destructor.
@@ -243,19 +254,28 @@ sub TestCustomerUserCreate {
     local $ConfigObject->{CheckEmailAddresses} = 0;
 
     # create test user
-    my $TestUserLogin = $Self->GetRandomID();
+    my $TestUser;
+    COUNT:
+    for my $Count ( 1 .. 10 ) {
 
-    my $TestUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-        Source         => 'CustomerUser',
-        UserFirstname  => $TestUserLogin,
-        UserLastname   => $TestUserLogin,
-        UserCustomerID => $TestUserLogin,
-        UserLogin      => $TestUserLogin,
-        UserPassword   => $TestUserLogin,
-        UserEmail      => $TestUserLogin . '@localunittest.com',
-        ValidID        => 1,
-        UserID         => 1,
-    ) || die "Could not create test user";
+        my $TestUserLogin = $Self->GetRandomID();
+
+        $TestUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+            Source         => 'CustomerUser',
+            UserFirstname  => $TestUserLogin,
+            UserLastname   => $TestUserLogin,
+            UserCustomerID => $TestUserLogin,
+            UserLogin      => $TestUserLogin,
+            UserPassword   => $TestUserLogin,
+            UserEmail      => $TestUserLogin . '@localunittest.com',
+            ValidID        => 1,
+            UserID         => 1,
+        );
+
+        last COUNT if $TestUser;
+    }
+
+    die 'Could not create test user' if !$TestUser;
 
     # Remember UserID of the test user to later set it to invalid
     #   in the destructor.
