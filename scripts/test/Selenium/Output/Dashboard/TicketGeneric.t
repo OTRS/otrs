@@ -96,6 +96,11 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
+        # Discard TicketObject to let event handlers run also for transaction mode 1.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Ticket']
+        );
+
         # wait 5 minutes to have escalation trigger
         $Helper->FixedTimeAddSeconds(300);
 
@@ -266,6 +271,8 @@ $Selenium->RunTest(
         # test if ticket is shown in each dashboard ticket generic plugin
         for my $DashboardName (@Test) {
 
+            $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
             # set ticket state depending on the stage in test
             if ( $DashboardName eq '0120-TicketNew' ) {
                 my $Success = $TicketObject->TicketStateSet(
@@ -289,6 +296,11 @@ $Selenium->RunTest(
                     "Changed ticket state to - Open"
                 );
             }
+
+            # Discard TicketObject to let event handlers run also for transaction mode 1.
+            $Kernel::OM->ObjectsDiscard(
+                Objects => ['Kernel::System::Ticket']
+            );
 
             # disable all dashboard plugins
             my $Config = $ConfigObject->Get('DashboardBackend');
@@ -376,8 +388,10 @@ $Selenium->RunTest(
             $Self->True(
                 $TicketFound,
                 "$DashboardName dashboard plugin test ticket link - found",
-            );
+            ) || die "$DashboardName test link NOT found";
         }
+
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # delete test tickets
         my $Success = $TicketObject->TicketDelete(
@@ -416,7 +430,7 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-    }
+        }
 );
 
 1;
