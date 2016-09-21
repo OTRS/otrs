@@ -1,0 +1,63 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: ''
+FrameworkVersion: 5.0.12
+Provider:
+  Transport:
+    Type: ''
+RemoteSystem: ''
+Requester:
+  Invoker:
+    TicketCreate:
+      Description: ''
+      Events: []
+      MappingInbound: {}
+      MappingOutbound:
+        Config:
+          Template: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsl:transform
+            version=\"1.0\"\r\n    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\r\n
+            \   xmlns:date=\"http://exslt.org/dates-and-times\"\r\n    extension-element-prefixes=\"date\">\r\n
+            \   <xsl:output method=\"xml\" encoding=\"utf-8\" indent=\"yes\"/>\r\n\r\n
+            \   <xsl:template match=\"@*|node()\">\r\n        <xsl:copy>\r\n            <xsl:apply-templates
+            select=\"@*|node()\"/>\r\n        </xsl:copy>\r\n    </xsl:template>\r\n\r\n
+            \   <!-- Add Username and Password -->\r\n    <xsl:template match=\"RootElement\">\r\n
+            \       <xsl:copy>\r\n            <UserLogin> /<A_VALID_USER_FROM_THE_REMOTE_SYSTEM/>
+            </UserLogin>\r\n            <Password> /<A_PASSWORD/> </Password>\r\n
+            \           <xsl:apply-templates select=\"@*|node()\"/>\r\n        </xsl:copy>\r\n
+            \   </xsl:template>\r\n\r\n</xsl:transform>"
+        Type: XSLT
+      Type: Ticket::TicketCreate
+    TicketUpdate:
+      Description: ''
+      Events: []
+      MappingInbound: {}
+      MappingOutbound:
+        Config:
+          Template: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsl:transform
+            version=\"1.0\"\r\n    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\r\n
+            \   xmlns:date=\"http://exslt.org/dates-and-times\"\r\n    extension-element-prefixes=\"date\">\r\n
+            \   <xsl:output method=\"xml\" encoding=\"utf-8\" indent=\"yes\"/>\r\n\r\n
+            \   <!-- Copy everything (Identity transformation) -->\r\n    <xsl:template
+            match=\"@*|node()\">\r\n        <xsl:copy>\r\n            <xsl:apply-templates
+            select=\"@*|node()\"/>\r\n        </xsl:copy>\r\n    </xsl:template>\r\n\r\n
+            \   <!-- Add Username and Password -->\r\n    <xsl:template match=\"RootElement\">\r\n
+            \       <xsl:copy>\r\n            <UserLogin> /<A_VALID_USER_FROM_THE_REMOTE_SYSTEM/>
+            </UserLogin>\r\n            <Password> /<A_PASSWORD/> </Password>\r\n
+            \           <xsl:apply-templates select=\"@*|node()\"/>\r\n        </xsl:copy>\r\n
+            \   </xsl:template>\r\n\r\n</xsl:transform>"
+        Type: XSLT
+      Type: Ticket::TicketUpdate
+  Transport:
+    Config:
+      DefaultCommand: POST
+      Host: http://<YOUR_FQDN>/otrs/nph-genericinterface.pl/Webservice/<NAME_OF_YOUR_WEBSERVICE>
+      InvokerControllerMapping:
+        TicketCreate:
+          Command: POST
+          Controller: /Ticket
+        TicketUpdate:
+          Command: PUT
+          Controller: /Ticket/:PreWebTicketID
+    Type: HTTP::REST

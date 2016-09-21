@@ -1,0 +1,69 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: ''
+FrameworkVersion: 5.0.12
+Provider:
+  Transport:
+    Type: ''
+RemoteSystem: ''
+Requester:
+  Invoker:
+    BugCreate:
+      Description: ''
+      Events: []
+      MappingInbound:
+        Config:
+          Template: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsl:transform
+            version=\"1.0\"\r\n    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\r\n
+            \   xmlns:date=\"http://exslt.org/dates-and-times\"\r\n    extension-element-prefixes=\"date\">\r\n
+            \   <xsl:output method=\"xml\" encoding=\"utf-8\" indent=\"yes\"/>\r\n\r\n
+            \   <!-- Root template -->\r\n    <xsl:template match=\"/\">\r\n        <RootElement>\r\n
+            \           <xsl:copy>\r\n                <TicketID>\r\n                    <xsl:value-of
+            select=\"//id\"/>\r\n                </TicketID>\r\n            </xsl:copy>\r\n
+            \       </RootElement>\r\n    </xsl:template>\r\n\r\n</xsl:transform>"
+        Type: XSLT
+      MappingOutbound:
+        Config:
+          Template: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsl:transform
+            version=\"1.0\"\r\n    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\r\n
+            \   xmlns:date=\"http://exslt.org/dates-and-times\"\r\n    extension-element-prefixes=\"date\">\r\n
+            \   <xsl:output method=\"xml\" encoding=\"utf-8\" indent=\"yes\"/>\r\n\r\n
+            \   <xsl:template match=\"RootElement\">\r\n        <xsl:copy>\r\n            <api_key>/<A_VALID_API_KEY/></api_key>\r\n
+            \           <product>/<A_VALID_PRODUCT/></product>\r\n            <component>/<A_VALID_COMPONENT/></component>\r\n
+            \           <version>/<A_VALID_VERSION/></version>\r\n            <summary><xsl:value-of
+            select=\"//Ticket/Title\" /></summary>\r\n            <description><xsl:value-of
+            select=\"//Article/Body\" /></description>\r\n            <op_sys>All</op_sys>\r\n
+            \           <platform>All</platform>\r\n            <priority>P3</priority>\r\n
+            \           <severity>normal</severity>\r\n        </xsl:copy>\r\n    </xsl:template>\r\n\r\n</xsl:transform>"
+        Type: XSLT
+      Type: Ticket::TicketUpdate
+    BugUpdate:
+      Description: ''
+      Events: []
+      MappingInbound: {}
+      MappingOutbound:
+        Config:
+          Template: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsl:transform
+            version=\"1.0\"\r\n    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\r\n
+            \   xmlns:date=\"http://exslt.org/dates-and-times\"\r\n    extension-element-prefixes=\"date\">\r\n
+            \   <xsl:output method=\"xml\" encoding=\"utf-8\" indent=\"yes\"/>\r\n\r\n
+            \   <xsl:template match=\"RootElement\">\r\n        <xsl:copy>\r\n            <api_key>/<A_VALID_API_KEY/></api_key>\r\n
+            \           <ids><xsl:value-of select=\"//DynamicField[Name = 'PreWebBugzillaID']/Value\"
+            /></ids>\r\n            <status>/<A_VALID_STATE/></status>\r\n            <keywords><add>KeyMe,
+            KeyMe+</add></keywords>\r\n        </xsl:copy>\r\n    </xsl:template>\r\n\r\n</xsl:transform>"
+        Type: XSLT
+      Type: Ticket::TicketUpdate
+  Transport:
+    Config:
+      DefaultCommand: GET
+      Host: https://<YOUR_FQDN>/rest
+      InvokerControllerMapping:
+        BugCreate:
+          Command: POST
+          Controller: /bug
+        BugUpdate:
+          Command: PUT
+          Controller: /bug/:PreWebBugzillaID
+    Type: HTTP::REST

@@ -518,7 +518,14 @@ sub Run {
                         $BackendName,
                     );
 
-                    $BackendPre->Run();
+                    my %Status = $BackendPre->Run();
+                    if ( !$Status{Success} ) {
+
+                        # show the error screen
+                        return $LayoutObject->ErrorScreen(
+                            Message => $Status{Error},
+                        );
+                    }
                 }
             }
 
@@ -648,7 +655,14 @@ sub Run {
                     $BackendName,
                 );
 
-                $BackendPost->Run();
+                my %Status = $BackendPost->Run();
+                if ( !$Status{Success} ) {
+
+                    # show the error screen
+                    return $LayoutObject->ErrorScreen(
+                        Message => $Status{Error},
+                    );
+                }
             }
         }
 

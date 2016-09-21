@@ -161,7 +161,7 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
         </div>
 [% RenderBlockEnd("ActionList") %]
 [% RenderBlockStart("ExampleWebServices") %]
-        <div class="WidgetSimple">
+        <div class="WidgetSimple" id="ExampleWebServices">
             <div class="Header">
                 <h2>[% Translate("Example Web Services") | html %]</h2>
             </div>

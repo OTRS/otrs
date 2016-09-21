@@ -1,0 +1,79 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: ''
+FrameworkVersion: 5.0.12
+Provider:
+  Operation: {}
+  Transport:
+    Type: ''
+RemoteSystem: ''
+Requester:
+  Invoker:
+    IssueCreate:
+      Description: ''
+      Events: []
+      MappingInbound:
+        Config:
+          Template: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsl:stylesheet
+            version=\"1.0\"\r\n    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\r\n
+            \   xmlns:date=\"http://exslt.org/dates-and-times\"\r\n    extension-element-prefixes=\"date\">\r\n
+            \   <xsl:output method=\"xml\" encoding=\"utf-8\" indent=\"yes\"/>\r\n\r\n
+            \   <xsl:template match=\"RootElement\">\r\n             <xsl:copy>\r\n
+            \               <TicketID>\r\n                   <xsl:value-of select=\"key\"/>\r\n
+            \               </TicketID>\r\n               <xsl:apply-templates/>\r\n
+            \            </xsl:copy>\r\n    </xsl:template>\r\n\r\n    <!-- Remove
+            Ticket, Article, Attachment and CustomerUser elements -->\r\n    <xsl:template
+            match=\"id|key|self\"/>\r\n\r\n</xsl:stylesheet>"
+        Type: XSLT
+      MappingOutbound:
+        Config:
+          Template: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsl:stylesheet
+            version=\"1.0\"\r\n    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\r\n
+            \   xmlns:date=\"http://exslt.org/dates-and-times\"\r\n    extension-element-prefixes=\"date\">\r\n
+            \   <xsl:output method=\"xml\" encoding=\"utf-8\" indent=\"yes\"/>\r\n\r\n
+            \   <xsl:template match=\"RootElement\">\r\n             <xsl:copy>\r\n
+            \               <fields>\r\n                   <project>\r\n                      <key>SK</key>\r\n
+            \                  </project>\r\n                   <summary>\r\n                      <xsl:value-of
+            select=\"//Ticket/Title\"/>\r\n                   </summary>\r\n                   <description>\r\n
+            \                     <xsl:value-of select=\"//Article/Body\"/>\r\n                   </description>\r\n
+            \                  <issuetype>\r\n                      <name>Bug</name>\r\n
+            \                  </issuetype>\r\n                </fields>\r\n               <xsl:apply-templates/>\r\n
+            \           </xsl:copy>\r\n    </xsl:template>\r\n\r\n    <!-- Remove
+            Ticket, Article, Attachment and CustomerUser elements -->\r\n    <xsl:template
+            match=\"content|TicketNumber|TicketID|DynamicField|Ticket|Article|Attachment|CustomerUser\"/>\r\n\r\n</xsl:stylesheet>"
+        Type: XSLT
+      Type: Ticket::TicketUpdate
+    IssueUpdate:
+      Description: ''
+      Events: []
+      MappingInbound: {}
+      MappingOutbound:
+        Config:
+          Template: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsl:stylesheet
+            version=\"1.0\"\r\n    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"\r\n
+            \   xmlns:date=\"http://exslt.org/dates-and-times\"\r\n    extension-element-prefixes=\"date\">\r\n
+            \   <xsl:output method=\"xml\" encoding=\"utf-8\" indent=\"yes\"/>\r\n\r\n
+            \   <xsl:template match=\"RootElement\">\r\n             <xsl:copy>\r\n<JIRAIssueID><xsl:value-of
+            select=\"//DynamicField[Name = 'JIRAIssueID']/Value\"/></JIRAIssueID>\r\n<fields>\r\n<summary><xsl:value-of
+            select=\"//Ticket/Title\"/></summary>\r\n</fields>\r\n             </xsl:copy>\r\n
+            \   </xsl:template>\r\n\r\n</xsl:stylesheet>"
+        Type: XSLT
+      Type: Ticket::TicketUpdate
+  Transport:
+    Config:
+      Authentication:
+        Password: <YOUR_PASSWORD>
+        Type: BasicAuth
+        User: <YOUR_USER>
+      DefaultCommand: POST
+      Host: http://<YOUR_FQDN>/rest/api/2
+      InvokerControllerMapping:
+        IssueCreate:
+          Command: POST
+          Controller: /issue
+        IssueUpdate:
+          Command: PUT
+          Controller: /issue/:JIRAIssueID
+    Type: HTTP::REST
