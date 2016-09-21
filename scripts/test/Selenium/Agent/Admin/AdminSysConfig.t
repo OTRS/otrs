@@ -39,16 +39,11 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSysConfig");
 
         # check for AdminSysConfig groups
-        for my $SysGroupValues (
-            qw (DynamicFields Framework GenericInterface ProcessManagement Daemon Ticket)
-            )
-        {
+        for my $SysGroupValues ( qw(DynamicFields Framework GenericInterface ProcessManagement Daemon Ticket) ) {
             $Selenium->find_element( "#SysConfigGroup option[value='$SysGroupValues']", 'css' );
-
         }
 
-        # check for export and import buttons
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Download')]");
+        # check for the import button
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Import')]");
 
         # test search AdminSysConfig and check for some of the results
@@ -56,10 +51,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SysConfigSearch", 'css' )->send_keys("admin");
         $Selenium->find_element( "#SysConfigSearch", 'css' )->VerifiedSubmit();
 
-        for my $SysConfSearch (
-            qw (PerformanceLog Ticket)
-            )
-        {
+        for my $SysConfSearch ( qw(PerformanceLog Ticket) ) {
             $Self->True(
                 $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3A$SysConfSearch')]")
                     ->is_displayed(),
@@ -135,10 +127,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@id='Ticket::InvalidOwner::StateChangeItemActive']")->VerifiedClick();
 
         # restore edited values back to default
-        for my $ResetDefault (
-            qw (CustomQueue CustomService NewArticleIgnoreSystemSender)
-            )
-        {
+        for my $ResetDefault ( qw(CustomQueue CustomService NewArticleIgnoreSystemSender) ) {
             $Selenium->find_element("//button[\@value='Reset this setting'][\@name='ResetTicket::$ResetDefault']")
                 ->VerifiedClick();
         }
@@ -150,7 +139,7 @@ $Selenium->RunTest(
         # verify dialog is open
         $Self->True(
             $Selenium->find_element( ".Dialog", 'css' ),
-            'Dialog found for "Show more" sysconfig description - JS is successful'
+            'Dialog found for "Show more" sysconfig description - JS is successful',
         );
 
         # refresh screen
@@ -167,16 +156,18 @@ $Selenium->RunTest(
             'Current URL with sysconfig group ticket is found - JS is successful'
         );
 
+        # check for the export button
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Download')]");
+
         # remove Ticket as sysconfig group
         $Selenium->find_element( ".Remove a", 'css' )->VerifiedClick();
 
         # verify current URL is changed
         $Self->True(
             $Selenium->get_current_url() !~ /Action=AdminSysConfig;Subaction=SelectGroup;SysConfigGroup=Ticket/,
-            'Current URL without sysconfig group is found - JS is successful'
+            'Current URL without sysconfig group is found - JS is successful',
         );
     }
-
 );
 
 1;
