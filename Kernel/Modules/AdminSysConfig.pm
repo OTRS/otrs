@@ -1005,7 +1005,7 @@ sub Run {
 
         $LayoutObject->Block( Name => 'OverviewResult' );
 
-        %List = $SysConfigObject->ConfigSubGroupList( Name => $Group );
+        %List = $SysConfigObject->ConfigSubGroupList( Name => $Group ) if $Group;
 
         # if there are any results, they are shown
         if (%List) {
