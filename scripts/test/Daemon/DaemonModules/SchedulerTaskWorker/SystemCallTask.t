@@ -39,7 +39,9 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 my $TaskWorkerObject  = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
 
-my $ActiveSleep = sub {
+my $RunTasks = sub {
+
+    local $SIG{CHLD} = "IGNORE";
 
     my $ErrorMessage;
 
@@ -72,7 +74,7 @@ $Self->True(
     1,
     "Initial Task Cleanup...",
 );
-$ActiveSleep->();
+$RunTasks->();
 
 my $RandomID = $Helper->GetRandomID();
 
@@ -105,7 +107,7 @@ $Self->True(
     1,
     "Post TicketCreate() Task Cleanup...",
 );
-$ActiveSleep->();
+$RunTasks->();
 
 $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -197,8 +199,6 @@ for my $Test (@Tests) {
         Valid => 1,
     );
 
-    local $SIG{CHLD} = "IGNORE";
-
     my $TaskID = $SchedulerDBObject->TaskAdd( %{ $Test->{TaskAdd} } );
     $Self->IsNot(
         $TaskID,
@@ -216,8 +216,7 @@ for my $Test (@Tests) {
         "$Test->{Name} Test email is in the spool directory  - with true $!",
     );
 
-    # Execute tasks.
-    $ActiveSleep->();
+    $RunTasks->();
 
     # Test if the file is still there (it should not). This means the task was executed correctly
     $Self->False(
@@ -263,7 +262,7 @@ $Self->True(
     1,
     "Post TicketDelete() Task Cleanup...",
 );
-$ActiveSleep->();
+$RunTasks->();
 
 $Success = $GenericAgentObject->JobDelete(
     Name   => $RandomID,

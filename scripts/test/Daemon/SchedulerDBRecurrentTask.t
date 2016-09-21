@@ -43,21 +43,29 @@ $Self->Is(
 
 my $TaskWorkerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
 
-# wait until task is executed
-ACTIVESLEEP:
-for my $Sec ( 1 .. 120 ) {
+my $RunTasks = sub {
 
-    # run the worker
-    $TaskWorkerObject->Run();
+    local $SIG{CHLD} = "IGNORE";
 
-    my @List = $SchedulerDBObject->TaskList();
+    # wait until task is executed
+    ACTIVESLEEP:
+    for my $Sec ( 1 .. 120 ) {
 
-    last ACTIVESLEEP if !scalar @List;
+        # run the worker
+        $TaskWorkerObject->Run();
+        $TaskWorkerObject->_WorkerPIDsCheck();
 
-    sleep 1;
+        my @List = $SchedulerDBObject->TaskList();
 
-    print "Waiting $Sec secs for scheduler tasks to be executed\n";
-}
+        last ACTIVESLEEP if !scalar @List;
+
+        sleep 1;
+
+        print "Waiting $Sec secs for scheduler tasks to be executed\n";
+    }
+};
+
+$RunTasks->();
 
 # get cache object
 my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
