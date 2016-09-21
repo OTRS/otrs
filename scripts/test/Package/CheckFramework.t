@@ -16,7 +16,6 @@ use vars (qw($Self));
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
-
 # Set Framework Version to 4.0.4
 $ConfigObject->Set(
     Key   => 'Version',
@@ -42,264 +41,737 @@ my @Tests = (
 
     # test with single framework version <Framework>4.0.x</Framework>
     {
-        Framework        => [ { 'Content' => '4.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.3', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.0.3',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '4.0.4', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.4',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.5', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.0.5',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '4.1.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.1.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '4.1.3', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.1.3',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '5.0.4', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '5.0.4',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.5', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.5',
+            }
+        ],
+        Result => 0,
     },
 
     # test minimum framework version (e.g. <Framework Minimum="4.0.4">4.0.x</Framework>)
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.4'} ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.4'
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.3'} ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.3'
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.5'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.5'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '5.0.x', 'Minimum' => '4.0.4'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.4'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '5.0.x', 'Minimum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.5'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.5'
+            }
+        ],
+        Result => 0,
     },
-   {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.3'} ],
-        Result           => 0,
+    {
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
 
     # test maximum framework version (e.g. <Framework Maximum="4.0.4">4.0.x</Framework>)
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Maximum' => '4.0.4'} ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Maximum' => '4.1.3'} ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Maximum' => '4.1.3'
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Maximum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Maximum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '5.0.x', 'Maximum' => '4.0.4'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '5.0.x',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '5.0.x', 'Maximum' => '4.1.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '5.0.x',
+                'Maximum' => '4.1.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Maximum' => '4.0.5'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Maximum' => '4.0.5'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Maximum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Maximum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Maximum' => '4.0.4'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 0,
     },
 
-    # test combination of minimum and maximum framework versions  (e.g. <Framework Minimum="4.0.3" Maximum="4.0.4">4.0.x</Framework>)
+# test combination of minimum and maximum framework versions  (e.g. <Framework Minimum="4.0.3" Maximum="4.0.4">4.0.x</Framework>)
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.4'} ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.4'} ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.5'} ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.5'
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.5', 'Maximum' => '4.0.6'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.5',
+                'Maximum' => '4.0.6'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.2', 'Maximum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.2',
+                'Maximum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '4.0.x', 'Minimum' => '4.0.5', 'Maximum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.5',
+                'Maximum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '5.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.4'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '5.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.4'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '5.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.5'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.5'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.5', 'Maximum' => '4.0.6'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.5',
+                'Maximum' => '4.0.6'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.2', 'Maximum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.2',
+                'Maximum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.5', 'Maximum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.5',
+                'Maximum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.5'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.5'
+            }
+        ],
+        Result => 0,
     },
 
     # test with multiple frameworks
     {
-        Framework        => [ { 'Content' => '5.0.x', }, { 'Content' => '4.x.x', }, { 'Content' => '3.x.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '5.0.x',
+            },
+            {
+                'Content' => '4.x.x',
+            },
+            {
+                'Content' => '3.x.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '4.0.3', }, { 'Content' => '4.0.4', }, { 'Content' => '4.0.5', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '4.0.3',
+            },
+            {
+                'Content' => '4.0.4',
+            },
+            {
+                'Content' => '4.0.5',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', }, { 'Content' => '5.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.5', }, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.5',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.3', }, { 'Content' => '5.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.3',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.4', }, { 'Content' => '5.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.4',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x',  'Maximum' => '4.0.4',  }, { 'Content' => '5.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Maximum' => '4.0.4',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x',  'Maximum' => '4.0.3',  }, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Maximum' => '4.0.3',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x',  'Maximum' => '4.0.5',  }, { 'Content' => '5.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Maximum' => '4.0.5',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.4' }, { 'Content' => '5.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.4'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.4' }, { 'Content' => '5.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.4'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.5' }, { 'Content' => '5.0.x', } ],
-        Result           => 1,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.5'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 1,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.5', 'Maximum' => '4.0.6' }, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.5',
+                'Maximum' => '4.0.6'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.3' }, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.3'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.x', 'Minimum' => '4.0.2', 'Maximum' => '4.0.3' }, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.2',
+                'Maximum' => '4.0.3'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.4'}, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.4'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.4'}, { 'Content' => '4.0.5',  }, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.4'
+            },
+            {
+                'Content' => '4.0.5',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.5'}, { 'Content' => '4.0.3', }, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.5'
+            },
+            {
+                'Content' => '4.0.3',
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.5', 'Maximum' => '4.0.6'}, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.5',
+                'Maximum' => '4.0.6'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.3'}, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.3'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', 'Minimum' => '4.0.2', 'Maximum' => '4.0.3'}, { 'Content' => '5.0.x', } ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+                'Minimum' => '4.0.2',
+                'Maximum' => '4.0.3'
+            },
+            {
+                'Content' => '5.0.x',
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '5.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.4'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.5',  }, { 'Content' => '5.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.4'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.5',
+            },
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '4.0.3', }, { 'Content' => '5.0.x', 'Minimum' => '4.0.4', 'Maximum' => '4.0.5'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.3',
+            },
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.4',
+                'Maximum' => '4.0.5'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '5.0.x', 'Minimum' => '4.0.5', 'Maximum' => '4.0.6'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.5',
+                'Maximum' => '4.0.6'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x', }, { 'Content' => '5.0.x', 'Minimum' => '4.0.3', 'Maximum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
     {
-        Framework        => [ { 'Content' => '3.0.x',}, { 'Content' => '5.0.x',  'Minimum' => '4.0.2', 'Maximum' => '4.0.3'} ],
-        Result           => 0,
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.2',
+                'Maximum' => '4.0.3'
+            }
+        ],
+        Result => 0,
     },
 
 );
@@ -307,7 +779,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     my $VersionCheck = $PackageObject->_CheckFramework(
-        Framework       => $Test->{Framework},
+        Framework => $Test->{Framework},
     );
 
     my $FrameworkVersion = $Test->{Framework}[0]->{Content};
