@@ -11,7 +11,7 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # Nadezhda Zavyalova <nadelorama@gmail.com>, 2015
 # Sergey Stepanov <Stepanov.SA@bashkortostan.ru>, 2016
-# Shader Haran <shader@dautkom.lv>, 2016
+# Olegs Capligins <shader@dautkom.lv>, 2016
 # Владислав Тырышкин, 2016
 # Vladislav Yaroslavlev <vladon@vladon.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
@@ -23,8 +23,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -3119,8 +3119,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Чтобы получить первые 5 строк email"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "Чтобы получить реальное имя отправителя (если указано)"
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3277,11 +3277,11 @@ msgstr "Выбор"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "Список (%s показано, доступно еще)"
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
-msgstr ""
+msgstr "Список (%s всего)"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -4257,6 +4257,30 @@ msgid "Save Changes"
 msgstr "Сохранить изменения"
 
 #. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr "Справка по тэгам"
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "Атрибуты данных текущего клиента"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr "Атрибуты данных заявки"
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr "Значения внутренних ключей динамических полей заявки"
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Results"
 msgstr "Результаты"
 
@@ -5070,7 +5094,7 @@ msgstr "Примеры Веб-сервисов"
 msgid ""
 "Here you can activate best practice example web service that are part of %s."
 " Please note that some additional configuration may be required."
-msgstr ""
+msgstr "Здесь вы можете попробовать, основанный на лучших практиках примерный процесс, который являются частью %s. Пожалуйста, обратите внимание, что  могут потребоваться некоторые дополнительные настройки."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import example web service"
@@ -5080,7 +5104,7 @@ msgstr "Импорт примера Веб-сервиса"
 msgid ""
 "Do you want to benefit from web services created by experts? Upgrade to %s "
 "to be able to import some sophisticated example web services."
-msgstr ""
+msgstr "Вы хотите извлечь выгоду из web-сервисов, созданных специалистами? Обновитесь до % s, чтобы иметь возможность импортировать некоторые сложные примерные web-сервисов."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5550,7 +5574,7 @@ msgid ""
 "This is the default value for assigned recipient agents who didn't make a "
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
-msgstr ""
+msgstr "Это умалчиваемое значение назначаемое агентам получателям, которые не имеют возможности сделать выбор для этого уведомления в своих настройках. Если включено, уведомление будет отправляться таким агентам."
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
@@ -5591,10 +5615,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "Вы действительно желаете удалить этот язык для Уведомлений?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr "Справка по тэгам"
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Уведомления отправляются агенту или клиенту"
 
@@ -5618,10 +5638,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Первые 5 строк последнего сообщения клиента"
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "Атрибуты данных текущего клиента"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "Атрибуты текущего владельца тикета"
 
@@ -5636,14 +5652,6 @@ msgstr "Атрибуты текущего агента, запросившего
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "Атрибуты пользователя - получателя уведомления"
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr "Атрибуты данных заявки"
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
-msgstr "Значения внутренних ключей динамических полей заявки"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6822,6 +6830,10 @@ msgstr "Переход"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "Имя Перехода"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -9302,8 +9314,20 @@ msgid ""
 msgstr "Искать в свойствах От, Для, Копия, Тема и тело сообщения, перекрывая другие атрибуты с тем же именем."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "Логин клиента"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -10044,7 +10068,7 @@ msgstr "Вы уверены, что это ошибка? В 5 случаях и�
 msgid ""
 "With %s, our experts take care of correct installation and cover your back "
 "with support and periodic security updates."
-msgstr ""
+msgstr "С %s, наши специалисты позаботятся о правильности установки  и осуществят поддержку и проведение периодических обновлений безопасности."
 
 #. Template: Error
 msgid "Contact our service team now."
@@ -10600,7 +10624,7 @@ msgstr "Создать итоговую строку"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
-msgstr ""
+msgstr "Генерирует дополнительную строку, содержащую суммы для всех строк данных."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
@@ -10608,7 +10632,7 @@ msgstr "Создать итоговую колонку"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
-msgstr ""
+msgstr "Генерирует дополнительную колонку, содержащую суммы по всем колонкам данных."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
@@ -12009,7 +12033,7 @@ msgstr "Невозможно получить данные для поля \"%s\
 msgid ""
 "PendingTime can just be used if State or StateID is configured for the same "
 "ActivityDialog. ActivityDialog: %s!"
-msgstr ""
+msgstr "PendingTime может просто использоваться если State или StateID настроены для такого же ActivityDialog. ActivityDialog: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Pending Date"
@@ -12025,26 +12049,26 @@ msgstr "Отсутствует ActivityDialogEntityID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "Невозможно получить Config для ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Couldn't use CustomerID as an invisible field. Please contact your system "
 "administrator!"
-msgstr ""
+msgstr "Невозможно использовать CustomerID в качестве невидимого поля. Пожалуйста, обратитесь к системному администратору!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
-msgstr ""
+msgstr "Отсутствует ProcessEntityID, проверьте ActivityDialogHeader.tt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "No StartActivityDialog or StartActivityDialog for Process \"%s\" configured!"
-msgstr ""
+msgstr "Отсутствует StartActivityDialog или StartActivityDialog для Процесса \"%s\" !"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't create ticket for Process with ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "Невозможно создать заявку для Процесса с ProcessEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ProcessEntityID \"%s\" on TicketID \"%s\"!"
@@ -12074,22 +12098,22 @@ msgstr "Отсутствует ProcessEntityID в Ticket %s!"
 msgid ""
 "Could not set DynamicField value for %s of Ticket with ID \"%s\" in "
 "ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Невозможно установить значение динамического поля %s для заявки с ID \"%s\" in ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set PendingTime for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Невозможно установить PendingTime для заявки с ID \"%s\" в ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Wrong ActivityDialog Field config: %s can't be Display => 1 / Show field "
 "(Please change its configuration to be Display => 0 / Do not show field or "
 "Display => 2 / Show field as mandatory)!"
-msgstr ""
+msgstr "Неверная настройка для ActivityDialog Field: %s не отображать => 1 / Показать поле (Пожалуйста, его настройку отображения на => 0 / Не показывать поле или  => 2 /Показывать обязательно)!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set %s for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Невозможно установить %s для заявки с ID \"%s\" в ActivityDialog \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s missing!"
@@ -12574,7 +12598,7 @@ msgstr "Выбранный период времени больше, чем ра
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
-msgstr ""
+msgstr "Не назначено значение шкалы времени для текущего выбранного значения шкалы времени на оси X."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
@@ -12680,8 +12704,12 @@ msgid "Created State"
 msgstr "Созданное Состояние"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "Логин клиента"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -12769,7 +12797,7 @@ msgstr "Количество сообщений"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "unlimited"
-msgstr ""
+msgstr "неограничено"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "ascending"
@@ -14064,7 +14092,7 @@ msgstr "Имя Агента"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
-msgstr ""
+msgstr "Agent Name + FromSeparator + System Address Display Name"
 
 #. SysConfig
 msgid "Agent Preferences."
@@ -14087,21 +14115,21 @@ msgid ""
 "Agent interface module to access CIC search via nav bar. Additional access "
 "control to show or not show this link can be done by using Key \"Group\" and"
 " Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Модуль для интерфейса агента для доступа к поиску CIC из навигационной панели. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа \"Group/Группа\" и Content/Содержание, например - \"rw:group1;move_into:group2\""
 
 #. SysConfig
 msgid ""
 "Agent interface module to access fulltext search via nav bar. Additional "
 "access control to show or not show this link can be done by using Key "
 "\"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Модуль для интерфейса агента для доступа к полнотекстовому поиску из навигационной панели. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа \"Group/Группа\" и Content/Содержание, например - \"rw:group1;move_into:group2\""
 
 #. SysConfig
 msgid ""
 "Agent interface module to access search profiles via nav bar. Additional "
 "access control to show or not show this link can be done by using Key "
 "\"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Модуль для интерфейса агента для доступа к поиску по сохраненным шаблонам из навигационной панели. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа \"Group/Группа\" и Content/Содержание, например - \"rw:group1;move_into:group2\""
 
 #. SysConfig
 msgid ""
@@ -14114,7 +14142,7 @@ msgid ""
 "Agent interface notification module to see the number of locked tickets. "
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Модуль отображения количества заблокированных заявок в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа \"Group/Группа\" и Content/Содержание, например - \"rw:group1;move_into:group2\""
 
 #. SysConfig
 msgid ""
@@ -14122,21 +14150,21 @@ msgid ""
 " responsible for. Additional access control to show or not show this link "
 "can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Модуль отображения количества заявок за которые агент является ответственным в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа \"Group/Группа\" и Content/Содержание, например - \"rw:group1;move_into:group2\""
 
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of tickets in My "
 "Services. Additional access control to show or not show this link can be "
 "done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Модуль отображения количества заявок в Моих Сервисах в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа \"Group/Группа\" и Content/Содержание, например - \"rw:group1;move_into:group2\""
 
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of watched tickets. "
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "Модуль отображения количества наблюдаемых заявок в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа \"Group/Группа\" и Content/Содержание, например - \"rw:group1;move_into:group2\""
 
 #. SysConfig
 msgid "AgentCustomerSearch"
@@ -14286,14 +14314,14 @@ msgid ""
 "Allows extended search conditions in ticket search of the customer "
 "interface. With this feature you can search e. g. with this kind of "
 "conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr ""
+msgstr "Позволяет задать расширенные возможности поиска в интерфейсе клиента. При включении его, появится возможность поиска с использованием конструкций типа \"(key1&&key2)\" или \"(key1||key2)\"."
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the generic agent "
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "Позволяет задать расширенные возможности поиска в интерфейсе агента в заданиях Планировщика. При включении его, появится возможность поиска с использованием конструкций типа \"(key1&&key2)\" или \"(key1||key2)\"."
 
 #. SysConfig
 msgid ""
@@ -14387,7 +14415,7 @@ msgid ""
 "ticket responsible feature is enabled). This will only work by manually "
 "actions of the logged in user. It does not work for automated actions e.g. "
 "GenericAgent, Postmaster and GenericInterface."
-msgstr ""
+msgstr "Автоматически устанавливает владельца заявки ответственным за нее (если механизм ответственных включен). Это работает лишь при ручных операциях активного/logged агента. Не работает для автоматически выполняемых работах типа GenericAgent/Планировщик, Postmaster или GenericInterface."
 
 #. SysConfig
 msgid ""
@@ -14669,7 +14697,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Complex"
-msgstr ""
+msgstr "Complex/Комплексный"
 
 #. SysConfig
 msgid "Configure Processes."
@@ -15465,6 +15493,12 @@ msgid ""
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
 msgstr "Задает возможность входа для клиента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация."
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18183,7 +18217,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
 
 #. SysConfig
 msgid ""
@@ -19853,10 +19887,8 @@ msgid ""
 msgstr "Отсылать всю исходящую почту через bcc на заданные адреса. Используйте эту опцию только резервного копирования."
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
-msgstr "Посылать уведомление клиента показанным клиентам. Если не показано ни одного клиента, последний отправитель получит уведомление."
+msgid "Sends customer notifications just to the mapped customer."
+msgstr ""
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."
@@ -21980,15 +22012,15 @@ msgstr "Ваше письмо с номером заявки \"<OTRS_TICKET>\" �
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "Выбор очередей, которые вас интересуют. Вы также будете уведомляться по электронной почте, если эта функция включена."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr "Выбор сервисов, которые вас интересуют. Вы также будете уведомляться по электронной почте об этих сервисах, если эта функция включена."
+msgstr ""
 
 #. SysConfig
 msgid "attachment"

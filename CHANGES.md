@@ -1,4 +1,20 @@
-#5.0.13 2016-??-??
+#5.0.14 2016-??-??
+ - 2016-09-21 Fixed bug#[12313](http://bugs.otrs.org/show_bug.cgi?id=12313) - Spam log error in AdminSysConfig.
+ - 2016-09-21 Added possibility to define Minimum and Maximum framework version in opm files (e.g. <Framework Minimum="5.0.14">5.0.x</Framework>).
+ - 2016-09-20 Fixed bug#[12310](http://bugs.otrs.org/show_bug.cgi?id=12310) - Error when invoking the installer with SecureMode = 1.
+ - 2016-09-19 Fixed bug#[12309](http://bugs.otrs.org/show_bug.cgi?id=12309) - LinkObject Complex Table column sorting only works for tickets.
+ - 2016-09-16 Fixed bug#[12305](http://bugs.otrs.org/show_bug.cgi?id=12305) - Incorrect charset handling in content type of SOAP messages.
+ - 2016-09-15 Fixed bug#[12126](http://bugs.otrs.org/show_bug.cgi?id=12126) - Daemon's Task SpoolMailsReprocess causes loop tickets.
+ - 2016-09-15 Fixed bug#[12301](http://bugs.otrs.org/show_bug.cgi?id=12301) - CSV reading code is broken, thanks to Pawel Boguslawski.
+
+#5.0.13 2016-09-20
+ - 2016-09-14 Updated translations, thanks to all translators.
+ - 2016-09-12 Fixed bug#[11365](http://bugs.otrs.org/show_bug.cgi?id=11365) - ACLs editor shows actions where ACLs does not apply.
+ - 2016-09-12 Fixed bug#[12297](http://bugs.otrs.org/show_bug.cgi?id=12297) - AdminCustomerUser and AdminCustomerCompany generate log errors if RunInitialWildcardSearch is disabled.
+ - 2016-09-12 Fixed bug#[12296](http://bugs.otrs.org/show_bug.cgi?id=12296) - ArticleComposeCrypt.pm not in @INC  after upgrade from 4 to 5.
+ - 2016-09-09 Fixed bug#[12290](http://bugs.otrs.org/show_bug.cgi?id=12290) - LDAP Size Limit exceeded is marked as error.
+ - 2016-09-09 Fixed bug#[5149](http://bugs.otrs.org/show_bug.cgi?id=5149) - Incomplete multipart/mixed processing causes incomplete display of e-mails.
+ - 2016-09-05 Added new console commands to print (Maint::Log::Print) and clear (Maint::Log::Clear) the OTRS log.
  - 2016-09-05 Followup for bug#[11922](http://bugs.otrs.org/show_bug.cgi?id=11922) - Notification to non RealCustomer.
  - 2016-09-02 Fixed bug#[12199](http://bugs.otrs.org/show_bug.cgi?id=12199) - ProcessManagement: Comma separated Lastnames are not shown correctly on article creation.
  - 2016-09-02 Fixed bug#[12079](http://bugs.otrs.org/show_bug.cgi?id=12079) - Regex in transition condition not working for empty match.
@@ -37,11 +53,11 @@
  - 2016-08-12 Follow-up fix for bug#[12150](http://bugs.otrs.org/show_bug.cgi?id=12150) - Ticket::HookDivider missing in TicketZoom and History View.
  - 2016-08-11 Fixed bug#[12238](http://bugs.otrs.org/show_bug.cgi?id=12238) - JavaScript error when opening an activity dialog from AgentTicketZoom.
  - 2016-08-08 Fixed bug#[12205](http://bugs.otrs.org/show_bug.cgi?id=12205) - Default setting for Ticket::Frontend::CustomerTicketMessage###TicketTypeDefault incorrect.
-
-#5.0.12 2016-08-09
  - 2016-08-09 Fixed bug#[12232](http://bugs.otrs.org/show_bug.cgi?id=12232) - Modern input fields leaves a broken value on refresh.
  - 2016-08-05 Fixed bug#[12086](http://bugs.otrs.org/show_bug.cgi?id=12086) - Labels overflows for some languages.
  - 2016-08-05 Fixed bug#[12221](http://bugs.otrs.org/show_bug.cgi?id=12221) - Key/value fields are very small in AdminProcessManagementTransitionAction.
+
+#5.0.12 2016-08-09
  - 2016-08-03 Updated translations, thanks to all translators.
  - 2016-07-29 Fixed bug#[12196](http://bugs.otrs.org/show_bug.cgi?id=12196) - SOAP Response missing trailing slash.
  - 2016-07-24 Followup for bug#[12090](http://bugs.otrs.org/show_bug.cgi?id=12090) - 2 second sleep between email fetching causes bad performance on systems with high email traffic.

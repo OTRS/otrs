@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/otrs/OTRS/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -3101,8 +3101,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "เพื่อให้ได้5 บรรทัดแรกของอีเมล"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "เพื่อให้ได้ชื่อจริงของผู้ส่ง (ถ้ามี)"
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4237,6 +4237,30 @@ msgstr "ค่าพารามิเตอร์ %s"
 #. Template: AdminGenericAgent
 msgid "Save Changes"
 msgstr "บันทึกการเปลี่ยนแปลง"
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr "แท็กข้อมูลอ้างอิง"
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "คุณลักษณะของข้อมูลลูกค้าผู้ใช้ปัจจุบัน"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr "คุณลักษณะของข้อมูลตั๋ว"
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr "ค่าคีย์ภายในช่องตั๋วแบบไดนามิก"
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5573,10 +5597,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "คุณต้องการที่จะลบภาษาของการแจ้งเตือนนี้หรือไม่?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr "แท็กข้อมูลอ้างอิง"
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "การแจ้งเตือนจะถูกส่งไปยังเอเย่นต์หรือลูกค้า"
 
@@ -5600,10 +5620,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "เพื่อให้ได้5 บรรทัดแรกของเนื้อหา(จากบทความลูกค้าล่าสุด) "
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "คุณลักษณะของข้อมูลลูกค้าผู้ใช้ปัจจุบัน"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "คุณลักษณะของข้อมูลผู้ใช้เจ้าของตั๋วปัจจุบัน"
 
@@ -5618,14 +5634,6 @@ msgstr "คุณลักษณะของผู้ใช้เอเย่น
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "คุณลักษณะของผู้ใช้ผู้รับสำหรับการแจ้งเตือน"
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr "คุณลักษณะของข้อมูลตั๋ว"
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
-msgstr "ค่าคีย์ภายในช่องตั๋วแบบไดนามิก"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6804,6 +6812,10 @@ msgstr "การเปลี่ยนผ่าน"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "ชื่อการเปลี่ยนผ่าน"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -9284,8 +9296,20 @@ msgid ""
 msgstr "การค้นหาในแอตทริบิวต์ จาก ถึง สำเนา เรื่องและเนื้อเรื่องของบทความ การแทนที่คุณลักษณะอื่น ๆ ที่มีชื่อเดียวกัน"
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "ล็อคอินลูกค้าผู้ใช้"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -12662,8 +12686,12 @@ msgid "Created State"
 msgstr "สถานะถูกสร้างแล้ว"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "CustomerUserLogin"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -15451,6 +15479,12 @@ msgstr "กำหนดหากลูกค้าควรได้รับอ
 #. SysConfig
 msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.)."
 msgstr "กำหนดหากโหมดเสริมควรถูกใช้ (ช่วยให้สามารถใช้ตาราง, แทนที่,ดรรชนีล่าง,ดรรชนีบน,วางจากประโยคและอื่น ๆ )"
 
@@ -18165,7 +18199,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "หาก \"HTTPBasicAuth\" ถูกเลือกให้ Customer::AuthModule คุณสามารถกำหนดเพื่อตัดส่วนหน้าของชื่อผู้ใช้ (เช่น สำหรับโดเมน example_domain\\user ไปยังผู้ใช้)"
 
 #. SysConfig
 msgid ""
@@ -19835,9 +19869,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -21962,13 +21994,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
 msgstr ""
 

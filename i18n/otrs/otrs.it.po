@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Italian (http://www.transifex.com/otrs/OTRS/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -3109,8 +3109,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Usa le prime 5 righe dell'email."
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "Usa il realname dello user (se presente)."
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4245,6 +4245,30 @@ msgstr "Valore parametro %s"
 #. Template: AdminGenericAgent
 msgid "Save Changes"
 msgstr "Salva cambiamenti"
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "Attributi dei dati utente del cliente attuale"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr "Attributi dei dati del ticket"
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5581,10 +5605,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "Vuoi davvero eliminare questa lingua delle notifiche?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Le notifiche sono inviate ad un operatore o a un cliente"
 
@@ -5608,10 +5628,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Per avere le prime 5 righe corpo mail (customer)."
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "Attributi dei dati utente del cliente attuale"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
@@ -5626,14 +5642,6 @@ msgstr "Attributi dell'utente dell'operatore attuale che ha richiesto questa azi
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "Attributi dell'utente destinatario delle notifiche"
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr "Attributi dei dati del ticket"
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
-msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6812,6 +6820,10 @@ msgstr "Transizione"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "Nome della Transizione"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -9292,8 +9304,20 @@ msgid ""
 msgstr "Cerca negli attributi Da, A, Cc, Oggetto e nel corpo dell'articolo, ignorando gli altri attributi con lo stesso nome."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "Identificativo di Accesso del Cliente"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -12670,8 +12694,12 @@ msgid "Created State"
 msgstr "Stato ticket"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "Login Utente Cliente"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -15454,6 +15482,12 @@ msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 
 #. SysConfig
@@ -19843,9 +19877,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -21970,13 +22002,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "La tua selezione delle code preferite. Se attivata, riceverai notifiche tramite posta anche per queste code."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
 msgstr ""
 

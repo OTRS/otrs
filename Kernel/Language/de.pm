@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.936795994993742;
+    $Self->{Completeness}        = 0.937343880099917;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -855,7 +855,8 @@ sub Data {
         'You can use the following tags' => 'Die folgenden Tags können benutzt werden',
         'To get the first 20 character of the subject.' => 'Die ersten 20 Zeichen des Betreffs',
         'To get the first 5 lines of the email.' => 'Die ersten fünf Zeilen der Nachricht',
-        'To get the realname of the sender (if given).' => 'Der Name des Benutzers (wenn angegeben)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            'Der Name des Ticket-Kundenbenutzers (wenn angegeben).',
         'To get the article attribute' => 'Die Artikel-Attribute',
         ' e. g.' => 'z. B.',
         'Options of the current customer user data' => 'Attribute des aktuellen Kunden',
@@ -1191,6 +1192,12 @@ sub Data {
         'Param %s key' => 'Schlüssel für Parameter %s',
         'Param %s value' => 'Wert für Parameter %s',
         'Save Changes' => 'Änderungen speichern',
+        'Tag Reference' => 'Tag-Referenz',
+        'In the note section, you can use the following tags' => 'Im Notiz-Bereich können folgende Tags benutzt werden',
+        'Attributes of the current customer user data' => 'Attribute des aktuellen Kundenbenutzer-Datensatzes',
+        'Attributes of the ticket data' => 'Attribute der Ticketdaten',
+        'Ticket dynamic fields internal key values' => 'Interne Schlüssel der dynamischen Felder des Tickets',
+        'Example note' => 'Beispielnotiz',
         'Results' => 'Ergebnisse',
         '%s Tickets affected! What do you want to do?' => '%s Tickets sind betroffen! Was wollen Sie tun?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1588,7 +1595,6 @@ sub Data {
         'Message body' => 'Nachrichteninhalt',
         'Add new notification language' => 'Neue Sprache für Benachrichtigungen hinzufügen',
         'Do you really want to delete this notification language?' => 'Möchten Sie diese Benachrichtigungssprache wirklich löschen?',
-        'Tag Reference' => 'Tag-Referenz',
         'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Die ersten 20 Zeichen des Betreffs (des letzten Agenten-Artikels).',
@@ -1598,14 +1604,11 @@ sub Data {
             'Die ersten 20 Zeichen des Betreffs (des letzten Kunden-Artikels)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikels).',
-        'Attributes of the current customer user data' => 'Attribute des aktuellen Kundenbenutzer-Datensatzes',
         'Attributes of the current ticket owner user data' => 'Attribute der Nutzerdaten des aktuellen Ticket-Besitzers',
         'Attributes of the current ticket responsible user data' => 'Attribute der Nutzerdaten des aktuellen Ticket-Verantwortlichem',
         'Attributes of the current agent user who requested this action' =>
             'Attribute der Benutzerdaten des Agenten, der die Aktion ausgelöst hat',
         'Attributes of the recipient user for the notification' => 'Attribute der Benutzerdaten des Empfängers der Benachrichtigung',
-        'Attributes of the ticket data' => 'Attribute der Ticketdaten',
-        'Ticket dynamic fields internal key values' => 'Interne Schlüssel der dynamischen Felder des Tickets',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'Anzeigewerte der dynamischen Felder des Tickets, verwendbar für Auswahlfelder',
         'Example notification' => 'Beispiel-Benachrichtigung',
@@ -1971,6 +1974,7 @@ sub Data {
             'Achtung: Änderungen an diesem Übergang wirken sich auf folgende Prozesse aus',
         'Transition' => 'Übergang',
         'Transition Name' => 'Name des Übergangs',
+        'Conditions can only operate on non-empty fields.' => 'Bedingungen können nur Felder prüfen, die nicht leer sind.',
         'Type of Linking between Conditions' => 'Verknüpfung zwischen den Bedingungen',
         'Remove this Condition' => 'Bedingung entfernen',
         'Type of Linking' => 'Typ der Verknüpfung',
@@ -2792,7 +2796,10 @@ sub Data {
         'Remove' => 'Entfernen',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Sucht in den Attributen Von, Cc, Betreff, Artikelinhalt und überschreibt Attribute mit dem selben Namen.',
-        'Customer User Login' => 'Anmeldung Kundenkontakt',
+        'CustomerID (complex search)' => 'Kundennummer (komplexe Suche)',
+        'CustomerID (exact match)' => 'Kundennummer (genaue Übereinstimmung)',
+        'Customer User Login (complex search)' => 'Kundenbenutzer (komplexe Suche)',
+        'Customer User Login (exact match)' => 'Kundenbenutzer (genaue Übereinstimmung)',
         'Attachment Name' => 'Name der Anlage',
         '(e. g. m*file or myfi*)' => '(z.B. m*file oder myfi*)',
         'Created in Queue' => 'Erstellt in Queue',
@@ -3985,7 +3992,8 @@ sub Data {
         'State Type' => 'Statustyp',
         'Created Priority' => 'Erstellt mit der Priorität',
         'Created State' => 'Erstellt mit dem Status',
-        'CustomerUserLogin' => 'Kundenlogin',
+        'CustomerUserLogin (complex search)' => 'Kundenbenutzer (komplexe Suche)',
+        'CustomerUserLogin (exact match)' => 'Kundenbenutzer (genaue Übereinstimmung)',
         'Create Time' => 'Erstellzeit',
         'Close Time' => 'Schließzeit',
         'Escalation - First Response Time' => 'Eskalation - Zeit für die erste Reaktion',
@@ -4021,9 +4029,9 @@ sub Data {
         'Historic Time Range' => 'Historischer Zeitbereich',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-        'Solution Average' => '',
-        'Solution Min Time' => '',
-        'Solution Max Time' => '',
+        'Solution Average' => 'Durchschnittliche Lösungszeit',
+        'Solution Min Time' => 'Minimale Lösungszeit',
+        'Solution Max Time' => 'Maximale Lösungszeit',
         'Solution Average (affected by escalation configuration)' => '',
         'Solution Min Time (affected by escalation configuration)' => '',
         'Solution Max Time (affected by escalation configuration)' => '',
@@ -4122,7 +4130,7 @@ sub Data {
             'Die Partition, auf der OTRS sich befindet, hat keine Platzprobleme.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => 'Betriebssystem/Festplattenpartitionsbelegung',
+        'Disk Partitions Usage' => 'Belegung der Festplatten-Partitionen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Distribution',
@@ -4148,16 +4156,16 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Es sollten nicht mehr als 200 MB Auslagerungsspeicher verwendet werden.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => 'OTRS/Konfigurationseinstellungen',
+        'OTRS' => 'OTRS',
+        'Config Settings' => 'Konfigurationseinstellungen',
         'Could not determine value.' => 'Konnte Wert nicht ermitteln.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
-        'Daemon' => 'Prozess',
+        'Daemon' => 'Daemon',
         'Daemon is not running.' => 'Daemon läuft nicht.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => 'OTRS/Datenbankeinträge',
+        'Database Records' => 'Datenbankeinträge',
         'Tickets' => 'Tickets',
         'Ticket History Entries' => 'Ticket-Historien-Einträge',
         'Articles' => 'Artikel',
@@ -4200,7 +4208,7 @@ sub Data {
         'Some packages are not correctly installed.' => 'Es wurden Pakete gefunden, die nicht korrekt installiert sind.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => 'OTRS/Paketliste',
+        'Package List' => 'Paketliste',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4239,7 +4247,7 @@ sub Data {
             'Die Tabelle ticket_index enthält verwaiste Einträge. Bitte führen Sie otrs/bin/otrs.CleanTicketIndex.pl aus um sie zu entfernen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => 'OTRS/Zeiteinstellungen',
+        'Time Settings' => 'Zeiteinstellungen',
         'Server time zone' => 'Serverzeitzone',
         'Computed server time offset' => 'Berechneter Serverzeitversatz',
         'OTRS TimeZone setting (global time offset)' => 'OTRS-Zeitzoneneinstellung (globaler Zeitversatz)',
@@ -4250,10 +4258,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => 'OTRS-Zeitzoneneinstellung für Kalender',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => 'Webserver/Geladene Apache-Module',
+        'Webserver' => 'Webserver',
+        'Loaded Apache Modules' => 'Geladene Apache-Module',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Webserver',
         'MPM model' => 'MPM-Modell',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'OTRS benötigt das Apache \'prefork\' MPM Modul',
@@ -4276,7 +4284,7 @@ sub Data {
             'Nutzen Sie Apache2::DBI, um eine höhere Leistung im Zusammenhang mit persistenten Datenbankverbindungen zu erreichen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => 'Webserver/Umgebungsvariablen',
+        'Environment Variables' => 'Umgebungsvariablen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Sie sollten PerlEx verwenden, um die Geschwindigkeit zu steigern.',
@@ -4284,6 +4292,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webserver-Version',
         'Could not determine webserver version.' => 'Konnte Webserver-Version nicht ermitteln.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => 'Details der gleichzeitigen Nutzer',
+        'Concurrent Users' => 'Gleichzeitige Nutzer',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Unbekannt',
@@ -4883,6 +4895,8 @@ Ihr Helpdesk-Team
             'Bestimmt, ob im Agenten-Interface eine Rechtschreibprüfung für Nachrichten vorgenommen werden muss.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Steuert, ob Kunden, die die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen.',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             'Bestimmt, ob der erweiterte Modus genutzt werden soll (schaltet die Benutzung von Tabellen, Suchen & Ersetzen, Tiefstellen, Hochstellen, aus Word einfügen, etc. frei).',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
@@ -5080,7 +5094,7 @@ Ihr Helpdesk-Team
         'Defines the default ticket priority in the ticket responsible screen of the agent interface.' =>
             'Definiert die Standard-Ticketpriorität in der \'Verantwortlicher\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default ticket type for new customer tickets in the customer interface.' =>
-            'Definiert die Standard-Ticketpriorität für neue Kundentickets im Kunden-Interface.',
+            'Definiert den Standard-Ticket-Typ für neue Kundentickets in der  Kundenoberfläche.',
         'Defines the default ticket type.' => 'Definiert den Standardtyp für ein Ticket.',
         'Defines the default type for article in the customer interface.' =>
             'Definiert den Standard-Typ für Artikel im Kunden-Interface.',
@@ -5469,7 +5483,7 @@ Ihr Helpdesk-Team
         'Dynamic Fields Overview Limit' => 'Übersichtsbegrenzung der dynamischen Felder',
         'Dynamic Fields Text Backend GUI' => 'Dynamic Fields-Oberfläche für Textfelder',
         'Dynamic Fields used to export the search result in CSV format.' =>
-            '',
+            'Dynamic Fields welche beim Export des Suchergebnisses im CSV-Format auszugeben sind.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
@@ -5725,7 +5739,7 @@ Ihr Helpdesk-Team
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Wenn "HTTPBasicAuth" als Customer::AuthModule ausgewählt ist, kann hier ein regulärer Ausdruck definiert werden, um Teile von REMOTE_USER zu entfernen (z.B. für anhängende Domänen). Hinweis: $1 enthält den neuen Login-Namen.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '',
+            'Wenn "HTTPBasicAuth" als Customer::AuthModule ausgewählt ist, können Sie hier angeben, ob führende Teile von Benutzernamen (z.B. zur Umwandlung von Domänen wie "example_domain\user" zu "user").',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Wenn "LDAP" als Customer::AuthModule ausgewählt ist und Sie einen Suffix zu jedem Kunden-Loginnamen hinzufügen möchten, können Sie dies hier festlegen (z.B. wenn "benutzername" im LDAP als "benutzername@domain" existiert).',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -6209,8 +6223,7 @@ Ihr Helpdesk-Team
             'Sendet Rückfrage Benachrichtigungen für Agenten nur an den Ticket Besitzer wenn das Ticket entsperrt ist (standardmäßig werden die Benachrichtigungen an alle Agenten gesendet).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Versendet alle ausgehenden E-Mails via BCC zu der angegebenen Adresse. Bitte nutzen Sie dies ausschließlich für Backups.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => 'Übermitteln der Registrierungsinformationen an die OTRS Group.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6857,10 +6870,10 @@ Ihr Helpdesk-Team
         'Yes, but hide archived tickets' => 'Ja, aber archivierte Tickets verstecken',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Ihre E-Mail mit Ticket-Nummer "<OTRS_TICKET>" wurde an "<OTRS_BOUNCE_TO>" umgeleitet. Kontaktieren Sie diese Adresse für weitere Informationen.',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            'Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. ',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            '',
         'attachment' => 'attachment',
         'debug' => 'debug',
         'error' => 'error',

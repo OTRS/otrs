@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.297246558197747;
+    $Self->{Completeness}        = 0.29612661391087;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -855,7 +855,8 @@ sub Data {
         'You can use the following tags' => 'Galite naudoti šias žymeles',
         'To get the first 20 character of the subject.' => '',
         'To get the first 5 lines of the email.' => '',
-        'To get the realname of the sender (if given).' => '',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => '',
         ' e. g.' => 'pvz.',
         'Options of the current customer user data' => 'Šio kliento naudotojo duomenų parinktys',
@@ -1191,6 +1192,12 @@ sub Data {
         'Param %s key' => 'Parametro %s raktas',
         'Param %s value' => 'Parametro %s reikšmė',
         'Save Changes' => 'Išsaugoti pakeitimus',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => 'Rezultatai',
         '%s Tickets affected! What do you want to do?' => '%s paveiktos triktys! Ką norite daryti?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1588,7 +1595,6 @@ sub Data {
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Pranešimai yra siunčiami agentui arba klientui.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Gauti pirmus 20 temos simbolių (paskutinio agento straipsnio)',
@@ -1598,14 +1604,11 @@ sub Data {
             'Gauti pirmus 20 temos simbolių (paskutinio kliento straipsnio)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Gauti pirmas 5 turinio eilutes (paskutinio kliento straipsnio)',
-        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -1971,6 +1974,7 @@ sub Data {
             '',
         'Transition' => '',
         'Transition Name' => '',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
@@ -2792,7 +2796,10 @@ sub Data {
         'Remove' => 'Pašalinti',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             '',
-        'Customer User Login' => 'Kliento naudotojo prisijungimas',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => '',
         '(e. g. m*file or myfi*)' => '',
         'Created in Queue' => 'Sukurti eilėje',
@@ -3985,7 +3992,8 @@ sub Data {
         'State Type' => '',
         'Created Priority' => 'Sukūrimo prioritetas',
         'Created State' => 'Sukūrimo būsena',
-        'CustomerUserLogin' => 'Kliento Naudotojo Prisijungimas',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Sukūrimo laikas',
         'Close Time' => 'Uždarymo laikas',
         'Escalation - First Response Time' => '',
@@ -4872,6 +4880,8 @@ Thanks for your help!
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6199,8 +6209,7 @@ Thanks for your help!
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6847,9 +6856,9 @@ Thanks for your help!
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Jūsų mėgstamiausių eilių rinkinys. Taip pat būsite informuoti apie šias eiles jei įjungsite (įgalinsite) tokią funkciją.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
         'debug' => '',

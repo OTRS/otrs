@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.560492282019191;
+    $Self->{Completeness}        = 0.55893377759267;
 
     # csv separator
     $Self->{Separator} = '';
@@ -857,7 +857,8 @@ Opdater venligst dit framework først!',
         'You can use the following tags' => 'Du kan bruge følgende tags',
         'To get the first 20 character of the subject.' => 'For at få de første 20 tegn af emnet.',
         'To get the first 5 lines of the email.' => 'For at få de første 5 linjer af mailen.',
-        'To get the realname of the sender (if given).' => 'For at få afsenderes navn, hvis angivet.',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'For at få indlægges attributter',
         ' e. g.' => 'f.eks.',
         'Options of the current customer user data' => 'Valgmuligheder for den nuværende kundebruger',
@@ -1193,6 +1194,12 @@ Opdater venligst dit framework først!',
         'Param %s key' => 'Param %s nøgle',
         'Param %s value' => 'Param %s værdi',
         'Save Changes' => 'Gem ændringer',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => 'Resultater',
         '%s Tickets affected! What do you want to do?' => '%s sager vil blive berørt. Hvad vil du gøre?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1590,7 +1597,6 @@ Opdater venligst dit framework først!',
         'Message body' => '',
         'Add new notification language' => 'Tilføj meldingssprog',
         'Do you really want to delete this notification language?' => 'Er du sikker på at du vil slette dette meldingssprog',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Meldinger sendes til en agent eller kunde.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'For at få de første 20 tegn af emnet (af den seneste agent-indlæg).',
@@ -1600,14 +1606,11 @@ Opdater venligst dit framework først!',
             'For at få de første 20 tegn af emnet (af det seneste kunde-indlæg).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'For at få de første 5 linier af indholdet (af det seneste agent-indlæg).',
-        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => 'Eksempel på melding',
@@ -1973,6 +1976,7 @@ Opdater venligst dit framework først!',
             '',
         'Transition' => 'Overgang',
         'Transition Name' => '',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Linktype mellem betingelser',
         'Remove this Condition' => 'Fjern denne betingelse',
         'Type of Linking' => '',
@@ -2794,7 +2798,10 @@ Opdater venligst dit framework først!',
         'Remove' => 'Fjern',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             '',
-        'Customer User Login' => 'Kundebrugers login',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Vedhæftningsnavn',
         '(e. g. m*file or myfi*)' => '(f.eks. m*fil eller minfi*)',
         'Created in Queue' => 'Oprettet i kø',
@@ -3987,7 +3994,8 @@ Opdater venligst dit framework først!',
         'State Type' => 'Tilstandstype',
         'Created Priority' => 'Oprettet med prioritet',
         'Created State' => 'Oprettet med status',
-        'CustomerUserLogin' => 'KundeBrugerLogin',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Oprettet tidspunkt',
         'Close Time' => 'Lukket tidspunkt',
         'Escalation - First Response Time' => '',
@@ -4874,6 +4882,8 @@ Thanks for your help!
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6201,8 +6211,7 @@ Thanks for your help!
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Sender kopi af alle udgående emails til denne adresse via bcc. Benyt kun funktionen til backup.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6421,7 +6430,7 @@ Thanks for your help!
             '',
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
-        'Show queues even when only locked tickets are in.' => '',
+        'Show queues even when only locked tickets are in.' => 'Skjul køer uden frie sager',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => 'Vis historik for sagen',
@@ -6849,9 +6858,9 @@ Thanks for your help!
         'Yes, but hide archived tickets' => 'Ja, men skjul arkiverede sager',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Din e-mail med sagsnummer "<OTRS_TICKET>" er overgivet til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for yderligere information.',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Dit valg af foretrukne køer. Du får melding om handlinger i disse køer via mail, hvis det er aktiveret.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
         'debug' => '',

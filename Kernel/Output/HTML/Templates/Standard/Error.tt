@@ -19,7 +19,7 @@
                     [% Translate(Data.Comment) | html %].
                 </p>
 
-                [% IF !Data.OTRSBusinessIsInstalled %]
+                [% IF Data.ShowOTRSBusinessHint %]
                 <div class="MessageBox Info">
                     <p class="SpacingTop">
                         [% Translate("Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.") | html %]
@@ -50,7 +50,7 @@ Traceback:
                     <p class="SpacingTop">
                         <button type="submit" class="Primary CallForAction" value="[% Translate("Send a bugreport") | html %]"><span>[% Translate("Send a bugreport") | html %]</span></button>
                         &nbsp;[% Translate("or") | html %]&nbsp;
-                        <a href="#" id="GoBack" class="CallForAction"><span>[% Translate("go back to the previous page") | html %]</spsn></a>
+                        <a href="#" id="GoBack" class="CallForAction"><span>[% Translate("go back to the previous page") | html %]</span></a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 $('#GoBack').bind('click', function (Event) {

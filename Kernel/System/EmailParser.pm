@@ -504,8 +504,10 @@ sub GetMessageBody {
             );
         }
 
-        # check if there is a valid attachment there, if yes, return
-        # first attachment (normally text/plain) as message body
+        # Check if there is a valid attachment there, if yes, return
+        #   the first attachment (normally text/plain) as message body.
+        # For multipart/mixed emails, PartsAttachments() will concatenate subsequent
+        #   body MIME parts into just one attachment.
         my @Attachments = $Self->GetAttachments();
         if ( @Attachments > 0 ) {
             $Self->{Charset}     = $Attachments[0]->{Charset};
@@ -576,6 +578,7 @@ Returns an array of the email attachments.
         # optional
         print $Attachment->{ContentID};
         print $Attachment->{ContentAlternative};
+        print $Attachment->{ContentMixed};
     }
 
 =cut
@@ -607,16 +610,19 @@ sub PartsAttachments {
     my $PartCounter        = $Param{PartCounter}        || 0;
     my $SubPartCounter     = $Param{SubPartCounter}     || 0;
     my $ContentAlternative = $Param{ContentAlternative} || '';
+    my $ContentMixed       = $Param{ContentMixed}       || '';
     $Self->{PartCounter}++;
     if ( $Part->parts() > 0 ) {
 
         # check if it's an alternative part
-        my $ContentAlternative;
         $Part->head()->unfold();
         $Part->head()->combine('Content-Type');
         my $ContentType = $Part->head()->get('Content-Type');
         if ( $ContentType && $ContentType =~ /multipart\/alternative;/i ) {
             $ContentAlternative = 1;
+        }
+        if ( $ContentType && $ContentType =~ /multipart\/mixed;/i ) {
+            $ContentMixed = 1;
         }
         $PartCounter++;
         for my $Part ( $Part->parts() ) {
@@ -628,6 +634,7 @@ sub PartsAttachments {
                 Part               => $Part,
                 PartCounter        => $PartCounter,
                 ContentAlternative => $ContentAlternative,
+                ContentMixed       => $ContentMixed,
             );
         }
         return 1;
@@ -636,7 +643,6 @@ sub PartsAttachments {
     # get attachment meta stuff
     my %PartData;
 
-    # get content alternative
     if ($ContentAlternative) {
         $PartData{ContentAlternative} = $ContentAlternative;
     }
@@ -761,7 +767,53 @@ sub PartsAttachments {
             "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}' ($PartData{Filesize})\n";
     }
 
-    # store data
+    # For multipart/mixed emails, we check for all text/plain or text/html MIME parts which are
+    #   body elements, and concatenate them into the first relevant attachment, to stay in line
+    #   with OTRS file-1 and file-2 attachment handling.
+    # HTML parts will just be concatenated, so that the attachment has two complete HTML documents
+    #   inside. Browsers tolerate this.
+    if (
+        $ContentMixed
+        && ( !$PartData{Disposition} || $PartData{Disposition} eq 'inline' )
+        && ( $PartData{ContentType} =~ /text\/(?:html|plain)/i )
+        )
+    {
+        # Is it a plain or HTML body?
+        my $MimeType = $PartData{ContentType} =~ /text\/html/i ? 'text/html' : 'text/plain';
+        my $AttachmentKey = 'AttachmentFor_' . $MimeType;
+
+        # For concatenating multipart/mixed text parts, we have to convert all of them to utf-8 to be sure that
+        #   the contents fit together and that all characters can be displayed.
+        $PartData{Content} = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+            Text  => $PartData{Content},
+            From  => $PartData{Charset},
+            Check => 1,
+        );
+        $PartData{ContentType} = "$MimeType; charset=utf-8";
+        my $OldCharset = $PartData{Charset};
+        $PartData{Charset} = "utf-8";
+
+        # Also replace charset in meta tags of HTML emails.
+        if ( $MimeType eq 'text/html' ) {
+            $PartData{Content} =~ s/(<meta[^>]+charset=("|'|))\Q$OldCharset\E/$1utf-8/gi;
+        }
+
+        $PartData{Filesize} = bytes::length( $PartData{Content} );
+
+        # Is it the first body element found? Then remember it.
+        if ( !$Self->{$AttachmentKey} ) {
+            $Self->{$AttachmentKey} = \%PartData;
+        }
+
+        # Is it a subsequent body element? Then concatenate it to the first one and skip it as attachment.
+        else {
+            # This concatenation only works if all parts have the utf-8 flag on (from Convert2CharsetInternal).
+            $Self->{$AttachmentKey}->{Content} .= $PartData{Content};
+            $Self->{$AttachmentKey}->{Filesize} += $PartData{Filesize};
+            return 1;    # Don't create an attachment for this part.
+        }
+    }
+
     push @{ $Self->{Attachments} }, \%PartData;
     return 1;
 }

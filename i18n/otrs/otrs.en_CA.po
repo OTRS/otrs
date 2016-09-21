@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:17+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: English (Canada) (http://www.transifex.com/otrs/OTRS/language/en_CA/)\n"
 "MIME-Version: 1.0\n"
@@ -3099,7 +3099,7 @@ msgid "To get the first 5 lines of the email."
 msgstr ""
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
+msgid "To get the realname of the ticket's customer user (if given)."
 msgstr ""
 
 #. Template: AdminAutoResponse
@@ -4234,6 +4234,30 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Example note"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -5571,10 +5595,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr ""
 
@@ -5598,10 +5618,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
@@ -5615,14 +5631,6 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -6801,6 +6809,10 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
@@ -9282,7 +9294,19 @@ msgid ""
 msgstr ""
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
 msgstr ""
 
 #. Template: AgentTicketSearch
@@ -12660,7 +12684,11 @@ msgid "Created State"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
@@ -15444,6 +15472,12 @@ msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 
 #. SysConfig
@@ -19833,9 +19867,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -21960,13 +21992,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
 msgstr ""
 

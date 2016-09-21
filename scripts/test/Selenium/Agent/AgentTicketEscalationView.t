@@ -174,6 +174,11 @@ $Selenium->RunTest(
 
         }
 
+        #  Discard TicketObject to let event handlers run also for transaction mode 1.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Ticket']
+        );
+
         # go to AgentTicketEscalationView
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet(
@@ -278,6 +283,8 @@ $Selenium->RunTest(
                 "Delete queue - $QueueID",
             );
         }
+
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # delete created test customer user
         $TestCustomer = $DBObject->Quote($TestCustomer);

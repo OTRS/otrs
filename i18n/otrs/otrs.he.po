@@ -1,10 +1,11 @@
 # 
 # Translators:
+# Idan Cohen <idan2cohen@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:17+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/otrs/OTRS/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -83,11 +84,11 @@ msgstr "ב ... הבאים"
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr ""
+msgstr "נוצר לפני"
 
 #. Template: AAABase
 msgid "Created more than ... ago"
-msgstr ""
+msgstr "התבצע לפני יותר מ... "
 
 #. Template: AAABase
 msgid "Today"
@@ -187,11 +188,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "half-year"
-msgstr ""
+msgstr "חצי שנה"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "חצי שנה"
 
 #. Template: AAABase
 msgid "year"
@@ -1023,7 +1024,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Go to dashboard!"
-msgstr ""
+msgstr "מעבר לדאשבורד"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1504,7 +1505,7 @@ msgstr "התהליך שנבחר אינו תקין!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "שדרג ל- s% עכשיו!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
@@ -3099,8 +3100,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "לקבל את 5 השורות הראשונות של הדוא\"ל"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "לקבל את השם האמיתי של השולח (אם נמסר)"
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4237,6 +4238,30 @@ msgid "Save Changes"
 msgstr "שמור שינויים"
 
 #. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr "סמן הפנייה"
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Results"
 msgstr "תוצאות"
 
@@ -5241,7 +5266,7 @@ msgstr ""
 
 #. Template: AdminGroup
 msgid "total"
-msgstr ""
+msgstr "סה\"כ"
 
 #. Template: AdminGroup
 msgid "Add Group"
@@ -5253,7 +5278,7 @@ msgstr "ערוך קבוצה"
 
 #. Template: AdminLog
 msgid "System Log"
-msgstr ""
+msgstr "לוג מערכת"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -5306,7 +5331,7 @@ msgstr "למשל: mail.example.com"
 
 #. Template: AdminMailAccount
 msgid "IMAP Folder"
-msgstr ""
+msgstr "תיקיית IMAP"
 
 #. Template: AdminMailAccount
 msgid ""
@@ -5467,7 +5492,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "נשלח אל"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
@@ -5491,7 +5516,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "פעם אחת ביום"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5538,7 +5563,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "לא נמצאו נתונים."
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
@@ -5546,7 +5571,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "התראה"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5568,10 +5593,6 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Tag Reference"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5598,10 +5619,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
@@ -5615,14 +5632,6 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5651,7 +5660,7 @@ msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "תבנית דואר"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -5660,7 +5669,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
-msgstr ""
+msgstr "נהל s%"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
@@ -6801,6 +6810,10 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
@@ -9282,8 +9295,20 @@ msgid ""
 msgstr "חיפושים במאפיינים של שדות מאת, אל, העתק, ובגוף המאמר, הגוברים על מאפיינים אחרים באותו שם."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "התחברות משתמש לקוח"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -10948,7 +10973,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "נדרש פרופיל!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -11070,7 +11095,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need Name!"
-msgstr ""
+msgstr "נדרש שם!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
@@ -11078,7 +11103,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
-msgstr ""
+msgstr "לא ניתן לקרוא את s%!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
@@ -12660,8 +12685,12 @@ msgid "Created State"
 msgstr "מצב נוכחי"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "התחברות משתמש לקוח"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -15444,6 +15473,12 @@ msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 
 #. SysConfig
@@ -19833,9 +19868,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -21960,19 +21993,19 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
 msgstr ""
 
 #. SysConfig
 msgid "attachment"
-msgstr ""
+msgstr "קובץ מצורף"
 
 #. SysConfig
 msgid "debug"
@@ -21980,16 +22013,16 @@ msgstr ""
 
 #. SysConfig
 msgid "error"
-msgstr ""
+msgstr "שגיאה"
 
 #. SysConfig
 msgid "info"
-msgstr ""
+msgstr "מידע"
 
 #. SysConfig
 msgid "inline"
-msgstr ""
+msgstr "בין השורות"
 
 #. SysConfig
 msgid "notice"
-msgstr ""
+msgstr "הודעה"

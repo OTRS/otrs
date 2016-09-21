@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.66624947851481;
+    $Self->{Completeness}        = 0.668887963348605;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -860,7 +860,8 @@ sub Data {
         'You can use the following tags' => 'Puede usar las siguientes etiquetas',
         'To get the first 20 character of the subject.' => 'Para obtener los primeros 20 caracteres del asunto.',
         'To get the first 5 lines of the email.' => 'Para obtener las primeras 5 líneas del correo.',
-        'To get the realname of the sender (if given).' => 'Para obtener el nombre real del remitente (si existe)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Para obtener el atributo del artículo',
         ' e. g.' => 'v. g.',
         'Options of the current customer user data' => 'Opciones de los datos del ciente usuario actual',
@@ -909,8 +910,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Se permiten caracteres comodín como \'*\'.',
         'Add customer' => 'Añadir un cliente',
         'Select' => 'Seleccionar',
-        'List (only %s shown - more available)' => '',
-        'List (%s total)' => '',
+        'List (only %s shown - more available)' => 'Listar (solo %s se muestra - más disponibles)',
+        'List (%s total)' => 'Listar (%s total)',
         'Please enter a search term to look for customers.' => 'Introduzca un término de búsqueda para buscar clientes.',
         'Add Customer' => 'Añadir un cliente',
 
@@ -1196,6 +1197,12 @@ sub Data {
         'Param %s key' => 'Clave del parámetro %s',
         'Param %s value' => 'Valor del parámetro %s',
         'Save Changes' => 'Guardar los cambios',
+        'Tag Reference' => 'Etiqueta de Referencia',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => 'Atributos de los datos actuales del usuario cliente',
+        'Attributes of the ticket data' => 'Atributos de los datos del ticket',
+        'Ticket dynamic fields internal key values' => 'Valores de las claves internas de los campos dinámicos de los tickets',
+        'Example note' => '',
         'Results' => 'Resultados',
         '%s Tickets affected! What do you want to do?' => '¡%s tickets afectados! ¿Qué desea hacer?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1593,7 +1600,6 @@ sub Data {
         'Message body' => 'Cuerpo del Mensaje',
         'Add new notification language' => 'Agregar un nuevo idioma de notificación',
         'Do you really want to delete this notification language?' => '¿Realmente desear eliminar este idioma de notificación?',
-        'Tag Reference' => 'Etiqueta de Referencia',
         'Notifications are sent to an agent or a customer.' => 'Las notificaciones se envían a un agente o cliente',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Para obtener los primeros 20 caracters del Sujeto (del último artículo del agente).',
@@ -1603,14 +1609,11 @@ sub Data {
             'Para obtener los primeros 20 caracters del Sujeto (del último artículo del cliente).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obtener las primeras 5 líneas del cuerpo (del último artículo del cliente).',
-        'Attributes of the current customer user data' => 'Atributos de los datos actuales del usuario cliente',
         'Attributes of the current ticket owner user data' => 'Atributos de los datos del propietario actual del ticket',
         'Attributes of the current ticket responsible user data' => 'Atributos de los datos actuales del responsable del ticket',
         'Attributes of the current agent user who requested this action' =>
             'Atributos del actual usuario agente que solicitó esta acción.',
         'Attributes of the recipient user for the notification' => 'Atributos del usuario destinatario para la notificación.',
-        'Attributes of the ticket data' => 'Atributos de los datos del ticket',
-        'Ticket dynamic fields internal key values' => 'Valores de las claves internas de los campos dinámicos de los tickets',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'Valores mostrados de los campos  dinámicos de los tickets, útil para los campos desplegables y de selección múltiple',
         'Example notification' => 'Notificación de ejemplo',
@@ -1976,6 +1979,7 @@ sub Data {
             'Tenga en cuenta que el cambio de esta transición afectará a los siguientes procesos',
         'Transition' => 'Transición',
         'Transition Name' => 'Nombre de la Transición',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Tipo de Vinculación entre Condiciones',
         'Remove this Condition' => 'Eliminar esta Condición',
         'Type of Linking' => 'Tipo de Vinculación',
@@ -2212,7 +2216,7 @@ sub Data {
         'Relate this certificate' => 'Relacionar este certificado',
 
         # Template: AdminSMIMECertRead
-        'Close dialog' => '',
+        'Close dialog' => 'Cerrar dialogo',
         'Certificate details' => 'Detalles del Certificado',
 
         # Template: AdminSalutation
@@ -2636,13 +2640,13 @@ sub Data {
             'Esta estadísticas contiene errores de configuracion y no puede ser utilizada actualmente.',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of %s%s%s' => '',
-        'Change Owner of %s%s%s' => '',
-        'Close %s%s%s' => '',
-        'Add Note to %s%s%s' => '',
-        'Set Pending Time for %s%s%s' => '',
-        'Change Priority of %s%s%s' => '',
-        'Change Responsible of %s%s%s' => '',
+        'Change Free Text of %s%s%s' => 'Cambiar Texto Libre de %s%s',
+        'Change Owner of %s%s%s' => 'Cambiar Propietario de %s%s',
+        'Close %s%s%s' => 'Cerrar %s%s%s',
+        'Add Note to %s%s%s' => 'Añadir una nota a %s%s%s',
+        'Set Pending Time for %s%s%s' => 'Establecer Tiempo en Espera para %s%s',
+        'Change Priority of %s%s%s' => 'Cambiar Prioridad de %s%s',
+        'Change Responsible of %s%s%s' => 'Cambiar Responsable de %s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Todos los campos marcados con un asterisco (*) son obligatorios.',
         'Service invalid.' => 'Servicio no válido',
         'New Owner' => 'Nuevo propietario',
@@ -2656,14 +2660,14 @@ sub Data {
         'Inform involved agents' => 'Informar agentes involucrados',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Aquí puede seleccionar agentes adicionales que deben recibir una notificación sobre el nuevo artículo.',
-        'Text will also be received by' => '',
+        'Text will also be received by' => 'El texto también será recibido también por',
         'Spell check' => 'Verificar la ortografía',
         'Text Template' => 'Plantilla de texto',
         'Setting a template will overwrite any text or attachment.' => 'Establecer una plantilla sobreescribirá cualquier texto o adjunto.',
         'Note type' => 'Tipo de nota',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s%s' => '',
+        'Bounce %s%s%s' => 'Rebotar %s%s',
         'Bounce to' => 'Rebotar a',
         'You need a email address.' => 'Necesita una dirección de correo electrónico.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2684,7 +2688,7 @@ sub Data {
         'Execute Bulk Action' => 'Ejecutar Acción en Bloque',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s%s' => '',
+        'Compose Answer for %s%s%s' => 'Redactar una Respuesta para %s%s%s',
         'This address is registered as system address and cannot be used: %s' =>
             'Esta dirección está registrada como una dirección de sistema y no se puede utilizar: %s',
         'Please include at least one recipient' => 'Incluya al menos un destinatario',
@@ -2697,7 +2701,7 @@ sub Data {
         'Date Invalid!' => '¡Fecha no válida!',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s%s' => '',
+        'Change Customer of %s%s%s' => 'Cambiar Cliente de %s%s',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Crear un nuevo ticket por correo electrónico',
@@ -2710,7 +2714,7 @@ sub Data {
         'Get all' => 'Obtener todo',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s%s' => '',
+        'Outbound Email for %s%s%s' => 'Email de Salida para %s%s',
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Ticket %s: tiempo de primera respuesta ha sido excedido (%s%s)!',
@@ -2721,22 +2725,22 @@ sub Data {
         'Ticket %s: solution time will be over in %s/%s!' => 'Ticket %s: tiempo de resolución será excedido en %s%s!',
 
         # Template: AgentTicketForward
-        'Forward %s%s%s' => '',
+        'Forward %s%s%s' => 'Reenviar %s%s%s',
 
         # Template: AgentTicketHistory
-        'History of %s%s%s' => '',
+        'History of %s%s%s' => 'Histórico de %s%s%s',
         'History Content' => 'Contenido del historial',
         'Zoom view' => 'Vista ampliada',
 
         # Template: AgentTicketMerge
-        'Merge %s%s%s' => '',
+        'Merge %s%s%s' => 'Unir %s%s%s',
         'Merge Settings' => 'Ajustes Unir',
         'You need to use a ticket number!' => '¡Es necesario usar un número de ticket!',
         'A valid ticket number is required.' => 'Se requiere un número de ticket válido.',
         'Need a valid email address.' => 'Se requiere una dirección de correo electrónico válida.',
 
         # Template: AgentTicketMove
-        'Move %s%s%s' => '',
+        'Move %s%s%s' => 'Mover %s%s%s',
         'New Queue' => 'Nueva cola',
 
         # Template: AgentTicketOverviewMedium
@@ -2769,10 +2773,10 @@ sub Data {
         'The chat will be appended as a separate article.' => 'El chat se agregará como un artículo separado.',
 
         # Template: AgentTicketPhoneCommon
-        'Phone Call for %s%s%s' => '',
+        'Phone Call for %s%s%s' => 'Llamada Telefónica para %s%s%s',
 
         # Template: AgentTicketPlain
-        'View Email Plain Text for %s%s%s' => '',
+        'View Email Plain Text for %s%s%s' => 'Ver Email en Texto Plano para %s%s%s',
         'Plain' => 'Texto plano',
         'Download this email' => 'Descargar este correo',
 
@@ -2797,7 +2801,10 @@ sub Data {
         'Remove' => 'Eliminar',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Busca en los atributos De, Para, Cc, Asunto y el cuerpo del artículo, ignorando otros atributos con el mismo nombre.',
-        'Customer User Login' => 'Nombre de usuario del cliente',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Nombre Adjunto',
         '(e. g. m*file or myfi*)' => '(ej. m*archivo or miar*)',
         'Created in Queue' => 'Creado en la cola',
@@ -2865,8 +2872,8 @@ sub Data {
         'Close this message' => 'Cerrar este mensaje',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'El artículo no se pudo abrir! Tal vez sea en otro artículo de la página?',
-        'Scale preview content' => '',
-        'Open URL in new tab' => '',
+        'Scale preview content' => 'Escalar contenido en vista preliminar',
+        'Open URL in new tab' => 'Abrir URL en una nueva pestaña',
         'Close preview' => 'Cerrar vista previa',
         'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
@@ -3990,7 +3997,8 @@ sub Data {
         'State Type' => 'Tipo de Estado',
         'Created Priority' => 'Prioridad de creación',
         'Created State' => 'Estado de creación',
-        'CustomerUserLogin' => 'Nombre de usuario del cliente',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Fecha de creación',
         'Close Time' => 'Fecha de cierre',
         'Escalation - First Response Time' => 'Escalada - Tiempo de la Primera Respuesta',
@@ -4888,6 +4896,8 @@ Tu Equipo de Soporte
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6215,8 +6225,7 @@ Tu Equipo de Soporte
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6863,10 +6872,10 @@ Tu Equipo de Soporte
         'Yes, but hide archived tickets' => 'Sí, pero ocultar tickets archivados',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Cola de selección de colas favoritas. Ud. también puede ser notificado de estas colas vía correo si está habilitado',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            'Su selección de servicios favoritos. Será notificado también sobre estos servicios vía correo electrónico si están activados.',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            '',
         'attachment' => '',
         'debug' => '',
         'error' => '',

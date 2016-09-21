@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.521276595744681;
+    $Self->{Completeness}        = 0.522282382340691;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -857,7 +857,8 @@ sub Data {
         'You can use the following tags' => 'Du kan använda följande taggar',
         'To get the first 20 character of the subject.' => 'För att få dom första 20 tecknen i ärenderaden',
         'To get the first 5 lines of the email.' => 'För att få dom första fem raderna i mejlet',
-        'To get the realname of the sender (if given).' => 'För att få avsändarens riktiga namn (om angivet).',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'För att hämta artikelattribut',
         ' e. g.' => ' t.ex.',
         'Options of the current customer user data' => 'Inställningar för kundens användardata',
@@ -906,8 +907,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Jokertecken som \'*\' är tillåtna.',
         'Add customer' => 'Lägg till kund',
         'Select' => 'Välj',
-        'List (only %s shown - more available)' => '',
-        'List (%s total)' => '',
+        'List (only %s shown - more available)' => 'Lista (bara %s visas - fler tillgängliga)',
+        'List (%s total)' => 'Lista (%s totalt)',
         'Please enter a search term to look for customers.' => 'Skriv in sökord för att hitta kunder.',
         'Add Customer' => 'Lägg till kund',
 
@@ -1193,6 +1194,12 @@ sub Data {
         'Param %s key' => 'Parameter %s nyckel',
         'Param %s value' => 'Parameter %s värde',
         'Save Changes' => 'Spara ändringar',
+        'Tag Reference' => '',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => 'Egenskaper för kundens användardata',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => 'Exempelnotis',
         'Results' => 'Resultat',
         '%s Tickets affected! What do you want to do?' => '%s Påverkade ärenden! Vad vill du göra?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1275,8 +1282,8 @@ sub Data {
         'matching the' => '',
         'to new key' => '',
         'Value mapping' => '',
-        'Map value' => '',
-        'to new value' => '',
+        'Map value' => 'Mappa värde',
+        'to new value' => 'till nytt värde',
         'Remove value mapping' => '',
         'New value map' => '',
         'Add value mapping' => '',
@@ -1590,7 +1597,6 @@ sub Data {
         'Message body' => 'Meddelandekropp',
         'Add new notification language' => 'Lägg till nytt notifieringsspråk',
         'Do you really want to delete this notification language?' => 'Vill du verkligen radera detta notifieringsspråk?',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Notifieringar skickas till handläggare eller kunder.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'För att få de första 20 tecknen i ärenderaden (på senaste handläggarartikeln).',
@@ -1600,14 +1606,11 @@ sub Data {
             'För att då de första 20 tecknen i ärenderaden (på senaste kundartikeln).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'För att få de fem första raderna i kroppen (på senaste kundartikeln).',
-        'Attributes of the current customer user data' => 'Egenskaper för kundens användardata',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => 'Exempelnotifiering',
@@ -1973,6 +1976,7 @@ sub Data {
             '',
         'Transition' => 'Övergång',
         'Transition Name' => 'Namnet på övergången',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
@@ -2794,7 +2798,10 @@ sub Data {
         'Remove' => 'Ta bort',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Söker efter attribut Från, Till, CC, Ämne och brödtext i artiklar, överskrider andra attribut med samma namn.',
-        'Customer User Login' => 'kundanvändare loginnamn',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => '',
         '(e. g. m*file or myfi*)' => '',
         'Created in Queue' => 'Skapad i Kö',
@@ -3987,7 +3994,8 @@ sub Data {
         'State Type' => '',
         'Created Priority' => 'Skapad Prioritet',
         'Created State' => 'Skapad Status',
-        'CustomerUserLogin' => 'KundAnvändarLogin',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Skapad Tid',
         'Close Time' => 'StängTid',
         'Escalation - First Response Time' => '',
@@ -4874,6 +4882,8 @@ Thanks for your help!
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6022,12 +6032,12 @@ Thanks for your help!
         'Out Of Office' => 'Frånvarande',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets.' => '',
+        'Overview Escalated Tickets.' => 'Översikt av eskalerade ärenden',
         'Overview Refresh Time' => 'Automatisk uppdateringsintervall',
-        'Overview of all escalated tickets.' => '',
+        'Overview of all escalated tickets.' => 'Översikt över alla eskalerade ärenden.',
         'Overview of all open Tickets.' => 'Översikt över alla öppna ärenden',
-        'Overview of all open tickets.' => '',
-        'Overview of customer tickets.' => '',
+        'Overview of all open tickets.' => 'Översikt över alla öppna ärenden.',
+        'Overview of customer tickets.' => 'Översikt över kundärenden.',
         'PGP Key Management' => 'PGP-nyckelhantering',
         'PGP Key Upload' => 'PGP-nyckelimport',
         'Package event module file a scheduler task for update registration.' =>
@@ -6086,13 +6096,13 @@ Thanks for your help!
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
         'Persian' => 'Persiska',
-        'Phone Call.' => '',
+        'Phone Call.' => 'Telefonsamtal',
         'Picture Upload' => '',
         'Picture upload module.' => '',
         'Picture-Upload' => '',
         'Polish' => 'Polska',
         'Portuguese' => 'Portugisiska',
-        'Portuguese (Brasil)' => '',
+        'Portuguese (Brasil)' => 'Portugisiska (Brasilien)',
         'PostMaster Filters' => 'PostMaster Filter',
         'PostMaster Mail Accounts' => 'PostMaster E-postkonton',
         'Process Management Activity Dialog GUI' => '',
@@ -6100,9 +6110,9 @@ Thanks for your help!
         'Process Management Path GUI' => '',
         'Process Management Transition Action GUI' => '',
         'Process Management Transition GUI' => '',
-        'Process Ticket.' => '',
-        'Process pending tickets.' => '',
-        'Process ticket' => '',
+        'Process Ticket.' => 'Behandla ärende.',
+        'Process pending tickets.' => 'Behandla pågående ärende.',
+        'Process ticket' => 'Behandla ärende.',
         'ProcessID' => 'Process-ID',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
@@ -6201,8 +6211,7 @@ Thanks for your help!
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Skickar alla utgående e-brev med blind-kopia till följande adress. Använd endast av backup-orsak.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6849,10 +6858,10 @@ Thanks for your help!
         'Yes, but hide archived tickets' => 'Ja, men dölj arkiverade ärenden',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Ditt e-brev med ärendenummer "<OTRS_TICKET>" studsades till "<OTRS_BOUNCE_TO>". För mer information kontakta dem.',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Ditt urval av favoritköer. Du blir också meddelad om dessa köer via e-post om det aktiverats.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            'Ditt urval av dina tjänster. Du blir också meddelad om dessa köer via e-post om det aktiverats.',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            '',
         'attachment' => '',
         'debug' => '',
         'error' => '',

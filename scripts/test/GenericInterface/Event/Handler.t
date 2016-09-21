@@ -341,6 +341,8 @@ for my $Test (@Tests) {
     # If this is asynchronous, wait for the daemon to handle the task
     if ( $Test->{Asynchronous} ) {
 
+        local $SIG{CHLD} = "IGNORE";
+
         # Wait for slow systems
         my $SleepTime = 5;
         print "Waiting at most $SleepTime s until tasks are registered\n";
@@ -354,20 +356,19 @@ for my $Test (@Tests) {
             sleep 1;
         }
 
-        # run worker tasks
-        my $Success = $TaskWorkerObject->Run();
-        $Self->True(
-            $Success,
-            'TaskWorker Run() - To execute current tasks, with true',
-        );
-
         my $TotalWaitToExecute = 120;
 
         # wait for daemon children to actually execute tasks
         WAITEXECUTE:
         for my $Wait ( 1 .. $TotalWaitToExecute ) {
             print "Waiting for Daemon to execute tasks, $Wait seconds\n";
-            sleep 1;
+
+            my $Success = $TaskWorkerObject->Run();
+            $TaskWorkerObject->_WorkerPIDsCheck();
+            $Self->True(
+                $Success,
+                'TaskWorker Run() - To execute current tasks, with true',
+            );
 
             my @List = $SchedulerDBObject->TaskList(
                 Type => 'GenericInterface',
@@ -380,6 +381,8 @@ for my $Test (@Tests) {
                 );
                 last WAITEXECUTE;
             }
+
+            sleep 1;
 
             next WAITEXECUTE if $Wait < $TotalWaitToExecute;
 

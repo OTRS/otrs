@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.36462244472257;
+    $Self->{Completeness}        = 0.368388171595169;
 
     # csv separator
     $Self->{Separator} = '';
@@ -54,8 +54,8 @@ sub Data {
         'in more than ...' => 'בעוד יותר מ ... ',
         'within the last ...' => 'ב ... האחרונים',
         'within the next ...' => 'ב ... הבאים',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'Created within the last' => 'נוצר לפני',
+        'Created more than ... ago' => 'התבצע לפני יותר מ... ',
         'Today' => 'היום',
         'Tomorrow' => 'מחר',
         'Next week' => 'בשבוע הבא',
@@ -80,8 +80,8 @@ sub Data {
         'week(s)' => 'שבוע(ות)',
         'quarter' => '',
         'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'half-year' => 'חצי שנה',
+        'half-year(s)' => 'חצי שנה',
         'year' => 'שנה',
         'years' => 'שנים',
         'year(s)' => 'שנה/שנים',
@@ -296,7 +296,7 @@ sub Data {
         'You have Out of Office enabled, would you like to disable it?' =>
             'הגדרה של היעדרות מהמשרד מופעלת, האם תרצו לכבותה?',
         'News about OTRS releases!' => '',
-        'Go to dashboard!' => '',
+        'Go to dashboard!' => 'מעבר לדאשבורד',
         'Customer %s added' => 'הלקוח %s נוסף',
         'Role added!' => 'התפקיד נוסף!',
         'Role updated!' => 'התפקיד עודכן!',
@@ -422,7 +422,7 @@ sub Data {
         'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => 'שם משתמש וסיסמא אינם תואמים. אנא נסו שנית.',
         'The selected process is invalid!' => 'התהליך שנבחר אינו תקין!',
-        'Upgrade to %s now!' => '',
+        'Upgrade to %s now!' => 'שדרג ל- s% עכשיו!',
         '%s Go to the upgrade center %s' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             '',
@@ -860,7 +860,8 @@ sub Data {
         'You can use the following tags' => 'אתם יכולים להשתמש בתגיות הבאות',
         'To get the first 20 character of the subject.' => 'לקבל את 20 התווים הראשונים של הנושא',
         'To get the first 5 lines of the email.' => 'לקבל את 5 השורות הראשונות של הדוא"ל',
-        'To get the realname of the sender (if given).' => 'לקבל את השם האמיתי של השולח (אם נמסר)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'לקבל את מאפייני המאמר',
         ' e. g.' => 'למשל',
         'Options of the current customer user data' => 'אפשרויות של נתוני משתמש לקוח נוכחי',
@@ -1196,6 +1197,12 @@ sub Data {
         'Param %s key' => 'מפתח פרמטר %s',
         'Param %s value' => 'ערך פרמטר %s',
         'Save Changes' => 'שמור שינויים',
+        'Tag Reference' => 'סמן הפנייה',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => 'תוצאות',
         '%s Tickets affected! What do you want to do?' => '%s פניות הושפעו! מה אתם רוצים לעשות?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1498,12 +1505,12 @@ sub Data {
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '',
         'It\'s useful for ASP solutions. ' => '',
-        'total' => '',
+        'total' => 'סה"כ',
         'Add Group' => 'הוסף קבוצה',
         'Edit Group' => 'ערוך קבוצה',
 
         # Template: AdminLog
-        'System Log' => '',
+        'System Log' => 'לוג מערכת',
         'Here you will find log information about your system.' => '',
         'Hide this message' => 'הסתר הודעה זו',
         'Recent Log Entries' => '',
@@ -1519,7 +1526,7 @@ sub Data {
         'Fetch mail' => 'הבא דואר',
         'Add Mail Account' => 'הוסף חשבון דואר',
         'Example: mail.example.com' => 'למשל: mail.example.com',
-        'IMAP Folder' => '',
+        'IMAP Folder' => 'תיקיית IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
             '',
         'Trusted' => 'אמין',
@@ -1565,13 +1572,13 @@ sub Data {
         'Body match' => 'התאמה לגוף',
         'Include attachments to notification' => 'כלול קבצים מצורפים בהתראות',
         'Recipients' => '',
-        'Send to' => '',
+        'Send to' => 'נשלח אל',
         'Send to these agents' => '',
         'Send to all group members' => '',
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'פעם אחת ביום',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
         'Notification Methods' => '',
@@ -1584,16 +1591,15 @@ sub Data {
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
         'This feature is currently not available.' => '',
-        'No data found' => '',
+        'No data found' => 'לא נמצאו נתונים.',
         'No notification method found.' => '',
-        'Notification Text' => '',
+        'Notification Text' => 'התראה',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
-        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'התראות נשלחות לסוכן או לקוח.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '',
@@ -1603,14 +1609,11 @@ sub Data {
             '',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '',
-        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -1620,12 +1623,12 @@ sub Data {
         'Notification article type' => 'סוג התראת מאמר',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
-        'Email template' => '',
+        'Email template' => 'תבנית דואר',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
 
         # Template: AdminOTRSBusinessInstalled
-        'Manage %s' => '',
+        'Manage %s' => 'נהל s%',
         'Downgrade to OTRS Free' => '',
         'Read documentation' => '',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1976,6 +1979,7 @@ sub Data {
             '',
         'Transition' => '',
         'Transition Name' => '',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => 'הסר תנאי זה',
         'Type of Linking' => 'סוג הקישור',
@@ -2797,7 +2801,10 @@ sub Data {
         'Remove' => 'הסר',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'חיפושים במאפיינים של שדות מאת, אל, העתק, ובגוף המאמר, הגוברים על מאפיינים אחרים באותו שם.',
-        'Customer User Login' => 'התחברות משתמש לקוח',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => '',
         '(e. g. m*file or myfi*)' => '',
         'Created in Queue' => 'נוצר בתור',
@@ -3364,7 +3371,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
         'archive tickets' => '',
         'restore tickets from archive' => '',
-        'Need Profile!' => '',
+        'Need Profile!' => 'נדרש פרופיל!',
         'Got no values to check.' => '',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
             '',
@@ -3409,9 +3416,9 @@ sub Data {
         'Web service "%s" updated!' => '',
         'There was an error creating the web service.' => '',
         'Web service "%s" created!' => '',
-        'Need Name!' => '',
+        'Need Name!' => 'נדרש שם!',
         'Need ExampleWebService!' => '',
-        'Could not read %s!' => '',
+        'Could not read %s!' => 'לא ניתן לקרוא את s%!',
         'Need a file to import!' => '',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             '',
@@ -3990,7 +3997,8 @@ sub Data {
         'State Type' => '',
         'Created Priority' => 'נוצר בעדיפות',
         'Created State' => 'מצב נוכחי',
-        'CustomerUserLogin' => 'התחברות משתמש לקוח',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'זמן היצירה',
         'Close Time' => 'זמן הסגירה',
         'Escalation - First Response Time' => '',
@@ -4877,6 +4885,8 @@ Thanks for your help!
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
@@ -6204,8 +6214,7 @@ Thanks for your help!
             '',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            '',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
@@ -6852,16 +6861,16 @@ Thanks for your help!
         'Yes, but hide archived tickets' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
-        'attachment' => '',
+        'attachment' => 'קובץ מצורף',
         'debug' => '',
-        'error' => '',
-        'info' => '',
-        'inline' => '',
-        'notice' => '',
+        'error' => 'שגיאה',
+        'info' => 'מידע',
+        'inline' => 'בין השורות',
+        'notice' => 'הודעה',
 
     };
     # $$STOP$$

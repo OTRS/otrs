@@ -134,7 +134,8 @@ $Selenium->RunTest(
 
             # wait for the floater to be fully visible
             $Selenium->WaitFor(
-                JavaScript => "return parseInt(\$('div.MetaFloater:visible').css('opacity'), 10) == 1" );
+                JavaScript => "return parseInt(\$('div.MetaFloater:visible').css('opacity'), 10) == 1"
+            );
 
             # see if we have a floater visible now
             $Self->Is(

@@ -6,15 +6,16 @@
 # andreasberger <andreas.berger@hagfors.se>, 2014-2015
 # Anthon Nilsson <superdos@gmail.com>, 2015-2016
 # Dan Ekström <daekstrom@gmail.com>, 2015
-# Hani Mayahi <enic23@gmail.com>, 2015
+# Hani Mayahi, 2015
+# Hani Mayahi, 2016
 # Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2016
 # Leif-Jöran Olsson <ljo@fripost.org>, 2016
 # Mikael Mattsson <sprouts@tnorala.net>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/otrs/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -3109,8 +3110,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "För att få dom första fem raderna i mejlet"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "För att få avsändarens riktiga namn (om angivet)."
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3267,11 +3268,11 @@ msgstr "Välj"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "Lista (bara %s visas - fler tillgängliga)"
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
-msgstr ""
+msgstr "Lista (%s totalt)"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -4247,6 +4248,30 @@ msgid "Save Changes"
 msgstr "Spara ändringar"
 
 #. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "Egenskaper för kundens användardata"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr "Exempelnotis"
+
+#. Template: AdminGenericAgent
 msgid "Results"
 msgstr "Resultat"
 
@@ -4529,11 +4554,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "Mappa värde"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
-msgstr ""
+msgstr "till nytt värde"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
@@ -5581,10 +5606,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "Vill du verkligen radera detta notifieringsspråk?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Notifieringar skickas till handläggare eller kunder."
 
@@ -5608,10 +5629,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "För att få de fem första raderna i kroppen (på senaste kundartikeln)."
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "Egenskaper för kundens användardata"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
@@ -5625,14 +5642,6 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -6812,6 +6821,10 @@ msgstr "Övergång"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "Namnet på övergången"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -9292,8 +9305,20 @@ msgid ""
 msgstr "Söker efter attribut Från, Till, CC, Ämne och brödtext i artiklar, överskrider andra attribut med samma namn."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "kundanvändare loginnamn"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -12670,8 +12695,12 @@ msgid "Created State"
 msgstr "Skapad Status"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "KundAnvändarLogin"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -15454,6 +15483,12 @@ msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 
 #. SysConfig
@@ -19181,7 +19216,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview Escalated Tickets."
-msgstr ""
+msgstr "Översikt av eskalerade ärenden"
 
 #. SysConfig
 msgid "Overview Refresh Time"
@@ -19189,7 +19224,7 @@ msgstr "Automatisk uppdateringsintervall"
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
-msgstr ""
+msgstr "Översikt över alla eskalerade ärenden."
 
 #. SysConfig
 msgid "Overview of all open Tickets."
@@ -19197,11 +19232,11 @@ msgstr "Översikt över alla öppna ärenden"
 
 #. SysConfig
 msgid "Overview of all open tickets."
-msgstr ""
+msgstr "Översikt över alla öppna ärenden."
 
 #. SysConfig
 msgid "Overview of customer tickets."
-msgstr ""
+msgstr "Översikt över kundärenden."
 
 #. SysConfig
 msgid "PGP Key Management"
@@ -19442,7 +19477,7 @@ msgstr "Persiska"
 
 #. SysConfig
 msgid "Phone Call."
-msgstr ""
+msgstr "Telefonsamtal"
 
 #. SysConfig
 msgid "Picture Upload"
@@ -19466,7 +19501,7 @@ msgstr "Portugisiska"
 
 #. SysConfig
 msgid "Portuguese (Brasil)"
-msgstr ""
+msgstr "Portugisiska (Brasilien)"
 
 #. SysConfig
 msgid "PostMaster Filters"
@@ -19498,15 +19533,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Process Ticket."
-msgstr ""
+msgstr "Behandla ärende."
 
 #. SysConfig
 msgid "Process pending tickets."
-msgstr ""
+msgstr "Behandla pågående ärende."
 
 #. SysConfig
 msgid "Process ticket"
-msgstr ""
+msgstr "Behandla ärende."
 
 #. SysConfig
 msgid "ProcessID"
@@ -19843,9 +19878,7 @@ msgid ""
 msgstr "Skickar alla utgående e-brev med blind-kopia till följande adress. Använd endast av backup-orsak."
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -21970,15 +22003,15 @@ msgstr "Ditt e-brev med ärendenummer \"<OTRS_TICKET>\" studsades till \"<OTRS_B
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "Ditt urval av favoritköer. Du blir också meddelad om dessa köer via e-post om det aktiverats."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr "Ditt urval av dina tjänster. Du blir också meddelad om dessa köer via e-post om det aktiverats."
+msgstr ""
 
 #. SysConfig
 msgid "attachment"

@@ -29,7 +29,7 @@ my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
 
 # make use to disable EstalationStopEvents modules
 $ConfigObject->Set(
-    Key   => 'Ticket::EventModulePost###900-EscalationStopEvents',
+    Key   => 'Ticket::EventModulePost###920-EscalationStopEvents',
     Value => undef,
 );
 
@@ -181,6 +181,10 @@ for my $Hours ( sort keys %WorkingHours ) {
 
         # wait 1 second to have escalations
         $HelperObject->FixedTimeAddSeconds(1);
+
+        # renew object because of transaction
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 
@@ -336,7 +340,6 @@ for my $Hours ( sort keys %WorkingHours ) {
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationResponseTimeStart}++;
         }
-
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
@@ -379,6 +382,11 @@ for my $Hours ( sort keys %WorkingHours ) {
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationUpdateTimeStart}++;
         }
+
+        # renew object because of transaction
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
@@ -433,6 +441,10 @@ for my $Hours ( sort keys %WorkingHours ) {
             UserID         => 1,
             NoAgentNotify => 1,    # if you don't want to send agent notifications
         );
+
+        # renew object because of transaction
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.779516061743846;
+    $Self->{Completeness}        = 0.776967930029155;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -855,7 +855,8 @@ sub Data {
         'You can use the following tags' => 'Pode empregar os tags seguintes',
         'To get the first 20 character of the subject.' => 'Para obter os primeiros 20 carácteres do tema',
         'To get the first 5 lines of the email.' => 'Para obter as primeiras 5 liñas do email.',
-        'To get the realname of the sender (if given).' => 'Para obter o nome real do emisor (se foi dado).',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Para obter os atributos do artigo',
         ' e. g.' => 'por exemplo',
         'Options of the current customer user data' => 'Opcións dos datos do usuario cliente actual',
@@ -1191,6 +1192,12 @@ sub Data {
         'Param %s key' => 'Chave Param %s',
         'Param %s value' => 'Valor Param %s',
         'Save Changes' => 'Gardar os cambios',
+        'Tag Reference' => 'Referencia de Etiqueta',
+        'In the note section, you can use the following tags' => '',
+        'Attributes of the current customer user data' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
+        'Example note' => '',
         'Results' => 'Resultados',
         '%s Tickets affected! What do you want to do?' => '%s Tickets afectados! Que quere facer?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1588,7 +1595,6 @@ sub Data {
         'Message body' => 'Corpo da mensaxe',
         'Add new notification language' => 'Engadir un idioma de notificación novo',
         'Do you really want to delete this notification language?' => 'Confirma que desexa eliminar este idioma de notificación?',
-        'Tag Reference' => 'Referencia de Etiqueta',
         'Notifications are sent to an agent or a customer.' => 'As notificacións envíanselle a un axente ou a un cliente.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Conseguir os primeiros 20 carácteres do tema (do último artigo de axente).',
@@ -1598,14 +1604,11 @@ sub Data {
             'Para obter os primeiros vinte caracteres do asunto (do último artigo de cliente).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obter as cinco primeiras liñas do corpo (do último artigo de cliente).',
-        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -1971,6 +1974,7 @@ sub Data {
             'Por favor fíxese en que cambiar esta transición afectará os procesos seguintes',
         'Transition' => 'Transición',
         'Transition Name' => 'Nome da Transición',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Tipo de ligazón entre condicións',
         'Remove this Condition' => 'Elimine esta Condición',
         'Type of Linking' => 'Tipo de ligazón',
@@ -2792,7 +2796,10 @@ sub Data {
         'Remove' => 'Retirar',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Buscas nos atributos De, A, Cc, Tema e o corpo do artigo,  outros atributos primordiais co mesmo nome.',
-        'Customer User Login' => 'Acceso de usuario cliente',
+        'CustomerID (complex search)' => '',
+        'CustomerID (exact match)' => '',
+        'Customer User Login (complex search)' => '',
+        'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Nome do anexo',
         '(e. g. m*file or myfi*)' => '(p.ex. ome*fichiero ou omeufich*)',
         'Created in Queue' => 'Creado na Cola',
@@ -3985,7 +3992,8 @@ sub Data {
         'State Type' => '',
         'Created Priority' => 'Prioridade Creada',
         'Created State' => 'Estado Creado',
-        'CustomerUserLogin' => 'AccesoClienteUsuario',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Tempo de Creación',
         'Close Time' => 'Hora de peche',
         'Escalation - First Response Time' => '',
@@ -4872,6 +4880,8 @@ Thanks for your help!
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Define se mensaxes compostos deben ser comprobados ortograficamente na interface de axente.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             'Define se o modo realzado debería ser utilizado (permite uso de mesa, substituír, subscript, superscript, pegar dende palabra, etc).',
@@ -6199,8 +6209,7 @@ Thanks for your help!
             'Envía notificación de seguemento ao axente  só se é propietario, se un ticket non está bloqueado (por defecto envíanse notificacións a tódolos axentes).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Envía tódolos correos electrónicos de ida mediante bcc ao enderezo especificado. Por favor use esto soamente por razóns de backup.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'Envía notificacións de cliente só ao cliente mapeado. Normalmente, se ningún cliente é mapeado, o último remitente cliente obtén a notificación.',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Envía notificacións de recordatorio de tickets non bloqueados despois de alcanzar a data de recordatorio (só enviado ao propietario do ticket).',
@@ -6847,10 +6856,10 @@ Thanks for your help!
         'Yes, but hide archived tickets' => 'Si, mais agochar os tíckets arquivados',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '',
-        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'A súa selección de filas das súas filas favoritas. Tamén pode recibir notificacións sobre esas filas mediante correo electrónico se está activado.',
-        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            'A súa selección de servizo dos teus servizos favoritos. Tamén será notificado sobre aqueles servizos vía correo electrónico se está habilitado.',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            '',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            '',
         'attachment' => '',
         'debug' => '',
         'error' => '',

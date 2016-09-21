@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-08-03 10:16+0000\n"
-"PO-Revision-Date: 2016-08-03 15:18+0000\n"
+"POT-Creation-Date: 2016-09-14 10:25+0000\n"
+"PO-Revision-Date: 2016-09-14 15:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
@@ -3100,8 +3100,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Yang pertama lima baris mesej"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
-msgstr "Nama pengguna (jika dinyatakan)"
+msgid "To get the realname of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4236,6 +4236,30 @@ msgstr "Nilai Parameter %s"
 #. Template: AdminGenericAgent
 msgid "Save Changes"
 msgstr "Simpan Perubahan"
+
+#. Template: AdminGenericAgent
+msgid "Tag Reference"
+msgstr "Label Rujukan"
+
+#. Template: AdminGenericAgent
+msgid "In the note section, you can use the following tags"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the current customer user data"
+msgstr "Sifat-sifat data pengguna semasa pelanggan"
+
+#. Template: AdminGenericAgent
+msgid "Attributes of the ticket data"
+msgstr "Sifat-sifat data tiket"
+
+#. Template: AdminGenericAgent
+msgid "Ticket dynamic fields internal key values"
+msgstr "Tiket medan dinamik nilai utama dalaman"
+
+#. Template: AdminGenericAgent
+msgid "Example note"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5572,10 +5596,6 @@ msgid "Do you really want to delete this notification language?"
 msgstr "Adakah anda pasti ingin menghapuskan bahasa pemberitahuan ini?"
 
 #. Template: AdminNotificationEvent
-msgid "Tag Reference"
-msgstr "Label Rujukan"
-
-#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Pemberitahuan dihantar kepada ejen atau pelanggan."
 
@@ -5599,10 +5619,6 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Untuk mendapatkan 5 baris pertama badan (pelanggan artikel yang terbaru)."
 
 #. Template: AdminNotificationEvent
-msgid "Attributes of the current customer user data"
-msgstr "Sifat-sifat data pengguna semasa pelanggan"
-
-#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "Sifat-sifat data pengguna pemilik tiket semasa"
 
@@ -5617,14 +5633,6 @@ msgstr "Sifat-sifat pengguna ejen semasa yang memohon tindakan ini"
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "Sifat-sifat pengguna penerima bagi pemberitahuan"
-
-#. Template: AdminNotificationEvent
-msgid "Attributes of the ticket data"
-msgstr "Sifat-sifat data tiket"
-
-#. Template: AdminNotificationEvent
-msgid "Ticket dynamic fields internal key values"
-msgstr "Tiket medan dinamik nilai utama dalaman"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -6803,6 +6811,10 @@ msgstr "Peralihan"
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
 msgstr "Nama Peralihan"
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
+msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -9283,8 +9295,20 @@ msgid ""
 msgstr "Carian di dalam sifat Daripada, Kepada, Cc, Subjek dan badan artikel, mengatasi sifat-sifat yang lain dengan nama yang sama."
 
 #. Template: AgentTicketSearch
-msgid "Customer User Login"
-msgstr "Log masuk pengguna pelanggan"
+msgid "CustomerID (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "CustomerID (exact match)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Customer User Login (exact match)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -12661,8 +12685,12 @@ msgid "Created State"
 msgstr "Status dicipta"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin"
-msgstr "LogMasukPenggunaPelanggan"
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -15450,6 +15478,12 @@ msgstr "Mentakrifkan jika pelanggan harus dibenarkan untuk log masuk jika mereka
 #. SysConfig
 msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
+"subscript, superscript, paste from word, etc.) in customer interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.)."
 msgstr "Mentakrifkan jika mod dipertingkatkan harus digunakan (membolehkan penggunaan jadual, penggantian, subskrip, superskrip, tampal dari perkataan, dll)."
 
@@ -18164,7 +18198,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh tentukan untuk lucutkan bahagian termuka dari nama pengguna (cth: untuk domain seperti example_domain\\user kepada user)."
 
 #. SysConfig
 msgid ""
@@ -19834,10 +19868,8 @@ msgid ""
 msgstr "Hantar kesemua emel keluar melalui bcc kepada alamat tertentu. Sila guna ini hanya untuk tindak balas sokongan."
 
 #. SysConfig
-msgid ""
-"Sends customer notifications just to the mapped customer. Normally, if no "
-"customer is mapped, the latest customer sender gets the notification."
-msgstr "Hantar notifikasi pelanggan hanya kepada pelanggan yang dipeta. Biasanya, jika tiada pelanggan yang dipeta, penghantar pelanggan yang terkini akan dapat notifikasi tersebut."
+msgid "Sends customer notifications just to the mapped customer."
+msgstr ""
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."
@@ -21961,15 +21993,15 @@ msgstr "Emel anda dengan nombor tiket \"<OTRS_TICKET>\" dilantunkan ke \"<OTRS_B
 
 #. SysConfig
 msgid ""
-"Your queue selection of your favorite queues. You also get notified about "
+"Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr "Pilihan aturan kegemaran anda. Anda juga dinotifikasikan mengenai aturan tersebut melalui emel jika diaktifkan."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Your service selection of your favorite services. You also get notified "
+"Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr "Pilihan perkhidmatan anda daripada perkhidmatan kesukaan anda. Anda juga akan diberitahu mengenai perkhidmatan tersebut melalui emel jika dibolehkan."
+msgstr ""
 
 #. SysConfig
 msgid "attachment"

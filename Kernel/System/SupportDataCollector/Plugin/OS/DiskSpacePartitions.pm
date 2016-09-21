@@ -18,7 +18,7 @@ use Kernel::Language qw(Translatable);
 our @ObjectDependencies = ();
 
 sub GetDisplayPath {
-    return Translatable('Operating System/Disk Partitions Usage');
+    return Translatable('Operating System') . '/' . Translatable('Disk Partitions Usage');
 }
 
 sub Run {

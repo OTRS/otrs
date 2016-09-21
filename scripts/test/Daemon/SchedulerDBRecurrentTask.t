@@ -32,15 +32,7 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     sleep $SleepTime;
 }
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-# get scheduler database object
+my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
 $Self->Is(
@@ -49,24 +41,31 @@ $Self->Is(
     "Kernel::System::Daemon::SchedulerDB->new()",
 );
 
-# get task worker object
 my $TaskWorkerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
 
-# wait until task is executed
-ACTIVESLEEP:
-for my $Sec ( 1 .. 120 ) {
+my $RunTasks = sub {
 
-    # run the worker
-    $TaskWorkerObject->Run();
+    local $SIG{CHLD} = "IGNORE";
 
-    my @List = $SchedulerDBObject->TaskList();
+    # wait until task is executed
+    ACTIVESLEEP:
+    for my $Sec ( 1 .. 120 ) {
 
-    last ACTIVESLEEP if !scalar @List;
+        # run the worker
+        $TaskWorkerObject->Run();
+        $TaskWorkerObject->_WorkerPIDsCheck();
 
-    sleep 1;
+        my @List = $SchedulerDBObject->TaskList();
 
-    print "Waiting $Sec secs for scheduler tasks to be executed\n";
-}
+        last ACTIVESLEEP if !scalar @List;
+
+        sleep 1;
+
+        print "Waiting $Sec secs for scheduler tasks to be executed\n";
+    }
+};
+
+$RunTasks->();
 
 # get cache object
 my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -79,7 +78,6 @@ $CacheObject->CleanUp(
 # freeze time
 $Helper->FixedTimeSet();
 
-# get time object
 my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
 my $SystemTime = $TimeObject->SystemTime();
@@ -640,11 +638,19 @@ for my $Test (@Tests) {
 
 }
 
+# System cleanup.
+my $Success = $SchedulerDBObject->RecurrentTaskDelete(
+    TaskID => $List[0]->{TaskID},
+);
+
+$Self->True(
+    $Success,
+    "Deleted Task $List[0]->{TaskID}",
+);
+
 # start daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     system("$Daemon start");
 }
-
-# cleanup is done by RestoreDatabase.
 
 1;

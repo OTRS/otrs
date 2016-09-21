@@ -53,7 +53,7 @@ sub new {
 
 =item Run()
 
-performs the selected asynchronous task.
+Performs the selected asynchronous task.
 
     my $Success = $TaskHandlerObject->Run(
         TaskID   => 123,
@@ -74,25 +74,22 @@ Returns:
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check task params
+    # Check task params.
     my $CheckResult = $Self->_CheckTaskParams(
         %Param,
         NeededDataAttributes => [ 'Object', 'Function' ],
     );
 
-    # stop execution if an error in params is detected
+    # Stop execution if an error in params is detected.
     return if !$CheckResult;
 
     # Stop execution if invalid params ref is detected.
     return if !ref $Param{Data}->{Params};
 
-    # get module object
     my $LocalObject;
-
     eval {
         $LocalObject = $Kernel::OM->Get( $Param{Data}->{Object} );
     };
-
     if ( !$LocalObject ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -102,7 +99,7 @@ sub Run {
         return;
     }
 
-    # check if the module provide the required function()
+    # Check if the module provide the required function().
     if ( !$LocalObject->can( $Param{Data}->{Function} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -120,13 +117,18 @@ sub Run {
         print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
     }
 
-    # run given function on the object with the specified parameters in Data->{Params}
+    # Run given function on the object with the specified parameters in Data->{Params}
     eval {
 
-        # localize the standard error, everything will be restored after the eval block
+        # Restore child signal to default, main daemon set it to 'IGNORE' to be able to create
+        #   multiple process at the same time, but in workers this causes problems if function does
+        #   system calls (on linux), since system calls returns -1. See bug#12126.
+        local $SIG{CHLD} = 'DEFAULT';
+
+        # Localize the standard error, everything will be restored after the eval block.
         local *STDERR;
 
-        # redirect the standard error to a variable
+        # Redirect the standard error to a variable.
         open STDERR, ">>", \$ErrorMessage;
 
         if ( ref $Param{Data}->{Params} eq 'ARRAY' ) {
@@ -142,7 +144,7 @@ sub Run {
 
     };
 
-    # check if there are errors
+    # Check if there are errors.
     if ($ErrorMessage) {
 
         $Self->_HandleError(

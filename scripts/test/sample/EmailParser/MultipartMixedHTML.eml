@@ -1,0 +1,48 @@
+Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
+Subject: test multipart/mixed HTML
+Message-Id: <93EA7835-FB21-4DC5-8715-5F739D225C45@otrs.com>
+Date: Fri, 9 Sep 2016 09:03:57 +0200
+To: test@home.com
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Mailer: Apple Mail (2.3124)
+
+
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+	charset=utf-8
+
+first part
+
+
+
+second part äöø
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10
+Content-Type: multipart/mixed;
+	boundary="Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655"
+
+
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><b class="">first</b> part<div class=""><br class=""></div><div class=""></div></body></html>
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Disposition: attachment;
+	filename=1.txt
+Content-Type: text/plain;
+	name="1.txt"
+Content-Transfer-Encoding: 7bit
+
+1
+
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=utf-8"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div class=""></div><div class=""><br class=""></div><div class="">second part äöø</div></body></html>
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655--
+
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--

@@ -1,0 +1,35 @@
+Content-Type: multipart/mixed; boundary="Apple-Mail=_45B3B511-DB24-43C9-8C4C-BE38C57C5140"
+Subject: test multipart/mixed
+Message-Id: <42EB0EC3-238C-4853-B48B-5A583D650AD4@otrs.com>
+Date: Fri, 9 Sep 2016 08:56:26 +0200
+To: Martin Gruner <mg.pub@gmx.net>
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Mailer: Apple Mail (2.3124)
+
+
+--Apple-Mail=_45B3B511-DB24-43C9-8C4C-BE38C57C5140
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
+
+first part
+
+
+--Apple-Mail=_45B3B511-DB24-43C9-8C4C-BE38C57C5140
+Content-Disposition: attachment;
+	filename=1.txt
+Content-Type: text/plain;
+	name="1.txt"
+Content-Transfer-Encoding: 7bit
+
+1
+
+--Apple-Mail=_45B3B511-DB24-43C9-8C4C-BE38C57C5140
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+	charset=utf-8
+
+
+
+second part äöø
+--Apple-Mail=_45B3B511-DB24-43C9-8C4C-BE38C57C5140--

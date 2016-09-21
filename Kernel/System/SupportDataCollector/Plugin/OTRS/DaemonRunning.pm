@@ -43,8 +43,9 @@ sub Run {
 
     if ($Running) {
         $Self->AddResultOk(
-            Label => Translatable('Daemon'),
-            Value => 1,
+            Label   => Translatable('Daemon'),
+            Value   => 1,
+            Message => Translatable('Daemon is running.'),
         );
     }
     else {

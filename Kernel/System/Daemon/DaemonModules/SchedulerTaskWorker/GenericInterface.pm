@@ -58,7 +58,7 @@ sub new {
 
 =item Run()
 
-performs the selected Task, causing an Invoker call via GenericInterface.
+Performs the selected Task, causing an Invoker call via GenericInterface.
 
     my $Result = $TaskHandlerObject->Run(
         TaskID   => 123,
@@ -81,23 +81,22 @@ Returns:
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check task params
+    # Check task params.
     my $CheckResult = $Self->_CheckTaskParams(
         NeededDataAttributes => [ 'WebserviceID', 'Invoker', 'Data' ],
         %Param,
     );
 
-    # stop execution if an error in params is detected
+    # Stop execution if an error in params is detected.
     return if !$CheckResult;
 
-    # to store task data locally
+    # To store task data locally.
     my %TaskData = %{ $Param{Data} };
 
     if ( $Self->{Debug} ) {
         print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
     }
 
-    # run requester
     my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
         WebserviceID => $TaskData{WebserviceID},
         Invoker      => $TaskData{Invoker},
@@ -107,7 +106,6 @@ sub Run {
 
     if ( !$Result->{Success} ) {
 
-        # get the web service name
         my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
             ID => $Param{Data}->{WebserviceID},
         );
@@ -124,16 +122,15 @@ sub Run {
             ErrorMessage => "$ErrorMessage",
         );
 
-        # check if task needs to be re-schedule in the future
+        # Check if task needs to be re-schedule in the future.
         if ( $Result->{Data}->{ReSchedule} ) {
 
-            # get time object
             my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-            # use the execution time from the return data (if nay)
+            # Use the execution time from the return data (if nay).
             my $ExecutionTime = $Result->{Data}->{ExecutionTime} || 0;
 
-            # check if execution time is valid
+            # Check if execution time is valid.
             if ($ExecutionTime) {
                 my $SystemTime = $TimeObject->TimeStamp2SystemTime(
                     String => $ExecutionTime,
@@ -150,14 +147,14 @@ sub Run {
                 }
             }
 
-            # use another if condition as inside the first one, the Execution time could be reset to 0
+            # Use another if condition as inside the first one, the Execution time could be reset to 0.
             if ( !$ExecutionTime ) {
 
-                # get default time difference from config
+                # Get default time difference from config.
                 my $FutureTaskTimeDiff = abs( $Kernel::OM->Get('Kernel::Config')
                         ->Get('Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff') || 300 );
 
-                # calculate execution time in future
+                # Calculate execution time in future.
                 $ExecutionTime = $TimeObject->SystemTime2TimeStamp(
                     SystemTime => $TimeObject->SystemTime() + $FutureTaskTimeDiff,
                 );
@@ -167,7 +164,7 @@ sub Run {
                 print "    $Self->{WorkerName} re-schedule task: $Param{TaskName} for: $ExecutionTime\n";
             }
 
-            # create a new task (replica) that will be executed in the future
+            # Create a new task (replica) that will be executed in the future.
             my $TaskID = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB')->FutureTaskAdd(
                 ExecutionTime => $ExecutionTime,
                 Type          => 'GenericInterface',
