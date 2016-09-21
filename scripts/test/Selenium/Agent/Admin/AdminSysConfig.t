@@ -39,7 +39,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSysConfig");
 
         # check for AdminSysConfig groups
-        for my $SysGroupValues ( qw(DynamicFields Framework GenericInterface ProcessManagement Daemon Ticket) ) {
+        for my $SysGroupValues (qw(DynamicFields Framework GenericInterface ProcessManagement Daemon Ticket)) {
             $Selenium->find_element( "#SysConfigGroup option[value='$SysGroupValues']", 'css' );
         }
 
@@ -51,7 +51,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SysConfigSearch", 'css' )->send_keys("admin");
         $Selenium->find_element( "#SysConfigSearch", 'css' )->VerifiedSubmit();
 
-        for my $SysConfSearch ( qw(PerformanceLog Ticket) ) {
+        for my $SysConfSearch (qw(PerformanceLog Ticket)) {
             $Self->True(
                 $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3A$SysConfSearch')]")
                     ->is_displayed(),
@@ -127,7 +127,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@id='Ticket::InvalidOwner::StateChangeItemActive']")->VerifiedClick();
 
         # restore edited values back to default
-        for my $ResetDefault ( qw(CustomQueue CustomService NewArticleIgnoreSystemSender) ) {
+        for my $ResetDefault (qw(CustomQueue CustomService NewArticleIgnoreSystemSender)) {
             $Selenium->find_element("//button[\@value='Reset this setting'][\@name='ResetTicket::$ResetDefault']")
                 ->VerifiedClick();
         }

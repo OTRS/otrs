@@ -161,7 +161,8 @@ sub Run {
                 # if the user would like to continue editing the SLA, just redirect to the edit screen
                 if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
                     return $LayoutObject->Redirect(
-                        OP => "Action=$Self->{Action};Subaction=SLAEdit;SLAID=$GetParam{SLAID}" );
+                        OP => "Action=$Self->{Action};Subaction=SLAEdit;SLAID=$GetParam{SLAID}"
+                    );
                 }
                 else {
 

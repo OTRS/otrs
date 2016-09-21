@@ -65,7 +65,7 @@ $Selenium->RunTest(
 
         # create test customer user
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate()
-        || die "Did not get test customer user";
+            || die "Did not get test customer user";
 
         # create test user
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -96,7 +96,7 @@ $Selenium->RunTest(
 
         # create test queue
         my $QueueName = 'Queue' . $RandomID;
-        my $QueueID = $QueueObject->QueueAdd(
+        my $QueueID   = $QueueObject->QueueAdd(
             Name            => $QueueName,
             ValidID         => 1,
             GroupID         => 1,
@@ -113,7 +113,7 @@ $Selenium->RunTest(
 
         # create test service
         my $ServiceName = 'Service' . $RandomID;
-        my $ServiceID = $ServiceObject->ServiceAdd(
+        my $ServiceID   = $ServiceObject->ServiceAdd(
             Name    => $ServiceName,
             ValidID => 1,
             UserID  => 1,
@@ -133,8 +133,8 @@ $Selenium->RunTest(
 
         # create test SLA
         my $SLAName = 'SLA' . $RandomID;
-        my $SLAID = $SLAObject->SLAAdd(
-            ServiceIDs => [ $ServiceID ],
+        my $SLAID   = $SLAObject->SLAAdd(
+            ServiceIDs => [$ServiceID],
             Name       => $SLAName,
             ValidID    => 1,
             UserID     => 1,
@@ -149,11 +149,11 @@ $Selenium->RunTest(
             UserID => 1,
         );
         my %ReverseListType = reverse %ListType;
-        my $OpenID = $ReverseListType{"open"};
+        my $OpenID          = $ReverseListType{"open"};
 
         # create test state (type 'open')
         my $StateName = 'State' . $RandomID;
-        my $StateID = $StateObject->StateAdd(
+        my $StateID   = $StateObject->StateAdd(
             Name    => $StateName,
             ValidID => 1,
             TypeID  => $OpenID,
@@ -190,7 +190,7 @@ $Selenium->RunTest(
                 NewOwnerID       => 'OwnerMandatory',
                 NewResponsibleID => 'ResponsibleMandatory',
                 NewStateID       => 'StateMandatory',
-            }
+                }
         );
 
         my @Tests = (
@@ -224,7 +224,7 @@ $Selenium->RunTest(
             }
         );
 
-        for my $Test ( @Tests ) {
+        for my $Test (@Tests) {
 
             # write test case description
             $Self->True(
@@ -232,7 +232,7 @@ $Selenium->RunTest(
                 $Test->{Name},
             );
 
-            for my $NoMandatoryField ( values %{$FreeTextFields{NoMandatory}} ) {
+            for my $NoMandatoryField ( values %{ $FreeTextFields{NoMandatory} } ) {
 
                 $Helper->ConfigSettingChange(
                     Valid => 1,
@@ -241,7 +241,7 @@ $Selenium->RunTest(
                 );
             }
 
-            for my $MandatoryField ( values %{$FreeTextFields{Mandatory}} ) {
+            for my $MandatoryField ( values %{ $FreeTextFields{Mandatory} } ) {
 
                 $Helper->ConfigSettingChange(
                     Valid => 1,
@@ -260,7 +260,8 @@ $Selenium->RunTest(
             );
 
             # click on 'Free Fields' and switch window
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->click();
+            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")
+                ->click();
 
             $Selenium->WaitFor( WindowCount => 2 );
             my $Handles = $Selenium->get_window_handles();
@@ -272,7 +273,7 @@ $Selenium->RunTest(
             # get NoMandatory/Mandatory fields for exist checking
             my $CheckFields = $Test->{CheckFields};
 
-            for my $FieldID ( sort keys %{$FreeTextFields{$CheckFields}} ) {
+            for my $FieldID ( sort keys %{ $FreeTextFields{$CheckFields} } ) {
 
                 if ( $Test->{ExpectedExist} == 0 ) {
                     $Self->False(
@@ -284,12 +285,12 @@ $Selenium->RunTest(
                 }
                 else {
                     $Self->True(
-                        $Selenium->execute_script( "return \$('#$FieldID').length" ),
+                        $Selenium->execute_script("return \$('#$FieldID').length"),
                         "FieldID $FieldID exists",
                     );
                     if ( $CheckFields eq 'Mandatory' ) {
                         $Self->Is(
-                            $Selenium->execute_script( "return \$('label[for=$FieldID]').hasClass('Mandatory')" ),
+                            $Selenium->execute_script("return \$('label[for=$FieldID]').hasClass('Mandatory')"),
                             1,
                             "FieldID $FieldID is mandatory",
                         );
@@ -395,7 +396,7 @@ $Selenium->RunTest(
         );
 
         # run test - in each iteration exactly one field is empty, last case is correct
-        for my $Test ( @Tests ) {
+        for my $Test (@Tests) {
 
             # write test case description
             $Self->True(
@@ -426,7 +427,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#submitRichText", 'css' )->click();
 
             # check if class Error exists in expected field ID
-            if ( $ExpectedErrorFieldID ) {
+            if ($ExpectedErrorFieldID) {
                 $Self->True(
                     $Selenium->execute_script(
                         "return \$('#$ExpectedErrorFieldID').hasClass('Error')"

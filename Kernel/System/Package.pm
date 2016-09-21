@@ -3030,8 +3030,10 @@ sub _CheckFramework {
                         # skip current framework verion parts containing "x"
                         next COUNT if $VersionParts{CurrentFramework}->[$Count] =~ /x/;
 
-                        if ( $VersionParts{CurrentFramework}->[$Count]
-                            > $VersionParts{MinimumFrameworkRequired}->[$Count] )
+                        if (
+                            $VersionParts{CurrentFramework}->[$Count]
+                            > $VersionParts{MinimumFrameworkRequired}->[$Count]
+                            )
                         {
                             $FWCheck = 1;
                             last COUNT;
