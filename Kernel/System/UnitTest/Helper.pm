@@ -442,8 +442,14 @@ BEGIN {
         }
         return CORE::gmtime($Time);
     };
+    # Newer versions of DateTime provide a function _core_time() to override for time simulations.
     *DateTime::_core_time = sub {    ## no critic
         return defined $FixedTime ? $FixedTime : CORE::time();
+    };
+    # Make sure versions of DateTime also use _core_time() it by overriding now() as well.
+    *DateTime::now = sub {
+        my $class = shift;
+        return $class->from_epoch( epoch => $class->_core_time(), @_ );
     };
 }
 
