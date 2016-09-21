@@ -45,25 +45,17 @@ sub Run {
                         'PreProcEmergencyTelephone,PreProcRepresentationBy',
                 },
                 'ProcessWidgetDynamicField' => {
-                    'PreProcTravelPerDiem'                 => '1',
-                    'PreProcExpenseReceiptsRequired'       => '1',
-                    'PreProcTravelExpensesProcessState'    => '1',
-                    'PreProcTravelApprovalYesNo'           => '1',
-                    'PreProcFlightClass'                   => '1',
-                    'PreProcFlightDepartureLocationFromTo' => '1',
-                    'PreProcFlightStopoverLocation'        => '1',
-                    'PreProcFlightReturnLocationFromTo'    => '1',
-                    'PreProcFlightTotalCosts'              => '1',
-                    'PreProcLocalTravelReimbursementPerKm' => '1',
-                    'PreProcLocalDepartureLocationFromTo'  => '1',
-                    'PreProcLocalReturnLocationFromTo'     => '1',
-                    'PreProcLocalTotalCosts'               => '1',
-                    'PreProcAccommodationDatesFrom'        => '1',
-                    'PreProcAccommodationDatesTo'          => '1',
-                    'PreProcAccomodationTotalCosts'        => '1',
-                    'PreProcAccomodationTotalCosts'        => '1',
-                    'PreProcAccomodationTotalCosts'        => '1',
-                    'PreProcAccomodationTotalCosts'        => '1',
+                    'PreProcApplicationRecorded' => '1',
+                    'PreProcDaysRemaining'       => '1',
+                    'PreProcVacationStart'       => '1',
+                    'PreProcVacationEnd'         => '1',
+                    'PreProcDaysUsed'            => '1',
+                    'PreProcEmergencyTelephone'  => '1',
+
+                    # 'PreProcRepresentationBy'     => '1',
+                    # 'PreProcProcessStatus'        => '1',
+                    'PreProcApprovedSuperior' => '1',
+                    'PreProcVacationInfo'     => '1',
                 },
             },
         }
@@ -97,7 +89,7 @@ sub Run {
             Value => $CurrentValue,
         );
 
-        my $S = $SysConfigObject->ConfigItemUpdate(
+        $SysConfigObject->ConfigItemUpdate(
             Valid        => 1,
             Key          => $ItemName,
             Value        => $CurrentValue,

@@ -12,6 +12,8 @@ package var::processes::examples::Application_for_leave_pre;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Language',
     'Kernel::System::DynamicField',
@@ -160,7 +162,8 @@ sub Run {
             Name => $DynamicField->{Name},
         );
 
-        if ($DynamicFieldData) {
+        if ( IsHashRefWithData($DynamicFieldData) ) {
+
             if (
                 $DynamicFieldData->{ObjectType}   ne $DynamicField->{ObjectType}
                 || $DynamicFieldData->{FieldType} ne $DynamicField->{FieldType}
