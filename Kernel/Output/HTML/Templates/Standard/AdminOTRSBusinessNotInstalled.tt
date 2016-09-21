@@ -6,11 +6,25 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+[%
+    SET OTRSBusinessLabel      = '<strong>OTRS Business Solution</strong>™';
+    SET OTRSBusinessLabelPlain = 'OTRS Business Solution™';
+%]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate("Upgrade to %s", OTRSBusinessLabelPlain),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
