@@ -131,6 +131,11 @@ $Selenium->RunTest(
             "Ticket is created - $TicketID",
         );
 
+        #  Discard TicketObject to let event handlers run also for transaction mode 1.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Ticket']
+        );
+
         # get cache object
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -147,7 +152,9 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
             "$TicketNumber - found on screen"
-        );
+        ) || die "$TicketNumber - found NOT on screen";
+
+        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # delete test ticket
         my $Success = $TicketObject->TicketDelete(
@@ -178,7 +185,7 @@ $Selenium->RunTest(
             );
         }
 
-    }
+        }
 );
 
 1;
