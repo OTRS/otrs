@@ -14,6 +14,7 @@ use strict;
 use warnings;
 
 use File::Path qw(rmtree);
+
 # Load DateTime so that we can override functions for the FixedTimeSet().
 use DateTime;
 
@@ -441,7 +442,7 @@ BEGIN {
         }
         return CORE::gmtime($Time);
     };
-    *DateTime::_core_time = sub {
+    *DateTime::_core_time = sub {    ## no critic
         return defined $FixedTime ? $FixedTime : CORE::time();
     };
 }
