@@ -170,7 +170,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->VerifiedClick();
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($SysMainLogin);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($SysMainNotify);
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
         # check if notification exists after adding
         my $Notification = 'System Maintenance was added successfully!';

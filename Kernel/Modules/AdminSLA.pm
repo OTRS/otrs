@@ -160,7 +160,8 @@ sub Run {
 
                 # if the user would like to continue editing the SLA, just redirect to the edit screen
                 if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
-                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=SLAEdit;SLAID=$GetParam{SLAID}" );
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Subaction=SLAEdit;SLAID=$GetParam{SLAID}" );
                 }
                 else {
 
@@ -430,8 +431,8 @@ sub _MaskNew {
     $LayoutObject->Block(
         Name => 'Overview',
         Data => {
-            SLAID => $SLAData{SLAID},
-            SLAName => $SLAData{Name},
+            SLAID     => $SLAData{SLAID},
+            SLAName   => $SLAData{Name},
             Subaction => $Param{Subaction},
             %Param
         },

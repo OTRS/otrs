@@ -88,7 +88,7 @@ $Selenium->RunTest(
                 "Dynamic field is found($DynamicFieldNeeded)",
             );
         }
-        }
+    }
 );
 
 1;

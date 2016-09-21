@@ -149,7 +149,8 @@ sub Run {
                 if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
                     my $ID = $ParamObject->GetParam( Param => 'ServiceID' ) || '';
                     return $LayoutObject->Redirect(
-                        OP => "Action=$Self->{Action};Subaction=ServiceEdit;ServiceID=$ID" );
+                        OP => "Action=$Self->{Action};Subaction=ServiceEdit;ServiceID=$ID"
+                    );
                 }
                 else {
 

@@ -231,7 +231,8 @@ sub Run {
             if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
                 my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
                 return $LayoutObject->Redirect(
-                    OP => "Action=$Self->{Action};Subaction=Change;ID=$ID;Notification=Update" );
+                    OP => "Action=$Self->{Action};Subaction=Change;ID=$ID;Notification=Update"
+                );
             }
             else {
 
