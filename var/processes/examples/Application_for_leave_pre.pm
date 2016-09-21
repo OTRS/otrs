@@ -12,13 +12,9 @@ package var::processes::examples::Application_for_leave_pre;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
+use base qw(var::processes::examples::Base);
 
-our @ObjectDependencies = (
-    'Kernel::Language',
-    'Kernel::System::DynamicField',
-    'Kernel::System::Log',
-);
+our @ObjectDependencies = ();
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,55 +147,9 @@ sub Run {
         },
     );
 
-    # add Dynamic Fields
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
-    DYNAMIC_FIELD:
-    for my $DynamicField (@DynamicFields) {
-
-        # check if already exists
-        my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
-            Name => $DynamicField->{Name},
-        );
-
-        if ( IsHashRefWithData($DynamicFieldData) ) {
-
-            if (
-                $DynamicFieldData->{ObjectType}   ne $DynamicField->{ObjectType}
-                || $DynamicFieldData->{FieldType} ne $DynamicField->{FieldType}
-                )
-            {
-                $Response{Success} = 0;
-                $Response{Error}   = $Kernel::OM->Get('Kernel::Language')->Translate(
-                    "Dynamic field %s already exists, but definition is wrong.",
-                    $DynamicField->{Name},
-                );
-                last DYNAMIC_FIELD;
-            }
-
-            next DYNAMIC_FIELD;
-        }
-
-        my $ID = $DynamicFieldObject->DynamicFieldAdd(
-            %{$DynamicField},
-            ValidID => 1,
-            UserID  => 1,
-        );
-
-        if ($ID) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'info',
-                Message  => "System created Dynamic field ($DynamicField->{Name})!"
-            );
-        }
-        else {
-            $Response{Success} = 0;
-            $Response{Error}   = $Kernel::OM->Get('Kernel::Language')->Translate(
-                "Dynamic field %s couldn't be created.",
-                $DynamicField->{Name},
-            );
-        }
-    }
+    %Response = $Self->DynamicFieldsAdd(
+        DynamicFieldList => \@DynamicFields,
+    );
 
     return %Response;
 }
