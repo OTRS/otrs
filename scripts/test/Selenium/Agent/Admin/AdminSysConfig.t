@@ -168,7 +168,7 @@ $Selenium->RunTest(
         );
 
         # remove Ticket as sysconfig group
-        $Selenium->find_element( ".Remove", 'css' )->VerifiedClick();
+        $Selenium->find_element( ".Remove a", 'css' )->VerifiedClick();
 
         # verify current URL is changed
         $Self->True(
