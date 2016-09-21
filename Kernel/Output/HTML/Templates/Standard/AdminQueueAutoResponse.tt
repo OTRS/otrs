@@ -10,6 +10,24 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Manage Queue-Auto Response Relations") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Manage Queue-Auto Response Relations'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.Subaction == 'Change' %]
+            [% USE EditTitle = String(Translate("Change Auto Response Relations for Queue")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ' ', Data.QueueName ) }) %]
+    [% ELSIF Data.Filter == 'QueuesWithoutAutoResponses' %]
+            [% BreadcrumbPath.push({ Name => 'Queues without Auto Responses' }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
 
 [% RenderBlockStart("ActionList") %]
@@ -26,12 +44,12 @@
 [% RenderBlockEnd("ActionOverview") %]
 [% RenderBlockStart("QueuesWithoutAutoResponses") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse;Filter=QueuesWithoutAutoResponses" title="[% Translate("This filter allow you to show queues without auto responses") | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-filter"></i>[% Translate("Queues without auto responses") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse;Filter=QueuesWithoutAutoResponses" title="[% Translate("This filter allow you to show queues without auto responses") | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-filter"></i>[% Translate("Queues without Auto Responses") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("QueuesWithoutAutoResponses") %]
 [% RenderBlockStart("ShowAllQueues") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse" title="[% Translate("This filter allow you to show all queues") | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-filter"></i>[% Translate("Show all queues") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse" title="[% Translate("This filter allow you to show all queues") | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-filter"></i>[% Translate("Show All Queues") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ShowAllQueues") %]
                 </ul>
@@ -111,6 +129,7 @@
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="ChangeAction"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
                     <fieldset class="TableLike">
 [% RenderBlockStart("ChangeItemList") %]
                         <label for="IDs_[% Data.TypeID %]">[% Translate(Data.Type) | html %]:</label>
@@ -120,7 +139,9 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("ChangeItemList") %]
                         <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Data.Action | uri %]">[% Translate("Cancel") | html %]</a>
                         </div>

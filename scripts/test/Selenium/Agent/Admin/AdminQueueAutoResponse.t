@@ -155,6 +155,12 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # check for created test Queue and AutoResponses on screen
         $Self->True(
             index( $Selenium->get_page_source(), $QueueRandomID ) > -1,
@@ -230,6 +236,41 @@ $Selenium->RunTest(
         $Selenium->find_element( $QueueRandomID, 'link_text' )->VerifiedClick();
 
         $Index = 0;
+        my $IsLinkedBreadcrumbText;
+        for my $BreadcrumbText (
+            'You are here:',
+            'Manage Queue-Auto Response Relations',
+            'Change Auto Response Relations for Queue ' . $QueueRandomID
+            )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Index)').text().trim()"),
+                $BreadcrumbText,
+                "Breadcrumb text '$BreadcrumbText' is found on screen"
+            );
+
+            $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Index)').children('a').length");
+
+            if ( $BreadcrumbText eq 'Manage Queue-Auto Response Relations' ) {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    1,
+                    "Breadcrumb text '$BreadcrumbText' is linked"
+                );
+            }
+            else {
+                $Self->Is(
+                    $IsLinkedBreadcrumbText,
+                    0,
+                    "Breadcrumb text '$BreadcrumbText' is not linked"
+                );
+            }
+
+            $Index++;
+        }
+
+        $Index = 0;
         for my $Test (@Tests)
         {
 
@@ -252,6 +293,12 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $QueueRandomID ) == -1,
             "$QueueRandomID not found on screen with QueuesWithoutAutoResponses filter on"
+        );
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('.BreadCrumb li:eq(2)').text().trim()"),
+            'Queues without Auto Responses',
+            "Breadcrumb text 'Queues without Auto Responses' is found on screen"
         );
 
         # get DB object

@@ -51,7 +51,13 @@ sub Run {
             ID => $Param{ID},
         );
 
-        $LayoutObject->Block( Name => 'Overview' );
+        $LayoutObject->Block(
+            Name => 'Overview',
+            Data => {
+                Subaction => $Self->{Subaction},
+                QueueName => $QueueData{Name},
+            },
+        );
         $LayoutObject->Block( Name => 'ActionList' );
         $LayoutObject->Block( Name => 'ActionOverview' );
 
@@ -122,7 +128,15 @@ sub Run {
             AutoResponseIDs => \@NewIDs,
             UserID          => $Self->{UserID},
         );
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+
+       # if the user would like to continue editing the queue - auto response relation, just redirect to the edit screen
+       # otherwise return to overview
+        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID}" );
+        }
+        else {
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        }
     }
 
     # else ! print form
