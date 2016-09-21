@@ -11,6 +11,8 @@ package Kernel::System::ProcessManagement::DB::Process::State;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
@@ -48,9 +50,9 @@ sub new {
 
     # create States list
     $Self->{StateList} = {
-        'S1' => 'Active',
-        'S2' => 'Inactive',
-        'S3' => 'FadeAway',
+        'S1' => Translatable('Active'),
+        'S2' => Translatable('Inactive'),
+        'S3' => Translatable('FadeAway'),
     };
 
     return $Self;
