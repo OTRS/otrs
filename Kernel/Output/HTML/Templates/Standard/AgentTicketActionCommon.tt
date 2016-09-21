@@ -92,19 +92,32 @@
 [% RenderBlockEnd("Type") %]
 
 [% RenderBlockStart("Queue") %]
-                        <label for="NewQueueID">[% Translate("Queue") | html %]:</label>
+                        [% IF Data.QueueMandatory %]
+                            <label class="Mandatory" for="NewQueueID"><span class="Marker">*</span>[% Translate("Queue") | html %]:</label>
+                        [% ELSE %]
+                            <label for="NewQueueID">[% Translate("Queue") | html %]:</label>
+                        [% END %]
                         <div class="Field">
                             [% Data.QueuesStrg %]
-                            <div id="NewQueueIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="NewQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            [% IF Data.QueueMandatory %]
+                                <div id="NewQueueIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            [% END %]
+                            <div id="NewQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("Queue invalid.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Queue") %]
 
 [% RenderBlockStart("Service") %]
-                        <label for="ServiceID">[% Translate("Service") | html %]:</label>
+                        [% IF Data.ServiceMandatory %]
+                            <label class="Mandatory" for="ServiceID"><span class="Marker">*</span>[% Translate("Service") | html %]:</label>
+                        [% ELSE %]
+                            <label for="ServiceID">[% Translate("Service") | html %]:</label>
+                        [% END %]
                         <div class="Field">
                             [% Data.ServiceStrg %]
+                            [% IF Data.ServiceMandatory %]
+                                <div id="ServiceIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            [% END %]
                             <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>[% Translate("Service invalid.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
@@ -121,9 +134,17 @@
 [% RenderBlockEnd("ServiceMandatory") %]
 
 [% RenderBlockStart("SLA") %]
-                        <label for="SLAID">[% Translate("Service Level Agreement") | html %]:</label>
+                        [% IF Data.SLAMandatory %]
+                            <label class="Mandatory" for="SLAID"><span class="Marker">*</span>[% Translate("Service Level Agreement") | html %]:</label>
+                        [% ELSE %]
+                            <label for="SLAID">[% Translate("Service Level Agreement") | html %]:</label>
+                        [% END %]
                         <div class="Field">
                             [% Data.SLAStrg %]
+                            [% IF Data.SLAMandatory %]
+                                <div id="SLAIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="SLAIDServerError" class="TooltipErrorMessage"><p>[% Translate("SLA invalid.") | html %]</p></div>
+                            [% END %]
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("SLA") %]
@@ -133,16 +154,23 @@
                         <div class="Field">
                             [% Data.SLAStrg %]
                             <div id="SLAIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="SLAIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="SLAIDServerError" class="TooltipErrorMessage"><p>[% Translate("SLA invalid.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("SLAMandatory") %]
 
 [% RenderBlockStart("Owner") %]
-                        <label for="NewOwnerID">[% Translate("New Owner") | html %]:</label>
+                        [% IF Data.OwnerMandatory %]
+                            <label class="Mandatory" for="NewOwnerID"><span class="Marker">*</span>[% Translate("New Owner") | html %]:</label>
+                        [% ELSE %]
+                            <label for="NewOwnerID">[% Translate("New Owner") | html %]:</label>
+                        [% END %]
                         <div class="Field">
                             [% Data.OwnerStrg %]
-                            <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>[% Translate("Please set a new owner!") | html %]</p></div>
+                            [% IF Data.OwnerMandatory %]
+                                <div id="NewOwnerIDError" class="TooltipErrorMessage"><p>[% Translate("Please set a new owner!") | html %]</p></div>
+                            [% END %]
+                                <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>[% Translate("Owner invalid.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Owner") %]
@@ -152,15 +180,25 @@
                         <div class="Field">
                             [% Data.OwnerStrg %]
                             <div id="NewOwnerIDError" class="TooltipErrorMessage"><p>[% Translate("Please set a new owner!") | html %]</p></div>
-                            <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>[% Translate("Please set a new owner!") | html %]</p></div>
+                            <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>[% Translate("Owner invalid.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("OwnerMandatory") %]
 
 [% RenderBlockStart("Responsible") %]
-                        <label for="NewResponsibleID">[% Translate("New Responsible") | html %]:</label>
+                        [% IF Data.ResponsibleMandatory %]
+                            <label class="Mandatory" for="NewResponsibleID">
+                                <span class="Marker">*</span>[% Translate("New Responsible") | html %]:
+                            </label>
+                        [% ELSE %]
+                            <label for="NewResponsibleID">[% Translate("New Responsible") | html %]:</label>
+                        [% END %]
                         <div class="Field">
                             [% Data.ResponsibleStrg %]
+                            [% IF Data.ResponsibleMandatory %]
+                                <div id="NewResponsibleIDError" class="TooltipErrorMessage"><p>[% Translate("Please set a new responsible!") | html %]</p></div>
+                                <div id="NewResponsibleIDServerError" class="TooltipErrorMessage"><p>[% Translate("Responsible invalid.") | html %]</p></div>
+                            [% END %]
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Responsible") %]
@@ -170,29 +208,37 @@
                         <div class="Field">
                             [% Data.ResponsibleStrg %]
                             <div id="NewResponsibleIDError" class="TooltipErrorMessage"><p>[% Translate("Please set a new responsible!") | html %]</p></div>
-                            <div id="NewResponsibleIDServerError" class="TooltipErrorMessage"><p>[% Translate("Please set a new responsible!") | html %]</p></div>
+                            <div id="NewResponsibleIDServerError" class="TooltipErrorMessage"><p>[% Translate("Responsible invalid.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("ResponsibleMandatory") %]
 
 [% RenderBlockStart("State") %]
-                        <label for="NewStateID">[% Translate("Next state") | html %]:</label>
+                        [% IF Data.StateMandatory %]
+                            <label class="Mandatory" for="NewStateID"><span class="Marker">*</span>[% Translate("Next state") | html %]:</label>
+                        [% ELSE %]
+                            <label for="NewStateID">[% Translate("Next state") | html %]:</label>
+                        [% END %]
                         <div class="Field">
-                    [% Data.StateStrg %]
+                            [% Data.StateStrg %]
+                            [% IF Data.StateMandatory %]
+                                <div id="NewStateIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="NewStateIDServerError" class="TooltipErrorMessage"><p>[% Translate("State invalid.") | html %]</p></div>
+                            [% END %]
                         </div>
                         <div class="Clear"></div>
+[% RenderBlockEnd("State") %]
 
 [% RenderBlockStart("StatePending") %]
                         <label>[% Translate("Pending date") | html %]:</label>
                         <div class="Field">
-                    [% Data.DateString %]
+                            [% Data.DateString %]
                             <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
                             <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
                             <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("StatePending") %]
-[% RenderBlockEnd("State") %]
 
 [% RenderBlockStart("Priority") %]
                         <label for="NewPriorityID">[% Translate("Priority") | html %]:</label>
@@ -414,5 +460,3 @@
         </div>
     </form>
 [% RenderBlockEnd("Properties") %]
-
-#Layers

@@ -474,6 +474,20 @@ sub Run {
                 $Error{'SLAInvalid'} = ' ServerError';
             }
 
+            # check mandatory queue
+            if ( $Config->{Queue} && $Config->{QueueMandatory} ) {
+                if ( !$GetParam{NewQueueID} ) {
+                    $Error{'NewQueueInvalid'} = 'ServerError';
+                }
+            }
+
+            # check mandatory state
+            if ( $Config->{State} && $Config->{StateMandatory} ) {
+                if ( !$GetParam{NewStateID} ) {
+                    $Error{'NewStateInvalid'} = 'ServerError';
+                }
+            }
+
             # check time units, but only if the current screen has a note
             #   (accounted time can only be stored if and article is generated)
             if (
@@ -1498,7 +1512,7 @@ sub _Mask {
             UserID => $Self->{UserID},
         );
         $Param{TypeStrg} = $LayoutObject->BuildSelection(
-            Class => 'Validate_Required Modernize ' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
+            Class => 'Validate_Required Modernize ' . ( $Param{Errors}->{TypeIDInvalid} || '' ),
             Data  => \%Type,
             Name  => 'TypeID',
             SelectedID   => $Param{TypeID},
@@ -1526,44 +1540,27 @@ sub _Mask {
             $Param{ServiceID} = '';
         }
 
-        if ( $Config->{ServiceMandatory} ) {
+        $Param{ServiceStrg} = $LayoutObject->BuildSelection(
+            Data       => $Services,
+            Name       => 'ServiceID',
+            SelectedID => $Param{ServiceID},
+            Class      => "Modernize "
+                . ( $Config->{ServiceMandatory} ? 'Validate_Required ' : '' )
+                . ( $Param{ServiceInvalid} || '' ),
+            PossibleNone => 1,
+            TreeView     => $TreeView,
+            Sort         => 'TreeView',
+            Translation  => 0,
+            Max          => 200,
+        );
 
-            $Param{ServiceStrg} = $LayoutObject->BuildSelection(
-                Data         => $Services,
-                Name         => 'ServiceID',
-                SelectedID   => $Param{ServiceID},
-                Class        => 'Validate_Required Modernize ' . ( $Param{ServiceInvalid} || ' ' ),
-                PossibleNone => 1,
-                TreeView     => $TreeView,
-                Sort         => 'TreeView',
-                Translation  => 0,
-                Max          => 200,
-            );
-
-            $LayoutObject->Block(
-                Name => 'ServiceMandatory',
-                Data => {%Param},
-            );
-        }
-        else {
-
-            $Param{ServiceStrg} = $LayoutObject->BuildSelection(
-                Data         => $Services,
-                Name         => 'ServiceID',
-                SelectedID   => $Param{ServiceID},
-                Class        => 'Modernize ' . ( $Param{ServiceInvalid} || ' ' ),
-                PossibleNone => 1,
-                TreeView     => $TreeView,
-                Sort         => 'TreeView',
-                Translation  => 0,
-                Max          => 200,
-            );
-
-            $LayoutObject->Block(
-                Name => 'Service',
-                Data => {%Param},
-            );
-        }
+        $LayoutObject->Block(
+            Name => 'Service',
+            Data => {
+                ServiceMandatory => $Config->{ServiceMandatory} || 0,
+                %Param,
+            },
+        );
 
         my %SLA = $TicketObject->TicketSLAList(
             %Param,
@@ -1571,42 +1568,26 @@ sub _Mask {
             UserID => $Self->{UserID},
         );
 
-        if ( $Config->{SLAMandatory} ) {
+        $Param{SLAStrg} = $LayoutObject->BuildSelection(
+            Data       => \%SLA,
+            Name       => 'SLAID',
+            SelectedID => $Param{SLAID},
+            Class      => "Modernize "
+                . ( $Config->{SLAMandatory} ? 'Validate_Required ' : '' )
+                . ( $Param{ServiceInvalid} || '' ),
+            PossibleNone => 1,
+            Sort         => 'AlphanumericValue',
+            Translation  => 0,
+            Max          => 200,
+        );
 
-            $Param{SLAStrg} = $LayoutObject->BuildSelection(
-                Data         => \%SLA,
-                Name         => 'SLAID',
-                SelectedID   => $Param{SLAID},
-                Class        => 'Validate_Required Modernize ' . ( $Param{SLAInvalid} || ' ' ),
-                PossibleNone => 1,
-                Sort         => 'AlphanumericValue',
-                Translation  => 0,
-                Max          => 200,
-            );
-
-            $LayoutObject->Block(
-                Name => 'SLAMandatory',
-                Data => {%Param},
-            );
-        }
-        else {
-
-            $Param{SLAStrg} = $LayoutObject->BuildSelection(
-                Data         => \%SLA,
-                Name         => 'SLAID',
-                SelectedID   => $Param{SLAID},
-                Class        => 'Modernize',
-                PossibleNone => 1,
-                Sort         => 'AlphanumericValue',
-                Translation  => 0,
-                Max          => 200,
-            );
-
-            $LayoutObject->Block(
-                Name => 'SLA',
-                Data => {%Param},
-            );
-        }
+        $LayoutObject->Block(
+            Name => 'SLA',
+            Data => {
+                SLAMandatory => $Config->{SLAMandatory},
+                %Param,
+            },
+        );
     }
 
     if ( $Config->{Queue} ) {
@@ -1621,10 +1602,12 @@ sub _Mask {
 
         # set move queues
         $Param{QueuesStrg} = $LayoutObject->AgentQueueListOption(
-            Data           => { %MoveQueues, '' => '-' },
-            Multiple       => 0,
-            Size           => 0,
-            Class          => 'NewQueueID Modernize',
+            Data     => { %MoveQueues, '' => '-' },
+            Multiple => 0,
+            Size     => 0,
+            Class    => 'NewQueueID Modernize '
+                . ( $Config->{QueueMandatory} ? 'Validate_Required ' : '' )
+                . ( $Param{NewQueueInvalid} || '' ),
             Name           => 'NewQueueID',
             SelectedID     => $Param{NewQueueID},
             TreeView       => $TreeView,
@@ -1634,7 +1617,10 @@ sub _Mask {
 
         $LayoutObject->Block(
             Name => 'Queue',
-            Data => {%Param},
+            Data => {
+                QueueMandatory => $Config->{QueueMandatory} || 0,
+                %Param
+            },
         );
     }
 
@@ -1742,8 +1728,11 @@ sub _Mask {
         );
 
         $LayoutObject->Block(
-            Name => $Config->{OwnerMandatory} ? 'OwnerMandatory' : 'Owner',
-            Data => \%Param,
+            Name => 'Owner',
+            Data => {
+                OwnerMandatory => $Config->{OwnerMandatory} || 0,
+                %Param,
+                }
         );
     }
 
@@ -1794,9 +1783,13 @@ sub _Mask {
             Size         => 1,
         );
         $LayoutObject->Block(
-            Name => $Config->{ResponsibleMandatory} ? 'ResponsibleMandatory' : 'Responsible',
-            Data => \%Param,
+            Name => 'Responsible',
+            Data => {
+                ResponsibleMandatory => $Config->{ResponsibleMandatory} || 0,
+                %Param,
+                }
         );
+
     }
 
     if ( $Config->{State} ) {
@@ -1818,15 +1811,20 @@ sub _Mask {
 
         # build next states string
         $Param{StateStrg} = $LayoutObject->BuildSelection(
-            Data         => \%StateList,
-            Name         => 'NewStateID',
-            Class        => 'Modernize',
+            Data  => \%StateList,
+            Name  => 'NewStateID',
+            Class => 'Modernize '
+                . ( $Config->{StateMandatory} ? 'Validate_Required ' : '' )
+                . ( $Param{NewStateInvalid} || '' ),
             PossibleNone => $Config->{StateDefault} ? 0 : 1,
             %State,
         );
         $LayoutObject->Block(
             Name => 'State',
-            Data => \%Param,
+            Data => {
+                StateMandatory => $Config->{StateMandatory} || 0,
+                %Param,
+                }
         );
 
         if ( IsArrayRefWithData( $Config->{StateType} ) ) {

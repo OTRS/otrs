@@ -70,11 +70,21 @@
 [% RenderBlockEnd("Owner") %]
 
 [% RenderBlockStart("State") %]
-                        <label for="NewStateID">[% Translate("Next ticket state") | html %]:</label>
+                        [% IF Data.StateMandatory %]
+                            <label class="Mandatory" for="NewStateID"><span class="Marker">*</span>[% Translate("Next ticket state") | html %]:</label>
+                        [% ELSE %]
+                            <label for="NewStateID">[% Translate("Next ticket state") | html %]:</label>
+                        [% END %]
                         <div class="Field">
                             [% Data.NextStatesStrg %]
+                            [% IF Data.StateMandatory %]
+                                <div id="NewStateIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="NewStateIDServerError" class="TooltipErrorMessage"><p>[% Translate("State invalid.") | html %]</p></div>
+                            [% END %]
+
                         </div>
                         <div class="Clear"></div>
+[% RenderBlockEnd("State") %]
 
 [% RenderBlockStart("StatePending") %]
                         <label>[% Translate("Pending date") | html %]:</label>
@@ -86,7 +96,6 @@
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("StatePending") %]
-[% RenderBlockEnd("State") %]
 
 [% RenderBlockStart("Priority") %]
                         <label for="NewPriorityID">[% Translate("Priority") | html %]:</label>

@@ -639,6 +639,13 @@ sub Run {
                     $Error{'BodyInvalid'} = 'ServerError';
                 }
             }
+
+            # check mandatory state
+            if ( $Config->{State} && $Config->{StateMandatory} ) {
+                if ( !$GetParam{NewStateID} ) {
+                    $Error{'NewStateInvalid'} = 'ServerError';
+                }
+            }
         }
 
         # clear DynamicFieldHTML
@@ -1183,7 +1190,9 @@ sub AgentMove {
         SelectedID   => $Param{NewStateID},
         Translation  => 1,
         PossibleNone => 1,
-        Class        => 'Modernize',
+        Class        => 'Modernize '
+            . ( $Config->{StateMandatory} ? 'Validate_Required ' : '' )
+            . ( $Param{NewStateInvalid} || '' ),
     );
 
     # build next priority string
@@ -1227,7 +1236,10 @@ sub AgentMove {
     if ( $Config->{State} ) {
         $LayoutObject->Block(
             Name => 'State',
-            Data => {%Param},
+            Data => {
+                StateMandatory => $Config->{StateMandatory} || 0,
+                %Param
+            },
         );
     }
 
