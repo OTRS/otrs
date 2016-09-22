@@ -66,21 +66,21 @@ sub Run {
     return $Self->ExitCodeOk();
 }
 
-=item ListAllCommands()
-
-returns all available commands, sorted first by directory and then by file name.
-
-    my @Commands = $CommandObject->ListAllCommands();
-
-returns
-
-    (
-        'Kernel::System::Console::Command::Help',
-        'Kernel::System::Console::Command::List',
-        ...
-    )
-
-=cut
+# =item ListAllCommands()
+#
+# returns all available commands, sorted first by directory and then by file name.
+#
+#     my @Commands = $CommandObject->ListAllCommands();
+#
+# returns
+#
+#     (
+#         'Kernel::System::Console::Command::Help',
+#         'Kernel::System::Console::Command::List',
+#         ...
+#     )
+#
+# =cut
 
 sub ListAllCommands {
     my ( $Self, %Param ) = @_;
@@ -114,15 +114,3 @@ sub ListAllCommands {
 }
 
 1;
-
-=back
-
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTRS project (L<http://otrs.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=cut

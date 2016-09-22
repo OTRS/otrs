@@ -1266,6 +1266,8 @@ sub _ACLMigrateFrom33 {
 
 1;
 
+=end Internal:
+
 =back
 
 =head1 TERMS AND CONDITIONS

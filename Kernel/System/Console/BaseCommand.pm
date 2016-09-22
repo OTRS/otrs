@@ -236,7 +236,7 @@ indicate which arguments it can process.
         Multiple     => 0,  # optional, allow more than one occurrence (only possible if HasValue is true)
     );
 
-=head4 Option Naming Conventions
+B<Option Naming Conventions>
 
 If there is a source and a target involved in the command, the related options should start
 with C<--source> and C<--target>, for example C<--source-path>.

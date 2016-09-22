@@ -1882,12 +1882,12 @@ sub Set {
 
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Translatable)
 
-=item Translatable()
-
-this is a no-op to mark a text as translatable in the Perl code.
-We use our own version here instead of importing Language::Translatable to not add a dependency.
-
-=cut
+# =item Translatable()
+#
+# this is a no-op to mark a text as translatable in the Perl code.
+# We use our own version here instead of importing Language::Translatable to not add a dependency.
+#
+# =cut
 
 sub Translatable {
     return shift;
@@ -2133,13 +2133,3 @@ sub new {
 }
 
 1;
-
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTRS project (L<http://otrs.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=cut

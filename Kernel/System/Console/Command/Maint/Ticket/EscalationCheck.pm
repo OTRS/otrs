@@ -29,31 +29,31 @@ sub Configure {
     return;
 }
 
-=item Run()
-
-looks for the tickets which will escalate within the next five days
-then perform a search over the values on the TicketGet result
-for checking if any of the escalations values are present, then base
-on that the notification events for notifications and normal escalation
-events are trigger
-
-NotificationEvents:
-    - NotificationEscalation
-    - NotificationEscalationNotifyBefore
-
-Escalation events:
-    - EscalationResponseTimeStart
-    - EscalationUpdateTimeStart
-    - EscalationSolutionTimeStart
-    - EscalationResponseTimeNotifyBefore
-    - EscalationUpdateTimeNotifyBefore
-    - EscalationSolutionTimeNotifyBefore
-
-
-NotificationEvents are alway triggered, and Escalation events just
-base on the 'OTRSEscalationEvents::DecayTime'.
-
-=cut
+# =item Run()
+#
+# looks for the tickets which will escalate within the next five days
+# then perform a search over the values on the TicketGet result
+# for checking if any of the escalations values are present, then base
+# on that the notification events for notifications and normal escalation
+# events are trigger
+#
+# NotificationEvents:
+#     - NotificationEscalation
+#     - NotificationEscalationNotifyBefore
+#
+# Escalation events:
+#     - EscalationResponseTimeStart
+#     - EscalationUpdateTimeStart
+#     - EscalationSolutionTimeStart
+#     - EscalationResponseTimeNotifyBefore
+#     - EscalationUpdateTimeNotifyBefore
+#     - EscalationSolutionTimeNotifyBefore
+#
+#
+# NotificationEvents are alway triggered, and Escalation events just
+# base on the 'OTRSEscalationEvents::DecayTime'.
+#
+# =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
@@ -205,15 +205,3 @@ sub Run {
 }
 
 1;
-
-=back
-
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTRS project (L<http://otrs.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=cut
