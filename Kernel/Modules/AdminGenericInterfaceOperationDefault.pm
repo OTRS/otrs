@@ -581,11 +581,11 @@ sub _ShowScreen {
     return $Output;
 }
 
-=item _OperationTypeCheck()
-
-checks if a given OperationType is registered in the system.
-
-=cut
+# =item _OperationTypeCheck()
+#
+# checks if a given OperationType is registered in the system.
+#
+# =cut
 
 sub _OperationTypeCheck {
     my ( $Self, %Param ) = @_;
@@ -598,11 +598,11 @@ sub _OperationTypeCheck {
     return ref $Operations->{ $Param{OperationType} } eq 'HASH' ? 1 : 0;
 }
 
-=item _MappingTypeCheck()
-
-checks if a given MappingType is registered in the system.
-
-=cut
+# =item _MappingTypeCheck()
+#
+# checks if a given MappingType is registered in the system.
+#
+# =cut
 
 sub _MappingTypeCheck {
     my ( $Self, %Param ) = @_;

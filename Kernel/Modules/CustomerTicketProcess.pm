@@ -659,42 +659,42 @@ sub _RenderAjax {
     );
 }
 
-=item _GetParam()
-
-returns the current data state of the submitted information
-
-This contains the following data for the different callers:
-
-    Initial call with selected Process:
-        ProcessEntityID
-        ActivityDialogEntityID
-        DefaultValues for the configured Fields in that ActivityDialog
-        DefaultValues for the 4 required Fields Queue State Lock Priority
-
-    First Store call submitting an Activity Dialog:
-        ProcessEntityID
-        ActivityDialogEntityID
-        SubmittedValues for the current ActivityDialog
-        ActivityDialog DefaultValues for invisible fields of that ActivityDialog
-        DefaultValues for the 4 required Fields Queue State Lock Priority
-            if not configured in the ActivityDialog
-
-    ActivityDialog fillout request on existing Ticket:
-        ProcessEntityID
-        ActivityDialogEntityID
-        TicketValues
-
-    ActivityDialog store request or AjaxUpdate request on existing Tickets:
-        ProcessEntityID
-        ActivityDialogEntityID
-        TicketValues for all not-Submitted Values
-        Submitted Values
-
-    my $GetParam = _GetParam(
-        ProcessEntityID => $ProcessEntityID,
-    );
-
-=cut
+# =item _GetParam()
+#
+# returns the current data state of the submitted information
+#
+# This contains the following data for the different callers:
+#
+#     Initial call with selected Process:
+#         ProcessEntityID
+#         ActivityDialogEntityID
+#         DefaultValues for the configured Fields in that ActivityDialog
+#         DefaultValues for the 4 required Fields Queue State Lock Priority
+#
+#     First Store call submitting an Activity Dialog:
+#         ProcessEntityID
+#         ActivityDialogEntityID
+#         SubmittedValues for the current ActivityDialog
+#         ActivityDialog DefaultValues for invisible fields of that ActivityDialog
+#         DefaultValues for the 4 required Fields Queue State Lock Priority
+#             if not configured in the ActivityDialog
+#
+#     ActivityDialog fillout request on existing Ticket:
+#         ProcessEntityID
+#         ActivityDialogEntityID
+#         TicketValues
+#
+#     ActivityDialog store request or AjaxUpdate request on existing Tickets:
+#         ProcessEntityID
+#         ActivityDialogEntityID
+#         TicketValues for all not-Submitted Values
+#         Submitted Values
+#
+#     my $GetParam = _GetParam(
+#         ProcessEntityID => $ProcessEntityID,
+#     );
+#
+# =cut
 
 sub _GetParam {
     my ( $Self, %Param ) = @_;
@@ -4058,38 +4058,38 @@ sub _DisplayProcessList {
     return $Output;
 }
 
-=item _CheckField()
-
-checks all the possible ticket fields and returns the ID (if possible) value of the field, if valid
-and checks are successfull
-
-if Display param is set to 0 or not given, it uses ActivityDialog field default value for all fields
-or global default value as fallback only for certain fields
-
-if Display param is set to 1 or 2 it uses the value from the web request
-
-    my $PriorityID = $CustomerTicketProcessObject->_CheckField(
-        Field        => 'PriorityID',
-        Display      => 1,                   # optional, 0 or 1 or 2
-        DefaultValue => '3 normal',          # ActivityDialog field default value (it uses global
-                                             #    default value as fall back for mandatory fields
-                                             #    (Queue, Sate, Lock and Priority)
-    );
-
-Returns:
-    $PriorityID = 1;                         # if PriorityID is set to 1 in the web request
-
-    my $PriorityID = $CustomerTicketProcessObject->_CheckField(
-        Field        => 'PriorityID',
-        Display      => 0,
-        DefaultValue => '3 normal',
-    );
-
-Returns:
-    $PriorityID = 3;                        # since ActivityDialog default value is '3 normal' and
-                                            #     field is hidden
-
-=cut
+# =item _CheckField()
+#
+# checks all the possible ticket fields and returns the ID (if possible) value of the field, if valid
+# and checks are successfull
+#
+# if Display param is set to 0 or not given, it uses ActivityDialog field default value for all fields
+# or global default value as fallback only for certain fields
+#
+# if Display param is set to 1 or 2 it uses the value from the web request
+#
+#     my $PriorityID = $CustomerTicketProcessObject->_CheckField(
+#         Field        => 'PriorityID',
+#         Display      => 1,                   # optional, 0 or 1 or 2
+#         DefaultValue => '3 normal',          # ActivityDialog field default value (it uses global
+#                                              #    default value as fall back for mandatory fields
+#                                              #    (Queue, Sate, Lock and Priority)
+#     );
+#
+# Returns:
+#     $PriorityID = 1;                         # if PriorityID is set to 1 in the web request
+#
+#     my $PriorityID = $CustomerTicketProcessObject->_CheckField(
+#         Field        => 'PriorityID',
+#         Display      => 0,
+#         DefaultValue => '3 normal',
+#     );
+#
+# Returns:
+#     $PriorityID = 3;                        # since ActivityDialog default value is '3 normal' and
+#                                             #     field is hidden
+#
+# =cut
 
 sub _CheckField {
     my ( $Self, %Param ) = @_;
@@ -4207,28 +4207,28 @@ sub _CheckField {
     return $Value;
 }
 
-=item _LookupValue()
-
-returns the ID (if possible) of nearly all ticket fields and/or checks if its valid.
-Can handle IDs or Strings.
-Currently working with: State, Queue, Lock, Priority (possible more).
-
-    my $PriorityID = $CustomerTicketProcessObject->_LookupValue(
-        PriorityID => 1,
-    );
-    $PriorityID = 1;
-
-    my $StateID = $CustomerTicketProcessObject->_LookupValue(
-        State => 'open',
-    );
-    $StateID = 3;
-
-    my $PriorityID = $CustomerTicketProcessObject->_LookupValue(
-        Priority => 'unknownpriority1234',
-    );
-    $PriorityID = undef;
-
-=cut
+# =item _LookupValue()
+#
+# returns the ID (if possible) of nearly all ticket fields and/or checks if its valid.
+# Can handle IDs or Strings.
+# Currently working with: State, Queue, Lock, Priority (possible more).
+#
+#     my $PriorityID = $CustomerTicketProcessObject->_LookupValue(
+#         PriorityID => 1,
+#     );
+#     $PriorityID = 1;
+#
+#     my $StateID = $CustomerTicketProcessObject->_LookupValue(
+#         State => 'open',
+#     );
+#     $StateID = 3;
+#
+#     my $PriorityID = $CustomerTicketProcessObject->_LookupValue(
+#         Priority => 'unknownpriority1234',
+#     );
+#     $PriorityID = undef;
+#
+# =cut
 
 sub _LookupValue {
     my ( $Self, %Param ) = @_;
