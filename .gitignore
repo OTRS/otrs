@@ -164,6 +164,7 @@ scripts/test/NotificationView*
 scripts/test/Selenium/Agent/Admin/AdminContactWithData.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldContactWithData.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldDatabase.t
+scripts/test/Selenium/Agent/Admin/GenericInterface/AdminGenericInterfaceWebserviceImportExample.t
 scripts/test/Selenium/Agent/AgentAppointmentResourceOverview.t
 scripts/test/Selenium/Agent/AgentContactWithDataSearch.t
 scripts/test/Selenium/Agent/AgentDynamicFieldDatabase.t
@@ -217,3 +218,9 @@ var/processes/examples/Travel_expense.yml
 var/processes/examples/Travel_expense_post.pm
 var/processes/examples/Travel_expense_pre.pm
 var/thirdparty/phantomjs
+var/webservices/examples/BugzillaConnector.yml
+var/webservices/examples/BugzillaConnector_pre.pm
+var/webservices/examples/JIRAConnector.yml
+var/webservices/examples/JIRAConnector_pre.pm
+var/webservices/examples/OTRSConnector.yml
+var/webservices/examples/OTRSConnector_pre.pm
