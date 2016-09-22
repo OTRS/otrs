@@ -87,6 +87,7 @@ sub Run {
 
     if (@NotVerifiedPackages) {
         $Self->AddResultProblem(
+            Identifier => 'Verification',
             Label   => 'Package Verification Status',
             Value   => join( ', ', @NotVerifiedPackages ),
             Message => 'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.',
@@ -94,6 +95,7 @@ sub Run {
     }
     else {
         $Self->AddResultOk(
+            Identifier => 'Verification',
             Label => 'Package Verification Status',
             Value => '',
         );
@@ -101,6 +103,7 @@ sub Run {
 
     if (@WrongFrameworkVersion) {
         $Self->AddResultProblem(
+            Identifier => 'FrameworkVersion',
             Label   => 'Package Framework Version Status',
             Value   => join( ', ', @WrongFrameworkVersion ),
             Message => 'Some packages are not allowed for the current framework version.',
@@ -108,6 +111,7 @@ sub Run {
     }
     else {
         $Self->AddResultOk(
+            Identifier => 'FrameworkVersion',
             Label => 'Package Framework Version Status',
             Value => '',
         );
