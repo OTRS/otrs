@@ -15,8 +15,8 @@ use vars (qw($Self));
 my @Tests = (
     {
         Name      => 'Command completion',
-        COMP_LINE => 'bin/otrs.Console.pl H',
-        Arguments => [ 'bin/otrs.Console.pl', 'H', 'bin/otrs.Console.pl' ],
+        COMP_LINE => 'bin/otrs.Console.pl Hel',
+        Arguments => [ 'bin/otrs.Console.pl', 'Hel', 'bin/otrs.Console.pl' ],
         Result    => "Help",
     },
     {
