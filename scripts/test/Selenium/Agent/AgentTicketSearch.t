@@ -67,7 +67,7 @@ $Selenium->RunTest(
         # create test article
         my $MinCharString = 'ct';
         my $MaxCharString = $RandomID . ( 't' x 50 );
-        my $Subject       = 'SubjectTitle' . $RandomID;
+        my $Subject       = 'Subject' . $RandomID;
         my $ArticleID     = $TicketObject->ArticleCreate(
             TicketID    => $TicketID,
             ArticleType => 'note-internal',
@@ -123,7 +123,10 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # input wrong search parameters, result should be 'No ticket data found'
-        $Selenium->find_element( "Fulltext", 'name' )->send_keys("abcdfgh_nonexisting_ticket_text");
+        $Selenium->execute_script(
+            "\$('input[name=\"Fulltext\"]').val('abcdfgh_nonexisting_ticket_text');",
+        );
+
         $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
 
         # check for expected result
@@ -177,7 +180,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # try to search fulltext with string less then 3 characters
-        $Selenium->find_element( "Fulltext", 'name' )->send_keys($MinCharString);
+        $Selenium->execute_script(
+            "\$('input[name=\"Fulltext\"]').val('$MinCharString');",
+        );
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
@@ -185,7 +190,7 @@ $Selenium->RunTest(
         # verify alert message
         my $ExpectedAlertText = "Fulltext: $MinCharString";
         $Self->True(
-            $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
+            ($Selenium->get_alert_text() =~ /$ExpectedAlertText/),
             'Minimum character string search warning is found',
         );
 
@@ -194,7 +199,9 @@ $Selenium->RunTest(
 
         # try to search fulltext with string more than 30 characters
         $Selenium->find_element( "Fulltext", 'name' )->clear();
-        $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
+        $Selenium->execute_script(
+            "\$('input[name=\"Fulltext\"]').val('$MaxCharString');",
+        );
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
@@ -202,7 +209,7 @@ $Selenium->RunTest(
         # verify alert message
         $ExpectedAlertText = "Fulltext: $MaxCharString";
         $Self->True(
-            $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
+            ($Selenium->get_alert_text() =~ /$ExpectedAlertText/),
             'Maximum character string search warning is found',
         );
 
@@ -211,7 +218,9 @@ $Selenium->RunTest(
 
         # try to search fulltext with 'stop word' search
         $Selenium->find_element( "Fulltext", 'name' )->clear();
-        $Selenium->find_element( "Fulltext", 'name' )->send_keys('because');
+        $Selenium->execute_script(
+            "\$('input[name=\"Fulltext\"]').val('because');",
+        );
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
@@ -219,7 +228,7 @@ $Selenium->RunTest(
         # verify alert message
         $ExpectedAlertText = "Fulltext: because";
         $Self->True(
-            $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
+            ($Selenium->get_alert_text() =~ /$ExpectedAlertText/),
             'Stop word search string warning is found',
         );
 
@@ -228,7 +237,10 @@ $Selenium->RunTest(
 
         # search fulltext with correct input
         $Selenium->find_element( "Fulltext", 'name' )->clear();
-        $Selenium->find_element( "Fulltext", 'name' )->send_keys($Subject);
+        $Selenium->execute_script(
+            "\$('input[name=\"Fulltext\"]').val('$Subject');",
+        );
+
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->VerifiedClick();
 
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div.TicketZoom').length" );
