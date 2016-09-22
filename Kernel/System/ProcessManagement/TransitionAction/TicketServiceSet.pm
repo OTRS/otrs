@@ -280,6 +280,7 @@ checks if a service is assigned to a customer user
     Returns:
 
     $Success = 1;       # or undef
+
 =cut
 
 sub _CheckService {

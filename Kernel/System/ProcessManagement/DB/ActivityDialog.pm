@@ -529,6 +529,7 @@ get an ActivityDialog list
     $List = {
         'AD1' => 'NameOfActivityDialog',
     }
+
 =cut
 
 sub ActivityDialogList {
