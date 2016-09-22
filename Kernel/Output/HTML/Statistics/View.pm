@@ -47,6 +47,7 @@ Provides several functions to generate statistics GUI elements.
 
 =head1 PUBLIC INTERFACE
 
+=cut
 
 sub new {
     my ( $Type, %Param ) = @_;

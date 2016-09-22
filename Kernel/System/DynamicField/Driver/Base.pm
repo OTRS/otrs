@@ -24,6 +24,7 @@ Kernel::System::DynamicField::Driver::Base - common fields backend functions
 
 =head1 PUBLIC INTERFACE
 
+=cut
 
 sub ValueIsDifferent {
     my ( $Self, %Param ) = @_;

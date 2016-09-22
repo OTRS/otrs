@@ -34,6 +34,7 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 
 =head1 PUBLIC INTERFACE
 
+=cut
 
 sub new {
     my ( $Type, %Param ) = @_;
