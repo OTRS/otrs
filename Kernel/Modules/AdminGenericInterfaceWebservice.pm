@@ -899,7 +899,7 @@ sub _ShowEdit {
 
         my %Frontend;
 
-        if (%ExampleWebServicesData) {
+        if ( %ExampleWebServicesData && $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
             $Frontend{ExampleWebServiceList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
                 Name         => 'ExampleWebService',
                 Data         => \%ExampleWebServicesData,
