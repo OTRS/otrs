@@ -435,6 +435,7 @@ returns:
         SignerCertificate => $SignerCertificate,    # the certificate that signs the message
         Content           => $Content,              # the message content
     );
+
 =cut
 
 sub Verify {

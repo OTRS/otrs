@@ -535,6 +535,7 @@ get an Activity list
     $List = {
         'A1' => 'Activity1',
     }
+
 =cut
 
 sub ActivityList {

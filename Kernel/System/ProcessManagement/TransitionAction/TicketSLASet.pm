@@ -279,6 +279,7 @@ checks if a SLA is assigned to a Service
     Returns:
 
     $Success = 1;       # or undef
+
 =cut
 
 sub _CheckSLA {
