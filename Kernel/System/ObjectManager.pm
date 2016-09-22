@@ -113,11 +113,11 @@ By default, the ObjectManager will die if a constructor does not return an objec
         AllowConstructorFailure => 0,  # default 0
     );
 
-=head1 PUBLIC INTERFACE
 
-=over 4
 
-=item new()
+=head1 PUBLIC METHODS
+
+=head2 new()
 
 Creates a new instance of Kernel::System::ObjectManager.
 
@@ -161,7 +161,7 @@ sub new {
     return $Self;
 }
 
-=item Get()
+=head2 Get()
 
 Retrieves a singleton object, and if it not yet exists, implicitly creates one for you.
 
@@ -187,7 +187,7 @@ sub Get {
     return $_[0]->_ObjectBuild( Package => $_[1] );
 }
 
-=item Create()
+=head2 Create()
 
 Creates a new object instance. This instance will not be managed by the object manager later on.
 
@@ -310,7 +310,7 @@ sub _ObjectBuild {
     return $NewObject;
 }
 
-=item ObjectInstanceRegister()
+=head2 ObjectInstanceRegister()
 
 Adds an existing object instance to the ObjectManager so that it can be accessed by other objects.
 
@@ -342,7 +342,7 @@ sub ObjectInstanceRegister {
     return 1;
 }
 
-=item ObjectParamAdd()
+=head2 ObjectParamAdd()
 
 Adds arguments that will be passed to constructors of classes
 when they are created, in the same format as the C<new()> method
@@ -385,7 +385,7 @@ sub ObjectParamAdd {
     return;
 }
 
-=item ObjectEventsHandle()
+=head2 ObjectEventsHandle()
 
 Execute all events for registered objects.
 
@@ -423,7 +423,7 @@ sub ObjectEventsHandle {
     return;
 }
 
-=item ObjectsDiscard()
+=head2 ObjectsDiscard()
 
 Discards internally stored objects, so that the next access to objects
 creates them newly. If a list of object names is passed, only
@@ -583,7 +583,7 @@ sub ObjectsDiscard {
     return 1;
 }
 
-=item ObjectRegisterEventHandler()
+=head2 ObjectRegisterEventHandler()
 
 Registers an object that can handle asynchronous events.
 
@@ -629,8 +629,6 @@ sub DESTROY {
     local $Kernel::OM = $Self;
     $Self->ObjectsDiscard();
 }
-
-=back
 
 =head1 TERMS AND CONDITIONS
 
