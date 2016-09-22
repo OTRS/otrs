@@ -24,13 +24,9 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::GenericInterface::Transport::Test - GenericInterface network transport interface for testing purposes
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item new()
+=head2 new()
 
 usually, you want to create an instance of this
 by using Kernel::GenericInterface::Transport->new();
@@ -70,7 +66,7 @@ sub new {
     return $Self;
 }
 
-=item ProviderProcessRequest()
+=head2 ProviderProcessRequest()
 
 this will read the incoming HTTP request via CGI and
 return the HTTP parameters in the data hash.
@@ -115,7 +111,7 @@ sub ProviderProcessRequest {
     };
 }
 
-=item ProviderGenerateResponse()
+=head2 ProviderGenerateResponse()
 
 this will generate a query string from the passed data hash
 and generate an HTTP response with this string as the body.
@@ -168,7 +164,7 @@ sub ProviderGenerateResponse {
     };
 }
 
-=item RequesterPerformRequest()
+=head2 RequesterPerformRequest()
 
 in Fail mode, returns error status. Otherwise, returns the
 query string generated out of the data for the HTTP response.
@@ -217,8 +213,6 @@ sub RequesterPerformRequest {
         },
     };
 }
-
-=back
 
 =begin Internal:
 

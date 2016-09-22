@@ -21,11 +21,8 @@ Base class for daemon modules.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item PreRun()
+=head2 PreRun()
 
 Perform additional validations/preparations and wait times before Run().
 
@@ -43,7 +40,7 @@ sub PreRun {
     return 1;
 }
 
-=item Run()
+=head2 Run()
 
 Runs the daemon.
 
@@ -61,7 +58,7 @@ sub Run {
     return 1;
 }
 
-=item PostRun()
+=head2 PostRun()
 
 Perform additional cleanups and wait times after Run().
 
@@ -81,7 +78,7 @@ sub PostRun {
     return 1;
 }
 
-=item Summary()
+=head2 Summary()
 
 Provides a summary of what is the daemon doing in the current time, the summary is in form of tabular
 data and it must contain a header, the definition of the columns, the data, and a message if there
@@ -124,8 +121,6 @@ sub Summary {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

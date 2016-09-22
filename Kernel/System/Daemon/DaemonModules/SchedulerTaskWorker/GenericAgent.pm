@@ -31,11 +31,8 @@ This task handler executes generic agent jobs
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
@@ -55,7 +52,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 Performs the selected task.
 
@@ -166,8 +163,6 @@ sub Run {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

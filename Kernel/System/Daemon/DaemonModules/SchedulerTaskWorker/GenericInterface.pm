@@ -32,11 +32,8 @@ This task handler executes scheduler tasks delegated by asynchronous invoker con
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
@@ -56,7 +53,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 Performs the selected Task, causing an Invoker call via GenericInterface.
 
@@ -188,8 +185,6 @@ sub Run {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

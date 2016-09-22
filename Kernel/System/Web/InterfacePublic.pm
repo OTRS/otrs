@@ -32,11 +32,8 @@ the global public web interface
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create public web interface object
 
@@ -83,7 +80,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 execute the object
 
@@ -266,8 +263,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

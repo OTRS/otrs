@@ -34,11 +34,8 @@ DynamicFields backend interface
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a DynamicField backend object. Do not use it directly, instead use:
 
@@ -203,7 +200,7 @@ sub new {
     return $Self;
 }
 
-=item EditFieldRender()
+=head2 EditFieldRender()
 
 creates the field HTML to be used in edit masks.
 
@@ -319,7 +316,7 @@ sub EditFieldRender {
 
 }
 
-=item DisplayValueRender()
+=head2 DisplayValueRender()
 
 creates value and title strings to be used in display masks. Supports HTML output
 and will transform dates to the current user's timezone.
@@ -396,7 +393,7 @@ sub DisplayValueRender {
     return $ValueStrg;
 }
 
-=item ValueSet()
+=head2 ValueSet()
 
 sets a dynamic field value.
 
@@ -549,7 +546,7 @@ sub ValueSet {
     return 1;
 }
 
-=item ValueIsDifferent()
+=head2 ValueIsDifferent()
 
 compares if two dynamic field values are different.
 
@@ -623,7 +620,7 @@ sub ValueIsDifferent {
     return $Self->{$DynamicFieldBackend}->ValueIsDifferent(%Param);
 }
 
-=item ValueDelete()
+=head2 ValueDelete()
 
 deletes a dynamic field value.
 
@@ -712,7 +709,7 @@ sub ValueDelete {
     return 1;
 }
 
-=item AllValuesDelete()
+=head2 AllValuesDelete()
 
 deletes all values of a dynamic field.
 
@@ -771,7 +768,7 @@ sub AllValuesDelete {
     return $Self->{$DynamicFieldBackend}->AllValuesDelete(%Param);
 }
 
-=item ValueValidate()
+=head2 ValueValidate()
 
 validates a dynamic field value.
 
@@ -832,7 +829,7 @@ sub ValueValidate {
     return $Self->{$DynamicFieldBackend}->ValueValidate(%Param);
 }
 
-=item ValueGet()
+=head2 ValueGet()
 
 get a dynamic field value.
 
@@ -932,7 +929,7 @@ sub ValueGet {
     return $Self->{$DynamicFieldBackend}->ValueGet(%Param);
 }
 
-=item SearchSQLGet()
+=head2 SearchSQLGet()
 
 returns the SQL WHERE part that needs to be used to search in a particular
 dynamic field. The table must already be joined.
@@ -998,7 +995,7 @@ sub SearchSQLGet {
     return $Self->{$DynamicFieldBackend}->SearchSQLGet(%Param);
 }
 
-=item SearchSQLOrderFieldGet()
+=head2 SearchSQLOrderFieldGet()
 
 returns the SQL field needed for ordering based on a dynamic field.
 
@@ -1057,7 +1054,7 @@ sub SearchSQLOrderFieldGet {
     return $Self->{$DynamicFieldBackend}->SearchSQLOrderFieldGet(%Param);
 }
 
-=item EditFieldValueGet()
+=head2 EditFieldValueGet()
 
 extracts the value of a dynamic field from the param object.
 
@@ -1180,7 +1177,7 @@ sub EditFieldValueGet {
     return $Self->{$DynamicFieldBackend}->EditFieldValueGet(%Param);
 }
 
-=item EditFieldValueValidate()
+=head2 EditFieldValueValidate()
 
 validate the current value for the dynamic field
 
@@ -1264,7 +1261,7 @@ sub EditFieldValueValidate {
 
 }
 
-=item SearchFieldRender()
+=head2 SearchFieldRender()
 
 creates the field HTML to be used in search masks.
 
@@ -1362,7 +1359,7 @@ sub SearchFieldRender {
 
 }
 
-=item SearchFieldValueGet()
+=head2 SearchFieldValueGet()
 
 extracts the value of a dynamic field from the param object or search profile.
 
@@ -1506,7 +1503,7 @@ sub SearchFieldValueGet {
     return $Self->{$DynamicFieldBackend}->SearchFieldValueGet(%Param);
 }
 
-=item SearchFieldPreferences()
+=head2 SearchFieldPreferences()
 
 Returns the search field preferences of the backend.
 
@@ -1584,7 +1581,7 @@ sub SearchFieldPreferences {
 
 }
 
-=item SearchFieldParameterBuild()
+=head2 SearchFieldParameterBuild()
 
 build the search parameters to be passed to the search engine.
 
@@ -1662,7 +1659,7 @@ sub SearchFieldParameterBuild {
     return $Self->{$DynamicFieldBackend}->SearchFieldParameterBuild(%Param);
 }
 
-=item ReadableValueRender()
+=head2 ReadableValueRender()
 
 creates value and title strings to be used for storage (e. g. TicketHistory).
 Produces text output and does not transform time zones of dates.
@@ -1732,7 +1729,7 @@ sub ReadableValueRender {
     return $ValueStrg;
 }
 
-=item TemplateValueTypeGet()
+=head2 TemplateValueTypeGet()
 
 gets the value type (SCALAR or ARRAY) for a field stored on a template, like a Search Profile or a
 Generic Agent job
@@ -1829,7 +1826,7 @@ sub TemplateValueTypeGet {
     return $ValueType;
 }
 
-=item RandomValueSet()
+=head2 RandomValueSet()
 
 sets a dynamic field random value.
 
@@ -1921,7 +1918,7 @@ sub RandomValueSet {
     return $Result
 }
 
-=item HistoricalValuesGet()
+=head2 HistoricalValuesGet()
 
 returns the list of database values for a defined dynamic field. This function is used to calculate
 ACLs in Search Dialog
@@ -1989,7 +1986,7 @@ sub HistoricalValuesGet {
     return $Self->{$DynamicFieldBackend}->HistoricalValuesGet(%Param);
 }
 
-=item ValueLookup()
+=head2 ValueLookup()
 
 returns the display value for a value key for a defined Dynamic Field. This function is meaningfull
 for those Dynamic Fields that stores a value different than the value that is shown ( e.g. a
@@ -2061,7 +2058,7 @@ sub ValueLookup {
     return $Self->{$DynamicFieldBackend}->ValueLookup(%Param);
 }
 
-=item HasBehavior()
+=head2 HasBehavior()
 
 checks if the dynamic field as an specified behavior
 
@@ -2139,20 +2136,13 @@ sub HasBehavior {
     return $Self->{$DynamicFieldBackend}->HasBehavior(%Param);
 }
 
-=back
-
-=cut
-
 =head2 Functions For IsACLReducible Behavior
 
 The following functions should be only used if the dynamic field has
 IsACLReducible behavior
 
-=over 4
 
-=cut
-
-=item PossibleValuesGet()
+=head2 PossibleValuesGet()
 
 returns the list of possible values for a dynamic field
 
@@ -2222,7 +2212,7 @@ sub PossibleValuesGet {
     return $Self->{$DynamicFieldBackend}->PossibleValuesGet(%Param);
 }
 
-=item BuildSelectionDataGet()
+=head2 BuildSelectionDataGet()
 
 returns the list of possible values for a dynamic field as needed for BuildSelection or
 BuildSelectionJSON if TreeView parameter is set in the DynamicFieldConfig the result will be
@@ -2326,19 +2316,12 @@ sub BuildSelectionDataGet {
     return $Self->{$DynamicFieldBackend}->BuildSelectionDataGet(%Param);
 }
 
-=back
-
-=cut
-
 =head2 Functions For IsStatsCondition Behavior
 
 The following functions should be only used if the dynamic field has IsStatsCondition behavior
 
-=over 4
 
-=cut
-
-=item StatsFieldParameterBuild()
+=head2 StatsFieldParameterBuild()
 
     my $DynamicFieldStatsParameter =  $BackendObject->StatsFieldParameterBuild(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
@@ -2413,7 +2396,7 @@ sub StatsFieldParameterBuild {
 
 }
 
-=item StatsSearchFieldParameterBuild()
+=head2 StatsSearchFieldParameterBuild()
 
 build the search parameters to be passed to the search engine within the stats module.
 
@@ -2488,20 +2471,12 @@ sub StatsSearchFieldParameterBuild {
 
 }
 
-=back
-
-=cut
-
 =head2 Functions For IsNotificationEventCondition Behavior
 
 The following functions should be only used if the dynamic field has IsNotificationEventCondition
 behavior
 
-=over 4
-
-=cut
-
-=item ObjectMatch()
+=head2 ObjectMatch()
 
 return if the current field values matches with the value got in an objects attribute structure (
 like the result of a TicketGet() )
@@ -2579,19 +2554,12 @@ sub ObjectMatch {
     return $Self->{$DynamicFieldBackend}->ObjectMatch(%Param);
 }
 
-=back
-
-=cut
-
 =head2 Functions For IsFiltrable Behavior
 
 The following functions should be only used if the dynamic field has IsFiltrable behavior
 
-=over 4
 
-=cut
-
-=item ColumnFilterValuesGet()
+=head2 ColumnFilterValuesGet()
 
 get the list distinct values for a dynamic field from a list of tickets
 
@@ -2665,7 +2633,7 @@ sub ColumnFilterValuesGet {
     );
 }
 
-=item ValueSearch()
+=head2 ValueSearch()
 
 Searches/fetches dynamic field value.
 
@@ -2718,10 +2686,6 @@ sub ValueSearch {
         Search             => $Param{Search},
     );
 }
-
-=back
-
-=cut
 
 1;
 

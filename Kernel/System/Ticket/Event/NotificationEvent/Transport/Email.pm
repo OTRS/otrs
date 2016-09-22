@@ -44,11 +44,8 @@ Notification event transport layer.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a notification transport object. Do not use it directly, instead use:
 
@@ -723,8 +720,6 @@ sub SecurityOptionsGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -35,11 +35,8 @@ All main functions to load modules, die, and handle files.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create new object. Do not use it directly, instead use:
 
@@ -59,7 +56,7 @@ sub new {
     return $Self;
 }
 
-=item Require()
+=head2 Require()
 
 require/load a module
 
@@ -145,7 +142,7 @@ sub Require {
     return 1;
 }
 
-=item RequireBaseClass()
+=head2 RequireBaseClass()
 
 require/load a module and add it as a base class to the
 calling package, if not already present (this check is needed
@@ -177,7 +174,7 @@ sub RequireBaseClass {
     return 1;
 }
 
-=item Die()
+=head2 Die()
 
 to die
 
@@ -200,7 +197,7 @@ sub Die {
     exit;
 }
 
-=item FilenameCleanUp()
+=head2 FilenameCleanUp()
 
 to clean up filenames which can be used in any case (also quoting is done)
 
@@ -268,7 +265,7 @@ sub FilenameCleanUp {
     return $Param{Filename};
 }
 
-=item FileRead()
+=head2 FileRead()
 
 to read files from file system
 
@@ -388,7 +385,7 @@ sub FileRead {
     return \$String;
 }
 
-=item FileWrite()
+=head2 FileWrite()
 
 to write data to file system
 
@@ -514,7 +511,7 @@ sub FileWrite {
     return $Param{Location};
 }
 
-=item FileDelete()
+=head2 FileDelete()
 
 to delete a file from file system
 
@@ -579,7 +576,7 @@ sub FileDelete {
     return 1;
 }
 
-=item FileGetMTime()
+=head2 FileGetMTime()
 
 get timestamp of file change time
 
@@ -643,7 +640,7 @@ sub FileGetMTime {
     return $Stat->mtime();
 }
 
-=item MD5sum()
+=head2 MD5sum()
 
 get a md5 sum of a file or a string
 
@@ -725,7 +722,7 @@ sub MD5sum {
     return;
 }
 
-=item Dump()
+=head2 Dump()
 
 dump variable to an string
 
@@ -807,7 +804,7 @@ sub Dump {
 
 }
 
-=item DirectoryRead()
+=head2 DirectoryRead()
 
 reads a directory and returns an array with results.
 
@@ -964,7 +961,7 @@ sub DirectoryRead {
     return @Results;
 }
 
-=item GenerateRandomString()
+=head2 GenerateRandomString()
 
 generate a random string of defined length, and of a defined alphabet.
 defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
@@ -1106,8 +1103,6 @@ sub _Dump {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

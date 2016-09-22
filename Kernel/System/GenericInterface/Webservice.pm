@@ -36,11 +36,8 @@ Webservice configuration backend.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -60,7 +57,7 @@ sub new {
     return $Self;
 }
 
-=item WebserviceAdd()
+=head2 WebserviceAdd()
 
 add new Webservices
 
@@ -187,7 +184,7 @@ sub WebserviceAdd {
     return $ID;
 }
 
-=item WebserviceGet()
+=head2 WebserviceGet()
 
 get Webservices attributes
 
@@ -295,7 +292,7 @@ sub WebserviceGet {
     return \%Data;
 }
 
-=item WebserviceUpdate()
+=head2 WebserviceUpdate()
 
 update Webservice attributes
 
@@ -432,7 +429,7 @@ sub WebserviceUpdate {
     return 1;
 }
 
-=item WebserviceDelete()
+=head2 WebserviceDelete()
 
 delete a Webservice
 
@@ -497,7 +494,7 @@ sub WebserviceDelete {
     return 1;
 }
 
-=item WebserviceList()
+=head2 WebserviceList()
 
 get Webservice list
 
@@ -567,8 +564,6 @@ sub WebserviceList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

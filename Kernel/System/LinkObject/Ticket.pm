@@ -29,11 +29,8 @@ Ticket backend for the ticket link object.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -53,7 +50,7 @@ sub new {
     return $Self;
 }
 
-=item LinkListWithData()
+=head2 LinkListWithData()
 
 fill up the link list with data
 
@@ -139,7 +136,7 @@ sub LinkListWithData {
     return 1;
 }
 
-=item ObjectPermission()
+=head2 ObjectPermission()
 
 checks read permission for a given object and UserID.
 
@@ -172,7 +169,7 @@ sub ObjectPermission {
     );
 }
 
-=item ObjectDescriptionGet()
+=head2 ObjectDescriptionGet()
 
 return a hash of object descriptions
 
@@ -233,7 +230,7 @@ sub ObjectDescriptionGet {
     return %Description;
 }
 
-=item ObjectSearch()
+=head2 ObjectSearch()
 
 return a hash list of the search results
 
@@ -337,7 +334,7 @@ sub ObjectSearch {
     return \%SearchList;
 }
 
-=item LinkAddPre()
+=head2 LinkAddPre()
 
 link add pre event module
 
@@ -382,7 +379,7 @@ sub LinkAddPre {
     return 1;
 }
 
-=item LinkAddPost()
+=head2 LinkAddPost()
 
 link add pre event module
 
@@ -486,7 +483,7 @@ sub LinkAddPost {
     return 1;
 }
 
-=item LinkDeletePre()
+=head2 LinkDeletePre()
 
 link delete pre event module
 
@@ -531,7 +528,7 @@ sub LinkDeletePre {
     return 1;
 }
 
-=item LinkDeletePost()
+=head2 LinkDeletePost()
 
 link delete post event module
 
@@ -636,8 +633,6 @@ sub LinkDeletePost {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

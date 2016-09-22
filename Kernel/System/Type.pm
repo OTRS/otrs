@@ -30,11 +30,8 @@ All type functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object
 
@@ -57,7 +54,7 @@ sub new {
     return $Self;
 }
 
-=item TypeAdd()
+=head2 TypeAdd()
 
 add a new ticket type
 
@@ -124,7 +121,7 @@ sub TypeAdd {
     return $ID;
 }
 
-=item TypeGet()
+=head2 TypeGet()
 
 get types attributes
 
@@ -236,7 +233,7 @@ sub TypeGet {
     return %Type;
 }
 
-=item TypeUpdate()
+=head2 TypeUpdate()
 
 update type attributes
 
@@ -328,7 +325,7 @@ sub TypeUpdate {
     return 1;
 }
 
-=item TypeList()
+=head2 TypeList()
 
 get type list
 
@@ -395,7 +392,7 @@ sub TypeList {
     return %TypeList;
 }
 
-=item TypeLookup()
+=head2 TypeLookup()
 
 get id or name for a ticket type
 
@@ -449,7 +446,7 @@ sub TypeLookup {
     return $ReturnData;
 }
 
-=item NameExistsCheck()
+=head2 NameExistsCheck()
 
     return 1 if another type with this name already exits
 
@@ -483,8 +480,6 @@ sub NameExistsCheck {
     return 0;
 }
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

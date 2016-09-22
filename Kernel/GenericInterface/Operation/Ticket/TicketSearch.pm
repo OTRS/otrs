@@ -26,11 +26,8 @@ Kernel::GenericInterface::Operation::Ticket::TicketSearch - GenericInterface Tic
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 usually, you want to create an instance of this
 by using Kernel::GenericInterface::Operation->new();
@@ -61,7 +58,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 perform TicketSearch Operation. This will return a Ticket ID list.
 
@@ -348,7 +345,7 @@ sub Run {
 
 =begin Internal:
 
-=item _GetParams()
+=head2 _GetParams()
 
 get search parameters.
 
@@ -494,7 +491,7 @@ sub _GetParams {
 
 }
 
-=item _GetDynamicFields()
+=head2 _GetDynamicFields()
 
 get search parameters.
 
@@ -553,7 +550,7 @@ sub _GetDynamicFields {
 
 }
 
-=item _CreateTimeSettings()
+=head2 _CreateTimeSettings()
 
 get search parameters.
 
@@ -812,8 +809,6 @@ sub _CreateTimeSettings {
 }
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

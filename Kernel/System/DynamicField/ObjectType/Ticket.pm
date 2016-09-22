@@ -32,9 +32,7 @@ Ticket object handler for DynamicFields
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item new()
+=head2 new()
 
 usually, you want to create an instance of this
 by using Kernel::System::DynamicField::ObjectType::Ticket->new();
@@ -50,7 +48,7 @@ sub new {
     return $Self;
 }
 
-=item PostValueSet()
+=head2 PostValueSet()
 
 perform specific functions after the Value set for this object type.
 
@@ -233,8 +231,6 @@ sub PostValueSet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

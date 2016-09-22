@@ -34,11 +34,8 @@ CloudService configuration backend.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -58,7 +55,7 @@ sub new {
     return $Self;
 }
 
-=item CloudServiceAdd()
+=head2 CloudServiceAdd()
 
 add new CloudServices
 
@@ -141,7 +138,7 @@ sub CloudServiceAdd {
     return $ID;
 }
 
-=item CloudServiceGet()
+=head2 CloudServiceGet()
 
 get CloudServices attributes
 
@@ -249,7 +246,7 @@ sub CloudServiceGet {
     return \%Data;
 }
 
-=item CloudServiceUpdate()
+=head2 CloudServiceUpdate()
 
 update CloudService attributes
 
@@ -342,7 +339,7 @@ sub CloudServiceUpdate {
     return 1;
 }
 
-=item CloudServiceDelete()
+=head2 CloudServiceDelete()
 
 delete a CloudService
 
@@ -389,7 +386,7 @@ sub CloudServiceDelete {
     return 1;
 }
 
-=item CloudServiceList()
+=head2 CloudServiceList()
 
 get CloudService list
 
@@ -459,8 +456,6 @@ sub CloudServiceList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

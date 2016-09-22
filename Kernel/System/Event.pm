@@ -26,11 +26,8 @@ Global module to manage events.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -50,7 +47,7 @@ sub new {
     return $Self;
 }
 
-=item EventList()
+=head2 EventList()
 
 get a list of available events in the system.
 
@@ -108,8 +105,6 @@ sub EventList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

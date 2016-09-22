@@ -22,11 +22,8 @@ Kernel::Output::Template::Document - Template Toolkit document extension package
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item process()
+=head2 process()
 
 process this template document. This method is inherited from
 Template::Document and used to perform some up-front initialization
@@ -44,7 +41,7 @@ sub process {
     return $Self->SUPER::process($Context);
 }
 
-=item _InstallOTRSExtensions()
+=head2 _InstallOTRSExtensions()
 
 adds some OTRS specific extensions to Template::Toolkit.
 
@@ -252,7 +249,7 @@ sub _InstallOTRSExtensions {
     return;
 }
 
-=item _PrecalculateBlockStructure()
+=head2 _PrecalculateBlockStructure()
 
 pre-calculates the tree structure of the blocks so that it
 can be used by PerformRenderBlock in an efficient way.
@@ -327,7 +324,7 @@ sub _PrecalculateBlockStructure {
     return;
 }
 
-=item _PrecalculateBlockHookSubscriptions()
+=head2 _PrecalculateBlockHookSubscriptions()
 
 =cut
 
@@ -355,8 +352,6 @@ sub _PrecalculateBlockHookSubscriptions {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

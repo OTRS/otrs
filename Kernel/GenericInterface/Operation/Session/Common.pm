@@ -19,15 +19,10 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::GenericInterface::Operation::Session::Common - Base class for Session Operations
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item CreateSessionID()
+=head2 CreateSessionID()
 
 performs user authentication and return a new SessionID value
 
@@ -135,8 +130,6 @@ sub CreateSessionID {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

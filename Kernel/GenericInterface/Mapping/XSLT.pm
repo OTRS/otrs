@@ -19,15 +19,10 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::GenericInterface::Mapping::XSLT - GenericInterface XSLT data mapping backend
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 usually, you want to create an instance of this
 by using Kernel::GenericInterface::Mapping->new();
@@ -73,7 +68,7 @@ sub new {
     return $Self;
 }
 
-=item Map()
+=head2 Map()
 
 provides mapping based on XSLT stylesheets
 
@@ -238,8 +233,6 @@ sub Map {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

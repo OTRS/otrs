@@ -32,11 +32,8 @@ All functions to link objects like tickets, faqs, ...
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -59,7 +56,7 @@ sub new {
     return $Self;
 }
 
-=item PossibleTypesList()
+=head2 PossibleTypesList()
 
 return a hash of all possible types
 
@@ -138,7 +135,7 @@ sub PossibleTypesList {
     return %PossibleTypesList;
 }
 
-=item PossibleObjectsList()
+=head2 PossibleObjectsList()
 
 return a hash of all possible objects
 
@@ -194,7 +191,7 @@ sub PossibleObjectsList {
     return %PossibleObjectsList;
 }
 
-=item PossibleLinkList()
+=head2 PossibleLinkList()
 
 return a 2d hash list of all possible links
 
@@ -310,7 +307,7 @@ sub PossibleLinkList {
     return %PossibleLinkList;
 }
 
-=item LinkAdd()
+=head2 LinkAdd()
 
 add a new link between two elements
 
@@ -568,7 +565,7 @@ sub LinkAdd {
     return 1;
 }
 
-=item LinkCleanup()
+=head2 LinkCleanup()
 
 deletes old links from database
 
@@ -627,7 +624,7 @@ sub LinkCleanup {
     return 1;
 }
 
-=item LinkDelete()
+=head2 LinkDelete()
 
 deletes a link
 
@@ -820,7 +817,7 @@ sub LinkDelete {
     return 1;
 }
 
-=item LinkDeleteAll()
+=head2 LinkDeleteAll()
 
 delete all links of an object
 
@@ -898,7 +895,7 @@ sub LinkDeleteAll {
     return 1;
 }
 
-=item LinkList()
+=head2 LinkList()
 
 get all existing links for a given object
 
@@ -1131,7 +1128,7 @@ sub LinkList {
     return \%Links;
 }
 
-=item LinkListWithData()
+=head2 LinkListWithData()
 
 get all existing links for a given object with data of the other objects
 
@@ -1275,7 +1272,7 @@ sub LinkListWithData {
     return $LinkList;
 }
 
-=item LinkKeyList()
+=head2 LinkKeyList()
 
 return a hash with all existing links of a given object
 
@@ -1348,7 +1345,7 @@ sub LinkKeyList {
     return %LinkKeyList;
 }
 
-=item LinkKeyListWithData()
+=head2 LinkKeyListWithData()
 
 return a hash with all existing links of a given object
 
@@ -1421,7 +1418,7 @@ sub LinkKeyListWithData {
     return %LinkKeyList;
 }
 
-=item ObjectLookup()
+=head2 ObjectLookup()
 
 lookup a link object
 
@@ -1568,7 +1565,7 @@ sub ObjectLookup {
     }
 }
 
-=item TypeLookup()
+=head2 TypeLookup()
 
 lookup a link type
 
@@ -1732,7 +1729,7 @@ sub TypeLookup {
     }
 }
 
-=item TypeGet()
+=head2 TypeGet()
 
 get a link type
 
@@ -1851,7 +1848,7 @@ sub TypeGet {
     return %Type;
 }
 
-=item TypeList()
+=head2 TypeList()
 
 return a 2d hash list of all valid link types
 
@@ -1911,7 +1908,7 @@ sub TypeList {
     return %TypeList;
 }
 
-=item TypeGroupList()
+=head2 TypeGroupList()
 
 return a 2d hash list of all type groups
 
@@ -2010,7 +2007,7 @@ sub TypeGroupList {
     return %TypeGroupList;
 }
 
-=item PossibleType()
+=head2 PossibleType()
 
 return true if both types are NOT together in a type group
 
@@ -2051,7 +2048,7 @@ sub PossibleType {
     return 1;
 }
 
-=item StateLookup()
+=head2 StateLookup()
 
 lookup a link state
 
@@ -2177,7 +2174,7 @@ sub StateLookup {
     }
 }
 
-=item StateList()
+=head2 StateList()
 
 return a hash list of all valid link states
 
@@ -2228,7 +2225,7 @@ sub StateList {
     return %StateList;
 }
 
-=item ObjectPermission()
+=head2 ObjectPermission()
 
 checks read permission for a given object and UserID.
 
@@ -2265,7 +2262,7 @@ sub ObjectPermission {
     );
 }
 
-=item ObjectDescriptionGet()
+=head2 ObjectDescriptionGet()
 
 return a hash of object descriptions
 
@@ -2310,7 +2307,7 @@ sub ObjectDescriptionGet {
     return %Description;
 }
 
-=item ObjectSearch()
+=head2 ObjectSearch()
 
 return a hash reference of the search results
 
@@ -2367,8 +2364,6 @@ sub ObjectSearch {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

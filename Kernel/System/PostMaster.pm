@@ -43,11 +43,8 @@ All postmaster functions. E. g. to process emails.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -131,7 +128,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 to execute the run process
 
@@ -432,7 +429,7 @@ sub Run {
     return @Return;
 }
 
-=item CheckFollowUp()
+=head2 CheckFollowUp()
 
 to detect the ticket number in processing email
 
@@ -489,7 +486,7 @@ sub CheckFollowUp {
     return;
 }
 
-=item GetEmailParams()
+=head2 GetEmailParams()
 
 to get all configured PostmasterX-Header email headers
 
@@ -602,8 +599,6 @@ sub GetEmailParams {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

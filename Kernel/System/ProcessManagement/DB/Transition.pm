@@ -31,11 +31,8 @@ Process Management DB Transition backend
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -64,7 +61,7 @@ sub new {
     return $Self;
 }
 
-=item TransitionAdd()
+=head2 TransitionAdd()
 
 add new Trnsition
 
@@ -190,7 +187,7 @@ sub TransitionAdd {
     return $ID;
 }
 
-=item TransitionDelete()
+=head2 TransitionDelete()
 
 delete an Transition
 
@@ -238,7 +235,7 @@ sub TransitionDelete {
     return 1;
 }
 
-=item TransitionGet()
+=head2 TransitionGet()
 
 get Transition attributes
 
@@ -356,7 +353,7 @@ sub TransitionGet {
     return \%Data;
 }
 
-=item TransitionUpdate()
+=head2 TransitionUpdate()
 
 update Transition attributes
 
@@ -493,7 +490,7 @@ sub TransitionUpdate {
     return 1;
 }
 
-=item TransitionList()
+=head2 TransitionList()
 
 get an Transition list
 
@@ -576,7 +573,7 @@ sub TransitionList {
     return \%Data;
 }
 
-=item TransitionListGet()
+=head2 TransitionListGet()
 
 get a Transition list with all Transition details
 
@@ -669,8 +666,6 @@ sub TransitionListGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

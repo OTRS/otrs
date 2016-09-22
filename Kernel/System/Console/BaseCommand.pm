@@ -34,11 +34,8 @@ Base class for console commands.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 constructor for new objects. You should not need to reimplement this in your command,
 override L</Configure()> instead if you need to.
@@ -97,7 +94,7 @@ sub new {
     return $Self;
 }
 
-=item Configure()
+=head2 Configure()
 
 initializes this object. Override this method in your commands.
 
@@ -109,7 +106,7 @@ sub Configure {
     return;
 }
 
-=item Name()
+=head2 Name()
 
 get the Name of the current Command, e. g. 'Admin::User::SetPassword'.
 
@@ -121,7 +118,7 @@ sub Name {
     return $Self->{Name};
 }
 
-=item Description()
+=head2 Description()
 
 get/set description for the current command. Call this in your Configure() method.
 
@@ -135,7 +132,7 @@ sub Description {
     return $Self->{Description};
 }
 
-=item AdditionalHelp()
+=head2 AdditionalHelp()
 
 get/set additional help text for the current command. Call this in your Configure() method.
 
@@ -151,7 +148,7 @@ sub AdditionalHelp {
     return $Self->{AdditionalHelp};
 }
 
-=item AddArgument()
+=head2 AddArgument()
 
 adds an argument that can/must be specified on the command line.
 This function must be called during Configure() by the command to
@@ -202,7 +199,7 @@ sub AddArgument {
     push @{ $Self->{_Arguments} }, \%Param;
 }
 
-=item GetArgument()
+=head2 GetArgument()
 
 fetch an argument value as provided by the user on the commandline.
 
@@ -221,7 +218,7 @@ sub GetArgument {
     return $Self->{_ParsedARGV}->{Arguments}->{$Argument};
 }
 
-=item AddOption()
+=head2 AddOption()
 
 adds an option that can/must be specified on the command line.
 This function must be called during L</Configure()> by the command to
@@ -293,7 +290,7 @@ sub AddOption {
 
 }
 
-=item GetOption()
+=head2 GetOption()
 
 fetch an option as provided by the user on the commandline.
 
@@ -319,7 +316,7 @@ sub GetOption {
 
 }
 
-=item PreRun()
+=head2 PreRun()
 
 perform additional validations/preparations before Run(). Override this method in your commands.
 
@@ -331,7 +328,7 @@ sub PreRun {
     return 1;
 }
 
-=item Run()
+=head2 Run()
 
 runs the command. Override this method in your commands.
 
@@ -348,7 +345,7 @@ sub Run {
     return $Self->ExitCodeOk();
 }
 
-=item PostRun()
+=head2 PostRun()
 
 perform additional cleanups after Run(). Override this method in your commands.
 
@@ -364,7 +361,7 @@ sub PostRun {
     return;
 }
 
-=item Execute()
+=head2 Execute()
 
 this method will parse/validate the commandline arguments supplied by the user.
 If that was ok, the Run() method of the command will be called.
@@ -462,7 +459,7 @@ sub Execute {
     return $ExitCode;
 }
 
-=item ExitCodeError()
+=head2 ExitCodeError()
 
 returns an exit code to signal something went wrong (mostly for better
 code readabiliby).
@@ -481,7 +478,7 @@ sub ExitCodeError {
     return $CustomExitCode // 1;
 }
 
-=item ExitCodeOk()
+=head2 ExitCodeOk()
 
 returns 0 as exit code to indicate everything went fine in the command
 (mostly for better code readability).
@@ -492,7 +489,7 @@ sub ExitCodeOk {
     return 0;
 }
 
-=item GetUsageHelp()
+=head2 GetUsageHelp()
 
 generates usage / help screen for this command.
 
@@ -564,7 +561,7 @@ sub GetUsageHelp {
     return $Self->_ReplaceColorTags($UsageText);
 }
 
-=item ANSI()
+=head2 ANSI()
 
 get/set support for colored text.
 
@@ -577,7 +574,7 @@ sub ANSI {
     return $Self->{ANSI};
 }
 
-=item PrintError()
+=head2 PrintError()
 
 shorthand method to print an error message to STDERR.
 
@@ -594,7 +591,7 @@ sub PrintError {
     return;
 }
 
-=item Print()
+=head2 Print()
 
 this method will print the given text to STDOUT.
 
@@ -613,7 +610,7 @@ sub Print {
     return;
 }
 
-=item _ParseGlobalOptions()
+=head2 _ParseGlobalOptions()
 
 parses any global options possibly provided by the user.
 
@@ -645,7 +642,7 @@ sub _ParseGlobalOptions {
     return \%OptionValues;
 }
 
-=item _ParseCommandlineArguments()
+=head2 _ParseCommandlineArguments()
 
 parses and validates the commandline arguments provided by the user according to
 the configured arguments and options of the command.
@@ -768,7 +765,7 @@ sub _ParseCommandlineArguments {
     };
 }
 
-=item _Color()
+=head2 _Color()
 
 this will color the given text (see Term::ANSIColor::color()) if
 ANSI output is available and active, otherwise the text stays unchanged.
@@ -792,8 +789,6 @@ sub _ReplaceColorTags {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

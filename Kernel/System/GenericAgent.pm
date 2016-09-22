@@ -41,11 +41,8 @@ All functions to manage the generic agent and the generic agent jobs.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -166,7 +163,7 @@ sub new {
     return $Self;
 }
 
-=item JobRun()
+=head2 JobRun()
 
 run a generic agent job
 
@@ -512,7 +509,7 @@ sub JobRun {
     return 1;
 }
 
-=item JobList()
+=head2 JobList()
 
 returns a hash of jobs
 
@@ -556,7 +553,7 @@ sub JobList {
     return %Data;
 }
 
-=item JobGet()
+=head2 JobGet()
 
 returns a hash of the job data
 
@@ -744,7 +741,7 @@ sub JobGet {
     return %Data;
 }
 
-=item JobAdd()
+=head2 JobAdd()
 
 adds a new job to the database
 
@@ -823,7 +820,7 @@ sub JobAdd {
     return 1;
 }
 
-=item JobDelete()
+=head2 JobDelete()
 
 deletes a job from the database
 
@@ -870,7 +867,7 @@ sub JobDelete {
     return 1;
 }
 
-=item JobEventList()
+=head2 JobEventList()
 
 returns a hash of events for each job
 
@@ -915,7 +912,7 @@ sub JobEventList {
 
 =cut
 
-=item _JobRunTicket()
+=head2 _JobRunTicket()
 
 run a generic agent job on a ticket
 
@@ -1528,8 +1525,6 @@ sub _JobUpdateRunTime {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

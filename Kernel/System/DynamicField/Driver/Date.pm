@@ -39,9 +39,7 @@ DynamicFields Date Driver delegate
 This module implements the public interface of L<Kernel::System::DynamicField::Backend>.
 Please look there for a detailed reference of the functions.
 
-=over 4
-
-=item new()
+=head2 new()
 
 usually, you want to create an instance of this
 by using Kernel::System::DynamicField::Backend->new();
@@ -1340,8 +1338,6 @@ sub RandomValueSet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -28,11 +28,8 @@ All Process Management Activity functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -52,7 +49,7 @@ sub new {
     return $Self;
 }
 
-=item ActivityGet()
+=head2 ActivityGet()
 
     Get Activity info
     Returned activity dialogs are limited to given interface
@@ -152,7 +149,7 @@ sub ActivityGet {
     return $ActivityEntity;
 }
 
-=item ActivityList()
+=head2 ActivityList()
 
     Get a list of all Activities
 
@@ -187,8 +184,6 @@ sub ActivityList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

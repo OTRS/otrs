@@ -26,11 +26,8 @@ Kernel::System::Console::InterfaceConsole - console interface
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -49,7 +46,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 execute a command. Returns the shell status code to be used by exit().
 
@@ -94,8 +91,6 @@ sub Run {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

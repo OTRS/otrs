@@ -42,11 +42,8 @@ functions to define test cases.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create unit test object. Do not use it directly, instead use:
 
@@ -95,7 +92,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 Run all tests located in scripts/test/*.t and print result to stdout.
 
@@ -285,7 +282,7 @@ sub Run {
     return $ResultSummary{TestNotOk} ? 0 : 1;
 }
 
-=item True()
+=head2 True()
 
 test for a scalar value that evaluates to true.
 
@@ -327,7 +324,7 @@ sub True {
     }
 }
 
-=item False()
+=head2 False()
 
 test for a scalar value that evaluates to false.
 
@@ -358,7 +355,7 @@ sub False {
     }
 }
 
-=item Is()
+=head2 Is()
 
 compares two scalar values for equality.
 
@@ -412,7 +409,7 @@ sub Is {
     }
 }
 
-=item IsNot()
+=head2 IsNot()
 
 compares two scalar values for inequality.
 
@@ -455,7 +452,7 @@ sub IsNot {
     }
 }
 
-=item IsDeeply()
+=head2 IsDeeply()
 
 compares complex data structures for equality.
 
@@ -518,7 +515,7 @@ sub IsDeeply {
     }
 }
 
-=item IsNotDeeply()
+=head2 IsNotDeeply()
 
 compares two data structures for inequality.
 
@@ -575,7 +572,7 @@ sub IsNotDeeply {
 
 =cut
 
-=item _DataDiff()
+=head2 _DataDiff()
 
 compares two data structures with each other. Returns 1 if
 they are different, undef otherwise.
@@ -895,7 +892,7 @@ sub _Print {
     }
 }
 
-=item _Color()
+=head2 _Color()
 
 this will color the given text (see Term::ANSIColor::color()) if
 ANSI output is available and active, otherwise the text stays unchanged.
@@ -924,8 +921,6 @@ sub DESTROY {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -29,15 +29,10 @@ our @ObjectDependencies = (
 
 Kernel::GenericInterface::Provider - handler for incoming webservice requests.
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object
 
@@ -58,7 +53,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the configured requested
@@ -365,7 +360,7 @@ sub Run {
     return;
 }
 
-=item _GenerateErrorResponse()
+=head2 _GenerateErrorResponse()
 
 returns an error message to the client.
 
@@ -394,8 +389,6 @@ sub _GenerateErrorResponse {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

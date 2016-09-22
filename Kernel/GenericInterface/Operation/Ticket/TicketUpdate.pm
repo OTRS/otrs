@@ -24,15 +24,10 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::GenericInterface::Operation::Ticket::TicketUpdate - GenericInterface Ticket TicketUpdate Operation backend
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 usually, you want to create an instance of this
 by using Kernel::GenericInterface::Operation->new();
@@ -62,7 +57,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 perform TicketUpdate Operation. This will return the updated TicketID and
 if applicable the created ArticleID.
@@ -548,7 +543,7 @@ sub Run {
 
 =begin Internal:
 
-=item _CheckTicket()
+=head2 _CheckTicket()
 
 checks if the given ticket parameters are valid.
 
@@ -730,7 +725,7 @@ sub _CheckTicket {
     };
 }
 
-=item _CheckArticle()
+=head2 _CheckArticle()
 
 checks if the given article parameter is valid.
 
@@ -1008,7 +1003,7 @@ sub _CheckArticle {
     };
 }
 
-=item _CheckDynamicField()
+=head2 _CheckDynamicField()
 
 checks if the given dynamic field parameter is valid.
 
@@ -1091,7 +1086,7 @@ sub _CheckDynamicField {
     };
 }
 
-=item _CheckAttachment()
+=head2 _CheckAttachment()
 
 checks if the given attachment parameter is valid.
 
@@ -1178,7 +1173,7 @@ sub _CheckAttachment {
     };
 }
 
-=item _CheckUpdatePermissions()
+=head2 _CheckUpdatePermissions()
 
 check if user has permissions to update ticket attributes.
 
@@ -1361,7 +1356,7 @@ sub _CheckUpdatePermissions {
         }
 }
 
-=item _TicketUpdate()
+=head2 _TicketUpdate()
 
 updates a ticket and creates an article and sets dynamic fields and attachments if specified.
 
@@ -2043,8 +2038,6 @@ sub _TicketUpdate {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

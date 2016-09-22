@@ -30,9 +30,6 @@ This is a sub module of Kernel::System::Crypt and contains all pgp functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +52,7 @@ sub new {
     return $Self;
 }
 
-=item Check()
+=head2 Check()
 
 check if environment is working
 
@@ -85,7 +82,7 @@ sub Check {
     return;
 }
 
-=item Crypt()
+=head2 Crypt()
 
 crypt a message
 
@@ -157,7 +154,7 @@ sub Crypt {
     return $$CryptedDataRef;
 }
 
-=item Decrypt()
+=head2 Decrypt()
 
 Decrypt a message and returns a hash (Successful, Message, Data)
 
@@ -216,7 +213,7 @@ sub Decrypt {
     return %Return;
 }
 
-=item Sign()
+=head2 Sign()
 
 sign a message
 
@@ -292,7 +289,7 @@ sub Sign {
     return $$SignedDataRef;
 }
 
-=item Verify()
+=head2 Verify()
 
 verify a message signature and returns a hash (Successful, Message, Data)
 
@@ -620,7 +617,7 @@ sub Verify {
     return %Return;
 }
 
-=item KeySearch()
+=head2 KeySearch()
 
 returns a array with serach result (private and public keys)
 
@@ -640,7 +637,7 @@ sub KeySearch {
     return @Result;
 }
 
-=item PrivateKeySearch()
+=head2 PrivateKeySearch()
 
 returns an array with search result (private keys)
 
@@ -660,7 +657,7 @@ sub PrivateKeySearch {
     return $Self->_ParseGPGKeyList( GPGOutputLines => \@GPGOutputLines );
 }
 
-=item PublicKeySearch()
+=head2 PublicKeySearch()
 
 returns an array with search result (public keys)
 
@@ -680,7 +677,7 @@ sub PublicKeySearch {
     return $Self->_ParseGPGKeyList( GPGOutputLines => \@GPGOutputLines );
 }
 
-=item PublicKeyGet()
+=head2 PublicKeyGet()
 
 returns public key in ascii
 
@@ -721,7 +718,7 @@ sub PublicKeyGet {
     return $LogMessage;
 }
 
-=item SecretKeyGet()
+=head2 SecretKeyGet()
 
 returns secret key in ascii
 
@@ -762,7 +759,7 @@ sub SecretKeyGet {
     return $LogMessage;
 }
 
-=item PublicKeyDelete()
+=head2 PublicKeyDelete()
 
 remove public key from key ring
 
@@ -802,7 +799,7 @@ sub PublicKeyDelete {
     return 1;
 }
 
-=item SecretKeyDelete()
+=head2 SecretKeyDelete()
 
 remove secret key from key ring
 
@@ -858,7 +855,7 @@ sub SecretKeyDelete {
     return 1;
 }
 
-=item KeyAdd()
+=head2 KeyAdd()
 
 add key to key ring
 
@@ -970,7 +967,7 @@ sub _DecryptPart {
     }
 }
 
-=item _HandleLog()
+=head2 _HandleLog()
 
 Clean and build the log
 
@@ -1031,7 +1028,7 @@ sub _HandleLog {
     return %ComputableLog;
 }
 
-=item _ParseGPGKeyList()
+=head2 _ParseGPGKeyList()
 
 parses given key list (as received from gpg) and returns an array with key infos
 
@@ -1190,8 +1187,6 @@ sub _CryptedWithKey {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

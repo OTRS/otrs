@@ -31,11 +31,8 @@ All cgi param functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create param object. Do not use it directly, instead use:
 
@@ -78,7 +75,7 @@ sub new {
     return $Self;
 }
 
-=item Error()
+=head2 Error()
 
 to get the error back
 
@@ -103,7 +100,7 @@ sub Error {
     ## use critic
 }
 
-=item GetParam()
+=head2 GetParam()
 
 to get single request parameters. By default, trimming is performed on the data.
 
@@ -144,7 +141,7 @@ sub GetParam {
     return $Value;
 }
 
-=item GetParamNames()
+=head2 GetParamNames()
 
 to get names of all parameters passed to the script.
 
@@ -186,7 +183,7 @@ sub GetParamNames {
     return @ParamNames;
 }
 
-=item GetArray()
+=head2 GetArray()
 
 to get array request parameters.
 By default, trimming is performed on the data.
@@ -235,7 +232,7 @@ sub GetArray {
     return @Values;
 }
 
-=item GetUploadAll()
+=head2 GetUploadAll()
 
 gets file upload data.
 
@@ -306,7 +303,7 @@ sub _GetUploadInfo {
     return $FileInfo->{ $Param{Header} };
 }
 
-=item SetCookie()
+=head2 SetCookie()
 
 set a cookie
 
@@ -336,7 +333,7 @@ sub SetCookie {
     );
 }
 
-=item GetCookie()
+=head2 GetCookie()
 
 get a cookie
 
@@ -352,7 +349,7 @@ sub GetCookie {
     return $Self->{Query}->cookie( $Param{Key} );
 }
 
-=item IsAJAXRequest()
+=head2 IsAJAXRequest()
 
 checks if the current request was sent by AJAX
 
@@ -367,8 +364,6 @@ sub IsAJAXRequest {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

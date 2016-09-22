@@ -29,11 +29,8 @@ All Process Management Transition Action functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -53,7 +50,7 @@ sub new {
     return $Self;
 }
 
-=item TransitionActionGet()
+=head2 TransitionActionGet()
 
     Get transition action info
 
@@ -127,7 +124,7 @@ sub TransitionActionGet {
     return $TransitionAction->{ $Param{TransitionActionEntityID} };
 }
 
-=item TransitionActionList()
+=head2 TransitionActionList()
 
     Get action config for dedicated TransitionActionEntityIDs
 
@@ -240,8 +237,6 @@ sub TransitionActionList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

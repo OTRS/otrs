@@ -37,11 +37,8 @@ All database functions to connect/insert/update/delete/... to a database.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create database object, with database connect..
 Usually you do not use it directly, instead use:
@@ -157,7 +154,7 @@ sub new {
     return $Self;
 }
 
-=item Connect()
+=head2 Connect()
 
 to connect to a database
 
@@ -219,7 +216,7 @@ sub Connect {
     return $Self->{dbh};
 }
 
-=item Disconnect()
+=head2 Disconnect()
 
 to disconnect from a database
 
@@ -252,7 +249,7 @@ sub Disconnect {
     return 1;
 }
 
-=item Version()
+=head2 Version()
 
 to get the database version
 
@@ -277,7 +274,7 @@ sub Version {
     return $Version;
 }
 
-=item Quote()
+=head2 Quote()
 
 to quote sql parameters
 
@@ -348,7 +345,7 @@ sub Quote {
     return;
 }
 
-=item Error()
+=head2 Error()
 
 to retrieve database errors
 
@@ -362,7 +359,7 @@ sub Error {
     return $DBI::errstr;
 }
 
-=item Do()
+=head2 Do()
 
 to insert, update or delete values
 
@@ -516,7 +513,7 @@ sub _InitSlaveDB {
     return;
 }
 
-=item Prepare()
+=head2 Prepare()
 
 to prepare a SELECT statement
 
@@ -694,7 +691,7 @@ sub Prepare {
     return 1;
 }
 
-=item FetchrowArray()
+=head2 FetchrowArray()
 
 to process the results of a SELECT statement
 
@@ -765,7 +762,7 @@ sub FetchrowArray {
     return @Row;
 }
 
-=item ListTables()
+=head2 ListTables()
 
 list all tables in the OTRS database.
 
@@ -804,7 +801,7 @@ sub ListTables {
     return @Tables;
 }
 
-=item GetColumnNames()
+=head2 GetColumnNames()
 
 to retrieve the column names of a database statement
 
@@ -830,7 +827,7 @@ sub GetColumnNames {
     return @Result;
 }
 
-=item SelectAll()
+=head2 SelectAll()
 
 returns all available records of a SELECT statement.
 In essence, this calls Prepare() and FetchrowArray() to get all records.
@@ -865,7 +862,7 @@ sub SelectAll {
     return \@Records;
 }
 
-=item GetDatabaseFunction()
+=head2 GetDatabaseFunction()
 
 to get database functions like
     o Limit
@@ -892,7 +889,7 @@ sub GetDatabaseFunction {
     return $Self->{Backend}->{ 'DB::' . $What };
 }
 
-=item SQLProcessor()
+=head2 SQLProcessor()
 
 generate database-specific sql syntax (e. g. CREATE TABLE ...)
 
@@ -1042,7 +1039,7 @@ sub SQLProcessor {
     return @SQL;
 }
 
-=item SQLProcessorPost()
+=head2 SQLProcessorPost()
 
 generate database-specific sql syntax, post data of SQLProcessor(),
 e. g. foreign keys
@@ -1063,7 +1060,7 @@ sub SQLProcessorPost {
     return ();
 }
 
-=item QueryCondition()
+=head2 QueryCondition()
 
 generate SQL condition query based on a search expression
 
@@ -1532,7 +1529,7 @@ sub QueryCondition {
     return $SQL;
 }
 
-=item QueryStringEscape()
+=head2 QueryStringEscape()
 
 escapes special characters within a query string
 
@@ -1571,7 +1568,7 @@ sub QueryStringEscape {
     return $Param{QueryString};
 }
 
-=item Ping()
+=head2 Ping()
 
 checks if the database is reachable
 
@@ -1702,8 +1699,6 @@ sub DESTROY {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

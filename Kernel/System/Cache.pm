@@ -31,11 +31,8 @@ C<Cache::Module> and defaults to file system based storage for permanent caching
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -67,7 +64,7 @@ sub new {
     return $Self;
 }
 
-=item Configure()
+=head2 Configure()
 
 change cache configuration settings at runtime. You can use this to disable the cache in
 environments where it is not desired, such as in long running scripts.
@@ -93,7 +90,7 @@ sub Configure {
     return;
 }
 
-=item Set()
+=head2 Set()
 
 store a value in the cache.
 
@@ -188,7 +185,7 @@ sub Set {
     return 1;
 }
 
-=item Get()
+=head2 Get()
 
 fetch a value from the cache.
 
@@ -248,7 +245,7 @@ sub Get {
     return $Value;
 }
 
-=item Delete()
+=head2 Delete()
 
 deletes a single value from the cache.
 
@@ -285,7 +282,7 @@ sub Delete {
     return $Self->{CacheObject}->Delete(%Param);
 }
 
-=item CleanUp()
+=head2 CleanUp()
 
 delete parts of the cache or the full cache data.
 
@@ -345,8 +342,6 @@ sub CleanUp {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -40,11 +40,8 @@ In case of an error, an exception will be thrown that you can catch in your
 unit test file and handle with C<HandleError()> in this class. It will output
 a failing test result and generate a screenshot for analysis.
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a selenium object to run fontend tests.
 
@@ -113,7 +110,7 @@ sub new {
     return $Self;
 }
 
-=item RunTest()
+=head2 RunTest()
 
 runs a selenium test if Selenium testing is configured and performs proper
 error handling (calls C<HandleError()> if needed).
@@ -138,7 +135,7 @@ sub RunTest {
     return 1;
 }
 
-=item _execute_command()
+=head2 _execute_command()
 
 Override internal command of base class.
 
@@ -170,7 +167,7 @@ sub _execute_command {    ## no critic
     return $Result;
 }
 
-=item get()
+=head2 get()
 
 Override get method of base class to prepend the correct base URL.
 
@@ -192,7 +189,7 @@ sub get {    ## no critic
     return;
 }
 
-=item VerifiedGet()
+=head2 VerifiedGet()
 
 perform a get() call, but wait for the page to be fully loaded (works only within OTRS).
 Will die() if the verification fails.
@@ -216,7 +213,7 @@ sub VerifiedGet {
     return;
 }
 
-=item VerifiedRefresh()
+=head2 VerifiedRefresh()
 
 perform a refresh() call, but wait for the page to be fully loaded (works only within OTRS).
 Will die() if the verification fails.
@@ -238,7 +235,7 @@ sub VerifiedRefresh {
     return;
 }
 
-=item Login()
+=head2 Login()
 
 login to agent or customer interface
 
@@ -315,7 +312,7 @@ sub Login {
     return 1;
 }
 
-=item WaitFor()
+=head2 WaitFor()
 
 wait with increasing sleep intervals until the given condition is true or the wait time is over.
 Exactly one condition (JavaScript or WindowCount) must be specified.
@@ -372,7 +369,7 @@ sub WaitFor {
     die "WaitFor($Argument) failed.";
 }
 
-=item DragAndDrop()
+=head2 DragAndDrop()
 
 Drag and drop an element.
 
@@ -436,7 +433,7 @@ sub DragAndDrop {
     return;
 }
 
-=item HandleError()
+=head2 HandleError()
 
 use this method to handle any Selenium exceptions.
 
@@ -482,7 +479,7 @@ sub HandleError {
     );
 }
 
-=item DESTROY()
+=head2 DESTROY()
 
 cleanup. Adds a unit test result to indicate the shutdown.
 
@@ -502,8 +499,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

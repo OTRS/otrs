@@ -26,9 +26,7 @@ All Ticket-related HTML functions
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item AgentCustomerViewTable()
+=head2 AgentCustomerViewTable()
 
 =cut
 
@@ -513,7 +511,7 @@ sub AgentQueueListOption {
     return $Param{MoveQueuesStrg};
 }
 
-=item ArticleQuote()
+=head2 ArticleQuote()
 
 get body and attach e. g. inline documents and/or attach all attachments to
 upload cache
@@ -1296,8 +1294,6 @@ sub TicketMetaItems {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

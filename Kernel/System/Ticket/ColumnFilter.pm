@@ -30,11 +30,8 @@ All functions for Column Filters.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -54,7 +51,7 @@ sub new {
     return $Self;
 }
 
-=item StateFilterValuesGet()
+=head2 StateFilterValuesGet()
 
 get a list of states within the given ticket is list
 
@@ -119,7 +116,7 @@ sub StateFilterValuesGet {
     return \%Data;
 }
 
-=item QueueFilterValuesGet()
+=head2 QueueFilterValuesGet()
 
 get a list of queues within the given ticket is list
 
@@ -186,7 +183,7 @@ sub QueueFilterValuesGet {
     return \%Data;
 }
 
-=item PriorityFilterValuesGet()
+=head2 PriorityFilterValuesGet()
 
 get a list of priorities within the given ticket is list
 
@@ -251,7 +248,7 @@ sub PriorityFilterValuesGet {
     return \%Data;
 }
 
-=item TypeFilterValuesGet()
+=head2 TypeFilterValuesGet()
 
 get a list of ticket types within the given ticket is list
 
@@ -316,7 +313,7 @@ sub TypeFilterValuesGet {
     return \%Data;
 }
 
-=item LockFilterValuesGet()
+=head2 LockFilterValuesGet()
 
 get a list of ticket lock values within the given ticket is list
 
@@ -382,7 +379,7 @@ sub LockFilterValuesGet {
     return \%Data;
 }
 
-=item ServiceFilterValuesGet()
+=head2 ServiceFilterValuesGet()
 
 get a list of services within the given ticket is list
 
@@ -447,7 +444,7 @@ sub ServiceFilterValuesGet {
     return \%Data;
 }
 
-=item SLAFilterValuesGet()
+=head2 SLAFilterValuesGet()
 
 get a list of service level agreements within the given ticket is list
 
@@ -512,7 +509,7 @@ sub SLAFilterValuesGet {
     return \%Data;
 }
 
-=item CustomerFilterValuesGet()
+=head2 CustomerFilterValuesGet()
 
 get a list of customer ids within the given ticket is list
 
@@ -581,7 +578,7 @@ sub CustomerFilterValuesGet {
     return \%Data;
 }
 
-=item CustomerUserIDFilterValuesGet()
+=head2 CustomerUserIDFilterValuesGet()
 
 get a list of customer users within the given ticket is list
 
@@ -650,7 +647,7 @@ sub CustomerUserIDFilterValuesGet {
     return \%Data;
 }
 
-=item OwnerFilterValuesGet()
+=head2 OwnerFilterValuesGet()
 
 get a list of ticket owners within the given ticket is list
 
@@ -738,7 +735,7 @@ sub OwnerFilterValuesGet {
     return \%Data;
 }
 
-=item ResponsibleFilterValuesGet()
+=head2 ResponsibleFilterValuesGet()
 
 get a list of ticket responsibles within the given ticket is list
 
@@ -826,7 +823,7 @@ sub ResponsibleFilterValuesGet {
     return \%Data;
 }
 
-=item DynamicFieldFilterValuesGet()
+=head2 DynamicFieldFilterValuesGet()
 
 get a list of a specific ticket dynamic field values within the given tickets list
 
@@ -926,7 +923,7 @@ sub DynamicFieldFilterValuesGet {
 
 =begin Internal:
 
-=item _GeneralDataGet()
+=head2 _GeneralDataGet()
 
 get data list
 
@@ -1056,8 +1053,6 @@ sub _TicketIDStringGet {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

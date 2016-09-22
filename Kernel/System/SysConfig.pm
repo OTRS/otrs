@@ -34,11 +34,8 @@ All functions to manage sys config settings.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -75,7 +72,7 @@ sub new {
     return $Self;
 }
 
-=item WriteDefault()
+=head2 WriteDefault()
 
 writes the default configuration file perl cache
 (Kernel/Config/Files/ZZZAAuto.pm). It is the Perl representation
@@ -137,7 +134,7 @@ sub WriteDefault {
     );
 }
 
-=item Download()
+=head2 Download()
 
 download config changes. This will return the content of
 Kernel/Config/Files/ZZZAuto.pm, the file which contains all
@@ -194,7 +191,7 @@ sub Download {
     return $File;
 }
 
-=item Upload()
+=head2 Upload()
 
 upload of config changes. Pass the contents of
 the file Kernel/Config/Files/ZZZAuto.pm here, as
@@ -234,7 +231,7 @@ sub Upload {
     return 1;
 }
 
-=item CreateConfig()
+=head2 CreateConfig()
 
 Submit config settings to application. This function will write
 the internal state of the current SysConfig object to disk, saving
@@ -356,7 +353,7 @@ sub CreateConfig {
     );
 }
 
-=item ConfigItemUpdate()
+=head2 ConfigItemUpdate()
 
 submit config settings and save it.
 
@@ -491,7 +488,7 @@ sub ConfigItemUpdate {
     );
 }
 
-=item ConfigItemGet()
+=head2 ConfigItemGet()
 
 get a current configuration setting, including changes
 that the users made:
@@ -1001,7 +998,7 @@ sub ConfigItemGet {
     return %{$ConfigItem};
 }
 
-=item ConfigItemReset()
+=head2 ConfigItemReset()
 
 reset a configuration setting to its default value.
 
@@ -1040,7 +1037,7 @@ sub ConfigItemReset {
     return 1;
 }
 
-=item ConfigItemValidityUpdate()
+=head2 ConfigItemValidityUpdate()
 
 updates the validity of a configuration setting.
 
@@ -1083,7 +1080,7 @@ sub ConfigItemValidityUpdate {
     return 1;
 }
 
-=item ConfigGroupList()
+=head2 ConfigGroupList()
 
 get the list of all available config groups.
 
@@ -1109,7 +1106,7 @@ sub ConfigGroupList {
     return %List;
 }
 
-=item ConfigSubGroupList()
+=head2 ConfigSubGroupList()
 
 get the list of all config sub groups of a given group.
 
@@ -1159,7 +1156,7 @@ sub ConfigSubGroupList {
     return %List;
 }
 
-=item ConfigSubGroupConfigItemList()
+=head2 ConfigSubGroupConfigItemList()
 
 get the list of config items of a config sub group
 
@@ -1227,7 +1224,7 @@ sub ConfigSubGroupConfigItemList {
     return ();
 }
 
-=item ConfigItemSearch()
+=head2 ConfigItemSearch()
 
 search for sub groups of config items. It will return all subgroups
 with settings which contain the search term.
@@ -1366,7 +1363,7 @@ sub ConfigItemSearch {
     return @List;
 }
 
-=item ConfigItemTranslatableStrings()
+=head2 ConfigItemTranslatableStrings()
 
 returns a unique list of all translatable strings in the
 XML configuration.
@@ -1418,7 +1415,7 @@ sub ConfigItemTranslatableStrings {
     return @Strings;
 }
 
-=item ConfigItemValidate()
+=head2 ConfigItemValidate()
 
 Validates if the given value for this config item is correct.
 If no value is given, the current value of the config item will be validated.
@@ -1564,7 +1561,7 @@ sub ConfigItemValidate {
     }
 }
 
-=item ConfigItemCheckAll()
+=head2 ConfigItemCheckAll()
 
 Validates all config items which have a validation module.
 Automatically corrects wrong values.
@@ -1767,7 +1764,7 @@ sub _Init {
     return $Counter;
 }
 
-=item _DataDiff()
+=head2 _DataDiff()
 
 compares two data structures with each other. Returns 1 if
 they are different, undef otherwise.
@@ -1914,7 +1911,7 @@ sub _DataDiff {
     return 1;
 }
 
-=item DESTROY()
+=head2 DESTROY()
 
 this destructor will recreate the configuration file after
 changes were detected during module execution.
@@ -1932,7 +1929,7 @@ sub DESTROY {
     return 1;
 }
 
-=item _FileWriteAtomic()
+=head2 _FileWriteAtomic()
 
 writes a file in an atomic operation. This is achieved by creating
 a temporary file, filling and renaming it. This avoids inconsistent states
@@ -2347,8 +2344,6 @@ sub _XML2Perl {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

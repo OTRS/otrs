@@ -35,9 +35,7 @@ All support bundle generator functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -66,7 +64,7 @@ sub new {
     return $Self;
 }
 
-=item Generate()
+=head2 Generate()
 
 Generates a support bundle tar or tar.gz with the following contents: Registration Information,
 Support Data, Installed Packages, and another tar or tar.gz with all changed or new files in the
@@ -272,7 +270,7 @@ sub Generate {
     };
 }
 
-=item GenerateCustomFilesArchive()
+=head2 GenerateCustomFilesArchive()
 
 Generates a .tar or tar.gz file with all eligible changed or added files taking the ARCHIVE file as
 a reference
@@ -409,7 +407,7 @@ sub GenerateCustomFilesArchive {
     return ( \$TmpTar, 'application.tar' );
 }
 
-=item GeneratePackageList()
+=head2 GeneratePackageList()
 
 Generates a .csv file with all installed packages
 
@@ -450,7 +448,7 @@ sub GeneratePackageList {
     return ( \$CSVContent, 'InstalledPackages.csv' );
 }
 
-=item GenerateRegistrationInfo()
+=head2 GenerateRegistrationInfo()
 
 Generates a .json file with the otrs system registration information
 
@@ -499,7 +497,7 @@ sub GenerateRegistrationInfo {
     return ( \$JSONContent, 'RegistrationInfo.json' );
 }
 
-=item GenerateSupportData()
+=head2 GenerateSupportData()
 
 Generates a .json file with the support data
 
@@ -656,8 +654,6 @@ sub _GetCustomFileList {
 
     return @Files;
 }
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -34,11 +34,8 @@ The authentication module for the agent interface.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -110,7 +107,7 @@ sub new {
     return $Self;
 }
 
-=item GetOption()
+=head2 GetOption()
 
 Get module options. Currently there is just one option, "PreAuth".
 
@@ -126,7 +123,7 @@ sub GetOption {
     return $Self->{AuthBackend}->GetOption(%Param);
 }
 
-=item Auth()
+=head2 Auth()
 
 The authentication function.
 
@@ -354,7 +351,7 @@ sub Auth {
     return $User;
 }
 
-=item GetLastErrorMessage()
+=head2 GetLastErrorMessage()
 
 Retrieve $Self->{LastErrorMessage} content.
 
@@ -373,8 +370,6 @@ sub GetLastErrorMessage {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -31,11 +31,8 @@ Process Management DB ActivityDialog backend
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -64,7 +61,7 @@ sub new {
     return $Self;
 }
 
-=item ActivityDialogAdd()
+=head2 ActivityDialogAdd()
 
 add new ActivityDialog
 
@@ -197,7 +194,7 @@ sub ActivityDialogAdd {
     return $ID;
 }
 
-=item ActivityDialogDelete()
+=head2 ActivityDialogDelete()
 
 delete an ActivityDialog
 
@@ -245,7 +242,7 @@ sub ActivityDialogDelete {
     return 1;
 }
 
-=item ActivityDialogGet()
+=head2 ActivityDialogGet()
 
 get Activity Dialog attributes
 
@@ -363,7 +360,7 @@ sub ActivityDialogGet {
     return \%Data;
 }
 
-=item ActivityDialogUpdate()
+=head2 ActivityDialogUpdate()
 
 update ActivityDialog attributes
 
@@ -507,7 +504,7 @@ sub ActivityDialogUpdate {
     return 1;
 }
 
-=item ActivityDialogList()
+=head2 ActivityDialogList()
 
 get an ActivityDialog list
 
@@ -590,7 +587,7 @@ sub ActivityDialogList {
     return \%Data;
 }
 
-=item ActivityDialogListGet()
+=head2 ActivityDialogListGet()
 
 get an Activity Dialog list with all activity dialog details
 
@@ -683,8 +680,6 @@ sub ActivityDialogListGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

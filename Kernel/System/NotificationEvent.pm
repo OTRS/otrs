@@ -30,11 +30,8 @@ All functions to manage the notification and the notification jobs.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -54,7 +51,7 @@ sub new {
     return $Self;
 }
 
-=item NotificationList()
+=head2 NotificationList()
 
 returns a hash of all notifications
 
@@ -89,7 +86,7 @@ sub NotificationList {
     return %Data;
 }
 
-=item NotificationGet()
+=head2 NotificationGet()
 
 returns a hash of the notification data
 
@@ -220,7 +217,7 @@ sub NotificationGet {
     return %Data;
 }
 
-=item NotificationAdd()
+=head2 NotificationAdd()
 
 adds a new notification to the database
 
@@ -381,7 +378,7 @@ sub NotificationAdd {
     return $ID;
 }
 
-=item NotificationUpdate()
+=head2 NotificationUpdate()
 
 update a notification in database
 
@@ -528,7 +525,7 @@ sub NotificationUpdate {
     return 1;
 }
 
-=item NotificationDelete()
+=head2 NotificationDelete()
 
 deletes an notification from the database
 
@@ -622,7 +619,7 @@ sub NotificationDelete {
     return 1;
 }
 
-=item NotificationEventCheck()
+=head2 NotificationEventCheck()
 
 returns array of notification affected by event
 
@@ -671,7 +668,7 @@ sub NotificationEventCheck {
     return @IDs;
 }
 
-=item NotificationImport()
+=head2 NotificationImport()
 
 import an Notification YAML file/content
 
@@ -779,8 +776,6 @@ sub NotificationImport {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

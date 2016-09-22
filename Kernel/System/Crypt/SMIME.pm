@@ -34,9 +34,6 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,7 +56,7 @@ sub new {
     return $Self;
 }
 
-=item Check()
+=head2 Check()
 
 check if environment is working
 
@@ -130,7 +127,7 @@ sub Check {
     return;
 }
 
-=item Crypt()
+=head2 Crypt()
 
 crypt a message
 
@@ -252,7 +249,7 @@ sub Crypt {
     return $$CryptedRef;
 }
 
-=item Decrypt()
+=head2 Decrypt()
 
 decrypt a message and returns a hash (Successful, Message, Data)
 
@@ -361,7 +358,7 @@ sub Decrypt {
     );
 }
 
-=item Sign()
+=head2 Sign()
 
 sign a message
 
@@ -470,7 +467,7 @@ sub Sign {
 
 }
 
-=item Verify()
+=head2 Verify()
 
 verify a message with signature and returns a hash (Successful, Message, Signers, SignerCertificate)
 
@@ -612,7 +609,7 @@ sub Verify {
     return %Return;
 }
 
-=item Search()
+=head2 Search()
 
 search a certifcate or an private key
 
@@ -630,7 +627,7 @@ sub Search {
     return @Result;
 }
 
-=item CertificateSearch()
+=head2 CertificateSearch()
 
 search a local certifcate
 
@@ -721,7 +718,7 @@ sub _CheckCertificateList {
     return @Result;
 }
 
-=item FetchFromCustomer()
+=head2 FetchFromCustomer()
 
 add certificates from CustomerUserAttributes to local certificates
 returns an array of filenames of added certificates
@@ -795,7 +792,7 @@ sub FetchFromCustomer {
     return @CertFileList;
 }
 
-=item ConvertCertFormat()
+=head2 ConvertCertFormat()
 
 convert certificate strings into importable PEM format
 returns count of added certificates
@@ -947,7 +944,7 @@ sub ConvertCertFormat {
 
 }
 
-=item CertificateAdd()
+=head2 CertificateAdd()
 
 add a certificate to local certificates
 returns result message and new certificate filename
@@ -1053,7 +1050,7 @@ sub CertificateAdd {
     return %Result;
 }
 
-=item CertificateGet()
+=head2 CertificateGet()
 
 get a local certificate
 
@@ -1092,7 +1089,7 @@ sub CertificateGet {
     return $$CertificateRef;
 }
 
-=item CertificateRemove()
+=head2 CertificateRemove()
 
 remove a local certificate
 
@@ -1183,7 +1180,7 @@ sub CertificateRemove {
     return %Result;
 }
 
-=item CertificateList()
+=head2 CertificateList()
 
 get list of local certificates filenames
 
@@ -1213,7 +1210,7 @@ sub CertificateList {
     return @CertList;
 }
 
-=item CertificateAttributes()
+=head2 CertificateAttributes()
 
 get certificate attributes
 
@@ -1286,7 +1283,7 @@ sub CertificateAttributes {
     return %Attributes;
 }
 
-=item CertificateRead()
+=head2 CertificateRead()
 
 show a local certificate in plain text
 
@@ -1345,7 +1342,7 @@ sub CertificateRead {
     return $Output;
 }
 
-=item PrivateSearch()
+=head2 PrivateSearch()
 
 returns private keys
 
@@ -1391,7 +1388,7 @@ sub PrivateSearch {
     return @Result;
 }
 
-=item PrivateAdd()
+=head2 PrivateAdd()
 
 add private key
 
@@ -1514,7 +1511,7 @@ sub PrivateAdd {
     return %Result;
 }
 
-=item PrivateGet()
+=head2 PrivateGet()
 
 get private key
 
@@ -1570,7 +1567,7 @@ sub PrivateGet {
     return;
 }
 
-=item PrivateRemove()
+=head2 PrivateRemove()
 
 remove private key
 
@@ -1666,7 +1663,7 @@ sub PrivateRemove {
     return %Return;
 }
 
-=item PrivateList()
+=head2 PrivateList()
 
 returns a list of private key hashs
 
@@ -1697,7 +1694,7 @@ sub PrivateList {
 
 }
 
-=item PrivateAttributes()
+=head2 PrivateAttributes()
 
 returns attributes of private key
 
@@ -1775,7 +1772,7 @@ sub PrivateAttributes {
     return %Attributes;
 }
 
-=item SignerCertRelationAdd ()
+=head2 SignerCertRelationAdd ()
 
 add a relation between signer certificate and CA certificate to attach to the signature
 returns 1 if success
@@ -1852,7 +1849,7 @@ sub SignerCertRelationAdd {
     return $Success;
 }
 
-=item SignerCertRelationGet ()
+=head2 SignerCertRelationGet ()
 
 get relation data by ID or by Certificate finger print
 returns data Hash if ID given or Array of all relations if CertFingerprint given
@@ -1958,7 +1955,7 @@ sub SignerCertRelationGet {
     return;
 }
 
-=item SignerCertRelationExists ()
+=head2 SignerCertRelationExists ()
 
 returns the ID if the relation exists
 
@@ -2038,7 +2035,7 @@ sub SignerCertRelationExists {
     return;
 }
 
-=item SignerCertRelationDelete ()
+=head2 SignerCertRelationDelete ()
 
 returns 1 if success
 
@@ -2133,7 +2130,7 @@ sub SignerCertRelationDelete {
     return;
 }
 
-=item CheckCertPath()
+=head2 CheckCertPath()
 
 Checks and fixes the private secret files that do not have an index. (Needed because this
 changed during the migration from OTRS 3.0 to 3.1.)
@@ -3023,8 +3020,6 @@ sub _ReHashCertificates {
 =end Internal:
 
 =cut
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

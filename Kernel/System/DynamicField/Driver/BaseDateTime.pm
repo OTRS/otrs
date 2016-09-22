@@ -35,8 +35,6 @@ Date common functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
 =cut
 
 sub ValueGet {
@@ -1184,8 +1182,6 @@ sub ValueLookup {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

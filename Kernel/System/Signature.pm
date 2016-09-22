@@ -27,11 +27,8 @@ All signature functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -51,7 +48,7 @@ sub new {
     return $Self;
 }
 
-=item SignatureAdd()
+=head2 SignatureAdd()
 
 add new signatures
 
@@ -107,7 +104,7 @@ sub SignatureAdd {
     return $ID;
 }
 
-=item SignatureGet()
+=head2 SignatureGet()
 
 get signatures attributes
 
@@ -165,7 +162,7 @@ sub SignatureGet {
     return %Data;
 }
 
-=item SignatureUpdate()
+=head2 SignatureUpdate()
 
 update signature attributes
 
@@ -208,7 +205,7 @@ sub SignatureUpdate {
     return 1;
 }
 
-=item SignatureList()
+=head2 SignatureList()
 
 get signature list
 
@@ -261,8 +258,6 @@ sub SignatureList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

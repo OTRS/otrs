@@ -26,11 +26,8 @@ All functions for the StateValidate checks.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -53,7 +50,7 @@ sub new {
     return $Self;
 }
 
-=item Validate()
+=head2 Validate()
 
 Validates the given data, checks if the given state exists and if it is valid.
 
@@ -140,7 +137,7 @@ sub Validate {
     return 1;
 }
 
-=item GetAutoCorrectValue()
+=head2 GetAutoCorrectValue()
 
 Without the parameter Data, this function returns a valid state name,
 which can be used to auto-correct a sysconfig option with an invalid state name.
@@ -245,7 +242,7 @@ sub GetAutoCorrectValue {
 
 =begin Internal:
 
-=item _GetAutoCorrectValue()
+=head2 _GetAutoCorrectValue()
 
 Returns a valid state name which can be used to auto-correct
 a sysconfig option with an invalid state name.
@@ -294,8 +291,6 @@ sub _GetAutoCorrectValue {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

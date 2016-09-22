@@ -27,11 +27,8 @@ All valid functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -54,7 +51,7 @@ sub new {
     return $Self;
 }
 
-=item ValidList()
+=head2 ValidList()
 
 return a valid list as hash
 
@@ -96,7 +93,7 @@ sub ValidList {
     return %Data;
 }
 
-=item ValidLookup()
+=head2 ValidLookup()
 
 returns the id or the name of a valid
 
@@ -152,7 +149,7 @@ sub ValidLookup {
     return $ReturnData;
 }
 
-=item ValidIDsGet()
+=head2 ValidIDsGet()
 
 return all valid ids as array
 
@@ -172,8 +169,6 @@ sub ValidIDsGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

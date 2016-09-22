@@ -1914,23 +1914,21 @@ sub FilterContent {
     return $ColumnFilterJSON;
 }
 
-=over
+# =head2 _ColumnFilterJSON()
 
-=item _ColumnFilterJSON()
+#     creates a JSON select filter for column header
 
-    creates a JSON select filter for column header
+#     my $ColumnFilterJSON = $TicketOverviewSmallObject->_ColumnFilterJSON(
+#         ColumnName => 'Queue',
+#         Label      => 'Queue',
+#         ColumnValues => {
+#             1 => 'PostMaster',
+#             2 => 'Junk',
+#         },
+#         SelectedValue '1',
+#     );
 
-    my $ColumnFilterJSON = $TicketOverviewSmallObject->_ColumnFilterJSON(
-        ColumnName => 'Queue',
-        Label      => 'Queue',
-        ColumnValues => {
-            1 => 'PostMaster',
-            2 => 'Junk',
-        },
-        SelectedValue '1',
-    );
-
-=cut
+# =cut
 
 sub _ColumnFilterJSON {
     my ( $Self, %Param ) = @_;
@@ -2054,5 +2052,3 @@ sub _DefaultColumnSort {
 }
 
 1;
-
-=back

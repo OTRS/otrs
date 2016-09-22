@@ -30,11 +30,8 @@ All ticket state functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object
 
@@ -62,7 +59,7 @@ sub new {
     return $Self;
 }
 
-=item StateAdd()
+=head2 StateAdd()
 
 add new states
 
@@ -127,7 +124,7 @@ sub StateAdd {
     return $ID;
 }
 
-=item StateGet()
+=head2 StateGet()
 
 get state attributes
 
@@ -238,7 +235,7 @@ sub StateGet {
     return %Data;
 }
 
-=item StateUpdate()
+=head2 StateUpdate()
 
 update state attributes
 
@@ -299,7 +296,7 @@ sub StateUpdate {
     return 1;
 }
 
-=item StateGetStatesByType()
+=head2 StateGetStatesByType()
 
 get list of states for a type or a list of state types.
 
@@ -449,7 +446,7 @@ sub StateGetStatesByType {
     return @ID;
 }
 
-=item StateList()
+=head2 StateList()
 
 get state list as a hash of ID, Name pairs
 
@@ -537,7 +534,7 @@ sub StateList {
     return %Data;
 }
 
-=item StateLookup()
+=head2 StateLookup()
 
 returns the id or the name of a state
 
@@ -596,7 +593,7 @@ sub StateLookup {
     return $ReturnData;
 }
 
-=item StateTypeList()
+=head2 StateTypeList()
 
 get state type list as a hash of ID, Name pairs
 
@@ -663,7 +660,7 @@ sub StateTypeList {
     return %Data;
 }
 
-=item StateTypeLookup()
+=head2 StateTypeLookup()
 
 returns the id or the name of a state type
 
@@ -724,8 +721,6 @@ sub StateTypeLookup {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

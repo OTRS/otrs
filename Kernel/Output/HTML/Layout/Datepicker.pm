@@ -23,11 +23,8 @@ All valid functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item DatepickerGetVacationDays()
+=head2 DatepickerGetVacationDays()
 
 Returns a hash of all vacation days defined in the system.
 
@@ -77,8 +74,6 @@ sub DatepickerGetVacationDays {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

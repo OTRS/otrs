@@ -29,11 +29,8 @@ All Process Management Transition functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -72,7 +69,7 @@ sub new {
     return $Self;
 }
 
-=item TransitionGet()
+=head2 TransitionGet()
 
     Get Transition info
 
@@ -160,7 +157,7 @@ sub TransitionGet {
     return $Transition->{ $Param{TransitionEntityID} };
 }
 
-=item TransitionCheck()
+=head2 TransitionCheck()
 
     Checks if one or more Transition Conditions are true
 
@@ -1108,8 +1105,6 @@ sub DebugLog {
     return 1;
 }
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

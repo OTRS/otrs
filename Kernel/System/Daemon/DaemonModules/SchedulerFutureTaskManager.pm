@@ -33,11 +33,8 @@ Scheduler future task daemon
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 Create scheduler future task manager object.
 
@@ -140,8 +137,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

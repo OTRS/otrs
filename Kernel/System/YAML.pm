@@ -27,11 +27,8 @@ Kernel::System::YAML - YAML wrapper functions
 
 Functions for YAML serialization / deserialization.
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a YAML object. Do not use it directly, instead use:
 
@@ -51,7 +48,7 @@ sub new {
     return $Self;
 }
 
-=item Dump()
+=head2 Dump()
 
 Dump a perl data structure to a YAML string.
 
@@ -81,7 +78,7 @@ sub Dump {
     return $Result;
 }
 
-=item Load()
+=head2 Load()
 
 Load a YAML string to a perl data structure.
 This string must be a encoded in UTF8.
@@ -147,7 +144,7 @@ sub Load {
 
 =begin Internal:
 
-=item _AddUTF8Flag()
+=head2 _AddUTF8Flag()
 
 adds the UTF8 flag to all elements in a complex data structure.
 
@@ -193,8 +190,6 @@ sub _AddUTF8Flag {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

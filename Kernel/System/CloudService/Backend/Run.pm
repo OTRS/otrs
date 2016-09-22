@@ -33,11 +33,8 @@ All functions for cloud service communication.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a CloudService object. Do not use it directly, instead use:
 
@@ -67,7 +64,7 @@ sub new {
     return $Self;
 }
 
-=item Request()
+=head2 Request()
 
 perform a cloud service communication and return result data
 
@@ -407,7 +404,7 @@ sub Request {
     return;
 }
 
-=item OperationResultGet()
+=head2 OperationResultGet()
 
     my $OperationResult = $CloudServiceObject->OperationResultGet(
         CloudService => 'Test',
@@ -549,8 +546,6 @@ sub OperationResultGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

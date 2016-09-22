@@ -28,11 +28,8 @@ All valid functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item LoaderCreateAgentCSSCalls()
+=head2 LoaderCreateAgentCSSCalls()
 
 Generate the minified CSS files and the tags referencing them,
 taking a list from the Loader::Agent::CommonCSS config item.
@@ -178,7 +175,7 @@ sub LoaderCreateAgentCSSCalls {
     return 1;
 }
 
-=item LoaderCreateAgentJSCalls()
+=head2 LoaderCreateAgentJSCalls()
 
 Generate the minified JS files and the tags referencing them,
 taking a list from the Loader::Agent::CommonJS config item.
@@ -250,7 +247,7 @@ sub LoaderCreateAgentJSCalls {
     return 1;
 }
 
-=item LoaderCreateJavaScriptTemplateData()
+=head2 LoaderCreateJavaScriptTemplateData()
 
 Generate a minified file for the template data that
 needs to be present on the client side for JS based templates.
@@ -450,7 +447,7 @@ EOF
     return 1;
 }
 
-=item LoaderCreateJavaScriptTranslationData()
+=head2 LoaderCreateJavaScriptTranslationData()
 
 Generate a minified file for the translation data that
 needs to be present on the client side for JS based translations.
@@ -538,7 +535,7 @@ EOF
     return 1;
 }
 
-=item LoaderCreateCustomerCSSCalls()
+=head2 LoaderCreateCustomerCSSCalls()
 
 Generate the minified CSS files and the tags referencing them,
 taking a list from the Loader::Customer::CommonCSS config item.
@@ -642,7 +639,7 @@ sub LoaderCreateCustomerCSSCalls {
     return 1;
 }
 
-=item LoaderCreateCustomerJSCalls()
+=head2 LoaderCreateCustomerJSCalls()
 
 Generate the minified JS files and the tags referencing them,
 taking a list from the Loader::Customer::CommonJS config item.
@@ -819,7 +816,7 @@ sub _HandleJSList {
     return 1;
 }
 
-=item SkinValidate()
+=head2 SkinValidate()
 
 Returns 1 if skin is available for Agent or Customer frontends and 0 if not.
 
@@ -871,8 +868,6 @@ sub SkinValidate {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

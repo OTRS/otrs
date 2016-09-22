@@ -26,11 +26,8 @@ All postmaster database filters
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -50,7 +47,7 @@ sub new {
     return $Self;
 }
 
-=item FilterList()
+=head2 FilterList()
 
 get all filter
 
@@ -76,7 +73,7 @@ sub FilterList {
     return %Data;
 }
 
-=item FilterAdd()
+=head2 FilterAdd()
 
 add a filter
 
@@ -134,7 +131,7 @@ sub FilterAdd {
     return 1;
 }
 
-=item FilterDelete()
+=head2 FilterDelete()
 
 delete a filter
 
@@ -169,7 +166,7 @@ sub FilterDelete {
     return 1;
 }
 
-=item FilterGet()
+=head2 FilterGet()
 
 get filter properties, returns HASH ref Match and Set
 
@@ -217,8 +214,6 @@ sub FilterGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

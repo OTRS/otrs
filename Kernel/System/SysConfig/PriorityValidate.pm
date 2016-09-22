@@ -26,11 +26,8 @@ All functions for the PriorityValidate checks.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -53,7 +50,7 @@ sub new {
     return $Self;
 }
 
-=item Validate()
+=head2 Validate()
 
 Validates the given data, checks if the given priority exists and if it is valid.
 
@@ -102,7 +99,7 @@ sub Validate {
     return 1;
 }
 
-=item GetAutoCorrectValue()
+=head2 GetAutoCorrectValue()
 
 Returns a valid priority name which can be used to auto-correct
 a sysconfig option with an invalid priority name.
@@ -148,8 +145,6 @@ sub GetAutoCorrectValue {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

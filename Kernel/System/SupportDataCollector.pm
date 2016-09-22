@@ -35,9 +35,7 @@ All stats functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -58,7 +56,7 @@ sub new {
     return $Self;
 }
 
-=item Collect()
+=head2 Collect()
 
 collect system data
 
@@ -334,7 +332,7 @@ sub CollectByWebRequest {
     return %{$ResponseData};
 }
 
-=item CollectAsynchronous()
+=head2 CollectAsynchronous()
 
 collect asynchronous data (the asynchronous plug-in decide at which place the data will be saved)
 
@@ -391,7 +389,7 @@ sub CollectAsynchronous {
     );
 }
 
-=item CleanupAsynchronous()
+=head2 CleanupAsynchronous()
 
 cleanup asynchronous data (the asynchronous plug-in decide for themselves)
 
@@ -432,8 +430,6 @@ sub CleanupAsynchronous {
 
     return 1;
 }
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

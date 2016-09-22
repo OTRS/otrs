@@ -38,11 +38,8 @@ Global module to send email via sendmail or SMTP.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -72,7 +69,7 @@ sub new {
     return $Self;
 }
 
-=item Send()
+=head2 Send()
 
 To send an email without already created header:
 
@@ -585,7 +582,7 @@ sub Send {
     return ( \$Param{Header}, \$Param{Body} );
 }
 
-=item Check()
+=head2 Check()
 
 Check mail configuration
 
@@ -609,7 +606,7 @@ sub Check {
     }
 }
 
-=item Bounce()
+=head2 Bounce()
 
 Bounce an email
 
@@ -1002,8 +999,6 @@ sub _CreateMimeEntity {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

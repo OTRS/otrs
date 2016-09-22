@@ -33,11 +33,8 @@ All Customer functions. E.g. to add and update customer companies.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -83,7 +80,7 @@ sub new {
     return $Self;
 }
 
-=item CustomerCompanyAdd()
+=head2 CustomerCompanyAdd()
 
 add a new customer company
 
@@ -141,7 +138,7 @@ sub CustomerCompanyAdd {
     return $Result;
 }
 
-=item CustomerCompanyGet()
+=head2 CustomerCompanyGet()
 
 get customer company attributes
 
@@ -229,7 +226,7 @@ sub CustomerCompanyGet {
     return;
 }
 
-=item CustomerCompanyUpdate()
+=head2 CustomerCompanyUpdate()
 
 update customer company attributes
 
@@ -290,7 +287,7 @@ sub CustomerCompanyUpdate {
     return $Result;
 }
 
-=item CustomerCompanySourceList()
+=head2 CustomerCompanySourceList()
 
 return customer company source list
 
@@ -329,7 +326,7 @@ sub CustomerCompanySourceList {
     return %Data;
 }
 
-=item CustomerCompanyList()
+=head2 CustomerCompanyList()
 
 get list of customer companies.
 
@@ -471,8 +468,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

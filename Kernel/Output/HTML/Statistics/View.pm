@@ -47,9 +47,6 @@ Provides several functions to generate statistics GUI elements.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,7 +58,7 @@ sub new {
     return $Self;
 }
 
-=item StatsParamsWidget()
+=head2 StatsParamsWidget()
 
 generate HTML for statistics run widget.
 
@@ -1613,7 +1610,7 @@ sub StatsResultRender {
     }
 }
 
-=item StatsConfigurationValidate()
+=head2 StatsConfigurationValidate()
 
     my $StatCorrectlyConfigured = $StatsViewObject->StatsConfigurationValidate(
         StatData => \%StatData,
@@ -2282,7 +2279,7 @@ sub _TimeZoneBuildSelection {
     return %TimeZoneBuildSelection;
 }
 
-=item _ColumnAndRowTranslation()
+=head2 _ColumnAndRowTranslation()
 
 translate the column and row name if needed
 
@@ -2569,8 +2566,6 @@ sub _StopWordFieldsGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

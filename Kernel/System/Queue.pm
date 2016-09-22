@@ -36,11 +36,8 @@ All queue functions. E. g. to add queue or other functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -97,7 +94,7 @@ sub new {
     return $Self;
 }
 
-=item GetSystemAddress()
+=head2 GetSystemAddress()
 
 get a queue system email address as hash (Email, RealName)
 
@@ -137,7 +134,7 @@ sub GetSystemAddress {
     return %Address;
 }
 
-=item GetSignature()
+=head2 GetSignature()
 
 get a queue signature
 
@@ -176,7 +173,7 @@ sub GetSignature {
     return $String;
 }
 
-=item QueueStandardTemplateMemberAdd()
+=head2 QueueStandardTemplateMemberAdd()
 
 to add a template to a queue
 
@@ -237,7 +234,7 @@ sub QueueStandardTemplateMemberAdd {
     return $Success;
 }
 
-=item QueueStandardTemplateMemberList()
+=head2 QueueStandardTemplateMemberList()
 
 get std responses of a queue
 
@@ -378,7 +375,7 @@ sub QueueStandardTemplateMemberList {
     }
 }
 
-=item GetAllQueues()
+=head2 GetAllQueues()
 
 get all valid system queues
 
@@ -487,7 +484,7 @@ sub GetAllQueues {
     return %MoveQueues;
 }
 
-=item GetAllCustomQueues()
+=head2 GetAllCustomQueues()
 
 get all custom queues of one user
 
@@ -541,7 +538,7 @@ sub GetAllCustomQueues {
     return @QueueIDs;
 }
 
-=item QueueLookup()
+=head2 QueueLookup()
 
 get id or name for queue
 
@@ -595,7 +592,7 @@ sub QueueLookup {
     return $ReturnData;
 }
 
-=item GetFollowUpOption()
+=head2 GetFollowUpOption()
 
 get FollowUpOption for the given QueueID
 
@@ -636,7 +633,7 @@ sub GetFollowUpOption {
     return $Return;
 }
 
-=item GetFollowUpOptionList()
+=head2 GetFollowUpOptionList()
 
 get Follow-Up Option list
 
@@ -688,7 +685,7 @@ sub GetFollowUpOptionList {
     return %FollowUpOptionList;
 }
 
-=item GetFollowUpLockOption()
+=head2 GetFollowUpLockOption()
 
 get FollowUpLockOption for the given QueueID
 
@@ -719,7 +716,7 @@ sub GetFollowUpLockOption {
     return $Queue{FollowUpLock};
 }
 
-=item GetQueueGroupID()
+=head2 GetQueueGroupID()
 
 get GroupID defined for the given QueueID.
 
@@ -748,7 +745,7 @@ sub GetQueueGroupID {
     return $Queue{GroupID};
 }
 
-=item QueueAdd()
+=head2 QueueAdd()
 
 add queue with attributes
 
@@ -932,7 +929,7 @@ sub QueueAdd {
     return $QueueID;
 }
 
-=item QueueGet()
+=head2 QueueGet()
 
 get queue attributes
 
@@ -1066,7 +1063,7 @@ sub QueueGet {
     return %Data;
 }
 
-=item QueueUpdate()
+=head2 QueueUpdate()
 
 update queue attributes
 
@@ -1269,7 +1266,7 @@ sub QueueUpdate {
     return 1;
 }
 
-=item QueueList()
+=head2 QueueList()
 
 get all queues
 
@@ -1332,7 +1329,7 @@ sub QueueList {
     return %Queues;
 }
 
-=item QueuePreferencesSet()
+=head2 QueuePreferencesSet()
 
 set queue preferences
 
@@ -1364,7 +1361,7 @@ sub QueuePreferencesSet {
     return $Self->{PreferencesObject}->QueuePreferencesSet(%Param);
 }
 
-=item QueuePreferencesGet()
+=head2 QueuePreferencesGet()
 
 get queue preferences
 
@@ -1390,7 +1387,7 @@ sub DESTROY {
     return 1;
 }
 
-=item NameExistsCheck()
+=head2 NameExistsCheck()
 
 return 1 if another queue with this name already exists
 
@@ -1427,8 +1424,6 @@ sub NameExistsCheck {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

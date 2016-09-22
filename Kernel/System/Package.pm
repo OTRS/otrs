@@ -47,11 +47,8 @@ All functions to manage application packages/modules.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object
 
@@ -131,7 +128,7 @@ sub new {
     return $Self;
 }
 
-=item RepositoryList()
+=head2 RepositoryList()
 
 returns a list of repository packages
 using Result => 'short' will only return name, version, install_status md5sum and vendor
@@ -214,7 +211,7 @@ sub RepositoryList {
     return @Data;
 }
 
-=item RepositoryGet()
+=head2 RepositoryGet()
 
 get a package from local repository
 
@@ -298,7 +295,7 @@ sub RepositoryGet {
     return $Package;
 }
 
-=item RepositoryAdd()
+=head2 RepositoryAdd()
 
 add a package to local repository
 
@@ -391,7 +388,7 @@ sub RepositoryAdd {
     return 1;
 }
 
-=item RepositoryRemove()
+=head2 RepositoryRemove()
 
 remove a package from local repository
 
@@ -441,7 +438,7 @@ sub RepositoryRemove {
     return 1;
 }
 
-=item PackageInstall()
+=head2 PackageInstall()
 
 install a package
 
@@ -622,7 +619,7 @@ sub PackageInstall {
     return 1;
 }
 
-=item PackageReinstall()
+=head2 PackageReinstall()
 
 reinstall files of a package
 
@@ -711,7 +708,7 @@ sub PackageReinstall {
     return 1;
 }
 
-=item PackageUpgrade()
+=head2 PackageUpgrade()
 
 upgrade a package
 
@@ -1121,7 +1118,7 @@ sub PackageUpgrade {
     return 1;
 }
 
-=item PackageUninstall()
+=head2 PackageUninstall()
 
 uninstall a package
 
@@ -1219,7 +1216,7 @@ sub PackageUninstall {
     return 1;
 }
 
-=item PackageOnlineRepositories()
+=head2 PackageOnlineRepositories()
 
 returns a list of available online repositories
 
@@ -1273,7 +1270,7 @@ sub PackageOnlineRepositories {
     return %List;
 }
 
-=item PackageOnlineList()
+=head2 PackageOnlineList()
 
 returns a list of available on-line packages
 
@@ -1536,7 +1533,7 @@ sub PackageOnlineList {
     return @Packages;
 }
 
-=item PackageOnlineGet()
+=head2 PackageOnlineGet()
 
 download of an online package and put it into the local repository
 
@@ -1600,7 +1597,7 @@ sub PackageOnlineGet {
     return $Self->_Download( URL => $Param{Source} . '/' . $Param{File} );
 }
 
-=item DeployCheck()
+=head2 DeployCheck()
 
 check if package (files) is deployed, returns true if it's ok
 
@@ -1698,7 +1695,7 @@ sub DeployCheck {
     return 1;
 }
 
-=item DeployCheckInfo()
+=head2 DeployCheckInfo()
 
 returns the info of the latest DeployCheck(), what's not deployed correctly
 
@@ -1715,7 +1712,7 @@ sub DeployCheckInfo {
     return ();
 }
 
-=item PackageVerify()
+=head2 PackageVerify()
 
 check if package is verified by the vendor
 
@@ -1859,7 +1856,7 @@ sub PackageVerify {
     return $PackageVerify;
 }
 
-=item PackageVerifyInfo()
+=head2 PackageVerifyInfo()
 
 returns the info of the latest PackageVerify()
 
@@ -1877,7 +1874,7 @@ sub PackageVerifyInfo {
     return %{ $Self->{PackageVerifyInfo} };
 }
 
-=item PackageVerifyAll()
+=head2 PackageVerifyAll()
 
 check if all installed packages are installed by the vendor
 returns a hash with package names and verification status.
@@ -2004,7 +2001,7 @@ sub PackageVerifyAll {
     return %Result;
 }
 
-=item PackageBuild()
+=head2 PackageBuild()
 
 build an opm package
 
@@ -2324,7 +2321,7 @@ sub PackageBuild {
     return $XML;
 }
 
-=item PackageParse()
+=head2 PackageParse()
 
 parse a package
 
@@ -2525,7 +2522,7 @@ sub PackageParse {
     return %Package;
 }
 
-=item PackageExport()
+=head2 PackageExport()
 
 export files of an package
 
@@ -2568,7 +2565,7 @@ sub PackageExport {
     return 1;
 }
 
-=item PackageIsInstalled()
+=head2 PackageIsInstalled()
 
 returns true if the package is already installed
 
@@ -2614,7 +2611,7 @@ sub PackageIsInstalled {
     return $Flag;
 }
 
-=item PackageInstallDefaultFiles()
+=head2 PackageInstallDefaultFiles()
 
 returns true if the distribution package (located under ) can get installed
 
@@ -2667,7 +2664,7 @@ sub PackageInstallDefaultFiles {
     return 1;
 }
 
-=item PackageFileGetMD5Sum()
+=head2 PackageFileGetMD5Sum()
 
 generates a MD5 Sum for all files in a given package
 
@@ -2931,7 +2928,7 @@ sub _OSCheck {
     return;
 }
 
-=item _CheckFramework()
+=head2 _CheckFramework()
 
 Compare a framework array with the current framework.
 
@@ -3098,7 +3095,7 @@ sub _CheckFramework {
     return;
 }
 
-=item _CheckVersion()
+=head2 _CheckVersion()
 
 Compare the two version strings $VersionNew and $VersionInstalled.
 The type is either 'Min' or 'Max'.
@@ -3733,7 +3730,7 @@ sub _Encode {
     return $Text;
 }
 
-=item _PackageUninstallMerged()
+=head2 _PackageUninstallMerged()
 
 ONLY CALL THIS METHOD FROM A DATABASE UPGRADING SCRIPT DURING FRAMEWORK UPDATES
 OR FROM A CODEUPGRADE SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADDON.
@@ -4101,7 +4098,7 @@ sub _CheckDBMerged {
     return \@Parts;
 }
 
-=item RepositoryCloudList()
+=head2 RepositoryCloudList()
 
 returns a list of available cloud repositories
 
@@ -4146,7 +4143,7 @@ sub RepositoryCloudList {
     return $RepositoryResult;
 }
 
-=item CloudFileGet()
+=head2 CloudFileGet()
 
 returns a file from cloud
 
@@ -4254,8 +4251,6 @@ sub DESTROY {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

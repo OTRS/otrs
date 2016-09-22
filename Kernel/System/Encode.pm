@@ -30,11 +30,8 @@ This module will use Perl's Encode module (Perl 5.8.0 or higher is required).
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -78,7 +75,7 @@ sub new {
     return $Self;
 }
 
-=item Convert()
+=head2 Convert()
 
 Convert a string from one charset to another charset.
 
@@ -225,7 +222,7 @@ sub Convert {
     return $Param{Text};
 }
 
-=item Convert2CharsetInternal()
+=head2 Convert2CharsetInternal()
 
 Convert given charset into the internal used charset (utf-8).
 Should be used on all I/O interfaces.
@@ -251,7 +248,7 @@ sub Convert2CharsetInternal {
     return $Self->Convert( %Param, To => 'utf-8' );
 }
 
-=item EncodeInput()
+=head2 EncodeInput()
 
 Convert internal used charset (e. g. utf-8) into given charset (utf-8).
 
@@ -289,7 +286,7 @@ sub EncodeInput {
     return $What;
 }
 
-=item EncodeOutput()
+=head2 EncodeOutput()
 
 Convert utf-8 to a sequence of octets. All possible characters have
 a UTF-8 representation so this function cannot fail.
@@ -328,7 +325,7 @@ sub EncodeOutput {
     return $What;
 }
 
-=item ConfigureOutputFileHandle()
+=head2 ConfigureOutputFileHandle()
 
 switch output file handle to utf-8 output.
 
@@ -349,7 +346,7 @@ sub ConfigureOutputFileHandle {
     return 1;
 }
 
-=item EncodingIsAsciiSuperset()
+=head2 EncodingIsAsciiSuperset()
 
 Checks if an encoding is a superset of ASCII, that is, encodes the
 codepoints from 0 to 127 the same way as ASCII.
@@ -375,7 +372,7 @@ sub EncodingIsAsciiSuperset {
         eq Encode::encode( 'ASCII',          $Test );
 }
 
-=item FindAsciiSupersetEncoding()
+=head2 FindAsciiSupersetEncoding()
 
 From a list of character encodings, returns the first that
 is a superset of ASCII. If none matches, C<ASCII> is returned.
@@ -403,8 +400,6 @@ sub FindAsciiSupersetEncoding {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

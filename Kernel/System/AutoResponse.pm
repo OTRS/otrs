@@ -28,11 +28,8 @@ All auto response functions. E. g. to add auto response or other functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object
 
@@ -52,7 +49,7 @@ sub new {
     return $Self;
 }
 
-=item AutoResponseAdd()
+=head2 AutoResponseAdd()
 
 add auto response with attributes
 
@@ -130,7 +127,7 @@ sub AutoResponseAdd {
     return $ID;
 }
 
-=item AutoResponseGet()
+=head2 AutoResponseGet()
 
 get auto response with attributes
 
@@ -191,7 +188,7 @@ sub AutoResponseGet {
     return %Data;
 }
 
-=item AutoResponseUpdate()
+=head2 AutoResponseUpdate()
 
 update auto response with attributes
 
@@ -247,7 +244,7 @@ sub AutoResponseUpdate {
     return 1;
 }
 
-=item AutoResponseGetByTypeQueueID()
+=head2 AutoResponseGetByTypeQueueID()
 
 get a hash with data from Auto Response and it's corresponding System Address
 
@@ -339,7 +336,7 @@ sub AutoResponseGetByTypeQueueID {
     return ( %Address, %Data );
 }
 
-=item AutoResponseWithoutQueue()
+=head2 AutoResponseWithoutQueue()
 
 get a list of the Queues that do not have Auto Response
 
@@ -380,7 +377,7 @@ sub AutoResponseWithoutQueue {
     return %QueueData;
 }
 
-=item AutoResponseList()
+=head2 AutoResponseList()
 
 get a list of the Auto Responses
 
@@ -439,7 +436,7 @@ sub AutoResponseList {
     return %Data;
 }
 
-=item AutoResponseTypeList()
+=head2 AutoResponseTypeList()
 
 get a list of the Auto Response Types
 
@@ -485,7 +482,7 @@ sub AutoResponseTypeList {
     return %Data;
 }
 
-=item AutoResponseQueue()
+=head2 AutoResponseQueue()
 
 assigns a list of auto-responses to a queue
 
@@ -547,7 +544,7 @@ sub AutoResponseQueue {
 
 =begin Internal:
 
-=item _NameExistsCheck()
+=head2 _NameExistsCheck()
 
 return if another auto-response with this name already exits
 
@@ -593,8 +590,6 @@ sub _NameExistsCheck {
 =cut
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

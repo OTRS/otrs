@@ -28,9 +28,7 @@ All csv functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -50,7 +48,7 @@ sub new {
     return $Self;
 }
 
-=item Array2CSV()
+=head2 Array2CSV()
 
 Returns a csv formatted string based on a array with head data.
 
@@ -216,7 +214,7 @@ sub Array2CSV {
     return $Output;
 }
 
-=item CSV2Array()
+=head2 CSV2Array()
 
 Returns an array with parsed csv data.
 
@@ -277,8 +275,6 @@ sub CSV2Array {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -35,11 +35,8 @@ Functions for encoding perl data structures to JSON.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a JSON object. Do not use it directly, instead use:
 
@@ -59,7 +56,7 @@ sub new {
     return $Self;
 }
 
-=item Encode()
+=head2 Encode()
 
 Encode a perl data structure to a JSON string.
 
@@ -115,7 +112,7 @@ sub Encode {
     return $JSONEncoded;
 }
 
-=item Decode()
+=head2 Decode()
 
 Decode a JSON string to a perl data structure.
 
@@ -158,7 +155,7 @@ sub Decode {
     return $Scalar;
 }
 
-=item True()
+=head2 True()
 
 returns a constant that can be mapped to a boolean true value
 in JSON rather than a string with "true".
@@ -182,7 +179,7 @@ sub True {
     return \1;
 }
 
-=item False()
+=head2 False()
 
 like C<True()>, but for a false boolean value.
 
@@ -199,7 +196,7 @@ sub False {
 
 =cut
 
-=item _BooleansProcess()
+=head2 _BooleansProcess()
 
 decode boolean values leftover from JSON decoder to simple scalar values
 
@@ -243,8 +240,6 @@ sub _BooleansProcess {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

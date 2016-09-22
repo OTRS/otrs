@@ -35,11 +35,8 @@ All customer user functions. E. g. to add and update customer users.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -96,7 +93,7 @@ sub new {
     return $Self;
 }
 
-=item CustomerSourceList()
+=head2 CustomerSourceList()
 
 return customer source list
 
@@ -132,7 +129,7 @@ sub CustomerSourceList {
     return %Data;
 }
 
-=item CustomerSearch()
+=head2 CustomerSearch()
 
 to search users
 
@@ -290,7 +287,7 @@ sub CustomerSearch {
     return %Data;
 }
 
-=item CustomerIDList()
+=head2 CustomerIDList()
 
 return a list of with all known unique CustomerIDs of the registered customers users (no SearchTerm),
 or a filtered list where the CustomerIDs must contain a search term.
@@ -323,7 +320,7 @@ sub CustomerIDList {
     return @Data;
 }
 
-=item CustomerName()
+=head2 CustomerName()
 
 get customer user name
 
@@ -350,7 +347,7 @@ sub CustomerName {
     return;
 }
 
-=item CustomerIDs()
+=head2 CustomerIDs()
 
 get customer user customer ids
 
@@ -377,7 +374,7 @@ sub CustomerIDs {
     return;
 }
 
-=item CustomerUserDataGet()
+=head2 CustomerUserDataGet()
 
 get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 
@@ -470,7 +467,7 @@ sub CustomerUserDataGet {
     return;
 }
 
-=item CustomerUserAdd()
+=head2 CustomerUserAdd()
 
 to add new customer users
 
@@ -526,7 +523,7 @@ sub CustomerUserAdd {
 
 }
 
-=item CustomerUserUpdate()
+=head2 CustomerUserUpdate()
 
 to update customer users
 
@@ -595,7 +592,7 @@ sub CustomerUserUpdate {
     return $Result;
 }
 
-=item SetPassword()
+=head2 SetPassword()
 
 to set customer users passwords
 
@@ -630,7 +627,7 @@ sub SetPassword {
     return $Self->{ $User{Source} }->SetPassword(%Param);
 }
 
-=item GenerateRandomPassword()
+=head2 GenerateRandomPassword()
 
 generate a random password
 
@@ -650,7 +647,7 @@ sub GenerateRandomPassword {
     return $Self->{CustomerUser}->GenerateRandomPassword(%Param);
 }
 
-=item SetPreferences()
+=head2 SetPreferences()
 
 set customer user preferences
 
@@ -693,7 +690,7 @@ sub SetPreferences {
     return $Self->{PreferencesObject}->SetPreferences(%Param);
 }
 
-=item GetPreferences()
+=head2 GetPreferences()
 
 get customer user preferences
 
@@ -734,7 +731,7 @@ sub GetPreferences {
     return $Self->{PreferencesObject}->GetPreferences(%Param);
 }
 
-=item SearchPreferences()
+=head2 SearchPreferences()
 
 search in user preferences
 
@@ -771,7 +768,7 @@ sub SearchPreferences {
     return %Data;
 }
 
-=item TokenGenerate()
+=head2 TokenGenerate()
 
 generate a random token
 
@@ -807,7 +804,7 @@ sub TokenGenerate {
     return $Token;
 }
 
-=item TokenCheck()
+=head2 TokenCheck()
 
 check password token
 
@@ -849,7 +846,7 @@ sub TokenCheck {
     return 1;
 }
 
-=item CustomerUserCacheClear()
+=head2 CustomerUserCacheClear()
 
 clear cache of customer user data
 
@@ -884,8 +881,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

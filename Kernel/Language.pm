@@ -37,11 +37,8 @@ All language functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a language object. Do not use it directly, instead use:
 
@@ -208,7 +205,7 @@ sub new {
     return $Self;
 }
 
-=item Translatable()
+=head2 Translatable()
 
 this is a no-op to mark a text as translatable in the Perl code.
 
@@ -218,7 +215,7 @@ sub Translatable {
     return shift;
 }
 
-=item Translate()
+=head2 Translate()
 
 translate a text with placeholders.
 
@@ -243,7 +240,7 @@ sub Translate {
     return $Text;
 }
 
-=item FormatTimeString()
+=head2 FormatTimeString()
 
 formats a timestamp according to the specified date format for the current
 language (locale).
@@ -346,7 +343,7 @@ sub FormatTimeString {
 
 }
 
-=item GetRecommendedCharset()
+=head2 GetRecommendedCharset()
 
 DEPRECATED. Don't use this function any more, 'utf-8' is always the internal charset.
 
@@ -363,7 +360,7 @@ sub GetRecommendedCharset {
     return 'utf-8';
 }
 
-=item GetPossibleCharsets()
+=head2 GetPossibleCharsets()
 
 Returns an array of possible charsets (based on translation file).
 
@@ -378,7 +375,7 @@ sub GetPossibleCharsets {
     return;
 }
 
-=item Time()
+=head2 Time()
 
 Returns a time string in language format (based on translation file).
 
@@ -502,7 +499,7 @@ sub Time {
     return $ReturnString;
 }
 
-=item LanguageChecksum()
+=head2 LanguageChecksum()
 
 This function returns an MD5 sum that is generated from all loaded language files and their modification timestamps.
 Whenever a file is changed, added or removed, this checksum will change.
@@ -540,8 +537,6 @@ sub LanguageChecksum {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

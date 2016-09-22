@@ -46,11 +46,8 @@ All signature functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -72,7 +69,7 @@ sub new {
     return $Self;
 }
 
-=item Salutation()
+=head2 Salutation()
 
 generate salutation
 
@@ -151,7 +148,7 @@ sub Salutation {
     return $SalutationText;
 }
 
-=item Signature()
+=head2 Signature()
 
 generate salutation
 
@@ -263,7 +260,7 @@ sub Signature {
     return $SignatureText;
 }
 
-=item Sender()
+=head2 Sender()
 
 generate sender address (FROM string) for emails
 
@@ -350,7 +347,7 @@ sub Sender {
     return $Sender;
 }
 
-=item Template()
+=head2 Template()
 
 generate template
 
@@ -443,7 +440,7 @@ sub Template {
     return $TemplateText;
 }
 
-=item GenericAgentArticle()
+=head2 GenericAgentArticle()
 
 generate internal or external notes
 
@@ -542,7 +539,7 @@ sub GenericAgentArticle {
     return %Template;
 }
 
-=item Attributes()
+=head2 Attributes()
 
 generate attributes
 
@@ -600,7 +597,7 @@ sub Attributes {
     return %{ $Param{Data} };
 }
 
-=item AutoResponse()
+=head2 AutoResponse()
 
 generate response
 
@@ -796,7 +793,7 @@ sub AutoResponse {
     return %AutoResponse;
 }
 
-=item NotificationEvent()
+=head2 NotificationEvent()
 
 replace all OTRS smart tags in the notification body and subject
 
@@ -1627,8 +1624,6 @@ sub _Replace {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

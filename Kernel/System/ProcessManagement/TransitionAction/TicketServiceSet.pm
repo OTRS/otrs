@@ -32,11 +32,8 @@ All TicketServiceSet functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -56,7 +53,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
     Run Data
 
@@ -268,7 +265,7 @@ sub Run {
     return $Success;
 }
 
-=item _CheckService()
+=head2 _CheckService()
 
 checks if a service is assigned to a customer user
 
@@ -304,8 +301,6 @@ sub _CheckService {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

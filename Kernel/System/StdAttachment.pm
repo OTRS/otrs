@@ -31,11 +31,8 @@ All std. attachment functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -58,7 +55,7 @@ sub new {
     return $Self;
 }
 
-=item StdAttachmentAdd()
+=head2 StdAttachmentAdd()
 
 create a new std. attachment
 
@@ -123,7 +120,7 @@ sub StdAttachmentAdd {
     return $ID;
 }
 
-=item StdAttachmentGet()
+=head2 StdAttachmentGet()
 
 get a std. attachment
 
@@ -182,7 +179,7 @@ sub StdAttachmentGet {
     return %Data;
 }
 
-=item StdAttachmentUpdate()
+=head2 StdAttachmentUpdate()
 
 update a new std. attachment
 
@@ -267,7 +264,7 @@ sub StdAttachmentUpdate {
     return 1;
 }
 
-=item StdAttachmentDelete()
+=head2 StdAttachmentDelete()
 
 delete a std. attachment
 
@@ -323,7 +320,7 @@ sub StdAttachmentDelete {
     return 1;
 }
 
-=item StdAttachmentLookup()
+=head2 StdAttachmentLookup()
 
 lookup for a std. attachment
 
@@ -420,7 +417,7 @@ sub StdAttachmentLookup {
     return $DBValue;
 }
 
-=item StdAttachmentList()
+=head2 StdAttachmentList()
 
 get list of std. attachment - return a hash (ID => Name (Filname))
 
@@ -472,7 +469,7 @@ sub StdAttachmentList {
     return %StdAttachmentList;
 }
 
-=item StdAttachmentStandardTemplateMemberAdd()
+=head2 StdAttachmentStandardTemplateMemberAdd()
 
 to add an attachment to a template
 
@@ -537,7 +534,7 @@ sub StdAttachmentStandardTemplateMemberAdd {
     return $Success;
 }
 
-=item StdAttachmentStandardTemplateMemberList()
+=head2 StdAttachmentStandardTemplateMemberList()
 
 returns a list of Standard Attachment / Standard Template members
 
@@ -653,8 +650,6 @@ sub StdAttachmentStandardTemplateMemberList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

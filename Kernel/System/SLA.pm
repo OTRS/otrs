@@ -30,11 +30,8 @@ All sla functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -64,7 +61,7 @@ sub new {
     return $Self;
 }
 
-=item SLAList()
+=head2 SLAList()
 
 return a hash list of slas
 
@@ -139,7 +136,7 @@ sub SLAList {
     return %SLAList;
 }
 
-=item SLAGet()
+=head2 SLAGet()
 
 Returns an SLA as a hash
 
@@ -280,7 +277,7 @@ sub SLAGet {
     return %SLAData;
 }
 
-=item SLALookup()
+=head2 SLALookup()
 
 returns the name or the sla id
 
@@ -391,7 +388,7 @@ sub SLALookup {
     }
 }
 
-=item SLAAdd()
+=head2 SLAAdd()
 
 add a sla
 
@@ -539,7 +536,7 @@ sub SLAAdd {
     return $SLAID;
 }
 
-=item SLAUpdate()
+=head2 SLAUpdate()
 
 update a existing sla
 
@@ -682,7 +679,7 @@ sub SLAUpdate {
     return 1;
 }
 
-=item SLAPreferencesSet()
+=head2 SLAPreferencesSet()
 
 set SLA preferences
 
@@ -701,7 +698,7 @@ sub SLAPreferencesSet {
     return $Self->{PreferencesObject}->SLAPreferencesSet(@_);
 }
 
-=item SLAPreferencesGet()
+=head2 SLAPreferencesGet()
 
 get SLA preferences
 
@@ -719,8 +716,6 @@ sub SLAPreferencesGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

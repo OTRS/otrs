@@ -46,11 +46,8 @@ All generic html functions. E. g. to get options fields, template processing, ..
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a new object. Do not use it directly, instead use:
 
@@ -486,7 +483,7 @@ sub SetEnv {
     return 1;
 }
 
-=item Block()
+=head2 Block()
 
 use a dtl block
 
@@ -519,7 +516,7 @@ sub Block {
         };
 }
 
-=item JSONEncode()
+=head2 JSONEncode()
 
 Encode perl data structure to JSON string
 
@@ -549,7 +546,7 @@ sub JSONEncode {
     return $JSON;
 }
 
-=item Redirect()
+=head2 Redirect()
 
 return html for browser to redirect
 
@@ -1090,7 +1087,7 @@ sub Warning {
     );
 }
 
-=item Notify()
+=head2 Notify()
 
 create notify lines
 
@@ -1198,7 +1195,7 @@ sub Notify {
     );
 }
 
-=item Header()
+=head2 Header()
 
 generates the HTML for the page begin in the Agent interface.
 
@@ -1687,7 +1684,7 @@ sub Print {
     return 1;
 }
 
-=item Ascii2Html()
+=head2 Ascii2Html()
 
 convert ascii to html string
 
@@ -1868,7 +1865,7 @@ sub Ascii2Html {
     return ${$Text};
 }
 
-=item LinkQuote()
+=head2 LinkQuote()
 
 so some URL link detections
 
@@ -1977,7 +1974,7 @@ sub LinkQuote {
     }
 }
 
-=item HTMLLinkQuote()
+=head2 HTMLLinkQuote()
 
 so some URL link detections in HTML code
 
@@ -2003,7 +2000,7 @@ sub HTMLLinkQuote {
     );
 }
 
-=item LinkEncode()
+=head2 LinkEncode()
 
 perform URL encoding on query string parameter names or values.
 
@@ -2098,7 +2095,7 @@ sub CustomerAge {
     return $AgeStrg;
 }
 
-=item BuildSelection()
+=head2 BuildSelection()
 
 build a HTML option element based on given data
 
@@ -2346,7 +2343,7 @@ sub NoPermission {
     return $Output;
 }
 
-=item Permission()
+=head2 Permission()
 
 check if access to a frontend module exists
 
@@ -2464,7 +2461,7 @@ sub ReturnValue {
     return $Self->{$What};
 }
 
-=item Attachment()
+=head2 Attachment()
 
 returns browser output to display/download a attachment
 
@@ -2563,7 +2560,7 @@ sub Attachment {
     return $Output;
 }
 
-=item PageNavBar()
+=head2 PageNavBar()
 
 generates a page nav bar
 
@@ -3113,7 +3110,7 @@ sub TransformDateSelection {
     return %Param;
 }
 
-=item BuildDateSelection()
+=head2 BuildDateSelection()
 
 build the HTML code to represent a date selection based on the given data.
 Depending on the SysConfig settings the controls to set the date could be multiple select or input fields
@@ -4309,7 +4306,7 @@ sub CustomerNoPermission {
     return $Output;
 }
 
-=item Ascii2RichText()
+=head2 Ascii2RichText()
 
 converts text to rich text
 
@@ -4341,7 +4338,7 @@ sub Ascii2RichText {
     return $Param{String};
 }
 
-=item RichText2Ascii()
+=head2 RichText2Ascii()
 
 converts text to rich text
 
@@ -4373,7 +4370,7 @@ sub RichText2Ascii {
     return $Param{String};
 }
 
-=item RichTextDocumentComplete()
+=head2 RichTextDocumentComplete()
 
 1) add html, body, ... tags to be a valid html document
 2) replace links of inline content e. g. images to <img src="cid:xxxx" />
@@ -4424,7 +4421,7 @@ sub RichTextDocumentComplete {
 
 =cut
 
-=item _RichTextReplaceLinkOfInlineContent()
+=head2 _RichTextReplaceLinkOfInlineContent()
 
 replace links of inline content e. g. images
 
@@ -4464,7 +4461,7 @@ sub _RichTextReplaceLinkOfInlineContent {
 
 =end Internal:
 
-=item RichTextDocumentServe()
+=head2 RichTextDocumentServe()
 
 serve a rich text (HTML) document for local view inside of an iframe in correct charset and with correct
 links for inline documents.
@@ -4666,7 +4663,7 @@ sub RichTextDocumentServe {
     return %{ $Param{Data} };
 }
 
-=item RichTextDocumentCleanup()
+=head2 RichTextDocumentCleanup()
 
 please see L<Kernel::System::HTML::Layout::DocumentCleanup()>
 
@@ -4697,7 +4694,7 @@ sub RichTextDocumentCleanup {
 
 =cut
 
-=item _BuildSelectionOptionRefCreate()
+=head2 _BuildSelectionOptionRefCreate()
 
 create the option hash
 
@@ -4816,7 +4813,7 @@ sub _BuildSelectionOptionRefCreate {
     return $OptionRef;
 }
 
-=item _BuildSelectionAttributeRefCreate()
+=head2 _BuildSelectionAttributeRefCreate()
 
 create the attribute hash
 
@@ -4866,7 +4863,7 @@ sub _BuildSelectionAttributeRefCreate {
     return $AttributeRef;
 }
 
-=item _BuildSelectionDataRefCreate()
+=head2 _BuildSelectionDataRefCreate()
 
 create the data hash
 
@@ -5302,7 +5299,7 @@ sub _BuildSelectionDataRefCreate {
     return $DataRef;
 }
 
-=item _BuildSelectionOutput()
+=head2 _BuildSelectionOutput()
 
 create the html string
 
@@ -5443,7 +5440,7 @@ sub _DisableBannerCheck {
     return 1;
 }
 
-=item _RemoveScriptTags()
+=head2 _RemoveScriptTags()
 
 This function will remove the surrounding <script> tags of a
 piece of JavaScript code, if they are present, and return the result.
@@ -5488,7 +5485,7 @@ sub _RemoveScriptTags {
     return $Code;
 }
 
-=item WrapPlainText()
+=head2 WrapPlainText()
 
 This sub has two main functionalities:
 1. Check every line and make sure that "\n" is the ending of the line.
@@ -5553,7 +5550,7 @@ sub TransfromDateSelection {
     return $Self->TransformDateSelection(@_);
 }
 
-=item SetRichTextParameters()
+=head2 SetRichTextParameters()
 
 set properties for rich text editor and send them to JS via AddJSData()
 
@@ -5682,7 +5679,7 @@ sub SetRichTextParameters {
     );
 }
 
-=item CustomerSetRichTextParameters()
+=head2 CustomerSetRichTextParameters()
 
 set properties for customer rich text editor and send them to JS via AddJSData()
 
@@ -5813,8 +5810,6 @@ sub CustomerSetRichTextParameters {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

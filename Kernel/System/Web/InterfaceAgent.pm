@@ -41,11 +41,8 @@ the global agent web interface (incl. auth, session, ...)
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create agent web interface object. Do not use it directly, instead use:
 
@@ -93,7 +90,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 execute the object
 
@@ -1119,8 +1116,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

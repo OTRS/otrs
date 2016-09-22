@@ -34,11 +34,8 @@ DynamicFields backend
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a DynamicField object. Do not use it directly, instead use:
 
@@ -72,7 +69,7 @@ sub new {
     return $Self;
 }
 
-=item DynamicFieldAdd()
+=head2 DynamicFieldAdd()
 
 add new Dynamic Field config
 
@@ -214,7 +211,7 @@ sub DynamicFieldAdd {
     return $DynamicField->{ID};
 }
 
-=item DynamicFieldGet()
+=head2 DynamicFieldGet()
 
 get Dynamic Field attributes
 
@@ -330,7 +327,7 @@ sub DynamicFieldGet {
     return \%Data;
 }
 
-=item DynamicFieldUpdate()
+=head2 DynamicFieldUpdate()
 
 update Dynamic Field content into database
 
@@ -484,7 +481,7 @@ sub DynamicFieldUpdate {
     return 1;
 }
 
-=item DynamicFieldDelete()
+=head2 DynamicFieldDelete()
 
 delete a Dynamic field entry. You need to make sure that all values are
 deleted before calling this function, otherwise it will fail on DBMS which check
@@ -558,7 +555,7 @@ sub DynamicFieldDelete {
     return 1;
 }
 
-=item DynamicFieldList()
+=head2 DynamicFieldList()
 
 get DynamicField list ordered by the the "Field Order" field in the DB
 
@@ -842,7 +839,7 @@ sub DynamicFieldList {
     return;
 }
 
-=item DynamicFieldListGet()
+=head2 DynamicFieldListGet()
 
 get DynamicField list with complete data ordered by the "Field Order" field in the DB
 
@@ -1054,7 +1051,7 @@ sub DynamicFieldListGet {
     return $FilteredData;
 }
 
-=item DynamicFieldOrderReset()
+=head2 DynamicFieldOrderReset()
 
 sets the order of all dynamic fields based on a consecutive number list starting with number 1.
 This function will remove duplicate order numbers and gaps in the numbering.
@@ -1114,7 +1111,7 @@ sub DynamicFieldOrderReset {
     return 1;
 }
 
-=item DynamicFieldOrderCheck()
+=head2 DynamicFieldOrderCheck()
 
 checks for duplicate order numbers and gaps in the numbering.
 
@@ -1162,7 +1159,7 @@ sub DynamicFieldOrderCheck {
     return 1;
 }
 
-=item ObjectMappingGet()
+=head2 ObjectMappingGet()
 
 (a) Fetches object ID(s) for given object name(s).
 (b) Fetches object name(s) for given object ID(s).
@@ -1314,7 +1311,7 @@ sub ObjectMappingGet {
     return \%ObjectMapping;
 }
 
-=item ObjectMappingCreate()
+=head2 ObjectMappingCreate()
 
 Creates an object mapping for the given given object name.
 
@@ -1396,7 +1393,7 @@ sub ObjectMappingCreate {
     return $ObjectID;
 }
 
-=item ObjectMappingNameChange()
+=head2 ObjectMappingNameChange()
 
 Changes name of given object mapping.
 
@@ -1488,7 +1485,7 @@ sub DESTROY {
 
 =cut
 
-=item _DynamicFieldReorder()
+=head2 _DynamicFieldReorder()
 
 re-order the list of fields.
 
@@ -1686,8 +1683,6 @@ sub _DynamicFieldReorder {
 }
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

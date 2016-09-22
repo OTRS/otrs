@@ -28,11 +28,8 @@ All item check functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -52,7 +49,7 @@ sub new {
     return $Self;
 }
 
-=item CheckError()
+=head2 CheckError()
 
 get the error of check item back
 
@@ -66,7 +63,7 @@ sub CheckError {
     return $Self->{Error};
 }
 
-=item CheckErrorType()
+=head2 CheckErrorType()
 
 get the error's type of check item back
 
@@ -80,7 +77,7 @@ sub CheckErrorType {
     return $Self->{ErrorType};
 }
 
-=item CheckEmail()
+=head2 CheckEmail()
 
 returns true if check was successful, if it's false, get the error message
 from CheckError()
@@ -224,7 +221,7 @@ sub CheckEmail {
     }
 }
 
-=item StringClean()
+=head2 StringClean()
 
 clean a given string
 
@@ -285,7 +282,7 @@ sub StringClean {
     return $Param{StringRef};
 }
 
-=item CreditCardClean()
+=head2 CreditCardClean()
 
 clean a given string and remove credit card
 
@@ -323,8 +320,6 @@ sub CreditCardClean {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

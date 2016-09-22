@@ -54,11 +54,8 @@ UpdateID the Portal refuses the update and an updated registration is required.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -87,7 +84,7 @@ sub new {
     return $Self;
 }
 
-=item TokenGet()
+=head2 TokenGet()
 
 Get a token needed for system registration.
 To obtain this token, you need to pass a valid OTRS ID and password.
@@ -232,7 +229,7 @@ sub TokenGet {
     return %Result;
 }
 
-=item Register()
+=head2 Register()
 
 Register the system;
 
@@ -511,7 +508,7 @@ sub Register {
     return 1;
 }
 
-=item RegistrationDataGet()
+=head2 RegistrationDataGet()
 
 Get the registration data from the system.
 
@@ -556,7 +553,7 @@ sub RegistrationDataGet {
     return %RegistrationData;
 }
 
-=item RegistrationUpdateSend()
+=head2 RegistrationUpdateSend()
 
 Register the system as Active.
 This also updates any information on Database, OTRS Version and Perl version that
@@ -859,7 +856,7 @@ sub RegistrationUpdateSend {
     );
 }
 
-=item Deregister()
+=head2 Deregister()
 
 Deregister the system. Deregistering also stops any update jobs.
 
@@ -987,8 +984,6 @@ sub Deregister {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

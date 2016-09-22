@@ -30,11 +30,8 @@ This module is managing time functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a time object. Do not use it directly, instead use:
 
@@ -77,7 +74,7 @@ sub new {
     return $Self;
 }
 
-=item SystemTime()
+=head2 SystemTime()
 
 returns the number of non-leap seconds since what ever time the
 system considers to be the epoch (that's 00:00:00, January 1, 1904
@@ -96,7 +93,7 @@ sub SystemTime {
     return $SystemTime;
 }
 
-=item SystemTime2TimeStamp()
+=head2 SystemTime2TimeStamp()
 
 returns a time stamp for a given system time in "yyyy-mm-dd 23:59:59" format.
 
@@ -139,7 +136,7 @@ sub SystemTime2TimeStamp {
     return "$Year-$Month-$Day $Hour:$Min:$Sec";
 }
 
-=item CurrentTimestamp()
+=head2 CurrentTimestamp()
 
 returns a time stamp of the local system time (see L<SystemTime()>)
 in "yyyy-mm-dd 23:59:59" format.
@@ -154,7 +151,7 @@ sub CurrentTimestamp {
     return $Self->SystemTime2TimeStamp( SystemTime => $Self->SystemTime() );
 }
 
-=item SystemTime2Date()
+=head2 SystemTime2Date()
 
 converts a system time to a structured date array.
 
@@ -201,7 +198,7 @@ sub SystemTime2Date {
     return ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay );
 }
 
-=item TimeStamp2SystemTime()
+=head2 TimeStamp2SystemTime()
 
 converts a given time stamp to local system time.
 
@@ -327,7 +324,7 @@ sub TimeStamp2SystemTime {
 
 }
 
-=item Date2SystemTime()
+=head2 Date2SystemTime()
 
 converts a structured date array to system time of OTRS.
 
@@ -378,7 +375,7 @@ sub Date2SystemTime {
     return $SystemTime;
 }
 
-=item ServerLocalTimeOffsetSeconds()
+=head2 ServerLocalTimeOffsetSeconds()
 
 All framework code that calls this method only uses it to check if the server runs in UTC
 and therefore user time zones are allowed. It's not needed anymore in the future and is only
@@ -399,7 +396,7 @@ sub ServerLocalTimeOffsetSeconds {
     return 0;
 }
 
-=item MailTimeStamp()
+=head2 MailTimeStamp()
 
 returns the current time stamp in RFC 2822 format to be used in email headers:
 "Wed, 22 Sep 2014 16:30:57 +0200".
@@ -423,7 +420,7 @@ sub MailTimeStamp {
     return $EmailTimeStamp;
 }
 
-=item WorkingTime()
+=head2 WorkingTime()
 
 get the working time in seconds between these local system times.
 
@@ -489,7 +486,7 @@ sub WorkingTime {
     return $Delta->{AbsoluteSeconds};
 }
 
-=item DestinationTime()
+=head2 DestinationTime()
 
 get the destination time based on the current calendar working time (fallback: default
 system working time) configuration.
@@ -556,7 +553,7 @@ sub DestinationTime {
     return $DestinationTime;
 }
 
-=item VacationCheck()
+=head2 VacationCheck()
 
 check if the selected day is a vacation (it doesn't matter if you
 insert 01 or 1 for month or day in the function or in the SysConfig)
@@ -606,8 +603,6 @@ sub VacationCheck {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

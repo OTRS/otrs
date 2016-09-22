@@ -27,11 +27,8 @@ Kernel::System::FetchMail - FetchMail wrapper functions
 
 Functions for email fetch.
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a FetchMail object. Do not use it directly, instead use:
 
@@ -51,7 +48,7 @@ sub new {
     return $Self;
 }
 
-=item Fetch()
+=head2 Fetch()
 
 Retrieves messages from an email server using fetchmail backend.
 
@@ -354,8 +351,6 @@ sub Fetch {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

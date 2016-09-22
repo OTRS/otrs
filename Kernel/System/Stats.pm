@@ -63,9 +63,7 @@ Start date: 2015-09-10 16:00:00 - 10 days -> 2015-08-31 16:00:00 -> extended to 
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -88,7 +86,7 @@ sub new {
     return $Self;
 }
 
-=item StatsAdd()
+=head2 StatsAdd()
 
 add new empty stats
 
@@ -178,7 +176,7 @@ sub StatsAdd {
     return $StatID;
 }
 
-=item StatsGet()
+=head2 StatsGet()
 
 get a hash ref of the stats you need
 
@@ -405,7 +403,7 @@ sub StatsGet {
     return \%Stat;
 }
 
-=item StatsUpdate()
+=head2 StatsUpdate()
 
 update a stat
 
@@ -571,7 +569,7 @@ sub StatsUpdate {
     return 1;
 }
 
-=item StatsDelete()
+=head2 StatsDelete()
 
 delete a stats
 
@@ -651,7 +649,7 @@ sub StatsDelete {
     return 1;
 }
 
-=item StatsListGet()
+=head2 StatsListGet()
 
 fetches all statistics that the current user may see
 
@@ -773,7 +771,7 @@ sub StatsListGet {
     return \%Result;
 }
 
-=item GetStatsList()
+=head2 GetStatsList()
 
 lists all stats id's
 
@@ -820,7 +818,7 @@ sub GetStatsList {
     return \@SortArray;
 }
 
-=item SumBuild()
+=head2 SumBuild()
 
 build sum in x or/and y axis
 
@@ -904,7 +902,7 @@ sub SumBuild {
     return \@Data;
 }
 
-=item GetStatsObjectAttributes()
+=head2 GetStatsObjectAttributes()
 
 Get all attributes from the object in dependence of the use
 
@@ -953,7 +951,7 @@ sub GetStatsObjectAttributes {
     return @ObjectAttributes;
 }
 
-=item GetStaticFiles()
+=head2 GetStaticFiles()
 
 Get all static files
 
@@ -1033,7 +1031,7 @@ sub GetStaticFiles {
     return \%Filelist;
 }
 
-=item GetDynamicFiles()
+=head2 GetDynamicFiles()
 
 Get all static objects
 
@@ -1063,7 +1061,7 @@ sub GetDynamicFiles {
     return \%Filelist;
 }
 
-=item GetObjectName()
+=head2 GetObjectName()
 
 Get the name of a dynamic object
 
@@ -1095,7 +1093,7 @@ sub GetObjectName {
     return $Name;
 }
 
-=item GetObjectBehaviours()
+=head2 GetObjectBehaviours()
 
 get behaviours that a statistic supports
 
@@ -1137,7 +1135,7 @@ sub GetObjectBehaviours {
     return \%ObjectBehaviours;
 }
 
-=item ObjectFileCheck()
+=head2 ObjectFileCheck()
 
 check readable object file
 
@@ -1166,7 +1164,7 @@ sub ObjectFileCheck {
     return;
 }
 
-=item Export()
+=head2 Export()
 
 get content from stats for export
 
@@ -1280,7 +1278,7 @@ sub Export {
     return \%File;
 }
 
-=item Import()
+=head2 Import()
 
 import a stats from xml file
 
@@ -1515,7 +1513,7 @@ sub Import {
     return $StatID;
 }
 
-=item GetParams()
+=head2 GetParams()
 
     get all edit params from stats for view
 
@@ -1554,7 +1552,7 @@ sub GetParams {
     return \@Params;
 }
 
-=item StatsRun()
+=head2 StatsRun()
 
 run a statistic.
 
@@ -1632,7 +1630,7 @@ sub StatsRun {
     return \@Result;
 }
 
-=item StatsResultCacheCompute()
+=head2 StatsResultCacheCompute()
 
 computes stats results and adds them to the cache.
 This can be used to precompute stats data e. g. for dashboard widgets in a cron job.
@@ -1723,7 +1721,7 @@ sub StatsResultCacheCompute {
     );
 }
 
-=item StatsResultCacheGet()
+=head2 StatsResultCacheGet()
 
 gets cached statistic results. Will never run the statistic.
 This can be used to fetch cached stats data e. g. for stats widgets in the dashboard.
@@ -1805,7 +1803,7 @@ sub StatsResultCacheGet {
     );
 }
 
-=item StringAndTimestamp2Filename()
+=head2 StringAndTimestamp2Filename()
 
 builds a filename with a string and a timestamp.
 (space will be replaced with _ and - e.g. Title-of-File_2006-12-31_11-59)
@@ -1853,7 +1851,7 @@ sub StringAndTimestamp2Filename {
     return $Filename;
 }
 
-=item StatNumber2StatID()
+=head2 StatNumber2StatID()
 
 insert the stat number get the stat id
 
@@ -1889,7 +1887,7 @@ sub StatNumber2StatID {
     return;
 }
 
-=item StatsInstall()
+=head2 StatsInstall()
 
 installs stats
 
@@ -1966,7 +1964,7 @@ sub StatsInstall {
     return 1;
 }
 
-=item StatsUninstall()
+=head2 StatsUninstall()
 
 uninstalls stats
 
@@ -2025,7 +2023,7 @@ sub StatsUninstall {
     return 1;
 }
 
-=item StatsCleanUp()
+=head2 StatsCleanUp()
 
 removed stats with not existing backend file
 
@@ -2083,7 +2081,7 @@ sub StatsCleanUp {
 
 =begin Internal:
 
-=item _GenerateStaticStats()
+=head2 _GenerateStaticStats()
 
     take the stat configuration and get the stat table
 
@@ -2165,7 +2163,7 @@ sub _GenerateStaticStats {
     return @Result;
 }
 
-=item _GenerateDynamicStats()
+=head2 _GenerateDynamicStats()
 
     take the stat configuration and get the stat table
 
@@ -3399,7 +3397,7 @@ sub _WriteResultCache {
     return 1;
 }
 
-=item _CreateStaticResultCacheFilename()
+=head2 _CreateStaticResultCacheFilename()
 
 create a filename out of the GetParam information and the stat id
 
@@ -3461,7 +3459,7 @@ sub _CreateStaticResultCacheFilename {
         . '.cache';
 }
 
-=item _SetResultCache()
+=head2 _SetResultCache()
 
 cache the stats result with a given cache key (Filename).
 
@@ -3499,7 +3497,7 @@ sub _SetResultCache {
     return 1;
 }
 
-=item _GetResultCache()
+=head2 _GetResultCache()
 
 get stats result from cache, if any
 
@@ -3536,7 +3534,7 @@ sub _GetResultCache {
     return;
 }
 
-=item _DeleteCache()
+=head2 _DeleteCache()
 
 clean up stats result cache.
 
@@ -3625,7 +3623,7 @@ sub _AutomaticSampleImport {
     return 1;
 }
 
-=item _FromOTRSTimeZone()
+=head2 _FromOTRSTimeZone()
 
 Converts the given date/time string from OTRS time zone to the given time zone.
 
@@ -3665,7 +3663,7 @@ sub _FromOTRSTimeZone {
     return $DateTimeObject->ToString();
 }
 
-=item _ToOTRSTimeZone()
+=head2 _ToOTRSTimeZone()
 
 Converts the given date/time string from the given time zone to OTRS time zone.
 
@@ -3703,7 +3701,7 @@ sub _ToOTRSTimeZone {
     return $DateTimeObject->ToString();
 }
 
-=item _GetCacheString()
+=head2 _GetCacheString()
 
 returns a string that can be used for caching this particular statistic
 with the given parameters.
@@ -3755,7 +3753,7 @@ sub _GetCacheString {
     return $Result;
 }
 
-=item _AddDeltaYMD()
+=head2 _AddDeltaYMD()
 
 Substitute for Date::Pcalc::Add_Delta_YMD() which uses Kernel::System::DateTime.
 
@@ -3797,7 +3795,7 @@ sub _AddDeltaYMD {
     );
 }
 
-=item _AddDeltaDHMS()
+=head2 _AddDeltaDHMS()
 
 Substitute for Date::Pcalc::Add_Delta_DHMS() which uses Kernel::System::DateTime.
 
@@ -3847,7 +3845,7 @@ sub _AddDeltaDHMS {
     );
 }
 
-=item _AddDeltaDays()
+=head2 _AddDeltaDays()
 
 Substitute for Date::Pcalc::Add_Delta_Days() which uses Kernel::System::DateTime.
 
@@ -3887,7 +3885,7 @@ sub _AddDeltaDays {
     );
 }
 
-=item _DaysInMonth()
+=head2 _DaysInMonth()
 
 Substitute for Date::Pcalc::Days_in_Month() which uses Kernel::System::DateTime.
 
@@ -3920,7 +3918,7 @@ sub _DaysInMonth {
     return $LastDayOfMonth->{Day};
 }
 
-=item _DayOfWeek()
+=head2 _DayOfWeek()
 
 Substitute for Date::Pcalc::Day_of_Week() which uses Kernel::System::DateTime.
 
@@ -3953,7 +3951,7 @@ sub _DayOfWeek {
     return $DateTimeValues->{DayOfWeek};
 }
 
-=item _DayOfWeekAbbreviation()
+=head2 _DayOfWeekAbbreviation()
 
 Substitute for Date::Pcalc::Day_of_Week_Abbreviation()
 
@@ -3977,7 +3975,7 @@ sub _DayOfWeekAbbreviation {
     return $DayOfWeekAbbrs{$DayOfWeek};
 }
 
-=item _DayOfWeekToText()
+=head2 _DayOfWeekToText()
 
 Substitute for Date::Pcalc::Day_of_Week_to_Text()
 
@@ -4001,7 +3999,7 @@ sub _DayOfWeekToText {
     return $DayOfWeekTexts{$DayOfWeek};
 }
 
-=item _MondayOfWeek()
+=head2 _MondayOfWeek()
 
 Substitute for Date::Pcalc::Monday_of_Week(), using Kernel::System::DateTime, note different parameters
 
@@ -4038,7 +4036,7 @@ sub _MondayOfWeek {
     return $DateTimeValues->{Day};
 }
 
-=item _WeekOfYear()
+=head2 _WeekOfYear()
 
 Substitute for Date::Pcalc::Week_of_Year(), using Kernel::System::DateTime
 
@@ -4075,8 +4073,6 @@ sub _WeekOfYear {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

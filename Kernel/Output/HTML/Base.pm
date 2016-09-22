@@ -39,11 +39,8 @@ Kernel::Output::HTML::Base - Base class for Output classes
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 Creates an object. Call it not on this class, but on a subclass.
 
@@ -51,8 +48,6 @@ Creates an object. Call it not on this class, but on a subclass.
     my $Object = Kernel::Output::HTML::ToolBar::MyToolBar->new(
         UserID  => 123,
     );
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

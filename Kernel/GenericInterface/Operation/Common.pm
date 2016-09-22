@@ -19,15 +19,10 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::GenericInterface::Operation::Common - Base class for all Operations
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item Auth()
+=head2 Auth()
 
 performs user or customer user authorization
 
@@ -106,7 +101,7 @@ sub Auth {
     return 0;
 }
 
-=item ReturnError()
+=head2 ReturnError()
 
 helper function to return an error message.
 
@@ -140,7 +135,7 @@ sub ReturnError {
 
 =begin Internal:
 
-=item _AuthUser()
+=head2 _AuthUser()
 
 performs user authentication
 
@@ -183,7 +178,7 @@ sub _AuthUser {
     return $ReturnData;
 }
 
-=item _AuthCustomerUser()
+=head2 _AuthCustomerUser()
 
 performs customer user authentication
 
@@ -224,8 +219,6 @@ sub _AuthCustomerUser {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

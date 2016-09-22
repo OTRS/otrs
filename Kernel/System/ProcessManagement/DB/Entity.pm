@@ -29,11 +29,8 @@ Process Management DB Entity backend
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -61,7 +58,7 @@ sub new {
     return $Self;
 }
 
-=item EntityIDGenerate()
+=head2 EntityIDGenerate()
 
 generate unique Entity ID
 
@@ -113,7 +110,7 @@ sub EntityIDGenerate {
     return $EntityID;
 }
 
-=item EntitySyncStateSet()
+=head2 EntitySyncStateSet()
 
 set sync state for an entity.
 
@@ -183,7 +180,7 @@ sub EntitySyncStateSet {
     return 1;
 }
 
-=item EntitySyncStateGet()
+=head2 EntitySyncStateGet()
 
 gets the sync state of an entity
 
@@ -264,7 +261,7 @@ sub EntitySyncStateGet {
     return \%Result;
 }
 
-=item EntitySyncStateDelete()
+=head2 EntitySyncStateDelete()
 
 deletes sync state of an entity.
 
@@ -316,7 +313,7 @@ sub EntitySyncStateDelete {
     return 1;
 }
 
-=item EntitySyncStatePurge()
+=head2 EntitySyncStatePurge()
 
 deletes all entries .
 
@@ -349,7 +346,7 @@ sub EntitySyncStatePurge {
     return 1;
 }
 
-=item EntitySyncStateList()
+=head2 EntitySyncStateList()
 
 gets a list of sync states.
 
@@ -448,8 +445,6 @@ sub EntitySyncStateList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

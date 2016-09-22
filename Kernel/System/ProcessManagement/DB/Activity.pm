@@ -32,11 +32,8 @@ Process Management DB Activity backend
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -65,7 +62,7 @@ sub new {
     return $Self;
 }
 
-=item ActivityAdd()
+=head2 ActivityAdd()
 
 add new Activity
 
@@ -172,7 +169,7 @@ sub ActivityAdd {
     return $ID;
 }
 
-=item ActivityDelete()
+=head2 ActivityDelete()
 
 delete an Activity
 
@@ -220,7 +217,7 @@ sub ActivityDelete {
     return 1;
 }
 
-=item ActivityGet()
+=head2 ActivityGet()
 
 get Activity attributes
 
@@ -394,7 +391,7 @@ sub ActivityGet {
     return \%Data;
 }
 
-=item ActivityUpdate()
+=head2 ActivityUpdate()
 
 update Activity attributes
 
@@ -513,7 +510,7 @@ sub ActivityUpdate {
     return 1;
 }
 
-=item ActivityList()
+=head2 ActivityList()
 
 get an Activity list
 
@@ -595,7 +592,7 @@ sub ActivityList {
     return \%Data;
 }
 
-=item ActivityListGet()
+=head2 ActivityListGet()
 
 get an Activity list with all activity details
 
@@ -690,8 +687,6 @@ sub ActivityListGet {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -23,11 +23,8 @@ Kernel::System::Ticket::TicketACL - ticket ACL lib
 
 All ticket ACL functions.
 
-=over 4
 
-=cut
-
-=item TicketAcl()
+=head2 TicketAcl()
 
 Restricts the Data parameter sent to a subset of it, depending on a group of user defied rules
 called ACLs. The reduced subset can be access from TicketACLData() if ReturnType parameter is set
@@ -920,7 +917,7 @@ sub TicketAcl {
     return 1;
 }
 
-=item TicketAclData()
+=head2 TicketAclData()
 
 return the current ACL data hash after TicketAcl()
 
@@ -934,7 +931,7 @@ sub TicketAclData {
     return %{ $Self->{TicketAclData} || {} };
 }
 
-=item TicketAclActionData()
+=head2 TicketAclActionData()
 
 return the current ACL action data hash after TicketAcl()
 
@@ -955,7 +952,7 @@ sub TicketAclActionData {
 
 =cut
 
-=item _GetChecks()
+=head2 _GetChecks()
 
 creates two check hashes (one for current data updatable via AJAX refreshes and another for
 static ticket data stored in the DB) with the required data to use as a basis to match the ACLs
@@ -2029,7 +2026,7 @@ sub _GetChecks {
     };
 }
 
-=item _CompareMatchWithData()
+=head2 _CompareMatchWithData()
 
 Compares a properties element with the data sent to the ACL, the compare results varies on how the
 ACL properties where defined including normal, negated, regular expression and negated regular
@@ -2174,8 +2171,6 @@ sub _CompareMatchWithData {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

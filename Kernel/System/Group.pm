@@ -30,11 +30,8 @@ All group and roles functions. E. g. to add groups or to get a member list of a 
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -54,7 +51,7 @@ sub new {
     return $Self;
 }
 
-=item GroupLookup()
+=head2 GroupLookup()
 
 get id or name for group
 
@@ -93,7 +90,7 @@ sub GroupLookup {
     return $GroupListReverse{ $Param{Group} };
 }
 
-=item GroupAdd()
+=head2 GroupAdd()
 
 to add a group
 
@@ -176,7 +173,7 @@ sub GroupAdd {
     return $GroupID;
 }
 
-=item GroupGet()
+=head2 GroupGet()
 
 returns a hash with group data
 
@@ -223,7 +220,7 @@ sub GroupGet {
     return %Group;
 }
 
-=item GroupUpdate()
+=head2 GroupUpdate()
 
 update of a group
 
@@ -326,7 +323,7 @@ sub GroupUpdate {
     return 1;
 }
 
-=item GroupList()
+=head2 GroupList()
 
 returns a hash of all groups
 
@@ -415,7 +412,7 @@ sub GroupList {
     return %GroupListAll;
 }
 
-=item GroupDataList()
+=head2 GroupDataList()
 
 returns a hash of all group data
 
@@ -496,7 +493,7 @@ sub GroupDataList {
     return %GroupDataList;
 }
 
-=item RoleLookup()
+=head2 RoleLookup()
 
 get id or name for role
 
@@ -535,7 +532,7 @@ sub RoleLookup {
     return $RoleListReverse{ $Param{Role} };
 }
 
-=item RoleGet()
+=head2 RoleGet()
 
 returns a hash with role data
 
@@ -582,7 +579,7 @@ sub RoleGet {
     return %Role;
 }
 
-=item RoleAdd()
+=head2 RoleAdd()
 
 to add a new role
 
@@ -663,7 +660,7 @@ sub RoleAdd {
     return $RoleID;
 }
 
-=item RoleUpdate()
+=head2 RoleUpdate()
 
 update of a role
 
@@ -760,7 +757,7 @@ sub RoleUpdate {
     return 1;
 }
 
-=item RoleList()
+=head2 RoleList()
 
 returns a hash of all roles
 
@@ -849,7 +846,7 @@ sub RoleList {
     return %RoleListAll;
 }
 
-=item RoleDataList()
+=head2 RoleDataList()
 
 returns a hash of all role data
 
@@ -930,7 +927,7 @@ sub RoleDataList {
     return %RoleDataList;
 }
 
-=item PermissionUserInvolvedGet()
+=head2 PermissionUserInvolvedGet()
 
 returns a list of users with the given permissions
 
@@ -976,7 +973,7 @@ sub PermissionUserInvolvedGet {
     return %Users;
 }
 
-=item PermissionUserGet()
+=head2 PermissionUserGet()
 
 Get groups of the given user.
 
@@ -1051,7 +1048,7 @@ sub PermissionUserGet {
     return %GroupList;
 }
 
-=item PermissionGroupGet()
+=head2 PermissionGroupGet()
 
 Get users of the given group.
 
@@ -1126,7 +1123,7 @@ sub PermissionGroupGet {
     return %UserList;
 }
 
-=item PermissionGroupUserAdd()
+=head2 PermissionGroupUserAdd()
 
 add new permissions or update existing one to the given group of a given user
 
@@ -1262,7 +1259,7 @@ sub PermissionGroupUserAdd {
     return 1;
 }
 
-=item PermissionGroupUserGet()
+=head2 PermissionGroupUserGet()
 
 returns a list with all users of a group
 
@@ -1345,7 +1342,7 @@ sub PermissionGroupUserGet {
     return %Users;
 }
 
-=item PermissionUserGroupGet()
+=head2 PermissionUserGroupGet()
 
 returns a list of groups a user is member of
 
@@ -1427,7 +1424,7 @@ sub PermissionUserGroupGet {
     return %Groups;
 }
 
-=item PermissionGroupRoleAdd()
+=head2 PermissionGroupRoleAdd()
 
 add new permissions or update existing one to the given group of a given role
 
@@ -1563,7 +1560,7 @@ sub PermissionGroupRoleAdd {
     return 1;
 }
 
-=item PermissionGroupRoleGet()
+=head2 PermissionGroupRoleGet()
 
 returns a list with all roles of a group
 
@@ -1644,7 +1641,7 @@ sub PermissionGroupRoleGet {
     return %Roles;
 }
 
-=item PermissionRoleGroupGet()
+=head2 PermissionRoleGroupGet()
 
 returns a list with all groups of a role
 
@@ -1725,7 +1722,7 @@ sub PermissionRoleGroupGet {
     return %Groups;
 }
 
-=item PermissionRoleUserAdd()
+=head2 PermissionRoleUserAdd()
 
 add new permissions or update existing one to the given group of a given role
 
@@ -1796,7 +1793,7 @@ sub PermissionRoleUserAdd {
     return 1;
 }
 
-=item PermissionRoleUserGet()
+=head2 PermissionRoleUserGet()
 
 returns a list with all users of a role
 
@@ -1859,7 +1856,7 @@ sub PermissionRoleUserGet {
     return %Users;
 }
 
-=item PermissionUserRoleGet()
+=head2 PermissionUserRoleGet()
 
 returns a list with all roles of a user
 
@@ -1922,7 +1919,7 @@ sub PermissionUserRoleGet {
     return %Roles;
 }
 
-=item GroupMemberAdd()
+=head2 GroupMemberAdd()
 
 Function for backward compatibility. Redirected to PermissionGroupUserAdd().
 
@@ -1934,7 +1931,7 @@ sub GroupMemberAdd {
     return $Self->PermissionGroupUserAdd(%Param);
 }
 
-=item GroupMemberList()
+=head2 GroupMemberList()
 
 Function for backward compatibility. Redirected to PermissionUserGet() and PermissionGroupGet().
 
@@ -2013,7 +2010,7 @@ sub GroupMemberList {
     return;
 }
 
-=item GroupMemberInvolvedList()
+=head2 GroupMemberInvolvedList()
 
 Function for backward compatibility. Redirected to PermissionUserInvolvedGet().
 
@@ -2025,7 +2022,7 @@ sub GroupMemberInvolvedList {
     return $Self->PermissionUserInvolvedGet(%Param);
 }
 
-=item GroupGroupMemberList()
+=head2 GroupGroupMemberList()
 
 Function for backward compatibility. Redirected to PermissionUserGroupGet() and PermissionGroupUserGet().
 
@@ -2131,7 +2128,7 @@ sub GroupGroupMemberList {
     return;
 }
 
-=item GroupRoleMemberList()
+=head2 GroupRoleMemberList()
 
 Function for backward compatibility. Redirected to PermissionRoleGroupGet() and PermissionGroupRoleGet().
 
@@ -2237,7 +2234,7 @@ sub GroupRoleMemberList {
     return;
 }
 
-=item GroupRoleMemberAdd()
+=head2 GroupRoleMemberAdd()
 
 Function for backward compatibility. Redirected to PermissionGroupRoleAdd().
 
@@ -2249,7 +2246,7 @@ sub GroupRoleMemberAdd {
     return $Self->PermissionGroupRoleAdd(%Param);
 }
 
-=item GroupUserRoleMemberList()
+=head2 GroupUserRoleMemberList()
 
 Function for backward compatibility. Redirected to PermissionUserRoleGet() and PermissionRoleUserGet().
 
@@ -2352,7 +2349,7 @@ sub GroupUserRoleMemberList {
     return;
 }
 
-=item GroupUserRoleMemberAdd()
+=head2 GroupUserRoleMemberAdd()
 
 Function for backward compatibility. Redirected to PermissionRoleUserAdd().
 
@@ -2368,7 +2365,7 @@ sub GroupUserRoleMemberAdd {
 
 =cut
 
-=item _DBGroupUserGet()
+=head2 _DBGroupUserGet()
 
 returns the content of the database table group_user
 
@@ -2527,7 +2524,7 @@ sub _DBGroupUserGet {
     return %GroupPermUserList;
 }
 
-=item _DBGroupRoleGet()
+=head2 _DBGroupRoleGet()
 
 returns the content of the database table group_role
 
@@ -2686,7 +2683,7 @@ sub _DBGroupRoleGet {
     return %GroupPermRoleList;
 }
 
-=item _DBRoleUserGet()
+=head2 _DBRoleUserGet()
 
 returns the content of the database table role_user
 
@@ -2832,7 +2829,7 @@ sub _DBRoleUserGet {
     return %UserRoleHash;
 }
 
-=item _PermissionTypeList()
+=head2 _PermissionTypeList()
 
 returns a list of valid system permissions.
 
@@ -2869,8 +2866,6 @@ sub _PermissionTypeList {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

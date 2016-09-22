@@ -29,11 +29,8 @@ All functions to manage the mail accounts.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -53,7 +50,7 @@ sub new {
     return $Self;
 }
 
-=item MailAccountAdd()
+=head2 MailAccountAdd()
 
 adds a new mail account
 
@@ -147,7 +144,7 @@ sub MailAccountAdd {
     return $ID;
 }
 
-=item MailAccountGet()
+=head2 MailAccountGet()
 
 returns a hash of mail account data
 
@@ -221,7 +218,7 @@ sub MailAccountGet {
     return %Data;
 }
 
-=item MailAccountUpdate()
+=head2 MailAccountUpdate()
 
 update a new mail account
 
@@ -293,7 +290,7 @@ sub MailAccountUpdate {
     return 1;
 }
 
-=item MailAccountDelete()
+=head2 MailAccountDelete()
 
 deletes a mail account
 
@@ -324,7 +321,7 @@ sub MailAccountDelete {
     return 1;
 }
 
-=item MailAccountList()
+=head2 MailAccountList()
 
 returns a list (Key, Name) of all mail accounts
 
@@ -359,7 +356,7 @@ sub MailAccountList {
     return %Data;
 }
 
-=item MailAccountBackendList()
+=head2 MailAccountBackendList()
 
 returns a list of usable backends
 
@@ -395,7 +392,7 @@ sub MailAccountBackendList {
     return %Backends;
 }
 
-=item MailAccountFetch()
+=head2 MailAccountFetch()
 
 fetch emails by using backend
 
@@ -440,7 +437,7 @@ sub MailAccountFetch {
     return $Backend->Fetch(%Param);
 }
 
-=item MailAccountCheck()
+=head2 MailAccountCheck()
 
 Check inbound mail configuration
 
@@ -493,8 +490,6 @@ sub MailAccountCheck {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

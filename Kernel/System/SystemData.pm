@@ -27,11 +27,8 @@ Provides key/value store for system data
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -55,7 +52,7 @@ sub new {
     return $Self;
 }
 
-=item SystemDataAdd()
+=head2 SystemDataAdd()
 
 add new systemdata value
 
@@ -129,7 +126,7 @@ sub SystemDataAdd {
     return 1;
 }
 
-=item SystemDataGet()
+=head2 SystemDataGet()
 
 get system data for key
 
@@ -191,7 +188,7 @@ sub SystemDataGet {
     return $Value;
 }
 
-=item SystemDataGroupGet()
+=head2 SystemDataGroupGet()
 
 returns a hash of all keys starting with the Group.
 For instance the code below would return values for
@@ -269,7 +266,7 @@ sub SystemDataGroupGet {
     return %Result;
 }
 
-=item SystemDataUpdate()
+=head2 SystemDataUpdate()
 
 update system data
 
@@ -336,7 +333,7 @@ sub SystemDataUpdate {
     return 1;
 }
 
-=item SystemDataDelete()
+=head2 SystemDataDelete()
 
 update system data
 
@@ -395,7 +392,7 @@ sub SystemDataDelete {
 
 =cut
 
-=item _SystemDataCacheKeyDelete()
+=head2 _SystemDataCacheKeyDelete()
 
 This will delete the cache for the given key and for all groups, if needed.
 
@@ -451,8 +448,6 @@ sub _SystemDataCacheKeyDelete {
 }
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

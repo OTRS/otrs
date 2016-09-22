@@ -33,11 +33,8 @@ SystemMaintenance backend
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create a SystemMaintenance object. Do not use it directly, instead use:
 
@@ -57,7 +54,7 @@ sub new {
     return $Self;
 }
 
-=item SystemMaintenanceAdd()
+=head2 SystemMaintenanceAdd()
 
 add new SystemMaintenance
 
@@ -134,7 +131,7 @@ sub SystemMaintenanceAdd {
     return $ID;
 }
 
-=item SystemMaintenanceDelete()
+=head2 SystemMaintenanceDelete()
 
 delete an SystemMaintenance
 
@@ -181,7 +178,7 @@ sub SystemMaintenanceDelete {
     return 1;
 }
 
-=item SystemMaintenanceGet()
+=head2 SystemMaintenanceGet()
 
 get SystemMaintenance attributes
 
@@ -265,7 +262,7 @@ sub SystemMaintenanceGet {
     return \%Data;
 }
 
-=item SystemMaintenanceUpdate()
+=head2 SystemMaintenanceUpdate()
 
 update SystemMaintenance attributes
 
@@ -322,7 +319,7 @@ sub SystemMaintenanceUpdate {
     return 1;
 }
 
-=item SystemMaintenanceList()
+=head2 SystemMaintenanceList()
 
 get an SystemMaintenance list
 
@@ -386,7 +383,7 @@ sub SystemMaintenanceList {
     return \%Data;
 }
 
-=item SystemMaintenanceListGet()
+=head2 SystemMaintenanceListGet()
 
 get an SystemMaintenance list with all SystemMaintenance details
 
@@ -457,7 +454,7 @@ sub SystemMaintenanceListGet {
     return \@Data;
 }
 
-=item SystemMaintenanceIsActive()
+=head2 SystemMaintenanceIsActive()
 
 get a SystemMaintenance active flag
 
@@ -506,7 +503,7 @@ sub SystemMaintenanceIsActive {
     return $Result;
 }
 
-=item SystemMaintenanceIsComming()
+=head2 SystemMaintenanceIsComming()
 
 get a SystemMaintenance flag
 
@@ -560,8 +557,6 @@ sub SystemMaintenanceIsComming {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

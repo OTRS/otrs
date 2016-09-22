@@ -38,11 +38,8 @@ Scheduler worker daemon
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 Create scheduler task worker object.
 
@@ -433,8 +430,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

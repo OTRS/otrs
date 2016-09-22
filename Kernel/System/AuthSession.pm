@@ -27,11 +27,8 @@ All session functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -65,7 +62,7 @@ sub new {
     return $Self;
 }
 
-=item CheckSessionID()
+=head2 CheckSessionID()
 
 checks a session, returns true (session ok) or false (session invalid)
 
@@ -81,7 +78,7 @@ sub CheckSessionID {
     return $Self->{Backend}->CheckSessionID(%Param);
 }
 
-=item SessionIDErrorMessage()
+=head2 SessionIDErrorMessage()
 
 returns an error in the session handling
 
@@ -95,7 +92,7 @@ sub SessionIDErrorMessage {
     return $Self->{Backend}->SessionIDErrorMessage(%Param);
 }
 
-=item GetSessionIDData()
+=head2 GetSessionIDData()
 
 get session data in a hash
 
@@ -122,7 +119,7 @@ sub GetSessionIDData {
     return $Self->{Backend}->GetSessionIDData(%Param);
 }
 
-=item CreateSessionID()
+=head2 CreateSessionID()
 
 create a new session with given data
 
@@ -139,7 +136,7 @@ sub CreateSessionID {
     return $Self->{Backend}->CreateSessionID(%Param);
 }
 
-=item RemoveSessionID()
+=head2 RemoveSessionID()
 
 removes a session and returns true (session deleted), false (if
 session can't get deleted)
@@ -154,7 +151,7 @@ sub RemoveSessionID {
     return $Self->{Backend}->RemoveSessionID(%Param);
 }
 
-=item UpdateSessionID()
+=head2 UpdateSessionID()
 
 update session info by key and value, returns true (if ok) and
 false (if can't update)
@@ -186,7 +183,7 @@ sub UpdateSessionID {
     return $Self->{Backend}->UpdateSessionID(%Param);
 }
 
-=item GetExpiredSessionIDs()
+=head2 GetExpiredSessionIDs()
 
 returns a array of an array of session ids that have expired,
 and one array of session ids that have been idle for too long.
@@ -204,7 +201,7 @@ sub GetExpiredSessionIDs {
     return $Self->{Backend}->GetExpiredSessionIDs(%Param);
 }
 
-=item GetAllSessionIDs()
+=head2 GetAllSessionIDs()
 
 returns an array with all session ids
 
@@ -218,7 +215,7 @@ sub GetAllSessionIDs {
     return $Self->{Backend}->GetAllSessionIDs(%Param);
 }
 
-=item CleanUp()
+=head2 CleanUp()
 
 cleanup of sessions in your system
 
@@ -233,8 +230,6 @@ sub CleanUp {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

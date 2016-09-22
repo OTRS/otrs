@@ -29,11 +29,8 @@ codes.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -53,7 +50,7 @@ sub new {
     return $Self;
 }
 
-=item CountryList()
+=head2 CountryList()
 
 return a list of countries as a hash reference. The countries are based on ISO
 3166-2 and are provided by the Perl module Locale::Code::Country, or optionally
@@ -112,8 +109,6 @@ sub CountryList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

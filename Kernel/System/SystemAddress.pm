@@ -28,11 +28,8 @@ Global module to add/edit/update system addresses.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object
 
@@ -55,7 +52,7 @@ sub new {
     return $Self;
 }
 
-=item SystemAddressAdd()
+=head2 SystemAddressAdd()
 
 add system address with attributes
 
@@ -118,7 +115,7 @@ sub SystemAddressAdd {
     return $ID;
 }
 
-=item SystemAddressGet()
+=head2 SystemAddressGet()
 
 get system address with attributes
 
@@ -198,7 +195,7 @@ sub SystemAddressGet {
     return %Data;
 }
 
-=item SystemAddressUpdate()
+=head2 SystemAddressUpdate()
 
 update system address with attributes
 
@@ -245,7 +242,7 @@ sub SystemAddressUpdate {
     return 1;
 }
 
-=item SystemAddressList()
+=head2 SystemAddressList()
 
 get a list of system addresses
 
@@ -313,7 +310,7 @@ sub SystemAddressList {
     return %List;
 }
 
-=item SystemAddressIsLocalAddress()
+=head2 SystemAddressIsLocalAddress()
 
 Checks if the given address is a local (system) address. Returns true
 for local addresses.
@@ -344,7 +341,7 @@ sub SystemAddressIsLocalAddress {
     return $Self->SystemAddressQueueID(%Param);
 }
 
-=item SystemAddressQueueID()
+=head2 SystemAddressQueueID()
 
 find dispatching queue id of email address
 
@@ -416,7 +413,7 @@ sub SystemAddressQueueID {
     return $QueueID;
 }
 
-=item SystemAddressQueueList()
+=head2 SystemAddressQueueList()
 
 get a list of the queues and their system addresses IDs
 
@@ -470,8 +467,6 @@ sub SystemAddressQueueList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

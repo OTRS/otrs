@@ -27,11 +27,8 @@ Base class for scheduler daemon task worker modules.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item _HandleError()
+=head2 _HandleError()
 
 Creates a system error message and sends an email with the error messages form a task execution.
 
@@ -77,7 +74,7 @@ sub _HandleError {
     return;
 }
 
-=item _CheckTaskParams()
+=head2 _CheckTaskParams()
 
 Performs basic checks for common task parameters.
 
@@ -146,8 +143,6 @@ sub _CheckTaskParams {
     return 1;
 }
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

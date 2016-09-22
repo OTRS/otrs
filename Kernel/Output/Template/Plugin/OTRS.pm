@@ -23,11 +23,8 @@ Kernel::Output::Template::Plugin::OTRS - Template Toolkit extension plugin
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 this plugin registers a few filters and functions in Template::Toolkit.
 
@@ -167,8 +164,6 @@ sub new {
         _PARAMS  => \@Params,
     }, $Class;
 }
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

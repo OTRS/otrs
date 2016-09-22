@@ -31,11 +31,8 @@ A module for creating and modifying html strings.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -58,7 +55,7 @@ sub new {
     return $Self;
 }
 
-=item ToAscii()
+=head2 ToAscii()
 
 convert a html string to an ascii string
 
@@ -556,7 +553,7 @@ sub ToAscii {
     return $Param{String};
 }
 
-=item ToHTML()
+=head2 ToHTML()
 
 convert an ascii string to a html string
 
@@ -591,7 +588,7 @@ sub ToHTML {
     return $Param{String};
 }
 
-=item DocumentComplete()
+=head2 DocumentComplete()
 
 check and e. g. add <html> and <body> tags to given html string
 
@@ -630,7 +627,7 @@ sub DocumentComplete {
     return $Body;
 }
 
-=item DocumentStrip()
+=head2 DocumentStrip()
 
 remove html document tags from string
 
@@ -662,7 +659,7 @@ sub DocumentStrip {
     return $Param{String};
 }
 
-=item DocumentCleanup()
+=head2 DocumentCleanup()
 
 perform some sanity checks on HTML content.
 
@@ -734,7 +731,7 @@ sub DocumentCleanup {
     return $Param{String};
 }
 
-=item LinkQuote()
+=head2 LinkQuote()
 
 URL link detections in HTML code, add "<a href" if missing
 
@@ -902,7 +899,7 @@ sub LinkQuote {
     return $String;
 }
 
-=item Safety()
+=head2 Safety()
 
 To remove/strip active html tags/addons (javascript, applets, embeds and objects)
 from html strings.
@@ -1162,7 +1159,7 @@ sub Safety {
     return %Safety;
 }
 
-=item EmbeddedImagesExtract()
+=head2 EmbeddedImagesExtract()
 
 extracts embedded images with data-URLs from an HTML document.
 
@@ -1222,8 +1219,6 @@ sub EmbeddedImagesExtract {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

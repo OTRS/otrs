@@ -30,11 +30,8 @@ All customer group functions. E. g. to add groups or to get a member list of a g
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -57,7 +54,7 @@ sub new {
     return $Self;
 }
 
-=item GroupMemberAdd()
+=head2 GroupMemberAdd()
 
 to add a member to a group
 
@@ -144,7 +141,7 @@ sub GroupMemberAdd {
     return 1;
 }
 
-=item GroupMemberList()
+=head2 GroupMemberList()
 
 if GroupID is passed:
 returns a list of users of a group with ro/move_into/create/owner/priority/rw permissions
@@ -308,7 +305,7 @@ sub GroupMemberList {
     return %Data;
 }
 
-=item GroupLookup()
+=head2 GroupLookup()
 
 get id or name for group
 
@@ -397,8 +394,6 @@ sub GroupLookup {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

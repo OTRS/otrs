@@ -28,11 +28,8 @@ All Process Management Activity Dialog functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -52,7 +49,7 @@ sub new {
     return $Self;
 }
 
-=item ActivityDialogGet()
+=head2 ActivityDialogGet()
 
     Get activity dialog info
 
@@ -186,7 +183,7 @@ sub ActivityDialogGet {
     return $ActivityDialog->{ $Param{ActivityDialogEntityID} };
 }
 
-=item ActivityDialogCompletedCheck()
+=head2 ActivityDialogCompletedCheck()
 
     Checks if an activity dialog is completed
 
@@ -264,8 +261,6 @@ sub ActivityDialogCompletedCheck {
     return 1;
 }
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

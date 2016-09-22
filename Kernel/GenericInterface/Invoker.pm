@@ -43,11 +43,8 @@ was initiated to allow the Invoker to handle possible errors.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object.
 
@@ -115,7 +112,7 @@ sub new {
     return $Self;
 }
 
-=item PrepareRequest()
+=head2 PrepareRequest()
 
 prepare the invocation of the configured remote webservice.
 
@@ -157,7 +154,7 @@ sub PrepareRequest {
 
 }
 
-=item HandleResponse()
+=head2 HandleResponse()
 
 handle response data of the configured remote webservice.
 
@@ -196,8 +193,6 @@ sub HandleResponse {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

@@ -23,11 +23,8 @@ All valid functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item PopupClose()
+=head2 PopupClose()
 
 Generate a small HTML page which closes the popup window and
 executes an action in the main window.
@@ -91,8 +88,6 @@ sub PopupClose {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

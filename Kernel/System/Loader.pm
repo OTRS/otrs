@@ -32,11 +32,8 @@ All valid functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object
 
@@ -59,7 +56,7 @@ sub new {
     return $Self;
 }
 
-=item MinifyFiles()
+=head2 MinifyFiles()
 
 takes a list of files and returns a filename in the target directory
 which holds the minified and concatenated content of the files.
@@ -229,7 +226,7 @@ sub MinifyFiles {
     return $Filename;
 }
 
-=item GetMinifiedFile()
+=head2 GetMinifiedFile()
 
 returns the minified contents of a given CSS or JavaScript file.
 Uses caching internally.
@@ -323,7 +320,7 @@ sub GetMinifiedFile {
     return $Result;
 }
 
-=item MinifyCSS()
+=head2 MinifyCSS()
 
 returns a minified version of the given CSS Code
 
@@ -359,7 +356,7 @@ sub MinifyCSS {
     return $Result;
 }
 
-=item MinifyJavaScript()
+=head2 MinifyJavaScript()
 
 returns a minified version of the given JavaScript Code.
 
@@ -396,7 +393,7 @@ sub MinifyJavaScript {
     return JavaScript::Minifier::minify( input => $Param{Code} );
 }
 
-=item CacheGenerate()
+=head2 CacheGenerate()
 
 generates the loader cache files for all frontend modules.
 
@@ -449,7 +446,7 @@ sub CacheGenerate {
     return @Result;
 }
 
-=item CacheDelete()
+=head2 CacheDelete()
 
 deletes all the loader cache files.
 
@@ -529,8 +526,6 @@ sub CacheDelete {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

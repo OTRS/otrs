@@ -27,11 +27,8 @@ This module is managing temporary files and directories.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -53,7 +50,7 @@ sub new {
     return $Self;
 }
 
-=item TempFile()
+=head2 TempFile()
 
 returns an opened temporary file handle and its file name.
 Please note that you need to close the file handle for other processes to write to it.
@@ -81,7 +78,7 @@ sub TempFile {
     return ( $FH, $Filename );
 }
 
-=item TempDir()
+=head2 TempDir()
 
 returns a temp directory. The directory and its contents will be removed
 if the FileTemp object goes out of scope.
@@ -117,8 +114,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

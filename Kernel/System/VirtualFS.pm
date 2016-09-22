@@ -28,11 +28,8 @@ All virtual fs functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -62,7 +59,7 @@ sub new {
     return $Self;
 }
 
-=item Read()
+=head2 Read()
 
 read a file from virtual file system
 
@@ -160,7 +157,7 @@ sub Read {
     );
 }
 
-=item Write()
+=head2 Write()
 
 write a file to virtual file system
 
@@ -260,7 +257,7 @@ sub Write {
     return 1;
 }
 
-=item Delete()
+=head2 Delete()
 
 delete a file from virtual file system
 
@@ -331,7 +328,7 @@ sub Delete {
     );
 }
 
-=item Find()
+=head2 Find()
 
 find files in virtual file system
 
@@ -511,8 +508,6 @@ sub _FileLookup {
 =cut
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

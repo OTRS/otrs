@@ -22,15 +22,10 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::GenericInterface::Operation::Ticket::Common - Base class for all Ticket Operations
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item Init()
+=head2 Init()
 
 initialize the operation by checking the webservice configuration and gather of the dynamic fields
 
@@ -90,7 +85,7 @@ sub Init {
     };
 }
 
-=item ValidateQueue()
+=head2 ValidateQueue()
 
 checks if the given queue or queue ID is valid.
 
@@ -154,7 +149,7 @@ sub ValidateQueue {
     return 1;
 }
 
-=item ValidateLock()
+=head2 ValidateLock()
 
 checks if the given lock or lock ID is valid.
 
@@ -204,7 +199,7 @@ sub ValidateLock {
     return 1;
 }
 
-=item ValidateType()
+=head2 ValidateType()
 
 checks if the given type or type ID is valid.
 
@@ -266,7 +261,7 @@ sub ValidateType {
     return 1;
 }
 
-=item ValidateCustomer()
+=head2 ValidateCustomer()
 
 checks if the given customer user or customer ID is valid.
 
@@ -325,7 +320,7 @@ sub ValidateCustomer {
     return 1;
 }
 
-=item ValidateService()
+=head2 ValidateService()
 
 checks if the given service or service ID is valid.
 
@@ -405,7 +400,7 @@ sub ValidateService {
     return 1;
 }
 
-=item ValidateSLA()
+=head2 ValidateSLA()
 
 checks if the given service or service ID is valid.
 
@@ -510,7 +505,7 @@ sub ValidateSLA {
     return 1;
 }
 
-=item ValidateState()
+=head2 ValidateState()
 
 checks if the given state or state ID is valid.
 
@@ -573,7 +568,7 @@ sub ValidateState {
     return 1;
 }
 
-=item ValidatePriority()
+=head2 ValidatePriority()
 
 checks if the given priority or priority ID is valid.
 
@@ -643,7 +638,7 @@ sub ValidatePriority {
     return 1;
 }
 
-=item ValidateOwner()
+=head2 ValidateOwner()
 
 checks if the given owner or owner ID is valid.
 
@@ -672,7 +667,7 @@ sub ValidateOwner {
     );
 }
 
-=item ValidateResponsible()
+=head2 ValidateResponsible()
 
 checks if the given responsible or responsible ID is valid.
 
@@ -701,7 +696,7 @@ sub ValidateResponsible {
     );
 }
 
-=item ValidatePendingTime()
+=head2 ValidatePendingTime()
 
 checks if the given pending time is valid.
 
@@ -761,7 +756,7 @@ sub ValidatePendingTime {
     return 1;
 }
 
-=item ValidateAutoResponseType()
+=head2 ValidateAutoResponseType()
 
 checks if the given AutoResponseType is valid.
 
@@ -791,7 +786,7 @@ sub ValidateAutoResponseType {
     return;
 }
 
-=item ValidateArticleType()
+=head2 ValidateArticleType()
 
 checks if the given ArticleType or ArticleType ID is valid.
 
@@ -860,7 +855,7 @@ sub ValidateArticleType {
     return 1;
 }
 
-=item ValidateFrom()
+=head2 ValidateFrom()
 
 checks if the given from is valid.
 
@@ -892,7 +887,7 @@ sub ValidateFrom {
     return 1;
 }
 
-=item ValidateSenderType()
+=head2 ValidateSenderType()
 
 checks if the given SenderType or SenderType ID is valid.
 
@@ -957,7 +952,7 @@ sub ValidateSenderType {
     return 1;
 }
 
-=item ValidateMimeType()
+=head2 ValidateMimeType()
 
 checks if the given MimeType is valid.
 
@@ -981,7 +976,7 @@ sub ValidateMimeType {
     return 1;
 }
 
-=item ValidateCharset()
+=head2 ValidateCharset()
 
 checks if the given Charset is valid.
 
@@ -1007,7 +1002,7 @@ sub ValidateCharset {
     return 1;
 }
 
-=item ValidateHistoryType()
+=head2 ValidateHistoryType()
 
 checks if the given HistoryType is valid.
 
@@ -1044,7 +1039,7 @@ sub ValidateHistoryType {
     return 1;
 }
 
-=item ValidateTimeUnit()
+=head2 ValidateTimeUnit()
 
 checks if the given TimeUnit is valid.
 
@@ -1069,7 +1064,7 @@ sub ValidateTimeUnit {
     return 1;
 }
 
-=item ValidateUserID()
+=head2 ValidateUserID()
 
 checks if the given user ID is valid.
 
@@ -1093,7 +1088,7 @@ sub ValidateUserID {
     );
 }
 
-=item ValidateDynamicFieldName()
+=head2 ValidateDynamicFieldName()
 
 checks if the given dynamic field name is valid.
 
@@ -1119,7 +1114,7 @@ sub ValidateDynamicFieldName {
     return 1;
 }
 
-=item ValidateDynamicFieldValue()
+=head2 ValidateDynamicFieldValue()
 
 checks if the given dynamic field value is valid.
 
@@ -1163,7 +1158,7 @@ sub ValidateDynamicFieldValue {
     return $ValueType;
 }
 
-=item ValidateDynamicFieldObjectType()
+=head2 ValidateDynamicFieldObjectType()
 
 checks if the given dynamic field name is valid.
 
@@ -1193,7 +1188,7 @@ sub ValidateDynamicFieldObjectType {
     return 1;
 }
 
-=item SetDynamicFieldValue()
+=head2 SetDynamicFieldValue()
 
 sets the value of a dynamic field.
 
@@ -1279,7 +1274,7 @@ sub SetDynamicFieldValue {
         }
 }
 
-=item CreateAttachment()
+=head2 CreateAttachment()
 
 cretes a new attachment for the given article.
 
@@ -1329,7 +1324,7 @@ sub CreateAttachment {
         }
 }
 
-=item CheckCreatePermissions ()
+=head2 CheckCreatePermissions ()
 
 Tests if the user have the permissions to create a ticket on a determined queue
 
@@ -1385,7 +1380,7 @@ sub CheckCreatePermissions {
     return 1;
 }
 
-=item CheckAccessPermissions()
+=head2 CheckAccessPermissions()
 
 Tests if the user have access permissions over a ticket
 
@@ -1426,7 +1421,7 @@ sub CheckAccessPermissions {
 
 =begin Internal:
 
-=item _ValidateUser()
+=head2 _ValidateUser()
 
 checks if the given user or user ID is valid.
 
@@ -1481,7 +1476,7 @@ sub _ValidateUser {
     return 1;
 }
 
-=item _CharsetList()
+=head2 _CharsetList()
 
 returns a list of all available charsets.
 
@@ -1521,8 +1516,6 @@ sub _CharsetList {
 1;
 
 =end Internal:
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

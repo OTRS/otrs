@@ -42,11 +42,8 @@ the global customer web interface (incl. auth, session, ...)
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create customer web interface object
 
@@ -93,7 +90,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 execute the object
 
@@ -1289,7 +1286,7 @@ sub Run {
 
 =begin Internal:
 
-=item _CheckModulePermission()
+=head2 _CheckModulePermission()
 
 module permission check
 
@@ -1360,8 +1357,6 @@ sub DESTROY {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

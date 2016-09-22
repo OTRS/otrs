@@ -22,13 +22,8 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::Driver::Base - common fields backend functions
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
 
 sub ValueIsDifferent {
     my ( $Self, %Param ) = @_;
@@ -93,7 +88,7 @@ sub SearchFieldPreferences {
     return \@Preferences;
 }
 
-=item EditLabelRender()
+=head2 EditLabelRender()
 
 creates the label HTML to be used in edit masks.
 
@@ -183,7 +178,7 @@ EOF
     return $HTMLString;
 }
 
-=item ValueSearch()
+=head2 ValueSearch()
 
 Searches/fetches dynamic field value.
 
@@ -249,8 +244,6 @@ sub ValueSearch {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

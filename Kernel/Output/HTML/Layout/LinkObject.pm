@@ -27,9 +27,7 @@ All LinkObject-related HTML functions
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item LinkObjectTableCreate()
+=head2 LinkObjectTableCreate()
 
 create a output table
 
@@ -73,7 +71,7 @@ sub LinkObjectTableCreate {
     }
 }
 
-=item LinkObjectTableCreateComplex()
+=head2 LinkObjectTableCreateComplex()
 
 create a complex output table
 
@@ -473,7 +471,7 @@ sub LinkObjectTableCreateComplex {
     );
 }
 
-=item LinkObjectTableCreateSimple()
+=head2 LinkObjectTableCreateSimple()
 
 create a simple output table
 
@@ -595,7 +593,7 @@ sub LinkObjectTableCreateSimple {
     );
 }
 
-=item LinkObjectSelectableObjectList()
+=head2 LinkObjectSelectableObjectList()
 
 return a selection list of linkable objects
 
@@ -700,7 +698,7 @@ sub LinkObjectSelectableObjectList {
     return $TargetObjectStrg;
 }
 
-=item LinkObjectSearchOptionList()
+=head2 LinkObjectSearchOptionList()
 
 return a list of search options
 
@@ -738,7 +736,7 @@ sub LinkObjectSearchOptionList {
     return @SearchOptionList;
 }
 
-=item ComplexTablePreferencesGet()
+=head2 ComplexTablePreferencesGet()
 
 get items needed for AllocationList initialization.
 
@@ -860,7 +858,7 @@ sub ComplexTablePreferencesGet {
     return %Params;
 }
 
-=item ComplexTablePreferencesSet()
+=head2 ComplexTablePreferencesSet()
 
 set user preferences.
 
@@ -950,7 +948,7 @@ sub ComplexTablePreferencesSet {
 
 =begin Internal:
 
-=item _LinkObjectContentStringCreate()
+=head2 _LinkObjectContentStringCreate()
 
 return a output string
 
@@ -1119,7 +1117,7 @@ sub _LinkObjectContentStringCreate {
     );
 }
 
-=item _LoadLinkObjectLayoutBackend()
+=head2 _LoadLinkObjectLayoutBackend()
 
 load a linkobject layout backend module
 
@@ -1184,8 +1182,6 @@ sub _LoadLinkObjectLayoutBackend {
 =cut
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

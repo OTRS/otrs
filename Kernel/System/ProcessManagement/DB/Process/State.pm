@@ -27,11 +27,8 @@ Process Management DB State backend
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -58,7 +55,7 @@ sub new {
     return $Self;
 }
 
-=item StateList()
+=head2 StateList()
 
 get a State list
 
@@ -91,7 +88,7 @@ sub StateList {
     return $Self->{StateList};
 }
 
-=item StateLookup()
+=head2 StateLookup()
 
 get State name or State EntityID
 
@@ -149,8 +146,6 @@ sub StateLookup {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

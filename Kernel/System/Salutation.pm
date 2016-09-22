@@ -28,11 +28,8 @@ All salutation functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -55,7 +52,7 @@ sub new {
     return $Self;
 }
 
-=item SalutationAdd()
+=head2 SalutationAdd()
 
 add new salutations
 
@@ -119,7 +116,7 @@ sub SalutationAdd {
     return $ID;
 }
 
-=item SalutationGet()
+=head2 SalutationGet()
 
 get salutations attributes
 
@@ -193,7 +190,7 @@ sub SalutationGet {
     return %Data;
 }
 
-=item SalutationUpdate()
+=head2 SalutationUpdate()
 
 update salutation attributes
 
@@ -244,7 +241,7 @@ sub SalutationUpdate {
     return 1;
 }
 
-=item SalutationList()
+=head2 SalutationList()
 
 get salutation list
 
@@ -310,8 +307,6 @@ sub SalutationList {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 

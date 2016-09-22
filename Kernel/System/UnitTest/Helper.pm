@@ -35,11 +35,8 @@ our @ObjectDependencies = (
 
 Kernel::System::UnitTest::Helper - unit test helper functions
 
-=over 4
 
-=cut
-
-=item new()
+=head2 new()
 
 construct a helper object.
 
@@ -102,7 +99,7 @@ sub new {
     return $Self;
 }
 
-=item GetRandomID()
+=head2 GetRandomID()
 
 creates a random ID that can be used in tests as a unique identifier.
 
@@ -119,7 +116,7 @@ sub GetRandomID {
     return 'test' . $Self->GetRandomNumber();
 }
 
-=item GetRandomNumber()
+=head2 GetRandomNumber()
 
 creates a random Number that can be used in tests as a unique identifier.
 
@@ -141,10 +138,10 @@ sub GetRandomNumber {
 
     my $Prefix = $PID . substr time(), -5, 5;
 
-    return $Prefix . sprintf( '%.05d', ( $GetRandomNumberPrevious{$Prefix}++ || 0 ));
+    return $Prefix . sprintf( '%.05d', ( $GetRandomNumberPrevious{$Prefix}++ || 0 ) );
 }
 
-=item TestUserCreate()
+=head2 TestUserCreate()
 
 creates a test user that can be used in tests. It will
 be set to invalid automatically during the destructor. Returns
@@ -234,7 +231,7 @@ sub TestUserCreate {
     return $TestUserLogin;
 }
 
-=item TestCustomerUserCreate()
+=head2 TestCustomerUserCreate()
 
 creates a test customer user that can be used in tests. It will
 be set to invalid automatically during the destructor. Returns
@@ -296,7 +293,7 @@ sub TestCustomerUserCreate {
     return $TestUser;
 }
 
-=item BeginWork()
+=head2 BeginWork()
 
     $Helper->BeginWork()
 
@@ -311,7 +308,7 @@ sub BeginWork {
     return $DBObject->{dbh}->begin_work();
 }
 
-=item Rollback()
+=head2 Rollback()
 
     $Helper->Rollback()
 
@@ -330,7 +327,7 @@ sub Rollback {
     return 1;
 }
 
-=item GetTestHTTPHostname()
+=head2 GetTestHTTPHostname()
 
 returns a hostname for HTTP based tests, possibly including the port.
 
@@ -364,7 +361,7 @@ sub GetTestHTTPHostname {
 
 my $FixedTime;
 
-=item FixedTimeSet()
+=head2 FixedTimeSet()
 
 makes it possible to override the system time as long as this object lives.
 You can pass an optional time parameter that should be used, if not,
@@ -414,7 +411,7 @@ sub FixedTimeSet {
     return $FixedTime;
 }
 
-=item FixedTimeUnset()
+=head2 FixedTimeUnset()
 
 restores the regular system time behaviour.
 
@@ -427,7 +424,7 @@ sub FixedTimeUnset {
     return;
 }
 
-=item FixedTimeAddSeconds()
+=head2 FixedTimeAddSeconds()
 
 adds a number of seconds to the fixed system time which was previously
 set by FixedTimeSet(). You can pass a negative value to go back in time.
@@ -574,7 +571,7 @@ sub DESTROY {
     }
 }
 
-=item ConfigSettingChange()
+=head2 ConfigSettingChange()
 
 temporarily change a configuration setting system wide to another value,
 both in the current ConfigObject and also in the system configuration on disk.
@@ -649,7 +646,7 @@ EOF
     return 1;
 }
 
-=item ConfigSettingCleanup()
+=head2 ConfigSettingCleanup()
 
 remove all config setting changes from ConfigSettingChange();
 
@@ -671,7 +668,7 @@ sub ConfigSettingCleanup {
     return 1;
 }
 
-=item UseTmpArticleDir()
+=head2 UseTmpArticleDir()
 
 switch the article storage directory to a temporary one to prevent collisions;
 
@@ -704,8 +701,6 @@ sub UseTmpArticleDir {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 
