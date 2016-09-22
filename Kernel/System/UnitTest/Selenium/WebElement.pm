@@ -13,6 +13,14 @@ use warnings;
 
 use base qw(Selenium::Remote::WebElement);
 
+=head1 NAME
+
+Kernel::System::UnitTest::Selenium::WebElement - Utility functions for Selenium WebElements
+
+=over 4
+
+=cut
+
 =item VerifiedSubmit()
 
 Submit a form element, and wait for the page to be fully loaded (works only in OTRS)
