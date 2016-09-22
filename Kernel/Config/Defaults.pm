@@ -689,28 +689,28 @@ sub LoadDefaults {
     # agent interface notification module to check the admin user id
     # (don't work with user id 1 notification)
     $Self->{'Frontend::NotifyModule'} = {
-        '100-CloudServicesDisabled' => {
+        '1000-CloudServicesDisabled' => {
           'Group' => 'admin',
           'Module' => 'Kernel::Output::HTML::Notification::AgentCloudServicesDisabled'
         },
-        '100-OTRSBusiness' => {
+        '1100-OTRSBusiness' => {
             'Group' => 'admin',
             'Module' => 'Kernel::Output::HTML::Notification::AgentOTRSBusiness'
         },
-        '200-UID-Check' => {
+        '2000-UID-Check' => {
           'Module' => 'Kernel::Output::HTML::Notification::UIDCheck',
         },
-        '500-OutofOffice-Check' => {
+        '5500-OutofOffice-Check' => {
           'Module' => 'Kernel::Output::HTML::Notification::OutofOfficeCheck',
         },
-        '600-SystemMaintenance-Check' => {
+        '6000-SystemMaintenance-Check' => {
             'Module' => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
         },
-        '700-AgentTimeZone-Check' => {
+        '7000-AgentTimeZone-Check' => {
             'Module' => 'Kernel::Output::HTML::Notification::AgentTimeZoneCheck',
         },
 
-        '800-Daemon-Check' => {
+        '8000-Daemon-Check' => {
           'Module' => 'Kernel::Output::HTML::Notification::DaemonCheck',
         },
     };

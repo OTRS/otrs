@@ -13,7 +13,7 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###800-Daemon-Check" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::NotifyModule###8000-Daemon-Check" Required="0" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface if the OTRS Daemon is not running.</Description>
         <Group>Daemon</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>

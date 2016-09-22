@@ -159,7 +159,7 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###998-TicketProcessTransitions" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###9800-TicketProcessTransitions" Required="0" Valid="1">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Core::Ticket</SubGroup>
