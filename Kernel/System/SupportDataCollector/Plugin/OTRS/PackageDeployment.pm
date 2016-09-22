@@ -99,6 +99,7 @@ sub Run {
     if (@NotVerifiedPackages) {
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
             $Self->AddResultInformation(
+                Identifier => 'Verification',
                 Label   => Translatable('Package Verification Status'),
                 Value   => join( ', ', @NotVerifiedPackages ),
                 Message => Translatable('Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'),
@@ -106,6 +107,7 @@ sub Run {
         }
         else {
             $Self->AddResultProblem(
+                Identifier => 'Verification',
                 Label   => Translatable('Package Verification Status'),
                 Value   => join( ', ', @NotVerifiedPackages ),
                 Message => Translatable('Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'),
@@ -114,6 +116,7 @@ sub Run {
     }
     else {
         $Self->AddResultOk(
+            Identifier => 'Verification',
             Label => Translatable('Package Verification Status'),
             Value => '',
         );
@@ -122,6 +125,7 @@ sub Run {
     if (@WrongFrameworkVersion) {
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
             $Self->AddResultInformation(
+                Identifier => 'FrameworkVersion',
                 Label   => Translatable('Package Framework Version Status'),
                 Value   => join( ', ', @WrongFrameworkVersion ),
                 Message => Translatable('Some packages are not allowed for the current framework version.'),
@@ -129,6 +133,7 @@ sub Run {
         }
         else {
             $Self->AddResultProblem(
+                Identifier => 'FrameworkVersion',
                 Label   => Translatable('Package Framework Version Status'),
                 Value   => join( ', ', @WrongFrameworkVersion ),
                 Message => Translatable('Some packages are not allowed for the current framework version.'),
@@ -137,6 +142,7 @@ sub Run {
     }
     else {
         $Self->AddResultOk(
+            Identifier => 'FrameworkVersion',
             Label => Translatable('Package Framework Version Status'),
             Value => '',
         );
