@@ -589,6 +589,7 @@ get an ACL list
     $List = {
         1 => 'NameOfACL',
     }
+
 =cut
 
 sub ACLList {
@@ -778,6 +779,7 @@ Check if there are unsynchronized ACLs
     Returns:
 
     $SyncCount = 0 || Number of ALCs that need to be synced
+
 =cut
 
 sub ACLsNeedSync {
@@ -1265,6 +1267,8 @@ sub _ACLMigrateFrom33 {
 }
 
 1;
+
+=end Internal:
 
 =back
 

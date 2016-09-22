@@ -123,6 +123,7 @@ sub new {
             # ...
         },
     };
+
 =cut
 
 sub TransitionGet {

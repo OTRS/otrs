@@ -186,30 +186,30 @@ sub Run {
     return $Self->ExitCodeOk();
 }
 
-=item _PackageMetadataGet()
-
-locates information in tags that are language specific.
-First, 'en' is looked for, if that is not present, the first found language will be used.
-
-    my %Data = $CommandObject->_PackageMetadataGet(
-        Tag       => $Package->{Description},
-        StripHTML => 1,         # optional, perform HTML->ASCII conversion (default 1)
-    );
-
-    my %Data = $Self->_PackageMetadataGet(
-        Tag => $Structure{IntroInstallPost},
-        AttributeFilterKey   => 'Type',
-        AttributeFilterValue =>  'pre',
-    );
-
-Returns the content and the title of the tag in a hash:
-
-    my %Result = (
-        Description => '...',   # tag content
-        Title       => '...',   # tag title
-    );
-
-=cut
+# =item _PackageMetadataGet()
+#
+# locates information in tags that are language specific.
+# First, 'en' is looked for, if that is not present, the first found language will be used.
+#
+#     my %Data = $CommandObject->_PackageMetadataGet(
+#         Tag       => $Package->{Description},
+#         StripHTML => 1,         # optional, perform HTML->ASCII conversion (default 1)
+#     );
+#
+#     my %Data = $Self->_PackageMetadataGet(
+#         Tag => $Structure{IntroInstallPost},
+#         AttributeFilterKey   => 'Type',
+#         AttributeFilterValue =>  'pre',
+#     );
+#
+# Returns the content and the title of the tag in a hash:
+#
+#     my %Result = (
+#         Description => '...',   # tag content
+#         Title       => '...',   # tag title
+#     );
+#
+# =cut
 
 sub _PackageMetadataGet {
     my ( $Self, %Param ) = @_;
@@ -361,15 +361,3 @@ sub _PackageContentGet {
 }
 
 1;
-
-=back
-
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTRS project (L<http://otrs.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=cut

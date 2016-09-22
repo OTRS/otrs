@@ -94,18 +94,18 @@ sub SetPreferences {
     return 1;
 }
 
-=item RenamePreferences()
-
-rename the old userid with the new userid in the preferences
-
-returns 1 if success or undef otherwise
-
-    my $Success = $PreferencesObject->RenamePreferences(
-        NewUserID => 2,
-        OldUserID => 1,
-    );
-
-=cut
+# =item RenamePreferences()
+#
+# rename the old userid with the new userid in the preferences
+#
+# returns 1 if success or undef otherwise
+#
+#     my $Success = $PreferencesObject->RenamePreferences(
+#         NewUserID => 2,
+#         OldUserID => 1,
+#     );
+#
+# =cut
 
 sub RenamePreferences {
     my ( $Self, %Param ) = @_;

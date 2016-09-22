@@ -73,6 +73,7 @@ get a State list
         'S2' => 'Inactive',
         'S3' => 'FadeAway',
     }
+
 =cut
 
 sub StateList {
@@ -109,6 +110,7 @@ get State name or State EntityID
 
     Returns:
     $EntityID = 'S1';
+
 =cut
 
 sub StateLookup {
