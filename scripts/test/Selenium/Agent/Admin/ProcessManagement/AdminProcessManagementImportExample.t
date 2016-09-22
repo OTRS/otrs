@@ -195,7 +195,7 @@ $Selenium->RunTest(
             $DeleteSuccess2,
             "Dynamic field deleted successfully.",
         );
-        }
+    }
 );
 
 1;

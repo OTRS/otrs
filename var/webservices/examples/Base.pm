@@ -109,7 +109,7 @@ sub DynamicFieldsAdd {
         if ( IsHashRefWithData($DynamicFieldData) ) {
 
             if (
-                $DynamicFieldData->{ObjectType}   ne $DynamicField->{ObjectType}
+                $DynamicFieldData->{ObjectType} ne $DynamicField->{ObjectType}
                 || $DynamicFieldData->{FieldType} ne $DynamicField->{FieldType}
                 )
             {

@@ -186,7 +186,7 @@ sub TestUserCreate {
     }
 
     die 'Could not create test user login' if !$TestUserLogin;
-    die 'Could not create test user' if !$TestUserID;
+    die 'Could not create test user'       if !$TestUserID;
 
     # Remember UserID of the test user to later set it to invalid
     #   in the destructor.
