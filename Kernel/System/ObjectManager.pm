@@ -111,8 +111,7 @@ There are a few flags available to convey meta data about the packages to the ob
 To indicate that a certain package can ONLY be loaded as a singleton, you can use the
 C<IsSingleton> flag. Similarly, you can indicate that a certain package can ONLY be created as unmanaged instance,
 and NOT as a singleton via the C<NonSingleton> flag.
-By default, the ObjectManager will die if a constructor does not return an object. To suppress this in the L</Create()> method, you can use the C<AllowConstructorFailure> flag (this will not work with L</Get()>).
-
+By default, the ObjectManager will die if a constructor does not return an object. To suppress this in the C<L</Create()>> method, you can use the C<AllowConstructorFailure> flag (this will not work with C<L</Get()>>).
 
     package Kernel::System::MyPackage;
 
@@ -124,8 +123,6 @@ By default, the ObjectManager will die if a constructor does not return an objec
         NonSingleton            => 0,  # default 0
         AllowConstructorFailure => 0,  # default 0
     );
-
-
 
 =head1 PUBLIC INTERFACE
 
