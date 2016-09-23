@@ -108,10 +108,12 @@ C<$ObjectManagerDisabled> flag:
 
 There are a few flags available to convey meta data about the packages to the object manager.
 
-To indicate that a certain package can ONLY be loaded as a singleton, you can use the
-C<IsSingleton> flag. Similarly, you can indicate that a certain package can ONLY be created as unmanaged instance,
-and NOT as a singleton via the C<NonSingleton> flag.
-By default, the ObjectManager will die if a constructor does not return an object. To suppress this in the C<L</Create()>> method, you can use the C<AllowConstructorFailure> flag (this will not work with C<L</Get()>>).
+To indicate that a certain package can B<only> be loaded as a singleton, you can use the
+C<IsSingleton> flag. Similarly, you can indicate that a certain package can B<only> be
+created as unmanaged instance, and B<not> as a singleton via the C<NonSingleton> flag.
+By default, the ObjectManager will die if a constructor does not return an object.
+To suppress this in the C<L</Create()>> method, you can use the C<AllowConstructorFailure>
+flag (this will not work with C<L</Get()>>).
 
     package Kernel::System::MyPackage;
 
@@ -325,7 +327,7 @@ sub _ObjectBuild {
 
 Adds an existing object instance to the ObjectManager so that it can be accessed by other objects.
 
-This should B<only> be used on special circumstances, e. g. in the unit tests to pass $Self to the
+This should B<only> be used on special circumstances, e. g. in the unit tests to pass C<$Self> to the
 ObjectManager so that it is also available from there as 'Kernel::System::UnitTest'.
 
     $Kernel::OM->ObjectInstanceRegister(
