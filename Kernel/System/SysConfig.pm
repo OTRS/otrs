@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SysConfig - to manage sys config settings
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions to manage sys config settings.
 

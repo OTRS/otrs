@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::Driver::TextArea
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 DynamicFields TextArea Driver delegate
 

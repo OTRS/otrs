@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Lock - lock lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All lock functions.
 

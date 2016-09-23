@@ -52,7 +52,7 @@ use overload
 
 Kernel::System::DateTime - Handles date and time calculations.
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Handles date and time calculations.
 

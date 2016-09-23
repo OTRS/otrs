@@ -41,7 +41,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Package - to manage application packages/modules
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions to manage application packages/modules.
 

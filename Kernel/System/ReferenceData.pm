@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ReferenceData - ReferenceData lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Contains reference data. For now, this is limited to just a list of ISO country
 codes.

@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::XML - xml lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All xml related functions.
 

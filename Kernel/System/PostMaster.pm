@@ -37,7 +37,7 @@ our @ObjectDependencies = (
 
 Kernel::System::PostMaster - postmaster lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All postmaster functions. E. g. to process emails.
 

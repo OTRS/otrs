@@ -30,7 +30,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Webservice
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Webservice configuration backend.
 

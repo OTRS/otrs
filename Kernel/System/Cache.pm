@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Cache - Key/value based data cache for OTRS
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This is a simple data cache. It can store key/value data both
 in memory and in a configured cache backend for persistent caching.

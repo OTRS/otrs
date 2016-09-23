@@ -20,7 +20,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::Ticket - all Ticket-related HTML functions
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All Ticket-related HTML functions
 

@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::LinkObject::Ticket
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Ticket backend for the ticket link object.
 

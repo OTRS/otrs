@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::ActivityDialog - activity dialog lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All Process Management Activity Dialog functions.
 

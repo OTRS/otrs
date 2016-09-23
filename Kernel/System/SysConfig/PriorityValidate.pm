@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SysConfig::PriorityValidate - PriorityValidate lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions for the PriorityValidate checks.
 

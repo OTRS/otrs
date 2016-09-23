@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::YAML - YAML wrapper functions
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Functions for YAML serialization / deserialization.
 

@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo - Demo for Transition Validation Module
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All ValidateDemo functions.
 

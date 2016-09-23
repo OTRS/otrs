@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet - A module to set the ticket Service
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketServiceSet functions.
 

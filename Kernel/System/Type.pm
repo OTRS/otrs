@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Type - type lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All type functions.
 

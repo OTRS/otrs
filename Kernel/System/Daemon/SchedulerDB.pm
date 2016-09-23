@@ -31,7 +31,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Daemon::SchedulerDB - Scheduler database lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Includes all scheduler related database functions.
 

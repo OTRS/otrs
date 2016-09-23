@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Signature - signature lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All signature functions.
 

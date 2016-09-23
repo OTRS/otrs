@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet - A Module to set the type of a Ticket
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketTypeSet functions.
 

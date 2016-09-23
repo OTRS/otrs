@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Scheduler - Scheduler lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Includes the functions to add a new task to the scheduler daemon.
 

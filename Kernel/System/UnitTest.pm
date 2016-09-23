@@ -35,7 +35,7 @@ our @ObjectDependencies = (
 
 Kernel::System::UnitTest - global test interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Functions to run existing unit tests, as well as
 functions to define test cases.

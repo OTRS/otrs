@@ -38,7 +38,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Ticket::Event::NotificationEvent::Transport::Email - email transport layer
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Notification event transport layer.
 

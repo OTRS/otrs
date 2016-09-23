@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::TicketLockSet - A module to unlock a ticket
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketLockSet functions.
 

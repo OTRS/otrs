@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::MailAccount - to manage mail accounts
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions to manage the mail accounts.
 

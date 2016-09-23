@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CheckItem - check items
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All item check functions.
 

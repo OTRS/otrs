@@ -35,7 +35,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfaceAgent - the agent web interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 the global agent web interface (incl. auth, session, ...)
 

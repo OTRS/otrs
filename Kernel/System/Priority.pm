@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Priority - priority lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All ticket priority functions.
 

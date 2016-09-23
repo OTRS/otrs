@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Main - main object
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All main functions to load modules, die, and handle files.
 

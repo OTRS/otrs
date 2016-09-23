@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 Kernel::System::JSON - the JSON wrapper lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Functions for encoding perl data structures to JSON.
 

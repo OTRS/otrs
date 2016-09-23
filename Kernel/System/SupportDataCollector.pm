@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SupportDataCollector - system data collector
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All stats functions.
 

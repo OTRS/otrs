@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Auth - agent authentication module.
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 The authentication module for the agent interface.
 

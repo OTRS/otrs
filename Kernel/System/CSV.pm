@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CSV - CSV lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All csv functions.
 

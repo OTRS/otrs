@@ -20,7 +20,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::System::EventHandler - event handler interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Inherit from this class if you want to use events there.
 

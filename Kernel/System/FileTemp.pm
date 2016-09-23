@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::FileTemp - tmp files
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This module is managing temporary files and directories.
 

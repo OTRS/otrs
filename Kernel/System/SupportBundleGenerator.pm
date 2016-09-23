@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SupportBundleGenerator - support bundle generator
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All support bundle generator functions.
 

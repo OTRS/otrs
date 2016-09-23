@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::Request - global CGI interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All cgi param functions.
 

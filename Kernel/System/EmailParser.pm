@@ -24,7 +24,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::System::EmailParser - parse and encode an email
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 A module to parse and encode an email.
 

@@ -27,7 +27,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Service - service lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All service functions.
 

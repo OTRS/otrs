@@ -27,7 +27,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CloudService::Backend::Run - cloud service lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions for cloud service communication.
 

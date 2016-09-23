@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 Kernel::System::PostMaster::Filter
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All postmaster database filters
 

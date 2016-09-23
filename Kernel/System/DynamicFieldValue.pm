@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicFieldValue
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 DynamicField values backend
 

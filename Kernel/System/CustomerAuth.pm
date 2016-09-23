@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CustomerAuth - customer authentication module.
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 The authentication module for the customer interface.
 

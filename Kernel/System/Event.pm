@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Event - events management
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Global module to manage events.
 

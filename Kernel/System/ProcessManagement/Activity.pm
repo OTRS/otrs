@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::Activity - Activities lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All Process Management Activity functions.
 

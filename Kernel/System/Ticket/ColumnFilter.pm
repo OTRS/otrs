@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Ticket::ColumnFilter - Column Filter library
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions for Column Filters.
 

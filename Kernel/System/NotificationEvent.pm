@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::NotificationEvent - to manage the notifications
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions to manage the notification and the notification jobs.
 

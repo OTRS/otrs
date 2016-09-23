@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Valid - valid lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All valid functions.
 

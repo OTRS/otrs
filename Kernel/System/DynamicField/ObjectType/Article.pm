@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::ObjectType::Article
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Article object handler for DynamicFields
 

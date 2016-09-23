@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Log - global log interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All log functions.
 

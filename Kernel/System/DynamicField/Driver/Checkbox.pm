@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::Driver::Checkbox
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 DynamicFields Checkbox Driver delegate
 

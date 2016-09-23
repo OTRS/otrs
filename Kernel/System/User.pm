@@ -31,7 +31,7 @@ our @ObjectDependencies = (
 
 Kernel::System::User - user lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All user functions. E. g. to add and updated user and other functions.
 

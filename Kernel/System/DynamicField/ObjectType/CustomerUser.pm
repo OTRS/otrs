@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::ObjectType::CustomerUser
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 CustomerUser object handler for DynamicFields
 

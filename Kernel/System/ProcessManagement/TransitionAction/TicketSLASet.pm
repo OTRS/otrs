@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::TicketSLASet - A module to set the ticket SLA
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketSLASet functions.
 

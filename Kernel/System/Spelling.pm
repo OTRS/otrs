@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Spelling - spelling lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This module is the spellchecker backend wrapper of OTRS.
 Currently, ispell and aspell are supported as spellchecker backends.

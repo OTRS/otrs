@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::Driver::Multiselect
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 DynamicFields Multiselect Driver delegate
 

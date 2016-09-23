@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::TicketCustomerSet - A module to set a new ticket customer
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketCustomerSet functions.
 

@@ -19,7 +19,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::GenericInterface::Debugger
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 GenericInterface data debugger interface.
 

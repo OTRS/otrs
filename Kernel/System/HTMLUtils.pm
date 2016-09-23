@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::HTMLUtils - creating and modifying html strings
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 A module for creating and modifying html strings.
 

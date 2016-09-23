@@ -19,7 +19,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::System::Ticket::TicketACL - ticket ACL lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All ticket ACL functions.
 

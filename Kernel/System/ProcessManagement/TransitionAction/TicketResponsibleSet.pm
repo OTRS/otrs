@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet - A module to set a new ticket
 responsible
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketResponsibleSet functions.
 

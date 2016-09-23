@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ACL::DB::ACL.pm
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 ACL DB ACL backend
 

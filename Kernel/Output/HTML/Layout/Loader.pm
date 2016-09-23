@@ -22,7 +22,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::Loader - CSS/JavaScript
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All valid functions.
 

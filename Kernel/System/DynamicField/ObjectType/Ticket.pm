@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::ObjectType::Ticket
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Ticket object handler for DynamicFields
 

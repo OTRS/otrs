@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SystemData - key/value store for system data
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Provides key/value store for system data
 

@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Crypt::SMIME - smime crypt backend lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This is a sub module of Kernel::System::Crypt and contains all smime functions.
 

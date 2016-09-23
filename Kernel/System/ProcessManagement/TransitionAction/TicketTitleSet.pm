@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::TicketTitleSet - A Module to set the title of a Ticket
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketTitleSet functions.
 

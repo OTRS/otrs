@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SearchProfile - module to manage search profiles
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 module with all functions to manage search profiles
 

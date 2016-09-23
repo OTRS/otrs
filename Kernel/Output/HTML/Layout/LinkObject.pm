@@ -21,7 +21,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::LinkObject - all LinkObject-related HTML functions
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All LinkObject-related HTML functions
 

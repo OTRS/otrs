@@ -38,7 +38,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Stats - stats lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All stats functions.
 

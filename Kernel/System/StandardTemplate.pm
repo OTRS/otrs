@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::StandardTemplate - std template lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All std template functions. E. g. to add std template or other functions.
 

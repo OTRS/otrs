@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::VirtualFS - virtual fs lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All virtual fs functions.
 

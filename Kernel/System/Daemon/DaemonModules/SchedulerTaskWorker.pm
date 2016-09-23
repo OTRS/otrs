@@ -32,7 +32,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker - worker daemon for the scheduler
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Scheduler worker daemon
 

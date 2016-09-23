@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::WebserviceHistory
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 WebserviceHistory configuration history backend.
 It holds older versions of web service configuration data.

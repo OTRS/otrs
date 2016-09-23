@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::AutoResponse - auto response lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All auto response functions. E. g. to add auto response or other functions.
 

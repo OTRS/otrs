@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::PDF - pdf lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Functions for generating PDF files.
 

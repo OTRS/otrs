@@ -15,7 +15,7 @@ use warnings;
 
 Kernel::System::Daemon::BaseDaemon - daemon base class
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Base class for daemon modules.
 

@@ -27,7 +27,7 @@ Kernel::System::DynamicField::Driver::BaseText - sub module of
 Kernel::System::DynamicField::Driver::Text and
 Kernel::System::DynamicField::Driver::TextArea
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Text common functions.
 

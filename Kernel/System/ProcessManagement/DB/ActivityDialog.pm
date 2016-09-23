@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::DB::ActivityDialog
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Process Management DB ActivityDialog backend
 

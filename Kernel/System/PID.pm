@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::PID - to manage PIDs
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions to manage process ids
 

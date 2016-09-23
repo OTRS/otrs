@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::Cron - Scheduler daemon task handler module for cron like jobs
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This task handler executes scheduler tasks based in cron notation.
 

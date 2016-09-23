@@ -27,7 +27,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CustomerCompany - customer company lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All Customer functions. E.g. to add and update customer companies.
 

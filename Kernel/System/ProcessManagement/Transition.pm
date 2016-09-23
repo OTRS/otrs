@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::Transition - Transition lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All Process Management Transition functions.
 

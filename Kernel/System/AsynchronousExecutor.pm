@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::AsynchronousExecutor - base class to delegate tasks to the OTRS Scheduler Daemon
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 ObjectManager controlled modules can add this base class to execute some time consuming tasks in the
 background using the separate process OTRS Scheduler Daemon.

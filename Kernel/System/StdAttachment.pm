@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::StdAttachment - std. attachment lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All std. attachment functions.
 

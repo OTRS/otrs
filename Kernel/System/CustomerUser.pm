@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CustomerUser - customer user lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All customer user functions. E. g. to add and update customer users.
 

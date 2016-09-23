@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CronEvent - Cron Events wrapper functions
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Functions to calculate cron events time.
 

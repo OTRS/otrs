@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::AsynchronousExecutor - Scheduler daemon task handler module for generic asynchronous tasks
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This task handler executes scheduler generic asynchronous tasks.
 

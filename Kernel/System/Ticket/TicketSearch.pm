@@ -17,7 +17,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::System::Ticket::TicketSearch - ticket search lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All ticket search functions.
 

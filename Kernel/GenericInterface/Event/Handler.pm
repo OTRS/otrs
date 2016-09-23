@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::GenericInterface::Event::Handler - GenericInterface event handler
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This event handler intercepts all system events and fires connected GenericInterface
 invokers.

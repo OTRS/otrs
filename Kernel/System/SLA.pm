@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SLA - sla lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All sla functions.
 

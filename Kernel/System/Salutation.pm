@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Salutation - salutation lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All salutation functions.
 

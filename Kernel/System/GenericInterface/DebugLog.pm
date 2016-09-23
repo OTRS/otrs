@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::GenericInterface::DebugLog - log interface for generic interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All log functions.
 

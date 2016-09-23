@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::LinkObject - to link objects like tickets, faqs, ...
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions to link objects like tickets, faqs, ...
 

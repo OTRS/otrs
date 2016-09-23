@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Time - time functions. DEPRECATED, for new code use Kernel::System::DateTime instead.
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This module is managing time functions.
 

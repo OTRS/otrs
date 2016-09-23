@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::DB::Process::State.pm
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Process Management DB State backend
 

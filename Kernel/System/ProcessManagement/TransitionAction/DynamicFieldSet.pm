@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet - A module to set a new ticket owner
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All DynamicFieldSet functions.
 

@@ -30,7 +30,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Queue - queue lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All queue functions. E. g. to add queue or other functions.
 

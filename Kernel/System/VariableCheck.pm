@@ -34,7 +34,7 @@ Exporter::export_ok_tags('all');
 
 Kernel::System::VariableCheck - helper functions to check variables
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Provides several helper functions to check variables, e.g.
 if a variable is a string, a hash ref etc. This is helpful for

@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SysConfig::QueueValidate - QueueValidate lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions for the QueueValidate checks.
 

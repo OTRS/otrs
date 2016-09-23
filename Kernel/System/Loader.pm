@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Loader - CSS/JavaScript loader backend
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All valid functions.
 

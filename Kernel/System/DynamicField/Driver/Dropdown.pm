@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::Driver::Dropdown
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 DynamicFields Dropdown Driver delegate
 

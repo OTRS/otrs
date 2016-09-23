@@ -17,7 +17,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::Popup - CSS/JavaScript
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All valid functions.
 

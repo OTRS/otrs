@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfacePublic - the public web interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 the global public web interface
 

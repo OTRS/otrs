@@ -28,7 +28,7 @@ our $SuppressANSI = 0;
 
 Kernel::System::Console::BaseCommand - command base class
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Base class for console commands.
 

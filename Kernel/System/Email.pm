@@ -32,7 +32,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Email - to send email
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Global module to send email via sendmail or SMTP.
 

@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CloudService::Backend::Configuration
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 CloudService configuration backend.
 

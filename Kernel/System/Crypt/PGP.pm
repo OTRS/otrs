@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Crypt::PGP - pgp crypt backend lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This is a sub module of Kernel::System::Crypt and contains all pgp functions.
 

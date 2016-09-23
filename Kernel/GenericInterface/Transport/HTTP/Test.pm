@@ -222,7 +222,7 @@ sub RequesterPerformRequest {
 
 Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This package is used to handle the custom HTTP requests of
 Kernel::GenericInterface::Transport::HTTP::Test.

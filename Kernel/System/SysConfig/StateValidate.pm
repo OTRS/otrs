@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SysConfig::StateValidate - StateValidate lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions for the StateValidate checks.
 

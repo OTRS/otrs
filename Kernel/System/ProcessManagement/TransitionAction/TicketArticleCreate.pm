@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate - A module to create an article
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketArticleCreate functions.
 

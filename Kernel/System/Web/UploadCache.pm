@@ -19,7 +19,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::UploadCache - an upload file system cache
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All upload cache functions.
 

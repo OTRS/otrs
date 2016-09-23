@@ -23,7 +23,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::System::Ticket::Article - sub module of Kernel::System::Ticket
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All article functions.
 

@@ -27,7 +27,7 @@ our @ObjectDependencies = (
 
 Kernel::System::SystemMaintenance.pm
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 SystemMaintenance backend
 

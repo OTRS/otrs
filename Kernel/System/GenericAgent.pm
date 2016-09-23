@@ -35,7 +35,7 @@ our @ObjectDependencies = (
 
 Kernel::System::GenericAgent - to manage the generic agent jobs
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All functions to manage the generic agent and the generic agent jobs.
 

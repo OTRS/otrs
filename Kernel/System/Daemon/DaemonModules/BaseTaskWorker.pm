@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Daemon::DaemonModules::BaseTaskWorker - scheduler task worker base class
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Base class for scheduler daemon task worker modules.
 

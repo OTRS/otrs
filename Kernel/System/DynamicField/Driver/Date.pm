@@ -30,7 +30,7 @@ our @ObjectDependencies = (
 
 Kernel::System::DynamicField::Driver::Date
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 DynamicFields Date Driver delegate
 

@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Console::InterfaceConsole - console interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 ...
 

@@ -36,7 +36,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfaceCustomer - the customer web interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 the global customer web interface (incl. auth, session, ...)
 

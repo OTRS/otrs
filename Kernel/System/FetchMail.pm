@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 Kernel::System::FetchMail - FetchMail wrapper functions
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Functions for email fetch.
 

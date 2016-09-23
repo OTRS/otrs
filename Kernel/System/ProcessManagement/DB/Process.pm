@@ -36,7 +36,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::DB::Process
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Process Management DB Process backend
 

@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::CustomerGroup - customer group lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All customer group functions. E. g. to add groups or to get a member list of a group.
 

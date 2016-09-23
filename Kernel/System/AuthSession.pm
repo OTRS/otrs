@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::AuthSession - global session interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All session functions.
 

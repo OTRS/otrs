@@ -19,7 +19,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::AJAX - all AJAX-related HTML functions
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All AJAX-related HTML functions
 

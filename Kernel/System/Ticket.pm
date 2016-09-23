@@ -55,7 +55,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Ticket - ticket lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All ticket functions.
 

@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet - A Module to move a Ticket from to a new queue
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All TicketQueueSet functions.
 

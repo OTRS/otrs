@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 Kernel::System::State - state lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All ticket state functions.
 

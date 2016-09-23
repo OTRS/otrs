@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Environment - collect environment info
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Functions to collect environment info
 

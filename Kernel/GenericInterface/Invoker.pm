@@ -22,7 +22,7 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::GenericInterface::Invoker - GenericInterface Invoker interface
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Invokers are responsible to prepare for making a remote web service
 request.

@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::GenericAgent - Scheduler daemon task handler module for GenericAgent
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This task handler executes generic agent jobs
 

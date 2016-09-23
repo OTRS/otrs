@@ -30,7 +30,7 @@ sub new {
 
 Kernel::Output::HTML::Base - Base class for Output classes
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
     package Kernel::Output::HTML::ToolBar::MyToolBar;
     use base 'Kernel::Output::HTML::Base';

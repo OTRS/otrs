@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 Kernel::System::ProcessManagement::Process - process lib
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 All ProcessManagement Process functions.
 

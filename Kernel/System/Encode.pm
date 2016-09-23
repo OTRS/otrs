@@ -24,7 +24,7 @@ our @ObjectDependencies = ();
 
 Kernel::System::Encode - character encodings
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This module will use Perl's Encode module (Perl 5.8.0 or higher is required).
 

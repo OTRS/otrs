@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 Kernel::System::Storable - Storable wrapper functions
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 Functions for Storable serialization / deserialization.
 
