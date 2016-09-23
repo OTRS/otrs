@@ -398,7 +398,7 @@ sub ObjectParamAdd {
 
 =head2 ObjectEventsHandle()
 
-Execute all queued (C<<Transaction => 1>>) events for all singleton objects
+Execute all queued (C<< Transaction => 1 >>) events for all singleton objects
 that the ObjectManager created before. This can be used to flush the event queue
 before destruction, for example.
 
