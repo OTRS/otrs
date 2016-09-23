@@ -32,10 +32,8 @@ All customer group functions. E. g. to add groups or to get a member list of a g
 
 =head2 new()
 
-create an object. Do not use it directly, instead use:
+Don't use the constructor directly, use the ObjectManager instead:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
 
 =cut

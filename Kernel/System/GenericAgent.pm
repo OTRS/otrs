@@ -43,10 +43,8 @@ All functions to manage the generic agent and the generic agent jobs.
 
 =head2 new()
 
-create an object. Do not use it directly, instead use:
+Don't use the constructor directly, use the ObjectManager instead:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 =cut

@@ -65,10 +65,8 @@ Start date: 2015-09-10 16:00:00 - 10 days -> 2015-08-31 16:00:00 -> extended to 
 
 =head2 new()
 
-create an object. Do not use it directly, instead use:
+Don't use the constructor directly, use the ObjectManager instead:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
 =cut

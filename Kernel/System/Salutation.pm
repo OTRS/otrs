@@ -30,10 +30,8 @@ All salutation functions.
 
 =head2 new()
 
-create an object. Do not use it directly, instead use:
+Don't use the constructor directly, use the ObjectManager instead:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $SalutationObject = $Kernel::OM->Get('Kernel::System::Salutation');
 
 =cut

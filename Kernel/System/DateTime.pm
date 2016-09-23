@@ -62,8 +62,6 @@ Handles date and time calculations.
 
 Creates a DateTime object. Do not use new() directly, instead use the object manager:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     # Create an object with current date and time
     # within time zone set in SysConfig OTRSTimeZone:

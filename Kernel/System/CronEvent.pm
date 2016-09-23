@@ -33,8 +33,6 @@ Functions to calculate cron events time.
 
 create a CronEvent object. Do not use it directly, instead use:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $CronEventObject = $Kernel::OM->Get('Kernel::System::CronEvent');
 
 =cut

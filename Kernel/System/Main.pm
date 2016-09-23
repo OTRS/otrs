@@ -39,8 +39,6 @@ All main functions to load modules, die, and handle files.
 
 create new object. Do not use it directly, instead use:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 =cut

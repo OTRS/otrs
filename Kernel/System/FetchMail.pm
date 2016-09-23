@@ -32,8 +32,6 @@ Functions for email fetch.
 
 create a FetchMail object. Do not use it directly, instead use:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $FetchMailObject = $Kernel::OM->Get('Kernel::System::FetchMail');
 
 =cut

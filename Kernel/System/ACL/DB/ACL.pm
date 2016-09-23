@@ -38,8 +38,6 @@ ACL DB ACL backend
 
 create a ACL object. Do not use it directly, instead use:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
 =cut

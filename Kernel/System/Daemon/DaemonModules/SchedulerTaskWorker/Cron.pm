@@ -36,8 +36,6 @@ This task handler executes scheduler tasks based in cron notation.
 
 =head2 new()
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $TaskHandlerObject = $Kernel::OM-Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::Cron');
 
 =cut

@@ -33,10 +33,8 @@ Functions for generating PDF files.
 
 =head2 new()
 
-create an object. Do not use it directly, instead use:
+Don't use the constructor directly, use the ObjectManager instead:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
 Please note that currently you should only create one PDF object per instance of

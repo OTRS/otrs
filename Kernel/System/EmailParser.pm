@@ -35,8 +35,6 @@ A module to parse and encode an email.
 create an object. Do not use it directly, instead use:
 
     use Kernel::System::EmailParser;
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     # as string (takes more memory!)
     my $ParserObject = Kernel::System::EmailParser->new(

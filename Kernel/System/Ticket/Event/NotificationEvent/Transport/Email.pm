@@ -48,8 +48,6 @@ Notification event transport layer.
 
 create a notification transport object. Do not use it directly, instead use:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new('');
     my $TransportObject = $Kernel::OM->Get('Kernel::System::Ticket::Event::NotificationEvent::Transport::Email');
 
 =cut

@@ -37,8 +37,6 @@ All service functions.
 
 create an object
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
 =cut

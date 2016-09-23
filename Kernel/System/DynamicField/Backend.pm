@@ -38,8 +38,6 @@ DynamicFields backend interface
 
 create a DynamicField backend object. Do not use it directly, instead use:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 =cut

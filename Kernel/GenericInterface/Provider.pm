@@ -33,11 +33,8 @@ Kernel::GenericInterface::Provider - handler for incoming webservice requests.
 
 =head2 new()
 
-create an object
+Don't use the constructor directly, use the ObjectManager instead:
 
-    use Kernel::System::ObjectManager;
-
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $ProviderObject = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
 
 =cut

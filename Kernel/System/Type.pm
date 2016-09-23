@@ -34,8 +34,6 @@ All type functions.
 
 create an object
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
 
 =cut

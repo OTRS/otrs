@@ -34,8 +34,6 @@ This module is managing time functions.
 
 create a time object. Do not use it directly, instead use:
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
 =cut

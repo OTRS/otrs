@@ -121,8 +121,6 @@ By default, the ObjectManager will die if a constructor does not return an objec
 
 Creates a new instance of Kernel::System::ObjectManager.
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
 
 Sometimes objects need parameters to be sent to their constructors,
 these can also be passed to the ObjectManager's constructor like in the following example.

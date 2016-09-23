@@ -29,8 +29,6 @@ This task handler executes scheduler generic asynchronous tasks.
 
 =head2 new()
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $TaskHandlerObject = $Kernel::OM-Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::AsynchronousExecutor');
 
 =cut
