@@ -29,6 +29,7 @@ use Kernel::System::Group;
 use Kernel::System::Lock;
 use Kernel::System::Priority;
 use Kernel::System::CustomerUser;
+use Kernel::System::CustomerGroup;
 use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -73,9 +74,10 @@ sub new {
         TransitionActionObject => $Self->{TransitionActionObject},
         %Param,
     );
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{TypeObject}         = Kernel::System::Type->new(%Param);
-    $Self->{DynamicField}       = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+    $Self->{TypeObject}          = Kernel::System::Type->new(%Param);
+    $Self->{DynamicField}        = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid      => 1,
         ObjectType => 'Ticket',
     );
@@ -4206,8 +4208,8 @@ sub _GetQueues {
         }
 
         # get create permission queues
-        my %UserGroups = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+        my %UserGroups = $Self->{CustomerGroupObject}->GroupMemberList(
+            UserID => $Self->{UserID},
             Type   => 'create',
             Result => 'HASH',
         );
