@@ -1561,6 +1561,8 @@ sub SystemTimeZoneGet {
     return DateTime::TimeZone->new( name => 'local' )->name();
 }
 
+=begin Internal:
+
 =head2 _ToCPANDateTimeParamNames()
 
 Maps date/time parameter names expected by the methods of this package to the ones
@@ -1926,6 +1928,8 @@ sub _OpNotEquals {
 }
 
 1;
+
+=end Internal:
 
 =head1 TERMS AND CONDITIONS
 

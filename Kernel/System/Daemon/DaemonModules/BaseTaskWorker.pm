@@ -27,6 +27,7 @@ Base class for scheduler daemon task worker modules.
 
 =head1 PUBLIC INTERFACE
 
+=begin Internal:
 
 =head2 _HandleError()
 
@@ -143,6 +144,8 @@ sub _CheckTaskParams {
     return 1;
 }
 1;
+
+=end Internal:
 
 =head1 TERMS AND CONDITIONS
 

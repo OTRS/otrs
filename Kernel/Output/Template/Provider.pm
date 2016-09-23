@@ -70,6 +70,8 @@ sub OTRSInit {
     $Self->{CachingEnabled} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::TemplateCache') // 1;
 }
 
+=begin Internal:
+
 =head2 _fetch()
 
 try to get a compiled version of a template from the CacheObject,
@@ -274,6 +276,8 @@ sub _compile {
         : ( $error, Template::Constants::STATUS_ERROR )
 }
 
+=end Internal:
+
 =head2 store()
 
 inherited from Template::Provider. This function override just makes sure that the original
@@ -286,6 +290,8 @@ sub store {
 
     return $Data;    # no-op
 }
+
+=begin Internal:
 
 =head2 _PreProcessTemplateContent()
 
@@ -370,6 +376,8 @@ sub _PreProcessTemplateContent {
     return $Content;
 
 }
+
+=end Internal:
 
 =head2 MigrateDTLtoTT()
 

@@ -264,6 +264,8 @@ sub Run {
     return $Success;
 }
 
+=begin Internal:
+
 =head2 _CheckSLA()
 
 checks if a SLA is assigned to a Service

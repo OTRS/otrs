@@ -135,6 +135,8 @@ sub RunTest {
     return 1;
 }
 
+=begin Internal:
+
 =head2 _execute_command()
 
 Override internal command of base class.

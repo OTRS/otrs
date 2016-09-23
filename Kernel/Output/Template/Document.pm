@@ -41,6 +41,8 @@ sub process {
     return $Self->SUPER::process($Context);
 }
 
+=begin Internal:
+
 =head2 _InstallOTRSExtensions()
 
 adds some OTRS specific extensions to Template::Toolkit.
@@ -352,6 +354,8 @@ sub _PrecalculateBlockHookSubscriptions {
 }
 
 1;
+
+=end Internal:
 
 =head1 TERMS AND CONDITIONS
 

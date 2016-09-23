@@ -610,6 +610,8 @@ sub Print {
     return;
 }
 
+=begin Internal:
+
 =head2 _ParseGlobalOptions()
 
 parses any global options possibly provided by the user.
@@ -789,6 +791,8 @@ sub _ReplaceColorTags {
 }
 
 1;
+
+=end Internal:
 
 =head1 TERMS AND CONDITIONS
 

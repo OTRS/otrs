@@ -265,6 +265,8 @@ sub Run {
     return $Success;
 }
 
+=begin Internal:
+
 =head2 _CheckService()
 
 checks if a service is assigned to a customer user

@@ -360,6 +360,8 @@ sub Run {
     return;
 }
 
+=begin Internal:
+
 =head2 _GenerateErrorResponse()
 
 returns an error message to the client.
@@ -389,6 +391,8 @@ sub _GenerateErrorResponse {
 }
 
 1;
+
+=end Internal:
 
 =head1 TERMS AND CONDITIONS
 
