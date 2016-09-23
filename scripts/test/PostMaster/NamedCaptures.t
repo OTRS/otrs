@@ -108,7 +108,7 @@ $ConfigObject->Set(
 
 # disable not needed event module
 $ConfigObject->Set(
-    Key => 'Ticket::EventModulePost###TicketDynamicFieldDefault',
+    Key => 'Ticket::EventModulePost###9600-TicketDynamicFieldDefault',
 );
 
 # filter test

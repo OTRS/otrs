@@ -42,7 +42,7 @@ $ConfigObject->Set(
     },
 );
 $ConfigObject->Set(
-    Key   => 'Ticket::EventModulePost###950-DynamicFieldFromCustomerUser',
+    Key   => 'Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser',
     Value => {
         Module => 'Kernel::System::Ticket::Event::DynamicFieldFromCustomerUser',
         Event  => '(TicketCreate|TicketCustomerUpdate)',

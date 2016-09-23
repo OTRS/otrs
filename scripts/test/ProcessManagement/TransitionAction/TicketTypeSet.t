@@ -37,7 +37,7 @@ $ConfigObject->Set(
 # set TicketDynamicFieldDefault as no Transaction mode to avoid error messages at the end of the
 # test (regarding missing TicketIDs)
 $ConfigObject->Set(
-    Key   => 'Ticket::EventModulePost###TicketDynamicFieldDefault',
+    Key   => 'Ticket::EventModulePost###9600-TicketDynamicFieldDefault',
     Value => {
         Module      => 'Kernel::System::Ticket::Event::TicketDynamicFieldDefault',
         Transaction => 0,
