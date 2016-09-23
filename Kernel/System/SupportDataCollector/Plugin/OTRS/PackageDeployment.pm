@@ -68,7 +68,7 @@ sub Run {
             NoLog     => 1,
         );
 
-        if (!$CheckFrameworkOk) {
+        if ( !$CheckFrameworkOk ) {
             push @WrongFrameworkVersion, "$Package->{Name}->{Content} $Package->{Version}->{Content}";
         }
     }
@@ -100,25 +100,27 @@ sub Run {
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
             $Self->AddResultInformation(
                 Identifier => 'Verification',
-                Label   => Translatable('Package Verification Status'),
-                Value   => join( ', ', @NotVerifiedPackages ),
-                Message => Translatable('Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'),
+                Label      => Translatable('Package Verification Status'),
+                Value      => join( ', ', @NotVerifiedPackages ),
+                Message    => Translatable(
+                    'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'),
             );
         }
         else {
             $Self->AddResultProblem(
                 Identifier => 'Verification',
-                Label   => Translatable('Package Verification Status'),
-                Value   => join( ', ', @NotVerifiedPackages ),
-                Message => Translatable('Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'),
+                Label      => Translatable('Package Verification Status'),
+                Value      => join( ', ', @NotVerifiedPackages ),
+                Message    => Translatable(
+                    'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'),
             );
         }
     }
     else {
         $Self->AddResultOk(
             Identifier => 'Verification',
-            Label => Translatable('Package Verification Status'),
-            Value => '',
+            Label      => Translatable('Package Verification Status'),
+            Value      => '',
         );
     }
 
@@ -126,25 +128,25 @@ sub Run {
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
             $Self->AddResultInformation(
                 Identifier => 'FrameworkVersion',
-                Label   => Translatable('Package Framework Version Status'),
-                Value   => join( ', ', @WrongFrameworkVersion ),
-                Message => Translatable('Some packages are not allowed for the current framework version.'),
+                Label      => Translatable('Package Framework Version Status'),
+                Value      => join( ', ', @WrongFrameworkVersion ),
+                Message    => Translatable('Some packages are not allowed for the current framework version.'),
             );
         }
         else {
             $Self->AddResultProblem(
                 Identifier => 'FrameworkVersion',
-                Label   => Translatable('Package Framework Version Status'),
-                Value   => join( ', ', @WrongFrameworkVersion ),
-                Message => Translatable('Some packages are not allowed for the current framework version.'),
+                Label      => Translatable('Package Framework Version Status'),
+                Value      => join( ', ', @WrongFrameworkVersion ),
+                Message    => Translatable('Some packages are not allowed for the current framework version.'),
             );
         }
     }
     else {
         $Self->AddResultOk(
             Identifier => 'FrameworkVersion',
-            Label => Translatable('Package Framework Version Status'),
-            Value => '',
+            Label      => Translatable('Package Framework Version Status'),
+            Value      => '',
         );
     }
 

@@ -114,7 +114,8 @@ sub Run {
                 FROM dynamic_field df
                     LEFT JOIN dynamic_field_value dfv ON df.id = dfv.field_id
                     RIGHT JOIN ticket t ON t.id = dfv.object_id
-                WHERE df.name = '" . $Kernel::OM->Get('Kernel::Config')->Get("Process::DynamicFieldProcessManagementProcessID") . "'",
+                WHERE df.name = '"
+                . $Kernel::OM->Get('Kernel::Config')->Get("Process::DynamicFieldProcessManagementProcessID") . "'",
             Identifier => 'ProcessTickets',
             Label      => Translatable("Process Tickets"),
         },

@@ -190,7 +190,7 @@ $Selenium->RunTest(
         # verify alert message
         my $ExpectedAlertText = "Fulltext: $MinCharString";
         $Self->True(
-            ($Selenium->get_alert_text() =~ /$ExpectedAlertText/),
+            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
             'Minimum character string search warning is found',
         );
 
@@ -209,7 +209,7 @@ $Selenium->RunTest(
         # verify alert message
         $ExpectedAlertText = "Fulltext: $MaxCharString";
         $Self->True(
-            ($Selenium->get_alert_text() =~ /$ExpectedAlertText/),
+            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
             'Maximum character string search warning is found',
         );
 
@@ -228,7 +228,7 @@ $Selenium->RunTest(
         # verify alert message
         $ExpectedAlertText = "Fulltext: because";
         $Self->True(
-            ($Selenium->get_alert_text() =~ /$ExpectedAlertText/),
+            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
             'Stop word search string warning is found',
         );
 

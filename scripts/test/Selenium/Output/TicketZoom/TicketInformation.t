@@ -221,7 +221,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Frontend::AgentTicketZoom###DynamicField',
             Value => {
                 $DynamicFieldName => 1,
-                }
+            },
         );
 
         # get ticket object
@@ -264,7 +264,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "DynamicField value added to the test ticket"
+            "DynamicField value added to the test ticket",
         );
 
         # login test user
@@ -298,7 +298,7 @@ $Selenium->RunTest(
             Key   => 'Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation',
             Value => {
                 'Location' => 'Sidebar',
-                'Module'   => 'Kernel::Output::HTML::TicketZoom::TicketInformation'
+                'Module'   => 'Kernel::Output::HTML::TicketZoom::TicketInformation',
             },
         );
 
@@ -314,7 +314,7 @@ $Selenium->RunTest(
         # verify there is no collapsed elements on the screen
         $Self->True(
             $Selenium->find_element("//div[contains(\@class, \'WidgetSimple Expanded')]"),
-            "Ticket Information Widget is expanded"
+            "Ticket Information Widget is expanded",
         );
 
         # toggle to collapse 'Ticket Information' widget
@@ -323,7 +323,7 @@ $Selenium->RunTest(
         # verify there is collapsed element on the screen
         $Self->True(
             $Selenium->find_element("//div[contains(\@class, \'WidgetSimple Collapsed')]"),
-            "Ticket Information Widget is collapsed"
+            "Ticket Information Widget is collapsed",
         );
 
         # add article to ticket
@@ -371,7 +371,7 @@ $Selenium->RunTest(
         # verify customer link to 'Customer Information Center'
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'AgentCustomerInformationCenter;CustomerID=$Customer' )]"),
-            "Customer link to 'Customer Information Center' found"
+            "Customer link to 'Customer Information Center' found",
         );
 
         # verify accounted time value
@@ -389,8 +389,8 @@ $Selenium->RunTest(
         # Recreate TicketObject to let event handlers run also for transaction mode.
         $Kernel::OM->ObjectsDiscard(
             Objects => [
-                'Kernel::System::Ticket'
-            ]
+                'Kernel::System::Ticket',
+            ],
         );
         $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -429,7 +429,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "DynamicField value removed from the test ticket"
+            "DynamicField value removed from the test ticket",
         );
 
         # delete dynamic field
@@ -439,7 +439,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "DynamicFieldID $DynamicFieldID is deleted"
+            "DynamicFieldID $DynamicFieldID is deleted",
         );
 
         # delete test ticket
@@ -449,7 +449,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Success,
-            "TicketID $TicketID is deleted"
+            "TicketID $TicketID is deleted",
         );
 
         # get DB object
