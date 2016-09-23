@@ -36,12 +36,25 @@ use Kernel::System::User;
 
 =head1 NAME
 
-Kernel::System::ObjectManager - object and dependency manager
+Kernel::System::ObjectManager - Central singleton manager and object instance generator
+
+=head1 SYNOPSIS
+
+    # In toplevel scripts only!
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+    # Everywhere: get a singleton instance (and create it, if needed).
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # Remove singleton objects and all their dependencies.
+    $Kernel::OM->ObjectsDiscard(
+        Objects            => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
+    );
 
 =head1 DESCRIPTION
 
-The ObjectManager is the central place to create and access singleton OTRS objects (via L</Get()>)
-as well as create regular (unmanaged) object instances (via L</Create()>).
+The ObjectManager is the central place to create and access singleton OTRS objects (via C<L</Get()>>)
+as well as create regular (unmanaged) object instances (via C<L</Create()>>).
 
 =head2 How does singleton management work?
 
@@ -54,7 +67,7 @@ The ObjectManager must always be provided to OTRS by the toplevel script like th
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        # options for module constructors here
+        # possible options for module constructors here
         LogObject {
             LogPrefix => 'OTRS-MyTestScript',
         },
@@ -64,7 +77,6 @@ Then in the code any singleton object can be retrieved that the ObjectManager ca
 like Kernel::System::DB:
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Prepare('SELECT 1');
-
 
 =head2 Which objects can be loaded?
 
@@ -121,6 +133,8 @@ By default, the ObjectManager will die if a constructor does not return an objec
 
 Creates a new instance of Kernel::System::ObjectManager.
 
+This is typically B<only> needed in toplevel (bin/) scripts! All parts of the OTRS API assume
+the ObjectManager to be present in C<$Kernel::OM> and use it.
 
 Sometimes objects need parameters to be sent to their constructors,
 these can also be passed to the ObjectManager's constructor like in the following example.
@@ -132,7 +146,7 @@ The hash reference will be flattened and passed to the constructor of the object
         },
     );
 
-Alternatively, L</ObjectParamAdd()> can be used to set these parameters at runtime (but this
+Alternatively, C<L</ObjectParamAdd()>> can be used to set these parameters at runtime (but this
 must happen before the object was created).
 
 If the C<< Debug => 1 >> option is present, destruction of objects
@@ -165,7 +179,8 @@ Retrieves a singleton object, and if it not yet exists, implicitly creates one f
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $ConfigObject2 = $Kernel::OM->Get('Kernel::Config'); # returns the same ConfigObject as above
+    # On the second call, this returns the same ConfigObject as above.
+    my $ConfigObject2 = $Kernel::OM->Get('Kernel::Config');
 
 =cut
 
@@ -191,7 +206,8 @@ Creates a new object instance. This instance will not be managed by the object m
 
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    my $DateTimeObject2 = $Kernel::OM->Create('Kernel::System::DateTime'); # this is a new independent instance
+    # On the second call, this creates a new independent instance.
+    my $DateTimeObject2 = $Kernel::OM->Create('Kernel::System::DateTime');
 
 It is also possible to pass in constructor parameters:
 
@@ -312,7 +328,7 @@ sub _ObjectBuild {
 
 Adds an existing object instance to the ObjectManager so that it can be accessed by other objects.
 
-This should only be used on special circumstances, e. g. in the unit tests to pass $Self to the
+This should B<only> be used on special circumstances, e. g. in the unit tests to pass $Self to the
 ObjectManager so that it is also available from there as 'Kernel::System::UnitTest'.
 
     $Kernel::OM->ObjectInstanceRegister(
@@ -343,7 +359,7 @@ sub ObjectInstanceRegister {
 =head2 ObjectParamAdd()
 
 Adds arguments that will be passed to constructors of classes
-when they are created, in the same format as the C<new()> method
+when they are created, in the same format as the C<L<new()>> method
 receives them.
 
     $Kernel::OM->ObjectParamAdd(
@@ -385,9 +401,11 @@ sub ObjectParamAdd {
 
 =head2 ObjectEventsHandle()
 
-Execute all events for registered objects.
+Execute all queued (C<<Transaction => 1>>) events for all singleton objects
+that the ObjectManager created before. This can be used to flush the event queue
+before destruction, for example.
 
- $Kernel::OM->ObjectEventsHandle();
+    $Kernel::OM->ObjectEventsHandle();
 
 =cut
 
