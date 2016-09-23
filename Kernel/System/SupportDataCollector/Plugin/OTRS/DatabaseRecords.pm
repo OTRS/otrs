@@ -15,6 +15,7 @@ use warnings;
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::DB',
 );
 
@@ -105,6 +106,16 @@ sub Run {
             SQL        => "SELECT count(*) FROM pm_process",
             Identifier => 'ProcessCount',
             Label      => "Processes",
+        },
+        {
+            SQL => "
+                SELECT count(*)
+                FROM dynamic_field df
+                    LEFT JOIN dynamic_field_value dfv ON df.id = dfv.field_id
+                    RIGHT JOIN ticket t ON t.id = dfv.object_id
+                WHERE df.name = '" . $Kernel::OM->Get('Kernel::Config')->Get("Process::DynamicFieldProcessManagementProcessID") . "'",
+            Identifier => 'ProcessTickets',
+            Label      => "Process Tickets",
         },
     );
 
