@@ -738,14 +738,7 @@ sub _ShowOverview {
         Name => 'Main',
         Data => \%Param,
     );
-    $LayoutObject->Block(
-        Name => 'WebservicePathElement',
-        Data => {
-            Name => 'Web Services',
-            Link => 'Action=AdminGenericInterfaceWebservice',
-            Nav  => '',
-        },
-    );
+
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'OverviewHeader' );
@@ -859,26 +852,7 @@ sub _ShowEdit {
         Data => \%Param,
     );
 
-    $LayoutObject->Block(
-        Name => 'WebservicePathElement',
-        Data => {
-            Name => 'Web Services',
-            Link => 'Action=AdminGenericInterfaceWebservice',
-            Nav  => '',
-        },
-    );
-    if ( $Param{Action} eq 'Change' && $WebserviceData->{Name} ) {
-        $LayoutObject->Block(
-            Name => 'WebservicePathElementNoLink',
-            Data => {
-                Name => $WebserviceData->{Name},
-                Link => 'Action=AdminGenericInterfaceWebservice;Subaction=' . $Param{Action}
-                    . ';WebserviceID=' . $Param{WebserviceID},
-                Nav => '',
-            },
-        );
-    }
-    elsif ( $Param{Action} eq 'Add' ) {
+    if ( $Param{Action} eq 'Add' ) {
 
         my @ExampleWebServices = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/webservices/examples',
@@ -914,15 +888,6 @@ sub _ShowEdit {
             Name => 'ExampleWebServices',
             Data => {
                 %Frontend,
-            },
-        );
-
-        $LayoutObject->Block(
-            Name => 'WebservicePathElementNoLink',
-            Data => {
-                Name => 'New Web service',
-                Link => 'Action=AdminGenericInterfaceWebservice;Subaction=' . $Param{Action},
-                Nav  => '',
             },
         );
     }

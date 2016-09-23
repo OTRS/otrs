@@ -13,23 +13,27 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
 
 [% RenderBlockStart("Main") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("GenericInterface Web Service Management") | html %] - [% Translate(Data.Action) | html %]</h1>
-    <ul class="BreadCrumb">
-        <li>[% Translate("You are here") | html %]:</li>
-[% RenderBlockStart("WebservicePathElement") %]
-        <li>
-            <a href="[% Env("Baselink") %][% Data.Link %];Nav=[% Data.Nav | uri %]">[% Data.Name | html %]</a>
-        </li>
-[% RenderBlockEnd("WebservicePathElement") %]
-[% RenderBlockStart("WebservicePathElementNoLink") %]
-        <li>
-            [% Data.Name | html %]
-        </li>
-[% RenderBlockEnd("WebservicePathElementNoLink") %]
-    </ul>
+    <h1>[% Translate("GenericInterface Web Service Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Web Service Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate("Add Web Service"),}) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit Web Service")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.WebserviceData.Name ), }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
     <div class="Clear"></div>
-
     <div class="SidebarColumn">
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
@@ -50,13 +54,13 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                             <input type="hidden" name="Subaction" value="Add"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
 
-                            <button class="CallForAction Fullsize Center" type="submit"><span><i class="fa fa-plus-square"></i>[% Translate("Add web service") | html %]</span></button>
+                            <button class="CallForAction Fullsize Center" type="submit"><span><i class="fa fa-plus-square"></i>[% Translate("Add Web Service") | html %]</span></button>
                         </form>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
 [% RenderBlockStart("ActionClone") %]
                     <li>
-                        <button id="CloneButton" class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-copy"></i> [% Translate("Clone web service") | html %]</span></button>
+                        <button id="CloneButton" class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-copy"></i> [% Translate("Clone Web Service") | html %]</span></button>
                         <div class="Hidden" id="CloneDialogContainer">
                             <div id="CloneDialog" class="InnerContent GenericInterfaceDialog">
                                 <form id="CloneForm" action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="CloneForm" class="Validate PreventMultipleSubmits">
@@ -90,7 +94,7 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                             <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
 
-                            <button class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-download"></i> [% Translate("Export web service") | html %]</span></button>
+                            <button class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-download"></i> [% Translate("Export Web Service") | html %]</span></button>
                         </form>
                     </li>
 [% RenderBlockEnd("ActionExport") %]
@@ -128,7 +132,7 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                             <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
 
-                            <button class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-clock-o"></i> [% Translate("Configuration history") | html %]</span></button>
+                            <button class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-clock-o"></i> [% Translate("Configuration History") | html %]</span></button>
                         </form>
                     </li>
 [% RenderBlockEnd("ActionHistory") %]
