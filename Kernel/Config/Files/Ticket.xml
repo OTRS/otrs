@@ -320,7 +320,7 @@
             <String Regex="^[0-9]+$">1440</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###2100-ArchiveRestore" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###2300-ArchiveRestore" Required="0" Valid="1">
         <Description Translatable="1">Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -331,7 +331,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###2100-AcceleratorUpdate" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###2600-AcceleratorUpdate" Required="0" Valid="1">
         <Description Translatable="1">Updates the ticket index accelerator.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -365,7 +365,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###2400-ResponsibleAutoSet" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###3000-ResponsibleAutoSet" Required="0" Valid="1">
         <Description Translatable="1">Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -376,7 +376,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###2500-TicketPendingTimeReset" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###3300-TicketPendingTimeReset" Required="0" Valid="1">
         <Description Translatable="1">Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -411,7 +411,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###4900-EscalationStopEvents" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###4300-EscalationStopEvents" Required="0" Valid="1">
         <Description Translatable="1">Ticket event module that triggers the escalation stop events.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -423,7 +423,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###3300-ForceUnlockOnMove" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###3600-ForceUnlockOnMove" Required="0" Valid="1">
         <Description Translatable="1">Forces to unlock tickets after being moved to another queue.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -434,7 +434,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###3400-TicketArticleNewMessageUpdate" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###4000-TicketArticleNewMessageUpdate" Required="0" Valid="1">
         <Description Translatable="1">Update Ticket "Seen" flag if every article got seen or a new Article got created.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -9646,7 +9646,7 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-        <ConfigItem Name="Ticket::EventModulePost###9000-GenericAgent" Required="0" Valid="1">
+        <ConfigItem Name="Ticket::EventModulePost###9700-GenericAgent" Required="0" Valid="1">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>

@@ -29,7 +29,7 @@ my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
 
 # make use to disable EstalationStopEvents modules
 $ConfigObject->Set(
-    Key   => 'Ticket::EventModulePost###920-EscalationStopEvents',
+    Key   => 'Ticket::EventModulePost###4300-EscalationStopEvents',
     Value => undef,
 );
 

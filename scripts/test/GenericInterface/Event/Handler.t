@@ -26,7 +26,7 @@ $ConfigObject->Set(
 
 # register the generic interface test handler only
 $ConfigObject->Set(
-    Key   => 'Ticket::EventModulePost###999-GenericInterface',
+    Key   => 'Ticket::EventModulePost###9900-GenericInterface',
     Value => {
         Module      => 'Kernel::GenericInterface::Event::Handler',
         Event       => '.*',
@@ -35,7 +35,7 @@ $ConfigObject->Set(
 );
 
 $Self->Is(
-    $ConfigObject->Get('Ticket::EventModulePost')->{'999-GenericInterface'}->{Module},
+    $ConfigObject->Get('Ticket::EventModulePost')->{'9900-GenericInterface'}->{Module},
     'Kernel::GenericInterface::Event::Handler',
     "Event handler added to config",
 );
