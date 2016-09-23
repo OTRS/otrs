@@ -1,0 +1,59 @@
+# --
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+=head1 NAME
+
+Kernel::Config - Provide access to the system configuration at runtime.
+
+=head1 DESCRIPTION
+
+This object provides access to the system's configuration at runtime via
+the L</Get()> and L</Set()> methods.
+
+=head1 PUBLIC INTERFACE
+
+=head2 new()
+
+constructor. You normally don't need this, use the following to create an instance:
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+=head2 Get()
+
+Retrieves the value of a config setting.
+
+    my $Value = $ConfigObject->Get('My::Setting::Name');
+
+Returns the value of the setting.
+
+=head2 Set()
+
+changes the value of a config setting.
+
+    $ConfigObject->Set(
+        Key   => 'My::Setting::Name',
+        Value => 42,    # new value; set to undef to remove the setting
+    );
+
+=head2 ConfigChecksum
+
+This function returns an MD5 sum that is generated from all available
+config files (Kernel/Config.pm, Kernel/Config/Defaults.pm, Kernel/Config/Files/*.(pm|xml)
+except ZZZAAuto.pm) and their modification timestamps.
+
+Whenever a file is changed, added or removed, this checksum will change.
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
