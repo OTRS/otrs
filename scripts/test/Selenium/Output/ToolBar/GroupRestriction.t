@@ -53,39 +53,39 @@ $Selenium->RunTest(
         # get test params
         my @Tests = (
             {
-                ToolBarModule => '1-Ticket::AgentTicketQueue',
+                ToolBarModule => '110-Ticket::AgentTicketQueue',
                 CssClassCheck => 'QueueView',
             },
             {
-                ToolBarModule => '2-Ticket::AgentTicketStatus',
+                ToolBarModule => '120-Ticket::AgentTicketStatus',
                 CssClassCheck => 'StatusView',
             },
             {
-                ToolBarModule => '3-Ticket::AgentTicketEscalation',
+                ToolBarModule => '130-Ticket::AgentTicketEscalation',
                 CssClassCheck => 'EscalationView',
             },
             {
-                ToolBarModule => '4-Ticket::AgentTicketPhone',
+                ToolBarModule => '140-Ticket::AgentTicketPhone',
                 CssClassCheck => 'PhoneTicket',
             },
             {
-                ToolBarModule => '5-Ticket::AgentTicketEmail',
+                ToolBarModule => '150-Ticket::AgentTicketEmail',
                 CssClassCheck => 'EmailTicket',
             },
             {
-                ToolBarModule => '6-Ticket::AgentTicketProcess',
+                ToolBarModule => '160-Ticket::AgentTicketProcess',
                 CssClassCheck => 'ProcessTicket',
             },
             {
-                ToolBarModule => '7-Ticket::TicketResponsible',
+                ToolBarModule => '170-Ticket::TicketResponsible',
                 CssClassCheck => 'Responsible',
             },
             {
-                ToolBarModule => '8-Ticket::TicketWatcher',
+                ToolBarModule => '180-Ticket::TicketWatcher',
                 CssClassCheck => 'Watcher',
             },
             {
-                ToolBarModule => '9-Ticket::TicketLocked',
+                ToolBarModule => '190-Ticket::TicketLocked',
                 CssClassCheck => 'Locked',
             },
         );

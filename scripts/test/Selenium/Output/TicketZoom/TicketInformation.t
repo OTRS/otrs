@@ -386,6 +386,14 @@ $Selenium->RunTest(
             "DynamicField value - $DFValue found in Ticket Information widget",
         );
 
+        # Recreate TicketObject to let event handlers run also for transaction mode.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [
+                'Kernel::System::Ticket'
+            ]
+        );
+        $Kernel::OM->Get('Kernel::System::Ticket');
+
         # refresh screen to be sure escalation time will get latest times
         $Selenium->VerifiedRefresh();
 
