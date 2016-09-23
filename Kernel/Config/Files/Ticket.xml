@@ -411,15 +411,14 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <!-- 6000-EscalationStopEvents must come after 6000-EscalationIndex -->
-    <ConfigItem Name="Ticket::EventModulePost###6100-EscalationStopEvents" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::EventModulePost###4900-EscalationStopEvents" Required="0" Valid="1">
         <Description Translatable="1">Ticket event module that triggers the escalation stop events.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TriggerEscalationStopEvents</Item>
-                <Item Key="Transaction">1</Item>
+                <Item Key="Transaction">0</Item>
                 <Item Key="Event">TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|ArticleCreate</Item>
             </Hash>
         </Setting>
