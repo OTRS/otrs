@@ -40,7 +40,6 @@ In case of an error, an exception will be thrown that you can catch in your
 unit test file and handle with C<HandleError()> in this class. It will output
 a failing test result and generate a screenshot for analysis.
 
-
 =head2 new()
 
 create a selenium object to run fontend tests.
@@ -143,6 +142,8 @@ Override internal command of base class.
 
 We use it to output successful command runs to the UnitTest object.
 Errors will cause an exeption and be caught elsewhere.
+
+=end Internal:
 
 =cut
 
