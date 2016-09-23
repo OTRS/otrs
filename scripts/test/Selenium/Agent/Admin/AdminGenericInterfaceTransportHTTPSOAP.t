@@ -182,7 +182,7 @@ $Selenium->RunTest(
         my $Count = 1;
         for my $VerifySort (qw(SortLevel1 SortSubLevel1 SortLevel2)) {
             $Self->Is(
-                $Selenium->execute_script("return \$(\$('.SortableList').find('li')[$Count]).find('.Element').val()"),
+                $Selenium->execute_script("return \$('.SortableList li:eq($Count)').find('.Element').val()"),
                 $VerifySort,
                 "Sort level value $VerifySort is found"
             );

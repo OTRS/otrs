@@ -76,13 +76,13 @@ $Selenium->RunTest(
         my $ThirdBreadcrumbText  = $LanguageObject->Translate('Create New ACL');
         for my $BreadcrumbText ( $FirstBreadcrumbText, $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
             $Self->Is(
-                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
 
             $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
 
             if ( $BreadcrumbText eq $SecondBreadcrumbText ) {
                 $Self->Is(
@@ -137,13 +137,13 @@ $Selenium->RunTest(
         $Count = 0;
         for my $BreadcrumbText ( $FirstBreadcrumbText, $SecondBreadcrumbText, 'Edit ACL: ' . $TestACLNames[0] ) {
             $Self->Is(
-                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
 
             $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
 
             if ( $BreadcrumbText eq $SecondBreadcrumbText ) {
                 $Self->Is(

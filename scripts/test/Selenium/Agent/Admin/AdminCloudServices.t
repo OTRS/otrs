@@ -61,7 +61,7 @@ $Selenium->RunTest(
         my $Count = 0;
         for my $BreadcrumbText ( 'You are here:', 'Cloud Service Management' ) {
             $Self->Is(
-                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).text().trim()"),
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen.",
             );
