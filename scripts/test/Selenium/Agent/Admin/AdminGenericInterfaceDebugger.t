@@ -24,8 +24,9 @@ $Selenium->RunTest(
         my $Helper           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
-        # define needed variable
-        my $RandomID = $Helper->GetRandomID();
+        # define needed variables
+        my $RandomID       = $Helper->GetRandomID();
+        my $WebserviceName = "Selenium $RandomID webservice";
 
         # create test webservice
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
@@ -40,7 +41,7 @@ $Selenium->RunTest(
                     },
                 },
             },
-            Name    => "Selenium $RandomID webservice",
+            Name    => $WebserviceName,
             ValidID => 1,
             UserID  => 1,
         );
@@ -103,6 +104,12 @@ $Selenium->RunTest(
         # navigate to AdminGenericInterfaceWebservice screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice");
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # click on created webservice
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
@@ -122,6 +129,53 @@ $Selenium->RunTest(
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
             $Element->is_displayed();
+        }
+
+        # check breadcrumb on Debugger screen
+        my @Breadcrumbs = (
+            {
+                Text     => 'You are here:',
+                IsLinked => 0,
+            },
+            {
+                Text     => 'Web Service Management',
+                IsLinked => 1,
+            },
+            {
+                Text     => $WebserviceName,
+                IsLinked => 1,
+            },
+            {
+                Text     => 'Debugger',
+                IsLinked => 0,
+            }
+        );
+
+        $Count = 0;
+        for my $Breadcrumb (@Breadcrumbs) {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $Breadcrumb->{Text},
+                "Breadcrumb text '$Breadcrumb->{Text}' is found on screen"
+            );
+
+            my $IsLinkedBreadcrumbText =
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
+
+            if ( $Breadcrumb->{IsLinked} ) {
+                $Self->True(
+                    $IsLinkedBreadcrumbText,
+                    "Breadcrumb text '$Breadcrumb->{Text}' is linked"
+                );
+            }
+            else {
+                $Self->False(
+                    $IsLinkedBreadcrumbText,
+                    "Breadcrumb text '$Breadcrumb->{Text}' is not linked"
+                );
+            }
+
+            $Count++;
         }
 
         # verify CommunicationDetails are not visible
