@@ -115,7 +115,7 @@ By default, the ObjectManager will die if a constructor does not return an objec
 
 
 
-=head1 PUBLIC METHODS
+=head1 PUBLIC INTERFACE
 
 =head2 new()
 
