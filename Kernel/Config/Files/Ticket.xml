@@ -6279,7 +6279,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###5000-Ticket::TicketEscalation" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::NotifyModule###5000-Ticket::TicketEscalation" Required="0" Valid="0">
         <Description Translatable="1">Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
