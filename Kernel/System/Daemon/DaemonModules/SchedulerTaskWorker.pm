@@ -38,7 +38,6 @@ Scheduler worker daemon
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 Create scheduler task worker object.

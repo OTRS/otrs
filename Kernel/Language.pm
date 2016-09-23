@@ -37,7 +37,6 @@ All language functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a language object. Do not use it directly, instead use:

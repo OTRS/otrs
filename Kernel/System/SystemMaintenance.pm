@@ -33,7 +33,6 @@ SystemMaintenance backend
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a SystemMaintenance object. Do not use it directly, instead use:

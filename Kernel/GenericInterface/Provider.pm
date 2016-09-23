@@ -31,7 +31,6 @@ Kernel::GenericInterface::Provider - handler for incoming webservice requests.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object

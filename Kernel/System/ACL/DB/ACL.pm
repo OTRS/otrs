@@ -34,7 +34,6 @@ ACL DB ACL backend
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a ACL object. Do not use it directly, instead use:

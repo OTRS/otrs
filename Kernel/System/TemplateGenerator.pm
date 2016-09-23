@@ -46,7 +46,6 @@ All signature functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object. Do not use it directly, instead use:

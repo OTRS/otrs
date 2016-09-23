@@ -28,7 +28,6 @@ All valid functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 LoaderCreateAgentCSSCalls()
 
 Generate the minified CSS files and the tags referencing them,

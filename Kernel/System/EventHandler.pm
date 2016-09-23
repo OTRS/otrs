@@ -39,7 +39,6 @@ This is only neccessary if you use 'Transaction' events in your class.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 EventHandlerInit()
 
 Call this to initialize the event handling mechanisms to work

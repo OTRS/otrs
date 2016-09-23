@@ -37,7 +37,6 @@ Includes all scheduler related database functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a scheduler database object. Do not use it directly, instead use:

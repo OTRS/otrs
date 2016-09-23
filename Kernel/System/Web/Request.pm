@@ -31,7 +31,6 @@ All cgi param functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create param object. Do not use it directly, instead use:

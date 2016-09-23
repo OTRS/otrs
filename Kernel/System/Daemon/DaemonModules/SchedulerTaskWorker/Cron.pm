@@ -34,7 +34,6 @@ This task handler executes scheduler tasks based in cron notation.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
     use Kernel::System::ObjectManager;

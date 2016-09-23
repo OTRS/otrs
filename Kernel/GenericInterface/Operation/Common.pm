@@ -21,7 +21,6 @@ Kernel::GenericInterface::Operation::Common - Base class for all Operations
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 Auth()
 
 performs user or customer user authorization

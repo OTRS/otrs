@@ -27,7 +27,6 @@ module with all functions to manage search profiles
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object. Do not use it directly, instead use:

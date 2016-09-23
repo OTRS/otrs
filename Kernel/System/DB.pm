@@ -37,7 +37,6 @@ All database functions to connect/insert/update/delete/... to a database.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create database object, with database connect..

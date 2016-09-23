@@ -58,7 +58,6 @@ Handles date and time calculations.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 Creates a DateTime object. Do not use new() directly, instead use the object manager:

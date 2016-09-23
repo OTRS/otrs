@@ -28,7 +28,6 @@ All std template functions. E. g. to add std template or other functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object

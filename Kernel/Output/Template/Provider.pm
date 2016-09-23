@@ -37,7 +37,6 @@ Kernel::Output::Template::Provider - Template Toolkit custom provider
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 OTRSInit()
 
 performs some post-initialization and creates a bridget between Template::Toolkit

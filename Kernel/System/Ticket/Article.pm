@@ -29,7 +29,6 @@ All article functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 ArticleCreate()
 
 create an article

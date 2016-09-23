@@ -28,7 +28,6 @@ Global module to add/edit/update system addresses.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object

@@ -21,7 +21,6 @@ Kernel::GenericInterface::Operation::Session::Common - Base class for Session Op
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 CreateSessionID()
 
 performs user authentication and return a new SessionID value

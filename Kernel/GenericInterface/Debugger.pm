@@ -30,7 +30,6 @@ based on the configured debug level.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object.

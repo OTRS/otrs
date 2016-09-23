@@ -30,7 +30,6 @@ This module is managing time functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a time object. Do not use it directly, instead use:

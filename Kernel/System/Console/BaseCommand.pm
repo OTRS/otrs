@@ -34,7 +34,6 @@ Base class for console commands.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 constructor for new objects. You should not need to reimplement this in your command,

@@ -42,7 +42,6 @@ the global customer web interface (incl. auth, session, ...)
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create customer web interface object

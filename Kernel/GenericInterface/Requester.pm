@@ -28,7 +28,6 @@ Kernel::GenericInterface::Requester - GenericInterface handler for sending web s
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object. Do not create it directly, instead use:

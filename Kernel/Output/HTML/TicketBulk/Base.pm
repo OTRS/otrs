@@ -23,7 +23,6 @@ Base class for ticket bulk modules.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 Display()
 
 Generates the required HTML to display new fields in ticket bulk screen. It requires to get the value from the web request (e.g. in case of an error to re-display the field content).

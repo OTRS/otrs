@@ -32,7 +32,6 @@ the global public web interface
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create public web interface object

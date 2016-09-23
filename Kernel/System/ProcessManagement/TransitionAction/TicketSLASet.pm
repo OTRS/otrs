@@ -32,7 +32,6 @@ All TicketSLASet functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object. Do not use it directly, instead use:
@@ -301,6 +300,8 @@ sub _CheckSLA {
 }
 
 1;
+
+=end Internal:
 
 =head1 TERMS AND CONDITIONS
 

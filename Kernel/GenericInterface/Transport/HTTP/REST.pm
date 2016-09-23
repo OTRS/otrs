@@ -27,7 +27,6 @@ Kernel::GenericInterface::Transport::REST - GenericInterface network transport i
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 usually, you want to create an instance of this

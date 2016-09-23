@@ -46,7 +46,6 @@ All generic html functions. E. g. to get options fields, template processing, ..
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a new object. Do not use it directly, instead use:

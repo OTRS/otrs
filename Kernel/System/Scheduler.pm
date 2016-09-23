@@ -26,7 +26,6 @@ Includes the functions to add a new task to the scheduler daemon.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a scheduler object. Do not use it directly, instead use:

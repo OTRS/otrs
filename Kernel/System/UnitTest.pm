@@ -42,7 +42,6 @@ functions to define test cases.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create unit test object. Do not use it directly, instead use:

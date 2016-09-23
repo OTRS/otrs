@@ -26,7 +26,6 @@ Kernel::GenericInterface::Operation::Ticket::TicketCreate - GenericInterface Tic
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 usually, you want to create an instance of this

@@ -23,7 +23,6 @@ Kernel::Output::Template::Plugin::OTRS - Template Toolkit extension plugin
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 this plugin registers a few filters and functions in Template::Toolkit.

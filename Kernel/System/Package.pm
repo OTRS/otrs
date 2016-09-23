@@ -47,7 +47,6 @@ All functions to manage application packages/modules.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object

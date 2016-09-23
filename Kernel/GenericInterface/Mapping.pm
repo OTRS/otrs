@@ -24,7 +24,6 @@ Kernel::GenericInterface::Mapping - GenericInterface data mapping interface
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object.

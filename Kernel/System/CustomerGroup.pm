@@ -30,7 +30,6 @@ All customer group functions. E. g. to add groups or to get a member list of a g
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object. Do not use it directly, instead use:

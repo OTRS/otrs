@@ -32,7 +32,6 @@ All log functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a log object. Do not use it directly, instead use:

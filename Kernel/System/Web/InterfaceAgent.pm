@@ -41,7 +41,6 @@ the global agent web interface (incl. auth, session, ...)
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create agent web interface object. Do not use it directly, instead use:

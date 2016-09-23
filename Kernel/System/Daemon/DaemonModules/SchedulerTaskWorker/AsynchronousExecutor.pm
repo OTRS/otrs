@@ -27,7 +27,6 @@ This task handler executes scheduler generic asynchronous tasks.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
     use Kernel::System::ObjectManager;

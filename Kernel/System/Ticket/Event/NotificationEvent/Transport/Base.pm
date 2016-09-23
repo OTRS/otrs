@@ -22,7 +22,6 @@ Kernel::System::Ticket::Event::NotificationEvent::Transport::Base - common notif
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 SendNotification()
 
 send a notification using an specified transport

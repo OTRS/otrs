@@ -21,7 +21,6 @@ Base class for daemon modules.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 PreRun()
 
 Perform additional validations/preparations and wait times before Run().

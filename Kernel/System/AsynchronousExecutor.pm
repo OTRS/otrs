@@ -29,7 +29,6 @@ background using the separate process OTRS Scheduler Daemon.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 AsyncCall()
 
 creates a scheduler daemon task to execute a function asynchronously.

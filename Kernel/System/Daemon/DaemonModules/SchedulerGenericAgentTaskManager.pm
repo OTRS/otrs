@@ -35,7 +35,6 @@ Scheduler generic agent task daemon
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 Create scheduler future task manager object.

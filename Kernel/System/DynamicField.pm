@@ -34,7 +34,6 @@ DynamicFields backend
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create a DynamicField object. Do not use it directly, instead use:

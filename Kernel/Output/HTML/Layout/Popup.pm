@@ -23,7 +23,6 @@ All valid functions.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 PopupClose()
 
 Generate a small HTML page which closes the popup window and

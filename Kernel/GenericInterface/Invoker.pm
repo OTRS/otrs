@@ -43,7 +43,6 @@ was initiated to allow the Invoker to handle possible errors.
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create an object.

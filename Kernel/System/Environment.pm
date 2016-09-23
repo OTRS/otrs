@@ -31,7 +31,6 @@ Functions to collect environment info
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 create environment object. Do not use it directly, instead use:

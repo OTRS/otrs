@@ -32,7 +32,6 @@ This task handler executes scheduler tasks delegated by asynchronous invoker con
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
     use Kernel::System::ObjectManager;

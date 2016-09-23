@@ -34,7 +34,6 @@ Scheduler cron task daemon
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 new()
 
 Create scheduler cron task manager object.

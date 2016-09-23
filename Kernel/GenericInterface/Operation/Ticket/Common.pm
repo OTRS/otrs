@@ -24,7 +24,6 @@ Kernel::GenericInterface::Operation::Ticket::Common - Base class for all Ticket 
 
 =head1 PUBLIC INTERFACE
 
-
 =head2 Init()
 
 initialize the operation by checking the webservice configuration and gather of the dynamic fields
