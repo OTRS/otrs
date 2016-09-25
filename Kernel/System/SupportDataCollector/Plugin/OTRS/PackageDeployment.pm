@@ -66,7 +66,7 @@ sub Run {
             NoLog     => 1,
         );
 
-        if (!$CheckFrameworkOk) {
+        if ( !$CheckFrameworkOk ) {
             push @WrongFrameworkVersion, "$Package->{Name}->{Content} $Package->{Version}->{Content}";
         }
     }
@@ -88,32 +88,32 @@ sub Run {
     if (@NotVerifiedPackages) {
         $Self->AddResultProblem(
             Identifier => 'Verification',
-            Label   => 'Package Verification Status',
-            Value   => join( ', ', @NotVerifiedPackages ),
+            Label      => 'Package Verification Status',
+            Value      => join( ', ', @NotVerifiedPackages ),
             Message => 'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.',
         );
     }
     else {
         $Self->AddResultOk(
             Identifier => 'Verification',
-            Label => 'Package Verification Status',
-            Value => '',
+            Label      => 'Package Verification Status',
+            Value      => '',
         );
     }
 
     if (@WrongFrameworkVersion) {
         $Self->AddResultProblem(
             Identifier => 'FrameworkVersion',
-            Label   => 'Package Framework Version Status',
-            Value   => join( ', ', @WrongFrameworkVersion ),
-            Message => 'Some packages are not allowed for the current framework version.',
+            Label      => 'Package Framework Version Status',
+            Value      => join( ', ', @WrongFrameworkVersion ),
+            Message    => 'Some packages are not allowed for the current framework version.',
         );
     }
     else {
         $Self->AddResultOk(
             Identifier => 'FrameworkVersion',
-            Label => 'Package Framework Version Status',
-            Value => '',
+            Label      => 'Package Framework Version Status',
+            Value      => '',
         );
     }
 
