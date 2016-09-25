@@ -306,7 +306,7 @@ sub TableCreateComplex {
     # Sort
     COLUMN:
     for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
-        next COLUMN if $Column eq 'TicketNumber';      # Always present, already added.
+        next COLUMN if $Column eq 'TicketNumber';    # Always present, already added.
 
         # if enabled by default
         if ( $UserColumns{$Column} == 2 ) {
