@@ -103,7 +103,8 @@ sub Run {
                 Label      => Translatable('Package Verification Status'),
                 Value      => join( ', ', @NotVerifiedPackages ),
                 Message    => Translatable(
-                    'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'),
+                    'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'
+                ),
             );
         }
         else {
@@ -112,7 +113,8 @@ sub Run {
                 Label      => Translatable('Package Verification Status'),
                 Value      => join( ', ', @NotVerifiedPackages ),
                 Message    => Translatable(
-                    'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'),
+                    'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.'
+                ),
             );
         }
     }
