@@ -6,24 +6,34 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceMappingSimple">
-    <h1>[% Translate("GenericInterface Mapping Simple for Web Service %s", Data.WebserviceName) | html %]</h1>
+    <h1>[% Translate("GenericInterface Web Service Management") | html %]</h1>
 
-    <ul class="BreadCrumb">
-        <li>[% Translate("You are here") | html %]:</li>
-        <li>
-            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
-        </li>
-        <li>
-            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Data.WebserviceName | html %]</a>
-        </li>
-        <li>
-            <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Data.ActionType | html %] [% Data.Action | html %]</a>
-        </li>
-        <li>
-            [% Translate(Data.MappingDirection) | html %]
-        </li>
-    </ul>
+    [% USE WebserviceLink = String( "AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=" ) %]
+    [% USE ActionName = String( Data.ActionType ) %]
+    [% USE ActionLink = String( Data.ActionFrontendModule ) %]
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate( 'Web Service Management' ),
+                Link => 'AdminGenericInterfaceWebservice',
+            },
+            {
+                Name => Data.WebserviceName,
+                Link => WebserviceLink.append( Data.WebserviceID ),
+            },
+            {
+                Name => ActionName.append( ': ', Data.Action ),
+                Link => ActionLink.append( ';Subaction=Change;', Data.ActionType, '=', Data.Action, ';WebserviceID=', Data.WebserviceID ),
+            },
+            {
+                Name => Data.MappingDirection,
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
