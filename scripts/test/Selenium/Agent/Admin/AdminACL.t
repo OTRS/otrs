@@ -69,35 +69,16 @@ $Selenium->RunTest(
         }
 
         # check breadcrumb on Create New screen
-        my $Count = 0;
+        my $Count = 1;
         my $IsLinkedBreadcrumbText;
-        my $FirstBreadcrumbText  = $LanguageObject->Translate('You are here') . ':';
         my $SecondBreadcrumbText = $LanguageObject->Translate('ACL Management');
         my $ThirdBreadcrumbText  = $LanguageObject->Translate('Create New ACL');
-        for my $BreadcrumbText ( $FirstBreadcrumbText, $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
+        for my $BreadcrumbText ( $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $BreadcrumbText eq $SecondBreadcrumbText ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }
@@ -134,31 +115,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
         # check breadcrumb on Edit screen
-        $Count = 0;
-        for my $BreadcrumbText ( $FirstBreadcrumbText, $SecondBreadcrumbText, 'Edit ACL: ' . $TestACLNames[0] ) {
+        $Count = 1;
+        for my $BreadcrumbText ( $SecondBreadcrumbText, 'Edit ACL: ' . $TestACLNames[0] ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $BreadcrumbText eq $SecondBreadcrumbText ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }

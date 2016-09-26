@@ -20,32 +20,14 @@ my $CheckBredcrumb = sub {
     my %Param = @_;
 
     my $BreadcrumbText = $Param{BreadcrumbText} || '';
-    my $Count = 0;
+    my $Count = 1;
 
-    for my $BreadcrumbText ( 'You are here:', 'Web Service Management', $BreadcrumbText ) {
+    for my $BreadcrumbText ( 'Web Service Management', $BreadcrumbText ) {
         $Self->Is(
             $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
             $BreadcrumbText,
             "Breadcrumb text '$BreadcrumbText' is found on screen"
         );
-
-        my $IsLinkedBreadcrumbText =
-            $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-        if ( $BreadcrumbText eq 'Web Service Management' ) {
-            $Self->Is(
-                $IsLinkedBreadcrumbText,
-                1,
-                "Breadcrumb text '$BreadcrumbText' is linked"
-            );
-        }
-        else {
-            $Self->Is(
-                $IsLinkedBreadcrumbText,
-                0,
-                "Breadcrumb text '$BreadcrumbText' is not linked"
-            );
-        }
 
         $Count++;
     }

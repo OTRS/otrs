@@ -127,50 +127,26 @@ $Selenium->RunTest(
         # check for breadcrumb on screen
         my @Breadcrumbs = (
             {
-                Text     => 'You are here:',
-                IsLinked => 0,
-            },
-            {
                 Text     => 'Web Service Management',
-                IsLinked => 1,
             },
             {
                 Text     => "Selenium $RandomID webservice",
-                IsLinked => 1,
             },
             {
                 Text     => 'Operation: SeleniumOperation',
-                IsLinked => 1,
             },
             {
                 Text     => 'Simple Mapping for Incoming Data',
-                IsLinked => 0,
             }
         );
 
-        my $Count = 0;
+        my $Count = 1;
         for my $Breadcrumb (@Breadcrumbs) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $Breadcrumb->{Text},
                 "Breadcrumb text '$Breadcrumb->{Text}' is found on screen"
             );
-
-            my $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $Breadcrumb->{IsLinked} ) {
-                $Self->True(
-                    $IsLinkedBreadcrumbText,
-                    "Breadcrumb text '$Breadcrumb->{Text}' is linked"
-                );
-            }
-            else {
-                $Self->False(
-                    $IsLinkedBreadcrumbText,
-                    "Breadcrumb text '$Breadcrumb->{Text}' is not linked"
-                );
-            }
 
             $Count++;
         }

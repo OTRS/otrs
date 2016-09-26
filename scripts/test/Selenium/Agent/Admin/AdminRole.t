@@ -85,14 +85,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ValidID", 'css' );
 
         # define translated strings
-        my $YouAreHere     = $LanguageObject->Translate('You are here') . ':';
         my $RoleManagement = $LanguageObject->Translate('Role Management');
 
         # check breadcrumb on Add screen
-        my $Count = 0;
-        my $IsLinkedBreadcrumbText;
+        my $Count = 1;
         for my $BreadcrumbText (
-            $YouAreHere,
             $RoleManagement,
             $LanguageObject->Translate('Add Role')
             )
@@ -102,24 +99,6 @@ $Selenium->RunTest(
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $BreadcrumbText eq $RoleManagement ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }
@@ -178,9 +157,8 @@ $Selenium->RunTest(
         );
 
         # check breadcrumb on Edit screen
-        $Count = 0;
+        $Count = 1;
         for my $BreadcrumbText (
-            $YouAreHere,
             $RoleManagement,
             $LanguageObject->Translate('Edit Role') . ': ' . $RandomID
             )
@@ -190,24 +168,6 @@ $Selenium->RunTest(
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $BreadcrumbText eq $RoleManagement ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }

@@ -137,10 +137,9 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$TemplateID' )]")->VerifiedClick();
 
         # check breadcrumb on relations screen
-        my $Count = 0;
+        my $Count = 1;
         my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
-            'You are here:',
             'Manage Templates-Attachments Relations',
             'Change Attachment Relations for Template \'' . $TemplateType . ' - ' . $TemplateRandomID . '\''
             )
@@ -150,24 +149,6 @@ $Selenium->RunTest(
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $BreadcrumbText eq 'Manage Templates-Attachments Relations' ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }

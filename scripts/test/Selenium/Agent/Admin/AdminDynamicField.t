@@ -21,35 +21,16 @@ my $CheckBredcrumb = sub {
 
     my %Param = @_;
 
-    my $YouAreHere     = $Param{YouAreHere};
     my $OverviewTitle  = $Param{OverviewTitle};
     my $BreadcrumbText = $Param{BreadcrumbText} || '';
-    my $Count          = 0;
+    my $Count          = 1;
 
-    for my $BreadcrumbText ( $YouAreHere, $OverviewTitle, $BreadcrumbText ) {
+    for my $BreadcrumbText ( $OverviewTitle, $BreadcrumbText ) {
         $Self->Is(
             $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
             $BreadcrumbText,
             "Breadcrumb text '$BreadcrumbText' is found on screen"
         );
-
-        my $IsLinkedBreadcrumbText =
-            $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-        if ( $BreadcrumbText eq $OverviewTitle ) {
-            $Self->Is(
-                $IsLinkedBreadcrumbText,
-                1,
-                "Breadcrumb text '$BreadcrumbText' is linked"
-            );
-        }
-        else {
-            $Self->Is(
-                $IsLinkedBreadcrumbText,
-                0,
-                "Breadcrumb text '$BreadcrumbText' is not linked"
-            );
-        }
 
         $Count++;
     }
@@ -114,7 +95,6 @@ $Selenium->RunTest(
         );
 
         # define variables for breadcrumb
-        my $YouAreHereBradcrumb     = $LanguageObject->Translate('You are here') . ':';
         my $OverviewTitleBreadcrumb = $LanguageObject->Translate('Dynamic Fields Management');
         my $IDText;
 
@@ -153,7 +133,6 @@ $Selenium->RunTest(
 
                 # check breadcrumb on Add screen
                 $CheckBredcrumb->(
-                    YouAreHere     => $YouAreHereBradcrumb,
                     OverviewTitle  => $OverviewTitleBreadcrumb,
                     BreadcrumbText => $LanguageObject->Translate($Type) . ': '
                         . $LanguageObject->Translate( 'Add ' . $IDText . ' Field' )
@@ -175,7 +154,6 @@ $Selenium->RunTest(
 
                 # check breadcrumb on Edit screen
                 $CheckBredcrumb->(
-                    YouAreHere    => $YouAreHereBradcrumb,
                     OverviewTitle => $OverviewTitleBreadcrumb,
                     BreadcrumbText =>
                         $LanguageObject->Translate($Type)

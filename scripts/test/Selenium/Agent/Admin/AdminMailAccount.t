@@ -62,32 +62,14 @@ $Selenium->RunTest(
         }
 
         # check breadcrumb on Add screen
-        my $Count = 0;
+        my $Count = 1;
         my $IsLinkedBreadcrumbText;
-        for my $BreadcrumbText ( 'You are here:', 'Mail Account Management', 'Add Mail Account' ) {
+        for my $BreadcrumbText ( 'Mail Account Management', 'Add Mail Account' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $BreadcrumbText eq 'Mail Account Management' ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }
@@ -114,9 +96,9 @@ $Selenium->RunTest(
         $Selenium->find_element( $TestMailHost, 'link_text' )->VerifiedClick();
 
         # check breadcrumb on Edit screen
-        $Count = 0;
+        $Count = 1;
         for my $BreadcrumbText (
-            'You are here:', 'Mail Account Management',
+            'Mail Account Management',
             'Edit Mail Account for host "pop3.example.com" and user account "' . $RandomID . '"'
             )
         {
@@ -125,24 +107,6 @@ $Selenium->RunTest(
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $BreadcrumbText eq 'Mail Account Management' ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }

@@ -50,11 +50,6 @@ $Selenium->RunTest(
 
         # check breadcrumb on Overview screen
         $Self->Is(
-            $Selenium->execute_script("return \$('.BreadCrumb li:eq(0)').text().trim()"),
-            'You are here:',
-            "Breadcrumb text 'You are here:' is found on screen"
-        );
-        $Self->Is(
             $Selenium->execute_script("return \$('.BreadCrumb li:eq(1)').text().trim()"),
             'System Registration Management',
             "Breadcrumb text 'System Registration Management' is found on screen"

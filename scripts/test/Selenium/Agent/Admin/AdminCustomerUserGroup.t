@@ -143,10 +143,10 @@ $Selenium->RunTest(
         $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
 
         # check breadcrumb on change screen
-        my $Count = 0;
+        my $Count = 1;
         my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
-            'You are here:', 'Manage Customer-Group Relations',
+            'Manage Customer-Group Relations',
             'Change Customer Relations for Group \'' . $GroupRandomID . '\''
             )
         {
@@ -155,24 +155,6 @@ $Selenium->RunTest(
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$(\$('.BreadCrumb li')[$Count]).children('a').length");
-
-            if ( $BreadcrumbText eq 'Manage Customer-Group Relations' ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }

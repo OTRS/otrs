@@ -235,10 +235,8 @@ $Selenium->RunTest(
         # check new QueueAutoResponse relations
         $Selenium->find_element( $QueueRandomID, 'link_text' )->VerifiedClick();
 
-        $Index = 0;
-        my $IsLinkedBreadcrumbText;
+        $Index = 1;
         for my $BreadcrumbText (
-            'You are here:',
             'Manage Queue-Auto Response Relations',
             'Change Auto Response Relations for Queue ' . $QueueRandomID
             )
@@ -248,24 +246,6 @@ $Selenium->RunTest(
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Index)').children('a').length");
-
-            if ( $BreadcrumbText eq 'Manage Queue-Auto Response Relations' ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Index++;
         }

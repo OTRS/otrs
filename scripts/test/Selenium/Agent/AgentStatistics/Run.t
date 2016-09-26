@@ -103,10 +103,8 @@ $Selenium->RunTest(
         );
 
         # check breadcrumb on View screen
-        $Count = 0;
-        my $IsLinkedBreadcrumbText;
+        $Count = 1;
         for my $BreadcrumbText (
-            'You are here:',
             'Statistics Overview',
             'View ' . $ConfigObject->Get('Stats::StatsHook') . $StatData->{StatNumber}
             )
@@ -116,24 +114,6 @@ $Selenium->RunTest(
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
-
-            $IsLinkedBreadcrumbText =
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').children('a').length");
-
-            if ( $BreadcrumbText eq 'Statistics Overview' ) {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    1,
-                    "Breadcrumb text '$BreadcrumbText' is linked"
-                );
-            }
-            else {
-                $Self->Is(
-                    $IsLinkedBreadcrumbText,
-                    0,
-                    "Breadcrumb text '$BreadcrumbText' is not linked"
-                );
-            }
 
             $Count++;
         }
