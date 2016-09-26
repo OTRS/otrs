@@ -83,10 +83,14 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                 <h2>[% Translate("Example Processes") | html %]</h2>
             </div>
             <div class="Content">
-            [% IF Data.ExampleProcessList %]
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.", OTRSBusinessLabel) %]
+                    [% Translate("Here you can activate best practice example processes. Please note that some additional configuration may be required." ) %]
                 </p>
+            [% IF !Data.OTRSBusinessIsInstalled %]
+                <p class="FieldExplanation">
+                    [% Translate("Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.", OTRSBusinessLinkLabel) %]
+                </p>
+            [% END %]
                 <ul class="ActionList SpacingTop">
                     <li>
                         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
@@ -106,11 +110,6 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                         </form>
                     </li>
                 </ul>
-            [% ELSE %]
-                <p class="FieldExplanation">
-                    [% Translate("Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.", OTRSBusinessLinkLabel) %]
-                </p>
-            [% END %]
             </div>
         </div>
         <div class="WidgetSimple">
