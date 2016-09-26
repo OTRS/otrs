@@ -422,7 +422,7 @@ dd {
 .BreadCrumb {
     list-style-type: none;
     margin: 0px 0px 15px 0px;
-    padding: 10px;
+    padding: 7px 15px 4px 0px;
     background: #eee;
     position: relative;
     padding-left: 0px;
@@ -442,13 +442,30 @@ dd {
     padding-left: 35px;
     color: #777;
     position: relative;
-    max-width: 200px;
-    white-space: normal;
+    white-space: nowrap;
     vertical-align: middle;
+}
+
+.BreadCrumb li > a,
+.BreadCrumb li > span {
+    max-width: 200px;
+    line-height: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
 }
 
 .BreadCrumb li:first-child {
     padding-left: 20px;
+}
+
+.BreadCrumb li:first-child a i {
+    font-size: 16px;
+    color: #777;
+}
+
+.BreadCrumb li:first-child a:hover i {
+    color: #333;
 }
 
 .RTL .BreadCrumb li {
@@ -463,11 +480,22 @@ dd {
 
 .BreadCrumb a {
     color: #000;
-    padding: 0px 2px;
+    padding: 0px 2px 3px 2px;
+    position: relative;
 }
 
-.BreadCrumb a:hover {
-    border-bottom: 2px solid #FF9922;
+.BreadCrumb a:after {
+    position: absolute;
+    left: 0px;
+    width: 0px;
+    content: "";
+    bottom: 0px;
+    border-bottom: 1px solid #bbb;
+    transition: all ease 0.3s;
+}
+
+.BreadCrumb a:hover:after {
+    width: 100%;
 }
 
 .BreadCrumb li:before,
@@ -479,8 +507,8 @@ dd {
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-width: 20px;
-    margin-top: -20px;
+    border-width: 22px;
+    margin-top: -24px;
 }
 
 .BreadCrumb li:after {
