@@ -127,16 +127,16 @@ $Selenium->RunTest(
         # check for breadcrumb on screen
         my @Breadcrumbs = (
             {
-                Text     => 'Web Service Management',
+                Text => 'Web Service Management',
             },
             {
-                Text     => "Selenium $RandomID webservice",
+                Text => "Selenium $RandomID webservice",
             },
             {
-                Text     => 'Operation: SeleniumOperation',
+                Text => 'Operation: SeleniumOperation',
             },
             {
-                Text     => 'Simple Mapping for Incoming Data',
+                Text => 'Simple Mapping for Incoming Data',
             }
         );
 

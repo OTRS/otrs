@@ -59,7 +59,7 @@ $Selenium->RunTest(
 
         # check breadcrumb on screen
         my $Count = 1;
-        for my $BreadcrumbText ( 'Cloud Service Management' ) {
+        for my $BreadcrumbText ('Cloud Service Management') {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,

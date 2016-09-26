@@ -134,13 +134,13 @@ $Selenium->RunTest(
         # check breadcrumb on Debugger screen
         my @Breadcrumbs = (
             {
-                Text     => 'Web Service Management',
+                Text => 'Web Service Management',
             },
             {
-                Text     => $WebserviceName,
+                Text => $WebserviceName,
             },
             {
-                Text     => 'Debugger',
+                Text => 'Debugger',
             }
         );
 
