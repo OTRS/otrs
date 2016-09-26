@@ -496,15 +496,6 @@ sub _ShowScreen {
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
-    $LayoutObject->Block(
-        Name => 'Title' . $Param{Mode},
-        Data => \%Param
-    );
-    $LayoutObject->Block(
-        Name => 'Navigation' . $Param{Mode},
-        Data => \%Param
-    );
-
     # send data to JS
     $LayoutObject->AddJSData(
         Key   => 'Invoker',

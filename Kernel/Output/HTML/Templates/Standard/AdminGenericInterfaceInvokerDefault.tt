@@ -6,32 +6,33 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceInvokerDefault">
-[% RenderBlockStart("TitleAdd") %]
-    <h1>[% Translate("Add new Invoker to Web Service %s", Data.WebserviceName) | html %]</h1>
-[% RenderBlockEnd("TitleAdd") %]
-[% RenderBlockStart("TitleChange") %]
-    <h1>[% Translate("Change Invoker %s of Web Service %s", Data.Invoker, Data.WebserviceName) | html %]</h1>
-[% RenderBlockEnd("TitleChange") %]
-<!-- breadcrumb -->
+    <h1>[% Translate("GenericInterface Web Service Management") | html %]</h1>
 
-    <ul class="BreadCrumb">
-        <li>[% Translate("You are here") | html %]:</li>
-        <li>
-            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
-        </li>
-        <li>
-            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Data.WebserviceName | html %]</a>
-        </li>
-        <li>
-[% RenderBlockStart("NavigationAdd") %]
-            [% Translate("Add new invoker") | html %]
-[% RenderBlockEnd("NavigationAdd") %]
-[% RenderBlockStart("NavigationChange") %]
-            [% Translate("Change invoker %s", Data.Invoker) | html %]
-[% RenderBlockEnd("NavigationChange") %]
-        </li>
-    </ul>
+    [% USE WebserviceLink = String("AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=") %]
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate( 'Web Service Management' ),
+                Link => 'AdminGenericInterfaceWebservice',
+            },
+            {
+                Name => Data.WebserviceName,
+                Link => WebserviceLink.append( Data.WebserviceID ),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Mode %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate("Add Invoker"),}) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit Invoker")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Invoker ), }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
