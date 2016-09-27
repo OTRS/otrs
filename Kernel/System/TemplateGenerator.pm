@@ -1555,7 +1555,7 @@ sub _Replace {
                 }
 
                 # try to get the real name directly from the data
-                $From //= $Recipient{RealName};
+                $From //= $Recipient{Realname};
 
                 # get real name based on reply-to
                 if ( $Data{ReplyTo} ) {

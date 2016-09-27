@@ -311,7 +311,9 @@ sub Run {
                 );
 
                 # remember to have sent
-                $AlreadySent{ $Bundle->{Recipient}->{UserID} } = 1;
+                if ( $Bundle->{Recipient}->{UserID} ) {
+                    $AlreadySent{ $Bundle->{Recipient}->{UserID} } = 1;
+                }
 
             }
 
