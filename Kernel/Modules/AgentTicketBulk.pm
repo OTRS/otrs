@@ -425,7 +425,8 @@ sub Run {
         # check if it's already locked by somebody else
         if ( !$Config->{RequiredLock} ) {
             $Output .= $LayoutObject->Notify(
-                Data => "$Ticket{TicketNumber}: "
+                Priority => 'Info',
+                Data     => "$Ticket{TicketNumber}: "
                     . $LayoutObject->{LanguageObject}->Translate("Ticket selected."),
             );
         }
@@ -440,28 +441,36 @@ sub Run {
                 );
                 next TICKET_ID;
             }
-            else {
+            elsif ( $Ticket{Lock} eq 'unlock' ) {
                 $LockedTickets .= "LockedTicketID=" . $TicketID . ';';
                 $Param{TicketsWereLocked} = 1;
+
+                # set lock
+                $TicketObject->TicketLockSet(
+                    TicketID => $TicketID,
+                    Lock     => 'lock',
+                    UserID   => $Self->{UserID},
+                );
+
+                # set user id
+                $TicketObject->TicketOwnerSet(
+                    TicketID  => $TicketID,
+                    UserID    => $Self->{UserID},
+                    NewUserID => $Self->{UserID},
+                );
+                $Output .= $LayoutObject->Notify(
+                    Data => "$Ticket{TicketNumber}: "
+                        . $LayoutObject->{LanguageObject}->Translate("Ticket locked."),
+                );
+            }
+            else {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Info',
+                    Data     => "$Ticket{TicketNumber}: "
+                        . $LayoutObject->{LanguageObject}->Translate("Ticket selected."),
+                );
             }
 
-            # set lock
-            $TicketObject->TicketLockSet(
-                TicketID => $TicketID,
-                Lock     => 'lock',
-                UserID   => $Self->{UserID},
-            );
-
-            # set user id
-            $TicketObject->TicketOwnerSet(
-                TicketID  => $TicketID,
-                UserID    => $Self->{UserID},
-                NewUserID => $Self->{UserID},
-            );
-            $Output .= $LayoutObject->Notify(
-                Data => "$Ticket{TicketNumber}: "
-                    . $LayoutObject->{LanguageObject}->Translate("Ticket locked."),
-            );
         }
 
         # remember selected ticket ids
