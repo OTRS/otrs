@@ -29,7 +29,7 @@ This task handler executes scheduler generic asynchronous tasks.
 
 =head2 new()
 
-    my $TaskHandlerObject = $Kernel::OM-Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::AsynchronousExecutor');
+    my $TaskHandlerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::AsynchronousExecutor');
 
 =cut
 
