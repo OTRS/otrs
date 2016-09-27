@@ -1,4 +1,5 @@
 #5.0.14 2016-??-??
+ - 2016-09-27 Fixed bug#[4640](http://bugs.otrs.org/show_bug.cgi?id=4640) - Wrong variable <OTRS_CUSTOMER_REALNAME> in Auto Responses.
  - 2016-09-27 Fixed bug#[11805](http://bugs.otrs.org/show_bug.cgi?id=11805) - Cancel the Bulk Action always unlocks tickets.
  - 2016-09-27 Fixed bug#[11710](http://bugs.otrs.org/show_bug.cgi?id=11710) - Using ArticleFilter causes numeration issues.
  - 2016-09-23 Fixed bug#[12306](http://bugs.otrs.org/show_bug.cgi?id=12306)(PR#1474) - SOAP won't use certificates, thanks to Thorsten Eckel.
