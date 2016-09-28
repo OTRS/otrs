@@ -1,4 +1,5 @@
 #4.0.19 2016-??-??
+ - 2016-09-28 Fixed bug#[12331](http://bugs.otrs.org/show_bug.cgi?id=12331) - pdf generation runs in to errors on spllited pages because of many columns.
  - 2016-09-23 Fixed bug#[12306](http://bugs.otrs.org/show_bug.cgi?id=12306)(PR#1474) - SOAP won't use certificates, thanks to Thorsten Eckel.
  - 2016-09-22 Fixed bug#[12283](http://bugs.otrs.org/show_bug.cgi?id=12283) - If Customer users <-> Groups is activated, some queues are not available in the customer interface, when starting a process ticket.
  - 2016-09-21 Added possibility to define Minimum and Maximum framework version in opm files (e.g. <Framework Minimum="4.0.19">4.0.x</Framework>).
