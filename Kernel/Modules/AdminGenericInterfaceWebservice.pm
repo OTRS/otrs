@@ -513,19 +513,36 @@ sub Run {
                     $BackendName,
                 );
 
-                if ($Loaded) {
-                    my $BackendPre = $Kernel::OM->Get(
-                        $BackendName,
+                if (!$Loaded) {
+                    return $LayoutObject->ErrorScreen(
+                        Message => "Could not load $BackendName.",
                     );
 
-                    my %Status = $BackendPre->Run();
-                    if ( !$Status{Success} ) {
+                }
 
-                        # show the error screen
-                        return $LayoutObject->ErrorScreen(
-                            Message => $Status{Error},
+                my $BackendPre = $Kernel::OM->Get(
+                    $BackendName,
+                );
+
+                if ( $BackendPre->can('DependencyCheck')) {
+                    my %Result = $BackendPre->DependencyCheck();
+                    if (!$Result{Success} && $Result{ErrorMessage}) {
+
+                        return $Self->_ShowEdit(
+                            DependencyErrorMessage => $Result{ErrorMessage},
+                            %Param,
+                            Action         => 'Add',
                         );
                     }
+                }
+
+                my %Status = $BackendPre->Run();
+                if ( !$Status{Success} ) {
+
+                    # show the error screen
+                    return $LayoutObject->ErrorScreen(
+                        Message => $Status{Error},
+                    );
                 }
             }
 
@@ -838,6 +855,14 @@ sub _ShowEdit {
 
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
+
+    if ($Param{DependencyErrorMessage}) {
+        $Output .= $LayoutObject->Notify(
+            Priority  => 'Notice',
+            Data      => $Param{DependencyErrorMessage},
+
+        );
+    }
 
     # show notifications if any
     if ( $Param{Notify} ) {
