@@ -73,7 +73,7 @@
                     <p>OTRS Inc.</p>
                     <p>19925 Stevens Creek Blvd.</p>
                     <p>Cupertino, CA 95014-2358</p>
-                    <p>[% Translate("Phone") | html %]: <a href="tel:+14087257501">+1 408 725 7501</a></p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+14085491717">+1 408 5491717</a></p>
                 </div>
                 <div class="Size1of2">
                     <h4>Germany</h4>
