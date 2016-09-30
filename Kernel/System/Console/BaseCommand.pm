@@ -424,11 +424,14 @@ sub Execute {
         return $Self->ExitCodeError();
     }
 
-    my $ConsoleEncding = lc $ENCODING_CONSOLE_OUT;    ## no critic
+    # Create a $ENCODING_CONSOLE_OUT alias to prevent OTRSCodePolicy complains
+    our $ENCODING_CONSOLE_OUT;    ## no critic
 
-    if ( $ConsoleEncding ne 'utf-8' ) {
+    my $ConsoleEncoding = lc $ENCODING_CONSOLE_OUT;    ## no critic
+
+    if ( $ConsoleEncoding ne 'utf-8' ) {
         $Self->Print(
-            "\n<red>Console is not set to utf-8, but $ConsoleEncding. Some characters might not be displayed correctly!</red>\n\n"
+            "\n<red>Console is not set to utf-8, but $ConsoleEncoding. Some characters might not be displayed correctly!</red>\n\n"
         );
     }
 
