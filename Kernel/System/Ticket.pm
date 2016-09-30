@@ -1666,11 +1666,15 @@ sub TicketTitleUpdate {
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
+    # truncate title
+    my $Title = substr( $Param{Title}, 0, 50 );
+    $Title .= '...' if length($Title) == 50;
+
     # history insert
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
         HistoryType  => 'TitleUpdate',
-        Name         => "\%\%$Ticket{Title}\%\%$Param{Title}",
+        Name         => "\%\%$Ticket{Title}\%\%$Title",
         CreateUserID => $Param{UserID},
     );
 
@@ -5401,7 +5405,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1] eq 'StateUpdate'
+            $Row[1]    eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -5409,7 +5413,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
