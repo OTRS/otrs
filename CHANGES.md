@@ -63,7 +63,7 @@
  - 2016-09-27 Fixed bug#[11805](http://bugs.otrs.org/show_bug.cgi?id=11805) - Cancel the Bulk Action always unlocks tickets.
  - 2016-09-27 Fixed bug#[11710](http://bugs.otrs.org/show_bug.cgi?id=11710) - Using ArticleFilter causes numeration issues.
  - 2016-09-23 Fixed bug#[12306](http://bugs.otrs.org/show_bug.cgi?id=12306)(PR#1474) - SOAP won't use certificates, thanks to Thorsten Eckel.
- - 2016-09-23 Translate State, Lock and Priority values in the Lined ticket widget (Complex).
+ - 2016-09-23 Fixed bug#[12328](http://bugs.otrs.org/show_bug.cgi?id=12328) - Translate State, Lock and Priority values in the Lined ticket widget (Complex).
  - 2016-09-22 Fixed bug#[12283](http://bugs.otrs.org/show_bug.cgi?id=12283) - If Customer users <-> Groups is activated, some queues are not available in the customer interface, when starting a process ticket.
  - 2016-09-21 Fixed bug#[12313](http://bugs.otrs.org/show_bug.cgi?id=12313) - Spam log error in AdminSysConfig.
  - 2016-09-21 Added possibility to define Minimum and Maximum framework version in opm files (e.g. <Framework Minimum="5.0.14">5.0.x</Framework>).

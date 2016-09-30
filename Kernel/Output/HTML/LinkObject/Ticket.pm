@@ -221,8 +221,9 @@ sub TableCreateComplex {
     );
 
     # Get needed objects.
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+    my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
+    my $JSONObject     = $Kernel::OM->Get('Kernel::System::JSON');
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     # load user preferences
     my %Preferences = $UserObject->GetPreferences(
@@ -306,7 +307,7 @@ sub TableCreateComplex {
     # Sort
     COLUMN:
     for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
-        next COLUMN if $Column eq 'TicketNumber';    # Always present, already added.
+        next COLUMN if $Column eq 'TicketNumber';      # Always present, already added.
 
         # if enabled by default
         if ( $UserColumns{$Column} == 2 ) {
@@ -464,7 +465,7 @@ sub TableCreateComplex {
                         $Hash{'Content'} = $CustomerName;
                     }
                     elsif ( $Column eq 'State' || $Column eq 'Priority' || $Column eq 'Lock' ) {
-                        $Hash{'Content'} = $Kernel::OM->Get('Kernel::Language')->Translate( $Ticket->{$Column} );
+                        $Hash{'Content'} = $LanguageObject->Translate( $Ticket->{$Column} );
                     }
                     else {
                         $Hash{'Content'} = $Ticket->{$Column};
