@@ -41,17 +41,31 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $AutoCompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent')->{CustomerSearch};
-
     my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
+    my $IncludeUnknownTicketCustomers
+        = int( $Self->{ParamObject}->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );
+    my $SearchTerm = $Self->{ParamObject}->GetParam( Param => 'Term' ) || '';
 
     if ( $Self->{Subaction} eq 'SearchCustomerID' ) {
 
-        my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDList(
-            SearchTerm => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
-        );
+        my $UnknownTicketCustomerList;
+
+        # get customers that are not saved in any backend if param 'IncludeUnknownTicketCustomers' set to 1
+        if ($IncludeUnknownTicketCustomers) {
+            $UnknownTicketCustomerList = $Self->{TicketObject}->SearchUnknownTicketCustomers(
+                SearchTerm => $SearchTerm,
+            );
+        }
 
         my %CustomerCompanyList = $Self->{CustomerCompanyObject}->CustomerCompanyList(
-            Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
+            Search => $SearchTerm,
+        );
+
+        # add customers not saved in backend to customer company list
+        map { $CustomerCompanyList{$_} = $UnknownTicketCustomerList->{$_} } keys %{$UnknownTicketCustomerList};
+
+        my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDList(
+            SearchTerm => $SearchTerm,
         );
 
         # add CustomerIDs for which no CustomerCompany are registered
@@ -66,18 +80,19 @@ sub Run {
             if ( !exists $CustomerCompanyList{$CustomerID} ) {
                 $CustomerCompanyList{$CustomerID} = $CustomerID;
             }
-
         }
 
         # build result list
         my @Result;
         CUSTOMERID:
         for my $CustomerID ( sort keys %CustomerCompanyList ) {
-            push @Result,
-                {
-                Label => $CustomerCompanyList{$CustomerID},
-                Value => $CustomerID
-                };
+            if ( !( grep { $_->{Value} eq $CustomerID } @Result ) ) {
+                push @Result,
+                    {
+                    Label => $CustomerCompanyList{$CustomerID},
+                    Value => $CustomerID
+                    };
+            }
             last CUSTOMERID if scalar @Result >= $MaxResults;
         }
 
@@ -94,12 +109,21 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'SearchCustomerUser' ) {
 
+        my $UnknownTicketCustomerList;
+
+        # get customers that are not saved in any backend if param 'IncludeUnknownTicketCustomers' set to 1
+        if ($IncludeUnknownTicketCustomers) {
+            $UnknownTicketCustomerList = $Self->{TicketObject}->SearchUnknownTicketCustomers(
+                SearchTerm => $SearchTerm,
+            );
+        }
+
         my %CustomerList = $Self->{CustomerUserObject}->CustomerSearch(
-            Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
+            Search => $SearchTerm,
         );
+        map { $CustomerList{$_} = $UnknownTicketCustomerList->{$_} } keys %{$UnknownTicketCustomerList};
 
         my @Result;
-
         my $Count = 1;
 
         CUSTOMERLOGIN:
@@ -107,11 +131,13 @@ sub Run {
             my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $CustomerLogin,
             );
-            push @Result,
-                {
-                Label => $CustomerList{$CustomerLogin},
-                Value => $CustomerData{UserCustomerID}
-                };
+            if ( !( grep { $_->{Value} eq $CustomerData{UserCustomerID} } @Result ) ) {
+                push @Result,
+                    {
+                    Label => $CustomerList{$CustomerLogin},
+                    Value => $CustomerData{UserCustomerID}
+                    };
+            }
 
             last CUSTOMERLOGIN if $Count++ >= $MaxResults;
         }
