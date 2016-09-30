@@ -58,6 +58,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.14 2016-??-??
+ - 2016-09-30 Fixed bug#[666](http://bugs.otrs.org/show_bug.cgi?id=666) - INSERTs into 'ticket_history' fail sometimes.
  - 2016-09-30 Fixed bug#[12272](http://bugs.otrs.org/show_bug.cgi?id=12272) - Tickets in status "removed" get reopened from Junk Queue.
  - 2016-09-28 Fixed bug#[12331](http://bugs.otrs.org/show_bug.cgi?id=12331) - pdf generation runs in to errors on spllited pages because of many columns.
  - 2016-09-27 Fixed bug#[4640](http://bugs.otrs.org/show_bug.cgi?id=4640) - Wrong variable <OTRS_CUSTOMER_REALNAME> in Auto Responses.
