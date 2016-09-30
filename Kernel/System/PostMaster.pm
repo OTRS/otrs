@@ -247,7 +247,7 @@ sub Run {
         );
 
         # create a new ticket
-        if ( $FollowUpPossible =~ /new ticket/i && $State{TypeName} =~ /^close/i ) {
+        if ( $FollowUpPossible =~ /new ticket/i && $State{TypeName} =~ /^(removed|close)/i ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
@@ -297,7 +297,7 @@ sub Run {
         }
 
         # reject follow up
-        elsif ( $FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i ) {
+        elsif ( $FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^(removed|close)/i ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
