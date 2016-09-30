@@ -669,7 +669,10 @@ my $ChangeTime = $TicketData{Changed};
 $HelperObject->FixedTimeAddSeconds(5);
 
 my $TicketTitle = $TicketObject->TicketTitleUpdate(
-    Title    => 'Some Title 1234567',
+    Title => 'Very long title 01234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789',
     TicketID => $TicketID,
     UserID   => 1,
 );
@@ -705,7 +708,7 @@ $Self->Is(
 
 $Self->Is(
     $HistoryItem->{Name},
-    '%%Some Ticket_Title%%Some Title 1234567',
+    '%%Some Ticket_Title%%Very long title 0123456789012345678901234567890123...',
     "TicketTitleUpdate - Found new title",
 );
 
@@ -1272,7 +1275,10 @@ $Self->False(
 my %Ticket2 = $TicketObject->TicketGet( TicketID => $TicketID );
 $Self->Is(
     $Ticket2{Title},
-    'Some Title 1234567',
+    'Very long title 01234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789',
     'TicketGet() (Title)',
 );
 $Self->Is(
@@ -1299,7 +1305,10 @@ $Self->Is(
 %Article = $TicketObject->ArticleGet( ArticleID => $ArticleID );
 $Self->Is(
     $Article{Title},
-    'Some Title 1234567',
+    'Very long title 01234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789012345678901234567890123456789'
+        . '0123456789012345678901234567890123456789',
     'ArticleGet() (Title)',
 );
 $Self->Is(
