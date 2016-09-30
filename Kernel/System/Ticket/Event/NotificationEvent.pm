@@ -294,7 +294,7 @@ sub Run {
                     )
                 {
 
-                    # Not UserID means it's not a mapped customer.
+                    # No UserID means it's not a mapped customer.
                     next BUNDLE if !$Bundle->{Recipient}->{UserID};
                 }
 
@@ -314,7 +314,6 @@ sub Run {
                 if ( $Bundle->{Recipient}->{UserID} ) {
                     $AlreadySent{ $Bundle->{Recipient}->{UserID} } = 1;
                 }
-
             }
 
             # get special recipients specific for each transport
