@@ -92,9 +92,9 @@ my $MultiSelectFieldID   = $DynamicFieldObject->DynamicFieldAdd(
     Config     => {
         DefaultValue   => 'a value',
         PossibleValues => {
-            a => 'a',
-            b => 'b',
-            c => 'c',
+            a => 'a1',
+            b => 'b1',
+            c => 'c1',
         },
     },
     ValidID => 1,
@@ -105,6 +105,32 @@ my $MultiSelectFieldID   = $DynamicFieldObject->DynamicFieldAdd(
 $Self->True(
     $MultiSelectFieldID,
     "DynamicFieldAdd() successful for Field ID $MultiSelectFieldID",
+);
+
+# create a dynamic field
+my $DropDownFieldName = "dropdowntest$RandomID";
+my $DropDownFieldID   = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => $DropDownFieldName,
+    Label      => 'a description',
+    FieldOrder => 9991,
+    FieldType  => 'Dropdown',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue   => 'a value',
+        PossibleValues => {
+            a => 'a1',
+            b => 'b1',
+            c => 'c1',
+        },
+    },
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $DropDownFieldID,
+    "DynamicFieldAdd() successful for Field ID $DropDownFieldID",
 );
 
 # set dynamic field values
@@ -141,7 +167,24 @@ $Success = $DynamicFieldBackendObject->ValueSet(
 # sanity check
 $Self->True(
     $Success,
-    "DynamicField ValueSet() successful for Field ID $TextFieldID",
+    "DynamicField ValueSet() successful for Field ID $MultiSelectFieldID",
+);
+
+$DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+    Name => $DropDownFieldName,
+);
+
+$Success = $DynamicFieldBackendObject->ValueSet(
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    Value              => 'a',
+    UserID             => $UserID,
+);
+
+# sanity check
+$Self->True(
+    $Success,
+    "DynamicField ValueSet() successful for Field ID $DropDownFieldID",
 );
 
 my %Ticket = $TicketObject->TicketGet(
@@ -448,7 +491,38 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name   => 'Correct Ticket->DynamicFieldMultiselect',
+        Name   => 'Correct Ticket->DynamicFieldDropDown Keys',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                ArticleType => 'note-internal',
+                SenderType  => 'agent',
+                ContentType => 'text/plain; charset=ISO-8859-15',
+                Subject =>
+                    '<OTRS_TICKET_DynamicField_' . $DropDownFieldName . '>',
+                Body =>
+                    'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
+                HistoryType    => 'OwnerUpdate',
+                HistoryComment => 'Some free text!',
+                From           => 'Some Agent <email@example.com>',
+                To             => 'Some Customer A <customer-a@example.com>',
+                Cc             => 'Some Customer B <customer-b@example.com>',
+                ReplyTo        => 'Some Customer B <customer-b@example.com>',
+                MessageID      => '<asdasdasd.123@example.com>',
+                InReplyTo      => '<asdasdasd.12@example.com>',
+                References =>
+                    '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
+                NoAgentNotify             => 0,
+                ForceNotificationToUserID => [ 1, 43, 56, ],
+                ExcludeNotificationToUserID     => [ 43, 56, ],
+                ExcludeMuteNotificationToUserID => [ 43, 56, ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Ticket->DynamicFieldMultiselect Values',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
@@ -564,9 +638,14 @@ for my $Test (@Tests) {
                         Name => $1,
                     );
 
+                    my $DisplayValue = $DynamicFieldBackendObject->ValueLookup(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Key                => $Ticket{"DynamicField_$1"},
+                    );
+
                     my $ValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
                         DynamicFieldConfig => $DynamicFieldConfig,
-                        Value              => $Ticket{"DynamicField_$1"},
+                        Value              => $DisplayValue,
                     );
 
                     $ExpectedValue = $ValueStrg->{Value};
