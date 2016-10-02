@@ -934,9 +934,15 @@ for my $Test (@Tests) {
                     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
                         Name => $DynamicFieldName,
                     );
+
+                    my $DisplayValue = $DynamicFieldBackendObject->ValueLookup(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Key                => $Ticket{"DynamicField_$DynamicFieldName"},
+                    );
+
                     my $DisplayValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
                         DynamicFieldConfig => $DynamicFieldConfig,
-                        Value              => $Ticket{"DynamicField_$DynamicFieldName"},
+                        Value              => $DisplayValue,
                     );
 
                     $Self->Is(
@@ -987,9 +993,15 @@ for my $Test (@Tests) {
                 my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
                     Name => $DynamicFieldName,
                 );
+
+                my $DisplayValue = $DynamicFieldBackendObject->ValueLookup(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Key                => $Ticket{"DynamicField_$DynamicFieldName"},
+                );
+
                 my $DisplayValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
                     DynamicFieldConfig => $DynamicFieldConfig,
-                    Value              => $Ticket{"DynamicField_$DynamicFieldName"},
+                    Value              => $DisplayValue,
                 );
 
                 $Self->Is(
