@@ -103,9 +103,15 @@ sub _ReplaceTicketAttributes {
                 );
                 next REPLACEMENT if !$DynamicFieldConfig;
 
+                # get the display value for each dynamic field
+                my $DisplayValue = $DynamicFieldBackendObject->ValueLookup(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Key                => $Param{Ticket}->{"DynamicField_$DynamicFieldName"},
+                );
+
                 my $DisplayValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
                     DynamicFieldConfig => $DynamicFieldConfig,
-                    Value              => $Param{Ticket}->{"DynamicField_$DynamicFieldName"},
+                    Value              => $DisplayValue,
                 );
 
                 $Param{Config}->{$Attribute}
