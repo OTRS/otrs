@@ -257,6 +257,15 @@ sub FilenameCleanUp {
 
         # replace invalid token like [ ] * : ? " < > ; | \ /
         $Param{Filename} =~ s/[<>\?":\\\*\|\/;\[\]]/_/g;
+
+        # cut the string if too long
+        if ( length( $Param{Filename} ) > 100 ) {
+            my $Ext = '';
+            if ( $Param{Filename} =~ /^.*(\.(..|...|....))$/ ) {
+                $Ext = $1;
+            }
+            $Param{Filename} = substr( $Param{Filename}, 0, 70 ) . $Ext;
+        }
     }
 
     return $Param{Filename};
