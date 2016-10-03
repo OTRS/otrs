@@ -291,10 +291,7 @@ sub JobRun {
                     . $Preference->{Type}
             };
 
-            if ( !defined($DynamicFieldTemp) )
-            {
-                next PREFERENCE;
-            }
+            next PREFERENCE if !defined $DynamicFieldTemp;
 
             # extract the dynamic field value from the profile
             my $SearchParameter = $DynamicFieldBackendObject->SearchFieldParameterBuild(
