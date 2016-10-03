@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -407,8 +408,6 @@ my %List               = $CustomerUserObject->CustomerSearch(
     Valid      => 1,
 );
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::SMIME::FetchFromCustomer');
-
 CUSTOMERUSER:
 for my $CustomerUser ( sort keys %List ) {
     my %User = $CustomerUserObject->CustomerUserDataGet(
@@ -441,17 +440,10 @@ for my $CustomerUser ( sort keys %List ) {
         "$Remove{Message}",
     );
 
-    #2nd try - Console Command
-    my $ExitCode = $CommandObject->Execute();
-
-    $Self->Is(
-        $ExitCode,
-        0,
-        "Maint::SMIME::FetchFromCustomer exit code without arguments.",
+    #2nd try - fetching from customer
+    my @Files = $SMIMEObject->FetchFromCustomer(
+        Search => $User{UserEmail},
     );
-
-    # check & add
-    $ExitCode = $CommandObject->Execute( '--email', $User{UserEmail}, '--force' );
 
     my @CertificateFilename2nd = $SMIMEObject->CertificateSearch(
         Search  => $User{UserEmail},
