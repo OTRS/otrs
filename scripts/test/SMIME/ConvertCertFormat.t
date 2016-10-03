@@ -263,6 +263,10 @@ my $CertificationConversionTest = sub {
     if ( !$CertificatePassFile ) {
         $FormatedCertificate = $SMIMEObject->ConvertCertFormat( String => ${$CertString} );
 
+        # Remove any not needed information for easy compare.
+        if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
+            $FormatedCertificate = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 );
+        }
         $Self->Is(
             $FormatedCertificate,
             $CheckString,
@@ -276,11 +280,16 @@ my $CertificationConversionTest = sub {
             Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
             Filename  => $CertificatePassFile,
         );
-        $FormatedCertificate =
-            $SMIMEObject->ConvertCertFormat(
+        $FormatedCertificate = $SMIMEObject->ConvertCertFormat(
             String     => ${$CertString},
             Passphrase => ${$Pass}
-            );
+        );
+
+        # Remove any not needed information for easy compare.
+        if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
+            $FormatedCertificate
+                = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 ) . "\n";
+        }
 
         if ($Success) {
             $Self->Is(

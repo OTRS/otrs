@@ -795,8 +795,7 @@ sub FetchFromCustomer {
 
 =head2 ConvertCertFormat()
 
-convert certificate strings into importable PEM format
-returns count of added certificates
+Convert certificate strings into importable PEM format.
 
     my $Result = $CryptObject->ConvertCertFormat(
         String     => $CertificationString,
@@ -817,7 +816,6 @@ Returns:
 sub ConvertCertFormat {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
     if ( !$Param{String} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -825,124 +823,82 @@ sub ConvertCertFormat {
         );
         return;
     }
-    my $String     = $Param{String};
-    my $PassPhrase = $Param{Passphrase};
-
-    # PEM (can be read directly)
-    if ( index( $String, "-----BEGIN CERTIFICATE-----" ) != -1 ) {
-        return $String;
-    }
+    my $String = $Param{String};
+    my $PassPhrase = $Param{Passphrase} // '';
 
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
 
-    # create Original CertFile
+    # Create original certificate file.
     my ( $FileHandle, $TmpCertificate ) = $FileTempObject->TempFile();
     print $FileHandle $String;
     close $FileHandle;
 
-    # create empty CertFile
+    # For PEM format no conversion needed.
+    my $Options   = "x509 -in $TmpCertificate -noout";
+    my $ReadError = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
+
+    return $String if !$ReadError;
+
+    # Create empty file (to save the converted certificate).
     my ( $FH, $CertFile ) = $FileTempObject->TempFile(
         Suffix => '.pem',
     );
     close $FH;
 
-    my $LogMessage;
-    my $Options;
-    my $FormatedCert;
+    my %OptionsLookup = (
+        DER => {
+            Read    => "x509 -inform der -in $TmpCertificate -noout",
+            Convert => "x509 -inform der -in $TmpCertificate -out $CertFile",
+        },
+        P7B => {
+            Read    => "pkcs7 -in $TmpCertificate -noout",
+            Convert => "pkcs7 -in $TmpCertificate -print_certs -out $CertFile",
+        },
+        PFX => {
+            Read => "pkcs12 -in $TmpCertificate -noout -nomacver -passin pass:'$PassPhrase'",
+            Convert =>
+                "pkcs12 -in $TmpCertificate -out $CertFile -nomacver -clcerts -nokeys -passin pass:'$PassPhrase'",
+        },
+    );
 
-    # needs only Filename without path
-    my @FileName = split( '/', $CertFile );
+    # Determine the format of the file using OpenSSL.
+    my $DetectedFormat;
+    FORMAT:
+    for my $Format ( sort keys %OptionsLookup ) {
 
-    # P7B
-    if ( index( $String, "-----BEGIN PKCS7-----" ) != -1 ) {
+        # Read the file on each format, if there is any output it means it could not be read.
+        next FORMAT if $Self->_CleanOutput(qx{$Self->{Cmd} $OptionsLookup{$Format}->{Read} 2>&1});
 
-        # Specify the options to convert from p7b to pem.
-        # openssl pkcs7 -print_certs -in certificate.p7b -out certificate.cer
-        $Options = "pkcs7 -in $TmpCertificate -print_certs -out $CertFile";
-
-        # Do the conversion.
-        $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
-
-        # Check if P7B is not converted
-        if ($LogMessage) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't convert (P7B): $LogMessage"
-            );
-            return;
-        }
-
-        # Read converted certificate.
-        my $CertFilePEM = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/tmp",
-            Filename  => $FileName[-1],
-        );
-
-        # only need what is between ---- (Not the first lines with subject and issuer)
-        # it has one \n to many
-        return substr( ${$CertFilePEM}, index( ${$CertFilePEM}, '-----BEGIN' ), -1 );
-
+        $DetectedFormat = $Format;
+        last FORMAT;
     }
 
-    # DER or PFX
-    else {
-
-        # Since there is no easy way to distinguish between DER or PFX we need to try both.
-        # First try DER.
-        # openssl x509 -inform der -in certificate.cer -out certificate.pem
-        $Options = "x509 -inform der -in $TmpCertificate -out $CertFile";
-        my $LogMessage1 = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
-
-        # Check if DER is not converted
-        if ($LogMessage1) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'info',
-                Message  => "try (PFX) because can't convert (DER): $LogMessage1"
-            );
-
-            # Try PFX.
-            # openssl pkcs12 -in certificate.pfx -out certificate.cer -nodes
-            $Options = "pkcs12 -in $TmpCertificate -out $CertFile -nodes";
-
-            if ( defined $PassPhrase ) {
-                $Options .= " -passin pass:'" . $PassPhrase . "'";
-            }
-            $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
-
-            # Check if PFX if not converted.
-            if ( $LogMessage && index( $LogMessage, "MAC verified OK" ) == -1 ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Can't convert (PFX): -" . $LogMessage . " or (DER): " . $LogMessage1 . "."
-                );
-                return;
-            }
-
-            # PFX was converted.
-            my $CertFilePFX = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-                Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/tmp",
-                Filename  => $FileName[-1],
-            );
-            my $CertificateString = ${$CertFilePFX};
-
-            # TODO: It might be helpful in future to also handle private keys
-            # only need Certificate (don't check PrivateKey)
-            my $Start = index( $CertificateString, '-----BEGIN CERTIFICATE-----' );
-            $CertificateString = substr( $CertificateString, $Start );
-            my $End = index( $CertificateString, '-----END CERTIFICATE-----' );
-
-            return substr( $CertificateString, 0, $End + 25 ) . "\n";
-        }
-
-        # DER was converted.
-        my $CertFileDER = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/tmp",
-            Filename  => $FileName[-1],
+    if ( !$DetectedFormat ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Certificate could not be read, PassPhrase is invalid or file is corrupted!",
         );
-
-        return ${$CertFileDER};
+        return;
     }
 
+    # Convert certificate to PEM.
+    my $ConvertError = $Self->_CleanOutput(qx{$Self->{Cmd} $OptionsLookup{$DetectedFormat}->{Convert} 2>&1});
+
+    if ($ConvertError) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can't convert certificate from $DetectedFormat to PEM: $ConvertError",
+        );
+
+        return;
+    }
+
+    # Read converted certificate.
+    my $CertFileRefPEM = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location => $CertFile,
+    );
+
+    return ${$CertFileRefPEM};
 }
 
 =head2 CertificateAdd()
