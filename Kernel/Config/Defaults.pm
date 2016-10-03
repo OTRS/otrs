@@ -1537,8 +1537,6 @@ via the Preferences button after logging in.
             [ 'UserCountry',      Translatable('Country'),     'country',      1, 0, 'var', '', 0 ],
             [ 'UserComment',      Translatable('Comment'),     'comments',     1, 0, 'var', '', 0 ],
             [ 'ValidID',          Translatable('Valid'),       'valid_id',     0, 1, 'int', '', 0 ],
-            # this is needed, if "SMIME::FetchFromCustomer" is active
-            #[ 'SMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate',      0, 1, 'var', '', 0 ],
 
             # Dynamic field example
 #            [ 'DynamicField_Name_X', undef, 'Name_X', 0, 0, 'dynamic_field', undef, 0, undef, undef, ],
@@ -1618,6 +1616,8 @@ via the Preferences button after logging in.
 #            [ 'UserPhone',      'Phone',      'telephonenumber', 1, 0, 'var', '', 0 ],
 #            [ 'UserAddress',    'Address',    'postaladdress',   1, 0, 'var', '', 0 ],
 #            [ 'UserComment',    'Comment',    'description',     1, 0, 'var', '', 0 ],
+#            # this is needed, if "SMIME::FetchFromCustomer" is active
+#            # [ 'SMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate',      0, 1, 'var', '', 0 ],
 #        ],
 #    };
 
