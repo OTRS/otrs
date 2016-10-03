@@ -772,14 +772,14 @@ sub FetchFromCustomer {
         );
 
         # Add Certificate if available
-        if ( $CustomerUser{SMIMECertificate} ) {
+        if ( $CustomerUser{UserSMIMECertificate} ) {
 
             # if don't add, maybe in UnitTests
             return @CertFileList if $Param{DontAdd};
 
             # Convert certificate to the correct format (pk7, pk12, pem, der)
             my $Cert = $Self->ConvertCertFormat(
-                String => $CustomerUser{SMIMECertificate},
+                String => $CustomerUser{UserSMIMECertificate},
             );
             my %Result = $Self->CertificateAdd(
                 Certificate => $Cert,

@@ -46,16 +46,17 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
-        Name        => 'add-all',
-        Description => "Add All found Certs from the LDAP into the system ( ! ! This might take lot of time ! ! ).",
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/.*/smx,
+        Name => 'add-all',
+        Description =>
+            "Add all found Certs from the LDAP into the system within the predefined search limit in customer backed (This operation might take some time).",
+        Required   => 0,
+        HasValue   => 0,
+        ValueRegex => qr/.*/smx,
     );
-    $Self->AddArgument(
-        Name        => 'mail',
-        Description => "Get certificate for just this one address.",
-        Required    => 1,
+    $Self->AddOption(
+        Name        => 'email',
+        Description => "Only gets a certificate for the specified email address.",
+        Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
@@ -106,7 +107,6 @@ sub Run {
     my $Count     = 1;
     my $CertCount = 0;
 
-    #$Kernel::OM->Get('Kernel::System::Log')->Dumper('Run');
     my $DetailLevel = $Self->GetOption('verbose') ? 'Details' : 'ShortDetails';
 
     if ( $DetailLevel ne 'Details' ) {
@@ -122,8 +122,8 @@ sub Run {
     # ---
     # only when Email specified
     # ---
-    if ( $Self->GetArgument('mail') ) {
-        my $Emailaddress = substr( $Self->GetArgument('mail'), 7 );
+    if ( $Self->GetOption('email') ) {
+        my $Emailaddress = $Self->GetOption('email');
 
         my $ValidEmail = $Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail(
             Address => $Emailaddress,

@@ -1617,7 +1617,7 @@ via the Preferences button after logging in.
 #            [ 'UserAddress',    'Address',    'postaladdress',   1, 0, 'var', '', 0 ],
 #            [ 'UserComment',    'Comment',    'description',     1, 0, 'var', '', 0 ],
 #            # this is needed, if "SMIME::FetchFromCustomer" is active
-#            # [ 'SMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate',      0, 1, 'var', '', 0 ],
+#            # [ 'UserSMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate',      0, 1, 'var', '', 0 ],
 #        ],
 #    };
 

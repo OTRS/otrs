@@ -349,14 +349,14 @@ my %CustomerUserConfig = (
         # note: Login, Email and CustomerID are mandatory!
         # if you need additional attributes from AD, just map them here.
         # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
-        [ 'UserSalutation',   'Title or salutation', 'title',                1, 0, 'var', '', 0 ],
-        [ 'UserFirstname',    'Firstname',           'first_name',           1, 1, 'var', '', 0 ],
-        [ 'UserLastname',     'Lastname',            'last_name',            1, 1, 'var', '', 0 ],
-        [ 'UserLogin',        'Username',            'login',                1, 1, 'var', '', 0 ],
-        [ 'UserPassword',     'Password',            'pw',                   0, 0, 'var', '', 0 ],
-        [ 'UserEmail',        'Email',               'email',                1, 1, 'var', '', 0 ],
-        [ 'UserCustomerID',   'CustomerID',          'customer_id',          0, 1, 'var', '', 0 ],
-        [ 'SMIMECertificate', 'SMIMECertificate',    'userSMIMECertificate', 0, 1, 'var', '', 0 ],
+        [ 'UserSalutation',       'Title or salutation', 'title',                1, 0, 'var', '', 0 ],
+        [ 'UserFirstname',        'Firstname',           'first_name',           1, 1, 'var', '', 0 ],
+        [ 'UserLastname',         'Lastname',            'last_name',            1, 1, 'var', '', 0 ],
+        [ 'UserLogin',            'Username',            'login',                1, 1, 'var', '', 0 ],
+        [ 'UserPassword',         'Password',            'pw',                   0, 0, 'var', '', 0 ],
+        [ 'UserEmail',            'Email',               'email',                1, 1, 'var', '', 0 ],
+        [ 'UserCustomerID',       'CustomerID',          'customer_id',          0, 1, 'var', '', 0 ],
+        [ 'UserSMIMECertificate', 'SMIMECertificate',    'userSMIMECertificate', 0, 1, 'var', '', 0 ],
     ],
 );
 my $Return = $ConfigObject->Set(
@@ -414,7 +414,7 @@ for my $CustomerUser ( sort keys %List ) {
     my %User = $CustomerUserObject->CustomerUserDataGet(
         User => $CustomerUser,
     );
-    next CUSTOMERUSER if !$User{SMIMECertificate};
+    next CUSTOMERUSER if !$User{UserSMIMECertificate};
 
     # 1st try with CertificateSearch
     # add
@@ -446,12 +446,12 @@ for my $CustomerUser ( sort keys %List ) {
 
     $Self->Is(
         $ExitCode,
-        1,
+        0,
         "Maint::SMIME::FetchFromCustomer exit code without arguments.",
     );
 
     # check & add
-    $ExitCode = $CommandObject->Execute( '--mail', $User{UserEmail}, '--force' );
+    $ExitCode = $CommandObject->Execute( '--email', $User{UserEmail}, '--force' );
 
     my @CertificateFilename2nd = $SMIMEObject->CertificateSearch(
         Search  => $User{UserEmail},
@@ -475,7 +475,7 @@ for my $CustomerUser ( sort keys %List ) {
 }
 
 # TODO - second stage
-# creat a real LDAP server to test against
+# create a real LDAP server to test against
 
 $DBObject->Do( SQL => 'Drop table ' . $TableName );
 
