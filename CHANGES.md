@@ -1,5 +1,4 @@
 #5.0.14 2016-??-??
- - 2016-10-03 Fixed bug#[11132](http://bugs.otrs.org/show_bug.cgi?id=11132) - Loss of attached files with long Cyrillic names. Thanks to S7.
  - 2016-09-30 Fixed bug#[12341](http://bugs.otrs.org/show_bug.cgi?id=12341) - Wrong <OTRS_TICKET_DynamicField_NameX_Value> in ProcessManagement  Transition Actions.
  - 2016-09-30 Added warning message for Console commands executed in non UTF-8 terminal.
  - 2016-09-30 Fixed bug#[12272](http://bugs.otrs.org/show_bug.cgi?id=12272) - Tickets in status "removed" get reopened from Junk Queue.
