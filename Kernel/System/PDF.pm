@@ -875,7 +875,8 @@ sub Table {
                         # save old position
                         my %PositionOld = %Position;
                         if (
-                            $Param{RowData}->[$Row]->{OutputHeight} && $Param{RowData}->[$Row]->{OutputHeight} <= $Position{Y} - $Dim{Bottom}
+                            $Param{RowData}->[$Row]->{OutputHeight}
+                            && $Param{RowData}->[$Row]->{OutputHeight} <= $Position{Y} - $Dim{Bottom}
                             )
                         {
                             for ( $Block{ReturnColumnStart} .. $Block{ReturnColumnStop} ) {
