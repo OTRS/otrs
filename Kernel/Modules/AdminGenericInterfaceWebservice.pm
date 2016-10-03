@@ -513,7 +513,7 @@ sub Run {
                     $BackendName,
                 );
 
-                if (!$Loaded) {
+                if ( !$Loaded ) {
                     return $LayoutObject->ErrorScreen(
                         Message => "Could not load $BackendName.",
                     );
@@ -524,14 +524,14 @@ sub Run {
                     $BackendName,
                 );
 
-                if ( $BackendPre->can('DependencyCheck')) {
+                if ( $BackendPre->can('DependencyCheck') ) {
                     my %Result = $BackendPre->DependencyCheck();
-                    if (!$Result{Success} && $Result{ErrorMessage}) {
+                    if ( !$Result{Success} && $Result{ErrorMessage} ) {
 
                         return $Self->_ShowEdit(
                             DependencyErrorMessage => $Result{ErrorMessage},
                             %Param,
-                            Action         => 'Add',
+                            Action => 'Add',
                         );
                     }
                 }
@@ -856,10 +856,10 @@ sub _ShowEdit {
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
-    if ($Param{DependencyErrorMessage}) {
+    if ( $Param{DependencyErrorMessage} ) {
         $Output .= $LayoutObject->Notify(
-            Priority  => 'Notice',
-            Data      => $Param{DependencyErrorMessage},
+            Priority => 'Notice',
+            Data     => $Param{DependencyErrorMessage},
 
         );
     }
