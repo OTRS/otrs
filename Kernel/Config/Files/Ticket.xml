@@ -8692,6 +8692,7 @@
                 <Loader>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                    <JavaScript>Core.Agent.Overview.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

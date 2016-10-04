@@ -209,5 +209,7 @@ Core.UI.ActionRow = (function (TargetNS) {
         });
     };
 
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
+
     return TargetNS;
 }(Core.UI.ActionRow || {}));
