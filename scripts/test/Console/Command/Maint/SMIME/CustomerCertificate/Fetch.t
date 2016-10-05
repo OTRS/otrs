@@ -123,7 +123,7 @@ my ( $Result, $ExitCode );
 {
     local *STDOUT;
     open STDOUT, '>:encoding(UTF-8)', \$Result;
-    $ExitCode = $CommandObject->Execute( '--force', '--add-all' );
+    $ExitCode = $CommandObject->Execute('--add-all');
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
 }
 

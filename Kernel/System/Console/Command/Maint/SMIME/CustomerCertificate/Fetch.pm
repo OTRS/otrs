@@ -25,13 +25,6 @@ sub Configure {
 
     $Self->Description('Fetch SMIME certificates from customer backends.');
     $Self->AddOption(
-        Name        => 'force',
-        Description => "Execute even if SMIME is not enabled in SysConfig.",
-        Required    => 0,
-        HasValue    => 0,
-        ValueRegex  => qr/.*/smx,
-    );
-    $Self->AddOption(
         Name => 'add-all',
         Description =>
             "Add all found certificates from the customer backend into the system within the predefined search limit in customer backed (This operation might take some time).",
@@ -50,52 +43,34 @@ sub Configure {
     return;
 }
 
-sub PreRun {
-    my ( $Self, %Param ) = @_;
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    if ( $Self->GetOption('force') ) {
-        $ConfigObject->Set(
-            Key   => 'SMIME',
-            Value => 1,
-        );
-    }
-
-    if ( !$ConfigObject->Get('SMIME') ) {
-        die "SMIME is not activated in SysConfig!\n";
-    }
-
-    my $Message = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->Check();
-
-    die $Message if $Message;
-
-    my $CryptObject;
-    eval {
-        $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-    };
-    if ( !$CryptObject ) {
-        die "No SMIME support!.\n"
-    }
-
-    if ( !$Self->GetOption('email') && !$Self->GetOption('add-all') ) {
-        die "Need email or add-all.\n";
-    }
-
-    return;
-}
-
 sub Run {
     my ( $Self, %Param ) = @_;
 
     $Self->Print("<yellow>Fetching customer SMIME certificates...</yellow>\n");
 
-    if ( !$Kernel::OM->Get('Kernel::Config')->Get('SMIME::FetchFromCustomer') ) {
-        $Self->Print("'SMIME::FetchFromCustomer' is not activated in SysConfig, nothing to do!\n");
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $StopExecution;
+    if ( !$ConfigObject->Get('SMIME') ) {
+        $Self->Print("'SMIME' is not activated in SysConfig, can't continue!\n");
+        $StopExecution = 1;
+    }
+    elsif ( !$ConfigObject->Get('SMIME::FetchFromCustomer') ) {
+        $Self->Print("'SMIME::FetchFromCustomer' is not activated in SysConfig, can't continue!\n");
+        $StopExecution = 1;
+    }
+
+    if ($StopExecution) {
         $Self->Print("\n<green>Done.</green>\n");
         return $Self->ExitCodeOk();
     }
 
     my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    if ( !$CryptObject ) {
+        $Self->PrintError("SMIME environment its not working!\n");
+        $Self->Print("<red>Fail.</red>\n");
+        return $Self->ExitCodeError();
+    }
 
     # Get certificate for just one customer.
     if ( $Self->GetOption('email') ) {

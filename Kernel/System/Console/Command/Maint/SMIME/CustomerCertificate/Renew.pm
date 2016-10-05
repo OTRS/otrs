@@ -23,44 +23,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Renew existing SMIME certificates from customer backends.');
-    $Self->AddOption(
-        Name        => 'force',
-        Description => "Execute even if SMIME is not enabled in SysConfig.",
-        Required    => 0,
-        HasValue    => 0,
-        ValueRegex  => qr/.*/smx,
-    );
-
-    return;
-}
-
-sub PreRun {
-    my ( $Self, %Param ) = @_;
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    if ( $Self->GetOption('force') ) {
-        $ConfigObject->Set(
-            Key   => 'SMIME',
-            Value => 1,
-        );
-    }
-
-    if ( !$ConfigObject->Get('SMIME') ) {
-        die "SMIME is not activated in SysConfig!\n";
-    }
-
-    my $Message = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->Check();
-
-    die $Message if $Message;
-
-    my $CryptObject;
-    eval {
-        $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-    };
-    if ( !$CryptObject ) {
-        die "No SMIME support!.\n"
-    }
+    $Self->Description('Renew existing SMIME certificates from customer back-ends.');
 
     return;
 }
@@ -70,16 +33,33 @@ sub Run {
 
     $Self->Print("<yellow>Renewing existing customer SMIME certificates...</yellow>\n");
 
-    if ( !$Kernel::OM->Get('Kernel::Config')->Get('SMIME::FetchFromCustomer') ) {
-        $Self->Print("'SMIME::FetchFromCustomer' is not activated in SysConfig, nothing to do!\n");
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $StopExecution;
+    if ( !$ConfigObject->Get('SMIME') ) {
+        $Self->Print("'SMIME' is not activated in SysConfig, can't continue!\n");
+        $StopExecution = 1;
+    }
+    elsif ( !$ConfigObject->Get('SMIME::FetchFromCustomer') ) {
+        $Self->Print("'SMIME::FetchFromCustomer' is not activated in SysConfig, can't continue!\n");
+        $StopExecution = 1;
+    }
+
+    if ($StopExecution) {
         $Self->Print("\n<green>Done.</green>\n");
         return $Self->ExitCodeOk();
+    }
+
+    my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    if ( !$CryptObject ) {
+        $Self->PrintError("SMIME environment its not working!\n");
+        $Self->Print("<red>Fail.</red>\n");
+        return $Self->ExitCodeError();
     }
 
     my ( $ListOfCertificates, $EmailsFromCertificates ) = $Self->_GetCurrentData();
 
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my $CryptObject        = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
     EMAIL:
     for my $Email ( sort keys %{$EmailsFromCertificates} ) {
