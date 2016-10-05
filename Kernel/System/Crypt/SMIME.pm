@@ -746,7 +746,7 @@ sub FetchFromCustomer {
         return;
     }
 
-    # Check LDAP-Users for userSMIMECertificate
+    # Check customer users for userSMIMECertificate
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my %CustomerUsers;
     if ( $Param{Search} ) {

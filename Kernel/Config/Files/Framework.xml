@@ -7608,7 +7608,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SMIME::FetchFromCustomer" Required="1" Valid="1">
-        <Description Translatable="1">Enables fetch S/MIME from LDAP-CustomerUser support.</Description>
+        <Description Translatable="1">Enables fetch S/MIME from CustomerUser backend support.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
