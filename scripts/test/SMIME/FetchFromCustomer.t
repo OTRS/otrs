@@ -463,6 +463,15 @@ for my $CustomerUser ( sort keys %List ) {
 
 $DBObject->Do( SQL => 'Drop table ' . $TableName );
 
+# delete needed test directories
+for my $Directory ( $CertPath, $PrivatePath ) {
+    my $Success = rmtree( [$Directory] );
+    $Self->True(
+        $Success,
+        "Directory deleted - '$Directory'",
+    );
+}
+
 # cleanup is done by RestoreDatabase.
 
 1;
