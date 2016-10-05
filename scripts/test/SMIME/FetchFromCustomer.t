@@ -14,14 +14,6 @@ use utf8;
 use vars (qw($Self));
 use File::Path qw(mkpath rmtree);
 
-use Devel::Peek;
-
-use Kernel::System::Crypt::SMIME;
-use Kernel::System::DB;
-use Kernel::System::CustomerUser;
-use Kernel::System::Console::Command::Maint::SMIME::FetchFromCustomer;
-
-# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
