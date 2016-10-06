@@ -1,5 +1,4 @@
 # --
-# Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -2588,6 +2587,8 @@ returns browser output to display/download a attachment
         Filename    => 'FileName.png',  # optional
         ContentType => 'image/png',
         Content     => $Content,
+        Sandbox     => 1,               # optional, default 0; use content security policy to prohibit external
+                                        #   scripts, flash etc.
     );
 
     or for AJAX html snippets
@@ -2675,6 +2676,15 @@ sub Attachment {
     }
     $Output .= "Content-Length: $Param{Size}\n";
     $Output .= "X-Frame-Options: SAMEORIGIN\n";
+
+    if ( $Param{Sandbox} && !$Self->{ConfigObject}->Get('DisableContentSecurityPolicy') ) {
+
+        # Disallow external and inline scripts, active content, frames, but keep allowing inline styles
+        #   as this is a common use case in emails.
+        # Also disallow referrer headers to prevent referrer leaks.
+        $Output
+            .= "Content-Security-Policy: default-src *; script-src 'none'; object-src 'none'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;\n";
+    }
 
     if ( $Param{Charset} ) {
         $Output .= "Content-Type: $Param{ContentType}; charset=$Param{Charset};\n\n";
