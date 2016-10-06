@@ -1,5 +1,4 @@
 # --
-# Kernel/Modules/CustomerAccept.pm - to show an agent an login/changes info
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

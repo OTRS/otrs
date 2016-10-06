@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/xx_Custom.pm - provides xx custom language translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

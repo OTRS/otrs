@@ -1,5 +1,4 @@
 # --
-# Kernel/System/SystemMaintenance/DB/SystemMaintenance.pm - SystemMaintenance backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/hu.pm - provides hu language translation
 # Copyright (C) 2006 Gábor Gáncs <gg@magicnet.hu>
 # Copyright (C) 2006 Krisztián Gáncs <krisz@gancs.hu>
 # Copyright (C) 2006 Flóra Szabó <szaboflora@magicnet.hu>

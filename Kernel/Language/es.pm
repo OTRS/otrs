@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/es.pm - provides Spanish language translation
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martí­n <pelayo.romero at gmail.com>

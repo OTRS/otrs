@@ -1,5 +1,4 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/TicketSLASet.pm - A Module to set the ticket service
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/nb_NO.pm - Norwegian (bokmÃ¥l) language translation
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh at linpro.no>
 # Copyright (C) 2005 Espen Stefansen <libbe at stefansen dot net>
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>

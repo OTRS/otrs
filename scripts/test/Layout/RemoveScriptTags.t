@@ -1,5 +1,4 @@
 # --
-# scripts/test/Layout/_RemoveScriptTags.t - layout module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

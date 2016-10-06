@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # Copyright (C) 2013 Andreas Berger" <andreas.berger at hagfors.se>

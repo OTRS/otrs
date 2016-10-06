@@ -1,5 +1,4 @@
 # --
-# Kernel/Output/HTML/DashboardIFrame.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # --

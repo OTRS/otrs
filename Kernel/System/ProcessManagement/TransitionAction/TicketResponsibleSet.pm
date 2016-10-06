@@ -1,5 +1,4 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/TicketResponsibleSet.pm - A Module to set the ticket responsible
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

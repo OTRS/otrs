@@ -1,5 +1,4 @@
 // --
-// Core.UI.Table.Sort.js - table sorting functions
 // Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
