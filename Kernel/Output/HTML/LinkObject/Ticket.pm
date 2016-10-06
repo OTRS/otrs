@@ -252,7 +252,6 @@ sub TableCreateComplex {
     my %UserColumns = %{$DefaultColumns};
 
     if ( $Preferences{'LinkObject::ComplexTable-Ticket'} ) {
-        my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
         my $ColumnsEnabled = $JSONObject->Decode(
             Data => $Preferences{'LinkObject::ComplexTable-Ticket'},
