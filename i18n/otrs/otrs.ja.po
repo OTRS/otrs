@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-09-14 10:25+0000\n"
-"PO-Revision-Date: 2016-09-14 15:43+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-10-07 11:55+0000\n"
+"PO-Revision-Date: 2016-10-07 09:56+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5081,7 +5081,13 @@ msgstr ""
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate best practice example web service that are part of %s."
-" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Please note that these web services may depend on other modules which are "
+"available only in certain %s contract levels (there will be a note with "
+"details at import time)."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -5673,6 +5679,22 @@ msgstr "メールテンプレート"
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr "完全なメールを生成するためにこのテンプレートを使う。(HTMLメールに対してのみ)"
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Enable email security"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email security level"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If signing key/certificate is missing"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If encryption key/certificate is missing"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -6295,18 +6317,18 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate best practice example processes that are part of %s. "
-"Please note that some additional configuration may be required."
-msgstr ""
-
-#. Template: AdminProcessManagement
-msgid "Import example process"
+"Here you can activate best practice example processes. Please note that some"
+" additional configuration may be required."
 msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
 "Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import some sophisticated example processes."
+"be able to import additional sophisticated example processes."
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Import example process"
 msgstr ""
 
 #. Template: AdminProcessManagement
@@ -6755,6 +6777,10 @@ msgid ""
 "In this screen, you can create a new process. In order to make the new "
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
+msgstr ""
+
+#. Template: AdminProcessManagementProcessPrint
+msgid "cancel & close"
 msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
@@ -8496,6 +8522,14 @@ msgid "Start Chat"
 msgstr "チャットを開始する。"
 
 #. Template: AgentDashboardCustomerUserList
+msgid "Video call"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Audio call"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr ""
 
@@ -8631,8 +8665,8 @@ msgid "out of office"
 msgstr "外出中"
 
 #. Template: AgentDashboardUserOnline
-msgid "Selected agent is not available for chat"
-msgstr "選択されたエージェントは現在チャットに参加できません。"
+msgid "Selected user is not available for chat"
+msgstr ""
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -8677,6 +8711,16 @@ msgstr "連結解除対象: %s"
 #. Template: AgentLinkObject
 msgid "go to link add screen"
 msgstr "連結画面へ移動"
+
+#. Template: AgentOTRSBusinessBlockScreen
+msgid "Unauthorized usage of %s detected"
+msgstr ""
+
+#. Template: AgentOTRSBusinessBlockScreen
+msgid ""
+"If you decide to downgrade to OTRS Free, you will lose all database tables "
+"and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9704,6 +9748,26 @@ msgstr ""
 msgid "Confirm"
 msgstr "確認"
 
+#. Template: CustomerFooterJS
+msgid "You have unanswered chat requests"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Video call invite"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Accept"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Decline"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "An internal error occurred."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScriptが有効になっていません。"
@@ -9797,10 +9861,6 @@ msgstr "あなたの電子メールアドレス (ユーザー名になります)
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
 msgstr "受信チャット要求"
-
-#. Template: CustomerNavigationBar
-msgid "You have unanswered chat requests"
-msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
@@ -10123,6 +10183,18 @@ msgstr ""
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
 msgstr "あなたがモニターしているチャットで、新しい動きがあります。"
+
+#. Template: FooterJS
+msgid "Your browser does not support video calling."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Selected user is not available for video call."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Target user's browser does not support video calling."
+msgstr ""
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
@@ -12504,6 +12576,10 @@ msgid "This ticket has no title or subject"
 msgstr "このチケットにはタイトルもしくはテーマが入力されていません"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Offline"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently offline"
 msgstr "このユーザーは現在オフラインです"
 
@@ -12512,8 +12588,16 @@ msgid "This user is currently active"
 msgstr "このユーザーは現在オンラインです"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Away"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently away"
 msgstr "このユーザーは現在離席中です"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Unavailable"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently unavailable"
@@ -12673,6 +12757,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+msgid "Inactive"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+msgid "FadeAway"
 msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
@@ -13080,8 +13172,8 @@ msgstr "OTRS がインストールされているディスクパーティショ�
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-msgid "Operating System/Disk Partitions Usage"
-msgstr ""
+msgid "Disk Partitions Usage"
+msgstr "OTRS ディスクパーティション使用率"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
@@ -13135,8 +13227,13 @@ msgstr "200MB 以上のSwap 領域が存在してはいけない"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-msgid "OTRS/Config Settings"
-msgstr ""
+msgid "OTRS"
+msgstr "OTRS"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "Config Settings"
+msgstr "Config 設定"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
@@ -13145,12 +13242,12 @@ msgstr "value を特定できませんでした"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-msgid "OTRS"
-msgstr "OTRS"
+msgid "Daemon"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-msgid "Daemon"
+msgid "Daemon is running."
 msgstr ""
 
 #. Perl Module:
@@ -13160,8 +13257,8 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-msgid "OTRS/Database Records"
-msgstr ""
+msgid "Database Records"
+msgstr "データーベースレコード"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -13207,6 +13304,11 @@ msgstr "動的フィールドの値は不正です"
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
 msgstr "汎用インタフェースWebサービス"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Process Tickets"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -13289,9 +13391,31 @@ msgstr ""
 msgid "Some packages are not correctly installed."
 msgstr "正常にインストールされていないパッケージが存在します"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-msgid "OTRS/Package List"
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Package Verification Status"
 msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid ""
+"Some packages are not verified by the OTRS Group! It is recommended not to "
+"use this packages."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Package Framework Version Status"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Some packages are not allowed for the current framework version."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+msgid "Package List"
+msgstr "パッケージリスト"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -13379,7 +13503,7 @@ msgid ""
 msgstr " ticket_index テーブルに孤立したレコードがあるため、otrs/bin/otrs.CleanTicketIndex.pl を実行してクリーンなStaticDBインデックスを作成してください。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS/Time Settings"
+msgid "Time Settings"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
@@ -13414,13 +13538,13 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-msgid "Webserver/Loaded Apache Modules"
-msgstr ""
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "Webserver"
 msgstr "Webサーバー"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Loaded Apache Modules"
+msgstr "ロードされたApacheモジュール"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
@@ -13499,8 +13623,8 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-msgid "Webserver/Environment Variables"
-msgstr ""
+msgid "Environment Variables"
+msgstr "環境変数"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
@@ -13514,6 +13638,16 @@ msgstr "Webサイトバージョン"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Could not determine webserver version."
 msgstr "WEBサーバのバージョンを決定できません。"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+msgid "Concurrent Users Details"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+msgid "Concurrent Users"
+msgstr "同時実行ユーザ"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "Unknown"
@@ -13529,6 +13663,56 @@ msgstr "問題"
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP encrypt only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign and encrypt"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME encrypt only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign and encrypt"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP and SMIME not enabled."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Skip notification delivery"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unsigned notification"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unencrypted notification"
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
@@ -14409,7 +14593,7 @@ msgstr ""
 msgid ""
 "Automatically sets the responsible of a ticket (if it is not set yet) after "
 "the first owner update."
-msgstr "1人目の所有者のアップデートの後、自動的にチケットの責任者を設定します（もし、また設定されていなければ）。"
+msgstr "最初の所有者が設定されるときに、自動的にチケットの責任者を設定します（まだ設定されていなければ）。"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas (slim version)."
@@ -17256,6 +17440,13 @@ msgstr "顧客インタフェースで、チケットの受信者としてどの
 
 #. SysConfig
 msgid ""
+"Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
+" script contents. Disabling this HTTP header can be a security issue! Only "
+"disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
@@ -17609,6 +17800,10 @@ msgstr "S/MIMEサポートを有効にします。"
 #. SysConfig
 msgid "Enables customers to create their own accounts."
 msgstr "顧客が自ら自身のアカウントを作成できるようにします。"
+
+#. SysConfig
+msgid "Enables fetch S/MIME from CustomerUser backend support."
+msgstr ""
 
 #. SysConfig
 msgid "Enables file upload in the package manager frontend."
@@ -18204,8 +18399,8 @@ msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されてい�
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\\userをuserに変える）。"
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18972,6 +19167,11 @@ msgstr "構成されたメッセージを暗号化（crypt）するモジュー�
 
 #. SysConfig
 msgid ""
+"Module to fetch customer users SMIME certificates of incoming messages."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
 msgstr "受信メッセージについてフィルターし操作するためのモジュールです。From: noreply@ addressを用いて、全てのスパム・メールをブロック/無視します。"
@@ -18982,6 +19182,10 @@ msgid ""
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
 "as [***] in Set =>."
 msgstr "受信メッセージについてフィルターし操作するためのモジュールです。チケットのフリーテキストに対して4桁の数字を得て、「Match」において正規表現を使用します。\n（例：From / '(.+?)@.+?'とし、「Set」にて「[***]」として後方参照を使用します。）"
+
+#. SysConfig
+msgid "Module to filter encrypted bodies of incoming messages."
+msgstr ""
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
@@ -19579,6 +19783,13 @@ msgstr "Removed subscription for user \"%s\"."
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
 msgstr "チケットがアーカイブされるとき、チケット監視者の情報を削除する。"
+
+#. SysConfig
+msgid ""
+"Renew existing SMIME certificates from customer backend. Note: SMIME and "
+"SMIME::FetchFromCustomer needs to be active in SysConfig and customer "
+"backend needs to be configured to fetch UserSMIMECertificate attribute."
+msgstr ""
 
 #. SysConfig
 msgid ""

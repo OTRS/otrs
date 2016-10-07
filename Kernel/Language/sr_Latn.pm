@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.93002915451895;
+    $Self->{Completeness}        = 0.919331545285744;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1446,7 +1446,9 @@ sub Data {
         'Delete web service' => 'Obriši veb servis',
         'Do you really want to delete this web service?' => 'Da li stvarno želite da obrišete ovaj veb servis?',
         'Example Web Services' => 'Primer veb servisa',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
             '',
         'Import example web service' => 'Uvezi primer veb servisa',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
@@ -1627,6 +1629,10 @@ sub Data {
         'Email template' => 'Imejl šablon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Upotrebite ovaj šablon za generisanje kompletnog imejla (samo za „HTML” imejlove).',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Upravljaj sa %s',
@@ -1817,11 +1823,11 @@ sub Data {
         'Upload process configuration' => 'Učitaj konfiguraciju procesa',
         'Import process configuration' => 'Uvezi konfiguraciju procesa',
         'Example processes' => 'Primer procesa',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
-            'Ovde možete aktivirati procese primera nabolje prakse koji su deo %s. Molimo da obratite pažnju da je možda potrebno dodatno konfigurisanje.',
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+            '',
         'Import example process' => 'Izvezi primer procesa',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            'Da li želite da iskoristite procese kreirane od strane eksperata? Unapredite na %s za uvoz primera sofisticiranih procesa.',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Za kreiranje novog procesa možete ili uvesti proces koji je izvezen iz drugog sistema ili kreirati kompletno nov.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1962,6 +1968,7 @@ sub Data {
             'U ovom ekranu možete kreirati novi proces. Da bi novi proces bio dostupan korisnicima, molimo vas da postavite status na \'Active\' i uradite sinhronizaciju nakon završetka vašeg rada.',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => 'Početak aktivnosti',
         'Contains %s dialog(s)' => 'Sadrži %s dijaloga',
         'Assigned dialogs' => 'Dodeljeni dijalozi',
@@ -2516,6 +2523,8 @@ sub Data {
         'Phone ticket' => 'Telefonski tiket',
         'Email ticket' => 'Imejl tiket',
         'Start Chat' => 'Počni ćaskanje',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s otvorenih tiketa od %s',
         '%s closed ticket(s) of %s' => '%s zatvorenih tiketa od %s',
         'New phone ticket from %s' => 'Novi telefonski tiket od %s',
@@ -2564,7 +2573,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'van kancelarije',
-        'Selected agent is not available for chat' => 'Izabrani operater nije dostupan za ćaskanje',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'dok',
@@ -2584,6 +2593,11 @@ sub Data {
         'Link object %s with' => 'Poveži objekat %s  sa',
         'Unlink Object: %s' => 'Prekini vezu sa objektom: %s',
         'go to link add screen' => 'idi na ekran za dodavanje veze',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Uredi lične postavke',
@@ -2924,6 +2938,11 @@ sub Data {
         'and %s more...' => 'i %s više...',
         'Filters' => 'Filteri',
         'Confirm' => 'Potvrdi',
+        'You have unanswered chat requests' => 'Imate neodgovorene zahteve za ćaskanje',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nije dostupan.',
@@ -2952,7 +2971,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Dolazni zahtevi za ćaskanje',
-        'You have unanswered chat requests' => 'Imate neodgovorene zahteve za ćaskanje',
         'Edit personal preferences' => 'Uredi lične postavke',
         'Logout %s %s' => 'Odjava %s %s',
 
@@ -3056,6 +3074,9 @@ sub Data {
         'New public chat request' => 'Nov javni zahtev za ćaskanje',
         'New activity' => 'Nova aktivnost',
         'New activity on one of your monitored chats.' => 'Nova aktivnost u jednom od nadgledanih ćaskanja.',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => 'Da li zaista želite da nastavite?',
         'Information about the OTRS Daemon' => 'Informacije o „OTRS” servisu',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3913,9 +3934,12 @@ sub Data {
         'This ticket has no title or subject' => 'Ovaj tiket nema naslov ili predmet',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => 'Ovaj korisnik je sada neaktivan',
         'This user is currently active' => 'Ovaj korisnik je sada aktivan',
+        'Away' => '',
         'This user is currently away' => 'Ovaj korisnik je sada odsutan',
+        'Unavailable' => '',
         'This user is currently unavailable' => 'Ovaj korisnik je sada nedostupan',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -3990,6 +4014,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nije instalirano',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'Ne mogu pribaviti token od servera',
@@ -4136,7 +4164,7 @@ sub Data {
             'Particija na kojoj je smešten OTRS nema probleme sa prostorom.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => 'Operativni sistem/Korišćenje particije na disku',
+        'Disk Partitions Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Raspodela',
@@ -4162,16 +4190,17 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Ne treba da bude više od 200 MB upotrebljenog Swap prostora.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => ' „OTRS”/Konfiguraciona podešavanja',
+        'OTRS' => '„OTRS”',
+        'Config Settings' => '',
         'Could not determine value.' => 'Nije moguće utvrditi vrednost.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => '„OTRS”',
         'Daemon' => 'Sistemski servis',
+        'Daemon is running.' => '',
         'Daemon is not running.' => 'Servis ne radi.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => ' „OTRS”/Zapisi baze podataka',
+        'Database Records' => '',
         'Tickets' => 'Tiketi',
         'Ticket History Entries' => 'Istorija unosa tiketa',
         'Articles' => 'Članci',
@@ -4181,6 +4210,7 @@ sub Data {
         'Invalid Dynamic Fields' => 'Nevažeća dinamička polja.',
         'Invalid Dynamic Field Values' => 'Nevažeće vrednosti dinamičkih polja.',
         'GenericInterface Webservices' => 'GenericInterface veb servis',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Meseci između prvog i poslednjeg tiketa',
         'Tickets Per Month (avg)' => 'Tiketi mesečno (prosečno)',
 
@@ -4212,9 +4242,15 @@ sub Data {
         'Package Installation Status' => 'Status instalacije paketa',
         'Some packages have locally modified files.' => 'Neki paketi sadrže lokalno izmenjene datoteke.',
         'Some packages are not correctly installed.' => 'Neki paketi nisu ispravno instalirani.',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => ' „OTRS”/Lista paketa',
+        'Package List' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4253,7 +4289,7 @@ sub Data {
             'Tabela ticket_index sadrži napuštene zapise. Molimo pokrenite otrs/bin/otrs.CleanTicketIndex.pl da obrišete StaticDB indeks.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => ' „OTRS”/Podešavanje vremena',
+        'Time Settings' => '',
         'Server time zone' => 'Vreneska zona servera',
         'Computed server time offset' => 'Izračunati pomak serverskog vremena',
         'OTRS TimeZone setting (global time offset)' => '„OTRS” podešavanje vremenske zone (globalni vremenski pomak)',
@@ -4264,10 +4300,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => '„OTRS” podešavanje vremenske zone za kalendar',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => 'Veb server/Učitani „Apache” moduli',
+        'Webserver' => 'Veb server',
+        'Loaded Apache Modules' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Veb server',
         'MPM model' => 'MPM model',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             '„OTRS” zahteva da Apache bude pokrenut sa \'prefork\' MPM modelom.',
@@ -4290,7 +4326,7 @@ sub Data {
             'Apache2::DBI bi trebalo koristiti za bolje performanse sa unapred uspostavljenim vezama sa bazom podataka.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => 'Veb server/Promenljive okruženja',
+        'Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Za povećanje performansi treba da koristite PerlEx.',
@@ -4299,6 +4335,10 @@ sub Data {
         'Webserver Version' => 'Veb server verzija',
         'Could not determine webserver version.' => 'Ne može da prepozna veb server verziju.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => '',
+        'Concurrent Users' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Nepoznato',
         'OK' => 'U redu',
@@ -4306,6 +4346,18 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => 'Poništavanje vremena otključavanja.',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -5460,6 +5512,8 @@ Vaša tehnička podrška
             'Određuje koje opcije će biti važeće za primaoca (telefonski tiket) i pošiljaoca (imejl tiket) u interfejsu operatera.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Određuje koji će redovi biti važeći za tikete primaoca u interfejsu klijenta.',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5565,6 +5619,7 @@ Vaša tehnička podrška
             'Obezbeđuje PGP podršku. Kada je PGP podrška omogućena za potpisivanje i enkriprovanje mejla, strogo se preporučuje da veb server radi kao „OTRS” korisnik. U suprotnom, biće problema sa privilegijama prilikom pristupa .gnupg folderu.',
         'Enables S/MIME support.' => 'Omogućava S/MIME podršku.',
         'Enables customers to create their own accounts.' => 'Omogućava klijentima da kreiraju sopstvene naloge.',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => 'Omogućava slanje datoteka u upravljaču paketima pristupnog sistema.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             'Aktivira ili deaktivira keširanje za šablone. UPOZORENJE: NEMOJTE isključivati keširanje šablona na sistemima u radu jer će to dovesti do ogromnog pada performansi. Ovo podešavanje treba koristiti samo u cilju nalaženja i otklanjanja grešaka!',
@@ -5975,10 +6030,13 @@ Vaša tehnička podrška
             'Modul za proveru grupnih dozvola za pristup tiketima.',
         'Module to compose signed messages (PGP or S/MIME).' => 'Modul za izradu potpisane poruke („PGP” ili „S/MIME”).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Modul za šifriranje napisane poruke („PGP” ili „S/MIME”).',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             'Modul za filtriranje i rukovanje dolaznim porukama. Blokiranje/ignorisanje svih nepoželjnih imejlova Od: „noreply@” adrese',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             'Modul za filtriranje i rukovanje dolaznim porukama. Uzmite broj sa 4 cifre za slobodni tekst tiketa, upotrebite regularni izraz za poklapanje, npr Od: => \'(.+?)@.+?\', i upotrebite () kao [***] u Postavi =>.',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => 'Modul za generisanje statistike obračunatog vremena tiketa.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             'Modul za generisanje „HTML OpenSearch” profila za kratku pretragu tiketa u profilu operatera.',
@@ -6141,6 +6199,8 @@ Vaša tehnička podrška
         'Removed subscription for user "%s".' => 'Pretplata za korisnika "%s" isključena.',
         'Removes the ticket watcher information when a ticket is archived.' =>
             'Uklanja informacije posmatrača tiketa kada se tiket arhivira.',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
+            '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Zamenjuje originalnog pošiljaoca sa imejl adresom aktuelnog klijenta pri kreiranju odgovora u prozoru za pisanje odgovora interfejsa operatera.',
         'Reports' => 'Izveštaji',

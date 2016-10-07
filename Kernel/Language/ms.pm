@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.868179925031237;
+    $Self->{Completeness}        = 0.858262842995667;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1439,7 +1439,9 @@ sub Data {
         'Delete web service' => 'Padam perkhidmatan web',
         'Do you really want to delete this web service?' => 'Anda pasti mahu memadam perkhidmatan web ini?',
         'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
             '',
         'Import example web service' => '',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
@@ -1620,6 +1622,10 @@ sub Data {
         'Email template' => 'Templat e-mel',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Menggunakan templat ini untuk menjana e-mel yang lengkap (hanya untuk e-mel HTML).',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Mengurus %s',
@@ -1810,11 +1816,11 @@ sub Data {
         'Upload process configuration' => 'Muat naik konfigurasi proses',
         'Import process configuration' => 'Import konfigurasi proses',
         'Example processes' => 'Contoh proses',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
-            'Di sini anda boleh mengaktifkan amalan terbaik contoh proses yang merupakan sebahagian daripada %s. Sila ambil perhatian bahawa beberapa konfigurasi tambahan mungkin diperlukan.',
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+            '',
         'Import example process' => 'Import contoh proses',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            'Adakah anda ingin mendapat manfaat daripada proses yang dicipta oleh pakar-pakar? Naik taraf ke %s dapat mengimport beberapa proses contoh canggih.',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Untuk cipta Proses baru anda boleh sama ada import sebuah Proses yang telah diexport daripada sistem lain atau cipta proses yang baru.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1955,6 +1961,7 @@ sub Data {
             'Pada skrin ini, anda boleh mencipta proses baru. Dalam usaha untuk membuat proses yang baru yang tersedia kepada pengguna , sila pastikan untuk menetapkan keadaannya kepada \'Aktif\' dan menyelaraskan selepas menamatkan kerja anda.',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => 'Mula Aktiviti',
         'Contains %s dialog(s)' => 'Mengandungi dialog(dialog-dialog) %s',
         'Assigned dialogs' => 'Dialog yang ditetapkan',
@@ -2509,6 +2516,8 @@ sub Data {
         'Phone ticket' => 'Tiket telefon',
         'Email ticket' => 'Tiket emel',
         'Start Chat' => 'Memulakan Perbualan',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s membuka tiket(tiket-tiket) %s',
         '%s closed ticket(s) of %s' => '%s menutup tiket(tiket-tiket) %s',
         'New phone ticket from %s' => 'Tiket telefon baru daripada %s',
@@ -2557,7 +2566,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'keluar dari pejabat',
-        'Selected agent is not available for chat' => 'Ejen dipilih tidak tersedia untuk sembang',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'sehingga',
@@ -2577,6 +2586,11 @@ sub Data {
         'Link object %s with' => '',
         'Unlink Object: %s' => 'Nyahpaut Objek: %s',
         'go to link add screen' => 'pergi untuk menghubungkan skrin menambah',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Edit pilihan anda',
@@ -2917,6 +2931,11 @@ sub Data {
         'and %s more...' => 'dan %s lebih...',
         'Filters' => 'Tapisan',
         'Confirm' => 'Sah',
+        'You have unanswered chat requests' => 'Anda mempunyai permohonan perbualan yang tidak berjawab.',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript idak disediakan',
@@ -2945,7 +2964,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Kemasukan Permohonan Perbualan',
-        'You have unanswered chat requests' => 'Anda mempunyai permohonan perbualan yang tidak berjawab.',
         'Edit personal preferences' => 'Edit pilihan peribadi',
         'Logout %s %s' => 'Log keluar %s %s',
 
@@ -3049,6 +3067,9 @@ sub Data {
         'New public chat request' => 'Permohonan perbualan orang ramai baharu',
         'New activity' => 'Aktiviti baru',
         'New activity on one of your monitored chats.' => 'Aktiviti baru pada salah satu perbualan pantauan anda.',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => 'Adakah anda benar-benar ingin meneruskan?',
         'Information about the OTRS Daemon' => 'Informasi mengenai OTRS Daemon',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3906,9 +3927,12 @@ sub Data {
         'This ticket has no title or subject' => 'Tiket ini tidak mempunyai tajuk atau subjek',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => 'Pengguna ini sedang tutup talian',
         'This user is currently active' => 'Pengguna ini sedang aktif',
+        'Away' => '',
         'This user is currently away' => 'Pengguna ini sedang tiada',
+        'Unavailable' => '',
         'This user is currently unavailable' => 'Pengguna ini sedang  tidak tersedia.',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -3983,6 +4007,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
@@ -4129,7 +4157,7 @@ sub Data {
             'Pembahagian di mana OTRS diletakkan tidak mempunyai masalah ruangan cakera.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => 'Sistem Operasi/Penggunaan Pembahagian Cakera',
+        'Disk Partitions Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Pengagihan',
@@ -4155,16 +4183,17 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Ia sepatutnya mempunyai tidak lebih daripada 200 MB ruang tukaran yang digunakan.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => 'Tetapan OTRS/Konfig',
+        'OTRS' => 'OTRS',
+        'Config Settings' => '',
         'Could not determine value.' => 'Tidak dapat menentukan nilai.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
         'Daemon' => 'Daemon',
+        'Daemon is running.' => '',
         'Daemon is not running.' => 'Daemon tidak berjalan.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => 'Rekod Pangkalan Data/OTRS',
+        'Database Records' => '',
         'Tickets' => 'Tiket',
         'Ticket History Entries' => 'Penyertaan Sejarah Tiket ',
         'Articles' => 'Artikel',
@@ -4174,6 +4203,7 @@ sub Data {
         'Invalid Dynamic Fields' => 'Medan Dinamik tidak sah',
         'Invalid Dynamic Field Values' => 'Nilai Medan Dinamik tidak sah',
         'GenericInterface Webservices' => 'AntaramukaGenerik Servisweb',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Bulan Di antara Tiket Pertama Dan Tiket Terakhir',
         'Tickets Per Month (avg)' => 'Tiket setiap bulan (purata)',
 
@@ -4205,9 +4235,15 @@ sub Data {
         'Package Installation Status' => 'Status Pemasangan Pakej',
         'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Sesetengah pakej tidak dipasang dengan betul.',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => 'Senarai Pakej/OTRS',
+        'Package List' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4246,7 +4282,7 @@ sub Data {
             'Jadual ticket_index mengandungi rekod piatu. Sila jalankan otrs/bin/otrs.CleanTicketIndex.pl untuk membersihkan indeks StaticDB.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => 'Tetapan Masa/OTRS',
+        'Time Settings' => '',
         'Server time zone' => 'Zon waktu pelayan',
         'Computed server time offset' => 'Cabang masa pelayan dikira',
         'OTRS TimeZone setting (global time offset)' => 'Tetapan ZonMasa OTRS (cabang masa global)',
@@ -4257,10 +4293,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => 'Tetapan ZonMasa OTRS untuk kalendar',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => 'Modul Apache PelayanWeb/Dimuatkan',
+        'Webserver' => 'Pelayan web',
+        'Loaded Apache Modules' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Pelayan web',
         'MPM model' => 'Model MPM',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'OTRS memerlukan apache dijalankan dengan model MPM \'prefork\'.',
@@ -4283,7 +4319,7 @@ sub Data {
             'Apache2::DBI harus digunakan untuk mendapatkan prestasi yang lebih baik dengan sambungan pangkalan data sebelum ditubuhkan.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => 'Pembolehubah Pelayanweb/Persekitaran',
+        'Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Anda harus menggunakan PerlEx untuk meningkatkan prestasi anda.',
@@ -4292,6 +4328,10 @@ sub Data {
         'Webserver Version' => 'Versi pelayan web',
         'Could not determine webserver version.' => 'Tidak dapat menentukan versi pelayan web.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => '',
+        'Concurrent Users' => 'Pengguna Sedia ada',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Tidak diketahui',
         'OK' => 'OK',
@@ -4299,6 +4339,18 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => '',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -5456,6 +5508,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Menentukan pilihan yang akan menjadi sah pada penerima (tiket telefon) dan penghantar (tiket e-mel) dalam antara muka ejen.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Menentukan aturan mana akan sah untuk penerima tiket dalam paparan pelanggan.',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Menyahaktif header HTTP "Pilihan Bingkai-X: SAMEORIGIN" untuk membenarkan OTRS untuk dimasukkan sebagai IFrame dalam laman web lain. Menyahaktifkan header HTTP ini boleh menjadi isu keselamatan! Hanya nyahaktifkannya, jika anda tahu apa yang anda lakukan!',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5561,6 +5615,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Mendayakan sokongan PGP. Apabila sokongan PGP didayakan untuk menandatangani dan mengekodkan mel, ia amat disyorkan bahawa pelayan web dijalankan sebagai pengguna OTRS. Jika tidak, akan ada masalah dengan keistimewaan semasa mengakses fail .gnupg.',
         'Enables S/MIME support.' => 'Mengaktifkan sokongan S/MIME.',
         'Enables customers to create their own accounts.' => 'Membolehkan pelanggan untuk mencipta akaun mereka sendiri.',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => 'Membolehkan muat naik fail dalam frontend pengurusan pakej.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             'Mengaktif atau menyahaktifkan caching untuk templat. AMARAN: JANGAN melumpuhkan template caching untuk persekitaran pengeluaran kerana ia akan menyebabkan penurunan prestasi besar-besaran! Tetapan ini hanya boleh dimatikan atas sebab debugging!',
@@ -5738,7 +5793,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Jika "HTTPBasicAuth" dipilih untuk Customer::AuthModule, anda boleh tentukan (dengan menggunakan RegExp) untuk lucutkan bahagian dari REMOTE_USER (cth: untuk membuang trailing domain). RegExp-Note, $1 akan jadi log masuk yang baru.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            'Jika "HTTPBasicAuth" dipilih untuk Customer::AuthModule, anda boleh tentukan untuk lucutkan bahagian termuka dari nama pengguna (cth: untuk domain seperti example_domain\user kepada user).',
+            'Jika "HTTPBasicAuth" dipilih untuk Customer::AuthModule, anda boleh tentukan untuk lucutkan bahagian nama pengguna (cth: untuk domain seperti example_domain\user to user).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Jika "LDAP" dipilih untuk Customer::AuthModule dan jika anda mahu menambah akhiran kepada setiap nama log masuk pelanggan, tentukan ia disini, cthL anda hanya mahu menulis nama pengguna untuk pengguna tapi dalam direktori LDAP anda wujudnya user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -5971,10 +6026,13 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Modul untuk menyemak kebenaran kumpulan untuk akses kepada tiket.',
         'Module to compose signed messages (PGP or S/MIME).' => 'Modul untuk karang mesej ditandatangan (PGP atau S/MIME).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Modul untuk crypt mesej yang dikarang (PGP atau S/MIME).',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             'Modul untuk menapis dan memanipulasi mesej yang masuk. Halang/abai kesemua emel span dengan Dari: noreply@ address.',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             'Modul untuk menapis dan memanipulasi mesej yang masuk. Dapatkan nombor 4 digit kepada tiket bebas teks, guna regex dalam Padanan cth: From => \'(.+?)@.+?\', dan guna () sebagai [***] dalam Set =>.',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => 'Modul untuk menjana statistik tiket masa yang diperuntukkan',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             'Modul untuk menjana profil html OpenSearch untuk carian pendek tiket dalam paparan ejen.',
@@ -6137,6 +6195,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Removed subscription for user "%s".' => 'Langgan Pengguna "%s" yang diadakan.',
         'Removes the ticket watcher information when a ticket is archived.' =>
             'Mengalihkan maklumat pemerhati tiket apabila tiket diarkibkan.',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
+            '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Menggantikan pengganti asal dengan alamat emel pelanggan semasa pada jawapan dikarang dalam skrin karang tiket dari paparan ejen.',
         'Reports' => 'Laporan',

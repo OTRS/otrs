@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.522282382340691;
+    $Self->{Completeness}        = 0.517846090365174;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -425,7 +425,7 @@ sub Data {
             'Din licens för %s håller på att gå ut. Vänligen ta kontakt med %s för att förnya ditt kontrakt!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             'En uppdatering för %s är tillgänglig som inte är kompatibel med din ramverksversion. Du behöver därför uppdatera ditt ramverk först.',
-        'Your system was successfully upgraded to %s.' => 'Ditt system är nu lyckad uppgraderad till %s.',
+        'Your system was successfully upgraded to %s.' => 'Ditt system är nu uppgraderat till %s.',
         'There was a problem during the upgrade to %s.' => 'Det blev ett problem under uppgraderingen till %s.',
         '%s was correctly reinstalled.' => '%s blev ominstallerat korrekt.',
         'There was a problem reinstalling %s.' => 'Det blev ett problem med att ominstallera %s.',
@@ -1442,7 +1442,9 @@ sub Data {
         'Delete web service' => 'Radera webbtjänst',
         'Do you really want to delete this web service?' => 'Vill du verkligen radera denna webbtjänst?',
         'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
             '',
         'Import example web service' => '',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
@@ -1623,6 +1625,10 @@ sub Data {
         'Email template' => 'E-postmall',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Hantera %s',
@@ -1813,11 +1819,11 @@ sub Data {
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'Example processes' => 'Exempelprocesser',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
             '',
         'Import example process' => 'Importera exempelprocess',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1958,6 +1964,7 @@ sub Data {
             '',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => 'Påbörja aktivitet',
         'Contains %s dialog(s)' => 'Innehåller %s dialoger',
         'Assigned dialogs' => 'Tilldelade dialoger',
@@ -2367,7 +2374,7 @@ sub Data {
         'Invalid year' => 'Ogiltigt år',
         'Invalid month' => 'Ogiltig månad',
         'Invalid day' => 'Ogiltig dag',
-        'Show more' => 'Visa fler',
+        'Show more' => 'Visa mer',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Hantera systemets e-postadresser',
@@ -2512,6 +2519,8 @@ sub Data {
         'Phone ticket' => 'Telefonärende',
         'Email ticket' => 'Epost-ärende',
         'Start Chat' => 'Starta chatt',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s öppna ärenden av %s',
         '%s closed ticket(s) of %s' => '%s stängda ärenden av %s',
         'New phone ticket from %s' => 'Nytt telefonärende från %s',
@@ -2560,7 +2569,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'frånvarande',
-        'Selected agent is not available for chat' => 'Vald handläggare är inte tillgänglig för chat',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'till',
@@ -2580,6 +2589,11 @@ sub Data {
         'Link object %s with' => '',
         'Unlink Object: %s' => 'Avlänka objekt: %s',
         'go to link add screen' => 'gå till lägg till länk-vyn',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Ändra dina inställningar',
@@ -2920,6 +2934,11 @@ sub Data {
         'and %s more...' => 'och %s ytterligare ...',
         'Filters' => 'Filter',
         'Confirm' => 'Bekräfta',
+        'You have unanswered chat requests' => 'Du har osvarade chattförfrågningar',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'Javaskript är avstängt',
@@ -2948,7 +2967,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Inkommande chattförfrågningar',
-        'You have unanswered chat requests' => 'Du har osvarade chattförfrågningar',
         'Edit personal preferences' => 'Ändra personliga inställningar',
         'Logout %s %s' => '',
 
@@ -3052,6 +3070,9 @@ sub Data {
         'New public chat request' => 'Ny publik chatbegäran.',
         'New activity' => 'Ny aktivitet',
         'New activity on one of your monitored chats.' => '',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => 'Vill du verkligen fortsätta?',
         'Information about the OTRS Daemon' => 'Information om OTRS-demonen',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3274,7 +3295,7 @@ sub Data {
         'Configurable params of static stat' => '',
         'No element selected.' => '',
         'Scale' => 'Skala om',
-        'show more' => '',
+        'show more' => 'visa mer',
         'show less' => '',
 
         # Template: D3
@@ -3909,9 +3930,12 @@ sub Data {
         'This ticket has no title or subject' => 'Detta ärende har ingen rubrik eller ämne',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => 'Användaren är inte inloggad',
         'This user is currently active' => 'Användaren är aktiv',
+        'Away' => '',
         'This user is currently away' => 'Användaren är inloggad men frånvarande',
+        'Unavailable' => '',
         'This user is currently unavailable' => 'Användaren är inloggad men inte tillgänglig',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -3924,7 +3948,7 @@ sub Data {
         'Search Result' => '',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
-        '%s Upgrade to %s now! %s' => 'Uppgradera till %s nu! %s',
+        '%s Upgrade to %s now! %s' => '%s Uppgradera till %s nu! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => 'Systemunderhåll kommer att påbörjas:',
@@ -3986,6 +4010,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
@@ -4132,7 +4160,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => 'Operativsystem/diskanvändning',
+        'Disk Partitions Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Distribution',
@@ -4158,16 +4186,17 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => '',
+        'OTRS' => 'OTRS',
+        'Config Settings' => '',
         'Could not determine value.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
         'Daemon' => '',
+        'Daemon is running.' => '',
         'Daemon is not running.' => 'OTRS-demonen körs inte.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => '',
+        'Database Records' => '',
         'Tickets' => 'Ärenden',
         'Ticket History Entries' => '',
         'Articles' => 'Artiklar',
@@ -4177,6 +4206,7 @@ sub Data {
         'Invalid Dynamic Fields' => '',
         'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Antal månader mellan första och sista ärende',
         'Tickets Per Month (avg)' => 'Ärenden per månad (genomsnitt)',
 
@@ -4208,9 +4238,15 @@ sub Data {
         'Package Installation Status' => 'Paketinstallationsstatus',
         'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => '',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => '',
+        'Package List' => 'Paketlista',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4249,7 +4285,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => '',
+        'Time Settings' => '',
         'Server time zone' => '',
         'Computed server time offset' => '',
         'OTRS TimeZone setting (global time offset)' => '',
@@ -4260,10 +4296,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => '',
+        'Webserver' => 'Webbserver',
+        'Loaded Apache Modules' => 'Laddade Apache-moduler',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Webbserver',
         'MPM model' => '',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             '',
@@ -4286,7 +4322,7 @@ sub Data {
             'Apache2::DBI ger bättre prestanda med beständiga databasuppkopplingar.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => 'Miljövariabler för webbservern',
+        'Environment Variables' => 'Miljövariabler',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Använd PerlEx för att få bättre prestanda.',
@@ -4295,6 +4331,10 @@ sub Data {
         'Webserver Version' => 'Webbserver, version',
         'Could not determine webserver version.' => 'Kunde inte avgöra webbserverns version.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => '',
+        'Concurrent Users' => 'Samtidiga användare',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Okänd',
         'OK' => 'OK',
@@ -4302,6 +4342,18 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => '',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -5445,6 +5497,8 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5550,6 +5604,7 @@ Thanks for your help!
             '',
         'Enables S/MIME support.' => '',
         'Enables customers to create their own accounts.' => 'Aktivera rätt att skapa egna användarkonton för kunderna.',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => '',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '',
@@ -5960,10 +6015,13 @@ Thanks for your help!
             '',
         'Module to compose signed messages (PGP or S/MIME).' => '',
         'Module to crypt composed messages (PGP or S/MIME).' => '',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             '',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             '',
@@ -6125,6 +6183,8 @@ Thanks for your help!
         'Refresh interval' => 'Uppdateringsintervall',
         'Removed subscription for user "%s".' => 'Removed subscription for user "%s".',
         'Removes the ticket watcher information when a ticket is archived.' =>
+            '',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',

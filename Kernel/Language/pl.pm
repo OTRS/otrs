@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.704914618908788;
+    $Self->{Completeness}        = 0.699814318134929;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1200,7 +1200,7 @@ sub Data {
         'Attributes of the current customer user data' => 'Atrybuty danych obecnego użytkownika klienta',
         'Attributes of the ticket data' => '',
         'Ticket dynamic fields internal key values' => '',
-        'Example note' => '',
+        'Example note' => 'Przykładowa notatka',
         'Results' => 'Wyniki',
         '%s Tickets affected! What do you want to do?' => 'Liczba wybranych zgłoszeń %s. Co chcesz zrobić?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1443,7 +1443,9 @@ sub Data {
         'Delete web service' => 'Usuń serwis sieciowy',
         'Do you really want to delete this web service?' => 'Czy na pewno chcesz usunąć serwis siecioy?',
         'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
             '',
         'Import example web service' => '',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
@@ -1624,6 +1626,10 @@ sub Data {
         'Email template' => 'Formatka email',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Zarządzaj %s',
@@ -1814,11 +1820,11 @@ sub Data {
         'Upload process configuration' => 'Załaduj konfigurację procesu',
         'Import process configuration' => 'Importuj konfigurację procesu',
         'Example processes' => '',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
             '',
         'Import example process' => '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Aby utworzyć nowy proces, możesz albo zaimportować proces, który został wyeksportowany z innego systemu lub utworzyć całkowicie nowy proces.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1959,6 +1965,7 @@ sub Data {
             'Na tym ekranie możesz utworzyć nowy proces. Aby udostępnić proces użytkownikom, ustaw stan na "Aktywne" i zsynchronizuj po zakończeniu.',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => 'Działanie początkowe',
         'Contains %s dialog(s)' => 'Zawiera %s okien',
         'Assigned dialogs' => 'Przypisane okna',
@@ -2513,6 +2520,8 @@ sub Data {
         'Phone ticket' => 'Zgłoszenia tel.',
         'Email ticket' => 'Zgłoszenia e-mail',
         'Start Chat' => 'Rozpocznij czat',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '% otwartych zgłoszeń z %s',
         '%s closed ticket(s) of %s' => '% zamknietych zgłoszeń z %s',
         'New phone ticket from %s' => 'Nowe zgłoszenie tel. od %s',
@@ -2561,7 +2570,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'poza biurem',
-        'Selected agent is not available for chat' => 'Wybrany agent nie jest dostępny poprzez czat',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'do',
@@ -2581,6 +2590,11 @@ sub Data {
         'Link object %s with' => '',
         'Unlink Object: %s' => 'Oddziel obiekt: %s',
         'go to link add screen' => 'idź do ekranu dodawania odnośnika',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Zmień swoje ustawienia',
@@ -2921,6 +2935,11 @@ sub Data {
         'and %s more...' => 'oraz %s więcej...',
         'Filters' => 'Filtry',
         'Confirm' => 'Potwierdź',
+        'You have unanswered chat requests' => 'Masz czaty oczekujące na odpowiedź',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nie jest dostęny',
@@ -2949,7 +2968,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Czaty z oczekującymi wiadomościami',
-        'You have unanswered chat requests' => 'Masz czaty oczekujące na odpowiedź',
         'Edit personal preferences' => 'Edytuj ustawienia osobiste',
         'Logout %s %s' => 'Wyloguj %s %s',
 
@@ -3053,6 +3071,9 @@ sub Data {
         'New public chat request' => 'Żądanie czatu publicznego',
         'New activity' => 'Nowa aktywność',
         'New activity on one of your monitored chats.' => 'Nowa aktywność na jednym z monitorowanych czatów.',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => 'Czy jesteś pewien, że chcesz kontynuować?',
         'Information about the OTRS Daemon' => 'Informacje o OTRS Daemon',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3910,9 +3931,12 @@ sub Data {
         'This ticket has no title or subject' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => '',
         'This user is currently active' => '',
+        'Away' => '',
         'This user is currently away' => '',
+        'Unavailable' => '',
         'This user is currently unavailable' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -3987,6 +4011,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
@@ -4133,7 +4161,7 @@ sub Data {
             'Na partycji na której znajduje się OTRS zabrakło wolnego miejsca.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => '',
+        'Disk Partitions Usage' => 'Użycie miejsca partycji',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Dystrybucja',
@@ -4159,16 +4187,17 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Co najmniej 200 MB przestrzeni wymiany powinno być używane.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => '',
+        'OTRS' => 'OTRS',
+        'Config Settings' => 'Ustawienia konfiguracyjne',
         'Could not determine value.' => 'Nie można określić wartości.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
         'Daemon' => '',
+        'Daemon is running.' => '',
         'Daemon is not running.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => '',
+        'Database Records' => 'Rekordy bazy danych',
         'Tickets' => 'Zgłoszenia',
         'Ticket History Entries' => 'Historia zgłoszeń',
         'Articles' => 'Wiadomości',
@@ -4178,6 +4207,7 @@ sub Data {
         'Invalid Dynamic Fields' => 'Nieprawidłowe pola dynamiczne',
         'Invalid Dynamic Field Values' => 'Nieprawidłowe wartości pól dynamicznych',
         'GenericInterface Webservices' => 'Ogólny interfejs usług sieciowych',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Ilość miesięcy pomiędzy pierwszym, a ostatnim zgłoszeniem',
         'Tickets Per Month (avg)' => 'Zgłoszeń w miesiącu (śred.)',
 
@@ -4209,9 +4239,15 @@ sub Data {
         'Package Installation Status' => 'Stan instalacji pakietu',
         'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Niektóre pakiety nie zostały poprawnie zainstalowane.',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => '',
+        'Package List' => 'Lista pakietów',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4250,7 +4286,7 @@ sub Data {
             'W tabeli ticket_index znajdują się osierocone rekordy. Należy uruchomić "otrs/bin/otrs.CleanTicketIndex.pl" w celu wyczyszczenia indeksu StaticDB.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => '',
+        'Time Settings' => '',
         'Server time zone' => '',
         'Computed server time offset' => 'Wyliczony offset czasu serwera',
         'OTRS TimeZone setting (global time offset)' => '',
@@ -4261,10 +4297,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => '',
+        'Webserver' => 'Serwer www',
+        'Loaded Apache Modules' => 'Załadowane moduły Apache',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Serwer www',
         'MPM model' => 'Model MPM',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'OTRS wymaga uruchomienia serwera Apache wraz z modelem "prefork" MPM.',
@@ -4287,7 +4323,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => '',
+        'Environment Variables' => 'Zmienne środowiskowe',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Należy korzystać z PerlEx  w celu zwiększenia wydajności.',
@@ -4296,6 +4332,10 @@ sub Data {
         'Webserver Version' => 'Wersja serwera WWW',
         'Could not determine webserver version.' => 'Nie udało się określić wersji serwera WWW.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => '',
+        'Concurrent Users' => 'Jednocześni Użytkownicy',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Nieznany',
         'OK' => 'OK',
@@ -4303,6 +4343,18 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => '',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -5446,6 +5498,8 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5551,6 +5605,7 @@ Thanks for your help!
             '',
         'Enables S/MIME support.' => 'Aktywuje wsparcie dla S/MIME.',
         'Enables customers to create their own accounts.' => 'Umożliwia klientom na tworzenie własnych kont.',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => 'Włącza możliwość zamieszczania plików w menadzeże pakietów.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '',
@@ -5961,10 +6016,13 @@ Thanks for your help!
             '',
         'Module to compose signed messages (PGP or S/MIME).' => 'Moduł tworzący podpisane wiadomości (PGP lub S/MIME)',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Moduł szyfrujący utworzone wiadomości (PGP lub S/MIME)',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             '',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => 'Moduł generujący statystyki zliczające czas zgłoszeń.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             'Moduł generujący profil OpenSearch da krótkich zgłoszeń w interfejsie agenta.',
@@ -6126,6 +6184,8 @@ Thanks for your help!
         'Refresh interval' => 'Interwał odświeżania',
         'Removed subscription for user "%s".' => 'Usunięto subskrypcje dla użytkownika "%s".',
         'Removes the ticket watcher information when a ticket is archived.' =>
+            '',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Zamienia oryginalnego nadawcę obecnym adresem e-mail klienta przy tworzonej odpowiedzi w oknie odpowiedzi interfejsu agenta.',

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999791753436068;
+    $Self->{Completeness}        = 0.990303280379616;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1445,8 +1445,10 @@ sub Data {
         'Delete web service' => 'Webszolgáltatás törlése',
         'Do you really want to delete this web service?' => 'Valóban törölni szeretné ezt a webszolgáltatást?',
         'Example Web Services' => 'Példa webszolgáltatások',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
-            'Itt kapcsolhatja be a legjobb gyakorlat szerinti példa webszolgáltatást, amely a következő része: %s. Ne feledje, hogy néhány további beállítás lehet szükséges.',
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+            '',
         'Import example web service' => 'Példa webszolgáltatás importálása',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             'Szeretné élvezni a szakértők által létrehozott webszolgáltatások előnyeit? Ahhoz, hogy lehetősége legyen néhány kitapasztalt példa webszolgáltatás importálására, frissítsen a következőre: %s.',
@@ -1626,6 +1628,10 @@ sub Data {
         'Email template' => 'E-mail sablon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Ezen sablon használata a teljes e-mail előállításához (csak HTML e-maileknél).',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '%s kezelése',
@@ -1816,11 +1822,11 @@ sub Data {
         'Upload process configuration' => 'Folyamat-beállítás feltöltése',
         'Import process configuration' => 'Folyamat-beállítás importálása',
         'Example processes' => 'Példafolyamatok',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
-            'Itt kapcsolhatja be a legjobb gyakorlat szerinti példafolyamatokat, amelyek a következő részei: %s. Ne feledje, hogy néhány további beállítás lehet szükséges.',
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+            '',
         'Import example process' => 'Példafolyamat importálása',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            'Szeretné élvezni a szakértők által létrehozott folyamatok előnyeit? Ahhoz, hogy lehetősége legyen néhány kitapasztalt példafolyamat importálására, frissítsen a következőre: %s.',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Egy új folyamat létrehozásához importálhat egy másik rendszerből exportált folyamatot, vagy létrehozhat egy teljesen újat.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1961,6 +1967,7 @@ sub Data {
             'Ezen a képernyőn hozhat létre új folyamatot. Annak érdekében, hogy az új folyamatot elérhetővé tegye a felhasználóknak, győződjön meg arról, hogy „Aktívra” állította az állapotát, és szinkronizálta a munka befejezése után.',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => 'Tevékenység indítása',
         'Contains %s dialog(s)' => '%s párbeszédet tartalmaz',
         'Assigned dialogs' => 'Hozzárendelt párbeszédek',
@@ -1985,7 +1992,7 @@ sub Data {
         'Type of Linking' => 'Kapcsolat típusa',
         'Add a new Field' => 'Új mező hozzáadása',
         'Remove this Field' => 'Mező eltávolítása',
-        'And can\'t be repeated on the same condition.' => 'Én nem lehet ismételni ugyanazon a feltételen.',
+        'And can\'t be repeated on the same condition.' => 'És nem lehet ismételni ugyanazon a feltételen.',
         'Add New Condition' => 'Új feltétel hozzáadása',
 
         # Template: AdminProcessManagementTransitionAction
@@ -2515,6 +2522,8 @@ sub Data {
         'Phone ticket' => 'Telefonos jegy',
         'Email ticket' => 'E-mail jegy',
         'Start Chat' => 'Csevegés indítása',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s nyitott jegye ennek: %s',
         '%s closed ticket(s) of %s' => '%s lezárt jegye ennek: %s',
         'New phone ticket from %s' => 'Új telefonos jegy tőle: %s',
@@ -2563,7 +2572,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'irodán kívül',
-        'Selected agent is not available for chat' => 'A kijelölt ügyintéző nem érhető el csevegéshez',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'eddig:',
@@ -2583,6 +2592,11 @@ sub Data {
         'Link object %s with' => '%s objektum összekapcsolása ezzel',
         'Unlink Object: %s' => 'Objektum kapcsolatának törlése: %s',
         'go to link add screen' => 'ugrás a kapcsolat hozzáadás képernyőre',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Beállítások szerkesztése',
@@ -2923,6 +2937,11 @@ sub Data {
         'and %s more...' => 'és további %s…',
         'Filters' => 'Szűrők',
         'Confirm' => 'Megerősítés',
+        'You have unanswered chat requests' => 'Megválaszolatlan csevegés kérései vannak',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nem érhető el',
@@ -2951,7 +2970,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Bejövő csevegés kérések',
-        'You have unanswered chat requests' => 'Megválaszolatlan csevegés kérései vannak',
         'Edit personal preferences' => 'Személyes beállítások szerkesztése',
         'Logout %s %s' => 'Kilépés: %s %s',
 
@@ -3055,6 +3073,9 @@ sub Data {
         'New public chat request' => 'Új nyilvános csevegéskérés',
         'New activity' => 'Új tevékenység',
         'New activity on one of your monitored chats.' => 'Új tevékenység a megfigyelt csevegések valamelyikén.',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => 'Valóban folytatni akarja?',
         'Information about the OTRS Daemon' => 'Információk az OTRS démonról',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3912,9 +3933,12 @@ sub Data {
         'This ticket has no title or subject' => 'Ennek a jegynek nincs címe vagy tárgya',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => 'Ez a felhasználó jelenleg nincs kapcsolatban',
         'This user is currently active' => 'Ez a felhasználó jelenleg aktív',
+        'Away' => '',
         'This user is currently away' => 'Ez a felhasználó jelenleg távol van',
+        'Unavailable' => '',
         'This user is currently unavailable' => 'Ez a felhasználó jelenleg nem érhető el',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -3989,6 +4013,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nincs telepítve',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'Nem lehet lekérni a tokent a kiszolgálóról',
@@ -4135,7 +4163,7 @@ sub Data {
             'Az OTRS-t tartalmazó partíciónak nincs tárhely problémája.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => 'Operációs rendszer/Lemezpartíciók használata',
+        'Disk Partitions Usage' => 'Lemezpartíciók használata',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Disztribúció',
@@ -4161,16 +4189,17 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => '200 MB-nál nem kellene több lapozófájlt használni.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => 'OTRS/Beállítások konfigurálása',
+        'OTRS' => 'OTRS',
+        'Config Settings' => 'Beállítások konfigurálása',
         'Could not determine value.' => 'Nem sikerült meghatározni az értéket.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
         'Daemon' => 'Démon',
+        'Daemon is running.' => '',
         'Daemon is not running.' => 'A démon nem fut.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => 'OTRS/Adatbázis rekordok',
+        'Database Records' => 'Adatbázis rekordok',
         'Tickets' => 'Jegyek',
         'Ticket History Entries' => 'Jegy előzmény bejegyzések',
         'Articles' => 'Bejegyzések',
@@ -4180,6 +4209,7 @@ sub Data {
         'Invalid Dynamic Fields' => 'Érvénytelen dinamikus mezők',
         'Invalid Dynamic Field Values' => 'Érvénytelen dinamikus mező értékek',
         'GenericInterface Webservices' => 'Általános felület webszolgáltatások',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Az első és az utolsó jegy közti hónapok',
         'Tickets Per Month (avg)' => 'Jegyek havonta (átlag)',
 
@@ -4211,9 +4241,15 @@ sub Data {
         'Package Installation Status' => 'Csomagtelepítési állapot',
         'Some packages have locally modified files.' => 'Néhány csomag helyileg módosított fájlokkal rendelkezik.',
         'Some packages are not correctly installed.' => 'Néhány csomag nincs helyesen telepítve.',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => 'OTRS/Csomaglista',
+        'Package List' => 'Csomaglista',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4252,7 +4288,7 @@ sub Data {
             'A ticket_index tábla elárvult rekordokat tartalmaz. Futtassa az otrs/bin/otrs.CleanTicketIndex.pl parancsot a StaticDB index tisztításához.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => 'OTRS/Időbeállítások',
+        'Time Settings' => 'Időbeállítások',
         'Server time zone' => 'Kiszolgáló időzónája',
         'Computed server time offset' => 'Számított kiszolgáló időeltolás',
         'OTRS TimeZone setting (global time offset)' => 'OTRS TimeZone beállítás (globális időeltolás)',
@@ -4263,10 +4299,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => 'OTRS TimeZone beállítás a naptárhoz: ',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => 'Webkiszolgáló/Betöltött Apache modulok',
+        'Webserver' => 'Webkiszolgáló',
+        'Loaded Apache Modules' => 'Betöltött Apache modulok',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Webkiszolgáló',
         'MPM model' => 'MPM modell',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'Az OTRS az apache „prefork” MPM modellel való futtatását igényli.',
@@ -4289,7 +4325,7 @@ sub Data {
             'Az Apache2::DBI használata kellene az előre kiépített adatbázis-kapcsolatokkal való jobb teljesítmény eléréséhez.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => 'Webkiszolgáló/Környezeti változók',
+        'Environment Variables' => 'Környezeti változók',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'A PerlEx használata kellene a teljesítmény növeléséhez.',
@@ -4298,6 +4334,10 @@ sub Data {
         'Webserver Version' => 'Webkiszolgáló verzió',
         'Could not determine webserver version.' => 'Nem sikerült meghatározni a webkiszolgáló verzióját.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => 'Egyidejű felhasználók részletei',
+        'Concurrent Users' => 'Egyidejű felhasználók',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Ismeretlen',
         'OK' => 'OK',
@@ -4305,6 +4345,18 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => 'Feloldási idő visszaállítása.',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -5459,6 +5511,8 @@ Az Ön segélyszolgálat csapata
             'Meghatározza, hogy mely lehetőségek lesznek érvényesek a címzettnél (telefonos jegy) és a küldőnél (e-mail jegy) az ügyintézői felületen.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Meghatározza, hogy mely várólisták lesznek érvényesek a jegy címzettjeinél az ügyfélfelületen.',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Az „X-Frame-Options: SAMEORIGIN” HTTP-fejléc letiltása, hogy lehetővé tegye az OTRS beágyazását IFrame-ként más weboldalakba. Ennek a HTTP-fejlécnek a letiltása biztonsági probléma lehet! Csak akkor tiltsa le, ha tudja, hogy mit csinál!',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5564,6 +5618,7 @@ Az Ön segélyszolgálat csapata
             'Engedélyezi a PGP támogatást. Amikor a PGP támogatás engedélyezve van levelek aláírásához és titkosításához, akkor ERŐSEN javasolt, hogy a webkiszolgáló az OTRS felhasználóként fusson. Egyébként problémák lesznek a jogosultságokkal, amikor hozzáfér a .gnupg mappához.',
         'Enables S/MIME support.' => 'Engedélyezi az S/MIME támogatást.',
         'Enables customers to create their own accounts.' => 'Engedélyezi az ügyfeleknek, hogy létrehozzák a saját fiókjaikat.',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => 'Engedélyezi a fájlfeltöltést a csomagkezelő előtétprogramon.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             'Engedélyezi vagy letiltja a gyorsítótárazást a sablonoknál. FIGYELMEZTETÉS: NE tiltsa le a sablon gyorsítótárazást termelési környezeteknél, mert hatalmas teljesítménycsökkenést fog okozni! Ezt a beállítást csak hibakeresési okokból szabad letiltani!',
@@ -5974,10 +6029,13 @@ Az Ön segélyszolgálat csapata
             'Egy modul a csoportjogosultságok ellenőrzéséhez a jegyekhez való hozzáférésénél.',
         'Module to compose signed messages (PGP or S/MIME).' => 'Egy modul aláírt üzenetek írásához (PGP vagy S/MIME).',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Egy modul a megírt üzenetek titkosításához (PGP vagy S/MIME).',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             'Egy modul a bejövő üzenetek szűréséhez és manipulálásához. Minden levélszemét blokkolása vagy mellőzése a noreply@ című feladóval.',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             'Egy modul a bejövő üzenetek szűréséhez és manipulálásához. Kérjen le egy 4 számjegyű számot a jegy szabad szöveghez, használjon reguláris kifejezést az illesztésben. Például From => \'(.+?)@.+?\', és használja a () karaktereket mint [***] ebben: Set =>.',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => 'Egy modul az elszámolt idő jegy statisztikák előállításához.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             'Egy modul a HTML OpenSearch profil előállításához a rövid jegykeresésnél az ügyintézői felületen.',
@@ -6140,6 +6198,8 @@ Az Ön segélyszolgálat csapata
         'Removed subscription for user "%s".' => 'Feliratkozás eltávolítva a következő felhasználónál: „%s”.',
         'Removes the ticket watcher information when a ticket is archived.' =>
             'Eltávolítja a jegy megfigyelési információkat, ha a jegyet archiválják.',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
+            '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Kicseréli az eredeti küldőt az aktuális ügyfél e-mail címére a válasz írásakor az ügyintézői felület jegyírás képernyőjén.',
         'Reports' => 'Jelentések',
@@ -6225,7 +6285,7 @@ Az Ön segélyszolgálat csapata
             'Csak a tulajdonosnak küld ügyintéző követő értesítést, ha a jegy fel van oldva (az alapértelmezett, hogy minden ügyintézőnek elküldi az értesítést).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ez csak biztonsági mentés céljából használja.',
-        'Sends customer notifications just to the mapped customer.' => '',
+        'Sends customer notifications just to the mapped customer.' => 'Az ügyfél értesítéseket csak a leképezett ügyfélnek küldi el.',
         'Sends registration information to OTRS group.' => 'Regisztrációs információkat küld az OTRS csoportnak.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Elküldi a feloldott jegy emlékeztető értesítéseit az emlékeztető dátum elérése után (csak a jegy tulajdonosának küldi).',

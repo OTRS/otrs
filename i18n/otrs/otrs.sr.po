@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-09-14 10:25+0000\n"
-"PO-Revision-Date: 2016-09-14 15:43+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-10-07 11:55+0000\n"
+"PO-Revision-Date: 2016-10-07 09:57+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1175,15 +1175,15 @@ msgstr "Шифра"
 
 #. Template: AAABase
 msgid "PGP"
-msgstr "PGP"
+msgstr "„PGP”"
 
 #. Template: AAABase
 msgid "PGP Key"
-msgstr "PGP кључ"
+msgstr "„PGP” кључ"
 
 #. Template: AAABase
 msgid "PGP Keys"
-msgstr "PGP кључеви"
+msgstr "„PGP” кључеви"
 
 #. Template: AAABase
 msgid "S/MIME"
@@ -1560,7 +1560,7 @@ msgstr "Проблем при деинсталацији %s."
 
 #. Template: AAABase
 msgid "Enable cloud services to unleash all OTRS features!"
-msgstr ""
+msgstr "Активирајте сервисе у облаку да би ослободили све „OTRS” могућности!"
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -5077,7 +5077,13 @@ msgstr "Пример веб сервиса"
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate best practice example web service that are part of %s."
-" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Please note that these web services may depend on other modules which are "
+"available only in certain %s contract levels (there will be a note with "
+"details at import time)."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -5670,6 +5676,22 @@ msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr "Употребите овај шаблон за генерисање комплетног имејла (само за „HTML” имејлове)."
 
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Enable email security"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email security level"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If signing key/certificate is missing"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If encryption key/certificate is missing"
+msgstr ""
+
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
 msgstr "Управљај са %s"
@@ -5849,7 +5871,7 @@ msgstr "Изглед %s"
 
 #. Template: AdminPGP
 msgid "PGP Management"
-msgstr "Управљање PGP кључевима"
+msgstr "Управљање „PGP” кључевима"
 
 #. Template: AdminPGP
 msgid "PGP support is disabled"
@@ -5861,7 +5883,7 @@ msgstr "Да би могли да користите „PGP” у „OTRS”, м
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
-msgstr "Омогући „SMIME” подршку"
+msgstr "Омогући „PGP” подршку"
 
 #. Template: AdminPGP
 msgid "Faulty PGP configuration"
@@ -5883,7 +5905,7 @@ msgstr "Провери „PGP” конфигурацију"
 
 #. Template: AdminPGP
 msgid "Add PGP key"
-msgstr "Додај PGP кључ"
+msgstr "Додај „PGP” кључ"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
@@ -5891,7 +5913,7 @@ msgstr "На овај начин можете директно уређиват�
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
-msgstr "Увод у PGP"
+msgstr "Увод у „PGP”"
 
 #. Template: AdminPGP
 msgid "Result"
@@ -5919,11 +5941,11 @@ msgstr "Обриши овај кључ"
 
 #. Template: AdminPGP
 msgid "Add PGP Key"
-msgstr "Додај PGP кључ"
+msgstr "Додај „PGP” кључ"
 
 #. Template: AdminPGP
 msgid "PGP key"
-msgstr "PGP кључ"
+msgstr "„PGP” кључ"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
@@ -6291,19 +6313,19 @@ msgstr "Пример процеса"
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate best practice example processes that are part of %s. "
-"Please note that some additional configuration may be required."
-msgstr "Овде можете активирати процесе примера набоље праксе који су део %s. Молимо да обратите пажњу да је можда потребно додатно конфигурисање."
-
-#. Template: AdminProcessManagement
-msgid "Import example process"
-msgstr "Извези пример процеса"
+"Here you can activate best practice example processes. Please note that some"
+" additional configuration may be required."
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
 "Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import some sophisticated example processes."
-msgstr "Да ли желите да искористите процесе креиране од стране експерата? Унапредите на %s за увоз примера софистицираних процеса."
+"be able to import additional sophisticated example processes."
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Import example process"
+msgstr "Извези пример процеса"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6752,6 +6774,10 @@ msgid ""
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
 msgstr "У овом екрану можете креирати нови процес. Да би нови процес био доступан корисницима, молимо вас да поставите статус на 'Active' и урадите синхронизацију након завршетка вашег рада."
+
+#. Template: AdminProcessManagementProcessPrint
+msgid "cancel & close"
+msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -8492,6 +8518,14 @@ msgid "Start Chat"
 msgstr "Почни ћаскање"
 
 #. Template: AgentDashboardCustomerUserList
+msgid "Video call"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Audio call"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr "%s отворених тикета од %s"
 
@@ -8627,8 +8661,8 @@ msgid "out of office"
 msgstr "ван канцеларије"
 
 #. Template: AgentDashboardUserOnline
-msgid "Selected agent is not available for chat"
-msgstr "Изабрани оператер није доступан за ћаскање"
+msgid "Selected user is not available for chat"
+msgstr ""
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -8673,6 +8707,16 @@ msgstr "Прекини везу са објектом: %s"
 #. Template: AgentLinkObject
 msgid "go to link add screen"
 msgstr "иди на екран за додавање везе"
+
+#. Template: AgentOTRSBusinessBlockScreen
+msgid "Unauthorized usage of %s detected"
+msgstr ""
+
+#. Template: AgentOTRSBusinessBlockScreen
+msgid ""
+"If you decide to downgrade to OTRS Free, you will lose all database tables "
+"and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9299,19 +9343,19 @@ msgstr "Претраге у атрибутима Од, До, Cc, Предмет 
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (complex search)"
-msgstr ""
+msgstr "ИД клијента (сложена претрага)"
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
-msgstr ""
+msgstr "ИД клијента (тачно поклапање)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (complex search)"
-msgstr ""
+msgstr "Пријава клијента корисника (сложена претрага)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (exact match)"
-msgstr ""
+msgstr "Пријава клијента корисника (тачно поклапање)"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -9700,6 +9744,26 @@ msgstr "Филтери"
 msgid "Confirm"
 msgstr "Потврди"
 
+#. Template: CustomerFooterJS
+msgid "You have unanswered chat requests"
+msgstr "Имате неодговорене захтеве за ћаскање"
+
+#. Template: CustomerFooterJS
+msgid "Video call invite"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Accept"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Decline"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "An internal error occurred."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript није доступан."
@@ -9793,10 +9857,6 @@ msgstr "Ваша имејл адреса (то ће бити ваше корис
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
 msgstr "Долазни захтеви за ћаскање"
-
-#. Template: CustomerNavigationBar
-msgid "You have unanswered chat requests"
-msgstr "Имате неодговорене захтеве за ћаскање"
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
@@ -10046,13 +10106,13 @@ msgstr "Догодила се грешка."
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
 "installation of OTRS."
-msgstr ""
+msgstr "Стварно грешка? 5 од 10 пријавлјених грешака су последица погрешне или некомплетне „OTRS” инсталације."
 
 #. Template: Error
 msgid ""
 "With %s, our experts take care of correct installation and cover your back "
 "with support and periodic security updates."
-msgstr ""
+msgstr "Са %s, наши експерти ће се побринути за коректну инсталацију и обезбедити подршку и повремена сигурносна ажурирања."
 
 #. Template: Error
 msgid "Contact our service team now."
@@ -10119,6 +10179,18 @@ msgstr "Нова активност"
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
 msgstr "Нова активност у једном од надгледаних ћаскања."
+
+#. Template: FooterJS
+msgid "Your browser does not support video calling."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Selected user is not available for video call."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Target user's browser does not support video calling."
+msgstr ""
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
@@ -10199,35 +10271,35 @@ msgstr "Изаберите порт за одлазну пошту"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host"
-msgstr "SMTP host"
+msgstr "„SMTP” рачунар"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host."
-msgstr "SMTP host."
+msgstr "„SMTP” рачунар."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP authentication"
-msgstr "SMTP аутентификација"
+msgstr "„SMTP” аутентификација"
 
 #. Template: InstallerConfigureMail
 msgid "Does your SMTP host need authentication?"
-msgstr "Да ли ваш SMTP host ахтева аутентификацију?"
+msgstr "Да ли ваш „SMTP” рачунар ахтева аутентификацију?"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth user"
-msgstr "SMTP корисник"
+msgstr "„SMTP” корисник"
 
 #. Template: InstallerConfigureMail
 msgid "Username for SMTP auth."
-msgstr "Корисничко име за SMTP аутентификацију"
+msgstr "Корисничко име за „SMTP” аутентификацију"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth password"
-msgstr "Лозинка SMTP аутентификације"
+msgstr "Лозинка „SMTP” аутентификације"
 
 #. Template: InstallerConfigureMail
 msgid "Password for SMTP auth."
-msgstr "Лозинка за SMTP аутентификацију"
+msgstr "Лозинка за „SMTP” аутентификацију"
 
 #. Template: InstallerConfigureMail
 msgid "Configure Inbound Mail"
@@ -11026,7 +11098,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not update configuration data for WebserviceID %s"
-msgstr ""
+msgstr "Не могу ажурирати конфигурационе податке за Веб сервис ИД %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -11128,7 +11200,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Could not get history data for WebserviceHistoryID %s"
-msgstr ""
+msgstr "Не могу прибавити податке историјата за Веб сервис ИД %s"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Notification updated!"
@@ -11140,7 +11212,7 @@ msgstr "Обавештење додато!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "There was an error getting data for Notification with ID:%s!"
-msgstr ""
+msgstr "Дошло је до грешке приликом прибављања података за обавештење ИД:%s!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Unknown Notification %s!"
@@ -11208,7 +11280,7 @@ msgstr "Да, али је неопходан бар један активни м
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
-msgstr ""
+msgstr "„PGP” окружење не функционише. За више информација проверите дневник."
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to delete!"
@@ -11553,7 +11625,7 @@ msgstr "Немојте користити :: у називу реда!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
-msgstr ""
+msgstr "Кликните на назад и промените то!"
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
@@ -11705,7 +11777,7 @@ msgstr "Не могу прибавити податке сарджаја фил�
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
-msgstr ""
+msgstr "Неопходан изворни објект и изворни кључ!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Please contact the admin."
@@ -11801,7 +11873,7 @@ msgstr "%s је неопходно!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Plain article not found for article %s!"
-msgstr ""
+msgstr "Није пронађен обичан чланак за чланак %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Article does not belong to ticket %s!"
@@ -11821,7 +11893,7 @@ msgstr "Погрешна субакција!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Can't lock Tickets, no TicketIDs are given!"
-msgstr ""
+msgstr "Тикети се не могу закључати, није дат ИД Тикета!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket (%s) is not unlocked!"
@@ -11839,7 +11911,7 @@ msgstr "Није дат ИД Тикета који се може изабрат�
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents"
-msgstr ""
+msgstr "Нисте селектовали ни један тикет или само тикете које су закључали други оператери"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket"
@@ -11851,7 +11923,7 @@ msgstr "Тикет је закључан од стране другог опер
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Can not determine the ArticleType!"
-msgstr ""
+msgstr "Није могуће утврдити Тип чланка."
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "No Subaction!"
@@ -11859,7 +11931,7 @@ msgstr "Нема субакције!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "Got no TicketID!"
-msgstr ""
+msgstr "Нема ИД Тикета!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "System Error!"
@@ -11961,7 +12033,7 @@ msgstr "Недостаје параметар %s у %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No ActivityDialog configured for %s in _RenderAjax!"
-msgstr ""
+msgstr "Ниједан дијалог активности није конфигурисан за %s у „_RenderAjax”!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -12052,7 +12124,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't create ticket for Process with ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "Не могу креирати тикет за процес са ИД ентитета процеса \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ProcessEntityID \"%s\" on TicketID \"%s\"!"
@@ -12173,7 +12245,7 @@ msgstr "Одлазни одговор"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SLA Updated"
-msgstr ""
+msgstr "„SLA” је ажуриран"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
@@ -12221,7 +12293,7 @@ msgstr "Спојен тикет"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Pending Time Set"
-msgstr ""
+msgstr "Времена чекања је подешено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Locked"
@@ -12307,7 +12379,7 @@ msgstr "Погледај извор овог Чланка"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "FileID and ArticleID are needed!"
-msgstr ""
+msgstr "Потребан ИД датотеке и ИД чланка!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "No TicketID for ArticleID (%s)!"
@@ -12365,7 +12437,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/Kernel/Config.pm\" not found!"
-msgstr ""
+msgstr "Датотека „%s/Kernel/Config.pm” није пронађена!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" not found!"
@@ -12373,13 +12445,13 @@ msgstr "Директоријум \"%s\" није пронађен!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Kernel/Config.pm isn't writable!"
-msgstr ""
+msgstr "Немогућ упис у „%s/Kernel/Config.pm”!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "If you want to use the installer, set the Kernel/Config.pm writable for the "
 "webserver user!"
-msgstr ""
+msgstr "Ако желите да користите инсталациони програм, подесите дозволу писања у „%s/Kernel/Config.pm” за вебсервер корисника!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Check!"
@@ -12387,7 +12459,7 @@ msgstr "Непозната провера!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "The check \"%s\" doesn't exist!"
-msgstr ""
+msgstr "Провера „%s” не постоји!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
@@ -12457,11 +12529,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
-msgstr ""
+msgstr "„PGP SIGNED MESSAGE” заглавље пронађено али је неисправно!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "\"S/MIME SIGNED MESSAGE\" header found, but invalid!"
-msgstr ""
+msgstr "„S/MIME SIGNED MESSAGE” заглавље пронађено али је неисправно!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Ticket decrypted before"
@@ -12500,6 +12572,10 @@ msgid "This ticket has no title or subject"
 msgstr "Овај тикет нема наслов или предмет"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Offline"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently offline"
 msgstr "Овај корисник је сада неактиван"
 
@@ -12508,8 +12584,16 @@ msgid "This user is currently active"
 msgstr "Овај корисник је сада активан"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Away"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently away"
 msgstr "Овај корисник је сада одсутан"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Unavailable"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently unavailable"
@@ -12519,7 +12603,7 @@ msgstr "Овај корисник је сада недоступан"
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "Жао нам је али ви више немате дозволу за приступ овом тикету у његовом актуелном стању. Можете предузети једну од следећих акција:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
@@ -12671,6 +12755,14 @@ msgstr "Ово подешавање се не може деактивирати.
 msgid "not installed"
 msgstr "није инсталирано"
 
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+msgid "Inactive"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+msgid "FadeAway"
+msgstr ""
+
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
 msgstr "Не могу прибавити токен од сервера"
@@ -12689,11 +12781,11 @@ msgstr "Креирани статус"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "CustomerUserLogin (complex search)"
-msgstr ""
+msgstr "Пријава клијента корисника (сложена претрага)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "CustomerUserLogin (exact match)"
-msgstr ""
+msgstr "Пријава клијента корисника (тачно поклапање)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -13076,8 +13168,8 @@ msgstr "Партиција на којој је смештен ОТРС нема
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-msgid "Operating System/Disk Partitions Usage"
-msgstr "Оперативни систем/Коришћење партиције на диску"
+msgid "Disk Partitions Usage"
+msgstr "Коришћење партиције на диску"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
@@ -13131,8 +13223,13 @@ msgstr "Не треба да буде више од 200 MB употребљен�
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-msgid "OTRS/Config Settings"
-msgstr " „OTRS”/Конфигурациона подешавања"
+msgid "OTRS"
+msgstr "„OTRS”"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "Config Settings"
+msgstr "Подешавања конфигурације"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
@@ -13141,13 +13238,13 @@ msgstr "Није могуће утврдити вредност."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-msgid "OTRS"
-msgstr "„OTRS”"
+msgid "Daemon"
+msgstr "Системски сервис"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-msgid "Daemon"
-msgstr "Системски сервис"
+msgid "Daemon is running."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -13156,8 +13253,8 @@ msgstr "Сервис не ради."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-msgid "OTRS/Database Records"
-msgstr " „OTRS”/Записи базе података"
+msgid "Database Records"
+msgstr "Записи у бази података"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -13203,6 +13300,11 @@ msgstr "Неважеће вредности динамичких поља."
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
 msgstr "GenericInterface веб сервис"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Process Tickets"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -13285,9 +13387,31 @@ msgstr "Неки пакети садрже локално измењене да�
 msgid "Some packages are not correctly installed."
 msgstr "Неки пакети нису исправно инсталирани."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Package Verification Status"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid ""
+"Some packages are not verified by the OTRS Group! It is recommended not to "
+"use this packages."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Package Framework Version Status"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Some packages are not allowed for the current framework version."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-msgid "OTRS/Package List"
-msgstr " „OTRS”/Листа пакета"
+msgid "Package List"
+msgstr "Листа пакета"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -13375,8 +13499,8 @@ msgid ""
 msgstr "Табела ticket_index садржи напуштене записе. Молимо покрените otrs/bin/otrs.CleanTicketIndex.pl да обришете StaticDB индекс."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS/Time Settings"
-msgstr " „OTRS”/Подешавање времена"
+msgid "Time Settings"
+msgstr "Подешавања времена"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Server time zone"
@@ -13410,13 +13534,13 @@ msgstr "„OTRS” подешавање временске зоне за кал�
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-msgid "Webserver/Loaded Apache Modules"
-msgstr "Веб сервер/Учитани „Apache” модули"
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "Webserver"
 msgstr "Веб сервер"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Loaded Apache Modules"
+msgstr "Учитани „Apache” модули"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
@@ -13495,8 +13619,8 @@ msgstr "Apache2::DBI би требало користити за боље пер
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-msgid "Webserver/Environment Variables"
-msgstr "Веб сервер/Променљиве окружења"
+msgid "Environment Variables"
+msgstr "Променљиве за окружење"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
@@ -13510,6 +13634,16 @@ msgstr "Веб сервер верзија"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Could not determine webserver version."
 msgstr "Не може да препозна веб сервер верзију."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+msgid "Concurrent Users Details"
+msgstr "Детаљи истовремених корисника"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+msgid "Concurrent Users"
+msgstr "Истовремени корисници"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "Unknown"
@@ -13527,11 +13661,61 @@ msgstr "Проблем"
 msgid "Reset of unlock time."
 msgstr "Поништавање времена откључавања."
 
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP encrypt only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign and encrypt"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME encrypt only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign and encrypt"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP and SMIME not enabled."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Skip notification delivery"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unsigned notification"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unencrypted notification"
+msgstr ""
+
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
 "Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps"
 " the user is invalid."
-msgstr ""
+msgstr "Пажња, корисник је "
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID"
@@ -13567,7 +13751,7 @@ msgstr "Не могу послати инфо о налогу!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "SecureMode active!"
-msgstr ""
+msgstr "Сигуран режим је активан!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
@@ -13901,7 +14085,7 @@ msgstr "(Пријава корисника) Презиме, Име"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr ""
+msgstr "*** ван канцеларије до %s (преостало %s д) ***"
 
 #. SysConfig
 msgid "100 (Expert)"
@@ -14088,7 +14272,7 @@ msgstr "Оператер је позвао клијента"
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
-msgstr "Модул интерфејса оператера за обавештавања о чланку, провера PGP."
+msgstr "Модул интерфејса оператера за обавештавања о чланку за проверу „PGP”."
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
@@ -14298,14 +14482,14 @@ msgid ""
 "Allows extended search conditions in ticket search of the customer "
 "interface. With this feature you can search e. g. with this kind of "
 "conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr ""
+msgstr "Дозвољава проширене услове претраге у претрази тикета на клијентском интерфејсу. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”."
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the generic agent "
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "Дозвољава проширене услове претраге у претрази тикета на интерфејсу општег оператера. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”."
 
 #. SysConfig
 msgid ""
@@ -14399,7 +14583,7 @@ msgid ""
 "ticket responsible feature is enabled). This will only work by manually "
 "actions of the logged in user. It does not work for automated actions e.g. "
 "GenericAgent, Postmaster and GenericInterface."
-msgstr ""
+msgstr "Аутоматски подешава власника тикета као одговорног за њега (ако је фунција одговорног за тикет активирана). Ово фунционише само у ручним акцијама пријавњеног корисника. не важи за аутоматске акције, нпр општег оператера, „Postmaster” и општег интерфејса."
 
 #. SysConfig
 msgid ""
@@ -14707,7 +14891,7 @@ msgstr "Конфигурише који екран би требало прик�
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
-msgstr "Конфигуриши сопствени лог текст за PGP."
+msgstr "Конфигуриши сопствени лог текст за „PGP”."
 
 #. SysConfig
 msgid ""
@@ -14993,7 +15177,7 @@ msgstr "Датум / Време"
 
 #. SysConfig
 msgid "Debug"
-msgstr ""
+msgstr "Отклањање неисправности"
 
 #. SysConfig
 msgid ""
@@ -15521,7 +15705,7 @@ msgstr "Одређује да ли обрачун времена мора бит
 msgid ""
 "Defines out of office message template. Two string parameters (%s) "
 "available: end date and number of days left."
-msgstr ""
+msgstr "Дефинише шаблон поруке „ван канцеларије”. Два параметра знаковних низова (%s) су расположива: датум завршетка и број преосталих дана."
 
 #. SysConfig
 msgid ""
@@ -16490,7 +16674,7 @@ msgstr "Дефинише листу online спремишта. Још инста
 msgid ""
 "Defines the list of possible next actions on an error screen, a full path is"
 " required, then is possible to add external links if needed."
-msgstr ""
+msgstr "Дефинише листу могућих следећих акција на приказу екрана са грешком, комплетна путања је обавезна, након чега је могуће додати спољашње везе ако је потребно."
 
 #. SysConfig
 msgid "Defines the list of types for templates."
@@ -16627,7 +16811,7 @@ msgid ""
 "binary of your operating system. Any of the \"SMTP\" mechanisms use a "
 "specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
 "it is useful for test systems."
-msgstr "Дефинише модуле за слање имејлова. \"Sendmail\" (пошаљи маил) директно користи пошаљи мејл бинарни код вашег оперативног система. Сваки од SMTP механизама користи специфични (екстерни) мејл сервер. \"DoNotSendEmail\" не шаље имејлове и то је корисно при тестирању система."
+msgstr "Дефинише модуле за слање имејлова. \"Sendmail\" директно користи бинарни код вашег оперативног система за слање имејла. Сваки од „SMTP”  механизама користи специфични (екстерни) имејл сервер. \"DoNotSendEmail\" не шаље имејлове и то је корисно при тестирању система."
 
 #. SysConfig
 msgid ""
@@ -16877,7 +17061,7 @@ msgstr "Дефинише путању приказаног инфо фајла �
 
 #. SysConfig
 msgid "Defines the path to PGP binary."
-msgstr "Одређује путању до PGP binary."
+msgstr "Одређује путању до „PGP binary”."
 
 #. SysConfig
 msgid ""
@@ -16905,7 +17089,7 @@ msgid ""
 "Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" shows only the queues which are assigned to system "
 "addresses) in the customer interface."
-msgstr ""
+msgstr "Одређује циљног примаоца тикета („Ред” приказује све редове, „Системска Адреса” приказује само редове који су додењени системским адресама) у интерфејсу клијента."
 
 #. SysConfig
 msgid ""
@@ -17252,6 +17436,13 @@ msgstr "Одређује који ће редови бити важећи за �
 
 #. SysConfig
 msgid ""
+"Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
+" script contents. Disabling this HTTP header can be a security issue! Only "
+"disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
@@ -17261,7 +17452,7 @@ msgstr ""
 msgid ""
 "Disable restricted security for IFrames in IE. May be required for SSO to "
 "work in IE."
-msgstr ""
+msgstr "Онемогући ограничену сигурност за „IFrame” у „IE”. Може бити захтевано за „SSO” да ради у „IE”."
 
 #. SysConfig
 msgid ""
@@ -17596,7 +17787,7 @@ msgid ""
 "mail, it is HIGHLY recommended that the web server runs as the OTRS user. "
 "Otherwise, there will be problems with the privileges when accessing .gnupg "
 "folder."
-msgstr "Обезбеђује PGP подршку. Када је PGP подршка омогућена за потписивање и енкрипровање мејла, строго се препоручује да веб сервер ради као „OTRS” корисник. У супротном, биће проблема са привилегијама приликом приступа .gnupg фолдеру."
+msgstr "Обезбеђује „PGP” подршку. Када је „PGP” подршка омогућена за потписивање и енкрипровање мејла, строго се препоручује да веб сервер ради као „OTRS” корисник. У супротном, биће проблема са привилегијама приликом приступа .gnupg фолдеру."
 
 #. SysConfig
 msgid "Enables S/MIME support."
@@ -17605,6 +17796,10 @@ msgstr "Omogućava S/MIME podršku."
 #. SysConfig
 msgid "Enables customers to create their own accounts."
 msgstr "Омогућава клијентима да креирају сопствене налоге."
+
+#. SysConfig
+msgid "Enables fetch S/MIME from CustomerUser backend support."
+msgstr ""
 
 #. SysConfig
 msgid "Enables file upload in the package manager frontend."
@@ -18073,7 +18268,7 @@ msgstr "Омогућава крајњим корисницима да замен
 
 #. SysConfig
 msgid "Global Search Module."
-msgstr ""
+msgstr "Модул опште претраге"
 
 #. SysConfig
 msgid "Go back"
@@ -18200,7 +18395,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18398,26 +18593,26 @@ msgstr "Ако је активно, један регуларни израз se 
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, a password must be specified."
-msgstr ""
+msgstr "Ако је као модул за слање имејла изабран било који од „SMTP” механизама, а неопходна је аутентификација на имејл сервер, лозинка мора да буде наведена."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, an username must be specified."
-msgstr ""
+msgstr "Ако је као модул за слање имејла изабран било који од „SMTP” механизама, а неопходна је аутентификација на имејл сервер, корисничко име мора да буде наведено."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the "
 "mailhost that sends out the mails must be specified."
-msgstr ""
+msgstr "Ако је као модул за слање имејла изабран било који од „SMTP” механизама, уређај који  шаље имејлове мора да буде наведен."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the port "
 "where your mailserver is listening for incoming connections must be "
 "specified."
-msgstr ""
+msgstr "Ако је као „SendmailModule” модул изабран било који од „SMTP” механизама, порт на ком ваш имеј сервер слуша мора да буде наведен."
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
@@ -18512,7 +18707,7 @@ msgstr "Ако се овај израз поклапа, аутоматски о�
 msgid ""
 "If this setting is active, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
-msgstr ""
+msgstr "Ако је ова поставка активна, локалне измене неће бити наглашене као грешке у управљачу пакетима и сакупљачу података подршке."
 
 #. SysConfig
 msgid ""
@@ -18610,7 +18805,7 @@ msgstr "Италијанске зауставне речи за индекс п�
 
 #. SysConfig
 msgid "Ivory"
-msgstr ""
+msgstr "Слонова кост"
 
 #. SysConfig
 msgid "Ivory (Slim)"
@@ -18626,7 +18821,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"
-msgstr ""
+msgstr "Последњи предмет поруке клијента"
 
 #. SysConfig
 msgid "Lastname Firstname"
@@ -18827,7 +19022,7 @@ msgstr "Управљај услугама у облаку „OTRS” Групе.
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
-msgstr "Управљај PGP кључевима за имејл енкрипцију."
+msgstr "Управљај „PGP” кључевима за имејл енкрипцију."
 
 #. SysConfig
 msgid "Manage POP3 or IMAP accounts to fetch email from."
@@ -18968,6 +19163,11 @@ msgstr "Модул за шифрирање написане поруке („PGP
 
 #. SysConfig
 msgid ""
+"Module to fetch customer users SMIME certificates of incoming messages."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
 msgstr "Модул за филтрирање и руковање долазним порукама. Блокирање/игнорисање свих непожељних имејлова Од: „noreply@” адресе"
@@ -18978,6 +19178,10 @@ msgid ""
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
 "as [***] in Set =>."
 msgstr "Модул за филтрирање и руковање долазним порукама. Узмите број са 4 цифре за слободни текст тикета, употребите регуларни израз за поклапање, нпр Од: => '(.+?)@.+?', и употребите () као [***] у Постави =>."
+
+#. SysConfig
+msgid "Module to filter encrypted bodies of incoming messages."
+msgstr ""
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
@@ -19233,11 +19437,11 @@ msgstr "Преглед клијентских тикета."
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr "Управлјање PGP кључем"
+msgstr "Управљање „PGP” кључем"
 
 #. SysConfig
 msgid "PGP Key Upload"
-msgstr "Слање PGP кључа"
+msgstr "Слање „PGP” кључа"
 
 #. SysConfig
 msgid "Package event module file a scheduler task for update registration."
@@ -19578,6 +19782,13 @@ msgstr "Уклања информације посматрача тикета к
 
 #. SysConfig
 msgid ""
+"Renew existing SMIME certificates from customer backend. Note: SMIME and "
+"SMIME::FetchFromCustomer needs to be active in SysConfig and customer "
+"backend needs to be configured to fetch UserSMIMECertificate attribute."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
 msgstr "Замењује оригиналног пошиљаоца са имејл адресом актуелног клијента при креирању одговора у прозору за писање одговора интерфејса оператера."
@@ -19761,7 +19972,7 @@ msgstr "СМС"
 
 #. SysConfig
 msgid "SMS (Short Message Service)"
-msgstr ""
+msgstr "„SMS” (Сервис кратких порука)"
 
 #. SysConfig
 msgid "Sample command output"
@@ -19872,7 +20083,7 @@ msgstr "Шаље све одлазне имејлове као невидљив�
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
-msgstr ""
+msgstr "Шаље клијентска обавештења само мапираном клијенту."
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."
@@ -19970,7 +20181,7 @@ msgstr "Подешава ако власник тикета мора бити и
 msgid ""
 "Sets the PendingTime of a ticket to 0 if the state is changed to a non-"
 "pending state."
-msgstr ""
+msgstr "Подешава време чекања тикета на 0 ако је стање промењено на стање које није чекање."
 
 #. SysConfig
 msgid ""
@@ -20222,7 +20433,7 @@ msgstr "Подешава број линија приказаних у текс�
 
 #. SysConfig
 msgid "Sets the options for PGP binary."
-msgstr "Одређује опције за PGP binary."
+msgstr "Одређује опције за „PGP binary”."
 
 #. SysConfig
 msgid ""
@@ -20231,7 +20442,7 @@ msgstr "Одређује редослед приказа разних ставк
 
 #. SysConfig
 msgid "Sets the password for private PGP key."
-msgstr "Подеси лозинку за приватни PGP кључ."
+msgstr "Подеси лозинку за приватни „PGP” кључ."
 
 #. SysConfig
 msgid "Sets the prefered time units (e.g. work units, hours, minutes)."
@@ -20509,7 +20720,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Should the cache data be held in memory?"
-msgstr ""
+msgstr "Да ли кеширани подаци треба да се чувају у меморији?"
 
 #. SysConfig
 msgid "Should the cache data be stored in the selected cache backend?"
@@ -21595,7 +21806,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This module is part of the admin area of OTRS."
-msgstr ""
+msgstr "Овај модул је део „OTRS” административног простора."
 
 #. SysConfig
 msgid ""
@@ -21716,7 +21927,7 @@ msgstr "Преглед реда тикета"
 
 #. SysConfig
 msgid "Ticket Responsible."
-msgstr ""
+msgstr "Одговоран за тикет."
 
 #. SysConfig
 msgid "Ticket Watcher"
@@ -21915,7 +22126,7 @@ msgstr "Користи Cc примаоце у узвраћеној Cc листи
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
-msgstr ""
+msgstr "Користи „richtext” формат за преглед и уређивање тикетских обавештења."
 
 #. SysConfig
 msgid ""
@@ -22012,7 +22223,7 @@ msgstr "прилог"
 
 #. SysConfig
 msgid "debug"
-msgstr ""
+msgstr "отклањање неисправности"
 
 #. SysConfig
 msgid "error"
@@ -22024,7 +22235,7 @@ msgstr "инфо"
 
 #. SysConfig
 msgid "inline"
-msgstr ""
+msgstr "у истом реду"
 
 #. SysConfig
 msgid "notice"

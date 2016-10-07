@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.572678050812162;
+    $Self->{Completeness}        = 0.574788528987002;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -821,7 +821,7 @@ sub Data {
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Endre innstillinger',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
@@ -1017,7 +1017,7 @@ sub Data {
         'Field type' => 'Felt type',
         'Object type' => 'Objekt type',
         'Internal field' => 'Internt felt',
-        'This field is protected and can\'t be deleted.' => '',
+        'This field is protected and can\'t be deleted.' => 'Dette feltet er beskyttet og kan ikke slettes.',
         'Field Settings' => 'Felt Innstillinger',
         'Default value' => 'Standardverdi',
         'This is the default value for this field.' => 'Dette er standardverdien for dette feltet',
@@ -1419,7 +1419,7 @@ sub Data {
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
             'Full adresse og navn på SSL sertifikat filen (må være i .p12 format).',
         'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => '',
-        'The password to open the SSL certificate.' => '',
+        'The password to open the SSL certificate.' => 'Passordet for å låse opp SSL sertifikatet.',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => 'f.eks. /opt/otrs/var/certificates/SOAP/CA/ca.pem',
@@ -1449,7 +1449,9 @@ sub Data {
         'Delete web service' => 'Fjern webtjeneste',
         'Do you really want to delete this web service?' => 'Vil du virkelig fjerne denne webtjenesten?',
         'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
             '',
         'Import example web service' => '',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
@@ -1594,7 +1596,7 @@ sub Data {
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Denne funksjonen er p.t. ikke tilgjengelig.',
         'No data found' => 'Ingen data funnet',
         'No notification method found.' => 'Ingen varslingsmetode funnet',
         'Notification Text' => 'Varslingstekst',
@@ -1630,6 +1632,10 @@ sub Data {
         'Email template' => 'E-post mal',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '',
@@ -1637,9 +1643,9 @@ sub Data {
         'Read documentation' => 'Les dokumentasjonen',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
-        'Unauthorized Usage Detected' => '',
+        'Unauthorized Usage Detected' => 'Uautorisert bruk oppdaget',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
+            'Dette systemet bruker %s uten en gyldig lisens! Vær vennlig å ta kontakt med %s for å fornye eller aktivere din kontrakt!',
         '%s not Correctly Installed' => '%s er ikke riktig installert',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
             'Din %s er ikke riktig installert. Vennligst installer på nytt ved hjelp av knappen under.',
@@ -1694,14 +1700,14 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'Administrasjon: PGP',
-        'PGP support is disabled' => '',
-        'To be able to use PGP in OTRS, you have to enable it first.' => '',
-        'Enable PGP support' => '',
-        'Faulty PGP configuration' => '',
+        'PGP support is disabled' => 'PGP støtte er deaktivert',
+        'To be able to use PGP in OTRS, you have to enable it first.' => 'For å kunne bruke PGP funksjonen i OTRS må du først aktivere den.',
+        'Enable PGP support' => 'Aktiver PGP støtte',
+        'Faulty PGP configuration' => 'Feil i PGP konfigurasjonen',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
-            '',
-        'Configure it here!' => '',
-        'Check PGP configuration' => '',
+            'PGP støtte er aktivert, men konfigurasjonen inneholder feil. Vær vennlig å gå igjennom konfigurasjonen ved å bruke knappen nedenfor.',
+        'Configure it here!' => 'Konfigurer den her!',
+        'Check PGP configuration' => 'Sjekk PGP konfigurasjon',
         'Add PGP key' => 'Legg til PGP-nøkkel',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i SysConfig',
@@ -1738,7 +1744,7 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Avinstaller',
         'Reinstall' => 're-installer',
-        'Features for %s customers only' => '',
+        'Features for %s customers only' => 'Funksjoner tilgjengelig kun for %s kunder',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
             '',
         'Download package' => 'Last ned pakke',
@@ -1820,11 +1826,11 @@ sub Data {
         'Upload process configuration' => 'Last opp prosess konfigurasjon',
         'Import process configuration' => 'Importer prosess konfigurasjon',
         'Example processes' => 'Eksempel på prosesser',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
             '',
         'Import example process' => '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1861,7 +1867,7 @@ sub Data {
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
             '',
         'The Queue field can only be used by customers when creating a new ticket.' =>
-            '',
+            'Kø feltet kan bare benyttes av kunder når en ny sak opprettes.',
         'Activity Dialog' => 'Aktivitetsdialog',
         'Activity dialog Name' => 'Aktivitetsdialognavn',
         'Available in' => 'Tilgjengelig i',
@@ -1877,7 +1883,7 @@ sub Data {
             '',
         'Filter available fields' => 'Tiltrer på tilgjengelige felter',
         'Available Fields' => 'Tilgjengelige felter',
-        'Name: %s' => '',
+        'Name: %s' => 'Navn: %s',
         'Assigned Fields' => 'Tilordnede felter',
         'ArticleType' => 'Artikkeltype',
         'Display' => 'Vis',
@@ -1965,6 +1971,7 @@ sub Data {
             '',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => 'Start aktivitet',
         'Contains %s dialog(s)' => '',
         'Assigned dialogs' => 'Tilordnede dialoger',
@@ -2037,9 +2044,9 @@ sub Data {
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Administrasjon av Autosvar for Køer',
         'This filter allow you to show queues without auto responses' => '',
-        'Queues without auto responses' => '',
+        'Queues without auto responses' => 'Køer uten autosvar',
         'This filter allow you to show all queues' => '',
-        'Show all queues' => '',
+        'Show all queues' => 'Vis alle køer',
         'Filter for Queues' => 'Filter for køer',
         'Filter for Auto Responses' => 'Filter for Autosvar',
         'Auto Responses' => 'Autosvar',
@@ -2519,6 +2526,8 @@ sub Data {
         'Phone ticket' => 'Telefonsak',
         'Email ticket' => 'E-postsak',
         'Start Chat' => 'Start Chat',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s åpne sak(er) av %s',
         '%s closed ticket(s) of %s' => '%s lukkede sak(er) av %s',
         'New phone ticket from %s' => 'Ny telefonsak fra %s',
@@ -2567,7 +2576,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'ikke på kontoret',
-        'Selected agent is not available for chat' => '',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'før',
@@ -2587,6 +2596,11 @@ sub Data {
         'Link object %s with' => '',
         'Unlink Object: %s' => 'Koble fra objekt: %s',
         'go to link add screen' => 'gå til skjermen for å legge til lenker',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Endre dine innstillinger',
@@ -2927,6 +2941,11 @@ sub Data {
         'and %s more...' => '',
         'Filters' => 'Filtre',
         'Confirm' => 'Bekreft',
+        'You have unanswered chat requests' => '',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript ikke tilgjengelig',
@@ -2955,7 +2974,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
-        'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Endre personlige innstillinger',
         'Logout %s %s' => 'Logg ut %s %s',
 
@@ -3059,6 +3077,9 @@ sub Data {
         'New public chat request' => '',
         'New activity' => 'Ny aktivitet',
         'New activity on one of your monitored chats.' => '',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => 'Informasjon om OTRS Agenten',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3800,13 +3821,13 @@ sub Data {
         'Ticket Created' => '',
         'Note Added' => '',
         'Note Added (Customer)' => '',
-        'Outgoing Email' => '',
-        'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => '',
+        'Outgoing Email' => 'Utgående epost',
+        'Outgoing Email (internal)' => 'Utgående epost (intern)',
+        'Incoming Customer Email' => 'Innkommende kunde-epost',
         'Dynamic Field Updated' => '',
-        'Outgoing Phone Call' => '',
-        'Incoming Phone Call' => '',
-        'Outgoing Answer' => '',
+        'Outgoing Phone Call' => 'Utgående telefonsamtale',
+        'Incoming Phone Call' => 'Innkommende telefonsamtale',
+        'Outgoing Answer' => 'Utgående svar',
         'SLA Updated' => '',
         'Service Updated' => '',
         'Customer Updated' => '',
@@ -3820,20 +3841,20 @@ sub Data {
         'Link Deleted' => '',
         'Ticket Merged' => '',
         'Pending Time Set' => '',
-        'Ticket Locked' => '',
-        'Ticket Unlocked' => '',
-        'Queue Updated' => '',
-        'Priority Updated' => '',
-        'Title Updated' => '',
+        'Ticket Locked' => 'Saken er låst',
+        'Ticket Unlocked' => 'Saken er ulåst',
+        'Queue Updated' => 'Kø oppdatert',
+        'Priority Updated' => 'Prioritet oppdatert',
+        'Title Updated' => 'Tittel oppdatert',
         'Type Updated' => '',
-        'Incoming Web Request' => '',
+        'Incoming Web Request' => 'Innkommende webhenvendelse',
         'Automatic Follow-Up Sent' => '',
         'Automatic Reply Sent' => '',
         'Time Accounted' => '',
-        'External Chat' => '',
-        'Internal Chat' => '',
+        'External Chat' => 'Ekstern chat',
+        'Internal Chat' => 'Intern chat',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            '',
+            'Beklager, men du har ikke tilgang til denne saken i sin nåværende tilstand.',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
         'Event type filter settings were saved.' => '',
@@ -3913,17 +3934,20 @@ sub Data {
         'sorted descending' => '',
         'filter not active' => '',
         'filter active' => '',
-        'This ticket has no title or subject' => '',
+        'This ticket has no title or subject' => 'Denne saken har ingen tittel eller emne',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => 'Denne brukeren er for øyeblikket avlogget',
         'This user is currently active' => 'Denne brukeren er for øyeblikket aktiv',
+        'Away' => '',
         'This user is currently away' => 'Denne brukeren er for øyeblikket borte',
+        'Unavailable' => '',
         'This user is currently unavailable' => 'Denne brukeren er for øyeblikket utilgjengelig',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            '',
+            'Beklager, men du har ikke tilgang til denne saken i sin nåværende tilstand. Du kan gjøre en av følgende:',
         'No Permission' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
@@ -3993,6 +4017,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
@@ -4139,7 +4167,7 @@ sub Data {
             'Partisjonen hvor OTRS er plasser, har igjen diskplass problemer.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => '',
+        'Disk Partitions Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Distribusjon',
@@ -4165,16 +4193,17 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Det bær vær ikke være mer enn 200 MB brukt diskplass til swap.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => '',
+        'OTRS' => 'OTRS',
+        'Config Settings' => '',
         'Could not determine value.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
         'Daemon' => 'Agent',
+        'Daemon is running.' => '',
         'Daemon is not running.' => 'Agenten kjører ikke.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => '',
+        'Database Records' => 'Databaseposter',
         'Tickets' => 'Saker',
         'Ticket History Entries' => '',
         'Articles' => 'Innlegg',
@@ -4184,6 +4213,7 @@ sub Data {
         'Invalid Dynamic Fields' => 'Ugyldige dynamiske felt',
         'Invalid Dynamic Field Values' => 'Ugyldige dynamiske felt verdier',
         'GenericInterface Webservices' => '',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Måneder mellom første og siste sak',
         'Tickets Per Month (avg)' => 'Saker per måned (gjennomsnittlig)',
 
@@ -4215,9 +4245,15 @@ sub Data {
         'Package Installation Status' => 'Installasjonsstatus for pakker',
         'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Noen pakker er ikke riktig installert.',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => 'OTRS/pakkeliste',
+        'Package List' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4256,7 +4292,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => 'OTRS/Tidsinstillinger',
+        'Time Settings' => '',
         'Server time zone' => 'Tjener tidssone',
         'Computed server time offset' => 'Utregnet tjener tidsforskyvning',
         'OTRS TimeZone setting (global time offset)' => 'OTRS tidssone instillinger (Global tidsforskyvning)',
@@ -4267,10 +4303,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => '',
+        'Webserver' => 'Webtjener',
+        'Loaded Apache Modules' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Webtjener',
         'MPM model' => 'MPM modell',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'OTRS krever Apache for å kunne kjøre \'prefork\' MPM modellen.',
@@ -4293,7 +4329,7 @@ sub Data {
             'Apache2::DBI bør brukes for å oppnå best ytelse med forhåndsetablerte databasekoblinger. ',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => '',
+        'Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'Du bør benytte PerlEx for å forbedre ytelsen.',
@@ -4302,6 +4338,10 @@ sub Data {
         'Webserver Version' => 'Webtjener versjon',
         'Could not determine webserver version.' => 'Kunne ikke bestemme webtjenerversjon.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => '',
+        'Concurrent Users' => 'Samtidige brukere',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Ukjent',
         'OK' => 'OK',
@@ -4309,6 +4349,18 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => '',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -4391,7 +4443,7 @@ sub Data {
             '',
         'Ticket follow-up notification (unlocked)' => '',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
-            '',
+            'Du vil motta et varsel om en kunde sender en oppfølging til en ulåst sak i "mine køer" eller "mine tjenester".',
         'Ticket follow-up notification (locked)' => '',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
             '',
@@ -5452,6 +5504,8 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5557,6 +5611,7 @@ Thanks for your help!
             '',
         'Enables S/MIME support.' => 'Aktiverer støtte for S/MIME',
         'Enables customers to create their own accounts.' => 'Lar kunder opprette sine egne kontoer',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => '',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '',
@@ -5967,10 +6022,13 @@ Thanks for your help!
             '',
         'Module to compose signed messages (PGP or S/MIME).' => 'Modul for å lage signerte meldinger (PGP eller S/MIME)',
         'Module to crypt composed messages (PGP or S/MIME).' => 'Modul for å kryptere meldinger (PGP eller S/MIME)',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             'Modul for å filtrere og manipulere innkommende meldinger Blokker/ignorer alle søppel-meldinger med "From: noreply@"-adresser',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             '',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             '',
@@ -6132,6 +6190,8 @@ Thanks for your help!
         'Refresh interval' => 'Automatisk innlasting',
         'Removed subscription for user "%s".' => 'Fjernet abonnement for brukeren «%s».',
         'Removes the ticket watcher information when a ticket is archived.' =>
+            '',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',

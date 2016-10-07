@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-09-14 10:25+0000\n"
-"PO-Revision-Date: 2016-09-14 15:43+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-10-07 11:55+0000\n"
+"PO-Revision-Date: 2016-10-07 09:57+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5083,8 +5083,14 @@ msgstr "Példa webszolgáltatások"
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate best practice example web service that are part of %s."
-" Please note that some additional configuration may be required."
-msgstr "Itt kapcsolhatja be a legjobb gyakorlat szerinti példa webszolgáltatást, amely a következő része: %s. Ne feledje, hogy néhány további beállítás lehet szükséges."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Please note that these web services may depend on other modules which are "
+"available only in certain %s contract levels (there will be a note with "
+"details at import time)."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import example web service"
@@ -5675,6 +5681,22 @@ msgstr "E-mail sablon"
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr "Ezen sablon használata a teljes e-mail előállításához (csak HTML e-maileknél)."
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Enable email security"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email security level"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If signing key/certificate is missing"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If encryption key/certificate is missing"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -6297,19 +6319,19 @@ msgstr "Példafolyamatok"
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate best practice example processes that are part of %s. "
-"Please note that some additional configuration may be required."
-msgstr "Itt kapcsolhatja be a legjobb gyakorlat szerinti példafolyamatokat, amelyek a következő részei: %s. Ne feledje, hogy néhány további beállítás lehet szükséges."
-
-#. Template: AdminProcessManagement
-msgid "Import example process"
-msgstr "Példafolyamat importálása"
+"Here you can activate best practice example processes. Please note that some"
+" additional configuration may be required."
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
 "Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import some sophisticated example processes."
-msgstr "Szeretné élvezni a szakértők által létrehozott folyamatok előnyeit? Ahhoz, hogy lehetősége legyen néhány kitapasztalt példafolyamat importálására, frissítsen a következőre: %s."
+"be able to import additional sophisticated example processes."
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Import example process"
+msgstr "Példafolyamat importálása"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6760,6 +6782,10 @@ msgid ""
 msgstr "Ezen a képernyőn hozhat létre új folyamatot. Annak érdekében, hogy az új folyamatot elérhetővé tegye a felhasználóknak, győződjön meg arról, hogy „Aktívra” állította az állapotát, és szinkronizálta a munka befejezése után."
 
 #. Template: AdminProcessManagementProcessPrint
+msgid "cancel & close"
+msgstr ""
+
+#. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
 msgstr "Tevékenység indítása"
 
@@ -6847,7 +6873,7 @@ msgstr "Mező eltávolítása"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr "Én nem lehet ismételni ugyanazon a feltételen."
+msgstr "És nem lehet ismételni ugyanazon a feltételen."
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -8498,6 +8524,14 @@ msgid "Start Chat"
 msgstr "Csevegés indítása"
 
 #. Template: AgentDashboardCustomerUserList
+msgid "Video call"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Audio call"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr "%s nyitott jegye ennek: %s"
 
@@ -8633,8 +8667,8 @@ msgid "out of office"
 msgstr "irodán kívül"
 
 #. Template: AgentDashboardUserOnline
-msgid "Selected agent is not available for chat"
-msgstr "A kijelölt ügyintéző nem érhető el csevegéshez"
+msgid "Selected user is not available for chat"
+msgstr ""
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -8679,6 +8713,16 @@ msgstr "Objektum kapcsolatának törlése: %s"
 #. Template: AgentLinkObject
 msgid "go to link add screen"
 msgstr "ugrás a kapcsolat hozzáadás képernyőre"
+
+#. Template: AgentOTRSBusinessBlockScreen
+msgid "Unauthorized usage of %s detected"
+msgstr ""
+
+#. Template: AgentOTRSBusinessBlockScreen
+msgid ""
+"If you decide to downgrade to OTRS Free, you will lose all database tables "
+"and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9706,6 +9750,26 @@ msgstr "Szűrők"
 msgid "Confirm"
 msgstr "Megerősítés"
 
+#. Template: CustomerFooterJS
+msgid "You have unanswered chat requests"
+msgstr "Megválaszolatlan csevegés kérései vannak"
+
+#. Template: CustomerFooterJS
+msgid "Video call invite"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Accept"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Decline"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "An internal error occurred."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript nem érhető el"
@@ -9799,10 +9863,6 @@ msgstr "Az e-mail címe (ez lesz a felhasználóneve)"
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
 msgstr "Bejövő csevegés kérések"
-
-#. Template: CustomerNavigationBar
-msgid "You have unanswered chat requests"
-msgstr "Megválaszolatlan csevegés kérései vannak"
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
@@ -10125,6 +10185,18 @@ msgstr "Új tevékenység"
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
 msgstr "Új tevékenység a megfigyelt csevegések valamelyikén."
+
+#. Template: FooterJS
+msgid "Your browser does not support video calling."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Selected user is not available for video call."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Target user's browser does not support video calling."
+msgstr ""
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
@@ -12506,6 +12578,10 @@ msgid "This ticket has no title or subject"
 msgstr "Ennek a jegynek nincs címe vagy tárgya"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Offline"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently offline"
 msgstr "Ez a felhasználó jelenleg nincs kapcsolatban"
 
@@ -12514,8 +12590,16 @@ msgid "This user is currently active"
 msgstr "Ez a felhasználó jelenleg aktív"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Away"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently away"
 msgstr "Ez a felhasználó jelenleg távol van"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Unavailable"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently unavailable"
@@ -12676,6 +12760,14 @@ msgstr "Ez a beállítás nem kapcsolható ki."
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr "nincs telepítve"
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+msgid "Inactive"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+msgid "FadeAway"
+msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
@@ -13082,8 +13174,8 @@ msgstr "Az OTRS-t tartalmazó partíciónak nincs tárhely problémája."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-msgid "Operating System/Disk Partitions Usage"
-msgstr "Operációs rendszer/Lemezpartíciók használata"
+msgid "Disk Partitions Usage"
+msgstr "Lemezpartíciók használata"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
@@ -13137,8 +13229,13 @@ msgstr "200 MB-nál nem kellene több lapozófájlt használni."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-msgid "OTRS/Config Settings"
-msgstr "OTRS/Beállítások konfigurálása"
+msgid "OTRS"
+msgstr "OTRS"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "Config Settings"
+msgstr "Beállítások konfigurálása"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
@@ -13147,13 +13244,13 @@ msgstr "Nem sikerült meghatározni az értéket."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-msgid "OTRS"
-msgstr "OTRS"
+msgid "Daemon"
+msgstr "Démon"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-msgid "Daemon"
-msgstr "Démon"
+msgid "Daemon is running."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -13162,8 +13259,8 @@ msgstr "A démon nem fut."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-msgid "OTRS/Database Records"
-msgstr "OTRS/Adatbázis rekordok"
+msgid "Database Records"
+msgstr "Adatbázis rekordok"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -13209,6 +13306,11 @@ msgstr "Érvénytelen dinamikus mező értékek"
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
 msgstr "Általános felület webszolgáltatások"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Process Tickets"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -13291,9 +13393,31 @@ msgstr "Néhány csomag helyileg módosított fájlokkal rendelkezik."
 msgid "Some packages are not correctly installed."
 msgstr "Néhány csomag nincs helyesen telepítve."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Package Verification Status"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid ""
+"Some packages are not verified by the OTRS Group! It is recommended not to "
+"use this packages."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Package Framework Version Status"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Some packages are not allowed for the current framework version."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-msgid "OTRS/Package List"
-msgstr "OTRS/Csomaglista"
+msgid "Package List"
+msgstr "Csomaglista"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -13381,8 +13505,8 @@ msgid ""
 msgstr "A ticket_index tábla elárvult rekordokat tartalmaz. Futtassa az otrs/bin/otrs.CleanTicketIndex.pl parancsot a StaticDB index tisztításához."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS/Time Settings"
-msgstr "OTRS/Időbeállítások"
+msgid "Time Settings"
+msgstr "Időbeállítások"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Server time zone"
@@ -13416,13 +13540,13 @@ msgstr "OTRS TimeZone beállítás a naptárhoz: "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-msgid "Webserver/Loaded Apache Modules"
-msgstr "Webkiszolgáló/Betöltött Apache modulok"
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "Webserver"
 msgstr "Webkiszolgáló"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Loaded Apache Modules"
+msgstr "Betöltött Apache modulok"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
@@ -13501,8 +13625,8 @@ msgstr "Az Apache2::DBI használata kellene az előre kiépített adatbázis-kap
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-msgid "Webserver/Environment Variables"
-msgstr "Webkiszolgáló/Környezeti változók"
+msgid "Environment Variables"
+msgstr "Környezeti változók"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
@@ -13516,6 +13640,16 @@ msgstr "Webkiszolgáló verzió"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Could not determine webserver version."
 msgstr "Nem sikerült meghatározni a webkiszolgáló verzióját."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+msgid "Concurrent Users Details"
+msgstr "Egyidejű felhasználók részletei"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+msgid "Concurrent Users"
+msgstr "Egyidejű felhasználók"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "Unknown"
@@ -13532,6 +13666,56 @@ msgstr "Probléma"
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
 msgstr "Feloldási idő visszaállítása."
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP encrypt only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign and encrypt"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME encrypt only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign and encrypt"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP and SMIME not enabled."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Skip notification delivery"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unsigned notification"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unencrypted notification"
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -17258,6 +17442,13 @@ msgstr "Meghatározza, hogy mely várólisták lesznek érvényesek a jegy címz
 
 #. SysConfig
 msgid ""
+"Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
+" script contents. Disabling this HTTP header can be a security issue! Only "
+"disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
@@ -17611,6 +17802,10 @@ msgstr "Engedélyezi az S/MIME támogatást."
 #. SysConfig
 msgid "Enables customers to create their own accounts."
 msgstr "Engedélyezi az ügyfeleknek, hogy létrehozzák a saját fiókjaikat."
+
+#. SysConfig
+msgid "Enables fetch S/MIME from CustomerUser backend support."
+msgstr ""
 
 #. SysConfig
 msgid "Enables file upload in the package manager frontend."
@@ -18206,8 +18401,8 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
+"example_domain\\\\user to user)."
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -18974,6 +19169,11 @@ msgstr "Egy modul a megírt üzenetek titkosításához (PGP vagy S/MIME)."
 
 #. SysConfig
 msgid ""
+"Module to fetch customer users SMIME certificates of incoming messages."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
 msgstr "Egy modul a bejövő üzenetek szűréséhez és manipulálásához. Minden levélszemét blokkolása vagy mellőzése a noreply@ című feladóval."
@@ -18984,6 +19184,10 @@ msgid ""
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
 "as [***] in Set =>."
 msgstr "Egy modul a bejövő üzenetek szűréséhez és manipulálásához. Kérjen le egy 4 számjegyű számot a jegy szabad szöveghez, használjon reguláris kifejezést az illesztésben. Például From => '(.+?)@.+?', és használja a () karaktereket mint [***] ebben: Set =>."
+
+#. SysConfig
+msgid "Module to filter encrypted bodies of incoming messages."
+msgstr ""
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
@@ -19584,6 +19788,13 @@ msgstr "Eltávolítja a jegy megfigyelési információkat, ha a jegyet archivá
 
 #. SysConfig
 msgid ""
+"Renew existing SMIME certificates from customer backend. Note: SMIME and "
+"SMIME::FetchFromCustomer needs to be active in SysConfig and customer "
+"backend needs to be configured to fetch UserSMIMECertificate attribute."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
 msgstr "Kicseréli az eredeti küldőt az aktuális ügyfél e-mail címére a válasz írásakor az ügyintézői felület jegyírás képernyőjén."
@@ -19878,7 +20089,7 @@ msgstr "Elküld minden kimenő e-mailt titkos másolatként egy megadott címre.
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
-msgstr ""
+msgstr "Az ügyfél értesítéseket csak a leképezett ügyfélnek küldi el."
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."

@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.55893377759267;
+    $Self->{Completeness}        = 0.553538271095523;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1442,7 +1442,9 @@ Opdater venligst dit framework først!',
         'Delete web service' => 'Slet web-service',
         'Do you really want to delete this web service?' => 'Vil du virkelig slette denne web-service?',
         'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
             '',
         'Import example web service' => '',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
@@ -1623,6 +1625,10 @@ Opdater venligst dit framework først!',
         'Email template' => 'Email skabelon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Administrer %s',
@@ -1813,11 +1819,11 @@ Opdater venligst dit framework først!',
         'Upload process configuration' => 'Upload proces-konfiguration',
         'Import process configuration' => 'Importer proces-konfiguration',
         'Example processes' => 'Eksempel processer',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
-            'Her kan du aktivere "Best Practice" processer der er en del af %s. Bemærk at yderligere konfiguration kan være nødvendig.',
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+            '',
         'Import example process' => 'Importer eksempel processer',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            'Vil du have udbytte af processer lavet af experter? Opgrader til %s for at importere nogle sofistikerede eksempel processer.',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'For at lave en ny proces kan du enten importere en proces fra et andet system eller kreere en helt ny.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1958,6 +1964,7 @@ Opdater venligst dit framework først!',
             '',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => 'Start aktivitet',
         'Contains %s dialog(s)' => 'Indeholder %s dialoger',
         'Assigned dialogs' => 'Tildelte dialoger',
@@ -2512,6 +2519,8 @@ Opdater venligst dit framework først!',
         'Phone ticket' => 'Sager',
         'Email ticket' => 'Mail-sager',
         'Start Chat' => 'Start Chat',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s åbne sager af %s',
         '%s closed ticket(s) of %s' => '%s lukkede sager af %s',
         'New phone ticket from %s' => 'Nye sager fra %s',
@@ -2560,7 +2569,7 @@ Opdater venligst dit framework først!',
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'ude af kontoret',
-        'Selected agent is not available for chat' => 'Den valgte agent er ikke tilgængelig i chat',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'til',
@@ -2580,6 +2589,11 @@ Opdater venligst dit framework først!',
         'Link object %s with' => '',
         'Unlink Object: %s' => 'Fjern k?dning af objekt: %s',
         'go to link add screen' => 'gå til skærmen, hvor links kan tilføjes',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Opdater dine indstillinger',
@@ -2920,6 +2934,11 @@ Opdater venligst dit framework først!',
         'and %s more...' => 'og %s flere...',
         'Filters' => 'Filtre',
         'Confirm' => 'Bekræft',
+        'You have unanswered chat requests' => '',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript ikke tilgængeligt',
@@ -2948,7 +2967,6 @@ Opdater venligst dit framework først!',
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
-        'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Rediger dine personlige indstillinger',
         'Logout %s %s' => 'Logaf %s %s',
 
@@ -3052,6 +3070,9 @@ Opdater venligst dit framework først!',
         'New public chat request' => '',
         'New activity' => 'Ny aktivitet',
         'New activity on one of your monitored chats.' => 'Ny aktivitet i en af dine monitorerede chats.',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => 'Ønsker du at fortsætte?',
         'Information about the OTRS Daemon' => 'Information om OTRS tjenesten',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3909,9 +3930,12 @@ Opdater venligst dit framework først!',
         'This ticket has no title or subject' => 'Denne sag mangler overskrift eller emne',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => 'Brugeren er offline',
         'This user is currently active' => 'Brugeren er aktiv',
+        'Away' => '',
         'This user is currently away' => '',
+        'Unavailable' => '',
         'This user is currently unavailable' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -3986,6 +4010,10 @@ Opdater venligst dit framework først!',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
@@ -4132,7 +4160,7 @@ Opdater venligst dit framework først!',
             'Den partition OTRS befinder sig på har ingen pladsproblemer.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => '',
+        'Disk Partitions Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'Distribution',
@@ -4158,16 +4186,17 @@ Opdater venligst dit framework først!',
         'There should be no more than 200 MB swap space used.' => 'Der bør ikke være mere end 200 MB brugt swap.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => 'OTRS/Konfigurations indstillinger',
+        'OTRS' => 'OTRS',
+        'Config Settings' => 'Konfigurationsindstillinger',
         'Could not determine value.' => 'Kunne ikke fastslå værdi.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
         'Daemon' => 'Tjeneste',
+        'Daemon is running.' => '',
         'Daemon is not running.' => 'Tjeneste kører ikke.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => '',
+        'Database Records' => '',
         'Tickets' => 'Sager',
         'Ticket History Entries' => 'Sagens Historik',
         'Articles' => 'Indlæg',
@@ -4177,6 +4206,7 @@ Opdater venligst dit framework først!',
         'Invalid Dynamic Fields' => '',
         'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Måneder mellem første og sidste sag',
         'Tickets Per Month (avg)' => 'Sager pr. måned (gennemsnit)',
 
@@ -4208,9 +4238,15 @@ Opdater venligst dit framework først!',
         'Package Installation Status' => '',
         'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Nogle pakker er ikke korrekt installeret.',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => '',
+        'Package List' => 'Pakkeliste',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4249,7 +4285,7 @@ Opdater venligst dit framework først!',
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => 'OTRS/Tids indstillinger',
+        'Time Settings' => '',
         'Server time zone' => 'Server tidszone',
         'Computed server time offset' => 'Beregnet server tidsforskydning',
         'OTRS TimeZone setting (global time offset)' => 'OTRS tidszone indstilling (Global tidsforskydning)',
@@ -4260,10 +4296,10 @@ Opdater venligst dit framework først!',
         'OTRS TimeZone setting for calendar ' => 'OTRS tidszone indstilling for kalender',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => 'Webserver/indlæste Apache moduler',
+        'Webserver' => 'Web-server',
+        'Loaded Apache Modules' => 'Indlæste Apache-moduler',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Web-server',
         'MPM model' => '',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'OTRS kræver, at apache kører med MPM-modellen \'prefork\'.',
@@ -4286,7 +4322,7 @@ Opdater venligst dit framework først!',
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => '',
+        'Environment Variables' => 'Miljøvariable',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => '',
@@ -4295,6 +4331,10 @@ Opdater venligst dit framework først!',
         'Webserver Version' => 'Webserver-version',
         'Could not determine webserver version.' => 'Kunne ikke fastslå webserver-version.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => '',
+        'Concurrent Users' => 'Samtidige brugere',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Ukendt',
         'OK' => 'OK',
@@ -4302,6 +4342,18 @@ Opdater venligst dit framework først!',
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => 'Tid til automatisk frigivelse nulstillet.',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -5445,6 +5497,8 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5550,6 +5604,7 @@ Thanks for your help!
             '',
         'Enables S/MIME support.' => 'Aktiverer S/MIME-understøttelse',
         'Enables customers to create their own accounts.' => 'Lader kunder oprette deres egne konti.',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => '',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '',
@@ -5960,10 +6015,13 @@ Thanks for your help!
             '',
         'Module to compose signed messages (PGP or S/MIME).' => '',
         'Module to crypt composed messages (PGP or S/MIME).' => '',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             '',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             '',
@@ -6125,6 +6183,8 @@ Thanks for your help!
         'Refresh interval' => 'Opdateringsfrekvens',
         'Removed subscription for user "%s".' => 'Bruger "%s" følger ikke længere sagen.',
         'Removes the ticket watcher information when a ticket is archived.' =>
+            '',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',

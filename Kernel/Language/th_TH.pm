@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.862140774677218;
+    $Self->{Completeness}        = 0.852073447493295;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1441,8 +1441,10 @@ sub Data {
         'Delete web service' => 'ลบ web service',
         'Do you really want to delete this web service?' => 'คุณต้องการลบweb serviceนี้หรือไม่?',
         'Example Web Services' => 'ตัวอย่างเช่น Web Services',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
-            'คุณสามารถเปิดใช้งานบริการที่ดีที่สุดเช่นการปฏิบัติเว็บที่เป็นส่วนหนึ่งของ %s ที่นี่ โปรดทราบว่าบการกำหนดค่าเพิ่มเติมบางอย่างอาจจำเป็นต้องใช้',
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+            '',
         'Import example web service' => 'นำเข้าบริการเว็บตัวอย่าง',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '',
@@ -1622,6 +1624,10 @@ sub Data {
         'Email template' => 'แม่แบบของอีเมล์',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'ใช้รูปแบบนี้เพื่อสร้างอีเมลที่สมบูรณ์ (เฉพาะอีเมล HTML)',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'จัดการ% s',
@@ -1813,12 +1819,11 @@ sub Data {
         'Upload process configuration' => 'อัปโหลดการกำหนดค่าขั้นตอนต่างๆ',
         'Import process configuration' => 'นำเข้าการกำหนดค่าขั้นตอน',
         'Example processes' => 'ตัวอย่างกระบวนการต่างๆ',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
-            'คุณสามารถเปิดใช้งานตัวอย่างกระบวนการต่างๆที่ดีที่สุดที่เป็นส่วนหนึ่งของ% s ที่นี้ โปรดทราบว่า
-การกำหนดค่าเพิ่มเติมบางส่วนอาจจำเป็นต้องใช้',
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+            '',
         'Import example process' => 'นำเข้าตัวอย่างขั้นตอน',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            'คุณต้องการที่จะได้รับประโยชน์จากกระบวนการสร้างโดยผู้เชี่ยวชาญหรือไม่? อัพเกรดเป็น% s เพื่อให้สามารถนำเข้าตัวอย่างกระบวนการที่มีความซับซ้อนบางส่วน',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'เพื่อสร้างขั้นตอนใหม่คุณสามารถสร้างโดยนำเข้าขั้นตอนที่ถูกส่งเข้ามาจากระบบอื่นหรือสร้างใหม่',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1960,6 +1965,7 @@ sub Data {
             'ในหน้าจอนี้คุณสามารถสร้างกระบวนการใหม่ การที่จะทำให้กระบวนการใหม่เปิดใช้งานให้ผู้ใช้โปรดให้แน่ใจว่าการตั้งค่าสถานภาพเป็น \'ใช้งาน\' และเชื่อมต่อหลังจากการทำงานของคุณเสร็จสิ้น',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => 'เริ่มต้นกิจกรรม',
         'Contains %s dialog(s)' => 'ประกอบด้วยไดอะล็อก(s) %s',
         'Assigned dialogs' => 'ไดอะล็อกที่ได้รับมอบหมาย',
@@ -2515,6 +2521,8 @@ sub Data {
         'Phone ticket' => 'ตั๋วจากโทรศัพท์',
         'Email ticket' => 'อีเมล์ตั๋ว',
         'Start Chat' => 'เริ่มแชท',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '% s ตั๋วเปิด (s) ของ% s',
         '%s closed ticket(s) of %s' => '% s ตั๋วที่ปิดแล้ว (s) ของ% s',
         'New phone ticket from %s' => 'ตั๋วทางโทรศัพท์ใหม่จาก% s',
@@ -2563,7 +2571,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'นอกออฟฟิศ',
-        'Selected agent is not available for chat' => 'เอเย่นต์ที่เลือกไว้ไม่พร้อมที่จะสนทนา',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'จนถึง',
@@ -2583,6 +2591,11 @@ sub Data {
         'Link object %s with' => '',
         'Unlink Object: %s' => 'ยกเลิกการเชื่อมโยงออบเจค: %s',
         'go to link add screen' => 'ไปยังลิงค์หน้าจอการเพิ่ม',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'แก้ไขการตั้งค่าของคุณ',
@@ -2923,6 +2936,11 @@ sub Data {
         'and %s more...' => 'และ %s อื่นๆ...',
         'Filters' => 'ตัวกรอง',
         'Confirm' => 'ยืนยัน',
+        'You have unanswered chat requests' => 'คุณมีคำขอร้องแชทที่ยังไม่ได้ตอบ',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'ไม่พร้อมใช้งาน JavaScript',
@@ -2951,7 +2969,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'การร้องขอแชทขาเข้า',
-        'You have unanswered chat requests' => 'คุณมีคำขอร้องแชทที่ยังไม่ได้ตอบ',
         'Edit personal preferences' => 'แก้ไขการตั้งค่าส่วนตัว',
         'Logout %s %s' => 'ออกจากระบบ %s %s',
 
@@ -3055,6 +3072,9 @@ sub Data {
         'New public chat request' => 'การร้องขอแชทสาธารณะใหม่',
         'New activity' => 'กิจกรรมใหม่',
         'New activity on one of your monitored chats.' => 'กิจกรรมใหม่ของหนึ่งในการสนทนาที่ถูกตรวจสอบของคุณ',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => 'คุณต้องการที่จะดำเนินการต่อหรือไม่?',
         'Information about the OTRS Daemon' => 'ข้อมูลเกี่ยวกับOTRS Daemon',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3912,9 +3932,12 @@ sub Data {
         'This ticket has no title or subject' => 'ตั๋วนี้ไม่มีหัวข้อหรือชื่อเรื่อง',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => 'ผู้ใช้รายนี้ได้ออฟไลน์ในขณะนี้',
         'This user is currently active' => 'ผู้ใช้รายนี้กำลังใช้งานในขณะนี้',
+        'Away' => '',
         'This user is currently away' => 'ผู้ใช้รายนี้ไม่อยู่ในขณะนี้',
+        'Unavailable' => '',
         'This user is currently unavailable' => 'ผู้ใช้รายนี้ไม่พร้อมใช้งานในขณะนี้',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -3989,6 +4012,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'ไม่ได้ติดตั้ง',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'ไม่สามารถได้รับ Token จากเซิร์ฟเวอร์',
@@ -4135,7 +4162,7 @@ sub Data {
             'แบ่ง OTRS เมื่อควาจุของดิสก์ไม่มีปัญหา',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => 'การใช้งานการแบ่งระบบปฏิบัติการ / ดิสก์ ',
+        'Disk Partitions Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'การแพร่กระจาย',
@@ -4161,16 +4188,17 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'พื้นที่การแลกเปลี่ยนที่ถูกใช้ควรจะมีมากกว่า 200 MB ',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => 'การตั้งค่า OTRS/Config',
+        'OTRS' => 'OTRS',
+        'Config Settings' => '',
         'Could not determine value.' => 'ไม่สามารถกำหนดค่า',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
         'Daemon' => 'Daemon',
+        'Daemon is running.' => '',
         'Daemon is not running.' => ' Daemon ไม่ทำงาน',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => 'การบันทึก OTRS/Database',
+        'Database Records' => '',
         'Tickets' => 'ตั๋ว',
         'Ticket History Entries' => 'ประวัติการป้อนตั๋ว',
         'Articles' => 'บทความ',
@@ -4180,6 +4208,7 @@ sub Data {
         'Invalid Dynamic Fields' => 'ฟิลด์แบบไดนามิกที่ไม่ถูกต้อง',
         'Invalid Dynamic Field Values' => 'ค่าฟิลด์แบบไดนามิกที่ไม่ถูกต้อง',
         'GenericInterface Webservices' => 'GenericInterface Webservices',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'เดือนที่อยู่ระหว่างตั๋วใบแรกและใบสุดท้าย',
         'Tickets Per Month (avg)' => 'ตั๋วต่อเดือน (เฉลี่ย)',
 
@@ -4211,9 +4240,15 @@ sub Data {
         'Package Installation Status' => 'สถานะการติดตั้งแพคเกจ',
         'Some packages have locally modified files.' => 'แพคเกจบางส่วนมีการปรับเปลี่ยนไฟล์ภายในเครื่อง',
         'Some packages are not correctly installed.' => 'แพคเกจบางแพคเกจไม่ถูกติดตั้งอย่างถูกต้อง',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => 'รายการ OTRS/แพคเกจ',
+        'Package List' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4252,7 +4287,7 @@ sub Data {
             'ตาราง ticket_index ประกอบด้วยบันทึกกำพร้า โปรดเรียกใช้ otrs/bin/otrs.CleanTicketIndex.pl  เพื่อลบดัชนี StaticDB',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => 'การตั้งค่า OTRS/Time ',
+        'Time Settings' => '',
         'Server time zone' => 'โซนเวลาเซิร์ฟเวอร์',
         'Computed server time offset' => 'เวลาชดเชยการคำนวณเซิร์ฟเวอร์',
         'OTRS TimeZone setting (global time offset)' => 'การตั้งค่า OTRS TimeZone (เวลาทั่วโลกชดเชย)',
@@ -4263,10 +4298,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => 'การตั้งค่า OTRS TimeZone สำหรับปฏิทิน',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => 'โมดูล Webserver/Loaded Apache ',
+        'Webserver' => 'Webserver',
+        'Loaded Apache Modules' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'Webserver',
         'MPM model' => 'โมเดล MPM ',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'OTRS  ต้องการให้ Apache จะทำงานกับโมเดล MPM  \'prefork\' ',
@@ -4289,7 +4324,7 @@ sub Data {
             'ควรจะใช้ Apache2::DBI เพื่อให้ได้ประสิทธิภาพที่ดีขึ้นด้วยการเชื่อมต่อฐานข้อมูลที่ถูกสร้างมาก่อน',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => 'ตัวแปร Webserver/Environment ',
+        'Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => 'คุณควรใช้ PerlEx เพื่อเพิ่มประสิทธิภาพของคุณ',
@@ -4298,6 +4333,10 @@ sub Data {
         'Webserver Version' => 'เวอร์ชั่นของ Webserver',
         'Could not determine webserver version.' => 'ไม่สามารถตรวจสอบเวอร์ชั่นของเว็บเซิร์ฟเวอร์',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => '',
+        'Concurrent Users' => 'ผู้ใช้งานร่วมกัน',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'ไม่ระบุ',
         'OK' => 'โอเค',
@@ -4305,6 +4344,18 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => 'รีเซ็ตหรือปลดล็อคเวลา',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -5463,6 +5514,8 @@ Thanks for your help!
             'กำหนดตัวเลือกที่จะใช้งานได้ของผู้รับ (ตั๋วโทรศัพท์) และผู้ส่ง (ตั๋วอีเมล) ในอินเตอร์เฟสเอเย่นต์',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'กำหนดว่าคิวใดจะสามารถใช้งานได้สำหรับผู้รับตั๋วของอินเตอร์เฟสลูกค้า',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'ปิดการใช้งานส่วนหัวของ HTTP "X-Frame-Options: SAMEORIGIN" เพื่อช่วยให้ OTRS ถูกรวมเป็น IFrame ในเว็บไซต์อื่น ๆ ปิดการใช้งานส่วนหัวของ HTTP นี้อาจจะเกิดปัญหาด้านความปลอดภัย! ปิดการใช้งานเมื่อคุณรู้ว่าสิ่งที่คุณกำลังทำคืออะไรเท่านั้น!',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5569,6 +5622,7 @@ Thanks for your help!
             'เปิดใช้การสนับสนุน PGP เมื่อการสนับสนุน PGP เปิดใช้งานสำหรับการเซ็นชื่อและการเข้ารหัสอีเมลจึงขอแนะนำว่าเว็บเซิร์ฟเวอร์รันฐานะผู้ใช้ OTRS มิฉะนั้นจะมีปัญหาเกี่ยวกับสิทธิพิเศษเมื่อมีการเข้าถึงโฟลเดอร์ .gnupg',
         'Enables S/MIME support.' => 'เปิดใช้งานการสนับสนุน S/MIME',
         'Enables customers to create their own accounts.' => 'ช่วยให้ลูกค้าสามารถสร้างบัญชีของตัวเอง',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => 'ช่วยให้การอัปโหลดไฟล์ในส่วนหน้าของแพคเกจผู้จัดการ',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             'เปิดหรือปิดใช้แคชสำหรับแม่แบบ คำเตือน: อย่าปิดการใช้งานแม่แบบแคชสำหรับสภาพแวดล้อมการผลิตจะทำให้ประสิทธิภาพการทำงานลดลงมหาศาล! การตั้งค่านี้ควรจะปิดการใช้งานสำหรับเหตุผลการดีบัก!',
@@ -5979,10 +6033,13 @@ Thanks for your help!
             '',
         'Module to compose signed messages (PGP or S/MIME).' => '',
         'Module to crypt composed messages (PGP or S/MIME).' => '',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             '',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             '',
@@ -6144,6 +6201,8 @@ Thanks for your help!
         'Refresh interval' => 'ช่วงเวลาการฟื้นฟู',
         'Removed subscription for user "%s".' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
+            '',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',

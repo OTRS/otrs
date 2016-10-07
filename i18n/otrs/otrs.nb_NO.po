@@ -5,12 +5,13 @@
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2014
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2014,2016
 # Lars Åge Kamfjord <lars-transifex@kamfjord.org>, 2014
+# Tor Houghton <th-transifex@bogus.net>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-09-14 10:25+0000\n"
-"PO-Revision-Date: 2016-09-14 15:43+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-10-07 11:55+0000\n"
+"PO-Revision-Date: 2016-10-07 09:56+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/otrs/OTRS/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2963,7 +2964,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Endre innstillinger"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -3590,7 +3591,7 @@ msgstr "Internt felt"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is protected and can't be deleted."
-msgstr ""
+msgstr "Dette feltet er beskyttet og kan ikke slettes."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -4975,7 +4976,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password to open the SSL certificate."
-msgstr ""
+msgstr "Passordet for å låse opp SSL sertifikatet."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -5078,7 +5079,13 @@ msgstr ""
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate best practice example web service that are part of %s."
-" Please note that some additional configuration may be required."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Please note that these web services may depend on other modules which are "
+"available only in certain %s contract levels (there will be a note with "
+"details at import time)."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -5563,7 +5570,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Denne funksjonen er p.t. ikke tilgjengelig."
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
@@ -5671,6 +5678,22 @@ msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr ""
 
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Enable email security"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Email security level"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If signing key/certificate is missing"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "If encryption key/certificate is missing"
+msgstr ""
+
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
 msgstr ""
@@ -5691,13 +5714,13 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
-msgstr ""
+msgstr "Uautorisert bruk oppdaget"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
-msgstr ""
+msgstr "Dette systemet bruker %s uten en gyldig lisens! Vær vennlig å ta kontakt med %s for å fornye eller aktivere din kontrakt!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s not Correctly Installed"
@@ -5854,33 +5877,33 @@ msgstr "Administrasjon: PGP"
 
 #. Template: AdminPGP
 msgid "PGP support is disabled"
-msgstr ""
+msgstr "PGP støtte er deaktivert"
 
 #. Template: AdminPGP
 msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr ""
+msgstr "For å kunne bruke PGP funksjonen i OTRS må du først aktivere den."
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
-msgstr ""
+msgstr "Aktiver PGP støtte"
 
 #. Template: AdminPGP
 msgid "Faulty PGP configuration"
-msgstr ""
+msgstr "Feil i PGP konfigurasjonen"
 
 #. Template: AdminPGP
 msgid ""
 "PGP support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
-msgstr ""
+msgstr "PGP støtte er aktivert, men konfigurasjonen inneholder feil. Vær vennlig å gå igjennom konfigurasjonen ved å bruke knappen nedenfor."
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Konfigurer den her!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
-msgstr ""
+msgstr "Sjekk PGP konfigurasjon"
 
 #. Template: AdminPGP
 msgid "Add PGP key"
@@ -6013,7 +6036,7 @@ msgstr "re-installer"
 
 #. Template: AdminPackageManager
 msgid "Features for %s customers only"
-msgstr ""
+msgstr "Funksjoner tilgjengelig kun for %s kunder"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6292,18 +6315,18 @@ msgstr "Eksempel på prosesser"
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate best practice example processes that are part of %s. "
-"Please note that some additional configuration may be required."
-msgstr ""
-
-#. Template: AdminProcessManagement
-msgid "Import example process"
+"Here you can activate best practice example processes. Please note that some"
+" additional configuration may be required."
 msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
 "Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import some sophisticated example processes."
+"be able to import additional sophisticated example processes."
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Import example process"
 msgstr ""
 
 #. Template: AdminProcessManagement
@@ -6416,7 +6439,7 @@ msgstr ""
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "The Queue field can only be used by customers when creating a new ticket."
-msgstr ""
+msgstr "Kø feltet kan bare benyttes av kunder når en ny sak opprettes."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity Dialog"
@@ -6478,7 +6501,7 @@ msgstr "Tilgjengelige felter"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Name: %s"
-msgstr ""
+msgstr "Navn: %s"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
@@ -6755,6 +6778,10 @@ msgid ""
 msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
+msgid "cancel & close"
+msgstr ""
+
+#. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
 msgstr "Start aktivitet"
 
@@ -6999,7 +7026,7 @@ msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without auto responses"
-msgstr ""
+msgstr "Køer uten autosvar"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
@@ -7007,7 +7034,7 @@ msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Show all queues"
-msgstr ""
+msgstr "Vis alle køer"
 
 #. Template: AdminQueueAutoResponse
 msgid "Filter for Queues"
@@ -8493,6 +8520,14 @@ msgid "Start Chat"
 msgstr "Start Chat"
 
 #. Template: AgentDashboardCustomerUserList
+msgid "Video call"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Audio call"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr "%s åpne sak(er) av %s"
 
@@ -8628,7 +8663,7 @@ msgid "out of office"
 msgstr "ikke på kontoret"
 
 #. Template: AgentDashboardUserOnline
-msgid "Selected agent is not available for chat"
+msgid "Selected user is not available for chat"
 msgstr ""
 
 #. Template: AgentDashboardUserOutOfOffice
@@ -8674,6 +8709,16 @@ msgstr "Koble fra objekt: %s"
 #. Template: AgentLinkObject
 msgid "go to link add screen"
 msgstr "gå til skjermen for å legge til lenker"
+
+#. Template: AgentOTRSBusinessBlockScreen
+msgid "Unauthorized usage of %s detected"
+msgstr ""
+
+#. Template: AgentOTRSBusinessBlockScreen
+msgid ""
+"If you decide to downgrade to OTRS Free, you will lose all database tables "
+"and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9701,6 +9746,26 @@ msgstr "Filtre"
 msgid "Confirm"
 msgstr "Bekreft"
 
+#. Template: CustomerFooterJS
+msgid "You have unanswered chat requests"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Video call invite"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Accept"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Decline"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "An internal error occurred."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript ikke tilgjengelig"
@@ -9793,10 +9858,6 @@ msgstr "Din e-postadresse (Dette vil bli ditt brukernavn)"
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr ""
-
-#. Template: CustomerNavigationBar
-msgid "You have unanswered chat requests"
 msgstr ""
 
 #. Template: CustomerNavigationBar
@@ -10119,6 +10180,18 @@ msgstr "Ny aktivitet"
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Your browser does not support video calling."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Selected user is not available for video call."
+msgstr ""
+
+#. Template: FooterJS
+msgid "Target user's browser does not support video calling."
 msgstr ""
 
 #. Template: FooterJS
@@ -12146,15 +12219,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email"
-msgstr ""
+msgstr "Utgående epost"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email (internal)"
-msgstr ""
+msgstr "Utgående epost (intern)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Customer Email"
-msgstr ""
+msgstr "Innkommende kunde-epost"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Dynamic Field Updated"
@@ -12162,15 +12235,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Phone Call"
-msgstr ""
+msgstr "Utgående telefonsamtale"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Phone Call"
-msgstr ""
+msgstr "Innkommende telefonsamtale"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
-msgstr ""
+msgstr "Utgående svar"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SLA Updated"
@@ -12226,23 +12299,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Locked"
-msgstr ""
+msgstr "Saken er låst"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Unlocked"
-msgstr ""
+msgstr "Saken er ulåst"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Queue Updated"
-msgstr ""
+msgstr "Kø oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Priority Updated"
-msgstr ""
+msgstr "Prioritet oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Title Updated"
-msgstr ""
+msgstr "Tittel oppdatert"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Type Updated"
@@ -12250,7 +12323,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Web Request"
-msgstr ""
+msgstr "Innkommende webhenvendelse"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Follow-Up Sent"
@@ -12266,17 +12339,17 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
-msgstr ""
+msgstr "Ekstern chat"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Internal Chat"
-msgstr ""
+msgstr "Intern chat"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. "
-msgstr ""
+msgstr "Beklager, men du har ikke tilgang til denne saken i sin nåværende tilstand."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12498,6 +12571,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
+msgstr "Denne saken har ingen tittel eller emne"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Offline"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
@@ -12509,8 +12586,16 @@ msgid "This user is currently active"
 msgstr "Denne brukeren er for øyeblikket aktiv"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Away"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently away"
 msgstr "Denne brukeren er for øyeblikket borte"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+msgid "Unavailable"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "This user is currently unavailable"
@@ -12520,7 +12605,7 @@ msgstr "Denne brukeren er for øyeblikket utilgjengelig"
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "Beklager, men du har ikke tilgang til denne saken i sin nåværende tilstand. Du kan gjøre en av følgende:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
@@ -12670,6 +12755,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+msgid "Inactive"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+msgid "FadeAway"
 msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
@@ -13077,7 +13170,7 @@ msgstr "Partisjonen hvor OTRS er plasser, har igjen diskplass problemer."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-msgid "Operating System/Disk Partitions Usage"
+msgid "Disk Partitions Usage"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
@@ -13132,7 +13225,12 @@ msgstr "Det bær vær ikke være mer enn 200 MB brukt diskplass til swap."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-msgid "OTRS/Config Settings"
+msgid "OTRS"
+msgstr "OTRS"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+msgid "Config Settings"
 msgstr ""
 
 #. Perl Module:
@@ -13142,13 +13240,13 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-msgid "OTRS"
-msgstr "OTRS"
+msgid "Daemon"
+msgstr "Agent"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-msgid "Daemon"
-msgstr "Agent"
+msgid "Daemon is running."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -13157,8 +13255,8 @@ msgstr "Agenten kjører ikke."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-msgid "OTRS/Database Records"
-msgstr ""
+msgid "Database Records"
+msgstr "Databaseposter"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -13203,6 +13301,11 @@ msgstr "Ugyldige dynamiske felt verdier"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Process Tickets"
 msgstr ""
 
 #. Perl Module:
@@ -13286,9 +13389,31 @@ msgstr ""
 msgid "Some packages are not correctly installed."
 msgstr "Noen pakker er ikke riktig installert."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Package Verification Status"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid ""
+"Some packages are not verified by the OTRS Group! It is recommended not to "
+"use this packages."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Package Framework Version Status"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+msgid "Some packages are not allowed for the current framework version."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-msgid "OTRS/Package List"
-msgstr "OTRS/pakkeliste"
+msgid "Package List"
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -13376,8 +13501,8 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS/Time Settings"
-msgstr "OTRS/Tidsinstillinger"
+msgid "Time Settings"
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Server time zone"
@@ -13411,13 +13536,13 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-msgid "Webserver/Loaded Apache Modules"
-msgstr ""
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "Webserver"
 msgstr "Webtjener"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
+msgid "Loaded Apache Modules"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
@@ -13496,7 +13621,7 @@ msgstr "Apache2::DBI bør brukes for å oppnå best ytelse med forhåndsetablert
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-msgid "Webserver/Environment Variables"
+msgid "Environment Variables"
 msgstr ""
 
 #. Perl Module:
@@ -13512,6 +13637,16 @@ msgstr "Webtjener versjon"
 msgid "Could not determine webserver version."
 msgstr "Kunne ikke bestemme webtjenerversjon."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+msgid "Concurrent Users Details"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+msgid "Concurrent Users"
+msgstr "Samtidige brukere"
+
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "Unknown"
 msgstr "Ukjent"
@@ -13526,6 +13661,56 @@ msgstr "Problem"
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP encrypt only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP sign and encrypt"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME encrypt only"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "SMIME sign and encrypt"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "PGP and SMIME not enabled."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Skip notification delivery"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unsigned notification"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+msgid "Send unencrypted notification"
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
@@ -13787,7 +13972,7 @@ msgstr ""
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
-msgstr ""
+msgstr "Du vil motta et varsel om en kunde sender en oppfølging til en ulåst sak i \"mine køer\" eller \"mine tjenester\"."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
@@ -17253,6 +17438,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
+" script contents. Disabling this HTTP header can be a security issue! Only "
+"disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
@@ -17606,6 +17798,10 @@ msgstr "Aktiverer støtte for S/MIME"
 #. SysConfig
 msgid "Enables customers to create their own accounts."
 msgstr "Lar kunder opprette sine egne kontoer"
+
+#. SysConfig
+msgid "Enables fetch S/MIME from CustomerUser backend support."
+msgstr ""
 
 #. SysConfig
 msgid "Enables file upload in the package manager frontend."
@@ -18201,8 +18397,8 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Hvis \"HTTPBasicAuth\" er valgt som Customer::AuthModule kan du velge å ta vekk deler av brukernavnet (f.eks. gjøre \"domene\\bruker\" om til \"bruker\")."
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18969,6 +19165,11 @@ msgstr "Modul for å kryptere meldinger (PGP eller S/MIME)"
 
 #. SysConfig
 msgid ""
+"Module to fetch customer users SMIME certificates of incoming messages."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
 msgstr "Modul for å filtrere og manipulere innkommende meldinger Blokker/ignorer alle søppel-meldinger med \"From: noreply@\"-adresser"
@@ -18978,6 +19179,10 @@ msgid ""
 "Module to filter and manipulate incoming messages. Get a 4 digit number to "
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
 "as [***] in Set =>."
+msgstr ""
+
+#. SysConfig
+msgid "Module to filter encrypted bodies of incoming messages."
 msgstr ""
 
 #. SysConfig
@@ -19575,6 +19780,13 @@ msgstr "Fjernet abonnement for brukeren «%s»."
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Renew existing SMIME certificates from customer backend. Note: SMIME and "
+"SMIME::FetchFromCustomer needs to be active in SysConfig and customer "
+"backend needs to be configured to fetch UserSMIMECertificate attribute."
 msgstr ""
 
 #. SysConfig

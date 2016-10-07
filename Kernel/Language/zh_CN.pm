@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999791753436068;
+    $Self->{Completeness}        = 0.990303280379616;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1446,8 +1446,10 @@ sub Data {
         'Delete web service' => '删除Web服务',
         'Do you really want to delete this web service?' => '您真的想要删除这个Web服务吗？',
         'Example Web Services' => 'WEB服务示例',
-        'Here you can activate best practice example web service that are part of %s. Please note that some additional configuration may be required.' =>
-            '在这里你可以激活%s一部分的WEB服务的最佳实践示例。请注意：可能需要一些额外的配置。',
+        'Here you can activate best practice example web service that are part of %s.' =>
+            '',
+        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+            '',
         'Import example web service' => '导入Web服务示例',
         'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
             '你想从专家创建的WEB服务中受益吗？升级到%s 就能导入一些复杂的WEB服务样例。',
@@ -1627,6 +1629,10 @@ sub Data {
         'Email template' => '邮件模板',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '使用这个模板生成完整的邮件（仅对HTML邮件）。',
+        'Enable email security' => '',
+        'Email security level' => '',
+        'If signing key/certificate is missing' => '',
+        'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '管理 %s',
@@ -1817,11 +1823,11 @@ sub Data {
         'Upload process configuration' => '上传流程配置',
         'Import process configuration' => '导入流程配置',
         'Example processes' => '流程样例',
-        'Here you can activate best practice example processes that are part of %s. Please note that some additional configuration may be required.' =>
-            '在这里你可以激活%s 自带的最佳实践的样例流程，请注意可能需要一些额外的配置。',
+        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+            '',
+        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+            '',
         'Import example process' => '导入样例流程',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import some sophisticated example processes.' =>
-            '你想从专家创建的流程中受益吗？升级到%s 就能导入一些复杂的样例流程。',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '为了创建新的流程，你可以导入从其它系统导出的流程配置文件，或者重新创建一个。',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1962,6 +1968,7 @@ sub Data {
             '在这里，你可以创建新的流程。为了使新流程生效，请务必将流程的状态设置为“激活”，并在完成配置工作后执行同步操作。',
 
         # Template: AdminProcessManagementProcessPrint
+        'cancel & close' => '',
         'Start Activity' => '开始活动',
         'Contains %s dialog(s)' => '包含%s 个对话框',
         'Assigned dialogs' => '分配对话框',
@@ -2516,6 +2523,8 @@ sub Data {
         'Phone ticket' => '电话工单',
         'Email ticket' => '邮件工单',
         'Start Chat' => '开始聊天',
+        'Video call' => '',
+        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s个处理中的工单，共%s个',
         '%s closed ticket(s) of %s' => '%s个已关闭的工单，共%s个',
         'New phone ticket from %s' => '来自于%s新的电话工单',
@@ -2564,7 +2573,7 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => '不在办公室',
-        'Selected agent is not available for chat' => '不能与选择的服务人员聊天',
+        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => '直到',
@@ -2584,6 +2593,11 @@ sub Data {
         'Link object %s with' => '要连接到 %s 的对象为',
         'Unlink Object: %s' => '取消连接对象：%s',
         'go to link add screen' => '转到添加链接窗口',
+
+        # Template: AgentOTRSBusinessBlockScreen
+        'Unauthorized usage of %s detected' => '',
+        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => '编辑个人设置',
@@ -2924,6 +2938,11 @@ sub Data {
         'and %s more...' => '和%s 更多...',
         'Filters' => '过滤器',
         'Confirm' => '确认',
+        'You have unanswered chat requests' => '你有未响应的聊天请求',
+        'Video call invite' => '',
+        'Accept' => '',
+        'Decline' => '',
+        'An internal error occurred.' => '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => '没有启用JavaScript',
@@ -2952,7 +2971,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '进入的聊天请求',
-        'You have unanswered chat requests' => '你有未响应的聊天请求',
         'Edit personal preferences' => '编辑个人偏好设置',
         'Logout %s %s' => '退出 %s%s',
 
@@ -3056,6 +3074,9 @@ sub Data {
         'New public chat request' => '新的公共聊天请求',
         'New activity' => '新的聊天活动',
         'New activity on one of your monitored chats.' => '你关注的某个聊天有了新的活动。',
+        'Your browser does not support video calling.' => '',
+        'Selected user is not available for video call.' => '',
+        'Target user\'s browser does not support video calling.' => '',
         'Do you really want to continue?' => '您真的要继续吗？',
         'Information about the OTRS Daemon' => '关于OTRS守护进程的信息',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3913,9 +3934,12 @@ sub Data {
         'This ticket has no title or subject' => '这个工单没有标题或主题',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
+        'Offline' => '',
         'This user is currently offline' => '这个用户当前离线了',
         'This user is currently active' => '这个用户当前在线',
+        'Away' => '',
         'This user is currently away' => '这个用户当前离开了',
+        'Unavailable' => '',
         'This user is currently unavailable' => '这个用户当前不可用',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -3990,6 +4014,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '没有安装',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
+        'Inactive' => '',
+        'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '不能从服务器获取令牌',
@@ -4136,7 +4164,7 @@ sub Data {
             'OTRS分区没有磁盘空间问题了。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Operating System/Disk Partitions Usage' => '操作系统/磁盘分区使用情况',
+        'Disk Partitions Usage' => '硬盘使用情况',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => '发行版本',
@@ -4162,16 +4190,17 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => '交换空间不应该使用超过200MB。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'OTRS/Config Settings' => 'OTRS配置参数设置',
+        'OTRS' => 'OTRS',
+        'Config Settings' => '编辑配置。',
         'Could not determine value.' => '不能确定参数值。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'OTRS' => 'OTRS',
         'Daemon' => '守护进程',
+        'Daemon is running.' => '',
         'Daemon is not running.' => '守护进程没有运行。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'OTRS/Database Records' => 'OTRS数据库记录',
+        'Database Records' => '数据库记录',
         'Tickets' => '工单',
         'Ticket History Entries' => '工单历史条目',
         'Articles' => '信件',
@@ -4181,6 +4210,7 @@ sub Data {
         'Invalid Dynamic Fields' => '无效的动态字段',
         'Invalid Dynamic Field Values' => '无效的动态字段值',
         'GenericInterface Webservices' => '通用接口Web服务',
+        'Process Tickets' => '',
         'Months Between First And Last Ticket' => '最早和最后工单的月数',
         'Tickets Per Month (avg)' => '平均每月工单数',
 
@@ -4212,9 +4242,15 @@ sub Data {
         'Package Installation Status' => '软件包安装状态',
         'Some packages have locally modified files.' => '一些软件包有在本地修改过的文件。',
         'Some packages are not correctly installed.' => '一些软件包没有正确安装。',
+        'Package Verification Status' => '',
+        'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
+            '',
+        'Package Framework Version Status' => '',
+        'Some packages are not allowed for the current framework version.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'OTRS/Package List' => 'OTRS软件包列表',
+        'Package List' => '软件包列表',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4253,7 +4289,7 @@ sub Data {
             'ticket_index表中包含孤儿记录。请运行otrs/bin/otrs.CleanTicketIndex.pl清理静态数据库的索引。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'OTRS/Time Settings' => 'OTRS时间设置',
+        'Time Settings' => '时间设置',
         'Server time zone' => '服务器时区',
         'Computed server time offset' => '计算服务器时间偏移',
         'OTRS TimeZone setting (global time offset)' => 'OTRS时区设置（全局时间偏移）',
@@ -4264,10 +4300,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => 'OTRS时区设置，适用日历',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver/Loaded Apache Modules' => 'Web服务器/已载入的Apache模块',
+        'Webserver' => 'WEB服务器',
+        'Loaded Apache Modules' => '已载入的Apache模块',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'Webserver' => 'WEB服务器',
         'MPM model' => 'MPM多路处理模块',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             'OTRS需要apache运行“prefork”MPM多路处理模块',
@@ -4290,7 +4326,7 @@ sub Data {
             '应该用Apache2::DBI的预先数据库连接来获得更好的性能。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Webserver/Environment Variables' => 'WEB服务器/环境变量',
+        'Environment Variables' => '环境变量',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
         'You should use PerlEx to increase your performance.' => '您应该使用perlEx来提升系统性能。',
@@ -4299,6 +4335,10 @@ sub Data {
         'Webserver Version' => 'WEB服务器版本',
         'Could not determine webserver version.' => '不能确定WEB服务器版本。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+        'Concurrent Users Details' => '并发用户详细信息',
+        'Concurrent Users' => '并发用户数',
+
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => '未知',
         'OK' => '好',
@@ -4306,6 +4346,18 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => '重置解锁时间。',
+
+        # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
+        'PGP sign only' => '',
+        'PGP encrypt only' => '',
+        'PGP sign and encrypt' => '',
+        'SMIME sign only' => '',
+        'SMIME encrypt only' => '',
+        'SMIME sign and encrypt' => '',
+        'PGP and SMIME not enabled.' => '',
+        'Skip notification delivery' => '',
+        'Send unsigned notification' => '',
+        'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
@@ -5458,6 +5510,8 @@ Thanks for your help!
             '确定服务人员界面收件人（电话工单）和发件人（邮件工单）哪些选项有效。',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '确定客户界面哪些队列可以作为工单的有效收件人。',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '禁用HHTP头"X-Frame-Options: SAMEORIGIN" 以便允许OTRS可以包含在其它网址的IFrame框架中。禁用这个HTTP头可能有安全问题！仅在您知道您在干什么时才禁用它！',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -5563,6 +5617,7 @@ Thanks for your help!
             '启用PGP支持。当启用PGP签名和加密邮件时，强烈推荐以OTRS用户运行WEB服务器，否则，访问.pnugp目录会有权限问题。',
         'Enables S/MIME support.' => '启用S/MIME支持。',
         'Enables customers to create their own accounts.' => '允许客户自己建立帐户。',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
         'Enables file upload in the package manager frontend.' => '在软件包管理前端启用文件上传。',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '启用或禁用模板缓存。警告：不要在生产环境禁用模板缓存，因为这会引起巨大的性能下降！这个设置只在调试时才禁用！',
@@ -5740,7 +5795,7 @@ Thanks for your help!
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             '如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以使用正则表达式剥去REMOTE_USER的部分内容（如剥去尾部的域名）。正则表达式注释：$1将是新的登录名。',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\user变为user）。',
+            '如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥去用户名称的主要部分（例如域名，如从example_domain\user变为user）。',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             '如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且如果您想给每个客户登录名添加一个前缀，则在这里指定，例如，你只想写入用户名user，但在您的LDAP目录存在user@domain。',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -5973,10 +6028,13 @@ Thanks for your help!
             '检查访问工单组权限的模块。',
         'Module to compose signed messages (PGP or S/MIME).' => '编写签名（PGP或S/MIME）消息的模块。',
         'Module to crypt composed messages (PGP or S/MIME).' => '加密（PGP或S/MIME）已编写消息的模块。',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             '和处理进入消息的模块。阻止或忽略所有发件人为noreply@开头地址的垃圾邮件',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             '和处理进入消息的模块。工单自定义字段取得4个数字的号码，使用正则表达式匹配，如收件人 =>  \'(.+?)@.+?\'，在set => 像[***]g一样使用()。',
+        'Module to filter encrypted bodies of incoming messages.' => '',
         'Module to generate accounted time ticket statistics.' => '生成工单统计所用工时的模块。',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             '在服务人员界面为简化工单搜索生成HTML开放式搜索模板的模块。',
@@ -6139,6 +6197,8 @@ Thanks for your help!
         'Removed subscription for user "%s".' => '用户“%s”已移除的关注。',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '工单归档时移除该工单的关注人信息。',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
+            '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '服务人员界面工单编写窗口，用客户联系人当前的邮件地址替换编写回复时的原始发件人。',
         'Reports' => '报表',
@@ -6224,7 +6284,7 @@ Thanks for your help!
             '如果一个工单未锁定发送服务人员的跟进通知只给所有者（默认会发送通知到所有服务人员）。',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '通过BCC（密件抄送）发送所有外发邮件到指定地址。请只在备份情况下使用这个选项。',
-        'Sends customer notifications just to the mapped customer.' => '',
+        'Sends customer notifications just to the mapped customer.' => '仅给映射的客户用户发送客户通知。',
         'Sends registration information to OTRS group.' => '发送注册信息到OTRS集团。',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '在到达提醒时间后发送解锁工单的提醒通知（只发送给工单所有者）。',
