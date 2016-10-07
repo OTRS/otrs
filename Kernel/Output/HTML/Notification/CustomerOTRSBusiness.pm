@@ -36,7 +36,7 @@ sub Run {
         CallCloudService => 0,
     );
 
-    if ( $EntitlementStatus eq 'forbidden' ) {
+    if ( $EntitlementStatus eq 'warning-error' || $EntitlementStatus eq 'forbidden' ) {
 
         my $OTRSBusinessLabel = '<b>OTRS Business Solution</b>™';
 

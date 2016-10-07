@@ -32,6 +32,9 @@ my $NoConnectWarningPeriod = 60 * 60 * 24 * 5;    # 5 days
 # If we cannot connect to cloud.otrs.com for more than the second period, show an error.
 my $NoConnectErrorPeriod = 60 * 60 * 24 * 15;     # 15 days
 
+# If we cannot connect to cloud.otrs.com for more than the second period, block the system.
+my $NoConnectBlockPeriod = 60 * 60 * 24 * 25;     # 25 days
+
 # If the contract is about to expire in less than this time, show a hint
 my $ContractExpiryWarningPeriod = 60 * 60 * 24 * 28;    # 28 days
 
@@ -43,8 +46,10 @@ Kernel::System::OTRSBusiness - OTRSBusiness deployment backend
 
 =head2 new()
 
-Don't use the constructor directly, use the ObjectManager instead:
+create an object. Do not use it directly, instead use:
 
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $RegistrationObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
 
 
@@ -448,12 +453,13 @@ sub OTRSBusinessEntitlementCheck {
 Returns the current entitlement status.
 
     my $Status = $OTRSBusinessObject->OTRSBusinessEntitlementStatus(
-        CallCloudService => 1,  # 0 or 1, call the cloud service before looking at the cache
+        CallCloudService => 1,              # 0 or 1, call the cloud service before looking at the cache
     );
 
-    $Status = 'entitled';   # everything is OK
-    $Status = 'warning';    # last check was OK, and we are in the waiting period
-    $Status = 'forbidden';  # not entitled (either because the server said so or because the last check was too long ago)
+    $Status = 'entitled';      # everything is OK
+    $Status = 'warning';       # last check was OK, and we are in the waiting period - show warning
+    $Status = 'warning-error'; # last check was OK, and we are past waiting period - show error message
+    $Status = 'forbidden';     # not entitled (either because the server said so or because the last check was too long ago)
 
 =cut
 
@@ -491,8 +497,11 @@ sub OTRSBusinessEntitlementStatus {
 
     my $SecondsSinceLastUpdate = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $LastUpdateSystemTime;
 
-    if ( $SecondsSinceLastUpdate > $NoConnectErrorPeriod ) {
+    if ( $SecondsSinceLastUpdate > $NoConnectBlockPeriod ) {
         return 'forbidden';
+    }
+    if ( $SecondsSinceLastUpdate > $NoConnectErrorPeriod ) {
+        return 'warning-error';
     }
     if ( $SecondsSinceLastUpdate > $NoConnectWarningPeriod ) {
         return 'warning';
