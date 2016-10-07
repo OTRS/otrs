@@ -58,6 +58,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         else if (Core.Config.Get('Subaction') === 'ProcessEdit') {
             TargetNS.InitProcessEdit();
         }
+        else if (Core.Config.Get('Subaction') === 'ProcessPrint') {
+            $('.ProcessPrint').on('click', function() {
+                window.print();
+                return false;
+            });
+        }
 
         // Depending on Action initialize specific functions
         if (Core.Config.Get('Action') === 'AdminProcessManagementPath') {

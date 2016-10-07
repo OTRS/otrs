@@ -421,4 +421,12 @@ fieldset.TableLike > .Value {
     font-weight:bold;
 }
 
+/**
+ * @subsection  Popups
+ */
+
+.LayoutPopup .Header {
+    display: none;
+}
+
 } /* end @media */
