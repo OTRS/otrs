@@ -1,0 +1,351 @@
+# --
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+## no critic (Modules::RequireExplicitPackage)
+use strict;
+use warnings;
+use utf8;
+
+use vars (qw($Self));
+
+use Kernel::System::PostMaster;
+
+# Get helper object.
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# Get config object.
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# Set config.
+$ConfigObject->Set(
+    Key   => 'PGP',
+    Value => 1,
+);
+$ConfigObject->Set(
+    Key   => 'PGP::Options',
+    Value => '--batch --no-tty --yes',
+);
+
+$ConfigObject->Set(
+    Key   => 'PGP::Key::Password',
+    Value => { '04A17B7A' => 'somepass' },
+);
+
+$ConfigObject->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::DoNotSendEmail',
+);
+
+# Check if GPG is located there.
+if ( !-e $ConfigObject->Get('PGP::Bin') ) {
+
+    if ( -e '/usr/bin/gpg' ) {
+        $ConfigObject->Set(
+            Key   => 'PGP::Bin',
+            Value => '/usr/bin/gpg'
+        );
+    }
+
+    # Maybe it's a mac with mac ports.
+    elsif ( -e '/opt/local/bin/gpg' ) {
+        $ConfigObject->Set(
+            Key   => 'PGP::Bin',
+            Value => '/opt/local/bin/gpg'
+        );
+    }
+}
+
+# Create local crypt object.
+my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
+
+if ( !$PGPObject ) {
+    print STDERR "NOTICE: No PGP support!\n";
+    return;
+}
+
+# Make some preparations
+my %Search = (
+    1 => 'unittest@example.com',
+    2 => 'unittest2@example.com',
+);
+
+my %Check = (
+    1 => {
+        Type             => 'pub',
+        Identifier       => 'UnitTest <unittest@example.com>',
+        Bit              => '1024',
+        Key              => '38677C3B',
+        KeyPrivate       => '04A17B7A',
+        Created          => '2007-08-21',
+        Expires          => 'never',
+        Fingerprint      => '4124 DFBD CF52 D129 AB3E  3C44 1404 FBCB 3867 7C3B',
+        FingerprintShort => '4124DFBDCF52D129AB3E3C441404FBCB38677C3B',
+    },
+    2 => {
+        Type             => 'pub',
+        Identifier       => 'UnitTest2 <unittest2@example.com>',
+        Bit              => '1024',
+        Key              => 'F0974D10',
+        KeyPrivate       => '8593EAE2',
+        Created          => '2007-08-21',
+        Expires          => '2037-08-13',
+        Fingerprint      => '36E9 9F7F AD76 6405 CBE1  BB42 F533 1A46 F097 4D10',
+        FingerprintShort => '36E99F7FAD766405CBE1BB42F5331A46F0974D10',
+    },
+);
+
+# Get main object.
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+# Add PGP keys and perform sanity check.
+for my $Count ( 1 .. 2 ) {
+
+    my @Keys = $PGPObject->KeySearch(
+        Search => $Search{$Count},
+    );
+    $Self->False(
+        $Keys[0] || '',
+        "Key:$Count - KeySearch()",
+    );
+
+    # Get keys.
+    my $KeyString = $MainObject->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+        Filename  => "PGPPrivateKey-$Count.asc",
+    );
+    my $Message = $PGPObject->KeyAdd(
+        Key => ${$KeyString},
+    );
+    $Self->True(
+        $Message || '',
+        "Key:$Count - KeyAdd()",
+    );
+
+    @Keys = $PGPObject->KeySearch(
+        Search => $Search{$Count},
+    );
+
+    $Self->True(
+        $Keys[0] || '',
+        "Key:$Count - KeySearch()",
+    );
+    for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort))
+    {
+        $Self->Is(
+            $Keys[0]->{$ID} || '',
+            $Check{$Count}->{$ID},
+            "Key:$Count - KeySearch() - $ID",
+        );
+    }
+
+    my $PublicKeyString = $PGPObject->PublicKeyGet(
+        Key => $Keys[0]->{Key},
+    );
+    $Self->True(
+        $PublicKeyString || '',
+        "Key:$Count - PublicKeyGet()",
+    );
+
+    my $PrivateKeyString = $PGPObject->SecretKeyGet(
+        Key => $Keys[0]->{KeyPrivate},
+    );
+    $Self->True(
+        $PrivateKeyString || '',
+        "Key:$Count - SecretKeyGet()",
+    );
+}
+
+my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
+my $FilterRand1      = 'filter' . $Helper->GetRandomID();
+
+$PostMasterFilter->FilterAdd(
+    Name           => $FilterRand1,
+    StopAfterMatch => 0,
+    Match          => {
+        'X-OTRS-BodyDecrypted' => 'test',
+    },
+    Set => {
+        'X-OTRS-Queue' => 'Junk',
+    },
+);
+
+# Read email content (from a file).
+my $Email = $MainObject->FileRead(
+    Location => $ConfigObject->Get('Home') . '/scripts/test/sample/PGP/PGP_Test_2013-07-02-1977-2.eml',
+    Result   => 'ARRAY',
+);
+
+# Part where StoreDecryptedBody is enabled
+my $PostMasterObject = Kernel::System::PostMaster->new(
+    Email   => $Email,
+    Trusted => 1,
+);
+
+$ConfigObject->Set(
+    Key   => 'PostmasterDefaultState',
+    Value => 'new'
+);
+
+$ConfigObject->Set(
+    Key   => 'PostMaster::PreFilterModule',
+    Value => {
+        '000-DecryptBody' => {
+            'Module'             => 'Kernel::System::PostMaster::Filter::Decrypt',
+            'StoreDecryptedBody' => '1',
+        },
+        '000-MatchDBSource' => {
+            'Module' => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+            }
+        }
+);
+
+my @Return = $PostMasterObject->Run( Queue => '' );
+
+$Self->Is(
+    $Return[0] || 0,
+    1,
+    "Create new ticket",
+);
+
+# Get ticket object.
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+$Self->True(
+    $Return[1] || 0,
+    "Create new ticket (TicketID)",
+);
+
+my $TicketID = $Return[1];
+
+my %Ticket = $TicketObject->TicketGet(
+    TicketID => $Return[1],
+);
+
+my @ArticleIndex = $TicketObject->ArticleGet(
+    TicketID => $Return[1],
+    UserID   => 1,
+);
+
+$Self->Is(
+    $Ticket{Queue},
+    'Junk',
+    "Ticket created in $Ticket{Queue}",
+);
+
+my $GetBody = $ArticleIndex[0]{Body};
+chomp($GetBody);
+
+$Self->Is(
+    $GetBody,
+    'This is only a test.',
+    "Body decrypted $ArticleIndex[0]{Body}",
+);
+
+# Part where StoreDecryptedBody is disabled
+$PostMasterObject = Kernel::System::PostMaster->new(
+    Email   => $Email,
+    Trusted => 1,
+);
+
+$ConfigObject->Set(
+    Key   => 'PostmasterDefaultState',
+    Value => 'new'
+);
+
+$ConfigObject->Set(
+    Key   => 'PostMaster::PreFilterModule',
+    Value => {
+        '000-DecryptBody' => {
+            'Module'             => 'Kernel::System::PostMaster::Filter::Decrypt',
+            'StoreDecryptedBody' => '0',
+        },
+        '000-MatchDBSource' => {
+            'Module' => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+            }
+        }
+);
+
+my @ReturnEncrypted = $PostMasterObject->Run( Queue => '' );
+
+$Self->Is(
+    $ReturnEncrypted[0] || 0,
+    1,
+    "Create new ticket",
+);
+
+$Self->True(
+    $ReturnEncrypted[1] || 0,
+    "Create new ticket (TicketID)",
+);
+
+my $TicketIDEncrypted = $Return[1];
+
+my %TicketEncrypted = $TicketObject->TicketGet(
+    TicketID => $ReturnEncrypted[1],
+);
+
+my @ArticleIndexEncrypted = $TicketObject->ArticleGet(
+    TicketID => $ReturnEncrypted[1],
+    UserID   => 1,
+);
+
+$Self->Is(
+    $Ticket{Queue},
+    'Junk',
+    "Ticket created in $TicketEncrypted{Queue}",
+);
+
+my $GetBodyEncrypted = $ArticleIndexEncrypted[0]{Body};
+
+$Self->True(
+    $GetBodyEncrypted =~ m{This is an OpenPGP/MIME},
+    "Found PGP",
+);
+
+# Delete PGP keys.
+for my $Count ( 1 .. 2 ) {
+    my @Keys = $PGPObject->KeySearch(
+        Search => $Search{$Count},
+    );
+    $Self->True(
+        $Keys[0] || '',
+        "Key:$Count - KeySearch()",
+    );
+    my $DeleteSecretKey = $PGPObject->SecretKeyDelete(
+        Key => $Keys[0]->{KeyPrivate},
+    );
+    $Self->True(
+        $DeleteSecretKey || '',
+        "Key:$Count - SecretKeyDelete()",
+    );
+
+    my $DeletePublicKey = $PGPObject->PublicKeyDelete(
+        Key => $Keys[0]->{Key},
+    );
+    $Self->True(
+        $DeletePublicKey || '',
+        "Key:$Count - PublicKeyDelete()",
+    );
+
+    @Keys = $PGPObject->KeySearch(
+        Search => $Search{$Count},
+    );
+    $Self->False(
+        $Keys[0] || '',
+        "Key:$Count - KeySearch()",
+    );
+}
+
+# Cleanup is done by RestoreDatabase.
+
+1;

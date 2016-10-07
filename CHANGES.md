@@ -1,4 +1,8 @@
 #5.0.14 2016-??-??
+ - 2016-10-07 Added example process "Application for leave".
+ - 2016-10-07 Added signing and encryption of ticket notifications.
+ - 2016-10-07 Added possibility to filter encrypted emails by decrypting them in a postmaster filter.
+ - 2016-10-07 Added possibility to automatically fetch customer S/MIME certificates from LDAP.
  - 2016-10-06 Improved sandboxing of displayed attachments.
  - 2016-09-30 Fixed bug#[12341](http://bugs.otrs.org/show_bug.cgi?id=12341) - Wrong <OTRS_TICKET_DynamicField_NameX_Value> in ProcessManagement  Transition Actions.
  - 2016-09-30 Added warning message for Console commands executed in non UTF-8 terminal.

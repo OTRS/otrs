@@ -25,3 +25,25 @@
     <p class="FieldExplanation">[% Translate("Use this template to generate the complete email (only for HTML emails).") | html %]</p>
 </div>
 <div class="Clear"></div>
+
+<label for="EmailSecuritySettings">[% Translate("Enable email security") | html %]: </label>
+<div class="Field">
+    <input type="checkbox" name="EmailSecuritySettings" id="EmailSecuritySettings" value="1" [% Data.EmailSecuritySettings %] />
+    <p class="FieldExplanation">[% Data.EmailSecurityInfo %]</p>
+</div>
+<div class="Clear"></div>
+<label for="EmailSigningCrypting">[% Translate("Email security level") | html %]: </label>
+<div class="Field">
+    [% Data.EmailSigningCrypting %]
+</div>
+<div class="Clear"></div>
+<label for="EmailMissingSigningKeys">[% Translate("If signing key/certificate is missing") | html %]: </label>
+<div class="Field">
+    [% Data.EmailMissingSigningKeys %]
+</div>
+<div class="Clear"></div>
+<label for="EmailMissingCryptingKeys">[% Translate("If encryption key/certificate is missing") | html %]: </label>
+<div class="Field">
+    [% Data.EmailMissingCryptingKeys %]
+</div>
+<div class="Clear"></div>

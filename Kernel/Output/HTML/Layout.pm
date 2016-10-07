@@ -32,6 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::SystemMaintenance',
     'Kernel::System::Time',
     'Kernel::System::User',
+    'Kernel::System::VideoChat',
     'Kernel::System::Web::Request',
     'Kernel::System::Group',
 );
@@ -1552,6 +1553,12 @@ sub Footer {
     # Don't check for business package if the database was not yet configured (in the installer)
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         $Param{OTRSBusinessIsInstalled} = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
+    }
+
+    # Check if video chat is enabled.
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) ) {
+        $Param{VideoChatEnabled} = $Kernel::OM->Get('Kernel::System::VideoChat')->IsEnabled()
+            || $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UnitTestMode' ) // 0;
     }
 
     # create & return output
@@ -3737,6 +3744,12 @@ sub CustomerFooter {
         },
     );
 
+    # Check if video chat is enabled.
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) ) {
+        $Param{VideoChatEnabled} = $Kernel::OM->Get('Kernel::System::VideoChat')->IsEnabled()
+            || $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UnitTestMode' ) // 0;
+    }
+
     # create & return output
     return $Self->Output(
         TemplateFile => "CustomerFooter$Type",
@@ -4018,27 +4031,28 @@ sub CustomerNavigationBar {
             );
         }
 
-        # show open chat requests (if chat engine is active)
-        if ( $ConfigObject->Get('ChatEngine::Active') ) {
+        # Show open chat requests (if chat engine is active).
+        if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Chat', Silent => 1 ) ) {
+            if ( $ConfigObject->Get('ChatEngine::Active') ) {
+                my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
+                my $Chats      = $ChatObject->ChatList(
+                    Status        => 'request',
+                    TargetType    => 'Customer',
+                    ChatterID     => $Self->{UserID},
+                    ChatterType   => 'Customer',
+                    ChatterActive => 0,
+                );
 
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my $Chats      = $ChatObject->ChatList(
-                Status        => 'request',
-                TargetType    => 'Customer',
-                ChatterID     => $Self->{UserID},
-                ChatterType   => 'Customer',
-                ChatterActive => 0,
-            );
+                my $Count = scalar $Chats;
 
-            my $Count = scalar $Chats;
-
-            $Self->Block(
-                Name => 'ChatRequests',
-                Data => {
-                    Count => $Count,
-                    Class => ($Count) ? '' : 'Hidden',
-                },
-            );
+                $Self->Block(
+                    Name => 'ChatRequests',
+                    Data => {
+                        Count => $Count,
+                        Class => ($Count) ? '' : 'Hidden',
+                    },
+                );
+            }
         }
     }
 

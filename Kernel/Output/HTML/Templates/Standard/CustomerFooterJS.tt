@@ -65,7 +65,14 @@ Core.App.Ready(function() {
         InputFieldsSelection: [% Translate("%s selection(s)...") | JSON %],
         InputFieldsMore: [% Translate("and %s more...") | JSON %],
         InputFieldsFilters: [% Translate("Filters") | JSON %],
-        InputFieldsConfirm: [% Translate("Confirm") | JSON %]
+        InputFieldsConfirm: [% Translate("Confirm") | JSON %],
+        VideoChatEnabled: parseInt([% ( Data.VideoChatEnabled || 0 )| JSON %], 10),
+        VideoChatUnansweredRequests: [% Translate("You have unanswered chat requests") | JSON %],
+        VideoChatClose: [% Translate("Close") | JSON %],
+        VideoChatInviteTitle: [% Translate("Video call invite") | JSON %],
+        VideoChatInviteAccept: [% Translate("Accept") | JSON %],
+        VideoChatInviteDecline: [% Translate("Decline") | JSON %],
+        VideoChatInternalError: [% Translate("An internal error occurred.") | JSON %]
     });
 
     Core.Customer.Init();

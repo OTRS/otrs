@@ -75,7 +75,15 @@ sub Run {
 
         my $Content;
 
-        if ( $ParamObject->GetParam( Param => 'ExampleProcess' ) ) {
+        my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+        my $ExampleProcess = $ParamObject->GetParam( Param => 'ExampleProcess' );
+        my $FileWithoutExtension;
+
+        if ($ExampleProcess) {
+
             my $ExampleProcessFilename = $ParamObject->GetParam( Param => 'ExampleProcess' );
             $ExampleProcessFilename =~ s{/+|\.{2,}}{}smx;    # remove slashes and ..
 
@@ -85,8 +93,51 @@ sub Run {
                 );
             }
 
-            my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-            $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            # extract file name without extension
+            $ExampleProcessFilename =~ m{(.*?)\.yml$}smx;
+            $FileWithoutExtension = $1;
+
+            # run _pre.pm if available
+            if ( -e "$Home/var/processes/examples/" . $FileWithoutExtension . "_pre.pm" ) {
+
+                my $BackendName = 'var::processes::examples::' . $FileWithoutExtension . '_pre';
+
+                my $Loaded = $MainObject->Require(
+                    $BackendName,
+                );
+
+                if ($Loaded) {
+                    my $BackendPre = $Kernel::OM->Get(
+                        $BackendName,
+                    );
+
+                    my %DependencyCheck = $BackendPre->DependencyCheck();
+
+                    if ( !$DependencyCheck{Success} && $DependencyCheck{ErrorMessage} ) {
+
+                        return $Self->_ShowOverview(
+                            NotifyData => [
+                                {
+                                    Priority => 'Notice',
+                                    Data     => $DependencyCheck{ErrorMessage},
+                                },
+                            ],
+                            %Param,
+                        );
+                    }
+
+                    my %Status = $BackendPre->Run();
+                    if ( !$Status{Success} ) {
+
+                        # show the error screen
+                        return $LayoutObject->ErrorScreen(
+                            Message => $Status{Error},
+                        );
+                    }
+                }
+            }
+
+            $Content = $MainObject->FileRead(
                 Location => "$Home/var/processes/examples/$ExampleProcessFilename",
                 Mode     => 'utf8',
             );
@@ -126,6 +177,34 @@ sub Run {
             );
         }
         else {
+            # Run _post.pm if available.
+            if (
+                $ExampleProcess
+                && -e "$Home/var/processes/examples/" . $FileWithoutExtension . "_post.pm"
+                )
+            {
+                my $BackendName = 'var::processes::examples::' . $FileWithoutExtension . '_post';
+
+                my $Loaded = $MainObject->Require(
+                    $BackendName,
+                );
+
+                if ($Loaded) {
+
+                    my $BackendPost = $Kernel::OM->Get(
+                        $BackendName,
+                    );
+
+                    my %Status = $BackendPost->Run();
+                    if ( !$Status{Success} ) {
+
+                        # show the error screen
+                        return $LayoutObject->ErrorScreen(
+                            Message => $Status{Error},
+                        );
+                    }
+                }
+            }
 
             # show the overview with success informations
             $Param{NotifyData} = [
@@ -1561,15 +1640,14 @@ sub _ShowOverview {
 
     my %Frontend;
 
-    if ( %ExampleProcessData && $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
-        $Frontend{ExampleProcessList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
-            Name         => 'ExampleProcess',
-            Data         => \%ExampleProcessData,
-            PossibleNone => 1,
-            Translation  => 0,
-            Class        => 'Modernize Validate_Required',
-        );
-    }
+    $Frontend{ExampleProcessList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
+        Name         => 'ExampleProcess',
+        Data         => \%ExampleProcessData,
+        PossibleNone => 1,
+        Translation  => 0,
+        Class        => 'Modernize Validate_Required',
+    );
+    $Frontend{OTRSBusinessIsInstalled} = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
 
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
@@ -1800,8 +1878,8 @@ sub _GetParams {
         qw( Name EntityID ProcessLayout Path StartActivity StartActivityDialog Description StateEntityID )
         )
     {
-        $GetParam->{$ParamName}
-            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName ) || '';
+        $GetParam->{$ParamName} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName )
+            || '';
     }
 
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');

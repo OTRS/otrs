@@ -11,6 +11,8 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 use warnings;
 
+use MIME::Decoder;
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
@@ -18,6 +20,8 @@ our @ObjectDependencies = (
     'Kernel::System::FileTemp',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::CheckItem',
 );
 
 =head1 NAME
@@ -586,8 +590,52 @@ sub CertificateSearch {
     my ( $Self, %Param ) = @_;
 
     my $Search = $Param{Search} || '';
-    my @Result;
+
+    # 1 - Get certificate list
     my @CertList = $Self->CertificateList();
+
+    my @Result;
+    if (@CertList) {
+
+        # 2 - For the certs in list get its attributes and add them to @Results
+        @Result = $Self->_CheckCertificateList(
+            CertificateList => \@CertList,
+            Search          => $Search
+        );
+    }
+
+    # 3 - If there are no results already in the system, then check for the certificate in customer data
+    if ( !@Result && $Kernel::OM->Get('Kernel::Config')->Get('SMIME::FetchFromCustomer') ) {
+
+        # Search and add certificates from Customer data if Result from CertList is empty
+        if (
+            $Search &&
+            $Self->FetchFromCustomer(
+                Search => $Search,
+            )
+            )
+        {
+            # 4 - if found, get its details and add them to the @Results
+            @CertList = $Self->CertificateList();
+            if (@CertList) {
+                @Result = $Self->_CheckCertificateList(
+                    CertificateList => \@CertList,
+                    Search          => $Search
+                );
+            }
+        }
+    }
+
+    return @Result;
+}
+
+sub _CheckCertificateList {
+    my ( $Self, %Param ) = @_;
+
+    my @CertList = @{ $Param{CertificateList} };
+    my $Search = $Param{Search} || '';
+
+    my @Result;
 
     for my $Filename (@CertList) {
         my $Certificate = $Self->CertificateGet( Filename => $Filename );
@@ -615,7 +663,190 @@ sub CertificateSearch {
             push @Result, \%Attributes;
         }
     }
+
     return @Result;
+}
+
+=item FetchFromCustomer()
+
+add certificates from CustomerUserAttributes to local certificates
+returns an array of filenames of added certificates
+
+    my @Result = $CryptObject->FetchFromCustomer(
+        Search => $SearchEmailAddress,
+    );
+
+Returns:
+
+    @Result = ( '6e620dcc.0', '8096d0a9.0', 'c01cdfa2.0' );
+
+=cut
+
+sub FetchFromCustomer {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Search} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Search!"
+        );
+        return;
+    }
+
+    # Check customer users for userSMIMECertificate
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my %CustomerUsers;
+    if ( $Param{Search} ) {
+
+        my $ValidEmail = $Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail(
+            Address => $Param{Search},
+        );
+
+        # If valid email address, only do a PostMasterSearch
+        if ($ValidEmail) {
+            %CustomerUsers = $CustomerUserObject->CustomerSearch(
+                PostMasterSearch => $Param{Search},
+            );
+        }
+    }
+
+    my @CertFileList;
+
+    # Check found CustomerUsers
+    for my $Login ( sort keys %CustomerUsers ) {
+        my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
+            User => $Login,
+        );
+
+        # Add Certificate if available
+        if ( $CustomerUser{UserSMIMECertificate} ) {
+
+            # if don't add, maybe in UnitTests
+            return @CertFileList if $Param{DontAdd};
+
+            # Convert certificate to the correct format (pk7, pk12, pem, der)
+            my $Cert = $Self->ConvertCertFormat(
+                String => $CustomerUser{UserSMIMECertificate},
+            );
+            my %Result = $Self->CertificateAdd(
+                Certificate => $Cert,
+            );
+            if ( $Result{Successful} && $Result{Successful} == 1 ) {
+                push @CertFileList, $Result{Filename};
+            }
+        }
+    }
+
+    return @CertFileList;
+}
+
+=item ConvertCertFormat()
+
+Convert certificate strings into importable PEM format.
+
+    my $Result = $CryptObject->ConvertCertFormat(
+        String     => $CertificationString,
+        Passphrase => Password for PFX (optional)
+    );
+
+Returns:
+    $Result =
+    "-----BEGIN CERTIFICATE-----
+    MIIEXjCCA0agAwIBAgIJAPIBQyBe/HbpMA0GCSqGSIb3DQEBBQUAMHwxCzAJBgNV
+    ...
+    nj2wbQO4KjM12YLUuvahk5se
+    -----END CERTIFICATE-----
+    ";
+
+=cut
+
+sub ConvertCertFormat {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{String} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need String!"
+        );
+        return;
+    }
+    my $String = $Param{String};
+    my $PassPhrase = $Param{Passphrase} // '';
+
+    my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
+
+    # Create original certificate file.
+    my ( $FileHandle, $TmpCertificate ) = $FileTempObject->TempFile();
+    print $FileHandle $String;
+    close $FileHandle;
+
+    # For PEM format no conversion needed.
+    my $Options   = "x509 -in $TmpCertificate -noout";
+    my $ReadError = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
+
+    return $String if !$ReadError;
+
+    # Create empty file (to save the converted certificate).
+    my ( $FH, $CertFile ) = $FileTempObject->TempFile(
+        Suffix => '.pem',
+    );
+    close $FH;
+
+    my %OptionsLookup = (
+        DER => {
+            Read    => "x509 -inform der -in $TmpCertificate -noout",
+            Convert => "x509 -inform der -in $TmpCertificate -out $CertFile",
+        },
+        P7B => {
+            Read    => "pkcs7 -in $TmpCertificate -noout",
+            Convert => "pkcs7 -in $TmpCertificate -print_certs -out $CertFile",
+        },
+        PFX => {
+            Read => "pkcs12 -in $TmpCertificate -noout -nomacver -passin pass:'$PassPhrase'",
+            Convert =>
+                "pkcs12 -in $TmpCertificate -out $CertFile -nomacver -clcerts -nokeys -passin pass:'$PassPhrase'",
+        },
+    );
+
+    # Determine the format of the file using OpenSSL.
+    my $DetectedFormat;
+    FORMAT:
+    for my $Format ( sort keys %OptionsLookup ) {
+
+        # Read the file on each format, if there is any output it means it could not be read.
+        next FORMAT if $Self->_CleanOutput(qx{$Self->{Cmd} $OptionsLookup{$Format}->{Read} 2>&1});
+
+        $DetectedFormat = $Format;
+        last FORMAT;
+    }
+
+    if ( !$DetectedFormat ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Certificate could not be read, PassPhrase is invalid or file is corrupted!",
+        );
+        return;
+    }
+
+    # Convert certificate to PEM.
+    my $ConvertError = $Self->_CleanOutput(qx{$Self->{Cmd} $OptionsLookup{$DetectedFormat}->{Convert} 2>&1});
+
+    if ($ConvertError) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can't convert certificate from $DetectedFormat to PEM: $ConvertError",
+        );
+
+        return;
+    }
+
+    # Read converted certificate.
+    my $CertFileRefPEM = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location => $CertFile,
+    );
+
+    return ${$CertFileRefPEM};
 }
 
 =item CertificateAdd()

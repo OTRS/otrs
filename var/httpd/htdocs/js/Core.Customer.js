@@ -93,6 +93,15 @@ Core.Customer = (function (TargetNS) {
         Core.UI.TreeSelection.InitTreeSelection();
         Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
 
+        // Initialize customer chat request checks in the background.
+        if (
+            typeof Core.Customer.Chat !== 'undefined'
+            && typeof Core.Customer.Chat.Toolbar !== 'undefined'
+            )
+        {
+            Core.Customer.Chat.Toolbar.Init();
+        }
+
         // unveil full error details only on click
         $('.TriggerFullErrorDetails').on('click', function() {
             $('.Content.ErrorDetails').toggle();

@@ -37,9 +37,14 @@
 <table class="DataTable DashboardUserOnline">
     <tbody>
 [% RenderBlockStart("ContentSmallUserOnlineRow") %]
-        <tr>
+        <tr class="UserRow">
             <td>
-                <p title="[% Data.UserEmail | html %]" class="UserRow">
+                <p title="[% Data.UserEmail | html %]">
+                [% IF Data.ChatAccess %]
+                    <span class="Participant [% Data.UserState | html %]">
+                        <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
+                    </span>
+                [% END %]
                 [% IF Data.UserCustomerID %]
                     <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.UserCustomerID | uri %]">
                 [% ELSE %]
@@ -57,21 +62,31 @@
                 [% ELSE %]
                     </span>
                 [% END %]
-                [% IF Data.ChatAccess %]
-                    <span class="Participant [% Data.UserState | html %]">
-
-                        <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
-                    </span>
-                    [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
-                    <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart"
-                        data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
-                        data-user-fullname="[% Data.UserFullname | html %]">
-                        <i class="fa fa-comments"></i>
-                    </a>
-                    [% END %]
-                [% END %]
                 </p>
-            </td>
+
+            [% IF Data.ChatAccess %]
+            <span class="UserChatIcons">
+            [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') || Data.CustomerEnableChat %]
+                <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart"
+                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                    data-user-fullname="[% Data.UserFullname | html %]">
+                    <i class="fa fa-comments"></i>
+                </a>
+                [% IF Data.VideoChatEnabled %]
+                <a href="#" title="[% Translate('Video call') | html %]" type="button" class="CreateVideoChatVideoCall[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
+                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                    data-user-fullname="[% Data.UserFullname | html %]">
+                    <i class="fa fa-video-camera"></i>
+                </a>
+                <a href="#" title="[% Translate('Audio call') | html %]" type="button" class="CreateVideoChatAudioCall[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
+                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                    data-user-fullname="[% Data.UserFullname | html %]">
+                    <i class="fa fa-microphone"></i>
+                </a>
+                [% END %]
+            [% END %]
+            </span>
+            [% END %]
         </tr>
 [% RenderBlockEnd("ContentSmallUserOnlineRow") %]
 [% RenderBlockStart("ContentSmallUserOnlineNone") %]
@@ -90,16 +105,19 @@
 <script type="text/javascript">//<![CDATA[
 $('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
     var UserID = $(this).data('user-id'),
+        UserType = $(this).data('user-type'),
+        UserFullname = $(this).data('user-fullname'),
         $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
 
-    $Dialog.find('input[name=ChatStartUserID]').val($(this).data('user-id'));
-    $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
-    $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
+    $Dialog.find('input[name=ChatStartUserID]').val(UserID);
+    $Dialog.find('input[name=ChatStartUserType]').val(UserType);
+    $Dialog.find('input[name=ChatStartUserFullname]').val(UserFullname);
 
     // Get Availability
     var Data = {
         Action: 'AgentChat',
         Subaction: 'GetAvailability',
+        UserType: UserType,
         UserID: UserID,
     };
 
@@ -108,7 +126,7 @@ $('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
         Data,
         function(Response) {
             if (Response < 1) {
-                window.alert([% Translate("Selected agent is not available for chat") | JSON %]);
+                window.alert([% Translate("Selected user is not available for chat") | JSON %]);
 
                 // Reload page
                 document.location.reload(true);
@@ -135,6 +153,14 @@ $('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
 
     return false;
 });
+
+if (
+    typeof Core.Agent.Chat !== 'undefined'
+    && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+    )
+{
+    Core.Agent.Chat.Toolbar.InitVideoChatButtons();
+}
 
 //]]></script>
 [% END %]

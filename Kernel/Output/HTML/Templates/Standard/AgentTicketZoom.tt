@@ -1121,6 +1121,14 @@ function CheckIFrameHeight(IFrameID) {
         return false;
     });
 
+    if (
+        typeof Core.Agent.Chat !== 'undefined'
+        && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+        )
+    {
+        Core.Agent.Chat.Toolbar.InitVideoChatButtons();
+    }
+
     if (typeof Core.UI.Floater !== 'undefined') {
         Core.UI.Floater.Init();
     }

@@ -94,7 +94,13 @@
 [% IF Config("ChatEngine::Active") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
+if (
+    typeof Core.Agent.Chat !== 'undefined'
+    && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+    )
+{
     Core.Agent.Chat.Toolbar.Init();
+}
 //]]></script>
 [% END %]
 [% END %]

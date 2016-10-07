@@ -1,0 +1,357 @@
+---
+Activities:
+  Activity-0e102c168616125a4582ed57039e8adc:
+    ActivityDialogs:
+    - ActivityDialog-3eee13cf55483f8b725b6934effaccd4
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-3eee13cf55483f8b725b6934effaccd4
+    CreateTime: 2016-08-25 15:13:42
+    EntityID: Activity-0e102c168616125a4582ed57039e8adc
+    ID: '12'
+    Name: File Request
+  Activity-4d02df8ec2974565e4c3d63663daa7dc:
+    ActivityDialogs: []
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      ActivityDialog: {}
+    CreateTime: 2016-08-25 15:13:42
+    EntityID: Activity-4d02df8ec2974565e4c3d63663daa7dc
+    ID: '13'
+    Name: Process complete
+  Activity-a08ed90f8af907db4f6949637607274c:
+    ActivityDialogs:
+    - ActivityDialog-99866d267c0dc899e88db99d14a11f23
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-99866d267c0dc899e88db99d14a11f23
+    CreateTime: 2016-08-25 15:13:42
+    EntityID: Activity-a08ed90f8af907db4f6949637607274c
+    ID: '14'
+    Name: Recording the Application
+  Activity-a86e85ddbe13912fa95c7cdb511743d8:
+    ActivityDialogs:
+    - ActivityDialog-c1813344d2a10186c4a480dfd71a4aa9
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-c1813344d2a10186c4a480dfd71a4aa9
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: Activity-a86e85ddbe13912fa95c7cdb511743d8
+    ID: '15'
+    Name: Aprroval of manager
+ActivityDialogs:
+  ActivityDialog-3eee13cf55483f8b725b6934effaccd4:
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Leaave request was filed
+      FieldOrder:
+      - DynamicField_PreProcApplicationRecorded
+      - DynamicField_PreProcDaysRemaining
+      Fields:
+        DynamicField_PreProcApplicationRecorded:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcDaysRemaining:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: rw
+      RequiredLock: '1'
+      SubmitAdviceText: Please submit after filing the record and updated the remaining
+        days
+      SubmitButtonText: ''
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: ActivityDialog-3eee13cf55483f8b725b6934effaccd4
+    ID: '11'
+    Name: Request filed
+  ActivityDialog-99866d267c0dc899e88db99d14a11f23:
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      DescriptionLong: This is the long description
+      DescriptionShort: Fill out the application
+      FieldOrder:
+      - CustomerID
+      - DynamicField_PreProcVacationStart
+      - DynamicField_PreProcVacationEnd
+      - DynamicField_PreProcDaysUsed
+      - DynamicField_PreProcDaysRemaining
+      - DynamicField_PreProcEmergencyTelephone
+      - DynamicField_PreProcRepresentationBy
+      - Responsible
+      - DynamicField_PreProcProcessStatus
+      Fields:
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcDaysRemaining:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcDaysUsed:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcEmergencyTelephone:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcProcessStatus:
+          DefaultValue: Values filled
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+        DynamicField_PreProcRepresentationBy:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcVacationEnd:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcVacationStart:
+          DefaultValue: ''
+          DescriptionLong: Put in the start date of your leave. First business day
+          DescriptionShort: ''
+          Display: '2'
+        Responsible:
+          DefaultValue: ''
+          DescriptionLong: Select your manager
+          DescriptionShort: Manager
+          Display: '2'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: Please fill out the fields for your application for leave
+      SubmitButtonText: Submit
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: ActivityDialog-99866d267c0dc899e88db99d14a11f23
+    ID: '12'
+    Name: Recording the Application for leave
+  ActivityDialog-c1813344d2a10186c4a480dfd71a4aa9:
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Approval of leave request
+      FieldOrder:
+      - DynamicField_PreProcApprovedSuperior
+      - DynamicField_PreProcVacationInfo
+      Fields:
+        DynamicField_PreProcApprovedSuperior:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcVacationInfo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: rw
+      RequiredLock: '1'
+      SubmitAdviceText: Approve or deny request
+      SubmitButtonText: Submit
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: ActivityDialog-c1813344d2a10186c4a480dfd71a4aa9
+    ID: '13'
+    Name: Approval
+Process:
+  Activities:
+  - Activity-0e102c168616125a4582ed57039e8adc
+  - Activity-4d02df8ec2974565e4c3d63663daa7dc
+  - Activity-a08ed90f8af907db4f6949637607274c
+  - Activity-a86e85ddbe13912fa95c7cdb511743d8
+  ChangeTime: 2016-08-25 15:16:07
+  Config:
+    Description: Application for leave
+    Path:
+      Activity-0e102c168616125a4582ed57039e8adc:
+        Transition-bf6d4a1eac04e64604cf27061fc27a05:
+          ActivityEntityID: Activity-4d02df8ec2974565e4c3d63663daa7dc
+          TransitionAction:
+          - TransitionAction-e8203eb470a2f42adcec2f5afac63a06
+          - TransitionAction-5c40929cf9772929f84925897f3eae0b
+      Activity-4d02df8ec2974565e4c3d63663daa7dc: {}
+      Activity-a08ed90f8af907db4f6949637607274c:
+        Transition-cfef609c67c32c11e48c560536ba6b51:
+          ActivityEntityID: Activity-a86e85ddbe13912fa95c7cdb511743d8
+          TransitionAction:
+          - TransitionAction-e6208f29f06afefd0eba086e0cb341e2
+      Activity-a86e85ddbe13912fa95c7cdb511743d8:
+        Transition-16ec0be6ec06057880c9a247973b4583:
+          ActivityEntityID: Activity-0e102c168616125a4582ed57039e8adc
+          TransitionAction:
+          - TransitionAction-5fad14be3c31ae919bef7d19ee8f4a37
+        Transition-3355f16e2343ef00cee769cf6601461a:
+          ActivityEntityID: Activity-4d02df8ec2974565e4c3d63663daa7dc
+          TransitionAction:
+          - TransitionAction-5c40929cf9772929f84925897f3eae0b
+          - TransitionAction-f9eddaf93b8f24abae95460fa2698b0d
+    StartActivity: Activity-a08ed90f8af907db4f6949637607274c
+    StartActivityDialog: ActivityDialog-99866d267c0dc899e88db99d14a11f23
+  CreateTime: 2016-08-25 15:13:42
+  EntityID: Process-9690ae9ae455d8614d570149b8ab1199
+  ID: '5'
+  Layout:
+    Activity-0e102c168616125a4582ed57039e8adc:
+      left: '1012'
+      top: '336'
+    Activity-4d02df8ec2974565e4c3d63663daa7dc:
+      left: '597'
+      top: '439'
+    Activity-a08ed90f8af907db4f6949637607274c:
+      left: '81'
+      top: '84'
+    Activity-a86e85ddbe13912fa95c7cdb511743d8:
+      left: '598'
+      top: '84'
+  Name: Application for leave
+  State: Active
+  StateEntityID: S1
+  TransitionActions:
+  - TransitionAction-5c40929cf9772929f84925897f3eae0b
+  - TransitionAction-e8203eb470a2f42adcec2f5afac63a06
+  - TransitionAction-e6208f29f06afefd0eba086e0cb341e2
+  - TransitionAction-5fad14be3c31ae919bef7d19ee8f4a37
+  - TransitionAction-5c40929cf9772929f84925897f3eae0b
+  - TransitionAction-f9eddaf93b8f24abae95460fa2698b0d
+  Transitions:
+  - Transition-bf6d4a1eac04e64604cf27061fc27a05
+  - Transition-cfef609c67c32c11e48c560536ba6b51
+  - Transition-16ec0be6ec06057880c9a247973b4583
+  - Transition-3355f16e2343ef00cee769cf6601461a
+TransitionActions:
+  TransitionAction-5c40929cf9772929f84925897f3eae0b:
+    ChangeTime: 2016-08-25 15:18:25
+    Config:
+      Config:
+        Lock: unlock
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketLockSet
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: TransitionAction-5c40929cf9772929f84925897f3eae0b
+    ID: '14'
+    Name: set Ticket lock = unlock
+  TransitionAction-5fad14be3c31ae919bef7d19ee8f4a37:
+    ChangeTime: 2016-08-25 15:17:53
+    Config:
+      Config:
+        PendingTimeDiff: '604800'
+        State: pending reminder
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: TransitionAction-5fad14be3c31ae919bef7d19ee8f4a37
+    ID: '15'
+    Name: Set state = pending reminder (+7d)
+  TransitionAction-e6208f29f06afefd0eba086e0cb341e2:
+    ChangeTime: 2016-08-25 15:17:41
+    Config:
+      Config:
+        PendingTimeDiff: '86400'
+        State: pending reminder
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: TransitionAction-e6208f29f06afefd0eba086e0cb341e2
+    ID: '19'
+    Name: Set state = pending reminder (+24h)
+  TransitionAction-e8203eb470a2f42adcec2f5afac63a06:
+    ChangeTime: 2016-08-25 15:16:59
+    Config:
+      Config:
+        State: closed successful
+        UserID: '1'
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: TransitionAction-e8203eb470a2f42adcec2f5afac63a06
+    ID: '20'
+    Name: Change State to closed successful
+  TransitionAction-f9eddaf93b8f24abae95460fa2698b0d:
+    ChangeTime: 2016-08-09 16:54:37
+    Config:
+      Config:
+        State: closed unsuccessful
+        UserID: '1'
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2016-08-09 16:54:37
+    EntityID: TransitionAction-f9eddaf93b8f24abae95460fa2698b0d
+    ID: '2'
+    Name: Change State to closed unsuccessful
+Transitions:
+  Transition-16ec0be6ec06057880c9a247973b4583:
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcApprovedSuperior:
+              Match: yes
+              Type: String
+          Type: or
+      ConditionLinking: or
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: Transition-16ec0be6ec06057880c9a247973b4583
+    ID: '13'
+    Name: ApprovedbySuperior
+  Transition-3355f16e2343ef00cee769cf6601461a:
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcApprovedSuperior:
+              Match: no
+              Type: String
+          Type: or
+      ConditionLinking: or
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: Transition-3355f16e2343ef00cee769cf6601461a
+    ID: '14'
+    Name: NotApproved
+  Transition-bf6d4a1eac04e64604cf27061fc27a05:
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcApplicationRecorded:
+              Match: yes
+              Type: String
+          Type: or
+      ConditionLinking: or
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: Transition-bf6d4a1eac04e64604cf27061fc27a05
+    ID: '15'
+    Name: Request was filed
+  Transition-cfef609c67c32c11e48c560536ba6b51:
+    ChangeTime: 2016-08-25 15:13:43
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcProcessStatus:
+              Match: Values filled
+              Type: String
+          Type: or
+      ConditionLinking: or
+    CreateTime: 2016-08-25 15:13:43
+    EntityID: Transition-cfef609c67c32c11e48c560536ba6b51
+    ID: '16'
+    Name: RequestSubmitted

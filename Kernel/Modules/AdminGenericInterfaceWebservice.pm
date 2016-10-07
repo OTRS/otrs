@@ -482,10 +482,15 @@ sub Run {
 
         my $ImportedConfig;
 
+        my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
         # get web service name
         my $WebserviceName;
-
         my $ExampleWebServiceFilename = $ParamObject->GetParam( Param => 'ExampleWebService' ) || '';
+        my $FileWithoutExtension;
+
         if ($ExampleWebServiceFilename) {
             $ExampleWebServiceFilename =~ s{/+|\.{2,}}{}smx;    # remove slashes and ..
 
@@ -495,7 +500,52 @@ sub Run {
                 );
             }
 
-            my $Home    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+            # extract file name
+            $ExampleWebServiceFilename =~ m{(.*?)\.yml$}smx;
+            $FileWithoutExtension = $1;
+
+            # Run _pre.pm if available.
+            if ( -e "$Home/var/webservices/examples/" . $FileWithoutExtension . "_pre.pm" ) {
+
+                my $BackendName = 'var::webservices::examples::' . $FileWithoutExtension . '_pre';
+
+                my $Loaded = $MainObject->Require(
+                    $BackendName,
+                );
+
+                if ( !$Loaded ) {
+                    return $LayoutObject->ErrorScreen(
+                        Message => "Could not load $BackendName.",
+                    );
+
+                }
+
+                my $BackendPre = $Kernel::OM->Get(
+                    $BackendName,
+                );
+
+                if ( $BackendPre->can('DependencyCheck') ) {
+                    my %Result = $BackendPre->DependencyCheck();
+                    if ( !$Result{Success} && $Result{ErrorMessage} ) {
+
+                        return $Self->_ShowEdit(
+                            DependencyErrorMessage => $Result{ErrorMessage},
+                            %Param,
+                            Action => 'Add',
+                        );
+                    }
+                }
+
+                my %Status = $BackendPre->Run();
+                if ( !$Status{Success} ) {
+
+                    # show the error screen
+                    return $LayoutObject->ErrorScreen(
+                        Message => $Status{Error},
+                    );
+                }
+            }
+
             my $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
                 Location => "$Home/var/webservices/examples/$ExampleWebServiceFilename",
                 Mode     => 'utf8',
@@ -605,6 +655,33 @@ sub Run {
             ValidID => $WebserviceData->{ValidID},
             UserID  => $Self->{UserID},
         );
+
+        if (
+            $FileWithoutExtension
+            && -e "$Home/var/webservices/examples/" . $FileWithoutExtension . "_post.pm"
+            )
+        {
+            my $BackendName = 'var::webservices::examples::' . $FileWithoutExtension . '_post';
+
+            my $Loaded = $MainObject->Require(
+                $BackendName,
+            );
+
+            if ($Loaded) {
+                my $BackendPost = $Kernel::OM->Get(
+                    $BackendName,
+                );
+
+                my %Status = $BackendPost->Run();
+                if ( !$Status{Success} ) {
+
+                    # show the error screen
+                    return $LayoutObject->ErrorScreen(
+                        Message => $Status{Error},
+                    );
+                }
+            }
+        }
 
         # define notification
         my $Notify = $LayoutObject->{LanguageObject}->Translate(
@@ -786,6 +863,14 @@ sub _ShowEdit {
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
+    if ( $Param{DependencyErrorMessage} ) {
+        $Output .= $LayoutObject->Notify(
+            Priority => 'Notice',
+            Data     => $Param{DependencyErrorMessage},
+
+        );
+    }
+
     # show notifications if any
     if ( $Param{Notify} ) {
         $Output .= $LayoutObject->Notify(
@@ -849,14 +934,13 @@ sub _ShowEdit {
             );
         }
 
-        # TODO: Since at the moment there are no sample web services, we keep this feature disabled.
-        # Enable this feature after Business solution is updated.
-        # $LayoutObject->Block(
-        #     Name => 'ExampleWebServices',
-        #     Data => {
-        #         %Frontend,
-        #     },
-        # );
+        # Enable Example web services
+        $LayoutObject->Block(
+            Name => 'ExampleWebServices',
+            Data => {
+                %Frontend,
+            },
+        );
 
         $LayoutObject->Block(
             Name => 'WebservicePathElementNoLink',
