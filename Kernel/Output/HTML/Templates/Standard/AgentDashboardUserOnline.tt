@@ -23,9 +23,14 @@
 <table class="DataTable DashboardUserOnline">
     <tbody>
 [% RenderBlockStart("ContentSmallUserOnlineRow") %]
-        <tr>
+        <tr class="UserRow">
             <td>
-                <p title="[% Data.UserEmail | html %]" class="UserRow">
+                <p title="[% Data.UserEmail | html %]">
+                [% IF Data.ChatAccess %]
+                    <span class="Participant [% Data.UserState | html %]">
+                        <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
+                    </span>
+                [% END %]
                 [% IF Data.UserCustomerID %]
                     <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.UserCustomerID | uri %]">
                 [% ELSE %]
@@ -43,21 +48,31 @@
                 [% ELSE %]
                     </span>
                 [% END %]
-                [% IF Data.ChatAccess %]
-                    <span class="Participant [% Data.UserState | html %]">
-
-                        <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
-                    </span>
-                    [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
-                    <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart"
-                        data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
-                        data-user-fullname="[% Data.UserFullname | html %]">
-                        <i class="fa fa-comments"></i>
-                    </a>
-                    [% END %]
-                [% END %]
                 </p>
-            </td>
+
+            [% IF Data.ChatAccess %]
+            <span class="UserChatIcons">
+            [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') || Data.CustomerEnableChat %]
+                <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart"
+                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                    data-user-fullname="[% Data.UserFullname | html %]">
+                    <i class="fa fa-comments"></i>
+                </a>
+                [% IF Data.VideoChatEnabled %]
+                <a href="#" title="[% Translate('Video call') | html %]" type="button" class="CreateVideoChatVideoCall[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
+                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                    data-user-fullname="[% Data.UserFullname | html %]">
+                    <i class="fa fa-video-camera"></i>
+                </a>
+                <a href="#" title="[% Translate('Audio call') | html %]" type="button" class="CreateVideoChatAudioCall[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
+                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                    data-user-fullname="[% Data.UserFullname | html %]">
+                    <i class="fa fa-microphone"></i>
+                </a>
+                [% END %]
+            [% END %]
+            </span>
+            [% END %]
         </tr>
 [% RenderBlockEnd("ContentSmallUserOnlineRow") %]
 [% RenderBlockStart("ContentSmallUserOnlineNone") %]

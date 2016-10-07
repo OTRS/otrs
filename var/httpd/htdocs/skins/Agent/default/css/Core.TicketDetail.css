@@ -881,7 +881,7 @@ div.Headline .Flag {
 }
 
 .UseArticleColors .TimelineView .TypeIncoming.SenderType_customer.ArticleType_email-internal h3:after {
-    border-right-color: #ddd;   
+    border-right-color: #ddd;
 }
 
 .UseArticleColors .TimelineView .TypeTicketAutoAction h3 {
@@ -931,6 +931,11 @@ div.Headline .Flag {
 
 .TimelineView div.UnreadArticles i {
     font-size: 11px;
+}
+
+.ItemRow i.Unsupported,
+.ItemRow a.Unsupported {
+    opacity: 0.4;
 }
 
 } /* end @media */

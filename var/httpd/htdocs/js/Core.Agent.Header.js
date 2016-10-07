@@ -41,9 +41,13 @@ Core.Agent.Header = (function (TargetNS) {
         Core.Agent.CustomerInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerID'), "SearchCustomerID");
         Core.Agent.CustomerInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerUser'), "SearchCustomerUser");
 
-        // Initialize Chat availability if config is activated
-        if (typeof Core.Config.Get('ChatActive') !== 'undefined' &&
-            parseInt(Core.Config.Get('ChatActive'), 10) === 1) {
+        // Initialize chat availability checks if chat is activated.
+        if (
+            typeof Core.Agent.Chat !== 'undefined'
+            && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+            && Core.Config.Get('ChatEngine::Active') === '1'
+            )
+        {
             Core.Agent.Chat.Toolbar.Init();
         }
 

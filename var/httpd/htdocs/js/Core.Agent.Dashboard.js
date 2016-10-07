@@ -522,6 +522,14 @@ Core.Agent.Dashboard = (function (TargetNS) {
             return false;
         });
 
+        if (
+            typeof Core.Agent.Chat !== 'undefined'
+            && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+            )
+        {
+            Core.Agent.Chat.Toolbar.InitVideoChatButtons();
+        }
+
         if (typeof Core.Config.Get('CustomerUserListRefresh') !== 'undefined') {
             CustomerUserRefresh = Core.Config.Get('CustomerUserListRefresh');
 
@@ -597,7 +605,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
      *      Initializes dashboard widget User Online events
      */
     function UserOnlineEvent (UserOnline) {
-        var UserID, $Dialog, Data;
 
         // Bind event on Agent filter
         $('#Dashboard' + Core.App.EscapeSelector(UserOnline.Name) + 'Agent').off('click').on('click', function(){
@@ -615,17 +622,21 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
         // Bind event on chat start
         $('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
-            UserID = $(this).data('user-id'),
-            $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
+            var UserID = $(this).data('user-id'),
+                UserType = $(this).data('user-type'),
+                UserFullname = $(this).data('user-fullname'),
+                $Dialog = $('#DashboardUserOnlineChatStartDialog').clone(),
+                Data;
 
-            $Dialog.find('input[name=ChatStartUserID]').val($(this).data('user-id'));
-            $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
-            $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
+            $Dialog.find('input[name=ChatStartUserID]').val(UserID);
+            $Dialog.find('input[name=ChatStartUserType]').val(UserType);
+            $Dialog.find('input[name=ChatStartUserFullname]').val(UserFullname);
 
             // Get Availability
             Data = {
                 Action: 'AgentChat',
                 Subaction: 'GetAvailability',
+                UserType: UserType,
                 UserID: UserID
             };
 
@@ -634,7 +645,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 Data,
                 function(Response) {
                     if (Response < 1) {
-                        window.alert(Core.Language.Translate("Selected agent is not available for chat"));
+                        window.alert(Core.Language.Translate("Selected user is not available for chat"));
 
                         // Reload page
                         document.location.reload(true);
@@ -661,6 +672,15 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
             return false;
         });
+
+        // Initialize video chat buttons, if applicable.
+        if (
+            typeof Core.Agent.Chat !== 'undefined'
+            && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+            )
+        {
+            Core.Agent.Chat.Toolbar.InitVideoChatButtons();
+        }
 
         // Initiate refresh event
         Core.Config.Set('RefreshSeconds_' + UserOnline.NameHTML, parseInt(UserOnline.RefreshTime, 10) || 0);

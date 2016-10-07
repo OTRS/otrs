@@ -47,6 +47,18 @@
 [% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerKeyText") %]
 [% RenderBlockStart("ContentLargeCustomerUserListRowCustomerKeyChatStart") %]
                 <a href="#" title="[% Translate("Start Chat") %]" class="CreateChatRequest" data-user-type="Customer" data-user-id="[% Data.UserID | html %]" data-user-fullname="[% Data.UserFullname | html %]"><i class="fa fa-comments-o"></i></a>
+[% RenderBlockStart("ContentLargeCustomerUserListRowCustomerKeyVideoChatStart") %]
+                <a href="#" title="[% Translate('Video call') | html %]" type="button" class="CreateVideoChatVideoCall[% IF !Data.VideoChatSupport %] Unsupported[% END %]"
+                    data-user-id="[% Data.UserID | html %]" data-user-type="Customer"
+                    data-user-fullname="[% Data.UserFullname | html %]">
+                    <i class="fa fa-video-camera"></i>
+                </a>
+                <a href="#" title="[% Translate('Audio call') | html %]" type="button" class="CreateVideoChatAudioCall[% IF !Data.VideoChatSupport %] Unsupported[% END %]"
+                    data-user-id="[% Data.UserID | html %]" data-user-type="Customer"
+                    data-user-fullname="[% Data.UserFullname | html %]">
+                    <i class="fa fa-microphone"></i>
+                </a>
+[% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerKeyVideoChatStart") %]
 [% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerKeyChatStart") %]
             </td>
             <td>

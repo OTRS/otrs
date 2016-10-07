@@ -32,6 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::SystemMaintenance',
     'Kernel::System::Time',
     'Kernel::System::User',
+    'Kernel::System::VideoChat',
     'Kernel::System::Web::Request',
     'Kernel::System::Group',
 );
@@ -1433,11 +1434,13 @@ sub Header {
             }
         }
 
-        if ( $ConfigObject->Get('ChatEngine::Active') ) {
-            $Self->AddJSData(
-                Key   => 'ChatActive',
-                Value => $ConfigObject->Get('ChatEngine::Active')
-            );
+        if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Chat', Silent => 1 ) ) {
+            if ( $ConfigObject->Get('ChatEngine::Active') ) {
+                $Self->AddJSData(
+                    Key   => 'ChatEngine::Active',
+                    Value => $ConfigObject->Get('ChatEngine::Active')
+                );
+            }
         }
 
         # show logged in notice
@@ -1561,6 +1564,12 @@ sub Footer {
         $Param{OTRSBusinessIsInstalled} = $OTRSBusinessObject->OTRSBusinessIsInstalled();
     }
 
+    # Check if video chat is enabled.
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) ) {
+        $Param{VideoChatEnabled} = $Kernel::OM->Get('Kernel::System::VideoChat')->IsEnabled()
+            || $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UnitTestMode' ) // 0;
+    }
+
     # add JS data
     my %JSConfig = (
         Baselink                       => $Self->{Baselink},
@@ -1584,6 +1593,7 @@ sub Footer {
         IncludeUnknownTicketCustomers  => $ConfigObject->Get('Ticket::IncludeUnknownTicketCustomers'),
         InputFieldsActivated           => $ConfigObject->Get('ModernizeFormFields'),
         OTRSBusinessIsInstalled        => $Param{OTRSBusinessIsInstalled},
+        VideoChatEnabled               => $Param{VideoChatEnabled},
         CheckSearchStringsForStopWords => (
             $ConfigObject->Get('Ticket::SearchIndex::WarnOnStopWordUsage')
                 &&
@@ -3875,6 +3885,12 @@ sub CustomerFooter {
         );
     }
 
+    # Check if video chat is enabled.
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) ) {
+        $Param{VideoChatEnabled} = $Kernel::OM->Get('Kernel::System::VideoChat')->IsEnabled()
+            || $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UnitTestMode' ) // 0;
+    }
+
     # AutoComplete-Config
     my $AutocompleteConfig = $ConfigObject->Get('AutoComplete::Customer');
 
@@ -3903,6 +3919,7 @@ sub CustomerFooter {
         CheckEmailAddresses      => $ConfigObject->Get('CheckEmailAddresses'),
         InputFieldsActivated     => $ConfigObject->Get('ModernizeCustomerFormFields'),
         Autocomplete             => $AutocompleteConfigJSON,
+        VideoChatEnabled         => $Param{VideoChatEnabled},
     );
 
     for my $Config ( sort keys %JSConfig ) {
@@ -4193,35 +4210,35 @@ sub CustomerNavigationBar {
             );
         }
 
-        # show open chat requests (if chat engine is active)
-        if ( $ConfigObject->Get('ChatEngine::Active') ) {
+        # Show open chat requests (if chat engine is active).
+        if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Chat', Silent => 1 ) ) {
+            if ( $ConfigObject->Get('ChatEngine::Active') ) {
+                my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
+                my $Chats      = $ChatObject->ChatList(
+                    Status        => 'request',
+                    TargetType    => 'Customer',
+                    ChatterID     => $Self->{UserID},
+                    ChatterType   => 'Customer',
+                    ChatterActive => 0,
+                );
 
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my $Chats      = $ChatObject->ChatList(
-                Status        => 'request',
-                TargetType    => 'Customer',
-                ChatterID     => $Self->{UserID},
-                ChatterType   => 'Customer',
-                ChatterActive => 0,
-            );
+                my $Count = scalar $Chats;
 
-            my $Count = scalar $Chats;
+                $Self->Block(
+                    Name => 'ChatRequests',
+                    Data => {
+                        Count => $Count,
+                        Class => ($Count) ? '' : 'Hidden',
+                    },
+                );
 
-            $Self->Block(
-                Name => 'ChatRequests',
-                Data => {
-                    Count => $Count,
-                    Class => ($Count) ? '' : 'Hidden',
-                },
-            );
+                $Self->AddJSData(
+                    Key   => 'ChatEngine::Active',
+                    Value => $ConfigObject->Get('ChatEngine::Active')
+                );
+            }
         }
     }
-
-    # send data to JS
-    $Self->AddJSData(
-        Key   => 'ChatEngine::Active',
-        Value => $ConfigObject->Get('ChatEngine::Active'),
-    );
 
     # create & return output
     return $Self->Output(

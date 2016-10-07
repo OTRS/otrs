@@ -242,7 +242,7 @@ sub Run {
         # 2. current user has access to the chat
         # 3. this customer user is online
         my $ChatStartingAgentsGroup
-            = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
+            = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
 
         if (
             $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active')
@@ -274,18 +274,46 @@ sub Run {
 
             if ($CustomerIsOnline) {
 
-                my $UserFullname = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
-                    UserLogin => $CustomerKey,
+                my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                    User => $CustomerKey,
                 );
+
+                my $VideoChatEnabled = 0;
+                my $VideoChatSupport = $CustomerUser{VideoChatHasWebRTC} || 0;
+                my $VideoChatAgentsGroup
+                    = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
+
+                # Enable the video chat feature if system is entitled and agent is a member of configured group.
+                if (
+                    defined $LayoutObject->{"UserIsGroup[$VideoChatAgentsGroup]"}
+                    && $LayoutObject->{"UserIsGroup[$VideoChatAgentsGroup]"} eq 'Yes'
+                    )
+                {
+                    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) )
+                    {
+                        $VideoChatEnabled = $Kernel::OM->Get('Kernel::System::VideoChat')->IsEnabled();
+                    }
+                }
 
                 if ( $ConfigObject->Get('Ticket::Agent::StartChatWOTicket') ) {
                     $LayoutObject->Block(
                         Name => 'ContentLargeCustomerUserListRowCustomerKeyChatStart',
                         Data => {
-                            UserFullname => $UserFullname,
+                            UserFullname => $CustomerUser{UserFullname},
                             UserID       => $CustomerKey,
                         },
                     );
+
+                    if ($VideoChatEnabled) {
+                        $LayoutObject->Block(
+                            Name => 'ContentLargeCustomerUserListRowCustomerKeyVideoChatStart',
+                            Data => {
+                                UserFullname     => $CustomerUser{UserFullname},
+                                UserID           => $CustomerKey,
+                                VideoChatSupport => $VideoChatSupport,
+                            },
+                        );
+                    }
                 }
             }
         }
