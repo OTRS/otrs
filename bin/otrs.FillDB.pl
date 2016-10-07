@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.FillDB.pl,v 1.7.2.2 2012-09-25 11:46:44 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -29,9 +26,6 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7.2.2 $) [1];
 
 use Getopt::Std;
 
@@ -112,7 +106,7 @@ sub Run {
     getopt( 'hqugtramc', \%Opts );
     if ( $Opts{h} ) {
         print <<EOF;
-otrs.FillDB.pl <Revision $VERSION> - OTRS fill db with data
+otrs.FillDB.pl - OTRS fill db with data
 Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 
 usage: otrsFillDB.pl -q <QUEUES> -t <TICKETS> -m <MODIFY_TICKETS> -a <ARTICLES> -f <SETSEENFLAG> -u <USERS> -g <GROUPS> -<CUSTOMERUSERS> -r <REALLYDOTHIS>

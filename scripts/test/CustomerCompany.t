@@ -1,8 +1,5 @@
 # --
-# CustomerCompany.t - CustomerCompany tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerCompany.t,v 1.4 2011-08-15 12:06:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

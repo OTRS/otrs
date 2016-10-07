@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Email/SMTPTLS.pm - the global email send module
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: SMTPTLS.pm,v 1.3 2011-01-06 09:47:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Net::SMTP::TLS::ButMaintained;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

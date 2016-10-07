@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminGenericInterfaceOperationDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.8.2.1 2012-09-24 23:30:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::AdminGenericInterfaceOperationDefault;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8.2.1 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 

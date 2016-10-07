@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: CheckItem.pm,v 1.41 2011-09-07 20:52:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::CheckItem;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -367,9 +361,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.41 $ $Date: 2011-09-07 20:52:38 $
 
 =cut

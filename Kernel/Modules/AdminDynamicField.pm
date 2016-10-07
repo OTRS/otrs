@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminDynamicField.pm,v 1.15.2.2 2012-05-07 19:17:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

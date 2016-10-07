@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminPostMasterFilter.pm,v 1.38.2.1 2012-05-11 08:33:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::DynamicField;
 use Kernel::System::PostMaster::Filter;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

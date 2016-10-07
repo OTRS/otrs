@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerTicketOverview.pm,v 1.4.2.3 2012-11-19 12:36:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::State;
 use Kernel::System::CustomerUser;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

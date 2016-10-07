@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Cache/FileRaw.pm - all cache functions
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: FileRaw.pm,v 1.6 2011-12-20 10:20:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +13,6 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

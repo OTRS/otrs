@@ -1,8 +1,5 @@
 # --
-# Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DebugLog.pm,v 1.18.2.1 2012-05-08 15:48:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18.2.1 $) [1];
 
 =head1 NAME
 
@@ -864,9 +858,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.18.2.1 $ $Date: 2012-05-08 15:48:20 $
 
 =cut

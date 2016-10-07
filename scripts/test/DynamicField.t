@@ -1,8 +1,5 @@
 # --
-# DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DynamicField.t,v 1.25.2.2 2012-04-26 23:02:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

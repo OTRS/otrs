@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminSelectBox.pm,v 1.38 2011-01-21 22:47:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CSV;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

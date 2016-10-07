@@ -1,8 +1,5 @@
 # --
-# Crypt.t - Crypt tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Crypt.t,v 1.21 2011-03-15 15:24:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

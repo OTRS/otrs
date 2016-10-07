@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DashboardRSS.pm,v 1.15 2011-12-01 10:50:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use XML::FeedPP;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

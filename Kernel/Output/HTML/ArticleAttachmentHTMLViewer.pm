@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/ArticleAttachmentHTMLViewer.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: ArticleAttachmentHTMLViewer.pm,v 1.11 2011-02-18 23:43:17 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::ArticleAttachmentHTMLViewer;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

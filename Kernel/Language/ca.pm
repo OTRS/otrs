@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2012 Sistemes OTIC (ibsalut) - Antonio Linde
-# --
-# $Id: ca.pm,v 1.8.2.2 2012-11-22 06:56:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::ca;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/SLAPreferencesGeneric.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: SLAPreferencesGeneric.pm,v 1.2 2009-07-07 15:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::SLAPreferencesGeneric;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

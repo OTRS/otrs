@@ -1,8 +1,5 @@
 # --
-# Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: SystemAddress.pm,v 1.35 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -379,9 +373,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.35 $ $Date: 2012-03-26 21:47:00 $
 
 =cut

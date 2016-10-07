@@ -1,8 +1,5 @@
 # --
-# Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
-# --
-# $Id: Defaults.pm,v 1.405.2.9 2013-01-28 09:32:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,9 +24,6 @@ use warnings;
 # Perl 5.8.6 is the required minimum version to use OTRS.
 # Do not use require VERSION as it leaks variables.
 use 5.008_006;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.405.2.9 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -1948,9 +1942,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.405.2.9 $ $Date: 2013-01-28 09:32:46 $
 
 =cut

@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketLockedView.pm - to view all locked tickets
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketLockedView.pm,v 1.16 2011-10-24 10:48:45 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::AgentTicketLockedView;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

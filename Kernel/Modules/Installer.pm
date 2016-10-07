@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Installer.pm,v 1.93 2012-01-07 20:26:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +18,6 @@ use Kernel::System::MailAccount;
 use Kernel::System::ReferenceData;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

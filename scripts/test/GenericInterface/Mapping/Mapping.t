@@ -1,8 +1,5 @@
 # --
-# Mapping.t - Mapping tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Mapping.t,v 1.10 2011-03-11 00:28:23 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

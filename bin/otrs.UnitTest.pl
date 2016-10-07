@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.UnitTest.pl - the global test handle
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.UnitTest.pl,v 1.6 2011-03-25 13:53:58 ep Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,9 +25,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -45,7 +39,7 @@ use Kernel::System::Main;
 my %Opts;
 getopt( 'hdnop', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.UnitTest.pl <Revision $VERSION> - OTRS test handle\n";
+    print "otrs.UnitTest.pl - OTRS test handle\n";
     print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.UnitTest.pl [-n Name e.g. Ticket or Queue, or both Ticket:Queue] [-d Directory] [-o ASCII|HTML|XML] [-p PRODUCT]\n";

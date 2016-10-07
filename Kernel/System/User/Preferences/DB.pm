@@ -1,8 +1,5 @@
 # --
-# Kernel/System/User/Preferences/DB.pm - some user functions
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.23 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

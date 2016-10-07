@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/en_GB.pm - provides British English language translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: en_GB.pm,v 1.13.2.1 2012-06-28 17:11:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::en_GB;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13.2.1 $) [1];
 
 sub Data {
     my $Self = shift;

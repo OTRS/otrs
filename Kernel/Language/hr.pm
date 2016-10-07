@@ -1,9 +1,6 @@
 # --
-# Kernel/Language/hr.pm - provides Croatian language Latin translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
-# --
-# $Id: hr.pm,v 1.21.2.2 2012-11-22 06:57:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ package Kernel::Language::hr;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

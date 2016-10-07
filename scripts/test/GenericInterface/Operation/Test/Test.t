@@ -1,8 +1,5 @@
 # --
-# Test.t - Operations tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Test.t,v 1.8 2011-06-27 20:16:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

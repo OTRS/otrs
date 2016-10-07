@@ -1,9 +1,6 @@
 #!/usr/bin/perl
 # --
-# scripts/backup.pl - the backup script
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: backup.pl,v 1.25.4.2 2013-01-18 14:52:57 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -29,9 +26,6 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25.4.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -50,7 +44,7 @@ my $DB          = '';
 my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( exists $Opts{h} ) {
-    print "backup.pl <Revision $VERSION> - backup script\n";
+    print "backup.pl - backup script\n";
     print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
     print
         "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup|dbonly]\n";

@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketQueue.pm,v 1.79.2.1 2012-09-29 05:55:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::State;
 use Kernel::System::Lock;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -1,8 +1,5 @@
 # --
-# Common.t - Operation tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Common.t,v 1.8 2012-01-25 17:29:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

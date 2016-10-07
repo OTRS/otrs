@@ -1,8 +1,5 @@
 # --
-# Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AuthSession.pm,v 1.46.2.1 2012-10-12 15:19:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::AuthSession;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46.2.1 $) [1];
 
 =head1 NAME
 
@@ -296,9 +290,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.46.2.1 $ $Date: 2012-10-12 15:19:08 $
 
 =cut

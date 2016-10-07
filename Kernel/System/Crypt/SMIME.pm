@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: SMIME.pm,v 1.55.2.12 2013-02-08 23:00:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Crypt::SMIME;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.12 $) [1];
 
 =head1 NAME
 
@@ -2489,9 +2483,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.55.2.12 $ $Date: 2013-02-08 23:00:57 $
 
 =cut

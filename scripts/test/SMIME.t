@@ -1,8 +1,5 @@
 # --
-# SMIME.t - SMIME tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: SMIME.t,v 1.24.2.13 2012-05-22 21:13:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

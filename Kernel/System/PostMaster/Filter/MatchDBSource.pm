@@ -1,8 +1,5 @@
 # --
-# Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: MatchDBSource.pm,v 1.21.4.1 2013-02-07 14:01:06 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::PostMaster::Filter;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

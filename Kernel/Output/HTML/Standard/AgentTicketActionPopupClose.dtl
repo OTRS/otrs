@@ -1,8 +1,5 @@
 # --
-# AgentTicketActionPopupClose.dtl - provides HTML for closing a popup after a finished request
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketActionPopupClose.dtl,v 1.4.4.1 2012-08-29 10:05:39 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.24 2010-02-03 14:51:03 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use MIME::Base64;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

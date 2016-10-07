@@ -1,8 +1,5 @@
 # --
-# Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: FS.pm,v 1.44 2012-03-23 16:40:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Digest::MD5;
 use MIME::Base64;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

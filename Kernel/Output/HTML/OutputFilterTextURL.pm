@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/OutputFilterTextURL.pm - auto URL detection filter
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: OutputFilterTextURL.pm,v 1.5 2011-05-18 18:20:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

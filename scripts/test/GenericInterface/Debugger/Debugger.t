@@ -1,8 +1,5 @@
 # --
-# Debugger.t - GenericInterface debugger tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Debugger.t,v 1.8 2011-03-01 23:59:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

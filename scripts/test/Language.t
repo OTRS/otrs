@@ -1,8 +1,5 @@
 # --
-# scripts/test/Language.t - Language module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Language.t,v 1.4 2011-04-15 11:13:50 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

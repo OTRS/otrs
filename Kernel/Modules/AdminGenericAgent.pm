@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminGenericAgent.pm,v 1.102.2.1 2012-05-31 01:26:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,9 +22,6 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

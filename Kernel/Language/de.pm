@@ -1,9 +1,6 @@
 # --
-# Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
-# --
-# $Id: de.pm,v 1.324.2.2 2012-11-22 06:56:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::de;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.324.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

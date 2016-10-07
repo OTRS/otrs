@@ -1,8 +1,5 @@
 # --
-# PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: PostMaster.t,v 1.34.2.1 2012-07-20 05:51:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

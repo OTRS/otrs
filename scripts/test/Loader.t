@@ -1,8 +1,5 @@
 # --
-# Loader.t - Loader backend tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Loader.t,v 1.10 2011-03-09 14:37:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

@@ -1,8 +1,5 @@
 # --
-# TicketSubject.t - ticket module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketSubject.t,v 1.1 2011-08-30 10:23:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

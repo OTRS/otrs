@@ -1,8 +1,5 @@
 # --
-# Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Filter.pm,v 1.24 2010-10-06 16:05:21 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -232,9 +228,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.24 $ $Date: 2010-10-06 16:05:21 $
 
 =cut

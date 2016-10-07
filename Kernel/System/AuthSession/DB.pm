@@ -1,8 +1,5 @@
 # --
-# Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.50 2012-01-27 12:21:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 use Digest::MD5;
 use MIME::Base64;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -1,8 +1,5 @@
 # --
-# ObjectLockState.t - ObjectLockState functional tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: ObjectLockState.t,v 1.4 2011-03-03 08:18:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentSpelling.pm,v 1.28 2010-07-01 14:08:53 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Spelling;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

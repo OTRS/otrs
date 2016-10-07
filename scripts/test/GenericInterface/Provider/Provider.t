@@ -1,8 +1,5 @@
 # --
-# Provider.t - Provider tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Provider.t,v 1.11 2011-06-22 09:54:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

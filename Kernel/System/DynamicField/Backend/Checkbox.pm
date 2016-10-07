@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Checkbox.pm,v 1.52.2.2 2012-06-19 23:53:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52.2.2 $) [1];
 
 =head1 NAME
 

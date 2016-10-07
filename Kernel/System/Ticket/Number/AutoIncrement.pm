@@ -1,8 +1,5 @@
 # --
-# Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AutoIncrement.pm,v 1.29 2009-05-15 10:12:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ package Kernel::System::Ticket::Number::AutoIncrement;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;

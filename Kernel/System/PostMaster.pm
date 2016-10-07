@@ -1,8 +1,5 @@
 # --
-# Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: PostMaster.pm,v 1.87.2.3 2013-02-04 10:29:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,8 +22,6 @@ use Kernel::System::PostMaster::NewTicket;
 use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
-
-$VERSION = qw($Revision: 1.87.2.3 $) [1];
 
 =head1 NAME
 
@@ -697,9 +692,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.87.2.3 $ $Date: 2013-02-04 10:29:29 $
 
 =cut

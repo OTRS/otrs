@@ -1,9 +1,5 @@
 # --
-# Kernel/System/Ticket/Acl/CloseParentAfterClosedChilds.pm - acl module
-# - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.15 2011-11-25 09:55:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::LinkObject;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

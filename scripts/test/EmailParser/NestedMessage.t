@@ -1,8 +1,5 @@
 # --
-# NestedMessage.t - email parser tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: NestedMessage.t,v 1.1.2.2 2012-11-29 12:42:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

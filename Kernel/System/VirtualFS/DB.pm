@@ -1,8 +1,5 @@
 # --
-# Kernel/System/VirtualFS/DB.pm - all virtual fs functions
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.3 2010-03-25 14:44:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +11,6 @@ package Kernel::System::VirtualFS::DB;
 use strict;
 use warnings;
 use MIME::Base64;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -148,7 +142,7 @@ sub Write {
         Compress => $Self->{Compress},
         Crypt    => $Self->{Crypt},
         Mode     => $Param{Mode},
-        Version  => $VERSION,
+        Version  => '1.3',
     );
 
     return $BackendKey;

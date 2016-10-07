@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketOverviewSmall.pm,v 1.52.2.2 2012-11-07 15:13:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::CustomerUser;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

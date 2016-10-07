@@ -1,8 +1,5 @@
 # --
-# UnitTest.t - unit tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: UnitTest.t,v 1.9 2011-09-06 08:15:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

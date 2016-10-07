@@ -1,8 +1,5 @@
 # --
-# Serialize.t - SOAP Serialize tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Serialize.t,v 1.13 2011-06-16 20:23:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

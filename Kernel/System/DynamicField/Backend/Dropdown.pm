@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Dropdown.pm,v 1.63.2.1 2012-05-31 01:26:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63.2.1 $) [1];
 
 =head1 NAME
 

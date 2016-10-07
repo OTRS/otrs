@@ -1,8 +1,5 @@
 # --
-# Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketSearch.pm,v 1.13.2.5 2013-01-10 15:43:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13.2.5 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -1882,9 +1878,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.13.2.5 $ $Date: 2013-01-10 15:43:33 $
 
 =cut

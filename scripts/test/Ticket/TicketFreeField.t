@@ -1,8 +1,5 @@
 # --
-# TicketFreeField.t - Ticket Free Field tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketFreeField.t,v 1.7 2012-03-20 16:27:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

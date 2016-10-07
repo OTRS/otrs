@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketList.pm,v 1.19.2.1 2012-05-02 23:07:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,9 +20,6 @@ use Kernel::System::Type;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

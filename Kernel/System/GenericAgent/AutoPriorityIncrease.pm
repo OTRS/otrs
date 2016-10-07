@@ -1,8 +1,5 @@
 # --
-# Kernel/System/GenericAgent/AutoPriorityIncrease.pm - generic agent auto priority increase
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AutoPriorityIncrease.pm,v 1.12 2011-11-25 10:19:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +14,6 @@ use warnings;
 use Kernel::System::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

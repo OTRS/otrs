@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: UploadCache.pm,v 1.24 2012-03-27 18:34:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Web::UploadCache;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -237,9 +231,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.24 $ $Date: 2012-03-27 18:34:39 $
 
 =cut

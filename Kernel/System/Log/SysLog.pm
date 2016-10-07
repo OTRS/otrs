@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: SysLog.pm,v 1.21 2012-01-27 14:49:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Sys::Syslog qw(:DEFAULT setlogsock);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

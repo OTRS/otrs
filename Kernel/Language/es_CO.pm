@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/es_CO.pm - provides Spanish language translation for Colombia
 # Copyright (C) 2013 John Edisson Ortiz Roman <jortiz@slabinfo.com.co>
-# --
-# $Id: es_CO.pm,v 1.1.2.2 2013-01-28 09:32:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::es_CO;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

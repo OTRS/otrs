@@ -1,8 +1,5 @@
 # --
-# Attachment.t - email attachments tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Attachment.t,v 1.1.2.3 2012-06-20 12:51:17 alm Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

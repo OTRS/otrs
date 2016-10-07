@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/ms.pm - provides Malay language translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: de.pm,v 1.324.2.1 2012/08/17 12:07:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +9,6 @@ package Kernel::Language::ms;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.324.2.1 $) [1];
 
 sub Data {
     my $Self = shift;

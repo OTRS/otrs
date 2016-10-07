@@ -1,8 +1,5 @@
 # --
-# Ticket/Number/DateChecksum.pm - a date ticket number generator
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DateChecksum.pm,v 1.35.8.1 2013-02-01 13:13:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,9 +24,6 @@ package Kernel::System::Ticket::Number::DateChecksum;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35.8.1 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;

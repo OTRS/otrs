@@ -1,8 +1,5 @@
 # --
-# Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Requester.pm,v 1.12 2011-05-09 16:33:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
@@ -401,9 +397,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.12 $ $Date: 2011-05-09 16:33:44 $
 
 =cut

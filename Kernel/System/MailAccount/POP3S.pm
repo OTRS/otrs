@@ -1,8 +1,5 @@
 # --
-# Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: POP3S.pm,v 1.13 2011-03-09 13:41:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +18,6 @@ use Mail::POP3Client;
 # not present - therefore we 'use' this module explicitly. (see bug 3790)
 use IO::Socket::SSL;
 use Kernel::System::PostMaster;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

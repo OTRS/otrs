@@ -1,8 +1,5 @@
 # --
-# Kernel/System/MailAccount.pm - lib for mail accounts
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: MailAccount.pm,v 1.17 2011-11-14 14:13:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::MailAccount;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -513,9 +507,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.17 $ $Date: 2011-11-14 14:13:19 $
 
 =cut

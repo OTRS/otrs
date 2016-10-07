@@ -1,10 +1,7 @@
 # --
-# Kernel/Language/sl.pm - provides Slovene language Latin translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # Copyright (C) 2011 Andrej Cimerlajt, i-Rose d.o.o. <andrej.cimerlajt@i-rose.si>
 # Copyright (C) 2011 Gorazd Žagar, i-Rose d.o.o. <gorazd.zagar@i-rose.si>
-# --
-# $Id: sl.pm,v 1.3.2.2 2012-11-22 06:58:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ package Kernel::Language::sl;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

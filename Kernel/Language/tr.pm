@@ -1,9 +1,6 @@
 # --
-# Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # Copyright (C) 2013 Sefer Şimşek / Network Group <network@kamusm.gov.tr>
-# --
-# $Id: tr.pm,v 1.69.2.1 2012/08/17 12:07:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::tr;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69.2.1 $)[1];
 
 sub Data {
     my $Self = shift;

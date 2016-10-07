@@ -1,9 +1,6 @@
 # --
-# Kernel/Language/fi.pm - provides Finnish language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
-# --
-# $Id: fi.pm,v 1.135.2.2 2012-11-22 06:56:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +11,6 @@ package Kernel::Language::fi;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

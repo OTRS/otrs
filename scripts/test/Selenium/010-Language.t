@@ -1,8 +1,5 @@
 # --
-# 010-Language.t - frontend tests for admin area
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: 010-Language.t,v 1.8 2011-02-09 15:45:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

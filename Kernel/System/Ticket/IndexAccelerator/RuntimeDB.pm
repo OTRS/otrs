@@ -1,9 +1,5 @@
 # --
-# Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
-# queue ticket index module
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: RuntimeDB.pm,v 1.76.2.1 2012-08-24 09:45:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +10,6 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76.2.1 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;

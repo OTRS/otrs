@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DB/ingres.pm - ingres database backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: ingres.pm,v 1.4 2010-07-09 17:22:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::DB::ingres;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

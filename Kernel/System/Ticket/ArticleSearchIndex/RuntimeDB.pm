@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/ArticleSearchIndex/RuntimeDB.pm - article search index backend runtime
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: RuntimeDB.pm,v 1.14.2.1 2013-01-16 13:38:03 marb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14.2.1 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;

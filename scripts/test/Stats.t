@@ -1,8 +1,5 @@
 # --
-# scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Stats.t,v 1.28 2011-12-09 14:30:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

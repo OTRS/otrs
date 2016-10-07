@@ -1,8 +1,5 @@
 # --
-# Kernel/System/VirtualFS.pm - all virtual fs functions
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: VirtualFS.pm,v 1.10 2010-11-25 11:19:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::VirtualFS;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -529,9 +523,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.10 $ $Date: 2010-11-25 11:19:50 $
 
 =cut

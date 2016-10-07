@@ -1,8 +1,5 @@
 # --
-# TicketHistory.t - ticket module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketHistory.t,v 1.2.2.1 2013-01-14 12:18:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

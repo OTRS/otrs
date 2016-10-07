@@ -1,8 +1,5 @@
 # --
-# WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: WebserviceConfig.t,v 1.6.2.1 2012-06-28 20:34:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

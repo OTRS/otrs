@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
-# --
-# $Id: uk.pm,v 1.37.2.2 2012-11-22 06:59:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::uk;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

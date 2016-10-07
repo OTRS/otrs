@@ -1,9 +1,5 @@
 # --
-# Kernel/System/CustomerAuth/HTTPBasicAuth.pm - provides the $ENV authentication
-# Authentication
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: HTTPBasicAuth.pm,v 1.15 2009-09-22 15:16:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,9 +20,6 @@ package Kernel::System::CustomerAuth::HTTPBasicAuth;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

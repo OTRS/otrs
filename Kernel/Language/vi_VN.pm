@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: vi_VN.pm,v 1.68.2.2 2012-11-22 06:59:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +9,6 @@ package Kernel::Language::vi_VN;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

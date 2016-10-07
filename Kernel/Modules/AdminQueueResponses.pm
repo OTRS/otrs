@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminQueueResponses.pm,v 1.47 2011-12-23 14:23:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -1,5 +1,4 @@
 # --
-# RPM spec file for RHEL6 of the OTRS package
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: rhel6-otrs.spec,v 1.1.2.3 2012-12-18 09:21:40 mb Exp $

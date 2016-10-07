@@ -1,8 +1,5 @@
 # --
-# TicketDynamicFieldSearch.t - ticket module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketDynamicFieldSearch.t,v 1.7 2011-10-26 22:15:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

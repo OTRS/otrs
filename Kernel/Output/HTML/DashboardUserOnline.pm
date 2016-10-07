@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DashboardUserOnline.pm,v 1.20 2011-04-05 12:04:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::AuthSession;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

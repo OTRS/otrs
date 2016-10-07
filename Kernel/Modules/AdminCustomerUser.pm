@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminCustomerUser.pm,v 1.99.2.1 2012-09-06 08:30:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 use Kernel::System::CheckItem;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

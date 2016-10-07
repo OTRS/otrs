@@ -1,9 +1,5 @@
 # --
-# Kernel/System/Auth/Radius.pm - provides the radius authentication
-# based on Martin Edenhofer's Kernel::System::Auth::DB
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Radius.pm,v 1.12 2009-09-22 15:19:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +12,6 @@ use strict;
 use warnings;
 
 use Authen::Radius;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

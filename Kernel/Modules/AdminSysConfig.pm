@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminSysConfig.pm,v 1.119.2.1 2012-05-11 08:22:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::SysConfig;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

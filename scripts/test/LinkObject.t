@@ -1,8 +1,5 @@
 # --
-# LinkObject.t - link object module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: LinkObject.t,v 1.20.4.1 2013-01-21 15:06:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

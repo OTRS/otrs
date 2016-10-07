@@ -1,5 +1,4 @@
 # --
-# RPM spec file for OpenSUSE 11.x of the OTRS package
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: suse-otrs-11.0.spec,v 1.10.2.2 2012-07-04 09:53:27 mb Exp $

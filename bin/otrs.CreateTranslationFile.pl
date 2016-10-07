@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.CreateTranslationFile.pl,v 1.28 2011-12-15 11:23:57 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,9 +25,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -45,7 +39,7 @@ use Kernel::System::SysConfig;
 sub PrintUsage {
     print <<"EOF";
 
-otrs.CreateTranslationFile.pl <Revision $VERSION> - update translation files
+otrs.CreateTranslationFile.pl - update translation files
 Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 
 Translating OTRS

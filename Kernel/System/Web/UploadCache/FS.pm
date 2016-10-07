@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: FS.pm,v 1.26 2012-03-27 18:35:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Web::UploadCache::FS;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

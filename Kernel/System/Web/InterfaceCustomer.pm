@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: InterfaceCustomer.pm,v 1.63 2012-01-23 15:12:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.63 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -1082,9 +1078,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.63 $ $Date: 2012-01-23 15:12:17 $
 
 =cut

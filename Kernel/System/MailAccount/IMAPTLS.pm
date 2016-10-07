@@ -1,8 +1,5 @@
 # --
-# Kernel/System/MailAccount/IMAPTLS.pm - lib for imap accounts over TLS encryption
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: IMAPTLS.pm,v 1.1.2.2 2012-11-02 15:48:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Mail::IMAPClient;
 use Kernel::System::PostMaster;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

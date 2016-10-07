@@ -1,8 +1,5 @@
 # --
-# Selenium.pm - run frontend tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Selenium.pm,v 1.10 2010-12-22 11:19:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -248,9 +245,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.10 $ $Date: 2010-12-22 11:19:57 $
 
 =cut

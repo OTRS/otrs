@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Log.pm,v 1.67 2012-03-29 19:59:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Encode;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -313,9 +307,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.67 $ $Date: 2012-03-29 19:59:23 $
 
 =cut

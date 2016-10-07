@@ -1,8 +1,5 @@
 # --
-# Kernel/GenericInterface/Event/Handler.pm - event handler module for the GenericInterface
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Handler.pm,v 1.4 2012-03-29 07:29:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::GenericInterface::Event::Handler;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::GenericInterface::Requester;
 use Kernel::Scheduler;

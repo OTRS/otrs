@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminPackageManager.pm,v 1.108.2.1 2012-12-17 13:04:06 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use XML::FeedPP;
 use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::Cache;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.108.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

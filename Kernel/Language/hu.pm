@@ -1,13 +1,10 @@
 # --
-# Kernel/Language/hu.pm - provides hu language translation
 # Copyright (C) 2006 Gabor Gancs /gg@magicnet.hu/
 # Copyright (C) 2006 Krisztian Gancs /krisz@gancs.hu/
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # Copyright (C) 2012 Csaba Németh <csaba@sopron.hu>
-# --
-# $Id: hu.pm,v 1.112.2.4 2012-11-22 06:57:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ package Kernel::Language::hu;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112.2.4 $) [1];
 
 sub Data {
     my $Self = shift;

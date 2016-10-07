@@ -1,8 +1,5 @@
 # --
-# Kernel/System/VariableCheck.pm - helpers to check variables
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: VariableCheck.pm,v 1.6 2011-11-08 09:43:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
-$VERSION = qw($Revision: 1.6 $) [1];
 
 use Exporter;
 %EXPORT_TAGS = (
@@ -551,9 +547,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.6 $ $Date: 2011-11-08 09:43:04 $
 
 =cut

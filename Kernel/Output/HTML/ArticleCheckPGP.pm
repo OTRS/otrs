@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: ArticleCheckPGP.pm,v 1.25.4.1 2012-10-17 20:40:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Crypt;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

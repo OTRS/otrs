@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.RefreshSMIMEKeys.pl - normalize SMIME private secrets and rename all certificates to the correct hash
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.RefreshSMIMEKeys.pl,v 1.1.2.8 2012-05-22 04:28:27 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,9 +25,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.8 $) [1];
 
 use strict;
 use warnings;
@@ -53,7 +47,7 @@ my %Opts = ();
 getopt( 'hdf', \%Opts );
 
 if ( $Opts{h} ) {
-    print "otrs.RefreshSMIMEKeys.pl <Revision $VERSION> - fix SMIME certificates private keys and"
+    print "otrs.RefreshSMIMEKeys.pl - fix SMIME certificates private keys and"
         . " secrets filenames\n";
     print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.RefreshSMIMEKeys.pl -d <DETAILS> (short|long) [-f (force to execute even"

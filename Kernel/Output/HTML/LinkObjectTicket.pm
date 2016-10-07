@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module for link object 'Ticket'.
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: LinkObjectTicket.pm,v 1.20 2011-02-09 11:12:20 bes Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -532,16 +526,12 @@ sub SearchOptionList {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.20 $ $Date: 2011-02-09 11:12:20 $
 
 =cut

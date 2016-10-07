@@ -1,8 +1,5 @@
 # --
-# Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: PDF.pm,v 1.47 2011-05-09 13:31:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -3767,9 +3763,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.47 $ $Date: 2011-05-09 13:31:44 $
 
 =cut

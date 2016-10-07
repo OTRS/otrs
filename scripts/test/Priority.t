@@ -1,8 +1,5 @@
 # --
-# scripts/test/Priority.t - Priority module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Priority.t,v 1.3 2012-03-29 11:38:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

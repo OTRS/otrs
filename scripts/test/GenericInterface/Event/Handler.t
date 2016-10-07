@@ -1,8 +1,5 @@
 # --
-# Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Handler.t,v 1.9.2.3 2012-12-12 05:34:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

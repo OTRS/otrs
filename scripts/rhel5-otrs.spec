@@ -1,5 +1,4 @@
 # --
-# RPM spec file for RHEL5 of the OTRS package
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # $Id: rhel5-otrs.spec,v 1.1.2.3 2013-01-04 19:51:59 mb Exp $

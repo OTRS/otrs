@@ -1,8 +1,5 @@
 # --
-# Email.t - email parser tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Email.t,v 1.7 2010-10-29 07:32:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

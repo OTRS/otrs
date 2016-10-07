@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.xml2sql.pl,v 1.7 2011-11-03 21:00:04 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -39,14 +36,11 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::XML;
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
-
 my %Opts = ();
 getopt( 'hton', \%Opts );
 if ( $Opts{'h'} || !%Opts ) {
     print <<"EOF";
-$0 <Revision $VERSION> - tool to generate database specific SQL from the XML database definition files used by OTRS
+$0 - tool to generate database specific SQL from the XML database definition files used by OTRS
 
 Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 

@@ -1,8 +1,5 @@
 # --
-# Auth.t - Authentication tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Auth.t,v 1.5.4.1 2012-11-26 16:19:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

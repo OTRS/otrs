@@ -1,8 +1,5 @@
 # --
-# Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Ticket.pm,v 1.38 2012-01-10 14:44:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,9 +75,6 @@ create an object
     );
 
 =cut
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -644,9 +638,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.38 $ $Date: 2012-01-10 14:44:27 $
 
 =cut

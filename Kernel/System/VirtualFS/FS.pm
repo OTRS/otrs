@@ -1,8 +1,5 @@
 # --
-# Kernel/System/VirtualFS/FS.pm - all virtual fs functions
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: FS.pm,v 1.2.6.3 2012-12-03 13:28:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Time::HiRes qw();
 
 # to get it writable for the otrs group (just in case)
 umask 002;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.6.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -167,7 +161,7 @@ sub Write {
         Compress => $Self->{Compress},
         Crypt    => $Self->{Crypt},
         Mode     => $Param{Mode},
-        Version  => $VERSION,
+        Version  => '1.2.6.3',
     );
 
     return $BackendKey;

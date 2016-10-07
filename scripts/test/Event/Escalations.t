@@ -1,8 +1,5 @@
 # --
-# Escalations.t - escalation event tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Escalations.t,v 1.8.2.8 2012-11-16 13:56:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

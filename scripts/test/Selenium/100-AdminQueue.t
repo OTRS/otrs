@@ -1,8 +1,5 @@
 # --
-# 100-AdminQueue.t - frontend tests for AdminState
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: 100-AdminQueue.t,v 1.2 2011-02-09 15:45:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

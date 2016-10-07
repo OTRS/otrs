@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminCustomerCompany.pm,v 1.26 2011-12-21 13:27:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::CustomerCompany;
 use Kernel::System::ReferenceData;
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

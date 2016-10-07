@@ -1,8 +1,5 @@
 # --
-# Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: HTMLUtils.pm,v 1.35.2.5 2012-11-08 14:07:32 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use MIME::Base64;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35.2.5 $) [1];
 
 =head1 NAME
 
@@ -1199,9 +1193,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.35.2.5 $ $Date: 2012-11-08 14:07:32 $
 
 =cut

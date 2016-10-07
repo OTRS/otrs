@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/TriggerEscalationStopEvents.pm - trigger escalation stop events
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TriggerEscalationStopEvents.pm,v 1.2.2.1 2012-09-27 14:14:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Ticket::Event::TriggerEscalationStopEvents;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

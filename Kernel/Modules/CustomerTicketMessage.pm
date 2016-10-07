@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerTicketMessage.pm,v 1.100.2.3 2012-07-01 12:29:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +18,6 @@ use Kernel::System::State;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

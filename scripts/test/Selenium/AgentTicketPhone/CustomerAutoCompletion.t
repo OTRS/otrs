@@ -1,8 +1,5 @@
 # --
-# CustomerAutoCompletion.t - frontend test AgentTicketPhone
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerAutoCompletion.t,v 1.3 2011-04-01 13:24:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

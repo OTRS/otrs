@@ -1,8 +1,5 @@
 # --
-# 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: 000-JSUnitTest.t,v 1.9 2011-02-09 15:45:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

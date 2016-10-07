@@ -1,8 +1,5 @@
 # --
-# Package.t - Package tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Package.t,v 1.37.2.4 2012-10-22 12:53:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

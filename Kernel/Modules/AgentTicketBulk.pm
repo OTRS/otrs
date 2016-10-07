@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketBulk.pm,v 1.95.2.2 2013-01-11 10:47:48 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,9 +17,6 @@ use Kernel::System::LinkObject;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

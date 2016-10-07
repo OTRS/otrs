@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.AddQueue2StdResponse.pl.pl - Assign Roles to Groups from CLI
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.AddQueue2StdResponse.pl,v 1.1.2.2 2012-07-05 10:05:58 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -29,9 +26,6 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,7 +42,7 @@ my %Opts = ();
 getopts( 'hq:r:', \%Opts );
 if ( $Opts{h} ) {
     print
-        "otrs.AddQueue2StdResponse.pl <Revision $VERSION> - assign Queues to Standard responses\n";
+        "otrs.AddQueue2StdResponse.pl - assign Queues to Standard responses\n";
     print
         "usage: otrs.AddQueue2StdResponse.pl.pl -r <RESPONSE> -q <QUEUE>\n";
     exit 1;

@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: SystemStatsGeneric.pm,v 1.16 2009-02-16 12:50:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,9 +22,6 @@ package Kernel::Modules::SystemStatsGeneric;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

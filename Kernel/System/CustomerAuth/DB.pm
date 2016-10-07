@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerAuth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.37 2012-03-21 11:52:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

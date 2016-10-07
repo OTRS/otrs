@@ -1,8 +1,5 @@
 # --
-# Daemon.t - Scheduler tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Daemon.t,v 1.13.2.4 2012-11-13 20:40:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

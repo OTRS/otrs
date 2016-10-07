@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: NotificationEvent.pm,v 1.37.2.2 2012-12-10 15:07:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Kernel::System::SystemAddress;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

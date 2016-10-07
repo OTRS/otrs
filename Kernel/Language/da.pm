@@ -1,10 +1,7 @@
 # --
-# Kernel/Language/da.pm - provides da (Danish) language translation
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
-# --
-# $Id: da.pm,v 1.105.2.3 2012-11-22 06:56:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ package Kernel::Language::da;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
-$VERSION = qw($Revision: 1.105.2.3 $) [1];
 
 sub Data {
     my $Self = shift;

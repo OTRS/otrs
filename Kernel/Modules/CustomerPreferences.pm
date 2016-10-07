@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerPreferences.pm,v 1.31.4.1 2012-10-10 12:03:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::CustomerPreferences;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

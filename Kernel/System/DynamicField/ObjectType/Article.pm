@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DynamicField/ObjectType/Article.pm - Article object handler for DynamicField
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Article.pm,v 1.2 2011-12-08 14:06:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Scalar::Util;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 

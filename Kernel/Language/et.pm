@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: et.pm,v 1.67.2.2 2012-11-22 06:56:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +9,6 @@ package Kernel::Language::et;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

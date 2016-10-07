@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DB/postgresql_before_8_2.pm - postgresql database backend for older systems with PostgreSQL 8.1 or before
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: postgresql_before_8_2.pm,v 1.1 2011-09-16 09:30:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::DB::postgresql_before_8_2;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

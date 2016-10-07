@@ -1,8 +1,5 @@
 # --
-# DebugLog.t - DebugLog tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DebugLog.t,v 1.3 2011-02-24 23:20:09 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

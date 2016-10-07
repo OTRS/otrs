@@ -1,8 +1,5 @@
 # --
-# Kernel/System/NotificationEvent.pm - notification system module
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: NotificationEvent.pm,v 1.8 2012-03-07 22:47:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -465,9 +459,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.8 $ $Date: 2012-03-07 22:47:55 $
 
 =cut

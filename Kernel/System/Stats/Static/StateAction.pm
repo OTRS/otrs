@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Stats/Static/StateAction.pm - static stat for ticket history
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: StateAction.pm,v 1.4 2011-05-31 09:36:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Date::Pcalc qw(Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
-
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $ ';
 
 sub new {
     my ( $Type, %Param ) = @_;

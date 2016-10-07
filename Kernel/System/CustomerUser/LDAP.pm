@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: LDAP.pm,v 1.62.4.1 2012-08-23 10:54:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +16,6 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

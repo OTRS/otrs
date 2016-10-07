@@ -1,8 +1,5 @@
 # --
-# Invoker.t - Invoker tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Invoker.t,v 1.11 2011-03-24 12:36:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
-# --
-# $Id: lv.pm,v 1.45.2.2 2012-11-22 06:58:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +9,6 @@ package Kernel::Language::lv;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45.2.2 $) [1];
 
 sub Data {
     my $Self = shift;

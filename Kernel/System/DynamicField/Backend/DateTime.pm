@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DateTime.pm,v 1.62.2.1 2012-05-10 19:19:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62.2.1 $) [1];
 
 =head1 NAME
 

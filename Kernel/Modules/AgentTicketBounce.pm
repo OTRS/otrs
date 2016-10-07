@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketBounce.pm,v 1.56 2012-03-05 09:51:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +18,6 @@ use Kernel::System::CheckItem;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

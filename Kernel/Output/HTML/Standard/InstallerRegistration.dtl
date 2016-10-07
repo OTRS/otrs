@@ -1,8 +1,5 @@
 # --
-# InstallerRegistration.dtl - provides the Installer's form to register as an OTRS user
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: InstallerRegistration.dtl,v 1.2 2011-12-08 07:59:25 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

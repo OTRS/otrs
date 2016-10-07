@@ -7,8 +7,6 @@
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # Copyleft (cc-by) 2013 Katerina Bubenickova <katerina.bubenickova at plbbohnice dot cz>
 # --
-# $Id: cs.pm,v 1.23.2.2 2012-11-22 06:56:07 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -18,9 +16,6 @@ package Kernel::Language::cs;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23.2.3 $) [1];
 
 sub Data {
     my $Self = shift;

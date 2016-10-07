@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/NotificationSchedulerCheck.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: NotificationSchedulerCheck.pm,v 1.5 2011-07-22 22:12:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::PID;
 use Kernel::System::GenericInterface::Webservice;
 
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

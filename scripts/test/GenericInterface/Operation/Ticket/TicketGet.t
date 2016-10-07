@@ -1,8 +1,5 @@
 # --
-# TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketGet.t,v 1.16.2.2 2012-11-09 23:52:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

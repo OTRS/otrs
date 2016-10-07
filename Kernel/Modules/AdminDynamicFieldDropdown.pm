@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminDynamicFieldDropdown.pm,v 1.15 2012-04-18 19:38:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

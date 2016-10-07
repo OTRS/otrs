@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.ExportStatsToOPM.pl,v 1.5 2012-04-18 19:25:32 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -50,7 +47,6 @@ use Kernel::System::CSV;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -84,7 +80,7 @@ getopt( 'dhvn', \%Opts );
 # check needed params
 if ( $Opts{'h'} ) {
     print
-        "otrs.ExportStatsToOPM.pl <Revision $VERSION> - export all stats of a system and create a package for the package manager\n";
+        "otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager\n";
     print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.ExportStatsToOPM.pl [-n <PACKAGE_NAME>] [-v <PACKAGE_VERSION>]\n";
     print

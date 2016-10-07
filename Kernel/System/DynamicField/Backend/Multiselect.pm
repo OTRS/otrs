@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Multiselect.pm,v 1.51.2.2 2012-12-20 16:01:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51.2.2 $) [1];
 
 =head1 NAME
 

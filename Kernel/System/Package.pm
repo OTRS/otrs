@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Package.pm,v 1.130.2.6 2012-10-22 12:53:39 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +22,6 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.130.2.6 $) [1];
 
 =head1 NAME
 
@@ -3130,9 +3126,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.130.2.6 $ $Date: 2012-10-22 12:53:39 $
 
 =cut

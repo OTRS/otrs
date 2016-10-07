@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: DashboardTicketGeneric.pm,v 1.47.2.1 2013-01-10 15:43:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::DashboardTicketGeneric;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

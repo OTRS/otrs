@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/ArticleSearchIndex.pm - update article search index
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: ArticleSearchIndex.pm,v 1.4 2009-09-16 08:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Ticket::Event::ArticleSearchIndex;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

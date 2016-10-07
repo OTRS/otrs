@@ -1,8 +1,5 @@
 # --
-# ObjectLockStatePerformance.t - ObjectLockState performance tests
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: ObjectLockStatePerformance.t,v 1.2.2.1 2012-11-22 15:04:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

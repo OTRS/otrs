@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TextArea.pm,v 1.48.2.5 2012-11-14 22:14:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48.2.5 $) [1];
 
 =head1 NAME
 

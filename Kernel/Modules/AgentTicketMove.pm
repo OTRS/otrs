@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketMove.pm,v 1.112.2.1 2012-05-31 21:12:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

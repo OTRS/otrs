@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/TicketPendingTimeReset.pm - Empty pending time on status change
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketPendingTimeReset.pm,v 1.3 2011-11-25 10:14:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Ticket::Event::TicketPendingTimeReset;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

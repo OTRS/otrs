@@ -1,8 +1,5 @@
 # --
-# scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: Layout.t,v 1.56 2011-12-02 13:56:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

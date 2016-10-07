@@ -1,8 +1,5 @@
 # --
-# scripts/test/JSON.t - JSON module testscript
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
-# --
-# $Id: JSON.t,v 1.9 2012-02-13 12:31:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
