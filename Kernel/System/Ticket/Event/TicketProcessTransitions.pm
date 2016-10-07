@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Ticket/Event/TicketProcessTransitions.pm - a event module to chage from one activity to another based on the transition
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

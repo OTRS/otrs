@@ -1,5 +1,4 @@
 # --
-# Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

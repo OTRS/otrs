@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/zh_TW.pm - provides Chinese Traditional language translation
 # Copyright (C) 2009 Bin Du <bindu2008 at gmail.com>
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>

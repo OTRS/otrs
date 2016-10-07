@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/es_CO.pm - provides Spanish language translation for Colombia
 # Copyright (C) 2013 John Edisson Ortiz Roman <jortiz@slabinfo.com.co>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/fa.pm - provides Persian language translation
 # Copyright (C) 2006-2009 Amir Shams Parsa <a.parsa at gmail.com>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>

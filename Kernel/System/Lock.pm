@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
