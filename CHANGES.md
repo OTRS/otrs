@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-10-28 Fixed bug#[11073](http://bugs.otrs.org/show_bug.cgi?id=11073) - Default expanded article in queue view (preview mode) should not be an autoreply.
  - 2016-10-27 Fixed bug#[12380](http://bugs.otrs.org/show_bug.cgi?id=12380) - GenericInterface: Buttons to mapping configuration are missing session data.
 
 #5.0.14 2016-11-01
