@@ -33,8 +33,8 @@ my @Tests = (
         ],
         Type   => 'Name',
         Result => [
-            'unlock',
             'tmp_lock',
+            'unlock',
         ],
     },
     {
@@ -45,8 +45,8 @@ my @Tests = (
         ],
         Type   => 'ID',
         Result => [
-            1,
-            3,
+            '1',
+            '3',
         ],
     },
     {
@@ -58,9 +58,9 @@ my @Tests = (
         ],
         Type   => 'Name',
         Result => [
-            'unlock',
             'lock',
             'tmp_lock',
+            'unlock',
         ],
     },
     {
@@ -72,9 +72,9 @@ my @Tests = (
         ],
         Type   => 'ID',
         Result => [
-            1,
-            2,
-            3,
+            '1',
+            '2',
+            '3',
         ],
     },
 );
@@ -95,7 +95,7 @@ for my $Test (@Tests) {
     my $LockObject = $Kernel::OM->Get('Kernel::System::Lock');
 
     # Get viewable locks.
-    my @ViewableLocks = $LockObject->LockViewableLock(
+    my @ViewableLocks = sort $LockObject->LockViewableLock(
         Type => $Test->{Type},
     );
     $Self->IsDeeply(
