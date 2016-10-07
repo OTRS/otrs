@@ -1,4 +1,5 @@
 #5.0.14 2016-??-??
+ - 2016-10-07 Fixed bug#[12208](http://bugs.otrs.org/show_bug.cgi?id=12208) - Print Process Information screen can not be canceled/closed.
  - 2016-10-07 Added example process "Application for leave".
  - 2016-10-07 Added signing and encryption of ticket notifications.
  - 2016-10-07 Added possibility to filter encrypted emails by decrypting them in a postmaster filter.
