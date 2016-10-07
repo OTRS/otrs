@@ -90,6 +90,7 @@ for my $Directory ( sort @DirectoriesToSearch ) {
             next OPERATION if $1 eq 'Kernel::System::Crypt::PGP'   && $SkipCryptPGP;
             next OPERATION if $1 eq 'Kernel::System::Chat'         && $SkipChat;
             next OPERATION if $1 eq 'Kernel::System::ChatChannel'  && $SkipChat;
+            next OPERATION if $1 eq 'Kernel::System::VideoChat'    && $SkipChat;
 
             # load object
             my $Object = $Kernel::OM->Get("$1");
