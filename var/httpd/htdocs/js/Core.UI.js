@@ -52,7 +52,7 @@ Core.UI = (function (TargetNS) {
                     .attr('aria-expanded', $WidgetElement.hasClass('Expanded'));
             })
             .unbind('click.WidgetToggle')
-            .bind('click.WidgetToggle', function () {
+            .bind('click.WidgetToggle', function (Event) {
                 var $WidgetElement = $(this).closest("div.Header").parent('div'),
                     Animate = $WidgetElement.hasClass('Animate'),
                     $that = $(this);
@@ -76,7 +76,7 @@ Core.UI = (function (TargetNS) {
                     ToggleWidget();
                 }
 
-                return false;
+                Event.preventDefault();
             });
     };
 
