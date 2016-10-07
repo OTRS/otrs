@@ -105,7 +105,7 @@ sub LoadDefaults {
 
     # ProductName
     # (Application name displayed in frontend.)
-    $Self->{ProductName} = 'OTRS 5';
+    $Self->{ProductName} = 'OTRS 5s';
 
     # --------------------------------------------------- #
     # database settings                                   #
