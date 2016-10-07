@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

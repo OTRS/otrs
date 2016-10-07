@@ -1,5 +1,4 @@
 # --
-# Kernel/System/MailAccount/POP3TLS.pm - lib for pop3/tls accounts
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

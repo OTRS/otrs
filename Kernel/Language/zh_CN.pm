@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/zh_CN.pm -  provides Chinese Simple language translation
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # Copyright (C) 2008-2010 Never Min <never at qnofae.org>
 # Copyright (C) 2009 Bin Du <bindu2008 at gmail.com>,

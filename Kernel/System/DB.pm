@@ -1,5 +1,4 @@
 # --
-# Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

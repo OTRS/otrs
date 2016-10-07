@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2012 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

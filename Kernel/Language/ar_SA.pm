@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

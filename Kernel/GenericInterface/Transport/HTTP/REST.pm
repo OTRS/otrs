@@ -1,5 +1,4 @@
 # --
-# Kernel/GenericInterface/Transport/HTTP/REST.pm - GenericInterface network transport interface for HTTP::REST
 # Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

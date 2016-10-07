@@ -1,5 +1,4 @@
 // --
-// Core.Agent.Admin.DynamicFieldDateTime.js - provides the special module functions for the Date Time Dynamic Fields.
 // Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
