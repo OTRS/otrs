@@ -58,6 +58,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.14 2016-??-??
+ - 2016-10-09 Fixed bug#[12351](http://bugs.otrs.org/show_bug.cgi?id=12351) - Multiple sort / order parameters for Ticket::Frontend::Agent::Dashboard.
  - 2016-10-07 Fixed bug#[11073](http://bugs.otrs.org/show_bug.cgi?id=11073) - Default expanded article in queue view (preview mode) should not be an autoreply.
  - 2016-10-07 Fixed bug#[12343](http://bugs.otrs.org/show_bug.cgi?id=12343) - Cache kept for ViewableLocks.
  - 2016-10-07 Fixed bug#[12294](http://bugs.otrs.org/show_bug.cgi?id=12294) - modern field breaks when we minimize Free Field widget and the form is still open.

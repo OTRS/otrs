@@ -442,16 +442,9 @@ sub TicketSearch {
     }
 
     # check sort/order by options
-    my @SortByArray;
-    my @OrderByArray;
-    if ( ref $SortBy eq 'ARRAY' ) {
-        @SortByArray  = @{$SortBy};
-        @OrderByArray = @{$OrderBy};
-    }
-    else {
-        @SortByArray  = ($SortBy);
-        @OrderByArray = ($OrderBy);
-    }
+    my @SortByArray  = ( ref $SortBy eq 'ARRAY'  ? @{$SortBy}  : ($SortBy) );
+    my @OrderByArray = ( ref $OrderBy eq 'ARRAY' ? @{$OrderBy} : ($OrderBy) );
+
     for my $Count ( 0 .. $#SortByArray ) {
         if (
             !$SortOptions{ $SortByArray[$Count] }
