@@ -12,112 +12,28 @@ use utf8;
 
 use vars (qw($Self));
 
+# get lock object
+my $LockObject = $Kernel::OM->Get('Kernel::System::Lock');
+
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
     },
 );
-my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-#
-# Tests for LockViewableLock().
-#
-my @Tests = (
-    {
-        Name   => 'Viewable locks - Default by Name',
-        Config => [
-            "'unlock'",
-            "'tmp_lock'",
-        ],
-        Type   => 'Name',
-        Result => [
-            'tmp_lock',
-            'unlock',
-        ],
-    },
-    {
-        Name   => 'Viewable locks - Default by ID',
-        Config => [
-            "'unlock'",
-            "'tmp_lock'",
-        ],
-        Type   => 'ID',
-        Result => [
-            '1',
-            '3',
-        ],
-    },
-    {
-        Name   => 'Viewable locks - Custom by Name',    # bug#12311
-        Config => [
-            "'unlock'",
-            "'lock'",
-            "'tmp_lock'",
-        ],
-        Type   => 'Name',
-        Result => [
-            'lock',
-            'tmp_lock',
-            'unlock',
-        ],
-    },
-    {
-        Name   => 'Viewable locks - Custom by ID',    # bug#12311
-        Config => [
-            "'unlock'",
-            "'tmp_lock'",
-            "'lock'",
-        ],
-        Type   => 'ID',
-        Result => [
-            '1',
-            '2',
-            '3',
-        ],
-    },
+my @Names = sort $LockObject->LockViewableLock(
+    Type => 'Name',
 );
 
-for my $Test (@Tests) {
+$Self->IsDeeply(
+    \@Names,
+    [ 'tmp_lock', 'unlock' ],
+    'LockViewableLock()',
+);
 
-    # Set config option to test value.
-    my $Success = $ConfigObject->Set(
-        Key   => 'Ticket::ViewableLocks',
-        Value => $Test->{Config},
-    );
-    $Self->True(
-        $Success,
-        "$Test->{Name} - Config option set",
-    );
-
-    # Create lock object.
-    my $LockObject = $Kernel::OM->Get('Kernel::System::Lock');
-
-    # Get viewable locks.
-    my @ViewableLocks = sort $LockObject->LockViewableLock(
-        Type => $Test->{Type},
-    );
-    $Self->IsDeeply(
-        \@ViewableLocks,
-        $Test->{Result},
-        "$Test->{Name} - Result",
-    );
-
-    # Discard lock object.
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [
-            'Kernel::System::Lock',
-        ],
-    );
-}
-
-my $LockObject = $Kernel::OM->Get('Kernel::System::Lock');
-
-#
-# Tests for LockLookup().
-#
-@Tests = (
+my @Tests = (
     {
         Name   => 'Lookup - lock',
         Input  => 'lock',
