@@ -5910,7 +5910,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::ViewableLocks" Required="1" Valid="1">
-        <Description Translatable="1">Defines the viewable locks of a ticket. Default: unlock, tmp_lock.</Description>
+        <Description Translatable="1">Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
