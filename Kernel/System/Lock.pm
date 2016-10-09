@@ -11,8 +11,6 @@ package Kernel::System::Lock;
 use strict;
 use warnings;
 
-use Digest::MD5;
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
@@ -55,9 +53,6 @@ sub new {
     $Self->{ViewableLocks} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ViewableLocks')
         || die 'No Config entry "Ticket::ViewableLocks"!';
 
-    # Hash the config option as MD5, so it can be used for cache key.
-    $Self->{ViewableLocksMD5} = Digest::MD5->new()->add( @{ $Self->{ViewableLocks} || [] } )->hexdigest();
-
     return $Self;
 }
 
@@ -97,9 +92,8 @@ sub LockViewableLock {
         }
     }
 
-    # Append cache key with MD5 hash of the ViewableLocks config option, so we are returning most
-    #   recent one. Failure to do this will return results for old config value (see bug#12311).
-    my $CacheKey = 'LockViewableLock::' . $Param{Type} . '::' . $Self->{ViewableLocksMD5};
+    # check cache
+    my $CacheKey = 'LockViewableLock::' . $Param{Type};
     my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{CacheType},
         TTL  => $Self->{CacheTTL},
@@ -123,19 +117,17 @@ sub LockViewableLock {
         push @ID,   $Data[0];
     }
 
-    # Include MD5 hash of the ViewableLocks config option, in order to reflect the changes to it.
-    #   SysConfig will not delete this module cache when the option is updated, so we must make
-    #   sure to save it with a unique identifier (see bug#12311).
+    # set cache
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{CacheType},
         TTL   => $Self->{CacheTTL},
-        Key   => 'LockViewableLock::Name::' . $Self->{ViewableLocksMD5},
+        Key   => 'LockViewableLock::Name',
         Value => \@Name,
     );
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{CacheType},
         TTL   => $Self->{CacheTTL},
-        Key   => 'LockViewableLock::ID::' . $Self->{ViewableLocksMD5},
+        Key   => 'LockViewableLock::ID',
         Value => \@ID,
     );
 
