@@ -101,6 +101,17 @@ sub Run {
             Identifier => 'ProcessCount',
             Label      => "Processes",
         },
+        {
+            SQL => "
+                SELECT count(*)
+                FROM dynamic_field df
+                    LEFT JOIN dynamic_field_value dfv ON df.id = dfv.field_id
+                    RIGHT JOIN ticket t ON t.id = dfv.object_id
+                WHERE df.name = '"
+                . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID") . "'",
+            Identifier => 'ProcessTickets',
+            Label      => "Process Tickets",
+        },
     );
 
     my %Counts;
