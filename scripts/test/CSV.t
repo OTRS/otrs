@@ -1,8 +1,5 @@
 # --
-# CSV.t - CSV tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CSV.t,v 1.15 2010-10-29 05:03:20 en Exp $
+# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +8,7 @@
 
 use strict;
 use warnings;
+use utf8;
 use vars (qw($Self));
 
 use Kernel::System::CSV;
@@ -105,8 +103,7 @@ $Self->Is(
 );
 
 # Working with CSVString with \n
-my $String
-    = '"field1";"field2";"field3"' . "\n" . '"a' . "\n"
+my $String = '"field1";"field2";"field3"' . "\n" . '"a' . "\n"
     . 'b";"FirstLine' . "\n"
     . 'SecondLine";"4"' . "\n";
 $Array = $CSVObject->CSV2Array(
@@ -142,8 +139,7 @@ $Self->Is(
 );
 
 # Working with CSVString with \r
-$String
-    = '"field1";"field2";"field3"' . "\r" . '"a' . "\r"
+$String = '"field1";"field2";"field3"' . "\r" . '"a' . "\r"
     . 'b";"FirstLine' . "\r"
     . 'SecondLine";"4"' . "\r";
 $Array = $CSVObject->CSV2Array(
@@ -179,12 +175,12 @@ $Self->Is(
 );
 
 # -------------------------------------------------
-# tests because of the douple "" problem bug# 2263
+# tests because of the double "" problem bug# 2263
 # -------------------------------------------------
 my $TextWithNewLine = "Hallo guys,\nhere was a newline. And again.\n";
 my @TableData       = (
     [
-        '<a href="/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview" class="navitem">�bersicht</a>',
+        '<a href="/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview" class="navitem">Übersicht</a>',
         '"'
     ],
     [ '4""4', 'asdf"SDF' ],
@@ -198,7 +194,7 @@ $CSV = $CSVObject->Array2CSV(
 );
 
 $CSVReference = qq{"RowA";"RowB"\n}
-    . qq{"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">�bersicht</a>";""""\n}
+    . qq{"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">Übersicht</a>";""""\n}
     . qq{"4""""4";"asdf""SDF"\n}
     . qq{"""a""";"xxx"\n}
     . qq{"34";"} . $TextWithNewLine . qq{"\n};
