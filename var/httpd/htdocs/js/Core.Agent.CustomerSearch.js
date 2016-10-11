@@ -143,7 +143,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
 
             if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
-                $('a.MasterActionLink').bind('click', function () {
+                $('a.MasterActionLink').on('click', function () {
                     var that = this;
                     Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
                         WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: that.href });
@@ -222,7 +222,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         if (isJQueryObject($Element)) {
             // Hide tooltip in autocomplete field, if user already typed something to prevent the autocomplete list
             // to be hidden under the tooltip. (Only needed for serverside errors)
-            $Element.unbind('keyup.Validate').bind('keyup.Validate', function () {
+            $Element.off('keyup.Validate').on('keyup.Validate', function () {
                var Value = $Element.val();
                if ($Element.hasClass('ServerError') && Value.length) {
                    $('#OTRS_UI_Tooltips_ErrorTooltip').hide();
@@ -326,7 +326,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         // stays in the field and invokes an ajax request otherwise. We need to use beforeunload
         // here instead of unload because the URL of the window does not change on reload which
         // doesn't trigger pagehide.
-        $(window).bind('beforeunload.CustomerSearch', function () {
+        $(window).on('beforeunload.CustomerSearch', function () {
             $('#SelectedCustomerUser').val('');
             return; // return nothing to suppress the confirmation message
         });
@@ -409,7 +409,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 $(this).val(CustomerTicketCounter);
 
                 // bind change function to radio button to select customer
-                $(this).bind('change', function () {
+                $(this).on('change', function () {
                     // remove row
                     if ($(this).prop('checked')){
                         TargetNS.ReloadCustomerInfo(CustomerKey);
@@ -427,7 +427,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             if($(this).hasClass('RemoveButton')) {
 
                 // bind click function to remove button
-                $(this).bind('click', function () {
+                $(this).on('click', function () {
                     // remove row
                     TargetNS.RemoveCustomerTicket($(this));
                     return false;
@@ -565,7 +565,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         $('.CustomerAutoComplete').each(function() {
             var ObjectId = $(this).attr('id');
 
-            $('#' + ObjectId).bind('change', function () {
+            $('#' + ObjectId).on('change', function () {
 
                 if (!$('#' + ObjectId).val() || $('#' + ObjectId).val() === '') {
                     return false;
@@ -620,7 +620,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 return false;
             });
 
-            $('#' + ObjectId).bind('keypress', function (e) {
+            $('#' + ObjectId).on('keypress', function (e) {
                 if (e.which === 13){
                     Core.Agent.CustomerSearch.AddTicketCustomer(ObjectId, $('#' + ObjectId).val());
                     return false;

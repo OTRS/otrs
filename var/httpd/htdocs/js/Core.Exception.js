@@ -32,7 +32,7 @@ Core.Exception = (function (TargetNS) {
          *  the current page is about to be left. Then AJAX errors because of
          *  pending AJAX requests must be suppressed.
          */
-        $(window).bind('beforeunload.Exception', function(){
+        $(window).on('beforeunload.Exception', function(){
             // Use a public member so that we can also set it from a test case.
             TargetNS.AboutToLeave = true;
         });

@@ -82,19 +82,19 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        $('.DeleteEvent').bind('click', function (Event) {
+        $('.DeleteEvent').on('click', function (Event) {
             TargetNS.ShowDeleteEventDialog(Event, $(this));
             return false;
         });
 
-        $('#AddEvent').bind('click', function (){
+        $('#AddEvent').on('click', function (){
             if ($('#EventType').val() !== null) {
                 TargetNS.AddEvent($('#EventType').val());
                 return;
             }
         });
 
-        $('#EventType').bind('change', function (){
+        $('#EventType').on('change', function (){
             TargetNS.ToggleEventSelect($(this).val());
         });
 
@@ -152,7 +152,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         $Clone.find('.EventValue').attr('name', 'EventValues').val(EventName);
 
         // bind delete function
-        $Clone.find('#DeleteEvent').bind('click', function (Event) {
+        $Clone.find('#DeleteEvent').on('click', function (Event) {
             // remove row
             TargetNS.ShowDeleteEventDialog(Event, $(this));
             return false;

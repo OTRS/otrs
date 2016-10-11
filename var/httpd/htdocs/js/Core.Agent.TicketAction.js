@@ -173,19 +173,19 @@ Core.Agent.TicketAction = (function (TargetNS) {
         TargetNS.InitSpellCheck();
 
         // Register event for spell checker dialog
-        $('#OptionSpellCheck').bind('click', function () {
+        $('#OptionSpellCheck').on('click', function () {
             OpenSpellChecker();
             return false;
         });
 
         // Register event for addressbook dialog
-        $('#OptionAddressBook').bind('click', function () {
+        $('#OptionAddressBook').on('click', function () {
             OpenAddressBook();
             return false;
         });
 
         // Register event for customer dialog
-        $('#OptionCustomer').bind('click', function () {
+        $('#OptionCustomer').on('click', function () {
             OpenCustomerDialog();
             return false;
         });
@@ -197,7 +197,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
             $('#RichTextField, .RichTextField').on('click', '.cke_button__spellcheck', function() {
                 Core.Config.Set('TextIsSpellChecked', true);
             });
-            $('#OptionSpellCheck').bind('click', function() {
+            $('#OptionSpellCheck').on('click', function() {
                 Core.Config.Set('TextIsSpellChecked', true);
             });
 
@@ -286,13 +286,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
      */
     TargetNS.InitAddressBook = function () {
         // Register event for copying mail address to input field
-        $('#SearchResult a').bind('click', function () {
+        $('#SearchResult a').on('click', function () {
             AddMailAddress($(this));
             return false;
         });
 
         // Register Apply button event
-        $('#Apply').bind('click', function () {
+        $('#Apply').on('click', function () {
             // Update ticket action popup fields
             var $To, $Cc, $Bcc, CustomerData;
 
@@ -348,7 +348,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // Register Cancel button event
-        $('#Cancel').bind('click', function () {
+        $('#Cancel').on('click', function () {
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
@@ -370,14 +370,14 @@ Core.Agent.TicketAction = (function (TargetNS) {
         }
 
         // Register onchange event for dropdown and input field to change the radiobutton
-        $('#SpellCheck select, #SpellCheck input[type="text"]').bind('change', function () {
+        $('#SpellCheck select, #SpellCheck input[type="text"]').on('change', function () {
             var $Row = $(this).closest('tr'),
                 RowCount = parseInt($Row.attr('id').replace(/Row/, ''), 10);
             $Row.find('input[type="radio"][id=ChangeWord' + RowCount + ']').prop('checked', true);
         });
 
         // Register Apply button event
-        $('#Apply').bind('click', function () {
+        $('#Apply').on('click', function () {
             // Update ticket action popup fields
             var FieldName = $('#Field').val(),
                 $Body = $('#' + FieldName, parent.document);
@@ -390,7 +390,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // Register Cancel button event
-        $('#Cancel').bind('click', function () {
+        $('#Cancel').on('click', function () {
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));

@@ -24,13 +24,15 @@ Core.Agent.Daemon = (function (TargetNS) {
      * @name Init
      * @memberof Core.Agent.Daemon
      * @function
-     * @param {Boolean} Params - Initialization and internationalization parameters.
-     * @param {Object} Params.Localization - Localization strings.
      * @description
-     *      This function initialize correctly all other functions according to the local language.
+     *      This function initializes the module.
      */
-    TargetNS.Init = function (Params) {
-        TargetNS.Localization = Params.Localization;
+    TargetNS.Init = function () {
+        // set action to daemon notify band link
+        $('.DaemonInfo').on('click', function() {
+            Core.Agent.Daemon.OpenDaemonStartDialog();
+            return false;
+        });
     };
 
     /**
@@ -77,7 +79,7 @@ Core.Agent.Daemon = (function (TargetNS) {
                 Core.UI.Dialog.ShowContentDialog(HTML, Core.Language.Translate('Information about the OTRS Daemon'), '240px', 'Center', true);
 
                 // set cancel button action
-                $('#DaemonFormCancel').bind('click', function() {
+                $('#DaemonFormCancel').on('click', function() {
 
                     // close main dialog
                     Core.UI.Dialog.CloseDialog($('#DaemonRunDialog'));
@@ -87,11 +89,7 @@ Core.Agent.Daemon = (function (TargetNS) {
         );
     };
 
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
+
     return TargetNS;
 }(Core.Agent.Daemon || {}));
-
-// set action to daemon notify band link
-$('.DaemonInfo').bind('click', function() {
-    Core.Agent.Daemon.OpenDaemonStartDialog();
-    return false;
-});

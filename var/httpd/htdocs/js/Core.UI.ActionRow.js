@@ -139,7 +139,7 @@ Core.UI.ActionRow = (function (TargetNS) {
                             ActionRowElement.attr('href', Value.Link);
                         }
                         if (Value.PopupType) {
-                            ActionRowElement.bind('click.Popup', function () {
+                            ActionRowElement.on('click.Popup', function () {
                                 Core.UI.Popup.OpenPopup(Value.Link, Value.PopupType);
                                 return false;
                             });
@@ -177,17 +177,17 @@ Core.UI.ActionRow = (function (TargetNS) {
             TicketView = 'Small';
         }
 
-        $('#SelectAllTickets').bind('click', function () {
+        $('#SelectAllTickets').on('click', function () {
             var Status = $(this).prop('checked');
             $(TicketElementSelectors[TicketView]).prop('checked', Status).triggerHandler('click');
         });
 
-        $(TicketElementSelectors[TicketView]).bind('click', function (Event) {
+        $(TicketElementSelectors[TicketView]).on('click', function (Event) {
             Event.stopPropagation();
             Core.UI.ActionRow.UpdateActionRow($(this), $(TicketElementSelectors[TicketView]), $('div.OverviewActions ul.Actions'));
         });
 
-        $('#BulkAction a').bind('click', function () {
+        $('#BulkAction a').on('click', function () {
             var $Element = $(this),
                 $SelectedTickets,
                 TicketIDParameter = "TicketID=",

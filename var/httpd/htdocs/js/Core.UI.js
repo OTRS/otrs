@@ -51,8 +51,8 @@ Core.UI = (function (TargetNS) {
                     .attr('aria-controls', ContentDivID)
                     .attr('aria-expanded', $WidgetElement.hasClass('Expanded'));
             })
-            .unbind('click.WidgetToggle')
-            .bind('click.WidgetToggle', function (Event) {
+            .off('click.WidgetToggle')
+            .on('click.WidgetToggle', function (Event) {
                 var $WidgetElement = $(this).closest("div.Header").parent('div'),
                     Animate = $WidgetElement.hasClass('Animate'),
                     $that = $(this);
@@ -89,8 +89,8 @@ Core.UI = (function (TargetNS) {
      */
     TargetNS.InitMessageBoxClose = function () {
         $(".MessageBox > a.Close")
-            .unbind('click.MessageBoxClose')
-            .bind('click.MessageBoxClose', function (Event) {
+            .off('click.MessageBoxClose')
+            .on('click.MessageBoxClose', function (Event) {
                 $(this).parent().remove();
                 Event.preventDefault();
             });
@@ -187,7 +187,7 @@ Core.UI = (function (TargetNS) {
         }
 
         // e.g. 'table td.Checkbox' or 'div.Checkbox'
-        $Element.unbind('click.CheckboxSelection').bind('click.CheckboxSelection', function (Event) {
+        $Element.off('click.CheckboxSelection').on('click.CheckboxSelection', function (Event) {
             var $Checkbox = $(this).find('input[type="checkbox"]');
 
             if (!$Checkbox.length) {

@@ -82,7 +82,7 @@ Core.UI.Dialog = (function (TargetNS) {
         $('div.Dialog:visible .Content')
             .find('a:visible, input:visible, textarea:visible, select:visible, button:visible')
             .filter(':first')
-            .focus(1);
+            .focus();
     }
 
     /**
@@ -102,13 +102,13 @@ Core.UI.Dialog = (function (TargetNS) {
          * to prevent the default action for the special keys.
          * See http://www.quirksmode.org/dom/events/keys.html for details
          */
-        $(document).unbind('keypress.Dialog').bind('keypress.Dialog', function (Event) {
+        $(document).off('keypress.Dialog').on('keypress.Dialog', function (Event) {
             if ($.browser.opera && (Event.keyCode === 9 || (Event.keyCode === 27 && CloseOnEscape))) {
                 Event.preventDefault();
                 Event.stopPropagation();
                 return false;
             }
-        }).unbind('keydown.Dialog').bind('keydown.Dialog', function (Event) {
+        }).off('keydown.Dialog').on('keydown.Dialog', function (Event) {
             var $Tabbables, $First, $Last;
 
             // Tab pressed
@@ -505,7 +505,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // Add CloseOnClickOutside functionality
         if (Params.CloseOnClickOutside) {
-            $(document).unbind('click.Dialog').bind('click.Dialog', function (event) {
+            $(document).off('click.Dialog').on('click.Dialog', function (event) {
                 // If target element is removed before this event triggers, the enclosing div.Dialog can't be found anymore
                 // We check, if we can find a parent HTML element to be sure, that the element is not removed
                 if ($(event.target).parents('html').length && $(event.target).closest('div.Dialog').length === 0) {
@@ -515,7 +515,7 @@ Core.UI.Dialog = (function (TargetNS) {
         }
 
         // Add resize event handler for calculating the scroll height
-        $(window).unbind('resize.Dialog').bind('resize.Dialog', function () {
+        $(window).off('resize.Dialog').on('resize.Dialog', function () {
             AdjustScrollableHeight(Params.AllowAutoGrow);
         });
 

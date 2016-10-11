@@ -34,7 +34,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         Core.UI.Table.InitTableFilter($('#FilterLogEntries'), $('#LogEntries'));
 
         /* create click event for hint hiding */
-        $('#HideHint').bind('click', function() {
+        $('#HideHint').on('click', function() {
            $(this).parents('.SidebarColumn').hide();
         });
     };

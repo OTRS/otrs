@@ -34,7 +34,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         Core.UI.Table.InitTableFilter($('#FilterSMIME'), $('#SMIME'));
 
         // Open pop up window
-        $('a.CertificateRead').unbind('click').bind('click', function () {
+        $('a.CertificateRead').off('click').on('click', function () {
             Core.UI.Popup.OpenPopup($(this).attr('href'), 'CertificateRead');
             return false;
         });

@@ -32,7 +32,7 @@ Core.Agent.TicketBulk = (function (TargetNS) {
         var TicketBulkURL = Core.Config.Get('TicketBulkURL');
 
         // bind radio and text input fields
-        $('#MergeTo').bind('blur', function() {
+        $('#MergeTo').on('blur', function() {
             if ($(this).val()) {
                 $('#OptionMergeTo').prop('checked', true);
             }

@@ -85,7 +85,7 @@ Core.UI.Table.Sort = (function (TargetNS) {
                 });
 
                 if ($.isFunction(Finished)) {
-                    $Table.bind('sortEnd', Finished);
+                    $Table.on('sortEnd', Finished);
                 }
             }
         }

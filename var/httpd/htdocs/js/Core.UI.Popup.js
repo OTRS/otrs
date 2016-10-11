@@ -213,7 +213,7 @@ Core.UI.Popup = (function (TargetNS) {
      *      Register the pop-up event for a window.
      */
     TargetNS.RegisterPopupEvent = function () {
-        $(window).bind('Popup', function (Event, Type, Param) {
+        $(window).on('Popup', function (Event, Type, Param) {
             if (Type && typeof Type !== 'undefined') {
                 if (Type === 'Reload') {
                     window.location.reload();
@@ -242,7 +242,7 @@ Core.UI.Popup = (function (TargetNS) {
             return;
         }
 
-        $(window).unbind('beforeunload.Popup');
+        $(window).off('beforeunload.Popup');
         Core.App.UnbindWindowUnloadEvent('Popup');
         $(window).trigger('Popup', [Type, Param]);
     };

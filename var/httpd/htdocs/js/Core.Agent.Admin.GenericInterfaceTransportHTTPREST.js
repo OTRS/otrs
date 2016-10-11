@@ -31,7 +31,7 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPREST = (function (TargetNS) {
     TargetNS.Init = function () {
 
         // bind change function to Authentication field
-        $('#Authentication').bind('change', function(){
+        $('#Authentication').on('change', function(){
             if ($(this).val() === 'BasicAuth') {
                 $('.BasicAuthField').removeClass('Hidden');
                 $('.BasicAuthField').find('#User').each(function(){
@@ -47,7 +47,7 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPREST = (function (TargetNS) {
         });
 
         // bind change function to Use SSL option field
-        $('#UseX509').bind('change', function(){
+        $('#UseX509').on('change', function(){
             if ($(this).val() === 'Yes') {
                 $('.X509Field').removeClass('Hidden');
 
@@ -72,7 +72,7 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPREST = (function (TargetNS) {
         });
 
         // bind click function to save and finish button
-        $('#SaveAndFinishButton').bind('click', function(){
+        $('#SaveAndFinishButton').on('click', function(){
             $('#ReturnToWebservice').val(1);
         });
     };

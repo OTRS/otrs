@@ -49,11 +49,11 @@ Core.Agent.Admin.DynamicFieldDateTime = (function (TargetNS) {
      *       Initialize module functionality
      */
     TargetNS.Init = function () {
-        $('.ShowWarning').bind('change keyup', function () {
+        $('.ShowWarning').on('change keyup', function () {
             $('p.Warning').removeClass('Hidden');
         });
 
-        $('#YearsPeriod').bind('change', function () {
+        $('#YearsPeriod').on('change', function () {
             TargetNS.ToggleYearsPeriod($(this).val());
         });
 

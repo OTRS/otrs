@@ -31,7 +31,7 @@ Core.Agent.Admin.GenericInterfaceMappingXSLT = (function (TargetNS) {
     TargetNS.Init = function () {
 
         // bind click function to save and finish button
-        $('#SaveAndFinishButton').bind('click', function(){
+        $('#SaveAndFinishButton').on('click', function(){
             $('#ReturnToAction').val(1);
         });
     };

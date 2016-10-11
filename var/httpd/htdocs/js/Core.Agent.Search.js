@@ -66,7 +66,7 @@ Core.Agent.Search = (function (TargetNS) {
             $Label.next().clone().appendTo('#SearchInsert')
 
                 // bind click function to remove button now
-                .find('.RemoveButton').bind('click', function () {
+                .find('.RemoveButton').on('click', function () {
                     var $Element = $(this).parent();
                     TargetNS.SearchAttributeRemove($Element);
 
@@ -385,13 +385,13 @@ Core.Agent.Search = (function (TargetNS) {
                 Core.UI.InputFields.Activate($('.Dialog:visible'));
 
                 // register add of attribute
-                $('.AddButton').bind('click', function () {
+                $('.AddButton').on('click', function () {
                     var Attribute = $('#Attribute').val();
                     TargetNS.SearchAttributeAdd(Attribute);
                     TargetNS.AdditionalAttributeSelectionRebuild();
 
                     // Register event for tree selection dialog
-                    $('.ShowTreeSelection').unbind('click').bind('click', function () {
+                    $('.ShowTreeSelection').off('click').on('click', function () {
                         Core.UI.TreeSelection.ShowTreeSelection($(this));
                         return false;
                     });
@@ -400,7 +400,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // register return key
-                $('#SearchForm').unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
+                $('#SearchForm').off('keypress.FilterInput').on('keypress.FilterInput', function (Event) {
                     if ((Event.charCode || Event.keyCode) === 13) {
                         if (!CheckForSearchedValues()) {
                             return false;
@@ -413,7 +413,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // register submit
-                $('#SearchFormSubmit').bind('click', function () {
+                $('#SearchFormSubmit').on('click', function () {
 
                     var ShownAttributes = [];
 
@@ -458,7 +458,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // load profile
-                $('#SearchProfile').bind('change', function () {
+                $('#SearchProfile').on('change', function () {
                     var SearchProfile = $('#SearchProfile').val(),
                         SearchProfileEmptySearch = $('#EmptySearch').val(),
                         SearchProfileAction = $('#SearchAction').val();
@@ -468,7 +468,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // show add profile block or not
-                $('#SearchProfileNew').bind('click', function (Event) {
+                $('#SearchProfileNew').on('click', function (Event) {
                     $('#SearchProfileAddBlock').toggle();
                     $('#SearchProfileAddName').focus();
                     Event.preventDefault();
@@ -476,7 +476,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // add new profile
-                $('#SearchProfileAddAction').bind('click', function () {
+                $('#SearchProfileAddAction').on('click', function () {
                     var ProfileName, $Element1;
 
                     // get name
@@ -514,7 +514,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // direct link to profile
-                $('#SearchProfileAsLink').bind('click', function () {
+                $('#SearchProfileAsLink').on('click', function () {
                     var SearchProfile = $('#SearchProfile').val(),
                         SearchProfileAction = $('#SearchAction').val();
 
@@ -524,7 +524,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // delete profile
-                $('#SearchProfileDelete').bind('click', function (Event) {
+                $('#SearchProfileDelete').on('click', function (Event) {
 
                     // strip all already used attributes
                     $('#SearchProfile').find('option:selected').each(function () {
@@ -580,7 +580,7 @@ Core.Agent.Search = (function (TargetNS) {
     TargetNS.InitToolbarFulltextSearch = function () {
 
         // register return key
-        $('#ToolBar li.Extended.SearchFulltext form[name="SearchFulltext"]').unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
+        $('#ToolBar li.Extended.SearchFulltext form[name="SearchFulltext"]').off('keypress.FilterInput').on('keypress.FilterInput', function (Event) {
             var SearchString;
 
             if ((Event.charCode || Event.keyCode) === 13) {

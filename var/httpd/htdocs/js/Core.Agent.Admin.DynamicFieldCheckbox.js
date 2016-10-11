@@ -29,7 +29,7 @@ Core.Agent.Admin.DynamicFieldCheckbox = (function (TargetNS) {
      *       Initialize module functionality
      */
     TargetNS.Init = function () {
-        $('.ShowWarning').bind('change keyup', function () {
+        $('.ShowWarning').on('change keyup', function () {
             $('p.Warning').removeClass('Hidden');
         });
 

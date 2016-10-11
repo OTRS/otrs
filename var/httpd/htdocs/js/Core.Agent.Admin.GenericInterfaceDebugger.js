@@ -67,8 +67,8 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
         TargetNS.WebserviceID = parseInt(Core.Config.Get('WebserviceID'), 10);
 
         // add click binds
-        $('#FilterRefresh').bind('click', TargetNS.GetRequestList);
-        $('#DeleteButton').bind('click', TargetNS.ShowDeleteDialog);
+        $('#FilterRefresh').on('click', TargetNS.GetRequestList);
+        $('#DeleteButton').on('click', TargetNS.ShowDeleteDialog);
 
         TargetNS.GetRequestList();
     };
@@ -123,7 +123,7 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
 
             $('#RequestList tbody').html(HTML);
 
-            $('#RequestList a').bind('click', function() {
+            $('#RequestList a').on('click', function() {
                 var CommunicationID = $(this).blur().parents('tr').find('input.CommunicationID').val();
 
                 TargetNS.LoadCommunicationDetails(CommunicationID);

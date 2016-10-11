@@ -207,7 +207,7 @@ Core.AJAX = (function (TargetNS) {
             );
 
             //3rd: set form submit and disable validation on attachment delete
-            $('#AttachmentDeleteButton' + FileID).bind('click', function () {
+            $('#AttachmentDeleteButton' + FileID).on('click', function () {
                 var $Form = $(this).closest('form');
                 $(this).next('input[type=hidden]').val(1);
                 Core.Form.Validate.DisableValidation($Form);

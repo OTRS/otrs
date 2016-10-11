@@ -34,7 +34,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         Core.UI.Table.InitTableFilter($('#FilterSystemMaintenances'), $('#SystemMaintenances'));
 
         // Initialize bind click on delete action
-        $('.SystemMaintenanceDelete').bind('click', function (Event) {
+        $('.SystemMaintenanceDelete').on('click', function (Event) {
 
             if (window.confirm(Core.Language.Translate("Do you really want to delete this scheduled system maintenance?"))) {
                 return true;

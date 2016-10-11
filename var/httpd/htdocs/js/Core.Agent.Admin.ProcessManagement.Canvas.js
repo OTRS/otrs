@@ -1036,10 +1036,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         TargetNS.MakeDraggable();
 
         $('div.TransitionLabel')
-            .delegate('a.Delete, a.Edit, span', 'mouseenter', function () {
+            .on('mouseenter', 'a.Delete, a.Edit, span', function () {
                 TargetNS.HighlightTransitionLabel(TargetNS.LastTransitionDetails.LabelOverlay, TargetNS.LastTransitionDetails.StartElement, TargetNS.LastTransitionDetails.EndElement);
             })
-            .delegate('a.Delete, a.Edit, span', 'mouseleave', function () {
+            .on('mouseleave', 'a.Delete, a.Edit, span', function () {
                 TargetNS.UnHighlightTransitionLabel(TargetNS.LastTransitionDetails.LabelOverlay);
             });
     };

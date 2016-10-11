@@ -182,7 +182,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 WindowObject.opener.Core.Agent.Admin.ProcessManagement.HideOverlay();
 
                 // remove onbeforeunload event (which is only needed if you close the popup via the window "X")
-                $(WindowObject).unbind("beforeunload.PMPopup");
+                $(WindowObject).off("beforeunload.PMPopup");
 
                 // close popup
                 WindowObject.close();

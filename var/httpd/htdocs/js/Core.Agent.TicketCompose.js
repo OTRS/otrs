@@ -81,7 +81,7 @@ Core.Agent.TicketCompose = (function (TargetNS) {
         // change article compose options
         if (typeof ArticleComposeOptions !== 'undefined') {
             $.each(ArticleComposeOptions, function (Key, Value) {
-                $('#'+Value.Name).bind('change', function () {
+                $('#'+Value.Name).on('change', function () {
                     Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value.Name, Value.Fields);
                 });
             });

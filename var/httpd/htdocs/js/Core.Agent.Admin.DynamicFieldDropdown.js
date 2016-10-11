@@ -108,7 +108,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
             if($(this).hasClass('RemoveButton')) {
 
                 // bind click function to remove button
-                $(this).bind('click', function () {
+                $(this).on('click', function () {
                     TargetNS.RemoveValue($(this).attr('id'));
                     return false;
                 });
@@ -126,7 +126,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         // set new value for KeyName
         $('#ValueCounter').val(ValueCounter);
 
-        $('.DefaultValueKeyItem,.DefaultValueItem').bind('keyup', function () {
+        $('.DefaultValueKeyItem,.DefaultValueItem').on('keyup', function () {
             TargetNS.RecreateDefaultValueList();
         });
 
@@ -213,12 +213,12 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
      *       Initialize module functionality
      */
     TargetNS.Init = function () {
-        $('.ShowWarning').bind('change keyup', function () {
+        $('.ShowWarning').on('change keyup', function () {
             $('p.Warning').removeClass('Hidden');
         });
 
         //bind click function to add button
-        $('#AddValue').bind('click', function () {
+        $('#AddValue').on('click', function () {
             TargetNS.AddValue(
                 $(this).closest('fieldset').find('.ValueInsert')
             );
@@ -226,12 +226,12 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         });
 
         //bind click function to remove button
-        $('.ValueRemove').bind('click', function () {
+        $('.ValueRemove').on('click', function () {
             TargetNS.RemoveValue($(this).attr('id'));
             return false;
         });
 
-        $('.DefaultValueKeyItem,.DefaultValueItem').bind('keyup', function () {
+        $('.DefaultValueKeyItem,.DefaultValueItem').on('keyup', function () {
             TargetNS.RecreateDefaultValueList();
         });
 

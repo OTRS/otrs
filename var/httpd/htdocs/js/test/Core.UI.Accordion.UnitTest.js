@@ -50,14 +50,14 @@ Core.UI.Accordion = (function (Namespace) {
             setTimeout(function() {
                 Assert.equal($('ul#AccordionTest').find('li:eq(0)').hasClass('Active'), false, 'First Accordion element class Active on second Accordion click is not found');
                 Assert.equal($('ul#AccordionTest').find('li:eq(1)').hasClass('Active'), true, 'Second Accordion element class Active on second Accordion click is found');
-                Assert.equal($('.Content').attr('style'), "display: none;", 'First Accordion content is not visible on second Accordion click');
+                Assert.ok($('.Content').not('visible'), 'First Accordion content is not visible on second Accordion click');
 
                 // Click on first Accordion, content will be visible again
                 $('ul#AccordionTest').find('li:eq(0)').find('h2 a').click();
                 setTimeout(function() {
                     Assert.equal($('ul#AccordionTest').find('li:eq(0)').hasClass('Active'), true, 'First Accordion element class Active on first Accordion click is found');
                     Assert.equal($('ul#AccordionTest').find('li:eq(1)').hasClass('Active'), false, 'Second Accordion element class Active on first Accordion click is not found');
-                    Assert.equal($('.Content').attr('style'), "display: block;", 'First Accordion content is visible on first Accordion click');
+                    Assert.ok($('.Content').is(':visible'), 'First Accordion content is visible on first Accordion click');
 
                     /*
                      * Cleanup div container and contents

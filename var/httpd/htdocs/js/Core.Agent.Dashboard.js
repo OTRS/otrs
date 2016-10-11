@@ -176,7 +176,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             if ($(this).find('input').prop('checked')) {
                 $(this).addClass('Checked');
             }
-            $(this).bind('click', function() {
+            $(this).on('click', function() {
                 $(this).toggleClass('Checked', $(this).find('input').prop('checked'));
             });
         });
@@ -475,7 +475,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             $Container.prev('.StatsSettingsJSON').val(Core.JSON.Stringify(Data));
         }
 
-        $Container.find('select, input').bind('change', function() {
+        $Container.find('select, input').on('change', function() {
             CollectStatsData();
             ValidateTimeSettings();
         });
@@ -495,7 +495,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
         var CustomerUserRefresh;
 
         // Bind event on create chat request button
-        $('a.CreateChatRequest').bind('click', function() {
+        $('a.CreateChatRequest').on('click', function() {
             var $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
 
             $Dialog.find('input[name=ChatStartUserID]').val($(this).data('user-id'));

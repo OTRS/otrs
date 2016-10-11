@@ -98,7 +98,7 @@ Core.Customer.Login = (function (TargetNS) {
                     $Label.hide();
                 }
             })
-            .bind('keyup change', function () {
+            .on('keyup change', function () {
                 ToggleLabel(this);
             })
             .blur(function () {

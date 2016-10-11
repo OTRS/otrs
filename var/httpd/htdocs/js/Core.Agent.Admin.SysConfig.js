@@ -38,7 +38,7 @@ Core.Agent.Admin.SysConfig = (function (TargetNS) {
         });
 
         // bind function to SysConfigGroup dropdown
-        $('#SysConfigGroup').bind('change', function(){
+        $('#SysConfigGroup').on('change', function(){
             $('#SysConfigGroupForm').submit();
         });
 
@@ -67,7 +67,7 @@ Core.Agent.Admin.SysConfig = (function (TargetNS) {
                 $(this)
                     .append('&nbsp;<a href="#" class="DescriptionOverlay">' + Core.Language.Translate("Show more") + '</a>')
                     .find('a.DescriptionOverlay')
-                    .bind('click', function() {
+                    .on('click', function() {
 
                         Core.UI.Dialog.ShowDialog({
                             Modal: true,

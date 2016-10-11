@@ -80,7 +80,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     TargetNS.Init = function () {
 
         // Show IMAP Folder selection only for IMAP backends
-        $('select#TypeAdd, select#Type').bind('change', function(){
+        $('select#TypeAdd, select#Type').on('change', function(){
             if (/IMAP/.test($(this).val())) {
                 $('.Row_IMAPFolder').show();
             }
@@ -90,7 +90,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         }).trigger('change');
 
         // Show Queue field only if Dispatch By Queue is selected
-        $('select#DispatchingBy').bind('change', function(){
+        $('select#DispatchingBy').on('change', function(){
             if (/Queue/.test($(this).val())) {
                 $('.Row_Queue').show();
                 Core.UI.InputFields.Activate();

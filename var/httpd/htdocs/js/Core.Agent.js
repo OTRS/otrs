@@ -145,7 +145,7 @@ Core.Agent = (function (TargetNS) {
             .filter(function () {
                 return $('ul', this).length;
             })
-            .bind('mouseenter', function () {
+            .on('mouseenter', function () {
                 var $Element = $(this);
 
                 // clear close timeout on mouseenter, even if OpenMainMenuOnHover is not enabled
@@ -170,7 +170,7 @@ Core.Agent = (function (TargetNS) {
                     });
                 }
             })
-            .bind('mouseleave', function () {
+            .on('mouseleave', function () {
 
                 var $Element = $(this);
 
@@ -194,7 +194,7 @@ Core.Agent = (function (TargetNS) {
                     });
                 }
             })
-            .bind('click', function (Event) {
+            .on('click', function (Event) {
 
                 var $Element = $(this),
                     $Target = $(Event.target);
@@ -329,7 +329,7 @@ Core.Agent = (function (TargetNS) {
          * Register event for global search
          *
          */
-        $('#GlobalSearchNav, #GlobalSearchNavResponsive').bind('click', function () {
+        $('#GlobalSearchNav, #GlobalSearchNavResponsive').on('click', function () {
             var SearchFrontend = Core.Config.Get('SearchFrontend');
             if (SearchFrontend) {
                 try {
@@ -383,7 +383,7 @@ Core.Agent = (function (TargetNS) {
                 .find('.NavigationBarNavigate' + Direction)
                 .delay(Delay)
                 .fadeIn()
-                .bind('click', function() {
+                .on('click', function() {
                     if (Direction === 'Right') {
 
                         // calculate new scroll position
