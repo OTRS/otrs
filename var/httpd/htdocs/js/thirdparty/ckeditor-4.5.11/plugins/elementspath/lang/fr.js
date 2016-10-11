@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("elementspath","fr",{eleLabel:"Chemin des éléments",eleTitle:"Élément %1"});
