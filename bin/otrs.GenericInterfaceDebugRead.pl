@@ -51,7 +51,7 @@ Options:
     -i        RemoteIP          => '192.168.0.1',                       # optional, must be valid IPv4 or IPv6 address
     -w        WebserviceID      => 1,                                   # optional
     -d        WithData          => 1,                                   # optional
-Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 EOF
 }
 

@@ -49,7 +49,7 @@ use Kernel::System::VariableCheck qw(:all);
         print <<"EOF";
 
 DBUpdate-to-3.3.pl - Upgrade scripts for OTRS 3.2.x to 3.3.x migration.
-Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Usage: $0 [-h]
     Options are as follows:

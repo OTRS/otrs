@@ -46,7 +46,7 @@ getopt( 'hn', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
 $0 - generate caches for dashboard stats widgets
-Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Usage: $0 [-n number] [-f force] [-d debug]
 EOF
