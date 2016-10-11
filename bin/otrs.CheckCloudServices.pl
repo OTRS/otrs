@@ -41,7 +41,7 @@ getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
 $0 - checks OTRS Cloud Services connection
-Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Usage: $0
 EOF

@@ -63,7 +63,7 @@ my %EntityLookup;
         print <<"EOF";
 
 DBUpdate-to-4.pl - Upgrade script for OTRS 3.3 to 4 migration.
-Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Usage: $0 [-h]
     Options are as follows:

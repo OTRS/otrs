@@ -37,7 +37,7 @@ if ( $Opts{'h'} || !%Opts ) {
     print <<"EOF";
 $0 - tool to generate database specific SQL from the XML database definition files used by OTRS
 
-Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Usage: $0 -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>] [-f source file]
 EOF

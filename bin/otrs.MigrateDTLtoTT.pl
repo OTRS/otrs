@@ -37,7 +37,7 @@ getopt( 'd', \%Options );
 if ( exists $Options{h} || !$Options{d} ) {
     print <<EOF;
 $0 - migrate DTL templates to TT
-Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Usage: $0 -d /path/to/OTRS/or/module
 

@@ -50,7 +50,7 @@ sub Run {
     if ( $Opts{h} ) {
         print <<EOF;
 otrs.SuppportBundle.pl - creates a bundle of support information
-Copyright (C) 2001-2014 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 usage: otrs.SuppportBundle.pl -o <Path> (Optional)
 

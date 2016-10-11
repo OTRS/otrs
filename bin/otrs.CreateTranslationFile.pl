@@ -37,7 +37,7 @@ sub PrintUsage {
     print <<"EOF";
 
 otrs.CreateTranslationFile.pl - update translation files
-Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Translating OTRS
 ================

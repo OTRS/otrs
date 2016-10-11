@@ -38,7 +38,7 @@ otrs.LoaderCache.pl - Commandline interface to the
 
 Usage: otrs.LoaderCache.pl -o delete|generate
 
-Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 EOF
 }
 

@@ -36,7 +36,7 @@ sub PrintUsage {
     print <<"EOF";
 
 otrs.CreateApacheStartupFile.pl - update apache startup file for mod_perl
-Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 EOF
 }

@@ -36,7 +36,7 @@ getopt( '', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
 otrs.MySQLInnoDBSwitch.pl - convert all MyISAM tables to InnoDB
-Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 usage: otrs.MySQLInnoDBSwitch.pl [-f force]
 EOF
