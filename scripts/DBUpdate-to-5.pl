@@ -52,7 +52,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         print <<"EOF";
 
 DBUpdate-to-5.pl - Upgrade script for OTRS 4 to 5 migration.
-Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Usage: $0 [-h]
     Options are as follows:
