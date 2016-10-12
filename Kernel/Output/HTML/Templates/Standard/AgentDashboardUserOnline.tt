@@ -39,16 +39,16 @@
 [% RenderBlockStart("ContentSmallUserOnlineRow") %]
         <tr class="UserRow">
             <td>
-                <p title="[% Data.UserEmail | html %]">
                 [% IF Data.ChatAccess %]
-                    <span class="Participant [% Data.UserState | html %]">
-                        <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
-                    </span>
+                <span class="UserStatusIcon Inline [% Data.UserState | html %]">
+                    <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
+                </span>
                 [% END %]
+                <p title="[% Data.UserEmail | html %]">
                 [% IF Data.UserCustomerID %]
                     <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.UserCustomerID | uri %]">
                 [% ELSE %]
-                        <span>
+                    <span>
                 [% END %]
                         [% Data.UserFullname | truncate(30) | html %]
 [% RenderBlockStart("ContentSmallUserOnlineRowEmail") %]
@@ -64,29 +64,28 @@
                 [% END %]
                 </p>
 
-            [% IF Data.ChatAccess %]
-            <span class="UserChatIcons">
-            [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') || Data.CustomerEnableChat %]
-                <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart"
-                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
-                    data-user-fullname="[% Data.UserFullname | html %]">
-                    <i class="fa fa-comments"></i>
-                </a>
-                [% IF Data.VideoChatEnabled %]
-                <a href="#" title="[% Translate('Video call') | html %]" type="button" class="CreateVideoChatVideoCall[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
-                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
-                    data-user-fullname="[% Data.UserFullname | html %]">
-                    <i class="fa fa-video-camera"></i>
-                </a>
-                <a href="#" title="[% Translate('Audio call') | html %]" type="button" class="CreateVideoChatAudioCall[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
-                    data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
-                    data-user-fullname="[% Data.UserFullname | html %]">
-                    <i class="fa fa-microphone"></i>
-                </a>
+                [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') || Data.CustomerEnableChat %]
+                <span class="UserChatIcons">
+                    <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="UserChatStart"
+                        data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                        data-user-fullname="[% Data.UserFullname | html %]">
+                        <i class="fa fa-comments"></i>
+                    </a>
+                    [% IF Data.VideoChatEnabled %]
+                    <a href="#" title="[% Translate('Video call') | html %]" type="button" class="UserVideoCallStart[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
+                        data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                        data-user-fullname="[% Data.UserFullname | html %]">
+                        <i class="fa fa-video-camera"></i>
+                    </a>
+                    <a href="#" title="[% Translate('Audio call') | html %]" type="button" class="UserAudioCallStart[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
+                        data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
+                        data-user-fullname="[% Data.UserFullname | html %]">
+                        <i class="fa fa-microphone"></i>
+                    </a>
+                    [% END %]
+                </span>
                 [% END %]
-            [% END %]
-            </span>
-            [% END %]
+            </td>
         </tr>
 [% RenderBlockEnd("ContentSmallUserOnlineRow") %]
 [% RenderBlockStart("ContentSmallUserOnlineNone") %]
@@ -103,63 +102,13 @@
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-$('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
-    var UserID = $(this).data('user-id'),
-        UserType = $(this).data('user-type'),
-        UserFullname = $(this).data('user-fullname'),
-        $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
-
-    $Dialog.find('input[name=ChatStartUserID]').val(UserID);
-    $Dialog.find('input[name=ChatStartUserType]').val(UserType);
-    $Dialog.find('input[name=ChatStartUserFullname]').val(UserFullname);
-
-    // Get Availability
-    var Data = {
-        Action: 'AgentChat',
-        Subaction: 'GetAvailability',
-        UserType: UserType,
-        UserID: UserID,
-    };
-
-    Core.AJAX.FunctionCall(
-        Core.Config.Get('Baselink'),
-        Data,
-        function(Response) {
-            if (Response < 1) {
-                window.alert([% Translate("Selected user is not available for chat") | JSON %]);
-
-                // Reload page
-                document.location.reload(true);
-                return false;
-            }
-
-            Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
-
-            // Only enable button if there is a message
-            $('.Dialog textarea[name="ChatStartFirstMessage"]').on('keyup', function(){
-                $('.Dialog button').prop('disabled', $(this).val().length ? false : true );
-            });
-
-            $('.Dialog form').on('submit', function(){
-                if (!$('.Dialog textarea[name=ChatStartFirstMessage]').val().length) {
-                    return false;
-                }
-                // Close after submit
-                window.setTimeout(function(){
-                    Core.UI.Dialog.CloseDialog($('.Dialog'));
-                }, 1);
-            });
-        });
-
-    return false;
-});
 
 if (
     typeof Core.Agent.Chat !== 'undefined'
     && typeof Core.Agent.Chat.Toolbar !== 'undefined'
     )
 {
-    Core.Agent.Chat.Toolbar.InitVideoChatButtons();
+    Core.Agent.Chat.Toolbar.InitChatButtons();
 }
 
 //]]></script>

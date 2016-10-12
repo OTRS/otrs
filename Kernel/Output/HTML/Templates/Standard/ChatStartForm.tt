@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div id="DashboardUserOnlineChatStartDialog" class="Hidden">
+<div id="UserChatStartDialog" class="Hidden">
     <div id="ChatStartDialog">
         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" target="OTRSAgentChat">
             <input type="hidden" name="Action" value="AgentChat" />
@@ -17,7 +17,7 @@
             <input type="hidden" name="ChatStartUserType" />
             <input type="hidden" name="ChatStartUserFullname" />
             <textarea name="ChatStartFirstMessage" placeholder="[% Translate('First message') | html %]"></textarea>
-            <button type="submit" class="CallForAction Primary" disabled="disabled"><span>[% Translate('Start Chat') | html %]</span></button>
+            <button type="submit" class="CallForAction Primary" disabled="disabled"><span>[% Translate('Start chat') | html %]</span></button>
         </form>
     </div>
 </div>

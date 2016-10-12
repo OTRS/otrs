@@ -236,57 +236,37 @@ sub Run {
             );
         }
 
-        # do we need to show the chat link?
-        # should only be visible if
-        # 1. chat is active
-        # 2. current user has access to the chat
-        # 3. this customer user is online
-        my $ChatStartingAgentsGroup
-            = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
+        if ( $ConfigObject->Get('ChatEngine::Active') ) {
 
-        if (
-            $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active')
-            && defined $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"}
-            && $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"} eq 'Yes'
-            && $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::ChatDirection::AgentToCustomer')
-            )
-        {
+            # Check if agent has permission to start chats with the customer users.
+            my $EnableChat = 1;
+            my $ChatStartingAgentsGroup
+                = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
 
-            # check if this customer is actually online
-            my $SessionObject    = $Kernel::OM->Get('Kernel::System::AuthSession');
-            my @Sessions         = $SessionObject->GetAllSessionIDs();
-            my $CustomerIsOnline = 0;
-
-            SESSIONID:
-            for my $SessionID (@Sessions) {
-
-                next SESSIONID if !$SessionID;
-
-                # get session data
-                my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
-
-                next SESSIONID if !%Data;
-                next SESSIONID if !$Data{UserID};
-                next SESSIONID if $Data{UserID} ne $CustomerKey;
-
-                $CustomerIsOnline = 1;
+            if (
+                !defined $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+                || $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"} ne 'Yes'
+                )
+            {
+                $EnableChat = 0;
+            }
+            if (
+                $EnableChat
+                && !$ConfigObject->Get('ChatEngine::ChatDirection::AgentToCustomer')
+                )
+            {
+                $EnableChat = 0;
             }
 
-            if ($CustomerIsOnline) {
-
-                my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                    User => $CustomerKey,
-                );
-
+            if ($EnableChat) {
                 my $VideoChatEnabled = 0;
-                my $VideoChatSupport = $CustomerUser{VideoChatHasWebRTC} || 0;
                 my $VideoChatAgentsGroup
                     = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
 
                 # Enable the video chat feature if system is entitled and agent is a member of configured group.
                 if (
-                    defined $LayoutObject->{"UserIsGroup[$VideoChatAgentsGroup]"}
-                    && $LayoutObject->{"UserIsGroup[$VideoChatAgentsGroup]"} eq 'Yes'
+                    defined $Self->{"UserIsGroup[$VideoChatAgentsGroup]"}
+                    && $Self->{"UserIsGroup[$VideoChatAgentsGroup]"} eq 'Yes'
                     )
                 {
                     if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) )
@@ -295,25 +275,59 @@ sub Run {
                     }
                 }
 
-                if ( $ConfigObject->Get('Ticket::Agent::StartChatWOTicket') ) {
+                my $CustomerEnableChat = 0;
+                my $ChatAccess         = 0;
+                my $VideoChatAvailable = 0;
+                my $VideoChatSupport   = 0;
+
+                # Default status is offline.
+                my $UserState            = Translatable('Offline');
+                my $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently offline');
+
+                my $CustomerChatAvailability = $Kernel::OM->Get('Kernel::System::Chat')->CustomerAvailabilityGet(
+                    UserID => $CustomerKey,
+                );
+
+                my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                    User => $CustomerKey,
+                );
+                $VideoChatSupport = 1 if $CustomerUser{VideoChatHasWebRTC};
+
+                if ( $CustomerChatAvailability == 3 ) {
+                    $UserState            = Translatable('Active');
+                    $CustomerEnableChat   = 1;
+                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently active');
+                    $VideoChatAvailable   = 1;
+                }
+                elsif ( $CustomerChatAvailability == 2 ) {
+                    $UserState            = Translatable('Away');
+                    $CustomerEnableChat   = 1;
+                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently away');
+                }
+
+                $LayoutObject->Block(
+                    Name => 'ContentLargeCustomerUserListRowUserStatus',
+                    Data => {
+                        %CustomerUser,
+                        UserState            => $UserState,
+                        UserStateDescription => $UserStateDescription,
+                    },
+                );
+
+                if (
+                    $CustomerEnableChat
+                    && $ConfigObject->Get('Ticket::Agent::StartChatWOTicket')
+                    )
+                {
                     $LayoutObject->Block(
-                        Name => 'ContentLargeCustomerUserListRowCustomerKeyChatStart',
+                        Name => 'ContentLargeCustomerUserListRowChatIcons',
                         Data => {
-                            UserFullname => $CustomerUser{UserFullname},
-                            UserID       => $CustomerKey,
+                            %CustomerUser,
+                            VideoChatEnabled   => $VideoChatEnabled,
+                            VideoChatAvailable => $VideoChatAvailable,
+                            VideoChatSupport   => $VideoChatSupport,
                         },
                     );
-
-                    if ($VideoChatEnabled) {
-                        $LayoutObject->Block(
-                            Name => 'ContentLargeCustomerUserListRowCustomerKeyVideoChatStart',
-                            Data => {
-                                UserFullname     => $CustomerUser{UserFullname},
-                                UserID           => $CustomerKey,
-                                VideoChatSupport => $VideoChatSupport,
-                            },
-                        );
-                    }
                 }
             }
         }

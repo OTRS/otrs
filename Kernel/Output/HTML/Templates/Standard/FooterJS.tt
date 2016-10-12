@@ -97,6 +97,8 @@ Core.App.Ready(function () {
         NewPersonalChat: [% Translate("New personal chat request") | JSON %],
         NewCustomerChat: [% Translate("New customer chat request") | JSON %],
         NewPublicChat: [% Translate("New public chat request") | JSON %],
+        NewChatUnavailable: [% Translate("Selected user is not available for chat.") | JSON %],
+        NewChatStart: [% Translate("Start chat") | JSON %],
         NewChatActivity: [% Translate("New activity") | JSON %],
         NewChatActivityMonitored: [% Translate("New activity on one of your monitored chats.") | JSON %],
         VideoChatEnabled: parseInt([% ( Data.VideoChatEnabled || 0 )| JSON %], 10),
