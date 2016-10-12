@@ -174,103 +174,103 @@ sub LoadDefaults {
     # used languages
     # (short name = long name and file)
     $Self->{DefaultUsedLanguages} = {
-        'ar_SA' => 'Arabic (Saudi Arabia)',
-        'bg' => 'Bulgarian',
-        'ca' => 'Catalan',
-        'cs' => 'Czech',
-        'da' => 'Danish',
-        'de' => 'German',
-        'en' => 'English (United States)',
-        'en_CA' => 'English (Canada)',
-        'en_GB' => 'English (United Kingdom)',
-        'es' => 'Spanish',
-        'es_CO' => 'Spanish (Colombia)',
-        'es_MX' => 'Spanish (Mexico)',
-        'et' => 'Estonian',
-        'el' => 'Greek',
-        'fa' => 'Persian',
-        'fi' => 'Finnish',
-        'fr' => 'French',
-        'fr_CA' => 'French (Canada)',
-        'gl' => 'Galician',
-        'he' => 'Hebrew',
-        'hi' => 'Hindi',
-        'hr' => 'Croatian',
-        'hu' => 'Hungarian',
-        'id' => 'Indonesian',
-        'it' => 'Italian',
-        'ja' => 'Japanese',
-        'lt' => 'Lithuanian',
-        'lv' => 'Latvian',
-        'ms' => 'Malay',
-        'nl' => 'Nederlands',
-        'nb_NO' => 'Norwegian',
-        'pt_BR' => 'Portuguese (Brasil)',
-        'pt' => 'Portuguese',
-        'pl' => 'Polish',
-        'ru' => 'Russian',
-        'sl' => 'Slovenian',
+        'ar_SA'   => 'Arabic (Saudi Arabia)',
+        'bg'      => 'Bulgarian',
+        'ca'      => 'Catalan',
+        'cs'      => 'Czech',
+        'da'      => 'Danish',
+        'de'      => 'German',
+        'en'      => 'English (United States)',
+        'en_CA'   => 'English (Canada)',
+        'en_GB'   => 'English (United Kingdom)',
+        'es'      => 'Spanish',
+        'es_CO'   => 'Spanish (Colombia)',
+        'es_MX'   => 'Spanish (Mexico)',
+        'et'      => 'Estonian',
+        'el'      => 'Greek',
+        'fa'      => 'Persian',
+        'fi'      => 'Finnish',
+        'fr'      => 'French',
+        'fr_CA'   => 'French (Canada)',
+        'gl'      => 'Galician',
+        'he'      => 'Hebrew',
+        'hi'      => 'Hindi',
+        'hr'      => 'Croatian',
+        'hu'      => 'Hungarian',
+        'id'      => 'Indonesian',
+        'it'      => 'Italian',
+        'ja'      => 'Japanese',
+        'lt'      => 'Lithuanian',
+        'lv'      => 'Latvian',
+        'ms'      => 'Malay',
+        'nl'      => 'Nederlands',
+        'nb_NO'   => 'Norwegian',
+        'pt_BR'   => 'Portuguese (Brasil)',
+        'pt'      => 'Portuguese',
+        'pl'      => 'Polish',
+        'ru'      => 'Russian',
+        'sl'      => 'Slovenian',
         'sr_Latn' => 'Serbian Latin',
         'sr_Cyrl' => 'Serbian Cyrillic',
-        'sk_SK' => 'Slovak',
-        'sv' => 'Swedish',
-        'sw' => 'Swahili',
-        'th_TH' => 'Thai',
-        'tr' => 'Turkish',
-        'uk' => 'Ukrainian',
-        'vi_VN' => 'Vietnam',
-        'zh_CN' => 'Chinese (Simplified)',
-        'zh_TW' => 'Chinese (Traditional)',
+        'sk_SK'   => 'Slovak',
+        'sv'      => 'Swedish',
+        'sw'      => 'Swahili',
+        'th_TH'   => 'Thai',
+        'tr'      => 'Turkish',
+        'uk'      => 'Ukrainian',
+        'vi_VN'   => 'Vietnam',
+        'zh_CN'   => 'Chinese (Simplified)',
+        'zh_TW'   => 'Chinese (Traditional)',
     };
 
     $Self->{DefaultUsedLanguagesNative} = {
-        'ar_SA' => 'العَرَبِية‎',
-        'bg' => 'Български',
-        'ca' => 'Català',
-        'cs' => 'Česky',
-        'da' => 'Dansk',
-        'de' => 'Deutsch',
-        'en' => 'English (United States)',
-        'en_CA' => 'English (Canada)',
-        'en_GB' => 'English (United Kingdom)',
-        'es' => 'Español',
-        'es_CO' => 'Español (Colombia)',
-        'es_MX' => 'Español (México)',
-        'et' => 'Eesti',
-        'el' => 'Ελληνικά',
-        'fa' => 'فارسى',
-        'fi' => 'Suomi',
-        'fr' => 'Français',
-        'fr_CA' => 'Français (Canada)',
-        'gl' => 'Galego',
-        'he' => 'עברית',
-        'hi' => 'हिन्दी',
-        'hr' => 'Hrvatski',
-        'hu' => 'Magyar',
-        'id' => 'Bahasa Indonesia',
-        'it' => 'Italiano',
-        'ja' => '日本語',
-        'lt' => 'Lietuvių kalba',
-        'lv' => 'Latvijas',
-        'ms' => 'Melayu',
-        'nl' => 'Nederlandse',
-        'nb_NO' => 'Norsk bokmål',
-        'pt_BR' => 'Português Brasileiro',
-        'pt' => 'Português',
-        'pl' => 'Polski',
-        'ru' => 'Русский',
-        'sl' => 'Slovenščina',
+        'ar_SA'   => 'العَرَبِية‎',
+        'bg'      => 'Български',
+        'ca'      => 'Català',
+        'cs'      => 'Česky',
+        'da'      => 'Dansk',
+        'de'      => 'Deutsch',
+        'en'      => 'English (United States)',
+        'en_CA'   => 'English (Canada)',
+        'en_GB'   => 'English (United Kingdom)',
+        'es'      => 'Español',
+        'es_CO'   => 'Español (Colombia)',
+        'es_MX'   => 'Español (México)',
+        'et'      => 'Eesti',
+        'el'      => 'Ελληνικά',
+        'fa'      => 'فارسى',
+        'fi'      => 'Suomi',
+        'fr'      => 'Français',
+        'fr_CA'   => 'Français (Canada)',
+        'gl'      => 'Galego',
+        'he'      => 'עברית',
+        'hi'      => 'हिन्दी',
+        'hr'      => 'Hrvatski',
+        'hu'      => 'Magyar',
+        'id'      => 'Bahasa Indonesia',
+        'it'      => 'Italiano',
+        'ja'      => '日本語',
+        'lt'      => 'Lietuvių kalba',
+        'lv'      => 'Latvijas',
+        'ms'      => 'Melayu',
+        'nl'      => 'Nederlandse',
+        'nb_NO'   => 'Norsk bokmål',
+        'pt_BR'   => 'Português Brasileiro',
+        'pt'      => 'Português',
+        'pl'      => 'Polski',
+        'ru'      => 'Русский',
+        'sl'      => 'Slovenščina',
         'sr_Latn' => 'Srpski',
         'sr_Cyrl' => 'Српски',
-        'sk_SK' => 'Slovenčina',
-        'sv' => 'Svenska',
-        'sw' => 'Kiswahili',
-        'th_TH' => 'ภาษาไทย',
-        'tr' => 'Türkçe',
-        'uk' => 'Українська',
-        'vi_VN' => 'ViɆt Nam',
-        'zh_CN' => '简体中文',
-        'zh_TW' => '正體中文',
+        'sk_SK'   => 'Slovenčina',
+        'sv'      => 'Svenska',
+        'sw'      => 'Kiswahili',
+        'th_TH'   => 'ภาษาไทย',
+        'tr'      => 'Türkçe',
+        'uk'      => 'Українська',
+        'vi_VN'   => 'ViɆt Nam',
+        'zh_CN'   => '简体中文',
+        'zh_TW'   => '正體中文',
     };
 
     # default theme
@@ -710,11 +710,11 @@ sub LoadDefaults {
     $Self->{'Frontend::NotifyModule'} = {
         '1000-CloudServicesDisabled' => {
           'Group' => 'admin',
-          'Module' => 'Kernel::Output::HTML::Notification::AgentCloudServicesDisabled'
+          'Module' => 'Kernel::Output::HTML::Notification::AgentCloudServicesDisabled',
         },
         '1100-OTRSBusiness' => {
             'Group' => 'admin',
-            'Module' => 'Kernel::Output::HTML::Notification::AgentOTRSBusiness'
+            'Module' => 'Kernel::Output::HTML::Notification::AgentOTRSBusiness',
         },
         '2000-UID-Check' => {
           'Module' => 'Kernel::Output::HTML::Notification::UIDCheck',
@@ -728,7 +728,6 @@ sub LoadDefaults {
         '7000-AgentTimeZone-Check' => {
             'Module' => 'Kernel::Output::HTML::Notification::AgentTimeZoneCheck',
         },
-
         '8000-Daemon-Check' => {
           'Module' => 'Kernel::Output::HTML::Notification::DaemonCheck',
         },
@@ -839,7 +838,7 @@ sub LoadDefaults {
             1 => {
                 1 => 'test',
             },
-            },
+        },
     };
 
     # --------------------------------------------------- #
@@ -939,7 +938,7 @@ sub LoadDefaults {
         'Core.InputFields.css',
         'Core.Print.css',
         'Core.Animations.css',
-        'thirdparty/fontawesome/font-awesome.css'
+        'thirdparty/fontawesome/font-awesome.css',
     ];
 
     # Agent Common CSS
@@ -1006,7 +1005,7 @@ sub LoadDefaults {
         'Core.Form.ErrorTooltips.js',
         'Core.Form.Validate.js',
         'Core.Customer.js',
-        'Core.Customer.Responsive.js'
+        'Core.Customer.Responsive.js',
     ];
 
     # Agent Common JS
@@ -1087,7 +1086,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # PGP settings (supports gpg)                         #
     # --------------------------------------------------- #
-    $Self->{PGP}          = 0;
+    $Self->{PGP}            = 0;
     $Self->{'PGP::Bin'}     = '/usr/bin/gpg';
     $Self->{'PGP::Options'} = '--homedir /opt/otrs/.gnupg/ --batch --no-tty --yes';
 
@@ -1110,7 +1109,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # system permissions
     # --------------------------------------------------- #
-    $Self->{'System::Permission'}           = [
+    $Self->{'System::Permission'} = [
         'ro',
         'move_into',
         'create',
@@ -1140,18 +1139,18 @@ sub LoadDefaults {
     $Self->{PreferencesView} = [ 'User Profile', 'Notification Settings', 'Other Settings' ];
 
     $Self->{PreferencesGroups}->{Password} = {
-        'Active' => '1',
-        'Area' => 'Agent',
-        'Column' => 'User Profile',
-        'Label' => 'Change password',
-        'Module' => 'Kernel::Output::HTML::Preferences::Password',
-        'PasswordMaxLoginFailed' => '0',
-        'PasswordMin2Characters' => '0',
+        'Active'                            => '1',
+        'Area'                              => 'Agent',
+        'Column'                            => 'User Profile',
+        'Label'                             => 'Change password',
+        'Module'                            => 'Kernel::Output::HTML::Preferences::Password',
+        'PasswordMaxLoginFailed'            => '0',
+        'PasswordMin2Characters'            => '0',
         'PasswordMin2Lower2UpperCharacters' => '0',
-        'PasswordMinSize' => '0',
-        'PasswordNeedDigit' => '0',
-        'PasswordRegExp' => '',
-        'Prio' => '0500'
+        'PasswordMinSize'                   => '0',
+        'PasswordNeedDigit'                 => '0',
+        'PasswordRegExp'                    => '',
+        'Prio'                              => '0500',
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
         Module => 'Kernel::Output::HTML::Preferences::Generic',
@@ -1171,37 +1170,37 @@ sub LoadDefaults {
         },
         PrefKey => 'UserSpellDict',
         Prio    => 5000,
-        Active   => 1,
+        Active  => 1,
     };
     $Self->{PreferencesGroups}->{Comment} = {
-        'Active' => '0',
-        'Block' => 'Input',
-        'Column' => 'Other Settings',
-        'Data' => '[% Env("UserComment") %]',
-        'Key' => 'Comment',
-        'Label' => 'Comment',
-        'Module' => 'Kernel::Output::HTML::Preferences::Generic',
+        'Active'  => '0',
+        'Block'   => 'Input',
+        'Column'  => 'Other Settings',
+        'Data'    => '[% Env("UserComment") %]',
+        'Key'     => 'Comment',
+        'Label'   => 'Comment',
+        'Module'  => 'Kernel::Output::HTML::Preferences::Generic',
         'PrefKey' => 'UserComment',
-        'Prio' => '6000'
+        'Prio'    => '6000',
     };
 
     $Self->{PreferencesGroups}->{Language} = {
-        'Active' => '1',
-        'Column' => 'User Profile',
-        'Key' => 'Language',
-        'Label' => 'Language',
-        'Module' => 'Kernel::Output::HTML::Preferences::Language',
+        'Active'  => '1',
+        'Column'  => 'User Profile',
+        'Key'     => 'Language',
+        'Label'   => 'Language',
+        'Module'  => 'Kernel::Output::HTML::Preferences::Language',
         'PrefKey' => 'UserLanguage',
-        'Prio' => '1000'
+        'Prio'    => '1000',
     };
     $Self->{PreferencesGroups}->{Theme} = {
-        'Active' => '1',
-        'Column' => 'User Profile',
-        'Key' => 'Frontend theme',
-        'Label' => 'Theme',
-        'Module' => 'Kernel::Output::HTML::Preferences::Theme',
+        'Active'  => '1',
+        'Column'  => 'User Profile',
+        'Key'     => 'Frontend theme',
+        'Label'   => 'Theme',
+        'Module'  => 'Kernel::Output::HTML::Preferences::Theme',
         'PrefKey' => 'UserTheme',
-        'Prio' => '3000'
+        'Prio'    => '3000',
     };
 
     # --------------------------------------------------- #
@@ -1477,8 +1476,8 @@ via the Preferences button after logging in.
         CustomerKey => 'login',
 
         # customer #
-        CustomerID             => 'customer_id',
-        CustomerValid          => 'valid_id',
+        CustomerID    => 'customer_id',
+        CustomerValid => 'valid_id',
 
         # The last field must always be the email address so that a valid
         #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
@@ -1540,7 +1539,6 @@ via the Preferences button after logging in.
 
             # Dynamic field example
 #            [ 'DynamicField_Name_X', undef, 'Name_X', 0, 0, 'dynamic_field', undef, 0, undef, undef, ],
-
         ],
 
         # default selections
@@ -1681,7 +1679,6 @@ via the Preferences button after logging in.
 
             # Dynamic field example
 #            [ 'DynamicField_Name_Y', undef, 'Name_Y', 0, 0, 'dynamic_field', undef, 0,],
-
         ],
     };
 
@@ -1726,64 +1723,64 @@ via the Preferences button after logging in.
 
     # admin interface
     $Self->{'Frontend::Module'}->{Admin} = {
-        'Description' => 'Admin Area.',
-        'Group' => [
-            'admin'
+        Description => 'Admin Area.',
+        Group       => [
+            'admin',
         ],
-        'Loader' => {
-            'CSS' => [
-                'Core.Agent.Admin.css'
+        Loader => {
+            CSS => [
+                'Core.Agent.Admin.css',
             ],
-                'JavaScript' => [
-                'Core.Agent.Admin.SysConfig.js'
-            ]
+                JavaScript => [
+                'Core.Agent.Admin.SysConfig.js',
+            ],
         },
-        'NavBar' => [
+        NavBar => [
             {
-                'AccessKey' => 'a',
-                'Block' => 'ItemArea',
-                'Description' => '',
-                'Link' => 'Action=Admin',
-                'LinkOption' => '',
-                'Name' => 'Admin',
-                'NavBar' => 'Admin',
-                'Prio' => '10000',
-                'Type' => 'Menu'
-            }
+                AccessKey   => 'a',
+                Block       => 'ItemArea',
+                Description => '',
+                Link        => 'Action=Admin',
+                LinkOption  => '',
+                Name        => 'Admin',
+                NavBar      => 'Admin',
+                Prio        => '10000',
+                Type        => 'Menu',
+            },
         ],
-        'NavBarModule' => {
-            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin'
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         },
-        'NavBarName' => 'Admin',
-        'Title' => ''
+        NavBarName => 'Admin',
+        Title      => '',
     };
     $Self->{'Frontend::Module'}->{AdminInit} = {
-        'Description' => 'Admin',
-        'Group' => [
-            'admin'
+        Description => 'Admin',
+        Group       => [
+            'admin',
         ],
-        'NavBarName' => '',
-        'Title' => 'Init'
+        NavBarName => '',
+        Title      => 'Init',
     };
     $Self->{'Frontend::Module'}->{AdminLog} = {
-        'Description' => 'Admin',
-        'Group' => [
-            'admin'
+        Description => 'Admin',
+        Group       => [
+            'admin',
         ],
-        'Loader' => {
-            'JavaScript' => [
-              'Core.Agent.Admin.Log.js'
-            ]
+        Loader => {
+            JavaScript => [
+              'Core.Agent.Admin.Log.js',
+            ],
         },
-        'NavBarModule' => {
-            'Block' => 'System',
-            'Description' => Translatable('View system log messages.'),
-            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            'Name' => Translatable('System Log'),
-            'Prio' => '600'
+        NavBarModule => {
+            Block       => 'System',
+            Description => Translatable('View system log messages.'),
+            Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+            Name        => Translatable('System Log'),
+            Prio        => '600',
         },
-        'NavBarName' => 'Admin',
-        'Title' => 'System Log'
+        NavBarName => 'Admin',
+        Title      => 'System Log',
     };
     $Self->{'Frontend::Module'}->{AdminSysConfig} = {
         Group        => ['admin'],
@@ -1797,7 +1794,7 @@ via the Preferences button after logging in.
             Block       => 'System',
             Prio        => 800,
         },
-        Loader       => {
+        Loader => {
             CSS => [
                 'Core.Agent.Admin.SysConfig.css',
             ],
@@ -1807,30 +1804,30 @@ via the Preferences button after logging in.
         },
     };
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
-        'Description' => 'Software Package Manager.',
-        'Group' => [
-            'admin'
+        Description => 'Software Package Manager.',
+        Group => [
+            'admin',
         ],
-        'NavBarModule' => {
-            'Block' => 'System',
-            'Description' => Translatable('Update and extend your system with software packages.'),
-            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            'Name' => Translatable('Package Manager'),
-            'Prio' => '1000'
+        NavBarModule => {
+            Block       => 'System',
+            Description => Translatable('Update and extend your system with software packages.'),
+            Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+            Name        => Translatable('Package Manager'),
+            Prio        => '1000',
         },
-        'NavBarName' => 'Admin',
-        'Title' => 'Package Manager'
+        NavBarName => 'Admin',
+        Title      => 'Package Manager',
     };
     # specify Loader settings for Login screens
     $Self->{'Frontend::Module'}->{Login} = {
-        Loader       => {
+        Loader => {
             JavaScript => [
                 'Core.Agent.Login.js',
             ],
         },
     };
     $Self->{'CustomerFrontend::Module'}->{CustomerLogin} = {
-        Loader       => {
+        Loader => {
             JavaScript => [
                 'Core.Customer.Login.js',
             ],
@@ -1839,12 +1836,12 @@ via the Preferences button after logging in.
 
     # specify Loader settings for the installer
     $Self->{'Frontend::Module'}->{Installer} = {
-        Loader       => {
+        Loader => {
             JavaScript => [
                 'Core.Installer.js',
             ],
             CSS => [
-                'Core.Installer.css'
+                'Core.Installer.css',
             ],
         },
     };
@@ -1911,13 +1908,13 @@ sub new {
             my $ConfigFile = '';
             ## no critic
             if ( open( my $In, '<', $File ) ) {
-            ## use critic
+                ## use critic
 
                 # only try to find # VERSION:1.1 in the first 8 lines
                 my $TryCount = 0;
                 LINE:
                 while ( my $Line = <$In> ) {
-                    if ($Line =~ /^\Q# VERSION:1.1\E/) {
+                    if ( $Line =~ /^\Q# VERSION:1.1\E/ ) {
                         $FileFormat = 1.1;
                         last LINE;
                     }
@@ -1932,7 +1929,7 @@ sub new {
                 # read file format 1.0 - file as string
                 if ( $FileFormat == 1 ) {
                     open( my $In, '<', $File );
-                    $ConfigFile = do {local $/; <$In>};
+                    $ConfigFile = do { local $/; <$In> };
                     close $In;
                 }
             }
@@ -1951,8 +1948,8 @@ sub new {
                     # on win32 Apache::Reload is not working correctly, so do also use "do"
                     my $OS = $^O;
                     ## no critic
-                    if ( $mod_perl::VERSION >= 1.99 && $OS ne 'MSWin32') {
-                    ## use critic
+                    if ( $mod_perl::VERSION >= 1.99 && $OS ne 'MSWin32' ) {
+                        ## use critic
                         my $ApacheReload = 0;
                         MODULE:
                         for my $Module ( sort keys %INC ) {
@@ -1977,13 +1974,13 @@ sub new {
                 # if require is usable, use it (because of better performance,
                 # if not, use do to do it on runtime)
                 ## no critic
-                if ( $Require ) {
-                    if (! require $File ) {
+                if ($Require) {
+                    if ( !require $File ) {
                         die "ERROR: $!\n";
                     }
                 }
                 else {
-                    if (! do $File ) {
+                    if ( !do $File ) {
                         die "ERROR: $!\n";
                     }
                 }
@@ -2001,7 +1998,7 @@ sub new {
 
                 # use eval for old file format
                 if ($ConfigFile) {
-                    if ( !eval $ConfigFile ) { ## no critic
+                    if ( !eval $ConfigFile ) {    ## no critic
                         print STDERR "ERROR: Syntax error in $File: $@\n";
                     }
 
@@ -2012,12 +2009,13 @@ sub new {
     }
 
     # load RELEASE file
-    if ( -e ! "$Self->{Home}/RELEASE" ) {
-        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+    if ( -e !"$Self->{Home}/RELEASE" ) {
+        print STDERR
+            "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
         die;
     }
-    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) { ## no critic
-        while (my $Line = <$Product>) {
+    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {    ## no critic
+        while ( my $Line = <$Product> ) {
 
             # filtering of comment lines
             if ( $Line !~ /^#/ ) {
@@ -2032,7 +2030,8 @@ sub new {
         close($Product);
     }
     else {
-        print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+        print STDERR
+            "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
         die;
     }
 
@@ -2120,14 +2119,14 @@ sub Translatable {
 sub ConfigChecksum {
     my $Self = shift;
 
-    my @Files = glob( $Self->{Home} . "/Kernel/Config/Files/*.pm");
+    my @Files = glob( $Self->{Home} . "/Kernel/Config/Files/*.pm" );
 
     # Ignore ZZZAAuto.pm, because this is only a cached version of the XML files which
     # will be in the checksum. Otherwise the SysConfig cannot use its cache files.
-    @Files = grep { $_!~ m/ZZZAAuto\.pm$/smx } @Files;
+    @Files = grep { $_ !~ m/ZZZAAuto\.pm$/smx } @Files;
 
-    push @Files, glob( $Self->{Home} . "/Kernel/Config/Files/*.xml");
-    push @Files, $Self->{Home} . "/Kernel/Config/Defaults.pm" ;
+    push @Files, glob( $Self->{Home} . "/Kernel/Config/Files/*.xml" );
+    push @Files, $Self->{Home} . "/Kernel/Config/Defaults.pm";
     push @Files, $Self->{Home} . "/Kernel/Config.pm";
 
     # Create a string with filenames and file mtimes of the config files
@@ -2135,7 +2134,7 @@ sub ConfigChecksum {
     for my $File (@Files) {
 
         # get file metadata
-        my $Stat = stat( $File );
+        my $Stat = stat($File);
 
         if ( !$Stat ) {
             print STDERR "Error: cannot stat file '$File': $!";
@@ -2145,7 +2144,7 @@ sub ConfigChecksum {
         $ConfigString .= $File . $Stat->mtime();
     }
 
-    return Digest::MD5::md5_hex( $ConfigString );
+    return Digest::MD5::md5_hex($ConfigString);
 }
 
 1;
