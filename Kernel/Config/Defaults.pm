@@ -290,11 +290,11 @@ sub LoadDefaults {
 
     # Frontend::JavaScriptPath
     # (URL JavaScript path.)
-    $Self->{'Frontend::JavaScriptPath'} =  '<OTRS_CONFIG_Frontend::WebPath>js/';
+    $Self->{'Frontend::JavaScriptPath'} = '<OTRS_CONFIG_Frontend::WebPath>js/';
 
     # Frontend::CSSPath
     # (URL CSS path.)
-    $Self->{'Frontend::CSSPath'} =  '<OTRS_CONFIG_Frontend::WebPath>css/';
+    $Self->{'Frontend::CSSPath'} = '<OTRS_CONFIG_Frontend::WebPath>css/';
 
     # Frontend::ImagePath
     # (URL image path of icons for navigation.)
@@ -379,7 +379,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # (Where is sendmail located and some options.
     # See 'man sendmail' for details. Or use the SMTP backend.)
-    $Self->{SendmailModule}      = 'Kernel::System::Email::Sendmail';
+    $Self->{'SendmailModule'}      = 'Kernel::System::Email::Sendmail';
     $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f';
 
 #    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
@@ -709,27 +709,27 @@ sub LoadDefaults {
     # (don't work with user id 1 notification)
     $Self->{'Frontend::NotifyModule'} = {
         '1000-CloudServicesDisabled' => {
-          'Group' => 'admin',
-          'Module' => 'Kernel::Output::HTML::Notification::AgentCloudServicesDisabled',
+            Group  => 'admin',
+            Module => 'Kernel::Output::HTML::Notification::AgentCloudServicesDisabled',
         },
         '1100-OTRSBusiness' => {
-            'Group' => 'admin',
-            'Module' => 'Kernel::Output::HTML::Notification::AgentOTRSBusiness',
+            Group  => 'admin',
+            Module => 'Kernel::Output::HTML::Notification::AgentOTRSBusiness',
         },
         '2000-UID-Check' => {
-          'Module' => 'Kernel::Output::HTML::Notification::UIDCheck',
+            Module => 'Kernel::Output::HTML::Notification::UIDCheck',
         },
         '5500-OutofOffice-Check' => {
-          'Module' => 'Kernel::Output::HTML::Notification::OutofOfficeCheck',
+            Module => 'Kernel::Output::HTML::Notification::OutofOfficeCheck',
         },
         '6000-SystemMaintenance-Check' => {
-            'Module' => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
+            Module => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
         },
         '7000-AgentTimeZone-Check' => {
-            'Module' => 'Kernel::Output::HTML::Notification::AgentTimeZoneCheck',
+            Module => 'Kernel::Output::HTML::Notification::AgentTimeZoneCheck',
         },
         '8000-Daemon-Check' => {
-          'Module' => 'Kernel::Output::HTML::Notification::DaemonCheck',
+            Module => 'Kernel::Output::HTML::Notification::DaemonCheck',
         },
     };
 
@@ -823,8 +823,12 @@ sub LoadDefaults {
     };
 
     $Self->{TimeVacationDays} = {
-        1  => { 1 => 'New Year\'s Day', },
-        5  => { 1 => 'International Workers\' Day', },
+        1 => {
+            1 => 'New Year\'s Day',
+        },
+        5 => {
+            1 => 'International Workers\' Day',
+        },
         12 => {
             24 => 'Christmas Eve',
             25 => 'First Christmas Day',
@@ -913,6 +917,7 @@ sub LoadDefaults {
 
     # tmp dir
     $Self->{TempDir} = '<OTRS_CONFIG_Home>/var/tmp';
+
     # article dir
     $Self->{ArticleDir} = '<OTRS_CONFIG_Home>/var/article';
 
@@ -925,7 +930,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
 
     # Customer Common CSS
-    $Self->{'Loader::Customer::CommonCSS'}->{'000-Framework'} =  [
+    $Self->{'Loader::Customer::CommonCSS'}->{'000-Framework'} = [
         'Core.Reset.css',
         'Core.Default.css',
         'Core.Form.css',
@@ -942,7 +947,7 @@ sub LoadDefaults {
     ];
 
     # Agent Common CSS
-    $Self->{'Loader::Agent::CommonCSS'}->{'000-Framework'} =  [
+    $Self->{'Loader::Agent::CommonCSS'}->{'000-Framework'} = [
         'Core.Reset.css',
         'Core.Default.css',
         'Core.Header.css',
@@ -971,7 +976,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
 
     # Customer Common JS
-    $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} =  [
+    $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} = [
         'thirdparty/jquery-3.1.1/jquery.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-validate-1.14.0/jquery.validate.js',
@@ -1009,7 +1014,7 @@ sub LoadDefaults {
     ];
 
     # Agent Common JS
-    $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
+    $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} = [
         'thirdparty/jquery-3.1.1/jquery.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-ui-1.12.1/jquery-ui.js',
@@ -1448,6 +1453,7 @@ via the Preferences button after logging in.
         Name   => 'Database Backend',
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
+
             # if you want to use an external database, add the
             # required settings
 #            DSN  => 'DBI:odbc:yourdsn',
@@ -1651,7 +1657,7 @@ via the Preferences button after logging in.
         CustomerCompanyKey             => 'customer_id',
         CustomerCompanyValid           => 'valid_id',
         CustomerCompanyListFields      => [ 'customer_id', 'name' ],
-        CustomerCompanySearchFields    => ['customer_id', 'name'],
+        CustomerCompanySearchFields    => [ 'customer_id', 'name' ],
         CustomerCompanySearchPrefix    => '*',
         CustomerCompanySearchSuffix    => '*',
         CustomerCompanySearchListLimit => 250,
@@ -1731,7 +1737,7 @@ via the Preferences button after logging in.
             CSS => [
                 'Core.Agent.Admin.css',
             ],
-                JavaScript => [
+            JavaScript => [
                 'Core.Agent.Admin.SysConfig.js',
             ],
         },
@@ -1769,7 +1775,7 @@ via the Preferences button after logging in.
         ],
         Loader => {
             JavaScript => [
-              'Core.Agent.Admin.Log.js',
+                'Core.Agent.Admin.Log.js',
             ],
         },
         NavBarModule => {
@@ -1805,7 +1811,7 @@ via the Preferences button after logging in.
     };
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
         Description => 'Software Package Manager.',
-        Group => [
+        Group       => [
             'admin',
         ],
         NavBarModule => {
@@ -1818,6 +1824,7 @@ via the Preferences button after logging in.
         NavBarName => 'Admin',
         Title      => 'Package Manager',
     };
+
     # specify Loader settings for Login screens
     $Self->{'Frontend::Module'}->{Login} = {
         Loader => {
