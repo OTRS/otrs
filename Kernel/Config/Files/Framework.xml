@@ -10706,7 +10706,7 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>thirdparty/ckeditor-4.5.6/ckeditor.js</Item>
+                <Item>thirdparty/ckeditor-4.5.11/ckeditor.js</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -10801,7 +10801,7 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>thirdparty/ckeditor-4.5.6/ckeditor.js</Item>
+                <Item>thirdparty/ckeditor-4.5.11/ckeditor.js</Item>
             </Array>
         </Setting>
     </ConfigItem>
