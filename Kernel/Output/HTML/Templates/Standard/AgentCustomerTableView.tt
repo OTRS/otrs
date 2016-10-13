@@ -35,7 +35,7 @@
         <em class="Error">[% Translate("Note: Customer is invalid!") | html %]</em>
 [% RenderBlockEnd("CustomerRowCustomerCompanyInvalid") %]
 [% RenderBlockStart("CustomerRowChatIcons") %]
-        <span class="UserChatIcons Block">
+        <span class="UserChatIcons Block Hidden">
             <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="UserChatStart"
                 data-user-id="[% Data.UserID | html %]" data-user-type="Customer"
                 data-user-fullname="[% Data.UserFullname | html %]">
@@ -73,3 +73,14 @@
 [% RenderBlockEnd("CustomerItem") %]
 </fieldset>
 [% RenderBlockEnd("Customer") %]
+
+<script type="text/javascript">//<![CDATA[
+    if (
+        typeof Core.Agent !== 'undefined'
+        && typeof Core.Agent.Chat !== 'undefined'
+        && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+        )
+    {
+        Core.Agent.Chat.Toolbar.InitChatButtons();
+    }
+//]]></script>

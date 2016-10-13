@@ -65,7 +65,7 @@
                 </p>
 
                 [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') || Data.CustomerEnableChat %]
-                <span class="UserChatIcons">
+                <span class="UserChatIcons Hidden">
                     <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="UserChatStart"
                         data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]"
                         data-user-fullname="[% Data.UserFullname | html %]">
@@ -98,19 +98,16 @@
     </tbody>
 </table>
 
-[% INCLUDE "ChatStartForm.tt" %]
-
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-
-if (
-    typeof Core.Agent.Chat !== 'undefined'
-    && typeof Core.Agent.Chat.Toolbar !== 'undefined'
-    )
-{
-    Core.Agent.Chat.Toolbar.InitChatButtons();
-}
-
+    if (
+        typeof Core.Agent !== 'undefined'
+        && typeof Core.Agent.Chat !== 'undefined'
+        && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+        )
+    {
+        Core.Agent.Chat.Toolbar.InitChatButtons();
+    }
 //]]></script>
 [% END %]
 

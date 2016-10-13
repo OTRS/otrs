@@ -275,7 +275,7 @@
                             [% END %]
                             [% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %]
                             [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
-                            <span class="UserChatIcons Block">
+                            <span class="UserChatIcons Block Hidden">
                                 <a href="#" title="[% Translate("Start chat") | html %]" type="button" class="UserChatStart" data-user-id="[% Data.UserID | html %]" data-user-type="User" data-user-fullname="[% Data.UserFullname | html %]">
                                     <i class="fa fa-comments"></i>
                                 </a>
@@ -303,7 +303,7 @@
                             [% END %]
                             [% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %]
                             [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
-                            <span class="UserChatIcons Block">
+                            <span class="UserChatIcons Block Hidden">
                                 <a href="#" title="[% Translate("Start chat") | html %]" type="button" class="UserChatStart" data-user-id="[% Data.UserID | html %]" data-user-type="User" data-user-fullname="[% Data.UserFullname | html %]">
                                     <i class="fa fa-comments"></i>
                                 </a>
@@ -1126,22 +1126,12 @@ function CheckIFrameHeight(IFrameID) {
 
 [% RenderBlockStart("TicketZoomInit") %]
 
-[% INCLUDE "ChatStartForm.tt" %]
-
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketZoom.Init({ ArticleTableHeight: parseInt('[% Env("UserTicketZoomArticleTableHeight") %]', 10)});
     Core.Config.Set('Ticket::Frontend::HTMLArticleHeightDefault', parseInt("[% Config("Ticket::Frontend::HTMLArticleHeightDefault") %]" || 0, 10));
     Core.Config.Set('Ticket::Frontend::HTMLArticleHeightMax', parseInt("[% Config("Ticket::Frontend::HTMLArticleHeightMax") %]" || 0, 10));
     Core.Config.Set('Language.AttachmentViewMessage', [% Translate('Article could not be opened! Perhaps it is on another article page?') | JSON %]);
-
-    if (
-        typeof Core.Agent.Chat !== 'undefined'
-        && typeof Core.Agent.Chat.Toolbar !== 'undefined'
-        )
-    {
-        Core.Agent.Chat.Toolbar.InitChatButtons();
-    }
 
     if (typeof Core.UI.Floater !== 'undefined') {
         Core.UI.Floater.Init();

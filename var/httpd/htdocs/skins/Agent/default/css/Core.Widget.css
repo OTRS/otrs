@@ -870,7 +870,6 @@ input.FilterBox {
 .UserChatIcons.Block {
     float: none;
     margin-top: 2px;
-    display: block;
 }
 
 .UserChatIcons i {

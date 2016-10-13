@@ -629,6 +629,15 @@ Core.Agent = (function (TargetNS) {
         Core.UI.InputFields.Init();
         Core.UI.TreeSelection.InitTreeSelection();
         Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
+
+        if (
+            typeof Core.Agent.Chat !== 'undefined'
+            && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+            )
+        {
+            Core.Agent.Chat.Toolbar.InitChatButtons();
+        }
+
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
     };
