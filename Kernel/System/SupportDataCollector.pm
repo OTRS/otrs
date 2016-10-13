@@ -160,6 +160,10 @@ sub Collect {
         return $Self->CollectByWebRequest();
     }
 
+    # Get the disabled plugins from the config to generate a lookup hash, which can be used to skip these plugins.
+    my $PluginDisabled = $Self->{ConfigObject}->Get('SupportDataCollector::DisablePlugins') || [];
+    my %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
+
     # Look for all plugins in the FS
     my @PluginFiles = $Self->{MainObject}->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/Plugin",
@@ -195,6 +199,10 @@ sub Collect {
 
         push @Result, @{ $PluginResult{Result} // [] };
     }
+
+    # Remove the disabled plugins after the execution, because some plugins returns
+    #   more information with a own identifier.
+    @Result = grep { !$LookupPluginDisabled{ $_->{Identifier} } } @Result;
 
     my %ReturnData = (
         Success => 1,
@@ -238,18 +246,23 @@ sub CollectByWebRequest {
         );
     }
 
-    my $Host;
-    my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+    my $Host = $Self->{ConfigObject}->Get('SupportDataCollector::HTTPHostname');
 
-    if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
-        $Host = $FQDN;
+    # Determine hostname
+    if ( !$Host ) {
+
+        my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+
+        if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
+            $Host = $FQDN;
+        }
+
+        if ( !$Host && gethostbyname('localhost') ) {
+            $Host = 'localhost';
+        }
+
+        $Host ||= '127.0.0.1';
     }
-
-    if ( !$Host && gethostbyname('localhost') ) {
-        $Host = 'localhost';
-    }
-
-    $Host ||= '127.0.0.1';
 
     # prepare webservice config
     my $URL =
