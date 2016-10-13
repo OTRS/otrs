@@ -120,6 +120,10 @@ sub Collect {
         return $Self->CollectByWebRequest( WebTimeout => $Param{WebTimeout} );
     }
 
+    # Get the disabled plugins from the config to generate a lookup hash, which can be used to skip these plugins.
+    my $PluginDisabled = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::DisablePlugins') || [];
+    my %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
+
     # Look for all plugins in the FS
     my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/Plugin",
@@ -167,6 +171,10 @@ sub Collect {
         push @Result, @{ $PluginResult{Result} // [] };
     }
 
+    # Remove the disabled plugins after the execution, because some plugins returns
+    #   more information with a own identifier.
+    @Result = grep { !$LookupPluginDisabled{ $_->{Identifier} } } @Result;
+
     # sort the results from the plugins by the short identifier
     @Result = sort { $a->{ShortIdentifier} cmp $b->{ShortIdentifier} } @Result;
 
@@ -175,7 +183,6 @@ sub Collect {
         Result  => \@Result,
     );
 
-    # set cache
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => 'SupportDataCollector',
         Key   => $CacheKey,
@@ -214,15 +221,20 @@ sub CollectByWebRequest {
         );
     }
 
-    my $Host;
-    my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+    my $Host = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::HTTPHostname');
 
-    if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
-        $Host = $FQDN;
-    }
+    # Determine hostname
+    if ( !$Host ) {
 
-    if ( !$Host && gethostbyname('localhost') ) {
-        $Host = 'localhost';
+        my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+
+        if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
+            $Host = $FQDN;
+        }
+
+        if ( !$Host && gethostbyname('localhost') ) {
+            $Host = 'localhost';
+        }
     }
 
     $Host ||= '127.0.0.1';
@@ -305,14 +317,6 @@ sub CollectByWebRequest {
         );
         return %Result;
     }
-
-    # set cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type  => 'SupportDataCollect',
-        Key   => 'DataCollect',
-        Value => $ResponseData,
-        TTL   => 60 * 10,
-    );
 
     return %{$ResponseData};
 }
