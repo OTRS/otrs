@@ -168,7 +168,7 @@ sub Collect {
     }
 
     # Remove the disabled plugins after the execution, because some plugins returns
-    # more information with a own identifier.
+    #   more information with a own identifier.
     @Result = grep { !$LookupPluginDisabled{ $_->{Identifier} } } @Result;
 
     # sort the results from the plug-ins by the short identifier
