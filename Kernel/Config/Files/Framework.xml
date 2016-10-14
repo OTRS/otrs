@@ -9587,11 +9587,9 @@ via the Preferences button after logging in.
                 <Description>Agent</Description>
                 <Title>OTRS Business Solution™</Title>
                 <NavBarName></NavBarName>
-                <!--
                 <Loader>
                     <CSS>Core.Agent.Admin.OTRSBusiness.css</CSS>
                 </Loader>
-                -->
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
