@@ -42,8 +42,8 @@ sub Run {
     }
     else {
         $Self->AddResultOk(
-            Label => 'Scheduler',
-            Value => 1,
+            Label   => 'Scheduler',
+            Value   => 1,
             Message => 'Scheduler is running.',
         );
     }
