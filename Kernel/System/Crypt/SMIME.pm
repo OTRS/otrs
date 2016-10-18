@@ -547,25 +547,31 @@ sub Verify {
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # TODO: maybe use _FetchAttributesFromCert() to determine the cert-hash and return that instead?
-    # determine hash of signer certificate
     my $SignerCertRef    = $MainObject->FileRead( Location => $SignerFile );
     my $SignedContentRef = $MainObject->FileRead( Location => $VerifiedFile );
 
     # return message
     if ( $Message =~ /Verification successful/i ) {
 
-        # get email address(es) from certificate
-        $Options = "x509 -in $SignerFile -email -noout";
-        my @SignersArray = qx{$Self->{Cmd} $Options 2>&1};
+        # Determine email address(es) from attributes of signer certificate.
+        my %SignerCertAttributes;
+        $Self->_FetchAttributesFromCert( $SignerFile, \%SignerCertAttributes );
+        my @SignersArray = split( ', ', $SignerCertAttributes{Email} );
 
-        chomp(@SignersArray);
+        # Include additional certificate attributes in the message:
+        #   - signer(s) email address(es)
+        #   - certificate hash
+        #   - certificate fingerprint
+        #   Please see bug#12284 for more information.
+        my $MessageSigner = join( ', ', @SignersArray ) . ' : '
+            . $SignerCertAttributes{Hash} . ' : '
+            . $SignerCertAttributes{Fingerprint};
 
         %Return = (
             SignatureFound    => 1,
             Successful        => 1,
-            Message           => 'OpenSSL: ' . $Message,
-            MessageLong       => 'OpenSSL: ' . $MessageLong,
+            Message           => 'OpenSSL: ' . $Message . ' (' . $MessageSigner . ')',
+            MessageLong       => 'OpenSSL: ' . $MessageLong . ' (' . $MessageSigner . ')',
             Signers           => [@SignersArray],
             SignerCertificate => $$SignerCertRef,
             Content           => $$SignedContentRef,

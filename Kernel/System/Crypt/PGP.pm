@@ -391,11 +391,27 @@ sub Verify {
             );
         }
 
+        my $KeyFingerprint   = '';
+        my $ValidMessageLong = '';
+        if (
+            $LogMessage{VALIDSIG}
+            && $LogMessage{VALIDSIG}->{MessageLong} =~ m{\Q[GNUPG:] VALIDSIG \E ([0-9A-F]{40}) }xms
+            )
+        {
+            $KeyFingerprint   = $1;
+            $ValidMessageLong = $LogMessage{VALIDSIG}->{MessageLong};
+        }
+
+        # Include additional key attributes in the message:
+        #   - signer email address
+        #   - key id
+        #   - key fingerprint
+        #   Please see bug#12284 for more information.
         %Return = (
             SignatureFound => 1,
             Successful     => 1,
-            Message        => $LogMessage{GOODSIG}->{Log} . " : $KeyID $KeyUserID",
-            MessageLong    => $LogMessage{GOODSIG}->{MessageLong},
+            Message        => $LogMessage{GOODSIG}->{Log} . " ($KeyUserID : $KeyID : $KeyFingerprint)",
+            MessageLong    => $LogMessage{GOODSIG}->{MessageLong} . $ValidMessageLong,
             KeyID          => $KeyID,
             KeyUserID      => $KeyUserID,
         );
