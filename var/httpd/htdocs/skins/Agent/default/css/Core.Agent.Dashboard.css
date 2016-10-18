@@ -100,40 +100,8 @@ div.EventDetails {
 }
 
 .DashboardUserOnline .UserRow p {
-    float: left;
-    width: 75%;
+    display: inline;
     padding-bottom: 3px;
-}
-
-.DashboardUserOnline .UserChatIcons {
-    float: right;
-    padding-top: 1px;
-}
-
-.DashboardUserOnline .UserChatIcons .Unavailable i,
-.DashboardUserOnline .UserChatIcons .Unsupported i {
-    opacity: 0.4;
-}
-
-.DashboardUserOnline .Participant {
-    cursor: default;
-    padding-top: 1px;
-}
-
-.DashboardUserOnline .Participant.Active i {
-    color: #0a0;
-}
-
-.DashboardUserOnline .Participant.Offline i {
-    color: #000000;
-}
-
-.DashboardUserOnline .Participant.Unavailable i {
-    color: #d00;
-}
-
-.DashboardUserOnline .Participant.Away i {
-    color: #fb0;
 }
 
 #RefreshUsers {

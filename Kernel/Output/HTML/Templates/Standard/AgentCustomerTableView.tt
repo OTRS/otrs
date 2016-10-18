@@ -20,6 +20,11 @@
 [% RenderBlockStart("CustomerRow") %]
     <label>[% Translate(Data.Key) | html %]:</label>
     <p class="Value FixedValueSmall" title="[% Data.Value | html %]">
+[% RenderBlockStart("CustomerRowUserStatus") %]
+        <span class="UserStatusIcon [% Data.UserState | html %]">
+            <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
+        </span>
+[% RenderBlockEnd("CustomerRowUserStatus") %]
         [% Data.LinkStart | Interpolate %][% Data.ValueShort %][% Data.LinkStop %]
 [% RenderBlockStart("CustomerRowItem") %]
         <a href="[% Data.URL %]" target="[% Data.Target | html %]">
@@ -29,6 +34,27 @@
 [% RenderBlockStart("CustomerRowCustomerCompanyInvalid") %]
         <em class="Error">[% Translate("Note: Customer is invalid!") | html %]</em>
 [% RenderBlockEnd("CustomerRowCustomerCompanyInvalid") %]
+[% RenderBlockStart("CustomerRowChatIcons") %]
+        <span class="UserChatIcons Block Hidden">
+            <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="UserChatStart"
+                data-user-id="[% Data.UserID | html %]" data-user-type="Customer"
+                data-user-fullname="[% Data.UserFullname | html %]">
+                <i class="fa fa-comments"></i>
+            </a>
+            [% IF Data.VideoChatEnabled %]
+            <a href="#" title="[% Translate('Video call') | html %]" type="button" class="UserVideoCallStart[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
+                data-user-id="[% Data.UserID | html %]" data-user-type="Customer"
+                data-user-fullname="[% Data.UserFullname | html %]">
+                <i class="fa fa-video-camera"></i>
+            </a>
+            <a href="#" title="[% Translate('Audio call') | html %]" type="button" class="UserAudioCallStart[% IF !Data.VideoChatAvailable %] Unavailable[% ELSIF !Data.VideoChatSupport %] Unsupported[% END %]"
+                data-user-id="[% Data.UserID | html %]" data-user-type="Customer"
+                data-user-fullname="[% Data.UserFullname | html %]">
+                <i class="fa fa-microphone"></i>
+            </a>
+            [% END %]
+        </span>
+[% RenderBlockEnd("CustomerRowChatIcons") %]
     </p>
     <div class="Clear"></div>
 [% RenderBlockEnd("CustomerRow") %]

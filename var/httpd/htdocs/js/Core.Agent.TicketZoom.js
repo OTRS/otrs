@@ -801,15 +801,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             InitProcessWidget();
         }
 
-        // Initialize video chat buttons, if applicable.
-        if (
-            typeof Core.Agent.Chat !== 'undefined'
-            && typeof Core.Agent.Chat.Toolbar !== 'undefined'
-            )
-        {
-            Core.Agent.Chat.Toolbar.InitVideoChatButtons();
-        }
-
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

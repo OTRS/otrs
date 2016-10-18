@@ -156,13 +156,114 @@ sub Run {
     # get user object
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
+    # Check if agent has permission to start chats with agents.
+    my $EnableChat               = 1;
+    my $ChatStartingAgentsGroup  = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
+    my $ChatReceivingAgentsGroup = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatReceivingAgents') || 'users';
+
+    if (
+        !$ConfigObject->Get('ChatEngine::Active')
+        || !defined $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+        || $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"} ne 'Yes'
+        )
+    {
+        $EnableChat = 0;
+    }
+    if (
+        $EnableChat
+        && !$ConfigObject->Get('ChatEngine::ChatDirection::AgentToAgent')
+        )
+    {
+        $EnableChat = 0;
+    }
+
+    my %OnlineData;
+    if ($EnableChat) {
+        my $VideoChatEnabled = 0;
+        my $VideoChatAgentsGroup = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
+
+        # Enable the video chat feature if system is entitled and agent is a member of configured group.
+        if (
+            $ConfigObject->Get('ChatEngine::Active')
+            && defined $LayoutObject->{"UserIsGroup[$VideoChatAgentsGroup]"}
+            && $LayoutObject->{"UserIsGroup[$VideoChatAgentsGroup]"} eq 'Yes'
+            )
+        {
+            if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) ) {
+                $VideoChatEnabled = $Kernel::OM->Get('Kernel::System::VideoChat')->IsEnabled();
+            }
+        }
+
+        FIELD:
+        for my $Field (qw(OwnerID ResponsibleID)) {
+            next FIELD if !$Ticket{$Field};
+            next FIELD if $Field eq 'ResponsibleID' && !$ConfigObject->Get('Ticket::Responsible');
+
+            my $UserID = $Ticket{$Field};
+
+            $OnlineData{$Field}->{EnableChat}         = $EnableChat;
+            $OnlineData{$Field}->{AgentEnableChat}    = 0;
+            $OnlineData{$Field}->{ChatAccess}         = 0;
+            $OnlineData{$Field}->{VideoChatAvailable} = 0;
+            $OnlineData{$Field}->{VideoChatSupport}   = 0;
+            $OnlineData{$Field}->{VideoChatEnabled}   = $VideoChatEnabled;
+
+            # Default status is offline.
+            $OnlineData{$Field}->{UserState} = Translatable('Offline');
+            $OnlineData{$Field}->{UserStateDescription}
+                = $LayoutObject->{LanguageObject}->Translate('This user is currently offline');
+
+            # We also need to check if the receiving agent has chat permissions.
+            my %UserGroups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
+                UserID => $UserID,
+                Type   => 'rw',
+            );
+
+            my %UserGroupsReverse = reverse %UserGroups;
+            $OnlineData{$Field}->{ChatAccess} = $UserGroupsReverse{$ChatReceivingAgentsGroup} ? 1 : 0;
+
+            my %User = $UserObject->GetUserData(
+                UserID => $UserID,
+            );
+            $OnlineData{$Field}->{VideoChatSupport} = $User{VideoChatHasWebRTC};
+
+            # Check agent's availability.
+            if ( $OnlineData{$Field}->{ChatAccess} ) {
+                $OnlineData{$Field}->{AgentChatAvailability}
+                    = $Kernel::OM->Get('Kernel::System::Chat')->AgentAvailabilityGet(
+                    UserID   => $UserID,
+                    External => 0,
+                    );
+
+                if ( $OnlineData{$Field}->{AgentChatAvailability} == 3 ) {
+                    $OnlineData{$Field}->{UserState}       = Translatable('Active');
+                    $OnlineData{$Field}->{AgentEnableChat} = 1;
+                    $OnlineData{$Field}->{UserStateDescription}
+                        = $LayoutObject->{LanguageObject}->Translate('This user is currently active');
+                    $OnlineData{$Field}->{VideoChatAvailable} = 1;
+                }
+                elsif ( $OnlineData{$Field}->{AgentChatAvailability} == 2 ) {
+                    $OnlineData{$Field}->{UserState}       = Translatable('Away');
+                    $OnlineData{$Field}->{AgentEnableChat} = 1;
+                    $OnlineData{$Field}->{UserStateDescription}
+                        = $LayoutObject->{LanguageObject}->Translate('This user is currently away');
+                }
+                elsif ( $OnlineData{$Field}->{AgentChatAvailability} == 1 ) {
+                    $OnlineData{$Field}->{UserState} = Translatable('Unavailable');
+                    $OnlineData{$Field}->{UserStateDescription}
+                        = $LayoutObject->{LanguageObject}->Translate('This user is currently unavailable');
+                }
+            }
+        }
+    }
+
     # owner info
     my %OwnerInfo = $UserObject->GetUserData(
         UserID => $Ticket{OwnerID},
     );
     $LayoutObject->Block(
         Name => 'Owner',
-        Data => { %Ticket, %OwnerInfo, %AclAction },
+        Data => { %Ticket, %OwnerInfo, %AclAction, %{ $OnlineData{OwnerID} // {} } },
     );
 
     if ( $ConfigObject->Get('Ticket::Responsible') ) {
@@ -174,7 +275,7 @@ sub Run {
 
         $LayoutObject->Block(
             Name => 'Responsible',
-            Data => { %Ticket, %ResponsibleInfo, %AclAction },
+            Data => { %Ticket, %ResponsibleInfo, %AclAction, %{ $OnlineData{ResponsibleID} // {} } },
         );
     }
 

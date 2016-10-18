@@ -61,6 +61,10 @@ Core.App.Ready(function () {
 });
 //]]></script>
 
+[% IF Config("ChatEngine::Active") %]
+    [% INCLUDE "ChatStartForm.tt" %]
+[% END %]
+
 <div id="ResponsiveFooter">
     <div class="Visible-ScreenXL"></div>
     <div class="Visible-ScreenL"></div>

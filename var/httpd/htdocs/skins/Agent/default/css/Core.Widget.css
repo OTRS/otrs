@@ -468,7 +468,7 @@ ul.WidgetTooltip li a:hover i {
     margin-top: -5px;
 }
 
-.CallForAction, 
+.CallForAction,
 .cke_dialog_footer_buttons a.cke_dialog_ui_button {
     padding: 0px;
     background: #eee;
@@ -505,7 +505,7 @@ ul.WidgetTooltip li a:hover i {
     margin-top: 5px;
 }
 
-.ActionList li a.Fullsize, 
+.ActionList li a.Fullsize,
 .CallForAction.Fullsize {
     display: block;
 }
@@ -919,6 +919,55 @@ input.FilterBox {
 .CallForAction span i.fa-download,
 .CallForAction span i.fa-upload {
     color: #2D6F9E;
+}
+
+/**
+ * @subsection      Chat icons
+ */
+
+.UserChatIcons {
+    float: right;
+}
+
+.UserChatIcons.Block {
+    float: none;
+    margin-top: 2px;
+}
+
+.UserChatIcons i {
+    color: #999;
+    margin-right: 3px;
+}
+
+.UserChatIcons .Unavailable i,
+.UserChatIcons .Unsupported i {
+    opacity: 0.4;
+}
+
+.UserStatusIcon {
+    cursor: default;
+    margin-right: 3px;
+}
+
+.UserStatusIcon.Inline {
+    margin-right: 0;
+}
+
+.UserStatusIcon.Active i {
+    color: #0a0;
+}
+
+.UserStatusIcon.Offline i {
+    color: #000;
+}
+
+.UserStatusIcon.Unavailable i {
+    color: #d00;
+    opacity: 1;
+}
+
+.UserStatusIcon.Away i {
+    color: #fb0;
 }
 
 } /* end @media */

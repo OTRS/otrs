@@ -522,14 +522,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
             return false;
         });
 
-        if (
-            typeof Core.Agent.Chat !== 'undefined'
-            && typeof Core.Agent.Chat.Toolbar !== 'undefined'
-            )
-        {
-            Core.Agent.Chat.Toolbar.InitVideoChatButtons();
-        }
-
         if (typeof Core.Config.Get('CustomerUserListRefresh') !== 'undefined') {
             CustomerUserRefresh = Core.Config.Get('CustomerUserListRefresh');
 
@@ -672,15 +664,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
             return false;
         });
-
-        // Initialize video chat buttons, if applicable.
-        if (
-            typeof Core.Agent.Chat !== 'undefined'
-            && typeof Core.Agent.Chat.Toolbar !== 'undefined'
-            )
-        {
-            Core.Agent.Chat.Toolbar.InitVideoChatButtons();
-        }
 
         // Initiate refresh event
         Core.Config.Set('RefreshSeconds_' + UserOnline.NameHTML, parseInt(UserOnline.RefreshTime, 10) || 0);

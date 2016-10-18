@@ -655,5 +655,5 @@ function CheckIFrameHeight(IFrameID) {
 [% RenderBlockEnd("ArticleItem") %]
 
 [% RenderBlockStart("TicketZoomInit") %]
-[% INCLUDE "ChatStartForm.tt" %]
+
 [% RenderBlockEnd("TicketZoomInit") %]
