@@ -69,7 +69,8 @@ Core.App.Ready(function() {
         VideoChatEnabled: parseInt([% ( Data.VideoChatEnabled || 0 )| JSON %], 10),
         VideoChatUnansweredRequests: [% Translate("You have unanswered chat requests") | JSON %],
         VideoChatClose: [% Translate("Close") | JSON %],
-        VideoChatInviteTitle: [% Translate("Video call invite") | JSON %],
+        VideoChatVideoCall: [% Translate("Video call") | JSON %],
+        VideoChatAudioCall: [% Translate("Audio call") | JSON %],
         VideoChatInviteAccept: [% Translate("Accept") | JSON %],
         VideoChatInviteDecline: [% Translate("Decline") | JSON %],
         VideoChatInternalError: [% Translate("An internal error occurred.") | JSON %]
