@@ -63,7 +63,8 @@ sub new {
 returns a hash of all notifications
 
     my %List = $NotificationEventObject->NotificationList(
-        Type => 'Ticket', # type of notifications; default: 'Ticket'
+        Type    => 'Ticket', # type of notifications; default: 'Ticket'
+        Details => 1,        # include notification detailed data. possible (0|1) # ; default: 0
     );
 
 =cut
@@ -71,11 +72,12 @@ returns a hash of all notifications
 sub NotificationList {
     my ( $Self, %Param ) = @_;
 
-    $Param{Type} ||= 'Ticket';
+    $Param{Type}    ||= 'Ticket';
+    $Param{Details} = $Param{Details} ? 1 : 0;
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheKey    = $Self->{CacheType} . '::' . $Param{Type};
+    my $CacheKey    = $Self->{CacheType} . '::' . $Param{Type} . '::' . $Param{Details};
     my $CacheResult = $CacheObject->Get(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
@@ -88,17 +90,17 @@ sub NotificationList {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    $DBObject->Prepare( SQL => 'SELECT id, name FROM notification_event' );
+    $DBObject->Prepare( SQL => 'SELECT id FROM notification_event' );
 
-    my %NotificationList;
+    my @NotificationList;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $NotificationList{ $Row[0] } = $Row[1];
+        push @NotificationList, $Row[0];
     }
 
     my %Result;
 
     ITEMID:
-    for my $ItemID ( sort keys %NotificationList ) {
+    for my $ItemID ( sort @NotificationList ) {
 
         my %NotificationData = $Self->NotificationGet(
             ID     => $ItemID,
@@ -109,7 +111,12 @@ sub NotificationList {
 
         next ITEMID if $NotificationData{Data}->{NotificationType}->[0] ne $Param{Type};
 
-        $Result{$ItemID} = \%NotificationData;
+        if ( $Param{Details} ) {
+            $Result{$ItemID} = \%NotificationData;
+        }
+        else {
+            $Result{$ItemID} = $NotificationData{Name};
+        }
     }
 
     $CacheObject->Set(
