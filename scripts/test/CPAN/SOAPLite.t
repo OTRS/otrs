@@ -70,12 +70,10 @@ my $SOAPObject = SOAP::Lite->new(
     uri   => $URI,
 );
 
-# ---
 # Tests for number of params in SOAP call
 # SOAP::Lite 0.715 is broken in line 1993, this file was patched in CPAN directory in order to fix
 # this problem. There is a similar problem reported in SOAP::Lite bug tracker in:
 # http://sourceforge.net/tracker/?func=detail&aid=3547564&group_id=66000&atid=513017
-# ---
 
 my @Tests = (
     {

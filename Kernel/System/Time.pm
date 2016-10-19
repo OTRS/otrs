@@ -395,9 +395,8 @@ sub MailTimeStamp {
 
     # According to RFC 2822, section 3.3
 
-    # ---
     # The date and time-of-day SHOULD express local time.
-
+    #
     # The zone specifies the offset from Coordinated Universal Time (UTC,
     # formerly referred to as "Greenwich Mean Time") that the date and
     # time-of-day represent.  The "+" or "-" indicates whether the
@@ -412,7 +411,6 @@ sub MailTimeStamp {
     # in a local time zone other than Universal Time and therefore
     # indicates that the date-time contains no information about the local
     # time zone.
-    # ---
 
     my @DayMap   = qw/Sun Mon Tue Wed Thu Fri Sat/;
     my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
