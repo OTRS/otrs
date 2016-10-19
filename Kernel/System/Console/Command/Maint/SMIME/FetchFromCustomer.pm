@@ -119,9 +119,7 @@ sub Run {
     # Get all existing certificates.
     my @CertList = $CryptObject->CertificateList();
 
-    # ---
     # only when Email specified
-    # ---
     if ( $Self->GetOption('email') ) {
         my $Emailaddress = $Self->GetOption('email');
 
@@ -150,8 +148,6 @@ sub Run {
         }
         @CertList = @Files;
     }
-
-    # ---
 
     my %ListOfEmailCertificates;
     my @ActiveCustomerUserCertificates;

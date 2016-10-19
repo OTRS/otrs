@@ -223,7 +223,6 @@
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable") %]
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2") %]
 #                    </th>
-# ---
 
                 </tr>
             </thead>

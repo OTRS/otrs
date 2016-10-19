@@ -1797,9 +1797,7 @@ for my $TicketIDDelete (
     );
 }
 
-# ---
 # avoid StateType and StateTypeID problems in TicketSearch()
-# ---
 
 my %StateTypeList = $StateObject->StateTypeList(
     UserID => 1,
