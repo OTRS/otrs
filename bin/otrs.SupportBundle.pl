@@ -40,9 +40,7 @@ use Kernel::System::SupportBundleGenerator;
 print "otrs.SuppportBundle.pl - creates a bundle of support information\n";
 print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
 
-# ---
 # common objects
-# ---
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);

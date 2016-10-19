@@ -56,9 +56,7 @@ if ( $Opts{d} && lc $Opts{d} eq 'short' ) {
     $Options{Details} = 'ShortDetails';
 }
 
-# ---
 # common objects
-# ---
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);

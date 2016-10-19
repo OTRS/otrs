@@ -240,9 +240,7 @@ $Include{"HTMLHeadBlockEvents"}
                 </div>
 <!-- dtl:block:LostPassword -->
 
-# --
 # Message of the day data!
-# --
 $Data{"Motd"}
 
             </div>

@@ -289,7 +289,6 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable -->
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
 #                    </th>
-# ---
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[

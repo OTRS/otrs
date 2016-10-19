@@ -38,9 +38,7 @@ use Kernel::System::Registration;
 print "otrs.RegistrationUpdate.pl - send system registration update\n";
 print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
 
-# ---
 # common objects
-# ---
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);

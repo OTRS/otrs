@@ -65,9 +65,7 @@ if ( $Opts{t} ) {
     $Options{Type} = $Opts{t};
 }
 
-# ---
 # common objects
-# ---
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
@@ -80,9 +78,7 @@ $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{CacheObject} = Kernel::System::Cache->new(%CommonObject);
 
-# ---
 # cleanup
-# ---
 if ( !$CommonObject{CacheObject}->CleanUp(%Options) ) {
     exit 1;
 }
