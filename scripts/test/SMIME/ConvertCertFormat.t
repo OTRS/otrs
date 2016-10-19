@@ -156,9 +156,7 @@ my $CertificateSearch = sub {
     return @Result;
 };
 
-# ---
 # delete all before running
-# ---
 my @PreRunSearchResult = $CertificateSearch->();
 
 for my $Cert (@PreRunSearchResult) {
@@ -166,8 +164,6 @@ for my $Cert (@PreRunSearchResult) {
         Filename => $Cert->{Filename},
     );
 }
-
-# ---
 
 # All certificates for testing
 my @Certificates = (

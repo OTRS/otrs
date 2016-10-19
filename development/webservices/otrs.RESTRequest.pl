@@ -60,13 +60,11 @@ my $UpdateControllerAndRequest = '/Webservice/GenericTicketConnectorREST/Ticket/
 # This is the base URL for Ticket Search
 my $SearchControllerAndRequest = '/Webservice/GenericTicketConnectorREST/Ticket';
 
-# ---
 # TicketGet Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
 #   - webservice
 #   - transport
 #   - operations
-# ---
 my $GetParams = {
     UserLogin => "some agent user login",       # to be filled with valid agent login
     Password  => "some agent user password",    # to be filled with valid agent password
@@ -97,15 +95,11 @@ else {
 
 }
 
-# ---
-
-# ---
 # TicketSearch Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
 #   - webservice
 #   - transport
 #   - operations
-# ---
 my $SearchParams = {
     UserLogin => "some agent user login",       # to be filled with valid agent login
     Password  => "some agent user password",    # to be filled with valid agent password
@@ -138,15 +132,11 @@ else {
 
 }
 
-# ---
-
-# ---
 # TicketCreate Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
 # - webservice
 # - transport
 # - operations
-# ---
 my $CreateOrUpdateParams = {
     UserLogin => "some agent user login",       # to be filled with valid agent login
     Password  => "some agent user password",    # to be filled with valid agent password
@@ -198,15 +188,11 @@ else {
 
 }
 
-# ---
-
-# ---
 # TicketUpdate Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
 #   - webservice
 #   - transport
 #   - operations
-# ---
 my $UpdateJSONParams = encode_json $CreateOrUpdateParams;
 
 my @UpdateRequestParam = (
@@ -236,5 +222,3 @@ else {
     print Dumper($Data);
 
 }
-
-# ---
