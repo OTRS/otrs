@@ -265,9 +265,7 @@ X-OTRS-Login: [% Env("Baselink") %]
             </div>
 [% RenderBlockEnd("LostPassword") %]
 
-# --
 # Message of the day data!
-# --
 [% Data.Motd %]
 
         </div>

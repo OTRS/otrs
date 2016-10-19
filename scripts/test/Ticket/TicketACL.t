@@ -4175,9 +4175,7 @@ $Self->True(
 );
 $ExecuteTests->( Tests => \@Tests );
 
-# ---
 # clean the system
-# ---
 # clean queues
 my $QueueUpdateSuccess = $QueueObject->QueueUpdate(
     %QueueData,

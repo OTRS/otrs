@@ -31,7 +31,6 @@ use lib dirname($RealBin);
 use JSON;
 use REST::Client;
 
-# ---
 # Variables to be defined
 
 # This is the HOST for the web service the format is:
@@ -68,7 +67,6 @@ my @RequestParam;
 # As sample web service configuration for TicketGet uses HTTP method GET all other parameters needs
 # to be sent as URI query parameters
 
-# ----
 # For GET method
 my $QueryParams = $RestClient->buildQuery( %{$Params} );
 
@@ -79,9 +77,6 @@ $ControllerAndRequest .= $QueryParams;
 
 $RestClient->GET(@RequestParam);
 
-# ----
-
-# # ----
 # # For POST method
 # my $JSONParams = encode_json $Params;
 
@@ -93,7 +88,6 @@ $RestClient->GET(@RequestParam);
 # );
 
 # $RestClient->POST(@RequestParam);
-# # ----
 
 # If the host isn't reachable, wrong configured or couldn't serve the requested page:
 my $ResponseCode = $RestClient->responseCode();

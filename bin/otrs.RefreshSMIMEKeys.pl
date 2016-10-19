@@ -51,9 +51,7 @@ if ( $Opts{d} && lc $Opts{d} eq 'short' ) {
     $Options{Details} = 'ShortDetails';
 }
 
-# ---
 # create object manager
-# ---
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.RefreshSMIMEKeys.pl',

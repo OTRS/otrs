@@ -33,9 +33,7 @@ use Kernel::System::Registration;
 print "otrs.RegistrationUpdate.pl - send system registration update\n";
 print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
 
-# ---
 # create object manager
-# ---
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.RegistrationUpdate.pl',

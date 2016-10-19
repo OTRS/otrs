@@ -29,18 +29,14 @@ use lib dirname($RealBin) . '/Custom';
 
 use Kernel::System::ObjectManager;
 
-# ---
 # create object manager
-# ---
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.RebuildConfig.pl',
     },
 );
 
-# ---
 # rebuild
-# ---
 print "otrs.RebuildConfig.pl - OTRS rebuild default config\n";
 print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
 if ( $Kernel::OM->Get('Kernel::System::SysConfig')->WriteDefault() ) {
