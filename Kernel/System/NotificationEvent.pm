@@ -65,6 +65,7 @@ returns a hash of all notifications
     my %List = $NotificationEventObject->NotificationList(
         Type    => 'Ticket', # type of notifications; default: 'Ticket'
         Details => 1,        # include notification detailed data. possible (0|1) # ; default: 0
+        All     => 1,        # optional: if given all notification types will be returned, even if type is given (possible: 0|1)
     );
 
 =cut
@@ -72,12 +73,13 @@ returns a hash of all notifications
 sub NotificationList {
     my ( $Self, %Param ) = @_;
 
-    $Param{Type}    ||= 'Ticket';
+    $Param{Type} ||= 'Ticket';
     $Param{Details} = $Param{Details} ? 1 : 0;
+    $Param{All}     = $Param{All}     ? 1 : 0;
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheKey    = $Self->{CacheType} . '::' . $Param{Type} . '::' . $Param{Details};
+    my $CacheKey    = $Self->{CacheType} . '::' . $Param{Type} . '::' . $Param{Details} . '::' . $Param{All};
     my $CacheResult = $CacheObject->Get(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
@@ -109,7 +111,9 @@ sub NotificationList {
 
         $NotificationData{Data}->{NotificationType} ||= ['Ticket'];
 
-        next ITEMID if $NotificationData{Data}->{NotificationType}->[0] ne $Param{Type};
+        if ( !$Param{All} ) {
+            next ITEMID if $NotificationData{Data}->{NotificationType}->[0] ne $Param{Type};
+        }
 
         if ( $Param{Details} ) {
             $Result{$ItemID} = \%NotificationData;
