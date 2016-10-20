@@ -184,8 +184,8 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
                             <div id="ExampleWebServiceError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="ExampleWebServiceServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 
-                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import ready to run web service") | html %]">
-                                <span><i class="fa fa-upload"></i>[% Translate("Import ready to run web service") | html %]</span>
+                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import ready-to-run web service") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import ready-to-run web service") | html %]</span>
                             </button>
                         </form>
                     </li>
