@@ -8,7 +8,7 @@
 
 [%
 SET OTRSBusinessLabel     = '<strong>OTRS Business Solution</strong>™';
-SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBusinessRequired">OTRS Business Solution™ Professional/Enterprise</a></strong>';
+SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBusinessRequired">OTRS Business Solution™ PROFESSIONAL/ENTERPRISE</a></strong>';
 %]
 
 [% RenderBlockStart("Main") %]
@@ -167,13 +167,13 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
 [% RenderBlockStart("ExampleWebServices") %]
         <div class="WidgetSimple" id="ExampleWebServices">
             <div class="Header">
-                <h2>[% Translate("Example Web Services") | html %]</h2>
+                <h2>[% Translate("Ready-to-run Web Services") | html %]</h2>
             </div>
             <div class="Content">
             [% IF Data.ExampleWebServiceList %]
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate best practice example web service that are part of %s.", OTRSBusinessLabel) %]
-                    [% Translate("Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).", OTRSBusinessLabel) %]
+                    [% Translate("Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.", OTRSBusinessLabel) %]
+                    [% Translate("Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).", OTRSBusinessLabel) %]
                 </p>
                 <ul class="ActionList SpacingTop">
                     <li>
@@ -184,15 +184,15 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
                             <div id="ExampleWebServiceError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="ExampleWebServiceServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 
-                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import example web service") | html %]">
-                                <span><i class="fa fa-upload"></i>[% Translate("Import example web service") | html %]</span>
+                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import ready to run web service") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import ready to run web service") | html %]</span>
                             </button>
                         </form>
                     </li>
                 </ul>
             [% ELSE %]
                 <p class="FieldExplanation">
-                    [% Translate("Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.", OTRSBusinessLinkLabelWithContractLevel) %]
+                    [% Translate("Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.", OTRSBusinessLinkLabelWithContractLevel) %]
                 </p>
             [% END %]
             </div>
