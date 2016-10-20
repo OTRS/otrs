@@ -943,7 +943,6 @@ sub LoadDefaults {
         'Core.InputFields.css',
         'Core.Print.css',
         'Core.Animations.css',
-        'thirdparty/fontawesome/font-awesome.css',
     ];
 
     # Agent Common CSS
@@ -968,7 +967,6 @@ sub LoadDefaults {
         'Core.InputFields.css',
         'Core.Print.css',
         'Core.Animations.css',
-        'thirdparty/fontawesome/font-awesome.css',
     ];
 
     # --------------------------------------------------- #

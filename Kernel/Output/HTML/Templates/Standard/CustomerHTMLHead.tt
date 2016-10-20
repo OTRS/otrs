@@ -52,31 +52,7 @@
     </style>
 [% RenderBlockEnd("HeaderLogoCSS") %]
 
-    <style type="text/css">
-        @font-face {
-          font-family: 'FontAwesome';
-          src: url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?v=4.3.0');
-          src: url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'),
-               url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=4.3.0') format('woff'),
-               url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=4.3.0') format('truetype'),
-               url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.svg#fontawesomeregular?v=4.3.0') format('svg');
-          font-weight: normal;
-          font-style: normal;
-        }
-
-        /* Fix poor font rendering on chrome based browsers on windows */
-        @media all and (-webkit-min-device-pixel-ratio:0) {
-            @font-face {
-                font-family: 'FontAwesome';
-                src: url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.svg#fontawesomeregular') format('svg'),
-                     url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'),
-                     url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=4.3.0') format('woff'),
-                     url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=4.3.0') format('truetype');
-                font-weight: normal;
-                font-style: normal;
-            }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]common/css/font-awesome.min.css" />
 
 # decide, if responsive CSS must be loaded
 # resposive CSS will not be loaded in "desktop mode" or if the document is within an iframe (customer overview in ticket phone overlay)
