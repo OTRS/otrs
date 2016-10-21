@@ -65,7 +65,7 @@
         });
     });
 
-    $('.NotificationEvent').on('click', function(Event){
+    $('.NotificationEvent').off('click').on('click', function(Event){
         var FoundEnabled = false,
             $TargetObj = $(this).parent().find('input[type=hidden]');
 
