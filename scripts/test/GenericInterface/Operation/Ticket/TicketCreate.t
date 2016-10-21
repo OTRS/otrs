@@ -42,7 +42,8 @@ $Helper->ConfigSettingChange(
     Key   => 'Ticket::Type',
     Value => '1',
 );
-$ConfigObject->Set(
+$Helper->ConfigSettingChange(
+    Valid => 1,
     Key   => 'Ticket::Type',
     Value => 1,
 );
@@ -51,7 +52,8 @@ $Helper->ConfigSettingChange(
     Key   => 'Ticket::Frontend::AccountTime',
     Value => '1',
 );
-$ConfigObject->Set(
+$Helper->ConfigSettingChange(
+    Valid => 1,
     Key   => 'Ticket::Frontend::AccountTime',
     Value => 1,
 );
@@ -60,7 +62,8 @@ $Helper->ConfigSettingChange(
     Key   => 'Ticket::Frontend::NeedAccountedTime',
     Value => '1',
 );
-$ConfigObject->Set(
+$Helper->ConfigSettingChange(
+    Valid => 1,
     Key   => 'Ticket::Frontend::NeedAccountedTime',
     Value => 1,
 );
@@ -71,7 +74,8 @@ $Helper->ConfigSettingChange(
     Key   => 'CheckMXRecord',
     Value => '0',
 );
-$ConfigObject->Set(
+$Helper->ConfigSettingChange(
+    Valid => 1,
     Key   => 'CheckMXRecord',
     Value => 0,
 );
@@ -80,19 +84,22 @@ $Helper->ConfigSettingChange(
     Key   => 'CheckEmailAddresses',
     Value => '1',
 );
-$ConfigObject->Set(
+$Helper->ConfigSettingChange(
+    Valid => 1,
     Key   => 'CheckEmailAddresses',
     Value => 1,
 );
 
 # disable SessionCheckRemoteIP setting
-$ConfigObject->Set(
+$Helper->ConfigSettingChange(
+    Valid => 1,
     Key   => 'SessionCheckRemoteIP',
     Value => 0,
 );
 
 # enable customer groups support
-$ConfigObject->Set(
+$Helper->ConfigSettingChange(
+    Valid => 1,
     Key   => 'CustomerGroupSupport',
     Value => 1,
 );
