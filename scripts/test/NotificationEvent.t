@@ -30,6 +30,12 @@ my $RandomID = $Helper->GetRandomID();
 my $UserID     = 1;
 my $TestNumber = 1;
 
+my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    Type => 'NotificationEvent',
+);
+
 # workaround for oracle
 # oracle databases can't determine the difference between NULL and ''
 my $IsNotOracle = 1;
@@ -403,6 +409,156 @@ my @Tests = (
             ValidID => 1,
         },
     },
+    {
+        Name          => 'TestHTML ' . $TestNumber++,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Name    => 'NotificationHTMLNameSuccess-TicketType' . $RandomID,
+            Comment => 'Just something for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events           => ['TicketQueueUpdate'],
+                Queue            => ['SomeQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ'],
+                NotificationType => ['Ticket'],
+            },
+            Message => {
+                en => {
+                    Subject     => 'Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+                de => {
+                    Subject     => 'Benachrichtigungs-Titel-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Textinhalt der Benachrichtigung-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+            },
+            ValidID => 2,
+        },
+
+        Update => {
+            Name    => 'NotificationHTML-TicketType' . $RandomID,
+            Comment => 'Just something modified for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events           => [ 'AnEventForThisTest' . $RandomID ],
+                Queue            => ['ADifferentQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ'],
+                NotificationType => ['Ticket'],
+            },
+            Message => {
+                en => {
+                    Subject     => 'Modified Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Modified Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+                de => {
+                    Subject => 'Geänderter Benachrichtigungs-Titel-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body => 'Geänderter Textinhalt der Benachrichtigung-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+            },
+            ValidID => 1,
+        },
+    },
+    {
+        Name          => 'TestHTML ' . $TestNumber++,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Name    => 'NotificationHTMLNameSuccess-UnitTestType' . $RandomID,
+            Comment => 'Just something for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events           => ['TicketQueueUpdate'],
+                Queue            => ['SomeQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ'],
+                NotificationType => ['UnitTestType'],
+            },
+            Message => {
+                en => {
+                    Subject     => 'Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+                de => {
+                    Subject     => 'Benachrichtigungs-Titel-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Textinhalt der Benachrichtigung-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+            },
+            ValidID => 2,
+        },
+
+        Update => {
+            Name    => 'NotificationHTML-UnitTestType' . $RandomID,
+            Comment => 'Just something modified for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events           => [ 'AnEventForThisTest' . $RandomID ],
+                Queue            => ['ADifferentQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ'],
+                NotificationType => ['UnitTestType'],
+            },
+            Message => {
+                en => {
+                    Subject     => 'Modified Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Modified Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+                de => {
+                    Subject => 'Geänderter Benachrichtigungs-Titel-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body => 'Geänderter Textinhalt der Benachrichtigung-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+            },
+            ValidID => 1,
+        },
+    },
+    {
+        Name          => 'TestHTML ' . $TestNumber++,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Name    => 'NotificationHTMLNameSuccess-UnitTestType2' . $RandomID,
+            Comment => 'Just something for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events           => ['TicketQueueUpdate'],
+                Queue            => ['SomeQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ'],
+                NotificationType => [ 'UnitTestType' . $RandomID ],
+            },
+            Message => {
+                en => {
+                    Subject     => 'Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+                de => {
+                    Subject     => 'Benachrichtigungs-Titel-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Textinhalt der Benachrichtigung-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+            },
+            ValidID => 2,
+        },
+
+        Update => {
+            Name    => 'NotificationHTML-UnitTestType2' . $RandomID,
+            Comment => 'Just something modified for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events           => [ 'AnEventForThisTest' . $RandomID ],
+                Queue            => ['ADifferentQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ'],
+                NotificationType => [ 'UnitTestType' . $RandomID ],
+            },
+            Message => {
+                en => {
+                    Subject     => 'Modified Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body        => 'Modified Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+                de => {
+                    Subject => 'Geänderter Benachrichtigungs-Titel-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    Body => 'Geänderter Textinhalt der Benachrichtigung-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+                    ContentType => 'text/html',
+                },
+            },
+            ValidID => 1,
+        },
+    },
 );
 
 my %NotificationIDs;
@@ -429,8 +585,26 @@ for my $Test (@Tests) {
         );
     }
 
+    # determine notification type
+    my $NotificationType = '';
+
+    if (
+        !$Test->{Add}->{Data}->{NotificationType}
+        || !$Test->{Add}->{Data}->{NotificationType}->[0]
+        )
+    {
+        $NotificationType = 'Ticket';
+    }
+    else {
+        $NotificationType = $Test->{Add}->{Data}->{NotificationType}->[0];
+    }
+
+    if ( !IsHashRefWithData( $NotificationIDs{$NotificationType} ) ) {
+        $NotificationIDs{$NotificationType} = ();
+    }
+
     # remember ID to verify it later
-    $NotificationIDs{$NotificationID} = $Test->{Add}->{Name};
+    $NotificationIDs{$NotificationType}->{$NotificationID} = $Test->{Add}->{Name};
 
     # get NotificationEvent
     my %NotificationEvent = $NotificationEventObject->NotificationGet(
@@ -545,7 +719,7 @@ for my $Test (@Tests) {
     }
 
     # remember ID to verify it later
-    $NotificationIDs{$NotificationID} = $Test->{Update}->{Name};
+    $NotificationIDs{$NotificationType}->{$NotificationID} = $Test->{Update}->{Name};
 
     # get NotificationEvent
     %NotificationEvent = $NotificationEventObject->NotificationGet(
@@ -636,7 +810,11 @@ for my $Test (@Tests) {
 }
 
 # get ID from added notifications
-my @AddedNotifications = sort keys %NotificationIDs;
+my @AddedNotifications;
+
+for my $NotificationType ( sort keys %NotificationIDs ) {
+    push @AddedNotifications, sort keys %{ $NotificationIDs{$NotificationType} };
+}
 
 # verify IDs
 $Self->Is(
@@ -660,34 +838,120 @@ $Self->IsDeeply(
     "NotificationEventCheck()",
 );
 
-# list check from DB
-my %NotificationList = $NotificationEventObject->NotificationList();
+# check notifications with type ticket
+my %NotificationList = $NotificationEventObject->NotificationList( Type => 'Ticket' );
 for my $NotificationID ( sort keys %NotificationIDs ) {
     $Self->Is(
-        $NotificationIDs{$NotificationID},
+        $NotificationIDs{Ticket}->{$NotificationID},
         $NotificationList{$NotificationID},
-        "NotificationList() from DB found NotificationEvent $NotificationID",
-    );
-
-    # delete entry
-    my $SuccesDelete = $NotificationEventObject->NotificationDelete(
-        ID     => $NotificationID,
-        UserID => $UserID,
-    );
-
-    $Self->True(
-        $SuccesDelete,
-        "NotificationDelete() - $NotificationID",
+        "NotificationList() from DB with type 'Ticket' found NotificationEvent $NotificationID",
     );
 }
 
-# list check deleted entries
-%NotificationList = $NotificationEventObject->NotificationList();
+# clear cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    Type => 'NotificationEvent',
+);
+
+# check notifications with type ticket in details mode
+%NotificationList = $NotificationEventObject->NotificationList(
+    Type    => 'Ticket',
+    Details => 1,
+);
+
 for my $NotificationID ( sort keys %NotificationIDs ) {
-    $Self->False(
-        $NotificationList{$NotificationID},
-        "NotificationList() deleted entry - $NotificationID",
+    $Self->Is(
+        $NotificationIDs{Ticket}->{$NotificationID},
+        $NotificationList{$NotificationID}->{Name},
+        "NotificationList() from DB with type 'Ticket' in details mode found NotificationEvent $NotificationID",
     );
+}
+
+# check notifications with type ticket in details mode
+%NotificationList = $NotificationEventObject->NotificationList(
+    Type    => 'Ticket',
+    Details => 1,
+    All     => 1,
+);
+
+for my $NotificationID ( sort keys %NotificationIDs ) {
+
+    my $NotificationType = '';
+
+    if (
+        !$NotificationList{$NotificationID}->{Data}->{NotificationType}
+        || !$NotificationList{$NotificationID}->{Data}->{NotificationType}->[0]
+        )
+    {
+        $NotificationType = 'Ticket';
+    }
+    else {
+        $NotificationType = $NotificationList{$NotificationID}->{Data}->{NotificationType}->[0];
+    }
+
+    $Self->Is(
+        $NotificationIDs{$NotificationType}->{$NotificationID},
+        $NotificationList{$NotificationID}->{Name},
+        "NotificationList() from DB with type 'Ticket' in details mode and all types found NotificationEvent $NotificationID",
+    );
+}
+
+# clear cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    Type => 'NotificationEvent',
+);
+
+# check notifications with type ticket in details mode
+%NotificationList = $NotificationEventObject->NotificationList(
+    Type    => 'Ticket',
+    Details => 1,
+);
+
+for my $NotificationID ( sort keys %NotificationIDs ) {
+    $Self->Is(
+        $NotificationIDs{Ticket}->{$NotificationID},
+        $NotificationList{$NotificationID}->{Name},
+        "NotificationList() from DB with type 'Ticket' in details mode found NotificationEvent $NotificationID",
+    );
+}
+
+# list check from DB without type and deletion
+for my $NotificationType ( sort keys %NotificationIDs ) {
+
+    %NotificationList = $NotificationEventObject->NotificationList( Type => $NotificationType );
+
+    for my $NotificationID ( sort keys %{ $NotificationIDs{$NotificationType} } ) {
+
+        $Self->Is(
+            $NotificationIDs{$NotificationType}->{$NotificationID},
+            $NotificationList{$NotificationID},
+            "NotificationList() from DB found NotificationEvent $NotificationID",
+        );
+
+        # delete entry
+        my $SuccesDelete = $NotificationEventObject->NotificationDelete(
+            ID     => $NotificationID,
+            UserID => $UserID,
+        );
+
+        $Self->True(
+            $SuccesDelete,
+            "NotificationDelete() - $NotificationID",
+        );
+    }
+}
+
+# list check deleted entries
+for my $NotificationType ( sort keys %NotificationIDs ) {
+
+    %NotificationList = $NotificationEventObject->NotificationList( Type => $NotificationType );
+
+    for my $NotificationID ( sort keys %{ $NotificationIDs{$NotificationType} } ) {
+        $Self->False(
+            $NotificationList{$NotificationID},
+            "NotificationList() deleted entry - $NotificationID",
+        );
+    }
 }
 
 # cleanup cache is done by RestoreDatabase
