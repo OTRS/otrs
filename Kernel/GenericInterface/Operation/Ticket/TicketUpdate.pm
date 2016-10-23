@@ -110,7 +110,7 @@ perform TicketCreate Operation. This will return the created ticket number.
                     Minute => 05,
                 },
             },
-            Article {                                                          # optional
+            Article => {                                                          # optional
                 ArticleTypeID                   => 123,                        # optional
                 ArticleType                     => 'some article type name',   # optional
                 SenderTypeID                    => 123,                        # optional
@@ -118,7 +118,7 @@ perform TicketCreate Operation. This will return the created ticket number.
                 AutoResponseType                => 'some auto response type',  # optional
                 From                            => 'some from string',         # optional
                 Subject                         => 'some subject',
-                Body                            => 'some body'
+                Body                            => 'some body',
 
                 ContentType                     => 'some content type',        # ContentType or MimeType and Charset is required
                 MimeType                        => 'some mime type',
@@ -1822,6 +1822,8 @@ sub _TicketUpdate {
         }
     }
 
+    my $UnlockOnAway = 1;
+
     # update Ticket->Owner
     if ( $Ticket->{Owner} || $Ticket->{OwnerID} ) {
         my $Success;
@@ -1831,6 +1833,7 @@ sub _TicketUpdate {
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
             );
+            $UnlockOnAway = 0;
         }
         elsif ( defined $Ticket->{OwnerID} && $Ticket->{OwnerID} ne $TicketData{OwnerID} )
         {
@@ -1839,6 +1842,7 @@ sub _TicketUpdate {
                 TicketID  => $TicketID,
                 UserID    => $Param{UserID},
             );
+            $UnlockOnAway = 0;
         }
         else {
 
@@ -1947,6 +1951,7 @@ sub _TicketUpdate {
             HistoryType    => $Article->{HistoryType},
             HistoryComment => $Article->{HistoryComment} || '%%',
             AutoResponseType => $Article->{AutoResponseType},
+            UnlockOnAway     => $UnlockOnAway,
             OrigHeader       => {
                 From    => $From,
                 To      => $To,
