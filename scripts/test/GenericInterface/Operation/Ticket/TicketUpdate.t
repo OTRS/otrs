@@ -637,7 +637,6 @@ my @Tests = (
         },
         Operation => 'TicketUpdate',
     },
-
 );
 
 # debugger object
@@ -757,6 +756,179 @@ for my $Test (@Tests) {
             "$Test->{Name} - Local result matched with remote result.",
         );
     }
+}
+
+# UnlockOnAway tests
+$ConfigObject->Set(
+    Key   => 'Ticket::UnlockOnAway',
+    Value => 1,
+);
+
+my $UserLoginOutOfOffice = $Helper->TestUserCreate(
+    Groups => ['users'],
+);
+my $UserIDOutOfOffice = $UserObject->UserLookup(
+    UserLogin => $UserLoginOutOfOffice,
+);
+my $UserIDNoOutOfOffice = $UserObject->UserLookup(
+    UserLogin => $UserLogin,
+);
+
+# set a user out of office
+my $StartDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+$StartDateTimeObject->Subtract(
+    Days => 1,
+);
+my $StartDateTimeSettings = $StartDateTimeObject->Get();
+my $EndDateTimeObject     = $Kernel::OM->Create('Kernel::System::DateTime');
+$EndDateTimeObject->Add(
+    Days => 1,
+);
+my $EndDateTimeSettings = $EndDateTimeObject->Get();
+my %OutOfOfficeParams   = (
+    OutOfOffice           => 1,
+    OutOfOfficeStartYear  => $StartDateTimeSettings->{Year},
+    OutOfOfficeStartMonth => $StartDateTimeSettings->{Month},
+    OutOfOfficeStartDay   => $StartDateTimeSettings->{Day},
+    OutOfOfficeEndYear    => $EndDateTimeSettings->{Year},
+    OutOfOfficeEndMonth   => $EndDateTimeSettings->{Month},
+    OutOfOfficeEndDay     => $EndDateTimeSettings->{Day},
+);
+for my $Key ( sort keys %OutOfOfficeParams ) {
+    $UserObject->SetPreferences(
+        UserID => $UserIDOutOfOffice,
+        Key    => $Key,
+        Value  => $OutOfOfficeParams{$Key},
+    );
+}
+
+my $TicketIDNoOutOfOffice = $TicketObject->TicketCreate(
+    Title        => 'Ticket One Title',
+    Queue        => 'Raw',
+    Lock         => 'lock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => $CustomerUserLogin,
+    CustomerUser => 'unittest@otrs.com',
+    OwnerID      => $UserIDNoOutOfOffice,
+    UserID       => 1,
+);
+push @TicketIDs, $TicketIDNoOutOfOffice;
+
+my $TicketIDOutOfOffice = $TicketObject->TicketCreate(
+    Title        => 'Ticket One Title',
+    Queue        => 'Raw',
+    Lock         => 'lock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => $CustomerUserLogin,
+    CustomerUser => 'unittest@otrs.com',
+    OwnerID      => $UserIDOutOfOffice,
+    UserID       => 1,
+);
+push @TicketIDs, $TicketIDOutOfOffice;
+
+@Tests = (
+    {
+        Name        => 'Add Article, Ticket NoOutOfOffice',
+        RequestData => {
+            TicketID => $TicketIDNoOutOfOffice,
+            Article  => {
+                Subject     => 'some subject',
+                Body        => 'some body',
+                ContentType => 'text/plain; charset=UTF8',
+            },
+
+        },
+        Lock => 'lock',
+    },
+    {
+        Name        => 'Add Article, Ticket OutOfOffice',
+        RequestData => {
+            TicketID => $TicketIDOutOfOffice,
+            Article  => {
+                Subject     => 'some subject',
+                Body        => 'some body',
+                ContentType => 'text/plain; charset=UTF8',
+            },
+        },
+        Lock => 'unlock',
+    },
+
+    {
+        Name        => 'Add Article / Change Owner, Ticket NoOutOfOffice',
+        RequestData => {
+            TicketID => $TicketIDNoOutOfOffice,
+            Ticket   => {
+                OwnerID => $UserIDOutOfOffice,
+            },
+            Article => {
+                Subject     => 'some subject',
+                Body        => 'some body',
+                ContentType => 'text/plain; charset=UTF8',
+            },
+        },
+        Lock => 'lock',
+    },
+    {
+        Name        => 'Add Article / Change Owner, Ticket OutOfOffice',
+        RequestData => {
+            TicketID => $TicketIDOutOfOffice,
+            Ticket   => {
+                OwnerID => $UserIDNoOutOfOffice,
+            },
+            Article => {
+                Subject     => 'some subject',
+                Body        => 'some body',
+                ContentType => 'text/plain; charset=UTF8',
+            },
+        },
+        Lock => 'lock',
+    },
+);
+
+for my $Test (@Tests) {
+
+    # create local object
+    my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::TicketUpdate"->new(
+        %{$Self},
+        DebuggerObject => $DebuggerObject,
+        WebserviceID   => $WebserviceID,
+        ConfigObject   => $ConfigObject,
+    );
+
+    my %Auth = (
+        UserLogin => $UserLogin,
+        Password  => $Password,
+    );
+
+    # start requester with our web-service
+    my $LocalResult = $LocalObject->Run(
+        WebserviceID => $WebserviceID,
+        Invoker      => 'TicketUpdate',
+        Data         => {
+            %Auth,
+            %{ $Test->{RequestData} },
+        },
+    );
+
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID => $Test->{RequestData}->{TicketID},
+        UserID   => 1,
+    );
+
+    $Self->Is(
+        $Ticket{Lock},
+        $Test->{Lock},
+        "$Test->{Name} Lock attribute",
+    );
+
+    my $Success = $TicketObject->TicketLockSet(
+        Lock     => 'lock',
+        TicketID => $Test->{RequestData}->{TicketID},
+        UserID   => 1,
+    );
 }
 
 # cleanup
