@@ -1448,7 +1448,7 @@ sub _TicketCreate {
     my %TicketData = $TicketObject->TicketGet(
         TicketID      => $TicketID,
         DynamicFields => 0,
-        UserID        => $Param{UserId},
+        UserID        => $Param{UserID},
     );
 
     if ( !IsHashRefWithData( \%TicketData ) ) {
