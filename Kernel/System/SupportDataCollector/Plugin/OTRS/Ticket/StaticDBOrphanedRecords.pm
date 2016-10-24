@@ -72,7 +72,7 @@ sub Run {
                 Value      => $OrphanedTicketIndex,
                 Message =>
                     Translatable(
-                    'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.'
+                    'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.'
                     ),
             );
         }
