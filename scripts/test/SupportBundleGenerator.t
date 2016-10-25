@@ -466,6 +466,7 @@ for my $Identifier (
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
+    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::LANGUAGE
     )
     )
 {
@@ -516,6 +517,7 @@ for my $Identifier (
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
     Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
+    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::LANGUAGE
     )
     )
 {
