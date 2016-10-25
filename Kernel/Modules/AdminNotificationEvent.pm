@@ -195,6 +195,8 @@ sub Run {
         my $Ok;
         my $ArticleFilterMissing;
 
+        $GetParam{Data}->{NotificationType} = ['Ticket'];
+
         # checking if article filter exist if necessary
         if (
             grep { $_ eq 'ArticleCreate' || $_ eq 'ArticleSend' }
@@ -403,6 +405,8 @@ sub Run {
         # add
         my $ID;
         my $ArticleFilterMissing;
+
+        $GetParam{Data}->{NotificationType} = ['Ticket'];
 
         # define ServerError Message if necessary
         if (
