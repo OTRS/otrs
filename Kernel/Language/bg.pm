@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y - %T';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.147720239323293;
+    $Self->{Completeness}        = 0.14990708238695;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -51,7 +51,7 @@ sub Data {
         'within the last ...' => 'в рамките на последните ',
         'within the next ...' => 'в рамките на следващите',
         'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'Created more than ... ago' => 'Създаден преди повече от ...',
         'Today' => 'Днес',
         'Tomorrow' => 'Утре',
         'Next week' => 'Следващата седмица',
@@ -103,8 +103,8 @@ sub Data {
         'valid' => 'валиден',
         'Valid' => 'Валиден',
         'invalid' => 'невалиден',
-        'Invalid' => '',
-        '* invalid' => '',
+        'Invalid' => 'Невалиден',
+        '* invalid' => '* невалиден',
         'invalid-temporarily' => 'временно невалиден',
         ' 2 minutes' => ' 2 Минути',
         ' 5 minutes' => ' 5 Минути',
@@ -190,7 +190,7 @@ sub Data {
         'Search' => 'Търсене',
         'and' => 'и',
         'between' => 'между',
-        'before/after' => '',
+        'before/after' => 'преди/след',
         'Fulltext Search' => 'Пълнотекстово търсене',
         'Data' => 'Данни',
         'Options' => 'Настройки',
@@ -214,11 +214,11 @@ sub Data {
         'Small' => 'Икономичен',
         'Medium' => 'Среден / нормален',
         'Large' => 'Подробен',
-        'Date picker' => '',
+        'Date picker' => 'Избор на дата',
         'Show Tree Selection' => 'Покажи дървовиден изглед за избор',
         'The field content is too long!' => 'Твърде дълго съдържание на полето!',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'Maximum size is %s characters.' => 'Масималният брой символи е %s',
+        'This field is required or' => 'Това поле е задължително или',
         'New message' => 'Ново съобщение',
         'New message!' => 'Ново съобщение!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -234,9 +234,9 @@ sub Data {
         'replace with' => 'замести с',
         'There is no account with that login name.' => 'Няма потребител с това име.',
         'Login failed! Your user name or password was entered incorrectly.' =>
-            '',
+            'Вписването неуспешно! Въвели сте грешно потребителско име или парола.',
         'There is no acount with that user name.' => 'Няма потребител с това име.',
-        'Please contact your administrator' => '',
+        'Please contact your administrator' => 'Моля, обърнете се към вашия администратор',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             '',
         'This e-mail address already exists. Please log in or reset your password.' =>
@@ -1193,12 +1193,6 @@ sub Data {
         'Param %s key' => '',
         'Param %s value' => '',
         'Save Changes' => '',
-        'Tag Reference' => '',
-        'In the note section, you can use the following tags' => '',
-        'Attributes of the current customer user data' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
-        'Example note' => '',
         'Results' => 'Резултат',
         '%s Tickets affected! What do you want to do?' => '',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1440,13 +1434,13 @@ sub Data {
         'Configuration history' => '',
         'Delete web service' => '',
         'Do you really want to delete this web service?' => '',
-        'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s.' =>
+        'Ready-to-run Web Services' => '',
+        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             '',
-        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '',
-        'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
+        'Import ready-to-run web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '',
@@ -1598,6 +1592,7 @@ sub Data {
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
+        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Уведомления се изпращат на агент или клиент-потребител',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '',
@@ -1607,11 +1602,14 @@ sub Data {
             '',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '',
+        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -2484,6 +2482,9 @@ sub Data {
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => '',
+        'Start chat' => '',
+        'Video call' => '',
+        'Audio call' => '',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2517,14 +2518,10 @@ sub Data {
         'Customer information' => '',
         'Phone ticket' => '',
         'Email ticket' => '',
-        'Start Chat' => '',
-        'Video call' => '',
-        'Audio call' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket from %s' => '',
         'New email ticket to %s' => '',
-        'Start chat' => '',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '',
@@ -2568,7 +2565,6 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => '',
-        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => '',
@@ -2934,7 +2930,6 @@ sub Data {
         'Filters' => '',
         'Confirm' => '',
         'You have unanswered chat requests' => '',
-        'Video call invite' => '',
         'Accept' => '',
         'Decline' => '',
         'An internal error occurred.' => '',
@@ -3067,11 +3062,13 @@ sub Data {
         'New personal chat request' => '',
         'New customer chat request' => '',
         'New public chat request' => '',
+        'Selected user is not available for chat.' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => '',
-        'Your browser does not support video calling.' => '',
-        'Selected user is not available for video call.' => '',
-        'Target user\'s browser does not support video calling.' => '',
+        'Your browser does not support video and audio calling.' => '',
+        'Selected user is not available for video and audio call.' => '',
+        'Target user\'s browser does not support video and audio calling.' =>
+            '',
         'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3852,6 +3849,13 @@ sub Data {
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
+        'Offline' => '',
+        'This user is currently offline' => '',
+        'This user is currently active' => '',
+        'Away' => '',
+        'This user is currently away' => '',
+        'Unavailable' => '',
+        'This user is currently unavailable' => '',
         'Fields with no group' => '',
         'View the source for this Article' => '',
 
@@ -3928,15 +3932,6 @@ sub Data {
         'filter active' => '',
         'This ticket has no title or subject' => '',
 
-        # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'Offline' => '',
-        'This user is currently offline' => '',
-        'This user is currently active' => '',
-        'Away' => '',
-        'This user is currently away' => '',
-        'Unavailable' => '',
-        'This user is currently unavailable' => '',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
@@ -4011,7 +4006,7 @@ sub Data {
         'not installed' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
+        'Inactive' => 'Неактивни',
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
@@ -4280,7 +4275,7 @@ sub Data {
         'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             '',
         'Orphaned Records In ticket_index Table' => '',
-        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+        'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
@@ -4322,9 +4317,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-        'You should use PerlEx to increase your performance.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => '',
@@ -4950,6 +4942,8 @@ Thanks for your help!
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             '',
         'Defines the URL CSS path.' => '',
@@ -5438,7 +5432,7 @@ Thanks for your help!
         'Defines the valid state types for a ticket.' => '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',

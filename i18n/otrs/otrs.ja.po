@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-07 11:55+0000\n"
-"PO-Revision-Date: 2016-10-07 09:56+0000\n"
+"POT-Creation-Date: 2016-10-25 14:13+0000\n"
+"PO-Revision-Date: 2016-10-25 12:14+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -4245,30 +4245,6 @@ msgid "Save Changes"
 msgstr "変更を保存"
 
 #. Template: AdminGenericAgent
-msgid "Tag Reference"
-msgstr "タグリファレンス"
-
-#. Template: AdminGenericAgent
-msgid "In the note section, you can use the following tags"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the current customer user data"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the ticket data"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket dynamic fields internal key values"
-msgstr "チケットの動的フィールドの内部用キー値"
-
-#. Template: AdminGenericAgent
-msgid "Example note"
-msgstr ""
-
-#. Template: AdminGenericAgent
 msgid "Results"
 msgstr "検索結果"
 
@@ -5075,29 +5051,30 @@ msgid "Do you really want to delete this web service?"
 msgstr "本当にこのWebサービスを削除しますか？"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Example Web Services"
+msgid "Ready-to-run Web Services"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Here you can activate best practice example web service that are part of %s."
+"Here you can activate ready-to-run web services showcasing our best "
+"practices that are a part of %s."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Please note that these web services may depend on other modules which are "
-"available only in certain %s contract levels (there will be a note with "
-"details at import time)."
+"Please note that these web services may depend on other modules only "
+"available with certain %s contract levels (there will be a notification with"
+" further details when importing)."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Import example web service"
+msgid "Import ready-to-run web service"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example web services."
+"Would you like to benefit from web services created by experts? Upgrade to "
+"%s to import some sophisticated ready-to-run web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -5609,6 +5586,10 @@ msgid "Do you really want to delete this notification language?"
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid "Tag Reference"
+msgstr "タグリファレンス"
+
+#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "通知は担当者、顧客に送信されます。"
 
@@ -5632,6 +5613,10 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "本文から最初の5行を取得 (最新の顧客記事)"
 
 #. Template: AdminNotificationEvent
+msgid "Attributes of the current customer user data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
@@ -5646,6 +5631,14 @@ msgstr ""
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Ticket dynamic fields internal key values"
+msgstr "チケットの動的フィールドの内部用キー値"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -8445,6 +8438,18 @@ msgstr ""
 msgid "Note: Customer is invalid!"
 msgstr "注意: 顧客が無効です。"
 
+#. Template: AgentCustomerTableView
+msgid "Start chat"
+msgstr "チャットを開始する。"
+
+#. Template: AgentCustomerTableView
+msgid "Video call"
+msgstr ""
+
+#. Template: AgentCustomerTableView
+msgid "Audio call"
+msgstr ""
+
 #. Template: AgentDaemonInfo
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
@@ -8518,18 +8523,6 @@ msgid "Email ticket"
 msgstr "メールチケット"
 
 #. Template: AgentDashboardCustomerUserList
-msgid "Start Chat"
-msgstr "チャットを開始する。"
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Video call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Audio call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr ""
 
@@ -8544,10 +8537,6 @@ msgstr "%sからの新規電話チケット"
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
 msgstr "%s宛の新規メールチケット"
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Start chat"
-msgstr "チャットを開始する。"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8663,10 +8652,6 @@ msgstr "合計"
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
 msgstr "外出中"
-
-#. Template: AgentDashboardUserOnline
-msgid "Selected user is not available for chat"
-msgstr ""
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -9753,10 +9738,6 @@ msgid "You have unanswered chat requests"
 msgstr ""
 
 #. Template: CustomerFooterJS
-msgid "Video call invite"
-msgstr ""
-
-#. Template: CustomerFooterJS
 msgid "Accept"
 msgstr ""
 
@@ -9766,7 +9747,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "An internal error occurred."
-msgstr ""
+msgstr "内部エラーが発生しました"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -10177,6 +10158,10 @@ msgid "New public chat request"
 msgstr "新規のパブリックチャット要求"
 
 #. Template: FooterJS
+msgid "Selected user is not available for chat."
+msgstr ""
+
+#. Template: FooterJS
 msgid "New activity"
 msgstr ""
 
@@ -10185,15 +10170,15 @@ msgid "New activity on one of your monitored chats."
 msgstr "あなたがモニターしているチャットで、新しい動きがあります。"
 
 #. Template: FooterJS
-msgid "Your browser does not support video calling."
+msgid "Your browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Selected user is not available for video call."
+msgid "Selected user is not available for video and audio call."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Target user's browser does not support video calling."
+msgid "Target user's browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
@@ -12374,6 +12359,34 @@ msgid "Invalid ArticleID!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Offline"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently offline"
+msgstr "このユーザーは現在オフラインです"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently active"
+msgstr "このユーザーは現在オンラインです"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Away"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently away"
+msgstr "このユーザーは現在離席中です"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Unavailable"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently unavailable"
+msgstr "このユーザーは現在利用できません。"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
 msgstr ""
 
@@ -12575,34 +12588,6 @@ msgstr "フィルタを有効化"
 msgid "This ticket has no title or subject"
 msgstr "このチケットにはタイトルもしくはテーマが入力されていません"
 
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Offline"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently offline"
-msgstr "このユーザーは現在オフラインです"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently active"
-msgstr "このユーザーは現在オンラインです"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Away"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently away"
-msgstr "このユーザーは現在離席中です"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Unavailable"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently unavailable"
-msgstr "このユーザーは現在利用できません。"
-
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
@@ -12761,7 +12746,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
-msgstr ""
+msgstr "無効の"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "FadeAway"
@@ -13498,9 +13483,9 @@ msgstr "ticket_indexテーブルに孤立したレコード"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_index contains orphaned records. Please run "
-"otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr " ticket_index テーブルに孤立したレコードがあるため、otrs/bin/otrs.CleanTicketIndex.pl を実行してクリーンなStaticDBインデックスを作成してください。"
+"Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
+" \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Time Settings"
@@ -13625,11 +13610,6 @@ msgstr ""
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
 msgstr "環境変数"
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-msgid "You should use PerlEx to increase your performance."
-msgstr "パフォーマンス向上のため、Perl正規表現を使うべきです。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -15718,6 +15698,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the HTTP hostname for the support data collection with the public "
+"module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the IP regular expression for accessing the local repository. You "
 "need to enable this to have access to your local repository and the "
 "package::RepositoryList is required on the remote host."
@@ -17261,8 +17247,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the viewable locks of a ticket. Default: unlock, tmp_lock."
-msgstr "チケットについて、視認できるロックを定義します。デフォルト：unlock, tmp_lock。"
+msgid ""
+"Defines the viewable locks of a ticket. NOTE: When you change this setting, "
+"make sure to delete the cache in order to use the new value. Default: "
+"unlock, tmp_lock."
+msgstr ""
 
 #. SysConfig
 msgid ""

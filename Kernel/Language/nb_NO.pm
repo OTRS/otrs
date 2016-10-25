@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.574788528987002;
+    $Self->{Completeness}        = 0.575056782985753;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1201,12 +1201,6 @@ sub Data {
         'Param %s key' => 'Nøkkel for Parameter %s',
         'Param %s value' => 'Verdi for Parameter %s',
         'Save Changes' => 'Lagre endringer',
-        'Tag Reference' => '',
-        'In the note section, you can use the following tags' => '',
-        'Attributes of the current customer user data' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
-        'Example note' => '',
         'Results' => 'Resultat',
         '%s Tickets affected! What do you want to do?' => '%s saker blir påvirket! Hva vil du gjøre?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1448,13 +1442,13 @@ sub Data {
         'Configuration history' => 'Konfigurasjonshistorikk',
         'Delete web service' => 'Fjern webtjeneste',
         'Do you really want to delete this web service?' => 'Vil du virkelig fjerne denne webtjenesten?',
-        'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s.' =>
+        'Ready-to-run Web Services' => '',
+        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             '',
-        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '',
-        'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
+        'Import ready-to-run web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '',
@@ -1606,6 +1600,7 @@ sub Data {
         'Message body' => '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
+        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Varslinger som sendes til saksbehandlere eller kunder.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'For å få de første 20 tegn av emnefeltet (fra den siste agentsaken).',
@@ -1615,11 +1610,14 @@ sub Data {
             'For å få de første 20 tegn av emnefeltet (fra den siste kundesaken).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'For å få de første 5 linjene av meldingen (fra den siste kundesaken).',
+        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -2492,6 +2490,9 @@ sub Data {
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Merk: Kunden er ugyldig!',
+        'Start chat' => '',
+        'Video call' => '',
+        'Audio call' => '',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2525,14 +2526,10 @@ sub Data {
         'Customer information' => 'Kundeinformasjon',
         'Phone ticket' => 'Telefonsak',
         'Email ticket' => 'E-postsak',
-        'Start Chat' => 'Start Chat',
-        'Video call' => '',
-        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s åpne sak(er) av %s',
         '%s closed ticket(s) of %s' => '%s lukkede sak(er) av %s',
         'New phone ticket from %s' => 'Ny telefonsak fra %s',
         'New email ticket to %s' => 'Ny e-postsak til %s',
-        'Start chat' => '',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s er tilgjengelig!',
@@ -2576,7 +2573,6 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'ikke på kontoret',
-        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'før',
@@ -2942,7 +2938,6 @@ sub Data {
         'Filters' => 'Filtre',
         'Confirm' => 'Bekreft',
         'You have unanswered chat requests' => '',
-        'Video call invite' => '',
         'Accept' => '',
         'Decline' => '',
         'An internal error occurred.' => '',
@@ -3075,11 +3070,13 @@ sub Data {
         'New personal chat request' => '',
         'New customer chat request' => '',
         'New public chat request' => '',
+        'Selected user is not available for chat.' => '',
         'New activity' => 'Ny aktivitet',
         'New activity on one of your monitored chats.' => '',
-        'Your browser does not support video calling.' => '',
-        'Selected user is not available for video call.' => '',
-        'Target user\'s browser does not support video calling.' => '',
+        'Your browser does not support video and audio calling.' => '',
+        'Selected user is not available for video and audio call.' => '',
+        'Target user\'s browser does not support video and audio calling.' =>
+            '',
         'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => 'Informasjon om OTRS Agenten',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3860,6 +3857,13 @@ sub Data {
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
+        'Offline' => '',
+        'This user is currently offline' => 'Denne brukeren er for øyeblikket avlogget',
+        'This user is currently active' => 'Denne brukeren er for øyeblikket aktiv',
+        'Away' => '',
+        'This user is currently away' => 'Denne brukeren er for øyeblikket borte',
+        'Unavailable' => '',
+        'This user is currently unavailable' => 'Denne brukeren er for øyeblikket utilgjengelig',
         'Fields with no group' => '',
         'View the source for this Article' => '',
 
@@ -3936,15 +3940,6 @@ sub Data {
         'filter active' => '',
         'This ticket has no title or subject' => 'Denne saken har ingen tittel eller emne',
 
-        # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'Offline' => '',
-        'This user is currently offline' => 'Denne brukeren er for øyeblikket avlogget',
-        'This user is currently active' => 'Denne brukeren er for øyeblikket aktiv',
-        'Away' => '',
-        'This user is currently away' => 'Denne brukeren er for øyeblikket borte',
-        'Unavailable' => '',
-        'This user is currently unavailable' => 'Denne brukeren er for øyeblikket utilgjengelig',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             'Beklager, men du har ikke tilgang til denne saken i sin nåværende tilstand. Du kan gjøre en av følgende:',
@@ -4019,7 +4014,7 @@ sub Data {
         'not installed' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
+        'Inactive' => 'Inaktiv',
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
@@ -4288,7 +4283,7 @@ sub Data {
         'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             '',
         'Orphaned Records In ticket_index Table' => '',
-        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+        'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
@@ -4330,9 +4325,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-        'You should use PerlEx to increase your performance.' => 'Du bør benytte PerlEx for å forbedre ytelsen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webtjener versjon',
@@ -4958,6 +4950,8 @@ Thanks for your help!
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Spesifiserer Regulær-uttrykk for IPen til lokalt pakkelager. Du må slå dette på for å ha tilgang til ditt lokale pakkelager. I tillegg er package::RepositoryList påkrevd på andre tjenere.',
         'Defines the URL CSS path.' => 'Definerer URL til CSS',
@@ -5446,7 +5440,7 @@ Thanks for your help!
         'Defines the valid state types for a ticket.' => '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',

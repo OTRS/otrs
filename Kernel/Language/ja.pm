@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.686403961213122;
+    $Self->{Completeness}        = 0.686557918645468;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1196,12 +1196,6 @@ sub Data {
         'Param %s key' => 'パラメータキー %s',
         'Param %s value' => 'パラメータ値 %s',
         'Save Changes' => '変更を保存',
-        'Tag Reference' => 'タグリファレンス',
-        'In the note section, you can use the following tags' => '',
-        'Attributes of the current customer user data' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => 'チケットの動的フィールドの内部用キー値',
-        'Example note' => '',
         'Results' => '検索結果',
         '%s Tickets affected! What do you want to do?' => '%s チケットは影響を受けます。どうしますか？',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1443,13 +1437,13 @@ sub Data {
         'Configuration history' => '構成履歴',
         'Delete web service' => 'ウェブサービスの削除',
         'Do you really want to delete this web service?' => '本当にこのWebサービスを削除しますか？',
-        'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s.' =>
+        'Ready-to-run Web Services' => '',
+        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             '',
-        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '',
-        'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
+        'Import ready-to-run web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '',
@@ -1601,6 +1595,7 @@ sub Data {
         'Message body' => 'メッセージボディー',
         'Add new notification language' => '新規通知言語を追加',
         'Do you really want to delete this notification language?' => '',
+        'Tag Reference' => 'タグリファレンス',
         'Notifications are sent to an agent or a customer.' => '通知は担当者、顧客に送信されます。',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             '表題の最初の20文字を取得 (最新の担当者記事)',
@@ -1610,11 +1605,14 @@ sub Data {
             '表題の最初の20文字を取得 (最新の顧客記事)',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '本文から最初の5行を取得 (最新の顧客記事)',
+        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => 'チケットの動的フィールドの内部用キー値',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'チケットの動的フィールドの表示値。ドロップダウンまたは複数選択領域で利用可能',
         'Example notification' => '',
@@ -2488,6 +2486,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => '注意: 顧客が無効です。',
+        'Start chat' => 'チャットを開始する。',
+        'Video call' => '',
+        'Audio call' => '',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2521,14 +2522,10 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Customer information' => '顧客情報',
         'Phone ticket' => '電話チケット',
         'Email ticket' => 'メールチケット',
-        'Start Chat' => 'チャットを開始する。',
-        'Video call' => '',
-        'Audio call' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket from %s' => '%sからの新規電話チケット',
         'New email ticket to %s' => '%s宛の新規メールチケット',
-        'Start chat' => 'チャットを開始する。',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s が利用できます。',
@@ -2572,7 +2569,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentDashboardUserOnline
         'out of office' => '外出中',
-        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => '',
@@ -2938,10 +2934,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Filters' => '',
         'Confirm' => '確認',
         'You have unanswered chat requests' => '',
-        'Video call invite' => '',
         'Accept' => '',
         'Decline' => '',
-        'An internal error occurred.' => '',
+        'An internal error occurred.' => '内部エラーが発生しました',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScriptが有効になっていません。',
@@ -3071,11 +3066,13 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'New personal chat request' => '新規の個人チャット要求',
         'New customer chat request' => '新規の顧客チャット要求',
         'New public chat request' => '新規のパブリックチャット要求',
+        'Selected user is not available for chat.' => '',
         'New activity' => '',
         'New activity on one of your monitored chats.' => 'あなたがモニターしているチャットで、新しい動きがあります。',
-        'Your browser does not support video calling.' => '',
-        'Selected user is not available for video call.' => '',
-        'Target user\'s browser does not support video calling.' => '',
+        'Your browser does not support video and audio calling.' => '',
+        'Selected user is not available for video and audio call.' => '',
+        'Target user\'s browser does not support video and audio calling.' =>
+            '',
         'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3856,6 +3853,13 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
+        'Offline' => '',
+        'This user is currently offline' => 'このユーザーは現在オフラインです',
+        'This user is currently active' => 'このユーザーは現在オンラインです',
+        'Away' => '',
+        'This user is currently away' => 'このユーザーは現在離席中です',
+        'Unavailable' => '',
+        'This user is currently unavailable' => 'このユーザーは現在利用できません。',
         'Fields with no group' => '',
         'View the source for this Article' => '',
 
@@ -3932,15 +3936,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'filter active' => 'フィルタを有効化',
         'This ticket has no title or subject' => 'このチケットにはタイトルもしくはテーマが入力されていません',
 
-        # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'Offline' => '',
-        'This user is currently offline' => 'このユーザーは現在オフラインです',
-        'This user is currently active' => 'このユーザーは現在オンラインです',
-        'Away' => '',
-        'This user is currently away' => 'このユーザーは現在離席中です',
-        'Unavailable' => '',
-        'This user is currently unavailable' => 'このユーザーは現在利用できません。',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
@@ -4015,7 +4010,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'not installed' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
+        'Inactive' => '無効の',
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
@@ -4284,8 +4279,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             '',
         'Orphaned Records In ticket_index Table' => 'ticket_indexテーブルに孤立したレコード',
-        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            ' ticket_index テーブルに孤立したレコードがあるため、otrs/bin/otrs.CleanTicketIndex.pl を実行してクリーンなStaticDBインデックスを作成してください。',
+        'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => '',
@@ -4326,9 +4321,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '環境変数',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-        'You should use PerlEx to increase your performance.' => 'パフォーマンス向上のため、Perl正規表現を使うべきです。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webサイトバージョン',
@@ -4963,6 +4955,8 @@ Thanks for your help!
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'ローカル・レポジトリにアクセスするための、IPの正規表現を定義します。ローカル・レポジトリにアクセスするために、これを有効にする必要があり、またpackage::RepositoryListはリモート・ホストにおいて必要とされます。',
         'Defines the URL CSS path.' => 'URL・CSパスを定義します。',
@@ -5460,8 +5454,8 @@ Contentは動的フィールドの形式によって設定内容が異なりま�
         'Defines the valid state types for a ticket.' => 'チケットについて有効な状態タイプを定義します。',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
-            'チケットについて、視認できるロックを定義します。デフォルト：unlock, tmp_lock。',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.852073447493295;
+    $Self->{Completeness}        = 0.852364237043155;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1192,12 +1192,6 @@ sub Data {
         'Param %s key' => 'กุญแจสำคัญของพารามิเตอร์ %s ',
         'Param %s value' => 'ค่าพารามิเตอร์ %s',
         'Save Changes' => 'บันทึกการเปลี่ยนแปลง',
-        'Tag Reference' => 'แท็กข้อมูลอ้างอิง',
-        'In the note section, you can use the following tags' => '',
-        'Attributes of the current customer user data' => 'คุณลักษณะของข้อมูลลูกค้าผู้ใช้ปัจจุบัน',
-        'Attributes of the ticket data' => 'คุณลักษณะของข้อมูลตั๋ว',
-        'Ticket dynamic fields internal key values' => 'ค่าคีย์ภายในช่องตั๋วแบบไดนามิก',
-        'Example note' => '',
         'Results' => 'ผลลัพธ์',
         '%s Tickets affected! What do you want to do?' => 'ตั๋ว s% ได้รับผลกระทบ! คุณต้องการจะทำอะไร?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1440,13 +1434,13 @@ sub Data {
         'Configuration history' => 'ประวัติของการกำหนดค่า',
         'Delete web service' => 'ลบ web service',
         'Do you really want to delete this web service?' => 'คุณต้องการลบweb serviceนี้หรือไม่?',
-        'Example Web Services' => 'ตัวอย่างเช่น Web Services',
-        'Here you can activate best practice example web service that are part of %s.' =>
+        'Ready-to-run Web Services' => '',
+        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             '',
-        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '',
-        'Import example web service' => 'นำเข้าบริการเว็บตัวอย่าง',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
+        'Import ready-to-run web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'หลังจากที่คุณบันทึกการตั้งค่าคุณจะถูกเปลี่ยนเส้นทางไปยังหน้าจอการแก้ไขอีกครั้ง',
@@ -1598,6 +1592,7 @@ sub Data {
         'Message body' => 'เนื้อหาของข้อความ',
         'Add new notification language' => 'เพิ่มภาษาใหม่ของการแจ้งเตือน',
         'Do you really want to delete this notification language?' => 'คุณต้องการที่จะลบภาษาของการแจ้งเตือนนี้หรือไม่?',
+        'Tag Reference' => 'แท็กข้อมูลอ้างอิง',
         'Notifications are sent to an agent or a customer.' => 'การแจ้งเตือนจะถูกส่งไปยังเอเย่นต์หรือลูกค้า',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'เพื่อให้ได้20 ตัวอักษรแรกของเนื้อเรื่อง(จากบทความเอเย่นต์ล่าสุด) ',
@@ -1607,11 +1602,14 @@ sub Data {
             'เพื่อให้ได้20 ตัวอักษรแรกของเนื้อเรื่อง(จากบทความลูกค้าล่าสุด) ',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'เพื่อให้ได้5 บรรทัดแรกของเนื้อหา(จากบทความลูกค้าล่าสุด) ',
+        'Attributes of the current customer user data' => 'คุณลักษณะของข้อมูลลูกค้าผู้ใช้ปัจจุบัน',
         'Attributes of the current ticket owner user data' => 'คุณลักษณะของข้อมูลผู้ใช้เจ้าของตั๋วปัจจุบัน',
         'Attributes of the current ticket responsible user data' => 'คุณลักษณะของข้อมูลผู้ใช้ที่ดูแลตั๋วปัจจุบัน',
         'Attributes of the current agent user who requested this action' =>
             'คุณลักษณะของผู้ใช้เอเย่นต์ปัจจุบันที่ร้องขอการดำเนินการนี้',
         'Attributes of the recipient user for the notification' => 'คุณลักษณะของผู้ใช้ผู้รับสำหรับการแจ้งเตือน',
+        'Attributes of the ticket data' => 'คุณลักษณะของข้อมูลตั๋ว',
+        'Ticket dynamic fields internal key values' => 'ค่าคีย์ภายในช่องตั๋วแบบไดนามิก',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'ช่องตั๋วแบบไดนามิกแสดงค่าที่มีประโยชน์สำหรับDropdownและช่องสำหรับเลือกหลายรายการ',
         'Example notification' => 'ตัวอย่างการแจ้งเตือน',
@@ -2487,6 +2485,9 @@ sub Data {
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'หมายเหตุ: ลูกค้านี้ไม่ถูกต้อง!',
+        'Start chat' => 'เริ่มแชท',
+        'Video call' => '',
+        'Audio call' => '',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2520,14 +2521,10 @@ sub Data {
         'Customer information' => 'ข้อมูลลูกค้า',
         'Phone ticket' => 'ตั๋วจากโทรศัพท์',
         'Email ticket' => 'อีเมล์ตั๋ว',
-        'Start Chat' => 'เริ่มแชท',
-        'Video call' => '',
-        'Audio call' => '',
         '%s open ticket(s) of %s' => '% s ตั๋วเปิด (s) ของ% s',
         '%s closed ticket(s) of %s' => '% s ตั๋วที่ปิดแล้ว (s) ของ% s',
         'New phone ticket from %s' => 'ตั๋วทางโทรศัพท์ใหม่จาก% s',
         'New email ticket to %s' => 'ตั๋วอีเมลใหม่% s',
-        'Start chat' => 'เริ่มแชท',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s สามารถใช้ได้!',
@@ -2571,7 +2568,6 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'นอกออฟฟิศ',
-        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'จนถึง',
@@ -2937,10 +2933,9 @@ sub Data {
         'Filters' => 'ตัวกรอง',
         'Confirm' => 'ยืนยัน',
         'You have unanswered chat requests' => 'คุณมีคำขอร้องแชทที่ยังไม่ได้ตอบ',
-        'Video call invite' => '',
-        'Accept' => '',
-        'Decline' => '',
-        'An internal error occurred.' => '',
+        'Accept' => 'ยอมรับ',
+        'Decline' => 'ปฏิเสธ',
+        'An internal error occurred.' => 'มีข้อผิดพลาดภายในเกิดขึ้น',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'ไม่พร้อมใช้งาน JavaScript',
@@ -3070,11 +3065,13 @@ sub Data {
         'New personal chat request' => 'การร้องขอแชทส่วนตัวใหม่',
         'New customer chat request' => 'การร้องขอแชทของลูกค้าใหม่',
         'New public chat request' => 'การร้องขอแชทสาธารณะใหม่',
+        'Selected user is not available for chat.' => '',
         'New activity' => 'กิจกรรมใหม่',
         'New activity on one of your monitored chats.' => 'กิจกรรมใหม่ของหนึ่งในการสนทนาที่ถูกตรวจสอบของคุณ',
-        'Your browser does not support video calling.' => '',
-        'Selected user is not available for video call.' => '',
-        'Target user\'s browser does not support video calling.' => '',
+        'Your browser does not support video and audio calling.' => '',
+        'Selected user is not available for video and audio call.' => '',
+        'Target user\'s browser does not support video and audio calling.' =>
+            '',
         'Do you really want to continue?' => 'คุณต้องการที่จะดำเนินการต่อหรือไม่?',
         'Information about the OTRS Daemon' => 'ข้อมูลเกี่ยวกับOTRS Daemon',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3855,6 +3852,13 @@ sub Data {
         'Event type filter settings were saved.' => 'การตั้งค่าตัวกรองประเภทเหตุการณ์ถูกบันทึกไว้',
         'Need ArticleID!' => 'ต้องการ ArticleID!',
         'Invalid ArticleID!' => 'ArticleID ไม่ถูกต้อง! ',
+        'Offline' => '',
+        'This user is currently offline' => 'ผู้ใช้รายนี้ได้ออฟไลน์ในขณะนี้',
+        'This user is currently active' => 'ผู้ใช้รายนี้กำลังใช้งานในขณะนี้',
+        'Away' => '',
+        'This user is currently away' => 'ผู้ใช้รายนี้ไม่อยู่ในขณะนี้',
+        'Unavailable' => '',
+        'This user is currently unavailable' => 'ผู้ใช้รายนี้ไม่พร้อมใช้งานในขณะนี้',
         'Fields with no group' => 'ฟิลด์ที่ไม่มีกลุ่ม',
         'View the source for this Article' => 'ดูแหล่งที่มาสำหรับบทความนี้',
 
@@ -3931,15 +3935,6 @@ sub Data {
         'filter active' => 'ตัวกรองที่ใช้งาน',
         'This ticket has no title or subject' => 'ตั๋วนี้ไม่มีหัวข้อหรือชื่อเรื่อง',
 
-        # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'Offline' => '',
-        'This user is currently offline' => 'ผู้ใช้รายนี้ได้ออฟไลน์ในขณะนี้',
-        'This user is currently active' => 'ผู้ใช้รายนี้กำลังใช้งานในขณะนี้',
-        'Away' => '',
-        'This user is currently away' => 'ผู้ใช้รายนี้ไม่อยู่ในขณะนี้',
-        'Unavailable' => '',
-        'This user is currently unavailable' => 'ผู้ใช้รายนี้ไม่พร้อมใช้งานในขณะนี้',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             'ขออภัยคุณไม่ได้รับอนุญาตในการเข้าถึงตั๋วอีกต่อไป',
@@ -4014,7 +4009,7 @@ sub Data {
         'not installed' => 'ไม่ได้ติดตั้ง',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
+        'Inactive' => 'ไม่ทำงาน',
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
@@ -4283,8 +4278,8 @@ sub Data {
         'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             ' ตาราง ticket_lock_index ประกอบด้วยบันทึกกำพร้า โปรดเรียกใช้ bin / otrs.Console.pl"Maint::Ticket::QueueIndexCleanup" เพื่อลบดัชนี StaticDB',
         'Orphaned Records In ticket_index Table' => 'บันทึกกำพร้าในตาราง ticket_index ',
-        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            'ตาราง ticket_index ประกอบด้วยบันทึกกำพร้า โปรดเรียกใช้ otrs/bin/otrs.CleanTicketIndex.pl  เพื่อลบดัชนี StaticDB',
+        'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => '',
@@ -4325,9 +4320,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-        'You should use PerlEx to increase your performance.' => 'คุณควรใช้ PerlEx เพื่อเพิ่มประสิทธิภาพของคุณ',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'เวอร์ชั่นของ Webserver',
@@ -4966,6 +4958,8 @@ Thanks for your help!
             'กำหนดแม่แบบข้อความนอกสำนักงาน สองสตริงพารามิเตอร์ (% s) ที่สามารถใช้ได้: วันที่สิ้นสุดและจำนวนวันที่เหลือ',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'กำหนดคิวที่ตั๋วถูกนำมาใช้สำหรับแสดงเป็นกิจกรรมในปฏิทิน',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'กำหนด IP นิพจน์ทั่วไปที่สำหรับการเข้าถึงพื้นที่เก็บข้อมูลท้องถิ่น คุณจำเป็นต้องเปิดใช้งานนี้เพื่อเข้าถึงพื้นที่เก็บข้อมูลท้องถิ่นของคุณและ  package::RepositoryList จำเป็นต้องใช้ในพื้นที่ห่างไกล',
         'Defines the URL CSS path.' => 'กำหนดเส้นทาง URL CSS',
@@ -5456,8 +5450,8 @@ Thanks for your help!
         'Defines the valid state types for a ticket.' => 'กำหนดประเภทของสถานะที่ถูกต้องสำหรับตั๋ว',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'กำหนดสถานะที่ถูกต้องของตั๋วปลดล็อค เพื่อปลดล็อคตั๋วสคริปต์นี้สามารถนำมาใช้ "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout"',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
-            'กำหนดการล็อคที่สามารถดูได้ของตั๋ว เริ่มต้น: unlock, tmp_lock.',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'กำหนดความกว้างสำหรับส่วนประกอบของการแก้ไขข้อความสำหรับหน้าจอนี้ ป้อนจำนวน (พิกเซล) หรือค่าร้อยละ (เทียบ)',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>

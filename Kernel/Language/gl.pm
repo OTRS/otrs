@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.770579740045389;
+    $Self->{Completeness}        = 0.770596737559364;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1192,12 +1192,6 @@ sub Data {
         'Param %s key' => 'Chave Param %s',
         'Param %s value' => 'Valor Param %s',
         'Save Changes' => 'Gardar os cambios',
-        'Tag Reference' => 'Referencia de Etiqueta',
-        'In the note section, you can use the following tags' => '',
-        'Attributes of the current customer user data' => '',
-        'Attributes of the ticket data' => '',
-        'Ticket dynamic fields internal key values' => '',
-        'Example note' => '',
         'Results' => 'Resultados',
         '%s Tickets affected! What do you want to do?' => '%s Tickets afectados! Que quere facer?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1439,13 +1433,13 @@ sub Data {
         'Configuration history' => 'Historial de configuración',
         'Delete web service' => 'Eliminar servizo web',
         'Do you really want to delete this web service?' => 'Desexa realmente eliminar este servicio web?',
-        'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s.' =>
+        'Ready-to-run Web Services' => '',
+        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             '',
-        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '',
-        'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
+        'Import ready-to-run web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Despois de gardar a configuración será redirixido novamente a pantalla de edición.',
@@ -1597,6 +1591,7 @@ sub Data {
         'Message body' => 'Corpo da mensaxe',
         'Add new notification language' => 'Engadir un idioma de notificación novo',
         'Do you really want to delete this notification language?' => 'Confirma que desexa eliminar este idioma de notificación?',
+        'Tag Reference' => 'Referencia de Etiqueta',
         'Notifications are sent to an agent or a customer.' => 'As notificacións envíanselle a un axente ou a un cliente.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Conseguir os primeiros 20 carácteres do tema (do último artigo de axente).',
@@ -1606,11 +1601,14 @@ sub Data {
             'Para obter os primeiros vinte caracteres do asunto (do último artigo de cliente).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Para obter as cinco primeiras liñas do corpo (do último artigo de cliente).',
+        'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             '',
         'Attributes of the recipient user for the notification' => '',
+        'Attributes of the ticket data' => '',
+        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => '',
@@ -2483,6 +2481,9 @@ sub Data {
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Nota: O cliente non é correcto!',
+        'Start chat' => 'Comece chat',
+        'Video call' => '',
+        'Audio call' => '',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2516,14 +2517,10 @@ sub Data {
         'Customer information' => 'Información do cliente',
         'Phone ticket' => 'Ticket telefónico',
         'Email ticket' => 'Ticket correo electrónico',
-        'Start Chat' => 'Inice Chat',
-        'Video call' => '',
-        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s tícket(s) abertos de %s',
         '%s closed ticket(s) of %s' => '%s tícket(s) pechado(s) de %s',
         'New phone ticket from %s' => 'Novo ticket telefónico de %s',
         'New email ticket to %s' => 'Novo ticket de correo electrónico a %s',
-        'Start chat' => 'Comece chat',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s está dispoñíbel!',
@@ -2567,7 +2564,6 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'fóra da oficina',
-        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'ata',
@@ -2933,7 +2929,6 @@ sub Data {
         'Filters' => 'Filtros',
         'Confirm' => 'Confirmar',
         'You have unanswered chat requests' => 'Ten peticións de chat sen contestar',
-        'Video call invite' => '',
         'Accept' => '',
         'Decline' => '',
         'An internal error occurred.' => '',
@@ -3066,11 +3061,13 @@ sub Data {
         'New personal chat request' => 'Nova petición de chat personal',
         'New customer chat request' => 'Nova petición de chat de cliente',
         'New public chat request' => 'Nova petición de chat público',
+        'Selected user is not available for chat.' => '',
         'New activity' => 'Nova actividade',
         'New activity on one of your monitored chats.' => 'Nova actividade nun dos seus chats monitoreados.',
-        'Your browser does not support video calling.' => '',
-        'Selected user is not available for video call.' => '',
-        'Target user\'s browser does not support video calling.' => '',
+        'Your browser does not support video and audio calling.' => '',
+        'Selected user is not available for video and audio call.' => '',
+        'Target user\'s browser does not support video and audio calling.' =>
+            '',
         'Do you really want to continue?' => 'Desexa realmente continuar?',
         'Information about the OTRS Daemon' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3851,6 +3848,13 @@ sub Data {
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
+        'Offline' => '',
+        'This user is currently offline' => 'Este usuario está actualmente desconectado',
+        'This user is currently active' => 'Este usuario está actualmente activo',
+        'Away' => '',
+        'This user is currently away' => 'Este usuario está actualmente fora',
+        'Unavailable' => '',
+        'This user is currently unavailable' => 'Este usuario está actualmente non dispoñible',
         'Fields with no group' => 'Campos sen grupo',
         'View the source for this Article' => '',
 
@@ -3927,15 +3931,6 @@ sub Data {
         'filter active' => '',
         'This ticket has no title or subject' => 'Este ticket non ten título ou tema',
 
-        # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'Offline' => '',
-        'This user is currently offline' => 'Este usuario está actualmente desconectado',
-        'This user is currently active' => 'Este usuario está actualmente activo',
-        'Away' => '',
-        'This user is currently away' => 'Este usuario está actualmente fora',
-        'Unavailable' => '',
-        'This user is currently unavailable' => 'Este usuario está actualmente non dispoñible',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
@@ -4010,7 +4005,7 @@ sub Data {
         'not installed' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
+        'Inactive' => 'Inactivo',
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
@@ -4279,8 +4274,8 @@ sub Data {
         'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             '',
         'Orphaned Records In ticket_index Table' => 'Rexistros orfos na táboa ticket_index',
-        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            'A táboa ticket_index contén rexistros orfos. Por favor execute otrs/bin/otrs.CleanTicketIndex.pl para limpar o índice StaticDb.',
+        'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => '',
@@ -4321,9 +4316,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => 'Variables de Ambiente',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-        'You should use PerlEx to increase your performance.' => 'Debe empregar PerlEx para mellorar o rendemento.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Versión do Servidor Web',
@@ -4949,6 +4941,8 @@ Thanks for your help!
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'Define as colas nas que os tickets son usados para mostrar como eventos de calendario.',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Define a expresión regular do IP para acceder ao repositorio local. Haino que activar para ter acceso completo ao repositorio local e o servidor remoto ten que ter package::RepositoryList.',
         'Defines the URL CSS path.' => 'Define a ruta CSS URL',
@@ -5437,8 +5431,8 @@ Thanks for your help!
         'Defines the valid state types for a ticket.' => 'Define os tipos de estado validos para un ticket.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
-            'Define os bloqueos visibles dun ticket. Defecto: unlock, tmp_lock.',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Define a anchura para o compoñente do editor de texto rico para esta pantalla. Introduzca número (pixeis) ou valor de porcentaxe (relativo).',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>

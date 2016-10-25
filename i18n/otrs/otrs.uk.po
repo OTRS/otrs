@@ -1,14 +1,15 @@
 # 
 # Translators:
 # Bohdan Melnychuk <base-w@yandex.ru>, 2015
+# M R, 2016
 # Oleg Sydorenko <oleg.sidorenko@gmail.com>, 2015
 # Vira Motorko <ato4ka@i.ua>, 2015
 # Vladimir Shlimovich <vladimir@shlimovich.info>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-07 11:55+0000\n"
-"PO-Revision-Date: 2016-10-07 09:56+0000\n"
+"POT-Creation-Date: 2016-10-25 14:13+0000\n"
+"PO-Revision-Date: 2016-10-25 12:14+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -2092,7 +2093,7 @@ msgstr "Доступні заявки"
 
 #. Template: AAATicket
 msgid "Escalation"
-msgstr "Розгортання"
+msgstr "Загострення"
 
 #. Template: AAATicket
 msgid "last-search"
@@ -2104,7 +2105,7 @@ msgstr "Перегляд черги"
 
 #. Template: AAATicket
 msgid "Ticket Escalation View"
-msgstr "Розгорнені заявки"
+msgstr "Вид загостреної заявки"
 
 #. Template: AAATicket
 msgid "Message from"
@@ -2574,7 +2575,7 @@ msgstr "Заявка %s: час розв'язку заявки мине чере
 
 #. Template: AAATicket
 msgid "There are more escalated tickets!"
-msgstr "Розгорнених заявок більше немає!"
+msgstr "Заявок з загостренням більше немає!"
 
 #. Template: AAATicket
 msgid "Plain Format"
@@ -2758,7 +2759,7 @@ msgstr "Заявки з нагадуванням"
 
 #. Template: AAATicket
 msgid "Escalated Tickets"
-msgstr "Розгорнуті заявки"
+msgstr "Заявки з загостренням"
 
 #. Template: AAATicket
 msgid "New Tickets"
@@ -2780,7 +2781,7 @@ msgstr "Усі відкриті заявки, над цими заявками �
 
 #. Template: AAATicket
 msgid "All escalated tickets"
-msgstr "Усі розгорнуті заявки"
+msgstr "Усі заявки з загостренням"
 
 #. Template: AAATicket
 msgid ""
@@ -4094,7 +4095,7 @@ msgstr "Перша відповідь між"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - update time"
-msgstr "Ескалація - час відновлення"
+msgstr "Ескалація - час оновлення"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached"
@@ -4106,7 +4107,7 @@ msgstr "Заявка була оновлена між"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - solution time"
-msgstr "Ескалація - час розв'язку"
+msgstr "Ескалація - час вирішення"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached"
@@ -4239,30 +4240,6 @@ msgstr "Значення параметра "
 #. Template: AdminGenericAgent
 msgid "Save Changes"
 msgstr "Зберегти зміни"
-
-#. Template: AdminGenericAgent
-msgid "Tag Reference"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "In the note section, you can use the following tags"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the current customer user data"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the ticket data"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket dynamic fields internal key values"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Example note"
-msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5071,29 +5048,30 @@ msgid "Do you really want to delete this web service?"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Example Web Services"
+msgid "Ready-to-run Web Services"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Here you can activate best practice example web service that are part of %s."
+"Here you can activate ready-to-run web services showcasing our best "
+"practices that are a part of %s."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Please note that these web services may depend on other modules which are "
-"available only in certain %s contract levels (there will be a note with "
-"details at import time)."
+"Please note that these web services may depend on other modules only "
+"available with certain %s contract levels (there will be a notification with"
+" further details when importing)."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Import example web service"
+msgid "Import ready-to-run web service"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example web services."
+"Would you like to benefit from web services created by experts? Upgrade to "
+"%s to import some sophisticated ready-to-run web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -5605,6 +5583,10 @@ msgid "Do you really want to delete this notification language?"
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid "Tag Reference"
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Повідомлення відправлені агентові або клієнтові"
 
@@ -5628,6 +5610,10 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Перші 5 рядків останнього повідомлення клієнта"
 
 #. Template: AdminNotificationEvent
+msgid "Attributes of the current customer user data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr ""
 
@@ -5641,6 +5627,14 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the ticket data"
+msgstr ""
+
+#. Template: AdminNotificationEvent
+msgid "Ticket dynamic fields internal key values"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -6362,7 +6356,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "Скасувати & закрити"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
@@ -6777,7 +6771,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "скасувати & закрити"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -7056,11 +7050,11 @@ msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
-msgstr ""
+msgstr "Фільтр по шаблонам"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
-msgstr ""
+msgstr "Шаблони"
 
 #. Template: AdminQueueTemplates
 msgid "Change Queue Relations for Template"
@@ -7618,7 +7612,7 @@ msgstr ""
 
 #. Template: AdminSMIMECertRead
 msgid "Close dialog"
-msgstr ""
+msgstr "Закрити діалог"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate details"
@@ -8237,7 +8231,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
-msgstr ""
+msgstr "Керування шаблонами"
 
 #. Template: AdminTemplate
 msgid "Add template"
@@ -8441,6 +8435,18 @@ msgstr ""
 msgid "Note: Customer is invalid!"
 msgstr ""
 
+#. Template: AgentCustomerTableView
+msgid "Start chat"
+msgstr ""
+
+#. Template: AgentCustomerTableView
+msgid "Video call"
+msgstr ""
+
+#. Template: AgentCustomerTableView
+msgid "Audio call"
+msgstr ""
+
 #. Template: AgentDaemonInfo
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
@@ -8475,7 +8481,7 @@ msgstr ""
 
 #. Template: AgentDashboard
 msgid "Dashboard"
-msgstr "Дайджест"
+msgstr "Панель"
 
 #. Template: AgentDashboardCalendarOverview
 msgid "in"
@@ -8514,18 +8520,6 @@ msgid "Email ticket"
 msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
-msgid "Start Chat"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Video call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Audio call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr ""
 
@@ -8539,10 +8533,6 @@ msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Start chat"
 msgstr ""
 
 #. Template: AgentDashboardProductNotify
@@ -8626,7 +8616,7 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
-msgstr ""
+msgstr "Мої заблоковані заявки"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My watched tickets"
@@ -8638,11 +8628,11 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr ""
+msgstr "Заявки в моїй черзі"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Заявки в Моїх Сервісах"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -8660,17 +8650,13 @@ msgstr ""
 msgid "out of office"
 msgstr "не при справах"
 
-#. Template: AgentDashboardUserOnline
-msgid "Selected user is not available for chat"
-msgstr ""
-
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
 msgstr ""
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "The ticket has been locked"
-msgstr ""
+msgstr "Заявка заблокована"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close"
@@ -8724,7 +8710,7 @@ msgstr ""
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr ""
+msgstr "Ви можете допомогти перекласти OTRD в %s."
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -8879,15 +8865,15 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
-msgstr ""
+msgstr "Зміна Власника: %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "Закрити %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
-msgstr ""
+msgstr "Додати замітку до %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
@@ -8903,7 +8889,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
-msgstr ""
+msgstr "Всі поля, позначені (*) є обов'язковими."
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
@@ -8931,7 +8917,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "Додати замітку"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
@@ -8997,7 +8983,7 @@ msgstr "Інформувати відправника"
 
 #. Template: AgentTicketBounce
 msgid "Send mail"
-msgstr "Оправити лист!"
+msgstr "Відправити лист"
 
 #. Template: AgentTicketBulk
 msgid "Ticket Bulk Action"
@@ -9005,7 +8991,7 @@ msgstr "Масова дія"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr "Оправити лист!"
+msgstr "Відправити лист"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -9073,7 +9059,7 @@ msgstr "Невірна дата!"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
-msgstr ""
+msgstr "Зміна Клаєнта: %s%s%s"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -9089,7 +9075,7 @@ msgstr " Із черги"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
-msgstr ""
+msgstr "Для користувача"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
@@ -9141,7 +9127,7 @@ msgstr ""
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s%s"
-msgstr ""
+msgstr "Історія: %s%s%s"
 
 #. Template: AgentTicketHistory
 msgid "History Content"
@@ -9597,7 +9583,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Close this message"
-msgstr ""
+msgstr "Закрити це повідомлення"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
@@ -9613,7 +9599,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
-msgstr ""
+msgstr "Закрити попередній перегляд"
 
 #. Template: AgentTicketZoom
 msgid ""
@@ -9746,10 +9732,6 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "You have unanswered chat requests"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Video call invite"
 msgstr ""
 
 #. Template: CustomerFooterJS
@@ -10173,6 +10155,10 @@ msgid "New public chat request"
 msgstr ""
 
 #. Template: FooterJS
+msgid "Selected user is not available for chat."
+msgstr ""
+
+#. Template: FooterJS
 msgid "New activity"
 msgstr ""
 
@@ -10181,15 +10167,15 @@ msgid "New activity on one of your monitored chats."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Your browser does not support video calling."
+msgid "Your browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Selected user is not available for video call."
+msgid "Selected user is not available for video and audio call."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Target user's browser does not support video calling."
+msgid "Target user's browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
@@ -12370,6 +12356,34 @@ msgid "Invalid ArticleID!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Offline"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently offline"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently active"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Away"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently away"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Unavailable"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently unavailable"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
 msgstr ""
 
@@ -12569,34 +12583,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Offline"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently offline"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently active"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Away"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently away"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Unavailable"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently unavailable"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
@@ -13494,8 +13480,8 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_index contains orphaned records. Please run "
-"otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
+"Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
+" \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
@@ -13620,11 +13606,6 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
-msgstr ""
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-msgid "You should use PerlEx to increase your performance."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
@@ -14020,11 +14001,11 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "Сповіщення заявок з загостренням"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "Сповіщення попереджень про загострення заявок"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
@@ -14199,7 +14180,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added note (%s)"
-msgstr ""
+msgstr "Додано замітку (%s)"
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
@@ -14737,7 +14718,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Choose for which kind of ticket changes you want to receive notifications."
-msgstr ""
+msgstr "Виберіть, про який тип змін в заявках ви хочете отримувати сповіщення."
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -14887,7 +14868,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "Налаштуйте, який екран ви будете бачити після створення нової заявки"
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -15189,7 +15170,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Default"
-msgstr ""
+msgstr "Стандартна"
 
 #. SysConfig
 msgid "Default (Slim)"
@@ -15710,6 +15691,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines queues that's tickets are used for displaying as calendar events."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the HTTP hostname for the support data collection with the public "
+"module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
 msgstr ""
 
 #. SysConfig
@@ -17257,7 +17244,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the viewable locks of a ticket. Default: unlock, tmp_lock."
+msgid ""
+"Defines the viewable locks of a ticket. NOTE: When you change this setting, "
+"make sure to delete the cache in order to use the new value. Default: "
+"unlock, tmp_lock."
 msgstr ""
 
 #. SysConfig
@@ -19258,7 +19248,7 @@ msgstr ""
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "Мої Сервіси"
 
 #. SysConfig
 msgid "My Tickets."
@@ -19417,7 +19407,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview Refresh Time"
-msgstr ""
+msgstr "Час оновлення швидкого огляду"
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
@@ -21347,7 +21337,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Skin"
-msgstr ""
+msgstr "Оболонка"
 
 #. SysConfig
 msgid "Slovak"
@@ -21899,7 +21889,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
-msgstr ""
+msgstr "Сповіщення заявок"
 
 #. SysConfig
 msgid "Ticket Outbound Email."
@@ -21951,7 +21941,7 @@ msgstr "Заявка переміщена в чергу «%s» (%s) із чер�
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr ""
+msgstr "Сповіщення заявок"
 
 #. SysConfig
 msgid "Ticket overview"

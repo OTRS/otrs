@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-07 11:55+0000\n"
-"PO-Revision-Date: 2016-10-07 09:56+0000\n"
+"POT-Creation-Date: 2016-10-25 14:13+0000\n"
+"PO-Revision-Date: 2016-10-25 12:14+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -3117,7 +3117,7 @@ msgstr "Para obtener las primeras 5 líneas del correo."
 
 #. Template: AdminAutoResponse
 msgid "To get the realname of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Para obtener el nombre real del usuario del tiquet (si se ha proporcionado)"
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4254,30 +4254,6 @@ msgid "Save Changes"
 msgstr "Guardar los cambios"
 
 #. Template: AdminGenericAgent
-msgid "Tag Reference"
-msgstr "Etiqueta de Referencia"
-
-#. Template: AdminGenericAgent
-msgid "In the note section, you can use the following tags"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the current customer user data"
-msgstr "Atributos de los datos actuales del usuario cliente"
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the ticket data"
-msgstr "Atributos de los datos del ticket"
-
-#. Template: AdminGenericAgent
-msgid "Ticket dynamic fields internal key values"
-msgstr "Valores de las claves internas de los campos dinámicos de los tickets"
-
-#. Template: AdminGenericAgent
-msgid "Example note"
-msgstr ""
-
-#. Template: AdminGenericAgent
 msgid "Results"
 msgstr "Resultados"
 
@@ -5084,30 +5060,31 @@ msgid "Do you really want to delete this web service?"
 msgstr "¿Realmente desea eliminar este servicio web?"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Example Web Services"
-msgstr "Servicios web de ejemplo"
+msgid "Ready-to-run Web Services"
+msgstr "Listo para ejecutar los servicios Web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Here you can activate best practice example web service that are part of %s."
+"Here you can activate ready-to-run web services showcasing our best "
+"practices that are a part of %s."
+msgstr "Aquí puede activar ejemplos de buenas prácticas de servicios web que son parte de %s."
+
+#. Template: AdminGenericInterfaceWebservice
+msgid ""
+"Please note that these web services may depend on other modules only "
+"available with certain %s contract levels (there will be a notification with"
+" further details when importing)."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
+msgid "Import ready-to-run web service"
+msgstr "Importar servicios web listos para ejecutar"
+
+#. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Please note that these web services may depend on other modules which are "
-"available only in certain %s contract levels (there will be a note with "
-"details at import time)."
+"Would you like to benefit from web services created by experts? Upgrade to "
+"%s to import some sophisticated ready-to-run web services."
 msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
-msgid "Import example web service"
-msgstr "Importar un ejemplo de servicio web"
-
-#. Template: AdminGenericInterfaceWebservice
-msgid ""
-"Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example web services."
-msgstr "¿Quiere beneficiarse de los servicios web creados por los exports? Actualice a %s para poder importar algunos ejemplos de servicios web más sofisticados."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5618,6 +5595,10 @@ msgid "Do you really want to delete this notification language?"
 msgstr "¿Realmente desear eliminar este idioma de notificación?"
 
 #. Template: AdminNotificationEvent
+msgid "Tag Reference"
+msgstr "Etiqueta de Referencia"
+
+#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "Las notificaciones se envían a un agente o cliente"
 
@@ -5641,6 +5622,10 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Para obtener las primeras 5 líneas del cuerpo (del último artículo del cliente)."
 
 #. Template: AdminNotificationEvent
+msgid "Attributes of the current customer user data"
+msgstr "Atributos de los datos actuales del usuario cliente"
+
+#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "Atributos de los datos del propietario actual del ticket"
 
@@ -5655,6 +5640,14 @@ msgstr "Atributos del actual usuario agente que solicitó esta acción."
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "Atributos del usuario destinatario para la notificación."
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the ticket data"
+msgstr "Atributos de los datos del ticket"
+
+#. Template: AdminNotificationEvent
+msgid "Ticket dynamic fields internal key values"
+msgstr "Valores de las claves internas de los campos dinámicos de los tickets"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5691,19 +5684,19 @@ msgstr "Use esta plantilla para generar el email completo (sólo para emails HTM
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Habilitar seguridad de email"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Nivel de seguridad del email"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Si la llave/certificado no está"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Si la llave/certificado de cifrado no está"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -6328,13 +6321,13 @@ msgstr "Procesos de ejemplo"
 msgid ""
 "Here you can activate best practice example processes. Please note that some"
 " additional configuration may be required."
-msgstr ""
+msgstr "Aquí puede activar ejemplos de las mejores prácticas de procesos. Tenga en cuenta que puede ser necesaria una configuración adicional."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Do you want to benefit from processes created by experts? Upgrade to %s to "
 "be able to import additional sophisticated example processes."
-msgstr ""
+msgstr "¿Quiere beneficiarse de procesos creados por los expertos? Actualice a %s para poder importar algunos sofisticados procesos de ejemplo."
 
 #. Template: AdminProcessManagement
 msgid "Import example process"
@@ -6790,7 +6783,7 @@ msgstr "En esta pantalla, puede crear un nuevo proceso . Con el fin de hacer que
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "cancelar y cerrar"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -6856,7 +6849,7 @@ msgstr "Nombre de la Transición"
 
 #. Template: AdminProcessManagementTransition
 msgid "Conditions can only operate on non-empty fields."
-msgstr ""
+msgstr "Condiciones sólo pueden operar en campos no vacíos."
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -8454,6 +8447,18 @@ msgstr "Se va a borrar del campo, inténtelo de nuevo."
 msgid "Note: Customer is invalid!"
 msgstr "Nota: ¡el cliente no es válido!"
 
+#. Template: AgentCustomerTableView
+msgid "Start chat"
+msgstr "Iniciar chat"
+
+#. Template: AgentCustomerTableView
+msgid "Video call"
+msgstr "Videollamada"
+
+#. Template: AgentCustomerTableView
+msgid "Audio call"
+msgstr "Llamada de audio"
+
 #. Template: AgentDaemonInfo
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
@@ -8527,18 +8532,6 @@ msgid "Email ticket"
 msgstr "Ticket por correo"
 
 #. Template: AgentDashboardCustomerUserList
-msgid "Start Chat"
-msgstr "Inicar Chat"
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Video call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Audio call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr "%s tickets abiertos de %s"
 
@@ -8553,10 +8546,6 @@ msgstr "Nuevo ticket telefónico de %s"
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
 msgstr "Nuevo ticket por correo para %s"
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Start chat"
-msgstr "Iniciar chat"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8673,10 +8662,6 @@ msgstr "Totales"
 msgid "out of office"
 msgstr "fuera de la oficina"
 
-#. Template: AgentDashboardUserOnline
-msgid "Selected user is not available for chat"
-msgstr ""
-
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
 msgstr "hasta"
@@ -8723,13 +8708,13 @@ msgstr "ir a la pantalla de añadir enlaces"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid "Unauthorized usage of %s detected"
-msgstr ""
+msgstr "Uso no autorizado de %s detectado"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
 "If you decide to downgrade to OTRS Free, you will lose all database tables "
 "and data related to %s."
-msgstr ""
+msgstr "Si va a volver a OTRS Free, perderá todas las tablas y datos relacionadas con %s."
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9356,19 +9341,19 @@ msgstr "Busca en los atributos De, Para, Cc, Asunto y el cuerpo del artículo, i
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (complex search)"
-msgstr ""
+msgstr "IDCliente (búsqueda compleja)"
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
-msgstr ""
+msgstr "IDCliente (coincidencia exacta)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (complex search)"
-msgstr ""
+msgstr "Login de usuario Cliente (busqueda compleja)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (exact match)"
-msgstr ""
+msgstr "Login de usuario Cliente (coincidencia exacta)"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
@@ -9632,7 +9617,7 @@ msgstr "Cerrar vista previa"
 msgid ""
 "A preview of this website can't be provided because it didn't allow to be "
 "embedded."
-msgstr ""
+msgstr "La vista previa de esta página no puede ser mostrada porque no se permitió su integración"
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -9648,7 +9633,7 @@ msgstr "Primer mensaje"
 
 #. Template: CloudServicesDisabled
 msgid "This feature requires cloud services."
-msgstr ""
+msgstr "Esta funcionalidad requiere de servicios en la nube"
 
 #. Template: CloudServicesDisabled
 msgid "You can"
@@ -9660,7 +9645,7 @@ msgstr "retroceder a la página anterior"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr ""
+msgstr "Ha Ocurrido un Error"
 
 #. Template: CustomerError
 msgid "Error Details"
@@ -9762,20 +9747,16 @@ msgid "You have unanswered chat requests"
 msgstr "Tienes peticiones de chat sin responder"
 
 #. Template: CustomerFooterJS
-msgid "Video call invite"
-msgstr ""
-
-#. Template: CustomerFooterJS
 msgid "Accept"
-msgstr ""
+msgstr "Aceptar"
 
 #. Template: CustomerFooterJS
 msgid "Decline"
-msgstr ""
+msgstr "Rechazar"
 
 #. Template: CustomerFooterJS
 msgid "An internal error occurred."
-msgstr ""
+msgstr "Ha Ocurrido un Error Interno"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -9885,7 +9866,7 @@ msgstr "Dividir Cita"
 
 #. Template: CustomerRichTextEditor
 msgid "Open link"
-msgstr ""
+msgstr "Abrir enlace"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10119,17 +10100,17 @@ msgstr "Ha ocurrido un error."
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
 "installation of OTRS."
-msgstr ""
+msgstr "enserio un bug? 5 de 10 bugs que se reportan son el resultado de una mala o incompleta instalación de OTRS."
 
 #. Template: Error
 msgid ""
 "With %s, our experts take care of correct installation and cover your back "
 "with support and periodic security updates."
-msgstr ""
+msgstr "Con %s, nuestros expertos se encargarán de una  instalación correcta y cubrirán sus espaldas con soporte y parches de seguridad periódicos."
 
 #. Template: Error
 msgid "Contact our service team now."
-msgstr ""
+msgstr "Contacta con nuestro equipo se soporte ahora."
 
 #. Template: Error
 msgid "Send a bugreport"
@@ -10186,6 +10167,10 @@ msgid "New public chat request"
 msgstr "Nueva petición de chat público"
 
 #. Template: FooterJS
+msgid "Selected user is not available for chat."
+msgstr ""
+
+#. Template: FooterJS
 msgid "New activity"
 msgstr "Nueva actividad"
 
@@ -10194,15 +10179,15 @@ msgid "New activity on one of your monitored chats."
 msgstr "Nueva actividad en uno de sus chats monitorizados."
 
 #. Template: FooterJS
-msgid "Your browser does not support video calling."
+msgid "Your browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Selected user is not available for video call."
+msgid "Selected user is not available for video and audio call."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Target user's browser does not support video calling."
+msgid "Target user's browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
@@ -10568,7 +10553,7 @@ msgstr "Mensaje del día"
 
 #. Template: Motd
 msgid "This is the message of the day. You can edit this in %s."
-msgstr ""
+msgstr "Este es el mensaje del día. Puede editarlo en %s."
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
@@ -10658,7 +10643,7 @@ msgstr "Bienvenido"
 msgid ""
 "This is the default public interface of OTRS! There was no action parameter "
 "given."
-msgstr ""
+msgstr "Esta es la interfaz pública por defecto de OTRS! No se ha dado ninguna acción como parámetro."
 
 #. Template: PublicDefault
 msgid ""
@@ -10668,7 +10653,7 @@ msgstr ""
 
 #. Template: RichTextEditor
 msgid "Remove Quote"
-msgstr ""
+msgstr "Eliminar Cita"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
@@ -10817,11 +10802,11 @@ msgstr "Escala"
 
 #. Template: StatsParamsWidget
 msgid "show more"
-msgstr ""
+msgstr "ver más"
 
 #. Template: StatsParamsWidget
 msgid "show less"
-msgstr ""
+msgstr "ver menos"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10899,11 +10884,11 @@ msgstr "Este campo es requerido."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
-msgstr ""
+msgstr "Ha habido un error al crear la ACL"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
-msgstr ""
+msgstr "Necesita ACLID!"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Could not get data for ACLID %s"
@@ -10931,7 +10916,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Coincidencia exacta"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
@@ -10981,11 +10966,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
-msgstr ""
+msgstr "Subrutina no definida."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
-msgstr ""
+msgstr "Necesita %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -11009,11 +10994,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need ID"
-msgstr ""
+msgstr "Necesario el ID"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
-msgstr ""
+msgstr "No se pudo cargar los datos del campo dimámico %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11033,7 +11018,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Checked"
-msgstr ""
+msgstr "Marcado"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
@@ -11053,15 +11038,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "archivar tiquet"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "restaurar tiquet desde archivo"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Perfil Necesário!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -12383,6 +12368,34 @@ msgid "Invalid ArticleID!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Offline"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently offline"
+msgstr "Este usuario está desconectado en este momento"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently active"
+msgstr "Este usuario está activo en este momento"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Away"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently away"
+msgstr "Este usuario está ausente en este momento"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Unavailable"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently unavailable"
+msgstr "Este usuario no está disponible en este momento"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
 msgstr "Campos sin grupo"
 
@@ -12584,34 +12597,6 @@ msgstr ""
 msgid "This ticket has no title or subject"
 msgstr "Este ticket no tiene título o asunto"
 
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Offline"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently offline"
-msgstr "Este usuario está desconectado en este momento"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently active"
-msgstr "Este usuario está activo en este momento"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Away"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently away"
-msgstr "Este usuario está ausente en este momento"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Unavailable"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently unavailable"
-msgstr "Este usuario no está disponible en este momento"
-
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
@@ -12770,7 +12755,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
-msgstr ""
+msgstr "Inactivo"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "FadeAway"
@@ -13507,9 +13492,9 @@ msgstr "Registros Huerfanos en la Tabla ticket_index"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_index contains orphaned records. Please run "
-"otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr "La tabla ticket_index contiene registros huerfanos. Por favor ejecute otrs/bin/otrs.CleanTicketIndex.pl para limpiar el índice StaticDB."
+"Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
+" \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Time Settings"
@@ -13634,11 +13619,6 @@ msgstr "Apache2::DBI debe ser usado para obtener un rendimiento mejor con conexi
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
 msgstr "Variables de entorno"
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-msgid "You should use PerlEx to increase your performance."
-msgstr "Debe usar PerlEx para incrementar la performance."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -15727,6 +15707,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the HTTP hostname for the support data collection with the public "
+"module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the IP regular expression for accessing the local repository. You "
 "need to enable this to have access to your local repository and the "
 "package::RepositoryList is required on the remote host."
@@ -17270,7 +17256,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the viewable locks of a ticket. Default: unlock, tmp_lock."
+msgid ""
+"Defines the viewable locks of a ticket. NOTE: When you change this setting, "
+"make sure to delete the cache in order to use the new value. Default: "
+"unlock, tmp_lock."
 msgstr ""
 
 #. SysConfig

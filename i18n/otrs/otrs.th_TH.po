@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-07 11:55+0000\n"
-"PO-Revision-Date: 2016-10-07 09:57+0000\n"
+"POT-Creation-Date: 2016-10-25 14:13+0000\n"
+"PO-Revision-Date: 2016-10-25 12:14+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/otrs/OTRS/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -4239,30 +4239,6 @@ msgid "Save Changes"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
 #. Template: AdminGenericAgent
-msgid "Tag Reference"
-msgstr "แท็กข้อมูลอ้างอิง"
-
-#. Template: AdminGenericAgent
-msgid "In the note section, you can use the following tags"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the current customer user data"
-msgstr "คุณลักษณะของข้อมูลลูกค้าผู้ใช้ปัจจุบัน"
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the ticket data"
-msgstr "คุณลักษณะของข้อมูลตั๋ว"
-
-#. Template: AdminGenericAgent
-msgid "Ticket dynamic fields internal key values"
-msgstr "ค่าคีย์ภายในช่องตั๋วแบบไดนามิก"
-
-#. Template: AdminGenericAgent
-msgid "Example note"
-msgstr ""
-
-#. Template: AdminGenericAgent
 msgid "Results"
 msgstr "ผลลัพธ์"
 
@@ -5069,29 +5045,30 @@ msgid "Do you really want to delete this web service?"
 msgstr "คุณต้องการลบweb serviceนี้หรือไม่?"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Example Web Services"
-msgstr "ตัวอย่างเช่น Web Services"
-
-#. Template: AdminGenericInterfaceWebservice
-msgid ""
-"Here you can activate best practice example web service that are part of %s."
+msgid "Ready-to-run Web Services"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Please note that these web services may depend on other modules which are "
-"available only in certain %s contract levels (there will be a note with "
-"details at import time)."
+"Here you can activate ready-to-run web services showcasing our best "
+"practices that are a part of %s."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Import example web service"
-msgstr "นำเข้าบริการเว็บตัวอย่าง"
+msgid ""
+"Please note that these web services may depend on other modules only "
+"available with certain %s contract levels (there will be a notification with"
+" further details when importing)."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import ready-to-run web service"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example web services."
+"Would you like to benefit from web services created by experts? Upgrade to "
+"%s to import some sophisticated ready-to-run web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -5603,6 +5580,10 @@ msgid "Do you really want to delete this notification language?"
 msgstr "คุณต้องการที่จะลบภาษาของการแจ้งเตือนนี้หรือไม่?"
 
 #. Template: AdminNotificationEvent
+msgid "Tag Reference"
+msgstr "แท็กข้อมูลอ้างอิง"
+
+#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "การแจ้งเตือนจะถูกส่งไปยังเอเย่นต์หรือลูกค้า"
 
@@ -5626,6 +5607,10 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "เพื่อให้ได้5 บรรทัดแรกของเนื้อหา(จากบทความลูกค้าล่าสุด) "
 
 #. Template: AdminNotificationEvent
+msgid "Attributes of the current customer user data"
+msgstr "คุณลักษณะของข้อมูลลูกค้าผู้ใช้ปัจจุบัน"
+
+#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "คุณลักษณะของข้อมูลผู้ใช้เจ้าของตั๋วปัจจุบัน"
 
@@ -5640,6 +5625,14 @@ msgstr "คุณลักษณะของผู้ใช้เอเย่น
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "คุณลักษณะของผู้ใช้ผู้รับสำหรับการแจ้งเตือน"
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the ticket data"
+msgstr "คุณลักษณะของข้อมูลตั๋ว"
+
+#. Template: AdminNotificationEvent
+msgid "Ticket dynamic fields internal key values"
+msgstr "ค่าคีย์ภายในช่องตั๋วแบบไดนามิก"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -8439,6 +8432,18 @@ msgstr "มันจะถูกลบออกจากฟิลด์โปร
 msgid "Note: Customer is invalid!"
 msgstr "หมายเหตุ: ลูกค้านี้ไม่ถูกต้อง!"
 
+#. Template: AgentCustomerTableView
+msgid "Start chat"
+msgstr "เริ่มแชท"
+
+#. Template: AgentCustomerTableView
+msgid "Video call"
+msgstr ""
+
+#. Template: AgentCustomerTableView
+msgid "Audio call"
+msgstr ""
+
 #. Template: AgentDaemonInfo
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
@@ -8512,18 +8517,6 @@ msgid "Email ticket"
 msgstr "อีเมล์ตั๋ว"
 
 #. Template: AgentDashboardCustomerUserList
-msgid "Start Chat"
-msgstr "เริ่มแชท"
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Video call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Audio call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr "% s ตั๋วเปิด (s) ของ% s"
 
@@ -8538,10 +8531,6 @@ msgstr "ตั๋วทางโทรศัพท์ใหม่จาก% s"
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
 msgstr "ตั๋วอีเมลใหม่% s"
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Start chat"
-msgstr "เริ่มแชท"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8657,10 +8646,6 @@ msgstr "ผลรวม"
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
 msgstr "นอกออฟฟิศ"
-
-#. Template: AgentDashboardUserOnline
-msgid "Selected user is not available for chat"
-msgstr ""
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -9747,20 +9732,16 @@ msgid "You have unanswered chat requests"
 msgstr "คุณมีคำขอร้องแชทที่ยังไม่ได้ตอบ"
 
 #. Template: CustomerFooterJS
-msgid "Video call invite"
-msgstr ""
-
-#. Template: CustomerFooterJS
 msgid "Accept"
-msgstr ""
+msgstr "ยอมรับ"
 
 #. Template: CustomerFooterJS
 msgid "Decline"
-msgstr ""
+msgstr "ปฏิเสธ"
 
 #. Template: CustomerFooterJS
 msgid "An internal error occurred."
-msgstr ""
+msgstr "มีข้อผิดพลาดภายในเกิดขึ้น"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -10171,6 +10152,10 @@ msgid "New public chat request"
 msgstr "การร้องขอแชทสาธารณะใหม่"
 
 #. Template: FooterJS
+msgid "Selected user is not available for chat."
+msgstr ""
+
+#. Template: FooterJS
 msgid "New activity"
 msgstr "กิจกรรมใหม่"
 
@@ -10179,15 +10164,15 @@ msgid "New activity on one of your monitored chats."
 msgstr "กิจกรรมใหม่ของหนึ่งในการสนทนาที่ถูกตรวจสอบของคุณ"
 
 #. Template: FooterJS
-msgid "Your browser does not support video calling."
+msgid "Your browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Selected user is not available for video call."
+msgid "Selected user is not available for video and audio call."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Target user's browser does not support video calling."
+msgid "Target user's browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
@@ -12368,6 +12353,34 @@ msgid "Invalid ArticleID!"
 msgstr "ArticleID ไม่ถูกต้อง! "
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Offline"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently offline"
+msgstr "ผู้ใช้รายนี้ได้ออฟไลน์ในขณะนี้"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently active"
+msgstr "ผู้ใช้รายนี้กำลังใช้งานในขณะนี้"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Away"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently away"
+msgstr "ผู้ใช้รายนี้ไม่อยู่ในขณะนี้"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Unavailable"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently unavailable"
+msgstr "ผู้ใช้รายนี้ไม่พร้อมใช้งานในขณะนี้"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
 msgstr "ฟิลด์ที่ไม่มีกลุ่ม"
 
@@ -12569,34 +12582,6 @@ msgstr "ตัวกรองที่ใช้งาน"
 msgid "This ticket has no title or subject"
 msgstr "ตั๋วนี้ไม่มีหัวข้อหรือชื่อเรื่อง"
 
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Offline"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently offline"
-msgstr "ผู้ใช้รายนี้ได้ออฟไลน์ในขณะนี้"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently active"
-msgstr "ผู้ใช้รายนี้กำลังใช้งานในขณะนี้"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Away"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently away"
-msgstr "ผู้ใช้รายนี้ไม่อยู่ในขณะนี้"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Unavailable"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently unavailable"
-msgstr "ผู้ใช้รายนี้ไม่พร้อมใช้งานในขณะนี้"
-
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
@@ -12755,7 +12740,7 @@ msgstr "ไม่ได้ติดตั้ง"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
-msgstr ""
+msgstr "ไม่ทำงาน"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "FadeAway"
@@ -13492,9 +13477,9 @@ msgstr "บันทึกกำพร้าในตาราง ticket_index "
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_index contains orphaned records. Please run "
-"otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr "ตาราง ticket_index ประกอบด้วยบันทึกกำพร้า โปรดเรียกใช้ otrs/bin/otrs.CleanTicketIndex.pl  เพื่อลบดัชนี StaticDB"
+"Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
+" \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Time Settings"
@@ -13619,11 +13604,6 @@ msgstr "ควรจะใช้ Apache2::DBI เพื่อให้ได้�
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
 msgstr ""
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-msgid "You should use PerlEx to increase your performance."
-msgstr "คุณควรใช้ PerlEx เพื่อเพิ่มประสิทธิภาพของคุณ"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -15712,6 +15692,12 @@ msgstr "กำหนดคิวที่ตั๋วถูกนำมาใช
 
 #. SysConfig
 msgid ""
+"Defines the HTTP hostname for the support data collection with the public "
+"module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the IP regular expression for accessing the local repository. You "
 "need to enable this to have access to your local repository and the "
 "package::RepositoryList is required on the remote host."
@@ -17255,8 +17241,11 @@ msgid ""
 msgstr "กำหนดสถานะที่ถูกต้องของตั๋วปลดล็อค เพื่อปลดล็อคตั๋วสคริปต์นี้สามารถนำมาใช้ \"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout\""
 
 #. SysConfig
-msgid "Defines the viewable locks of a ticket. Default: unlock, tmp_lock."
-msgstr "กำหนดการล็อคที่สามารถดูได้ของตั๋ว เริ่มต้น: unlock, tmp_lock."
+msgid ""
+"Defines the viewable locks of a ticket. NOTE: When you change this setting, "
+"make sure to delete the cache in order to use the new value. Default: "
+"unlock, tmp_lock."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.985764390344543;
+    $Self->{Completeness}        = 0.985959116250258;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1192,12 +1192,6 @@ sub Data {
         'Param %s key' => 'Param %s kunci',
         'Param %s value' => 'Param %s nilai',
         'Save Changes' => 'Simpan pengubahan',
-        'Tag Reference' => 'Tandakan referensi',
-        'In the note section, you can use the following tags' => '',
-        'Attributes of the current customer user data' => 'Atribut pelanggan pengguna data saat ini',
-        'Attributes of the ticket data' => 'Atribut data tiket',
-        'Ticket dynamic fields internal key values' => 'Bidang tiket yang dinamis untuk nilai kunci internal ',
-        'Example note' => '',
         'Results' => 'Hasil',
         '%s Tickets affected! What do you want to do?' => '%s Tiket terpengaruh! Apa yang anda ingin lakukan?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1439,14 +1433,14 @@ sub Data {
         'Configuration history' => 'Sejarah konfigurasi',
         'Delete web service' => 'Menghapus layanan web',
         'Do you really want to delete this web service?' => 'Apakah anda ingin menghapus layanan web ini?',
-        'Example Web Services' => 'Contoh layanan web',
-        'Here you can activate best practice example web service that are part of %s.' =>
+        'Ready-to-run Web Services' => '',
+        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             '',
-        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '',
-        'Import example web service' => 'Impor contoh layanan web',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
-            'Apakah Anda ingin mendapatkan keuntungan dari layanan web yang dibuat oleh para ahli? Upgrade ke %s untuk dapat mengimpor beberapa layanan misalnya web canggih.',
+        'Import ready-to-run web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
+            '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Setelah anda menyimpan konfigurasi, anda akan diarahkan kembali ke layar edit',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1597,6 +1591,7 @@ sub Data {
         'Message body' => 'Badan Pesan',
         'Add new notification language' => 'Tambahkan pemberitahuan bahasa baru',
         'Do you really want to delete this notification language?' => 'Apakah anda ingin menghapus pemberitahuan bahasa?',
+        'Tag Reference' => 'Tandakan referensi',
         'Notifications are sent to an agent or a customer.' => 'Pemberitahuan telah dikirim ke agen atau pelanggan',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Untuk mendapatkan 20 karakter pertama dari subyek (artikel agen terbaru)',
@@ -1606,11 +1601,14 @@ sub Data {
             'Untuk mendapatkan 20 karakter pertama dari subyek (Artikel pelanggan terbaru).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Untuk mendapatkan 5 baris pertama dari isi (Artikel pelanggan terbaru).',
+        'Attributes of the current customer user data' => 'Atribut pelanggan pengguna data saat ini',
         'Attributes of the current ticket owner user data' => 'Atribut dari pemilik tiket pengguna data saat ini',
         'Attributes of the current ticket responsible user data' => 'Atribut tiket yang bertanggungjawab untuk pengguna data saat ini',
         'Attributes of the current agent user who requested this action' =>
             'Atribut pengguna agen saat ini yang meminta tindakan ',
         'Attributes of the recipient user for the notification' => 'Atribut dari pengguna penerima untuk pemberitahuan',
+        'Attributes of the ticket data' => 'Atribut data tiket',
+        'Ticket dynamic fields internal key values' => 'Bidang tiket yang dinamis untuk nilai kunci internal ',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'Bidang dinamis tiket yang menampilkan nilai, berguna untuk Dropdown dan Multiselecet',
         'Example notification' => 'Contoh pemberitahuan',
@@ -2484,6 +2482,9 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Perlu diketahui: Pelanggan tidak sah!',
+        'Start chat' => 'Memulai obrolan',
+        'Video call' => '',
+        'Audio call' => '',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2518,14 +2519,10 @@ bin/otrs.Daemon.pl status\').',
         'Customer information' => 'Informasi pelanggan',
         'Phone ticket' => 'Tiket telepon',
         'Email ticket' => 'Tiket email',
-        'Start Chat' => 'Mulai obrolan',
-        'Video call' => '',
-        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s tiket dibuka(s) dari %s',
         '%s closed ticket(s) of %s' => '%s tiket ditutup(s) dari %s',
         'New phone ticket from %s' => 'Tiket telepon baru dari %S',
         'New email ticket to %s' => 'Tiket email baru untuk %s',
-        'Start chat' => 'Memulai obrolan',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s telah tersedia',
@@ -2569,7 +2566,6 @@ bin/otrs.Daemon.pl status\').',
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'Keluar dari kantor',
-        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'Sampai',
@@ -2935,10 +2931,9 @@ bin/otrs.Daemon.pl status\').',
         'Filters' => 'Filter',
         'Confirm' => 'Pastikan',
         'You have unanswered chat requests' => 'Anda tidak menjawab beberapa permintaan obrolan',
-        'Video call invite' => '',
-        'Accept' => '',
-        'Decline' => '',
-        'An internal error occurred.' => '',
+        'Accept' => 'Menerima',
+        'Decline' => 'Menolak',
+        'An internal error occurred.' => 'Terjadi kesalahan internal.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript tidak tersedia',
@@ -3068,11 +3063,13 @@ bin/otrs.Daemon.pl status\').',
         'New personal chat request' => 'Permintaan obrolan pribadi baru',
         'New customer chat request' => 'Permintaan obrolan pelanggan baru',
         'New public chat request' => 'Permintaan obrolan umum baru',
+        'Selected user is not available for chat.' => '',
         'New activity' => 'Aktivitas baru',
         'New activity on one of your monitored chats.' => 'Aktivitas baru di salah satu obrolan anda dipantau.',
-        'Your browser does not support video calling.' => '',
-        'Selected user is not available for video call.' => '',
-        'Target user\'s browser does not support video calling.' => '',
+        'Your browser does not support video and audio calling.' => '',
+        'Selected user is not available for video and audio call.' => '',
+        'Target user\'s browser does not support video and audio calling.' =>
+            '',
         'Do you really want to continue?' => 'Apakah anda ingin meneruskannya?',
         'Information about the OTRS Daemon' => 'Informasi yang mengenai Daemon OTRS',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3853,6 +3850,13 @@ bin/otrs.Daemon.pl status\').',
         'Event type filter settings were saved.' => 'Jenis acara setelan filter diselamatkan.',
         'Need ArticleID!' => 'Perlu ArticleID!',
         'Invalid ArticleID!' => 'AricleID tidak sah!',
+        'Offline' => '',
+        'This user is currently offline' => 'Pengguna ini sedang offline',
+        'This user is currently active' => 'Pengguna ini sedang aktif',
+        'Away' => '',
+        'This user is currently away' => 'Pengguna saat ini sedang pergi',
+        'Unavailable' => '',
+        'This user is currently unavailable' => 'Pengguna saat ini tidak tersedia',
         'Fields with no group' => 'Fields tanpa ada grup',
         'View the source for this Article' => 'Lihat sumber untuk Pasal ini',
 
@@ -3929,15 +3933,6 @@ bin/otrs.Daemon.pl status\').',
         'filter active' => 'Filter diaktifkan',
         'This ticket has no title or subject' => 'Tiket ini tidak memiliki judul atau subjek',
 
-        # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'Offline' => '',
-        'This user is currently offline' => 'Pengguna ini sedang offline',
-        'This user is currently active' => 'Pengguna ini sedang aktif',
-        'Away' => '',
-        'This user is currently away' => 'Pengguna saat ini sedang pergi',
-        'Unavailable' => '',
-        'This user is currently unavailable' => 'Pengguna saat ini tidak tersedia',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             'Mohon maaf, Anda tidak memiliki izin lagi untuk mengakses tiket ini dalam kondisi saat ini. Anda dapat mengambil salah satu tindakan berikut:',
@@ -4012,7 +4007,7 @@ bin/otrs.Daemon.pl status\').',
         'not installed' => 'Tidak diinstall',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
+        'Inactive' => 'Tidak aktif',
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
@@ -4281,8 +4276,8 @@ bin/otrs.Daemon.pl status\').',
         'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             'Tabel ticket_lock_index berisi catatan yatim. Jalankan bin/otrs.Console.pl "Maint::Ticket::AntrianIndeksCleanup" untuk membersihkan indeks StaticDB.',
         'Orphaned Records In ticket_index Table' => 'Rekaman yatim Dalam Indeks tiket Table',
-        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            'Tabel ticket_index berisi catatan yatim. jalankan otrs/bin/otrs.CleanTicketIndex.pl untuk membersihkan indeks Static DB.',
+        'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => '',
@@ -4323,9 +4318,6 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-        'You should use PerlEx to increase your performance.' => 'Anda harus menggunakan Plex untuk meningkatkan kinerja Anda.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Versi Webserver',
@@ -4959,6 +4951,8 @@ Helpdesk Team Anda
             'Mendefinisikan dari pesan kantor Template. Dua parameter String (%s) yang tersedia: tanggal akhir dan jumlah hari yang tersisa.',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'Mendefinisikan antrian bahwa tiket yang digunakan untuk menampilkan sebagai acara kalender.',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Mendefinisikan IP ekspresi reguler untuk mengakses repositori lokal. Anda perlu mengaktifkan ini untuk memiliki akses ke repositori lokal Anda dan Daftar paket::Repository diperlukan pada remote host.',
         'Defines the URL CSS path.' => 'Mendefinisikan jalur URL CSS.',
@@ -5448,8 +5442,8 @@ Helpdesk Team Anda
         'Defines the valid state types for a ticket.' => 'Mendefinisikan jenis state yang berlaku untuk tiket.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Mendefinisikan negara berlaku untuk tiket dibuka. Untuk membuka tiket script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" dapat digunakan',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
-            'Mendefinisikan kunci dapat dilihat dari tiket. default: unlock, tmp_lock.',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Mendefinisikan lebar untuk komponen editor teks ini. Masukkan nomor (piksel) atau nilai persen (relatif).',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>

@@ -12,12 +12,13 @@
 # Stang . <Cosine02@outlook.com>, 2016
 # 文浩坚 <never.min@gmail.com>, 2015-2016
 # 汇民 王 <whuim@163.com>, 2016
+# 汇民 王 <whuim@qq.com>, 2016
 # 陈德文 <sggggy@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-07 11:55+0000\n"
-"PO-Revision-Date: 2016-10-07 09:57+0000\n"
+"POT-Creation-Date: 2016-10-25 14:13+0000\n"
+"PO-Revision-Date: 2016-10-25 12:14+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -4250,30 +4251,6 @@ msgid "Save Changes"
 msgstr "保存更改"
 
 #. Template: AdminGenericAgent
-msgid "Tag Reference"
-msgstr "标签参考"
-
-#. Template: AdminGenericAgent
-msgid "In the note section, you can use the following tags"
-msgstr "在备注部分，你可以使用以下的标记"
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the current customer user data"
-msgstr "客户联系人的属性"
-
-#. Template: AdminGenericAgent
-msgid "Attributes of the ticket data"
-msgstr "工单的属性"
-
-#. Template: AdminGenericAgent
-msgid "Ticket dynamic fields internal key values"
-msgstr "工单动态字段内部键值"
-
-#. Template: AdminGenericAgent
-msgid "Example note"
-msgstr "范例备注"
-
-#. Template: AdminGenericAgent
 msgid "Results"
 msgstr "结果"
 
@@ -5080,30 +5057,31 @@ msgid "Do you really want to delete this web service?"
 msgstr "您真的想要删除这个Web服务吗？"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Example Web Services"
-msgstr "WEB服务示例"
-
-#. Template: AdminGenericInterfaceWebservice
-msgid ""
-"Here you can activate best practice example web service that are part of %s."
+msgid "Ready-to-run Web Services"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Please note that these web services may depend on other modules which are "
-"available only in certain %s contract levels (there will be a note with "
-"details at import time)."
+"Here you can activate ready-to-run web services showcasing our best "
+"practices that are a part of %s."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Import example web service"
-msgstr "导入Web服务示例"
+msgid ""
+"Please note that these web services may depend on other modules only "
+"available with certain %s contract levels (there will be a notification with"
+" further details when importing)."
+msgstr ""
+
+#. Template: AdminGenericInterfaceWebservice
+msgid "Import ready-to-run web service"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Do you want to benefit from web services created by experts? Upgrade to %s "
-"to be able to import some sophisticated example web services."
-msgstr "你想从专家创建的WEB服务中受益吗？升级到%s 就能导入一些复杂的WEB服务样例。"
+"Would you like to benefit from web services created by experts? Upgrade to "
+"%s to import some sophisticated ready-to-run web services."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5614,6 +5592,10 @@ msgid "Do you really want to delete this notification language?"
 msgstr "您真的要删除这个通知语言吗？"
 
 #. Template: AdminNotificationEvent
+msgid "Tag Reference"
+msgstr "标签参考"
+
+#. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
 msgstr "发送给服务人员或客户的通知。"
 
@@ -5637,6 +5619,10 @@ msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "获取邮件正文内容前5行（最新的客户信件）"
 
 #. Template: AdminNotificationEvent
+msgid "Attributes of the current customer user data"
+msgstr "客户联系人的属性"
+
+#. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
 msgstr "工单所有者的属性"
 
@@ -5651,6 +5637,14 @@ msgstr "请示此动作的服务人员的属性"
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
 msgstr "通知收件人的属性"
+
+#. Template: AdminNotificationEvent
+msgid "Attributes of the ticket data"
+msgstr "工单的属性"
+
+#. Template: AdminNotificationEvent
+msgid "Ticket dynamic fields internal key values"
+msgstr "工单动态字段内部键值"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5687,19 +5681,19 @@ msgstr "使用这个模板生成完整的邮件（仅对HTML邮件）。"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "启用电子邮件安全。"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "电子邮件安全级别。"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "如果签名密钥/证书丢失了。"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "如果加密密钥/证书丢失了。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -6324,13 +6318,13 @@ msgstr "流程样例"
 msgid ""
 "Here you can activate best practice example processes. Please note that some"
 " additional configuration may be required."
-msgstr ""
+msgstr "你可以在这里激活最佳实践的样例流程，请注意可能需要一些额外的配置。"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Do you want to benefit from processes created by experts? Upgrade to %s to "
 "be able to import additional sophisticated example processes."
-msgstr ""
+msgstr "你想从专家创建的流程中受益吗？升级到%s 就能导入一些复杂的样例流程。"
 
 #. Template: AdminProcessManagement
 msgid "Import example process"
@@ -6347,7 +6341,7 @@ msgid ""
 "Changes to the Processes here only affect the behavior of the system, if you"
 " synchronize the Process data. By synchronizing the Processes, the newly "
 "made changes will be written to the Configuration."
-msgstr "对流程所做的一切修改仅保存在数据库中。只有执行同步操作后，才会生成或重新生成流程配置文件。"
+msgstr "对流程所做的一切修改仅保存在数据库中。只有执行部署流程操作后，才会生成或重新生成流程配置文件。"
 
 #. Template: AdminProcessManagement
 msgid "Processes"
@@ -6782,11 +6776,11 @@ msgid ""
 "In this screen, you can create a new process. In order to make the new "
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
-msgstr "在这里，你可以创建新的流程。为了使新流程生效，请务必将流程的状态设置为“激活”，并在完成配置工作后执行同步操作。"
+msgstr "在这里，你可以创建新的流程。为了使新流程生效，请务必将流程的状态设置为“激活”，并在完成配置工作后执行部署流程操作。"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "取消并关闭"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -8450,6 +8444,18 @@ msgstr "将自动删除这个重复的地址，请再试一次。"
 msgid "Note: Customer is invalid!"
 msgstr "注意：客户是无效的！"
 
+#. Template: AgentCustomerTableView
+msgid "Start chat"
+msgstr "开始聊天"
+
+#. Template: AgentCustomerTableView
+msgid "Video call"
+msgstr "视频通话"
+
+#. Template: AgentCustomerTableView
+msgid "Audio call"
+msgstr "语音通话"
+
 #. Template: AgentDaemonInfo
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
@@ -8523,18 +8529,6 @@ msgid "Email ticket"
 msgstr "邮件工单"
 
 #. Template: AgentDashboardCustomerUserList
-msgid "Start Chat"
-msgstr "开始聊天"
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Video call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Audio call"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
 msgstr "%s个处理中的工单，共%s个"
 
@@ -8549,10 +8543,6 @@ msgstr "来自于%s新的电话工单"
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
 msgstr "给%s新的邮件工单"
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Start chat"
-msgstr "开始聊天"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8669,10 +8659,6 @@ msgstr "合计"
 msgid "out of office"
 msgstr "不在办公室"
 
-#. Template: AgentDashboardUserOnline
-msgid "Selected user is not available for chat"
-msgstr ""
-
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
 msgstr "直到"
@@ -8719,13 +8705,13 @@ msgstr "转到添加链接窗口"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid "Unauthorized usage of %s detected"
-msgstr ""
+msgstr "检测到未经授权的使用 %s"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
 "If you decide to downgrade to OTRS Free, you will lose all database tables "
 "and data related to %s."
-msgstr ""
+msgstr "如果决定降级到OTRS免费版本，会丢失%s相关的所有数据库表及其数据。"
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9758,20 +9744,16 @@ msgid "You have unanswered chat requests"
 msgstr "你有未响应的聊天请求"
 
 #. Template: CustomerFooterJS
-msgid "Video call invite"
-msgstr ""
-
-#. Template: CustomerFooterJS
 msgid "Accept"
-msgstr ""
+msgstr "接受"
 
 #. Template: CustomerFooterJS
 msgid "Decline"
-msgstr ""
+msgstr "拒绝"
 
 #. Template: CustomerFooterJS
 msgid "An internal error occurred."
-msgstr ""
+msgstr "发生了一个内部错误。"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -10182,6 +10164,10 @@ msgid "New public chat request"
 msgstr "新的公共聊天请求"
 
 #. Template: FooterJS
+msgid "Selected user is not available for chat."
+msgstr ""
+
+#. Template: FooterJS
 msgid "New activity"
 msgstr "新的聊天活动"
 
@@ -10190,15 +10176,15 @@ msgid "New activity on one of your monitored chats."
 msgstr "你关注的某个聊天有了新的活动。"
 
 #. Template: FooterJS
-msgid "Your browser does not support video calling."
+msgid "Your browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Selected user is not available for video call."
+msgid "Selected user is not available for video and audio call."
 msgstr ""
 
 #. Template: FooterJS
-msgid "Target user's browser does not support video calling."
+msgid "Target user's browser does not support video and audio calling."
 msgstr ""
 
 #. Template: FooterJS
@@ -10915,7 +10901,7 @@ msgstr "设置条目同步状态时出现了一个错误。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
-msgstr "同步ACL时出现了一个错误。"
+msgstr "部署ACL时出现了一个错误。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACL %s could not be deleted"
@@ -11402,7 +11388,7 @@ msgstr "不能删除流程：%s "
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
-msgstr "同步该流程时出现了一个错误"
+msgstr "部署该流程时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
@@ -12379,6 +12365,34 @@ msgid "Invalid ArticleID!"
 msgstr "无效的信件ID！"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Offline"
+msgstr "离线"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently offline"
+msgstr "这个用户当前离线了"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently active"
+msgstr "这个用户当前在线"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Away"
+msgstr "离开"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently away"
+msgstr "这个用户当前离开了"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Unavailable"
+msgstr "不可用"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "This user is currently unavailable"
+msgstr "这个用户当前不可用"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
 msgstr "没有分组的字段"
 
@@ -12580,34 +12594,6 @@ msgstr "过滤器是活动的"
 msgid "This ticket has no title or subject"
 msgstr "这个工单没有标题或主题"
 
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Offline"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently offline"
-msgstr "这个用户当前离线了"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently active"
-msgstr "这个用户当前在线"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Away"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently away"
-msgstr "这个用户当前离开了"
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "Unavailable"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-msgid "This user is currently unavailable"
-msgstr "这个用户当前不可用"
-
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
@@ -12766,11 +12752,11 @@ msgstr "没有安装"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
-msgstr ""
+msgstr "非活动的"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "FadeAway"
-msgstr ""
+msgstr "消退"
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
@@ -13253,7 +13239,7 @@ msgstr "守护进程"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is running."
-msgstr ""
+msgstr "守护进程正在运行。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -13313,7 +13299,7 @@ msgstr "通用接口Web服务"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Process Tickets"
-msgstr ""
+msgstr "流程工单"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -13399,24 +13385,24 @@ msgstr "一些软件包没有正确安装。"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Package Verification Status"
-msgstr ""
+msgstr "软件包验证状态"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid ""
 "Some packages are not verified by the OTRS Group! It is recommended not to "
 "use this packages."
-msgstr ""
+msgstr "一些软件包未经OTRS团队验证！不推荐使用该扩展包。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Package Framework Version Status"
-msgstr ""
+msgstr "软件包框架版本状态"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Some packages are not allowed for the current framework version."
-msgstr ""
+msgstr "一些软件包无法在当前的框架版本中使用。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
 msgid "Package List"
@@ -13503,9 +13489,9 @@ msgstr "ticket_index表中的孤儿记录"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_index contains orphaned records. Please run "
-"otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr "ticket_index表中包含孤儿记录。请运行otrs/bin/otrs.CleanTicketIndex.pl清理静态数据库的索引。"
+"Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
+" \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Time Settings"
@@ -13631,11 +13617,6 @@ msgstr "应该用Apache2::DBI的预先数据库连接来获得更好的性能。
 msgid "Environment Variables"
 msgstr "环境变量"
 
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-msgid "You should use PerlEx to increase your performance."
-msgstr "您应该使用perlEx来提升系统性能。"
-
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
 msgstr "WEB服务器版本"
@@ -13673,52 +13654,52 @@ msgstr "重置解锁时间。"
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP sign only"
-msgstr ""
+msgstr "仅PGP签名"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP encrypt only"
-msgstr ""
+msgstr "仅PGP加密"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP sign and encrypt"
-msgstr ""
+msgstr "PGP签名和加密"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "SMIME sign only"
-msgstr ""
+msgstr "仅SMIME签名"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "SMIME encrypt only"
-msgstr ""
+msgstr "仅SMIME加密"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "SMIME sign and encrypt"
-msgstr ""
+msgstr "SMIME签名和加密"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP and SMIME not enabled."
-msgstr ""
+msgstr "没有启用PGP和SMIME。"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "Skip notification delivery"
-msgstr ""
+msgstr "跳过通知递送"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "Send unsigned notification"
-msgstr ""
+msgstr "发送未签名的通知"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "Send unencrypted notification"
-msgstr ""
+msgstr "发送未加密的通知"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -15723,6 +15704,12 @@ msgstr "定义将工单作为日历事件显示的队列。"
 
 #. SysConfig
 msgid ""
+"Defines the HTTP hostname for the support data collection with the public "
+"module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the IP regular expression for accessing the local repository. You "
 "need to enable this to have access to your local repository and the "
 "package::RepositoryList is required on the remote host."
@@ -17266,8 +17253,11 @@ msgid ""
 msgstr "定义解锁的工单有效的状态。为解锁工单，可以使用脚本\"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout\"。"
 
 #. SysConfig
-msgid "Defines the viewable locks of a ticket. Default: unlock, tmp_lock."
-msgstr "定义一个工单可见的锁。默认：unlock（未锁定），tmp_lock（临时锁定）。"
+msgid ""
+"Defines the viewable locks of a ticket. NOTE: When you change this setting, "
+"make sure to delete the cache in order to use the new value. Default: "
+"unlock, tmp_lock."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -17448,7 +17438,7 @@ msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
 "disable it, if you know what you are doing!"
-msgstr ""
+msgstr "禁用HHTP头\"Content-Security-Policy\"以便允许载入扩展的脚本内容。禁用这个HTTP头可能引起安全问题！仅在您知道您在干什么时才禁用它！"
 
 #. SysConfig
 msgid ""
@@ -17808,7 +17798,7 @@ msgstr "允许客户自己建立帐户。"
 
 #. SysConfig
 msgid "Enables fetch S/MIME from CustomerUser backend support."
-msgstr ""
+msgstr "在客户用户后端支持模块启用收取S/MIME（邮件）。"
 
 #. SysConfig
 msgid "Enables file upload in the package manager frontend."
@@ -19173,7 +19163,7 @@ msgstr "加密（PGP或S/MIME）已编写消息的模块。"
 #. SysConfig
 msgid ""
 "Module to fetch customer users SMIME certificates of incoming messages."
-msgstr ""
+msgstr "收取客户用户进入消息的SMIME证书的模块。"
 
 #. SysConfig
 msgid ""
@@ -19190,7 +19180,7 @@ msgstr "和处理进入消息的模块。工单自定义字段取得4个数字�
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
-msgstr ""
+msgstr "过滤进入消息加密过的正文的模块。"
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
@@ -19794,7 +19784,7 @@ msgid ""
 "Renew existing SMIME certificates from customer backend. Note: SMIME and "
 "SMIME::FetchFromCustomer needs to be active in SysConfig and customer "
 "backend needs to be configured to fetch UserSMIMECertificate attribute."
-msgstr ""
+msgstr "从客户后端更新已有的SMIME证书。注意：需要在系统配置中激活SMIME和SMIME::FetchFromCustomer，且客户后端模块需要配置为收取UserSMIMECertificate 属性。"
 
 #. SysConfig
 msgid ""

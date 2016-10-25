@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.641015060862389;
+    $Self->{Completeness}        = 0.641750980797027;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1200,12 +1200,6 @@ sub Data {
         'Param %s key' => 'Chiave parametro %s',
         'Param %s value' => 'Valore parametro %s',
         'Save Changes' => 'Salva cambiamenti',
-        'Tag Reference' => '',
-        'In the note section, you can use the following tags' => '',
-        'Attributes of the current customer user data' => 'Attributi dei dati utente del cliente attuale',
-        'Attributes of the ticket data' => 'Attributi dei dati del ticket',
-        'Ticket dynamic fields internal key values' => '',
-        'Example note' => '',
         'Results' => 'Risultati',
         '%s Tickets affected! What do you want to do?' => '%s ticket corrispondenti! Cosa vuoi fare?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1447,13 +1441,13 @@ sub Data {
         'Configuration history' => 'Storico della configurazione',
         'Delete web service' => 'Elimina il web service',
         'Do you really want to delete this web service?' => 'Vuoi davvero eliminare questo web service?',
-        'Example Web Services' => '',
-        'Here you can activate best practice example web service that are part of %s.' =>
+        'Ready-to-run Web Services' => '',
+        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             '',
-        'Please note that these web services may depend on other modules which are available only in certain %s contract levels (there will be a note with details at import time).' =>
+        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '',
-        'Import example web service' => '',
-        'Do you want to benefit from web services created by experts? Upgrade to %s to be able to import some sophisticated example web services.' =>
+        'Import ready-to-run web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Dopo aver salvato, sarai rediretto alla schermata di modifica.',
@@ -1605,6 +1599,7 @@ sub Data {
         'Message body' => 'Corpo del messaggio',
         'Add new notification language' => 'Aggiungi nuova lingua delle notifiche',
         'Do you really want to delete this notification language?' => 'Vuoi davvero eliminare questa lingua delle notifiche?',
+        'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => 'Le notifiche sono inviate ad un operatore o a un cliente',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Per avere i primi 20 caratteri mail - subject (agent) ',
@@ -1614,11 +1609,14 @@ sub Data {
             'Per avere i primi 20 caratteri mail - subject (customer).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Per avere le prime 5 righe corpo mail (customer).',
+        'Attributes of the current customer user data' => 'Attributi dei dati utente del cliente attuale',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
         'Attributes of the current agent user who requested this action' =>
             'Attributi dell\'utente dell\'operatore attuale che ha richiesto questa azione',
         'Attributes of the recipient user for the notification' => 'Attributi dell\'utente destinatario delle notifiche',
+        'Attributes of the ticket data' => 'Attributi dei dati del ticket',
+        'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Example notification' => 'Notifica di esempio',
@@ -2491,6 +2489,9 @@ sub Data {
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Nota: il cliente non è valido!',
+        'Start chat' => 'Avvia chat',
+        'Video call' => '',
+        'Audio call' => '',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2524,14 +2525,10 @@ sub Data {
         'Customer information' => 'Informazioni sul Cliente',
         'Phone ticket' => 'Ticket da Telefonata',
         'Email ticket' => 'Ticket da Email',
-        'Start Chat' => 'Avvia chat',
-        'Video call' => '',
-        'Audio call' => '',
         '%s open ticket(s) of %s' => '%s Ticket aperti su %s',
         '%s closed ticket(s) of %s' => '%s Ticket chiusi su %s',
         'New phone ticket from %s' => 'Nuovo Ticket telefonico da %s',
         'New email ticket to %s' => 'Nuovo Ticket via email da %s',
-        'Start chat' => 'Avvia chat',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s è disponibile!',
@@ -2575,7 +2572,6 @@ sub Data {
 
         # Template: AgentDashboardUserOnline
         'out of office' => 'fuori sede',
-        'Selected user is not available for chat' => '',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'Fino a',
@@ -2941,9 +2937,8 @@ sub Data {
         'Filters' => 'Filtri',
         'Confirm' => 'Conferma',
         'You have unanswered chat requests' => 'Hai richieste di chat senza risposta',
-        'Video call invite' => '',
-        'Accept' => '',
-        'Decline' => '',
+        'Accept' => 'Accetta',
+        'Decline' => 'Rifiuta',
         'An internal error occurred.' => '',
 
         # Template: CustomerLogin
@@ -3074,11 +3069,13 @@ sub Data {
         'New personal chat request' => 'Nuova richiesta di chat personale',
         'New customer chat request' => '',
         'New public chat request' => 'Nuova richiesta di chat pubblica',
+        'Selected user is not available for chat.' => '',
         'New activity' => 'Nuova attività',
         'New activity on one of your monitored chats.' => 'Nuova attività su una delle chat controllate.',
-        'Your browser does not support video calling.' => '',
-        'Selected user is not available for video call.' => '',
-        'Target user\'s browser does not support video calling.' => '',
+        'Your browser does not support video and audio calling.' => '',
+        'Selected user is not available for video and audio call.' => '',
+        'Target user\'s browser does not support video and audio calling.' =>
+            '',
         'Do you really want to continue?' => 'Vuoi davvero continuare?',
         'Information about the OTRS Daemon' => 'Informazioni su OTRS Daemon',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3859,6 +3856,13 @@ sub Data {
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
+        'Offline' => '',
+        'This user is currently offline' => 'Questo utente non è attualmente in linea',
+        'This user is currently active' => 'Questo utente è attualmente attivo',
+        'Away' => '',
+        'This user is currently away' => 'Questo utente è attualmente assente',
+        'Unavailable' => '',
+        'This user is currently unavailable' => 'Questo utente non è attualmente disponibile',
         'Fields with no group' => 'Campi senza gruppo',
         'View the source for this Article' => '',
 
@@ -3935,15 +3939,6 @@ sub Data {
         'filter active' => 'filtro attivo',
         'This ticket has no title or subject' => 'Questo ticket non ha né titolo né oggetto',
 
-        # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'Offline' => '',
-        'This user is currently offline' => 'Questo utente non è attualmente in linea',
-        'This user is currently active' => 'Questo utente è attualmente attivo',
-        'Away' => '',
-        'This user is currently away' => 'Questo utente è attualmente assente',
-        'Unavailable' => '',
-        'This user is currently unavailable' => 'Questo utente non è attualmente disponibile',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
             '',
@@ -4018,7 +4013,7 @@ sub Data {
         'not installed' => 'non installato',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
+        'Inactive' => 'Inattivo',
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
@@ -4287,7 +4282,7 @@ sub Data {
         'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             '',
         'Orphaned Records In ticket_index Table' => '',
-        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+        'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
@@ -4329,9 +4324,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => 'Variabili di ambiente',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/IIS/Performance.pm
-        'You should use PerlEx to increase your performance.' => 'Dovresti utilizzare PerlEx per incrementare le prestazioni.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Versione Webserver',
@@ -4957,6 +4949,8 @@ Thanks for your help!
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Definisce l\'espressione regolare di IP per accedere al repository locale. È necessario abilitare questa funzione per avere accesso al tuo repository locale e il pacchetto package::RepositoryList è richiesto sull\'host remoto.',
         'Defines the URL CSS path.' => 'Definisce la path CSS dell\'URL',
@@ -5445,7 +5439,7 @@ Thanks for your help!
         'Defines the valid state types for a ticket.' => 'Definisce i tipi di stato validi per un ticket.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',
