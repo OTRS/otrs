@@ -1,4 +1,6 @@
 #5.0.14 2016-??-??
+ - 2016-10-25 Added notification type handling for NotificationList in NotificationEvent backend.
+ - 2016-10-25 Added caching to NotificationEvent backend.
  - 2016-10-21 Fixed bug#[666](http://bugs.otrs.org/show_bug.cgi?id=666) - INSERTs into 'ticket_history' fail sometimes.
  - 2016-10-21 Fixed bug#[12311](http://bugs.otrs.org/show_bug.cgi?id=12311) - Process names are listed by ID instead of by name.
  - 2016-10-18 Fixed bug#[12284](http://bugs.otrs.org/show_bug.cgi?id=12284) - Precious little information regarding SMIME signatures.
