@@ -318,6 +318,13 @@ sub CollectByWebRequest {
         return %Result;
     }
 
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => 'SupportDataCollect',
+        Key   => 'DataCollect',
+        Value => $ResponseData,
+        TTL   => 60 * 10,
+    );
+
     return %{$ResponseData};
 }
 
