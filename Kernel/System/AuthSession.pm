@@ -119,8 +119,10 @@ sub CheckAgentSessionLimitPriorWarning {
     my $SessionLimitPriorWarning = $OTRSBusinessSystemData{AgentSessionLimitPriorWarning};
     if (
         !$SessionLimitPriorWarning
-        || (   $Self->{AgentSessionLimitPriorWarning}
-            && $Self->{AgentSessionLimitPriorWarning} < $SessionLimitPriorWarning )
+        || (
+            $Self->{AgentSessionLimitPriorWarning}
+            && $Self->{AgentSessionLimitPriorWarning} < $SessionLimitPriorWarning
+        )
         )
     {
         $SessionLimitPriorWarning = $Self->{AgentSessionLimitPriorWarning};
@@ -135,8 +137,10 @@ sub CheckAgentSessionLimitPriorWarning {
 
         if ( defined $ActiveSessions{Total} && $ActiveSessions{Total} > $SessionLimitPriorWarning ) {
 
-            if (   $OTRSBusinessSystemData{AgentSessionLimitPriorWarning}
-                && $OTRSBusinessSystemData{AgentSessionLimitPriorWarning} == $SessionLimitPriorWarning )
+            if (
+                $OTRSBusinessSystemData{AgentSessionLimitPriorWarning}
+                && $OTRSBusinessSystemData{AgentSessionLimitPriorWarning} == $SessionLimitPriorWarning
+                )
             {
                 $PriorWarningMessage = 'You have exceeded the number of concurrent agents - contact sales@otrs.com.';
             }
@@ -258,9 +262,11 @@ sub CreateSessionID {
 
         if ( $SessionLimit && defined $ActiveSessions{Total} && $ActiveSessions{Total} >= $SessionLimit ) {
 
-            if (   $Param{UserType} eq 'User'
+            if (
+                $Param{UserType} eq 'User'
                 && $OTRSBusinessSystemData{AgentSessionLimit}
-                && $OTRSBusinessSystemData{AgentSessionLimit} == $SessionLimit )
+                && $OTRSBusinessSystemData{AgentSessionLimit} == $SessionLimit
+                )
             {
                 $Self->{SessionIDErrorMessage}
                     = 'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!';
@@ -271,10 +277,12 @@ sub CreateSessionID {
             return;
         }
 
-        if (   $SessionPerUserLimit
+        if (
+            $SessionPerUserLimit
             && $Param{UserLogin}
             && defined $ActiveSessions{PerUser}->{ $Param{UserLogin} }
-            && $ActiveSessions{PerUser}->{ $Param{UserLogin} } >= $SessionPerUserLimit )
+            && $ActiveSessions{PerUser}->{ $Param{UserLogin} } >= $SessionPerUserLimit
+            )
         {
 
             $Self->{SessionIDErrorMessage} = 'Session per user limit reached!';

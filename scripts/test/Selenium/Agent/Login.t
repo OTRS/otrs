@@ -64,12 +64,12 @@ $Selenium->RunTest(
         my $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogins[0]);
+        $Element->send_keys( $TestUserLogins[0] );
 
         $Element = $Selenium->find_element( 'input#Password', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogins[0]);
+        $Element->send_keys( $TestUserLogins[0] );
 
         # login
         $Element->VerifiedSubmit();
@@ -111,12 +111,12 @@ $Selenium->RunTest(
         $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogins[0]);
+        $Element->send_keys( $TestUserLogins[0] );
 
         $Element = $Selenium->find_element( 'input#Password', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogins[0]);
+        $Element->send_keys( $TestUserLogins[0] );
 
         $Element->VerifiedSubmit();
 
@@ -137,12 +137,12 @@ $Selenium->RunTest(
         $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogins[2]);
+        $Element->send_keys( $TestUserLogins[2] );
 
         $Element = $Selenium->find_element( 'input#Password', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogins[2]);
+        $Element->send_keys( $TestUserLogins[2] );
 
         $Element->VerifiedSubmit();
 
@@ -160,12 +160,12 @@ $Selenium->RunTest(
         $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogins[0]);
+        $Element->send_keys( $TestUserLogins[0] );
 
         $Element = $Selenium->find_element( 'input#Password', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogins[0]);
+        $Element->send_keys( $TestUserLogins[0] );
 
         $Element->VerifiedSubmit();
 
