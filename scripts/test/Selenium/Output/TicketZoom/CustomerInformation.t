@@ -164,7 +164,7 @@ $Selenium->RunTest(
 
         # verify there is link to CustomerCompany ticket search
         $Self->True(
-            $Selenium->find_element("//a[contains(\@href, \'CustomerID=$CompanyNameID;StateType=Open\')]"),
+            $Selenium->find_element("//a[contains(\@href, \'CustomerIDRaw=$CompanyNameID;StateType=Open\')]"),
             "Found Ticket search link in Customer Information"
         );
 

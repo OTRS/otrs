@@ -70,10 +70,10 @@ $Selenium->RunTest(
         my $ShortLink = "${ScriptAlias}index.pl?Action=AgentTicketSearch;Subaction=Search;";
 
         my $EscalatedTicketsLink = $ShortLink
-            . "EscalationTimeSearchType=TimePoint;TicketEscalationTimePointStart=Before;TicketEscalationTimePointFormat=minute;TicketEscalationTimePoint=1;CustomerID=$TestCustomerID";
-        my $OpenTicketsLink   = $ShortLink . "StateType=Open;CustomerID=$TestCustomerID";
-        my $ClosedTicketsLink = $ShortLink . "StateType=closed;CustomerID=$TestCustomerID";
-        my $AllTicketsLink    = $ShortLink . "CustomerID=$TestCustomerID";
+            . "EscalationTimeSearchType=TimePoint;TicketEscalationTimePointStart=Before;TicketEscalationTimePointFormat=minute;TicketEscalationTimePoint=1;CustomerIDRaw=$TestCustomerID";
+        my $OpenTicketsLink   = $ShortLink . "StateType=Open;CustomerIDRaw=$TestCustomerID";
+        my $ClosedTicketsLink = $ShortLink . "StateType=closed;CustomerIDRaw=$TestCustomerID";
+        my $AllTicketsLink    = $ShortLink . "CustomerIDRaw=$TestCustomerID";
         push @TicketsLinks, $EscalatedTicketsLink, $OpenTicketsLink, $ClosedTicketsLink, $AllTicketsLink;
 
         # test company status widget

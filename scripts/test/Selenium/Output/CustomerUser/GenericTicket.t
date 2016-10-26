@@ -147,7 +147,7 @@ $Selenium->RunTest(
 
             # click on link
             $Selenium->find_element(
-                "//a[contains(\@href, \'$TicketData{$TestLinks}->{TicketLink};CustomerUserLogin=$TestCustomerUserLogin' )]"
+                "//a[contains(\@href, \'$TicketData{$TestLinks}->{TicketLink};CustomerUserLoginRaw=$TestCustomerUserLogin' )]"
             )->VerifiedClick();
 
             $Selenium->WaitFor( WindowCount => 2 );

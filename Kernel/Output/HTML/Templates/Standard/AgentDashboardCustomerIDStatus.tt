@@ -12,7 +12,7 @@
 [% RenderBlockStart("ContentSmallCustomerIDStatusEscalatedTickets") %]
     <label>[% Translate("Escalated tickets") | html %]:</label>
     <div class="Field">
-        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;EscalationTimeSearchType=TimePoint;TicketEscalationTimePointStart=Before;TicketEscalationTimePointFormat=minute;TicketEscalationTimePoint=1;CustomerID=[% Data.CustomerID | uri %]">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;EscalationTimeSearchType=TimePoint;TicketEscalationTimePointStart=Before;TicketEscalationTimePointFormat=minute;TicketEscalationTimePoint=1;CustomerIDRaw=[% Data.CustomerID | uri %]">
             [% Data.Count | html %]
         </a>
     </div>
@@ -22,7 +22,7 @@
 [% RenderBlockStart("ContentSmallCustomerIDStatusOpenTickets") %]
     <label>[% Translate("Open tickets") | html %]:</label>
     <div class="Field">
-        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerID=[% Data.CustomerID | uri %]">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerIDRaw=[% Data.CustomerID | uri %]">
             [% Data.Count | html %]
         </a>
     </div>
@@ -32,7 +32,7 @@
 [% RenderBlockStart("ContentSmallCustomerIDStatusClosedTickets") %]
     <label>[% Translate("Closed tickets") | html %]:</label>
     <div class="Field">
-        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=closed;CustomerID=[% Data.CustomerID | uri %]">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=closed;CustomerIDRaw=[% Data.CustomerID | uri %]">
             [% Data.Count | html %]
         </a>
     </div>
@@ -42,7 +42,7 @@
 [% RenderBlockStart("ContentSmallCustomerIDStatusAllTickets") %]
     <label>[% Translate("All tickets") | html %]:</label>
     <div class="Field">
-        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;CustomerID=[% Data.CustomerID | uri %]">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;CustomerIDRaw=[% Data.CustomerID | uri %]">
             [% Data.Count | html %]
         </a>
     </div>
@@ -52,7 +52,7 @@
 [% RenderBlockStart("ContentSmallCustomerIDStatusArchivedTickets") %]
     <label>[% Translate("Archived tickets") | html %]:</label>
     <div class="Field">
-        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;CustomerID=[% Data.CustomerID | uri %];SearchInArchive=ArchivedTickets">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;CustomerIDRaw=[% Data.CustomerID | uri %];SearchInArchive=ArchivedTickets">
             [% Data.Count | html %]
         </a>
     </div>
