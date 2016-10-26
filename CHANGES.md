@@ -1,4 +1,6 @@
-#3.3.16 ????-??-??
+#3.3.17 ????-??-??
+
+#3.3.16 2016-11-01
  - 2016-10-06 Improved sandboxing of displayed attachments.
  - 2016-04-21 Added package verification information to otrs.PackageManager.pl, use bin/otrs.PackageManager.pl -a list -e (to show package verification information) or bin/otrs.PackageManager.pl -a list -e -c (to show package verification information deleting the cache before).
  - 2016-03-29 Fixed bug#[11959](http://bugs.otrs.org/show_bug.cgi?id=11959) - 500 Can't connect to www.otrs.com/product.xml:443.
