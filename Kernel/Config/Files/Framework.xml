@@ -948,6 +948,16 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###8000-AgentSessionLimit" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::AgentSessionLimit</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###9000-Generic" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.</Description>
         <Group>Framework</Group>
@@ -1025,11 +1035,11 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionActiveTime" Required="1" Valid="1">
-        <Description Translatable="1">Sets the time (in seconds) a user is marked as active.</Description>
+        <Description Translatable="1">Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,8}$">600</String>
+            <String Regex="^[3-9][0-9]{2,6}|[1-9][0-9]{3,6}$">600</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
@@ -1074,6 +1084,14 @@
                 <Item Key="0" Translatable="1">No</Item>
                 <Item Key="1" Translatable="1">Yes</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentSessionLimitPriorWarning" Required="0" Valid="0">
+        <Description Translatable="1">Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,8}$">90</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="AgentSessionLimit" Required="0" Valid="1">

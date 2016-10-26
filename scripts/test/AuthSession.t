@@ -76,6 +76,20 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     next MODULEFILE if !$Module;
 
+    # Reset the AgentSessionLimitPriorWarning, AgentSessionLimit
+    #   and AgentSessionPerUserLimit at the beginning for the diffrent backend modules.
+    $ConfigObject->Set(
+        Key   => 'AgentSessionLimitPriorWarning',
+    );
+    $ConfigObject->Set(
+        Key   => 'AgentSessionLimit',
+        Value => 100,
+    );
+    $ConfigObject->Set(
+        Key   => 'AgentSessionPerUserLimit',
+        Value => 20,
+    );
+
     $ConfigObject->Set(
         Key   => 'SessionModule',
         Value => "Kernel::System::AuthSession::$Module",
@@ -444,6 +458,99 @@ for my $ModuleFile (@BackendModuleFiles) {
         scalar @Session,
         0,
         "#$Module - SessionList() no sessions left",
+    );
+
+    # Some special tests for AgentSessionLimit.
+    my $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
+
+    $Self->False(
+        $AgentSessionLimitPriorWarningMessage,
+        "#$Module - CheckAgentSessionLimitPriorWarning() - AgentSessionLimitPriorWarning not active",
+    );
+
+    for my $Count ( 1 .. 2 ) {
+
+        my %NewSessionData = (
+            UserLogin => 'root' . $Count,
+            UserType  => 'User',
+        );
+
+        my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
+
+        $Self->True(
+            $SessionID,
+            "#$Module - CreateSessionID()",
+        );
+    }
+
+    $ConfigObject->Set(
+        Key   => 'AgentSessionPerUserLimit',
+        Value => 1,
+    );
+    $ConfigObject->Set(
+        Key   => 'AgentSessionLimitPriorWarning',
+        Value => 1,
+    );
+
+    # Reset the session object, to get the new config settings.
+    $SessionObject = Kernel::System::AuthSession->new();
+
+    $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
+
+    $Self->True(
+        $AgentSessionLimitPriorWarningMessage,
+        "#$Module - CheckAgentSessionLimitPriorWarning() - AgentSessionLimitPriorWarning reached",
+    );
+
+    my $SessionID = $SessionObject->CreateSessionID(
+        UserLogin => 'root1',
+        UserType  => 'User',
+    );
+
+    $Self->False(
+        $SessionID,
+        "#$Module - CreateSessionID() - AgentSessionPerUserLimit reached",
+    );
+
+    my $CreateSessionIDErrorMessage = $SessionObject->SessionIDErrorMessage();
+
+    $Self->Is(
+        $CreateSessionIDErrorMessage,
+        'Session per user limit reached!',
+        "#$Module - CreateSessionID() - AgentSessionLimit error message",
+    );
+
+    $ConfigObject->Set(
+        Key   => 'AgentSessionLimit',
+        Value => 2,
+    );
+
+    # Reset the session object, to get the new config settings.
+    $SessionObject = Kernel::System::AuthSession->new();
+
+    $SessionID = $SessionObject->CreateSessionID(
+        UserLogin => 'limit-reached',
+        UserType  => 'User',
+    );
+
+    $Self->False(
+        $SessionID,
+        "#$Module - CreateSessionID() - AgentSessionLimit reached",
+    );
+
+    $CreateSessionIDErrorMessage = $SessionObject->SessionIDErrorMessage();
+
+    $Self->Is(
+        $CreateSessionIDErrorMessage,
+        'Session limit reached! Please try again later.',
+        "#$Module - CreateSessionID() - AgentSessionLimit error message",
+    );
+
+    $CleanUp = $SessionObject->CleanUp();
+
+    $Self->True(
+        $CleanUp,
+        "#$Module - CleanUp after session limit tests()",
     );
 }
 
