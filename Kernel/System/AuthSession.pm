@@ -127,7 +127,7 @@ sub CheckAgentSessionLimitPriorWarning {
             UserType => 'User',
         );
 
-        if ( defined $ActiveSessions{Total} && $ActiveSessions{Total} >= $SessionLimitPriorWarning ) {
+        if ( defined $ActiveSessions{Total} && $ActiveSessions{Total} > $SessionLimitPriorWarning ) {
 
             if ( $OTRSBusinessSystemData{AgentSessionLimitPriorWarning} && $OTRSBusinessSystemData{AgentSessionLimitPriorWarning} == $SessionLimitPriorWarning ) {
                 $PriorWarningMessage = Translatable('You have exceeded the number of concurrent agents - contact sales@otrs.com.');
