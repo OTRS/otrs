@@ -150,7 +150,7 @@ sub Run {
         );
 
         $TicketSearch{CustomerUserLogin} = $CustomerUserLoginEscaped;
-        $URL .= ';CustomerUserLogin='
+        $URL .= ';CustomerUserLoginRaw='
             . $LayoutObject->LinkEncode($CustomerUserLoginEscaped);
     }
 
