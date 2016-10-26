@@ -556,11 +556,16 @@ sub HandleBusinessPermissionCloudServiceResult {
         LastUpdateTime     => $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
             SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
         ),
+        AgentSessionLimit             => $OperationResult->{Data}->{AgentSessionLimit},
+        AgentSessionLimitPriorWarning => $OperationResult->{Data}->{AgentSessionLimitPriorWarning},
     );
 
     my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
 
+    KEY:
     for my $Key ( sort keys %StoreData ) {
+        next KEY if !defined $StoreData{$Key};
+
         my $FullKey = 'OTRSBusiness::' . $Key;
 
         if ( defined $SystemDataObject->SystemDataGet( Key => $FullKey ) ) {

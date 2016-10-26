@@ -625,6 +625,9 @@ sub LoadDefaults {
         '200-UID-Check' => {
           'Module' => 'Kernel::Output::HTML::NotificationUIDCheck',
         },
+        '250-AgentSessionLimit' => {
+          'Module' => 'Kernel::Output::HTML::NotificationAgentSessionLimit',
+        },
         '500-OutofOffice-Check' => {
           'Module' => 'Kernel::Output::HTML::NotificationOutofOfficeCheck',
         },

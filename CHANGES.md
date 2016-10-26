@@ -1,6 +1,7 @@
 #4.0.20 2016-??-??
 
 #4.0.19 2016-11-01
+ - 2016-10-26 Added a new agent session limit prior warning notification (SysConfig setting 'AgentSessionLimitPriorWarning') and added the concurrent agent management for the otrs business solution.
  - 2016-10-23 Fixed bug#[11766](http://bugs.otrs.org/show_bug.cgi?id=11766) - Ticket unlock via Generic Interface not possible.
  - 2016-10-21 Fixed bug#[12311](http://bugs.otrs.org/show_bug.cgi?id=12311) - Process names are listed by ID instead of by name.
  - 2016-10-21 Fixed bug#[666](http://bugs.otrs.org/show_bug.cgi?id=666) - INSERTs into 'ticket_history' fail sometimes.

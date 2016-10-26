@@ -25,11 +25,26 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new(
 $Selenium->RunTest(
     sub {
 
-        my $Helper = Kernel::System::UnitTest::Helper->new(
-            RestoreSystemConfiguration => 0,
+        # get needed objects
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
         );
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-        my $TestUserLogin = $Helper->TestUserCreate() || die "Did not get test user";
+        my @TestUserLogins;
+
+        for ( 0 .. 2 ) {
+
+            # create test user and login
+            my $TestUserLogin = $Helper->TestUserCreate(
+                Groups => [ 'admin', 'users' ],
+            ) || die "Did not get test user";
+
+            push @TestUserLogins, $TestUserLogin;
+        }
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
@@ -49,12 +64,12 @@ $Selenium->RunTest(
         my $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogin);
+        $Element->send_keys($TestUserLogins[0]);
 
         $Element = $Selenium->find_element( 'input#Password', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogin);
+        $Element->send_keys($TestUserLogins[0]);
 
         # login
         $Element->VerifiedSubmit();
@@ -65,11 +80,101 @@ $Selenium->RunTest(
         # logout again
         $Element->VerifiedClick();
 
-        # login page?
+        my @SessionIDs;
+
+        my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
+        for my $Counter ( 1 .. 2 ) {
+
+            # create new session id
+            my $NewSessionID = $SessionObject->CreateSessionID(
+                UserLogin       => $TestUserLogins[$Counter],
+                UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+                UserType        => 'User',
+            );
+
+            $Self->True(
+                $NewSessionID,
+                "Create SessionID for user '$TestUserLogins[$Counter]'",
+            );
+
+            push @SessionIDs, $NewSessionID;
+        }
+
+        # use test email backend
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'AgentSessionLimitPriorWarning',
+            Value => 1,
+        );
+
         $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
-        $Element->send_keys($TestUserLogin);
+        $Element->send_keys($TestUserLogins[0]);
+
+        $Element = $Selenium->find_element( 'input#Password', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys($TestUserLogins[0]);
+
+        $Element->VerifiedSubmit();
+
+        $Self->True(
+            index( $Selenium->get_page_source(), 'Please note that the session limit is almost reached.' ) > -1,
+            "AgentSessionLimitPriorWarning is reached.",
+        );
+
+        $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
+        $Element->VerifiedClick();
+
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'AgentSessionPerUserLimit',
+            Value => 1,
+        );
+
+        $Element = $Selenium->find_element( 'input#User', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys($TestUserLogins[2]);
+
+        $Element = $Selenium->find_element( 'input#Password', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys($TestUserLogins[2]);
+
+        $Element->VerifiedSubmit();
+
+        $Self->True(
+            index( $Selenium->get_page_source(), 'Session per user limit reached!' ) > -1,
+            "AgentSessionPerUserLimit is reached.",
+        );
+
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'AgentSessionLimit',
+            Value => 2,
+        );
+
+        $Element = $Selenium->find_element( 'input#User', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys($TestUserLogins[0]);
+
+        $Element = $Selenium->find_element( 'input#Password', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys($TestUserLogins[0]);
+
+        $Element->VerifiedSubmit();
+
+        $Self->True(
+            index( $Selenium->get_page_source(), 'Session limit reached! Please try again later.' ) > -1,
+            "AgentSessionLimit is reached.",
+        );
+
+        $SessionObject->CleanUp();
     }
 );
 

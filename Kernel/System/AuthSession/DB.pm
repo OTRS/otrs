@@ -34,13 +34,12 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get more common params
-    $Self->{SessionTable}                = $ConfigObject->Get('SessionTable') || 'sessions';
-    $Self->{SystemID}                    = $ConfigObject->Get('SystemID');
-    $Self->{AgentSessionLimit}           = $ConfigObject->Get('AgentSessionLimit');
-    $Self->{AgentSessionPerUserLimit}    = $ConfigObject->Get('AgentSessionPerUserLimit');
-    $Self->{CustomerSessionLimit}        = $ConfigObject->Get('CustomerSessionLimit');
-    $Self->{CustomerSessionPerUserLimit} = $ConfigObject->Get('CustomerSessionPerUserLimit');
-    $Self->{SessionActiveTime}           = $ConfigObject->Get('SessionActiveTime') || 60 * 10;
+    $Self->{SessionTable}      = $ConfigObject->Get('SessionTable')      || 'sessions';
+    $Self->{SessionActiveTime} = $ConfigObject->Get('SessionActiveTime') || 60 * 10;
+
+    if ( $Self->{SessionActiveTime} < 300 ) {
+        $Self->{SessionActiveTime} = 300;
+    }
 
     # get database type
     $Self->{DBType} = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'} || '';
@@ -231,101 +230,7 @@ sub GetSessionIDData {
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
-    # get system time
     my $TimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
-
-    # get session limit config
-    my $SessionLimit;
-    if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionLimit} ) {
-        $SessionLimit = $Self->{AgentSessionLimit};
-    }
-    elsif ( $Param{UserType} && $Param{UserType} eq 'Customer' && $Self->{CustomerSessionLimit} ) {
-        $SessionLimit = $Self->{CustomerSessionLimit};
-    }
-
-    # get session per user limit config
-    my $SessionPerUserLimit;
-    if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionPerUserLimit} ) {
-        $SessionPerUserLimit = $Self->{AgentSessionPerUserLimit};
-    }
-    elsif (
-        $Param{UserType}
-        && $Param{UserType} eq 'Customer'
-        && $Self->{CustomerSessionPerUserLimit}
-        )
-    {
-        $SessionPerUserLimit = $Self->{CustomerSessionPerUserLimit};
-    }
-
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    if ( $SessionLimit || $SessionPerUserLimit ) {
-
-        # get all needed timestamps to investigate the expired sessions
-        $DBObject->Prepare(
-            SQL => "
-                SELECT session_id, data_key, data_value
-                FROM $Self->{SessionTable}
-                WHERE data_key = 'UserType'
-                    OR data_key = 'UserLastRequest'
-                    OR data_key = 'UserLogin'
-                ORDER BY id ASC",
-        );
-
-        my %SessionData;
-        ROW:
-        while ( my @Row = $DBObject->FetchrowArray() ) {
-
-            next ROW if !$Row[0];
-            next ROW if !$Row[1];
-
-            $SessionData{ $Row[0] }->{ $Row[1] } = $Row[2];
-        }
-
-        my $ActiveSessionCount = 0;
-        my %ActiveSessionPerUserCount;
-        SESSIONID:
-        for my $SessionID ( sort keys %SessionData ) {
-
-            next SESSIONID if !$SessionID;
-            next SESSIONID if !$SessionData{$SessionID};
-
-            # get needed data
-            my $UserType        = $SessionData{$SessionID}->{UserType}        || '';
-            my $UserLastRequest = $SessionData{$SessionID}->{UserLastRequest} || $TimeNow;
-            my $UserLogin       = $SessionData{$SessionID}->{UserLogin};
-
-            next SESSIONID if $UserType ne $Param{UserType};
-
-            next SESSIONID if ( $UserLastRequest + $Self->{SessionActiveTime} ) < $TimeNow;
-
-            $ActiveSessionCount++;
-
-            $ActiveSessionPerUserCount{$UserLogin} || 0;
-            $ActiveSessionPerUserCount{$UserLogin}++;
-
-            next SESSIONID if $ActiveSessionCount < $SessionLimit;
-
-            $Self->{SessionIDErrorMessage} = 'Session limit reached! Please try again later.';
-
-            return;
-        }
-
-        # check session per user limit
-        if (
-            $SessionPerUserLimit
-            && $Param{UserLogin}
-            && defined $ActiveSessionPerUserCount{ $Param{UserLogin} }
-            && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit
-            )
-        {
-
-            $Self->{SessionIDErrorMessage} = 'Session per user limit reached!';
-
-            return;
-        }
-    }
 
     # get remote address and the http user agent
     my $RemoteAddr      = $ENV{REMOTE_ADDR}     || 'none';
@@ -357,6 +262,8 @@ sub CreateSessionID {
     $Data{UserRemoteAddr}      = $RemoteAddr;
     $Data{UserRemoteUserAgent} = $RemoteUserAgent;
     $Data{UserChallengeToken}  = $ChallengeToken;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # create sql data
     my @SQLs;
@@ -476,6 +383,65 @@ sub GetAllSessionIDs {
     }
 
     return @SessionIDs;
+}
+
+sub GetActiveSessions {
+    my ( $Self, %Param ) = @_;
+
+    # get system time
+    my $TimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    $DBObject->Prepare(
+        SQL => "
+            SELECT session_id, data_key, data_value
+            FROM $Self->{SessionTable}
+            WHERE data_key = 'UserType'
+                OR data_key = 'UserLastRequest'
+                OR data_key = 'UserLogin'
+            ORDER BY id ASC",
+    );
+
+    my %SessionData;
+    ROW:
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+
+        next ROW if !$Row[0];
+        next ROW if !$Row[1];
+
+        $SessionData{ $Row[0] }->{ $Row[1] } = $Row[2];
+    }
+
+    my $ActiveSessionCount = 0;
+    my %ActiveSessionPerUserCount;
+    SESSIONID:
+    for my $SessionID ( sort keys %SessionData ) {
+
+        next SESSIONID if !$SessionID;
+        next SESSIONID if !$SessionData{$SessionID};
+
+        # get needed data
+        my $UserType        = $SessionData{$SessionID}->{UserType}        || '';
+        my $UserLastRequest = $SessionData{$SessionID}->{UserLastRequest} || $TimeNow;
+        my $UserLogin       = $SessionData{$SessionID}->{UserLogin};
+
+        next SESSIONID if $UserType ne $Param{UserType};
+
+        next SESSIONID if ( $UserLastRequest + $Self->{SessionActiveTime} ) < $TimeNow;
+
+        $ActiveSessionCount++;
+
+        $ActiveSessionPerUserCount{$UserLogin} || 0;
+        $ActiveSessionPerUserCount{$UserLogin}++;
+    }
+
+    my %Result = (
+        Total   => $ActiveSessionCount,
+        PerUser => \%ActiveSessionPerUserCount,
+    );
+
+    return %Result;
 }
 
 sub GetExpiredSessionIDs {
