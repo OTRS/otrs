@@ -62,7 +62,10 @@ sub new {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    for my $SessionLimitConfigKey (qw(AgentSessionLimitPriorWarning AgentSessionLimit AgentSessionPerUserLimit CustomerSessionLimit CustomerSessionPerUserLimit) ) {
+    for my $SessionLimitConfigKey (
+        qw(AgentSessionLimitPriorWarning AgentSessionLimit AgentSessionPerUserLimit CustomerSessionLimit CustomerSessionPerUserLimit)
+        )
+    {
         $Self->{$SessionLimitConfigKey} = $ConfigObject->Get($SessionLimitConfigKey);
     }
 
@@ -110,7 +113,12 @@ sub CheckAgentSessionLimitPriorWarning {
     );
 
     my $SessionLimitPriorWarning = $OTRSBusinessSystemData{AgentSessionLimitPriorWarning};
-    if ( !$SessionLimitPriorWarning || ( $Self->{AgentSessionLimitPriorWarning} && $Self->{AgentSessionLimitPriorWarning} < $SessionLimitPriorWarning ) ) {
+    if (
+        !$SessionLimitPriorWarning
+        || (   $Self->{AgentSessionLimitPriorWarning}
+            && $Self->{AgentSessionLimitPriorWarning} < $SessionLimitPriorWarning )
+        )
+    {
         $SessionLimitPriorWarning = $Self->{AgentSessionLimitPriorWarning};
     }
 
@@ -123,8 +131,11 @@ sub CheckAgentSessionLimitPriorWarning {
 
         if ( defined $ActiveSessions{Total} && $ActiveSessions{Total} >= $SessionLimitPriorWarning ) {
 
-            if ( $OTRSBusinessSystemData{AgentSessionLimitPriorWarning} && $OTRSBusinessSystemData{AgentSessionLimitPriorWarning} == $SessionLimitPriorWarning ) {
-                $PriorWarningMessage = Translatable('You have exceeded the number of concurrent agents - contact sales@otrs.com.');
+            if (   $OTRSBusinessSystemData{AgentSessionLimitPriorWarning}
+                && $OTRSBusinessSystemData{AgentSessionLimitPriorWarning} == $SessionLimitPriorWarning )
+            {
+                $PriorWarningMessage
+                    = Translatable('You have exceeded the number of concurrent agents - contact sales@otrs.com.');
             }
             else {
                 $PriorWarningMessage = Translatable('Please note that the session limit is almost reached.');
@@ -244,8 +255,14 @@ sub CreateSessionID {
 
         if ( $SessionLimit && defined $ActiveSessions{Total} && $ActiveSessions{Total} >= $SessionLimit ) {
 
-            if ( $Param{UserType} eq 'User' && $OTRSBusinessSystemData{AgentSessionLimit} && $OTRSBusinessSystemData{AgentSessionLimit} == $SessionLimit ) {
-                $Self->{SessionIDErrorMessage} = Translatable('Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!');
+            if (   $Param{UserType} eq 'User'
+                && $OTRSBusinessSystemData{AgentSessionLimit}
+                && $OTRSBusinessSystemData{AgentSessionLimit} == $SessionLimit )
+            {
+                $Self->{SessionIDErrorMessage}
+                    = Translatable(
+                    'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!'
+                    );
             }
             else {
                 $Self->{SessionIDErrorMessage} = Translatable('Session limit reached! Please try again later.');
@@ -253,7 +270,11 @@ sub CreateSessionID {
             return;
         }
 
-        if ( $SessionPerUserLimit && $Param{UserLogin} && defined $ActiveSessions{PerUser}->{ $Param{UserLogin} } && $ActiveSessions{PerUser}->{ $Param{UserLogin} } >= $SessionPerUserLimit ) {
+        if (   $SessionPerUserLimit
+            && $Param{UserLogin}
+            && defined $ActiveSessions{PerUser}->{ $Param{UserLogin} }
+            && $ActiveSessions{PerUser}->{ $Param{UserLogin} } >= $SessionPerUserLimit )
+        {
 
             $Self->{SessionIDErrorMessage} = Translatable('Session per user limit reached!');
 

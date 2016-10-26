@@ -24,7 +24,8 @@ sub Run {
 
     # Check if the agent session limit for the prior warning is reached
     #   and save the message for the translation and the output.
-    my $AgentSessionLimitPriorWarningMessage = $Kernel::OM->Get('Kernel::System::AuthSession')->CheckAgentSessionLimitPriorWarning();
+    my $AgentSessionLimitPriorWarningMessage
+        = $Kernel::OM->Get('Kernel::System::AuthSession')->CheckAgentSessionLimitPriorWarning();
 
     return '' if !$AgentSessionLimitPriorWarningMessage;
 
