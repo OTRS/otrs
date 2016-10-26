@@ -32,6 +32,8 @@ answer them with a team of agents? You're going to love OTRS!
 %build
 # copy config file
 cp Kernel/Config.pm.dist Kernel/Config.pm
+# copy config POD file
+cp Kernel/Config.pod.dist Kernel/Config.pod
 # copy all crontab dist files
 for foo in var/cron/*.dist; do mv $foo var/cron/`basename $foo .dist`; done
 # copy all .dist files
@@ -128,6 +130,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir /opt/otrs/Kernel/Config/
 /opt/otrs/Kernel/Config.pm.dist
+/opt/otrs/Kernel/Config.pod.dist
 /opt/otrs/Kernel/Config/Files/
 /opt/otrs/Kernel/Config/Defaults.pm
 
@@ -158,6 +161,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /opt/otrs/var/stats/
 /opt/otrs/var/stats/*.xml
 %dir /opt/otrs/var/processes/examples/
+/opt/otrs/var/processes/examples/*
+%dir /opt/otrs/var/webservices/examples/
+/opt/otrs/var/webservices/examples/*.pm
 
 /opt/otrs/Kernel/cpan-lib*
 
