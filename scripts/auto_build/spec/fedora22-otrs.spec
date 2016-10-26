@@ -130,7 +130,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir /opt/otrs/Kernel/Config/
 /opt/otrs/Kernel/Config.pm.dist
-/opt/otrs/Kernel/Config.pod.dist
+/opt/otrs/Kernel/Config.pod
 /opt/otrs/Kernel/Config/Files/
 /opt/otrs/Kernel/Config/Defaults.pm
 
