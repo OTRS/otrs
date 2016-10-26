@@ -35,7 +35,7 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get more common params
-    $Self->{SessionTable}      = $ConfigObject->Get('SessionTable') || 'sessions';
+    $Self->{SessionTable}      = $ConfigObject->Get('SessionTable')      || 'sessions';
     $Self->{SessionActiveTime} = $ConfigObject->Get('SessionActiveTime') || 60 * 10;
 
     if ( $Self->{SessionActiveTime} < 300 ) {

@@ -79,7 +79,7 @@ for my $ModuleFile (@BackendModuleFiles) {
     # Reset the AgentSessionLimitPriorWarning, AgentSessionLimit
     #   and AgentSessionPerUserLimit at the beginning for the different backend modules.
     $ConfigObject->Set(
-        Key   => 'AgentSessionLimitPriorWarning',
+        Key => 'AgentSessionLimitPriorWarning',
     );
     $ConfigObject->Set(
         Key   => 'AgentSessionLimit',
