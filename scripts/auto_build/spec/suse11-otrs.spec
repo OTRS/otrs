@@ -35,7 +35,7 @@ SuSE series: ap
 # copy config file
 cp Kernel/Config.pm.dist Kernel/Config.pm
 # copy config POD file
-cp Kernel/Config.pod.dist Kernel/Config.pod
+mv Kernel/Config.pod.dist Kernel/Config.pod
 # copy all crontab dist files
 for foo in var/cron/*.dist; do mv $foo var/cron/`basename $foo .dist`; done
 # copy all .dist files
