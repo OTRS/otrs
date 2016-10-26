@@ -60,7 +60,9 @@
  - 2015-11-27 Improved Generic Agent performance at deleting old execution times. Thanks to Moritz Lenz @ noris networks.
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
-#5.0.14 2016-??-??
+#5.0.15 2016-??-??
+
+#5.0.14 2016-11-01
  - 2016-10-26 Added a new agent session limit prior warning notification (SysConfig setting 'AgentSessionLimitPriorWarning') and added the concurrent agent management for the otrs business solution.
  - 2016-10-25 Added notification type handling for NotificationList in NotificationEvent backend.
  - 2016-10-25 Added caching to NotificationEvent backend.
