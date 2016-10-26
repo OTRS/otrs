@@ -1,4 +1,5 @@
 #5.0.14 2016-??-??
+ - 2016-10-26 Updated translations, thanks to all translators.
  - 2016-10-26 Added a new agent session limit prior warning notification (SysConfig setting 'AgentSessionLimitPriorWarning') and added the concurrent agent management for the otrs business solution.
  - 2016-10-25 Added notification type handling for NotificationList in NotificationEvent backend.
  - 2016-10-25 Added caching to NotificationEvent backend.

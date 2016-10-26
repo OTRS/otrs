@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-10-25 14:18+0000\n"
+"POT-Creation-Date: 2016-10-26 16:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12142,7 +12142,19 @@ msgstr ""
 msgid "Order by"
 msgstr ""
 
-#. Perl Module: Kernel/System/AuthSession/DB.pm
+#. Perl Module: Kernel/System/AuthSession.pm
+msgid "You have exceeded the number of concurrent agents - contact sales@otrs.com."
+msgstr ""
+
+#. Perl Module: Kernel/System/AuthSession.pm
+msgid "Please note that the session limit is almost reached."
+msgstr ""
+
+#. Perl Module: Kernel/System/AuthSession.pm
+msgid "Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!"
+msgstr ""
+
+#. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session per user limit reached!"
 msgstr ""
 
@@ -15322,6 +15334,10 @@ msgid "Defines the module to display a notification in the agent interface, if t
 msgstr ""
 
 #. SysConfig
+msgid "Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin)."
 msgstr ""
 
@@ -16530,7 +16546,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18050,6 +18066,10 @@ msgid "Sets the inactivity time (in seconds) to pass before a session is killed 
 msgstr ""
 
 #. SysConfig
+msgid "Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the maximum number of active agents within the timespan defined in SessionActiveTime."
 msgstr ""
 
@@ -18258,7 +18278,7 @@ msgid "Sets the ticket type in the ticket responsible screen of the agent interf
 msgstr ""
 
 #. SysConfig
-msgid "Sets the time (in seconds) a user is marked as active."
+msgid "Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds)."
 msgstr ""
 
 #. SysConfig
