@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-10-27 Fixed bug#[12380](http://bugs.otrs.org/show_bug.cgi?id=12380) - GenericInterface: Buttons to mapping configuration are missing session data.
  - 2016-10-26 Updated translations, thanks to all translators.
  - 2016-10-21 Fixed bug#[12285](http://bugs.otrs.org/show_bug.cgi?id=12285) - Invalid customer user still receive admin notification.
  - 2016-10-20 Simplified the way how fontawesome is being integrated to ease future updates and updated to 4.6.3.
