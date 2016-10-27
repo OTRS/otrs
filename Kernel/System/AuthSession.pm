@@ -131,7 +131,7 @@ sub CheckAgentSessionLimitPriorWarning {
             UserType => 'User',
         );
 
-        if ( defined $ActiveSessions{Total} && $ActiveSessions{Total} >= $SessionLimitPriorWarning ) {
+        if ( defined $ActiveSessions{Total} && $ActiveSessions{Total} > $SessionLimitPriorWarning ) {
 
             if (
                 $OTRSBusinessSystemData{AgentSessionLimitPriorWarning}

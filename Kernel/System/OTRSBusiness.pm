@@ -575,7 +575,10 @@ sub HandleBusinessPermissionCloudServiceResult {
 
     my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
 
+    KEY:
     for my $Key ( sort keys %StoreData ) {
+        next KEY if !defined $StoreData{$Key};
+
         my $FullKey = 'OTRSBusiness::' . $Key;
 
         if ( defined $SystemDataObject->SystemDataGet( Key => $FullKey ) ) {
