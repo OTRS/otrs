@@ -1,6 +1,7 @@
 #5.0.15 2016-??-??
 
 #5.0.14 2016-11-01
+ - 2016-10-27 Added a new support data collector plugin to check for spooled (incorrectly processed) emails.
  - 2016-10-26 Updated translations, thanks to all translators.
  - 2016-10-26 Added a new agent session limit prior warning notification (SysConfig setting 'AgentSessionLimitPriorWarning') and added the concurrent agent management for the otrs business solution.
  - 2016-10-25 Added notification type handling for NotificationList in NotificationEvent backend.
