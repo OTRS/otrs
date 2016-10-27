@@ -19,6 +19,7 @@
 
 %dir /opt/otrs/Kernel/Config/
 /opt/otrs/Kernel/Config.pm.dist
+/opt/otrs/Kernel/Config.pod
 /opt/otrs/Kernel/Config/Files/
 /opt/otrs/Kernel/Config/Defaults.pm
 
@@ -52,6 +53,9 @@
 %dir /opt/otrs/var/stats/
 /opt/otrs/var/stats/*.xml
 %dir /opt/otrs/var/processes/examples/
+/opt/otrs/var/processes/examples/*
+%dir /opt/otrs/var/webservices/examples/
+/opt/otrs/var/webservices/examples/*.pm
 
 /opt/otrs/Kernel/cpan-lib*
 

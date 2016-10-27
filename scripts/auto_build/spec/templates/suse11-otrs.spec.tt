@@ -8,7 +8,6 @@ Group:        Applications/Mail
 Provides:     otrs
 Requires:     [%
     Requires = [
-        'bash-completion',
         'cronie',
         'apache2',
         'apache2-mod_perl',
