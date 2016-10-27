@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.977722772277228;
+    $Self->{Completeness}        = 0.977319587628866;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -929,7 +929,7 @@ sub Data {
             'Необходимо для наличия данных о клиенте и подключения к системе через интерфейс клиента',
         'Last Login' => 'Последний вход',
         'Login as' => 'Зайти данным пользователем',
-        'Switch to customer' => 'Переключится на клиента',
+        'Switch to customer' => 'Переключиться на клиента',
         'Add Customer User' => 'Добавить клиента',
         'Edit Customer User' => 'Редактировать клиента',
         'This field is required and needs to be a valid email address.' =>
@@ -2930,8 +2930,8 @@ sub Data {
             'OTRS работает с большим списком браузеров, пожалуйста, обновитесь до одного из них.',
         'Please see the documentation or ask your admin for further information.' =>
             'Обратитесь к документации или спросите своего администратора для получения дополнительной информации.',
-        'Switch to mobile mode' => 'Переключится на мобильный режим',
-        'Switch to desktop mode' => 'Переключится на режим ПК',
+        'Switch to mobile mode' => 'Переключиться на мобильный режим',
+        'Switch to desktop mode' => 'Переключиться на режим ПК',
         'Not available' => 'Не доступно',
         'Clear all' => 'Очистить всё',
         'Clear search' => 'Очистить параметры поиска',
@@ -4256,6 +4256,10 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
         'Package List' => 'Список пакетов',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
+        'Spooled Emails' => '',
+        'There are emails in var/spool that OTRS could not process.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>

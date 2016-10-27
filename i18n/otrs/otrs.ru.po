@@ -4,6 +4,7 @@
 # Anton <anton.astashkin@gmail.com>, 2015
 # Antonio Kless, 2015
 # Antonio Kless, 2015
+# Anton <hellbartonio@mail.ru>, 2016
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Grigoriy <mr.bg.prodix@gmail.com>, 2015
 # Илья Сапунов <ilya.sapunov@gmail.com>, 2015
@@ -23,8 +24,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-26 16:47+0000\n"
-"PO-Revision-Date: 2016-10-26 21:49+0000\n"
+"POT-Creation-Date: 2016-10-27 10:09+0000\n"
+"PO-Revision-Date: 2016-10-27 15:10+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -3319,7 +3320,7 @@ msgstr "Зайти данным пользователем"
 
 #. Template: AdminCustomerUser
 msgid "Switch to customer"
-msgstr "Переключится на клиента"
+msgstr "Переключиться на клиента"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
@@ -9711,11 +9712,11 @@ msgstr "Обратитесь к документации или спросите
 
 #. Template: CustomerFooterJS
 msgid "Switch to mobile mode"
-msgstr "Переключится на мобильный режим"
+msgstr "Переключиться на мобильный режим"
 
 #. Template: CustomerFooterJS
 msgid "Switch to desktop mode"
-msgstr "Переключится на режим ПК"
+msgstr "Переключиться на режим ПК"
 
 #. Template: CustomerFooterJS
 msgid "Not available"
@@ -13428,6 +13429,14 @@ msgstr "Некоторые пакеты не разрешены для теку�
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
 msgid "Package List"
 msgstr "Список пакетов"
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
+msgid "Spooled Emails"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
+msgid "There are emails in var/spool that OTRS could not process."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -18422,7 +18431,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
 
 #. SysConfig
 msgid ""
