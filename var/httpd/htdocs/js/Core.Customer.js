@@ -82,16 +82,6 @@ Core.Customer = (function (TargetNS) {
         $('.TriggerFullErrorDetails').on('click', function() {
             $('.Content.ErrorDetails').toggle();
         });
-
-        // Initialize customer chat request checks in the background.
-        if (
-            typeof Core.Customer.Chat !== 'undefined'
-            && typeof Core.Customer.Chat.Toolbar !== 'undefined'
-            && Core.Config.Get('ChatEngine::Active') === '1'
-            )
-        {
-            Core.Customer.Chat.Toolbar.Init();
-        }
     };
 
     /**
