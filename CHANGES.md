@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-10-27 Fixed bug#[12380](http://bugs.otrs.org/show_bug.cgi?id=12380) - GenericInterface: Buttons to mapping configuration are missing session data.
 
 #5.0.14 2016-11-01
  - 2016-10-27 Added a new support data collector plugin to check for spooled (incorrectly processed) emails.

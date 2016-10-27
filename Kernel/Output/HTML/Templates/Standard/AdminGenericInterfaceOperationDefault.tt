@@ -108,19 +108,6 @@
                             <input type="hidden" id="MappingInboundConfigDialog" value="[% Data.MappingInboundConfigDialog | html %]" />
 [% RenderBlockStart("MappingInboundConfigureButton") %]
                             <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="[% Translate("Configure") | html %]">[% Translate("Configure") | html %]</button>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#MappingInboundConfigureButton').bind('click', function(){
-    var URL;
-
-    if ($('#MappingInboundConfigDialog').val()) {
-        URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingInboundConfigDialog').val();
-        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingInbound' + ';WebserviceID=' + $('#WebserviceID').val() ;
-        window.location.href = URL;
-    }
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("MappingInboundConfigureButton") %]
                             <p class="FieldExplanation">
                                 [% Translate("The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.") | html %]
@@ -143,19 +130,6 @@ $('#MappingInboundConfigureButton').bind('click', function(){
                             <input type="hidden" id="MappingOutboundConfigDialog" value="[% Data.MappingOutboundConfigDialog | html %]" />
 [% RenderBlockStart("MappingOutboundConfigureButton") %]
                             <button type="button" class="HideOnChange" id="MappingOutboundConfigureButton" value="[% Translate("Configure") | html %]">[% Translate("Configure") | html %]</button>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#MappingOutboundConfigureButton').bind('click', function(){
-    var URL;
-
-    if ($('#MappingOutboundConfigDialog').val()) {
-        URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingOutboundConfigDialog').val();
-        URL += ';Subaction=Change;Operation=' + $('#OldOperation').val() + ';Direction=MappingOutbound' + ';WebserviceID=' + $('#WebserviceID').val();
-        window.location.href = URL;
-    }
-});
-//]]></script>
-[% END %]
 [% RenderBlockEnd("MappingOutboundConfigureButton") %]
                             <p class="FieldExplanation">
                                 [% Translate("The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.") | html %]

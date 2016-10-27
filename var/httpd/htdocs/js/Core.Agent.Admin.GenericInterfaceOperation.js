@@ -34,6 +34,14 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
         TargetNS.Operation = Params.Operation;
         TargetNS.Action = Params.Action;
         TargetNS.Localization = Params.Localization;
+
+        $('#MappingInboundConfigureButton').on('click', function() {
+            TargetNS.Redirect('MappingInbound');
+        });
+
+        $('#MappingOutboundConfigureButton').on('click', function() {
+            TargetNS.Redirect('MappingOutbound');
+        });
     };
 
     /**
@@ -91,6 +99,34 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
         );
 
         Event.stopPropagation();
+    };
+
+    /**
+     * @name Redirect
+     * @memberof Core.Agent.Admin.GenericInterfaceOperation
+     * @function
+     * @param {String} ConfigKey
+     * @description
+     *      Redirects.
+     */
+    TargetNS.Redirect = function(ConfigKey) {
+        var ConfigElement;
+
+        // get the Config Element name, if none it will have "null" value
+        ConfigElement = $('#' + ConfigKey + 'ConfigDialog').val();
+
+        // check is config element is a valid scring
+        if (ConfigElement !== null) {
+
+            // redirect to correct url
+            Core.App.InternalRedirect({
+                Action: ConfigElement,
+                Subaction: 'Change',
+                WebserviceID: TargetNS.WebserviceID,
+                Operation: TargetNS.Operation,
+                Direction: ConfigKey
+            });
+        }
     };
 
     return TargetNS;
