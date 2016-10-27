@@ -97,6 +97,7 @@ Core.Customer = (function (TargetNS) {
         if (
             typeof Core.Customer.Chat !== 'undefined'
             && typeof Core.Customer.Chat.Toolbar !== 'undefined'
+            && typeof Core.Customer.Chat.Toolbar.Init !== 'undefined'
             )
         {
             Core.Customer.Chat.Toolbar.Init();

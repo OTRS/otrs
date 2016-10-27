@@ -633,6 +633,7 @@ Core.Agent = (function (TargetNS) {
         if (
             typeof Core.Agent.Chat !== 'undefined'
             && typeof Core.Agent.Chat.Toolbar !== 'undefined'
+            && typeof Core.Agent.Chat.Toolbar.InitChatButtons !== 'undefined'
             )
         {
             Core.Agent.Chat.Toolbar.InitChatButtons();
