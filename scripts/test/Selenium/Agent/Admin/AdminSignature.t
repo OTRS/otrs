@@ -92,7 +92,8 @@ $Selenium->RunTest(
 
         # create real test Signature
         my $SignatureRandomID = "Signature" . $Helper->GetRandomID();
-        my $SignatureRichText = "Your Ticket-Team \n\n<OTRS_Owner_UserFirstname> <OTRS_Owner_UserLastname>";
+        # Also check leading and trailing white space.
+        my $SignatureRichText = "\n\nYour Ticket-Team \n\n<OTRS_Owner_UserFirstname> <OTRS_Owner_UserLastname>\n";
         my $SignatureComment  = "Selenium Signature test";
 
         $Selenium->find_element( "#Name",     'css' )->send_keys($SignatureRandomID);
