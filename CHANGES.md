@@ -62,6 +62,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.15 2016-??-??
+ - 2016-10-28 Fixed bug#[12349](https://bugs.otrs.org/show_bug.cgi?id=12349) - Module not working properly ArchiveRestore.
  - 2016-10-28 Fixed bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
  - 2016-10-27 Fixed bug#[12380](http://bugs.otrs.org/show_bug.cgi?id=12380) - GenericInterface: Buttons to mapping configuration are missing session data.
 

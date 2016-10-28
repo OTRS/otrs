@@ -321,7 +321,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###2300-ArchiveRestore" Required="0" Valid="1">
-        <Description Translatable="1">Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).</Description>
+        <Description Translatable="1">Restores a ticket from the archive (only if the event is a state change to any open available state).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
