@@ -358,10 +358,10 @@ sub _Change {
     my @ItemList = ();
 
     if ( $VisibleType{$NeType} eq 'Customer' ) {
-        $Param{BreadcrumbTitle} = "Change Customer Relations for Group";
+        $Param{BreadcrumbTitle} = "Change Customer User Relations for Group";
     }
     else {
-        $Param{BreadcrumbTitle} = "Change Group Relations for Customer";
+        $Param{BreadcrumbTitle} = "Change Group Relations for Customer User";
     }
 
     # overview
