@@ -182,9 +182,16 @@ sub Run {
                     return $LayoutObject->ErrorScreen();
                 }
 
+                my $BccText = $Param{Bcc};
+                $BccText =~ s{(.*?),\s$}{$1}gsmx;
+                $BccText .= ".";
+
                 $LayoutObject->Block(
                     Name => 'Sent',
-                    Data => \%Param,
+                    Data => {
+                        %Param,
+                        Bcc => $BccText,
+                    },
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
