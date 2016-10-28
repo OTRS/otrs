@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-10-28 Fixed bug#[12349](https://bugs.otrs.org/show_bug.cgi?id=12349) - Module not working properly ArchiveRestore.
  - 2016-10-28 Fixed bug#[12285](http://bugs.otrs.org/show_bug.cgi?id=12285) - Invalid customer user still receive admin notification.
  - 2016-10-28 Fixed bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
  - 2016-10-28 Fixed bug#[11073](http://bugs.otrs.org/show_bug.cgi?id=11073) - Default expanded article in queue view (preview mode) should not be an autoreply.
