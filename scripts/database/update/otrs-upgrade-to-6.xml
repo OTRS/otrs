@@ -40,4 +40,11 @@
         <ColumnChange NameOld="a_in_reply_to" NameNew="a_in_reply_to" Required="false" Size="1800000" Type="VARCHAR"/>
     </TableAlter>
 
+    <!-- Speed up deleting of ticket_history entries for articles, see bug#12374 -->
+    <TableAlter Name="ticket_history">
+        <IndexCreate Name="ticket_history_article_id">
+            <IndexColumn Name="article_id"/>
+        </IndexCreate>
+    </TableAlter>
+
 </database>

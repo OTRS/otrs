@@ -46,3 +46,4 @@ ALTER TABLE article CHANGE a_references a_references MEDIUMTEXT NULL;
 #  alter table article
 # ----------------------------------------------------------
 ALTER TABLE article CHANGE a_in_reply_to a_in_reply_to MEDIUMTEXT NULL;
+CREATE INDEX ticket_history_article_id ON ticket_history (article_id);

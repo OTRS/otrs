@@ -458,6 +458,7 @@ CREATE TABLE ticket_history (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
+    INDEX ticket_history_article_id (article_id),
     INDEX ticket_history_create_time (create_time),
     INDEX ticket_history_history_type_id (history_type_id),
     INDEX ticket_history_owner_id (owner_id),

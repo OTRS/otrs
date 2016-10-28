@@ -74,5 +74,6 @@ ALTER TABLE article ADD a_in_reply_to_TEMP CLOB NULL;
 UPDATE article SET a_in_reply_to_TEMP = a_in_reply_to;
 ALTER TABLE article DROP COLUMN a_in_reply_to;
 ALTER TABLE article RENAME COLUMN a_in_reply_to_TEMP TO a_in_reply_to;
+CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;

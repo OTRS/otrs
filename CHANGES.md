@@ -1,5 +1,5 @@
 #6.0.0.beta1 2016-??-??
- - 2016-10-27 Fixed bug#[12380](http://bugs.otrs.org/show_bug.cgi?id=12380) - GenericInterface: Buttons to mapping configuration are missing session data.
+ - 2016-10-28 Fixed bug#[12374](https://bugs.otrs.org/show_bug.cgi?id=12374) - ticket deleting on postgresql is slow.
  - 2016-10-26 Updated translations, thanks to all translators.
  - 2016-10-21 Fixed bug#[12285](http://bugs.otrs.org/show_bug.cgi?id=12285) - Invalid customer user still receive admin notification.
  - 2016-10-20 Simplified the way how fontawesome is being integrated to ease future updates and updated to 4.6.3.
@@ -62,6 +62,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.15 2016-??-??
+- 2016-10-27 Fixed bug#[12380](http://bugs.otrs.org/show_bug.cgi?id=12380) - GenericInterface: Buttons to mapping configuration are missing session data.
 
 #5.0.14 2016-11-01
  - 2016-10-27 Added a new support data collector plugin to check for spooled (incorrectly processed) emails.

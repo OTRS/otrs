@@ -53,4 +53,5 @@ ALTER TABLE article ALTER a_references DROP DEFAULT;
 -- ----------------------------------------------------------
 ALTER TABLE article ALTER a_in_reply_to TYPE VARCHAR;
 ALTER TABLE article ALTER a_in_reply_to DROP DEFAULT;
+CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
 SET standard_conforming_strings TO ON;

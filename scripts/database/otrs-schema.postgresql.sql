@@ -460,6 +460,7 @@ CREATE TABLE ticket_history (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
+CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
 CREATE INDEX ticket_history_create_time ON ticket_history (create_time);
 CREATE INDEX ticket_history_history_type_id ON ticket_history (history_type_id);
 CREATE INDEX ticket_history_owner_id ON ticket_history (owner_id);

@@ -741,6 +741,9 @@
     <Index Name="ticket_history_ticket_id">
         <IndexColumn Name="ticket_id"/>
     </Index>
+    <Index Name="ticket_history_article_id">
+        <IndexColumn Name="article_id"/>
+    </Index>
     <Index Name="ticket_history_history_type_id">
         <IndexColumn Name="history_type_id"/>
     </Index>
