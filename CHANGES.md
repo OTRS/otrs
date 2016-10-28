@@ -1,4 +1,5 @@
 #4.0.20 2016-??-??
+ - 2016-10-28 Fixed bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
 
 #4.0.19 2016-11-01
  - 2016-10-26 Added a new agent session limit prior warning notification (SysConfig setting 'AgentSessionLimitPriorWarning') and added the concurrent agent management for the OTRS Business Solution™.
