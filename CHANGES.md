@@ -1,4 +1,5 @@
 #4.0.20 2016-??-??
+ - 2016-10-28 Fixed bug#[12286](http://bugs.otrs.org/show_bug.cgi?id=12286)(PR#1519)  - Article body (can) breaks SOAP response.
  - 2016-10-28 Fixed bug#[11073](http://bugs.otrs.org/show_bug.cgi?id=11073) - Default expanded article in queue view (preview mode) should not be an autoreply.
  - 2016-10-28 Fixed bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
 
