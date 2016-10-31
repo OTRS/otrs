@@ -147,7 +147,7 @@ $Selenium->RunTest(
         my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
             'Manage Customer-Group Relations',
-            'Change Customer Relations for Group \'' . $GroupRandomID . '\''
+            'Change Customer User Relations for Group \'' . $GroupRandomID . '\''
             )
         {
             $Self->Is(
