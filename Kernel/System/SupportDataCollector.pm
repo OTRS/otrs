@@ -164,6 +164,10 @@ sub Collect {
     my $PluginDisabled = $Self->{ConfigObject}->Get('SupportDataCollector::DisablePlugins') || [];
     my %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
 
+    # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used to filter these identifier.
+    my $IdentifierFilterBlacklist = $Self->{ConfigObject}->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
+    my %LookupIdentifierFilterBlacklist = map { $_ => 1 } @{$IdentifierFilterBlacklist};
+
     # Look for all plugins in the FS
     my @PluginFiles = $Self->{MainObject}->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/Plugin",
@@ -173,12 +177,16 @@ sub Collect {
 
     my @Result;
 
-    # Execute all Plugins
+    # Execute all plug-ins
+    PLUGINFILE:
     for my $PluginFile (@PluginFiles) {
 
         # Convert file name => package name
         $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
         $PluginFile =~ s{/+}{::}xmsg;
+
+        next PLUGINFILE if $LookupPluginDisabled{$PluginFile};
+
         if ( !$Self->{MainObject}->Require($PluginFile) ) {
             return (
                 Success      => 0,
