@@ -18,12 +18,32 @@ use Time::HiRes ();
 use Kernel::System::SupportDataCollector::PluginBase;
 
 # get needed objects
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+    },
+);
 my $HelperObject               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $SysConfigObject            = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $CacheObject                = $Kernel::OM->Get('Kernel::System::Cache');
 my $MainObject                 = $Kernel::OM->Get('Kernel::System::Main');
 my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
 
 # test the support data collect asynchronous function
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'SupportDataCollector::DisablePlugins',
+    Value => [
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment',
+    ],
+);
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'SupportDataCollector::IdentifierFilterBlacklist',
+    Value => [
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone',
+    ],
+);
 
 my $TimeStart = [ Time::HiRes::gettimeofday() ];
 
@@ -130,6 +150,23 @@ for my $ResultEntry ( @{ $Result{Result} || [] } ) {
         "$ResultEntry->{Identifier} - identifier only used once.",
     );
 }
+
+# Check if the identifier from the disabled plugions are not present.
+for my $DisabledPluginsIdentifier (
+    qw(Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment::Verification Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment::FrameworkVersion)
+    )
+{
+    $Self->False(
+        $SeenIdentifier{$DisabledPluginsIdentifier},
+        "Collect() - SupportDataCollector::DisablePlugins - $DisabledPluginsIdentifier should not be present"
+    );
+}
+
+# Check if the identifiers from the identifier filter blacklist are not present.
+$Self->False(
+    $SeenIdentifier{'Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone'},
+    "Collect() - SupportDataCollector::IdentifierFilterBlacklist - Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone should not be present"
+);
 
 # cache tests
 my $CacheResult = $CacheObject->Get(
