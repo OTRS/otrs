@@ -7415,7 +7415,7 @@
                 <Item Key="Title" Translatable="1">Ticket Queue Overview</Item>
                 <Item Key="Description" Translatable="1">Provides a matrix overview of the tickets per state per queue</Item>
                 <Item Key="Permission">rw</Item>
-                <Item Key="QueuePermissionGroup">users</Item>
+                <Item Key="QueuePermissionGroup"></Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>

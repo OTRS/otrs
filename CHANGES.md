@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-10-31 Removed default queue group restriction from TicketQueueOverview dashlet.
  - 2016-10-28 Fixed bug#[12374](https://bugs.otrs.org/show_bug.cgi?id=12374) - ticket deleting on postgresql is slow.
  - 2016-10-26 Updated translations, thanks to all translators.
  - 2016-10-21 Fixed bug#[12285](http://bugs.otrs.org/show_bug.cgi?id=12285) - Invalid customer user still receive admin notification.
