@@ -25,6 +25,20 @@ my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCo
 my $Helper                     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # test the support data collect asynchronous function
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'SupportDataCollector::DisablePlugins',
+    Value => [
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment',
+    ],
+);
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'SupportDataCollector::IdentifierFilterBlacklist',
+    Value => [
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone',
+    ],
+);
 
 my $TimeStart = [ Time::HiRes::gettimeofday() ];
 
@@ -131,6 +145,23 @@ for my $ResultEntry ( @{ $Result{Result} || [] } ) {
         "$ResultEntry->{Identifier} - identifier only used once.",
     );
 }
+
+# Check if the identifier from the disabled plugions are not present.
+for my $DisabledPluginsIdentifier (
+    qw(Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment::Verification Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment::FrameworkVersion)
+    )
+{
+    $Self->False(
+        $SeenIdentifier{$DisabledPluginsIdentifier},
+        "Collect() - SupportDataCollector::DisablePlugins - $DisabledPluginsIdentifier should not present"
+    );
+}
+
+# Check if the identifiers from the identifier filter blacklist are not present.
+$Self->False(
+    $SeenIdentifier{'Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone'},
+    "Collect() - SupportDataCollector::IdentifierFilterBlacklist - Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone should not present"
+);
 
 # cache tests
 my $CacheResult = $CacheObject->Get(

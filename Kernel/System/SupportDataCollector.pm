@@ -120,6 +120,10 @@ sub Collect {
     my $PluginDisabled = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::DisablePlugins') || [];
     my %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
 
+    # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used to filter these identifier.
+    my $IdentifierFilterBlacklist = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
+    my %LookupIdentifierFilterBlacklist = map { $_ => 1 } @{$IdentifierFilterBlacklist};
+
     # Look for all plug-ins in the FS
     my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/Plugin",
@@ -140,11 +144,14 @@ sub Collect {
     my @Result;
 
     # Execute all plug-ins
+    PLUGINFILE:
     for my $PluginFile (@PluginFilesAll) {
 
         # Convert file name => package name
         $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
         $PluginFile =~ s{/+}{::}xmsg;
+
+        next PLUGINFILE if $LookupPluginDisabled{$PluginFile};
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($PluginFile) ) {
             return (
@@ -169,7 +176,7 @@ sub Collect {
 
     # Remove the disabled plugins after the execution, because some plugins returns
     #   more information with a own identifier.
-    @Result = grep { !$LookupPluginDisabled{ $_->{Identifier} } } @Result;
+    @Result = grep { !$LookupIdentifierFilterBlacklist{ $_->{Identifier} } } @Result;
 
     # sort the results from the plug-ins by the short identifier
     @Result = sort { $a->{ShortIdentifier} cmp $b->{ShortIdentifier} } @Result;
@@ -325,13 +332,6 @@ sub CollectByWebRequest {
         );
         return %Result;
     }
-
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type  => 'SupportDataCollect',
-        Key   => 'DataCollect',
-        Value => $ResponseData,
-        TTL   => 60 * 10,
-    );
 
     return %{$ResponseData};
 }
