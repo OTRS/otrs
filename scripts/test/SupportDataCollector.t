@@ -153,14 +153,14 @@ for my $DisabledPluginsIdentifier (
 {
     $Self->False(
         $SeenIdentifier{$DisabledPluginsIdentifier},
-        "Collect() - SupportDataCollector::DisablePlugins - $DisabledPluginsIdentifier should not present"
+        "Collect() - SupportDataCollector::DisablePlugins - $DisabledPluginsIdentifier should not be present"
     );
 }
 
 # Check if the identifiers from the identifier filter blacklist are not present.
 $Self->False(
     $SeenIdentifier{'Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone'},
-    "Collect() - SupportDataCollector::IdentifierFilterBlacklist - Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone should not present"
+    "Collect() - SupportDataCollector::IdentifierFilterBlacklist - Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone should not be present"
 );
 
 # cache tests
