@@ -51,6 +51,8 @@ sub Run {
         @TicketIDs = $TicketObject->TicketSearch(
             Result   => 'ARRAY',
             StateIDs => [@PendingAutoStateIDs],
+            SortBy   => ['PendingTime'],
+            OrderBy  => ['Up'],
             UserID   => 1,
         );
 

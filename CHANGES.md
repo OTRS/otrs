@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-11-02 Added sort criteria to TicketSearch call in PendingCheck console command. Thanks to Torsten Thau.
  - 2016-10-31 Removed default queue group restriction from TicketQueueOverview dashlet.
  - 2016-10-28 Fixed bug#[12374](https://bugs.otrs.org/show_bug.cgi?id=12374) - ticket deleting on postgresql is slow.
  - 2016-10-26 Updated translations, thanks to all translators.
