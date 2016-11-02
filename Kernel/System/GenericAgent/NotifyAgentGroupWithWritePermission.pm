@@ -105,7 +105,7 @@ sub Run {
     }
 
     # trigger notification event
-    $Self->EventHandler(
+    $TicketObject->EventHandler(
         Event => 'Notification' . $EscalationType,
         Data  => {
             TicketID              => $Param{TicketID},
