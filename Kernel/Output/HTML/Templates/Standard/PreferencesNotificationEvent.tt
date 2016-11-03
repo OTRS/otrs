@@ -24,7 +24,7 @@
         </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("BodyRow") %]
-        <tr title="[% Data.NotificationTitle | html %]"[% IF Data.VisibleForAgent == 2 %] class="Mandatory"[% END %]>
+        <tr title="[% Data.NotificationTitle | Translate | html %]"[% IF Data.VisibleForAgent == 2 %] class="Mandatory"[% END %]>
             <td>[% IF Data.VisibleForAgent == 2 %]<span class="Mandatory">* [% END %][% Translate(Data.NotificationName) | html %][% IF Data.VisibleForAgent == 2 %]</span>[% END %]</td>
 [% RenderBlockStart("BodyTransportColumn") %]
             <td class="Center">
