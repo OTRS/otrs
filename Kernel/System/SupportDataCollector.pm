@@ -164,7 +164,8 @@ sub Collect {
     my $PluginDisabled = $Self->{ConfigObject}->Get('SupportDataCollector::DisablePlugins') || [];
     my %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
 
-    # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used to filter these identifier.
+    # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used
+    # to filter these identifier.
     my $IdentifierFilterBlacklist = $Self->{ConfigObject}->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
     my %LookupIdentifierFilterBlacklist = map { $_ => 1 } @{$IdentifierFilterBlacklist};
 
