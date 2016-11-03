@@ -51,9 +51,9 @@ my $TestUserID    = $UserObject->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-# ----------------------------------------
+#
 # Create a test ticket
-# ----------------------------------------
+#
 my $TicketID = $TicketObject->TicketCreate(
     TN            => undef,
     Title         => 'test',
@@ -274,11 +274,9 @@ for my $Test (@Tests) {
     }
 }
 
-# ----------------------------------------
-
-#-----------------------------------------
+#
 # Destructors to remove our Testitems
-# ----------------------------------------
+#
 
 # Ticket
 my $Delete = $TicketObject->TicketDelete(
@@ -289,7 +287,5 @@ $Self->True(
     $Delete,
     "TicketDelete() - $TicketID",
 );
-
-# ----------------------------------------
 
 1;

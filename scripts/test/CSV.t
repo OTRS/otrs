@@ -174,9 +174,9 @@ $Self->Is(
     '#4 CSV2Array() - with dos file',
 );
 
-# -------------------------------------------------
+#
 # tests because of the double "" problem bug# 2263
-# -------------------------------------------------
+#
 my $TextWithNewLine = "Hallo guys,\nhere was a newline. And again.\n";
 my @TableData       = (
     [
