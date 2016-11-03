@@ -37,9 +37,9 @@ my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-#
+# ----------------------------------------
 # Create a test ticket
-#
+# ----------------------------------------
 my $TicketID = $TicketObject->TicketCreate(
     Title         => 'test',
     QueueID       => 1,
@@ -67,7 +67,7 @@ $Self->True(
     "TicketGet() - Get Ticket with ID $TicketID.",
 );
 
-#
+# ----------------------------------------
 
 # Run() tests
 my @Tests = (
