@@ -947,6 +947,14 @@ msgid "No entry found!"
 msgstr ""
 
 #. Template: AAABase
+msgid "Please note that the session limit is almost reached."
+msgstr ""
+
+#. Template: AAABase
+msgid "You have exceeded the number of concurrent agents - contact sales@otrs.com."
+msgstr ""
+
+#. Template: AAABase
 msgid "Session invalid. Please log in again."
 msgstr ""
 
@@ -956,6 +964,10 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
+msgstr ""
+
+#. Template: AAABase
+msgid "Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!"
 msgstr ""
 
 #. Template: AAABase
@@ -3771,7 +3783,7 @@ msgid "To get the first 5 lines of the email."
 msgstr ""
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the sender (if given)."
+msgid "To get the realname of the ticket's customer user (if given)."
 msgstr ""
 
 #. Template: AdminAutoResponse
@@ -6804,6 +6816,10 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "Conditions can only operate on non-empty fields."
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
@@ -11383,6 +11399,10 @@ msgid "Defines scheduler sleep time in seconds after processing all available ta
 msgstr ""
 
 #. SysConfig
+msgid "Defines the HTTP hostname for the support data collection with the public module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host."
 msgstr ""
 
@@ -12091,6 +12111,10 @@ msgid "Defines the module to display a notification in the agent interface, if t
 msgstr ""
 
 #. SysConfig
+msgid "Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin)."
 msgstr ""
 
@@ -12419,7 +12443,7 @@ msgid "Defines the valid states for unlocked tickets. To unlock tickets the scri
 msgstr ""
 
 #. SysConfig
-msgid "Defines the viewable locks of a ticket. Default: unlock, tmp_lock."
+msgid "Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock."
 msgstr ""
 
 #. SysConfig
@@ -12532,6 +12556,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Determines which queues will be valid for ticket's recepients in the customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "Disable HTTP header \"Content-Security-Policy\" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!"
 msgstr ""
 
 #. SysConfig
@@ -13348,6 +13376,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Ignore article with system sender type for new article feature (e. g. auto responses or email notifications)."
+msgstr ""
+
+#. SysConfig
+msgid "Include unknown customers in ticket filter."
 msgstr ""
 
 #. SysConfig
@@ -14255,7 +14287,7 @@ msgid "Sends all outgoing email via bcc to the specified address. Please use thi
 msgstr ""
 
 #. SysConfig
-msgid "Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification."
+msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
@@ -14464,6 +14496,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents."
 msgstr ""
 
 #. SysConfig
@@ -14679,7 +14715,7 @@ msgid "Sets the ticket type in the ticket responsible screen of the agent interf
 msgstr ""
 
 #. SysConfig
-msgid "Sets the time (in seconds) a user is marked as active."
+msgid "Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds)."
 msgstr ""
 
 #. SysConfig
