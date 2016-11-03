@@ -36,9 +36,9 @@ my $TestUserID    = $UserObject->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-# ----------------------------------------
+#
 # Create the dynamic fields for testing
-# ----------------------------------------
+#
 
 my @NewDynamicFieldConfig = (
     {
@@ -88,11 +88,9 @@ for my $DynamicFieldConfig (@NewDynamicFieldConfig) {
     );
 }
 
-# ----------------------------------------
-
-# ----------------------------------------
+#
 # Create a test ticket
-# ----------------------------------------
+#
 my $TicketID = $TicketObject->TicketCreate(
     TN            => undef,
     Title         => 'test',
@@ -125,8 +123,6 @@ $Self->True(
     IsHashRefWithData( \%Ticket ),
     "TicketGet() - Get Ticket with ID $TicketID.",
 );
-
-# ----------------------------------------
 
 # Run() tests
 my @Tests = (
@@ -399,9 +395,9 @@ for my $Test (@Tests) {
     }
 }
 
-#-----------------------------------------
+#
 # Destructors to remove our Testitems
-# ----------------------------------------
+#
 
 # Ticket
 my $Delete = $TicketObject->TicketDelete(
@@ -426,7 +422,5 @@ for my $ID (@AddedDynamicFields) {
         "DynamicFieldDelete() - Remove DynamicField $ID from the system with True"
     );
 }
-
-# ----------------------------------------
 
 1;

@@ -37,9 +37,9 @@ my $TestUserID    = $UserObject->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-# ----------------------------------------
+#
 # Create new services
-# ----------------------------------------
+#
 my @Services = (
     {
         Name    => 'Service0' . $RandomID,
@@ -62,9 +62,9 @@ for my $ServiceData (@Services) {
     $ServiceData->{ServiceID} = $ServiceID;
 }
 
-# ----------------------------------------
+#
 # Create new SLAs
-# ----------------------------------------
+#
 my @SLAs = (
     {
         Name       => 'SLA0' . $RandomID,
@@ -100,11 +100,9 @@ for my $SLAData (@SLAs) {
     $SLAData->{SLAID} = $SLAID;
 }
 
-# ----------------------------------------
-
-# ----------------------------------------
+#
 # Assign services to customer (0 and 1)
-# ----------------------------------------
+#
 my $Success = $ServiceObject->CustomerUserServiceMemberAdd(
     CustomerUserLogin => $TestCustomerUserLogin,
     ServiceID         => $Services[0]->{ServiceID},
@@ -119,11 +117,9 @@ $Self->True(
         . " with true",
 );
 
-# ----------------------------------------
-
-# ----------------------------------------
+#
 # Create a test tickets
-# ----------------------------------------
+#
 my $TicketID1 = $TicketObject->TicketCreate(
     TN            => undef,
     Title         => $SLAs[0]->{SLAID},
@@ -189,8 +185,6 @@ $Self->True(
     IsHashRefWithData( \%Ticket2 ),
     "TicketGet() - Get Ticket with ID $TicketID2.",
 );
-
-# ----------------------------------------
 
 # Run() tests
 my @Tests = (
@@ -485,9 +479,9 @@ for my $Test (@Tests) {
     }
 }
 
-#-----------------------------------------
+#
 # Destructors to remove our Testitems
-# ----------------------------------------
+#
 
 # Tickets
 my $Delete = $TicketObject->TicketDelete(
@@ -535,7 +529,5 @@ for my $ServiceData (@Services) {
         "ServiceUpdate() for $ServiceData->{Name}, Set service to invalid with true",
     );
 }
-
-# ----------------------------------------
 
 1;

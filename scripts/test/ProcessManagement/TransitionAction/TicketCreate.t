@@ -37,9 +37,9 @@ my $TestUserID    = $UserObject->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-# ----------------------------------------
+#
 # Create a test ticket
-# ----------------------------------------
+#
 my $TicketID = $TicketObject->TicketCreate(
     TN            => undef,
     Title         => 'test',
@@ -78,8 +78,6 @@ my @AddedTickets = ($TicketID);
 my $UserLogin = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserID => 1,
 );
-
-# ----------------------------------------
 
 # create dynamic fields
 my $DynamicFieldID1 = $DynamicFieldObject->DynamicFieldAdd(
@@ -154,7 +152,7 @@ for my $DynamicFieldID ( $DynamicFieldID1, $DynamicFieldID2, $DynamicFieldID3 ) 
     );
 }
 
-# ----------------------------------------
+#
 my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 # set a value for multiselect dynamic field
@@ -1092,9 +1090,9 @@ for my $Test (@Tests) {
     }
 }
 
-#-----------------------------------------
+#
 # Destructor to remove our Test items
-# ----------------------------------------
+#
 
 for my $DynamicFieldID ( $DynamicFieldID1, $DynamicFieldID2, $DynamicFieldID3 ) {
     my $Success = $DynamicFieldValueObject->AllValuesDelete(
@@ -1127,7 +1125,5 @@ for my $TicketID (@AddedTickets) {
         "TicketDelete() - $TicketID",
     );
 }
-
-# ----------------------------------------
 
 1;
