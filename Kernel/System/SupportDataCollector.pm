@@ -120,8 +120,10 @@ sub Collect {
     my $PluginDisabled = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::DisablePlugins') || [];
     my %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
 
-    # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used to filter these identifier.
-    my $IdentifierFilterBlacklist = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
+    # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used to
+    # filter these identifier.
+    my $IdentifierFilterBlacklist
+        = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
     my %LookupIdentifierFilterBlacklist = map { $_ => 1 } @{$IdentifierFilterBlacklist};
 
     # Look for all plug-ins in the FS
