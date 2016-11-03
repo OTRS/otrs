@@ -275,9 +275,9 @@ $Self->Is(
     '#6 CSV2Array() - values with \r quoted; other not quoted',
 );
 
-# -------------------------------------------------
+#
 # tests because of the double "" problem bug# 2263
-# -------------------------------------------------
+#
 my $TextWithNewLine = "Hallo guys,\nhere was a newline. And again.\n";
 my @TableData       = (
     [
@@ -324,9 +324,9 @@ for my $Row ( 0 .. $#TableData ) {
     }
 }
 
-# -------------------------------------------------
+#
 # tests export in Excel file - bug# 10656
-# -------------------------------------------------
+#
 
 $TextWithNewLine = "Some chinese characters: 你好.\n";
 @TableData       = (

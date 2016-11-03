@@ -211,9 +211,9 @@ sub Run {
         return (5);
     }
 
-    # ----------------------
+    #
     # ticket section
-    # ----------------------
+    #
 
     # check if follow up (again, with new GetParam)
     ( $Tn, $TicketID ) = $Self->CheckFollowUp( GetParam => $GetParam );

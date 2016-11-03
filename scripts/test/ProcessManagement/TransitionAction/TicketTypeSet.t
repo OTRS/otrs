@@ -72,9 +72,9 @@ for my $Item ( 0 .. 2 ) {
     );
 }
 
-# ----------------------------------------
+#
 # Create a test ticket
-# ----------------------------------------
+#
 my $TicketID = $TicketObject->TicketCreate(
     Title         => $TypeName[1],
     QueueID       => 1,

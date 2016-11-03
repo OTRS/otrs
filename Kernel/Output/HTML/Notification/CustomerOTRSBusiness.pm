@@ -29,9 +29,9 @@ sub Run {
 
     return '' if !$OTRSBusinessObject->OTRSBusinessIsInstalled();
 
-    # ----------------------------------------
+    #
     # check entitlement status
-    # ----------------------------------------
+    #
     my $EntitlementStatus = $OTRSBusinessObject->OTRSBusinessEntitlementStatus(
         CallCloudService => 0,
     );
