@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 # Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle POP3S.
 BEGIN {
-    if (!defined &Net::POP3::starttls) {
+    if ( !defined &Net::POP3::starttls ) {
         ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
         ## nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
         require Net::SSLGlue::POP3;
