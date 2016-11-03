@@ -3305,7 +3305,7 @@ sub BuildDateSelection {
             Data        => \%Month,
             SelectedID  => int( $Param{ $Prefix . 'Month' } || $M ),
             Translation => 0,
-            Class       => $Validate ? "Validate_DateYear $Class" : $Class,
+            Class       => $Validate ? "Validate_DateMonth $Class" : $Class,
             Title       => $Self->{LanguageObject}->Translate('Month'),
             Disabled    => $Param{Disabled},
         );
