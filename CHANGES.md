@@ -1,4 +1,5 @@
 #3.3.17 ????-??-??
+- 2016-11-04 Fixed bug#[12391](http://bugs.otrs.org/show_bug.cgi?id=12391) - Base64 encoded image does not display in article.
 
 #3.3.16 2016-11-01
  - 2016-10-06 Improved sandboxing of displayed attachments.
