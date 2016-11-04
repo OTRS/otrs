@@ -1,4 +1,5 @@
 #4.0.20 2016-??-??
+ - 2016-11-04 Follow-up fix for bug#[9460](https://bugs.otrs.org/show_bug.cgi?id=9460) - Under some circumstances OTRS does not join Tickets to the Customernumber.
  - 2016-11-03 Updated Hungarian translation, thanks to Ur Balazs.
  - 2016-10-28 Fixed bug#[11073](http://bugs.otrs.org/show_bug.cgi?id=11073) - Default expanded article in queue view (preview mode) should not be an autoreply.
  - 2016-10-28 Fixed bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
