@@ -257,6 +257,8 @@ sub GroupMemberList {
         }
     }
 
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
     KEY:
     for my $Value (@Values) {
 
@@ -266,7 +268,7 @@ sub GroupMemberList {
         # Bugfix #12285 - Check if customer user is valid.
         if ( $Param{GroupID} && $UserType eq 'CustomerUser' ) {
 
-            my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+            my %User = $CustomerUserObject->CustomerUserDataGet(
                 User => $Login,
             );
 
