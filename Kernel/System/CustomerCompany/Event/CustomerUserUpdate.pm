@@ -55,8 +55,8 @@ sub Run {
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     my %CustomerUsers = $CustomerUserObject->CustomerSearch(
-        CustomerID => $Param{Data}->{OldCustomerID},
-        Valid      => 0,
+        CustomerIDRaw => $Param{Data}->{OldCustomerID},
+        Valid         => 0,
     );
 
     for my $CustomerUserLogin ( sort keys %CustomerUsers ) {
