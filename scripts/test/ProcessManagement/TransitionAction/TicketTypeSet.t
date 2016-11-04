@@ -15,7 +15,6 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet');
@@ -29,19 +28,9 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # enable ticket type for this run
-$ConfigObject->Set(
+$Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'Ticket::Type',
     Value => 1,
-);
-
-# set TicketDynamicFieldDefault as no Transaction mode to avoid error messages at the end of the
-# test (regarding missing TicketIDs)
-$ConfigObject->Set(
-    Key   => 'Ticket::EventModulePost###9600-TicketDynamicFieldDefault',
-    Value => {
-        Module      => 'Kernel::System::Ticket::Event::TicketDynamicFieldDefault',
-        Transaction => 0,
-    },
 );
 
 # define variables
