@@ -22,10 +22,13 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my @CustomerIDs;
-for my $Key ( 1 .. 1, 'ä', 'カス' ) {
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $RandomID = $Helper->GetRandomID();
 
-    my $CompanyRand = 'Example-Customer-Company' . $Key . int rand 1000000;
+my @CustomerIDs;
+for my $Key ( 1 .. 3, 'ä', 'カス', '*' ) {
+
+    my $CompanyRand = $Key . $RandomID;
 
     push @CustomerIDs, $CompanyRand;
 
@@ -64,9 +67,10 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
     );
 
     my @CustomerLogins;
-    for my $CustomerUserKey ( 1 .. 3, 'ä', 'カス' ) {
+    my $CustomerUserRandomID = $Helper->GetRandomID();
+    for my $CustomerUserKey ( 1 .. 3, 'ä', 'カス', '*' ) {
 
-        my $UserRand = 'Example-Customer-User' . $CustomerUserKey . int rand 1000000;
+        my $UserRand = $CustomerUserKey . $CustomerUserRandomID;
 
         push @CustomerLogins, $UserRand;
 
@@ -111,11 +115,22 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
     );
 
     my %OldIDList = $CustomerUserObject->CustomerSearch(
-        CustomerID => $CompanyData{CustomerID},
+        CustomerIDRaw => $CompanyData{CustomerID},
     );
 
     my %NewIDList = $CustomerUserObject->CustomerSearch(
-        CustomerID => 'new' . $CompanyData{CustomerID},
+        CustomerIDRaw => 'new' . $CompanyData{CustomerID},
+    );
+
+    $Self->Is(
+        scalar keys %OldIDList,
+        0,
+        "All CustomerUser entries were changed away from old CustomerID",
+    );
+    $Self->Is(
+        scalar keys %NewIDList,
+        scalar @CustomerLogins,
+        "All CustomerUser entries were changed to the new CustomerID",
     );
 
     for my $CustomerLogin (@CustomerLogins) {
