@@ -110,7 +110,15 @@ sub SearchSQLGet {
         SmallerThanEquals => '<=',
     );
 
-    if ( !$Operators{ $Param{Operator} } ) {
+    if ( $Param{Operator} eq 'Empty' ) {
+        if ( $Param{SearchTerm} ) {
+            return " $Param{TableAlias}.value_text IS NULL OR $Param{TableAlias}.value_text = '' ";
+        }
+        else {
+            return " $Param{TableAlias}.value_text <> '' ";
+        }
+    }
+    elsif ( !$Operators{ $Param{Operator} } ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             'Priority' => 'error',
             'Message'  => "Unsupported Operator $Param{Operator}",

@@ -122,6 +122,8 @@ To find tickets in your system.
         #       values in an operator with OR.
         #   You can also pass more than one argument to an operator: ['value1', 'value2']
         DynamicField_FieldNameX => {
+            Empty             => 1,                       # will return dynamic fields without a value
+                                                          # set to 0 to search fields with a value present
             Equals            => 123,
             Like              => 'value*',                # "equals" operator with wildcard support
             GreaterThan       => '2001-01-01 01:01:01',
@@ -1287,6 +1289,7 @@ sub TicketSearch {
         next DYNAMIC_FIELD if ( ref $SearchParam ne 'HASH' );
 
         my $NeedJoin;
+        my $QueryForEmptyValues = 0;
 
         for my $Operator ( sort keys %{$SearchParam} ) {
 
@@ -1305,34 +1308,51 @@ sub TicketSearch {
                 # check search attribute, we do not need to search for *
                 next TEXT if $Text =~ /^\%{1,3}$/;
 
-                # validate data type
-                my $ValidateSuccess = $DynamicFieldBackendObject->ValueValidate(
-                    DynamicFieldConfig => $DynamicField,
-                    Value              => $Text,
-                    UserID             => $Param{UserID} || 1,
-                );
-                if ( !$ValidateSuccess ) {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message =>
-                            "Search not executed due to invalid value '"
-                            . $Text
-                            . "' on field '"
-                            . $DynamicField->{Name}
-                            . "'!",
+                # skip validation for empty values
+                if ( $Operator ne 'Empty' ) {
+
+                    # validate data type
+                    my $ValidateSuccess = $DynamicFieldBackendObject->ValueValidate(
+                        DynamicFieldConfig => $DynamicField,
+                        Value              => $Text,
+                        UserID             => $Param{UserID} || 1,
                     );
-                    return;
+                    if ( !$ValidateSuccess ) {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message =>
+                                "Search not executed due to invalid value '"
+                                . $Text
+                                . "' on field '"
+                                . $DynamicField->{Name}
+                                . "'!",
+                        );
+                        return;
+                    }
                 }
 
                 if ($Counter) {
                     $SQLExtSub .= ' OR ';
                 }
-                $SQLExtSub .= $DynamicFieldBackendObject->SearchSQLGet(
-                    DynamicFieldConfig => $DynamicField,
-                    TableAlias         => "dfv$DynamicFieldJoinCounter",
-                    Operator           => $Operator,
-                    SearchTerm         => $Text,
-                );
+
+                # Empty => 1 requires a LEFT JOIN.
+                if ( $Operator eq 'Empty' && $Text ) {
+                    $SQLExtSub .= $DynamicFieldBackendObject->SearchSQLGet(
+                        DynamicFieldConfig => $DynamicField,
+                        TableAlias         => "dfvEmpty$DynamicFieldJoinCounter",
+                        Operator           => $Operator,
+                        SearchTerm         => $Text,
+                    );
+                    $QueryForEmptyValues = 1;
+                }
+                else {
+                    $SQLExtSub .= $DynamicFieldBackendObject->SearchSQLGet(
+                        DynamicFieldConfig => $DynamicField,
+                        TableAlias         => "dfv$DynamicFieldJoinCounter",
+                        Operator           => $Operator,
+                        SearchTerm         => $Text,
+                    );
+                }
 
                 $Counter++;
             }
@@ -1345,13 +1365,23 @@ sub TicketSearch {
 
         if ($NeedJoin) {
 
+            # Join the table for this dynamic field
             if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
 
-                # Join the table for this dynamic field
-                $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
-                    ON (st.id = dfv$DynamicFieldJoinCounter.object_id
-                        AND dfv$DynamicFieldJoinCounter.field_id = " .
-                    $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                if ($QueryForEmptyValues) {
+
+                    # Use LEFT JOIN to allow for null values.
+                    $SQLFrom .= "LEFT JOIN dynamic_field_value dfvEmpty$DynamicFieldJoinCounter
+                        ON (st.id = dfvEmpty$DynamicFieldJoinCounter.object_id
+                            AND dfvEmpty$DynamicFieldJoinCounter.field_id = " .
+                        $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                }
+                else {
+                    $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                        ON (st.id = dfv$DynamicFieldJoinCounter.object_id
+                            AND dfv$DynamicFieldJoinCounter.field_id = " .
+                        $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                }
             }
             elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
                 if ( !$ArticleJoinSQL ) {
@@ -1359,10 +1389,20 @@ sub TicketSearch {
                     $SQLFrom .= $ArticleJoinSQL;
                 }
 
-                $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
-                    ON (art.id = dfv$DynamicFieldJoinCounter.object_id
-                        AND dfv$DynamicFieldJoinCounter.field_id = " .
-                    $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                if ($QueryForEmptyValues) {
+
+                    # Use LEFT JOIN to allow for null values.
+                    $SQLFrom .= "LEFT JOIN dynamic_field_value dfvEmpty$DynamicFieldJoinCounter
+                        ON (art.id = dfvEmpty$DynamicFieldJoinCounter.object_id
+                            AND dfvEmpty$DynamicFieldJoinCounter.field_id = " .
+                        $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                }
+                else {
+                    $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                        ON (art.id = dfv$DynamicFieldJoinCounter.object_id
+                            AND dfv$DynamicFieldJoinCounter.field_id = " .
+                        $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                }
 
             }
 

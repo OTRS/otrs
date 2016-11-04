@@ -2094,8 +2094,13 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
         <xsd:sequence>
             <xsd:choice minOccurs="1" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan or SmallerThanEquals is mandatory</xsd:documentation>
+                    <xsd:documentation>Empty, Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan or SmallerThanEquals is mandatory</xsd:documentation>
                 </xsd:annotation>
+                <xsd:element
+                    name="Empty"
+                    type="xsd:string"
+                    minOccurs="0" maxOccurs="1">
+                </xsd:element>
                 <xsd:element
                     name="Equals"
                     type="xsd:string"
