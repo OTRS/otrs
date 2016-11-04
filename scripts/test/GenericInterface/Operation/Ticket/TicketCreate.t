@@ -87,12 +87,22 @@ $ConfigObject->Set(
 );
 
 # disable SessionCheckRemoteIP setting
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'SessionCheckRemoteIP',
+    Value => '0',
+);
 $ConfigObject->Set(
     Key   => 'SessionCheckRemoteIP',
     Value => 0,
 );
 
 # enable customer groups support
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'CustomerGroupSupport',
+    Value => '1',
+);
 $ConfigObject->Set(
     Key   => 'CustomerGroupSupport',
     Value => 1,
