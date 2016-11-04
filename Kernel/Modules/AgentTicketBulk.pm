@@ -136,13 +136,13 @@ sub Run {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('No selectable TicketID is given!'),
                 Comment =>
-                    Translatable('You either selected no ticket or only tickets which are locked by other agents'),
+                    Translatable('You either selected no ticket or only tickets which are locked by other agents.'),
             );
         }
         else {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('No TicketID is given!'),
-                Comment => Translatable('You need to select at least one ticket'),
+                Comment => Translatable('You need to select at least one ticket.'),
             );
         }
     }

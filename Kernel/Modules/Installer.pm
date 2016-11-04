@@ -468,7 +468,7 @@ sub Run {
         else {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown database type "%s".', $DBType ),
-                Comment => Translatable('Please go back'),
+                Comment => Translatable('Please go back.'),
             );
         }
     }
