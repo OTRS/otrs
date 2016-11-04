@@ -2553,8 +2553,7 @@ sub Attachment {
         # Disallow external and inline scripts, active content, frames, but keep allowing inline styles
         #   as this is a common use case in emails.
         # Also disallow referrer headers to prevent referrer leaks.
-        $Output
-            .= "Content-Security-Policy: default-src *; script-src 'none'; object-src 'none'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;\n";
+        $Output .= "Content-Security-Policy: default-src *; img-src * data:; script-src 'none'; object-src 'none'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;\n";
     }
 
     if ( $Param{Charset} ) {
