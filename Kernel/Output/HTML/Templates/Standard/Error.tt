@@ -16,7 +16,7 @@
             <div class="Content">
                 <p>[% Translate(Data.Message) | truncate(200) | html %]</p>
                 <p class="SpacingTop">
-                    [% Translate(Data.Comment) | html %].
+                    [% Translate(Data.Comment) | html %]
                 </p>
 
                 [% IF Data.ShowOTRSBusinessHint %]

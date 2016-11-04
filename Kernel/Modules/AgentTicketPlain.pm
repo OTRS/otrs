@@ -37,7 +37,7 @@ sub Run {
     if ( !$ArticleID ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('No ArticleID!'),
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -66,7 +66,7 @@ sub Run {
             Message => Translatable(
                 'Can\'t read plain article! Maybe there is no plain email in backend! Read backend message.'
             ),
-            Comment => Translatable('Please contact your administrator'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 

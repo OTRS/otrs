@@ -109,7 +109,7 @@ sub Run {
     if ( !$Form{SourceObject} || !$Form{SourceKey} ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Need SourceObject and SourceKey!'),
-            Comment => Translatable('Please contact the admin.'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -503,7 +503,7 @@ sub Run {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}
                     ->Translate( 'The object %s cannot link with other object!', $Form{SourceObject} ),
-                Comment => Translatable('Please contact the admin.'),
+                Comment => Translatable('Please contact the administrator.'),
             );
         }
 
