@@ -194,48 +194,47 @@ my %Ticket = $TicketObject->TicketGet(
 for my $Test (@Tests) {
 
     my @Return;
-    {
-        # update Queue (FollowUpID)
-        my $QueueUpdated = $QueueObject->QueueUpdate(
-            QueueID         => $QueueID,
-            Name            => 'NewTestQueue',
-            ValidID         => 1,
-            GroupID         => 1,
-            UnlockTimeout   => 480,
-            FollowUpID      => $Test->{QueueFollowUpID},
-            SystemAddressID => 1,
-            SalutationID    => 1,
-            SignatureID     => 1,
-            Comment         => 'Some comment',
-            UserID          => 1,
-        );
-        $Self->True(
-            $QueueUpdated,
-            "Queue updated."
-        );
 
-        my $TicketUpdated = $TicketObject->TicketStateSet(
-            State    => $Test->{TicketState},
-            TicketID => $TicketID,
-            UserID   => 1,
-        );
-        $Self->True(
-            $TicketUpdated,
-            "TicketStateSet updated."
-        );
+    # update Queue (FollowUpID)
+    my $QueueUpdated = $QueueObject->QueueUpdate(
+        QueueID         => $QueueID,
+        Name            => 'NewTestQueue',
+        ValidID         => 1,
+        GroupID         => 1,
+        UnlockTimeout   => 480,
+        FollowUpID      => $Test->{QueueFollowUpID},
+        SystemAddressID => 1,
+        SalutationID    => 1,
+        SignatureID     => 1,
+        Comment         => 'Some comment',
+        UserID          => 1,
+        CheckSysConfig  => 0,
+    );
+    $Self->True(
+        $QueueUpdated,
+        "Queue updated."
+    );
 
-        my $PostMasterObject = Kernel::System::PostMaster->new(
-            Email => "From: Provider <$CustomerAddress>
+    my $TicketUpdated = $TicketObject->TicketStateSet(
+        State    => $Test->{TicketState},
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->True(
+        $TicketUpdated,
+        "TicketStateSet updated."
+    );
+
+    my $PostMasterObject = Kernel::System::PostMaster->new(
+        Email => "From: Provider <$CustomerAddress>
 To: Agent <$AgentAddress>
 Subject: FollowUp Ticket#$Ticket{TicketNumber}
 
 Some Content in Body",
+    );
 
-            # Debug => 2,
-        );
+    @Return = $PostMasterObject->Run();
 
-        @Return = $PostMasterObject->Run();
-    }
     $Self->Is(
         $Return[0] || 0,
         $Test->{ExpectedResult},
