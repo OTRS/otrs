@@ -247,7 +247,6 @@ div.InputField_ToolbarContainer ul li a:hover {
  */
 .jstree-InputField {
     font-size: 11px !important;
-    overflow-x: hidden !important;
     border: none !important;
     box-shadow: none !important;
     height: 100% !important;
