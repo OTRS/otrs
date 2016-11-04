@@ -2751,7 +2751,9 @@ sub _GenerateDynamicStats {
         # build the headerline
 
         for my $Valuename ( @{ $Xvalue->{SelectedValues} } ) {
-            push @HeaderLine, $LanguageObject->Translate( $Xvalue->{Values}{$Valuename} );
+
+            # Do not translate the values, please see bug#12384 for more information.
+            push @HeaderLine, $Xvalue->{Values}{$Valuename};
         }
     }
 
@@ -2769,7 +2771,9 @@ sub _GenerateDynamicStats {
         if ( $Ref1->{Block} ne 'Time' ) {
             my %SelectedValues;
             for my $Ref2 ( @{ $Ref1->{SelectedValues} } ) {
-                $SelectedValues{$Ref2} = $LanguageObject->Translate( $Ref1->{Values}{$Ref2} );
+
+                # Do not translate the values, please see bug#12384 for more information.
+                $SelectedValues{$Ref2} = $Ref1->{Values}{$Ref2};
             }
             push(
                 @ArraySelected,

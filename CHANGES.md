@@ -65,6 +65,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.15 2016-??-??
+ - 2016-11-04 Fixed bug#[12384](http://bugs.otrs.org/show_bug.cgi?id=12384) - Stats translates ticket type values.
  - 2016-11-04 Fixed bug#[12316](http://bugs.otrs.org/show_bug.cgi?id=12316) - No tickets found, empty lines in customer user management on () in uid. Thanks to Paweł Bogusławski (PR#1510).
  - 2016-11-04 Fixed bug#[12397](https://bugs.otrs.org/show_bug.cgi?id=12397) - backup.pl doesn't backup articles in special case. Thanks to Jens Pfeifer.
  - 2016-11-04 Fixed bug#[12391](http://bugs.otrs.org/show_bug.cgi?id=12391) - Base64 encoded image does not display in article.
