@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998144329896907;
+    $Self->{Completeness}        = 0.995670995670996;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3646,7 +3646,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Неопходан изворни објект и изворни кључ!',
-        'Please contact the admin.' => 'Молимо контактирајте администратора!',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => 'Потребна вам је „ro” дозвола!',
         'Can not delete link with %s!' => 'Не може се обрисати веза са %s!',
         'Can not create link with %s! Object already linked as %s.' => 'Не може се креирати веза са %s! Објект је већ повезан као %s.',
@@ -3688,9 +3688,9 @@ sub Data {
         'Ticket (%s) is not unlocked!' => 'Тикет (%s) није откључан!',
         'Bulk feature is not enabled!' => 'Масовна функција није активирана!',
         'No selectable TicketID is given!' => 'Није дат ИД Тикета који се може изабрати!',
-        'You either selected no ticket or only tickets which are locked by other agents' =>
-            'Нисте селектовали ни један тикет или само тикете које су закључали други оператери',
-        'You need to select at least one ticket' => 'Неопходно је да изаберете бар један тикет',
+        'You either selected no ticket or only tickets which are locked by other agents.' =>
+            '',
+        'You need to select at least one ticket.' => '',
         'Ticket is locked by another agent and will be ignored!' => 'Тикет је закључан од стране другог оператера и биће игнорисан!',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3769,8 +3769,7 @@ sub Data {
         'for pending* states' => 'за стања* чекања',
         'ActivityDialogEntityID missing!' => 'Недостаје ИД ентитета Дијалога активности!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Не могу прибавити конфигурацију за ActivityDialogEntityID „%s”!',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            'CustomerID се не може користити као невидљиво поље. Молимо контактирајте вашег администратора!',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'Нема ProcessEntityID, проверите ваш ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3842,8 +3841,8 @@ sub Data {
         'Time Accounted' => 'Време је обрачунато',
         'External Chat' => 'Екстерно ћаскање',
         'Internal Chat' => 'Интерно ћаскање',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            'Жао нам је, ви више немате дозволу за приступ овом тикету у његовом садашњем стању.',
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+            '',
         'Can\'t get for ArticleID %s!' => 'Не могу прибавити ИД чланка %s!',
         'Article filter settings were saved.' => 'Подешавања филтера чланка су сачувана.',
         'Event type filter settings were saved.' => 'Подешавања филтера типа догађаја су сачувана.',
@@ -3894,7 +3893,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => 'Провера „%s” не постоји!',
         'Database %s' => 'База података %s',
         'Unknown database type "%s".' => 'Непознат тип базе података „%s”.',
-        'Please go back' => 'Молимо да се вратите',
+        'Please go back.' => '',
         'Install OTRS - Error' => 'Инсталирање „OTRS” - грешка',
         'File "%s/%s.xml" not found!' => 'Датотека „%s/%s.xml” није пронађена!',
         'Contact your Admin!' => 'Контактирајте вашег администратора!',
@@ -3941,14 +3940,14 @@ sub Data {
         'Linked as' => 'Повезано као',
         'Search Result' => 'Резултат претраге',
 
+        # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+        'Archive search' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ажурирајте на %s сада! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => 'Период одржавања система ће отпочети у:',
-
-        # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => 'Молимо контактирајте вашег администратора!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(у току)',
@@ -4358,22 +4357,24 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Пажња, корисник је ',
-        'Can`t remove SessionID' => 'ИД сесије се не може уклонити',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Успешна одјава.',
         'Panic! Invalid Session!!!' => 'Пажња! Неважећа сесија!!!',
         'No Permission to use this frontend module!' => 'Немате дозволу за  употребу овог корисничког модула!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'Поништавање лозинке није успело. Молимо контактирајте вашег администратора',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'Added via Customer Panel (%s)' => 'Додато преко клијентског панела (%s)',
         'Customer user can\'t be added!' => 'Не може се додати клијент корисник!',
         'Can\'t send account info!' => 'Не могу послати инфо о налогу!',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'Сигуран режим је активан!',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            'Уколико желите да поново покренете инсталацију, онемогућите SecureMode у подешавањима',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'Акција „%s” није пронађена!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -6241,8 +6242,8 @@ Thanks for your help!
             'Ресетује и откључава власника тикета ако је премештен у други ред.',
         'Responsible Tickets' => 'Одговорни тикети',
         'Responsible Tickets.' => 'Одговорни тикети.',
-        'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
-            'Враћа тикет из архиве (само ако је догађај промена статуса од затвореног на било који доступан отворени статус).',
+        'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
+            '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Задржи све сервисе у листи чак иако су деца неважећих елемената.',
         'Right' => 'Десно',

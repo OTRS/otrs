@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.984329896907217;
+    $Self->{Completeness}        = 0.981859410430839;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -3647,7 +3647,7 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Perlu sumber objek dan sumber kunci!',
-        'Please contact the admin.' => 'Silahkan hubungi admin.',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => 'Anda perlu izin ro!',
         'Can not delete link with %s!' => 'Tidak bisa menghapus tautan dengan %s!',
         'Can not create link with %s! Object already linked as %s.' => 'tidak bisa membuat link dengan %s! Objek yang sudah dikaitkan sebagai %s.',
@@ -3689,9 +3689,9 @@ bin/otrs.Daemon.pl status\').',
         'Ticket (%s) is not unlocked!' => 'Tiket (%s) tidak dibuka',
         'Bulk feature is not enabled!' => 'Fitur tidak diaktifkan',
         'No selectable TicketID is given!' => 'Tidak ada pilihan TicketID yang diberikan!',
-        'You either selected no ticket or only tickets which are locked by other agents' =>
-            'Anda juga dipilih tidak ada tiket atau hanya tiket yang dikunci oleh agen lainnya',
-        'You need to select at least one ticket' => 'Anda perlu memilih minimal satu tiket',
+        'You either selected no ticket or only tickets which are locked by other agents.' =>
+            '',
+        'You need to select at least one ticket.' => '',
         'Ticket is locked by another agent and will be ignored!' => 'Tiket dikunci oleh agen lain dan akan diabaikan!',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3770,8 +3770,7 @@ bin/otrs.Daemon.pl status\').',
         'for pending* states' => 'Tertunda untuk states',
         'ActivityDialogEntityID missing!' => 'ActivityDialogEntityID telah hilang!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Tidak bisa mendapatkan konfigurasi untuk ActivityDialogEntityID "%s"!',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            'Tidak bisa menggunakan ID Pelanggan sebagai bidang yang tak terlihat. Silahkan hubungi administrator sistem Anda!',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'ProcessEntityID telah hilang, silahkan segera periksa ActivityDialogHeader.tt anda!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3843,8 +3842,8 @@ bin/otrs.Daemon.pl status\').',
         'Time Accounted' => 'Waktu dicatat',
         'External Chat' => 'Obrolan diluar',
         'Internal Chat' => 'Obrolan didalam',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            'Mohon maaf, Anda tidak memiliki izin lagi untuk mengakses tiket ini dalam kondisi saat ini.',
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+            '',
         'Can\'t get for ArticleID %s!' => 'Tidak bisa mendapatkan ArticleID %s!',
         'Article filter settings were saved.' => 'Pengaturan filter artikel telah disimpan',
         'Event type filter settings were saved.' => 'Jenis acara setelan filter diselamatkan.',
@@ -3895,7 +3894,7 @@ bin/otrs.Daemon.pl status\').',
         'The check "%s" doesn\'t exist!' => 'Cek "%s" tidak ada!',
         'Database %s' => 'Database %s',
         'Unknown database type "%s".' => 'Diketahui tipe database "%s".',
-        'Please go back' => 'Silahkan masuk kembali',
+        'Please go back.' => '',
         'Install OTRS - Error' => 'Menginstal OTRS - Kesalahan',
         'File "%s/%s.xml" not found!' => 'File "%s/%s.xml" tidak ditemukan!',
         'Contact your Admin!' => 'Hubungi Admin Anda!',
@@ -3942,14 +3941,14 @@ bin/otrs.Daemon.pl status\').',
         'Linked as' => 'Terkait sebagai',
         'Search Result' => 'Hasil pencarian',
 
+        # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+        'Archive search' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%S Upgrade ke %s sekarang! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => 'A system maintenance period will start at:',
-
-        # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => 'Silahkan hubungi administrator Anda!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => 'Sedang diproses',
@@ -4359,22 +4358,24 @@ bin/otrs.Daemon.pl status\').',
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Panik, pengguna dikonfirmasi tetapi tidak ada data pengguna dapat ditemukan di OTRS DB !! Mungkin pengguna tidak valid.',
-        'Can`t remove SessionID' => 'Tidak dapat menghapus Session ID',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Logout sukses.',
         'Panic! Invalid Session!!!' => 'Panik! Sesi valid !!!',
         'No Permission to use this frontend module!' => 'Tidak ada Izin untuk menggunakan modul antarmuka ini!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'Reset password tidak berhasil. Silahkan hubungi administrator Anda',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'Added via Customer Panel (%s)' => 'Ditambahkan melalui Panel Pelanggan (%s)',
         'Customer user can\'t be added!' => 'Pengguna pelanggan tidak dapat ditambahkan!',
         'Can\'t send account info!' => 'Tidak dapat mengirim info akun!',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'Modus aman aktif!',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            'Jika Anda ingin menjalankan kembali Installer, menonaktifkan mode secara aman di SysConfig',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'Action "%s" tidak ditemukan!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -6240,8 +6241,8 @@ Helpdesk Team Anda
             'Ulang dan membuka pemilik tiket jika itu dipindahkan ke antrian yang lain.',
         'Responsible Tickets' => 'Tiket bertanggung jawab',
         'Responsible Tickets.' => 'Tiket penanggung jawab',
-        'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
-            'Mengembalikan tiket dari arsip (hanya jika acara tersebut adalah perubahan keadaan, dari tertutup untuk setiap state terbuka yang tersedia).',
+        'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
+            '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Mempertahankan semua layanan dalam daftar bahkan jika mereka adalah anak-anak dari elemen yang tidak valid.',
         'Right' => 'Kanan',

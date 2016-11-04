@@ -30,9 +30,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-27 10:09+0000\n"
-"PO-Revision-Date: 2016-10-27 15:10+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-11-04 14:18+0000\n"
+"PO-Revision-Date: 2016-11-04 13:19+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -11788,8 +11788,8 @@ msgid "Need SourceObject and SourceKey!"
 msgstr "Benötige SourceObject und SourceKey!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Please contact the admin."
-msgstr "Bitte kontaktieren Sie einen Administrator."
+msgid "Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -11918,12 +11918,12 @@ msgstr "Keine auswählbare TicketID übermittelt!"
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
-"agents"
-msgstr "Sie haben entweder kein Ticket ausgewählt oder ausschließlich Tickets, die bereits durch andere Agenten gesperrt sind."
+"agents."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket"
-msgstr "Sie müssen mindestens ein Ticket auswählen"
+msgid "You need to select at least one ticket."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -12116,10 +12116,8 @@ msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
 msgstr "Konnte Konfiguration für ActivityDialogEntityID \"%s\" nicht ermitteln!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Couldn't use CustomerID as an invisible field. Please contact your system "
-"administrator!"
-msgstr "Konnte CustomerID nicht als unsichtbares Feld verwenden. Bitte kontaktieren Sie Ihren Administrator."
+msgid "Couldn't use CustomerID as an invisible field."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
@@ -12354,8 +12352,8 @@ msgstr "Chat (intern)"
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
-"its current state. "
-msgstr "Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen."
+"its current state."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12506,8 +12504,8 @@ msgid "Unknown database type \"%s\"."
 msgstr "Unbekannter Datenbank-Typ \"%s\"."
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Please go back"
-msgstr "Bitte gehen Sie zurück"
+msgid "Please go back."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12625,6 +12623,10 @@ msgstr "Verknüpft als"
 msgid "Search Result"
 msgstr "Suchergebnis"
 
+#. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+msgid "Archive search"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s Jetzt auf %s upgraden! %s"
@@ -12633,10 +12635,6 @@ msgstr "%s Jetzt auf %s upgraden! %s"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: "
 msgstr "Eine Systemwartungsperiode beginnt um: "
-
-#. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-msgid "Please contact your administrator!"
-msgstr "Bitte kontaktieren Sie ihren Administrator"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
@@ -13744,8 +13742,8 @@ msgid ""
 msgstr "Achtung, der Benutzer wurde authentifiziert, aber es konnten keine Benutzerdaten in der Datenbank gefunden worden. Möglicherweise ist der Benutzer ungültig."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Can`t remove SessionID"
-msgstr "Kann SessionID nicht enfernen"
+msgid "Can`t remove SessionID."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -13760,8 +13758,14 @@ msgid "No Permission to use this frontend module!"
 msgstr "Sie haben keine Berechtigung, dieses Modul zu nutzen!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr "Passwort zurücksetzen fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator."
+msgid ""
+"Authentication succeeded, but no customer record is found in the customer "
+"backend. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Reset password unsuccessful. Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -13781,8 +13785,9 @@ msgstr "SecureMode ist aktiv!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr "Wenn Sie den Installer erneut ausführen wollen, schalten Sie \"SecureMode\" in der SysConfig ab"
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -18436,8 +18441,8 @@ msgstr "Wenn \"HTTPBasicAuth\" als Customer::AuthModule ausgewählt ist, kann hi
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Wenn \"HTTPBasicAuth\" als Customer::AuthModule ausgewählt ist, können Sie hier angeben, ob führende Teile von Benutzernamen (z.B. zur Umwandlung von Domänen wie \"example_domain\\user\" zu \"user\")."
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19950,9 +19955,9 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Restores a ticket from the archive (only if the event is a state change, "
-"from closed to any open available state)."
-msgstr "Holt ein Ticket aus dem Archiv zurück (nur dann, wenn das Ereignis ein Status-Wechsel von einem geschlossen-Status zu einem der verfügbaren offen-Status ist)."
+"Restores a ticket from the archive (only if the event is a state change to "
+"any open available state)."
+msgstr ""
 
 #. SysConfig
 msgid ""

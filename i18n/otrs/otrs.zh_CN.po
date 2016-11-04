@@ -17,9 +17,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-27 10:09+0000\n"
-"PO-Revision-Date: 2016-10-27 15:10+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-11-04 14:18+0000\n"
+"PO-Revision-Date: 2016-11-04 13:19+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -11775,8 +11775,8 @@ msgid "Need SourceObject and SourceKey!"
 msgstr "需要SourceObject（源对象）和SourceKey（源键）！"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Please contact the admin."
-msgstr "请联系系统管理员。"
+msgid "Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -11905,12 +11905,12 @@ msgstr "没有指定可选择的工单编号！"
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
-"agents"
-msgstr "你要么没有选择工单，要么只选择了已被其他服务人员锁定的工单"
+"agents."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket"
-msgstr "你需要选择至少一个工单"
+msgid "You need to select at least one ticket."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -12103,10 +12103,8 @@ msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
 msgstr "不能获得ActivityDialogEntityID（活动对话框实体ID） “%s”的配置！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Couldn't use CustomerID as an invisible field. Please contact your system "
-"administrator!"
-msgstr "不能将CustomerID（客户ID）用作不可见字段，请联系您的系统管理员！"
+msgid "Couldn't use CustomerID as an invisible field."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
@@ -12341,8 +12339,8 @@ msgstr "内部聊天"
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
-"its current state. "
-msgstr "抱歉，工单当前状态下你没有权限访问了。"
+"its current state."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12493,8 +12491,8 @@ msgid "Unknown database type \"%s\"."
 msgstr "未知的数据库类型“%s”。"
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Please go back"
-msgstr "请返回"
+msgid "Please go back."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12612,6 +12610,10 @@ msgstr "链接为"
 msgid "Search Result"
 msgstr "搜索结果"
 
+#. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+msgid "Archive search"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "现在升级%s到%s！%s"
@@ -12620,10 +12622,6 @@ msgstr "现在升级%s到%s！%s"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: "
 msgstr "一次系统维护即将开始于："
-
-#. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-msgid "Please contact your administrator!"
-msgstr "请联系您的系统管理员！"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
@@ -13731,8 +13729,8 @@ msgid ""
 msgstr "Panic，用户已认证，但没有在OTRS数据库中找到用户数据！！可能是无效用户。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Can`t remove SessionID"
-msgstr "不能移除会话ID"
+msgid "Can`t remove SessionID."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -13747,8 +13745,14 @@ msgid "No Permission to use this frontend module!"
 msgstr "没有权限使用这个前端界面模块！"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr "重置密码未成功，请联系您的系统管理员。"
+msgid ""
+"Authentication succeeded, but no customer record is found in the customer "
+"backend. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Reset password unsuccessful. Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -13768,8 +13772,9 @@ msgstr "激活了安全模式！"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr "如果你要重新运行安装程序，请在系统配置中禁用安全模式"
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -18423,8 +18428,8 @@ msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\\user变为user）。"
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19937,9 +19942,9 @@ msgstr "负责的工单."
 
 #. SysConfig
 msgid ""
-"Restores a ticket from the archive (only if the event is a state change, "
-"from closed to any open available state)."
-msgstr "从归档中恢复一个工单（只有发生了工单状态变化的事件，工单从已关闭到任何可用的状态）。"
+"Restores a ticket from the archive (only if the event is a state change to "
+"any open available state)."
+msgstr ""
 
 #. SysConfig
 msgid ""

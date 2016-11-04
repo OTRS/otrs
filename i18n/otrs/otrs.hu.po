@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-27 10:09+0000\n"
-"PO-Revision-Date: 2016-10-27 15:10+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-11-04 14:18+0000\n"
+"PO-Revision-Date: 2016-11-04 13:19+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -389,7 +389,7 @@ msgstr "Kapcsolat hozzáadása"
 
 #. Template: AAABase
 msgid "Link"
-msgstr "Összekapcsolás"
+msgstr "Hivatkozás"
 
 #. Template: AAABase
 msgid "Unlink"
@@ -11771,8 +11771,8 @@ msgid "Need SourceObject and SourceKey!"
 msgstr "Forrásobjektum és forráskulcs szükséges!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Please contact the admin."
-msgstr "Vegye fel a kapcsolatot a rendszergazdával."
+msgid "Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -11901,12 +11901,12 @@ msgstr "Nincs kiválasztható jegyazonosító megadva!"
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
-"agents"
-msgstr "Vagy nem választott ki jegyet, vagy csak olyan jegyeket, amelyeket egy másik ügyintéző zárolt"
+"agents."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket"
-msgstr "Legalább egy jegyet ki kell választania"
+msgid "You need to select at least one ticket."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -12099,10 +12099,8 @@ msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
 msgstr "Nem sikerült lekérni a beállítást a tevékenység párbeszéd egyedazonosítóhoz: „%s”!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Couldn't use CustomerID as an invisible field. Please contact your system "
-"administrator!"
-msgstr "Nem sikerült az ügyfél-azonosítót láthatatlan mezőként használni. Vegye fel a kapcsolatot a rendszergazdával."
+msgid "Couldn't use CustomerID as an invisible field."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
@@ -12337,8 +12335,8 @@ msgstr "Belső csevegés"
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
-"its current state. "
-msgstr "Sajnáljuk, de már nincs jogosultsága a jegyhez történő hozzáféréshez annak jelenlegi állapotában."
+"its current state."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12489,8 +12487,8 @@ msgid "Unknown database type \"%s\"."
 msgstr "Ismeretlen adatbázistípus: „%s”."
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Please go back"
-msgstr "Lépjen vissza"
+msgid "Please go back."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12608,6 +12606,10 @@ msgstr "Összekapcsolva mint"
 msgid "Search Result"
 msgstr "Keresési eredmény"
 
+#. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+msgid "Archive search"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s Frissítés erre most: %s! %s"
@@ -12616,10 +12618,6 @@ msgstr "%s Frissítés erre most: %s! %s"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: "
 msgstr "Egy rendszerkarbantartás időszak fog kezdődni ekkor: "
-
-#. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-msgid "Please contact your administrator!"
-msgstr "Vegye fel a kapcsolatot a rendszergazdával!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
@@ -12725,17 +12723,17 @@ msgstr "Rendezés"
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
-msgstr ""
+msgstr "Túllépte az egyidejű ügyintézők számát - vegye fel a kapcsolatot velünk a sales@otrs.com e-mail címen."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
-msgstr ""
+msgstr "Ne feledje, hogy a munkamenet-korlátot majdnem elérte."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "Login rejected! You have exceeded the maximum number of concurrent Agents! "
 "Contact sales@otrs.com immediately!"
-msgstr ""
+msgstr "Belépés elutasítva! Túllépte az egyidejű ügyintézők számát! Azonnal vegye fel a kapcsolatot velünk a sales@otrs.com e-mail címen!"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session per user limit reached!"
@@ -13421,11 +13419,11 @@ msgstr "Csomaglista"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "Spooled Emails"
-msgstr ""
+msgstr "Várakozási sorba helyezett levelek"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "There are emails in var/spool that OTRS could not process."
-msgstr ""
+msgstr "Olyan levelek találhatók a var/spool mappában, amelyeket az OTRS nem tudott feldolgozni."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -13727,8 +13725,8 @@ msgid ""
 msgstr "Pánik, a felhasználó hitelesítette magát, de nem találhatók felhasználói adatok az OTRS adatbázisában! Talán a felhasználó érvénytelen."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Can`t remove SessionID"
-msgstr "Nem lehet eltávolítani a munkamenet-azonosítót"
+msgid "Can`t remove SessionID."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -13743,8 +13741,14 @@ msgid "No Permission to use this frontend module!"
 msgstr "Nincs jogosultsága ezen előtétprogram-modul használatához!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr "A jelszó visszaállítása sikertelen. Vegye fel a kapcsolatot a rendszergazdával"
+msgid ""
+"Authentication succeeded, but no customer record is found in the customer "
+"backend. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Reset password unsuccessful. Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -13764,8 +13768,9 @@ msgstr "Biztonságos mód bekapcsolva!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr "Ha újra szeretné futtatni a telepítőt, akkor tiltsa le a biztonságos módot a rendszerbeállításokban"
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -15470,13 +15475,13 @@ msgstr "Meghatározza az összes olyan nyelvet, amelyek elérhetők az alkalmaz�
 msgid ""
 "Defines all the parameters for the RefreshTime object in the customer "
 "preferences of the customer interface."
-msgstr "Meghatározza a RefreshTime objektum összes paraméterét az ügyfélfelület ügyfél beállításaiban."
+msgstr "Meghatározza a frissítési idő objektum összes paraméterét az ügyfélfelület ügyfél beállításaiban."
 
 #. SysConfig
 msgid ""
 "Defines all the parameters for the ShownTickets object in the customer "
 "preferences of the customer interface."
-msgstr "Meghatározza a ShownTickets objektum összes paraméterét az ügyfélfelület ügyfél beállításaiban."
+msgstr "Meghatározza a megjelenített jegyek objektum összes paraméterét az ügyfélfelület ügyfél beállításaiban."
 
 #. SysConfig
 msgid "Defines all the parameters for this item in the customer preferences."
@@ -16814,7 +16819,7 @@ msgstr "Meghatározza azt a modult, amely egy értesítést jelenít meg az ügy
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent session limit prior warning is reached."
-msgstr ""
+msgstr "Meghatározza azt a modult, amely egy értesítést jelenít meg az ügyintézői felületen, ha az ügyintézői munkamenetkorlát előzetes figyelmeztetését elérték."
 
 #. SysConfig
 msgid ""
@@ -18419,8 +18424,8 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19475,25 +19480,25 @@ msgstr "Az eseménymodul fájl csomagolása egy ütemező feladatba a regisztrá
 msgid ""
 "Parameters for the CreateNextMask object in the preference view of the agent"
 " interface."
-msgstr "A CreateNextMask objektum paraméterei az ügyintézői felület beállítás nézetében."
+msgstr "A következő maszk létrehozása objektum paraméterei az ügyintézői felület beállítás nézetében."
 
 #. SysConfig
 msgid ""
 "Parameters for the CustomQueue object in the preference view of the agent "
 "interface."
-msgstr "A CustomQueue objektum paraméterei az ügyintézői felület beállítás nézetében."
+msgstr "Az egyéni várólista objektum paraméterei az ügyintézői felület beállítás nézetében."
 
 #. SysConfig
 msgid ""
 "Parameters for the CustomService object in the preference view of the agent "
 "interface."
-msgstr "A CustomService objektum paraméterei az ügyintézői felület beállítás nézetében."
+msgstr "Az egyéni szolgáltatás objektum paraméterei az ügyintézői felület beállítás nézetében."
 
 #. SysConfig
 msgid ""
 "Parameters for the RefreshTime object in the preference view of the agent "
 "interface."
-msgstr "A RefreshTime objektum paraméterei az ügyintézői felület beállítás nézetében."
+msgstr "A frissítési idő objektum paraméterei az ügyintézői felület beállítás nézetében."
 
 #. SysConfig
 msgid "Parameters for the column filters of the small ticket overview."
@@ -19933,9 +19938,9 @@ msgstr "Felelős jegyek."
 
 #. SysConfig
 msgid ""
-"Restores a ticket from the archive (only if the event is a state change, "
-"from closed to any open available state)."
-msgstr "Visszaállít egy jegyet az archívumból (csak akkor, ha az esemény egy állapotváltozás, lezártból egy bármely más elérhető nyitott állapotba)."
+"Restores a ticket from the archive (only if the event is a state change to "
+"any open available state)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20417,7 +20422,7 @@ msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionActiveTime before a prior warning will be visible for the logged in "
 "agents."
-msgstr ""
+msgstr "Beállítja az aktív ügyintézők legnagyobb számát a SessionActiveTime modulon meghatározott időtartamon belül, mielőtt egy előzetes figyelmeztetés lesz látható a bejelentkezett ügyintézőnél."
 
 #. SysConfig
 msgid ""
@@ -20723,7 +20728,7 @@ msgstr "Beállítja a jegy típusát az ügyintézői felület jegyfelelős kép
 msgid ""
 "Sets the time (in seconds) a user is marked as active (minimum active time "
 "is 300 seconds)."
-msgstr ""
+msgstr "Beállítja az időt (másodpercben), ami után a felhasználó aktívként van megjelölve (a legkisebb aktív idő 300 másodperc)."
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."

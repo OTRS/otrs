@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.670927835051546;
+    $Self->{Completeness}        = 0.671201814058957;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3066,13 +3066,13 @@ sub Data {
         'New personal chat request' => 'Nueva petición de chat personal',
         'New customer chat request' => 'Nueva petición de chat de cliente',
         'New public chat request' => 'Nueva petición de chat público',
-        'Selected user is not available for chat.' => '',
+        'Selected user is not available for chat.' => 'El usuario seleccionado no está disponible en el chat',
         'New activity' => 'Nueva actividad',
         'New activity on one of your monitored chats.' => 'Nueva actividad en uno de sus chats monitorizados.',
-        'Your browser does not support video and audio calling.' => '',
-        'Selected user is not available for video and audio call.' => '',
+        'Your browser does not support video and audio calling.' => 'Su navegador no soporta llamadas de audio y video',
+        'Selected user is not available for video and audio call.' => 'El usuario seleccionado no está disponible para una videollamada.',
         'Target user\'s browser does not support video and audio calling.' =>
-            '',
+            'Su navegador no soporta llamadas de audio y video',
         'Do you really want to continue?' => 'Quiere realmente continuar?',
         'Information about the OTRS Daemon' => 'Información acerca del Daemon de OTRS',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3373,7 +3373,7 @@ sub Data {
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => 'Actualmente',
-        'Unchecked' => '',
+        'Unchecked' => 'Desmarcado',
         'Checked' => 'Marcado',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
@@ -3650,7 +3650,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
-        'Please contact the admin.' => '',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => 'No se puede borrar el enlace con %s!',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3692,9 +3692,9 @@ sub Data {
         'Ticket (%s) is not unlocked!' => '',
         'Bulk feature is not enabled!' => '',
         'No selectable TicketID is given!' => '',
-        'You either selected no ticket or only tickets which are locked by other agents' =>
+        'You either selected no ticket or only tickets which are locked by other agents.' =>
             '',
-        'You need to select at least one ticket' => '',
+        'You need to select at least one ticket.' => '',
         'Ticket is locked by another agent and will be ignored!' => 'Ticket está bloqueado por otro agente y será ignorado!',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3773,8 +3773,7 @@ sub Data {
         'for pending* states' => 'para estados pendiente*',
         'ActivityDialogEntityID missing!' => '',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            '',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             '',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3846,8 +3845,8 @@ sub Data {
         'Time Accounted' => '',
         'External Chat' => '',
         'Internal Chat' => '',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            'Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su estado actual.',
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+            '',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
         'Event type filter settings were saved.' => '',
@@ -3898,7 +3897,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => '',
         'Database %s' => '',
         'Unknown database type "%s".' => '',
-        'Please go back' => '',
+        'Please go back.' => '',
         'Install OTRS - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => '',
@@ -3945,14 +3944,14 @@ sub Data {
         'Linked as' => 'Enlazado como',
         'Search Result' => '',
 
+        # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+        'Archive search' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ¡Actualizar ahora a %s! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => 'El periodo de mantenimiento de sistema comenzará a las:',
-
-        # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => '¡Por favor contacte a su administrador!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(en proceso)',
@@ -4362,21 +4361,23 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
-        'Can`t remove SessionID' => '',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Panic! Invalid Session!!!' => '¡Pánico! ¡¡¡Sesión Inválida!!!',
         'No Permission to use this frontend module!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'No se pudo reestablecer la contraseña. Por favor contacte a su administrador',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'Added via Customer Panel (%s)' => '',
         'Customer user can\'t be added!' => '',
         'Can\'t send account info!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => '',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
             '',
         'Action "%s" not found!' => '',
 
@@ -6245,7 +6246,7 @@ Tu Equipo de Soporte
             '',
         'Responsible Tickets' => '',
         'Responsible Tickets.' => '',
-        'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
+        'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',

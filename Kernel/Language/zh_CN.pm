@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.995876288659794;
+    $Self->{Completeness}        = 0.993403421974851;
 
     # csv separator
     $Self->{Separator} = '';
@@ -3651,7 +3651,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '需要SourceObject（源对象）和SourceKey（源键）！',
-        'Please contact the admin.' => '请联系系统管理员。',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => '需要ro只读权限！',
         'Can not delete link with %s!' => '不能删除到%s的链接！',
         'Can not create link with %s! Object already linked as %s.' => '不能创建到 %s 的连接！对象已连接为 %s。',
@@ -3693,9 +3693,9 @@ sub Data {
         'Ticket (%s) is not unlocked!' => '工单（%s）没有解锁！',
         'Bulk feature is not enabled!' => '批量操作功能还没有启用！',
         'No selectable TicketID is given!' => '没有指定可选择的工单编号！',
-        'You either selected no ticket or only tickets which are locked by other agents' =>
-            '你要么没有选择工单，要么只选择了已被其他服务人员锁定的工单',
-        'You need to select at least one ticket' => '你需要选择至少一个工单',
+        'You either selected no ticket or only tickets which are locked by other agents.' =>
+            '',
+        'You need to select at least one ticket.' => '',
         'Ticket is locked by another agent and will be ignored!' => '工单已被其他服务人员锁定，将被忽略！',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3774,8 +3774,7 @@ sub Data {
         'for pending* states' => '针对各种挂起状态',
         'ActivityDialogEntityID missing!' => '缺少ActivityDialogEntityID（活动对话框实体ID）！',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '不能获得ActivityDialogEntityID（活动对话框实体ID） “%s”的配置！',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            '不能将CustomerID（客户ID）用作不可见字段，请联系您的系统管理员！',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             '缺少ProcessEntityID（流程实体ID），请检查您的模板文件ActivityDialogHeader.tt！',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3847,8 +3846,8 @@ sub Data {
         'Time Accounted' => '所用时间',
         'External Chat' => '外部聊天',
         'Internal Chat' => '内部聊天',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            '抱歉，工单当前状态下你没有权限访问了。',
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+            '',
         'Can\'t get for ArticleID %s!' => '不能获得ID为“%s”的信件！',
         'Article filter settings were saved.' => '信件过滤器设置已保存。',
         'Event type filter settings were saved.' => '事件类型过滤器设置已保存。',
@@ -3899,7 +3898,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => '检查“%s”不存在！',
         'Database %s' => '数据库%s',
         'Unknown database type "%s".' => '未知的数据库类型“%s”。',
-        'Please go back' => '请返回',
+        'Please go back.' => '',
         'Install OTRS - Error' => '安装OTRS - 错误',
         'File "%s/%s.xml" not found!' => '没有找到文件“%s/%s.xml”！',
         'Contact your Admin!' => '联系你的系统管理员！',
@@ -3946,14 +3945,14 @@ sub Data {
         'Linked as' => '链接为',
         'Search Result' => '搜索结果',
 
+        # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+        'Archive search' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '现在升级%s到%s！%s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => '一次系统维护即将开始于：',
-
-        # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => '请联系您的系统管理员！',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '（进行中）',
@@ -4363,22 +4362,24 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Panic，用户已认证，但没有在OTRS数据库中找到用户数据！！可能是无效用户。',
-        'Can`t remove SessionID' => '不能移除会话ID',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => '成功注销。',
         'Panic! Invalid Session!!!' => 'Panic!无效的会话！！！',
         'No Permission to use this frontend module!' => '没有权限使用这个前端界面模块！',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Reset password unsuccessful. Please contact your administrator' =>
-            '重置密码未成功，请联系您的系统管理员。',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'Added via Customer Panel (%s)' => '通过客户界面已添加（%s）',
         'Customer user can\'t be added!' => '不能添加客户联系人！',
         'Can\'t send account info!' => '不能发送帐户信息！',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => '激活了安全模式！',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            '如果你要重新运行安装程序，请在系统配置中禁用安全模式',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => '没有找到操作“%s”！',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -6244,8 +6245,8 @@ Thanks for your help!
             '如果工单转移到另一个队列，重置并解锁工单所有者。',
         'Responsible Tickets' => '负责的工单',
         'Responsible Tickets.' => '负责的工单.',
-        'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
-            '从归档中恢复一个工单（只有发生了工单状态变化的事件，工单从已关闭到任何可用的状态）。',
+        'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
+            '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '在列表中保留所有的服务，即使他们是无效的子元素。',
         'Right' => '右',

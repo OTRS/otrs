@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.851134020618557;
+    $Self->{Completeness}        = 0.84889713461142;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -3649,7 +3649,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'ต้องการ SourceObject และ SourceKey!',
-        'Please contact the admin.' => 'กรุณาติดต่อผู้ดูแลระบบ',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => 'คุณจำเป็นต้องได้รับอนุญาต',
         'Can not delete link with %s!' => 'ไม่สามารถลบการเชื่อมโยงด้วย %s!',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3691,9 +3691,9 @@ sub Data {
         'Ticket (%s) is not unlocked!' => 'ตั๋ว (%s) จะไม่ได้ปลดล็อค!',
         'Bulk feature is not enabled!' => 'ฟีเจอร์ Bulk ไม่ได้เปิดใช้งาน!',
         'No selectable TicketID is given!' => 'ไม่ได้รับ TicketID ที่เลือกไว้!',
-        'You either selected no ticket or only tickets which are locked by other agents' =>
-            'คุณเลือกระหว่างอตั๋วที่ไม่ได้ล็อคหรือเฉพาะตั๋วที่มีการล็อคโดยเอเย่นต์อื่น ๆ',
-        'You need to select at least one ticket' => 'คุณต้องเลือกตั๋วอย่างน้อยหนึ่งตั๋ว',
+        'You either selected no ticket or only tickets which are locked by other agents.' =>
+            '',
+        'You need to select at least one ticket.' => '',
         'Ticket is locked by another agent and will be ignored!' => 'ตั๋วถูกล็อกโดยเอเย่นต์อื่นและจะถูกละเว้น!',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3772,8 +3772,7 @@ sub Data {
         'for pending* states' => 'สำหรับสถานะที่ค้างอยู่ *',
         'ActivityDialogEntityID missing!' => 'ActivityDialogEntityID หายไป!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'ไม่สามารถได้รับการกำหนดค่าสำหรับ ActivityDialogEntityID "%s"!',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            'ไม่สามารถใช้ CustomerID เป็นฟิลด์ซ่อน กรุณาติดต่อผู้ดูแลระบบของคุณ!',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'ProcessEntityID หายไป โปรดตรวจสอบ ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3845,8 +3844,8 @@ sub Data {
         'Time Accounted' => 'เวลาที่คิด',
         'External Chat' => 'แชทภายนอก',
         'Internal Chat' => 'แชทภายใน',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            'ขออภัยคุณไม่มีสิทธิในการเข้าถึงตั๋วนี้ในสถานะปัจจุบันอีกต่อไป',
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+            '',
         'Can\'t get for ArticleID %s!' => 'ไม่สามารถรับสำหรับ ArticleID %s!',
         'Article filter settings were saved.' => 'การตั้งค่าบทความตัวกรองถูกบันทึกไว้แล้ว',
         'Event type filter settings were saved.' => 'การตั้งค่าตัวกรองประเภทเหตุการณ์ถูกบันทึกไว้',
@@ -3897,7 +3896,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => 'การตรวจสอบ "%s" ไม่อยู่!',
         'Database %s' => 'ฐานข้อมูล %s',
         'Unknown database type "%s".' => 'ชนิดของฐานข้อมูลที่ไม่รู้จัก "%s".',
-        'Please go back' => 'โปรดกลับไป',
+        'Please go back.' => '',
         'Install OTRS - Error' => 'ติดตั้ง OTRS - ข้อผิดพลาด',
         'File "%s/%s.xml" not found!' => 'ไม่พบไฟล์ "%s/%s.xml" ',
         'Contact your Admin!' => 'ติดต่อผู้ดูแลระบบของคุณ!',
@@ -3944,14 +3943,14 @@ sub Data {
         'Linked as' => 'เชื่อมโยงเป็น',
         'Search Result' => 'ผลการค้นหา',
 
+        # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+        'Archive search' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s อัพเกรดเป็น %s ในขณะนี้! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => 'ระยะเวลาการบำรุงรักษาระบบจะเริ่มต้นที่:',
-
-        # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => 'กรุณาติดต่อผู้ดูแลระบบของคุณ!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(อยู่ในขั้นตอน)',
@@ -4361,22 +4360,24 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'ตื่นตระหนก ผู้ใช้ถูกตรวจสอบสิทธิ์แล้ว แต่ไม่มีข้อมูลของผู้ใช้ที่พบได้ใน OTRS DB !! บางทีผู้ใช้นี้ไม่ถูกต้อง',
-        'Can`t remove SessionID' => 'ไม่สามารถลบ SessionID',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'ออกจากระบบประสบความสำเร็จ',
         'Panic! Invalid Session!!!' => 'Panic! เซสชันไม่ถูกต้อง !!!',
         'No Permission to use this frontend module!' => 'ไม่มีการอนุญาตให้ใช้โมดูลส่วนหน้านี้!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'รีเซ็ตรหัสผ่านไม่สำเร็จ กรุณาติดต่อผู้ดูแลระบบ',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'Added via Customer Panel (%s)' => 'เพิ่มผ่านแผงลูกค้า (%s)',
         'Customer user can\'t be added!' => 'ผู้ใช้ลูกค้าไม่สามารถเพิ่ม!',
         'Can\'t send account info!' => 'ไม่สามารถส่งข้อมูลบัญชี!',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'ใช้งาน SecureMode!',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            'หากคุณต้องการที่จะเรียกตัวติดตั้งปิดการใช้งานโหมดที่ปลอดภัยใน sysconfig',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'ไม่พบการกระทำ "%s"!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -6249,7 +6250,7 @@ Thanks for your help!
             '',
         'Responsible Tickets' => 'ผู้รับผิดชอบตั๋ว',
         'Responsible Tickets.' => 'ผู้รับผิดชอบตั๋ว',
-        'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
+        'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',

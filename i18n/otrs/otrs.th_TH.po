@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-27 10:09+0000\n"
-"PO-Revision-Date: 2016-10-27 15:10+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-11-04 14:18+0000\n"
+"PO-Revision-Date: 2016-11-04 13:19+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/otrs/OTRS/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -11763,8 +11763,8 @@ msgid "Need SourceObject and SourceKey!"
 msgstr "ต้องการ SourceObject และ SourceKey!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Please contact the admin."
-msgstr "กรุณาติดต่อผู้ดูแลระบบ"
+msgid "Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -11893,12 +11893,12 @@ msgstr "ไม่ได้รับ TicketID ที่เลือกไว้!"
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
-"agents"
-msgstr "คุณเลือกระหว่างอตั๋วที่ไม่ได้ล็อคหรือเฉพาะตั๋วที่มีการล็อคโดยเอเย่นต์อื่น ๆ"
+"agents."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket"
-msgstr "คุณต้องเลือกตั๋วอย่างน้อยหนึ่งตั๋ว"
+msgid "You need to select at least one ticket."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -12091,10 +12091,8 @@ msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
 msgstr "ไม่สามารถได้รับการกำหนดค่าสำหรับ ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Couldn't use CustomerID as an invisible field. Please contact your system "
-"administrator!"
-msgstr "ไม่สามารถใช้ CustomerID เป็นฟิลด์ซ่อน กรุณาติดต่อผู้ดูแลระบบของคุณ!"
+msgid "Couldn't use CustomerID as an invisible field."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
@@ -12329,8 +12327,8 @@ msgstr "แชทภายใน"
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
-"its current state. "
-msgstr "ขออภัยคุณไม่มีสิทธิในการเข้าถึงตั๋วนี้ในสถานะปัจจุบันอีกต่อไป"
+"its current state."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12481,8 +12479,8 @@ msgid "Unknown database type \"%s\"."
 msgstr "ชนิดของฐานข้อมูลที่ไม่รู้จัก \"%s\"."
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Please go back"
-msgstr "โปรดกลับไป"
+msgid "Please go back."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12600,6 +12598,10 @@ msgstr "เชื่อมโยงเป็น"
 msgid "Search Result"
 msgstr "ผลการค้นหา"
 
+#. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+msgid "Archive search"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s อัพเกรดเป็น %s ในขณะนี้! %s"
@@ -12608,10 +12610,6 @@ msgstr "%s อัพเกรดเป็น %s ในขณะนี้! %s"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: "
 msgstr "ระยะเวลาการบำรุงรักษาระบบจะเริ่มต้นที่:"
-
-#. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-msgid "Please contact your administrator!"
-msgstr "กรุณาติดต่อผู้ดูแลระบบของคุณ!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
@@ -13719,8 +13717,8 @@ msgid ""
 msgstr "ตื่นตระหนก ผู้ใช้ถูกตรวจสอบสิทธิ์แล้ว แต่ไม่มีข้อมูลของผู้ใช้ที่พบได้ใน OTRS DB !! บางทีผู้ใช้นี้ไม่ถูกต้อง"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Can`t remove SessionID"
-msgstr "ไม่สามารถลบ SessionID"
+msgid "Can`t remove SessionID."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -13735,8 +13733,14 @@ msgid "No Permission to use this frontend module!"
 msgstr "ไม่มีการอนุญาตให้ใช้โมดูลส่วนหน้านี้!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr "รีเซ็ตรหัสผ่านไม่สำเร็จ กรุณาติดต่อผู้ดูแลระบบ"
+msgid ""
+"Authentication succeeded, but no customer record is found in the customer "
+"backend. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Reset password unsuccessful. Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -13756,8 +13760,9 @@ msgstr "ใช้งาน SecureMode!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr "หากคุณต้องการที่จะเรียกตัวติดตั้งปิดการใช้งานโหมดที่ปลอดภัยใน sysconfig"
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -18411,8 +18416,8 @@ msgstr "คุณสามารถกำหนด (โดยการใช้ 
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "หาก \"HTTPBasicAuth\" ถูกเลือกให้ Customer::AuthModule คุณสามารถกำหนดเพื่อตัดส่วนหน้าของชื่อผู้ใช้ (เช่น สำหรับโดเมน example_domain\\user ไปยังผู้ใช้)"
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19925,8 +19930,8 @@ msgstr "ผู้รับผิดชอบตั๋ว"
 
 #. SysConfig
 msgid ""
-"Restores a ticket from the archive (only if the event is a state change, "
-"from closed to any open available state)."
+"Restores a ticket from the archive (only if the event is a state change to "
+"any open available state)."
 msgstr ""
 
 #. SysConfig

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.998350515463918;
+    $Self->{Completeness}        = 0.997526283240569;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -128,7 +128,7 @@ sub Data {
         'please do not edit!' => 'kérjük ne szerkessze!',
         'Need Action' => 'Beavatkozás szükséges',
         'AddLink' => 'Kapcsolat hozzáadása',
-        'Link' => 'Összekapcsolás',
+        'Link' => 'Hivatkozás',
         'Unlink' => 'Kapcsolat törlése',
         'Linked' => 'Összekapcsolt',
         'Link (Normal)' => 'Kapcsolat (normál)',
@@ -3650,7 +3650,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Forrásobjektum és forráskulcs szükséges!',
-        'Please contact the admin.' => 'Vegye fel a kapcsolatot a rendszergazdával.',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => 'Csak olvasható jogosultságra van szüksége!',
         'Can not delete link with %s!' => 'A következővel való kapcsolat nem törölhető: %s!',
         'Can not create link with %s! Object already linked as %s.' => 'Nem lehet kapcsolatot létrehozni ezzel: %s! Az objektum már a következőként kapcsolódik: %s.',
@@ -3692,9 +3692,9 @@ sub Data {
         'Ticket (%s) is not unlocked!' => 'A jegy (%s) nincs feloldva!',
         'Bulk feature is not enabled!' => 'A tömeges funkció nincs engedélyezve!',
         'No selectable TicketID is given!' => 'Nincs kiválasztható jegyazonosító megadva!',
-        'You either selected no ticket or only tickets which are locked by other agents' =>
-            'Vagy nem választott ki jegyet, vagy csak olyan jegyeket, amelyeket egy másik ügyintéző zárolt',
-        'You need to select at least one ticket' => 'Legalább egy jegyet ki kell választania',
+        'You either selected no ticket or only tickets which are locked by other agents.' =>
+            '',
+        'You need to select at least one ticket.' => '',
         'Ticket is locked by another agent and will be ignored!' => 'A jegyet egy másik ügyintéző zárolta és mellőzve lesz!',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3773,8 +3773,7 @@ sub Data {
         'for pending* states' => 'függőben* állapotokhoz',
         'ActivityDialogEntityID missing!' => 'A tevékenység párbeszéd egyedazonosító hiányzik!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Nem sikerült lekérni a beállítást a tevékenység párbeszéd egyedazonosítóhoz: „%s”!',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            'Nem sikerült az ügyfél-azonosítót láthatatlan mezőként használni. Vegye fel a kapcsolatot a rendszergazdával.',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'Hiányzó folyamategyed-azonosító, ellenőrizze az ActivityDialogHeader.tt fájlt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3846,8 +3845,8 @@ sub Data {
         'Time Accounted' => 'Idő elszámolva',
         'External Chat' => 'Külső csevegés',
         'Internal Chat' => 'Belső csevegés',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            'Sajnáljuk, de már nincs jogosultsága a jegyhez történő hozzáféréshez annak jelenlegi állapotában.',
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+            '',
         'Can\'t get for ArticleID %s!' => 'Nem lehet lekérni a(z) %s bejegyzés-azonosítóhoz!',
         'Article filter settings were saved.' => 'A bejegyzésszűrő beállításai mentésre kerültek.',
         'Event type filter settings were saved.' => 'Az eseménytípus-szűrő beállításai mentésre kerültek.',
@@ -3898,7 +3897,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => 'A(z) „%s” ellenőrzés nem létezik!',
         'Database %s' => '%s adatbázis',
         'Unknown database type "%s".' => 'Ismeretlen adatbázistípus: „%s”.',
-        'Please go back' => 'Lépjen vissza',
+        'Please go back.' => '',
         'Install OTRS - Error' => 'Az OTRS telepítése - hiba',
         'File "%s/%s.xml" not found!' => 'A(z) „%s/%s.xml” fájl nem található!',
         'Contact your Admin!' => 'Vegye fel a kapcsolatot a rendszergazdával!',
@@ -3945,14 +3944,14 @@ sub Data {
         'Linked as' => 'Összekapcsolva mint',
         'Search Result' => 'Keresési eredmény',
 
+        # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+        'Archive search' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Frissítés erre most: %s! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => 'Egy rendszerkarbantartás időszak fog kezdődni ekkor: ',
-
-        # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => 'Vegye fel a kapcsolatot a rendszergazdával!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(folyamatban)',
@@ -3999,10 +3998,10 @@ sub Data {
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '',
-        'Please note that the session limit is almost reached.' => '',
+            'Túllépte az egyidejű ügyintézők számát - vegye fel a kapcsolatot velünk a sales@otrs.com e-mail címen.',
+        'Please note that the session limit is almost reached.' => 'Ne feledje, hogy a munkamenet-korlátot majdnem elérte.',
         'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '',
+            'Belépés elutasítva! Túllépte az egyidejű ügyintézők számát! Azonnal vegye fel a kapcsolatot velünk a sales@otrs.com e-mail címen!',
         'Session per user limit reached!' => 'A felhasználónkénti munkamenetkorlát elérve!',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
@@ -4252,8 +4251,8 @@ sub Data {
         'Package List' => 'Csomaglista',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
-        'Spooled Emails' => '',
-        'There are emails in var/spool that OTRS could not process.' => '',
+        'Spooled Emails' => 'Várakozási sorba helyezett levelek',
+        'There are emails in var/spool that OTRS could not process.' => 'Olyan levelek találhatók a var/spool mappában, amelyeket az OTRS nem tudott feldolgozni.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4362,22 +4361,24 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Pánik, a felhasználó hitelesítette magát, de nem találhatók felhasználói adatok az OTRS adatbázisában! Talán a felhasználó érvénytelen.',
-        'Can`t remove SessionID' => 'Nem lehet eltávolítani a munkamenet-azonosítót',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Sikeres kilépés.',
         'Panic! Invalid Session!!!' => 'Pánik! Érvénytelen munkamenet!!!',
         'No Permission to use this frontend module!' => 'Nincs jogosultsága ezen előtétprogram-modul használatához!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'A jelszó visszaállítása sikertelen. Vegye fel a kapcsolatot a rendszergazdával',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'Added via Customer Panel (%s)' => 'Hozzáadva az ügyfélpanelen keresztül (%s)',
         'Customer user can\'t be added!' => 'Az ügyfél-felhasználót nem lehet hozzáadni!',
         'Can\'t send account info!' => 'Nem lehet elküldeni a fiókinformációkat!',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'Biztonságos mód bekapcsolva!',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            'Ha újra szeretné futtatni a telepítőt, akkor tiltsa le a biztonságos módot a rendszerbeállításokban',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'A(z) „%s” művelet nem található!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -4891,9 +4892,9 @@ Az Ön segélyszolgálat csapata
         'Defines all the languages that are available to the application. Specify only native names of languages here.' =>
             'Meghatározza az összes olyan nyelvet, amelyek elérhetők az alkalmazásnak. A nyelveknek csak az eredeti neveit adja meg itt.',
         'Defines all the parameters for the RefreshTime object in the customer preferences of the customer interface.' =>
-            'Meghatározza a RefreshTime objektum összes paraméterét az ügyfélfelület ügyfél beállításaiban.',
+            'Meghatározza a frissítési idő objektum összes paraméterét az ügyfélfelület ügyfél beállításaiban.',
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
-            'Meghatározza a ShownTickets objektum összes paraméterét az ügyfélfelület ügyfél beállításaiban.',
+            'Meghatározza a megjelenített jegyek objektum összes paraméterét az ügyfélfelület ügyfél beállításaiban.',
         'Defines all the parameters for this item in the customer preferences.' =>
             'Meghatározza ennek az elemnek az összes paraméterét az ügyfél beállításaiban.',
         'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
@@ -5315,7 +5316,7 @@ Az Ön segélyszolgálat csapata
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'Meghatározza azt a modult, amely egy értesítést jelenít meg az ügyintézői felületen, ha az ügyintéző aközben jelentkezett be, hogy a rendszerkarbantartás aktív.',
         'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            '',
+            'Meghatározza azt a modult, amely egy értesítést jelenít meg az ügyintézői felületen, ha az ügyintézői munkamenetkorlát előzetes figyelmeztetését elérték.',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Meghatározza azt a modult, amely egy értesítést jelenít meg az ügyintézői felületen, ha a rendszert egy adminisztrátor felhasználó használja (normális esetben nem kell adminisztrátorként dolgozni).',
         'Defines the module to generate code for periodic page reloads.' =>
@@ -6120,13 +6121,13 @@ Az Ön segélyszolgálat csapata
         'Package event module file a scheduler task for update registration.' =>
             'Az eseménymodul fájl csomagolása egy ütemező feladatba a regisztráció frissítéséhez.',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
-            'A CreateNextMask objektum paraméterei az ügyintézői felület beállítás nézetében.',
+            'A következő maszk létrehozása objektum paraméterei az ügyintézői felület beállítás nézetében.',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
-            'A CustomQueue objektum paraméterei az ügyintézői felület beállítás nézetében.',
+            'Az egyéni várólista objektum paraméterei az ügyintézői felület beállítás nézetében.',
         'Parameters for the CustomService object in the preference view of the agent interface.' =>
-            'A CustomService objektum paraméterei az ügyintézői felület beállítás nézetében.',
+            'Az egyéni szolgáltatás objektum paraméterei az ügyintézői felület beállítás nézetében.',
         'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
-            'A RefreshTime objektum paraméterei az ügyintézői felület beállítás nézetében.',
+            'A frissítési idő objektum paraméterei az ügyintézői felület beállítás nézetében.',
         'Parameters for the column filters of the small ticket overview.' =>
             'Paraméterek a kis jegyáttekintő oszlopszűrőihez.',
         'Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -6245,8 +6246,8 @@ Az Ön segélyszolgálat csapata
             'Visszaállítja és feloldja egy jegy tulajdonosát, ha az egy másik várólistába lett áthelyezve.',
         'Responsible Tickets' => 'Felelős jegyek',
         'Responsible Tickets.' => 'Felelős jegyek.',
-        'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
-            'Visszaállít egy jegyet az archívumból (csak akkor, ha az esemény egy állapotváltozás, lezártból egy bármely más elérhető nyitott állapotba).',
+        'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
+            '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Megtartja a listázásokban lévő összes szolgáltatást akkor is, ha azok érvénytelen elemek gyermekei.',
         'Right' => 'Jobb',
@@ -6393,7 +6394,7 @@ Az Ön segélyszolgálat csapata
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             'Beállítja az inaktivitás idejét (másodpercben) átadásra, mielőtt egy munkamenetet kilő és egy felhasználót kijelentkeztet.',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
-            '',
+            'Beállítja az aktív ügyintézők legnagyobb számát a SessionActiveTime modulon meghatározott időtartamon belül, mielőtt egy előzetes figyelmeztetés lesz látható a bejelentkezett ügyintézőnél.',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             'Beállítja az aktív ügyintézők legnagyobb számát a SessionActiveTime modulon meghatározott időtartamon belül.',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
@@ -6496,7 +6497,7 @@ Az Ön segélyszolgálat csapata
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             'Beállítja a jegy típusát az ügyintézői felület jegyfelelős képernyőjén (a Ticket::Type modulnak aktiválva kell lennie).',
         'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
-            '',
+            'Beállítja az időt (másodpercben), ami után a felhasználó aktívként van megjelölve (a legkisebb aktív idő 300 másodperc).',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Beállítja az időkorlátot (másodpercben) a HTTP/FTP letöltésekhez.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'Beállítja az időkorlátot (másodpercben) a csomagletöltésekhez. Felülírja a „WebUserAgent::Timeout” beállítást.',

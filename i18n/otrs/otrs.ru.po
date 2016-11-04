@@ -4,9 +4,10 @@
 # Anton <anton.astashkin@gmail.com>, 2015
 # Antonio Kless, 2015
 # Antonio Kless, 2015
-# Anton <hellbartonio@mail.ru>, 2016
+# Hellbartonio <hellbartonio@mail.ru>, 2016
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Grigoriy <mr.bg.prodix@gmail.com>, 2015
+# Hellbartonio <hellbartonio@mail.ru>, 2016
 # Илья Сапунов <ilya.sapunov@gmail.com>, 2015
 # Makdorf <makdorf@gmail.com>, 2015
 # Martin Gruner <martin.gruner@otrs.com>, 2014
@@ -24,9 +25,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-10-27 10:09+0000\n"
-"PO-Revision-Date: 2016-10-27 15:10+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2016-11-04 14:18+0000\n"
+"PO-Revision-Date: 2016-11-04 13:19+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5065,30 +5066,30 @@ msgstr "Вы действительно желаете удалить этот �
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready-to-run Web Services"
-msgstr ""
+msgstr "Готовые к работе Веб-сервисы"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate ready-to-run web services showcasing our best "
 "practices that are a part of %s."
-msgstr ""
+msgstr "Здесь вы можете активировать готовые к работе веб-сервисы, демонстрирующие наши лучшие практики, которые являются частью %s"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Please note that these web services may depend on other modules only "
 "available with certain %s contract levels (there will be a notification with"
 " further details when importing)."
-msgstr ""
+msgstr "Пожалуйста, учтите, что эти веб-сервисы могут зависеть от других модулей, доступных только для определенных уровней контракта %s (во время импорта появится уведомление с подробностями)"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import ready-to-run web service"
-msgstr ""
+msgstr "Импортировать готовые к работе Веб-сервисы"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Would you like to benefit from web services created by experts? Upgrade to "
 "%s to import some sophisticated ready-to-run web services."
-msgstr ""
+msgstr "Хотели бы вы извлечь выгоду, воспользовавшись веб-сервисами, созданными экспертами? Обновитесь до %s, чтобы импортировать некоторые сложные готовые к запуску веб-сервисы."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5688,19 +5689,19 @@ msgstr "Используйте этот шаблон для создания п�
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Включить защиту почты"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Уровень защиты почты"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Если ключ/сертификат подписи отсутствует"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Если ключ/сертификат шифрования отсутствует"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -6325,13 +6326,13 @@ msgstr "Пример процесса"
 msgid ""
 "Here you can activate best practice example processes. Please note that some"
 " additional configuration may be required."
-msgstr ""
+msgstr "Здесь вы можете включить примеры процессов, основанные на лучших практиках. Пожалуйста, обратите внимание, что могут потребоваться некоторые дополнительные настройки."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Do you want to benefit from processes created by experts? Upgrade to %s to "
 "be able to import additional sophisticated example processes."
-msgstr ""
+msgstr "Хотели бы вы извлечь выгоду, воспользовавшись процессами, созданными экспертами? Обновитесь до %s, чтобы получить возможность импортировать дополнительные примеры сложных процессов."
 
 #. Template: AdminProcessManagement
 msgid "Import example process"
@@ -6787,7 +6788,7 @@ msgstr "На этом экране вы можете создать новый �
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "отменить и закрыть"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -6853,7 +6854,7 @@ msgstr "Имя Перехода"
 
 #. Template: AdminProcessManagementTransition
 msgid "Conditions can only operate on non-empty fields."
-msgstr ""
+msgstr "Условия могут действовать только на заполненных полях."
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
@@ -10172,7 +10173,7 @@ msgstr "Запрос на новый общедоступный чат"
 
 #. Template: FooterJS
 msgid "Selected user is not available for chat."
-msgstr ""
+msgstr "Выбранный пользователь недоступен для беседы."
 
 #. Template: FooterJS
 msgid "New activity"
@@ -10184,15 +10185,15 @@ msgstr "Новое обновление на одном из отслежива�
 
 #. Template: FooterJS
 msgid "Your browser does not support video and audio calling."
-msgstr ""
+msgstr "Ваш браузер не поддерживает видео и аудио вызовы."
 
 #. Template: FooterJS
 msgid "Selected user is not available for video and audio call."
-msgstr ""
+msgstr "Выбранный пользователь недоступен для видео и аудио вызовов."
 
 #. Template: FooterJS
 msgid "Target user's browser does not support video and audio calling."
-msgstr ""
+msgstr "Браузер целевого пользователя не поддерживает видео и аудио вызовы."
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
@@ -11782,8 +11783,8 @@ msgid "Need SourceObject and SourceKey!"
 msgstr "Требуется SourceObject и SourceKey!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-msgid "Please contact the admin."
-msgstr "Свяжитесь с администратором"
+msgid "Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -11912,12 +11913,12 @@ msgstr "Не задан доступный TicketID!"
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
-"agents"
-msgstr "Не выбрано ни одной заявки, либо только заявки блокированные другими агентами"
+"agents."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket"
-msgstr "Необходимо указать хотя бы одну заявку"
+msgid "You need to select at least one ticket."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -12110,10 +12111,8 @@ msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
 msgstr "Невозможно получить Config для ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Couldn't use CustomerID as an invisible field. Please contact your system "
-"administrator!"
-msgstr "Невозможно использовать CustomerID в качестве невидимого поля. Пожалуйста, обратитесь к системному администратору!"
+msgid "Couldn't use CustomerID as an invisible field."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
@@ -12348,8 +12347,8 @@ msgstr "Внутренний чат"
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
-"its current state. "
-msgstr "Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии."
+"its current state."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12500,8 +12499,8 @@ msgid "Unknown database type \"%s\"."
 msgstr "Неизвестный тип баз данных \"%s\"."
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Please go back"
-msgstr "Пожалуйста, вернитесь назад"
+msgid "Please go back."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12619,6 +12618,10 @@ msgstr "Связан как"
 msgid "Search Result"
 msgstr "Результат поиска"
 
+#. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+msgid "Archive search"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s Обновление до %s сейчас! %s"
@@ -12627,10 +12630,6 @@ msgstr "%s Обновление до %s сейчас! %s"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: "
 msgstr "Период технического обслуживания начнется в:"
-
-#. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-msgid "Please contact your administrator!"
-msgstr "Пожалуйста, свяжитесь с вашим администратором!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
@@ -12736,17 +12735,17 @@ msgstr "Сортировка по"
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
-msgstr ""
+msgstr "Превышено количество одновременных агентов - свяжитесь с sales@otrs.com"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
-msgstr ""
+msgstr "Пожалуйста, обратите внимание, что ограничение сессий почти достигнуто."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "Login rejected! You have exceeded the maximum number of concurrent Agents! "
 "Contact sales@otrs.com immediately!"
-msgstr ""
+msgstr "Вход отклонён! Превышено максимальное количество одновременных агентов! Срочно свяжитесь с sales@otrs.com!"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session per user limit reached!"
@@ -12778,7 +12777,7 @@ msgstr "Неактивно"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "FadeAway"
-msgstr ""
+msgstr "Исчезающий"
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
@@ -13684,42 +13683,42 @@ msgstr "Сбросить время разблокировки."
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP sign only"
-msgstr ""
+msgstr "PGP только подпись"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP encrypt only"
-msgstr ""
+msgstr "PGP только шифрование"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP sign and encrypt"
-msgstr ""
+msgstr "PGP подпись и шифрование"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "SMIME sign only"
-msgstr ""
+msgstr "SMIME только подпись"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "SMIME encrypt only"
-msgstr ""
+msgstr "SMIME только шифрование"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "SMIME sign and encrypt"
-msgstr ""
+msgstr "SMIME подпись и шифрование"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP and SMIME not enabled."
-msgstr ""
+msgstr "PGP и SMIME не включены."
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "Skip notification delivery"
-msgstr ""
+msgstr "Пропустить уведомление о доставке"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
@@ -13738,8 +13737,8 @@ msgid ""
 msgstr "Внимание, пользователь аутентифицировался, в БД OTRS отсутствуют данные о нем!! Возможно этот пользователь недействительный."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Can`t remove SessionID"
-msgstr "Невозможно удалить SessionID"
+msgid "Can`t remove SessionID."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -13754,8 +13753,14 @@ msgid "No Permission to use this frontend module!"
 msgstr "Нет прав на использование этого модуля!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-msgid "Reset password unsuccessful. Please contact your administrator"
-msgstr "Сброс пароля не выполнен. Пожалуйста, свяжитесь с вашим администратором"
+msgid ""
+"Authentication succeeded, but no customer record is found in the customer "
+"backend. Please contact the administrator."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
+msgid "Reset password unsuccessful. Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -13775,8 +13780,9 @@ msgstr "Активирован SecureMode!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the SysConfig"
-msgstr "Если вы желаете перезапустить установщик, отключите SecureMode в SysConfig"
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -15725,7 +15731,7 @@ msgstr "Включить Учет времени для всех заявок п
 msgid ""
 "Defines out of office message template. Two string parameters (%s) "
 "available: end date and number of days left."
-msgstr ""
+msgstr "Определяет шаблон сообщения об отсутствии в офисе. Доступно два строчных параметра (%s): дата окончания и кол-во оставшихся дней."
 
 #. SysConfig
 msgid ""
@@ -16700,7 +16706,7 @@ msgstr "Задает список online репозиториев. Другие 
 msgid ""
 "Defines the list of possible next actions on an error screen, a full path is"
 " required, then is possible to add external links if needed."
-msgstr ""
+msgstr "Определяет список возможных дальнейших действий на экране ошибки, необходим полный путь, тогда станет возможным добавление внешних ссылок, в случае необходимости."
 
 #. SysConfig
 msgid "Defines the list of types for templates."
@@ -17376,7 +17382,7 @@ msgstr "Удаляет запрошенные сеансы с истекшим �
 msgid ""
 "Delivers extended debugging information in the frontend in case any AJAX "
 "errors occur, if enabled."
-msgstr ""
+msgstr "Если включено, то в случае появления каких-либо ошибок AJAX, предоставляет во фронтенде расширенную отладочную информацию."
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
@@ -17474,7 +17480,7 @@ msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
 "disable it, if you know what you are doing!"
-msgstr ""
+msgstr "Отключите HTTP заголовок \"Content-Security-Policy\", чтобы разрешить загрузку содержимого внешних скриптов. Отключение этого HTTP заголовка снижает уровень безопасности! Отключайте только, если вы точно знаете, что делаете!"
 
 #. SysConfig
 msgid ""
@@ -18430,8 +18436,8 @@ msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::Auth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18781,7 +18787,7 @@ msgstr "IndexAccelerator: для выбора серверного TicketViewAcc
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "Индонезийский"
 
 #. SysConfig
 msgid "Input"
@@ -19944,9 +19950,9 @@ msgstr "Ответственные заявки"
 
 #. SysConfig
 msgid ""
-"Restores a ticket from the archive (only if the event is a state change, "
-"from closed to any open available state)."
-msgstr "Восстанавливает заявку из архива (только по событию изменения состояния из \"закрыта\" в любое другое доступное состояние)."
+"Restores a ticket from the archive (only if the event is a state change to "
+"any open available state)."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.967422680412371;
+    $Self->{Completeness}        = 0.964955679241394;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3645,7 +3645,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Benötige SourceObject und SourceKey!',
-        'Please contact the admin.' => 'Bitte kontaktieren Sie einen Administrator.',
+        'Please contact the administrator.' => '',
         'You need ro permission!' => 'Sie benötigen die ro-Berechtigung!',
         'Can not delete link with %s!' => 'Kann Link mit %s nicht entfernen.',
         'Can not create link with %s! Object already linked as %s.' => 'Kann Verknüpfung zu %s nicht erstellen! Objekt bereits verknüpft als %s.',
@@ -3687,9 +3687,9 @@ sub Data {
         'Ticket (%s) is not unlocked!' => 'Ticket %s ist nicht entsperrt!',
         'Bulk feature is not enabled!' => 'Das Stapelverarbeitungs-Feature ist nicht aktiviert!',
         'No selectable TicketID is given!' => 'Keine auswählbare TicketID übermittelt!',
-        'You either selected no ticket or only tickets which are locked by other agents' =>
-            'Sie haben entweder kein Ticket ausgewählt oder ausschließlich Tickets, die bereits durch andere Agenten gesperrt sind.',
-        'You need to select at least one ticket' => 'Sie müssen mindestens ein Ticket auswählen',
+        'You either selected no ticket or only tickets which are locked by other agents.' =>
+            '',
+        'You need to select at least one ticket.' => '',
         'Ticket is locked by another agent and will be ignored!' => 'Ticket ist von einem anderen Agenten gesperrt und wird ignoriert!',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3768,8 +3768,7 @@ sub Data {
         'for pending* states' => 'für warten* Status',
         'ActivityDialogEntityID missing!' => 'ActivityDialogEntityID wird benötigt!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Konnte Konfiguration für ActivityDialogEntityID "%s" nicht ermitteln!',
-        'Couldn\'t use CustomerID as an invisible field. Please contact your system administrator!' =>
-            'Konnte CustomerID nicht als unsichtbares Feld verwenden. Bitte kontaktieren Sie Ihren Administrator.',
+        'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'ProcessEntityID fehlt, bitte prüfen Sie Ihre ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3841,8 +3840,8 @@ sub Data {
         'Time Accounted' => 'Zeit erfasst',
         'External Chat' => 'Chat (extern)',
         'Internal Chat' => 'Chat (intern)',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. ' =>
-            'Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen.',
+        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+            '',
         'Can\'t get for ArticleID %s!' => 'Konnte Artikel-ID %s nicht ermitteln!',
         'Article filter settings were saved.' => 'Artikelfilter-Einstellungen wurden gespeichert.',
         'Event type filter settings were saved.' => 'Eventtypfilter-Einstellungen wurden gespeichert.',
@@ -3893,7 +3892,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => 'Die Prüfung "%s" existiert nicht!',
         'Database %s' => 'Datenbank %s',
         'Unknown database type "%s".' => 'Unbekannter Datenbank-Typ "%s".',
-        'Please go back' => 'Bitte gehen Sie zurück',
+        'Please go back.' => '',
         'Install OTRS - Error' => 'OTRS-Installation - Fehler',
         'File "%s/%s.xml" not found!' => 'Datei "%s/%s.xml" nicht gefunden!',
         'Contact your Admin!' => 'Kontaktieren Sie Ihren Administrator!',
@@ -3940,14 +3939,14 @@ sub Data {
         'Linked as' => 'Verknüpft als',
         'Search Result' => 'Suchergebnis',
 
+        # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
+        'Archive search' => '',
+
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Jetzt auf %s upgraden! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'A system maintenance period will start at: ' => 'Eine Systemwartungsperiode beginnt um: ',
-
-        # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'Please contact your administrator!' => 'Bitte kontaktieren Sie ihren Administrator',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '(in Arbeit)',
@@ -4357,22 +4356,24 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Achtung, der Benutzer wurde authentifiziert, aber es konnten keine Benutzerdaten in der Datenbank gefunden worden. Möglicherweise ist der Benutzer ungültig.',
-        'Can`t remove SessionID' => 'Kann SessionID nicht enfernen',
+        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Abmeldung erfolgreich.',
         'Panic! Invalid Session!!!' => 'Fehler: Ungültige Sitzung.',
         'No Permission to use this frontend module!' => 'Sie haben keine Berechtigung, dieses Modul zu nutzen!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
-        'Reset password unsuccessful. Please contact your administrator' =>
-            'Passwort zurücksetzen fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
+            '',
+        'Reset password unsuccessful. Please contact the administrator.' =>
+            '',
         'Added via Customer Panel (%s)' => 'Mittels Kundenbereich hinzugefügt (%s)',
         'Customer user can\'t be added!' => 'Kundenbenutzer kann nicht angelegt werden!',
         'Can\'t send account info!' => 'Kann Zugangsinformation nicht senden!',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'SecureMode ist aktiv!',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
-            'Wenn Sie den Installer erneut ausführen wollen, schalten Sie "SecureMode" in der SysConfig ab',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'Aktion "%s" nicht gefunden!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -6239,8 +6240,8 @@ Ihr Helpdesk-Team
             'Setzt den Besitzer eines TIckets zurück und entsperrt es, wenn das Ticket in eine andere Queue verschoben wird.',
         'Responsible Tickets' => '',
         'Responsible Tickets.' => '',
-        'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
-            'Holt ein Ticket aus dem Archiv zurück (nur dann, wenn das Ereignis ein Status-Wechsel von einem geschlossen-Status zu einem der verfügbaren offen-Status ist).',
+        'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
+            '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Behält alle Services in Auflistungen bei, auch, wenn sie Kind-Services von ungültigen Elementen sind.',
         'Right' => 'Rechts',
