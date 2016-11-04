@@ -59,7 +59,7 @@ my $App = CGI::Emulate::PSGI->handler(
         ( $ENV{SCRIPT_NAME} ) = $ENV{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
 
         # Fallback to agent login if we could not determine handle...
-        if ( !defined $ENV{SCRIPT_NAME} || !-e "bin/cgi-bin/$ENV{SCRIPT_NAME}" ) {
+        if ( !defined $ENV{SCRIPT_NAME} || !-e "$Bin/$ENV{SCRIPT_NAME}" ) {
             $ENV{SCRIPT_NAME} = 'index.pl';
         }
 
@@ -78,7 +78,7 @@ my $App = CGI::Emulate::PSGI->handler(
 
         # Load the requested script
         eval {
-            do "bin/cgi-bin/$ENV{SCRIPT_NAME}";
+            do "$Bin/$ENV{SCRIPT_NAME}";
         };
         if ( $@ && $@ ne "exit called\n" ) {
             warn $@;
