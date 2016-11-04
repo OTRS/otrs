@@ -1916,7 +1916,7 @@ sub _Mask {
     }
 
     # set preselected values for To field
-    if ( $Param{To} ne '' && !$CustomerCounter ) {
+    if ( $Param{To} && $Param{To} ne '' && !$CustomerCounter ) {
 
         # split To values
         my @EmailAddressesTo = map { $_->address() } ( Mail::Address->parse( $Param{To} ) );
