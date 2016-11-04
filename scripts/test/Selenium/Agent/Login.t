@@ -108,6 +108,9 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 1;
+
         $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
@@ -134,6 +137,9 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 1;
+
         $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
@@ -156,6 +162,9 @@ $Selenium->RunTest(
             Key   => 'AgentSessionLimit',
             Value => 2,
         );
+
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 1;
 
         $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
