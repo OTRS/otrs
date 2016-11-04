@@ -133,13 +133,6 @@ sub LoadDefaults {
     # The database DSN for PostgreSQL ==> more: "perldoc DBD::Pg"
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
 
-    # The database DSN for Microsoft SQL Server - only supported if OTRS is
-    # installed on Windows as well
-    #    $Self->{DatabaseDSN} = "DBI:ODBC:$Self->{Database}";
-    # If you use ODBC, no database auto detection is possible,
-    # so set the database type here. Possible: mysq,postgresql,mssql,oracle
-    #    $Self->{'Database::Type'} = 'mssql';
-
     # The database DSN for Oracle ==> more: "perldoc DBD::oracle"
 #    $Self->{DatabaseDSN} = "DBI:Oracle://$Self->{DatabaseHost}:1521/$Self->{Database}";
 #
