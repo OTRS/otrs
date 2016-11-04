@@ -1,4 +1,5 @@
 #4.0.20 2016-??-??
+ - 2016-11-04 Fixed bug#[12316](http://bugs.otrs.org/show_bug.cgi?id=12316) - No tickets found, empty lines in customer user management on () in uid. Thanks to Paweł Bogusławski (PR#1510).
  - 2016-11-04 Fixed bug#[12397](https://bugs.otrs.org/show_bug.cgi?id=12397) - backup.pl doesn't backup articles in special case. Thanks to Jens Pfeifer.
  - 2016-11-04 Fixed bug#[12285](http://bugs.otrs.org/show_bug.cgi?id=12285) - Invalid customer user still receive admin notification.
  - 2016-11-04 Fixed bug#[12369](http://bugs.otrs.org/show_bug.cgi?id=12369) - Errors in deleting tickets. Thanks to S7.
