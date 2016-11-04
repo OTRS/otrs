@@ -68,22 +68,6 @@ sub Run {
         );
     }
 
-    # check permissions
-    if ( $Self->{TicketID} ) {
-        if (
-            !$TicketObject->TicketPermission(
-                Type     => 'customer',
-                TicketID => $Self->{TicketID},
-                UserID   => $Self->{UserID}
-            )
-            )
-        {
-
-            # no permission screen, don't show ticket
-            return $LayoutObject->NoPermission( WithHeader => 'yes' );
-        }
-    }
-
     # get ACL restrictions
     my %PossibleActions = ( 1 => $Self->{Action} );
 
