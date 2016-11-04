@@ -35,32 +35,49 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Data Event Config UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(Data Event Config UserID)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-    for (qw(TicketID)) {
-        if ( !$Param{Data}->{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_ in Data!"
+                Message  => "Need $Needed!",
             );
             return;
         }
     }
 
-    # get settings from sysconfig
-    my $ConfigSettings = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::TicketDynamicFieldDefault');
+    # listen to all kinds of events
+    if ( !$Param{Data}->{TicketID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TicketID in Data!",
+        );
+        return;
+    }
 
-    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    my $CacheKey = '_TicketDynamicFieldDefault::AlreadyProcessed';
+
+    # loop protection: only execute this handler once for each ticket
+    return if ( $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } );
+
+    # get ticket data in silent mode, it could be that the ticket was deleted
+    # in the meantime
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{Data}->{TicketID},
         DynamicFields => 1,
+        Silent        => 1,
     );
+
+    if ( !%Ticket ) {
+
+        # remember that the event was executed for this TicketID to avoid multiple executions
+        # store the information in the ticket object
+        $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
+
+        return;
+    }
 
     # get dynamic field objects
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -71,6 +88,9 @@ sub Run {
         Valid      => 1,
         ObjectType => ['Ticket'],
     );
+
+    # get settings from sysconfig
+    my $ConfigSettings = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::TicketDynamicFieldDefault');
 
     # create a lookup table by name (since name is unique)
     my %DynamicFieldLookup;
