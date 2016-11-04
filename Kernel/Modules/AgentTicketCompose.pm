@@ -1837,7 +1837,7 @@ sub _Mask {
     }
 
     # set preselected values for To field
-    if ( $Param{To} ne '' && !$CustomerCounter ) {
+    if ( defined $Param{To} && $Param{To} ne '' && !$CustomerCounter ) {
         $Self->{LayoutObject}->Block(
             Name => 'PreFilledTo',
         );
