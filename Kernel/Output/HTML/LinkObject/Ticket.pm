@@ -214,11 +214,7 @@ sub TableCreateComplex {
     my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
     my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
 
-    my @Headline = (
-        {
-            Content => $TicketHook,
-        },
-    );
+    my @Headline;
 
     # Get needed objects.
     my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
@@ -306,7 +302,6 @@ sub TableCreateComplex {
     # Sort
     COLUMN:
     for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
-        next COLUMN if $Column eq 'TicketNumber';    # Always present, already added.
 
         # if enabled by default
         if ( $UserColumns{$Column} == 2 ) {
@@ -314,7 +309,7 @@ sub TableCreateComplex {
 
             # Ticket fields
             if ( $Column !~ m{\A DynamicField_}xms ) {
-                $ColumnName = $Column;
+                $ColumnName = $Column eq 'TicketNumber' ? $TicketHook : $Column;
             }
 
             # Dynamic fields
@@ -359,24 +354,11 @@ sub TableCreateComplex {
             $CssClass = 'StrikeThrough';
         }
 
-        # Ticket Number must be present (since it contains master link to the ticket)
-        my @ItemColumns = (
-            {
-                Type    => 'Link',
-                Key     => $TicketID,
-                Content => $Ticket->{TicketNumber},
-                Link    => $Self->{LayoutObject}->{Baselink}
-                    . 'Action=AgentTicketZoom;TicketID='
-                    . $TicketID,
-                Title    => "$TicketHook$TicketHookDivider$Ticket->{TicketNumber}",
-                CssClass => $CssClass,
-            },
-        );
+        my @ItemColumns;
 
         # Sort
         COLUMN:
         for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
-            next COLUMN if $Column eq 'TicketNumber';    # Always present, already added.
 
             # if enabled by default
             if ( $UserColumns{$Column} == 2 ) {
@@ -396,7 +378,20 @@ sub TableCreateComplex {
                 # Ticket fields
                 if ( $Column !~ m{\A DynamicField_}xms ) {
 
-                    if ( $Column eq 'EscalationTime' ) {
+                    if ( $Column eq 'TicketNumber' ) {
+
+                        %Hash = (
+                            Type    => 'Link',
+                            Key     => $TicketID,
+                            Content => $Ticket->{TicketNumber},
+                            Link    => $Self->{LayoutObject}->{Baselink}
+                                . 'Action=AgentTicketZoom;TicketID='
+                                . $TicketID,
+                            Title    => "$TicketHook$TicketHookDivider$Ticket->{TicketNumber}",
+                            CssClass => $CssClass,
+                        );
+                    }
+                    elsif ( $Column eq 'EscalationTime' ) {
 
                         $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age   => $Ticket->{'EscalationTime'},

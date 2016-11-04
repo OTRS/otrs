@@ -160,20 +160,20 @@ sub LinkObjectTableCreateComplex {
 
         ITEM:
         for my $Item ( @{ $Block->{ItemList} } ) {
+            if ( !grep { $_->{Key} } @{$Item} ) {
+                $Item->[0] = {
+                    Type => 'Text',
+                    Content =>
+                        'ERROR: Key attribute not found in any column of the item list.',
+                };
+            }
 
-            next ITEM if $Item->[0]->{Key} && $Block->{Object};
+            next ITEM if $Block->{Object};
 
             if ( !$Block->{Object} ) {
                 $Item->[0] = {
                     Type    => 'Text',
                     Content => 'ERROR: Object attribute not found in the block data.',
-                };
-            }
-            else {
-                $Item->[0] = {
-                    Type => 'Text',
-                    Content =>
-                        'ERROR: Key attribute not found in the first column of the item list.',
                 };
             }
         }
@@ -192,11 +192,14 @@ sub LinkObjectTableCreateComplex {
 
         for my $Item ( @{ $Block->{ItemList} } ) {
 
+            # search for key
+            my ($ItemWithKey) = grep { $_->{Key} } @{$Item};
+
             # define check-box cell
             my $CheckboxCell = {
                 Type         => 'LinkTypeList',
                 Content      => '',
-                LinkTypeList => $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} },
+                LinkTypeList => $LinkList{ $Block->{Object} }->{ $ItemWithKey->{Key} },
                 Translate    => 1,
             };
 
@@ -221,11 +224,14 @@ sub LinkObjectTableCreateComplex {
 
             for my $Item ( @{ $Block->{ItemList} } ) {
 
+                # search for key
+                my ($ItemWithKey) = grep { $_->{Key} } @{$Item};
+
                 # define check-box cell
                 my $CheckboxCell = {
                     Type    => 'Checkbox',
                     Name    => 'LinkTargetKeys',
-                    Content => $Item->[0]->{Key},
+                    Content => $ItemWithKey->{Key},
                 };
 
                 # add check-box cell to item
@@ -248,13 +254,16 @@ sub LinkObjectTableCreateComplex {
 
             for my $Item ( @{ $Block->{ItemList} } ) {
 
+                # search for key
+                my ($ItemWithKey) = grep { $_->{Key} } @{$Item};
+
                 # define check-box delete cell
                 my $CheckboxCell = {
                     Type         => 'CheckboxDelete',
                     Object       => $Block->{Object},
                     Content      => '',
-                    Key          => $Item->[0]->{Key},
-                    LinkTypeList => $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} },
+                    Key          => $ItemWithKey->{Key},
+                    LinkTypeList => $LinkList{ $Block->{Object} }->{ $ItemWithKey->{Key} },
                     Translate    => 1,
                 };
 
@@ -914,6 +923,14 @@ sub ComplexTablePreferencesSet {
 
     # remove Columns (not needed)
     delete $Preference->{Columns};
+
+    if ( $Param{DestinationObject} eq 'Ticket' ) {
+
+        # Make sure that ticket number is always present, otherwise there will be problems.
+        if ( !grep { $_ eq 'TicketNumber' } @{ $Preference->{Order} } ) {
+            unshift @{ $Preference->{Order} }, 'TicketNumber';
+        }
+    }
 
     if ( IsHashRefWithData($Preference) ) {
 

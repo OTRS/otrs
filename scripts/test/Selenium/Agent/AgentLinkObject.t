@@ -262,6 +262,24 @@ $Selenium->RunTest(
             },
         );
 
+        # Put TicketNumber at the end
+        $Selenium->DragAndDrop(
+            Element      => '#WidgetTicket #AssignedFields-linkobject-Ticket li[data-fieldname="TicketNumber"]',
+            Target       => '#AvailableField-linkobject-Ticket',
+            TargetOffset => {
+                X => 185,
+                Y => 10,
+            },
+        );
+        $Selenium->DragAndDrop(
+            Element      => '#WidgetTicket #AvailableField-linkobject-Ticket li[data-fieldname="TicketNumber"]',
+            Target       => '#AssignedFields-linkobject-Ticket',
+            TargetOffset => {
+                X => 185,
+                Y => 90,
+            },
+        );
+
         # save
         $Selenium->find_element( '#linkobject-Ticket_submit', 'css' )->VerifiedClick();
 
@@ -276,35 +294,35 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "return \$('#WidgetTicket .DataTable thead tr th:nth-child(1)').text();"
             ),
-            ' Ticket# ',
+            ' Age ',
             'Updated 1st column name',
         );
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#WidgetTicket .DataTable thead tr th:nth-child(2)').text();"
             ),
-            ' Age ',
+            ' Title ',
             'Updated 2nd column name',
         );
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#WidgetTicket .DataTable thead tr th:nth-child(3)').text();"
             ),
-            ' Title ',
+            ' Queue ',
             'Updated 3th column name',
         );
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#WidgetTicket .DataTable thead tr th:nth-child(4)').text();"
             ),
-            ' Queue ',
+            ' Created ',
             'Updated 4th column name',
         );
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#WidgetTicket .DataTable thead tr th:nth-child(5)').text();"
             ),
-            ' Created ',
+            ' Ticket# ',
             'Updated 5th column name',
         );
 
@@ -314,6 +332,50 @@ $Selenium->RunTest(
             ),
             ' Linked as ',
             'Updated 6th column name',
+        );
+
+        # show ActionMenu - usually this is done when user hovers, however it's not possible to simulate this behaviour
+        $Selenium->execute_script(
+            "\$('#WidgetTicket .ActionMenu').show();"
+        );
+
+        # check if column settings button is available in the Linked Ticket widget
+        $Selenium->find_element( 'a#linkobject-Ticket-toggle', 'css' )->VerifiedClick();
+
+        # Wait for the complete widget to be fully slided in all the way down to the submit button.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#linkobject-Ticket_submit:visible").length;'
+        );
+
+        sleep 1;
+
+        # Remove TicketNumber from right side, and put it to the left side
+        $Selenium->DragAndDrop(
+            Element      => '#WidgetTicket #AssignedFields-linkobject-Ticket li[data-fieldname="TicketNumber"]',
+            Target       => '#AvailableField-linkobject-Ticket',
+            TargetOffset => {
+                X => 185,
+                Y => 10,
+            },
+        );
+
+        # save
+        $Selenium->find_element( '#linkobject-Ticket_submit', 'css' )->VerifiedClick();
+
+        # wait for AJAX
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#WidgetTicket .DataTable:visible").length;'
+        );
+
+        # check if TicketNumber is still there
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#WidgetTicket .DataTable thead tr th:nth-child(1)').text();"
+            ),
+            ' Ticket# ',
+            'Ticket# is still there.',
         );
 
         # hover on menu bar on the misc cluster
@@ -359,7 +421,7 @@ $Selenium->RunTest(
                 "Delete ticket - $TicketID"
             );
         }
-    }
+        }
 );
 
 1;
