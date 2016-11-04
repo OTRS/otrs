@@ -131,6 +131,12 @@ for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
 
 # create new backup directory
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+# append trailing slash to home directory, if it's missing
+if ( $Home !~ m{\/\z} ) {
+    $Home .= '/';
+}
+
 chdir($Home);
 
 my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
@@ -187,7 +193,7 @@ else {
     }
 
     # backup datadir
-    if ( $ArticleDir !~ m/\Q$Home\E/ ) {
+    if ( $ArticleDir !~ m/\A\Q$Home\E/ ) {
         print "Backup $Directory/DataDir.tar.gz ... ";
         if ( !system("tar -czf $Directory/DataDir.tar.gz $ArticleDir") ) {
             print "done\n";
