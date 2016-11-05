@@ -22,7 +22,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
 
 my @CustomerIDs;
