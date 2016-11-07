@@ -1,10 +1,10 @@
-# --
+#
 # A list of all included third party libraries.
-# --
+#
 
-# --
+#
 # Perl
-# --
+#
 
 o Name:    CPAN CGI
   Web:     http://stein.cshl.org/WWW/software/CGI/
@@ -293,9 +293,9 @@ o Name:    CPAN Lingua::Translit
   Note:    # Copyright (C) 2007-2008 Alex Linke and Rona Linke.
            # Copyright (C) 2009-2015 Lingua-Systems Software GmbH
 
-# --
+#
 # JavaScript
-# --
+#
 
 o Name:    CKEditor
   Web:     http://www.ckeditor.com/
@@ -363,9 +363,9 @@ o Name:    StringView
   Web:     https://developer.mozilla.org/en-US/Add-ons/Code_snippets/StringView
   License: GNU Lesser v3 - http://www.gnu.org/licenses/lgpl.html
 
-# --
+#
 # Other
-# --
+#
 
 o Name:    DejaVu Fonts
   Web:     http://dejavu-fonts.org
