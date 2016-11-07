@@ -1,10 +1,10 @@
-# --
+#
 # A list of all included third party libraries.
-# --
+#
 
-# --
+#
 # Perl
-# --
+#
 
 o Name:    CPAN CGI
   Web:     http://stein.cshl.org/WWW/software/CGI/
@@ -244,9 +244,9 @@ o Name:    CPAN  Excel::Writer::XLSX
            # It may be used, redistributed and/or modified under the same terms as Perl itself.
   Note:    # Copyright MM-MMXIIII, John McNamara.
 
-# --
+#
 # JavaScript
-# --
+#
 
 o Name:    CKEditor
   Web:     http://www.ckeditor.com/
@@ -306,9 +306,9 @@ o Name:    QUnit
   Web:     http://qunitjs.com/
   License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
-# --
+#
 # Other
-# --
+#
 
 o Name:    DejaVu Fonts
   Web:     http://dejavu-fonts.org
