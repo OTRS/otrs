@@ -1200,6 +1200,11 @@ sub Run {
         $Data{OrigFromName} =~ s/<.*>|\(.*\)|\"|;|,//g;
         $Data{OrigFromName} =~ s/( $)|(  $)//g;
 
+        # Fallback to OrigFrom if realname part is empty.
+        if ( !$Data{OrigFromName} ) {
+            $Data{OrigFromName} = $Data{OrigFrom};
+        }
+
         # get customer data
         my %Customer;
         if ( $Ticket{CustomerUserID} ) {
