@@ -1,10 +1,10 @@
-# --
+#
 # A list of all included third party libraries.
-# --
+#
 
-# --
+#
 # Perl
-# --
+#
 
 o Name:    CPAN CGI
   Web:     http://stein.cshl.org/WWW/software/CGI/
@@ -226,9 +226,9 @@ o Name:    CPAN Selenium::Remote::Driver
   License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
   Note:    # Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
 
-# --
+#
 # JavaScript
-# --
+#
 
 o Name:    CKEditor
   Web:     http://www.ckeditor.com/
@@ -286,9 +286,9 @@ o Name:    QUnit
   Web:     http://qunitjs.com/
   License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
-# --
+#
 # Other
-# --
+#
 
 o Name:    DejaVu Fonts
   Web:     http://dejavu-fonts.org
