@@ -1395,8 +1395,11 @@ sub PackageOnlineList {
         my $CurrentFramework = $Kernel::OM->Get('Kernel::Config')->Get('Version');
         FRAMEWORKVERSION:
         for my $FrameworkVersion ( sort keys %{$ListResult} ) {
+            my $FrameworkVersionMatch = $FrameworkVersion;
+            $FrameworkVersionMatch =~ s/\./\\\./g;
+            $FrameworkVersionMatch =~ s/x/.+?/gi;
 
-            if ( $CurrentFramework =~ m{ \A $FrameworkVersion }xms ) {
+            if ( $CurrentFramework =~ m{ \A $FrameworkVersionMatch }xms ) {
 
                 @Packages = @{ $ListResult->{$FrameworkVersion} };
                 last FRAMEWORKVERSION;
