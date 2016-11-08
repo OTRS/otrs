@@ -86,6 +86,12 @@ $Selenium->RunTest(
         # click on created webservice
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
+        # check breadcrumb on Overview screen
+        $Self->True(
+            $Selenium->find_element( '.BreadCrumb', 'css' ),
+            "Breadcrumb is found on Overview screen.",
+        );
+
         # select 'Ticket::TicketCreate' as option
         $Selenium->execute_script(
             "\$('#OperationList').val('Ticket::TicketCreate').trigger('redraw.InputField').trigger('change');"
@@ -113,6 +119,24 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Template", 'css' ),
             "Input field for XSLT data is found"
         );
+
+        # check for breadcrumb on screen
+        my $Count = 1;
+        for my $Breadcrumb (
+            "Web Service Management",
+            "Selenium $RandomID webservice",
+            "Operation: SeleniumOperation",
+            "XSLT Mapping for Incoming Data"
+            )
+        {
+            $Self->Is(
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $Breadcrumb,
+                "Breadcrumb text '$Breadcrumb' is found on screen"
+            );
+
+            $Count++;
+        }
 
         # submit empty form and check client side validation
         $Selenium->find_element("//button[\@value='Save']")->click();
