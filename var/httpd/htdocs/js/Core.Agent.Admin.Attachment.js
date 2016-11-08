@@ -31,11 +31,55 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     TargetNS.Init = function () {
         Core.UI.Table.InitTableFilter($("#FilterAttachments"), $("#Attachments"));
 
-        // bind click function to remove button
-        $('#Attachments a.TrashCan').on('click', function () {
-            if (window.confirm(Core.Language.Translate('Do you really want to delete this attachment?'))) {
-                return true;
-            }
+        // delete attachment
+        TargetNS.InitAttachmentDelete();
+    };
+
+    /**
+     * @name AttachmentDelete
+     * @memberof Core.Agent.Admin.Attachment
+     * @function
+     * @description
+     *      This function deletes attachment on buton click.
+     */
+    TargetNS.InitAttachmentDelete = function () {
+        $('.AttachmentDelete').on('click', function () {
+            var $AttachmentDeleteElement = $(this);
+
+            Core.UI.Dialog.ShowContentDialog(
+                $('#DeleteAttachmentDialogContainer'),
+                Core.Language.Translate('Delete this Attachment'),
+                '240px',
+                'Center',
+                true,
+                [
+                    {
+                        Class: 'CallForAction Primary',
+                        Label: Core.Language.Translate("Confirm"),
+                        Function: function() {
+                            $('.Dialog .InnerContent .Center').text(Core.Language.Translate("Deleting attachment..."));
+                            $('.Dialog .Content .ContentFooter').remove();
+
+                            Core.AJAX.FunctionCall(
+                                Core.Config.Get('Baselink'),
+                                $AttachmentDeleteElement.data('query-string'),
+                                function() {
+                                   Core.App.InternalRedirect({
+                                       Action: 'AdminAttachment'
+                                   });
+                                }
+                            );
+                        }
+                    },
+                    {
+                        Class: 'CallForAction',
+                        Label: Core.Language.Translate("Cancel"),
+                        Function: function () {
+                            Core.UI.Dialog.CloseDialog($('#DeleteAttachmentDialog'));
+                        }
+                    }
+                ]
+            );
             return false;
         });
     };

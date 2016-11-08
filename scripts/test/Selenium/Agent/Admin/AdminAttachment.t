@@ -253,25 +253,24 @@ $Selenium->RunTest(
         $Selenium->find_element( "#FilterAttachments", 'css' )->send_keys("\N{U+E007}");
         sleep 1;
 
-        my $ConfirmJS = <<"JAVASCRIPT";
-(function () {
-    window.confirm = function() {
-        return true;
-    };
-}());
-JAVASCRIPT
-
         for my $File ( sort keys %Attachments ) {
-
-            # check delete button
-            my $ID = $AttachmentObject->StdAttachmentLookup(
-                StdAttachment => $Attachments{$File},
+            $Selenium->execute_script(
+                "\$('tbody tr:contains($Attachments{$File}) td .TrashCan').trigger('click')"
             );
 
-            $Selenium->execute_script($ConfirmJS);
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$ID' )]")->VerifiedClick();
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
 
-            # check overview page
+            # verify delete dialog message
+            my $DeleteMessage = "Do you really want to delete this attachment?";
+            $Self->True(
+                index( $Selenium->get_page_source(), $DeleteMessage ) > -1,
+                "Delete message is found",
+            );
+
+            # confirm delete action
+            $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+
+            # check if attachment sits on overview page
             $Self->True(
                 index( $Selenium->get_page_source(), $Attachments{$File} ) == -1,
                 "Attachment $Attachments{$File} is deleted"

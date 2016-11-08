@@ -19,6 +19,15 @@ Core.UI = Core.UI || {};
  *      Contains the code for the different dialogs.
  */
 Core.UI.Dialog = (function (TargetNS) {
+    /**
+     * @private
+     * @name DialogCounter
+     * @memberof Core.UI.Dialog
+     * @member {Number}
+     * @description
+     *      Number of used/opened dialogs on a page. Used to restore the correct HTML backup after dialog is closed.
+     */
+    var DialogCounter = 1;
 
     /*
      * check dependencies first
@@ -321,11 +330,13 @@ Core.UI.Dialog = (function (TargetNS) {
                 // First get the data structure, ehich is (perhaps) already saved
                 // If the data does not exists Core.Data.Get returns an empty hash
                 DialogCopy = Core.Data.Get($('body'), 'DialogCopy');
+                DialogCopySelector = Core.Data.Get($('body'), 'DialogCopySelector');
                 HTMLBackup = (Params.HTML)[0].innerHTML;
-                DialogCopySelector = Params.HTML.selector;
                 // Add the new HTML data to the data structure and save it to the document
-                DialogCopy[DialogCopySelector] = HTMLBackup;
+                DialogCopy[DialogCounter] = HTMLBackup;
+                DialogCopySelector[DialogCounter] = Params.HTML;
                 Core.Data.Set($('body'), 'DialogCopy', DialogCopy);
+                Core.Data.Set($('body'), 'DialogSelector', DialogCopySelector);
                 // Additionally, we save the selector as data on the dialog itself for later restoring
                 // Remove the original dialog template content from the page
                 Params.HTML.empty();
@@ -403,10 +414,11 @@ Core.UI.Dialog = (function (TargetNS) {
             $Dialog.find('.Footer').addClass('ContentFooter');
         }
 
-        // Now add the selector for the original dialog template content to the dialog, if it exists
-        if (DialogCopySelector && DialogCopySelector.length) {
-            Core.Data.Set($Dialog, 'DialogCopySelector', DialogCopySelector);
-        }
+        // Now add the dialog number to the dialog data to restore the HTML later
+        Core.Data.Set($Dialog, 'DialogCounter', DialogCounter);
+        // Increase the dialog number for the next possible dialog
+        DialogCounter++;
+
 
         // Set position for Dialog
         if (Params.Type === 'Alert') {
@@ -595,11 +607,11 @@ Core.UI.Dialog = (function (TargetNS) {
      *      Closes all dialogs specified.
      */
     TargetNS.CloseDialog = function (Object) {
-        var $Dialog, DialogCopy, DialogCopySelector, BackupHTML;
+        var $Dialog, $DialogSelector, DialogCopy, DialogSelectorData, InternalDialogCounter, BackupHTML;
         $Dialog = $(Object).closest('.Dialog:visible');
 
-        // Get the original selector for the content template
-        DialogCopySelector = Core.Data.Get($Dialog, 'DialogCopySelector');
+        // Get the original dialog number for the content template
+        InternalDialogCounter = Core.Data.Get($Dialog, 'DialogCounter');
 
         // publish close event
         Core.App.Publish('Event.UI.Dialog.CloseDialog.Close', [$Dialog]);
@@ -614,19 +626,22 @@ Core.UI.Dialog = (function (TargetNS) {
         $('body').css('min-height', 'auto');
 
         // Revert orignal html
-        if (DialogCopySelector.length) {
+        if (InternalDialogCounter) {
             DialogCopy = Core.Data.Get($('body'), 'DialogCopy');
+            DialogSelectorData = Core.Data.Get($('body'), 'DialogSelector');
             // Get saved HTML
             if (typeof DialogCopy !== 'undefined') {
-                BackupHTML = DialogCopy[DialogCopySelector];
+                BackupHTML = DialogCopy[InternalDialogCounter];
+                $DialogSelector = DialogSelectorData[InternalDialogCounter];
 
                 // If HTML could be restored, write it back into the page
                 if (BackupHTML && BackupHTML.length) {
-                    $(DialogCopySelector).append(BackupHTML);
+                    $DialogSelector.append(BackupHTML);
                 }
 
                 // delete this variable from the object
-                delete DialogCopy[DialogCopySelector];
+                delete DialogCopy[InternalDialogCounter];
+                delete DialogSelectorData[InternalDialogCounter];
             }
 
             // write the new DialogCopy back

@@ -108,7 +108,7 @@
                             <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
                             <td class="Center">
-                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this attachment") | html %]">
+                                <a class="TrashCan AttachmentDelete" href="#" data-query-string="Action=AdminAttachment;Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this attachment") | html %]">
                                     [% Translate("Delete this attachment") | html %]
                                     <i class="fa fa-trash-o"></i>
                                 </a>
@@ -120,6 +120,12 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="Hidden" id="DeleteAttachmentDialogContainer">
+                <div id ="DeleteAttachmentDialog" class="InnerContent">
+                    <p class="Center Spacing">[% Translate("Do you really want to delete this attachment?") | html %]</p>
+                    <div class="SpacingTop"></div>
+                </div>
             </div>
 [% RenderBlockEnd("OverviewResult") %]
 [% RenderBlockStart("OverviewUpdate") %]
