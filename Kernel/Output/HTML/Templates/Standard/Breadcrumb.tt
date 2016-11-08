@@ -10,15 +10,10 @@
     <li><a href="[% Env('Baselink') %]Action=Admin" title="[% Translate("Back to admin overview") %]"><i class="fa fa-home"></i></a></li>
     [% FOREACH Item IN Path %]
         <li>
-            <!-- link is not needed if there is only one or for the last item in breadcrumb -->
             [% IF Item.Link && Path.size() > 1 %]
                 <a href="[% Env('Baselink') %]Action=[% Item.Link %]" title="[% Item.Name | html %]">[% Item.Name | html %]</a>
             [% ELSE %]
-                [% IF Env('REQUEST_METHOD') != 'POST' %]
-                    <a href="#" title="[% Item.Name | html %]">[% Item.Name | html %]</a>
-                [% ELSE %]
-                    <span title="[% Item.Name | html %]">[% Item.Name | html %]</span>
-                [% END %]
+                <span title="[% Item.Name | html %]">[% Item.Name | html %]</span>
             [% END %]
         </li>
     [% END %]
