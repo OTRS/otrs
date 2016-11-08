@@ -339,36 +339,6 @@ sub _ShowEdit {
     $Param{KeepAlive}      = $TransportConfig->{KeepAlive};
     $Param{MaxLength}      = $TransportConfig->{MaxLength};
 
-    # call bread crumbs blocks
-    $LayoutObject->Block(
-        Name => 'WebservicePathElement',
-        Data => {
-            Name => 'Web Services',
-            Link => 'Action=AdminGenericInterfaceWebservice',
-            Nav  => '',
-        },
-    );
-    $LayoutObject->Block(
-        Name => 'WebservicePathElement',
-        Data => {
-            Name => $Param{WebserviceName},
-            Link => 'Action=AdminGenericInterfaceWebservice;Subaction=' . $Param{Action}
-                . ';WebserviceID=' . $Param{WebserviceID},
-            Nav => '',
-        },
-    );
-
-    $LayoutObject->Block(
-        Name => 'WebservicePathElement',
-        Data => {
-            Name => $Param{CommunicationType} . ' Transport ' . $Param{Type},
-            Link => 'Action=AdminGenericInterfaceTransportHTTPREST;Subaction=' . $Param{Action}
-                . ';CommunicationType=' . $Param{CommunicationType}
-                . ';WebserviceID=' . $Param{WebserviceID},
-            Nav => '',
-        },
-    );
-
     my @PossibleRequestMethods = qw(GET POST PUT PATCH DELETE HEAD OPTIONS CONNECT TRACE);
 
     # check if communication type is not provider (requester)
