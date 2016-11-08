@@ -28,7 +28,9 @@ Core.Agent = Core.Agent || {};
      *      This function initializes autocomplete in customer search fields.
      */
     TargetNS.Init = function () {
-        Core.Agent.CustomerSearch.Init($("#CustomerAutoComplete, .CustomerAutoComplete"));
+        $("#CustomerAutoComplete, .CustomerAutoComplete").each(function () {
+            Core.Agent.CustomerSearch.Init($(this));
+        });
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
