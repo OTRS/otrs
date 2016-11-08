@@ -233,13 +233,7 @@ Core.Agent.Statistics = (function (TargetNS) {
 
         // Set a postfix to the ids in the hidden container,
         //  because the fields will be cloned in the overlay.
-        $('#XAxisContainer').find("*[id]").each(function() {
-            $(this).attr("id", $(this).attr("id") + "_orig");
-        });
-        $('#YAxisContainer').find("*[id]").each(function() {
-            $(this).attr("id", $(this).attr("id") + "_orig");
-        });
-        $('#RestrictionsContainer').find("*[id]").each(function() {
+        $('#XAxisContainer, #YAxisContainer, #RestrictionsContainer').find("*[id]").each(function() {
             $(this).attr("id", $(this).attr("id") + "_orig");
         });
 
