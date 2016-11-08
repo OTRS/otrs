@@ -65,9 +65,13 @@ Core.Agent.Statistics = (function (TargetNS) {
 
     TargetNS.ElementAdd = function(ConfigurationType, ElementName) {
         var $ContainerElement = $('#' + ConfigurationType + 'Container'),
-            $FormFieldsElement = $('#' + ConfigurationType + 'FormFields');
+            $FormFieldsElement = $('#' + ConfigurationType + 'FormFields'),
+            $ContainerElementClone = $ContainerElement.find('.Element' + Core.App.EscapeSelector(ElementName)).clone();
 
-        $ContainerElement.find('.Element' + Core.App.EscapeSelector(ElementName)).clone().appendTo($FormFieldsElement);
+        $ContainerElementClone.find("*[id]").each(function() {
+            $(this).attr("id", $(this).attr("id") + "_selected");
+        });
+        $ContainerElementClone.appendTo($FormFieldsElement);
     };
 
     function InitEditDialog() {
@@ -76,7 +80,8 @@ Core.Agent.Statistics = (function (TargetNS) {
                 ConfigurationLimit = $(this).data('configuration-limit'),
                 DialogTitle = $(this).data('dialog-title'),
                 $ContainerElement = $('#' + ConfigurationType + 'Container'),
-                $FormFieldsElement = $('#' + ConfigurationType + 'FormFields');
+                $FormFieldsElement = $('#' + ConfigurationType + 'FormFields'),
+                $CloneFormFieldsElement;
 
             function RebuildEditDialogAddSelection() {
                 $('#EditDialog .Add select').empty().append('<option>-</option>');
@@ -95,8 +100,14 @@ Core.Agent.Statistics = (function (TargetNS) {
             }
 
             function EditDialogAdd(ElementName) {
-                var $Element = $ContainerElement.find('.Element' + Core.App.EscapeSelector(ElementName));
-                $Element.clone().appendTo($('#EditDialog .Fields'));
+                var $ElementClone = $ContainerElement.find('.Element' + Core.App.EscapeSelector(ElementName)).clone();
+
+                // Remove the postfix from the IDs to get the real ids for the fields.
+                $ElementClone.find("*[id]").each(function() {
+                    $(this).attr("id", $(this).attr("id").replace(/_orig/, ''));
+                });
+                $ElementClone.appendTo($('#EditDialog .Fields'));
+
                 if (ConfigurationLimit && $('#EditDialog .Fields .Element').length >= ConfigurationLimit) {
                     $('#EditDialog .Add').hide();
                 }
@@ -136,7 +147,11 @@ Core.Agent.Statistics = (function (TargetNS) {
             $('#EditDialogTemplate').children().clone().appendTo('#EditDialog');
 
             if ($FormFieldsElement.children().length) {
-                $FormFieldsElement.children().clone().appendTo('#EditDialog .Fields');
+                $CloneFormFieldsElement = $FormFieldsElement.children().clone()
+                $CloneFormFieldsElement.find("*[id]").each(function() {
+                    $(this).attr("id", $(this).attr("id").replace(/_selected/, ''));
+                });
+                $CloneFormFieldsElement.appendTo('#EditDialog .Fields');
                 Core.UI.InputFields.Activate($('#EditDialog .Fields'));
                 if (ConfigurationLimit && $('#EditDialog .Fields .Element').length >= ConfigurationLimit) {
                     $('#EditDialog .Add').hide();
@@ -178,8 +193,14 @@ Core.Agent.Statistics = (function (TargetNS) {
      *      Initialize the edit screen.
      */
     TargetNS.InitEditScreen = function () {
-        InitEditDialog();
 
+        // Set a postfix to the ids in the hidden container,
+        //  because the fields will be cloned in the overlay.
+        $('#XAxisContainer, #YAxisContainer, #RestrictionsContainer').find("*[id]").each(function() {
+            $(this).attr("id", $(this).attr("id") + "_orig");
+        });
+
+        InitEditDialog();
     };
 
     return TargetNS;
