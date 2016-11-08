@@ -32,9 +32,6 @@ Core.Agent.Overview = (function (TargetNS) {
             View = Core.Config.Get('View'),
             TicketID, ActionRowTickets = Core.Config.Get('ActionRowTickets') || {};
 
-        // initializes ActionRow functionality
-        Core.UI.ActionRow.Init();
-
         // open ticket search modal dialog
         $('#TicketSearch').on('click', function () {
             Core.Agent.Search.OpenSearchDialog('AgentTicketSearch', Profile);

@@ -38,9 +38,6 @@ Core.Agent.TicketBulk = (function (TargetNS) {
             }
         });
 
-        // initialize the ticket action popups
-        Core.Agent.TicketAction.Init();
-
         // execute function in the parent window
         Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
             WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: TicketBulkURL }, false);
