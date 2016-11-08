@@ -94,8 +94,7 @@ sub Run {
     }
 
     if ( !$Feed ) {
-        my $Content = "Can't connect to $FeedURL";
-        return $Content;
+        return $LayoutObject->{LanguageObject}->Translate( 'Can\'t connect to %s!', $FeedURL );
     }
 
     # get time object
