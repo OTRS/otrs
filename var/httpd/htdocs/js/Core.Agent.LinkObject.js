@@ -36,7 +36,9 @@ Core.Agent.LinkObject = (function (TargetNS) {
                 var URL = Core.Config.Get('Baselink') + Core.AJAX.SerializeForm($Form);
 
                 Core.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
-                    var Name = ElementID.substr(6);
+                    var Regex = new RegExp('^Widget(.*?)$'),
+                        Name = ElementID.match(Regex)[1];
+
                     Core.Agent.TableFilters.SetAllocationList();
                     RegisterActions(Name);
                 });
