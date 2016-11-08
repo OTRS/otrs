@@ -152,6 +152,7 @@
                 <Loader>
                     <CSS>Core.Agent.TicketProcess.css</CSS>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
+                    <JavaScript>Core.Agent.CustomerSearchAutoComplete.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketProcess.js</JavaScript>
                     <JavaScript>Core.TicketProcess.js</JavaScript>
