@@ -38,6 +38,12 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # disable modernize fields
+        $Helper->ConfigSettingChange(
+            Key   => 'ModernizeFormFields',
+            Value => 0,
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -97,7 +103,7 @@ $Selenium->RunTest(
         );
 
         $Self->True(
-            $DynamicFieldID,
+            $CheckboxDynamicFieldID,
             "Dynamic field $CheckboxDynamicFieldName - ID $CheckboxDynamicFieldID - created",
         );
 
@@ -174,6 +180,91 @@ $Selenium->RunTest(
 
         # Toggle widgets
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
+
+        # test AddEvent() JS function
+        $Selenium->find_element( "#AddEvent", 'css' )->click();
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#EventsTable tbody tr:eq(1)').length"
+            ),
+            '1',
+            'JS function AddEvent() is success',
+        );
+
+        # try to add same event, test ShowDuplicatedDialog() JS function
+        $Selenium->find_element( "#AddEvent", 'css' )->click();
+
+        # wait for dialog to show up, if necessary
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+        );
+
+        # verify dialog message
+        $Self->True(
+            index(
+                $Selenium->get_page_source(),
+                'This event is already attached to the job, Please use a different one.'
+                ) > -1,
+            "Duplicated event dialog message is found",
+        );
+
+        # close dialog
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
+        # wait for dialog to disappear, if necessary
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
+        );
+
+        # click to delete added event, confirmation dialog will appear
+        $Selenium->execute_script("\$('#EventsTable tbody tr:eq(1) #DeleteEvent').click();");
+
+        # wait for dialog to show up, if necessary
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+        );
+
+        # verify confirmation dialog message on delete event
+        $Self->True(
+            index( $Selenium->get_page_source(), 'Do you really want to delete this event trigger?' ) > -1,
+            "Delete event dialog message is found",
+        );
+
+        # confirm delete event
+        $Selenium->find_element( "#DialogButton2", 'css' )->click();
+
+        # wait for dialog to disappear, if necessary
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
+        );
+
+        # verify delete action event
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#EventsTable tbody tr:eq(1)').length"
+            ),
+            '0',
+            'Added event is deleted',
+        );
+
+        # check AddSelectClearButton() JS function
+        $Selenium->find_element( "#PriorityIDs option[value='1']", 'css' )->click();
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#PriorityIDs option:eq(0)').is(':selected')"
+            ),
+            "Priority '1 very low' is selected"
+        );
+
+        # click to clear selection for Priority field and verify action
+        $Selenium->find_element("//a[contains(\@data-select, \'PriorityIDs' )]")->click();
+        $Self->False(
+            $Selenium->execute_script(
+                "return \$('#PriorityIDs option:eq(0)').is(':selected')"
+            ),
+            "Priority '1 very low' is no longer selected - JS is success"
+        );
 
         # create test job
         my $GenericTicketSearch = "*Ticket $RandomID Generic*";
@@ -344,15 +435,18 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$GenericAgentJob\' )]")
             ->VerifiedClick();
 
-        # delete created test dynamic field
-        my $Success = $DynamicFieldObject->DynamicFieldDelete(
-            ID     => $DynamicFieldID,
-            UserID => $UserID,
-        );
-        $Self->True(
-            $Success,
-            "Dynamic field - ID $DynamicFieldID - deleted",
-        );
+        # delete created test dynamic fields
+        my $Success;
+        for my $DynamicFieldDelete ( $DynamicFieldID, $CheckboxDynamicFieldID ) {
+            $Success = $DynamicFieldObject->DynamicFieldDelete(
+                ID     => $DynamicFieldDelete,
+                UserID => $UserID,
+            );
+            $Self->True(
+                $Success,
+                "Dynamic field - ID $DynamicFieldDelete - deleted",
+            );
+        }
     },
 
 );
