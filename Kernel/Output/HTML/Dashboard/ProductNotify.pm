@@ -103,7 +103,7 @@ sub Run {
     # as this is the only operation an unsuccessful request means that the operation was also
     # unsuccessful
     if ( !IsHashRefWithData($RequestResult) ) {
-        return "Can't connect to Product News server!";
+        return $LayoutObject->{LanguageObject}->Translate('Can\'t connect to Product News server!');
     }
 
     my $OperationResult = $CloudServiceObject->OperationResultGet(
@@ -113,10 +113,11 @@ sub Run {
     );
 
     if ( !IsHashRefWithData($OperationResult) ) {
-        return "Can't get Product News from server";
+        return $LayoutObject->{LanguageObject}->Translate('Can\'t get Product News from server!');
     }
     elsif ( !$OperationResult->{Success} ) {
-        return $OperationResult->{ErrorMessage} || "Can't get Product News from server";
+        return $OperationResult->{ErrorMessage} ||
+            $LayoutObject->{LanguageObject}->Translate('Can\'t get Product News from server!');
     }
 
     my $ProductFeed = $OperationResult->{Data};
