@@ -265,7 +265,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
     /**
      * @name Redirect
-     * @memberof Core.Agent.Admin.GenericInterfaceOperation
+     * @memberof Core.Agent.Admin.GenericInterfaceInvoker
      * @function
      * @param {String} ConfigKey
      * @description
