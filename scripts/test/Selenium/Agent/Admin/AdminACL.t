@@ -83,8 +83,6 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        sleep 10;
-
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
