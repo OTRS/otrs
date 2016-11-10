@@ -220,17 +220,13 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my $ID = $ParamObject->GetParam( Param => 'ID' );
-
         my $Delete = $StdAttachmentObject->StdAttachmentDelete(
             ID => $ID,
         );
-        if ( !$Delete ) {
-            return $LayoutObject->ErrorScreen();
-        }
 
         return $LayoutObject->Attachment(
             ContentType => 'text/html',
-            Content     => $Delete,
+            Content     => ($Delete) ? $ID : 0,
             Type        => 'inline',
             NoCache     => 1,
         );

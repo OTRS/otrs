@@ -269,15 +269,13 @@ $Selenium->RunTest(
             );
 
             # confirm delete action
-            $Selenium->find_element( "#DialogButton1", 'css' )->click();
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAttachment");
+            $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
-            # check if attachment sits on overview page
-            $Self->True(
-                index( $Selenium->get_page_source(), $Attachments{$File} ) == -1,
-                "Attachment $Attachments{$File} is deleted"
-            );
+            # if deleting was successful, the entry should have disappeared
+            $Selenium->WaitFor( JavaScript => "return \$('tbody tr:contains($Attachments{$File})').length === 0;" );
 
+            # also, the dialog should be gone
+            $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length === 0;' );
         }
     }
 );

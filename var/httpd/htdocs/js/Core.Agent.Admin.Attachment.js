@@ -61,12 +61,20 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                             $('.Dialog .Content .ContentFooter').remove();
 
                             Core.AJAX.FunctionCall(
-                                Core.Config.Get('Baselink'),
-                                $AttachmentDeleteElement.data('query-string'),
-                                function() {
-                                   Core.App.InternalRedirect({
-                                       Action: 'AdminAttachment'
-                                   });
+                                Core.Config.Get('Baselink') + 'Action=AdminAttachment;Subaction=Delete',
+                                { ID: $AttachmentDeleteElement.data('id') },
+                                function(Reponse) {
+                                    var DialogText = Core.Language.Translate("There was an error deleting the attachment. Please check the logs for more information.");
+                                    if (parseInt(Reponse, 10) > 0) {
+                                        $('#AttachmentID_' + parseInt(Reponse, 10)).fadeOut(function() {
+                                            $(this).remove();
+                                        });
+                                        DialogText = Core.Language.Translate("Attachment was deleted successfully.");
+                                    }
+                                    $('.Dialog .InnerContent .Center').text(DialogText);
+                                    window.setTimeout(function() {
+                                        Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
+                                    }, 1000);
                                 }
                             );
                         }
