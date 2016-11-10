@@ -453,6 +453,7 @@ dd {
     text-overflow: ellipsis;
     overflow: hidden;
     display: inline-block;
+    padding: 0px 2px 3px 2px;
 }
 
 .BreadCrumb li:first-child {
@@ -480,7 +481,6 @@ dd {
 
 .BreadCrumb a {
     color: #000;
-    padding: 0px 2px 3px 2px;
     position: relative;
 }
 
