@@ -254,6 +254,7 @@ $Selenium->RunTest(
         sleep 1;
 
         for my $File ( sort keys %Attachments ) {
+
             $Selenium->execute_script(
                 "\$('tbody tr:contains($Attachments{$File}) td .TrashCan').trigger('click')"
             );
@@ -268,13 +269,15 @@ $Selenium->RunTest(
             );
 
             # confirm delete action
-            $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#DialogButton1", 'css' )->click();
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAttachment");
 
             # check if attachment sits on overview page
             $Self->True(
                 index( $Selenium->get_page_source(), $Attachments{$File} ) == -1,
                 "Attachment $Attachments{$File} is deleted"
             );
+
         }
     }
 );
