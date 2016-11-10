@@ -794,7 +794,7 @@ sub Run {
 
             my %HeaderMap = (
                 TicketNumber => Translatable('Ticket Number'),
-                CustomerName => Translatable('Customer Realname'),
+                CustomerName => Translatable('Customer Name'),
             );
 
             my @CSVHeadTranslated = map { $LayoutObject->{LanguageObject}->Translate( $HeaderMap{$_} || $_ ); }
