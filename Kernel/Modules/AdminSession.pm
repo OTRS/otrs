@@ -91,11 +91,14 @@ sub Run {
         KEY:
         for my $Key ( sort keys %Data ) {
             if ( ($Key) && ( defined( $Data{$Key} ) ) && $Key ne 'SessionID' ) {
-                if ( $Key =~ /^_/ ) {
+                if ( ref $Data{$Key} ) {
+                    $Data{$Key} = '[...]';
+                }
+                elsif ( $Key =~ /^_/ ) {
                     next KEY;
                 }
-                if ( $Key =~ /Password|Pw/ ) {
-                    $Data{$Key} = 'xxxxxxxx';
+                elsif ( $Key =~ /Password|Pw/ ) {
+                    $Data{$Key} = '[xxx]';
                 }
                 else {
                     $Data{$Key} = $LayoutObject->Ascii2Html( Text => $Data{$Key} );
@@ -111,9 +114,6 @@ sub Run {
                         SystemTime => $Data{UserSessionStart},
                     );
                     $Data{$Key} = "$TimeStamp / $Age h ";
-                }
-                if ( $Key eq 'Config' || $Key eq 'CompanyConfig' ) {
-                    $Data{$Key} = 'HASH of data';
                 }
                 if ( $Data{$Key} eq ';' ) {
                     $Data{$Key} = '';
