@@ -542,9 +542,10 @@ sub ArticleQuote {
 
             # convert html body to correct charset
             $Body = $Self->{EncodeObject}->Convert(
-                Text => $AttachmentHTML{Content},
-                From => $Charset,
-                To   => $Self->{UserCharset},
+                Text  => $AttachmentHTML{Content},
+                From  => $Charset,
+                To    => $Self->{UserCharset},
+                Check => 1,
             );
 
             # add url quoting
