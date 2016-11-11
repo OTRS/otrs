@@ -57,10 +57,6 @@
     transition: all ease-in 0.2s;
 }
 
-.OverviewMedium li:hover ul.InlineActions {
-    top: 0px;
-}
-
 .OverviewMedium > li ul.InlineActions.Actions li:after {
     margin-top: 5px;
 }

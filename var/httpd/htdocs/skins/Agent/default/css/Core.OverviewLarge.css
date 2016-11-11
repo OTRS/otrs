@@ -60,10 +60,6 @@
     transition: all ease-in 0.2s;
 }
 
-.OverviewLarge > li:hover ul.InlineActions {
-    top: 0px;
-}
-
 .OverviewLarge > li ul.InlineActions li {
     height: auto;
     min-height: 0;
