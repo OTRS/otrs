@@ -218,12 +218,17 @@ sub Run {
         );
     }
     $Param{UserOption} = $LayoutObject->BuildSelection(
-        Data        => { $UserObject->UserList( Valid => 1 ) },
+        Data => {
+            $UserObject->UserList(
+                Valid => 1,
+                Type  => 'Long',
+            ),
+        },
         Name        => 'UserIDs',
         Size        => 6,
         Multiple    => 1,
         Translation => 0,
-        Class => 'Modernize ' . ( $Errors{BccInvalid} || '' ),
+        Class       => 'Modernize ' . ( $Errors{BccInvalid} || '' ),
     );
 
     $Param{GroupOption} = $LayoutObject->BuildSelection(
