@@ -130,7 +130,14 @@ sub Convert {
         # check if string is valid utf-8
         if ( $Param{Check} && !eval { Encode::is_utf8( $Param{Text}, 1 ) } ) {
             Encode::_utf8_off( $Param{Text} );
-            print STDERR "No valid '$Param{To}' string: '$Param{Text}'!\n";
+
+            # truncate text for error messages
+            my $TruncatedText = $Param{Text};
+            if ( length($TruncatedText) > 65 ) {
+                $TruncatedText = substr($TruncatedText, 0, 65) . '[...]';
+            }
+
+            print STDERR "No valid '$Param{To}' string: '$TruncatedText'!\n";
 
             # strip invalid chars / 0 = will put a substitution character in
             # place of a malformed character
@@ -194,7 +201,14 @@ sub Convert {
 
     # convert string
     if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, $Check ) } ) {
-        print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text})"
+
+        # truncate text for error messages
+        my $TruncatedText = $Param{Text};
+        if ( length($TruncatedText) > 65 ) {
+            $TruncatedText = substr($TruncatedText, 0, 65) . '[...]';
+        }
+
+        print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($TruncatedText)"
             . " not supported!\n";
 
         # strip invalid chars / 0 = will put a substitution character in place of
