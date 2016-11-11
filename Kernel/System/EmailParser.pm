@@ -90,6 +90,8 @@ sub new {
             $Param{Email} = \@Content;
         }
 
+        $Self->{OriginalEmail} = join('', @{ $Param{Email} });
+
         # create Mail::Internet object
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
@@ -131,7 +133,7 @@ To get a email as a string back (plain email).
 sub GetPlainEmail {
     my $Self = shift;
 
-    return $Self->{Email}->as_string();
+    return $Self->{OriginalEmail} || $Self->{Email}->as_string();
 }
 
 =head2 GetParam()
