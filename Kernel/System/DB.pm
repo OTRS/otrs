@@ -167,8 +167,20 @@ sub Connect {
     # check database handle
     if ( $Self->{dbh} ) {
 
-        return $Self->{dbh} if $Self->{dbh}->ping();
+        my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
+        my $CurrentTime = time();    ## no critic
 
+        if ( $CurrentTime - ( $Self->{LastPingTime} // 0 ) < $PingTimeout ) {
+            return $Self->{dbh};
+        }
+
+        # Ping to see if the connection is still alive.
+        if ( $Self->{dbh}->ping() ) {
+            $Self->{LastPingTime} = $CurrentTime;
+            return $Self->{dbh};
+        }
+
+        # Ping failed: cause a reconnect.
         delete $Self->{dbh};
     }
 
