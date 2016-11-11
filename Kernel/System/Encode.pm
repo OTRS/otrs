@@ -191,7 +191,14 @@ sub Convert {
 
     # convert string
     if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, $Check ) } ) {
-        print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text})"
+
+        # truncate text for error messages
+        my $TruncatedText = $Param{Text};
+        if ( length($TruncatedText) > 65 ) {
+            $TruncatedText = substr($TruncatedText, 0, 65) . '[...]';
+        }
+
+        print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($TruncatedText)"
             . " not supported!\n";
 
         # strip invalid chars / 0 = will put a substitution character in place of
