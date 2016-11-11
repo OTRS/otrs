@@ -351,13 +351,13 @@ my @Tests = (
         Result   => 'Test Standard',
     },
     {
-        Name => 'OTRS secret config value',                       # <OTRS_CONFIG_DatabasePw>
+        Name => 'OTRS secret config values, must be masked (even unknown settings)',
         Data => {
             From => 'test@home.com',
         },
         RichText => 0,
-        Template => 'Test <OTRS_CONFIG_DatabasePw>',
-        Result   => 'Test xxx',
+        Template => 'Test <OTRS_CONFIG_DatabasePw> <OTRS_CONFIG_Core::MirrorDB::Password> <OTRS_CONFIG_SomeOtherValue::Password> <OTRS_CONFIG_SomeOtherValue::Pw>',
+        Result   => 'Test xxx xxx xxx xxx',
     },
     {
         Name => 'OTRS secret config value and normal config value',

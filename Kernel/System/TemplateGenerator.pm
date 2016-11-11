@@ -1112,32 +1112,21 @@ sub _Replace {
         );
     }
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # special replace from secret config options
-    my @SecretConfigOptions = qw(
-        DatabasePw
-        SearchUserPw
-        UserPw
-        SendmailModule::AuthPassword
-        AuthModule::Radius::Password
-        PGP::Key::Password
-        Customer::AuthModule::DB::CustomerPassword
-        Customer::AuthModule::Radius::Password
-        PublicFrontend::AuthPassword
-    );
-
-    # replace the secret config options before the normal config options
-    for my $SecretConfigOption (@SecretConfigOptions) {
-
-        my $Tag = $Start . 'OTRS_CONFIG_' . $SecretConfigOption . $End;
-        $Param{Text} =~ s{$Tag}{xxx}gx;
-    }
-
-    # replace config options
+    # Replace config options.
     my $Tag = $Start . 'OTRS_CONFIG_';
-    $Param{Text} =~ s{$Tag(.+?)$End}{$ConfigObject->Get($1) // ''}egx;
+    $Param{Text} =~ s{$Tag(.+?)$End}{
+        my $Replace = '';
+        # Mask secret config options.
+        if ($1 =~ m{(Password|Pw)$}smxi) {
+            $Replace = 'xxx';
+        }
+        else {
+            $Replace = $ConfigObject->Get($1) // '';
+        }
+        $Replace;
+    }egx;
 
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
