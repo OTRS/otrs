@@ -70,7 +70,8 @@ sub Run {
     }
 
     my @TablesWithInvalidCharset;
-    $DBObject->Prepare( SQL => 'show table status' );
+    # Views have engine == null, ignore those.
+    $DBObject->Prepare( SQL => 'show table status where engine is not null' );
     while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[14] !~ /^utf8/i ) {
             push @TablesWithInvalidCharset, $Row[0];

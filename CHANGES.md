@@ -1,4 +1,5 @@
 #4.0.20 2016-??-??
+ - 2016-11-11 Fixed bug#[12395](https://bugs.otrs.org/show_bug.cgi?id=12395) - Support Data Collector Plugin Table Charset incorrectly reports utf8 Problem for a Table View.
  - 2016-11-11 Fixed bug#[12408](https://bugs.otrs.org/show_bug.cgi?id=12408) - Missing SecretConfigOptions in TemplateGenerator.
  - 2016-11-07 Fixed bug#[12400](https://bugs.otrs.org/show_bug.cgi?id=12400) - Package manager does not list freely selectable features via cloud service.
  - 2016-11-04 Fixed bug#[12384](http://bugs.otrs.org/show_bug.cgi?id=12384) - Stats translates ticket type values.
