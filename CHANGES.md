@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-11-11 Fixed bug#[12405](https://bugs.otrs.org/show_bug.cgi?id=12405) - Admin Notification does not show realname.
  - 2016-11-11 Fixed bug#[12410](https://bugs.otrs.org/show_bug.cgi?id=12410) - ACL GUI doesn not contain AgentTicketSearch.
  - 2016-11-11 Fixed bug#[12395](https://bugs.otrs.org/show_bug.cgi?id=12395) - Support Data Collector Plugin Table Charset incorrectly reports utf8 Problem for a Table View.
  - 2016-11-11 Fixed bug#[12408](https://bugs.otrs.org/show_bug.cgi?id=12408) - Missing SecretConfigOptions in TemplateGenerator.
