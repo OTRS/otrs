@@ -72,6 +72,7 @@ sub Run {
     }
 
     my @TablesWithInvalidCharset;
+
     # Views have engine == null, ignore those.
     $DBObject->Prepare( SQL => 'show table status where engine is not null' );
     while ( my @Row = $DBObject->FetchrowArray() ) {

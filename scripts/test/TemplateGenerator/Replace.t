@@ -356,8 +356,9 @@ my @Tests = (
             From => 'test@home.com',
         },
         RichText => 0,
-        Template => 'Test <OTRS_CONFIG_DatabasePw> <OTRS_CONFIG_Core::MirrorDB::Password> <OTRS_CONFIG_SomeOtherValue::Password> <OTRS_CONFIG_SomeOtherValue::Pw>',
-        Result   => 'Test xxx xxx xxx xxx',
+        Template =>
+            'Test <OTRS_CONFIG_DatabasePw> <OTRS_CONFIG_Core::MirrorDB::Password> <OTRS_CONFIG_SomeOtherValue::Password> <OTRS_CONFIG_SomeOtherValue::Pw>',
+        Result => 'Test xxx xxx xxx xxx',
     },
     {
         Name => 'OTRS secret config value and normal config value',
