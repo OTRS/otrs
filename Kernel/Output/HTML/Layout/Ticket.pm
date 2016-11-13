@@ -686,9 +686,9 @@ sub ArticleQuote {
 
             # convert html body to correct charset
             $Body = $Kernel::OM->Get('Kernel::System::Encode')->Convert(
-                Text => $AttachmentHTML{Content},
-                From => $Charset,
-                To   => $Self->{UserCharset},
+                Text  => $AttachmentHTML{Content},
+                From  => $Charset,
+                To    => $Self->{UserCharset},
                 Check => 1,
             );
 

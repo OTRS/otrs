@@ -90,7 +90,7 @@ sub new {
             $Param{Email} = \@Content;
         }
 
-        $Self->{OriginalEmail} = join('', @{ $Param{Email} });
+        $Self->{OriginalEmail} = join( '', @{ $Param{Email} } );
 
         # create Mail::Internet object
         $Self->{Email} = Mail::Internet->new( $Param{Email} );

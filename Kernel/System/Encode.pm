@@ -195,7 +195,7 @@ sub Convert {
         # truncate text for error messages
         my $TruncatedText = $Param{Text};
         if ( length($TruncatedText) > 65 ) {
-            $TruncatedText = substr($TruncatedText, 0, 65) . '[...]';
+            $TruncatedText = substr( $TruncatedText, 0, 65 ) . '[...]';
         }
 
         print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($TruncatedText)"
