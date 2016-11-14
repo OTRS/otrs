@@ -15,24 +15,17 @@ use vars (qw($Self));
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# disable rich text editor
-my $Success = $ConfigObject->Set(
+$ConfigObject->Set(
     Key   => 'Frontend::RichText',
     Value => 0,
 );
-$Self->True(
-    $Success,
-    "Disable RichText with true",
-);
-
-# set Default Language
-$Success = $ConfigObject->Set(
+$ConfigObject->Set(
     Key   => 'DefaultLanguage',
     Value => 'en',
 );
-$Self->True(
-    $Success,
-    "Set default language to English",
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
 );
 
 # get helper object
