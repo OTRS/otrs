@@ -94,7 +94,8 @@ sub Run {
             {
 
                 # if the user would like to continue editing the auto response, just redirect to the edit screen
-                if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+                if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+                    && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
                     my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
                     return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=Change;ID=$ID" );
                 }

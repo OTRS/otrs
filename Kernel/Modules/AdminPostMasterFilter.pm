@@ -173,7 +173,8 @@ sub Run {
         );
 
         # if the user would like to continue editing the postmaster filter, just redirect to the update screen
-        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
             return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=Update;Name=$Name" );
         }
         else {

@@ -139,7 +139,8 @@ sub Run {
 
         # if the user would like to continue editing the template-attachment relation just redirect to the edit screen
         # otherwise return to relations overview
-        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
             return $LayoutObject->Redirect(
                 OP => "Action=$Self->{Action};Subaction=Attachment;ID=$AttachmentID;Notification=Update"
             );
@@ -181,7 +182,8 @@ sub Run {
 
         # if the user would like to continue editing the template-attachment relation just redirect to the edit screen
         # otherwise return to relations overview
-        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
             return $LayoutObject->Redirect(
                 OP => "Action=$Self->{Action};Subaction=Template;ID=$TemplateID;Notification=Update"
             );
