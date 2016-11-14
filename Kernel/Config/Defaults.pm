@@ -1291,7 +1291,7 @@ You can log in via the following URL:
 #    $Self->{'CustomerPanel::InfoFile'} = 'CustomerAccept';
 
     # CustomerPanelLostPassword
-    # (use lost passowrd feature)
+    # (use lost password feature)
     $Self->{CustomerPanelLostPassword} = 1;
 
     # CustomerPanelCreateAccount
