@@ -615,6 +615,9 @@ sub DocumentComplete {
     my $Css = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::RichText::DefaultCSS')
         || 'font-size: 12px; font-family:Courier,monospace,fixed;';
 
+    # escape special characters like double-quotes, e.g. used in font names with spaces
+    $Css = $Self->ToHTML( String => $Css );
+
     # Use the HTML5 doctype because it is compatible with HTML4 and causes the browsers
     #   to render the content in standards mode, which is more safe than quirks mode.
     my $Body = '<!DOCTYPE html><html><head>';
