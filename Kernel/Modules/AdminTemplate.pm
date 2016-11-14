@@ -313,7 +313,12 @@ sub Run {
             return $LayoutObject->ErrorScreen();
         }
 
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Attachment(
+            ContentType => 'text/html',
+            Content     => $Delete,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
     }
 
     # ------------------------------------------------------------

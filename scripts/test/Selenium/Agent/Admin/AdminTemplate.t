@@ -193,7 +193,30 @@ $Selenium->RunTest(
             StandardTemplate => $TemplateRandomID,
         );
 
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$TemplateID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@data-query-string, \'Subaction=Delete;ID=$TemplateID' )]")->click();
+
+        # wait for dialog appearance
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
+
+        # verify delete dialog message
+        my $DeleteMessage = "Do you really want to delete this template?";
+        $Self->True(
+            index( $Selenium->get_page_source(), $DeleteMessage ) > -1,
+            "Delete message is found",
+        );
+
+        # confirm delete action
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+
+        # wait for the dialog to disappear and than check that the new page is loaded completely
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Templates").length > 0;' );
+
+        # check if template sits on overview page
+        $Self->True(
+            index( $Selenium->get_page_source(), $TemplateRandomID ) == -1,
+            "Template '$TemplateRandomID' is deleted"
+        );
 
     }
 );
