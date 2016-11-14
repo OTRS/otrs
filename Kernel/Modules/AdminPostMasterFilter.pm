@@ -52,10 +52,20 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        if ( !$PostMasterFilter->FilterDelete( Name => $Name ) ) {
+        my $Delete = $PostMasterFilter->FilterDelete(
+            Name => $Name,
+        );
+
+        if ( !$Delete ) {
             return $LayoutObject->ErrorScreen();
         }
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+
+        return $LayoutObject->Attachment(
+            ContentType => 'text/html',
+            Content     => $Delete,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
     }
 
     # ------------------------------------------------------------ #

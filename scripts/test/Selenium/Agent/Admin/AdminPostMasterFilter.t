@@ -236,53 +236,32 @@ $Selenium->RunTest(
         # go back to AdminPostMasterFilter screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
 
-        my $ConfirmJS = <<"JAVASCRIPT";
-(function () {
-    var lastConfirm = undefined;
-    window.confirm = function (message) {
-        lastConfirm = message;
-        return false; // stop action at first try
-    };
-    window.getLastConfirm = function () {
-        var result = lastConfirm;
-        lastConfirm = undefined;
-        return result;
-    };
-}());
-JAVASCRIPT
-
-        $Selenium->execute_script($ConfirmJS);
+        # click on delete button
         $Selenium->find_element(
-            "//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterName' )]"
-        )->VerifiedClick();
+            "//a[contains(\@data-query-string, \'Subaction=Delete;Name=$PostMasterName' )]"
+        )->click();
 
-        $Self->Is(
-            $Selenium->execute_script("return window.getLastConfirm()"),
-            $LanguageObject->Translate('Do you really want to delete this filter?'),
-            'Dialog window text is correct',
+        # wait for dialog appears
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
+
+        # verify delete dialog message
+        my $DeleteMessage = "Do you really want to delete this postmaster filter?";
+        $Self->True(
+            index( $Selenium->get_page_source(), $DeleteMessage ) > -1,
+            "Delete message is found",
         );
 
-        my $CheckConfirmJS = <<"JAVASCRIPT";
-(function () {
-    window.confirm = function () {
-        return true; // allow action at second try
-    };
-}());
-JAVASCRIPT
+        # confirm delete action
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
-        $Selenium->execute_script($CheckConfirmJS);
-        $Selenium->find_element(
-            "//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterName' )]"
-        )->VerifiedClick();
+        # wait for the dialog to disappear and than check that the new page is loaded completely
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PostMasterFilters").length > 0;' );
 
-        # navigate to AdminPostMasterFilter screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
-
-        # check up if postmaster filter is deleted
-        $Self->Is(
-            $Selenium->execute_script("return \$('#PostMasterFilters a.AsBlock[href*=$PostMasterName]').length"),
-            0,
-            "Postmaster Filter $PostMasterName is deleted",
+        # check if postmaster filter sits on overview page
+        $Self->True(
+            index( $Selenium->get_page_source(), $PostMasterName ) == -1,
+            "PostMasterFilter '$PostMasterName' is deleted"
         );
 
     }

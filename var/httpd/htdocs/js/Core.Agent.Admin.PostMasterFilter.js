@@ -31,13 +31,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     TargetNS.Init = function () {
         Core.UI.Table.InitTableFilter($('#FilterPostMasterFilters'), $('#PostMasterFilters'));
 
-        // bind click on delete button
-        $('#PostMasterFilters a.DeleteAction').on('click', function () {
-            if (window.confirm(Core.Language.Translate('Do you really want to delete this filter?'))) {
-                return true;
-            }
-            return false;
-        });
+        // delete postmaster filter
+        TargetNS.InitPostMasterFilterDelete();
 
         // check all negate labels and add a marker color if negate is enabled
         $('.FilterFields label.Negate input').each(function() {
@@ -56,6 +51,55 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             else {
                 $(this).closest('label').removeClass('Checked');
             }
+        });
+    };
+
+    /**
+     * @name PostMasterFilterDelete
+     * @memberof Core.Agent.Admin.PostMasterFilter
+     * @function
+     * @description
+     *      This function deletes postmaster filter on buton click.
+     */
+    TargetNS.InitPostMasterFilterDelete = function () {
+        $('.PostMasterFilterDelete').on('click', function () {
+            var $PostMasterFilterDelete = $(this);
+
+            Core.UI.Dialog.ShowContentDialog(
+                $('#DeletePostMasterFilterDialogContainer'),
+                Core.Language.Translate('Delete this PostMasterFilter'),
+                '240px',
+                'Center',
+                true,
+                [
+                    {
+                        Class: 'CallForAction Primary',
+                        Label: Core.Language.Translate("Confirm"),
+                        Function: function() {
+                            $('.Dialog .InnerContent .Center').text(Core.Language.Translate("Deleting the postmaster filter and its data. This may take a while..."));
+                            $('.Dialog .Content .ContentFooter').remove();
+
+                            Core.AJAX.FunctionCall(
+                                Core.Config.Get('Baselink'),
+                                $PostMasterFilterDelete.data('query-string'),
+                                function() {
+                                   Core.App.InternalRedirect({
+                                       Action: 'AdminPostMasterFilter'
+                                   });
+                                }
+                            );
+                        }
+                    },
+                    {
+                        Class: 'CallForAction',
+                        Label: Core.Language.Translate("Cancel"),
+                        Function: function () {
+                            Core.UI.Dialog.CloseDialog($('#DeletePostMasterFilterDialog'));
+                        }
+                    }
+                ]
+            );
+            return false;
         });
     };
 
