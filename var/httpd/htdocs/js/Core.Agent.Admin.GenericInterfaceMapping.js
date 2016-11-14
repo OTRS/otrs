@@ -69,7 +69,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
         $('.NewValue').on('change', function(){
 
             // modified title
-            $(this).closest('.WidgetKey').find('.Title').html('Mapping for Key ' + $(this).val());
+            $(this).closest('.WidgetKey').find('.Title').html(Core.Language.Translate('Mapping for Key %s', $(this).val()));
         });
 
         // register remove key action
@@ -121,7 +121,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
         $Clone.removeClass('Hidden KeyTemplate');
 
         // add title
-        $Clone.find('.Title').html('Mapping for Key');
+        $Clone.find('.Title').html(Core.Language.Translate('Mapping for Key'));
 
         // copy values and change ids and names
         $Clone.find(':input,[href]').each(function(){
@@ -162,7 +162,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
                 $(this).on('change', function(){
 
                     // modified title
-                    $(this).closest('.WidgetKey').find('.Title').html('Mapping for Key ' + $(this).val());
+                    $(this).closest('.WidgetKey').find('.Title').html(Core.Language.Translate('Mapping for Key %s', $(this).val()));
                 });
             }
 

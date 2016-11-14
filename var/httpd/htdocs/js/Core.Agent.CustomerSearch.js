@@ -529,7 +529,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             $('#ShowCustomerID').html('');
 
             // reset customer info table
-            $('#CustomerInfo .Content').html('none');
+            $('#CustomerInfo .Content').html(Core.Language.Translate('none'));
     };
 
     /**
