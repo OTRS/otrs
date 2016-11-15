@@ -111,12 +111,15 @@ $Selenium->RunTest(
             my $ID = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentLookup(
                 StdAttachment => $RandomID,
             );
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$ID' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$ID' )]")->click();
+
+            # Accept delete confirmation dialog
+            $Selenium->accept_alert();
 
             # check overview page
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) == -1,
-                'Standard attacment is deleted - $RandomID'
+                'Standard attachment is deleted - $RandomID'
             );
 
         }
