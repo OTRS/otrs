@@ -212,15 +212,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Digest::SHA', # Supposed to be in perlcore, but seems to be missing on some distributions.
-        Required  => 1,
-        InstTypes => {
-            aptget => 'libdigest-sha-perl',
-            emerge => 'dev-perl/Digest-SHA',
-            zypper => 'perl-Digest-SHA'
-        },
-    },
-    {
         Module    => 'DBD::mysql',
         Required  => 0,
         Comment   => 'Required to connect to a MySQL database.',
@@ -267,6 +258,15 @@ my @NeededModules = (
             aptget => 'libdbd-pg-perl',
             ppm    => 'DBD-Pg',
             zypper => 'perl-DBD-Pg',
+        },
+    },
+    {
+        Module    => 'Digest::SHA', # Supposed to be in perlcore, but seems to be missing on some distributions.
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libdigest-sha-perl',
+            emerge => 'dev-perl/Digest-SHA',
+            zypper => 'perl-Digest-SHA'
         },
     },
     {
