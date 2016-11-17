@@ -268,8 +268,7 @@ $Selenium->RunTest(
         );
 
         # delete test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$GenericAgentJob\' )]")
-            ->click();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$GenericAgentJob\' )]")->click();
 
         # Accept delete confirmation dialog
         $Selenium->accept_alert();
