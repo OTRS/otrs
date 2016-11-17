@@ -969,6 +969,7 @@ sub Run {
         # update last request time
         if (
             !$ParamObject->IsAJAXRequest()
+            || $Param{Action} eq 'AgentVideoChat'
             ||
             (
                 $Param{Action} eq 'AgentChat'
