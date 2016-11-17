@@ -195,8 +195,11 @@ sub Run {
         }
 
         # if the user would like to continue editing the customer user allocating just redirect to the edit screen
-        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
-            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
+        if (
+            defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+            )
+        {
             return $LayoutObject->Redirect(
                 OP =>
                     "Action=$Self->{Action};Subaction=AllocateCustomerUser;CustomerUserLogin=$Param{CustomerUserLogin};CustomerUserSearch=$Param{CustomerUserSearch}"
@@ -248,8 +251,11 @@ sub Run {
         }
 
         # if the user would like to continue editing the customer user allocating just redirect to the edit screen
-        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
-            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
+        if (
+            defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+            )
+        {
             return $LayoutObject->Redirect(
                 OP =>
                     "Action=$Self->{Action};Subaction=AllocateService;ServiceID=$Param{ServiceID};CustomerUserSearch=$Param{CustomerUserSearch}"

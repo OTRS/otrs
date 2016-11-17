@@ -141,8 +141,11 @@ sub Run {
 
         # if the user would like to continue editing the templates - queue relation just redirect to the edit screen
         # otherwise return to relations overview
-        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
-            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
+        if (
+            defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+            )
+        {
             return $LayoutObject->Redirect(
                 OP => "Action=$Self->{Action};Subaction=Queue;ID=$QueueID"
             );
@@ -186,8 +189,11 @@ sub Run {
 
         # if the user would like to continue editing the queue - templates relation just redirect to the edit screen
         # otherwise return to relations overview
-        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
-            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
+        if (
+            defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+            )
+        {
             return $LayoutObject->Redirect(
                 OP => "Action=$Self->{Action};Subaction=Template;ID=$TemplateID"
             );

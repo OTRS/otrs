@@ -135,8 +135,11 @@ sub Run {
 
         # if the user would like to continue editing the role-user relation just redirect to the edit screen
         # otherwise return to relations overview
-        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
-            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
+        if (
+            defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+            )
+        {
             return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=Role;ID=$ID" );
         }
         else {
@@ -180,8 +183,11 @@ sub Run {
 
         # if the user would like to continue editing the role-user relation just redirect to the edit screen
         # otherwise return to relations overview
-        if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
-            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
+        if (
+            defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+            )
+        {
             return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=User;ID=$ID" );
         }
         else {

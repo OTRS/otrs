@@ -516,8 +516,11 @@ sub _ChangeAction {
     }
 
     # if the user would like to continue editing the dynamic field, just redirect to the change screen
-    if ( defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
-        && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) ) {
+    if (
+        defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+        && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+        )
+    {
         return $LayoutObject->Redirect(
             OP =>
                 "Action=$Self->{Action};Subaction=Change;ObjectType=$DynamicFieldData->{ObjectType};FieldType=$DynamicFieldData->{FieldType};ID=$FieldID"

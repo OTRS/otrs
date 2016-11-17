@@ -280,7 +280,7 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Digest::SHA', # Supposed to be in perlcore, but seems to be missing on some distributions.
+        Module    => 'Digest::SHA',    # Supposed to be in perlcore, but seems to be missing on some distributions.
         Required  => 1,
         InstTypes => {
             aptget => 'libdigest-sha-perl',
