@@ -3003,7 +3003,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Title" Required="0" Valid="1">
-        <Description Translatable="1">Shows the title fields in the ticket free text screen of the agent interface.</Description>
+        <Description Translatable="1">Shows the title field in the ticket free text screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
