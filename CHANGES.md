@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-11-18 Fixed error when importing emails without valid address in From field, thanks to Paweł Bogusławski (PR#1559).
  - 2016-11-18 Fixed warnings when saving permissions for users and roles, thanks to Paweł Bogusławski (PR#1557).
  - 2016-10-10 Disabled warnings on internal unicode chacter printing, thanks to Pawel Boguslawski.
  - 2016-11-18 Fixed bug#[12427](https://bugs.otrs.org/show_bug.cgi?id=12427) - Missing table cell in Customer User Management modal screen.
