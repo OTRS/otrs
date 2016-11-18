@@ -729,7 +729,7 @@ sub _Overview {
             Data => \%Param,
         );
 
-        if ( $ConfigObject->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
+        if ( $ConfigObject->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} && $Param{Nav} ne 'None' )
         {
             $ColSpan = 7;
             $LayoutObject->Block(
