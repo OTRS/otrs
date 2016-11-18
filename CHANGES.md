@@ -1,4 +1,5 @@
 #4.0.20 2016-??-??
+ - 2016-11-18 Fixed warnings when saving permissions for users and roles, thanks to Paweł Bogusławski (PR#1557).
  - 2016-10-10 Disabled warnings on internal unicode chacter printing, thanks to Pawel Boguslawski.
  - 2016-11-18 Fixed bug#[12438](https://bugs.otrs.org/show_bug.cgi?id=12438) - Race condition in ArticleCreate.
  - 2016-11-18 Fixed bug#[12353](http://bugs.otrs.org/show_bug.cgi?id=12353) - DynamicField Multiselect default value is not correct on creation. Thanks to S7!
