@@ -121,7 +121,9 @@ sub Run {
         my @SplittedLinkFilters = split( /[;&]/, $Param{LinkFilter} );
         for my $CurrentLinkFilter ( sort @SplittedLinkFilters ) {
             my @KeyValue = split( /=/, $CurrentLinkFilter );
-            $RedirectParams{ $KeyValue[0] } = "\'$KeyValue[1]\'";
+            if ( defined $KeyValue[1] ) {
+                $RedirectParams{ $KeyValue[0] } = "\'$KeyValue[1]\'";
+            }
         }
     }
 
