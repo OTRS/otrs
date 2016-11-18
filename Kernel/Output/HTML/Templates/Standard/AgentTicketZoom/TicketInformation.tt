@@ -45,6 +45,15 @@
                         <label>[% Translate("State") | html %]:</label>
                         <p class="Value" title="[% Translate(Data.State) | html %]">[% Translate(Data.State) | html %]</p>
                         <div class="Clear"></div>
+[% RenderBlockStart("PendingUntil") %]
+                        <label>[% Translate("Pending till") | html %]:</label>
+                        <p class="Value [% Data.PendingUntilClass | html %]">
+                            [% Data.PendingUntil %]
+                            <br/>
+                            [% Data.UntilTimeHuman | Localize("TimeShort") %]
+                        </p>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("PendingUntil") %]
 
                         <label>[% Translate("Locked") | html %]:</label>
                         <p class="Value" title="[% Translate(Data.Lock) | html %]">[% Translate(Data.Lock) | html %]</p>
@@ -118,15 +127,6 @@
                         <div class="Clear"></div>
 
 [% RenderBlockEnd("TotalAccountedTime") %]
-[% RenderBlockStart("PendingUntil") %]
-                        <label>[% Translate("Pending till") | html %]:</label>
-                        <p class="Value [% Data.PendingUntilClass | html %]">
-                            [% Data.PendingUntil %]
-                            <br/>
-                            [% Data.UntilTimeHuman | Localize("TimeShort") %]
-                        </p>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("PendingUntil") %]
 [% RenderBlockStart("Owner") %]
                         <label>[% Translate("Owner") | html %]:</label>
                         <p class="Value" title="[% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %] ([% Data.UserLogin | html %])">
