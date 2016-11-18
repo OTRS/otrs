@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-11-18 Moved the save buttons into a separate widget for better usability in AdminACL, thanks to urbalazs.
  - 2016-11-18 Fixed an issue where the group selection in SysConfig would lead to empty results in the content area, thanks to S7
  - 2016-11-18 Fixed bug#[12438](https://bugs.otrs.org/show_bug.cgi?id=12438) - Race condition in ArticleCreate.
  - 2016-11-18 Fixed bug#[12353](http://bugs.otrs.org/show_bug.cgi?id=12353) - DynamicField Multiselect default value is not correct on creation. Thanks to S7!
