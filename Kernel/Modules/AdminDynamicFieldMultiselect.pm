@@ -169,13 +169,17 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
+        ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
         TranslatableValues ValidID
         )
         )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
+
+    # get default values
+    my @DefaultValues = $Self->{ParamObject}->GetArray( Param => 'DefaultValue' );
+    $GetParam{DefaultValue} = \@DefaultValues;
 
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
