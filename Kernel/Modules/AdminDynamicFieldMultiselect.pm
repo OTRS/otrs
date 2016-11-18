@@ -161,7 +161,7 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
+        ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
         TranslatableValues ValidID
         )
         )
@@ -169,6 +169,11 @@ sub _AddAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
+    # get default values
+    my @DefaultValues = $ParamObject->GetArray( Param => 'DefaultValue' );
+    $GetParam{DefaultValue} = \@DefaultValues;
+
+    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # uncorrectable errors
