@@ -637,12 +637,12 @@
                     <table class="DataTable W100pc">
                         <thead>
                             <tr>
-                                <th>[% Translate("Type") | html %]: </th>
-                                <th>[% Translate("Name") | html %]: </th>
-                                <th>[% Translate("Required") | html %]: </th>
-                                <th>[% Translate("Size") | html %]: </th>
-                                <th>[% Translate("PrimaryKey") | html %]: </th>
-                                <th>[% Translate("AutoIncrement") | html %]: </th>
+                                <th>[% Translate("Type") | html %]</th>
+                                <th>[% Translate("Name") | html %]</th>
+                                <th>[% Translate("Required") | html %]</th>
+                                <th>[% Translate("Size") | html %]</th>
+                                <th>[% Translate("Primary Key") | html %]</th>
+                                <th>[% Translate("Auto Increment") | html %]</th>
                             </tr>
                         </thead>
                         <tbody>
