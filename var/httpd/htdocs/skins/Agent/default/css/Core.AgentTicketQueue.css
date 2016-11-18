@@ -147,6 +147,20 @@
 
 .QueueOverview .Oldest {
     color: red;
+    font-weight: bold;
+    animation: blinking 1s steps(5, start) infinite;
+    -webkit-animation: blinking 1s steps(5, start) infinite;
+}
+
+@keyframes blinking {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blinking {
+  to {
+    visibility: hidden;
+  }
 }
 
 .QueueOverview .Active {
