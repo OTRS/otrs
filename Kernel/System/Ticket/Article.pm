@@ -260,6 +260,13 @@ sub ArticleCreate {
         $Param{MD5} = $Kernel::OM->Get('Kernel::System::Main')->MD5sum( String => $Param{MessageID} );
     }
 
+    # Generate unique fingerprint for searching created article in database to prevent race conditions
+    #   (see https://bugs.otrs.org/show_bug.cgi?id=12438).
+    my $RandomString = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
+        Length => 32,
+    );
+    my $ArticleInsertFingerprint = $$ . '-' . $RandomString . '-' . ($Param{MessageID} // '');
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -286,7 +293,8 @@ sub ArticleCreate {
         Bind => [
             \$Param{TicketID}, \$Param{ArticleTypeID}, \$Param{SenderTypeID},
             \$Param{From},     \$Param{ReplyTo},       \$Param{To},
-            \$Param{Cc},       \$Param{Subject},       \$Param{MessageID},
+            \$Param{Cc},       \$Param{Subject},
+            \$ArticleInsertFingerprint,    # just for next search; will be updated with correct MessageID
             \$Param{MD5},
             \$Param{InReplyTo}, \$Param{References}, \$Param{Body},
             \$Param{ContentType}, \$Self->{ArticleContentPath}, \$ValidID,
@@ -297,7 +305,7 @@ sub ArticleCreate {
     # get article id
     my $ArticleID = $Self->_ArticleGetId(
         TicketID     => $Param{TicketID},
-        MessageID    => $Param{MessageID},
+        MessageID    => $ArticleInsertFingerprint,
         From         => $Param{From},
         Subject      => $Param{Subject},
         IncomingTime => $IncomingTime
@@ -307,10 +315,16 @@ sub ArticleCreate {
     if ( !$ArticleID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Can\'t get ArticleID from INSERT!',
+            Message  => "Can't get ArticleID from insert (TicketID=$Param{TicketID}, MessageID=$Param{MessageID})!",
         );
         return;
     }
+
+    # Save correct Message-ID now.
+    return if !$DBObject->Do(
+        SQL  => 'UPDATE article SET a_message_id = ? WHERE id = ?',
+        Bind => [ \$Param{MessageID}, \$ArticleID ],
+    );
 
     # check for base64 encoded images in html body and upload them
     for my $Attachment (@AttachmentConvert) {
