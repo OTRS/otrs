@@ -149,7 +149,9 @@ sub Run {
             for my $Permission ( sort keys %Permissions ) {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
+                ID:
                 for my $ID (@Array) {
+                    next ID if !$ID;
                     if ( $UserID == $ID ) {
                         $NewPermission{$Permission} = 1;
                     }
@@ -193,7 +195,9 @@ sub Run {
             for my $Permission ( sort keys %Permissions ) {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
+                ID:
                 for my $ID (@Array) {
+                    next ID if !$ID;
                     if ( $GroupID eq $ID ) {
                         $NewPermission{$Permission} = 1;
                     }
