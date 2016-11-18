@@ -534,7 +534,7 @@ sub SearchFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldDropdown';
+    my $FieldClass = 'DynamicFieldDropdown Modernize';
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data => {
