@@ -908,7 +908,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###4000-ShowCustomerOnline" Required="0" Valid="0">
-        <Description Translatable="1">Defines the module that shows all the currently loged in customers in the agent interface.</Description>
+        <Description Translatable="1">Defines the module that shows all the currently logged in customers in the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
@@ -1018,7 +1018,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionMaxIdleTime" Required="1" Valid="1">
-        <Description Translatable="1">Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.</Description>
+        <Description Translatable="1">Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -8113,7 +8113,7 @@ You can log in via the following URL:
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="0" Valid="0">
-        <Description Translatable="1">Defines the module that shows the currently loged in agents in the customer interface.</Description>
+        <Description Translatable="1">Defines the module that shows the currently logged in agents in the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
         <Setting>
@@ -8125,7 +8125,7 @@ You can log in via the following URL:
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowCustomerOnline" Required="0" Valid="0">
-        <Description Translatable="1">Defines the module that shows the currently loged in customers in the customer interface.</Description>
+        <Description Translatable="1">Defines the module that shows the currently logged in customers in the customer interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
         <Setting>
