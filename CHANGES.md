@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-11-18 Fixed bug#[12418](https://bugs.otrs.org/show_bug.cgi?id=12418) - Blinking mechanism not working.
  - 2016-11-12 Fixed bug#[10825](https://bugs.otrs.org/show_bug.cgi?id=10825) - <OTRS_CUSTOMER_Body> in Reply-Template, thanks to S7.
  - 2016-11-11 Improved output of customer data in AdminSession.
  - 2016-11-11 Fixed bug#[12415](https://bugs.otrs.org/show_bug.cgi?id=12415) - Problems with malformed utf8 chars in emails.
