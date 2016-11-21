@@ -226,6 +226,14 @@ sub Run {
         $ProcessList = \%ReducedProcessList;
     }
 
+    # get form id
+    $Self->{FormID} = $ParamObject->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$Self->{FormID} ) {
+        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
+    }
+
     # if we have no subaction display the process list to start a new one
     if ( !$Self->{Subaction} ) {
 
@@ -295,14 +303,6 @@ sub Run {
     my $GetParam = $Self->_GetParam(
         ProcessEntityID => $ProcessEntityID,
     );
-
-    # get form id
-    $Self->{FormID} = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
 
     if ( $Self->{Subaction} eq 'StoreActivityDialog' && $ProcessEntityID ) {
         $LayoutObject->ChallengeTokenCheck( Type => 'Customer' );
@@ -4044,6 +4044,7 @@ sub _DisplayProcessList {
     $Output .= $LayoutObject->Output(
         TemplateFile => 'CustomerTicketProcess',
         Data         => {
+            FormID => $Self->{FormID},
             %Param,
         },
     );
