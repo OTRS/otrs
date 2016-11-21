@@ -16,6 +16,8 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::JSON',
+    'Kernel::System::User',
 );
 
 sub Run {
@@ -35,19 +37,16 @@ sub Run {
     $ManualVersion =~ m{^(\d{1,2}).+};
     $ManualVersion = $1;
 
-    $LayoutObject->Block(
-        Name => 'AdminNavBar',
-        Data => {
-            ManualVersion => $ManualVersion,
-        },
-    );
-
     # get all Frontend::Module
     my %NavBarModule;
     my $FrontendModuleConfig = $ConfigObject->Get('Frontend::Module');
     MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
+
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
+
+        next MODULE if !$Hash{NavBarModule}->{Name};
+
         if (
             $Hash{NavBarModule}
             && $Hash{NavBarModule}->{Module} eq 'Kernel::Output::HTML::NavBar::ModuleAdmin'
@@ -105,20 +104,54 @@ sub Run {
                 %Hash,
                 %{ $Hash{NavBarModule} },
             };
+        }
+    }
 
+    my %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+    my @Favourites;
+    my @FavouriteModules;
+    my $PrefFavourites = $JSONObject->Decode(
+        Data => $UserPreferences{AdminNavigationBarFavourites},
+    ) || [];
+
+    my @NavBarModule;
+    for my $Item ( sort keys %NavBarModule ) {
+        if ( grep { $_ eq $NavBarModule{$Item}->{'Frontend::Module'} } @{$PrefFavourites} ) {
+            push @Favourites,       $NavBarModule{$Item};
+            push @FavouriteModules, $NavBarModule{$Item}->{'Frontend::Module'};
+            $NavBarModule{$Item}->{IsFavourite} = 1;
         }
+        push @NavBarModule, $NavBarModule{$Item};
     }
-    my %Count;
-    for my $Module ( sort keys %NavBarModule ) {
-        my $BlockName = $NavBarModule{$Module}->{NavBarModule}->{Block} || 'Item';
-        $LayoutObject->Block(
-            Name => $BlockName,
-            Data => $NavBarModule{$Module},
-        );
-        if ( $Count{$BlockName}++ % 2 ) {
-            $LayoutObject->Block( Name => $BlockName . 'Clear' );
-        }
-    }
+
+    @NavBarModule = sort {
+        $LayoutObject->{LanguageObject}->Translate( $a->{Name} )
+            cmp $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
+    } @NavBarModule;
+    @Favourites = sort {
+        $LayoutObject->{LanguageObject}->Translate( $a->{Name} )
+            cmp $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
+    } @Favourites;
+
+    $LayoutObject->Block(
+        Name => 'AdminNavBar',
+        Data => {
+            ManualVersion => $ManualVersion,
+            View          => $UserPreferences{AdminNavigationBarView} || 'Grid',
+            Items         => \@NavBarModule,
+            Favourites    => \@Favourites,
+        },
+    );
+
+    $LayoutObject->AddJSData(
+        Key   => 'Favourites',
+        Value => \@FavouriteModules,
+    );
 
     my $Output = $LayoutObject->Output(
         TemplateFile => 'AdminNavigationBar',

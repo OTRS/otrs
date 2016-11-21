@@ -9249,7 +9249,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Access Control Lists (ACL)</Name>
                     <Description Translatable="1">Configure and manage ACLs.</Description>
-                    <Block>Ticket</Block>
+                    <IconBig>fa-check-square-o</IconBig>
                     <Prio>750</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
@@ -9269,7 +9269,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Queues</Name>
                     <Description Translatable="1">Create and manage queues.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-folder</IconBig>
                     <Prio>100</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9292,7 +9292,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Templates</Name>
                     <Description Translatable="1">Create and manage templates.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-folder</IconBig>
                     <Prio>200</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9315,7 +9315,8 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Templates ↔ Queues</Name>
                     <Description Translatable="1">Link templates to queues.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-file-text-o</IconBig>
+                    <IconSmall>fa-folder</IconSmall>
                     <Prio>300</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9338,7 +9339,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Auto Responses</Name>
                     <Description Translatable="1">Create and manage responses that are automatically sent.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-reply</IconBig>
                     <Prio>400</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9361,7 +9362,8 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Auto Responses ↔ Queues</Name>
                     <Description Translatable="1">Link queues to auto responses.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-reply</IconBig>
+                    <IconSmall>fa-folder</IconSmall>
                     <Prio>500</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9384,7 +9386,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Attachments</Name>
                     <Description Translatable="1">Create and manage attachments.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-paperclip</IconBig>
                     <Prio>600</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9407,7 +9409,8 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Attachments ↔ Templates</Name>
                     <Description Translatable="1">Link attachments to templates.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-paperclip</IconBig>
+                    <IconSmall>fa-file-text-o</IconSmall>
                     <Prio>700</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9430,7 +9433,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Salutations</Name>
                     <Description Translatable="1">Create and manage salutations.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-comment-o</IconBig>
                     <Prio>800</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9453,7 +9456,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Signatures</Name>
                     <Description Translatable="1">Create and manage signatures.</Description>
-                    <Block>Queue</Block>
+                    <IconBig>fa-folder</IconBig>
                     <Prio>900</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9477,6 +9480,7 @@
                     <Name Translatable="1">Email Addresses</Name>
                     <Description Translatable="1">Set sender email addresses for this system.</Description>
                     <Block>Email</Block>
+                    <IconBig>fa-at</IconBig>
                     <Prio>300</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9499,7 +9503,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Ticket Notifications</Name>
                     <Description Translatable="1">Create and manage ticket notifications.</Description>
-                    <Block>Ticket</Block>
+                    <IconBig>fa-bell-o</IconBig>
                     <Prio>400</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9523,7 +9527,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Services</Name>
                     <Description Translatable="1">Create and manage services.</Description>
-                    <Block>Ticket</Block>
+                    <IconBig>fa-wrench</IconBig>
                     <Prio>900</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9546,7 +9550,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Service Level Agreements</Name>
                     <Description Translatable="1">Create and manage Service Level Agreements (SLAs).</Description>
-                    <Block>Ticket</Block>
+                    <IconBig>fa-ticket</IconBig>
                     <Prio>1000</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9569,7 +9573,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Types</Name>
                     <Description Translatable="1">Create and manage ticket types.</Description>
-                    <Block>Ticket</Block>
+                    <IconBig>fa-ticket</IconBig>
                     <Prio>700</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9592,7 +9596,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">States</Name>
                     <Description Translatable="1">Create and manage ticket states.</Description>
-                    <Block>Ticket</Block>
+                    <IconBig>fa-ticket</IconBig>
                     <Prio>800</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9615,7 +9619,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Priorities</Name>
                     <Description Translatable="1">Create and manage ticket priorities.</Description>
-                    <Block>Ticket</Block>
+                    <IconBig>fa-list-ol</IconBig>
                     <Prio>850</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9638,7 +9642,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">GenericAgent</Name>
                     <Description Translatable="1">Manage tasks triggered by event or time based execution.</Description>
-                    <Block>System</Block>
+                    <IconBig>fa-database</IconBig>
                     <Prio>300</Prio>
                 </NavBarModule>
                 <Loader>
@@ -10935,7 +10939,7 @@ Thanks for your help!
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Dynamic Fields</Name>
                     <Description Translatable="1">Create and manage dynamic fields.</Description>
-                    <Block>Ticket</Block>
+                    <IconBig>fa-align-left</IconBig>
                     <Prio>1000</Prio>
                 </NavBarModule>
                 <Loader>

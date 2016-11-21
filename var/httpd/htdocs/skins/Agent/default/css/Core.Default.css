@@ -59,7 +59,7 @@ body {
  */
 
 .ARIAAlertMessage {
-    position: absolute;
+    position: absolute !important;
     left: -10000px;
     right: auto;
     top: -10000px;

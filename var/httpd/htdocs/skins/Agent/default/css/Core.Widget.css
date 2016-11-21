@@ -276,7 +276,7 @@ ul.Tablelike li.Header + li {
 
 .ActionMenu {
     top: 4px;
-    right: 3px;
+    right: 7px;
     padding-left: 3px;
     position: absolute;
     display: none;
@@ -292,7 +292,8 @@ ul.Tablelike li.Header + li {
     border-bottom-right-radius: 2px;
 }
 
-.Header:hover .ActionMenu {
+.Header:hover .ActionMenu,
+.Header .ActionMenu.Visible {
     display: block;
 }
 

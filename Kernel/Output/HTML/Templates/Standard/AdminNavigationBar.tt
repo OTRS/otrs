@@ -6,149 +6,137 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 [% RenderBlockStart("AdminNavBar") %]
-<div class="MainBox ARIARoleMain Admin">
-    <h1 class="InvisibleText">[% Translate("Admin") | html %]</h1>
-    <div id="Row1" class="LayoutGrid ColumnsWithSpacing">
-        <div class="Size1of3">
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2>[% Translate("Agent Management") | html %]</h2>
-                </div>
-                <div class="Content">
-                    <ul class="LayoutGrid ColumnsWithSpacing">
-[% RenderBlockStart("Agent") %]
-                        <li class="Size1of2">
-                            <h4><span>[% Translate(Data.Name) | html %]</span>
-                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
-                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
-                            </li>
-[% RenderBlockStart("AgentClear") %]
-                            <li class="Clear"></li>
-[% RenderBlockEnd("AgentClear") %]
-[% RenderBlockEnd("Agent") %]
-                        </ul>
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
 
-                    </div>
-                </div>
+    <h1 class="ARIAAlertMessage">[% Translate("Admin") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">[% Translate("Filter for Items") | html %]</label></h2>
             </div>
-            <div class="Size1of3">
-                <div class="WidgetSimple">
-                    <div class="Header">
-                        <h2>[% Translate("Customer Management") | html %]</h2>
-                    </div>
-                    <div class="Content">
-
-                        <ul class="LayoutGrid ColumnsWithSpacing">
-[% RenderBlockStart("Customer") %]
-                            <li class="Size1of2">
-                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
-                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
-                            </li>
-[% RenderBlockStart("CustomerClear") %]
-                            <li class="Clear"></li>
-[% RenderBlockEnd("CustomerClear") %]
-[% RenderBlockEnd("Customer") %]
-                        </ul>
-
-                    </div>
-                </div>
+            <div class="Content">
+                <input type="text" id="Filter" autocomplete="off" class="W95pc" name="Filter" value="" title="[% Translate("Filter") | html %]" placeholder="[% Translate("Just start typing to filter...") | html %]" />
             </div>
-            <div class="Size1of3">
-                <div class="WidgetSimple">
-                    <div class="Header">
-                        <h2>[% Translate("Email Settings") | html %]</h2>
-                    </div>
-                    <div class="Content">
-
-                        <ul class="LayoutGrid ColumnsWithSpacing">
-[% RenderBlockStart("Email") %]
-                            <li class="Size1of2">
-                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
-                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
-                            </li>
-[% RenderBlockStart("EmailClear") %]
-                            <li class="Clear"></li>
-[% RenderBlockEnd("EmailClear") %]
-[% RenderBlockEnd("Email") %]
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
-            <div class="Clear"></div>
         </div>
-        <div id="Row2" class="LayoutGrid ColumnsWithSpacing">
-            <div class="Size1of3">
-                <div class="WidgetSimple">
-                    <div class="Header">
-                        <h2>[% Translate("Queue Settings") | html %]</h2>
-                    </div>
-                    <div class="Content">
 
-                        <ul class="LayoutGrid ColumnsWithSpacing">
-[% RenderBlockStart("Queue") %]
-                            <li class="Size1of2">
-                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
-                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
-                            </li>
-[% RenderBlockStart("QueueClear") %]
-                            <li class="Clear"></li>
-[% RenderBlockEnd("QueueClear") %]
-[% RenderBlockEnd("Queue") %]
-                        </ul>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Favourites") | html %]</h2>
+            </div>
+            <div class="Content FavouriteList">
+                <table class="DataTable Favourites">
+                    <tbody>
+                [% IF Data.Favourites.size() %]
+                    [% FOREACH Item IN Data.Favourites %]
+                        <tr>
+                            <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Item.item("Frontend::Module") | uri %]">[% Translate(Item.Name) | html %]</a></td>
+                            <td class="Center"><a href="#" class="RemoveFromFavourites" data-module="[% Item.item("Frontend::Module") | html %]"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    [% END %]
+                [% END %]
+                    </tbody>
+                </table>
+                <p class="FieldExplanation">
+                    [% Translate("You can add favourites by moving your cursor over items on the right side and clicking the star icon.") | html %]
+                </p>
+            </div>
+        </div>
 
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Links") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="http://otrs.github.io/doc/manual/admin/[% Data.ManualVersion | uri %].0/en/html/index.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("View the admin manual on Github") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Administration") | html %]</h2>
+                <div class="ActionMenu Visible">
+                    <div class="WidgetAction">
+                        <a title="[% Translate("Switch view") | html %]" id="ToggleView" class="[% IF Data.View == 'Grid' %]Grid[% ELSE %]List[% END %]" href="#">
+                            <i class="fa fa-list-ul"></i>
+                            <i class="fa fa-th"></i>
+                        </a>
                     </div>
+                    <div class="Clear"></div>
                 </div>
             </div>
-            <div class="Size1of3">
-                <div class="WidgetSimple">
-                    <div class="Header">
-                        <h2>[% Translate("Ticket Settings") | html %]</h2>
-                    </div>
-                    <div class="Content">
+            <div class="Content">
 
-                        <ul class="LayoutGrid ColumnsWithSpacing">
-[% RenderBlockStart("Ticket") %]
-                            <li class="Size1of2">
-                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
-                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
-                            </li>
-[% RenderBlockStart("TicketClear") %]
-                            <li class="Clear"></li>
-[% RenderBlockEnd("TicketClear") %]
-[% RenderBlockEnd("Ticket") %]
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
-            <div class="Size1of3">
-                <div class="WidgetSimple">
-                    <div class="Header">
-                        <h2>
-                            [% Translate("System Administration") | html %]
-                            <a href="http://otrs.github.io/doc/manual/admin/[% Data.ManualVersion | uri %].0/en/html/index.html" class="Small" target="_blank">
-                                [% Translate("Online Admin Manual") | html %] <i class="fa fa-external-link"></i>
+                <div class="GridView" [% IF Data.View != 'Grid' %]style="display: none;"[% END %]>
+                    <ul class="ItemListGrid WithIcons Filterable">
+                    [% FOREACH Item IN Data.Items %]
+                        <li [% IF Item.IsFavourite %]class="IsFavourite"[% END %] data-module="[% Item.item("Frontend::Module") | html %]">
+                            <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Item.item("Frontend::Module") | uri %]" title="[% Translate(Item.Name) | html %]
+    [% Translate(Item.Description) | html %]">
+                                <span class="Icons">
+                                [% IF Item.IconBig %]
+                                    <i class="fa [% Item.IconBig %]"></i>
+                                [% ELSE %]
+                                    <i class="fa fa-cog"></i>
+                                [% END %]
+                                [% IF Item.IconSmall %]
+                                    <i class="Icon2 fa [% Item.IconSmall %]"></i>
+                                [% END %]
+                                </span>
+                                <span class="Title">
+                                    [% Translate(Item.Name) | html %]
+                                </span>
+                                <span class="Description">[% Translate(Item.Description) | html %]</span>
+                                <span class="Favourite AddAsFavourite" data-module="[% Item.item("Frontend::Module") | html %]" title="[% Translate("Set as favourite") | html %]">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </span>
                             </a>
-                        </h2>
-                    </div>
-                    <div class="Content">
-                        <ul class="LayoutGrid ColumnsWithSpacing">
-[% RenderBlockStart("System") %]
-                            <li class="Size1of2">
-                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
-                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
-                            </li>
-[% RenderBlockStart("SystemClear") %]
-                            <li class="Clear"></li>
-[% RenderBlockEnd("SystemClear") %]
-[% RenderBlockEnd("System") %]
-                        </ul>
-
-                    </div>
+                        </li>
+                    [% END %]
+                    </ul>
                 </div>
+
+                <div class="ListView" [% IF Data.View != 'List' %]style="display: none;"[% END %]>
+                    <table class="DataTable Filterable">
+                        <thead>
+                            <tr>
+                                <th class="W20pc">[% Translate("Name") %]</th>
+                                <th>[% Translate("Description") %]</th>
+                                <th class="W10pc Center">[% Translate("As Favourite") %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        [% FOREACH Item IN Data.Items %]
+                            <tr [% IF Item.IsFavourite %]class="IsFavourite"[% END %] data-module="[% Item.item("Frontend::Module") | html %]">
+                                <td class="W20pc"><a class="AsBlock ModuleLink" href="[% Env("Baselink") %]Action=[% Item.item("Frontend::Module") | uri %]">[% Translate(Item.Name) | html %]</a></td>
+                                <td>[% Translate(Item.Description) | html %]</td>
+                                <td class="W10pc Center FavouriteButtons">
+                                    <span><i class="fa fa-star"></i></span>
+                                    <a href="#" class="Favourite AddAsFavourite" data-module="[% Item.item("Frontend::Module") | html %]" title="[% Translate("Set as favourite") | html %]">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        [% END %]
+                            <tr class="FilterMessage Hidden">
+                                <td colspan="3">[% Translate("No matches found.") | html %]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
-            <div class="Clear"></div>
         </div>
     </div>
+</div>
 [% RenderBlockEnd("AdminNavBar") %]

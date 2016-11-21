@@ -16,116 +16,148 @@
  * @subsubsection     General
  */
 
-.Admin .WidgetSimple > .Content {
-    padding: 10px 0px 2px 2px;
-}
-
-.RTL .Admin .WidgetSimple > .Content {
-    padding: 10px 2px 2px 0;
-}
-
-.MainBox.Admin {
-    padding-top: 20px;
-}
-
-.Admin .Size1of2 {
-    margin-bottom: 3px;
+.Keyword {
+    display: inline-block;
+    background: #ddd;
+    font-size: 10px;
+    color: #666;
+    text-transform: uppercase;
+    padding: 0px 5px 0px 6px;
+    line-height: 16px;
+    text-shadow: 1px 1px 1px #fff;
     position: relative;
+    margin-right: 15px;
 }
 
-.Admin .Size1of2 .AsBlock {
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    text-indent: -9999px;
+.Keyword:after {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
     position: absolute;
+    pointer-events: none;
+    border-color: rgba(221, 221, 221, 0);
+    border-right-color: #ddd;
+    border-width: 8px;
+    margin-top: -8px;
 }
 
-.RTL .Admin .Size1of2 .AsBlock {
-    left: auto;
-    right: 0;
+.Keyword:before {
+    content: '°';
+    font-size: 15px;
+    color: #aaa;
+    position: absolute;
+    left: -2px;
+    top: 2px;
+    z-index: 999;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #fff;
 }
 
-.Admin .Size1of2 h4 {
-    margin: 0 2px 0 0;
-    padding: 5px 5px 4px;
-    color: #F92;
-    border: 1px solid transparent;
-    border-bottom: none;
+.ItemListGrid > li.IsFavourite > a {
+    box-shadow: 0px 0px 3px #f92;
 }
 
-.RTL .Admin .Size1of2 h4 {
-    margin: 0 0 0 2px;
+.ItemListGrid > li > a {
+    overflow: hidden;
 }
 
-.Admin .Size1of2 p {
-    margin: 0 2px 0 0;
-    padding: 0 5px 5px;
-    line-height: 14px;
-    border: 1px solid transparent;
-    border-top: none;
+.ItemListGrid > li > a > .Favourite {
+    right: -100px;
+    transition: all ease 0.5s;
+    color: #ccc;
+    font-size: 20px;
+    position: absolute;
+    top: 10px;
 }
 
-.RTL .Admin .Size1of2 p {
-    margin: 0 0 0 2px;
+.ItemListGrid > li.IsFavourite > a > .Favourite {
+    display: none !important;
 }
 
-.Admin .Size1of2:hover h4,
-.Admin .Size1of2:hover p {
-    background: #FDFDFD;
-    border-color: #DDD;
-}
-
-.Admin .Size1of2:hover h4 {
-    color: #F72;
-}
-
-.WidgetSimple {
-    border: 0px;
-    margin: 0px 10px 15px 10px !important;
-}
-
-.WidgetSimple h4 {
-    font-weight: normal;
-}
-
-.Header .Small {
+.ItemListGrid > li > a > .Favourite > .fa {
     position: absolute;
     right: 0px;
-    top: 4px;
-    font-size: 11px;
-    display: block;
-    padding: 3px 4px;
-    color: #333;
+    top: 0px;
 }
 
-.Header .Small i {
-    font-size: 10px;
+.ItemListGrid > li > a > .Favourite .fa-star {
+    opacity: 0;
 }
 
-.RTL .Header .Small { 
-    right: auto; 
-    left: 0px; 
-} 
-
-/**
- * specific min-height for AdminNavigationBar rows
- */
-
-#Row1 .WidgetSimple {
-    min-height: 218px;
+.ItemListGrid > li > a:hover > .Favourite,
+.ItemListGrid > li > a > .Favourite.Clicked {
+    right: 10px;
 }
 
-#Row2 .WidgetSimple {
-    min-height: 304px;
+.ItemListGrid > li > a:hover > .Favourite .fa {
+    transition: all ease 0.2s;
 }
 
-} /* end @media */
-@media print{
+.ItemListGrid > li > a:hover > .Favourite:hover .fa {
+    color: #999;
+}
 
-.Admin .Size1of2 h4 span {
-    display:none;
+.ItemListGrid > li > a:hover > .Favourite:hover .fa-star-o {
+    opacity: 0;
+}
+
+.ItemListGrid > li > a:hover > .Favourite:hover .fa-star {
+    opacity: 1;
+}
+
+.ItemListGrid > li > a > .Favourite .fa-check {
+    color: green !important;
+}
+
+#ToggleView.Grid .fa:last-child {
+    display: none !important;
+}
+
+#ToggleView.List .fa:first-child {
+    display: none !important;
+}
+
+.FavouriteList p {
+    margin: 0px 5px;
+}
+
+.FavouriteList table {
+    margin-bottom: 7px;
+}
+
+.ListView .FavouriteButtons i {
+    font-size: 15px;
+}
+
+.ListView a.Favourite i.fa-star {
+    display: none;
+}
+
+.ListView a.Favourite i.fa-star-o {
+    display: inline-block;
+}
+
+.ListView a.Favourite:hover i.fa-star {
+    display: inline-block;
+}
+
+.ListView a.Favourite:hover i.fa-star-o {
+    display: none;
+}
+
+.ListView tr .FavouriteButtons span {
+    display: none;
+}
+
+.ListView tr.IsFavourite .FavouriteButtons a {
+    display: none;
+}
+
+.ListView tr.IsFavourite .FavouriteButtons span {
+    display: inline-block;
 }
 
 } /* end @media print*/

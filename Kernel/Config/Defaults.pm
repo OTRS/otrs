@@ -1732,7 +1732,10 @@ via the Preferences button after logging in.
                 'Core.Agent.Admin.css',
             ],
             JavaScript => [
+                'Core.Agent.Admin.js',
                 'Core.Agent.Admin.SysConfig.js',
+                'Core.UI.AllocationList.js',
+                'Core.Agent.TableFilters.js',
             ],
         },
         NavBar => [
@@ -1773,8 +1776,8 @@ via the Preferences button after logging in.
             ],
         },
         NavBarModule => {
-            Block       => 'System',
             Description => Translatable('View system log messages.'),
+            IconBig     => 'fa-file-text-o',
             Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
             Name        => Translatable('System Log'),
             Prio        => '600',
@@ -1788,6 +1791,7 @@ via the Preferences button after logging in.
         Title        => 'SysConfig',
         NavBarName   => 'Admin',
         NavBarModule => {
+            IconBig     => 'fa-gears',
             Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
             Name        => Translatable('SysConfig'),
             Description => Translatable('Edit the system configuration settings.'),
@@ -1809,7 +1813,7 @@ via the Preferences button after logging in.
             'admin',
         ],
         NavBarModule => {
-            Block       => 'System',
+            IconBig     => 'fa-plug',
             Description => Translatable('Update and extend your system with software packages.'),
             Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
             Name        => Translatable('Package Manager'),

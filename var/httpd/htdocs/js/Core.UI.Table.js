@@ -96,11 +96,24 @@ Core.UI.Table = (function (TargetNS) {
                     $Elements.show();
                 }
 
-                if ($Rows.filter(':visible').length) {
-                    $Container.find('.FilterMessage').hide();
+                // handle multiple containers correctly
+                if ($Container.length > 1) {
+                    $Container.each(function() {
+                        if ($(this).find('tbody tr:visible:not(.FilterMessage), li:visible:not(.Header):not(.FilterMessage)').length) {
+                            $(this).find('.FilterMessage').hide();
+                        }
+                        else {
+                            $(this).find('.FilterMessage').show();
+                        }
+                    });
                 }
                 else {
-                    $Container.find('.FilterMessage').show();
+                    if ($Rows.filter(':visible').length) {
+                        $Container.find('.FilterMessage').hide();
+                    }
+                    else {
+                        $Container.find('.FilterMessage').show();
+                    }
                 }
 
                 Core.App.Publish('Event.UI.Table.InitTableFilter.Change', [$FilterInput, $Container, ColumnNumber]);

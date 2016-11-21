@@ -26,6 +26,7 @@
                     <Description Translatable="1">Configure Processes.</Description>
                     <Block>System</Block>
                     <Prio>750</Prio>
+                    <IconBig>fa-sitemap</IconBig>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
