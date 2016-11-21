@@ -1030,39 +1030,6 @@ sub _ConvertTo {
     );
 }
 
-sub _CustomerUserCacheClear {
-    my ( $Self, %Param ) = @_;
-
-    return if !$Self->{CacheObject};
-
-    if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need UserLogin!',
-        );
-        return;
-    }
-
-    $Self->{CacheObject}->Delete(
-        Type => $Self->{CacheType},
-        Key  => "CustomerUserDataGet::$Param{UserLogin}",
-    );
-    $Self->{CacheObject}->Delete(
-        Type => $Self->{CacheType},
-        Key  => "CustomerName::$Param{UserLogin}",
-    );
-
-    $Self->{CacheObject}->CleanUp(
-        Type => $Self->{CacheType} . '_CustomerSearch',
-    );
-
-    $Self->{CacheObject}->CleanUp(
-        Type => 'CustomerGroup',
-    );
-
-    return 1;
-}
-
 sub DESTROY {
     my ( $Self, %Param ) = @_;
 
