@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-11-21 Fixed bug#[11986](https://bugs.otrs.org/show_bug.cgi?id=11986) - Follow-up: Correctly migrate the wrong config entry.
  - 2016-11-21 Fixed bug#[11548](https://bugs.otrs.org/show_bug.cgi?id=11548) - Filtering the greek symbol sigma "Σ".
  - 2016-11-21 Fixed bug#[12357](https://bugs.otrs.org/show_bug.cgi?id=12357) - CustomerTicketProcess Problem paste or upload image.
  - 2016-11-18 Removed superfluous colons in table heading, thanks to Balázs Úr (PR#1566).

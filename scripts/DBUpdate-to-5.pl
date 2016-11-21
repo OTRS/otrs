@@ -121,6 +121,10 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_AddZoomMenuClusters,
         },
         {
+            Message => 'Fix wrong entries in module registrations',
+            Command => \&_FixModuleRegistration,
+        },
+        {
             Message => 'Fixup statistics time field configuration where the time interval is too small',
             Command => \&_FixupStatsTimeInterval,
         },
@@ -1959,6 +1963,42 @@ sub _AddEmailNotificationMethod {
             Bind => [ \$NotificationID, \$TransportsKey, \$TransportName ],
         );
     }
+
+    return 1;
+}
+
+=item _FixModuleRegistration()
+
+Fix a wrong entry in the Frontend::Module###AdminCustomerCompany
+registration which caused bug#11986.
+
+    _FixModuleRegistration();
+
+=cut
+
+sub _FixModuleRegistration {
+
+    # get needed objects
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # Toolbar Modules
+    my $Setting      = $ConfigObject->Get('Frontend::Module');
+    my $ModuleConfig = $Setting->{'AdminCustomerCompany'};
+    if ( !IsHashRefWithData($ModuleConfig) ) {
+        return;
+    }
+
+    $ModuleConfig->{NavBarName} = 'Customers';
+
+    # save setting
+    my $Success = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Frontend::Module###AdminCustomerCompany',
+        Value => $ModuleConfig,
+    );
+
+    print "...done.\n";
 
     return 1;
 }
