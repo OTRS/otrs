@@ -149,16 +149,9 @@ $Selenium->RunTest(
                 "DefaultValue is removed",
             );
 
-            # click on default value field to open modernize selection
-            $Selenium->find_element( "#DefaultValue_Search", 'css' )->click();
-
-            # wait for modernize field to expand if needed
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".InputField_Confirm").length' );
-
-            # select both possible values as default values
-            $Selenium->find_element("//li[\@data-id='Key1']")->click();
-            $Selenium->find_element("//li[\@data-id='Key2']")->click();
-            $Selenium->find_element( ".InputField_Confirm", 'css' )->click();
+            # Select both possible values as default values to make sure that more than one can be selected.
+            $Selenium->execute_script(
+                "\$('#DefaultValue').val(['Key1', 'Key2']).trigger('redraw.InputField').trigger('change');");
 
             # submit form
             $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
@@ -173,19 +166,12 @@ $Selenium->RunTest(
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
             # check for saved 'defaul values' on creation, expecting both values to be present
-            $Self->Is(
+            $Self->IsDeeply(
                 $Selenium->execute_script(
-                    "return \$('#DefaultValue_Search').siblings('div:eq(0)').children('div.Text').length"
+                    "return \$('#DefaultValue').val();"
                 ),
-                '1',
-                'Found first default value after creation',
-            );
-            $Self->Is(
-                $Selenium->execute_script(
-                    "return \$('#DefaultValue_Search').siblings('div:eq(1)').children('div.Text').length"
-                ),
-                '1',
-                'Found second default value after creation',
+                [ 'Key1', 'Key2' ],
+                'Found default values after creation',
             );
 
             # edit test DynamicFieldMultiselect possible none, default value, treeview and set it to invalid
