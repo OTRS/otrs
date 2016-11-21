@@ -318,7 +318,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="CustomerID">[% Translate("CustomerID") | html %]:</label>
+                        <label for="CustomerID">[% Translate("Customer ID") | html %]:</label>
                         <div class="Field">
                             <input type="text" name="CustomerID" id="CustomerID" class="W33pc" value="[% Data.CustomerID | html %]"/>
                             <p class="FieldExplanation">
@@ -973,7 +973,7 @@
                             <th>[% Translate("State") | html %]</th>
                             <th>[% Translate("Queue") | html %]</th>
                             <th>[% Translate("Owner") | html %]</th>
-                            <th>[% Translate("CustomerID") | html %]</th>
+                            <th>[% Translate("Customer ID") | html %]</th>
                         </tr>
                     </thead>
                     <tbody>

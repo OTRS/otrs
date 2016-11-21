@@ -116,7 +116,7 @@
                     </fieldset>
 
                     <fieldset class="TableLike FixedLabelSmall Narrow">
-                        <label>[% Translate("CustomerID") | html %]:</label>
+                        <label>[% Translate("Customer ID") | html %]:</label>
                         <p class="Value">
                             <a href="[% Config("CustomerDBLink") | Interpolate %]" class="[% Config("CustomerDBLinkClass") %]" [% Config("CustomerDBLinkTarget") %]>[% Data.CustomerID | html %]</a>
                         </p>

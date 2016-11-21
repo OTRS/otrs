@@ -76,13 +76,13 @@
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerID" id="LabelCustomerID">[% Translate("CustomerID (complex search)") | html %]:</label>
+        <label for="CustomerID" id="LabelCustomerID">[% Translate("Customer ID (complex search)") | html %]:</label>
         <div class="Field">
             <input type="text" name="CustomerID" placeholder="[% Translate("(e. g. 234321)") | html %]" value="[% Data.CustomerID | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerIDRaw" id="LabelCustomerIDRaw">[% Translate("CustomerID (exact match)") | html %]:</label>
+        <label for="CustomerIDRaw" id="LabelCustomerIDRaw">[% Translate("Customer ID (exact match)") | html %]:</label>
         <div class="Field">
             <input type="text" name="CustomerIDRaw" placeholder="[% Translate("(e. g. 234321)") | html %]" value="[% Data.CustomerIDRaw | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>

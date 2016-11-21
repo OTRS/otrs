@@ -308,7 +308,7 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("OverviewUpdateService") %]
 
-                        <label for="CustomerID">[% Translate("CustomerID") | html %]: </label>
+                        <label for="CustomerID">[% Translate("Customer ID") | html %]: </label>
                         <div class="Field">
                             <input type="text" name="CustomerID" id="CustomerID" class="W75pc" value="[% Data.CustomerID | html %]"/>
                         </div>

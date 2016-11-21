@@ -116,7 +116,7 @@
                             <th>[% Translate("Username") | html %]</th>
                             <th>[% Translate("Name") | html %]</th>
                             <th>[% Translate("Email") | html %]</th>
-                            <th>[% Translate("CustomerID") | html %]</th>
+                            <th>[% Translate("Customer ID") | html %]</th>
                             <th>[% Translate("Last Login") | html %]</th>
 [% RenderBlockStart("OverviewResultSwitchToCustomer") %]
                             <th>[% Translate("Login as") | html %]</th>

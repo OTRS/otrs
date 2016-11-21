@@ -100,7 +100,7 @@
                     <table class="DataTable">
                         <thead>
                             <tr>
-                                <th class="W5pc">[% Translate("CustomerID") | html %]</th>
+                                <th class="W5pc">[% Translate("Customer ID") | html %]</th>
                                 <th class="W20pc">[% Translate("Name") | html %]</th>
                                 <th class="W25pc">[% Translate("Comment") | html %]</th>
 [% RenderBlockStart("LocalDB") %]

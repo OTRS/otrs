@@ -115,7 +115,7 @@
                         <tr class="Middle">
                             <td>
 [% RenderBlockStart("CustomerID") %]
-                                <label>[% Translate("CustomerID") | html %]</label>
+                                <label>[% Translate("Customer ID") | html %]</label>
 [% RenderBlockStart("CustomerIDRW") %]
                                 <div title="[% Data.CustomerID | html %]"><a href="[% Config("CustomerDBLink") | Interpolate %]" class="AsPopup PopupType_TicketAction" [% Config("CustomerDBLinkTarget") %]>[% Data.CustomerID | html %]</a></div>
 [% RenderBlockEnd("CustomerIDRW") %]
