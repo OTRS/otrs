@@ -1429,7 +1429,10 @@ Core.UI.InputFields = (function (TargetNS) {
                             search_callback: function (Search, Node) {
                                 var SearchString = TargetNS.RemoveDiacritics(Search),
                                     NodeString = TargetNS.RemoveDiacritics(Node.text);
-                                return (NodeString.toLowerCase().indexOf(SearchString.toLowerCase()) !== -1);
+                                return (
+                                    // we're doing toLowerCase() AND toUpperCase() because of bug#11548
+                                    (NodeString.toLowerCase().indexOf(SearchString.toLowerCase()) !== -1 || NodeString.toUpperCase().indexOf(SearchString.toUpperCase()) !== -1)
+                                );
                             }
                         },
                         plugins: [ 'multiselect', 'search', 'wholerow' ]
