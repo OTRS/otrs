@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-11-21 Fixed bug#[11548](https://bugs.otrs.org/show_bug.cgi?id=11548) - Filtering the greek symbol sigma "Σ".
  - 2016-11-21 Fixed bug#[12357](https://bugs.otrs.org/show_bug.cgi?id=12357) - CustomerTicketProcess Problem paste or upload image.
  - 2016-11-18 Removed superfluous colons in table heading, thanks to Balázs Úr (PR#1566).
  - 2016-11-18 Fixed error when importing emails without valid address in From field, thanks to Paweł Bogusławski (PR#1559).
