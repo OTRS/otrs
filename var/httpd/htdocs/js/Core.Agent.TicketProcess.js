@@ -34,7 +34,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                 Action: 'AgentTicketProcess',
                 Subaction: 'DisplayActivityDialogAJAX',
                 ProcessEntityID: $('#ProcessEntityID').val(),
-                FormID: $('input:hidden[name=FormID]').val(),
+                FormID: $(this).closest('form').find('input:hidden[name=FormID]').val(),
                 IsAjaxRequest: 1,
                 IsMainWindow: 1
             };
