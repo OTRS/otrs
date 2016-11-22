@@ -267,6 +267,11 @@ Core.Agent.Statistics = (function (TargetNS) {
             }
         });
 
+        // Bind save and finish button
+        $('#SaveAndFinish').on('click', function(){
+            $('#ReturnToStatisticOverview').val(1);
+        });
+
         RestrictionElements = Core.Config.Get('RestrictionElements');
         if (typeof RestrictionElements !== 'undefined') {
             $.each(RestrictionElements, function() {

@@ -680,7 +680,7 @@ sub EditAction {
         UserID => $Self->{UserID},
     );
 
-    if ( $ParamObject->GetParam( Param => 'SaveAndFinish' ) ) {
+    if ( $ParamObject->GetParam( Param => 'ReturnToStatisticOverview' ) ) {
         return $LayoutObject->Redirect( OP => "Action=AgentStatistics;Subaction=Overview" );
     }
 

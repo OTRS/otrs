@@ -79,9 +79,10 @@
                                 <span>[% Translate("Save") | html %]</span>
                             </button>
                             [% Translate('or') | html %]
-                            <button class="Primary CallForAction" type="submit" name="SaveAndFinish" value="[% Translate("Save and finish") | html %]">
+                            <button class="CallForAction" type="submit" id="SaveAndFinish" name="SaveAndFinish" value="[% Translate("Save and finish") | html %]">
                                 <span>[% Translate("Save and finish") | html %]</span>
                             </button>
+                            <input type="hidden" name="ReturnToStatisticOverview" id="ReturnToStatisticOverview" value="" />
                             [% Translate('or') | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
                                 [% Translate('Cancel') | html %]
