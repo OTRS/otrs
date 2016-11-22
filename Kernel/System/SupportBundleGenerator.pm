@@ -336,24 +336,15 @@ sub GenerateCustomFilesArchive {
         return;
     }
 
-    my @TrimAction = qw(
-        DatabasePw
-        SearchUserPw
-        UserPw
-        SendmailModule::AuthPassword
-        AuthModule::Radius::Password
-        PGP::Key::Password
-        Customer::AuthModule::DB::CustomerPassword
-        Customer::AuthModule::Radius::Password
-        PublicFrontend::AuthPassword
-    );
+    # Trim any passswords from Config.pm.
+    # Simple settings like $Self->{'DatabasePw'} = 'xxx';
+    $Config =~ s/(^\s*\$Self->\{'[^']+(?:Password|Pw)'\}\s*=\s*)\'.*?\'/$1\'xxx\'/mg;
 
-    STRING:
-    for my $String (@TrimAction) {
-        next STRING if !$String;
-        $Config =~ s/(^\s+\$Self.*?$String.*?=.*?)\'.*?\';/$1\'xxx\';/mg;
-    }
-    $Config =~ s/(^\s+Password.*?=>.*?)\'.*?\',/$1\'xxx\',/mg;
+    # Complex settings like:
+    #     $Self->{CustomerUser1} = {
+    #         Params => {
+    #             UserPw => 'xxx',
+    $Config =~ s/((?:Password|Pw)\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
 
     $TarObject->replace_content( $HomeWithoutSlash . '/Kernel/Config.pm', $Config );
 
