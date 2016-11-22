@@ -75,9 +75,17 @@
                                 <span>[% Translate("Save") | html %]</span>
                             </button>
                             [% Translate('or') | html %]
-                            <button class="Primary CallForAction" type="submit" name="SaveAndFinish" value="[% Translate("Save and finish") | html %]">
+                            <button class="CallForAction" type="submit" id="SaveAndFinish" name="SaveAndFinish" value="[% Translate("Save and finish") | html %]">
                                 <span>[% Translate("Save and finish") | html %]</span>
                             </button>
+                            <input type="hidden" name="ReturnToStatisticOverview" id="ReturnToStatisticOverview" value="" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinish').bind('click', function(){
+    $('#ReturnToStatisticOverview').val(1);
+});
+//]]></script>
+[% END %]
                             [% Translate('or') | html %]
                             <a href="[% Env("Baselink") %][% Env('LastStatsOverview') %]">
                                 [% Translate('Cancel') | html %]
