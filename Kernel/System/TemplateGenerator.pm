@@ -1051,7 +1051,7 @@ sub _Replace {
     $Param{Text} =~ s{$Tag(.+?)$End}{
         my $Replace = '';
         # Mask secret config options.
-        if ($1 =~ m{(Password|Pw)$}smxi) {
+        if ($1 =~ m{(Password|Pw)\d*$}smxi) {
             $Replace = 'xxx';
         }
         else {
