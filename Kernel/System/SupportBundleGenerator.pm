@@ -337,14 +337,14 @@ sub GenerateCustomFilesArchive {
     }
 
     # Trim any passswords from Config.pm.
-    # Simple settings like $Self->{'DatabasePw'} = 'xxx';
-    $Config =~ s/(^\s*\$Self->\{'[^']+(?:Password|Pw)'\}\s*=\s*)\'.*?\'/$1\'xxx\'/mg;
+    # Simple settings like $Self->{'DatabasePw'} or $Self->{'AuthModule::LDAP::SearchUserPw1'}
+    $Config =~ s/(\$Self->\{'[^']+(?:Password|Pw)\d*'\}\s*=\s*)\'.*?\'/$1\'xxx\'/mg;
 
     # Complex settings like:
     #     $Self->{CustomerUser1} = {
     #         Params => {
     #             UserPw => 'xxx',
-    $Config =~ s/((?:Password|Pw)\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
+    $Config =~ s/((?:Password|Pw)\d*\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
 
     $TarObject->replace_content( $HomeWithoutSlash . '/Kernel/Config.pm', $Config );
 

@@ -343,18 +343,14 @@ my @Tests = (
     },
     {
         Name => 'OTRS config value',                              # <OTRS_CONFIG_*>
-        Data => {
-            From => 'test@home.com',
-        },
+        Data => {},
         RichText => 0,
         Template => 'Test <OTRS_CONFIG_DefaultTheme>',
         Result   => 'Test Standard',
     },
     {
         Name => 'OTRS secret config values, must be masked (even unknown settings)',
-        Data => {
-            From => 'test@home.com',
-        },
+        Data => {},
         RichText => 0,
         Template =>
             'Test <OTRS_CONFIG_DatabasePw> <OTRS_CONFIG_Core::MirrorDB::Password> <OTRS_CONFIG_SomeOtherValue::Password> <OTRS_CONFIG_SomeOtherValue::Pw>',
@@ -362,12 +358,17 @@ my @Tests = (
     },
     {
         Name => 'OTRS secret config value and normal config value',
-        Data => {
-            From => 'test@home.com',
-        },
+        Data => {},
         RichText => 0,
         Template => 'Test <OTRS_CONFIG_DatabasePw> and <OTRS_CONFIG_DefaultTheme>',
         Result   => 'Test xxx and Standard',
+    },
+    {
+        Name => 'OTRS secret config values with numbers',
+        Data => {},
+        RichText => 0,
+        Template => 'Test <OTRS_CONFIG_AuthModule::LDAP::SearchUserPw1> and <OTRS_CONFIG_AuthModule::LDAP::SearchUserPassword1>',
+        Result   => 'Test xxx and xxx',
     },
     {
         Name => 'mailto-Links RichText enabled',
