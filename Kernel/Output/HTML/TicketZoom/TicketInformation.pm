@@ -211,7 +211,7 @@ sub Run {
             # Default status is offline.
             $OnlineData{$Field}->{UserState} = Translatable('Offline');
             $OnlineData{$Field}->{UserStateDescription}
-                = $LayoutObject->{LanguageObject}->Translate('This user is currently offline');
+                = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
 
             # We also need to check if the receiving agent has chat permissions.
             my %UserGroups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
@@ -239,19 +239,19 @@ sub Run {
                     $OnlineData{$Field}->{UserState}       = Translatable('Active');
                     $OnlineData{$Field}->{AgentEnableChat} = 1;
                     $OnlineData{$Field}->{UserStateDescription}
-                        = $LayoutObject->{LanguageObject}->Translate('This user is currently active');
+                        = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
                     $OnlineData{$Field}->{VideoChatAvailable} = 1;
                 }
                 elsif ( $OnlineData{$Field}->{AgentChatAvailability} == 2 ) {
                     $OnlineData{$Field}->{UserState}       = Translatable('Away');
                     $OnlineData{$Field}->{AgentEnableChat} = 1;
                     $OnlineData{$Field}->{UserStateDescription}
-                        = $LayoutObject->{LanguageObject}->Translate('This user is currently away');
+                        = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
                 }
                 elsif ( $OnlineData{$Field}->{AgentChatAvailability} == 1 ) {
                     $OnlineData{$Field}->{UserState} = Translatable('Unavailable');
                     $OnlineData{$Field}->{UserStateDescription}
-                        = $LayoutObject->{LanguageObject}->Translate('This user is currently unavailable');
+                        = $LayoutObject->{LanguageObject}->Translate('User set their status to unavailable.');
                 }
             }
         }
