@@ -282,7 +282,7 @@ sub Run {
 
                 # Default status is offline.
                 my $UserState            = Translatable('Offline');
-                my $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently offline');
+                my $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
 
                 my $CustomerChatAvailability = $Kernel::OM->Get('Kernel::System::Chat')->CustomerAvailabilityGet(
                     UserID => $CustomerKey,
@@ -296,13 +296,14 @@ sub Run {
                 if ( $CustomerChatAvailability == 3 ) {
                     $UserState            = Translatable('Active');
                     $CustomerEnableChat   = 1;
-                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently active');
+                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
                     $VideoChatAvailable   = 1;
                 }
                 elsif ( $CustomerChatAvailability == 2 ) {
-                    $UserState            = Translatable('Away');
-                    $CustomerEnableChat   = 1;
-                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently away');
+                    $UserState          = Translatable('Away');
+                    $CustomerEnableChat = 1;
+                    $UserStateDescription
+                        = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
                 }
 
                 $LayoutObject->Block(

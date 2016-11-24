@@ -335,7 +335,7 @@ sub Run {
 
         # Default status
         my $UserState            = Translatable('Offline');
-        my $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently offline');
+        my $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
 
         # we also need to check if the receiving agent has chat permissions
         if ( $EnableChat && $Self->{Filter} eq 'Agent' ) {
@@ -363,18 +363,19 @@ sub Run {
                 if ( $AgentChatAvailability == 3 ) {
                     $UserState            = Translatable('Active');
                     $AgentEnableChat      = 1;
-                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently active');
+                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
                     $VideoChatAvailable   = 1;
                 }
                 elsif ( $AgentChatAvailability == 2 ) {
-                    $UserState            = Translatable('Away');
-                    $AgentEnableChat      = 1;
-                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently away');
+                    $UserState       = Translatable('Away');
+                    $AgentEnableChat = 1;
+                    $UserStateDescription
+                        = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
                 }
                 elsif ( $AgentChatAvailability == 1 ) {
                     $UserState = Translatable('Unavailable');
                     $UserStateDescription
-                        = $LayoutObject->{LanguageObject}->Translate('This user is currently unavailable');
+                        = $LayoutObject->{LanguageObject}->Translate('User set their status to unavailable.');
                 }
             }
         }
@@ -393,13 +394,13 @@ sub Run {
             if ( $CustomerChatAvailability == 3 ) {
                 $UserState            = Translatable('Active');
                 $CustomerEnableChat   = 1;
-                $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently active');
+                $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
                 $VideoChatAvailable   = 1;
             }
             elsif ( $CustomerChatAvailability == 2 ) {
                 $UserState            = Translatable('Away');
                 $CustomerEnableChat   = 1;
-                $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('This user is currently away');
+                $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
             }
         }
 
