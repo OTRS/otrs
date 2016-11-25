@@ -71,7 +71,7 @@
                             <button class="Primary" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
 
                             <button type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]">[% Translate("Save and finish") | html %]</button>
-                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
+                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" autocomplete="off" />
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 $('#SaveAndFinishButton').bind('click', function(){

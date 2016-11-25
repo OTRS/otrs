@@ -439,7 +439,7 @@ $('#UseSSL').on('change', function(){
 [% RenderBlockStart("SaveAndFinishButton") %]
                                 [% Translate("or") | html %]
                                 <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
-                                <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+                                <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" autocomplete="off" />
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 $('#SaveAndFinishButton').on('click', function(){
