@@ -225,6 +225,21 @@ Fifth Line',
         Result => '😀',
         Name   => 'Correctly encoded GRINNING FACE WITH SMILING EYES (hex)',
     },
+    {
+        Input  => '&#252;',
+        Result => 'ü',
+        Name   => 'Correctly encoded LATIN SMALL LETTER U WITH DIAERESIS (decimal)',
+    },
+    {
+        Input  => '&#xfc;',
+        Result => 'ü',
+        Name   => 'Correctly encoded LATIN SMALL LETTER U WITH DIAERESIS (hex)',
+    },
+    {
+        Input  => '&uuml;',
+        Result => 'ü',
+        Name   => 'Correctly encoded LATIN SMALL LETTER U WITH DIAERESIS (named)',
+    },
 );
 
 for my $Test (@Tests) {

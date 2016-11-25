@@ -480,9 +480,14 @@ sub ToAscii {
     }
     {
         my $Chr = chr( $2 );
-        # make sure we get valid UTF8 code points
-        Encode::_utf8_off( $Chr);
-        $Chr = Encode::decode('utf-8', $Chr, 0);
+
+        # Make sure we get valid UTF8 code points, but skip characters from 128 to 255
+        #   (inclusive), since they are by default internally not encoded as UTF-8 for
+        #   backward compatibility reasons. See bug#12457 for more information.
+        if ( $2 < 128 || $2 > 255 ) {
+            Encode::_utf8_off($Chr);
+            $Chr = Encode::decode('utf-8', $Chr, 0);
+        }
 
         if ( $Chr ) {
             $Chr;
@@ -498,12 +503,18 @@ sub ToAscii {
     }
     {
         my $ChrOrig = $1;
-        my $Hex = hex( $2 );
-        if ( $Hex ) {
-            my $Chr = chr( $Hex );
-            # make sure we get valid UTF8 code points
-            Encode::_utf8_off( $Chr);
-            $Chr = Encode::decode('utf-8', $Chr, 0);
+        my $Dec = hex( $2 );
+        if ( $Dec ) {
+            my $Chr = chr( $Dec );
+
+            # Make sure we get valid UTF8 code points, but skip characters from 128 to 255
+            #   (inclusive), since they are by default internally not encoded as UTF-8 for
+            #   backward compatibility reasons. See bug#12457 for more information.
+            if ( $Dec < 128 || $Dec > 255 ) {
+                Encode::_utf8_off($Chr);
+                $Chr = Encode::decode('utf-8', $Chr, 0);
+            }
+
             if ( $Chr ) {
                 $Chr;
             }
