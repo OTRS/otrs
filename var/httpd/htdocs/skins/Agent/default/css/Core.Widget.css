@@ -214,6 +214,14 @@ ul.Tablelike li.Header + li {
     background: url("../img/loader.gif") no-repeat left center;
 }
 
+.WidgetIsLoading {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #777;
+    border: 1px dotted #bbb;
+}
+
 /**
  * @subsection  WidgetBox
  */

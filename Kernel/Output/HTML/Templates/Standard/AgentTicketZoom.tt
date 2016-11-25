@@ -73,8 +73,16 @@
 
     <div class="LayoutFixedSidebar SidebarLast">
         <div class="SidebarColumn">
-            [% FOREACH widget IN Data.SidebarWidgets; %]
-                [% widget %]
+            [% FOREACH Widget IN Data.SidebarWidgets; %]
+                [% IF Widget.Async; %]
+                    <div id="[% Widget.ElementID %]">
+                        <div class="WidgetIsLoading">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                [% ELSE; %]
+                    [% Widget.Output %]
+                [% END; %]
             [% END; %]
         </div>
         <div class="ContentColumn">
@@ -210,8 +218,12 @@
 [% Data.ArticleItems %]
             </div>
 
-            [% FOREACH widget IN Data.MainWidgets; %]
-                [% widget %]
+            [% FOREACH Widget IN Data.MainWidgets; %]
+                [% IF Widget.Async; %]
+                    <div id="[% Widget.ElementID %]"></div>
+                [% ELSE; %]
+                    [% Widget.Output %]
+                [% END; %]
             [% END; %]
 
         </div>

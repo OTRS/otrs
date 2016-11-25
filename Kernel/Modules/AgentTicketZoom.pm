@@ -342,8 +342,73 @@ sub Run {
         );
     }
 
-    # get param object
+    # get required objects
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
+
+    if ( $Self->{Subaction} eq 'LoadWidget' ) {
+        my $ElementID = $ParamObject->GetParam( Param => 'ElementID' );
+        my $Config;
+        WIDGET:
+        for my $Key ( sort keys %{ $Self->{DisplaySettings}->{Widgets} // {} } ) {
+            if ( $ElementID eq 'Async_' . $LayoutObject->LinkEncode($Key) ) {
+                $Config = $Self->{DisplaySettings}->{Widgets}->{$Key};
+                last WIDGET;
+            }
+        }
+        if ($Config) {
+            my $Success = eval { $MainObject->Require( $Config->{Module} ) };
+            if ( !$Success ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Cannot load $Config->{Module}: $@",
+                );
+                return $LayoutObject->Attachment(
+                    ContentType => 'text/html',
+                    Content     => '',
+                    Type        => 'inline',
+                    NoCache     => 1,
+                );
+            }
+            my $Module = eval { $Config->{Module}->new(%$Self) };
+            if ( !$Module ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "new() of Widget module $Config->{Module} not successful!",
+
+                );
+                return $LayoutObject->Attachment(
+                    ContentType => 'text/html',
+                    Content     => '',
+                    Type        => 'inline',
+                    NoCache     => 1,
+                );
+            }
+            my $WidgetOutput = $Module->Run(
+                Ticket    => \%Ticket,
+                AclAction => \%AclAction,
+                Config    => $Config,
+            );
+            return $LayoutObject->Attachment(
+                ContentType => 'text/html',
+                Content     => $WidgetOutput->{Output},
+                Type        => 'inline',
+                NoCache     => 1,
+            );
+        }
+        else {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Cannot locate module for ElementID $ElementID",
+            );
+            return $LayoutObject->Attachment(
+                ContentType => 'text/html',
+                Content     => '',
+                Type        => 'inline',
+                NoCache     => 1,
+            );
+        }
+    }
 
     # mark shown article as seen
     if ( $Self->{Subaction} eq 'MarkAsSeen' ) {
@@ -928,11 +993,34 @@ sub MaskAgentZoom {
         Space => ' '
     );
 
-    my %Widgets;
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    my %Widgets;
+    my %AsyncWidgetActions;
     WIDGET:
     for my $Key ( sort keys %{ $Self->{DisplaySettings}->{Widgets} // {} } ) {
         my $Config = $Self->{DisplaySettings}->{Widgets}->{$Key};
+
+        if ( $Config->{Async} ) {
+            if ( !$Config->{Location} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message =>
+                        "The configuration for $Config->{Module} must contain a Location, because it is marked as Async.",
+                );
+                next WIDGET;
+            }
+            my $ElementID = 'Async_' . $LayoutObject->LinkEncode($Key);
+            push @{ $Widgets{ $Config->{Location} } }, {
+                Async => 1,
+                Rank  => $Config->{Rank} || $Key,
+                %Ticket,
+                ElementID => $ElementID,
+            };
+            $AsyncWidgetActions{$ElementID} = "Action=$Self->{Action};Subaction=LoadWidget;"
+                . "TicketID=$Self->{TicketID};ElementID=$ElementID";
+            next WIDGET;
+        }
         my $Success = eval { $MainObject->Require( $Config->{Module} ) };
         next WIDGET if !$Success;
         my $Module = eval { $Config->{Module}->new(%$Self) };
@@ -958,10 +1046,13 @@ sub MaskAgentZoom {
     }
     for my $Location ( sort keys %Widgets ) {
         $Param{ $Location . 'Widgets' } = [
-            map      { $_->{Output} }
-                sort { $a->{Rank} cmp $b->{Rank} } @{ $Widgets{$Location} }
+            sort { $a->{Rank} cmp $b->{Rank} } @{ $Widgets{$Location} }
         ];
     }
+    $LayoutObject->AddJSData(
+        Key   => 'AsyncWidgetActions',
+        Value => \%AsyncWidgetActions,
+    );
 
     # set display options
     $Param{Hook} = $ConfigObject->Get('Ticket::Hook') || 'Ticket#';
