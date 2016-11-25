@@ -82,7 +82,7 @@
                             <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
 
                             <button type="submit" class="CallForAction" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
-                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
+                            <input autocomplete="off" type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
 
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>

@@ -356,7 +356,7 @@
 [% RenderBlockStart("SaveAndFinishButton") %]
                                 [% Translate("or") | html %]
                                 <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
-                                <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+                                <input autocomplete="off" type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
 [% RenderBlockEnd("SaveAndFinishButton") %]
                                 [% Translate("or") | html %]
                                 <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>

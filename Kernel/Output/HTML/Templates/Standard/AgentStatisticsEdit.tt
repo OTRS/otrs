@@ -82,7 +82,7 @@
                             <button class="CallForAction" type="submit" id="SaveAndFinish" name="SaveAndFinish" value="[% Translate("Save and finish") | html %]">
                                 <span>[% Translate("Save and finish") | html %]</span>
                             </button>
-                            <input type="hidden" name="ReturnToStatisticOverview" id="ReturnToStatisticOverview" value="" />
+                            <input autocomplete="off" type="hidden" name="ReturnToStatisticOverview" id="ReturnToStatisticOverview" value="" />
                             [% Translate('or') | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
                                 [% Translate('Cancel') | html %]
