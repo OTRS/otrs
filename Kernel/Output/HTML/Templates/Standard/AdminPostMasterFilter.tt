@@ -257,3 +257,46 @@ $('.FilterDelete').bind('click', function (Event) {
     <div class="Clear"></div>
 </div>
 [% RenderBlockEnd("Overview") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+    function InitSelectableOptions(IDPrefix) {
+        // set data-old attribute
+        $("form select[id^='" + IDPrefix + "']").each(function() {
+            var SelectedValue = $(this).val();
+
+            $(this).attr("data-old", SelectedValue);
+
+            // disable option on other selects
+            $("form select[id^='" + IDPrefix + "']:not([id='" + $(this).attr("id") + "'])").each(function() {
+                $(this).find("option[value='" + SelectedValue + "']").attr('disabled','disabled');
+            });
+        });
+
+        $("form select[id^='" + IDPrefix + "']").on("change", function() {
+            var SelectedValue = $(this).val(),
+                OldValue = $(this).attr("data-old");
+
+            // disable option on other selects
+            $("form select[id^='" + IDPrefix + "']:not([id='" + $(this).attr("id") + "'])").each(function() {
+                $(this).find("option[value='" + SelectedValue + "']").attr('disabled','disabled');
+            });
+
+            // enable old value for all selects
+            if (OldValue != "") {
+                $("form select[id^='" + IDPrefix + "'] option[value='" + OldValue + "']").removeAttr("disabled");
+            }
+
+            // Update old value
+            $(this).attr("data-old", $(this).val());
+
+            // initialize all modern input fields
+            $("form select.Modernize[id^='" + IDPrefix + "']").trigger('redraw.InputField');
+        });
+    }
+
+    InitSelectableOptions("MatchHeader");
+    InitSelectableOptions("SetHeader");
+//]]></script>
+[% END %]
