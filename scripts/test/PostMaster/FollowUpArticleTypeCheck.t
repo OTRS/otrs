@@ -180,12 +180,12 @@ Some Content in Body",
 for my $Test (@Tests) {
 
     $ConfigObject->Set(
-        Key   => 'PostMaster::PostFilterModule',
+        Key   => 'PostMaster::PreCreateFilterModule',
         Value => {},
     );
 
     $ConfigObject->Set(
-        Key   => 'PostMaster::PostFilterModule',
+        Key   => 'PostMaster::PreCreateFilterModule',
         Value => {
             '000-FollowUpArticleTypeCheck' => {
                 %{ $Test->{JobConfig} }
