@@ -206,6 +206,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         // get customer tickets for AgentTicketCustomer
         if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
             GetCustomerTickets($('#CustomerAutoComplete').val(), $('#CustomerID').val());
+
+            $Element.blur(function () {
+                if ($Element.val() === '') {
+                    TargetNS.ResetCustomerInfo();
+                    $('#CustomerTickets').empty();
+                }
+            });
         }
 
         // get customer tickets for AgentTicketPhone and AgentTicketEmail
@@ -294,7 +301,14 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 }
             }, 'CustomerSearch');
 
-            if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward' && Core.Config.Get('Action') !== 'AgentTicketEmailOutbound') {
+            if (
+                Core.Config.Get('Action') !== 'AgentTicketCustomer' &&
+                Core.Config.Get('Action') !== 'AgentTicketPhone' &&
+                Core.Config.Get('Action') !== 'AgentTicketEmail' &&
+                Core.Config.Get('Action') !== 'AgentTicketCompose' &&
+                Core.Config.Get('Action') !== 'AgentTicketForward' &&
+                Core.Config.Get('Action') !== 'AgentTicketEmailOutbound'
+                ) {
                 $Element.blur(function () {
                     var FieldValue = $(this).val();
                     if (FieldValue !== BackupData.CustomerEmail && FieldValue !== BackupData.CustomerKey) {
@@ -426,8 +440,14 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
                 // bind click function to remove button
                 $(this).bind('click', function () {
+
                     // remove row
                     TargetNS.RemoveCustomerTicket($(this));
+
+                    // clear CustomerHistory table if there are no selected customer users
+                    if ($('#TicketCustomerContent' + Field + ' .CustomerTicketRadio').length === 0) {
+                        $('#CustomerTickets').empty();
+                    }
                     return false;
                 });
                 // set button value
