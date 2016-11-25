@@ -66,6 +66,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.15 2016-??-??
+ - 2016-11-25 Fixed bug#[12450](http://bugs.otrs.org/show_bug.cgi?id=12450) - Error handling with ???. Thanks to Dorothea Doerffel.
  - 2016-11-25 Fixed bug#[1370](https://bugs.otrs.org/show_bug.cgi?id=1370) - Postmaster filters with 2 match conditions doesnt work.
  - 2016-11-25 Fixed bug#[12461](https://bugs.otrs.org/show_bug.cgi?id=12461) - Chrome can not display attached PDF files since 5.0.14.
  - 2016-11-22 Fixed bug#[12445](https://bugs.otrs.org/show_bug.cgi?id=12445) - Save and finish button does not "finish" in statistics.

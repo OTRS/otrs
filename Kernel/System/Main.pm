@@ -101,10 +101,11 @@ sub Require {
     if ($@) {
 
         if ( !$Param{Silent} ) {
+            my $Message = $@;
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Caller   => 1,
                 Priority => 'error',
-                Message  => "$@",
+                Message  => $Message,
             );
         }
 
