@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-11-25 Fixed bug#[12450](http://bugs.otrs.org/show_bug.cgi?id=12450) - Error handling with ???. Thanks to Dorothea Doerffel.
  - 2016-11-25 Fixed bug#[12461](https://bugs.otrs.org/show_bug.cgi?id=12461) - Chrome can not display attached PDF files since 5.0.14.
  - 2016-11-22 Fixed bug#[12445](https://bugs.otrs.org/show_bug.cgi?id=12445) - Save and finish button does not "finish" in statistics.
  - 2016-11-21 Fixed bug#[11986](https://bugs.otrs.org/show_bug.cgi?id=11986) - Follow-up: Correctly migrate the wrong config entry.
