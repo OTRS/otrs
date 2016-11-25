@@ -66,6 +66,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.15 2016-??-??
+ - 2016-11-25 Fixed bug#[12461](https://bugs.otrs.org/show_bug.cgi?id=12461) - Chrome can not display attached PDF files since 5.0.14.
  - 2016-11-22 Fixed bug#[12445](https://bugs.otrs.org/show_bug.cgi?id=12445) - Save and finish button does not "finish" in statistics.
  - 2016-11-21 Fixed bug#[11548](https://bugs.otrs.org/show_bug.cgi?id=11548) - Filtering the greek symbol sigma "Σ".
  - 2016-11-21 Fixed bug#[12302](https://bugs.otrs.org/show_bug.cgi?id=12302) - Default column config for customer and customer user data.
