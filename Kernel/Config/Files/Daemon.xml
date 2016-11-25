@@ -43,7 +43,17 @@
             </Array>
         </Setting>
     </ConfigItem>
-
+    <ConfigItem Name="Daemon::Log::RotationType" Required="1" Valid="1">
+        <Description Translatable="1">Type of daemon log rotation to use: Choose 'OTRS' to let OTRS system to handle the file rotation, or choose 'External' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Core::Log</SubGroup>
+        <Setting>
+            <Option SelectedID="otrs"><!-- default OTRS -->
+                <Item Key="otrs" Translatable="1">OTRS</Item>
+                <Item Key="external" Translatable="1">External</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Daemon::Log::DaysToKeep" Required="0" Valid="0">
         <Description Translatable="1">Defines the number of days to keep the daemon log files.</Description>
         <Group>Daemon</Group>
