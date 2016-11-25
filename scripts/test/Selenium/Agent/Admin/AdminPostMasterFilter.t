@@ -127,6 +127,25 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#SetHeader1').val('X-OTRS-Priority').trigger('redraw.InputField').trigger('change');"
         );
+
+        # make sure that "Body" is disabled on other condition selects
+        my $BodyDisabled
+            = $Selenium->execute_script("return \$('#MatchHeader2 option[Value=\"Body\"]').attr('disabled');");
+        $Self->Is(
+            $BodyDisabled,
+            "disabled",
+            "Body is disabled in #MatchHeader2."
+        );
+
+        # make sure that "X-OTRS-Priority" is disabled on other selects
+        my $XOTRSPriorityDisabled
+            = $Selenium->execute_script("return \$('#SetHeader2 option[Value=\"X-OTRS-Priority\"]').attr('disabled');");
+        $Self->Is(
+            $XOTRSPriorityDisabled,
+            "disabled",
+            "X-OTRS-Priority is disabled in #SetHeader2."
+        );
+
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
         $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
 
@@ -264,7 +283,7 @@ $Selenium->RunTest(
             "PostMasterFilter '$PostMasterName' is deleted"
         );
 
-    }
+        }
 );
 
 1;
