@@ -1,4 +1,5 @@
 #4.0.20 2016-??-??
+ - 2016-11-25 Fixed bug#[12461](https://bugs.otrs.org/show_bug.cgi?id=12461) - Chrome can not display attached PDF files since 5.0.14.
  - 2016-11-18 Removed superfluous colons in table heading, thanks to Balázs Úr (PR#1566).
  - 2016-11-18 Fixed error when importing emails without valid address in From field, thanks to Paweł Bogusławski (PR#1559).
  - 2016-11-18 Fixed warnings when saving permissions for users and roles, thanks to Paweł Bogusławski (PR#1557).
