@@ -13,14 +13,23 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
+my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
 my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
 my $EncodeObject        = $Kernel::OM->Get('Kernel::System::Encode');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
 # use Test email backend
-$Kernel::OM->Get('Kernel::Config')->Set(
+$ConfigObject->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::Test',
+);
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => '0',
+);
+$ConfigObject->Set(
+    Key   => 'CheckMXRecord',
+    Value => '0',
 );
 
 my $RandomNumber   = int rand 1000000;
