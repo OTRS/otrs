@@ -562,8 +562,8 @@ thead .headerSortDown a {
     line-height: 18px;
 }
 
-.TicketList .From div,
-.TicketList .Subject div,
+.TicketList td.From div,
+.TicketList td.Subject div,
 .TicketList td.Created a {
     height: 20px;
     overflow: hidden;
@@ -663,13 +663,15 @@ select.ColumnFilter {
     z-index: 1;
 }
 
-thead .headerSortUp > a:before {
+thead .headerSortUp > a:before,
+thead .tablesorter-headerDesc > div.tablesorter-header-inner > a:before {
     content: "\25BC";
     display: inline-block;
     margin-right: 2px;
 }
 
-thead .headerSortDown > a:before {
+thead .headerSortDown > a:before,
+thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
     content: "\25B2";
     display: inline-block;
     margin-right: 2px;

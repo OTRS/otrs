@@ -143,7 +143,7 @@ $Selenium->RunTest(
         );
 
         # click to sort by article number
-        $Selenium->find_element("//th[\@class='No Sortable header']")->click();
+        $Selenium->find_element("//th[\@class='No Sortable tablesorter-header tablesorter-headerUnSorted']")->click();
 
         # verify change in article order on column header click, test Core.UI.Table.Sort.js
         $Self->Is(
