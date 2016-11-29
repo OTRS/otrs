@@ -17,6 +17,10 @@ my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
 my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
 my $EncodeObject        = $Kernel::OM->Get('Kernel::System::Encode');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+my $HelperObject        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get random id
+my $RandomID = $HelperObject->GetRandomID();
 
 # use Test email backend
 $ConfigObject->Set(
@@ -27,19 +31,14 @@ $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => '0',
 );
-$ConfigObject->Set(
-    Key   => 'CheckMXRecord',
-    Value => '0',
-);
 
-my $RandomNumber   = int rand 1000000;
 my $CustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => 'John',
     UserLastname   => 'Doe',
-    UserCustomerID => "Customer#$RandomNumber",
-    UserLogin      => "CustomerLogin#$RandomNumber",
-    UserEmail      => "customer$RandomNumber\@example.com",
+    UserCustomerID => "Customer#$RandomID",
+    UserLogin      => "CustomerLogin#$RandomID",
+    UserEmail      => "customer$RandomID\@example.com",
     UserPassword   => 'some_pass',
     ValidID        => 1,
     UserID         => 1,
@@ -244,8 +243,8 @@ my $TicketID = $TicketObject->TicketCreate(
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'new',
-    CustomerID   => "Customer#$RandomNumber",
-    CustomerUser => "CustomerLogin#$RandomNumber",
+    CustomerID   => "Customer#$RandomID",
+    CustomerUser => "CustomerLogin#$RandomID",
     OwnerID      => 1,
     UserID       => 1,
 );
