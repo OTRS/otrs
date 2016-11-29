@@ -136,6 +136,9 @@ $Selenium->RunTest(
                 );
                 $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".OverviewBox").length' );
+
+                # we wait a second to make sure the content has been set correctly
+                sleep 1;
             }
 
             # Check customer history table existence.
