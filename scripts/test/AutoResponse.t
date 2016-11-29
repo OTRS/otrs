@@ -218,6 +218,95 @@ for my $TypeID ( sort keys %AutoResponseType ) {
         );
     }
 
+    if ( $TypeID == 1 ) {
+
+        # auto-reply
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        # create a new ticket
+        my $TicketID = $TicketObject->TicketCreate(
+            Title        => 'Some Ticket Title',
+            QueueID      => $QueueID,
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => "Customer#$RandomID",
+            CustomerUser => "CustomerLogin#$RandomID",
+            OwnerID      => 1,
+            UserID       => 1,
+        );
+        $Self->IsNot(
+            $TicketID,
+            undef,
+            'TicketCreate() - TicketID should not be undef',
+        );
+
+        my $ArticleID1 = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'email-internal',
+            SenderType     => 'agent',
+            From           => 'Some Agent <otrs@example.com>',
+            To             => 'Suplier<suplier@example.com>',
+            Subject        => 'Email for suplier',
+            Body           => 'the message text',
+            Charset        => 'utf8',
+            MimeType       => 'text/plain',
+            HistoryType    => 'OwnerUpdate',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+        );
+        $Self->True(
+            $ArticleID1,
+            "First article created."
+        );
+
+        my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
+        my $CleanUpSuccess  = $TestEmailObject->CleanUp();
+        $Self->True(
+            $CleanUpSuccess,
+            'Cleanup Email backend',
+        );
+
+        my $ArticleID2 = $TicketObject->ArticleCreate(
+            TicketID         => $TicketID,
+            ArticleType      => 'email-internal',
+            SenderType       => 'customer',
+            From             => 'Suplier<suplier@example.com>',
+            To               => 'Some Agent <otrs@example.com>',
+            Subject          => 'some short description',
+            Body             => 'the message text',
+            Charset          => 'utf8',
+            MimeType         => 'text/plain',
+            HistoryType      => 'OwnerUpdate',
+            HistoryComment   => 'Some free text!',
+            UserID           => 1,
+            AutoResponseType => 'auto reply',
+            OrigHeader       => {
+                From    => 'Some Agent <otrs@example.com>',
+                Subject => 'some short description',
+            },
+        );
+
+        $Self->True(
+            $ArticleID2,
+            "Second article created."
+        );
+
+        # check that email was sent
+        my $Emails = $TestEmailObject->EmailsGet();
+
+        # Make sure that auto-response is not sent to the customer (in CC) - See bug#12293
+        $Self->IsDeeply(
+            $Emails->[0]->{ToArray},
+            [
+                'otrs@example.com'
+            ],
+            'Check AutoResponse recipients.'
+        );
+    }
+
     $AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(
         QueueID         => $QueueID,
         AutoResponseIDs => [],
