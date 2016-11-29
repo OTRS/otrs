@@ -269,7 +269,7 @@ sub ArticleCreate {
     my $RandomString = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
         Length => 32,
     );
-    my $ArticleInsertFingerprint = $$ . '-' . $RandomString . '-' . ($Param{MessageID} // '');
+    my $ArticleInsertFingerprint = $$ . '-' . $RandomString . '-' . ( $Param{MessageID} // '' );
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -469,6 +469,7 @@ sub ArticleCreate {
             TicketID         => $Param{TicketID},
             UserID           => $Param{UserID},
             AutoResponseType => $Param{AutoResponseType},
+            ArticleType      => $Param{ArticleType}
         );
     }
 
@@ -2391,6 +2392,7 @@ send an auto response to a customer via email
             Subject => 'For the message!',
         },
         UserID          => 123,
+        ArticleType     => 'email-internal'  # optional
     );
 
 Events:
@@ -2572,7 +2574,13 @@ sub SendAutoResponse {
             User => $Ticket{CustomerUserID},
         );
 
-        if ( $CustomerUser{UserEmail} && $OrigHeader{From} !~ /\Q$CustomerUser{UserEmail}\E/i ) {
+        $Param{ArticleType} //= '';
+        if (
+            $CustomerUser{UserEmail}
+            && $OrigHeader{From} !~ /\Q$CustomerUser{UserEmail}\E/i
+            && $Param{ArticleType} ne 'email-internal'
+            )
+        {
             $Cc = $CustomerUser{UserEmail};
         }
     }
