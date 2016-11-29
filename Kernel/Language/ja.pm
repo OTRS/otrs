@@ -3053,7 +3053,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Not yet registered?' => '未登録ですか？',
         'Request new password' => '新規パスワードを申請',
         'Your User Name' => 'ユーザー名',
-        'A new password will be sent to your email address.' => '登録されたメールアドレスに新しいパスワードを送信しました。',
+        'A new password will be sent to your email address.' => '登録されたメールアドレスに新しいパスワードを送信します。',
         'Create Account' => 'アカウント作成',
         'Please fill out this form to receive login credentials.' => '下記のフォームにログイン時に必要となる事項を入力してください。',
         'How we should address you' => '',
