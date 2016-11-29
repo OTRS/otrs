@@ -65,14 +65,13 @@ $ConfigObject->Set(
     Value => '0',
 );
 
-my $RandomNumber   = int rand 1000000;
 my $CustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => 'John',
     UserLastname   => 'Doe',
-    UserCustomerID => "Customer#$RandomNumber",
-    UserLogin      => "CustomerLogin#$RandomNumber",
-    UserEmail      => "customer$RandomNumber\@example.com",
+    UserCustomerID => "Customer#$RandomID",
+    UserLogin      => "CustomerLogin#$RandomID",
+    UserEmail      => "customer$RandomID\@example.com",
     UserPassword   => 'some_pass',
     ValidID        => 1,
     UserID         => 1,
