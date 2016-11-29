@@ -218,6 +218,47 @@ sub Run {
     # check if follow up (again, with new GetParam)
     ( $Tn, $TicketID ) = $Self->CheckFollowUp( GetParam => $GetParam );
 
+    # run all PreCreateFilterModules
+    if ( ref $ConfigObject->Get('PostMaster::PreCreateFilterModule') eq 'HASH' ) {
+
+        my %Jobs = %{ $ConfigObject->Get('PostMaster::PreCreateFilterModule') };
+
+        my $LogObject  = $Kernel::OM->Get('Kernel::System::Log');
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+        JOB:
+        for my $Job ( sort keys %Jobs ) {
+
+            return if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
+            my $FilterObject = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+            );
+
+            if ( !$FilterObject ) {
+                $LogObject->Log(
+                    Priority => 'error',
+                    Message  => "new() of PreCreateFilterModule $Jobs{$Job}->{Module} not successfully!",
+                );
+                next JOB;
+            }
+
+            # modify params
+            my $Run = $FilterObject->Run(
+                GetParam  => $GetParam,
+                JobConfig => $Jobs{$Job},
+                TicketID  => $TicketID,
+            );
+            if ( !$Run ) {
+                $LogObject->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Execute Run() of PreCreateFilterModule $Jobs{$Job}->{Module} not successfully!",
+                );
+            }
+        }
+    }
+
     # check if it's a follow up ...
     if ( $Tn && $TicketID ) {
 

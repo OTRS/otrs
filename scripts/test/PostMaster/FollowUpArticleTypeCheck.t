@@ -254,12 +254,12 @@ my $RunTest = sub {
     my $Test = shift;
 
     $ConfigObject->Set(
-        Key   => 'PostMaster::PostFilterModule',
+        Key   => 'PostMaster::PreCreateFilterModule',
         Value => {},
     );
 
     $ConfigObject->Set(
-        Key   => 'PostMaster::PostFilterModule',
+        Key   => 'PostMaster::PreCreateFilterModule',
         Value => {
             '000-FollowUpArticleTypeCheck' => {
                 %{ $Test->{JobConfig} }

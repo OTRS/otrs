@@ -13,6 +13,7 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
+my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
 my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
@@ -52,6 +53,33 @@ my $QueueID = $QueueObject->QueueAdd(
 $Self->True(
     $QueueID,
     "QueueAdd() - $QueueName, $QueueID",
+);
+
+# use Test email backend
+$ConfigObject->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::Test',
+);
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => '0',
+);
+
+my $RandomNumber   = int rand 1000000;
+my $CustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+    Source         => 'CustomerUser',
+    UserFirstname  => 'John',
+    UserLastname   => 'Doe',
+    UserCustomerID => "Customer#$RandomNumber",
+    UserLogin      => "CustomerLogin#$RandomNumber",
+    UserEmail      => "customer$RandomNumber\@example.com",
+    UserPassword   => 'some_pass',
+    ValidID        => 1,
+    UserID         => 1,
+);
+$Self->True(
+    $CustomerUserID,
+    "Customer created."
 );
 
 # add system address
