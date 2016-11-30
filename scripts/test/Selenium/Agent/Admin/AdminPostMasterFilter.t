@@ -283,7 +283,7 @@ $Selenium->RunTest(
             "PostMasterFilter '$PostMasterName' is deleted"
         );
 
-        }
+    }
 );
 
 1;

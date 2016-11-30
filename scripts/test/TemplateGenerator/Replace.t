@@ -342,33 +342,34 @@ my @Tests = (
         Result   => 'Test A',
     },
     {
-        Name => 'OTRS config value',                              # <OTRS_CONFIG_*>
-        Data => {},
+        Name     => 'OTRS config value',                          # <OTRS_CONFIG_*>
+        Data     => {},
         RichText => 0,
         Template => 'Test <OTRS_CONFIG_DefaultTheme>',
         Result   => 'Test Standard',
     },
     {
-        Name => 'OTRS secret config values, must be masked (even unknown settings)',
-        Data => {},
+        Name     => 'OTRS secret config values, must be masked (even unknown settings)',
+        Data     => {},
         RichText => 0,
         Template =>
             'Test <OTRS_CONFIG_DatabasePw> <OTRS_CONFIG_Core::MirrorDB::Password> <OTRS_CONFIG_SomeOtherValue::Password> <OTRS_CONFIG_SomeOtherValue::Pw>',
         Result => 'Test xxx xxx xxx xxx',
     },
     {
-        Name => 'OTRS secret config value and normal config value',
-        Data => {},
+        Name     => 'OTRS secret config value and normal config value',
+        Data     => {},
         RichText => 0,
         Template => 'Test <OTRS_CONFIG_DatabasePw> and <OTRS_CONFIG_DefaultTheme>',
         Result   => 'Test xxx and Standard',
     },
     {
-        Name => 'OTRS secret config values with numbers',
-        Data => {},
+        Name     => 'OTRS secret config values with numbers',
+        Data     => {},
         RichText => 0,
-        Template => 'Test <OTRS_CONFIG_AuthModule::LDAP::SearchUserPw1> and <OTRS_CONFIG_AuthModule::LDAP::SearchUserPassword1>',
-        Result   => 'Test xxx and xxx',
+        Template =>
+            'Test <OTRS_CONFIG_AuthModule::LDAP::SearchUserPw1> and <OTRS_CONFIG_AuthModule::LDAP::SearchUserPassword1>',
+        Result => 'Test xxx and xxx',
     },
     {
         Name => 'mailto-Links RichText enabled',
