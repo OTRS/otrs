@@ -225,7 +225,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $PostMasterRandomID ) == -1,
             'Postmaster filter is deleted - $PostMasterRandomID'
         );
-        }
+    }
 
 );
 

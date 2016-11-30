@@ -151,7 +151,8 @@ $Selenium->RunTest(
 
             # Select both possible values as default values to make sure that more than one can be selected.
             $Selenium->execute_script(
-                "\$('#DefaultValue').val(['Key1', 'Key2']).trigger('redraw.InputField').trigger('change');");
+                "\$('#DefaultValue').val(['Key1', 'Key2']).trigger('redraw.InputField').trigger('change');"
+            );
 
             # submit form
             $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
