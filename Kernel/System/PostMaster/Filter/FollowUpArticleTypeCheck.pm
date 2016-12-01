@@ -32,8 +32,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # FollowUpArticleTypeCheck is not needed if there is no TicketID.
+    return 1 if !$Param{TicketID};
+
     # check needed stuff
-    for (qw(TicketID JobConfig GetParam)) {
+    for (qw(JobConfig GetParam)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
