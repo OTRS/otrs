@@ -34,7 +34,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # FollowUpArticleTypeCheck is not needed if there is no TicketID.
-    return !$Param{TicketID};
+    return 1 if !$Param{TicketID};
 
     # check needed stuff
     for (qw(JobConfig GetParam)) {
