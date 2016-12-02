@@ -118,7 +118,17 @@ sub Array2CSV {
         # We will try to determine the appropriate length for each column.
         my @ColumnLengths;
         my $Row = 0;
-        for my $DataRaw ( \@WithHeader, \@Head, @Data ) {
+
+        my @Rows = ( \@Head, @Data );
+
+        if ( scalar @WithHeader ) {
+
+            # Adds \@WithHeader to the beggining of @Rows, if not empty.
+            #    Otherwise it adds empty first row - see bug#12467.
+            unshift @Rows, \@WithHeader;
+        }
+
+        for my $DataRaw (@Rows) {
             COL:
             for my $Col ( 0 .. ( scalar @{ $DataRaw // [] } ) - 1 ) {
                 next COL if !defined( $DataRaw->[$Col] );
