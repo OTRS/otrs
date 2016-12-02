@@ -1,4 +1,5 @@
 #5.0.15 2016-??-??
+ - 2016-12-02 Fixed bug#[12467](https://bugs.otrs.org/show_bug.cgi?id=12467) - Column header in excel format start from second row.
  - 2016-11-29 Fixed bug#[12293](https://bugs.otrs.org/show_bug.cgi?id=12293) - Auto response presents confidential information from internal communication to customer user. Please note that for this fix, the configuration setting "PostMaster::PostFilterModule###000-FollowUpArticleTypeCheck" was renamed to "PostMaster::PreCreateFilterModule###000-FollowUpArticleTypeCheck". If you had customized the old setting, please also apply your customizations to the new setting.
  - 2016-11-25 Fixed bug#[12464](http://bugs.otrs.org/show_bug.cgi?id=12464) - Customer History table is still visible even though no selected customer users, thanks to S7.
  - 2016-11-25 Fixed bug#[12457](http://bugs.otrs.org/show_bug.cgi?id=12457) - text/html Part only E-Mails with HTML Entities are Converted to Incorrect Charset.
