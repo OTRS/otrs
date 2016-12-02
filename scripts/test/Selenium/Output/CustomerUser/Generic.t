@@ -115,6 +115,12 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # Wait until customer info widget has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetIsLoading").length === 0;',
+        );
+
         # check for CustomerUserGeneric link text
         for my $TestText (@CustomerUserGenericText) {
             $Self->True(
