@@ -44,12 +44,14 @@ sub Pre {
     ${ $Param{Data} } =~ s{
         ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
 
-        (                                              #2
-            (?:                                        # http or only www
-                (?: (?: http s? | ftp ) :\/\/)|        # http://,https:// and ftp://
-                (?: (?: \w*www | ftp ) \. \w+ )        # www.something and ftp.something
+        (                                            # $2
+            (?:                                      # http or only www
+                (?: (?: http s? | ftp ) :\/\/)|      # http://, https:// and ftp://
+                (?: [a-z0-9\-]* \.?                  # allow for sub-domain or prefixes bug#12472
+                    (?: www | ftp ) \. \w+           # www.something and ftp.something
+                )
             )
-            .*?               # this part should be better defined!
+            .*?                           # this part should be better defined!
         )
         (                                 # $3
             [\?,;!\.] (?: \s | $ )        # this construct is because of bug#2450 and bug#7288
@@ -62,7 +64,7 @@ sub Pre {
             | <                           # "
             | &gt;                        # "
             | &lt;                        # "
-            | $                           # bug# 2715
+            | $                           # bug#2715
         )        }
     {
         my $Start = $1;
