@@ -798,6 +798,7 @@ sub NotificationImport {
         if ( $Param{OverwriteExistingNotifications} && $ReverseCurrentNotifications{ $Notification->{Name} } ) {
             my $Success = $Self->NotificationUpdate(
                 %{$Notification},
+                ID     => $ReverseCurrentNotifications{ $Notification->{Name} },
                 UserID => $Param{UserID},
             );
 
