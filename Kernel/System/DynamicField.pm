@@ -296,8 +296,13 @@ sub DynamicFieldGet {
         );
     }
 
+    # get yaml object
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
     my %Data;
     while ( my @Data = $DBObject->FetchrowArray() ) {
+
+        my $Config = $YAMLObject->Load( Data => $Data[7] );
 
         %Data = (
             ID            => $Data[0],
@@ -307,7 +312,7 @@ sub DynamicFieldGet {
             FieldOrder    => $Data[4],
             FieldType     => $Data[5],
             ObjectType    => $Data[6],
-            ConfigString  => $Data[7],
+            Config        => $Config,
             ValidID       => $Data[8],
             CreateTime    => $Data[9],
             ChangeTime    => $Data[10],
@@ -316,12 +321,8 @@ sub DynamicFieldGet {
 
     if (%Data) {
 
-        my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => $Data{ConfigString} );
-
-        $Data{Config} = $Config || {};
-
         # Set the cache only, if the YAML->Load was successful (see bug#12483).
-        if ($Config) {
+        if ($Data{Config}) {
 
             $CacheObject->Set(
                 Type  => 'DynamicField',
@@ -330,6 +331,8 @@ sub DynamicFieldGet {
                 TTL   => $Self->{CacheTTL},
             );
         }
+
+        $Data{Config} ||= {};
     }
 
     return \%Data;
