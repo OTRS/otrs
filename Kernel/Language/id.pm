@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.981859410430839;
+    $Self->{Completeness}        = 0.975574712643678;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -821,6 +821,8 @@ sub Data {
         'Edit ACL information' => 'Ubah informasi ACL',
         'Stop after match' => 'Berhenti setelah cocok',
         'Edit ACL structure' => 'Ubah struktur ACL',
+        'Save settings' => 'Simpan pengubahan',
+        'Save ACL' => '',
         'Save' => 'Simpan',
         'or' => 'atau',
         'Save and finish' => 'Simpan dan Akhiri',
@@ -841,6 +843,7 @@ sub Data {
         'List' => 'Daftar',
         'Download file' => 'Unduh file',
         'Delete this attachment' => 'Hapus lampiran ini',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => 'Tambahkan lampira',
         'Edit Attachment' => 'Ubah lampiran',
 
@@ -855,8 +858,7 @@ sub Data {
         'You can use the following tags' => 'Anda dapat menggunakan tag berikut ini',
         'To get the first 20 character of the subject.' => 'Untuk mendapatkan 20 karakter pertama dari subjek',
         'To get the first 5 lines of the email.' => 'untuk mendapatkan 5 baris pertama dari email.',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Untuk mendapatkan atribut artikel',
         ' e. g.' => 'Misalnya',
         'Options of the current customer user data' => 'Pilihan dari data pelanggan pengguna saat ini',
@@ -1088,6 +1090,7 @@ sub Data {
         'Run Now!' => 'Jalankan sekarang!`',
         'Delete this task' => 'Hapus tugas ini',
         'Run this task' => 'Jalankan tugas ini',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => 'Pengaturan pekerjaan',
         'Job name' => 'Nama pekerjaan',
         'The name you entered already exists.' => 'Nama yang anda masukan sudah terpakai',
@@ -1746,8 +1749,8 @@ sub Data {
         'Download' => 'Muat turun',
         'Download file from package!' => 'Muat turun arsin dari paket',
         'Required' => 'Diwajibkan',
-        'PrimaryKey' => 'Kunci utama',
-        'AutoIncrement' => 'AutoIncrement',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Perbedaan arsip %s',
 
@@ -1784,6 +1787,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Jika anda menggunakan Regular Expressions, anda juga dapat menggunakan nilai yang cocok di () sebagai [***] di tindakan \'Set\' ',
         'Delete this filter' => 'Hapus penyaring ini',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Tambah penyaring PostMaster',
         'Edit PostMaster Filter' => 'Ubah penyaring PostMaster',
         'The name is required.' => 'Nama diperlukan.',
@@ -1815,12 +1819,12 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Overwrite existing entities' => 'Menimpa entitas yang ada',
         'Upload process configuration' => 'Memuat naik proses konfigurasi',
         'Import process configuration' => 'Impor proses konfigurasi',
-        'Example processes' => 'Contoh proses',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => 'Impor contoh proses',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Untuk membuat proses yang baru, baik impor proses yang telah diekspor dari sistem lain atau membuat yang telah lengkap',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1926,7 +1930,6 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Extend the height of the Canvas' => 'Memperpanjang ketinggian kanvas',
         'Remove the Activity from this Process' => 'Menghapus aktivitas dari proses ini',
         'Edit this Activity' => 'Ubah aktivitas ini',
-        'Save settings' => 'Simpan pengubahan',
         'Save Activities, Activity Dialogs and Transitions' => 'Simpan aktivitas, aktivitas dialog dan transisi',
         'Do you really want to delete this Process?' => 'Apakah anda ingin menghapus proses ini?',
         'Do you really want to delete this Activity?' => 'Apakah anda ingin menghapus aktivitas?',
@@ -2417,6 +2420,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Template adalah teks default yang membantu agen anda untuk menulis tiket lebih cepat, jawab atau lanjutkan.',
         'Don\'t forget to add new templates to queues.' => 'Jangan lupa untuk menambahkan templat queues',
+        'Do you really want to delete this template?' => 'Apakah Anda benar-benar ingin menghapus template ini?',
         'Add Template' => 'Tambahkan template',
         'Edit Template' => 'Ubah template',
         'A standard template with this name already exists!' => 'Template standar dengan nama ini sudah ada!',
@@ -3647,7 +3651,7 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Perlu sumber objek dan sumber kunci!',
-        'Please contact the administrator.' => '',
+        'Please contact the administrator.' => 'Silahkan hubungi administrator.',
         'You need ro permission!' => 'Anda perlu izin ro!',
         'Can not delete link with %s!' => 'Tidak bisa menghapus tautan dengan %s!',
         'Can not create link with %s! Object already linked as %s.' => 'tidak bisa membuat link dengan %s! Objek yang sudah dikaitkan sebagai %s.',
@@ -3796,6 +3800,7 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => 'Tanpa judul',
+        'Customer Name' => '',
         'Invalid Users' => 'Pengguna tidak sah',
         'CSV' => 'CSV',
         'Excel' => 'Exel',
@@ -3807,55 +3812,64 @@ bin/otrs.Daemon.pl status\').',
         'Feature is not active' => 'Fitur tidak aktif',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => 'Sambungan dihapuskan',
+        'Ticket Locked' => 'Tiket dikunci',
+        'Pending Time Set' => 'Set Penundaan Waktu',
+        'Dynamic Field Updated' => 'DynamicField diperbarukan',
+        'Outgoing Email (internal)' => 'Email keluar (internal)',
         'Ticket Created' => 'Membuat tiket',
+        'Type Updated' => 'Jenis diperbarui',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => 'Eskalasi Perbarui Waktu Berhenti',
+        'Escalation First Response Time Stopped' => 'Eskalasi Pertama Respon Waktu Berhenti',
+        'Customer Updated' => 'Pelanggan diperbarui',
+        'Internal Chat' => 'Obrolan didalam',
+        'Automatic Follow-Up Sent' => 'Auto follow-up dihantar',
         'Note Added' => 'Note ditambah',
         'Note Added (Customer)' => 'Catatan ditambah (Pelanggan)',
-        'Outgoing Email' => 'Email keluar ',
-        'Outgoing Email (internal)' => 'Email keluar (internal)',
-        'Incoming Customer Email' => 'Email pelanggan yang masuk',
-        'Dynamic Field Updated' => 'DynamicField diperbarukan',
-        'Outgoing Phone Call' => 'Panggilan keluar',
-        'Incoming Phone Call' => 'Panggilan masuk',
-        'Outgoing Answer' => 'Jawaban keluar',
-        'SLA Updated' => 'SLA diperbarukan',
-        'Service Updated' => 'Servis diperbarui',
-        'Customer Updated' => 'Pelanggan diperbarui',
         'State Updated' => 'State diperbarui',
-        'Incoming Follow-Up' => 'Follow-Up masuk',
-        'Escalation Update Time Stopped' => 'Eskalasi Perbarui Waktu Berhenti',
-        'Escalation Solution Time Stopped' => 'Eskalasi Perbarui Waktu Berhenti',
-        'Escalation First Response Time Stopped' => 'Eskalasi Pertama Respon Waktu Berhenti',
-        'Escalation Response Time Stopped' => 'Eskalasi Respon Waktu Diberhentikan',
+        'Outgoing Answer' => 'Jawaban keluar',
+        'Service Updated' => 'Servis diperbarui',
         'Link Added' => 'Alat sambung ditambahkan',
-        'Link Deleted' => 'Sambungan dihapuskan',
-        'Ticket Merged' => 'Tiket digabungkan',
-        'Pending Time Set' => 'Set Penundaan Waktu',
-        'Ticket Locked' => 'Tiket dikunci',
-        'Ticket Unlocked' => 'Ticket dibuka',
-        'Queue Updated' => 'Queue diperbarui',
-        'Priority Updated' => 'Prioritas diperbarui',
-        'Title Updated' => 'Judul diperbarui',
-        'Type Updated' => 'Jenis diperbarui',
+        'Incoming Customer Email' => 'Email pelanggan yang masuk',
         'Incoming Web Request' => 'Permintaan web yang masuk',
-        'Automatic Follow-Up Sent' => 'Auto follow-up dihantar',
-        'Automatic Reply Sent' => 'Penghantaran otomotasi untuk membalas pesan',
+        'Priority Updated' => 'Prioritas diperbarui',
+        'Ticket Unlocked' => 'Ticket dibuka',
+        'Outgoing Email' => 'Email keluar ',
+        'Title Updated' => 'Judul diperbarui',
+        'Ticket Merged' => 'Tiket digabungkan',
+        'Outgoing Phone Call' => 'Panggilan keluar',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => 'Waktu dicatat',
+        'Incoming Phone Call' => 'Panggilan masuk',
+        'System Request.' => '',
+        'Incoming Follow-Up' => 'Follow-Up masuk',
+        'Automatic Reply Sent' => 'Penghantaran otomotasi untuk membalas pesan',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => 'Eskalasi Perbarui Waktu Berhenti',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => 'Eskalasi Respon Waktu Diberhentikan',
+        'SLA Updated' => 'SLA diperbarukan',
+        'Queue Updated' => 'Queue diperbarui',
         'External Chat' => 'Obrolan diluar',
-        'Internal Chat' => 'Obrolan didalam',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
+            'Mohon maaf, Anda tidak memiliki izin lagi untuk mengakses tiket ini dalam kondisi saat ini.',
         'Can\'t get for ArticleID %s!' => 'Tidak bisa mendapatkan ArticleID %s!',
         'Article filter settings were saved.' => 'Pengaturan filter artikel telah disimpan',
         'Event type filter settings were saved.' => 'Jenis acara setelan filter diselamatkan.',
         'Need ArticleID!' => 'Perlu ArticleID!',
         'Invalid ArticleID!' => 'AricleID tidak sah!',
         'Offline' => '',
-        'This user is currently offline' => 'Pengguna ini sedang offline',
-        'This user is currently active' => 'Pengguna ini sedang aktif',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => 'Pengguna saat ini sedang pergi',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => 'Pengguna saat ini tidak tersedia',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => 'Fields tanpa ada grup',
         'View the source for this Article' => 'Lihat sumber untuk Pasal ini',
 
@@ -3924,6 +3938,17 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => 'Waktu dimulai apabila tiket telah ditetapkan setelah waktu berakhir!',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => 'Urutan naik',
@@ -5291,14 +5316,14 @@ Helpdesk Team Anda
             'Mendefinisikan ukuran maksimum di KiloByte tanggapan Antarmuka Generik yang bisa login ke gi_debugger_entry_content table.',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'Mendefinisikan modul yang menunjukkan pemberitahuan generik di antarmuka agen. Baik "Text" - jika dikonfigurasi - atau isi "File" akan ditampilkan.',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            'Mendefinisikan modul yang menunjukkan semua saat ini login pelanggan di antarmuka agen.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Mendefinisikan modul yang menunjukkan semua yang sedang login agen di antarmuka agen.',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            'Mendefinisikan modul yang menunjukkan saat ini login agen di antarmuka pelanggan.',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            'Mendefinisikan modul yang menunjukkan saat ini login pelanggan di antarmuka pelanggan.',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            '',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            '',
         'Defines the module to authenticate customers.' => 'Mendefinisikan modul untuk mengotentikasi pelanggan.',
         'Defines the module to display a notification if cloud services are disabled.' =>
             'Mendefinisikan modul untuk menampilkan notifikasi jika layanan cloud dinonaktifkan',
@@ -5494,6 +5519,8 @@ Helpdesk Team Anda
             'Menentukan state tiket berikutnya mungkin, setelah terciptanya tiket ponsel baru di antarmuka agen.',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             'Menentukan state tiket berikutnya mungkin, untuk tiket proses di antarmuka agen.',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Menentukan layar berikutnya setelah tiket pelanggan baru di antarmuka pelanggan.',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
@@ -6386,8 +6413,8 @@ Helpdesk Team Anda
             'Mengatur teks default untuk tiket email baru di antarmuka agen',
         'Sets the display order of the different items in the preferences view.' =>
             'Mengatur Teks bawaan email untuk review Tiket baru di Antarmuka agen',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            'Mengatur Teks bawaan email untuk review revisi Tiket baru di Antarmuka agen',
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
@@ -6659,10 +6686,10 @@ Helpdesk Team Anda
             'Menunjukkan pilihan prioritas tiket di layar prioritas tiket dari tiket yang diperbesar di antarmuka agen.',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             'Menunjukkan pilihan prioritas tiket di tiket layar yang bertanggung jawab dari antarmuka agen.',
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
+            '',
         'Shows the title fields in the close ticket screen of the agent interface.' =>
             'Menunjukkan bidang judul di layar tiket penutupan antarmuka agen.',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
-            'Menunjukkan bidang judul dalam tiket layar teks bebas dari antarmuka agen.',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             'Menunjukkan bidang judul di layar catatan tiket dari antarmuka agen.',
         'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>

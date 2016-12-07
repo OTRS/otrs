@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-11-04 14:18+0000\n"
-"PO-Revision-Date: 2016-11-04 13:19+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-12-07 16:14+0000\n"
+"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/otrs/OTRS/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2996,6 +2996,14 @@ msgid "Edit ACL structure"
 msgstr "Ubah struktur ACL"
 
 #. Template: AdminACLEdit
+msgid "Save settings"
+msgstr "Simpan pengubahan"
+
+#. Template: AdminACLEdit
+msgid "Save ACL"
+msgstr ""
+
+#. Template: AdminACLEdit
 msgid "Save"
 msgstr "Simpan"
 
@@ -3056,6 +3064,10 @@ msgid "Delete this attachment"
 msgstr "Hapus lampiran ini"
 
 #. Template: AdminAttachment
+msgid "Do you really want to delete this attachment?"
+msgstr ""
+
+#. Template: AdminAttachment
 msgid "Add Attachment"
 msgstr "Tambahkan lampira"
 
@@ -3104,7 +3116,7 @@ msgid "To get the first 5 lines of the email."
 msgstr "untuk mendapatkan 5 baris pertama dari email."
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the ticket's customer user (if given)."
+msgid "To get the name of the ticket's customer user (if given)."
 msgstr ""
 
 #. Template: AdminAutoResponse
@@ -3844,6 +3856,10 @@ msgstr "Hapus tugas ini"
 #. Template: AdminGenericAgent
 msgid "Run this task"
 msgstr "Jalankan tugas ini"
+
+#. Template: AdminGenericAgent
+msgid "Do you really want to delete this task?"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -6077,12 +6093,12 @@ msgid "Required"
 msgstr "Diwajibkan"
 
 #. Template: AdminPackageManager
-msgid "PrimaryKey"
-msgstr "Kunci utama"
+msgid "Primary Key"
+msgstr ""
 
 #. Template: AdminPackageManager
-msgid "AutoIncrement"
-msgstr "AutoIncrement"
+msgid "Auto Increment"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -6199,6 +6215,10 @@ msgid "Delete this filter"
 msgstr "Hapus penyaring ini"
 
 #. Template: AdminPostMasterFilter
+msgid "Do you really want to delete this filter?"
+msgstr ""
+
+#. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
 msgstr "Tambah penyaring PostMaster"
 
@@ -6302,24 +6322,24 @@ msgid "Import process configuration"
 msgstr "Impor proses konfigurasi"
 
 #. Template: AdminProcessManagement
-msgid "Example processes"
-msgstr "Contoh proses"
-
-#. Template: AdminProcessManagement
-msgid ""
-"Here you can activate best practice example processes. Please note that some"
-" additional configuration may be required."
+msgid "Ready-to-run Processes"
 msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import additional sophisticated example processes."
+"Here you can activate ready-to-run processes showcasing our best practices. "
+"Please note that some additional configuration may be required."
 msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Import example process"
-msgstr "Impor contoh proses"
+msgid ""
+"Would you like to benefit from processes created by experts? Upgrade to %s "
+"to import some sophisticated ready-to-run processes."
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Import ready-to-run process"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6667,10 +6687,6 @@ msgstr "Menghapus aktivitas dari proses ini"
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
 msgstr "Ubah aktivitas ini"
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Save settings"
-msgstr "Simpan pengubahan"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
@@ -8246,6 +8262,10 @@ msgstr "Template adalah teks default yang membantu agen anda untuk menulis tiket
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
 msgstr "Jangan lupa untuk menambahkan templat queues"
+
+#. Template: AdminTemplate
+msgid "Do you really want to delete this template?"
+msgstr "Apakah Anda benar-benar ingin menghapus template ini?"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -11767,7 +11787,7 @@ msgstr "Perlu sumber objek dan sumber kunci!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Please contact the administrator."
-msgstr ""
+msgstr "Silahkan hubungi administrator."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -12168,6 +12188,10 @@ msgid "Untitled"
 msgstr "Tanpa judul"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Customer Name"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
 msgstr "Pengguna tidak sah"
 
@@ -12188,8 +12212,56 @@ msgid "Feature is not active"
 msgstr "Fitur tidak aktif"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Link Deleted"
+msgstr "Sambungan dihapuskan"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Locked"
+msgstr "Tiket dikunci"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Pending Time Set"
+msgstr "Set Penundaan Waktu"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Dynamic Field Updated"
+msgstr "DynamicField diperbarukan"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email (internal)"
+msgstr "Email keluar (internal)"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
 msgstr "Membuat tiket"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Type Updated"
+msgstr "Jenis diperbarui"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time Stopped"
+msgstr "Eskalasi Perbarui Waktu Berhenti"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation First Response Time Stopped"
+msgstr "Eskalasi Pertama Respon Waktu Berhenti"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Customer Updated"
+msgstr "Pelanggan diperbarui"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Internal Chat"
+msgstr "Obrolan didalam"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Follow-Up Sent"
+msgstr "Auto follow-up dihantar"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
@@ -12200,138 +12272,126 @@ msgid "Note Added (Customer)"
 msgstr "Catatan ditambah (Pelanggan)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email"
-msgstr "Email keluar "
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email (internal)"
-msgstr "Email keluar (internal)"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Customer Email"
-msgstr "Email pelanggan yang masuk"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Dynamic Field Updated"
-msgstr "DynamicField diperbarukan"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Phone Call"
-msgstr "Panggilan keluar"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Phone Call"
-msgstr "Panggilan masuk"
+msgid "State Updated"
+msgstr "State diperbarui"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
 msgstr "Jawaban keluar"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "SLA Updated"
-msgstr "SLA diperbarukan"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
 msgstr "Servis diperbarui"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Customer Updated"
-msgstr "Pelanggan diperbarui"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "State Updated"
-msgstr "State diperbarui"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Follow-Up"
-msgstr "Follow-Up masuk"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Update Time Stopped"
-msgstr "Eskalasi Perbarui Waktu Berhenti"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Solution Time Stopped"
-msgstr "Eskalasi Perbarui Waktu Berhenti"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation First Response Time Stopped"
-msgstr "Eskalasi Pertama Respon Waktu Berhenti"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Response Time Stopped"
-msgstr "Eskalasi Respon Waktu Diberhentikan"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Added"
 msgstr "Alat sambung ditambahkan"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Link Deleted"
-msgstr "Sambungan dihapuskan"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Merged"
-msgstr "Tiket digabungkan"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Pending Time Set"
-msgstr "Set Penundaan Waktu"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Locked"
-msgstr "Tiket dikunci"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Unlocked"
-msgstr "Ticket dibuka"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Queue Updated"
-msgstr "Queue diperbarui"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Priority Updated"
-msgstr "Prioritas diperbarui"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Title Updated"
-msgstr "Judul diperbarui"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Type Updated"
-msgstr "Jenis diperbarui"
+msgid "Incoming Customer Email"
+msgstr "Email pelanggan yang masuk"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Web Request"
 msgstr "Permintaan web yang masuk"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Follow-Up Sent"
-msgstr "Auto follow-up dihantar"
+msgid "Priority Updated"
+msgstr "Prioritas diperbarui"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Reply Sent"
-msgstr "Penghantaran otomotasi untuk membalas pesan"
+msgid "Ticket Unlocked"
+msgstr "Ticket dibuka"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email"
+msgstr "Email keluar "
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Title Updated"
+msgstr "Judul diperbarui"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Merged"
+msgstr "Tiket digabungkan"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Phone Call"
+msgstr "Panggilan keluar"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Forwarded Message"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Removed User Subscription"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
 msgstr "Waktu dicatat"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Phone Call"
+msgstr "Panggilan masuk"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "System Request."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Follow-Up"
+msgstr "Follow-Up masuk"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reply Sent"
+msgstr "Penghantaran otomotasi untuk membalas pesan"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reject Sent"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time Stopped"
+msgstr "Eskalasi Perbarui Waktu Berhenti"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time Stopped"
+msgstr "Eskalasi Respon Waktu Diberhentikan"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "SLA Updated"
+msgstr "SLA diperbarukan"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Queue Updated"
+msgstr "Queue diperbarui"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
 msgstr "Obrolan diluar"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Internal Chat"
-msgstr "Obrolan didalam"
+msgid "Queue Changed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Notification Was Sent"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state."
-msgstr ""
+msgstr "Mohon maaf, Anda tidak memiliki izin lagi untuk mengakses tiket ini dalam kondisi saat ini."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12358,28 +12418,28 @@ msgid "Offline"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently offline"
-msgstr "Pengguna ini sedang offline"
+msgid "User is currently offline."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently active"
-msgstr "Pengguna ini sedang aktif"
+msgid "User is currently active."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Away"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently away"
-msgstr "Pengguna saat ini sedang pergi"
+msgid "User was inactive for a while."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Unavailable"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently unavailable"
-msgstr "Pengguna saat ini tidak tersedia"
+msgid "User set their status to unavailable."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
@@ -12562,6 +12622,26 @@ msgstr "Dekripsi sukses"
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
 msgstr "Waktu dimulai apabila tiket telah ditetapkan setelah waktu berakhir!"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't connect to OTRS News server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't get OTRS News from server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't connect to Product News server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't get Product News from server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+msgid "Can't connect to %s!"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
@@ -16755,27 +16835,27 @@ msgstr "Mendefinisikan modul yang menunjukkan pemberitahuan generik di antarmuka
 
 #. SysConfig
 msgid ""
-"Defines the module that shows all the currently loged in customers in the "
-"agent interface."
-msgstr "Mendefinisikan modul yang menunjukkan semua saat ini login pelanggan di antarmuka agen."
-
-#. SysConfig
-msgid ""
 "Defines the module that shows all the currently logged in agents in the "
 "agent interface."
 msgstr "Mendefinisikan modul yang menunjukkan semua yang sedang login agen di antarmuka agen."
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in agents in the customer "
-"interface."
-msgstr "Mendefinisikan modul yang menunjukkan saat ini login agen di antarmuka pelanggan."
+"Defines the module that shows all the currently logged in customers in the "
+"agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in customers in the "
+"Defines the module that shows the currently logged in agents in the customer"
+" interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the module that shows the currently logged in customers in the "
 "customer interface."
-msgstr "Mendefinisikan modul yang menunjukkan saat ini login pelanggan di antarmuka pelanggan."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the module to authenticate customers."
@@ -17399,6 +17479,12 @@ msgid ""
 "Determines the next possible ticket states, for process tickets in the agent"
 " interface."
 msgstr "Menentukan state tiket berikutnya mungkin, untuk tiket proses di antarmuka agen."
+
+#. SysConfig
+msgid ""
+"Determines the next possible ticket states, for process tickets in the "
+"customer interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18419,8 +18505,8 @@ msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, Anda dapat me
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr ""
+"example_domain\\user to user)."
+msgstr "Jika \"HTTP Basic Auth\" dipilih untuk Pelanggan :: AuthModule, Anda dapat menentukan untuk melucuti bagian terkemuka nama pengguna (e. G. Untuk domain seperti misalnya domain \\ pengguna ke pengguna)."
 
 #. SysConfig
 msgid ""
@@ -20409,8 +20495,8 @@ msgstr "Mengatur Teks bawaan email untuk review Tiket baru di Antarmuka agen"
 #. SysConfig
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
-" a user is loged out."
-msgstr "Mengatur Teks bawaan email untuk review revisi Tiket baru di Antarmuka agen"
+" a user is logged out."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21324,14 +21410,13 @@ msgstr "Menunjukkan pilihan prioritas tiket di tiket layar yang bertanggung jawa
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the close ticket screen of the agent interface."
-msgstr "Menunjukkan bidang judul di layar tiket penutupan antarmuka agen."
+"Shows the title field in the ticket free text screen of the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket free text screen of the agent "
-"interface."
-msgstr "Menunjukkan bidang judul dalam tiket layar teks bebas dari antarmuka agen."
+"Shows the title fields in the close ticket screen of the agent interface."
+msgstr "Menunjukkan bidang judul di layar tiket penutupan antarmuka agen."
 
 #. SysConfig
 msgid ""

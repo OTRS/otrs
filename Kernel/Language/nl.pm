@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.661306947021233;
+    $Self->{Completeness}        = 0.657224958949097;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -827,6 +827,8 @@ sub Data {
         'Edit ACL information' => 'Bewerk ACL-informatie',
         'Stop after match' => 'Stop met filters na match',
         'Edit ACL structure' => 'Bewerk ACL-structuur',
+        'Save settings' => 'Instellingen opslaan',
+        'Save ACL' => '',
         'Save' => 'Opslaan',
         'or' => 'of',
         'Save and finish' => 'Opslaan en voltooien',
@@ -847,6 +849,7 @@ sub Data {
         'List' => 'Overzicht',
         'Download file' => 'Download bijlage',
         'Delete this attachment' => 'Verwijder bijlage',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => 'Nieuwe bijlage',
         'Edit Attachment' => 'Bijlage bewerken',
 
@@ -861,8 +864,7 @@ sub Data {
         'You can use the following tags' => 'U kunt de volgende tags gebruiken',
         'To get the first 20 character of the subject.' => 'Voor de eerste 20 tekens van het onderwerp.',
         'To get the first 5 lines of the email.' => 'Voor de eerste vijf regels van het e-mail bericht.',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Voor de attributen van de interactie',
         ' e. g.' => ' bijv.',
         'Options of the current customer user data' => 'Attributen van de huidige klant',
@@ -1094,6 +1096,7 @@ sub Data {
         'Run Now!' => 'Nu uitvoeren',
         'Delete this task' => 'Verwijder deze taak',
         'Run this task' => 'Voer deze taak',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => 'Taak instellingen',
         'Job name' => 'Naam',
         'The name you entered already exists.' => 'De naam die u hebt opgegeven bestaat al.',
@@ -1380,7 +1383,7 @@ sub Data {
             '\'FunctionName\' is gebruikt als voorbeeld voor invoker/operation name.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'FreeText\' wordt gebruikt als voorbeeld voor eigenlijk geconfigureerde waarde.',
-        'Response name free text' => 'Antword naam vrije tekst',
+        'Response name free text' => 'Antwoord naam vrije tekst',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Tekst die gebruikt moet worden als wrapper naam achtervoegsel of vervanging.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1752,8 +1755,8 @@ sub Data {
         'Download' => 'Downloaden',
         'Download file from package!' => 'Download bestand van pakket.',
         'Required' => 'Verplicht',
-        'PrimaryKey' => 'Primaire sleutel',
-        'AutoIncrement' => 'AutoIncrement',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL statement',
         'File differences for file %s' => 'Verschillen in bestand %s',
 
@@ -1789,6 +1792,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Als u regular expressions gebruikt dan kunt u ook de gevonden waarde tussen haakjes () gebruiken als [***] in de \'Set\' actie.',
         'Delete this filter' => 'Verwijder filter',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Nieuw e-mail filter',
         'Edit PostMaster Filter' => 'Bewerk e-mail filter',
         'The name is required.' => 'De naam is verplicht.',
@@ -1820,12 +1824,12 @@ sub Data {
         'Overwrite existing entities' => 'Overschrijf bestaande records',
         'Upload process configuration' => 'Upload procesconfiguratie',
         'Import process configuration' => 'Importeer procesconfiguratie',
-        'Example processes' => 'Voorbeeld processen',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => 'Importeer voorbeeld processen',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Om een nieuw proces aan te maken kunt u een bestand importeren, aangemaakt op een ander systeem, of een compleet nieuw proces aanmaken.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1931,7 +1935,6 @@ sub Data {
         'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
         'Remove the Activity from this Process' => 'Verwijder de activiteit uit dit proces',
         'Edit this Activity' => 'Bewerk deze activiteit',
-        'Save settings' => 'Instellingen opslaan',
         'Save Activities, Activity Dialogs and Transitions' => 'Bewaar activiteiten, dialogen en transities',
         'Do you really want to delete this Process?' => 'Wilt u dit proces verwijderen?',
         'Do you really want to delete this Activity?' => 'Wilt u deze activiteit verwijderen?',
@@ -2422,6 +2425,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Een sjabloon is een standaardtext die uw behandelaars helpt sneller tickets aan te maken of te beantwoorden.',
         'Don\'t forget to add new templates to queues.' => 'Vergeet niet de sjablonen aan wachtrijen te koppelen.',
+        'Do you really want to delete this template?' => 'Wilt u deze template echt verwijderen?',
         'Add Template' => 'Nieuw sjabloon',
         'Edit Template' => 'Bewerk sjabloon',
         'A standard template with this name already exists!' => 'Er bestaat al een standaard template met deze naam!',
@@ -2729,7 +2733,7 @@ sub Data {
 
         # Template: AgentTicketEscalation
         'Ticket %s: first response time is over (%s/%s)!' => 'Ticket %s: eerste antwoord tijd is voorbij (%s/%s)!',
-        'Ticket %s: first response time will be over in %s/%s!' => 'Ticket %s: eerste antwoord tijd zal vorbij zijn binnen %s/%s!',
+        'Ticket %s: first response time will be over in %s/%s!' => 'Ticket %s: eerste antwoord tijd zal voorbij zijn binnen %s/%s!',
         'Ticket %s: update time is over (%s/%s)!' => '',
         'Ticket %s: update time will be over in %s/%s!' => 'Ticket $s: vervolg tijd zal voorbij zijn binnen %s.',
         'Ticket %s: solution time is over (%s/%s)!' => 'Ticket %s: oplossing tijd is voorbij (%s/%s)!',
@@ -3219,7 +3223,7 @@ sub Data {
         'Notification' => 'Melding',
         'No user configurable notifications found.' => 'Door de eindgebruiker instelbare notificaties gevonden.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
-            'Ontvang berichten vor notificatie \'%s\' via transport methode \'%s\'.',
+            'Ontvang berichten voor notificatie \'%s\' via transport methode \'%s\'.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
             'Let op dat je verplichte notificaties niet volledig uit kun zetten.',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
@@ -3340,7 +3344,7 @@ sub Data {
         'There was an error setting the entity sync status.' => 'Er is een fout opgegeven bij het instellen van de synchronisatiestatus.',
         'There was an error synchronizing the ACLs.' => 'Er is een fout opgetreden met het synchroniseren van de ACL\'s.',
         'ACL %s could not be deleted' => 'ACL %s kon niet worden verwijderd',
-        'There was an error getting data for ACL with ID %s' => 'Er is een fout opgetreden met het ophalen van de gegevens vor ACL met ID %s',
+        'There was an error getting data for ACL with ID %s' => 'Er is een fout opgetreden met het ophalen van de gegevens voor ACL met ID %s',
         'Exact match' => '',
         'Negated exact match' => '',
         'Regular expression' => '',
@@ -3463,7 +3467,7 @@ sub Data {
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
             '',
         'Agent who owns the ticket' => 'Eigenaar van het ticket',
-        'Agent who is responsible for the ticket' => 'Verantwordelijke voor het ticket',
+        'Agent who is responsible for the ticket' => 'Verantwoordelijke voor het ticket',
         'All agents watching the ticket' => 'Alle agent die het ticket in de gaten houden',
         'All agents with write permission for the ticket' => 'Alle agents met schrijf rechten voor het ticket',
         'All agents subscribed to the ticket\'s queue' => 'Alle agents die zich hebben ingeschreven op de wachtrij',
@@ -3759,7 +3763,7 @@ sub Data {
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             'Heb geen ProcesEntiteitID of TicketID en ActiviteitDialoogEntiteitID!',
         'Can\'t get StartActivityDialog and StartActivityDialog for the ProcessEntityID "%s"!' =>
-            'Verkreeg geen StartActiviteitDialoog en StartActiviteitDialoog vor het ProcesEntiteitID "%s"!',
+            'Verkreeg geen StartActiviteitDialoog en StartActiviteitDialoog voor het ProcesEntiteitID "%s"!',
         'Can\'t get Ticket "%s"!' => 'Kan ticket "%s" niet ophalen!',
         'Can\'t get ProcessEntityID or ActivityEntityID for Ticket "%s"!' =>
             'Kan ProcesEntiteitID of ActiviteitEntiteitID niet verkrijgen voor ticket "%s"!',
@@ -3800,6 +3804,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
+        'Customer Name' => '',
         'Invalid Users' => 'Ongeldige gebruikers',
         'CSV' => '',
         'Excel' => '',
@@ -3811,55 +3816,64 @@ sub Data {
         'Feature is not active' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => '',
+        'Ticket Locked' => '',
+        'Pending Time Set' => '',
+        'Dynamic Field Updated' => '',
+        'Outgoing Email (internal)' => '',
         'Ticket Created' => 'Ticket aangemaakt',
+        'Type Updated' => '',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => '',
+        'Escalation First Response Time Stopped' => '',
+        'Customer Updated' => '',
+        'Internal Chat' => '',
+        'Automatic Follow-Up Sent' => '',
         'Note Added' => '',
         'Note Added (Customer)' => '',
-        'Outgoing Email' => 'Uitgaande e-mail',
-        'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => '',
-        'Dynamic Field Updated' => '',
-        'Outgoing Phone Call' => 'Uitgaand telefoongesprek',
-        'Incoming Phone Call' => 'Inkomend telefoongesprek',
-        'Outgoing Answer' => '',
-        'SLA Updated' => '',
-        'Service Updated' => '',
-        'Customer Updated' => '',
         'State Updated' => '',
-        'Incoming Follow-Up' => '',
-        'Escalation Update Time Stopped' => '',
-        'Escalation Solution Time Stopped' => '',
-        'Escalation First Response Time Stopped' => '',
-        'Escalation Response Time Stopped' => '',
+        'Outgoing Answer' => '',
+        'Service Updated' => '',
         'Link Added' => '',
-        'Link Deleted' => '',
-        'Ticket Merged' => '',
-        'Pending Time Set' => '',
-        'Ticket Locked' => '',
-        'Ticket Unlocked' => '',
-        'Queue Updated' => '',
-        'Priority Updated' => '',
-        'Title Updated' => '',
-        'Type Updated' => '',
+        'Incoming Customer Email' => '',
         'Incoming Web Request' => '',
-        'Automatic Follow-Up Sent' => '',
-        'Automatic Reply Sent' => '',
+        'Priority Updated' => '',
+        'Ticket Unlocked' => '',
+        'Outgoing Email' => 'Uitgaande e-mail',
+        'Title Updated' => '',
+        'Ticket Merged' => '',
+        'Outgoing Phone Call' => 'Uitgaand telefoongesprek',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => '',
+        'Incoming Phone Call' => 'Inkomend telefoongesprek',
+        'System Request.' => '',
+        'Incoming Follow-Up' => '',
+        'Automatic Reply Sent' => '',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => '',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => '',
+        'SLA Updated' => '',
+        'Queue Updated' => '',
         'External Chat' => '',
-        'Internal Chat' => '',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
+            'Helaas, je hebt niet voldoende rechten om dit ticket te openen in zijn huidige staat.',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
         'Offline' => '',
-        'This user is currently offline' => 'Deze gebruiker is offline',
-        'This user is currently active' => 'Deze gebruiker is actief',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => 'Deze gebruiker is afwezig',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => 'Deze gebruiker is onbeschikbaar',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => 'Velden zonder groep',
         'View the source for this Article' => '',
 
@@ -3928,6 +3942,17 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => '',
@@ -5297,13 +5322,13 @@ Het Helpdesk Team
             '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
             '',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '',
         'Defines the module to display a notification if cloud services are disabled.' =>
@@ -5499,6 +5524,8 @@ Het Helpdesk Team
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
             '',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
             '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '',
@@ -6392,7 +6419,7 @@ Het Helpdesk Team
             '',
         'Sets the display order of the different items in the preferences view.' =>
             '',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
@@ -6665,9 +6692,9 @@ Het Helpdesk Team
             '',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows the title fields in the close ticket screen of the agent interface.' =>
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
             '',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
+        'Shows the title fields in the close ticket screen of the agent interface.' =>
             '',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             '',

@@ -6,7 +6,7 @@
 # Antonio Kless, 2015
 # Hellbartonio <hellbartonio@mail.ru>, 2016
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
-# Grigoriy <mr.bg.prodix@gmail.com>, 2015
+# Григорий Гераськин <mr.bg.prodix@gmail.com>, 2015
 # Hellbartonio <hellbartonio@mail.ru>, 2016
 # Илья Сапунов <ilya.sapunov@gmail.com>, 2015
 # Makdorf <makdorf@gmail.com>, 2015
@@ -25,9 +25,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-11-04 14:18+0000\n"
-"PO-Revision-Date: 2016-11-04 13:19+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-12-07 16:14+0000\n"
+"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3013,6 +3013,14 @@ msgid "Edit ACL structure"
 msgstr "Редактировать ACL"
 
 #. Template: AdminACLEdit
+msgid "Save settings"
+msgstr "Сохранить настройки"
+
+#. Template: AdminACLEdit
+msgid "Save ACL"
+msgstr ""
+
+#. Template: AdminACLEdit
 msgid "Save"
 msgstr "Сохранить"
 
@@ -3073,6 +3081,10 @@ msgid "Delete this attachment"
 msgstr "Удалить это вложение"
 
 #. Template: AdminAttachment
+msgid "Do you really want to delete this attachment?"
+msgstr ""
+
+#. Template: AdminAttachment
 msgid "Add Attachment"
 msgstr "Добавить вложение"
 
@@ -3121,8 +3133,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Чтобы получить первые 5 строк email"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the ticket's customer user (if given)."
-msgstr "Чтобы получить реальное имя пользователя (если указано)."
+msgid "To get the name of the ticket's customer user (if given)."
+msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3861,6 +3873,10 @@ msgstr "Удалить задачу"
 #. Template: AdminGenericAgent
 msgid "Run this task"
 msgstr "Запустить задачу"
+
+#. Template: AdminGenericAgent
+msgid "Do you really want to delete this task?"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -6094,12 +6110,12 @@ msgid "Required"
 msgstr "Требуется"
 
 #. Template: AdminPackageManager
-msgid "PrimaryKey"
-msgstr "Первичный ключ"
+msgid "Primary Key"
+msgstr ""
 
 #. Template: AdminPackageManager
-msgid "AutoIncrement"
-msgstr "Автоинкремент"
+msgid "Auto Increment"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -6216,6 +6232,10 @@ msgid "Delete this filter"
 msgstr "Удалить этот фильтр"
 
 #. Template: AdminPostMasterFilter
+msgid "Do you really want to delete this filter?"
+msgstr ""
+
+#. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
 msgstr "Добавить фильтр PostMaster-а"
 
@@ -6319,24 +6339,24 @@ msgid "Import process configuration"
 msgstr "Импортировать конфигурацию Процесса"
 
 #. Template: AdminProcessManagement
-msgid "Example processes"
-msgstr "Пример процесса"
+msgid "Ready-to-run Processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate best practice example processes. Please note that some"
-" additional configuration may be required."
-msgstr "Здесь вы можете включить примеры процессов, основанные на лучших практиках. Пожалуйста, обратите внимание, что могут потребоваться некоторые дополнительные настройки."
+"Here you can activate ready-to-run processes showcasing our best practices. "
+"Please note that some additional configuration may be required."
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import additional sophisticated example processes."
-msgstr "Хотели бы вы извлечь выгоду, воспользовавшись процессами, созданными экспертами? Обновитесь до %s, чтобы получить возможность импортировать дополнительные примеры сложных процессов."
+"Would you like to benefit from processes created by experts? Upgrade to %s "
+"to import some sophisticated ready-to-run processes."
+msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Import example process"
-msgstr "Импорт примерного процесса"
+msgid "Import ready-to-run process"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6684,10 +6704,6 @@ msgstr "Удалить Активность из этого Процесса"
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
 msgstr "Редактировать Активность"
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Save settings"
-msgstr "Сохранить настройки"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
@@ -8263,6 +8279,10 @@ msgstr "Шаблон - текст по умолчанию, который пом
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
 msgstr "Не забудьте добавить новые шаблоны к очередям"
+
+#. Template: AdminTemplate
+msgid "Do you really want to delete this template?"
+msgstr "Ва действительно желаете удалить этот шаблон"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -11784,7 +11804,7 @@ msgstr "Требуется SourceObject и SourceKey!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Please contact the administrator."
-msgstr ""
+msgstr "Свяжитесь с администратором."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -12112,7 +12132,7 @@ msgstr "Невозможно получить Config для ActivityDialogEntity
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't use CustomerID as an invisible field."
-msgstr ""
+msgstr "Невозможно использовать CustomerID в качестве невидимого поля. "
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
@@ -12185,6 +12205,10 @@ msgid "Untitled"
 msgstr "Без названия"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Customer Name"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
 msgstr "Недействительные пользователи"
 
@@ -12205,8 +12229,56 @@ msgid "Feature is not active"
 msgstr "Функция не активирована"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Link Deleted"
+msgstr "Связь удалена"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Locked"
+msgstr "Заявка заблокирована"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Pending Time Set"
+msgstr "Установлено время ожидания"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Dynamic Field Updated"
+msgstr "Динамическое поле обновлено"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email (internal)"
+msgstr "Исходящее письмо (внутреннее)"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
 msgstr "Заявка создана"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Type Updated"
+msgstr "Тип обновлен"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time Stopped"
+msgstr "Срок эскалации по времени остановлен"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation First Response Time Stopped"
+msgstr "Escalation First Response Time остановлено"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Customer Updated"
+msgstr "Клиент обновлен"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Internal Chat"
+msgstr "Внутренний чат"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Follow-Up Sent"
+msgstr "Автоответ клиента отправлен"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
@@ -12217,138 +12289,126 @@ msgid "Note Added (Customer)"
 msgstr "Добавлена заметка (Клиент)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email"
-msgstr "Исходящее письмо"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email (internal)"
-msgstr "Исходящее письмо (внутреннее)"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Customer Email"
-msgstr "Входящее письмо клиента"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Dynamic Field Updated"
-msgstr "Динамическое поле обновлено"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Phone Call"
-msgstr "Исходящий телефонный звонок"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Phone Call"
-msgstr "Входящий телефонный звонок"
+msgid "State Updated"
+msgstr "Состояние обновлено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
 msgstr "Исходящий ответ"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "SLA Updated"
-msgstr "SLA обновлено"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
 msgstr "Сервис обновлен"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Customer Updated"
-msgstr "Клиент обновлен"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "State Updated"
-msgstr "Состояние обновлено"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Follow-Up"
-msgstr "Входящее дополнение к заявке"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Update Time Stopped"
-msgstr "Срок эскалации по времени остановлен"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Solution Time Stopped"
-msgstr "Escalation Solution Time остановлено"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation First Response Time Stopped"
-msgstr "Escalation First Response Time остановлено"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Response Time Stopped"
-msgstr "Escalation Response Time остановлено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Added"
 msgstr "Добавлена связь "
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Link Deleted"
-msgstr "Связь удалена"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Merged"
-msgstr "Заявка объединена"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Pending Time Set"
-msgstr "Установлено время ожидания"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Locked"
-msgstr "Заявка заблокирована"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Unlocked"
-msgstr "Заявка разблокирована"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Queue Updated"
-msgstr "Очередь обновлена"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Priority Updated"
-msgstr "Приоритет обновлен"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Title Updated"
-msgstr "Заголовок обновлен"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Type Updated"
-msgstr "Тип обновлен"
+msgid "Incoming Customer Email"
+msgstr "Входящее письмо клиента"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Web Request"
 msgstr "Входящий веб-запрос"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Follow-Up Sent"
-msgstr "Автоответ клиента отправлен"
+msgid "Priority Updated"
+msgstr "Приоритет обновлен"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Reply Sent"
-msgstr "Автоответ отправлен"
+msgid "Ticket Unlocked"
+msgstr "Заявка разблокирована"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email"
+msgstr "Исходящее письмо"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Title Updated"
+msgstr "Заголовок обновлен"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Merged"
+msgstr "Заявка объединена"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Phone Call"
+msgstr "Исходящий телефонный звонок"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Forwarded Message"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Removed User Subscription"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
 msgstr "Затраченное время"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Phone Call"
+msgstr "Входящий телефонный звонок"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "System Request."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Follow-Up"
+msgstr "Входящее дополнение к заявке"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reply Sent"
+msgstr "Автоответ отправлен"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reject Sent"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time Stopped"
+msgstr "Escalation Solution Time остановлено"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time Stopped"
+msgstr "Escalation Response Time остановлено"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "SLA Updated"
+msgstr "SLA обновлено"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Queue Updated"
+msgstr "Очередь обновлена"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
 msgstr "Внешний чат"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Internal Chat"
-msgstr "Внутренний чат"
+msgid "Queue Changed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Notification Was Sent"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state."
-msgstr ""
+msgstr "Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12375,28 +12435,28 @@ msgid "Offline"
 msgstr "Вне сети"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently offline"
-msgstr "Этот пользователь в настоящее время не подключен"
+msgid "User is currently offline."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently active"
-msgstr "Этот пользователь в настоящее время активен"
+msgid "User is currently active."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Away"
 msgstr "Отсутствует"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently away"
-msgstr "Этот пользователь в настоящее время отсутствует"
+msgid "User was inactive for a while."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Unavailable"
 msgstr "Недоступен"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently unavailable"
-msgstr "Этот пользователь в настоящее время недоступен"
+msgid "User set their status to unavailable."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
@@ -12500,7 +12560,7 @@ msgstr "Неизвестный тип баз данных \"%s\"."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back."
-msgstr ""
+msgstr "Пожалуйста, вернитесь назад."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12580,6 +12640,26 @@ msgstr "Успешно расшифровано"
 msgid "The start time of a ticket has been set after the end time!"
 msgstr "Время начала для заявки установлено после времени окончания!"
 
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't connect to OTRS News server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't get OTRS News from server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't connect to Product News server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't get Product News from server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+msgid "Can't connect to %s!"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr "отсортировано в порядке возрастания"
@@ -12620,7 +12700,7 @@ msgstr "Результат поиска"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
 msgid "Archive search"
-msgstr ""
+msgstr "Поиск в архиве"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -13431,11 +13511,11 @@ msgstr "Список пакетов"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "Spooled Emails"
-msgstr ""
+msgstr "Буферизованные почтовые сообщения"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "There are emails in var/spool that OTRS could not process."
-msgstr ""
+msgstr "Имеются почтовые сообщения в var/spool, которые OTRS не смог обработать."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -13657,7 +13737,7 @@ msgstr "Не удалось определить версию Веб - серв�
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
 msgid "Concurrent Users Details"
-msgstr ""
+msgstr "Подробности о конкурирующих ползователях"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
@@ -13738,7 +13818,7 @@ msgstr "Внимание, пользователь аутентифициров�
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
-msgstr ""
+msgstr "Невозможно удалить SessionID."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -13756,11 +13836,11 @@ msgstr "Нет прав на использование этого модуля!
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact the administrator."
-msgstr ""
+msgstr "Аутентификация успешна, однако ни одной записи для клиента не обнаружено в используемой/ых базе клиентов. Обратитесь к вашему администратору."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact the administrator."
-msgstr ""
+msgstr "Сброс пароля не выполнен. Пожалуйста, свяжитесь с администратором."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -13782,7 +13862,7 @@ msgstr "Активирован SecureMode!"
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the "
 "SysConfig."
-msgstr ""
+msgstr "Если вы желаете перезапустить установщик, отключите SecureMode в SysConfig."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -15294,7 +15374,7 @@ msgid ""
 "must have registered the following JS and CSS files: "
 "Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, "
 "Core.Agent.TableFilters.js."
-msgstr ""
+msgstr "Задает Действия/Actions когда кнопка настройки доступна в связанном виджете (LinkObject::ViewMode = \"complex\"). Обратите внимание, что эти Действия/Actions должны иметь зарегистрированные JS или CSS файлы: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js."
 
 #. SysConfig
 msgid ""
@@ -15362,7 +15442,7 @@ msgid ""
 "(LinkObject::ViewMode = \"complex\"). Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
 " settings: 0 = Disabled, 1 = Available, 2 = Enabled by default."
-msgstr ""
+msgstr "Задает, какие колонки отображаются в связанном виджете заявки (LinkObject::ViewMode = \"complex\"). Внимание:только атрибуты заявки и динамических полей (DynamicField_NameX) разрешены для DefaultColumns/Колонки по умолчанию. Возможные значения: 0 = Отключено, 1 = Включено, 2 = Включено по умолчанию."
 
 #. SysConfig
 msgid ""
@@ -16772,27 +16852,27 @@ msgstr "Задает модуль который показывает основ
 
 #. SysConfig
 msgid ""
-"Defines the module that shows all the currently loged in customers in the "
-"agent interface."
-msgstr "Задает модуль который показывает всех подключившихся клиентов в интерфейсе агента."
-
-#. SysConfig
-msgid ""
 "Defines the module that shows all the currently logged in agents in the "
 "agent interface."
 msgstr "Задает модуль который показывает всех подключившихся агентов в интерфейсе агента."
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in agents in the customer "
-"interface."
-msgstr "Задает модуль который показывает всех подключившихся агентов в интерфейсе клиента."
+"Defines the module that shows all the currently logged in customers in the "
+"agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in customers in the "
+"Defines the module that shows the currently logged in agents in the customer"
+" interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the module that shows the currently logged in customers in the "
 "customer interface."
-msgstr "Задает модуль который показывает всех подключившихся клиентов в интерфейсе клиента."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the module to authenticate customers."
@@ -17416,6 +17496,12 @@ msgid ""
 "Determines the next possible ticket states, for process tickets in the agent"
 " interface."
 msgstr "Задает список следующих доступных состояний после создания новой процессной заявки в интерфейсе агента."
+
+#. SysConfig
+msgid ""
+"Determines the next possible ticket states, for process tickets in the "
+"customer interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18436,8 +18522,8 @@ msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::Auth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr ""
+"example_domain\\user to user)."
+msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
 
 #. SysConfig
 msgid ""
@@ -20426,8 +20512,8 @@ msgstr "Задает порядок отображения различных а
 #. SysConfig
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
-" a user is loged out."
-msgstr "Устанавливает время неактивности (в сек) после которого сеанс прекращается и агент будет отключен от системы (loged out)."
+" a user is logged out."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21341,14 +21427,13 @@ msgstr "Дает возможность изменить приоритет на
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the close ticket screen of the agent interface."
-msgstr "Показывать поле Тема при закрытии заявки в интерфейсе агента."
+"Shows the title field in the ticket free text screen of the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket free text screen of the agent "
-"interface."
-msgstr "Показывать поле Тема при изменении Дополнительных полей заявки в интерфейсе агента."
+"Shows the title fields in the close ticket screen of the agent interface."
+msgstr "Показывать поле Тема при закрытии заявки в интерфейсе агента."
 
 #. SysConfig
 msgid ""

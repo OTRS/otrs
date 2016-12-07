@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.995670995670996;
+    $Self->{Completeness}        = 0.988095238095238;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -827,6 +827,8 @@ sub Data {
         'Edit ACL information' => 'Uredi „ACL” iinformacije',
         'Stop after match' => 'Zaustavi posle poklapanja',
         'Edit ACL structure' => 'Uredi „ACL” strukturu',
+        'Save settings' => 'Sačuvaj podešavanja',
+        'Save ACL' => '',
         'Save' => 'Sačuvaj',
         'or' => 'ili',
         'Save and finish' => 'Sačuvaj i završi',
@@ -847,6 +849,7 @@ sub Data {
         'List' => 'Lista',
         'Download file' => 'Preuzmi datoteku',
         'Delete this attachment' => 'Obriši ovaj prilog',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => 'Dodaj prilog',
         'Edit Attachment' => 'Uredi prilog',
 
@@ -861,8 +864,7 @@ sub Data {
         'You can use the following tags' => 'Možete koristiti sledeće oznake',
         'To get the first 20 character of the subject.' => 'Da vidite prvih 20 slova predmeta',
         'To get the first 5 lines of the email.' => 'Da vidite prvih 5 linija imejla.',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            'Da pribavite pravo ime klijenta korisnika za tiket (ako je dato).',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Da vidite atribute članka',
         ' e. g.' => 'npr.',
         'Options of the current customer user data' => 'Opcije podataka o aktuelnom klijentu korisniku',
@@ -1094,6 +1096,7 @@ sub Data {
         'Run Now!' => 'Pokreni sad!',
         'Delete this task' => 'Obriši ovaj zadatak',
         'Run this task' => 'Pokreni ovaj zadatak',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => 'Podešavanje posla',
         'Job name' => 'Naziv posla',
         'The name you entered already exists.' => 'Ime koje ste uneli već postoji.',
@@ -1752,8 +1755,8 @@ sub Data {
         'Download' => 'Preuzimanje',
         'Download file from package!' => 'Preuzmi datoteku iz paketa!',
         'Required' => 'Obavezno',
-        'PrimaryKey' => 'Primarni ključ',
-        'AutoIncrement' => 'AutoUvećanje',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Razlike za datoteku %s',
 
@@ -1789,6 +1792,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Ukoliko koristite regularne izraze, takođe možete koristiti i upateru vrednost u () kao (***) u \'Set\' action.',
         'Delete this filter' => 'Obriši ovaj filter',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Dodaj PostMaster filter',
         'Edit PostMaster Filter' => 'Uredi PostMaster filter',
         'The name is required.' => 'Ime je obavezno.',
@@ -1820,12 +1824,12 @@ sub Data {
         'Overwrite existing entities' => 'Napiši preko postojećih entiteta',
         'Upload process configuration' => 'Učitaj konfiguraciju procesa',
         'Import process configuration' => 'Uvezi konfiguraciju procesa',
-        'Example processes' => 'Primeri procesa',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
-            'Ovde možete aktivirati procese primera nabolje prakse. Molimo da obratite pažnju da je možda potrebno dodatno konfigurisanje.',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
-            'Da li želite da iskoristite procese kreirane od strane eksperata? Unapredite sistem na %s za uvoz primera sofisticiranih procesa.',
-        'Import example process' => 'Izvezi primer procesa',
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
+            '',
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
+            '',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Za kreiranje novog procesa možete ili uvesti proces koji je izvezen iz drugog sistema ili kreirati kompletno nov.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1931,7 +1935,6 @@ sub Data {
         'Extend the height of the Canvas' => 'Produži visinu prostora',
         'Remove the Activity from this Process' => 'Ukloni aktivnost iz ovog procesa',
         'Edit this Activity' => 'Uredi ovu aktivnost',
-        'Save settings' => 'Sačuvaj podešavanja',
         'Save Activities, Activity Dialogs and Transitions' => 'Sačuvaj aktivosti, dijaloge aktivnosti i tranzicije',
         'Do you really want to delete this Process?' => 'Da li zaista želite da obrišete ovaj proces?',
         'Do you really want to delete this Activity?' => 'Da li zaista želite da obrišete ovu aktivnost?',
@@ -2422,6 +2425,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Šablon je podrazumevani tekst koji pomaže vašim agentima da brže ispišu tikete, odgovore ili prosleđene poruke.',
         'Don\'t forget to add new templates to queues.' => 'Ne zaboravite da dodate novi šablon u redu.',
+        'Do you really want to delete this template?' => '',
         'Add Template' => 'Dodaj Šablon',
         'Edit Template' => 'Uredi Šablon',
         'A standard template with this name already exists!' => 'Standardni šablon sa ovim nazivom već postoji!',
@@ -3801,6 +3805,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => 'Nema naslov',
+        'Customer Name' => '',
         'Invalid Users' => 'Pogrešni korisnici',
         'CSV' => 'CSV',
         'Excel' => '„Excel”',
@@ -3812,41 +3817,50 @@ sub Data {
         'Feature is not active' => 'Funkcija nije aktivna',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => 'Obrisana veza',
+        'Ticket Locked' => 'Zaključan tiket',
+        'Pending Time Set' => 'Vremena čekanja je podešeno',
+        'Dynamic Field Updated' => 'Ažurirano dinamičko polje',
+        'Outgoing Email (internal)' => 'Odlazni imejl (interni)',
         'Ticket Created' => 'Kreiran tiket',
+        'Type Updated' => 'Ažuriran tip',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => 'Vreme ažuriranja eskalacije je zaustavljeno',
+        'Escalation First Response Time Stopped' => 'Vreme prvog odziva eskalacije je zaustavljeno',
+        'Customer Updated' => 'Ažuriran klijent',
+        'Internal Chat' => 'Interno ćaskanje',
+        'Automatic Follow-Up Sent' => 'Poslat automatski nastavak',
         'Note Added' => 'Dodata napomena',
         'Note Added (Customer)' => 'Dodata napomena (klijent)',
-        'Outgoing Email' => 'Odlazni imejl',
-        'Outgoing Email (internal)' => 'Odlazni imejl (interni)',
-        'Incoming Customer Email' => 'Dolazni imejl klijenta',
-        'Dynamic Field Updated' => 'Ažurirano dinamičko polje',
-        'Outgoing Phone Call' => 'Izlazni telefonski poziv',
-        'Incoming Phone Call' => 'Ulazni telefonski poziv',
-        'Outgoing Answer' => 'Odlazni odgovor',
-        'SLA Updated' => '„SLA” je ažuriran',
-        'Service Updated' => 'Ažuriran servis',
-        'Customer Updated' => 'Ažuriran klijent',
         'State Updated' => 'Ažurirano stanje',
-        'Incoming Follow-Up' => 'Dolazni nastavak',
-        'Escalation Update Time Stopped' => 'Vreme ažuriranja eskalacije je zaustavljeno',
-        'Escalation Solution Time Stopped' => 'Vreme rešenja eskalacije je zaustavljeno',
-        'Escalation First Response Time Stopped' => 'Vreme prvog odziva eskalacije je zaustavljeno',
-        'Escalation Response Time Stopped' => 'Vreme odziva eskalacije je zaustavljeno',
+        'Outgoing Answer' => 'Odlazni odgovor',
+        'Service Updated' => 'Ažuriran servis',
         'Link Added' => 'Dodata veza',
-        'Link Deleted' => 'Obrisana veza',
-        'Ticket Merged' => 'Spojen tiket',
-        'Pending Time Set' => 'Vremena čekanja je podešeno',
-        'Ticket Locked' => 'Zaključan tiket',
-        'Ticket Unlocked' => 'Otključan tiket',
-        'Queue Updated' => 'Ažuriran red',
-        'Priority Updated' => 'Ažuriran prioritet',
-        'Title Updated' => 'Ažuriran naslov',
-        'Type Updated' => 'Ažuriran tip',
+        'Incoming Customer Email' => 'Dolazni imejl klijenta',
         'Incoming Web Request' => 'Dolazni veb zahtev',
-        'Automatic Follow-Up Sent' => 'Poslat automatski nastavak',
-        'Automatic Reply Sent' => 'Poslat automatski odgovor',
+        'Priority Updated' => 'Ažuriran prioritet',
+        'Ticket Unlocked' => 'Otključan tiket',
+        'Outgoing Email' => 'Odlazni imejl',
+        'Title Updated' => 'Ažuriran naslov',
+        'Ticket Merged' => 'Spojen tiket',
+        'Outgoing Phone Call' => 'Izlazni telefonski poziv',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => 'Vreme je obračunato',
+        'Incoming Phone Call' => 'Ulazni telefonski poziv',
+        'System Request.' => '',
+        'Incoming Follow-Up' => 'Dolazni nastavak',
+        'Automatic Reply Sent' => 'Poslat automatski odgovor',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => 'Vreme rešenja eskalacije je zaustavljeno',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => 'Vreme odziva eskalacije je zaustavljeno',
+        'SLA Updated' => '„SLA” je ažuriran',
+        'Queue Updated' => 'Ažuriran red',
         'External Chat' => 'Eksterno ćaskanje',
-        'Internal Chat' => 'Interno ćaskanje',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             '',
         'Can\'t get for ArticleID %s!' => 'Ne mogu pribaviti ID članka %s!',
@@ -3855,12 +3869,12 @@ sub Data {
         'Need ArticleID!' => 'Neophodan ID Članka!',
         'Invalid ArticleID!' => 'Nevažeći ID Članka!',
         'Offline' => 'Nije na vezi',
-        'This user is currently offline' => 'Ovaj korisnik trenutno nije na vezi',
-        'This user is currently active' => 'Ovaj korisnik je trenutno aktivan',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => 'Odsutan',
-        'This user is currently away' => 'Ovaj korisnik je trenutno odsutan',
+        'User was inactive for a while.' => '',
         'Unavailable' => 'Nedostupno',
-        'This user is currently unavailable' => 'Ovaj korisnik je sada nedostupan',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => 'Polja bez grupe',
         'View the source for this Article' => 'Pogledaj izvor ovog Članka',
 
@@ -3929,6 +3943,17 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => 'Vreme početka tiketa je podešeno posle vremena završetka!',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => 'sortirano rastuće',
@@ -5298,14 +5323,14 @@ Vaša tehnička podrška
             'Definiše maksimalnu veličinu u kilobajtima za odgovore Generičkog interfejsa koji se beleže u gi_debugger_entry_content tabelu.',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'Definiše modul koji prikazuje generičku napomenu u interfejsu operatera. Biće prikazan ili „Text” (ako je konfigurisan) ili sadržaj „File”.',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            'Određuje modul koji prikazuje sve trenutno prijavljene klijente u interfejsu operatera.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Definiše modul koji prikazuje sve trenutno prijavljene operatere u interfejsu operatera.',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            'Određuje modul koji prikazuje sve trenutno prijavljene operatere u interfejsu klijenta.',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            'Određuje modul koji prikazuje sve trenutno prijavljene klijente u interfejsu klijenta.',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            '',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            '',
         'Defines the module to authenticate customers.' => 'Određuje modul za autentifikaciju klijenata.',
         'Defines the module to display a notification if cloud services are disabled.' =>
             'Definiše modul za prikazivanje obaveštenja ako su servisi u oblaku onemogućeni.',
@@ -5501,6 +5526,8 @@ Vaša tehnička podrška
             'Određuje sledeći mogući status tiketa, nakon kreiranja novog telefonskog tiketa u interfejsu operatera.',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             'Određuje sledeći mogući status tiketa, za tikete procesa u interfejsu operatera.',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Određuje sledeći prikaz ekrana, nakon tiketa novog klijenta u interfejsu klijenta.',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
@@ -6393,8 +6420,8 @@ Vaša tehnička podrška
             'Određuje podrazumevani tekst novog imejl tiketa a u interfejsu operatera.',
         'Sets the display order of the different items in the preferences view.' =>
             'Određuje redosled prikaza raznih stavki u prikazu podešavanja.',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            'Određuje vreme bez aktivnosti (u sekundama) pre nego što sesija bude ugašena, a korisnik odjavljen.',
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
@@ -6666,10 +6693,10 @@ Vaša tehnička podrška
             'Prikazuje opcije prioriteta tiketa na ekranu prioriteta na detaljnom prikazu tiketa u interfejsu operatera.',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             'Prikazuje opcije prioriteta tiketa na ekranu o odgovornosti na detaljnom prikazu tiketa u interfejsu operatera.',
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
+            '',
         'Shows the title fields in the close ticket screen of the agent interface.' =>
             'Prikazuje naslovna polja na ekranu zatvorenog tiketa u interfejsu operatera.',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
-            'Prikazuje naslovna polja na ekranu slobodnog teksta tiketa u interfejsu operatera.',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             'Prikazuje naslovna polja na ekranu napomene tiketa u interfejsu operatera.',
         'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>

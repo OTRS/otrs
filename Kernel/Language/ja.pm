@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.684807256235828;
+    $Self->{Completeness}        = 0.680213464696223;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -825,6 +825,8 @@ sub Data {
         'Edit ACL information' => 'ACLの情報を編集',
         'Stop after match' => '一致後に停止',
         'Edit ACL structure' => 'ACLの構造を編集',
+        'Save settings' => '設定を保存',
+        'Save ACL' => '',
         'Save' => '保存',
         'or' => 'または',
         'Save and finish' => '保存して終了',
@@ -845,6 +847,7 @@ sub Data {
         'List' => 'リスト',
         'Download file' => 'ダウンロードファイル',
         'Delete this attachment' => 'この添付ファイルを削除',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => '添付ファイルを追加',
         'Edit Attachment' => '添付ファイルを編集',
 
@@ -859,8 +862,7 @@ sub Data {
         'You can use the following tags' => '次のタグを使用できます',
         'To get the first 20 character of the subject.' => '表題の最初の20文字を取得',
         'To get the first 5 lines of the email.' => 'メールの最初の5行を取得',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => '記事の属性を取得',
         ' e. g.' => '例',
         'Options of the current customer user data' => '現在の顧客ユーザーデータのオプション',
@@ -980,7 +982,7 @@ sub Data {
         'Dynamic Fields Management' => '動的フィールドの管理',
         'Add new field for object' => 'オブジェクトに新規領域を追加',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            '',
+            '新しいフィールドを追加するには、オブジェクトのリストの1つからフィールドタイプを選択します。オブジェクトはフィールドの境界を定義し、フィールドの作成後は変更できません。',
         'Dynamic Fields List' => '動的フィールド一覧',
         'Dynamic fields per page' => 'ページ毎の動的フィールド',
         'Label' => 'ラベル',
@@ -1092,6 +1094,7 @@ sub Data {
         'Run Now!' => '今すぐ実行！',
         'Delete this task' => 'このタスクを削除',
         'Run this task' => 'このタスクを実行',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => 'ジョブ設定',
         'Job name' => 'ジョブ名',
         'The name you entered already exists.' => '入力された名前は既に存在します。',
@@ -1751,8 +1754,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Download' => 'ダウンロード',
         'Download file from package!' => 'パッケージからファイルをダウンロードしてください。',
         'Required' => '必要項目',
-        'PrimaryKey' => 'プライマリキー',
-        'AutoIncrement' => '自動増加',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => '%s ファイルが違います',
 
@@ -1788,6 +1791,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             '正規表現を使う場合、設定で一致する値を[***]として使用できます。',
         'Delete this filter' => 'このフィルタを削除',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'ポストマスター・フィルタを追加',
         'Edit PostMaster Filter' => 'PostMasterフィルタを削除',
         'The name is required.' => '名前は必須項目です。',
@@ -1819,12 +1823,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Overwrite existing entities' => '',
         'Upload process configuration' => 'プロセスの設定を更新',
         'Import process configuration' => 'プロセスの設定をインポート',
-        'Example processes' => '',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => '',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1930,7 +1934,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Extend the height of the Canvas' => 'キャンバスの高さを拡大する',
         'Remove the Activity from this Process' => 'このプロセスからアクティビティを削除',
         'Edit this Activity' => 'このアクティビティを編集',
-        'Save settings' => '設定を保存',
         'Save Activities, Activity Dialogs and Transitions' => 'クティビティ、アクティビティダイアログ、遷移を保存',
         'Do you really want to delete this Process?' => 'このプロセスを本当に削除しますか？',
         'Do you really want to delete this Activity?' => 'このアクティビティを本当に削除しますか？',
@@ -2421,6 +2424,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'テンプレートは担当者による高速なチケット作成、回答または転送を支援するデフォルトの本文です。',
         'Don\'t forget to add new templates to queues.' => '新しいテンプレートにキューを追加してください。',
+        'Do you really want to delete this template?' => '本当にこのテンプレートを削除してよろしいですか？',
         'Add Template' => 'テンプレートを追加',
         'Edit Template' => 'テンプレートを編集',
         'A standard template with this name already exists!' => '',
@@ -3650,7 +3654,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
-        'Please contact the administrator.' => '',
+        'Please contact the administrator.' => '管理者に連絡してください。',
         'You need ro permission!' => '',
         'Can not delete link with %s!' => '',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3799,6 +3803,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
+        'Customer Name' => '',
         'Invalid Users' => '',
         'CSV' => 'CSV',
         'Excel' => '',
@@ -3810,41 +3815,50 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Feature is not active' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => 'リンクが削除されました',
+        'Ticket Locked' => 'チケットがロックされました',
+        'Pending Time Set' => '保留時間を設定',
+        'Dynamic Field Updated' => '動的フィールドを更新しました',
+        'Outgoing Email (internal)' => '',
         'Ticket Created' => 'チケット作成済み',
+        'Type Updated' => 'タイプが更新されました',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => 'エスカレーション更新期限タイマーが停止されました',
+        'Escalation First Response Time Stopped' => 'エスカレーション初回応答期限タイマーが停止されました',
+        'Customer Updated' => '顧客が更新されました',
+        'Internal Chat' => '内部チャット',
+        'Automatic Follow-Up Sent' => '自動Follow-Up 送信',
         'Note Added' => '注釈作成済み',
         'Note Added (Customer)' => '注釈作成済み(顧客)',
-        'Outgoing Email' => '送信 Email',
-        'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => '顧客からの受信 Email',
-        'Dynamic Field Updated' => '動的フィールドを更新しました',
-        'Outgoing Phone Call' => '架電',
-        'Incoming Phone Call' => '入電',
-        'Outgoing Answer' => '回答',
-        'SLA Updated' => 'SLA 更新済み',
-        'Service Updated' => 'サービスが更新されました',
-        'Customer Updated' => '顧客が更新されました',
         'State Updated' => '状態が更新されました',
-        'Incoming Follow-Up' => 'フォローアップがあります',
-        'Escalation Update Time Stopped' => 'エスカレーション更新期限タイマーが停止されました',
-        'Escalation Solution Time Stopped' => 'エスカレーション解決期限タイマーが停止されました',
-        'Escalation First Response Time Stopped' => 'エスカレーション初回応答期限タイマーが停止されました',
-        'Escalation Response Time Stopped' => 'エスカレーション応答期限タイマーが停止されました',
+        'Outgoing Answer' => '回答',
+        'Service Updated' => 'サービスが更新されました',
         'Link Added' => 'リンクが追加されました',
-        'Link Deleted' => 'リンクが削除されました',
-        'Ticket Merged' => 'チケットが結合されました',
-        'Pending Time Set' => '保留時間を設定',
-        'Ticket Locked' => 'チケットがロックされました',
-        'Ticket Unlocked' => 'チケットのロックが解除されました',
-        'Queue Updated' => 'キューが更新されました',
-        'Priority Updated' => '優先度が更新されました',
-        'Title Updated' => 'タイトルが更新されました',
-        'Type Updated' => 'タイプが更新されました',
+        'Incoming Customer Email' => '顧客からの受信 Email',
         'Incoming Web Request' => '受信Webリクエスト',
-        'Automatic Follow-Up Sent' => '自動Follow-Up 送信',
-        'Automatic Reply Sent' => '自動返信送信',
+        'Priority Updated' => '優先度が更新されました',
+        'Ticket Unlocked' => 'チケットのロックが解除されました',
+        'Outgoing Email' => '送信 Email',
+        'Title Updated' => 'タイトルが更新されました',
+        'Ticket Merged' => 'チケットが結合されました',
+        'Outgoing Phone Call' => '架電',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => 'アカウンテッドタイム',
+        'Incoming Phone Call' => '入電',
+        'System Request.' => '',
+        'Incoming Follow-Up' => 'フォローアップがあります',
+        'Automatic Reply Sent' => '自動返信送信',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => 'エスカレーション解決期限タイマーが停止されました',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => 'エスカレーション応答期限タイマーが停止されました',
+        'SLA Updated' => 'SLA 更新済み',
+        'Queue Updated' => 'キューが更新されました',
         'External Chat' => '外部チャット',
-        'Internal Chat' => '内部チャット',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             '',
         'Can\'t get for ArticleID %s!' => '',
@@ -3853,12 +3867,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
         'Offline' => '',
-        'This user is currently offline' => 'このユーザーは現在オフラインです',
-        'This user is currently active' => 'このユーザーは現在オンラインです',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => 'このユーザーは現在離席中です',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => 'このユーザーは現在利用できません。',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => '',
         'View the source for this Article' => '',
 
@@ -3927,6 +3941,17 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => '昇順に並べ替え',
@@ -5303,14 +5328,14 @@ Contentは動的フィールドの形式によって設定内容が異なりま�
             '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            '担当者インタフェースにおいて、現在ログインしている全顧客を表示させるモジュールを定義します。',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '担当者インタフェースにおいて、現在ログインしている全ユーザを表示させるモジュールを定義します。',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            '顧客インタフェースにおいて、最近ログインした担当者を表示するモジュールを定義してください。',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            '顧客インタフェースにおいて、最近ログインした顧客を表示するモジュールを定義してください。',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            '',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            '',
         'Defines the module to authenticate customers.' => '顧客を認証するモジュールを定義します。',
         'Defines the module to display a notification if cloud services are disabled.' =>
             '',
@@ -5505,6 +5530,8 @@ Contentは動的フィールドの形式によって設定内容が異なりま�
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
             '担当者インタフェースで、新規電話チケットを作成した後の、次の可能性あるチケット状態を定義します。',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
             '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '顧客インタフェースで、新規顧客チケットの後の次の画面を決定します。',
@@ -6402,8 +6429,8 @@ Contentは動的フィールドの形式によって設定内容が異なりま�
             '担当者インタフェースで、新規Eメール・チケットに関してデフォルトのテキストを設定します。',
         'Sets the display order of the different items in the preferences view.' =>
             'プレファレンス・ビューにおいて異なるアイテムを表示する順番を設定します。',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            'セッションが切られユーザがログアウトするまで経過する、非活動時間（秒）を設定します。',
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
@@ -6675,10 +6702,10 @@ Contentは動的フィールドの形式によって設定内容が異なりま�
             '担当者インタフェースのズームされたチケットのチケット優先度画面で、チケット優先度のオプションを表示します。',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '担当者インタフェースのチケット責任者画面で、チケット優先度のオプションを表示します。',
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
+            '',
         'Shows the title fields in the close ticket screen of the agent interface.' =>
             '担当者インタフェースのクローズ・チケット画面で、タイトルのフィールドを表示します。',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、タイトルのフィールドを表示します。',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             '担当者インタフェースのチケット・メモ画面で、タイトルのフィールドを表示します。',
         'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>

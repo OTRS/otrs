@@ -2,6 +2,7 @@
 # Translators:
 # bb16390 <bb16390@gmail.com>, 2014
 # bb16390 <bb16390@gmail.com>, 2014
+# Chenry Lee <chenrylee@qq.com>, 2016
 # Hotellook, 2014
 # Jerry Du <jerry.du@athub.com>, 2016
 # 文浩坚 <never.min@gmail.com>, 2015
@@ -17,9 +18,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-11-04 14:18+0000\n"
-"PO-Revision-Date: 2016-11-04 13:19+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-12-07 16:14+0000\n"
+"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3005,6 +3006,14 @@ msgid "Edit ACL structure"
 msgstr "编辑ACL结构"
 
 #. Template: AdminACLEdit
+msgid "Save settings"
+msgstr "保存设置"
+
+#. Template: AdminACLEdit
+msgid "Save ACL"
+msgstr "保存访问控制列表"
+
+#. Template: AdminACLEdit
 msgid "Save"
 msgstr "保存"
 
@@ -3065,6 +3074,10 @@ msgid "Delete this attachment"
 msgstr "删除附件"
 
 #. Template: AdminAttachment
+msgid "Do you really want to delete this attachment?"
+msgstr "你是否确定要删除该附件？"
+
+#. Template: AdminAttachment
 msgid "Add Attachment"
 msgstr "添加附件"
 
@@ -3113,8 +3126,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "获取邮件的前五行"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the ticket's customer user (if given)."
-msgstr "获取工单中客户联系人的真实姓名(如果有)"
+msgid "To get the name of the ticket's customer user (if given)."
+msgstr "获取工单的客户联系人名字（如果有）。"
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3853,6 +3866,10 @@ msgstr "删除这个任务"
 #. Template: AdminGenericAgent
 msgid "Run this task"
 msgstr "执行这个任务"
+
+#. Template: AdminGenericAgent
+msgid "Do you really want to delete this task?"
+msgstr "你是否确定要删除该任务？"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -5058,30 +5075,30 @@ msgstr "您真的想要删除这个Web服务吗？"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready-to-run Web Services"
-msgstr ""
+msgstr "运行就绪的WEB服务"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate ready-to-run web services showcasing our best "
 "practices that are a part of %s."
-msgstr ""
+msgstr "你可以在这里激活运行就绪的WEB服务（作为%s的一部分的展示我们的最佳实践）。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Please note that these web services may depend on other modules only "
 "available with certain %s contract levels (there will be a notification with"
 " further details when importing)."
-msgstr ""
+msgstr "请注意：这些WEB服务可能依赖于其它仅在某些%s合同级别中才可用的模块(导入时会有详细提示信息)。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import ready-to-run web service"
-msgstr ""
+msgstr "导入运行就绪的WEB服务"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Would you like to benefit from web services created by experts? Upgrade to "
 "%s to import some sophisticated ready-to-run web services."
-msgstr ""
+msgstr "你想从专家创建的WEB服务中受益吗？升级到%s 就能导入一些复杂的运行就绪的WEB服务。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -6086,12 +6103,12 @@ msgid "Required"
 msgstr "必需的"
 
 #. Template: AdminPackageManager
-msgid "PrimaryKey"
-msgstr "主键"
+msgid "Primary Key"
+msgstr "主密钥"
 
 #. Template: AdminPackageManager
-msgid "AutoIncrement"
-msgstr "自动递增"
+msgid "Auto Increment"
+msgstr "自动增加"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -6208,6 +6225,10 @@ msgid "Delete this filter"
 msgstr "删除此过滤器"
 
 #. Template: AdminPostMasterFilter
+msgid "Do you really want to delete this filter?"
+msgstr "你是否确定要删除该过滤器？"
+
+#. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
 msgstr "添加邮件过滤器"
 
@@ -6311,24 +6332,24 @@ msgid "Import process configuration"
 msgstr "导入流程配置"
 
 #. Template: AdminProcessManagement
-msgid "Example processes"
-msgstr "流程样例"
+msgid "Ready-to-run Processes"
+msgstr "就绪的流程"
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate best practice example processes. Please note that some"
-" additional configuration may be required."
-msgstr "你可以在这里激活最佳实践的样例流程，请注意可能需要一些额外的配置。"
+"Here you can activate ready-to-run processes showcasing our best practices. "
+"Please note that some additional configuration may be required."
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import additional sophisticated example processes."
-msgstr "你想从专家创建的流程中受益吗？升级到%s 就能导入一些复杂的样例流程。"
+"Would you like to benefit from processes created by experts? Upgrade to %s "
+"to import some sophisticated ready-to-run processes."
+msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Import example process"
-msgstr "导入样例流程"
+msgid "Import ready-to-run process"
+msgstr "导入就绪的流程"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6676,10 +6697,6 @@ msgstr "从流程中删除这个活动"
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
 msgstr "编辑这个活动"
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Save settings"
-msgstr "保存设置"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
@@ -8255,6 +8272,10 @@ msgstr "模板就是一些能帮助服务人员快速创建、回复或转发工
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
 msgstr "别忘了将新模板分配给队列。"
+
+#. Template: AdminTemplate
+msgid "Do you really want to delete this template?"
+msgstr "您真的想要删除这个模板吗？"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -10165,7 +10186,7 @@ msgstr "新的公共聊天请求"
 
 #. Template: FooterJS
 msgid "Selected user is not available for chat."
-msgstr ""
+msgstr "不能与选择的用户聊天。"
 
 #. Template: FooterJS
 msgid "New activity"
@@ -10177,15 +10198,15 @@ msgstr "你关注的某个聊天有了新的活动。"
 
 #. Template: FooterJS
 msgid "Your browser does not support video and audio calling."
-msgstr ""
+msgstr "您的浏览器不支持视频和音频通话。"
 
 #. Template: FooterJS
 msgid "Selected user is not available for video and audio call."
-msgstr ""
+msgstr "不能与选择的用户进行视频和音频通话。"
 
 #. Template: FooterJS
 msgid "Target user's browser does not support video and audio calling."
-msgstr ""
+msgstr "目标用户的浏览器不支持视频和音频通话。"
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
@@ -11776,7 +11797,7 @@ msgstr "需要SourceObject（源对象）和SourceKey（源键）！"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Please contact the administrator."
-msgstr ""
+msgstr "请联系系统管理员。"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -11906,11 +11927,11 @@ msgstr "没有指定可选择的工单编号！"
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
-msgstr ""
+msgstr "你要么没有选择工单，要么只选择了已被其他服务人员锁定的工单。"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr ""
+msgstr "你需要选择至少一个工单。"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -12104,7 +12125,7 @@ msgstr "不能获得ActivityDialogEntityID（活动对话框实体ID） “%s”
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't use CustomerID as an invisible field."
-msgstr ""
+msgstr "不能将CustomerID（客户ID）用作不可见字段。"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
@@ -12177,6 +12198,10 @@ msgid "Untitled"
 msgstr "无标题"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Customer Name"
+msgstr "客户名字"
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
 msgstr "无效用户"
 
@@ -12197,8 +12222,56 @@ msgid "Feature is not active"
 msgstr "功能没有激活"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Link Deleted"
+msgstr "连接已删除"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Locked"
+msgstr "工单已锁定"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Pending Time Set"
+msgstr "挂起时间设置"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Dynamic Field Updated"
+msgstr "动态字段已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email (internal)"
+msgstr "外发邮件-内部"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
 msgstr "工单已创建"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Type Updated"
+msgstr "类型已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time In Effect"
+msgstr "实际升级更新时间"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time Stopped"
+msgstr "升级更新时间已停止"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation First Response Time Stopped"
+msgstr "升级首次响应时间已停止"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Customer Updated"
+msgstr "客户联系人已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Internal Chat"
+msgstr "内部聊天"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Follow-Up Sent"
+msgstr "发送自动跟进"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
@@ -12209,138 +12282,126 @@ msgid "Note Added (Customer)"
 msgstr "已增加备注-客户联系人"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email"
-msgstr "外发邮件"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email (internal)"
-msgstr "外发邮件-内部"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Customer Email"
-msgstr "客户来信"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Dynamic Field Updated"
-msgstr "动态字段已更新"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Phone Call"
-msgstr "致电"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Phone Call"
-msgstr "来电"
+msgid "State Updated"
+msgstr "状态已更新"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
 msgstr "答复"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "SLA Updated"
-msgstr "SLA 已更新"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
 msgstr "服务已更新"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Customer Updated"
-msgstr "客户联系人已更新"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "State Updated"
-msgstr "状态已更新"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Follow-Up"
-msgstr "进入的跟进"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Update Time Stopped"
-msgstr "升级更新时间已停止"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Solution Time Stopped"
-msgstr "升级解决时间已停止"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation First Response Time Stopped"
-msgstr "升级首次响应时间已停止"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Response Time Stopped"
-msgstr "升级响应时间已停止"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Added"
 msgstr "连接已增加"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Link Deleted"
-msgstr "连接已删除"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Merged"
-msgstr "工单已合并"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Pending Time Set"
-msgstr "挂起时间设置"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Locked"
-msgstr "工单已锁定"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Unlocked"
-msgstr "工单已解锁"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Queue Updated"
-msgstr "队列已更新"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Priority Updated"
-msgstr "优先级已更新"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Title Updated"
-msgstr "主题已更新"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Type Updated"
-msgstr "类型已更新"
+msgid "Incoming Customer Email"
+msgstr "客户来信"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Web Request"
 msgstr "进入的WEB请求"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Follow-Up Sent"
-msgstr "发送自动跟进"
+msgid "Priority Updated"
+msgstr "优先级已更新"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Reply Sent"
-msgstr "发送自动回复"
+msgid "Ticket Unlocked"
+msgstr "工单已解锁"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email"
+msgstr "外发邮件"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Title Updated"
+msgstr "主题已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Merged"
+msgstr "工单已合并"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Phone Call"
+msgstr "致电"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Forwarded Message"
+msgstr "已转发的消息"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Removed User Subscription"
+msgstr "已移除的用户订阅"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
 msgstr "所用时间"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Phone Call"
+msgstr "来电"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "System Request."
+msgstr "系统请求。"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Follow-Up"
+msgstr "进入的跟进"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reply Sent"
+msgstr "发送自动回复"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reject Sent"
+msgstr "自动拒绝已发送"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time In Effect"
+msgstr "实际升级解决时间"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time Stopped"
+msgstr "升级解决时间已停止"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time In Effect"
+msgstr "实际升级响应时间"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time Stopped"
+msgstr "升级响应时间已停止"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "SLA Updated"
+msgstr "SLA 已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Queue Updated"
+msgstr "队列已更新"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
 msgstr "外部聊天"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Internal Chat"
-msgstr "内部聊天"
+msgid "Queue Changed"
+msgstr "队列已变更"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Notification Was Sent"
+msgstr "通知已发送"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state."
-msgstr ""
+msgstr "抱歉，工单当前状态下你没有权限访问了。"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12367,28 +12428,28 @@ msgid "Offline"
 msgstr "离线"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently offline"
-msgstr "这个用户当前离线了"
+msgid "User is currently offline."
+msgstr "用户当前离线"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently active"
-msgstr "这个用户当前在线"
+msgid "User is currently active."
+msgstr "用户当前已激活。"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Away"
 msgstr "离开"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently away"
-msgstr "这个用户当前离开了"
+msgid "User was inactive for a while."
+msgstr "用户暂时未激活。"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Unavailable"
 msgstr "不可用"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently unavailable"
-msgstr "这个用户当前不可用"
+msgid "User set their status to unavailable."
+msgstr "用户设置他们的状态为不可用。"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
@@ -12492,7 +12553,7 @@ msgstr "未知的数据库类型“%s”。"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back."
-msgstr ""
+msgstr "请返回。"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12572,6 +12633,26 @@ msgstr "成功解密"
 msgid "The start time of a ticket has been set after the end time!"
 msgstr "工单开始时间被设置在结束时间之后！"
 
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't connect to OTRS News server!"
+msgstr "无法连接OTRS新闻服务器！"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't get OTRS News from server!"
+msgstr "无法从服务器获取OTRS新闻！"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't connect to Product News server!"
+msgstr "无法连接到产品新闻服务器！"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't get Product News from server!"
+msgstr "无法从服务器获取产品新闻！"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+msgid "Can't connect to %s!"
+msgstr "无法连接到%s！"
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr "升序排序"
@@ -12612,7 +12693,7 @@ msgstr "搜索结果"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
 msgid "Archive search"
-msgstr ""
+msgstr "归档搜索"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -12727,17 +12808,17 @@ msgstr "排序"
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
-msgstr ""
+msgstr "你已经超出了并发服务人员的最大数，请联系sales@otrs.com。"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
-msgstr ""
+msgstr "请注意，会话数即将达到极限。"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "Login rejected! You have exceeded the maximum number of concurrent Agents! "
 "Contact sales@otrs.com immediately!"
-msgstr ""
+msgstr "登录被拒绝！已经达到服务人员最大并发数！请立即联系sales@otrs.com！"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session per user limit reached!"
@@ -13423,11 +13504,11 @@ msgstr "软件包列表"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "Spooled Emails"
-msgstr ""
+msgstr "假脱机邮件"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "There are emails in var/spool that OTRS could not process."
-msgstr ""
+msgstr "var/spool目录下有一些OTRS无法处理的邮件。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -13512,7 +13593,7 @@ msgstr "ticket_index表中的孤儿记录"
 msgid ""
 "Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
 " \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
-msgstr ""
+msgstr "ticket_index表中包含孤儿记录。请运行bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\"，清理静态数据库的索引。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Time Settings"
@@ -13730,7 +13811,7 @@ msgstr "Panic，用户已认证，但没有在OTRS数据库中找到用户数据
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
-msgstr ""
+msgstr "不能移除会话ID。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -13748,11 +13829,11 @@ msgstr "没有权限使用这个前端界面模块！"
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact the administrator."
-msgstr ""
+msgstr "认证成功，但是后端没有发现此客户的记录，请联系系统管理员。"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact the administrator."
-msgstr ""
+msgstr "重置密码未成功，请联系系统管理员。"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -13774,7 +13855,7 @@ msgstr "激活了安全模式！"
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the "
 "SysConfig."
-msgstr ""
+msgstr "如果你要重新运行安装程序，请在系统配置中禁用安全模式。"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -15734,7 +15815,7 @@ msgstr "定义将工单作为日历事件显示的队列。"
 msgid ""
 "Defines the HTTP hostname for the support data collection with the public "
 "module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
-msgstr ""
+msgstr "使用公共模块 'PublicSupportDataCollector' （如用于OTRS守护进程的模块）定义用于搜集支持数据的HTTP主机名。"
 
 #. SysConfig
 msgid ""
@@ -16764,27 +16845,27 @@ msgstr "定义服务人员界面显示一个通用通知的模块。可以是“
 
 #. SysConfig
 msgid ""
-"Defines the module that shows all the currently loged in customers in the "
-"agent interface."
-msgstr "定义服务人员界面显示当前登录的所有客户联系人的模块。"
-
-#. SysConfig
-msgid ""
 "Defines the module that shows all the currently logged in agents in the "
 "agent interface."
 msgstr "定义服务人员界面显示当前登录的所有服务人员的模块。"
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in agents in the customer "
-"interface."
-msgstr "定义客户界面显示当前登录的所有服务人员的模块。"
+"Defines the module that shows all the currently logged in customers in the "
+"agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in customers in the "
+"Defines the module that shows the currently logged in agents in the customer"
+" interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the module that shows the currently logged in customers in the "
 "customer interface."
-msgstr "定义客户界面显示当前登录的所有客户联系人的模块。"
+msgstr ""
 
 #. SysConfig
 msgid "Defines the module to authenticate customers."
@@ -16823,7 +16904,7 @@ msgstr "定义服务人员界面如果服务人员在系统维护期间登录系
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent session limit prior warning is reached."
-msgstr ""
+msgstr "定义服务人员界面如果服务人员会话数达到预警值时就显示一个通知的模块。"
 
 #. SysConfig
 msgid ""
@@ -17291,7 +17372,7 @@ msgid ""
 "Defines the viewable locks of a ticket. NOTE: When you change this setting, "
 "make sure to delete the cache in order to use the new value. Default: "
 "unlock, tmp_lock."
-msgstr ""
+msgstr "定义工单能看到的锁定状态。注意：修改这个设置后，请确保删除缓存以便使用新值。默认：未锁定，临时锁定。"
 
 #. SysConfig
 msgid ""
@@ -17408,6 +17489,12 @@ msgid ""
 "Determines the next possible ticket states, for process tickets in the agent"
 " interface."
 msgstr "确定在服务人员界面处理工单下一个可能的工单状态。"
+
+#. SysConfig
+msgid ""
+"Determines the next possible ticket states, for process tickets in the "
+"customer interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18428,8 +18515,8 @@ msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr ""
+"example_domain\\user to user)."
+msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\\user变为user）。"
 
 #. SysConfig
 msgid ""
@@ -19944,7 +20031,7 @@ msgstr "负责的工单."
 msgid ""
 "Restores a ticket from the archive (only if the event is a state change to "
 "any open available state)."
-msgstr ""
+msgstr "从归档中恢复一个工单（只针对工单状态变更为任何可处理的状态的事件）。"
 
 #. SysConfig
 msgid ""
@@ -20418,15 +20505,15 @@ msgstr "设置在偏好设置视图显示不同条目的顺序。"
 #. SysConfig
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
-" a user is loged out."
-msgstr "设置一个会话被杀掉和一个用户被注销前的非活动时间（单位：秒）。"
+" a user is logged out."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionActiveTime before a prior warning will be visible for the logged in "
 "agents."
-msgstr ""
+msgstr "设置在定义的会话活动时间内最大的活动服务人员数的预警值（达到此数后服务人员登录时会显示警告信息）。"
 
 #. SysConfig
 msgid ""
@@ -20732,7 +20819,7 @@ msgstr "设置服务人员界面工单负责人窗口的工单类型（需要激
 msgid ""
 "Sets the time (in seconds) a user is marked as active (minimum active time "
 "is 300 seconds)."
-msgstr ""
+msgstr "设置一个用户被标记为活动的时间（单位：秒），最小活动时间是300秒。"
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
@@ -21333,14 +21420,13 @@ msgstr "在服务人员界面工单负责人窗口显示工单优先级选项。
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the close ticket screen of the agent interface."
-msgstr "在服务人员界面关闭工单窗口显示工单标题字段。"
+"Shows the title field in the ticket free text screen of the agent interface."
+msgstr "在服务人员界面工单自定义字段窗口显示工单标题标题字段。"
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket free text screen of the agent "
-"interface."
-msgstr "在服务人员界面工单自定义字段窗口显示工单标题字段。"
+"Shows the title fields in the close ticket screen of the agent interface."
+msgstr "在服务人员界面关闭工单窗口显示工单标题字段。"
 
 #. SysConfig
 msgid ""

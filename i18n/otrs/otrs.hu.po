@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-11-04 14:18+0000\n"
-"PO-Revision-Date: 2016-11-04 13:19+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-12-07 16:14+0000\n"
+"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2756,7 +2756,7 @@ msgstr "Bejövő telefonhívás"
 
 #. Template: AAATicket
 msgid "Reminder Reached"
-msgstr "Emlékeztető lejár"
+msgstr "Emlékeztető elérve"
 
 #. Template: AAATicket
 msgid "Reminder Tickets"
@@ -2791,7 +2791,7 @@ msgstr "Minden eszkalált jegy"
 #. Template: AAATicket
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Minden emlékeztetővel beállított jegy, ahol az emlékeztető dátuma lejárt"
+msgstr "Minden emlékeztetővel beállított jegy, ahol az emlékeztető dátuma elérve"
 
 #. Template: AAATicket
 msgid "Archived tickets"
@@ -3001,6 +3001,14 @@ msgid "Edit ACL structure"
 msgstr "ACL struktúra szerkesztése"
 
 #. Template: AdminACLEdit
+msgid "Save settings"
+msgstr "Beállítások mentése"
+
+#. Template: AdminACLEdit
+msgid "Save ACL"
+msgstr "ACL mentése"
+
+#. Template: AdminACLEdit
 msgid "Save"
 msgstr "Mentés"
 
@@ -3061,6 +3069,10 @@ msgid "Delete this attachment"
 msgstr "Melléklet törlése"
 
 #. Template: AdminAttachment
+msgid "Do you really want to delete this attachment?"
+msgstr "Valóban törölni szeretné ezt a mellékletet?"
+
+#. Template: AdminAttachment
 msgid "Add Attachment"
 msgstr "Melléklet hozzáadása"
 
@@ -3109,8 +3121,8 @@ msgid "To get the first 5 lines of the email."
 msgstr "Az e-mail első 5 sorának lekéréséhez."
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the ticket's customer user (if given)."
-msgstr "A jegy ügyfél-felhasználója valódi nevének lekéréséhez (ha meg van adva)."
+msgid "To get the name of the ticket's customer user (if given)."
+msgstr "A jegy ügyfél-felhasználója nevének lekéréséhez (ha meg van adva)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3531,7 +3543,7 @@ msgstr "Mező törlése"
 
 #. Template: AdminDynamicField
 msgid "Deleting the field and its data. This may take a while..."
-msgstr "A mező és annak adatai törlése folyamatban van. Ez eltarthat egy ideig…"
+msgstr "A mező és az adatainak törlése folyamatban van. Ez eltarthat egy ideig…"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -3849,6 +3861,10 @@ msgstr "Feladat törlése"
 #. Template: AdminGenericAgent
 msgid "Run this task"
 msgstr "Feladat futtatása"
+
+#. Template: AdminGenericAgent
+msgid "Do you really want to delete this task?"
+msgstr "Valóban törölni szeretné ezt a feladatot?"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -6082,11 +6098,11 @@ msgid "Required"
 msgstr "Kötelező"
 
 #. Template: AdminPackageManager
-msgid "PrimaryKey"
+msgid "Primary Key"
 msgstr "Elsődleges kulcs"
 
 #. Template: AdminPackageManager
-msgid "AutoIncrement"
+msgid "Auto Increment"
 msgstr "Automatikus növelés"
 
 #. Template: AdminPackageManager
@@ -6204,6 +6220,10 @@ msgid "Delete this filter"
 msgstr "Szűrő törlése"
 
 #. Template: AdminPostMasterFilter
+msgid "Do you really want to delete this filter?"
+msgstr "Valóban törölni szeretné ezt a szűrőt?"
+
+#. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
 msgstr "Levelezési szűrő hozzáadása"
 
@@ -6307,24 +6327,24 @@ msgid "Import process configuration"
 msgstr "Folyamat-beállítás importálása"
 
 #. Template: AdminProcessManagement
-msgid "Example processes"
-msgstr "Példafolyamatok"
+msgid "Ready-to-run Processes"
+msgstr "Futtatásra kész folyamatok"
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate best practice example processes. Please note that some"
-" additional configuration may be required."
-msgstr "Itt kapcsolhatja be a legjobb gyakorlat szerinti példafolyamatokat. Ne feledje, hogy néhány további beállítás lehet szükséges."
+"Here you can activate ready-to-run processes showcasing our best practices. "
+"Please note that some additional configuration may be required."
+msgstr "Itt kapcsolhatja be a legjobb gyakorlatainkat bemutató futtatásra kész folyamatokat. Ne feledje, hogy néhány további beállítás lehet szükséges."
 
 #. Template: AdminProcessManagement
 msgid ""
-"Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import additional sophisticated example processes."
-msgstr "Szeretné élvezni a szakértők által létrehozott folyamatok előnyeit? Ahhoz, hogy lehetősége legyen további kitapasztalt példafolyamatok importálására, frissítsen a következőre: %s."
+"Would you like to benefit from processes created by experts? Upgrade to %s "
+"to import some sophisticated ready-to-run processes."
+msgstr "Szeretné élvezni a szakértők által létrehozott folyamatok előnyeit? Ahhoz, hogy importálhasson néhány kitapasztalt futtatásra kész folyamatot, frissítsen a következőre: %s."
 
 #. Template: AdminProcessManagement
-msgid "Import example process"
-msgstr "Példafolyamat importálása"
+msgid "Import ready-to-run process"
+msgstr "Futtatásra kész folyamat importálása"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6672,10 +6692,6 @@ msgstr "Tevékenység eltávolítása ebből a folyamatból"
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
 msgstr "Tevékenység szerkesztése"
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Save settings"
-msgstr "Beállítások mentése"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
@@ -8251,6 +8267,10 @@ msgstr "A sablon egy olyan alapértelmezett szöveg, amely segíti az ügyintéz
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
 msgstr "Ne felejtse el hozzáadni az új sablonokat a várólistákhoz."
+
+#. Template: AdminTemplate
+msgid "Do you really want to delete this template?"
+msgstr "Valóban törölni szeretné ezt a sablont?"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -11772,7 +11792,7 @@ msgstr "Forrásobjektum és forráskulcs szükséges!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Please contact the administrator."
-msgstr ""
+msgstr "Vegye fel a kapcsolatot a rendszergazdával."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -11902,11 +11922,11 @@ msgstr "Nincs kiválasztható jegyazonosító megadva!"
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
-msgstr ""
+msgstr "Vagy nem választott ki jegyet, vagy csak olyan jegyeket, amelyeket más ügyintézők zároltak."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr ""
+msgstr "Legalább egy jegyet ki kell választania."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket is locked by another agent and will be ignored!"
@@ -12100,7 +12120,7 @@ msgstr "Nem sikerült lekérni a beállítást a tevékenység párbeszéd egyed
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't use CustomerID as an invisible field."
-msgstr ""
+msgstr "Nem sikerült az ügyfél-azonosítót láthatatlan mezőként használni."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
@@ -12173,6 +12193,10 @@ msgid "Untitled"
 msgstr "Névtelen"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Customer Name"
+msgstr "Ügyfél neve"
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
 msgstr "Érvénytelen felhasználók"
 
@@ -12193,8 +12217,56 @@ msgid "Feature is not active"
 msgstr "A szolgáltatás nem aktív"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Link Deleted"
+msgstr "Kapcsolat törölve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Locked"
+msgstr "Jegy zárolva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Pending Time Set"
+msgstr "Várakozási idő beállítva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Dynamic Field Updated"
+msgstr "Dinamikus mező frissítve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email (internal)"
+msgstr "Kimenő e-mail (belső)"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
 msgstr "Jegy létrehozva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Type Updated"
+msgstr "Típus frissítve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time In Effect"
+msgstr "Eszkaláció frissítési idő van hatályban"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time Stopped"
+msgstr "Eszkaláció frissítési ideje leállítva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation First Response Time Stopped"
+msgstr "Eszkaláció első válaszideje leállítva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Customer Updated"
+msgstr "Ügyfél frissítve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Internal Chat"
+msgstr "Belső csevegés"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Follow-Up Sent"
+msgstr "Automatikus követés elküldve"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
@@ -12205,138 +12277,126 @@ msgid "Note Added (Customer)"
 msgstr "Jegyzet hozzáadva (ügyfél)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email"
-msgstr "Kimenő e-mail"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email (internal)"
-msgstr "Kimenő e-mail (belső)"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Customer Email"
-msgstr "Bejövő ügyfél e-mail"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Dynamic Field Updated"
-msgstr "Dinamikus mező frissítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Phone Call"
-msgstr "Kimenő telefonhívás"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Phone Call"
-msgstr "Bejövő telefonhívás"
+msgid "State Updated"
+msgstr "Állapot frissítve"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
 msgstr "Kimenő válasz"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "SLA Updated"
-msgstr "SLA frissítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
 msgstr "Szolgáltatás frissítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Customer Updated"
-msgstr "Ügyfél frissítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "State Updated"
-msgstr "Állapot frissítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Follow-Up"
-msgstr "Bejövő követés"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Update Time Stopped"
-msgstr "Eszkaláció frissítési ideje leállítva"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Solution Time Stopped"
-msgstr "Eszkaláció megoldási ideje leállítva"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation First Response Time Stopped"
-msgstr "Eszkaláció első válaszideje leállítva"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Response Time Stopped"
-msgstr "Eszkaláció válaszideje leállítva"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Added"
 msgstr "Kapcsolat hozzáadva"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Link Deleted"
-msgstr "Kapcsolat törölve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Merged"
-msgstr "Jegy egyesítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Pending Time Set"
-msgstr "Várakozási idő beállítva"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Locked"
-msgstr "Jegy zárolva"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Unlocked"
-msgstr "Jegy feloldva"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Queue Updated"
-msgstr "Várólista frissítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Priority Updated"
-msgstr "Prioritás frissítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Title Updated"
-msgstr "Cím frissítve"
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Type Updated"
-msgstr "Típus frissítve"
+msgid "Incoming Customer Email"
+msgstr "Bejövő ügyfél e-mail"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Web Request"
 msgstr "Bejövő webkérés"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Follow-Up Sent"
-msgstr "Automatikus követés elküldve"
+msgid "Priority Updated"
+msgstr "Prioritás frissítve"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Reply Sent"
-msgstr "Automatikus válasz elküldve"
+msgid "Ticket Unlocked"
+msgstr "Jegy feloldva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email"
+msgstr "Kimenő e-mail"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Title Updated"
+msgstr "Cím frissítve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Merged"
+msgstr "Jegy egyesítve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Phone Call"
+msgstr "Kimenő telefonhívás"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Forwarded Message"
+msgstr "Továbbított üzenet"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Removed User Subscription"
+msgstr "Felhasználói feliratkozás eltávolítva"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
 msgstr "Idő elszámolva"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Phone Call"
+msgstr "Bejövő telefonhívás"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "System Request."
+msgstr "Rendszer kérés."
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Follow-Up"
+msgstr "Bejövő követés"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reply Sent"
+msgstr "Automatikus válasz elküldve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reject Sent"
+msgstr "Automatikus elutasítás elküldve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time In Effect"
+msgstr "Eszkaláció megoldási idő van hatályban"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time Stopped"
+msgstr "Eszkaláció megoldási ideje leállítva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time In Effect"
+msgstr "Eszkaláció válaszidő van hatályban"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time Stopped"
+msgstr "Eszkaláció válaszideje leállítva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "SLA Updated"
+msgstr "SLA frissítve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Queue Updated"
+msgstr "Várólista frissítve"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
 msgstr "Külső csevegés"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Internal Chat"
-msgstr "Belső csevegés"
+msgid "Queue Changed"
+msgstr "Várólista módosítva"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Notification Was Sent"
+msgstr "Értesítés elküldve"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state."
-msgstr ""
+msgstr "Sajnáljuk, de már nincs jogosultsága a jegyhez történő hozzáféréshez annak jelenlegi állapotában."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -12363,28 +12423,28 @@ msgid "Offline"
 msgstr "Kilépett"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently offline"
-msgstr "Ez a felhasználó jelenleg nincs kapcsolatban"
+msgid "User is currently offline."
+msgstr "A felhasználó jelenleg nincs kapcsolatban."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently active"
-msgstr "Ez a felhasználó jelenleg aktív"
+msgid "User is currently active."
+msgstr "A felhasználó jelenleg aktív."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Away"
 msgstr "Távol"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently away"
-msgstr "Ez a felhasználó jelenleg távol van"
+msgid "User was inactive for a while."
+msgstr "A felhasználó inaktív volt egy ideig."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Unavailable"
 msgstr "Nem érhető el"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently unavailable"
-msgstr "Ez a felhasználó jelenleg nem érhető el"
+msgid "User set their status to unavailable."
+msgstr "A felhasználó elérhetetlenre állította az állapotát."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
@@ -12488,7 +12548,7 @@ msgstr "Ismeretlen adatbázistípus: „%s”."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back."
-msgstr ""
+msgstr "Lépjen vissza."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
@@ -12568,6 +12628,26 @@ msgstr "Sikeres visszafejtés"
 msgid "The start time of a ticket has been set after the end time!"
 msgstr "Egy jegy kezdési ideje a befejezési ideje után lett beállítva!"
 
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't connect to OTRS News server!"
+msgstr "Nem lehet kapcsolódni az OTRS hírek kiszolgálójához!"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't get OTRS News from server!"
+msgstr "Nem lehet lekérni az OTRS híreket a kiszolgálóról!"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't connect to Product News server!"
+msgstr "Nem lehet kapcsolódni a termékhírek kiszolgálójához!"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't get Product News from server!"
+msgstr "Nem lehet lekérni a termékhíreket a kiszolgálóról!"
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+msgid "Can't connect to %s!"
+msgstr "Nem lehet kapcsolódni ehhez: %s!"
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr "növekvően rendezve"
@@ -12608,7 +12688,7 @@ msgstr "Keresési eredmény"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
 msgid "Archive search"
-msgstr ""
+msgstr "Archívum keresés"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -13726,7 +13806,7 @@ msgstr "Pánik, a felhasználó hitelesítette magát, de nem találhatók felha
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
-msgstr ""
+msgstr "Nem lehet eltávolítani a munkamenet-azonosítót."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -13744,11 +13824,11 @@ msgstr "Nincs jogosultsága ezen előtétprogram-modul használatához!"
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact the administrator."
-msgstr ""
+msgstr "A hitelesítés sikerült, de nem található ügyfélrekord az ügyfél háttérprogramban. Vegye fel a kapcsolatot a rendszergazdával."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact the administrator."
-msgstr ""
+msgstr "A jelszó visszaállítása sikertelen. Vegye fel a kapcsolatot a rendszergazdával."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -13770,7 +13850,7 @@ msgstr "Biztonságos mód bekapcsolva!"
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the "
 "SysConfig."
-msgstr ""
+msgstr "Ha újra szeretné futtatni a telepítőt, akkor tiltsa le a biztonságos módot a rendszerbeállításokban."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -16760,25 +16840,25 @@ msgstr "Meghatározza azt a modult, amely egy általános értesítést jelenít
 
 #. SysConfig
 msgid ""
-"Defines the module that shows all the currently loged in customers in the "
-"agent interface."
-msgstr "Meghatározza azt a modult, amely megjeleníti az összes aktuálisan bejelentkezett ügyfelet az ügyintézői felületen."
-
-#. SysConfig
-msgid ""
 "Defines the module that shows all the currently logged in agents in the "
 "agent interface."
 msgstr "Meghatározza azt a modult, amely megjeleníti az összes aktuálisan bejelentkezett ügyintézőt az ügyintézői felületen."
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in agents in the customer "
-"interface."
+"Defines the module that shows all the currently logged in customers in the "
+"agent interface."
+msgstr "Meghatározza azt a modult, amely megjeleníti az összes aktuálisan bejelentkezett ügyfelet az ügyintézői felületen."
+
+#. SysConfig
+msgid ""
+"Defines the module that shows the currently logged in agents in the customer"
+" interface."
 msgstr "Meghatározza azt a modult, amely megjeleníti az aktuálisan bejelentkezett ügyintézőket az ügyfélfelületen."
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in customers in the "
+"Defines the module that shows the currently logged in customers in the "
 "customer interface."
 msgstr "Meghatározza azt a modult, amely megjeleníti az aktuálisan bejelentkezett ügyfeleket az ügyfélfelületen."
 
@@ -17404,6 +17484,12 @@ msgid ""
 "Determines the next possible ticket states, for process tickets in the agent"
 " interface."
 msgstr "Meghatározza a következő lehetséges jegyállapotokat a jegyek feldolgozásához az ügyintézői felületen."
+
+#. SysConfig
+msgid ""
+"Determines the next possible ticket states, for process tickets in the "
+"customer interface."
+msgstr "Meghatározza a következő lehetséges jegyállapotokat a jegyek feldolgozásához az ügyfélfelületen."
 
 #. SysConfig
 msgid ""
@@ -18424,8 +18510,8 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr ""
+"example_domain\\user to user)."
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -19940,7 +20026,7 @@ msgstr "Felelős jegyek."
 msgid ""
 "Restores a ticket from the archive (only if the event is a state change to "
 "any open available state)."
-msgstr ""
+msgstr "Visszaállít egy jegyet az archívumból (csak akkor, ha az esemény egy állapotváltozás bármely elérhető nyitott állapotba)."
 
 #. SysConfig
 msgid ""
@@ -20414,7 +20500,7 @@ msgstr "Beállítja a különböző elemek megjelenítési sorrendjét a beáll�
 #. SysConfig
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
-" a user is loged out."
+" a user is logged out."
 msgstr "Beállítja az inaktivitás idejét (másodpercben) átadásra, mielőtt egy munkamenetet kilő és egy felhasználót kijelentkeztet."
 
 #. SysConfig
@@ -21329,14 +21415,13 @@ msgstr "Megjeleníti a jegyprioritás lehetőségeit az ügyintézői felület j
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the close ticket screen of the agent interface."
-msgstr "Megjeleníti a cím mezőket az ügyintézői felület jegylezárás képernyőjén."
+"Shows the title field in the ticket free text screen of the agent interface."
+msgstr "Megjeleníti a cím mezőt az ügyintézői felület jegy szabad szöveg képernyőjén."
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket free text screen of the agent "
-"interface."
-msgstr "Megjeleníti a cím mezőket az ügyintézői felület jegy szabad szöveg képernyőjén."
+"Shows the title fields in the close ticket screen of the agent interface."
+msgstr "Megjeleníti a cím mezőket az ügyintézői felület jegylezárás képernyőjén."
 
 #. SysConfig
 msgid ""

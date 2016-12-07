@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.516594516594517;
+    $Self->{Completeness}        = 0.512931034482759;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -823,6 +823,8 @@ sub Data {
         'Edit ACL information' => 'Redigera behörighetsinformation',
         'Stop after match' => 'Avsluta efter träff',
         'Edit ACL structure' => 'Redigera behörighetsstruktur',
+        'Save settings' => 'Spara inställningar',
+        'Save ACL' => '',
         'Save' => 'Spara',
         'or' => 'eller',
         'Save and finish' => 'Spara och slutför',
@@ -843,6 +845,7 @@ sub Data {
         'List' => 'Lista',
         'Download file' => 'Hämta fil',
         'Delete this attachment' => 'Radera bilaga',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => 'Lägg till bilaga',
         'Edit Attachment' => 'Redigera bilaga',
 
@@ -857,8 +860,7 @@ sub Data {
         'You can use the following tags' => 'Du kan använda följande taggar',
         'To get the first 20 character of the subject.' => 'För att få dom första 20 tecknen i ärenderaden',
         'To get the first 5 lines of the email.' => 'För att få dom första fem raderna i mejlet',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'För att hämta artikelattribut',
         ' e. g.' => ' t.ex.',
         'Options of the current customer user data' => 'Inställningar för kundens användardata',
@@ -1090,6 +1092,7 @@ sub Data {
         'Run Now!' => 'Kör nu!',
         'Delete this task' => 'Radera denna uppgift',
         'Run this task' => 'Kör uppgiften',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => 'Jobbinställningar',
         'Job name' => 'Namn på jobb',
         'The name you entered already exists.' => 'Namnet du angav finns redan.',
@@ -1748,8 +1751,8 @@ sub Data {
         'Download' => 'Nerladdning',
         'Download file from package!' => 'Ladda ner fil från paket!',
         'Required' => 'Krävs',
-        'PrimaryKey' => 'Primärnyckel',
-        'AutoIncrement' => 'AutoInkrement',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Filskillnader för fil %s',
 
@@ -1785,6 +1788,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             '',
         'Delete this filter' => 'Radera detta filter',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Lägg till PostMaster-filter',
         'Edit PostMaster Filter' => 'Ändra PostMaster-Filter',
         'The name is required.' => 'Namnet krävs.',
@@ -1816,12 +1820,12 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
-        'Example processes' => 'Exempelprocesser',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => 'Importera exempelprocess',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1927,7 +1931,6 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
-        'Save settings' => 'Spara inställningar',
         'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
@@ -2418,6 +2421,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'En mall är en standardtext som hjälper dina handläggare att skriva ärenden, svar eller vidarebefordran snabbare.',
         'Don\'t forget to add new templates to queues.' => 'Glöm inte att lägga till nya mallar till köer.',
+        'Do you really want to delete this template?' => 'Vill du verkligen radera den här mallen?',
         'Add Template' => 'Lägg till mall',
         'Edit Template' => 'Redigera mall',
         'A standard template with this name already exists!' => 'En standardmall med det här namnet existerar redan!',
@@ -3796,6 +3800,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
+        'Customer Name' => '',
         'Invalid Users' => 'Ogiltiga användare',
         'CSV' => 'CSV',
         'Excel' => '',
@@ -3807,41 +3812,50 @@ sub Data {
         'Feature is not active' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => 'Länken borttagen',
+        'Ticket Locked' => '',
+        'Pending Time Set' => '',
+        'Dynamic Field Updated' => 'Uppdaterade det dynamiska fältet',
+        'Outgoing Email (internal)' => '',
         'Ticket Created' => '',
+        'Type Updated' => 'Typ uppdaterades',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => '',
+        'Escalation First Response Time Stopped' => '',
+        'Customer Updated' => 'Kunden uppdaterades',
+        'Internal Chat' => 'Intern chatt',
+        'Automatic Follow-Up Sent' => 'Automatisk uppföljning skickad',
         'Note Added' => 'Anteckningen lades till',
         'Note Added (Customer)' => 'Anteckningen lades till (Kund)',
-        'Outgoing Email' => 'Utgående e-post',
-        'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => 'Inkommande e-post från kunder',
-        'Dynamic Field Updated' => 'Uppdaterade det dynamiska fältet',
-        'Outgoing Phone Call' => 'Utgående telefonsamtal',
-        'Incoming Phone Call' => 'Inkommande telefonsamtal',
-        'Outgoing Answer' => '',
-        'SLA Updated' => 'SLA uppdaterades',
-        'Service Updated' => 'Tjänsten uppdaterades',
-        'Customer Updated' => 'Kunden uppdaterades',
         'State Updated' => 'Uppdaterade status',
-        'Incoming Follow-Up' => 'Inkommande uppföljning',
-        'Escalation Update Time Stopped' => '',
-        'Escalation Solution Time Stopped' => '',
-        'Escalation First Response Time Stopped' => '',
-        'Escalation Response Time Stopped' => '',
+        'Outgoing Answer' => '',
+        'Service Updated' => 'Tjänsten uppdaterades',
         'Link Added' => 'Länken lades till',
-        'Link Deleted' => 'Länken borttagen',
-        'Ticket Merged' => '',
-        'Pending Time Set' => '',
-        'Ticket Locked' => '',
-        'Ticket Unlocked' => '',
-        'Queue Updated' => 'Kön uppdaterades',
-        'Priority Updated' => 'Prioriteten uppdaterades',
-        'Title Updated' => 'Titeln uppdaterades',
-        'Type Updated' => 'Typ uppdaterades',
+        'Incoming Customer Email' => 'Inkommande e-post från kunder',
         'Incoming Web Request' => 'Inkommande webbförfrågning',
-        'Automatic Follow-Up Sent' => 'Automatisk uppföljning skickad',
-        'Automatic Reply Sent' => 'Automatiskt svar skickades',
+        'Priority Updated' => 'Prioriteten uppdaterades',
+        'Ticket Unlocked' => '',
+        'Outgoing Email' => 'Utgående e-post',
+        'Title Updated' => 'Titeln uppdaterades',
+        'Ticket Merged' => '',
+        'Outgoing Phone Call' => 'Utgående telefonsamtal',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => '',
+        'Incoming Phone Call' => 'Inkommande telefonsamtal',
+        'System Request.' => '',
+        'Incoming Follow-Up' => 'Inkommande uppföljning',
+        'Automatic Reply Sent' => 'Automatiskt svar skickades',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => '',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => '',
+        'SLA Updated' => 'SLA uppdaterades',
+        'Queue Updated' => 'Kön uppdaterades',
         'External Chat' => 'Extern chatt',
-        'Internal Chat' => 'Intern chatt',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             '',
         'Can\'t get for ArticleID %s!' => '',
@@ -3850,12 +3864,12 @@ sub Data {
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
         'Offline' => '',
-        'This user is currently offline' => 'Användaren är inte inloggad',
-        'This user is currently active' => 'Användaren är aktiv',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => 'Användaren är inloggad men frånvarande',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => 'Användaren är inloggad men inte tillgänglig',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => 'Fält utan grupper',
         'View the source for this Article' => '',
 
@@ -3924,6 +3938,17 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => 'Startdatumet på ett ärende sker efter slutdatumet!',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => '',
@@ -5282,13 +5307,13 @@ Thanks for your help!
             '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
             '',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '',
         'Defines the module to display a notification if cloud services are disabled.' =>
@@ -5484,6 +5509,8 @@ Thanks for your help!
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
             '',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
             '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '',
@@ -6377,7 +6404,7 @@ Thanks for your help!
             '',
         'Sets the display order of the different items in the preferences view.' =>
             '',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
@@ -6650,9 +6677,9 @@ Thanks for your help!
             '',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows the title fields in the close ticket screen of the agent interface.' =>
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
             '',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
+        'Shows the title fields in the close ticket screen of the agent interface.' =>
             '',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             '',

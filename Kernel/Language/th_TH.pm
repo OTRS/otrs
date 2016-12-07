@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.84889713461142;
+    $Self->{Completeness}        = 0.843390804597701;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -821,6 +821,8 @@ sub Data {
         'Edit ACL information' => 'แก้ไขข้อมูล ACL',
         'Stop after match' => 'หยุดหลังจากจับคู่แล้ว',
         'Edit ACL structure' => 'แก้ไขโครงสร้างACL ',
+        'Save settings' => 'บันทึกการตั้งค่า',
+        'Save ACL' => '',
         'Save' => 'บันทึก',
         'or' => 'หรือ',
         'Save and finish' => 'บันทึกและเสร็จสิ้น',
@@ -841,6 +843,7 @@ sub Data {
         'List' => 'ลิสต์',
         'Download file' => 'ดาวน์โหลดไฟล์',
         'Delete this attachment' => 'ลบสิ่งที่แนบมานี้',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => 'เพิ่มเอกสารแนบ',
         'Edit Attachment' => 'แก้ไขสิ่งที่แนบมา',
 
@@ -855,8 +858,7 @@ sub Data {
         'You can use the following tags' => 'คุณสามารถใช้แท็กต่อไปนี้',
         'To get the first 20 character of the subject.' => 'เพื่อให้ได้20 ตัวอักษรแรกของเนื้อเรื่อง',
         'To get the first 5 lines of the email.' => 'เพื่อให้ได้5 บรรทัดแรกของอีเมล',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'เพื่อให้ได้คุณลักษณะของบทความ',
         ' e. g.' => 'ตัวอย่างเช่น',
         'Options of the current customer user data' => 'ตัวเลือกของลูกค้าผู้ใช้ข้อมูลในปัจจุบัน',
@@ -1088,6 +1090,7 @@ sub Data {
         'Run Now!' => 'รันตอนนี้!',
         'Delete this task' => 'ลบงานนี้',
         'Run this task' => 'รันงานนี้',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => 'การตั้งค่าการทำงาน',
         'Job name' => 'ชื่องาน',
         'The name you entered already exists.' => 'ชื่อที่คุณป้อนมีอยู่แล้ว',
@@ -1747,8 +1750,8 @@ sub Data {
         'Download' => 'ดาวน์โหลด',
         'Download file from package!' => 'ดาวน์โหลดไฟล์จากแพคเกจ',
         'Required' => 'ที่จำเป็น',
-        'PrimaryKey' => 'คีย์หลัก',
-        'AutoIncrement' => 'การเพิ่มอัตโนมัติ',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'ความแตกต่างของไฟล์สำหรับไฟล์ %s',
 
@@ -1785,6 +1788,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'ถ้าคุณใช้นิพจน์ปกติคุณก็ยังสามารถใช้ค่าจับคู่ใน () เป็น [***] ในการดำเนินการ \'ตั้งค่า\'',
         'Delete this filter' => 'ลบตัวกรองนี้',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'เพิ่มตัวกรอง PostMaster',
         'Edit PostMaster Filter' => 'แก้ไขตัวกรอง PostMaster',
         'The name is required.' => 'ต้องระบุชื่อ',
@@ -1816,12 +1820,12 @@ sub Data {
         'Overwrite existing entities' => 'เขียนทับแอนตีตี้ที่มีอยู่',
         'Upload process configuration' => 'อัปโหลดการกำหนดค่าขั้นตอนต่างๆ',
         'Import process configuration' => 'นำเข้าการกำหนดค่าขั้นตอน',
-        'Example processes' => 'ตัวอย่างกระบวนการต่างๆ',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => 'นำเข้าตัวอย่างขั้นตอน',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'เพื่อสร้างขั้นตอนใหม่คุณสามารถสร้างโดยนำเข้าขั้นตอนที่ถูกส่งเข้ามาจากระบบอื่นหรือสร้างใหม่',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1928,7 +1932,6 @@ sub Data {
         'Extend the height of the Canvas' => 'ขยายความสูงของผ้าใบ',
         'Remove the Activity from this Process' => 'ลบกิจกรรมออกจากกระบวนการนี้',
         'Edit this Activity' => 'แก้ไขกิจกรรมนี้',
-        'Save settings' => 'บันทึกการตั้งค่า',
         'Save Activities, Activity Dialogs and Transitions' => 'บันทึกกิจกรรม กิจกรรมไดอะล็อกและการเปลี่ยนผ่าน',
         'Do you really want to delete this Process?' => 'คุณต้องการลบกระบวนการนี้หรือไม่?',
         'Do you really want to delete this Activity?' => 'คุณต้องการลบกิจกรรมนี้หรือไม่?',
@@ -2420,6 +2423,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'แม่แบบเป็นข้อความเริ่มต้นซึ่งจะช่วยให้เอเย่นต์ของคุณในการเขียนตั๋ว ตอบหรือส่งต่อให้เร็วขึ้น',
         'Don\'t forget to add new templates to queues.' => 'อย่าลืมที่จะเพิ่มแม่แบบใหม่ไปยังคิว',
+        'Do you really want to delete this template?' => 'คุณต้องการที่จะลบแม่แบบนี้หรือไม่?',
         'Add Template' => 'เพิ่มแม่แบบ',
         'Edit Template' => 'แก้ไขแม่แบบ',
         'A standard template with this name already exists!' => 'แม่แบบมาตรฐานที่ใช้ชื่อนี้มีอยู่แล้ว!',
@@ -3798,6 +3802,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => 'ไม่ได้ตั้งชื่อ',
+        'Customer Name' => '',
         'Invalid Users' => 'ผู้ใช้ที่ไม่ถูกต้อง',
         'CSV' => 'CSV',
         'Excel' => 'Excel',
@@ -3809,55 +3814,64 @@ sub Data {
         'Feature is not active' => 'ฟีเจอร์ไม่ไช้งาน!',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => 'ลบลิงค์แล้ว',
+        'Ticket Locked' => 'ตั๋วถูกล็อค',
+        'Pending Time Set' => 'ตั้งค่าเวลาที่รอการดำเนินการ',
+        'Dynamic Field Updated' => 'ไดมานิคฟิลด์อัพเดตแล้ว',
+        'Outgoing Email (internal)' => 'อีเมลขาออก (ภายใน)',
         'Ticket Created' => 'ตั๋วที่สร้างขึ้น',
+        'Type Updated' => 'อัปเดตประเภทแล้ว',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => 'การขยายเวลาอัพเดตหยุดลงแล้ว',
+        'Escalation First Response Time Stopped' => 'การขยายเวลาที่ตอบสนองครั้งแรกหยุดแล้ว',
+        'Customer Updated' => 'อัพเดตลูกค้าแล้ว',
+        'Internal Chat' => 'แชทภายใน',
+        'Automatic Follow-Up Sent' => 'การติดตามอัตโนมัติถูกส่ง',
         'Note Added' => 'เพิ่มโน๊ตแล้ว',
         'Note Added (Customer)' => 'เพิ่มโน๊ตแล้ว (ลูกค้า)',
-        'Outgoing Email' => 'อีเมลขาออก',
-        'Outgoing Email (internal)' => 'อีเมลขาออก (ภายใน)',
-        'Incoming Customer Email' => 'อีเมลขาเข้าจากลูกค้า',
-        'Dynamic Field Updated' => 'ไดมานิคฟิลด์อัพเดตแล้ว',
-        'Outgoing Phone Call' => 'โทรศัพท์ขาออก',
-        'Incoming Phone Call' => 'โทรศัพท์สายเข้า',
-        'Outgoing Answer' => 'คำตอบที่ส่งออก',
-        'SLA Updated' => 'อัพเดต SLA แล้ว',
-        'Service Updated' => 'อัพเดตการบริการแล้ว',
-        'Customer Updated' => 'อัพเดตลูกค้าแล้ว',
         'State Updated' => 'อัพเดตสถานภาพแล้ว',
-        'Incoming Follow-Up' => 'การติดตามผลขาเข้า',
-        'Escalation Update Time Stopped' => 'การขยายเวลาอัพเดตหยุดลงแล้ว',
-        'Escalation Solution Time Stopped' => 'การขยายเวลาการแก้ปัญหาหยุดลงแล้ว',
-        'Escalation First Response Time Stopped' => 'การขยายเวลาที่ตอบสนองครั้งแรกหยุดแล้ว',
-        'Escalation Response Time Stopped' => 'การขยายเวลาที่ตอบสนองหยุดแล้ว',
+        'Outgoing Answer' => 'คำตอบที่ส่งออก',
+        'Service Updated' => 'อัพเดตการบริการแล้ว',
         'Link Added' => 'เพิ่มลิงค์แล้ว',
-        'Link Deleted' => 'ลบลิงค์แล้ว',
-        'Ticket Merged' => 'ตั๋วรวม',
-        'Pending Time Set' => 'ตั้งค่าเวลาที่รอการดำเนินการ',
-        'Ticket Locked' => 'ตั๋วถูกล็อค',
-        'Ticket Unlocked' => 'ตั๋วถูกปลดล็อค',
-        'Queue Updated' => 'อัปเดตคิวแล้ว',
-        'Priority Updated' => 'อัพเดตลำดับความสำคัญแล้ว',
-        'Title Updated' => 'อัปเดตหัวข้อแล้ว',
-        'Type Updated' => 'อัปเดตประเภทแล้ว',
+        'Incoming Customer Email' => 'อีเมลขาเข้าจากลูกค้า',
         'Incoming Web Request' => 'การร้องขอเวบขาเข้า',
-        'Automatic Follow-Up Sent' => 'การติดตามอัตโนมัติถูกส่ง',
-        'Automatic Reply Sent' => 'การตอบกลับแบบอัตโนมัติถูกส่ง',
+        'Priority Updated' => 'อัพเดตลำดับความสำคัญแล้ว',
+        'Ticket Unlocked' => 'ตั๋วถูกปลดล็อค',
+        'Outgoing Email' => 'อีเมลขาออก',
+        'Title Updated' => 'อัปเดตหัวข้อแล้ว',
+        'Ticket Merged' => 'ตั๋วรวม',
+        'Outgoing Phone Call' => 'โทรศัพท์ขาออก',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => 'เวลาที่คิด',
+        'Incoming Phone Call' => 'โทรศัพท์สายเข้า',
+        'System Request.' => '',
+        'Incoming Follow-Up' => 'การติดตามผลขาเข้า',
+        'Automatic Reply Sent' => 'การตอบกลับแบบอัตโนมัติถูกส่ง',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => 'การขยายเวลาการแก้ปัญหาหยุดลงแล้ว',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => 'การขยายเวลาที่ตอบสนองหยุดแล้ว',
+        'SLA Updated' => 'อัพเดต SLA แล้ว',
+        'Queue Updated' => 'อัปเดตคิวแล้ว',
         'External Chat' => 'แชทภายนอก',
-        'Internal Chat' => 'แชทภายใน',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
+            'ขออภัยคุณไม่มีสิทธิในการเข้าถึงตั๋วนี้ในสถานะปัจจุบันอีกต่อไป',
         'Can\'t get for ArticleID %s!' => 'ไม่สามารถรับสำหรับ ArticleID %s!',
         'Article filter settings were saved.' => 'การตั้งค่าบทความตัวกรองถูกบันทึกไว้แล้ว',
         'Event type filter settings were saved.' => 'การตั้งค่าตัวกรองประเภทเหตุการณ์ถูกบันทึกไว้',
         'Need ArticleID!' => 'ต้องการ ArticleID!',
         'Invalid ArticleID!' => 'ArticleID ไม่ถูกต้อง! ',
         'Offline' => '',
-        'This user is currently offline' => 'ผู้ใช้รายนี้ได้ออฟไลน์ในขณะนี้',
-        'This user is currently active' => 'ผู้ใช้รายนี้กำลังใช้งานในขณะนี้',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => 'ผู้ใช้รายนี้ไม่อยู่ในขณะนี้',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => 'ผู้ใช้รายนี้ไม่พร้อมใช้งานในขณะนี้',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => 'ฟิลด์ที่ไม่มีกลุ่ม',
         'View the source for this Article' => 'ดูแหล่งที่มาสำหรับบทความนี้',
 
@@ -3926,6 +3940,17 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => 'เวลาเริ่มต้นของตั๋วจะต้องตั้งค่าหลังเวลาสิ้นสุด!',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => 'เรียงลำดับจากน้อยไปมาก',
@@ -5299,14 +5324,14 @@ Thanks for your help!
             'กำหนดขนาดสูงสุดเป็นกิโลไบต์ของการตอบสนอง GenericInterface ที่ได้รับการบันทึกลงในตาราง gi_debugger_entry_content',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'กำหนดโมดูลที่แสดงการแจ้งเตือนทั่วไปในอินเตอร์เฟซเอเย่นต์ ทั้ง "ข้อความ" - ถ้าถูกกำหนดค่า - หรือเนื้อหาของ "แฟ้ม"จะถูกแสดง',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            'กำหนดโมดูลที่แสดงลูกค้าที่เข้าสู่ระบบในขณะนี้ทั้งหมดในอินเตอร์เฟซเอเย่นต์',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'กำหนดโมดูลที่แสดงเอเย่นต์ที่เข้าสู่ระบบในขณะนี้ทั้งหมดในอินเตอร์เฟซเอเย่นต์',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            'กำหนดโมดูลที่แสดงเอเย่นต์ที่เข้าสู่ระบบในขณะนี้ทั้งหมดในอินเตอร์เฟซลูกค้า',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            'กำหนดโมดูลที่แสดงลูกค้าที่เข้าสู่ระบบในขณะนี้ทั้งหมดในอินเตอร์เฟซลูกค้า',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            '',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            '',
         'Defines the module to authenticate customers.' => 'กำหนดโมดูลในการตรวจสอบลูกค้า',
         'Defines the module to display a notification if cloud services are disabled.' =>
             'กำหนดโมดูลเพื่อแสดงการแจ้งเตือนถ้าการบริการคลาวด์ถูกปิดใช้งาน',
@@ -5502,6 +5527,8 @@ Thanks for your help!
             'กำหนดสถานภาพถัดไปที่เป็นไปได้หลังจากสร้างตั๋วโทรศัพท์ใหม่ในอินเตอร์เฟซเอเย่นต์',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             'กำหนดสถานภาพถัดไปที่เป็นไปได้สำหรับดำเนินการตั๋วในอินเตอร์เฟซเอเย่นต์',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'กำหนดหน้าจอถัดไปหลังจากตั๋วลูกค้าใหม่ในอินเตอร์เฟสลูกค้า',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
@@ -6395,7 +6422,7 @@ Thanks for your help!
             '',
         'Sets the display order of the different items in the preferences view.' =>
             '',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
@@ -6668,9 +6695,9 @@ Thanks for your help!
             '',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows the title fields in the close ticket screen of the agent interface.' =>
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
             '',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
+        'Shows the title fields in the close ticket screen of the agent interface.' =>
             '',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             '',

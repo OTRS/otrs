@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.993403421974851;
+    $Self->{Completeness}        = 0.998563218390805;
 
     # csv separator
     $Self->{Separator} = '';
@@ -827,6 +827,8 @@ sub Data {
         'Edit ACL information' => '编辑ACL信息',
         'Stop after match' => '匹配后停止',
         'Edit ACL structure' => '编辑ACL结构',
+        'Save settings' => '保存设置',
+        'Save ACL' => '保存访问控制列表',
         'Save' => '保存',
         'or' => '或',
         'Save and finish' => '保存并完成',
@@ -847,6 +849,7 @@ sub Data {
         'List' => '列表',
         'Download file' => '下载文件',
         'Delete this attachment' => '删除附件',
+        'Do you really want to delete this attachment?' => '你是否确定要删除该附件？',
         'Add Attachment' => '添加附件',
         'Edit Attachment' => '编辑附件',
 
@@ -861,8 +864,7 @@ sub Data {
         'You can use the following tags' => '你可以使用以下的标记',
         'To get the first 20 character of the subject.' => '获取主题的前20个字节',
         'To get the first 5 lines of the email.' => '获取邮件的前五行',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '获取工单中客户联系人的真实姓名(如果有)',
+        'To get the name of the ticket\'s customer user (if given).' => '获取工单的客户联系人名字（如果有）。',
         'To get the article attribute' => '获取邮件的属性信息',
         ' e. g.' => '例如',
         'Options of the current customer user data' => '客户联系人资料属性',
@@ -1094,6 +1096,7 @@ sub Data {
         'Run Now!' => '现在运行!',
         'Delete this task' => '删除这个任务',
         'Run this task' => '执行这个任务',
+        'Do you really want to delete this task?' => '你是否确定要删除该任务？',
         'Job Settings' => '任务设置',
         'Job name' => '任务名称',
         'The name you entered already exists.' => '你输入的名称已经存在。',
@@ -1439,14 +1442,14 @@ sub Data {
         'Configuration history' => '配置历史',
         'Delete web service' => '删除Web服务',
         'Do you really want to delete this web service?' => '您真的想要删除这个Web服务吗？',
-        'Ready-to-run Web Services' => '',
+        'Ready-to-run Web Services' => '运行就绪的WEB服务',
         'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
-            '',
+            '你可以在这里激活运行就绪的WEB服务（作为%s的一部分的展示我们的最佳实践）。',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
-            '',
-        'Import ready-to-run web service' => '',
+            '请注意：这些WEB服务可能依赖于其它仅在某些%s合同级别中才可用的模块(导入时会有详细提示信息)。',
+        'Import ready-to-run web service' => '导入运行就绪的WEB服务',
         'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
-            '',
+            '你想从专家创建的WEB服务中受益吗？升级到%s 就能导入一些复杂的运行就绪的WEB服务。',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '保存配置文件后，页面将再次转到编辑页面。',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1752,8 +1755,8 @@ sub Data {
         'Download' => '下载',
         'Download file from package!' => '从软件包中下载这个文件',
         'Required' => '必需的',
-        'PrimaryKey' => '主键',
-        'AutoIncrement' => '自动递增',
+        'Primary Key' => '主密钥',
+        'Auto Increment' => '自动增加',
         'SQL' => 'SQL',
         'File differences for file %s' => '文件跟%s 有差异',
 
@@ -1789,6 +1792,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             '如果你使用了正则表达式，你可以取出()中匹配的值(需采用[***]这种格式)，在设置邮件头的值时使用。',
         'Delete this filter' => '删除此过滤器',
+        'Do you really want to delete this filter?' => '你是否确定要删除该过滤器？',
         'Add PostMaster Filter' => '添加邮件过滤器',
         'Edit PostMaster Filter' => '编辑邮件过滤器',
         'The name is required.' => '器名称是必需项。',
@@ -1820,12 +1824,12 @@ sub Data {
         'Overwrite existing entities' => '覆盖已存在的流程',
         'Upload process configuration' => '上传流程配置',
         'Import process configuration' => '导入流程配置',
-        'Example processes' => '流程样例',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
-            '你可以在这里激活最佳实践的样例流程，请注意可能需要一些额外的配置。',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
-            '你想从专家创建的流程中受益吗？升级到%s 就能导入一些复杂的样例流程。',
-        'Import example process' => '导入样例流程',
+        'Ready-to-run Processes' => '就绪的流程',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
+            '',
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
+            '',
+        'Import ready-to-run process' => '导入就绪的流程',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '为了创建新的流程，你可以导入从其它系统导出的流程配置文件，或者重新创建一个。',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1931,7 +1935,6 @@ sub Data {
         'Extend the height of the Canvas' => '扩展画布的高度',
         'Remove the Activity from this Process' => '从流程中删除这个活动',
         'Edit this Activity' => '编辑这个活动',
-        'Save settings' => '保存设置',
         'Save Activities, Activity Dialogs and Transitions' => '保存活动、活动对话框和转换',
         'Do you really want to delete this Process?' => '您真的想要删除这个流程吗？',
         'Do you really want to delete this Activity?' => '您真的想要删除这个活动吗？',
@@ -2422,6 +2425,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '模板就是一些能帮助服务人员快速创建、回复或转发工单的默认文本。',
         'Don\'t forget to add new templates to queues.' => '别忘了将新模板分配给队列。',
+        'Do you really want to delete this template?' => '您真的想要删除这个模板吗？',
         'Add Template' => '添加模板',
         'Edit Template' => '编辑模板',
         'A standard template with this name already exists!' => '模板名称已存在！',
@@ -3067,13 +3071,13 @@ sub Data {
         'New personal chat request' => '新的私聊请求',
         'New customer chat request' => '新的客户聊天请求',
         'New public chat request' => '新的公共聊天请求',
-        'Selected user is not available for chat.' => '',
+        'Selected user is not available for chat.' => '不能与选择的用户聊天。',
         'New activity' => '新的聊天活动',
         'New activity on one of your monitored chats.' => '你关注的某个聊天有了新的活动。',
-        'Your browser does not support video and audio calling.' => '',
-        'Selected user is not available for video and audio call.' => '',
+        'Your browser does not support video and audio calling.' => '您的浏览器不支持视频和音频通话。',
+        'Selected user is not available for video and audio call.' => '不能与选择的用户进行视频和音频通话。',
         'Target user\'s browser does not support video and audio calling.' =>
-            '',
+            '目标用户的浏览器不支持视频和音频通话。',
         'Do you really want to continue?' => '您真的要继续吗？',
         'Information about the OTRS Daemon' => '关于OTRS守护进程的信息',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
@@ -3651,7 +3655,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '需要SourceObject（源对象）和SourceKey（源键）！',
-        'Please contact the administrator.' => '',
+        'Please contact the administrator.' => '请联系系统管理员。',
         'You need ro permission!' => '需要ro只读权限！',
         'Can not delete link with %s!' => '不能删除到%s的链接！',
         'Can not create link with %s! Object already linked as %s.' => '不能创建到 %s 的连接！对象已连接为 %s。',
@@ -3694,8 +3698,8 @@ sub Data {
         'Bulk feature is not enabled!' => '批量操作功能还没有启用！',
         'No selectable TicketID is given!' => '没有指定可选择的工单编号！',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
-            '',
-        'You need to select at least one ticket.' => '',
+            '你要么没有选择工单，要么只选择了已被其他服务人员锁定的工单。',
+        'You need to select at least one ticket.' => '你需要选择至少一个工单。',
         'Ticket is locked by another agent and will be ignored!' => '工单已被其他服务人员锁定，将被忽略！',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3774,7 +3778,7 @@ sub Data {
         'for pending* states' => '针对各种挂起状态',
         'ActivityDialogEntityID missing!' => '缺少ActivityDialogEntityID（活动对话框实体ID）！',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '不能获得ActivityDialogEntityID（活动对话框实体ID） “%s”的配置！',
-        'Couldn\'t use CustomerID as an invisible field.' => '',
+        'Couldn\'t use CustomerID as an invisible field.' => '不能将CustomerID（客户ID）用作不可见字段。',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             '缺少ProcessEntityID（流程实体ID），请检查您的模板文件ActivityDialogHeader.tt！',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3800,6 +3804,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '无标题',
+        'Customer Name' => '客户名字',
         'Invalid Users' => '无效用户',
         'CSV' => 'CSV',
         'Excel' => 'Excel',
@@ -3811,55 +3816,64 @@ sub Data {
         'Feature is not active' => '功能没有激活',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => '连接已删除',
+        'Ticket Locked' => '工单已锁定',
+        'Pending Time Set' => '挂起时间设置',
+        'Dynamic Field Updated' => '动态字段已更新',
+        'Outgoing Email (internal)' => '外发邮件-内部',
         'Ticket Created' => '工单已创建',
+        'Type Updated' => '类型已更新',
+        'Escalation Update Time In Effect' => '实际升级更新时间',
+        'Escalation Update Time Stopped' => '升级更新时间已停止',
+        'Escalation First Response Time Stopped' => '升级首次响应时间已停止',
+        'Customer Updated' => '客户联系人已更新',
+        'Internal Chat' => '内部聊天',
+        'Automatic Follow-Up Sent' => '发送自动跟进',
         'Note Added' => '已增加备注',
         'Note Added (Customer)' => '已增加备注-客户联系人',
-        'Outgoing Email' => '外发邮件',
-        'Outgoing Email (internal)' => '外发邮件-内部',
-        'Incoming Customer Email' => '客户来信',
-        'Dynamic Field Updated' => '动态字段已更新',
-        'Outgoing Phone Call' => '致电',
-        'Incoming Phone Call' => '来电',
-        'Outgoing Answer' => '答复',
-        'SLA Updated' => 'SLA 已更新',
-        'Service Updated' => '服务已更新',
-        'Customer Updated' => '客户联系人已更新',
         'State Updated' => '状态已更新',
-        'Incoming Follow-Up' => '进入的跟进',
-        'Escalation Update Time Stopped' => '升级更新时间已停止',
-        'Escalation Solution Time Stopped' => '升级解决时间已停止',
-        'Escalation First Response Time Stopped' => '升级首次响应时间已停止',
-        'Escalation Response Time Stopped' => '升级响应时间已停止',
+        'Outgoing Answer' => '答复',
+        'Service Updated' => '服务已更新',
         'Link Added' => '连接已增加',
-        'Link Deleted' => '连接已删除',
-        'Ticket Merged' => '工单已合并',
-        'Pending Time Set' => '挂起时间设置',
-        'Ticket Locked' => '工单已锁定',
-        'Ticket Unlocked' => '工单已解锁',
-        'Queue Updated' => '队列已更新',
-        'Priority Updated' => '优先级已更新',
-        'Title Updated' => '主题已更新',
-        'Type Updated' => '类型已更新',
+        'Incoming Customer Email' => '客户来信',
         'Incoming Web Request' => '进入的WEB请求',
-        'Automatic Follow-Up Sent' => '发送自动跟进',
-        'Automatic Reply Sent' => '发送自动回复',
+        'Priority Updated' => '优先级已更新',
+        'Ticket Unlocked' => '工单已解锁',
+        'Outgoing Email' => '外发邮件',
+        'Title Updated' => '主题已更新',
+        'Ticket Merged' => '工单已合并',
+        'Outgoing Phone Call' => '致电',
+        'Forwarded Message' => '已转发的消息',
+        'Removed User Subscription' => '已移除的用户订阅',
         'Time Accounted' => '所用时间',
+        'Incoming Phone Call' => '来电',
+        'System Request.' => '系统请求。',
+        'Incoming Follow-Up' => '进入的跟进',
+        'Automatic Reply Sent' => '发送自动回复',
+        'Automatic Reject Sent' => '自动拒绝已发送',
+        'Escalation Solution Time In Effect' => '实际升级解决时间',
+        'Escalation Solution Time Stopped' => '升级解决时间已停止',
+        'Escalation Response Time In Effect' => '实际升级响应时间',
+        'Escalation Response Time Stopped' => '升级响应时间已停止',
+        'SLA Updated' => 'SLA 已更新',
+        'Queue Updated' => '队列已更新',
         'External Chat' => '外部聊天',
-        'Internal Chat' => '内部聊天',
+        'Queue Changed' => '队列已变更',
+        'Notification Was Sent' => '通知已发送',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
+            '抱歉，工单当前状态下你没有权限访问了。',
         'Can\'t get for ArticleID %s!' => '不能获得ID为“%s”的信件！',
         'Article filter settings were saved.' => '信件过滤器设置已保存。',
         'Event type filter settings were saved.' => '事件类型过滤器设置已保存。',
         'Need ArticleID!' => '需要信件ID！',
         'Invalid ArticleID!' => '无效的信件ID！',
         'Offline' => '离线',
-        'This user is currently offline' => '这个用户当前离线了',
-        'This user is currently active' => '这个用户当前在线',
+        'User is currently offline.' => '用户当前离线',
+        'User is currently active.' => '用户当前已激活。',
         'Away' => '离开',
-        'This user is currently away' => '这个用户当前离开了',
+        'User was inactive for a while.' => '用户暂时未激活。',
         'Unavailable' => '不可用',
-        'This user is currently unavailable' => '这个用户当前不可用',
+        'User set their status to unavailable.' => '用户设置他们的状态为不可用。',
         'Fields with no group' => '没有分组的字段',
         'View the source for this Article' => '查看这个信件的源',
 
@@ -3898,7 +3912,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => '检查“%s”不存在！',
         'Database %s' => '数据库%s',
         'Unknown database type "%s".' => '未知的数据库类型“%s”。',
-        'Please go back.' => '',
+        'Please go back.' => '请返回。',
         'Install OTRS - Error' => '安装OTRS - 错误',
         'File "%s/%s.xml" not found!' => '没有找到文件“%s/%s.xml”！',
         'Contact your Admin!' => '联系你的系统管理员！',
@@ -3929,6 +3943,17 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '工单开始时间被设置在结束时间之后！',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '无法连接OTRS新闻服务器！',
+        'Can\'t get OTRS News from server!' => '无法从服务器获取OTRS新闻！',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '无法连接到产品新闻服务器！',
+        'Can\'t get Product News from server!' => '无法从服务器获取产品新闻！',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '无法连接到%s！',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => '升序排序',
         'sorted descending' => '降序排序',
@@ -3946,7 +3971,7 @@ sub Data {
         'Search Result' => '搜索结果',
 
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
-        'Archive search' => '',
+        'Archive search' => '归档搜索',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '现在升级%s到%s！%s',
@@ -3999,10 +4024,10 @@ sub Data {
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '',
-        'Please note that the session limit is almost reached.' => '',
+            '你已经超出了并发服务人员的最大数，请联系sales@otrs.com。',
+        'Please note that the session limit is almost reached.' => '请注意，会话数即将达到极限。',
         'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '',
+            '登录被拒绝！已经达到服务人员最大并发数！请立即联系sales@otrs.com！',
         'Session per user limit reached!' => '达到用户会话限制！',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
@@ -4252,8 +4277,8 @@ sub Data {
         'Package List' => '软件包列表',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
-        'Spooled Emails' => '',
-        'There are emails in var/spool that OTRS could not process.' => '',
+        'Spooled Emails' => '假脱机邮件',
+        'There are emails in var/spool that OTRS could not process.' => 'var/spool目录下有一些OTRS无法处理的邮件。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4289,7 +4314,7 @@ sub Data {
             'ticket_lock_index表中包含孤儿记录。请运行bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup"清理静态数据库的索引。',
         'Orphaned Records In ticket_index Table' => 'ticket_index表中的孤儿记录',
         'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
-            '',
+            'ticket_index表中包含孤儿记录。请运行bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup"，清理静态数据库的索引。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => '时间设置',
@@ -4362,16 +4387,16 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Panic，用户已认证，但没有在OTRS数据库中找到用户数据！！可能是无效用户。',
-        'Can`t remove SessionID.' => '',
+        'Can`t remove SessionID.' => '不能移除会话ID。',
         'Logout successful.' => '成功注销。',
         'Panic! Invalid Session!!!' => 'Panic!无效的会话！！！',
         'No Permission to use this frontend module!' => '没有权限使用这个前端界面模块！',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
-            '',
+            '认证成功，但是后端没有发现此客户的记录，请联系系统管理员。',
         'Reset password unsuccessful. Please contact the administrator.' =>
-            '',
+            '重置密码未成功，请联系系统管理员。',
         'Added via Customer Panel (%s)' => '通过客户界面已添加（%s）',
         'Customer user can\'t be added!' => '不能添加客户联系人！',
         'Can\'t send account info!' => '不能发送帐户信息！',
@@ -4379,7 +4404,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => '激活了安全模式！',
         'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
-            '',
+            '如果你要重新运行安装程序，请在系统配置中禁用安全模式。',
         'Action "%s" not found!' => '没有找到操作“%s”！',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -4967,7 +4992,7 @@ Thanks for your help!
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '定义将工单作为日历事件显示的队列。',
         'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
-            '',
+            '使用公共模块 \'PublicSupportDataCollector\' （如用于OTRS守护进程的模块）定义用于搜集支持数据的HTTP主机名。',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             '定义IP正则表达式以访问本地的软件仓库。您需要启用这个设置以访问本地的软件仓库，远程主机上还需要设置package::RepositoryList。',
         'Defines the URL CSS path.' => '定义CSS路径的URL地址。',
@@ -5295,14 +5320,14 @@ Thanks for your help!
             '定义通用接口响应记录日志到表gi_debugger_entry_content的最大尺寸（单位：KB）。',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '定义服务人员界面显示一个通用通知的模块。可以是“Text（文本）”-如果配置了-，或者是“File（文件）”的内容将被显示。',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            '定义服务人员界面显示当前登录的所有客户联系人的模块。',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '定义服务人员界面显示当前登录的所有服务人员的模块。',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            '定义客户界面显示当前登录的所有服务人员的模块。',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            '定义客户界面显示当前登录的所有客户联系人的模块。',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            '',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            '',
         'Defines the module to authenticate customers.' => '定义客户身份验证的模块。',
         'Defines the module to display a notification if cloud services are disabled.' =>
             '定义云服务被禁用时显示一个通知消息的模块。',
@@ -5315,7 +5340,7 @@ Thanks for your help!
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             '定义服务人员界面如果服务人员在系统维护期间登录系统就显示一个通知的模块。',
         'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            '',
+            '定义服务人员界面如果服务人员会话数达到预警值时就显示一个通知的模块。',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             '定义服务人员界面如果以管理员帐户登录系统（正常情况下您不应该用管理员帐户工作）就显示一个通知的模块。',
         'Defines the module to generate code for periodic page reloads.' =>
@@ -5459,7 +5484,7 @@ Thanks for your help!
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '定义解锁的工单有效的状态。为解锁工单，可以使用脚本"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout"。',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
-            '',
+            '定义工单能看到的锁定状态。注意：修改这个设置后，请确保删除缓存以便使用新值。默认：未锁定，临时锁定。',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '定义本窗口中富文本编辑器组件的宽度。输入数值（像素值）或百分比值（相对值）。',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
@@ -5498,6 +5523,8 @@ Thanks for your help!
             '确定在服务人员界面创建新电话工单后下一个可能的工单状态。',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             '确定在服务人员界面处理工单下一个可能的工单状态。',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '确定在客户界面创建新客户工单后的下一个窗口。',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
@@ -6246,7 +6273,7 @@ Thanks for your help!
         'Responsible Tickets' => '负责的工单',
         'Responsible Tickets.' => '负责的工单.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
-            '',
+            '从归档中恢复一个工单（只针对工单状态变更为任何可处理的状态的事件）。',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '在列表中保留所有的服务，即使他们是无效的子元素。',
         'Right' => '右',
@@ -6390,10 +6417,10 @@ Thanks for your help!
             '设置服务人员界面新建邮件工单的默认文本。',
         'Sets the display order of the different items in the preferences view.' =>
             '设置在偏好设置视图显示不同条目的顺序。',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            '设置一个会话被杀掉和一个用户被注销前的非活动时间（单位：秒）。',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+            '设置在定义的会话活动时间内最大的活动服务人员数的预警值（达到此数后服务人员登录时会显示警告信息）。',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             '设置在定义的会话活动时间内最大的活动服务人员数。',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
@@ -6496,7 +6523,7 @@ Thanks for your help!
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             '设置服务人员界面工单负责人窗口的工单类型（需要激活工单::类型）。',
         'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
-            '',
+            '设置一个用户被标记为活动的时间（单位：秒），最小活动时间是300秒。',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '设置http/ftp下载的超时时间（单位：秒）。',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             '设置软件下载的超时时间（单位：秒），覆盖参数“WebUserAgent::Timeout”。',
@@ -6663,10 +6690,10 @@ Thanks for your help!
             '在服务人员界面工单优先级窗口是否显示工单优先级的选项。',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '在服务人员界面工单负责人窗口显示工单优先级选项。',
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
+            '在服务人员界面工单自定义字段窗口显示工单标题标题字段。',
         'Shows the title fields in the close ticket screen of the agent interface.' =>
             '在服务人员界面关闭工单窗口显示工单标题字段。',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
-            '在服务人员界面工单自定义字段窗口显示工单标题字段。',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             '在服务人员界面工单备注窗口显示工单标题字段。',
         'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>

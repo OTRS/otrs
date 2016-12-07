@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.964955679241394;
+    $Self->{Completeness}        = 0.964696223316913;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -821,6 +821,8 @@ sub Data {
         'Edit ACL information' => 'ACL-Information bearbeiten',
         'Stop after match' => 'Stoppen nach Treffer',
         'Edit ACL structure' => 'ACL-Struktur bearbeiten',
+        'Save settings' => 'Einstellungen speichern',
+        'Save ACL' => 'ACL speichern',
         'Save' => 'Speichern',
         'or' => 'oder',
         'Save and finish' => 'Speichern und abschließen',
@@ -841,6 +843,7 @@ sub Data {
         'List' => 'Liste',
         'Download file' => 'Datei herunterladen',
         'Delete this attachment' => 'Diesen Anhang entfernen',
+        'Do you really want to delete this attachment?' => 'Möchten Sie diesen Anhang wirklich löschen?',
         'Add Attachment' => 'Anhang hinzufügen',
         'Edit Attachment' => 'Anhang bearbeiten',
 
@@ -855,8 +858,7 @@ sub Data {
         'You can use the following tags' => 'Die folgenden Tags können benutzt werden',
         'To get the first 20 character of the subject.' => 'Die ersten 20 Zeichen des Betreffs',
         'To get the first 5 lines of the email.' => 'Die ersten fünf Zeilen der Nachricht',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            'Der Name des Ticket-Kundenbenutzers (wenn angegeben).',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Die Artikel-Attribute',
         ' e. g.' => 'z. B.',
         'Options of the current customer user data' => 'Attribute des aktuellen Kunden',
@@ -1088,6 +1090,7 @@ sub Data {
         'Run Now!' => 'Jetzt ausführen!',
         'Delete this task' => 'Diesen Job löschen',
         'Run this task' => 'Diesen Job ausführen',
+        'Do you really want to delete this task?' => 'Möchten Sie diese Aufgabe wirklich löschen?',
         'Job Settings' => 'Jobeinstellungen',
         'Job name' => 'Jobname',
         'The name you entered already exists.' => 'Der eingegebene Name existiert bereits.',
@@ -1746,8 +1749,8 @@ sub Data {
         'Download' => 'Herunterladen',
         'Download file from package!' => 'Datei aus dem Paket herunterladen!',
         'Required' => 'Benötigt',
-        'PrimaryKey' => 'PrimaryKey',
-        'AutoIncrement' => 'AutoIncrement',
+        'Primary Key' => 'Primärer Schlüssel',
+        'Auto Increment' => 'Automatisch erhöhen',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Dateiunterschiede für Datei %s',
 
@@ -1783,6 +1786,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Wenn Sie reguläre Ausdrücke verwenden, können Sie die gefundenen Werte in () auch als [***] in der Aktion "Setzen" verwenden.',
         'Delete this filter' => 'Diesen Filter löschen',
+        'Do you really want to delete this filter?' => 'Möchten Sie diesen Filter wirklich löschen?',
         'Add PostMaster Filter' => 'PostMaster-Filter hinzufügen',
         'Edit PostMaster Filter' => 'PostMaster-Filter bearbeiten',
         'The name is required.' => 'Der Name ist erforderlich.',
@@ -1814,12 +1818,12 @@ sub Data {
         'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Upload process configuration' => 'Prozesskonfiguration hochladen',
         'Import process configuration' => 'Prozesskonfiguration importieren',
-        'Example processes' => 'Beispielprozess',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
-            'Hier können Sie "best practice"-Beispielprozesse aktivieren. Bitte beachten Sie dass etwas zusätzliche Konfiguration erforderlich sein kann.',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
-            'Möchten Sie von Prozessen profitieren, die von Experten erstellt wurden? Upgraden Sie auf %s um einige ausgefeilte Beispielprozesse importieren zu können.',
-        'Import example process' => 'Beispielprozess importieren',
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
+            '',
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
+            '',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Um einen neuen Prozess zu erstellen, können Sie entweder einen Prozess aus einem anderen System importieren, oder einen ganz neuen erstellen.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1925,7 +1929,6 @@ sub Data {
         'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
         'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
         'Edit this Activity' => 'Diese Aktivität bearbeiten',
-        'Save settings' => 'Einstellungen speichern',
         'Save Activities, Activity Dialogs and Transitions' => 'Aktivitäten, Aktivitätsdialoge und Übergänge speichern',
         'Do you really want to delete this Process?' => 'Möchten Sie diesen Prozess wirklich löschen?',
         'Do you really want to delete this Activity?' => 'Möchten Sie diese Aktivität wirklich löschen?',
@@ -2416,6 +2419,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Eine Vorlage ist ein Standardtext, der Ihren Agenten helfen kann, Tickets schneller zu erstellen, beantworten oder weiterzuleiten.',
         'Don\'t forget to add new templates to queues.' => 'Vergessen Sie nicht, Vorlagen den Queues zuzuordnen.',
+        'Do you really want to delete this template?' => 'Möchten Sie diese Vorlage wirklich löschen?',
         'Add Template' => 'Vorlage hinzufügen',
         'Edit Template' => 'Vorlage bearbeiten',
         'A standard template with this name already exists!' => 'Es existiert bereits eine Standardvorlage mit diesem Namen!',
@@ -3645,7 +3649,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Benötige SourceObject und SourceKey!',
-        'Please contact the administrator.' => '',
+        'Please contact the administrator.' => 'Bitte kontaktieren Sie den Administrator.',
         'You need ro permission!' => 'Sie benötigen die ro-Berechtigung!',
         'Can not delete link with %s!' => 'Kann Link mit %s nicht entfernen.',
         'Can not create link with %s! Object already linked as %s.' => 'Kann Verknüpfung zu %s nicht erstellen! Objekt bereits verknüpft als %s.',
@@ -3688,8 +3692,8 @@ sub Data {
         'Bulk feature is not enabled!' => 'Das Stapelverarbeitungs-Feature ist nicht aktiviert!',
         'No selectable TicketID is given!' => 'Keine auswählbare TicketID übermittelt!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
-            '',
-        'You need to select at least one ticket.' => '',
+            'Sie haben entweder kein Ticket ausgewählt, oder nur Tickets, die von anderen Agenten gesperrt sind.',
+        'You need to select at least one ticket.' => 'Sie müssen mindestens ein Ticket auswählen.',
         'Ticket is locked by another agent and will be ignored!' => 'Ticket ist von einem anderen Agenten gesperrt und wird ignoriert!',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3768,7 +3772,7 @@ sub Data {
         'for pending* states' => 'für warten* Status',
         'ActivityDialogEntityID missing!' => 'ActivityDialogEntityID wird benötigt!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Konnte Konfiguration für ActivityDialogEntityID "%s" nicht ermitteln!',
-        'Couldn\'t use CustomerID as an invisible field.' => '',
+        'Couldn\'t use CustomerID as an invisible field.' => 'CustomerID konnte nicht als unsichtbares Feld verwendet werden.',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'ProcessEntityID fehlt, bitte prüfen Sie Ihre ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3794,6 +3798,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => 'Unbenannt',
+        'Customer Name' => 'Kundenname',
         'Invalid Users' => 'Ungültige Benutzer',
         'CSV' => 'CSV',
         'Excel' => 'Excel',
@@ -3805,55 +3810,64 @@ sub Data {
         'Feature is not active' => 'Funktion ist nicht aktiv',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => 'Link gelöscht',
+        'Ticket Locked' => 'Ticket gesperrt',
+        'Pending Time Set' => 'Wartezeit gesetzt',
+        'Dynamic Field Updated' => 'Dynamisches Feld aktualisiert',
+        'Outgoing Email (internal)' => 'Ausgehende E-Mail (intern)',
         'Ticket Created' => 'Ticket erstellt',
+        'Type Updated' => 'Typ aktualisiert',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => 'Aktualisierungszeit-Eskalation angehalten',
+        'Escalation First Response Time Stopped' => 'Erstreaktionszeit-Eskalation angehalten',
+        'Customer Updated' => 'Kunde aktualisiert',
+        'Internal Chat' => 'Chat (intern)',
+        'Automatic Follow-Up Sent' => 'Automatische Rückfrage gesendet',
         'Note Added' => 'Notiz hinzugefügt',
         'Note Added (Customer)' => 'Notiz hinzugefügt (Kunde)',
-        'Outgoing Email' => 'Ausgehende E-Mail',
-        'Outgoing Email (internal)' => 'Ausgehende E-Mail (intern)',
-        'Incoming Customer Email' => 'Eingehende E-Mail (Kunde)',
-        'Dynamic Field Updated' => 'Dynamisches Feld aktualisiert',
-        'Outgoing Phone Call' => 'Ausgehender Telefonanruf',
-        'Incoming Phone Call' => 'Eingehender Telefonanruf',
-        'Outgoing Answer' => 'Ausgehende Antwort',
-        'SLA Updated' => 'SLA aktualisiert',
-        'Service Updated' => 'Service aktualisiert',
-        'Customer Updated' => 'Kunde aktualisiert',
         'State Updated' => 'Status aktualisiert',
-        'Incoming Follow-Up' => 'Eingehende Rückfrage',
-        'Escalation Update Time Stopped' => 'Aktualisierungszeit-Eskalation angehalten',
-        'Escalation Solution Time Stopped' => 'Lösungszeit-Eskalation angehalten',
-        'Escalation First Response Time Stopped' => 'Erstreaktionszeit-Eskalation angehalten',
-        'Escalation Response Time Stopped' => 'Antwortzeit-Eskalation angehalten',
+        'Outgoing Answer' => 'Ausgehende Antwort',
+        'Service Updated' => 'Service aktualisiert',
         'Link Added' => 'Link hinzugefügt',
-        'Link Deleted' => 'Link gelöscht',
-        'Ticket Merged' => 'Ticket zusammengefasst',
-        'Pending Time Set' => 'Wartezeit gesetzt',
-        'Ticket Locked' => 'Ticket gesperrt',
-        'Ticket Unlocked' => 'Ticket entsperrt',
-        'Queue Updated' => 'Queue aktualisiert',
-        'Priority Updated' => 'Priorität aktualisiert',
-        'Title Updated' => 'Titel aktualisiert',
-        'Type Updated' => 'Typ aktualisiert',
+        'Incoming Customer Email' => 'Eingehende E-Mail (Kunde)',
         'Incoming Web Request' => 'Eingehende Webanfrage',
-        'Automatic Follow-Up Sent' => 'Automatische Rückfrage gesendet',
-        'Automatic Reply Sent' => 'Automatische Antwort gesendet',
+        'Priority Updated' => 'Priorität aktualisiert',
+        'Ticket Unlocked' => 'Ticket entsperrt',
+        'Outgoing Email' => 'Ausgehende E-Mail',
+        'Title Updated' => 'Titel aktualisiert',
+        'Ticket Merged' => 'Ticket zusammengefasst',
+        'Outgoing Phone Call' => 'Ausgehender Telefonanruf',
+        'Forwarded Message' => 'Weitergeleitete Nachricht',
+        'Removed User Subscription' => '',
         'Time Accounted' => 'Zeit erfasst',
+        'Incoming Phone Call' => 'Eingehender Telefonanruf',
+        'System Request.' => 'Systemanfrage.',
+        'Incoming Follow-Up' => 'Eingehende Rückfrage',
+        'Automatic Reply Sent' => 'Automatische Antwort gesendet',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => 'Lösungszeit-Eskalation angehalten',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => 'Antwortzeit-Eskalation angehalten',
+        'SLA Updated' => 'SLA aktualisiert',
+        'Queue Updated' => 'Queue aktualisiert',
         'External Chat' => 'Chat (extern)',
-        'Internal Chat' => 'Chat (intern)',
+        'Queue Changed' => 'Queue gewechselt',
+        'Notification Was Sent' => 'Benachrichtigung wurde gesendet',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
+            'Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen.',
         'Can\'t get for ArticleID %s!' => 'Konnte Artikel-ID %s nicht ermitteln!',
         'Article filter settings were saved.' => 'Artikelfilter-Einstellungen wurden gespeichert.',
         'Event type filter settings were saved.' => 'Eventtypfilter-Einstellungen wurden gespeichert.',
         'Need ArticleID!' => 'Benötige ArticleID!',
         'Invalid ArticleID!' => 'Ungültige ArticleID!',
         'Offline' => 'Offline',
-        'This user is currently offline' => 'Dieser Benutzer ist aktuell online',
-        'This user is currently active' => 'Dieser Benutzer ist aktuell aktiv',
+        'User is currently offline.' => 'Benutzer ist aktuell nicht verfügbar.',
+        'User is currently active.' => '',
         'Away' => 'Abwesend',
-        'This user is currently away' => 'Dieser Benutzer ist aktuell abwesend',
+        'User was inactive for a while.' => 'Benutzer war für eine Weile inaktiv.',
         'Unavailable' => 'Nicht verfügbar',
-        'This user is currently unavailable' => 'Dieser Benutzer ist aktuell nicht erreichbar',
+        'User set their status to unavailable.' => 'Benutzer hat seinen Status auf "nicht verfügbar" gesetzt.',
         'Fields with no group' => 'Felder ohne Gruppe',
         'View the source for this Article' => 'Betrachten Sie den Quelltext dieses Artikels',
 
@@ -3892,7 +3906,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => 'Die Prüfung "%s" existiert nicht!',
         'Database %s' => 'Datenbank %s',
         'Unknown database type "%s".' => 'Unbekannter Datenbank-Typ "%s".',
-        'Please go back.' => '',
+        'Please go back.' => 'Bitte gehen Sie zurück.',
         'Install OTRS - Error' => 'OTRS-Installation - Fehler',
         'File "%s/%s.xml" not found!' => 'Datei "%s/%s.xml" nicht gefunden!',
         'Contact your Admin!' => 'Kontaktieren Sie Ihren Administrator!',
@@ -3923,6 +3937,17 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => 'Die Starten-Zeit eines Tickets wurde auf einen Zeitpunkt nach der Ende-Zeit gesetzt!',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => 'Kein Verbindungsaufbau zu den OTRS Neuigkeiten möglich!',
+        'Can\'t get OTRS News from server!' => 'OTRS Neuigkeiten können nicht vom Server abgerufen werden!',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => 'Kein Verbindungsaufbau zu den Produktneuigkeiten möglich!',
+        'Can\'t get Product News from server!' => 'Produktneuigkeiten können nicht vom Server abgerufen werden!',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => 'Kein Verbindungsaufbau zu %s möglich!',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => 'aufsteigend sortiert',
         'sorted descending' => 'absteigend sortiert',
@@ -3940,7 +3965,7 @@ sub Data {
         'Search Result' => 'Suchergebnis',
 
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
-        'Archive search' => '',
+        'Archive search' => 'Archivsuche',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Jetzt auf %s upgraden! %s',
@@ -3993,10 +4018,10 @@ sub Data {
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '',
-        'Please note that the session limit is almost reached.' => '',
+            'Sie haben die Anzahl der concurrent agents überschritten - kontaktieren Sie umgehend sales@otrs.com',
+        'Please note that the session limit is almost reached.' => 'Bitte beachten Sie, dass das Session Limit fast erreicht ist.',
         'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '',
+            'Anmeldung verweigert! Sie haben die maximale Anzahl an gleichzeitig angemeldeten Agents überschritten! Jetzt sales@otrs.com kontaktieren!',
         'Session per user limit reached!' => 'Sitzung-pro-Benutzer-Limit erreicht!',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
@@ -4356,7 +4381,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Achtung, der Benutzer wurde authentifiziert, aber es konnten keine Benutzerdaten in der Datenbank gefunden worden. Möglicherweise ist der Benutzer ungültig.',
-        'Can`t remove SessionID.' => '',
+        'Can`t remove SessionID.' => 'Kann SessionID nicht enfernen',
         'Logout successful.' => 'Abmeldung erfolgreich.',
         'Panic! Invalid Session!!!' => 'Fehler: Ungültige Sitzung.',
         'No Permission to use this frontend module!' => 'Sie haben keine Berechtigung, dieses Modul zu nutzen!',
@@ -4365,7 +4390,7 @@ sub Data {
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
             '',
         'Reset password unsuccessful. Please contact the administrator.' =>
-            '',
+            'Zurücksetzen des Kennwort war nicht erfolgreich. Bitte kontaktieren Sie den Administrator!',
         'Added via Customer Panel (%s)' => 'Mittels Kundenbereich hinzugefügt (%s)',
         'Customer user can\'t be added!' => 'Kundenbenutzer kann nicht angelegt werden!',
         'Can\'t send account info!' => 'Kann Zugangsinformation nicht senden!',
@@ -5290,14 +5315,14 @@ Ihr Helpdesk-Team
             'Legt die maximale Größe von Antworten des GenericInterfaces fest, die in der gi_debugger_entry_content-Tabelle gespeichert werden (in Kilobyte).',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'Legt das Modul fest, das eine generische Benachrichtigung im Agenten-Bereich anzeigt. Entweder wird "Text" (wenn konfiguriert), oder der Inhalt von "Datei" angezeigt.',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            'Definiert das Modul das alle zur Zeit angemeldeten Kunden im Agenten-Interface anzeigt.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Definiert das Modul das alle zur Zeit angemeldeten Agenten im Agenten-Interface anzeigt.',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            'Definiert das Modul das alle zur Zeit angemeldeten Agenten im KundenInterface anzeigt.',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            'Definiert das Modul das alle zur Zeit angemeldeten Kunden im Kunden-Interface anzeigt.',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            '',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            '',
         'Defines the module to authenticate customers.' => 'Definiert das Modul um Kunden zu authentifizieren.',
         'Defines the module to display a notification if cloud services are disabled.' =>
             'Legt das Modul fest, das eine Benachrichtigung anzeigt, wenn Cloud-Services abgeschaltet sind.',
@@ -5493,6 +5518,8 @@ Ihr Helpdesk-Team
             'Definiert den Nächstmöglichen Ticketstatus, nachdem ein neues Telefonticket im Agenten-interface erstellt wurde.',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             'Definiert den Nächstmöglichen Ticketstatus für Prozesstickets im Agenten-Interface.',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Definiert den nächsten Bildschirm nach einem Kundenticket im Kunden-Interface.',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
@@ -6238,8 +6265,8 @@ Ihr Helpdesk-Team
             'Benötigte Rechte um den "Verantwortlicher"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             'Setzt den Besitzer eines TIckets zurück und entsperrt es, wenn das Ticket in eine andere Queue verschoben wird.',
-        'Responsible Tickets' => '',
-        'Responsible Tickets.' => '',
+        'Responsible Tickets' => 'Verantwortliche Tickets',
+        'Responsible Tickets.' => 'Verantwortliche Tickets.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
@@ -6385,8 +6412,8 @@ Ihr Helpdesk-Team
             'Bestimmt den Standardtext für neue E-Mail-Tickets im Agentenbereich.',
         'Sets the display order of the different items in the preferences view.' =>
             'Bestimmt die Anzeigereihenfolge der verschiedenen Elemente in den persönlichen Einstellungen für Agenten.',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            'Steuert die Zeit (in Sekunden), die vergehen darf, bevor ein Benutzer automatisch abgemeldet und seine Sitzung gelöscht wird.',
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
@@ -6658,9 +6685,9 @@ Ihr Helpdesk-Team
             '',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows the title fields in the close ticket screen of the agent interface.' =>
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
             '',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
+        'Shows the title fields in the close ticket screen of the agent interface.' =>
             '',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             '',

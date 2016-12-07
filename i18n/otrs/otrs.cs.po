@@ -4,13 +4,14 @@
 # JanPolnicky <jan.polnicky@gmail.com>, 2016
 # Jan Řežab <honza@rezab.eu>, 2015
 # Marek Pinc <mmap@post.cz>, 2015
+# M Š <Transifex@sikuda.eu>, 2016
 # Tomas Reznicek <tomas.reznicek@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-11-04 14:18+0000\n"
-"PO-Revision-Date: 2016-11-04 13:19+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2016-12-07 16:14+0000\n"
+"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Czech (http://www.transifex.com/otrs/OTRS/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2996,6 +2997,14 @@ msgid "Edit ACL structure"
 msgstr ""
 
 #. Template: AdminACLEdit
+msgid "Save settings"
+msgstr ""
+
+#. Template: AdminACLEdit
+msgid "Save ACL"
+msgstr ""
+
+#. Template: AdminACLEdit
 msgid "Save"
 msgstr "Uložit"
 
@@ -3056,6 +3065,10 @@ msgid "Delete this attachment"
 msgstr "Smazat tuto přílohu"
 
 #. Template: AdminAttachment
+msgid "Do you really want to delete this attachment?"
+msgstr ""
+
+#. Template: AdminAttachment
 msgid "Add Attachment"
 msgstr "Přidat přílohu"
 
@@ -3104,7 +3117,7 @@ msgid "To get the first 5 lines of the email."
 msgstr "pro získáni prvních 5ti řádků z emailu"
 
 #. Template: AdminAutoResponse
-msgid "To get the realname of the ticket's customer user (if given)."
+msgid "To get the name of the ticket's customer user (if given)."
 msgstr ""
 
 #. Template: AdminAutoResponse
@@ -3846,6 +3859,10 @@ msgid "Run this task"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Do you really want to delete this task?"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Job Settings"
 msgstr ""
 
@@ -4167,27 +4184,27 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "New customer user"
-msgstr ""
+msgstr "Nový uživatel zákazníka"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
-msgstr ""
+msgstr "Nové ID zákazníka"
 
 #. Template: AdminGenericAgent
 msgid "New title"
-msgstr ""
+msgstr "Nový název"
 
 #. Template: AdminGenericAgent
 msgid "New type"
-msgstr ""
+msgstr "Nový typ"
 
 #. Template: AdminGenericAgent
 msgid "New Dynamic Field Values"
-msgstr ""
+msgstr "Nové hodnoty dynamického pole"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
-msgstr ""
+msgstr "Archivuj označené tikety"
 
 #. Template: AdminGenericAgent
 msgid "Add Note"
@@ -4432,7 +4449,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
-msgstr ""
+msgstr "Asynchronní"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -5935,11 +5952,11 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Add PGP Key"
-msgstr ""
+msgstr "Přidej PGP klíč"
 
 #. Template: AdminPGP
 msgid "PGP key"
-msgstr ""
+msgstr "PGP klíč"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
@@ -5947,7 +5964,7 @@ msgstr "Správa Balíčků"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
-msgstr ""
+msgstr "Odinstaluj balíček"
 
 #. Template: AdminPackageManager
 msgid "Do you really want to uninstall this package?"
@@ -5955,7 +5972,7 @@ msgstr "Opravdu chcete odinstalovat tento Balíček?"
 
 #. Template: AdminPackageManager
 msgid "Reinstall package"
-msgstr ""
+msgstr "Reinstaluj balíček"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -5980,7 +5997,7 @@ msgstr "Instalovat"
 
 #. Template: AdminPackageManager
 msgid "Install Package"
-msgstr ""
+msgstr "Instaluj balíček"
 
 #. Template: AdminPackageManager
 msgid "Update repository information"
@@ -5996,7 +6013,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
-msgstr ""
+msgstr "Povol cloudové služby"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -6046,7 +6063,7 @@ msgstr "Znovu vytvořit balíček"
 
 #. Template: AdminPackageManager
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #. Template: AdminPackageManager
 msgid "Change Log"
@@ -6077,12 +6094,12 @@ msgid "Required"
 msgstr "Vyžadováno"
 
 #. Template: AdminPackageManager
-msgid "PrimaryKey"
-msgstr "Primární Klíč"
+msgid "Primary Key"
+msgstr ""
 
 #. Template: AdminPackageManager
-msgid "AutoIncrement"
-msgstr "Automatický Přírůstek"
+msgid "Auto Increment"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -6196,7 +6213,11 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
-msgstr ""
+msgstr "Odstaň tenhle filtr"
+
+#. Template: AdminPostMasterFilter
+msgid "Do you really want to delete this filter?"
+msgstr "Opravdu odstranit tenhle filtr?"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
@@ -6208,7 +6229,7 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "The name is required."
-msgstr ""
+msgstr "Jméno je požadováno."
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -6216,7 +6237,7 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "AND Condition"
-msgstr ""
+msgstr "podmínka A"
 
 #. Template: AdminPostMasterFilter
 msgid "Check email header"
@@ -6236,15 +6257,15 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
-msgstr ""
+msgstr "Nastav hlavičky emailů"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr ""
+msgstr "Nastav hlavičku emailu"
 
 #. Template: AdminPostMasterFilter
 msgid "Set value"
-msgstr ""
+msgstr "Nastav hodnotu"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
@@ -6302,23 +6323,23 @@ msgid "Import process configuration"
 msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Example processes"
+msgid "Ready-to-run Processes"
 msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate best practice example processes. Please note that some"
-" additional configuration may be required."
+"Here you can activate ready-to-run processes showcasing our best practices. "
+"Please note that some additional configuration may be required."
 msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Do you want to benefit from processes created by experts? Upgrade to %s to "
-"be able to import additional sophisticated example processes."
+"Would you like to benefit from processes created by experts? Upgrade to %s "
+"to import some sophisticated ready-to-run processes."
 msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Import example process"
+msgid "Import ready-to-run process"
 msgstr ""
 
 #. Template: AdminProcessManagement
@@ -6475,7 +6496,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Fields"
-msgstr ""
+msgstr "Pole"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
@@ -6493,11 +6514,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Name: %s"
-msgstr ""
+msgstr "Jméno: %s"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
-msgstr ""
+msgstr "Přiřazené pole"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
@@ -6551,19 +6572,19 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Activities"
-msgstr ""
+msgstr "Aktivity"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activities..."
-msgstr ""
+msgstr "Filtr Aktivit"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Activity"
-msgstr ""
+msgstr "Vytvoř novou Aktivitu"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activity Dialogs..."
-msgstr ""
+msgstr "Dialog filtr Aktivit"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Transitions"
@@ -6650,7 +6671,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Show EntityIDs"
-msgstr ""
+msgstr "Ukaže EntityID"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the width of the Canvas"
@@ -6662,15 +6683,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove the Activity from this Process"
-msgstr ""
+msgstr "Odsta%n Aktivitu z tohoto Procesu"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
-msgstr ""
-
-#. Template: AdminProcessManagementProcessEdit
-msgid "Save settings"
-msgstr ""
+msgstr "Uprav tuto Aktivitu"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
@@ -6678,11 +6695,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Process?"
-msgstr ""
+msgstr "Opravdu odstranit tenhle Proces?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity?"
-msgstr ""
+msgstr "Opravdu odstranit tuhle Aktivitu?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity Dialog?"
@@ -6803,11 +6820,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Conditions"
-msgstr ""
+msgstr "Podmínky"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition"
-msgstr ""
+msgstr "Podmínka"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
@@ -6815,7 +6832,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Module name"
-msgstr ""
+msgstr "Název modulu"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
@@ -6891,11 +6908,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
-msgstr ""
+msgstr "Přidej nový Parametr"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Remove this Parameter"
-msgstr ""
+msgstr "Odstra%n tenhle Parametr"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -7527,15 +7544,15 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Add certificate"
-msgstr ""
+msgstr "Přidej certifikát"
 
 #. Template: AdminSMIME
 msgid "Add private key"
-msgstr ""
+msgstr "Přidej privátní klíč"
 
 #. Template: AdminSMIME
 msgid "Filter for certificates"
-msgstr ""
+msgstr "Filtr certifikátů"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
@@ -7844,7 +7861,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Update Result"
-msgstr ""
+msgstr "Aktualizuj výsledek"
 
 #. Template: AdminSupportDataCollector
 msgid "Currently this data is only shown in this system."
@@ -7863,7 +7880,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Generating..."
-msgstr ""
+msgstr "Generuji..."
 
 #. Template: AdminSupportDataCollector
 msgid "It was not possible to generate the Support Bundle."
@@ -8033,7 +8050,7 @@ msgstr "Vytvořit novú položku"
 
 #. Template: AdminSysConfigEdit
 msgid "New group"
-msgstr ""
+msgstr "Nová skupina"
 
 #. Template: AdminSysConfigEdit
 msgid "Group ro"
@@ -8248,6 +8265,10 @@ msgid "Don't forget to add new templates to queues."
 msgstr ""
 
 #. Template: AdminTemplate
+msgid "Do you really want to delete this template?"
+msgstr "Opravdu chcete smazat tuto šablonu?"
+
+#. Template: AdminTemplate
 msgid "Add Template"
 msgstr ""
 
@@ -8349,7 +8370,7 @@ msgstr "Upravit řešitele"
 
 #. Template: AdminUser
 msgid "Title or salutation"
-msgstr ""
+msgstr "Titul nebo oslovení"
 
 #. Template: AdminUser
 msgid "Firstname"
@@ -8361,7 +8382,7 @@ msgstr "Příjmení"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "Uživatel se zadaným jménem již existuje!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
@@ -8421,7 +8442,7 @@ msgstr "Zákaznický uživatel"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
-msgstr ""
+msgstr "Duplicitní záznam"
 
 #. Template: AgentCustomerSearch
 msgid "This address already exists on the address list."
@@ -9159,7 +9180,7 @@ msgstr ""
 
 #. Template: AgentTicketMove
 msgid "Move %s%s%s"
-msgstr ""
+msgstr "Přesuň %s%s%s"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
@@ -9167,7 +9188,7 @@ msgstr "Nová fronta"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select all"
-msgstr ""
+msgstr "Vyber vše"
 
 #. Template: AgentTicketOverviewMedium
 msgid "No ticket data found."
@@ -9179,7 +9200,7 @@ msgstr ""
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select this ticket"
-msgstr ""
+msgstr "Vyber tenhle tiket"
 
 #. Template: AgentTicketOverviewMedium
 msgid "First Response Time"
@@ -9195,7 +9216,7 @@ msgstr "Čas Řešení"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
-msgstr ""
+msgstr "Přesuň tiket do jiné fronty"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Change queue"
@@ -9501,7 +9522,7 @@ msgstr "Strana"
 
 #. Template: AgentTicketZoom
 msgid "Add Filter"
-msgstr ""
+msgstr "Přidej Filtr"
 
 #. Template: AgentTicketZoom
 msgid "Set"
@@ -9509,7 +9530,7 @@ msgstr "Nastavit"
 
 #. Template: AgentTicketZoom
 msgid "Reset Filter"
-msgstr ""
+msgstr "Zruš Filtr"
 
 #. Template: AgentTicketZoom
 msgid "Show one article"
@@ -9525,7 +9546,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
-msgstr ""
+msgstr "Nepřečtené články"
 
 #. Template: AgentTicketZoom
 msgid "No."
@@ -9533,11 +9554,11 @@ msgstr "Ne"
 
 #. Template: AgentTicketZoom
 msgid "Important"
-msgstr ""
+msgstr "Důležité"
 
 #. Template: AgentTicketZoom
 msgid "Unread Article!"
-msgstr ""
+msgstr "Nepřečtený článek!"
 
 #. Template: AgentTicketZoom
 msgid "Incoming message"
@@ -9561,11 +9582,11 @@ msgstr "Označit tento text jako přečtený"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr ""
+msgstr "Ukaž úplný text"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "Úplný text artiklu"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
@@ -9599,7 +9620,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
-msgstr ""
+msgstr "Zavři náhled"
 
 #. Template: AgentTicketZoom
 msgid ""
@@ -9625,7 +9646,7 @@ msgstr ""
 
 #. Template: CloudServicesDisabled
 msgid "You can"
-msgstr ""
+msgstr "Můžeš "
 
 #. Template: CloudServicesDisabled
 msgid "go back to the previous page"
@@ -9633,11 +9654,11 @@ msgstr ""
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr ""
+msgstr "Pozor chyba"
 
 #. Template: CustomerError
 msgid "Error Details"
-msgstr ""
+msgstr "Detail chyby"
 
 #. Template: CustomerError
 msgid "Traceback"
@@ -9696,19 +9717,19 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "Přepni do módu mobil"
 
 #. Template: CustomerFooterJS
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "Přepni do módu desktop"
 
 #. Template: CustomerFooterJS
 msgid "Not available"
-msgstr ""
+msgstr "Není k dispozici"
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
-msgstr ""
+msgstr "Vyčisti vše"
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
@@ -9724,11 +9745,11 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Filters"
-msgstr ""
+msgstr "Filtry"
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
-msgstr ""
+msgstr "Potvrď"
 
 #. Template: CustomerFooterJS
 msgid "You have unanswered chat requests"
@@ -9744,7 +9765,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "An internal error occurred."
-msgstr ""
+msgstr "Pozor vnitřní chyba"
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -10062,7 +10083,7 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
-msgstr ""
+msgstr "Dynamické pole"
 
 #. Template: Datepicker
 msgid "Invalid date (need a future date)!"
@@ -10070,7 +10091,7 @@ msgstr "Nesprávne datum (musí být v budoucnosti)"
 
 #. Template: Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr ""
+msgstr "Neplatné datum (je třeba datum v minulosti)!"
 
 #. Template: Datepicker
 msgid "Previous"
@@ -10082,13 +10103,13 @@ msgstr "Otevři kalendář"
 
 #. Template: Error
 msgid "An error occurred."
-msgstr ""
+msgstr "Nastala chyba"
 
 #. Template: Error
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
 "installation of OTRS."
-msgstr ""
+msgstr "Opravdu chyba? 5 z 10 hlášení o chybách je důsledek nesprávné nebo neúplné instalace OTRS."
 
 #. Template: Error
 msgid ""
@@ -10098,15 +10119,15 @@ msgstr ""
 
 #. Template: Error
 msgid "Contact our service team now."
-msgstr ""
+msgstr "Kontaktuj náš servisní team."
 
 #. Template: Error
 msgid "Send a bugreport"
-msgstr ""
+msgstr "pošli chybové hlášení"
 
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
-msgstr ""
+msgstr "Zadejte prosím alespoň jednu hodnotu pro vyhledávání nebo * najít cokoliv."
 
 #. Template: FooterJS
 msgid ""
@@ -10156,11 +10177,11 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Selected user is not available for chat."
-msgstr ""
+msgstr "Zvolený uživatel není na chatu."
 
 #. Template: FooterJS
 msgid "New activity"
-msgstr ""
+msgstr "Nová aktivita"
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
@@ -10168,7 +10189,7 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Your browser does not support video and audio calling."
-msgstr ""
+msgstr "Váš prohlížeč nepodporuje video a audio volání."
 
 #. Template: FooterJS
 msgid "Selected user is not available for video and audio call."
@@ -12168,27 +12189,79 @@ msgid "Untitled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+msgid "Customer Name"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Excel"
-msgstr ""
+msgstr "Excel"
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
-msgstr ""
+msgstr "Vlastnost není povolena"
 
 #. Perl Module: Kernel/Modules/AgentTicketWatcher.pm
 msgid "Feature is not active"
+msgstr "Vlastnost není aktivní"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Link Deleted"
+msgstr "Odkaz odstraněn"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Locked"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Pending Time Set"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Dynamic Field Updated"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email (internal)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Type Updated"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Update Time Stopped"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation First Response Time Stopped"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Customer Updated"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Internal Chat"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Follow-Up Sent"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12200,27 +12273,7 @@ msgid "Note Added (Customer)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Email (internal)"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Customer Email"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Dynamic Field Updated"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Outgoing Phone Call"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Phone Call"
+msgid "State Updated"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12228,39 +12281,7 @@ msgid "Outgoing Answer"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "SLA Updated"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Customer Updated"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "State Updated"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Incoming Follow-Up"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Update Time Stopped"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Solution Time Stopped"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation First Response Time Stopped"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Escalation Response Time Stopped"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12268,39 +12289,7 @@ msgid "Link Added"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Link Deleted"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Merged"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Pending Time Set"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Locked"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Ticket Unlocked"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Queue Updated"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Priority Updated"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Title Updated"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Type Updated"
+msgid "Incoming Customer Email"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12308,11 +12297,35 @@ msgid "Incoming Web Request"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Follow-Up Sent"
+msgid "Priority Updated"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Automatic Reply Sent"
+msgid "Ticket Unlocked"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Email"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Title Updated"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Ticket Merged"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Outgoing Phone Call"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Forwarded Message"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Removed User Subscription"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12320,11 +12333,59 @@ msgid "Time Accounted"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Phone Call"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "System Request."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Incoming Follow-Up"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reply Sent"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Automatic Reject Sent"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Solution Time Stopped"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time In Effect"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Escalation Response Time Stopped"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "SLA Updated"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Queue Updated"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Internal Chat"
+msgid "Queue Changed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Notification Was Sent"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12358,11 +12419,11 @@ msgid "Offline"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently offline"
+msgid "User is currently offline."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently active"
+msgid "User is currently active."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12370,7 +12431,7 @@ msgid "Away"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently away"
+msgid "User was inactive for a while."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12378,7 +12439,7 @@ msgid "Unavailable"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "This user is currently unavailable"
+msgid "User set their status to unavailable."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12563,6 +12624,26 @@ msgstr ""
 msgid "The start time of a ticket has been set after the end time!"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't connect to OTRS News server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+msgid "Can't get OTRS News from server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't connect to Product News server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+msgid "Can't get Product News from server!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+msgid "Can't connect to %s!"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
 msgstr ""
@@ -12654,7 +12735,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
-msgstr ""
+msgstr "Vybrané datum není platné"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is before the start time."
@@ -16755,25 +16836,25 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module that shows all the currently loged in customers in the "
-"agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Defines the module that shows all the currently logged in agents in the "
 "agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in agents in the customer "
-"interface."
+"Defines the module that shows all the currently logged in customers in the "
+"agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module that shows the currently loged in customers in the "
+"Defines the module that shows the currently logged in agents in the customer"
+" interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the module that shows the currently logged in customers in the "
 "customer interface."
 msgstr ""
 
@@ -17398,6 +17479,12 @@ msgstr ""
 msgid ""
 "Determines the next possible ticket states, for process tickets in the agent"
 " interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Determines the next possible ticket states, for process tickets in the "
+"customer interface."
 msgstr ""
 
 #. SysConfig
@@ -18087,7 +18174,7 @@ msgstr ""
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "První fronta"
 
 #. SysConfig
 msgid "FirstLock"
@@ -18419,7 +18506,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
+"example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -20409,7 +20496,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
-" a user is loged out."
+" a user is logged out."
 msgstr ""
 
 #. SysConfig
@@ -21324,13 +21411,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the close ticket screen of the agent interface."
+"Shows the title field in the ticket free text screen of the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket free text screen of the agent "
-"interface."
+"Shows the title fields in the close ticket screen of the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -22252,7 +22338,7 @@ msgstr ""
 
 #. SysConfig
 msgid "attachment"
-msgstr ""
+msgstr "příloha"
 
 #. SysConfig
 msgid "debug"
@@ -22272,4 +22358,4 @@ msgstr ""
 
 #. SysConfig
 msgid "notice"
-msgstr ""
+msgstr "poznámka"

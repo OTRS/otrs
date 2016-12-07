@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.719439290867862;
+    $Self->{Completeness}        = 0.715106732348112;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -825,6 +825,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Edit ACL information' => 'Hariri taarifa za ACL',
         'Stop after match' => 'Simama baada ya kufanana',
         'Edit ACL structure' => 'Hariri muundo wa ACL',
+        'Save settings' => 'Hifadhi mipangilio',
+        'Save ACL' => '',
         'Save' => 'Hifadhi',
         'or' => 'Au',
         'Save and finish' => 'Hifadhi na maliza',
@@ -845,6 +847,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'List' => 'Orodha',
         'Download file' => 'Pakua faili',
         'Delete this attachment' => 'Futa kiambatanisho',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => 'Ongeza kiambatanisho',
         'Edit Attachment' => 'Hariri kiambatisho',
 
@@ -859,8 +862,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'You can use the following tags' => 'Unaweza kutumia lebo zifuatazo',
         'To get the first 20 character of the subject.' => 'Kupata herufi 20 za kwanza za somo',
         'To get the first 5 lines of the email.' => 'Kupata mistari 5 ya kwanza ya barua pepe.',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Kupata sifa za makala',
         ' e. g.' => 'Mfano',
         'Options of the current customer user data' => 'Chaguo la data za mtumiaji za mteja wa sasa',
@@ -1092,6 +1094,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Run Now!' => 'Fanya sasa',
         'Delete this task' => 'Futa kazi hii',
         'Run this task' => 'Fanya kazi hii',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => 'Mipangilio ya kazi',
         'Job name' => 'Jina la kazi',
         'The name you entered already exists.' => 'Jina uliloingiza tayari lipo',
@@ -1750,8 +1753,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Download' => 'Pakua',
         'Download file from package!' => 'Pakua faili kutoka kwenye kifurushi',
         'Required' => 'Hitajika',
-        'PrimaryKey' => 'Funguo wa msingi',
-        'AutoIncrement' => 'Ongeza kwa otomatiki',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Tofauti ya faili kwa faili %s',
 
@@ -1787,6 +1790,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Kama unatumia semi za mara kwa mara, pia unaweza kutumia thamani zinazofafana kwenye () kama [***] katika  kitendo cha \'Weka\'',
         'Delete this filter' => 'Futa kichuja hiki',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Ongeza kichuja Mkuu wa kuchapisha ',
         'Edit PostMaster Filter' => 'Hariri Kichuja Mkuu wa kuchapisha',
         'The name is required.' => 'Jina linahitajika',
@@ -1818,12 +1822,12 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Overwrite existing entities' => 'Andika juu ya vipengele halisi vilivyopo',
         'Upload process configuration' => 'Pakia usanidi wa mchakato',
         'Import process configuration' => 'Leta usanidi wa mchakato',
-        'Example processes' => '',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => '',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Kutengeenza mchakato mpya unaweza kuleta mchakato ambao uliumehamishwa kutoka kwenye mfumo mwingine au kutengeneza mpya uliokamilika.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1929,7 +1933,6 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Extend the height of the Canvas' => 'Ongeza urefu wa kanvasi.',
         'Remove the Activity from this Process' => 'Ondoa shughuli kutoka kwenye mchakato huu.',
         'Edit this Activity' => 'Hariri shughuli hii',
-        'Save settings' => 'Hifadhi mipangilio',
         'Save Activities, Activity Dialogs and Transitions' => 'Hifadhi shuguli, mazungumzo ya shuguli na mipito',
         'Do you really want to delete this Process?' => 'Je unataka kufuta mchakato huu?',
         'Do you really want to delete this Activity?' => 'Je unataka kufuta shughuli hii?',
@@ -2420,6 +2423,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Kielezo ni matini chaguo msingi mabayo yanawasaidia mawakala wako kuandika haraka tuketi, kujibu na kupeleka mbele.',
         'Don\'t forget to add new templates to queues.' => 'Usisahau kuongeza vielezo vipya katika foleni.',
+        'Do you really want to delete this template?' => 'Kweli uanataka kufuta hiki kiolezo?',
         'Add Template' => 'Ongeza kielezo',
         'Edit Template' => 'Hariri kielezo',
         'A standard template with this name already exists!' => 'Kielezo cha kawaida kwa jina hili tayari kipo!',
@@ -3798,6 +3802,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
+        'Customer Name' => '',
         'Invalid Users' => '',
         'CSV' => 'CSV',
         'Excel' => '',
@@ -3809,41 +3814,50 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Feature is not active' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => '',
+        'Ticket Locked' => '',
+        'Pending Time Set' => '',
+        'Dynamic Field Updated' => '',
+        'Outgoing Email (internal)' => '',
         'Ticket Created' => '',
+        'Type Updated' => '',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => '',
+        'Escalation First Response Time Stopped' => '',
+        'Customer Updated' => '',
+        'Internal Chat' => '',
+        'Automatic Follow-Up Sent' => '',
         'Note Added' => '',
         'Note Added (Customer)' => '',
-        'Outgoing Email' => '',
-        'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => '',
-        'Dynamic Field Updated' => '',
-        'Outgoing Phone Call' => '',
-        'Incoming Phone Call' => '',
-        'Outgoing Answer' => '',
-        'SLA Updated' => '',
-        'Service Updated' => '',
-        'Customer Updated' => '',
         'State Updated' => '',
-        'Incoming Follow-Up' => '',
-        'Escalation Update Time Stopped' => '',
-        'Escalation Solution Time Stopped' => '',
-        'Escalation First Response Time Stopped' => '',
-        'Escalation Response Time Stopped' => '',
+        'Outgoing Answer' => '',
+        'Service Updated' => '',
         'Link Added' => '',
-        'Link Deleted' => '',
-        'Ticket Merged' => '',
-        'Pending Time Set' => '',
-        'Ticket Locked' => '',
-        'Ticket Unlocked' => '',
-        'Queue Updated' => '',
-        'Priority Updated' => '',
-        'Title Updated' => '',
-        'Type Updated' => '',
+        'Incoming Customer Email' => '',
         'Incoming Web Request' => '',
-        'Automatic Follow-Up Sent' => '',
-        'Automatic Reply Sent' => '',
+        'Priority Updated' => '',
+        'Ticket Unlocked' => '',
+        'Outgoing Email' => '',
+        'Title Updated' => '',
+        'Ticket Merged' => '',
+        'Outgoing Phone Call' => '',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => '',
+        'Incoming Phone Call' => '',
+        'System Request.' => '',
+        'Incoming Follow-Up' => '',
+        'Automatic Reply Sent' => '',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => '',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => '',
+        'SLA Updated' => '',
+        'Queue Updated' => '',
         'External Chat' => '',
-        'Internal Chat' => '',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             '',
         'Can\'t get for ArticleID %s!' => '',
@@ -3852,12 +3866,12 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
         'Offline' => '',
-        'This user is currently offline' => '',
-        'This user is currently active' => '',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => '',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => '',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => '',
         'View the source for this Article' => '',
 
@@ -3926,6 +3940,17 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => '',
@@ -5287,14 +5312,14 @@ Mfano:
             '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'Inafafanua moduli inayoonyesha taarifa ya ujumla katika kiolesura cha wakala. Kama "Nakala" imesanidiwa au maudhui ya "File" yataonyeshwa.',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            'Inafafanua moduli inayoonyesha wateja wote walioingia sasa katika kiolesura cha wakala.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Inafafanua moduli inayoonyesha mawakala wote walioingia sasa katika kiolesura cha wakala.',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            'Inafafanua moduli inayoonyesha mawakala wote walioingia sasa katika kiolesura cha mteja.',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            'Inafafanua moduli inayoonyesha wateja wote walioingia sasa katika kiolesura cha mteja.',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            '',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            '',
         'Defines the module to authenticate customers.' => 'Inafafanua moduli ya kuwahalalisha wateja.',
         'Defines the module to display a notification if cloud services are disabled.' =>
             '',
@@ -5490,6 +5515,8 @@ Mfano:
             'Itaamua hali ya tiketi inayowezekana ifuatayo, baada ya kutengeneza tiketi ya simu mpya katika kiolesura cha wakala.',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             'Itaamua hali ya tiketi inayowezekana ifuatayo, kwa mchakato wa tiketi katika kiolesura cha wakala.',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Itaamua skrini inayofuata baada ya tiketi ya mteja mpya katika kiolesura cha wakala.',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
@@ -6383,8 +6410,8 @@ Mfano:
             'Inaweka matini ya chaguo-msingi kwa tiketi za barua pepe mpya katika kiolesura cha wakala. ',
         'Sets the display order of the different items in the preferences view.' =>
             'Inaweka mpangilio wa kuonyesha ya vipengele mbalimbali katika mandhari ya kuona ya mapendeleo.',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            'Inaweka muda ambao hauna tukio (katika sekunde) kupita kabla ya kipindi kukatwa na mtumiaji kutolewa.',
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
@@ -6656,10 +6683,10 @@ Mfano:
             'Inaonyesha michaguo ya kipaumbele ya tiketi katika skrini ya kipaumbele ya tiketi ya tiketi iliyokuzwa katika kiolesura cha wakala.',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             'Inaonyesha michaguo ya kipaumbele cha tiketi katika skrini inayohusika ya tiketi ya kiolesura cha wakala.',
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
+            '',
         'Shows the title fields in the close ticket screen of the agent interface.' =>
             'Inaonyesha uga wa kichwa cha habari katika skrini ya tiketi iliyofungwa ya  kiolesura cha wakala.',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
-            'Inaonyesha uga wa kichwa cha habari katika skrini ya matini huru ya tiketi ya  kiolesura cha wakala.',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             'Inaonyesha uga wa kichwa cha habari katika skrini ya kidokezo ya tiketi ya  kiolesura cha wakala.',
         'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>

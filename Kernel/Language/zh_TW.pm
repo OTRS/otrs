@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.478251906823335;
+    $Self->{Completeness}        = 0.477422003284072;
 
     # csv separator
     $Self->{Separator} = '';
@@ -192,7 +192,7 @@ sub Data {
         'and' => '及',
         'between' => '絕對',
         'before/after' => '相對',
-        'Fulltext Search' => '',
+        'Fulltext Search' => '全文檢索',
         'Data' => '日期',
         'Options' => '選項',
         'Title' => '標題',
@@ -216,7 +216,7 @@ sub Data {
         'Medium' => '基本',
         'Large' => '詳細',
         'Date picker' => '日期選擇器',
-        'Show Tree Selection' => '',
+        'Show Tree Selection' => '顯示樹狀選單',
         'The field content is too long!' => '欄位內容過長!',
         'Maximum size is %s characters.' => '最大長度為 %s 字元。',
         'This field is required or' => '此欄位為必須或',
@@ -239,11 +239,11 @@ sub Data {
         'There is no acount with that user name.' => '沒有此用戶。',
         'Please contact your administrator' => '請聯繫管理員',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            '',
+            '驗證成功，但系統無客戶資料，請聯繫您的系統管理員。',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            '',
+            '這個e-mail已存在，請登入系統或更改您的密碼。',
         'Logout' => '退出',
-        'Logout successful. Thank you for using %s!' => '成功退出，謝謝使用!',
+        'Logout successful. Thank you for using %s!' => '成功登出，感謝您使用 %s!',
         'Feature not active!' => '該功能尚未激活!',
         'Agent updated!' => '服務人員已更新！',
         'Database Selection' => '數據庫選擇',
@@ -264,7 +264,7 @@ sub Data {
         'Database already contains data - it should be empty!' => '數據庫中已包含數據 - 應該刪除它！',
         'Login is needed!' => '需要先登錄!',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            '系統維護中，請稍後再登入。',
         'Password is needed!' => '需要密碼!',
         'Take this Customer' => '取得這個用戶',
         'Take this User' => '取得這個用戶',
@@ -364,7 +364,7 @@ sub Data {
         'Dear %s,' => '尊敬的%s:',
         'Hello %s,' => '您好, %s:',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            '這個e-mail不允許註冊，請聯繫技術人員。',
         'New account created. Sent login information to %s. Please check your email.' =>
             '帳戶創建成功。登錄信息發送到%s，請查收郵件。',
         'Please press Back and try again.' => '請返回再試一次。',
@@ -417,7 +417,7 @@ sub Data {
         'No content received from registration server. Please try again later.' =>
             '',
         'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
+        'Username and password do not match. Please try again.' => '帳號密碼錯誤，請重新輸入。',
         'The selected process is invalid!' => '',
         'Upgrade to %s now!' => '即時升級至 %s！',
         '%s Go to the upgrade center %s' => '',
@@ -823,6 +823,8 @@ sub Data {
         'Edit ACL information' => '編輯ACL信息',
         'Stop after match' => '匹配後停止',
         'Edit ACL structure' => '編輯ACL結構',
+        'Save settings' => '保存設置',
+        'Save ACL' => '',
         'Save' => '保存',
         'or' => '在',
         'Save and finish' => '保存並完成',
@@ -843,6 +845,7 @@ sub Data {
         'List' => '列表',
         'Download file' => '下載文件',
         'Delete this attachment' => '刪除附件',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => '添加附件',
         'Edit Attachment' => '編輯附件',
 
@@ -857,8 +860,7 @@ sub Data {
         'You can use the following tags' => '您可以使用以下的標記',
         'To get the first 20 character of the subject.' => '顯示主題的前20個字節',
         'To get the first 5 lines of the email.' => '顯示郵件的前五行',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => '信件數據屬性',
         ' e. g.' => '例如',
         'Options of the current customer user data' => '用戶資料屬性',
@@ -1090,6 +1092,7 @@ sub Data {
         'Run Now!' => '現在運行!',
         'Delete this task' => '刪除這個任務',
         'Run this task' => '執行這個任務',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => '任務設置',
         'Job name' => '任務名稱',
         'The name you entered already exists.' => '您輸入的名稱已經存在。',
@@ -1748,8 +1751,8 @@ sub Data {
         'Download' => '下載',
         'Download file from package!' => '從軟件包中下載這個文件',
         'Required' => '必需的',
-        'PrimaryKey' => '關鍵的Key',
-        'AutoIncrement' => '自動遞增',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => '文件跟%s有差異',
 
@@ -1785,6 +1788,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             '如果您使用了正則表達式，您可以取出()中匹配的值，再將它寫入OTRS標記中(需採用[***]這種格式。)',
         'Delete this filter' => '刪除此過濾器',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => '添加郵件過濾器',
         'Edit PostMaster Filter' => '編輯郵件過濾器',
         'The name is required.' => '過濾器名稱是必需項。',
@@ -1816,12 +1820,12 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload process configuration' => '上傳流程配置',
         'Import process configuration' => '導入流程配置',
-        'Example processes' => '',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => '',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '為了創建新的流程，您可以導入流程配置文件或從新創建它。',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1927,7 +1931,6 @@ sub Data {
         'Extend the height of the Canvas' => '擴展畫布的高度',
         'Remove the Activity from this Process' => '從這個流程中刪除該環節',
         'Edit this Activity' => '編輯該環節',
-        'Save settings' => '保存設置',
         'Save Activities, Activity Dialogs and Transitions' => '保存環節、環節操作和轉向',
         'Do you really want to delete this Process?' => '您確定要刪除這個流程嗎？',
         'Do you really want to delete this Activity?' => '您確定要刪除這個環節嗎？',
@@ -2418,6 +2421,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '模板中的正文幫助服務人員快速始建、回復或轉發工單。',
         'Don\'t forget to add new templates to queues.' => '别忘了將新模板指派給隊列',
+        'Do you really want to delete this template?' => '你確定要删除這個模板嗎？',
         'Add Template' => '添加模板',
         'Edit Template' => '編輯模板',
         'A standard template with this name already exists!' => '',
@@ -3796,6 +3800,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
+        'Customer Name' => '',
         'Invalid Users' => '無效的用戶',
         'CSV' => '',
         'Excel' => '',
@@ -3807,41 +3812,50 @@ sub Data {
         'Feature is not active' => '功能沒有激活',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => '已刪除的連結',
+        'Ticket Locked' => '已鎖定的工單',
+        'Pending Time Set' => '',
+        'Dynamic Field Updated' => '',
+        'Outgoing Email (internal)' => '',
         'Ticket Created' => '已創建的工單',
+        'Type Updated' => '已更新的類型',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => '',
+        'Escalation First Response Time Stopped' => '',
+        'Customer Updated' => ' 已更新的客戶',
+        'Internal Chat' => '',
+        'Automatic Follow-Up Sent' => '',
         'Note Added' => '',
         'Note Added (Customer)' => '',
-        'Outgoing Email' => '外發電郵',
-        'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => '',
-        'Dynamic Field Updated' => '',
-        'Outgoing Phone Call' => '打出的電話通話',
-        'Incoming Phone Call' => '打進的電話通話',
-        'Outgoing Answer' => '',
-        'SLA Updated' => '',
-        'Service Updated' => '已更新的服務',
-        'Customer Updated' => ' 已更新的客戶',
         'State Updated' => '已更新的狀態',
-        'Incoming Follow-Up' => '',
-        'Escalation Update Time Stopped' => '',
-        'Escalation Solution Time Stopped' => '',
-        'Escalation First Response Time Stopped' => '',
-        'Escalation Response Time Stopped' => '',
+        'Outgoing Answer' => '',
+        'Service Updated' => '已更新的服務',
         'Link Added' => '已添加的連結',
-        'Link Deleted' => '已刪除的連結',
-        'Ticket Merged' => '',
-        'Pending Time Set' => '',
-        'Ticket Locked' => '已鎖定的工單',
-        'Ticket Unlocked' => '',
-        'Queue Updated' => '已更新佇列',
-        'Priority Updated' => '',
-        'Title Updated' => '',
-        'Type Updated' => '已更新的類型',
+        'Incoming Customer Email' => '',
         'Incoming Web Request' => '',
-        'Automatic Follow-Up Sent' => '',
-        'Automatic Reply Sent' => '自動回覆已發送',
+        'Priority Updated' => '',
+        'Ticket Unlocked' => '',
+        'Outgoing Email' => '外發電郵',
+        'Title Updated' => '',
+        'Ticket Merged' => '',
+        'Outgoing Phone Call' => '打出的電話通話',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => '',
+        'Incoming Phone Call' => '打進的電話通話',
+        'System Request.' => '',
+        'Incoming Follow-Up' => '',
+        'Automatic Reply Sent' => '自動回覆已發送',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => '',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => '',
+        'SLA Updated' => '',
+        'Queue Updated' => '已更新佇列',
         'External Chat' => '',
-        'Internal Chat' => '',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             '',
         'Can\'t get for ArticleID %s!' => '',
@@ -3850,12 +3864,12 @@ sub Data {
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
         'Offline' => '',
-        'This user is currently offline' => '',
-        'This user is currently active' => '',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => '',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => '',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => '',
         'View the source for this Article' => '',
 
@@ -3924,6 +3938,17 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => '',
@@ -5282,13 +5307,13 @@ Thanks for your help!
             '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
             '',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '',
         'Defines the module to display a notification if cloud services are disabled.' =>
@@ -5484,6 +5509,8 @@ Thanks for your help!
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
             '',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
             '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '',
@@ -6377,7 +6404,7 @@ Thanks for your help!
             '',
         'Sets the display order of the different items in the preferences view.' =>
             '',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
@@ -6650,9 +6677,9 @@ Thanks for your help!
             '',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows the title fields in the close ticket screen of the agent interface.' =>
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
             '',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
+        'Shows the title fields in the close ticket screen of the agent interface.' =>
             '',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             '',

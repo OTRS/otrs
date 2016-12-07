@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.995670995670996;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -821,6 +821,8 @@ sub Data {
         'Edit ACL information' => 'Уреди „ACL” iинформације',
         'Stop after match' => 'Заустави после поклапања',
         'Edit ACL structure' => 'Уреди „ACL” структуру',
+        'Save settings' => 'Сачувај подешавања',
+        'Save ACL' => 'Сачувај „ACL”',
         'Save' => 'Сачувај',
         'or' => 'или',
         'Save and finish' => 'Сачувај и заврши',
@@ -841,6 +843,7 @@ sub Data {
         'List' => 'Листа',
         'Download file' => 'Преузми датотеку',
         'Delete this attachment' => 'Обриши овај прилог',
+        'Do you really want to delete this attachment?' => 'Да ли стварно желите да обришете овај прилог?',
         'Add Attachment' => 'Додај прилог',
         'Edit Attachment' => 'Уреди прилог',
 
@@ -855,8 +858,7 @@ sub Data {
         'You can use the following tags' => 'Можете користити следеће ознаке',
         'To get the first 20 character of the subject.' => 'Да видите првих 20 слова предмета',
         'To get the first 5 lines of the email.' => 'Да видите првих 5 линија имејла.',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            'Да прибавите право име клијента корисника за тикет (ако је дато).',
+        'To get the name of the ticket\'s customer user (if given).' => 'Да прибавите назив клијента корисника за тикет (ако је дат).',
         'To get the article attribute' => 'Да видите атрибуте чланка',
         ' e. g.' => 'нпр.',
         'Options of the current customer user data' => 'Опције података о актуелном клијенту кориснику',
@@ -1088,6 +1090,7 @@ sub Data {
         'Run Now!' => 'Покрени сад!',
         'Delete this task' => 'Обриши овај задатак',
         'Run this task' => 'Покрени овај задатак',
+        'Do you really want to delete this task?' => 'Да ли стварно желите да обришете овај задатак?',
         'Job Settings' => 'Подешавање посла',
         'Job name' => 'Назив посла',
         'The name you entered already exists.' => 'Име које сте унели већ постоји.',
@@ -1746,8 +1749,8 @@ sub Data {
         'Download' => 'Преузимање',
         'Download file from package!' => 'Преузми датотеку из пакета!',
         'Required' => 'Обавезно',
-        'PrimaryKey' => 'Примарни кључ',
-        'AutoIncrement' => 'АутоУвећање',
+        'Primary Key' => 'Примарни кључ',
+        'Auto Increment' => 'Ауто увећање',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Разлике за датотеку %s',
 
@@ -1783,6 +1786,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Уколико користите регуларне изразе, такође можете користити и упатеру вредност у () као (***) у \'Set\' action.',
         'Delete this filter' => 'Обриши овај филтер',
+        'Do you really want to delete this filter?' => 'Да ли стварно желите да обришете овај филтер?',
         'Add PostMaster Filter' => 'Додај PostMaster филтер',
         'Edit PostMaster Filter' => 'Уреди PostMaster филтер',
         'The name is required.' => 'Име је обавезно.',
@@ -1814,12 +1818,12 @@ sub Data {
         'Overwrite existing entities' => 'Напиши преко постојећих ентитета',
         'Upload process configuration' => 'Учитај конфигурацију процеса',
         'Import process configuration' => 'Увези конфигурацију процеса',
-        'Example processes' => 'Примери процеса',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
-            'Овде можете активирати процесе примера набоље праксе. Молимо да обратите пажњу да је можда потребно додатно конфигурисање.',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
-            'Да ли желите да искористите процесе креиране од стране експерата? Унапредите систем на %s за увоз примера софистицираних процеса.',
-        'Import example process' => 'Извези пример процеса',
+        'Ready-to-run Processes' => 'Процеси спремни за употребу',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
+            'Овде можете активирати процесе примера најбоље праксе који су спремни за употребу. Молимо обратите пажњу да је можда потребна додатна конфигурација.',
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
+            'Да ли желите да искористите процесе креиране од стране експерата? Унапредите на %s за увоз примера софистицираних процеса спремних за употребу.',
+        'Import ready-to-run process' => 'Увоз процеса спремних за употребу',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'За креирање новог процеса можете или увести процес који је извезен из другог система или креирати комплетно нов.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1925,7 +1929,6 @@ sub Data {
         'Extend the height of the Canvas' => 'Продужи висину простора',
         'Remove the Activity from this Process' => 'Уклони активност из овог процеса',
         'Edit this Activity' => 'Уреди ову активност',
-        'Save settings' => 'Сачувај подешавања',
         'Save Activities, Activity Dialogs and Transitions' => 'Сачувај активости, дијалоге активности и транзиције',
         'Do you really want to delete this Process?' => 'Да ли заиста желите да обришете овај процес?',
         'Do you really want to delete this Activity?' => 'Да ли заиста желите да обришете ову активност?',
@@ -2416,6 +2419,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Шаблон је подразумевани текст који помаже вашим агентима да брже испишу тикете, одговоре или прослеђене поруке.',
         'Don\'t forget to add new templates to queues.' => 'Не заборавите да додате нови шаблон у реду.',
+        'Do you really want to delete this template?' => 'Да ли стварно желите да обришете овај шаблон?',
         'Add Template' => 'Додај Шаблон',
         'Edit Template' => 'Уреди Шаблон',
         'A standard template with this name already exists!' => 'Стандардни шаблон са овим називом већ постоји!',
@@ -3646,7 +3650,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Неопходан изворни објект и изворни кључ!',
-        'Please contact the administrator.' => '',
+        'Please contact the administrator.' => 'Молимо контактирајте администратора!',
         'You need ro permission!' => 'Потребна вам је „ro” дозвола!',
         'Can not delete link with %s!' => 'Не може се обрисати веза са %s!',
         'Can not create link with %s! Object already linked as %s.' => 'Не може се креирати веза са %s! Објект је већ повезан као %s.',
@@ -3689,8 +3693,8 @@ sub Data {
         'Bulk feature is not enabled!' => 'Масовна функција није активирана!',
         'No selectable TicketID is given!' => 'Није дат ИД Тикета који се може изабрати!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
-            '',
-        'You need to select at least one ticket.' => '',
+            'Нисте селектовали ни један тикет или само тикете које су закључали други оператери.',
+        'You need to select at least one ticket.' => 'Неопходно је да изаберете бар један тикет.',
         'Ticket is locked by another agent and will be ignored!' => 'Тикет је закључан од стране другог оператера и биће игнорисан!',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -3769,7 +3773,7 @@ sub Data {
         'for pending* states' => 'за стања* чекања',
         'ActivityDialogEntityID missing!' => 'Недостаје ИД ентитета Дијалога активности!',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Не могу прибавити конфигурацију за ActivityDialogEntityID „%s”!',
-        'Couldn\'t use CustomerID as an invisible field.' => '',
+        'Couldn\'t use CustomerID as an invisible field.' => 'CustomerID се не може користити као невидљиво поље.',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'Нема ProcessEntityID, проверите ваш ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
@@ -3795,6 +3799,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => 'Нема наслов',
+        'Customer Name' => 'Назив клијента',
         'Invalid Users' => 'Погрешни корисници',
         'CSV' => 'CSV',
         'Excel' => '„Excel”',
@@ -3806,55 +3811,64 @@ sub Data {
         'Feature is not active' => 'Функција није активна',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => 'Обрисана веза',
+        'Ticket Locked' => 'Закључан тикет',
+        'Pending Time Set' => 'Времена чекања је подешено',
+        'Dynamic Field Updated' => 'Ажурирано динамичко поље',
+        'Outgoing Email (internal)' => 'Одлазни имејл (интерни)',
         'Ticket Created' => 'Креиран тикет',
+        'Type Updated' => 'Ажуриран тип',
+        'Escalation Update Time In Effect' => 'Актуелно време ажурирања ескалације',
+        'Escalation Update Time Stopped' => 'Време ажурирања ескалације је заустављено',
+        'Escalation First Response Time Stopped' => 'Време првог одзива ескалације је заустављено',
+        'Customer Updated' => 'Ажуриран клијент',
+        'Internal Chat' => 'Интерно ћаскање',
+        'Automatic Follow-Up Sent' => 'Послат аутоматски наставак',
         'Note Added' => 'Додата напомена',
         'Note Added (Customer)' => 'Додата напомена (клијент)',
-        'Outgoing Email' => 'Одлазни имејл',
-        'Outgoing Email (internal)' => 'Одлазни имејл (интерни)',
-        'Incoming Customer Email' => 'Долазни имејл клијента',
-        'Dynamic Field Updated' => 'Ажурирано динамичко поље',
-        'Outgoing Phone Call' => 'Излазни телефонски позив',
-        'Incoming Phone Call' => 'Улазни телефонски позив',
-        'Outgoing Answer' => 'Одлазни одговор',
-        'SLA Updated' => '„SLA” је ажуриран',
-        'Service Updated' => 'Ажуриран сервис',
-        'Customer Updated' => 'Ажуриран клијент',
         'State Updated' => 'Ажурирано стање',
-        'Incoming Follow-Up' => 'Долазни наставак',
-        'Escalation Update Time Stopped' => 'Време ажурирања ескалације је заустављено',
-        'Escalation Solution Time Stopped' => 'Време решења ескалације је заустављено',
-        'Escalation First Response Time Stopped' => 'Време првог одзива ескалације је заустављено',
-        'Escalation Response Time Stopped' => 'Време одзива ескалације је заустављено',
+        'Outgoing Answer' => 'Одлазни одговор',
+        'Service Updated' => 'Ажуриран сервис',
         'Link Added' => 'Додата веза',
-        'Link Deleted' => 'Обрисана веза',
-        'Ticket Merged' => 'Спојен тикет',
-        'Pending Time Set' => 'Времена чекања је подешено',
-        'Ticket Locked' => 'Закључан тикет',
-        'Ticket Unlocked' => 'Откључан тикет',
-        'Queue Updated' => 'Ажуриран ред',
-        'Priority Updated' => 'Ажуриран приоритет',
-        'Title Updated' => 'Ажуриран наслов',
-        'Type Updated' => 'Ажуриран тип',
+        'Incoming Customer Email' => 'Долазни имејл клијента',
         'Incoming Web Request' => 'Долазни веб захтев',
-        'Automatic Follow-Up Sent' => 'Послат аутоматски наставак',
-        'Automatic Reply Sent' => 'Послат аутоматски одговор',
+        'Priority Updated' => 'Ажуриран приоритет',
+        'Ticket Unlocked' => 'Откључан тикет',
+        'Outgoing Email' => 'Одлазни имејл',
+        'Title Updated' => 'Ажуриран наслов',
+        'Ticket Merged' => 'Спојен тикет',
+        'Outgoing Phone Call' => 'Излазни телефонски позив',
+        'Forwarded Message' => 'Прослеђена порука',
+        'Removed User Subscription' => 'Уклоњена претплата за корисника',
         'Time Accounted' => 'Време је обрачунато',
+        'Incoming Phone Call' => 'Улазни телефонски позив',
+        'System Request.' => 'Системски захтев.',
+        'Incoming Follow-Up' => 'Долазни наставак',
+        'Automatic Reply Sent' => 'Послат аутоматски одговор',
+        'Automatic Reject Sent' => 'Послато аутоматско одбијање',
+        'Escalation Solution Time In Effect' => 'Актуелно време решавања ескалације',
+        'Escalation Solution Time Stopped' => 'Време решења ескалације је заустављено',
+        'Escalation Response Time In Effect' => 'Актуелно време одговора на ескалацију',
+        'Escalation Response Time Stopped' => 'Време одзива ескалације је заустављено',
+        'SLA Updated' => '„SLA” је ажуриран',
+        'Queue Updated' => 'Ажуриран ред',
         'External Chat' => 'Екстерно ћаскање',
-        'Internal Chat' => 'Интерно ћаскање',
+        'Queue Changed' => 'Промењен ред',
+        'Notification Was Sent' => 'Обавештење је послато',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
+            'Жао нам је, ви више немате дозволу за приступ овом тикету у његовом садашњем стању.',
         'Can\'t get for ArticleID %s!' => 'Не могу прибавити ИД чланка %s!',
         'Article filter settings were saved.' => 'Подешавања филтера чланка су сачувана.',
         'Event type filter settings were saved.' => 'Подешавања филтера типа догађаја су сачувана.',
         'Need ArticleID!' => 'Неопходан ИД Чланка!',
         'Invalid ArticleID!' => 'Неважећи ИД Чланка!',
         'Offline' => 'Није на вези',
-        'This user is currently offline' => 'Овај корисник тренутно није на вези',
-        'This user is currently active' => 'Овај корисник је тренутно активан',
+        'User is currently offline.' => 'Корисник тренутно није на вези.',
+        'User is currently active.' => 'Корисник је тренутно активан.',
         'Away' => 'Одсутан',
-        'This user is currently away' => 'Овај корисник је тренутно одсутан',
+        'User was inactive for a while.' => 'Корисник није био активан неко време.',
         'Unavailable' => 'Недоступно',
-        'This user is currently unavailable' => 'Овај корисник је сада недоступан',
+        'User set their status to unavailable.' => 'Корисник је недоступан.',
         'Fields with no group' => 'Поља без групе',
         'View the source for this Article' => 'Погледај извор овог Чланка',
 
@@ -3893,7 +3907,7 @@ sub Data {
         'The check "%s" doesn\'t exist!' => 'Провера „%s” не постоји!',
         'Database %s' => 'База података %s',
         'Unknown database type "%s".' => 'Непознат тип базе података „%s”.',
-        'Please go back.' => '',
+        'Please go back.' => 'Молимо идите назад.',
         'Install OTRS - Error' => 'Инсталирање „OTRS” - грешка',
         'File "%s/%s.xml" not found!' => 'Датотека „%s/%s.xml” није пронађена!',
         'Contact your Admin!' => 'Контактирајте вашег администратора!',
@@ -3924,6 +3938,17 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => 'Време почетка тикета је подешено после времена завршетка!',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => 'Није могуће повезати се са OTRS News сервером!',
+        'Can\'t get OTRS News from server!' => 'Не могу прибавити OTRS News са сервера!',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => 'Није могуће повезази се са Product News сервером!',
+        'Can\'t get Product News from server!' => 'Не могу прибавити Product News са сервера!',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => 'Није могуће повезати се са %s!',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => 'сортирано растуће',
         'sorted descending' => 'сортирано опадајуће',
@@ -3941,7 +3966,7 @@ sub Data {
         'Search Result' => 'Резултат претраге',
 
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
-        'Archive search' => '',
+        'Archive search' => 'Претрага архиве',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ажурирајте на %s сада! %s',
@@ -3994,10 +4019,10 @@ sub Data {
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '',
-        'Please note that the session limit is almost reached.' => '',
+            'Прекорачили сте број истовремено пријављених оператера - контактирајте sales@otrs.com.',
+        'Please note that the session limit is almost reached.' => 'Имајте у виду да је ограничење сесија скоро достигнуто.',
         'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '',
+            'Пријава одбијена! Прекорачили сте дозвољени број истовремено пријављених оператера! Под хитно контактирајте sales@otrs.com!',
         'Session per user limit reached!' => 'Достигнуто ограничење броја сесија по кориснику!',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
@@ -4247,8 +4272,8 @@ sub Data {
         'Package List' => 'Листа пакета',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
-        'Spooled Emails' => '',
-        'There are emails in var/spool that OTRS could not process.' => '',
+        'Spooled Emails' => 'Имејлови у реду чекања',
+        'There are emails in var/spool that OTRS could not process.' => 'Постоје имејлови у var/spool које OTRS не може да обради.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4284,7 +4309,7 @@ sub Data {
             'Табела „ticket_lock_index” садржи неповезане записе. Молимо да покренете „bin/otrs.Console.pl” „Maint::Ticket::QueueIndexCleanup” да би очистили „StaticDB” индекс.',
         'Orphaned Records In ticket_index Table' => 'Напуштени записи у ticket_index табели',
         'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
-            '',
+            'Табела ticket_lindex садржи неповезане записе. Молимо да покренете bin/otrs.Console.pl Maint::Ticket::QueueIndexCleanup да би очистили StaticDB индекс.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => 'Подешавања времена',
@@ -4357,16 +4382,16 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             'Пажња, корисник је ',
-        'Can`t remove SessionID.' => '',
+        'Can`t remove SessionID.' => 'SessionID се не може уклонити.',
         'Logout successful.' => 'Успешна одјава.',
         'Panic! Invalid Session!!!' => 'Пажња! Неважећа сесија!!!',
         'No Permission to use this frontend module!' => 'Немате дозволу за  употребу овог корисничког модула!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
-            '',
+            'Аутентификација је успела, али подаци о клијенту нису пронађени. Молимо контактирајте администратора.',
         'Reset password unsuccessful. Please contact the administrator.' =>
-            '',
+            'Поништавање лозинке није успело. Молимо контактирајте администратора',
         'Added via Customer Panel (%s)' => 'Додато преко клијентског панела (%s)',
         'Customer user can\'t be added!' => 'Не може се додати клијент корисник!',
         'Can\'t send account info!' => 'Не могу послати инфо о налогу!',
@@ -4374,7 +4399,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'Сигуран режим је активан!',
         'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
-            '',
+            'Уколико желите да поново покренете инсталацију, онемогућите SecureMode у подешавањима.',
         'Action "%s" not found!' => 'Акција „%s” није пронађена!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -4857,9 +4882,9 @@ Thanks for your help!
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
             'Дефинишие ставку клијента, која генерише XING икону на крају инфо блока клијента.',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' =>
-            'Одређује ставку клијента, која генерише google икону на крају инфо блока клијента.',
+            'Дефинише ставку која генерише Google иконицу на крају инфо блока клијента.',
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
-            'Одређује ставку клијента, која генерише google maps икону на крају инфо блока клијента.',
+            'Дефинише ставку која генерише Google Maps иконицу на крају инфо блока клијента.',
         'Defines a default list of words, that are ignored by the spell checker.' =>
             'Дефинише подразумевану листу речи, које су игнорисане од стране провере правописа.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
@@ -4882,22 +4907,22 @@ Thanks for your help!
             'Дефинише време спавања у микросекундама између тикета док се обрађују од стране посла.',
         'Defines a useful module to load specific user options or to display news.' =>
             'Дефинише користан модул за учитавање одређених корисничких опција или за приказивање новости.',
-        'Defines all the X-headers that should be scanned.' => 'Одређује сва Х-заглавља која треба скенирати.',
+        'Defines all the X-headers that should be scanned.' => 'Дефинише сва Х-заглавља која треба скенирати.',
         'Defines all the languages that are available to the application. Specify only English names of languages here.' =>
-            'Одређује све језике који су доступни апликацији. Овде унесите имена језика само на енглеском.',
+            'Дефинише све језике који су доступни апликацији. Овде унесите имена језика само на енглеском.',
         'Defines all the languages that are available to the application. Specify only native names of languages here.' =>
-            'Одређује све језике који су доступни апликацији. Овде унесите имена језика само на матичном језику.',
+            'Дефинише све језике који су доступни апликацији. Овде унесите имена језика само на матичном језику.',
         'Defines all the parameters for the RefreshTime object in the customer preferences of the customer interface.' =>
-            'Одређује све параметре за објекат Време Освежавања у поставкама клијента у клијентском интерфејсу.',
+            'Дефинише све параметре за RefreshTime објекат у поставкама у интерфејсу клијента.',
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
-            'Одређује све параметре за објекат Приказани Тикети у поставкама клијента у клијентском интерфејсу.',
+            'Дефинише све параметре за ShownTickets објекат у поставкама интерфејсу клијента.',
         'Defines all the parameters for this item in the customer preferences.' =>
-            'Одређује све параметре за ову ставку у клијентским подешавањима.',
+            'Дефинише све параметре за ову ставку у подешавањима клијента.',
         'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
-            'Одређује све параметре за ову ставку у клијентским подешавањима. PasswordRegExp омогућава проверу лозинке путем регуларног израза. Дефинишите минимални број карактера путем PasswordMinSize. Дефинишите најмање 2 мала и 2 велика слова тако што ћете подесити одговарајућу опцију на 1. PasswordMin2Characters дефинише да ли лозинка мора да садржи најмање два слова (0 или 1). PasswordNeedDigit контролише потребу за најмање једном цифром (0 или 1).',
+            'Дефинише све параметре за ову ставку у подешавањима клијента. PasswordRegExp омогућава проверу лозинке путем регуларног израза. Дефинишите минимални број карактера путем PasswordMinSize. Дефинишите најмање 2 мала и 2 велика слова тако што ћете подесити одговарајућу опцију на 1. PasswordMin2Characters дефинише да ли лозинка мора да садржи најмање два слова (0 или 1). PasswordNeedDigit контролише потребу за најмање једном цифром (0 или 1).',
         'Defines all the parameters for this notification transport.' => 'Дефинише све параметре за овај транспорт обавештења.',
-        'Defines all the possible stats output formats.' => 'Одређује све могуће излазне формате статистике.',
-        'Defines an alternate URL, where the login link refers to.' => 'Одређује алтернативну URL адресу, на коју указује веза за пријављивање.',
+        'Defines all the possible stats output formats.' => 'Дефинише све могуће излазне формате статистике.',
+        'Defines an alternate URL, where the login link refers to.' => 'Дефинише алтернативну URL адресу, на коју указује веза за пријављивање.',
         'Defines an alternate URL, where the logout link refers to.' => 'Одређује алтернативну URL адресу, на коју указује веза за одављивање.',
         'Defines an alternate login URL for the customer panel..' => 'Одређује алтернативну URL адресу пријављивања за клијентски панел.',
         'Defines an alternate logout URL for the customer panel.' => 'Одређује алтернативну URL адресу одјављивања за клијентски панел.',
@@ -5292,14 +5317,14 @@ Thanks for your help!
             'Дефинише максималну величину у килобајтима за одговоре Генеричког интерфејса који се бележе у gi_debugger_entry_content табелу.',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'Дефинише модул који приказује генеричку напомену у интерфејсу оператера. Биће приказан или „Text” (ако је конфигурисан) или садржај „File”.',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            'Одређује модул који приказује све тренутно пријављене клијенте у интерфејсу оператера.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Дефинише модул који приказује све тренутно пријављене оператере у интерфејсу оператера.',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            'Одређује модул који приказује све тренутно пријављене оператере у интерфејсу клијента.',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            'Одређује модул који приказује све тренутно пријављене клијенте у интерфејсу клијента.',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            'Дефинише модул који приказује све тренутно пријављене клијенте у интерфејсу оператера.',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            'Дефинише модул који приказује све тренутно пријављене оператере у интерфејсу клијента.',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            'Дефинише модул који приказује све тренутно пријављене клијенте у интерфејсу клијента.',
         'Defines the module to authenticate customers.' => 'Одређује модул за аутентификацију клијената.',
         'Defines the module to display a notification if cloud services are disabled.' =>
             'Дефинише модул за приказивање обавештења ако су сервиси у облаку онемогућени.',
@@ -5312,7 +5337,7 @@ Thanks for your help!
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'Одређује модул за приказ обавештења у интерфејсу оператера, ако је оператер пријављен на систем док је активно одржавање сиситема.',
         'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            '',
+            'Одређује модул за приказ обавештења у интерфејсу оператера ако .је достигнут лимит сесија оператера.',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Дефинише модул за приказивање обавештења у интерфејсу оператера ако се систем користи од стране админ корисника (нормално не треба да раде као администратор).',
         'Defines the module to generate code for periodic page reloads.' =>
@@ -5495,6 +5520,8 @@ Thanks for your help!
             'Одређује следећи могући статус тикета, након креирања новог телефонског тикета у интерфејсу оператера.',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             'Одређује следећи могући статус тикета, за тикете процеса у интерфејсу оператера.',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            'Одређује следећи могући статус тикета, за тикете процеса у интерфејсу клијента.',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Одређује следећи приказ екрана, након тикета новог клијента у интерфејсу клијента.',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
@@ -5652,7 +5679,7 @@ Thanks for your help!
         'Escalation response time in effect' => 'Актуелно време одговора на ескалацију',
         'Escalation solution time finished' => 'Истекло време решавања ескалације',
         'Escalation solution time forewarned' => 'Претходно упозорење за време решавања ескалације',
-        'Escalation solution time in effect' => 'Актуелноо време решавања ескалације',
+        'Escalation solution time in effect' => 'Актуелно време решавања ескалације',
         'Escalation update time finished' => 'Истекло време ажурирања ескалације',
         'Escalation update time forewarned' => 'Претходно упозорење за време ажурирања ескалације',
         'Escalation update time in effect' => 'Актуелно време ажурирања ескалације',
@@ -6243,7 +6270,7 @@ Thanks for your help!
         'Responsible Tickets' => 'Одговорни тикети',
         'Responsible Tickets.' => 'Одговорни тикети.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
-            '',
+            'Враћа тикет из архиве (само ако је догађај промена стања на било које доступно отворено стање).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Задржи све сервисе у листи чак иако су деца неважећих елемената.',
         'Right' => 'Десно',
@@ -6387,10 +6414,10 @@ Thanks for your help!
             'Одређује подразумевани текст новог имејл тикета а у интерфејсу оператера.',
         'Sets the display order of the different items in the preferences view.' =>
             'Одређује редослед приказа разних ставки у приказу подешавања.',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            'Одређује време без активности (у секундама) пре него што сесија буде угашена, а корисник одјављен.',
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            'Одређује време без активности (у секундама) пре него што сесија буде угашена а корисник одјављен.',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
-            '',
+            'Поставља максимални број активних оператера у временском распону дефинисаном у SessionActiveTime пре него што обавештење буде видљиво за пријављене оператере.',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             'Поставља максимални број активних оператера у временском распону дефинисаном у „SessionActiveTime”.',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
@@ -6493,7 +6520,7 @@ Thanks for your help!
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             'Одређује тип тикета на екрану одговорности за тикет у интерфејсу оператера (Тикет::Тип треба да буде активирано).',
         'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
-            '',
+            'Поставља време (у секундама) за означавање корисника као активног (минимално активно време је 300 секунди).',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Поставља временско одлагање (у секундама) за „http/ftp” преузимања.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'Дефинише истицање (у секундама) за функцију преузимања пакета. Преиначује опцију „WebUserAgent::Timeout”.',
@@ -6660,10 +6687,10 @@ Thanks for your help!
             'Приказује опције приоритета тикета на екрану приоритета на детаљном приказу тикета у интерфејсу оператера.',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             'Приказује опције приоритета тикета на екрану о одговорности на детаљном приказу тикета у интерфејсу оператера.',
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
+            'Приказује поље наслова наекрану слободног текста тикета у интерфејсу оператера.',
         'Shows the title fields in the close ticket screen of the agent interface.' =>
             'Приказује насловна поља на екрану затвореног тикета у интерфејсу оператера.',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
-            'Приказује насловна поља на екрану слободног текста тикета у интерфејсу оператера.',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             'Приказује насловна поља на екрану напомене тикета у интерфејсу оператера.',
         'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>

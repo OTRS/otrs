@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.281385281385281;
+    $Self->{Completeness}        = 0.298029556650246;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -828,6 +828,8 @@ sub Data {
         'Edit ACL information' => '',
         'Stop after match' => 'Stop po shodě',
         'Edit ACL structure' => '',
+        'Save settings' => '',
+        'Save ACL' => '',
         'Save' => 'Uložit',
         'or' => 'nebo',
         'Save and finish' => '',
@@ -848,6 +850,7 @@ sub Data {
         'List' => 'Pořadí',
         'Download file' => 'Stáhnout soubor',
         'Delete this attachment' => 'Smazat tuto přílohu',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => 'Přidat přílohu',
         'Edit Attachment' => 'Upravit přílohu',
 
@@ -862,8 +865,7 @@ sub Data {
         'You can use the following tags' => '',
         'To get the first 20 character of the subject.' => 'pro získáni prvních 20ti znaků z předmětu',
         'To get the first 5 lines of the email.' => 'pro získáni prvních 5ti řádků z emailu',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Získat atributy článku',
         ' e. g.' => '',
         'Options of the current customer user data' => '',
@@ -1095,6 +1097,7 @@ sub Data {
         'Run Now!' => 'Spustit Teď',
         'Delete this task' => '',
         'Run this task' => '',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => '',
         'Job name' => '',
         'The name you entered already exists.' => '',
@@ -1179,12 +1182,12 @@ sub Data {
         'new owner' => '',
         'new responsible' => '',
         'Set new ticket lock' => '',
-        'New customer user' => '',
-        'New customer ID' => '',
-        'New title' => '',
-        'New type' => '',
-        'New Dynamic Field Values' => '',
-        'Archive selected tickets' => '',
+        'New customer user' => 'Nový uživatel zákazníka',
+        'New customer ID' => 'Nové ID zákazníka',
+        'New title' => 'Nový název',
+        'New type' => 'Nový typ',
+        'New Dynamic Field Values' => 'Nové hodnoty dynamického pole',
+        'Archive selected tickets' => 'Archivuj označené tikety',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
         'Execute Ticket Commands' => '',
@@ -1255,7 +1258,7 @@ sub Data {
         'Mapping for incoming response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
             '',
-        'Asynchronous' => '',
+        'Asynchronous' => 'Asynchronní',
         'This invoker will be triggered by the configured events.' => '',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
             '',
@@ -1714,25 +1717,25 @@ sub Data {
         'Fingerprint' => 'Otisk',
         'Expires' => 'Propadává',
         'Delete this key' => '',
-        'Add PGP Key' => '',
-        'PGP key' => '',
+        'Add PGP Key' => 'Přidej PGP klíč',
+        'PGP key' => 'PGP klíč',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Správa Balíčků',
-        'Uninstall package' => '',
+        'Uninstall package' => 'Odinstaluj balíček',
         'Do you really want to uninstall this package?' => 'Opravdu chcete odinstalovat tento Balíček?',
-        'Reinstall package' => '',
+        'Reinstall package' => 'Reinstaluj balíček',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '',
         'Continue' => 'Pokračovat',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Install' => 'Instalovat',
-        'Install Package' => '',
+        'Install Package' => 'Instaluj balíček',
         'Update repository information' => '',
         'Cloud services are currently disabled.' => '',
         'OTRS Verify™ can not continue!' => '',
-        'Enable cloud services' => '',
+        'Enable cloud services' => 'Povol cloudové služby',
         'Online Repository' => 'Online Schránka',
         'Module documentation' => 'Dokumentace Modulu',
         'Upgrade' => 'Aktualizace',
@@ -1745,7 +1748,7 @@ sub Data {
             '',
         'Download package' => 'Stáhnout balíček',
         'Rebuild package' => 'Znovu vytvořit balíček',
-        'Metadata' => '',
+        'Metadata' => 'Metadata',
         'Change Log' => 'Seznam změn',
         'Date' => 'Datum',
         'List of Files' => 'Seznam souborů',
@@ -1753,8 +1756,8 @@ sub Data {
         'Download' => 'Stáhnout',
         'Download file from package!' => 'Stáhnout souboru z balíčku!',
         'Required' => 'Vyžadováno',
-        'PrimaryKey' => 'Primární Klíč',
-        'AutoIncrement' => 'Automatický Přírůstek',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'Limit',
         'File differences for file %s' => '',
 
@@ -1789,20 +1792,21 @@ sub Data {
             '',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             '',
-        'Delete this filter' => '',
+        'Delete this filter' => 'Odstaň tenhle filtr',
+        'Do you really want to delete this filter?' => 'Opravdu odstranit tenhle filtr?',
         'Add PostMaster Filter' => '',
         'Edit PostMaster Filter' => '',
-        'The name is required.' => '',
+        'The name is required.' => 'Jméno je požadováno.',
         'Filter Condition' => '',
-        'AND Condition' => '',
+        'AND Condition' => 'podmínka A',
         'Check email header' => '',
         'Negate' => '',
         'Look for value' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
-        'Set Email Headers' => '',
-        'Set email header' => '',
-        'Set value' => '',
+        'Set Email Headers' => 'Nastav hlavičky emailů',
+        'Set email header' => 'Nastav hlavičku emailu',
+        'Set value' => 'Nastav hodnotu',
         'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
@@ -1821,12 +1825,12 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
-        'Example processes' => '',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => '',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1874,13 +1878,13 @@ sub Data {
         'The selected required lock does not exist.' => '',
         'Submit Advice Text' => '',
         'Submit Button Text' => '',
-        'Fields' => '',
+        'Fields' => 'Pole',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             '',
         'Filter available fields' => '',
         'Available Fields' => '',
-        'Name: %s' => '',
-        'Assigned Fields' => '',
+        'Name: %s' => 'Jméno: %s',
+        'Assigned Fields' => 'Přiřazené pole',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
@@ -1898,10 +1902,10 @@ sub Data {
         'Assigned Transition Actions' => '',
 
         # Template: AdminProcessManagementProcessAccordion
-        'Activities' => '',
-        'Filter Activities...' => '',
-        'Create New Activity' => '',
-        'Filter Activity Dialogs...' => '',
+        'Activities' => 'Aktivity',
+        'Filter Activities...' => 'Filtr Aktivit',
+        'Create New Activity' => 'Vytvoř novou Aktivitu',
+        'Filter Activity Dialogs...' => 'Dialog filtr Aktivit',
         'Transitions' => '',
         'Filter Transitions...' => '',
         'Create New Transition' => '',
@@ -1927,15 +1931,14 @@ sub Data {
         'Process Name' => '',
         'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
-        'Show EntityIDs' => '',
+        'Show EntityIDs' => 'Ukaže EntityID',
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
-        'Remove the Activity from this Process' => '',
-        'Edit this Activity' => '',
-        'Save settings' => '',
+        'Remove the Activity from this Process' => 'Odsta%n Aktivitu z tohoto Procesu',
+        'Edit this Activity' => 'Uprav tuto Aktivitu',
         'Save Activities, Activity Dialogs and Transitions' => '',
-        'Do you really want to delete this Process?' => '',
-        'Do you really want to delete this Activity?' => '',
+        'Do you really want to delete this Process?' => 'Opravdu odstranit tenhle Proces?',
+        'Do you really want to delete this Activity?' => 'Opravdu odstranit tuhle Aktivitu?',
         'Do you really want to delete this Activity Dialog?' => '',
         'Do you really want to delete this Transition?' => '',
         'Do you really want to delete this Transition Action?' => '',
@@ -1975,10 +1978,10 @@ sub Data {
         'Assigned fields' => '',
         'Activity dialogs are not being used in this process.' => '',
         'Condition linking' => '',
-        'Conditions' => '',
-        'Condition' => '',
+        'Conditions' => 'Podmínky',
+        'Condition' => 'Podmínka',
         'Transitions are not being used in this process.' => '',
-        'Module name' => '',
+        'Module name' => 'Název modulu',
         'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
@@ -2002,8 +2005,8 @@ sub Data {
         'Transition Action Name' => '',
         'Transition Action Module' => '',
         'Config Parameters' => '',
-        'Add a new Parameter' => '',
-        'Remove this Parameter' => '',
+        'Add a new Parameter' => 'Přidej nový Parametr',
+        'Remove this Parameter' => 'Odstra%n tenhle Parametr',
 
         # Template: AdminQueue
         'Manage Queues' => '',
@@ -2198,9 +2201,9 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => '',
-        'Add private key' => '',
-        'Filter for certificates' => '',
+        'Add certificate' => 'Přidej certifikát',
+        'Add private key' => 'Přidej privátní klíč',
+        'Filter for certificates' => 'Filtr certifikátů',
         'Filter for S/MIME certs' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
@@ -2302,12 +2305,12 @@ sub Data {
         'Sending Update...' => '',
         'Support Data information was successfully sent.' => '',
         'Was not possible to send Support Data information.' => '',
-        'Update Result' => '',
+        'Update Result' => 'Aktualizuj výsledek',
         'Currently this data is only shown in this system.' => '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             '',
         'Generate Support Bundle' => '',
-        'Generating...' => '',
+        'Generating...' => 'Generuji...',
         'It was not possible to generate the Support Bundle.' => '',
         'Generate Result' => '',
         'Support Bundle' => '',
@@ -2357,7 +2360,7 @@ sub Data {
         'Add new entry' => 'Přidat novú položku',
         'Delete this entry' => '',
         'Create new entry' => 'Vytvořit novú položku',
-        'New group' => '',
+        'New group' => 'Nová skupina',
         'Group ro' => '',
         'Readonly group' => '',
         'New group ro' => '',
@@ -2423,6 +2426,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
+        'Do you really want to delete this template?' => 'Opravdu chcete smazat tuto šablonu?',
         'Add Template' => '',
         'Edit Template' => '',
         'A standard template with this name already exists!' => '',
@@ -2454,10 +2458,10 @@ sub Data {
         'Switch to agent' => 'Přepnout na řešitele',
         'Add Agent' => 'Přidat řešitele',
         'Edit Agent' => 'Upravit řešitele',
-        'Title or salutation' => '',
+        'Title or salutation' => 'Titul nebo oslovení',
         'Firstname' => 'Jméno',
         'Lastname' => 'Příjmení',
-        'A user with this username already exists!' => '',
+        'A user with this username already exists!' => 'Uživatel se zadaným jménem již existuje!',
         'Will be auto-generated if left empty.' => '',
         'Start' => '',
         'End' => 'Konec',
@@ -2482,7 +2486,7 @@ sub Data {
         'Customer User' => 'Zákaznický uživatel',
 
         # Template: AgentCustomerSearch
-        'Duplicated entry' => '',
+        'Duplicated entry' => 'Duplicitní záznam',
         'This address already exists on the address list.' => 'Tato adresa již v adresáři existuje.',
         'It is going to be deleted from the field, please try again.' => '',
 
@@ -2752,18 +2756,18 @@ sub Data {
         'Need a valid email address.' => '',
 
         # Template: AgentTicketMove
-        'Move %s%s%s' => '',
+        'Move %s%s%s' => 'Přesuň %s%s%s',
         'New Queue' => 'Nová fronta',
 
         # Template: AgentTicketOverviewMedium
-        'Select all' => '',
+        'Select all' => 'Vyber vše',
         'No ticket data found.' => 'žádné',
         'Open / Close ticket action menu' => '',
-        'Select this ticket' => '',
+        'Select this ticket' => 'Vyber tenhle tiket',
         'First Response Time' => 'Čas první reakce',
         'Update Time' => 'Čas Aktualizace',
         'Solution Time' => 'Čas Řešení',
-        'Move ticket to a different queue' => '',
+        'Move ticket to a different queue' => 'Přesuň tiket do jiné fronty',
         'Change queue' => 'Změnit frontu',
 
         # Template: AgentTicketOverviewNavBar
@@ -2859,23 +2863,23 @@ sub Data {
         'Article Overview' => '',
         'Article(s)' => 'Zpráva(y)',
         'Page' => 'Strana',
-        'Add Filter' => '',
+        'Add Filter' => 'Přidej Filtr',
         'Set' => 'Nastavit',
-        'Reset Filter' => '',
+        'Reset Filter' => 'Zruš Filtr',
         'Show one article' => 'Zobrazit jednu zprávu',
         'Show all articles' => 'Zobrazit všechny zprávy',
         'Show Ticket Timeline View' => '',
-        'Unread articles' => '',
+        'Unread articles' => 'Nepřečtené články',
         'No.' => 'Ne',
-        'Important' => '',
-        'Unread Article!' => '',
+        'Important' => 'Důležité',
+        'Unread Article!' => 'Nepřečtený článek!',
         'Incoming message' => 'Příchozí zpráva',
         'Outgoing message' => 'Odchozí zpráva',
         'Internal message' => 'Interní zpráva',
         'Resize' => 'Změnit velikost',
         'Mark this article as read' => 'Označit tento text jako přečtený',
-        'Show Full Text' => '',
-        'Full Article Text' => '',
+        'Show Full Text' => 'Ukaž úplný text',
+        'Full Article Text' => 'Úplný text artiklu',
         'No more events found. Please try changing the filter settings.' =>
             'Nebyly nalezeny žádné další události. Prosíme, změnte nastavení filtrů.',
         'by' => 'přes',
@@ -2886,7 +2890,7 @@ sub Data {
             '',
         'Scale preview content' => '',
         'Open URL in new tab' => '',
-        'Close preview' => '',
+        'Close preview' => 'Zavři náhled',
         'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
 
@@ -2899,12 +2903,12 @@ sub Data {
 
         # Template: CloudServicesDisabled
         'This feature requires cloud services.' => '',
-        'You can' => '',
+        'You can' => 'Můžeš ',
         'go back to the previous page' => '',
 
         # Template: CustomerError
-        'An Error Occurred' => '',
-        'Error Details' => '',
+        'An Error Occurred' => 'Pozor chyba',
+        'Error Details' => 'Detail chyby',
         'Traceback' => 'Jít zpět',
 
         # Template: CustomerFooter
@@ -2926,19 +2930,19 @@ sub Data {
             '',
         'Please see the documentation or ask your admin for further information.' =>
             '',
-        'Switch to mobile mode' => '',
-        'Switch to desktop mode' => '',
-        'Not available' => '',
-        'Clear all' => '',
+        'Switch to mobile mode' => 'Přepni do módu mobil',
+        'Switch to desktop mode' => 'Přepni do módu desktop',
+        'Not available' => 'Není k dispozici',
+        'Clear all' => 'Vyčisti vše',
         'Clear search' => '',
         '%s selection(s)...' => '',
         'and %s more...' => '',
-        'Filters' => '',
-        'Confirm' => '',
+        'Filters' => 'Filtry',
+        'Confirm' => 'Potvrď',
         'You have unanswered chat requests' => '',
         'Accept' => '',
         'Decline' => '',
-        'An internal error occurred.' => '',
+        'An internal error occurred.' => 'Pozor vnitřní chyba',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript není povolen',
@@ -3036,26 +3040,26 @@ sub Data {
         'Sa' => 'So',
         'Event Information' => '',
         'Ticket fields' => '',
-        'Dynamic fields' => '',
+        'Dynamic fields' => 'Dynamické pole',
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => 'Nesprávne datum (musí být v budoucnosti)',
-        'Invalid date (need a past date)!' => '',
+        'Invalid date (need a past date)!' => 'Neplatné datum (je třeba datum v minulosti)!',
         'Previous' => 'Předchozí',
         'Open date selection' => 'Otevři kalendář',
 
         # Template: Error
-        'An error occurred.' => '',
+        'An error occurred.' => 'Nastala chyba',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
-            '',
+            'Opravdu chyba? 5 z 10 hlášení o chybách je důsledek nesprávné nebo neúplné instalace OTRS.',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
-        'Contact our service team now.' => '',
-        'Send a bugreport' => '',
+        'Contact our service team now.' => 'Kontaktuj náš servisní team.',
+        'Send a bugreport' => 'pošli chybové hlášení',
 
         # Template: FooterJS
         'Please enter at least one search value or * to find anything.' =>
-            '',
+            'Zadejte prosím alespoň jednu hodnotu pro vyhledávání nebo * najít cokoliv.',
         'Please remove the following words from your search as they cannot be searched for:' =>
             '',
         'Please check the fields marked as red for valid inputs.' => '',
@@ -3068,10 +3072,10 @@ sub Data {
         'New personal chat request' => '',
         'New customer chat request' => '',
         'New public chat request' => '',
-        'Selected user is not available for chat.' => '',
-        'New activity' => '',
+        'Selected user is not available for chat.' => 'Zvolený uživatel není na chatu.',
+        'New activity' => 'Nová aktivita',
         'New activity on one of your monitored chats.' => '',
-        'Your browser does not support video and audio calling.' => '',
+        'Your browser does not support video and audio calling.' => 'Váš prohlížeč nepodporuje video a audio volání.',
         'Selected user is not available for video and audio call.' => '',
         'Target user\'s browser does not support video and audio calling.' =>
             '',
@@ -3801,52 +3805,62 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
+        'Customer Name' => '',
         'Invalid Users' => '',
-        'CSV' => '',
-        'Excel' => '',
+        'CSV' => 'CSV',
+        'Excel' => 'Excel',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
-        'Feature not enabled!' => '',
+        'Feature not enabled!' => 'Vlastnost není povolena',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
-        'Feature is not active' => '',
+        'Feature is not active' => 'Vlastnost není aktivní',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => 'Odkaz odstraněn',
+        'Ticket Locked' => '',
+        'Pending Time Set' => '',
+        'Dynamic Field Updated' => '',
+        'Outgoing Email (internal)' => '',
         'Ticket Created' => '',
+        'Type Updated' => '',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => '',
+        'Escalation First Response Time Stopped' => '',
+        'Customer Updated' => '',
+        'Internal Chat' => '',
+        'Automatic Follow-Up Sent' => '',
         'Note Added' => '',
         'Note Added (Customer)' => '',
-        'Outgoing Email' => '',
-        'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => '',
-        'Dynamic Field Updated' => '',
-        'Outgoing Phone Call' => '',
-        'Incoming Phone Call' => '',
-        'Outgoing Answer' => '',
-        'SLA Updated' => '',
-        'Service Updated' => '',
-        'Customer Updated' => '',
         'State Updated' => '',
-        'Incoming Follow-Up' => '',
-        'Escalation Update Time Stopped' => '',
-        'Escalation Solution Time Stopped' => '',
-        'Escalation First Response Time Stopped' => '',
-        'Escalation Response Time Stopped' => '',
+        'Outgoing Answer' => '',
+        'Service Updated' => '',
         'Link Added' => '',
-        'Link Deleted' => '',
-        'Ticket Merged' => '',
-        'Pending Time Set' => '',
-        'Ticket Locked' => '',
-        'Ticket Unlocked' => '',
-        'Queue Updated' => '',
-        'Priority Updated' => '',
-        'Title Updated' => '',
-        'Type Updated' => '',
+        'Incoming Customer Email' => '',
         'Incoming Web Request' => '',
-        'Automatic Follow-Up Sent' => '',
-        'Automatic Reply Sent' => '',
+        'Priority Updated' => '',
+        'Ticket Unlocked' => '',
+        'Outgoing Email' => '',
+        'Title Updated' => '',
+        'Ticket Merged' => '',
+        'Outgoing Phone Call' => '',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => '',
+        'Incoming Phone Call' => '',
+        'System Request.' => '',
+        'Incoming Follow-Up' => '',
+        'Automatic Reply Sent' => '',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => '',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => '',
+        'SLA Updated' => '',
+        'Queue Updated' => '',
         'External Chat' => '',
-        'Internal Chat' => '',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             '',
         'Can\'t get for ArticleID %s!' => '',
@@ -3855,12 +3869,12 @@ sub Data {
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
         'Offline' => '',
-        'This user is currently offline' => '',
-        'This user is currently active' => '',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => '',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => '',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => '',
         'View the source for this Article' => '',
 
@@ -3930,6 +3944,17 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => '',
         'sorted descending' => '',
@@ -3976,7 +4001,7 @@ sub Data {
             '',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
-        'The selected date is not valid.' => '',
+        'The selected date is not valid.' => 'Vybrané datum není platné',
         'The selected end time is before the start time.' => '',
         'There is something wrong with your time selection.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
@@ -5287,13 +5312,13 @@ Thanks for your help!
             '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
             '',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '',
         'Defines the module to display a notification if cloud services are disabled.' =>
@@ -5489,6 +5514,8 @@ Thanks for your help!
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
             '',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
             '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '',
@@ -5697,7 +5724,7 @@ Thanks for your help!
             '',
         'Filter incoming emails.' => '',
         'Finnish' => '',
-        'First Queue' => '',
+        'First Queue' => 'První fronta',
         'FirstLock' => '',
         'FirstResponse' => '',
         'FirstResponseDiffInMin' => '',
@@ -6382,7 +6409,7 @@ Thanks for your help!
             '',
         'Sets the display order of the different items in the preferences view.' =>
             '',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
@@ -6655,9 +6682,9 @@ Thanks for your help!
             '',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows the title fields in the close ticket screen of the agent interface.' =>
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
             '',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
+        'Shows the title fields in the close ticket screen of the agent interface.' =>
             '',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             '',
@@ -6936,12 +6963,12 @@ Thanks for your help!
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
-        'attachment' => '',
+        'attachment' => 'příloha',
         'debug' => '',
         'error' => '',
         'info' => '',
         'inline' => '',
-        'notice' => '',
+        'notice' => 'poznámka',
 
     };
     # $$STOP$$

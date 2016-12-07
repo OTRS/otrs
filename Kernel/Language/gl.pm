@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.768501339929911;
+    $Self->{Completeness}        = 0.762725779967159;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -821,6 +821,8 @@ sub Data {
         'Edit ACL information' => 'Edite información ACL',
         'Stop after match' => 'Pare despois da coincidencia',
         'Edit ACL structure' => 'Edite a estructura ACL',
+        'Save settings' => 'Gardar a configuración',
+        'Save ACL' => '',
         'Save' => 'Gardar',
         'or' => 'ou',
         'Save and finish' => 'Garde e finalice',
@@ -841,6 +843,7 @@ sub Data {
         'List' => 'Lista',
         'Download file' => 'Descargue arquivo',
         'Delete this attachment' => 'Borre este adxunto',
+        'Do you really want to delete this attachment?' => '',
         'Add Attachment' => 'Engadir un anexo',
         'Edit Attachment' => 'Edite o adxunto',
 
@@ -855,8 +858,7 @@ sub Data {
         'You can use the following tags' => 'Pode empregar os tags seguintes',
         'To get the first 20 character of the subject.' => 'Para obter os primeiros 20 carácteres do tema',
         'To get the first 5 lines of the email.' => 'Para obter as primeiras 5 liñas do email.',
-        'To get the realname of the ticket\'s customer user (if given).' =>
-            '',
+        'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Para obter os atributos do artigo',
         ' e. g.' => 'por exemplo',
         'Options of the current customer user data' => 'Opcións dos datos do usuario cliente actual',
@@ -1088,6 +1090,7 @@ sub Data {
         'Run Now!' => 'Execute Agora!',
         'Delete this task' => 'Borre esta tarefa',
         'Run this task' => 'Execute esta tarefa',
+        'Do you really want to delete this task?' => '',
         'Job Settings' => 'Axustes de Traballo',
         'Job name' => 'Nome Traballo',
         'The name you entered already exists.' => 'O nome que introduciu xa existe.',
@@ -1746,8 +1749,8 @@ sub Data {
         'Download' => 'Descargar',
         'Download file from package!' => 'Descargue o arquivo dende o paquete!',
         'Required' => 'Necesario',
-        'PrimaryKey' => 'ChavePrimaria',
-        'AutoIncrement' => 'AutoIncremento',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Diferencias en arquivo do arquivo %s',
 
@@ -1783,6 +1786,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Se usa Expresións Regulares, pode tamén empregar o valor que coincida en () coma [***] na acción \'Estableza\'.',
         'Delete this filter' => 'Elimine este filtro',
+        'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Engadir un filtro de PostMaster',
         'Edit PostMaster Filter' => 'Edito Filtro PostMaster',
         'The name is required.' => 'O nome é obrigatorio',
@@ -1814,12 +1818,12 @@ sub Data {
         'Overwrite existing entities' => 'Sobreescriba as entidades existentes',
         'Upload process configuration' => 'Cargue a configuración do procedemento',
         'Import process configuration' => 'Configuración do proceso de importación',
-        'Example processes' => 'Procesos de exemplo',
-        'Here you can activate best practice example processes. Please note that some additional configuration may be required.' =>
+        'Ready-to-run Processes' => '',
+        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
-        'Do you want to benefit from processes created by experts? Upgrade to %s to be able to import additional sophisticated example processes.' =>
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import example process' => 'Importar proceso de exemplo',
+        'Import ready-to-run process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Para crear un novo Procedemento pode importar un que fora exportado doutro sistema ou crear un completamente novo.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1925,7 +1929,6 @@ sub Data {
         'Extend the height of the Canvas' => 'Estenda a altura do Canvas',
         'Remove the Activity from this Process' => 'Elimine a Actividade deste Proceso',
         'Edit this Activity' => 'Edite esta Actividade',
-        'Save settings' => 'Gardar a configuración',
         'Save Activities, Activity Dialogs and Transitions' => 'Garde Actividades, Diálogos de Actividade e Transicións',
         'Do you really want to delete this Process?' => 'Quere realmente borrar este Proceso?',
         'Do you really want to delete this Activity?' => 'Quere realmente borrar esta Actividade?',
@@ -2416,6 +2419,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Un modelo é un texto predeterminado que axuda os axentes a escribiren tíckets, respostas ou encamiñamentos máis rápidos.',
         'Don\'t forget to add new templates to queues.' => 'Non esqueza de engadir novos modelos as colas',
+        'Do you really want to delete this template?' => '',
         'Add Template' => 'Engadir un modelo',
         'Edit Template' => 'Editar o modelo',
         'A standard template with this name already exists!' => 'Un modelo estandard con este nome xa existe!',
@@ -3794,6 +3798,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
+        'Customer Name' => '',
         'Invalid Users' => 'Usuarios Inválidos',
         'CSV' => 'CSV',
         'Excel' => '',
@@ -3805,55 +3810,64 @@ sub Data {
         'Feature is not active' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
+        'Link Deleted' => '',
+        'Ticket Locked' => '',
+        'Pending Time Set' => '',
+        'Dynamic Field Updated' => '',
+        'Outgoing Email (internal)' => '',
         'Ticket Created' => '',
+        'Type Updated' => '',
+        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time Stopped' => '',
+        'Escalation First Response Time Stopped' => '',
+        'Customer Updated' => '',
+        'Internal Chat' => '',
+        'Automatic Follow-Up Sent' => '',
         'Note Added' => '',
         'Note Added (Customer)' => '',
-        'Outgoing Email' => '',
-        'Outgoing Email (internal)' => '',
-        'Incoming Customer Email' => '',
-        'Dynamic Field Updated' => '',
-        'Outgoing Phone Call' => '',
-        'Incoming Phone Call' => '',
-        'Outgoing Answer' => '',
-        'SLA Updated' => '',
-        'Service Updated' => '',
-        'Customer Updated' => '',
         'State Updated' => '',
-        'Incoming Follow-Up' => '',
-        'Escalation Update Time Stopped' => '',
-        'Escalation Solution Time Stopped' => '',
-        'Escalation First Response Time Stopped' => '',
-        'Escalation Response Time Stopped' => '',
+        'Outgoing Answer' => '',
+        'Service Updated' => '',
         'Link Added' => '',
-        'Link Deleted' => '',
-        'Ticket Merged' => '',
-        'Pending Time Set' => '',
-        'Ticket Locked' => '',
-        'Ticket Unlocked' => '',
-        'Queue Updated' => '',
-        'Priority Updated' => '',
-        'Title Updated' => '',
-        'Type Updated' => '',
+        'Incoming Customer Email' => '',
         'Incoming Web Request' => '',
-        'Automatic Follow-Up Sent' => '',
-        'Automatic Reply Sent' => '',
+        'Priority Updated' => '',
+        'Ticket Unlocked' => '',
+        'Outgoing Email' => '',
+        'Title Updated' => '',
+        'Ticket Merged' => '',
+        'Outgoing Phone Call' => '',
+        'Forwarded Message' => '',
+        'Removed User Subscription' => '',
         'Time Accounted' => '',
+        'Incoming Phone Call' => '',
+        'System Request.' => '',
+        'Incoming Follow-Up' => '',
+        'Automatic Reply Sent' => '',
+        'Automatic Reject Sent' => '',
+        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time Stopped' => '',
+        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time Stopped' => '',
+        'SLA Updated' => '',
+        'Queue Updated' => '',
         'External Chat' => '',
-        'Internal Chat' => '',
+        'Queue Changed' => '',
+        'Notification Was Sent' => '',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
+            'Sentímolo, pero non ten permisos nunca mais para acceder a este ticket no seu estado actual.',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
         'Offline' => '',
-        'This user is currently offline' => 'Este usuario está actualmente desconectado',
-        'This user is currently active' => 'Este usuario está actualmente activo',
+        'User is currently offline.' => '',
+        'User is currently active.' => '',
         'Away' => '',
-        'This user is currently away' => 'Este usuario está actualmente fora',
+        'User was inactive for a while.' => '',
         'Unavailable' => '',
-        'This user is currently unavailable' => 'Este usuario está actualmente non dispoñible',
+        'User set their status to unavailable.' => '',
         'Fields with no group' => 'Campos sen grupo',
         'View the source for this Article' => '',
 
@@ -3922,6 +3936,17 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
+        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t get OTRS News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
+        'Can\'t connect to Product News server!' => '',
+        'Can\'t get Product News from server!' => '',
+
+        # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
+        'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => '',
@@ -5280,14 +5305,14 @@ Thanks for your help!
             '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'Define o módulo que mostra a notificación xenérica na interface de axente. Ambos "Texto" - se configurado- ou os contidos de "Arquivo" van ser mostrados.',
-        'Defines the module that shows all the currently loged in customers in the agent interface.' =>
-            'Define o módulo que mostra tódolos clientes actualmente "logeados" na interface axente.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Define o módulo que mostra tódolos axentes actualmente "logeados" na interface de axente.',
-        'Defines the module that shows the currently loged in agents in the customer interface.' =>
-            'Define o módulo que mostra os axentes actualmente "logeados" na interface de cliente.',
-        'Defines the module that shows the currently loged in customers in the customer interface.' =>
-            'Define o módulo que mostra os clientes actualmente "logeados" na interface de cliente.',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            '',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            '',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            '',
         'Defines the module to authenticate customers.' => 'Define o módulo para autenticar clientes.',
         'Defines the module to display a notification if cloud services are disabled.' =>
             '',
@@ -5483,6 +5508,8 @@ Thanks for your help!
             'Determina os próximos posibles estados do ticket, despois da creación dun novo ticket de teléfono na interface de axente.',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             'Determina os próximos posibles estados do ticket, para tickets de proceso na interface de axente.',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Determina a seguinte pantalla despois dun novo ticket de cliente na interface de clientes.',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
@@ -6375,8 +6402,8 @@ Thanks for your help!
             'Establece o texto por defecto para novos tickets de correo electrónico da interface de axente.',
         'Sets the display order of the different items in the preferences view.' =>
             'Establece a orde de mostrar os diferentes elementos na vista de preferencias.',
-        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
-            'Establece o tempo de inactividade (en segundos) a pasar antes de que a sesión sexa matada e o usuario loged out.',
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
@@ -6648,10 +6675,10 @@ Thanks for your help!
             'Mostra as opcións da prioridade do ticket na pantalla prioridade de ticket  dun ticket zoom na interface de axente.',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             'Mostra as opcións da prioridade do ticket na pantalla responsable de ticket da interface de axente.',
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
+            '',
         'Shows the title fields in the close ticket screen of the agent interface.' =>
             'Mostra os campos do titulo na pantalla ticket pechado da interface de axente.',
-        'Shows the title fields in the ticket free text screen of the agent interface.' =>
-            'Mostra os campos do titulo na pantalla texto libre de ticket da interface de axente.',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
             'Mostra os campos do titulo na pantalla nota de ticket da interface de axente.',
         'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>
