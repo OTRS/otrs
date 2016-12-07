@@ -1834,8 +1834,8 @@ sub Data {
         'Download' => 'Letöltés',
         'Download file from package!' => 'Fájl letöltése a csomagból!',
         'Required' => 'Kötelező',
-        'PrimaryKey' => 'Elsődleges kulcs',
-        'AutoIncrement' => 'Automatikus növelés',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Fájleltérések ezzel a fájllal: %s',
 
@@ -3721,6 +3721,8 @@ sub Data {
         'Defines the body text for rejected emails.' => 'Meghatározza az elutasított levelek törzsének szövegét.',
         'Defines the boldness of the line drawed by the graph.' => 'Meghatározza a grafikon által kirajzolt vonal vastagságát.',
         'Defines the calendar width in percent. Default is 95%.' => 'Meghatározza a naptár szélességét százalékosan. Az alapértelmezett 95%.',
+        'Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.' =>
+            '',
         'Defines the colors for the graphs.' => 'Meghatározza a grafikonok színeit.',
         'Defines the column to store the keys for the preferences table.' =>
             'Meghatározza az oszlopot a kulcsok tárolásához a beállítások táblánál.',

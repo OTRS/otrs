@@ -274,9 +274,14 @@ sub Data {
         'Dispatching by email To: field.' => 'ईमेल से भेजने के लिए :क्षेत्र',
         'Dispatching by selected Queue.' => 'चयनित श्रेणी से भेजने के लिए।',
         'No entry found!' => 'कोई प्रविष्टि नहीं है।',
+        'Please note that the session limit is almost reached.' => '',
+        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
+            '',
         'Session invalid. Please log in again.' => '',
         'Session has timed out. Please log in again.' => 'सत्र का समय समाप्त हो गया है। कृपया फिर से प्रवेश करें।',
         'Session limit reached! Please try again later.' => '',
+        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
+            '',
         'No Permission!' => 'अनुमति नहीं है।',
         '(Click here to add)' => '(जोड़ने के लिए यहाँ दबाऐ।)',
         'Preview' => 'पूर्वावलोकन',
@@ -1071,7 +1076,8 @@ sub Data {
         'You can use the following tags' => 'आप निम्नलिखित टैग का उपयोग कर सकते हैं।',
         'To get the first 20 character of the subject.' => 'विषय के पहले 20 वर्ण प्राप्त करने के लिए।',
         'To get the first 5 lines of the email.' => 'ईमेल की पहली 5 लाइनें प्राप्त करने के लिए।',
-        'To get the realname of the sender (if given).' => 'प्रेषक का वास्तविक नाम प्राप्त करने के लिए (यदि दिया है)।',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'अनुच्छेद विशेषता प्राप्त करने के लिए।',
         ' e. g.' => 'उदा.',
         'Options of the current customer user data' => 'मौजूदा ग्राहक उपयोगकर्ता के आंकड़ॊ के विकल्प',
@@ -1824,8 +1830,8 @@ sub Data {
         'Download' => 'डाउनलोड करें',
         'Download file from package!' => 'संकुल से फ़ाइल डाउनलोड करें ',
         'Required' => 'आवश्यकता',
-        'PrimaryKey' => 'प्राथमिक कुंजी',
-        'AutoIncrement' => 'स्वत वृद्धि',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'फ़ाइल %s के लिए फ़ाइल अंतर',
 
@@ -2049,6 +2055,7 @@ sub Data {
             '',
         'Transition' => '',
         'Transition Name' => '',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
@@ -3686,6 +3693,8 @@ sub Data {
         'Defines scheduler PID update time in seconds.' => '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'स्थानीय भंडार तक पहुँचने के लिए आईपी नियमित अभिव्यक्ति परिभाषित करें। आपको अपनी स्थानीय भंडार का उपयोग करने के लिए यह सक्षम करने आवश्यकता है और पैकेज:: स्रोत सूची दूरस्थ मेजबान पर आवश्यक है।',
         'Defines the URL CSS path.' => 'URL CSS पथ को परिभाषित करता है।',
@@ -3708,6 +3717,8 @@ sub Data {
         'Defines the body text for rejected emails.' => 'अस्वीकृत ईमेल मुख्य-भाग लिए के पाठ को परिभाषित करता है।',
         'Defines the boldness of the line drawed by the graph.' => 'रेखा-चित्र द्वारा बनाई रेखा की धृष्टता को परिभाषित करता है।',
         'Defines the calendar width in percent. Default is 95%.' => '',
+        'Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.' =>
+            '',
         'Defines the colors for the graphs.' => 'रेखा-चित्र के लिए रंग को परिभाषित करता है।',
         'Defines the column to store the keys for the preferences table.' =>
             'वरीयताएँ तालिका के लिए चाबी संग्रहीत स्तंभ को परिभाषित करता है।',
@@ -4017,6 +4028,8 @@ sub Data {
             '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             '',
+        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
+            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'प्रतिनिधि अंतरफलक में एक अधिसूचना प्रदर्शित करने के लिए मॉड्यूल को परिभाषित करता है,अगर प्रणाली व्यवस्थापक उपयोगकर्ता के द्वारा प्रयोग किया जाता है (सामान्यतः आपको व्यवस्थापक के रूप में काम नहीं करना चाहिए)।',
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' =>
@@ -4166,8 +4179,8 @@ sub Data {
         'Defines the valid state types for a ticket.' => 'एक टिकट के लिए वैध स्थिति प्रकार को परिभाषित करता है।',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.UnlockTickets.pl" can be used.' =>
             'अनलॉक टिकटों के लिए वैध स्थिति को परिभाषित करता है। टिकट अनलॉक करने के लिए लिपि "bin/otrs.UnlockTickets.pl" का उपयोग किया जा सकता है।',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
-            'एक टिकट के देखने योग्य लॉक को परिभाषित करता है। तयशुदा: अनलॉक, tmp_lock।',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
@@ -4220,6 +4233,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक में प्राप्तकर्ता(फोन टिकट) और प्रेषक(ईमेल टिकट) के लिए जो विकल्प वैध होगें उनको निर्धारित करता है।',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'ग्राहक अंतरफलक में  टिकट प्राप्तकर्ताओं के लिए जो श्रेणी वैध होगी उनको निर्धारित करता है।',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -4561,6 +4576,7 @@ sub Data {
             'यदि आप प्रतिनिधि टिकट की प्रतिलिपि प्राप्त खोज के लिए एक दर्पण आंकड़ाकोष का उपयोग करने के लिए या आँकड़े उत्पन्न करना चाहते हैं,इस आंकड़ाकोष को प्रमाणीकृत करने के लिए उपयोगकर्ता निर्दिष्ट किया जा सकता।',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             'नए अनुच्छेद सुविधा के लिए प्रणाली प्रेषक प्रकार के साथ अनुच्छेद अनदेखा करें(उदाहरण के लिए स्वत: प्रतिक्रिया या ईमेल सूचनाएं)।',
+        'Include unknown customers in ticket filter.' => '',
         'Includes article create times in the ticket search of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट खोज में अनुच्छेद बनाने समय शामिल हैं।',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' =>
@@ -4898,8 +4914,7 @@ sub Data {
             'प्रतिनिधि अनुवर्ती अधिसूचना स्वामी को ही भेजता है,यदि एक टिकट अनलॉक है(सभी एजेंटों को अधिसूचना भेजना तयशुदा है)',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'गुप्त प्रतिलिपि के माध्यम से सभी बाहर जाने वाले ईमेल निर्दिष्ट पते पर भेजता है। यह बैकअप कारणों के लिए ही प्रयोग करें।',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'ग्राहक अधिसूचना  केवल प्रतिचित्रित ग्राहक के लिए भेजता है। सामान्य तौर पर,यदि कोई ग्राहक प्रतिचित्रित नहीं है,अधिसूचना नवीनतम ग्राहक प्रेषक को जाती है।',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'अनलॉक टिकट के लिए अनुस्मारक अधिसूचना भेजता है,अनुस्मारक दिनांक पहुँचने के बाद(केवल टिकट स्वामी को भेजा जाता है)।',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
@@ -4996,6 +5011,8 @@ sub Data {
             'विभिन्न वस्तुओं के प्रदर्शन क्रम में प्राथमिकता दृश्य स्थापित करता है।',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             'निष्क्रियता समय(सेकंड में)उपयोगकर्ता के लॉग होने और सत्र के खतम होने से पहले पारित करने के लिए स्थापित करता है।',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
@@ -5098,7 +5115,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के जूम टिकट के प्राथमिकता स्क्रीन में टिकट प्रकार को स्थापित करता है(टिकट::प्रकार को सक्रिय करने की आवश्यकता है)।',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             'प्रतिनिधि अंतरफलक के टिकट उत्तरदायी स्क्रीन में टिकट प्रकार को स्थापित करता है(टिकट::प्रकार को सक्रिय करने की आवश्यकता है)।',
-        'Sets the time (in seconds) a user is marked as active.' => '',
+        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Sets the time type which should be shown.' => 'समय प्रकार जो दिखाया जाना चाहिए को स्थापित करता है।',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'http / FTP डाउनलोड करने के लिए समय समाप्ति(सेकेंड में) को स्थापित करता है।',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

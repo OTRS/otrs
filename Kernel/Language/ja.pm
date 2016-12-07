@@ -276,9 +276,14 @@ sub Data {
         'Dispatching by email To: field.' => 'メールの宛先で振り分け',
         'Dispatching by selected Queue.' => '選択したキューで振り分け',
         'No entry found!' => '登録がありません。',
+        'Please note that the session limit is almost reached.' => '',
+        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
+            '',
         'Session invalid. Please log in again.' => 'セッションが無効です。再ログインしてください。',
         'Session has timed out. Please log in again.' => 'セッションがタイムアウトしました。再ログインしてください。',
         'Session limit reached! Please try again later.' => 'セッション数が上限に達しました。後で再ログインを試みてください。',
+        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
+            '',
         'No Permission!' => '権限がありません。',
         '(Click here to add)' => '(クリックして追加)',
         'Preview' => 'プレビュー',
@@ -1073,7 +1078,8 @@ sub Data {
         'You can use the following tags' => '次のタグを使用できます',
         'To get the first 20 character of the subject.' => '表題の最初の20文字を取得',
         'To get the first 5 lines of the email.' => 'メールの最初の5行を取得',
-        'To get the realname of the sender (if given).' => '送信者の実名を取得(可能な場合)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => '記事の属性を取得',
         ' e. g.' => '例',
         'Options of the current customer user data' => '現在の顧客ユーザーデータのオプション',
@@ -1827,8 +1833,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Download' => 'ダウンロード',
         'Download file from package!' => 'パッケージからファイルをダウンロードしてください。',
         'Required' => '必要項目',
-        'PrimaryKey' => 'プライマリキー',
-        'AutoIncrement' => '自動増加',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => '%s ファイルが違います',
 
@@ -2052,6 +2058,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Transition' => '遷移',
         'Transition Name' => '遷移名',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '条件間のリンクのタイプ',
         'Remove this Condition' => 'この条件を削除',
         'Type of Linking' => 'リンクのタイプ',
@@ -3689,6 +3696,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Defines scheduler PID update time in seconds.' => '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'ローカル・レポジトリにアクセスするための、IPの正規表現を定義します。ローカル・レポジトリにアクセスするために、これを有効にする必要があり、またpackage::RepositoryListはリモート・ホストにおいて必要とされます。',
         'Defines the URL CSS path.' => 'URL・CSパスを定義します。',
@@ -3711,6 +3720,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Defines the body text for rejected emails.' => 'リジェクトされたEメールの本文を定義します。',
         'Defines the boldness of the line drawed by the graph.' => 'グラフによって描かれる線の太さを定義します。',
         'Defines the calendar width in percent. Default is 95%.' => 'カレンダの幅をパーセントで定義します。デフォルトは95%です。',
+        'Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.' =>
+            '',
         'Defines the colors for the graphs.' => 'グラフの色を定義します。',
         'Defines the column to store the keys for the preferences table.' =>
             'プレファレンス・テーブルのためのキーを格納するコラムを定義してください。',
@@ -4020,6 +4031,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             '',
+        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
+            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'もし、システムがアドミン・ユーザによって使用されている場合、担当者インタフェースにおいて通知を表示させるモジュールを定義します（通常はアドミンとして行動する必要はありません）。',
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' =>
@@ -4169,8 +4182,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Defines the valid state types for a ticket.' => 'チケットについて有効な状態タイプを定義します。',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.UnlockTickets.pl" can be used.' =>
             'アンロックされたチケットについて、有効な状態を定義します。チケットをアンロックするには、スクリプト"bin/otrs.UnlockTickets.pl"を使用できます。',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
-            'チケットについて、視認できるロックを定義します。デフォルト：unlock, tmp_lock。',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
@@ -4223,6 +4236,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '担当者インタフェースにおいて、受領者（電話チケット）および送信者（Eメール・チケット）に関する、どのオプションが有効となるかを定義します。',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '顧客インタフェースで、チケットの受信者としてどのキューを有効とするかを定義します。',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -4567,6 +4582,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'もし、担当者チケット・フルテキスト検索のためまたは統計を生成するために、ミラー・データベースを使用したい場合、本データベースに対して認証させるユーザを特定します。',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             '新規項目機能のシステム・センダー・タイプを持つ項目を、無視します（例：自動返答またはEメール通知など）。',
+        'Include unknown customers in ticket filter.' => '',
         'Includes article create times in the ticket search of the agent interface.' =>
             '担当者インタフェースのチケット検索で、項目の作成時間を含みます。',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' =>
@@ -4905,8 +4921,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'チケットがアンロックされた際に、所有者にのみ担当者フォローアップ通知を送信します (デフォルト設定では、全ての担当者に通知を送ります)。',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Bccを経由して特定されたアドレスに送信Eメールを送ります。バックアップ目的のためにのみ使用してください。',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'マップされた顧客にのみ顧客通知を送信します。通常は、もし顧客が誰もマップされていない場合、最新のカスタマーが通知を受け取ることになります。',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'リマインダ日付を迎えたら、アンロック・チケットのリマインダ通知を送信します（チケット所有者だけに送信されます）。',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
@@ -5003,6 +5018,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'プレファレンス・ビューにおいて異なるアイテムを表示する順番を設定します。',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             'セッションが切られユーザがログアウトするまで経過する、非活動時間（秒）を設定します。',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
@@ -5105,7 +5122,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             '担当者インタフェースのチケット責任者画面で、チケット・タイプを設定します（Ticket::Typeを有効とする必要があります)。',
-        'Sets the time (in seconds) a user is marked as active.' => '',
+        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Sets the time type which should be shown.' => '表示されるタイム・タイプを設定します。',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'http/ftp downloadsのためのタイムアウト（秒）を設定します。',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

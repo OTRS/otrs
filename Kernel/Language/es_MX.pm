@@ -272,9 +272,14 @@ sub Data {
         'Dispatching by email To: field.' => 'Despachar por el campo Para: del correo electrónico.',
         'Dispatching by selected Queue.' => 'Despachar por la fila seleccionada.',
         'No entry found!' => 'No se encontró entrada alguna.',
+        'Please note that the session limit is almost reached.' => '',
+        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
+            '',
         'Session invalid. Please log in again.' => 'Sesión no válida. Por favor, entre de nuevo.',
         'Session has timed out. Please log in again.' => 'La sesión ha caducado. Por favor, conéctese nuevamente.',
         'Session limit reached! Please try again later.' => '',
+        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
+            '',
         'No Permission!' => 'No tiene Permiso.',
         '(Click here to add)' => '(Haga click aquí para añadir)',
         'Preview' => 'Vista Previa',
@@ -1069,7 +1074,8 @@ sub Data {
         'You can use the following tags' => 'Puede utilizar las siguientes etiquetas',
         'To get the first 20 character of the subject.' => 'Para obtener los primeros 20 caracteres del asunto.',
         'To get the first 5 lines of the email.' => 'Para obtener las primeras 5 líneas del correo.',
-        'To get the realname of the sender (if given).' => 'Para obtener el nombre real del remitente (si se proporcionó).',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Para obtener el atributo del artículo',
         ' e. g.' => 'Por ejemplo:',
         'Options of the current customer user data' => 'Opciones para los datos del cliente actual',
@@ -1822,8 +1828,8 @@ sub Data {
         'Download' => 'Descargar',
         'Download file from package!' => 'Descargar archivo del paquete!',
         'Required' => 'Obligatorio',
-        'PrimaryKey' => 'ClavePrimaria',
-        'AutoIncrement' => 'AutoIncrementar',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Diferencias de archivo para %s',
 
@@ -2047,6 +2053,7 @@ sub Data {
             '',
         'Transition' => '',
         'Transition Name' => '',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
@@ -3684,6 +3691,8 @@ sub Data {
         'Defines scheduler PID update time in seconds.' => '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Define la expresión regular IP para acceder al repositorio local. Es necesario que esto se habilite para tener acceso al repositorio local y el paquete::ListaRepositorio se requiere en el host remoto.',
         'Defines the URL CSS path.' => 'Define la URL de la ruta CSS.',
@@ -3706,6 +3715,8 @@ sub Data {
         'Defines the body text for rejected emails.' => 'Define el texto para el cuerpo de los correos electrónicos electrónicos rechazados.',
         'Defines the boldness of the line drawed by the graph.' => 'Define el grosor de la línea dibujada por el gráfico.',
         'Defines the calendar width in percent. Default is 95%.' => '',
+        'Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.' =>
+            '',
         'Defines the colors for the graphs.' => 'Define los colores de los gráficos.',
         'Defines the column to store the keys for the preferences table.' =>
             'Define la columna para guardar las llaves en la tabla de preferencias.',
@@ -4015,6 +4026,8 @@ sub Data {
             '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             '',
+        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
+            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Define el módulo para desplegar una notificación, en la interfaz del agente, si el sistema está siendo usado por el usuario adminstrador (normalmente no es recomendable trabajar como administrador).',
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' =>
@@ -4164,8 +4177,8 @@ sub Data {
         'Defines the valid state types for a ticket.' => 'Define los tipos de estado válidos para un ticket.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.UnlockTickets.pl" can be used.' =>
             'Define los estados válidos para tickets desbloqueados. El script "bin/otrs.UnlockTickets.pl" puede usarse para desbloquear tickets.',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
-            'Define los bloqueos visibles de un ticket. Por defecto: unlock, tmp_lock.',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
@@ -4218,6 +4231,8 @@ sub Data {
             'Determina las opciones válidas para el remitente (ticket telefónico) y destinatario (ticket de correo electrónico), en la interfaz del agente.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Determina las filas que serán válidas coom remitentes de los ticket, en la interfaz del cliente.',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -4559,6 +4574,7 @@ sub Data {
             'Si desea utilizar una base de datos espejo para la búsqueda de texto completo de tickets o para generar estadísticas, puede especificarse el usuario para autenticarse a dicha base de datos.',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             '',
+        'Include unknown customers in ticket filter.' => '',
         'Includes article create times in the ticket search of the agent interface.' =>
             'Incluye los tiempos de creación de los artículos en la búsqueda de tickets de la interfaz del agente.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' =>
@@ -4896,8 +4912,7 @@ sub Data {
             'Enviar notificaciones de seguimiento únicamente al agente propietario, si el ticket se desbloquea (por defecto se envían notificaciones a todos los agentes).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Envía todos los correos electrónicos salientes vía bcc a la dirección especificada. Por favor, utilice esta opción únicamente por motivos de copia de seguridad).',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'Envía notificaciones sólo a los clientes especificados. Normalemente, si no se especifica un cliente, quien obtiene la notificación es el último remitente.',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Envía notificaciones de recordatorio de tickets desbloqueados a sus propietarios, luego que alcanzaron la fecha de recordatorio.',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
@@ -4994,6 +5009,8 @@ sub Data {
             'Define el orden por defecto en el que se mostrarán los diferentes elementos, en la vista de preferencias.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             'Define el tiempo de inactividad (en segundos) que deberá pasar antes de cerrar la sesión de un usuario y finalizar su sesión.',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
@@ -5096,7 +5113,8 @@ sub Data {
             'Define el tipo de ticket, en la ventana para cambiar la prioridad de un ticket, en su vista detallada de la interfaz del agente.',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             'Define el tipo de ticket, en la ventana para cambiar el responsable de un ticket, en la interfaz del agente.',
-        'Sets the time (in seconds) a user is marked as active.' => '',
+        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Sets the time type which should be shown.' => 'Define el tipo de tiempo que debe mostrarse.',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Define el tiempo de espera (en segundos) para descargas http/ftp.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

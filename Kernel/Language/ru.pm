@@ -283,9 +283,14 @@ sub Data {
         'Dispatching by email To: field.' => 'Перенаправление по заголовку To: электронного письма',
         'Dispatching by selected Queue.' => 'Перенаправление по выбранной очереди',
         'No entry found!' => 'Запись не найдена',
+        'Please note that the session limit is almost reached.' => '',
+        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
+            '',
         'Session invalid. Please log in again.' => 'Ошибка сессии. Пожалуйста авторизуйтесь вновь.',
         'Session has timed out. Please log in again.' => 'Сеанс завершен. Попробуйте войти заново.',
         'Session limit reached! Please try again later.' => 'Срок жизни сессии прошел. Пожалуйста попробуйте еще раз.',
+        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
+            '',
         'No Permission!' => 'Нет прав доступа!',
         '(Click here to add)' => '(нажмите сюда чтобы добавить)',
         'Preview' => 'Предварительный просмотр',
@@ -1080,7 +1085,8 @@ sub Data {
         'You can use the following tags' => 'Вы можете использовать следующие теги',
         'To get the first 20 character of the subject.' => 'Чтобы получить первые 20 символов темы',
         'To get the first 5 lines of the email.' => 'Чтобы получить первые 5 строк email',
-        'To get the realname of the sender (if given).' => 'Чтобы получить реальное имя отправителя (если указано)',
+        'To get the realname of the ticket\'s customer user (if given).' =>
+            '',
         'To get the article attribute' => 'Чтобы получить атрибут сообщения',
         ' e. g.' => ' например,',
         'Options of the current customer user data' => 'Атрибуты данных о пользователе текущего клиента',
@@ -1833,8 +1839,8 @@ sub Data {
         'Download' => 'Загрузить',
         'Download file from package!' => 'Загрузить файл из пакета!',
         'Required' => 'Требуется',
-        'PrimaryKey' => 'Первичный ключ',
-        'AutoIncrement' => 'Автоинкремент',
+        'Primary Key' => '',
+        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Файл различий для файла %s',
 
@@ -2058,6 +2064,7 @@ sub Data {
             'Имейте в виду, что изменение в этом Переходе повлияет на следующие Процессы',
         'Transition' => 'Переход',
         'Transition Name' => 'Имя Перехода',
+        'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Тип связи между Условиями',
         'Remove this Condition' => 'Удалить это Условие',
         'Type of Linking' => 'Тип связи',
@@ -3695,6 +3702,8 @@ sub Data {
         'Defines scheduler PID update time in seconds.' => 'Задает период обновления PID Планировщика в секундах.',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             'Задает время перехода планировщика в спящий режим после выполнения всех доступных задач (число с плавающей точкой).',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Задает регулярное выражение для IP для доступа к локальному репозиторию. его надо указать, чтбы иметь доступ к вашему локальному репозиторию и package::RepositoryList требуется для удаленного хоста.',
         'Defines the URL CSS path.' => 'Задает путь к URL CSS.',
@@ -3717,6 +3726,8 @@ sub Data {
         'Defines the body text for rejected emails.' => 'Задает содержание сообщения для отвергнутых писем',
         'Defines the boldness of the line drawed by the graph.' => 'Определяет толщину линии для графика',
         'Defines the calendar width in percent. Default is 95%.' => 'Задает ширину фрейма для Календаря в процентах. Стандартно - 95%.',
+        'Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.' =>
+            '',
         'Defines the colors for the graphs.' => 'Задает цвета для графика/диаграммы',
         'Defines the column to store the keys for the preferences table.' =>
             'Задает колонку для хранения ключей для таблицы личных настроек.',
@@ -4026,6 +4037,8 @@ sub Data {
             'Задает модуль который показывает уведомление в интерфейсе агента, если агент зашел в систему при включенном режиме "Вне офиса".',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'Задает модуль который показывает уведомление в интерфейсе агента, если агент зашел в систему, когда она в состоянии Профилактика/Обслуживание системы.',
+        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
+            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Задает модуль который показывает уведомление в интерфейсе агента, что вы зашли в систему как администратор (в обычном режиме вы не должны работать под этой учетной записью).',
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' =>
@@ -4175,8 +4188,8 @@ sub Data {
         'Defines the valid state types for a ticket.' => 'Задает действительные типы состояний для заявки',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.UnlockTickets.pl" can be used.' =>
             'Задает действительные состояния для разблокированных заявок. Для разблокирования заявок используйте скрипт "bin/otrs.UnlockTickets.pl".',
-        'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
-            'Задает отображение заявок при просмотре с этими видами блокировки . Стандартно: unlock(разблокирована), tmp_lock(временно блокировна).',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Задает ширину окна текстового редактора на этом экране. Введите число (пикселов) или значение в процентах.',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
@@ -4229,6 +4242,8 @@ sub Data {
             'Задает какие варианты будут доступны для поля Получатель (в телефонной) или Отправитель (в почтовой заявке) в интерфейсе агента.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Задает список доступных очередей для новой заяаки в интерфейсе клиента.',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
@@ -4570,6 +4585,7 @@ sub Data {
             'Если вы хотите использовать зеркальную базу данных для полнотекстового поиска или построения отчетов агентом, задайте логин для доступа к ней.',
         'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
             'Игнорировать системные сообщения для новых сообщений (например автоответы или почтовые уведомления).',
+        'Include unknown customers in ticket filter.' => '',
         'Includes article create times in the ticket search of the agent interface.' =>
             'Включить время создания сообщений/заметок в атрибуты поиска в интерфейсе агента.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' =>
@@ -4908,8 +4924,7 @@ sub Data {
             'Отправлять уведомления агентам об откликах только владельцу, если заявка разблокирована (по умолчанию уведомляются все агенты).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Отсылать всю исходящую почту через bcc на заданные адреса. Используйте эту опцию только резервного копирования.',
-        'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
-            'Посылать уведомление клиента показанным клиентам. Если не показано ни одного клиента, последний отправитель получит уведомление.',
+        'Sends customer notifications just to the mapped customer.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Посылать напоминание о разблокированных заявках после истечения времени напоминания (посылается только владельцу заявки).',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
@@ -5006,6 +5021,8 @@ sub Data {
             'Задает порядок отображения различных атрибутов в личных настройках.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             'Устанавливает время неактивности (в сек) после которого сеанс прекращается и агент будет отключен от системы (loged out).',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+            '',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             'Задает макс. число активных анкетов в интервале заданном в SessionActiveTime.',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
@@ -5108,7 +5125,8 @@ sub Data {
             'Задает Тип заявки при изменении приоритета заявки в интерфейсе агента. (Ticket::Type должен быть активирован).',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             'Задает Тип заявки при назначении Ответственного за заявку в интерфейсе агента. (Ticket::Type должен быть активирован).',
-        'Sets the time (in seconds) a user is marked as active.' => 'Задает время (в сек) в течении которого агент считается активным.',
+        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Sets the time type which should be shown.' => 'Задает тип времени для отображения.',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Задает timeout (в сек) для http/ftp downloads.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
