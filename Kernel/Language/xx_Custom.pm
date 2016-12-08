@@ -25,8 +25,8 @@ sub Data {
     #    $Self->{Translation} = {
     #        %{$Self->{Translation}},
     #        # own translations
-    #        Lock => 'Lala',
-    #        UnLock => 'Lulu',
+    #        'Lock' => 'Lala',
+    #        'UnLock' => 'Lulu',
     #    };
 
     # $$STOP$$
