@@ -335,14 +335,6 @@ sub DynamicFieldGet {
         $Data{Config} ||= {};
     }
 
-    # set cache
-    $CacheObject->Set(
-        Type  => 'DynamicField',
-        Key   => $CacheKey,
-        Value => \%Data,
-        TTL   => $Self->{CacheTTL},
-    );
-
     return \%Data;
 }
 
