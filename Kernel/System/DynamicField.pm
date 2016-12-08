@@ -313,13 +313,21 @@ sub DynamicFieldGet {
         );
     }
 
-    # set cache
-    $CacheObject->Set(
-        Type  => 'DynamicField',
-        Key   => $CacheKey,
-        Value => \%Data,
-        TTL   => $Self->{CacheTTL},
-    );
+    if (%Data) {
+
+        # Set the cache only, if the YAML->Load was successful (see bug#12483).
+        if ($Data{Config}) {
+
+            $CacheObject->Set(
+                Type  => 'DynamicField',
+                Key   => $CacheKey,
+                Value => \%Data,
+                TTL   => $Self->{CacheTTL},
+            );
+        }
+
+        $Data{Config} ||= {};
+    }
 
     return \%Data;
 }
@@ -366,14 +374,18 @@ sub DynamicFieldUpdate {
         $Reorder = 1;
     }
 
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
     # dump config as string
-    my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
+    my $Config = $YAMLObject->Dump(
         Data => $Param{Config},
     );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #    part of the data already had it.
     utf8::upgrade($Config);
+
+    return if !$YAMLObject->Load( Data => $Config );
 
     # check needed structure for some fields
     if ( $Param{Name} !~ m{ \A [a-zA-Z\d]+ \z }xms ) {
