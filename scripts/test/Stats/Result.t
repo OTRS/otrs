@@ -120,7 +120,7 @@ my @Tickets = (
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'new',
-            CustomerID   => '123465',
+            CustomerID   => 'example + test',
             CustomerUser => 'customer@example.com',
             OwnerID      => 1,
             UserID       => 1,
@@ -2598,6 +2598,208 @@ my @Tests = (
                 0,
                 0,
                 0,
+            ],
+        ],
+    },
+
+    # Test with a relative time period and a restriction for a dynamic field text and textarea
+    # Fixed TimeStamp: '2014-10-12 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'CreateTime' with a relative period 'the last complete 7 days' and 'scale 1 day'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Restrictions: 'CustomerID' => 'example + test' (exact match),
+    {
+        Description => 'Test stat with a restriction for a special customer id (last complete 7 days and scale 1 day)',
+        TimeStamp   => '2014-10-12 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $DynamicMatrixStatID,
+            Hash   => {
+                SumRow      => 0,
+                SumCol      => 0,
+                UseAsXvalue => [
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        TimeScaleCount            => 1,
+                        SelectedValues            => [
+                            'Day',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'CustomerID',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'example + test',
+                        ],
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2014-10-05 00:00:00-2014-10-11 23:59:59',
+            ],
+            [
+                'Queue',
+                'Sun 5',
+                'Mon 6',
+                'Tue 7',
+                'Wed 8',
+                'Thu 9',
+                'Fri 10',
+                'Sat 11',
+            ],
+            [
+                $QueueNames[0],
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            ],
+            [
+                $QueueNames[2],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            ],
+        ],
+    },
+
+    # Test for a dynamic list with some selected columns and restrictions (special CustomerID value with '+')
+    # Fixed TimeStamp: '2015-08-15 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'TicketAttributes' - Number, TicketNumber, Title, Created, Queue
+    # Y-Axis: 'OrderBy' - TicketNumber, 'SortSequence' - Up
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test,
+    #               'CreateTime' with a relative period 'the last complete 7 days'
+    #               'CustomerID' with a selected customer id 'example + test'
+    {
+        Description => "Test dynamic list stat with some selected columns and a restriction for the create time and a selected customer id with a '+'",
+        TimeStamp   => '2014-10-12 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $DynamicListStatID,
+            Hash   => {
+                UseAsXvalue => [
+                    {
+                        'Element'        => 'TicketAttributes',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Number',
+                            'TicketNumber',
+                            'Title',
+                            'Created',
+                            'Queue',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'OrderBy',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'TicketNumber',
+                        ],
+                    },
+                    {
+                        'Element'        => 'SortSequence',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Up',
+                        ],
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                    {
+                        Element                   => 'CreateTime',
+                        Block                     => 'Time',
+                        Fixed                     => 1,
+                        Selected                  => 1,
+                        TimeRelativeCount         => 7,
+                        TimeRelativeUpcomingCount => 0,
+                        TimeRelativeUnit          => 'Day',
+                        SelectedValues            => [],
+                    },
+                    {
+                        'Element'        => 'CustomerID',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'example + test',
+                        ],
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests 2014-10-05 00:00:00-2014-10-11 23:59:59',
+            ],
+            [
+                'Number',
+                'Ticket#',
+                'Title',
+                'Created',
+                'Queue',
+            ],
+            [
+                1,
+                $TicketIDs[0]->{TicketNumber},
+                $TicketIDs[0]->{Title},
+                $TicketIDs[0]->{Created},
+                $TicketIDs[0]->{Queue},
             ],
         ],
     },
