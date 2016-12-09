@@ -7,6 +7,8 @@ use YAML::Dumper::Base;
 use YAML::Node;
 use YAML::Types;
 use Scalar::Util qw();
+use B ();
+use Carp ();
 
 # Context constants
 use constant KEY       => 3;

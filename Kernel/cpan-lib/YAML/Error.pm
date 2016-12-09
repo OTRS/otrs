@@ -32,7 +32,7 @@ sub error_messages {
     $error_messages;
 }
 
-%$error_messages = map {s/^\s+//;$_} split "\n", <<'...';
+%$error_messages = map {s/^\s+//;s/\\n/\n/;$_} split "\n", <<'...';
 YAML_PARSE_ERR_BAD_CHARS
   Invalid characters in stream. This parser only supports printable ASCII
 YAML_PARSE_ERR_BAD_MAJOR_VERSION
@@ -67,6 +67,8 @@ YAML_DUMP_ERR_FILE_CONCATENATE
   Can't concatenate to YAML file %s
 YAML_DUMP_ERR_FILE_OUTPUT
   Couldn't open %s for output:\n%s
+YAML_DUMP_ERR_FILE_OUTPUT_CLOSE
+  Error closing %s:\n%s
 YAML_DUMP_ERR_NO_HEADER
   With UseHeader=0, the node must be a plain hash or array
 YAML_DUMP_WARN_BAD_NODE_TYPE

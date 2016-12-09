@@ -1,4 +1,5 @@
 #6.0.0.beta1 2016-??-??
+ - 2016-12-08 Updated CPAN module YAML to version 1.20.
  - 2016-11-25 (PR#1124) Added new SysConfig setting 'Daemon::Log::RotationType' to use internal or external log file rotation mechanism, thanks to Pawel Boguslawski.
  - 2016-11-21 Redesigned admin overview screen; add items as favourite by hovering over it and clicking the star icon; switch between grid and listview by clicking the icon on the top right.
  - 2016-11-04 Make it possible to search for emtpy dynamic fields via the TicketSearch API, thanks to Rolf Schmidt and Moritz Lenz.
