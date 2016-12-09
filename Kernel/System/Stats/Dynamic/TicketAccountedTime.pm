@@ -727,6 +727,18 @@ sub GetStatTablePreview {
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
 
+    # Map the CustomerID search parameter to CustomerIDRaw search parameter for the
+    #   exact search match, if the 'Stats::CustomerIDAsMultiSelect' is active.
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Stats::CustomerIDAsMultiSelect') ) {
+
+        if ( defined $Param{Restrictions}->{CustomerID} ) {
+            $Param{Restrictions}->{CustomerIDRaw} = $Param{Restrictions}->{CustomerID};
+        }
+        else {
+            $Param{CustomerIDRaw} = $Param{CustomerID};
+        }
+    }
+
     my @StatArray;
     if ( $Param{XValue}{Element} && $Param{XValue}{Element} eq 'KindsOfReporting' ) {
 
