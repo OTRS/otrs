@@ -135,6 +135,9 @@ $Selenium->RunTest(
         # wait until page has loaded, if necessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
+        # Wait until customer info widget has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetIsLoading").length === 0;' );
+
         # test CustomerUserGenericTicket module
         for my $TestLinks ( sort keys %TicketData ) {
 
