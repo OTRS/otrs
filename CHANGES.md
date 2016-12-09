@@ -68,6 +68,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.16 2017-??-??
+ - 2016-12-09 Fixed bug#[12429](https://bugs.otrs.org/show_bug.cgi?id=12429) - Nested form elements in AgentLinkObject prevent submit, thanks to Thorsten Eckel.
 
 #5.0.15 2016-12-13
  - 2016-12-07 Fixed bug#[12483](https://bugs.otrs.org/show_bug.cgi?id=12483) - YAML load problems with dynamic fields.
