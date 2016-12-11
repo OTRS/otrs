@@ -316,7 +316,7 @@ sub DynamicFieldGet {
     if (%Data) {
 
         # Set the cache only, if the YAML->Load was successful (see bug#12483).
-        if ($Data{Config}) {
+        if ( $Data{Config} ) {
 
             $CacheObject->Set(
                 Type  => 'DynamicField',

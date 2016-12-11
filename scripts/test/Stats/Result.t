@@ -2711,7 +2711,8 @@ my @Tests = (
     #               'CreateTime' with a relative period 'the last complete 7 days'
     #               'CustomerID' with a selected customer id 'example + test'
     {
-        Description => "Test dynamic list stat with some selected columns and a restriction for the create time and a selected customer id with a '+'",
+        Description =>
+            "Test dynamic list stat with some selected columns and a restriction for the create time and a selected customer id with a '+'",
         TimeStamp   => '2014-10-12 20:00:00',
         Language    => 'en',
         StatsUpdate => {
