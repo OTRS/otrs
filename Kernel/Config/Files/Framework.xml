@@ -432,7 +432,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.5.11/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.6.1/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -10731,7 +10731,7 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>thirdparty/ckeditor-4.5.11/ckeditor.js</Item>
+                <Item>thirdparty/ckeditor-4.6.1/ckeditor.js</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -10825,7 +10825,7 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>thirdparty/ckeditor-4.5.11/ckeditor.js</Item>
+                <Item>thirdparty/ckeditor-4.6.1/ckeditor.js</Item>
             </Array>
         </Setting>
     </ConfigItem>
