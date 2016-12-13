@@ -346,9 +346,15 @@ sub CustomerSearch {
     elsif ( $Param{PostMasterSearch} ) {
 
         if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
+
+            # quote LDAP filter value but keep asterisks unescaped (wildcard)
+            $Param{PostMasterSearch} =~ s/\*/encodedasterisk20160930/g;
+            $Param{PostMasterSearch} = escape_filter_value( $Param{PostMasterSearch} );
+            $Param{PostMasterSearch} =~ s/encodedasterisk20160930/*/g;
+
             $Filter = '(|';
             for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
-                $Filter .= "($Field=" . escape_filter_value( $Param{PostMasterSearch} ) . ')';
+                $Filter .= "($Field=$Param{PostMasterSearch})";
             }
             $Filter .= ')';
         }
