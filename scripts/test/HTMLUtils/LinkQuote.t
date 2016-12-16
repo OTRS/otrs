@@ -355,6 +355,20 @@ my @Tests = (
         Name   => 'Complex tag with nested URLs',
         Target => '',
     },
+    {
+        Input => 'Following unquoted link looks strangely like an ftp URL: www.ftp.de',
+        Result =>
+            'Following unquoted link looks strangely like an ftp URL: <a href="http://www.ftp.de" title="http://www.ftp.de">www.ftp.de</a>',
+        Name   => 'Text with HTTP url (bug#12472)',
+        Target => '',
+    },
+    {
+        Input => 'Following unquoted link is an actual ftp URL: ftp.my.de',
+        Result =>
+            'Following unquoted link is an actual ftp URL: <a href="ftp://ftp.my.de" title="ftp://ftp.my.de">ftp.my.de</a>',
+        Name   => 'Text with FTP url (bug#12472)',
+        Target => '',
+    },
 );
 
 for my $Test (@Tests) {
