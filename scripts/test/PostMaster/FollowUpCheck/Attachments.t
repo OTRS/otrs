@@ -159,6 +159,109 @@ $Subject
 EOF
         NewTicket => 2,
     },
+    {
+        Name  => 'HTML email, body with ticket number',
+        Email => <<EOF,
+Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
+Subject: test multipart/mixed HTML
+Date: Fri, 9 Sep 2016 09:03:57 +0200
+To: test\@home.com
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Mailer: Apple Mail (2.3124)
+
+
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+    charset=utf-8
+
+$Subject
+
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10
+Content-Type: multipart/mixed;
+    boundary="Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655"
+
+
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+    charset=us-ascii
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class="">$Subject<div class=""><br class=""></div><div class=""></div></body></html>
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Disposition: attachment;
+    filename=1.txt
+Content-Type: text/plain;
+    name="1.txt"
+Content-Transfer-Encoding: 7bit
+
+1
+
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html;
+    charset=utf-8
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=utf-8"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div class=""></div><div class=""><br class=""></div><div class="">$Subject</div></body></html>
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655--
+
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
+
+EOF
+        NewTicket => 1,
+    },
+
+    {
+        Name  => 'HTML email, attachment with ticket number',
+        Email => <<EOF,
+Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
+Subject: test multipart/mixed HTML
+Date: Fri, 9 Sep 2016 09:03:57 +0200
+To: test\@home.com
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Mailer: Apple Mail (2.3124)
+
+
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+    charset=utf-8
+
+first part
+
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10
+Content-Type: multipart/mixed;
+    boundary="Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655"
+
+
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+    charset=us-ascii
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class="">first part<div class=""><br class=""></div><div class=""></div></body></html>
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Disposition: attachment;
+    filename=1.txt
+Content-Type: text/plain;
+    name="1.txt"
+Content-Transfer-Encoding: 7bit
+
+$Subject
+
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html;
+    charset=utf-8
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=utf-8"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><div class=""></div><div class=""><br class=""></div><div class="">second part</div></body></html>
+--Apple-Mail=_8BFFBEE6-E8BD-46DF-A006-75CAE6571655--
+
+--Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
+
+EOF
+        NewTicket => 2,
+    },
 );
 
 # First run the tests for a ticket that has the customer as an "unknown" customer.

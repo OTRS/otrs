@@ -33,10 +33,9 @@ sub Run {
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # The first attachment in a MIME email in OTRS is currently the body,
-    #   so ignore it for this follow up check.
+    # Ignore all inline parts as these are actually part of the email body.
     my @Attachments = $Self->{ParserObject}->GetAttachments();
-    shift @Attachments;
+    @Attachments = grep { defined $_->{ContentDisposition} && $_->{ContentDisposition} ne 'inline' } @Attachments;
 
     ATTACHMENT:
     for my $Attachment (@Attachments) {
