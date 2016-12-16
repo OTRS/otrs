@@ -253,10 +253,4 @@ X-OTRS-Login: [% Env("Baselink") %]
 # loading a file called ads.js would be blocked by ad blockers (e.g. AdBlock or AdBlockPlus) and thus allows for a basic adblocker detection
     <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %]ads.js"></script>
 
-<div id="Footer" class="ARIARoleContentinfo">
-    <a href="https://www.otrs.com/otrs-business-solution-managed/" title="[% Config("Product") %]" target="_blank">
-        <span></span> [% Translate("Powered by") | html %] [% Config("Product") %]
-    </a>
-</div>
-
-[% InsertTemplate("FooterJS.tt") %]
+[% InsertTemplate("Footer.tt") %]

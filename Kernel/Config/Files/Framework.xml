@@ -10590,7 +10590,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Secure::DisableBanner" Required="1" Valid="1">
-        <Description Translatable="1">If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.</Description>
+        <Description Translatable="1">If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
