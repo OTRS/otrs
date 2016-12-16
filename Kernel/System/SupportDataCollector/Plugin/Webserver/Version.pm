@@ -26,6 +26,9 @@ sub Run {
 
     my %Environment = %ENV;
 
+    # Skip the plugin, if the support data collection isn't running in a web request.
+    return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
+
     my $Version = $ENV{SERVER_SOFTWARE};
 
     if ($Version) {
