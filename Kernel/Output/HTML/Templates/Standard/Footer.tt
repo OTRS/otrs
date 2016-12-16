@@ -16,6 +16,7 @@
 
 [% InsertTemplate("FooterJS.tt") %]
 
-[% IF !Data.IsLoginPage %]    </div><!-- end AppWrapper -->[% END %]
+    </div><!-- end AppWrapper -->
+
 </body>
 </html>
