@@ -680,6 +680,7 @@ sub Login {
 
     # set Action parameter for the loader
     $Self->{Action} = 'Login';
+    $Param{IsLoginPage} = 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -1539,13 +1540,6 @@ sub Footer {
             SearchFrontendConfig => $JSCall,
         },
     );
-
-    # Banner
-    if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
-        $Self->Block(
-            Name => 'Banner',
-        );
-    }
 
     # Don't check for business package if the database was not yet configured (in the installer)
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
@@ -3377,7 +3371,8 @@ sub CustomerLogin {
     $Param{TitleArea} = $Self->{LanguageObject}->Translate('Login') . ' - ';
 
     # set Action parameter for the loader
-    $Self->{Action} = 'CustomerLogin';
+    $Self->{Action}        = 'CustomerLogin';
+    $Param{IsLoginPage}    = 1;
     $Param{'XLoginHeader'} = 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -3720,13 +3715,6 @@ sub CustomerFooter {
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # Banner
-    if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
-        $Self->Block(
-            Name => 'Banner',
-        );
-    }
 
     # AutoComplete-Config
     my $AutocompleteConfig = $ConfigObject->Get('AutoComplete::Customer');
