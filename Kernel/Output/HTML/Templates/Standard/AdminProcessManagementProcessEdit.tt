@@ -168,7 +168,7 @@
                     <strong>[% Translate("Activity Dialogs") | html %]:</strong> [% Translate("To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    <strong>[% Translate("Transitions") | html %]:</strong> [% Translate("You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.") | html %]
+                    <strong>[% Translate("Transitions") | html %]:</strong> [% Translate("You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.") | html %]
                 </p>
                 <p class="FieldExplanation">
                     <strong>[% Translate("Transition Actions") | html %]:</strong> [% Translate("Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.") | html %]
