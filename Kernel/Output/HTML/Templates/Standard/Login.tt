@@ -77,7 +77,7 @@ X-OTRS-Login: [% Env("Baselink") %]
 </head>
 <!-- end header -->
 <body class="[% Data.BodyClass | html %] LoginScreen">
-
+    <div id="AppWrapper">
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
     </div>
