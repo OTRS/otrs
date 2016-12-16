@@ -68,6 +68,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.16 2017-??-??
+ - 2016-12-16 Fixed bug#[12435](https://bugs.otrs.org/show_bug.cgi?id=12435) - otrs.Console.pl Maint::Stats::Generate - ISO-8859 encoding.
  - 2016-12-16 Improved the support data collection to work without a internal web request.
  - 2016-12-16 Follow-up fix for bug#[12040](https://bugs.otrs.org/show_bug.cgi?id=12040) - Emails are incorrectly attached to tickets.
  - 2016-12-16 Fixed bug#[12473](https://bugs.otrs.org/show_bug.cgi?id=12473) - Banner cannot be disabled in customer interface.
