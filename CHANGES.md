@@ -68,6 +68,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.16 2017-??-??
+ - 2016-12-16 Follow-up fix for bug#[12040](https://bugs.otrs.org/show_bug.cgi?id=12040) - Emails are incorrectly attached to tickets.
  - 2016-12-16 Fixed bug#[12473](https://bugs.otrs.org/show_bug.cgi?id=12473) - Banner cannot be disabled in customer interface.
  - 2016-12-09 Fixed bug#[12487](https://bugs.otrs.org/show_bug.cgi?id=12487) - Statistic with a  '+' in the  CustomerId doesn't work.
  - 2016-12-09 Fixed bug#[12429](https://bugs.otrs.org/show_bug.cgi?id=12429) - Nested form elements in AgentLinkObject prevent submit, thanks to Thorsten Eckel.
