@@ -1,4 +1,5 @@
 #4.0.21 2017-??-??
+ - 2016-12-16 Fixed bug#[12486](https://bugs.otrs.org/show_bug.cgi?id=12486) - Return-path is set to "<>" instead of having SMTP-From identical to Mailheader-From.
  - 2016-12-16 Fixed bug#[12464](https://bugs.otrs.org/show_bug.cgi?id=12464) - Customer History table is still visible even though no selected customer users.
  - 2016-12-16 Improved the support data collection to work without a internal web request.
  - 2016-12-16 Fixed bug#[12473](https://bugs.otrs.org/show_bug.cgi?id=12473) - Banner cannot be disabled in customer interface.
