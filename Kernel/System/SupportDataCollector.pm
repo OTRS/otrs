@@ -111,9 +111,13 @@ sub Collect {
     }
 
     # Data must be collected in a web request context to be able to collect web server data.
-    #   If called from CLI, make a web request to collect the data.
+    #   If called from CLI, make a web request to collect the data, but if the data couldn't
+    #   be collected the function runs normal.
     if ( !$ENV{GATEWAY_INTERFACE} ) {
-        return $Self->CollectByWebRequest(%Param);
+
+        my %ResultWebRequest = $Self->CollectByWebRequest(%Param);
+
+        return %ResultWebRequest if $ResultWebRequest{Success};
     }
 
     # Get the disabled plugins from the config to generate a lookup hash, which can be used to skip these plugins.
@@ -126,26 +130,26 @@ sub Collect {
         = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
     my %LookupIdentifierFilterBlacklist = map { $_ => 1 } @{$IdentifierFilterBlacklist};
 
-    # Look for all plug-ins in the FS
+    # Look for all plug-ins in the FS.
     my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/Plugin",
         Filter    => "*.pm",
         Recursive => 1,
     );
 
-    # Look for all asynchronous plug-ins in the FS
+    # Look for all asynchronous plug-ins in the FS.
     my @PluginAsynchronousFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
         Filter    => "*.pm",
         Recursive => 1,
     );
 
-    # merge the both plug-ins types together
+    # Merge the both plug-in types together.
     my @PluginFilesAll = ( @PluginFiles, @PluginAsynchronousFiles );
 
     my @Result;
 
-    # Execute all plug-ins
+    # Execute all plug-ins.
     PLUGINFILE:
     for my $PluginFile (@PluginFilesAll) {
 
@@ -167,9 +171,8 @@ sub Collect {
 
         if ( !%PluginResult || !$PluginResult{Success} ) {
             return (
-                Success => 0,
-                ErrorMessage =>
-                    "Error during execution of $PluginFile: $PluginResult{ErrorMessage}",
+                Success      => 0,
+                ErrorMessage => "Error during execution of $PluginFile: $PluginResult{ErrorMessage}",
             );
         }
 
@@ -180,7 +183,7 @@ sub Collect {
     #   more information with a own identifier.
     @Result = grep { !$LookupIdentifierFilterBlacklist{ $_->{Identifier} } } @Result;
 
-    # sort the results from the plug-ins by the short identifier
+    # Sort the results from the plug-ins by the short identifier.
     @Result = sort { $a->{ShortIdentifier} cmp $b->{ShortIdentifier} } @Result;
 
     my %ReturnData = (
@@ -188,12 +191,17 @@ sub Collect {
         Result  => \@Result,
     );
 
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type  => 'SupportDataCollector',
-        Key   => $CacheKey,
-        Value => \%ReturnData,
-        TTL   => 60 * 10,
-    );
+    # Cache the result only, if the support data were collected in a web request,
+    #   to have all support data in the admin view.
+    if ($ENV{GATEWAY_INTERFACE}) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => 'SupportDataCollector',
+            Key   => $CacheKey,
+            Value => \%ReturnData,
+            TTL   => 60 * 10,
+        );
+    }
 
     return %ReturnData;
 }
@@ -205,7 +213,7 @@ sub CollectByWebRequest {
     #   PublicSupportDataCollector requires this ChallengeToken.
     my $ChallengeToken = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
         Length     => 32,
-        Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
+        Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # Generate a hexadecimal value.
     );
 
     if (
@@ -229,7 +237,6 @@ sub CollectByWebRequest {
     my $Host = $Param{Hostname};
     $Host ||= $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::HTTPHostname');
 
-    # Determine hostname
     if ( !$Host ) {
         my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
 
@@ -244,9 +251,9 @@ sub CollectByWebRequest {
         $Host ||= '127.0.0.1';
     }
 
-    # if the public interface is proteceted with .htaccess
-    # we can specify the htaccess login data here,
-    # this is neccessary for the support data collector
+    # If the public interface is proteceted with .htaccess
+    #   we can specify the htaccess login data here,
+    #   this is neccessary for the support data collector.
     my $AuthString   = '';
     my $AuthUser     = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::AuthUser');
     my $AuthPassword = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::AuthPassword');
@@ -254,7 +261,7 @@ sub CollectByWebRequest {
         $AuthString = $AuthUser . ':' . $AuthPassword . '@';
     }
 
-    # prepare web service config
+    # Prepare web service config for the internal web request.
     my $URL =
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType')
         . '://'
@@ -264,20 +271,18 @@ sub CollectByWebRequest {
         . $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias')
         . 'public.pl';
 
-    # create webuseragent object
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
         Timeout => $Param{WebTimeout} || 20,
     );
 
-    # disable webuseragent proxy since the call is sent to self server, see bug#11680
+    # Disable webuseragent proxy since the call is sent to self server, see bug#11680.
     $WebUserAgentObject->{Proxy} = '';
 
-    # define result
     my %Result = (
         Success => 0,
     );
 
-    # skip the ssl verification, because this is only a internal web request
+    # Skip the ssl verification, because this is only a internal web request.
     my %Response = $WebUserAgentObject->Request(
         Type => 'POST',
         URL  => $URL,
@@ -288,24 +293,27 @@ sub CollectByWebRequest {
         SkipSSLVerification => 1,
     );
 
-    # test if the web response was successful
     if ( $Response{Status} ne '200 OK' ) {
-        $Result{ErrorMessage} = "Can't connect to server - $Response{Status}";
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "SupportDataCollector - $Result{ErrorMessage}",
-        );
+
+        if ( $Self->{Debug} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "SupportDataCollector - Can't connect to server - $Response{Status}",
+            );
+        }
 
         return %Result;
     }
 
     # check if we have content as a scalar ref
     if ( !$Response{Content} || ref $Response{Content} ne 'SCALAR' ) {
-        $Result{ErrorMessage} = 'No content received.';
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "SupportDataCollector - $Result{ErrorMessage}",
-        );
+
+        if ( $Self->{Debug} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "SupportDataCollector - No content received.",
+            );
+        }
         return %Result;
     }
 
@@ -314,11 +322,14 @@ sub CollectByWebRequest {
 
     # Discard HTML responses (error pages etc.).
     if ( substr( ${ $Response{Content} }, 0, 1 ) eq '<' ) {
-        $Result{ErrorMessage} = 'Response looks like HTML instead of JSON.';
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "SupportDataCollector - $Result{ErrorMessage}",
-        );
+
+        if ( $Self->{Debug} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "SupportDataCollector - Response looks like HTML instead of JSON.",
+            );
+        }
+
         return %Result;
     }
 
@@ -327,11 +338,13 @@ sub CollectByWebRequest {
         Data => ${ $Response{Content} },
     );
     if ( !$ResponseData || ref $ResponseData ne 'HASH' ) {
-        $Result{ErrorMessage} = "Can't decode JSON: '" . ${ $Response{Content} } . "'!";
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "SupportDataCollector - $Result{ErrorMessage}",
-        );
+
+        if ( $Self->{Debug} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "SupportDataCollector - Can't decode JSON: '" . ${ $Response{Content} } . "'!",
+            );
+        }
         return %Result;
     }
 
