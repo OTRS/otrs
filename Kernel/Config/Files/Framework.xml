@@ -778,11 +778,22 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailNotificationEnvelopeFrom" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.</Description>
+        <Description Translatable="1">If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
             <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SendmailNotificationEnvelopeFrom::FallbackToEmailFrom" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email's from address instead of an empty envelope sender (required in certain mail server configurations).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Sendmail</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailEncodingForce" Required="0" Valid="0" ConfigLevel="200">
