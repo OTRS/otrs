@@ -24,8 +24,8 @@ sub Run {
 
     my %Environment = %ENV;
 
-    # No IIS webserver, skip this check
-    if ( !$ENV{SERVER_SOFTWARE} || $ENV{SERVER_SOFTWARE} !~ m{Microsoft-IIS}i ) {
+    # No web request or no IIS webserver, skip this check.
+    if ( !$ENV{GATEWAY_INTERFACE} || !$ENV{SERVER_SOFTWARE} || $ENV{SERVER_SOFTWARE} !~ m{Microsoft-IIS}i ) {
         return $Self->GetResults();
     }
 
