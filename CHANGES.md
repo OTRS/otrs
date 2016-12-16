@@ -1,4 +1,5 @@
 #4.0.21 2017-??-??
+ - 2016-12-16 Fixed bug#[12473](https://bugs.otrs.org/show_bug.cgi?id=12473) - Banner cannot be disabled in customer interface.
 
 #4.0.20 2016-12-13
  - 2016-12-07 Updated translations, thanks to all translators.

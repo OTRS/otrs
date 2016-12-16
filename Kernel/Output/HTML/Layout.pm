@@ -636,6 +636,7 @@ sub Login {
 
     # set Action parameter for the loader
     $Self->{Action} = 'Login';
+    $Param{IsLoginPage} = 1;
 
     my $Output = '';
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
@@ -1370,13 +1371,6 @@ sub Footer {
             AutocompleteConfig => $AutocompleteConfigJSON,
         },
     );
-
-    # Banner
-    if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
-        $Self->Block(
-            Name => 'Banner',
-        );
-    }
 
     # create & return output
     return $Self->Output(
@@ -3155,7 +3149,8 @@ sub CustomerLogin {
     $Param{TitleArea} = $Self->{LanguageObject}->Translate('Login') . ' - ';
 
     # set Action parameter for the loader
-    $Self->{Action} = 'CustomerLogin';
+    $Self->{Action}        = 'CustomerLogin';
+    $Param{IsLoginPage}    = 1;
     $Param{'XLoginHeader'} = 1;
 
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
@@ -3480,13 +3475,6 @@ sub CustomerFooter {
                 VacationDays  => $VacationDaysJSON,
                 IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
-        );
-    }
-
-    # Banner
-    if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
-        $Self->Block(
-            Name => 'Banner',
         );
     }
 
