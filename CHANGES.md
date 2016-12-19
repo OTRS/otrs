@@ -69,6 +69,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.16 2017-??-??
+ - 2016-12-19 Fixed bug#[12501](https://bugs.otrs.org/show_bug.cgi?id=12501) - Mandatoy dyn. multiselect field occur error message in AgentTicketEmailOutbound.
  - 2016-12-16 Fixed bug#[12486](https://bugs.otrs.org/show_bug.cgi?id=12486) - Return-path is set to "<>" instead of having SMTP-From identical to Mailheader-From.
  - 2016-12-16 Fixed bug#[12435](https://bugs.otrs.org/show_bug.cgi?id=12435) - otrs.Console.pl Maint::Stats::Generate - ISO-8859 encoding.
  - 2016-12-16 Improved the support data collection to work without a internal web request.
