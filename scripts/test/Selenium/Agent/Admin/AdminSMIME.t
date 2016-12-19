@@ -192,6 +192,13 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Wait for reload to kick in.
+        sleep 0.5;
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
         # check for test created Certificate and Privatekey and delete them
         for my $TestSMIME (qw(key cert)) {
 
@@ -201,6 +208,8 @@ $Selenium->RunTest(
             );
 
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->click();
+
+            $Selenium->WaitFor( AlertPresent => 1 );
 
             # accept JS delete confirmation dialog
             $Selenium->accept_alert();
