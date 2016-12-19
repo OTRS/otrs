@@ -40,8 +40,35 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl");
         $Selenium->delete_all_cookies();
 
-        # Now load it again to login
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl");
+        # Check Secure::DisableBanner functionality.
+        my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
+        my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
+        for my $Disabled ( reverse 0 .. 1 ) {
+            $Helper->ConfigSettingChange(
+                Key   => 'Secure::DisableBanner',
+                Value => $Disabled,
+            );
+            $Selenium->VerifiedRefresh();
+
+            if ($Disabled) {
+                $Self->False(
+                    index( $Selenium->get_page_source(), 'Powered' ) > -1,
+                    'Footer banner hidden',
+                );
+            }
+            else {
+                $Self->True(
+                    index( $Selenium->get_page_source(), 'Powered' ) > -1,
+                    'Footer banner shown',
+                );
+
+                # Prevent version information disclosure on login page.
+                $Self->False(
+                    index( $Selenium->get_page_source(), "$Product $Version" ) > -1,
+                    "No version information disclosure ($Product $Version)",
+                );
+            }
+        }
 
         my $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
@@ -58,6 +85,12 @@ $Selenium->RunTest(
 
         # login successful?
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
+
+        # Check for version tag in the footer.
+        $Self->True(
+            index( $Selenium->get_page_source(), "$Product $Version" ) > -1,
+            "Version information present ($Product $Version)",
+        );
 
         # logout again
         $Element->VerifiedClick();
