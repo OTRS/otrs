@@ -26,8 +26,9 @@ $Selenium->RunTest(
     sub {
 
         my $Helper = Kernel::System::UnitTest::Helper->new(
-            RestoreSystemConfiguration => 0,
+            RestoreSystemConfiguration => 1,
         );
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         my $TestUserLogin = $Helper->TestCustomerUserCreate() || die "Did not get test user";
 
@@ -37,8 +38,40 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl");
         $Selenium->delete_all_cookies();
 
-        # now load it again to login
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl");
+        # Check Secure::DisableBanner functionality.
+        my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
+        my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
+        for my $Disabled ( reverse 0 .. 1 ) {
+            $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => 'Secure::DisableBanner',
+                Value => $Disabled,
+            );
+
+            # Let mod_perl / Apache2::Reload pick up the changed configuration.
+            sleep 1;
+
+            $Selenium->VerifiedRefresh();
+
+            if ($Disabled) {
+                $Self->False(
+                    index( $Selenium->get_page_source(), 'Powered' ) > -1,
+                    'Footer banner hidden',
+                );
+            }
+            else {
+                $Self->True(
+                    index( $Selenium->get_page_source(), 'Powered' ) > -1,
+                    'Footer banner shown',
+                );
+
+                # Prevent version information disclosure on login page.
+                $Self->False(
+                    index( $Selenium->get_page_source(), "$Product $Version" ) > -1,
+                    "No version information disclosure ($Product $Version)",
+                );
+            }
+        }
 
         my $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
@@ -55,6 +88,12 @@ $Selenium->RunTest(
 
         # login succressful?
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
+
+        # Check for version tag in the footer.
+        $Self->True(
+            index( $Selenium->get_page_source(), "$Product $Version" ) > -1,
+            "Version information present ($Product $Version)",
+        );
 
         # logout again
         $Element->VerifiedClick();
