@@ -93,8 +93,24 @@ sub Run {
     # Get dynamic field backend object.
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+    # get attributes
+    my $Attributes = $Self->{Config}->{Attributes};
+
+    # get customer company config mapping
+    my @CustomerCompanyConfigMap = @{ $CustomerCompanyConfig->{Map} };
+
+    if ($Attributes) {
+
+        my @NewMap = $Self->_AttributesGet(
+            Attributes      => $Attributes,
+            CustomerCompany => \%CustomerCompany,
+        );
+
+        @CustomerCompanyConfigMap = @NewMap;
+    }
+
     ENTRY:
-    for my $Entry ( @{ $CustomerCompanyConfig->{Map} } ) {
+    for my $Entry (@CustomerCompanyConfigMap) {
         my $Key = $Entry->[0];
 
         # do not show items if they're not marked as visible
@@ -197,6 +213,29 @@ sub Run {
     );
 
     return $Content;
+}
+
+sub _AttributesGet {
+    my ( $Self, %Param ) = @_;
+
+    my @AttributeArray = split ';', $Param{Attributes};
+    my $CustomerCompany = $Param{CustomerCompany};
+    my @Map;
+
+    my $CustomerCompanyConfig = $Kernel::OM->Get('Kernel::Config')->Get( $CustomerCompany->{Source} || '' );
+    return if ref $CustomerCompanyConfig ne 'HASH';
+    return if ref $CustomerCompanyConfig->{Map} ne 'ARRAY';
+
+    # define filtered map
+    ENTRY:
+    for my $Entry ( @{ $CustomerCompanyConfig->{Map} } ) {
+        if ( grep { $_ eq $Entry->[0] } @AttributeArray ) {
+            push @Map, $Entry;
+        }
+    }
+
+    return @Map;
+
 }
 
 1;

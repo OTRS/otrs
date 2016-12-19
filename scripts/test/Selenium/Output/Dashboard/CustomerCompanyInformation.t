@@ -75,6 +75,33 @@ $Selenium->RunTest(
             );
         }
 
+        # change attribute setting
+        $Helper->ConfigSettingChange(
+            Key   => 'AgentCustomerInformationCenter::Backend###0600-CIC-CustomerCompanyInformation',
+            Value => {
+                'Attributes'  => 'CustomerCompanyStreet;CustomerCompanyCity',
+                'Block'       => 'ContentSmall',
+                'Default'     => '1',
+                'Description' => 'Customer Information',
+                'Group'       => '',
+                'Module'      => 'Kernel::Output::HTML::Dashboard::CustomerCompanyInformation',
+                'Title'       => "Customer Information",
+            },
+        );
+
+        # navigate again to AgentCustomerInformationCenter screen
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerID"
+        );
+
+        # test customer information widget
+        for my $Test (qw(Selenium Street Selenium City)) {
+            $Self->True(
+                index( $Selenium->get_page_source(), $Test ) > -1,
+                "$Test - found on screen"
+            );
+        }
+
         # delete test customer company
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
