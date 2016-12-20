@@ -185,7 +185,7 @@ $Selenium->RunTest(
             $Self->True(
                 index( $Selenium->get_page_source(), $ExpectedMessage ) > -1,
                 $ExpectedMessage,
-            );
+            ) || die;
         }
 
         # change state and priority in bulk action for test tickets
@@ -209,7 +209,7 @@ $Selenium->RunTest(
                 $Self->True(
                     index( $Selenium->get_page_source(), $Ticket->{TicketNumber} ) > -1,
                     "Closed ticket $Ticket->{TicketNumber} is found on page",
-                );
+                ) || die;
             }
             else {
 
@@ -217,7 +217,7 @@ $Selenium->RunTest(
                 $Self->True(
                     index( $Selenium->get_page_source(), $Ticket->{TicketNumber} ) == -1,
                     "Ticket $Ticket->{TicketNumber} is not found on page",
-                );
+                ) || die;
             }
 
         }
