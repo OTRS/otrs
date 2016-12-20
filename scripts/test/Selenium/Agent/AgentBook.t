@@ -87,7 +87,8 @@ $Selenium->RunTest(
         );
 
         # search by $RandomNumber for all test customer users as result
-        $Selenium->execute_script("\$('#Search').val($RandomNumber)");
+        $Selenium->find_element( "#Search", 'css' )->clear();
+        $Selenium->find_element( "#Search", 'css' )->send_keys($RandomNumber);
         $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SearchResult").length' );
