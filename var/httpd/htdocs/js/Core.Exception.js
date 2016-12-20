@@ -131,13 +131,21 @@ Core.Exception = (function (TargetNS) {
             if (TargetNS.AboutToLeave && ErrorObject.GetType() === 'CommunicationError') {
                 return false;
             }
-            TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType(), Trace);
-            if (window.confirm(UserErrorMessage)) {
-                alert(ErrorObject.GetMessage() + (Trace ? ('\n\n' + Trace) : ''));
+
+            if (ErrorObject.GetType() === 'ConnectionError') {
+                Core.App.Publish('Core.App.AjaxError');
             }
+            else {
+                TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType(), Trace);
+                if (window.confirm(UserErrorMessage)) {
+                    alert(ErrorObject.GetMessage() + (Trace ? ('\n\n' + Trace) : ''));
+                }
+            }
+
             return true;
         }
         else if (ErrorObject instanceof Error) {
+
             TargetNS.ShowError(ErrorObject.message, 'JavaScriptError', Trace);
             if (window.confirm(UserErrorMessage)) {
                 alert(ErrorObject.message + (Trace ? ('\n\n' + Trace) : ''));

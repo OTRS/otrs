@@ -194,6 +194,136 @@ Core.App = (function (TargetNS) {
         else {
             Core.Exception.ShowError('No function parameter given in Core.App.Ready', 'TypeError');
         }
+
+        TargetNS.Subscribe('Core.App.AjaxErrorResolved', function() {
+
+            var $DialogObj = $('#AjaxErrorDialog');
+
+            window.clearInterval(TargetNS.AjaxConnectionCheckInterval);
+            delete TargetNS.AjaxConnectionCheckInterval;
+
+            $('body').removeClass('ConnectionErrorDialogClosed');
+
+            if (!$('body').hasClass('ConnectionErrorDetected')) {
+                return false;
+            }
+
+            $('body').removeClass('ConnectionErrorDetected');
+
+            // if there is already a dialog, we just exchange the content
+            if ($('#AjaxErrorDialogInner').is(':visible')) {
+
+                $('#AjaxErrorDialogInner').find('.NoConnection').hide();
+                $('#AjaxErrorDialogInner').find('.ConnectionReEstablished').show().delay(1000).find('.Icon').addClass('Green');
+            }
+            else {
+
+                $DialogObj.find('.NoConnection').hide();
+                $DialogObj.find('.ConnectionReEstablished').show().find('.Icon').addClass('Green');
+
+                Core.UI.Dialog.ShowDialog({
+                    HTML : $DialogObj,
+                    Title : Core.Language.Translate("Connection error"),
+                    Modal : true,
+                    CloseOnClickOutside : false,
+                    CloseOnEscape : false,
+                    PositionTop: '100px',
+                    PositionLeft: 'Center',
+                    Buttons: [
+                        {
+                            Label: Core.Language.Translate("Reload page"),
+                            Class: 'CallForAction Primary',
+                            Function: function () {
+                                location.reload();
+                            }
+                        },
+                        {
+                            Label: Core.Language.Translate("Close this dialog"),
+                            Class: 'CallForAction',
+                            Function: function () {
+                                if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
+                                    $('body').addClass('ConnectionErrorDialogClosed');
+                                }
+                                Core.UI.Dialog.CloseDialog($('#AjaxErrorDialogInner'));
+                            }
+                        }
+                    ],
+                    AllowAutoGrow: true
+                });
+
+                // the only possibility to close the dialog should be the button
+                $('#AjaxErrorDialogInner').closest('.Dialog').find('.Close').remove();
+            }
+        });
+
+        // check for ajax errors and show overlay in case there is one
+        TargetNS.Subscribe('Core.App.AjaxError', function() {
+
+            var $DialogObj = $('#AjaxErrorDialog');
+
+            // set a body class to remember that we detected the error
+            $('body').addClass('ConnectionErrorDetected');
+
+            // if the dialog has been closed manually, don't show it again
+            if ($('body').hasClass('ConnectionErrorDialogClosed')) {
+                return false;
+            }
+
+            // only show one dialog at a time
+            if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
+                return false;
+            }
+
+            // do ajax calls on a regular basis to see whether the connection has been re-established
+            if (!TargetNS.AjaxConnectionCheckInterval) {
+                TargetNS.AjaxConnectionCheckInterval = window.setInterval(function(){
+                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), null, function () {
+                        TargetNS.Publish('Core.App.AjaxErrorResolved');
+                    }, 'html');
+                }, 5000);
+            }
+
+            // if a connection warning dialog is open but shows the "connection re-established"
+            // notice, show the warning again. This could happen if the connection had been lost
+            // but also re-established and the dialog informing about it is still there
+            if ($('#AjaxErrorDialogInner').find('.ConnectionReEstablished').is(':visible')) {
+                $('#AjaxErrorDialogInner').find('.ConnectionReEstablished').hide().prev('.NoConnection').show();
+                return false;
+            }
+
+            Core.UI.Dialog.ShowDialog({
+                HTML : $DialogObj,
+                Title : Core.Language.Translate("Connection error"),
+                Modal : true,
+                CloseOnClickOutside : false,
+                CloseOnEscape : false,
+                PositionTop: '100px',
+                PositionLeft: 'Center',
+                Buttons: [
+                    {
+                        Label: Core.Language.Translate("Reload page"),
+                        Class: 'CallForAction Primary',
+                        Function: function () {
+                            location.reload();
+                        }
+                    },
+                    {
+                        Label: Core.Language.Translate("Close this dialog"),
+                        Class: 'CallForAction',
+                        Function: function () {
+                            if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
+                                $('body').addClass('ConnectionErrorDialogClosed');
+                            }
+                            Core.UI.Dialog.CloseDialog($('#AjaxErrorDialogInner'));
+                        }
+                    }
+                ],
+                AllowAutoGrow: true
+            });
+
+            // the only possibility to close the dialog should be the button
+            $('#AjaxErrorDialogInner').closest('.Dialog').find('.Close').remove();
+        });
     };
 
     /**

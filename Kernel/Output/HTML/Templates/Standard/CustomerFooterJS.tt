@@ -62,6 +62,27 @@ Core.App.Ready(function () {
 });
 //]]></script>
 
+<div id="AjaxErrorDialog">
+    <div id="AjaxErrorDialogInner">
+        <div class="NoConnection">
+            <span class="Icon">
+                <i class="fa fa-bolt"></i>
+            </span>
+            <p>
+                [% Translate("Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.") %]
+            </p>
+        </div>
+        <div class="ConnectionReEstablished" style="display:none;">
+            <span class="Icon">
+                <i class="fa fa-check"></i>
+            </span>
+            <p>
+                [% Translate("The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.") %]
+            </p>
+        </div>
+    </div>
+</div>
+
 <div id="ResponsiveFooter">
     <div class="Visible-ScreenXL"></div>
     <div class="Visible-ScreenL"></div>
