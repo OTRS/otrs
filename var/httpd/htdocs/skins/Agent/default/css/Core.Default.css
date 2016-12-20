@@ -32,6 +32,47 @@ body {
     margin: 5px 0px;
 }
 
+#AjaxErrorDialog {
+    display: none;
+}
+
+#AjaxErrorDialogInner {
+    width: 550px;
+    text-align: center;
+}
+
+#AjaxErrorDialogInner .Icon {
+    text-align: center;
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 0px auto 10px auto;
+    line-height: 30px;
+    border-radius: 50px;
+    background: #f92;
+    color: #fff;
+    transition: background 2s ease;
+}
+
+#AjaxErrorDialogInner .Icon + p {
+    margin: 0px auto 5px auto;
+    width: 90%;
+}
+
+#AjaxErrorDialogInner .Icon i {
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+#AjaxErrorDialogInner .Icon.Green {
+    background: green;
+}
+
+#AjaxErrorDialogInner .FullErrorMessage {
+    color: red;
+    margin: 5px 0px;
+}
+
 /**
  * @subsection  Print elements - Only show when page is printed
  */

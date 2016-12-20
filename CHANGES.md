@@ -1,4 +1,5 @@
 #5.0.16 2017-??-??
+ - 2016-12-20 Fixed bug#[11197](https://bugs.otrs.org/show_bug.cgi?id=11197) - AJAX Error while being logged in but nothing is done for a while.
  - 2016-12-19 Fixed bug#[12501](https://bugs.otrs.org/show_bug.cgi?id=12501) - Mandatoy dyn. multiselect field occur error message in AgentTicketEmailOutbound;.
  - 2016-12-16 Fixed bug#[12486](https://bugs.otrs.org/show_bug.cgi?id=12486) - Return-path is set to "<>" instead of having SMTP-From identical to Mailheader-From.
  - 2016-12-16 Fixed bug#[12435](https://bugs.otrs.org/show_bug.cgi?id=12435) - otrs.Console.pl Maint::Stats::Generate - ISO-8859 encoding.
