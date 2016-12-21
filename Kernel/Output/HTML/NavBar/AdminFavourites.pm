@@ -68,7 +68,7 @@ sub Run {
     } @Favourites;
 
     if (@Favourites) {
-        my $AdminModuleConfig = { $ConfigObject->Get('Frontend::Module')->{Admin} };
+        my $AdminModuleConfig = $ConfigObject->Get('Frontend::Module')->{Admin};
         $AdminModuleConfig->{NavBarModule}->{Name} = $LayoutObject->{LanguageObject}->Translate('Overview');
         $AdminModuleConfig->{NavBarModule}->{Link} //= "Action=Admin";
         unshift @Favourites, $AdminModuleConfig->{NavBarModule};
