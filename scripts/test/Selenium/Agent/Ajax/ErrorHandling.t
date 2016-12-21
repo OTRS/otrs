@@ -85,8 +85,8 @@ JAVASCRIPT
         # wait until we see a ajax loader icon on one of the fields (Owner in this case)
         $Selenium->WaitFor( JavaScript => "return \$('#NewUserID').next('#AJAXLoaderNewUserID:visible').length" );
 
-        # wait until the ajax loader icon is gone again
-        $Selenium->WaitFor( JavaScript => "return \$('#NewUserID').next('#AJAXLoaderNewUserID:visible').length == 0" );
+        # wait until the requests started to run
+        sleep(2);
 
         # there should be no error dialog yet
         $Selenium->WaitFor( JavaScript => "return \$('#AjaxErrorDialogInner .NoConnection:visible').length == 0" );
