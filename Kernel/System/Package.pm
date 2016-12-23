@@ -1652,7 +1652,7 @@ sub DeployCheck {
                 );
             }
 
-            $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'No file installed!';
+            $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = Translatable('File is not installed!');
             $Hit = 1;
         }
         elsif ( -e $LocalFile ) {
@@ -1674,7 +1674,7 @@ sub DeployCheck {
                     }
 
                     $Hit = 1;
-                    $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'File is different!';
+                    $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = Translatable('File is different!');
                 }
             }
             else {
@@ -1686,7 +1686,7 @@ sub DeployCheck {
                     );
                 }
 
-                $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'Can\' read File!';
+                $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = Translatable('Can\'t read file!');
             }
         }
     }
@@ -2019,7 +2019,7 @@ build an opm package
             Content => 'L<http://otrs.org/>',
         },
         License => {
-            Content => 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991',
+            Content => 'GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007',
         }
         Description => [
             {

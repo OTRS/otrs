@@ -482,7 +482,7 @@ sub Run {
                                     Name    => $Name,
                                     Version => $Version,
                                     %{$Hash},
-                                    Message => 'ok',
+                                    Message => Translatable('File is OK'),
                                     Icon    => 'IconReady',
                                 },
                             );

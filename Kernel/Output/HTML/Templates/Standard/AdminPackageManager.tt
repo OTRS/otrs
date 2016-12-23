@@ -608,10 +608,10 @@
                                 </td>
                                 <td>
 [% RenderBlockStart("PackageItemFilelistFileNoteDiff") %]
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ViewDiff;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" title="[% Data.Message | html %]" class="AsBlock [% Data.Icon | html %]"></a>
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ViewDiff;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" title="[% Translate(Data.Message) | html %]" class="AsBlock [% Data.Icon | html %]"></a>
 [% RenderBlockEnd("PackageItemFilelistFileNoteDiff") %]
 [% RenderBlockStart("PackageItemFilelistFileNote") %]
-                                    <span title="[% Data.Message | html %]" class="AsBlock [% Data.Icon | html %]"></span>
+                                    <span title="[% Translate(Data.Message) | html %]" class="AsBlock [% Data.Icon | html %]"></span>
 [% RenderBlockEnd("PackageItemFilelistFileNote") %]
                                 </td>
                                 <td>
