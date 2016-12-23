@@ -275,6 +275,11 @@ Core.Agent.TicketAction = (function (TargetNS) {
             $Widget.find('div.WidgetAction.Toggle > a').trigger('click');
         });
 
+        // Update owner and responsible fields on queue change.
+        $('#QueueID').on('change', function () {
+            Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'QueueID', ['OwnerID', 'ResponsibleID']);
+        });
+
     };
 
     /**
