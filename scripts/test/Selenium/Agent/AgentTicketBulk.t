@@ -30,11 +30,10 @@ $Selenium->RunTest(
         my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 
-        # enable bulk feature
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Frontend::BulkFeature',
-            Value => 1,
+        # disable check email addresses
+        $ConfigObject->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
         );
 
         # enable required lock feature in bulk
