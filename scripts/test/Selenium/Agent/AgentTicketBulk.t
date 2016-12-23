@@ -24,6 +24,12 @@ $Selenium->RunTest(
         my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # do not check email addresses
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # enable bulk feature
         $Helper->ConfigSettingChange(
             Valid => 1,
