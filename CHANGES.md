@@ -69,6 +69,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.16 2017-??-??
+ - 2016-12-23 Fixed bug#[12471](https://bugs.otrs.org/show_bug.cgi?id=12471) - out of office time calculation wrong if user time zone differs from OTRS default.
  - 2016-12-23 Fixed bug#[10691](https://bugs.otrs.org/show_bug.cgi?id=10691) - No CustomerID shown after TicketCreate (for unknown customers).
  - 2016-12-23 Fixed bug#[12480](https://bugs.otrs.org/show_bug.cgi?id=12480) - Bulk function ignores queues <-> agent/role permissions. Thanks to S7 (PR#1590).
  - 2016-12-20 Fixed bug#[11197](https://bugs.otrs.org/show_bug.cgi?id=11197) - AJAX Error while being logged in but nothing is done for a while.
