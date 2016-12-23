@@ -1,4 +1,5 @@
 #4.0.21 2017-??-??
+ - 2016-12-23 Fixed bug#[12471](https://bugs.otrs.org/show_bug.cgi?id=12471) - out of office time calculation wrong if user time zone differs from OTRS default.
  - 2016-12-23 Fixed bug#[12480](https://bugs.otrs.org/show_bug.cgi?id=12480) - Bulk function ignores queues <-> agent/role permissions. Thanks to S7 (PR#1590).
  - 2016-12-16 Fixed bug#[12486](https://bugs.otrs.org/show_bug.cgi?id=12486) - Return-path is set to "<>" instead of having SMTP-From identical to Mailheader-From.
  - 2016-12-16 Fixed bug#[12464](https://bugs.otrs.org/show_bug.cgi?id=12464) - Customer History table is still visible even though no selected customer users.

@@ -48,6 +48,10 @@ sub Param {
         YearPeriodPast         => 1,
         YearPeriodFuture       => 5,
         Validate               => 1,
+
+        # Do not convert to local time zone, show stored date as-is
+        #   (please see bug#12471 for more information).
+        OverrideTimeZone => 1,
     );
     $Param{OptionEnd} = $Self->{LayoutObject}->BuildDateSelection(
         Format               => 'DateInputFormat',
@@ -62,6 +66,10 @@ sub Param {
         YearPeriodPast       => 1,
         YearPeriodFuture     => 5,
         Validate             => 1,
+
+        # Do not convert to local time zone, show stored date as-is
+        #   (please see bug#12471 for more information).
+        OverrideTimeZone => 1,
     );
 
     push(
