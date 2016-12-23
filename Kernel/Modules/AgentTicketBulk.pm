@@ -121,6 +121,80 @@ sub Run {
 
     }
 
+    elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+        my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
+
+        # Get all users.
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type  => 'Long',
+            Valid => 1
+        );
+
+        # Put only possible rw agents to owner list.
+        if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+            my %AllGroupsMembersNew;
+            my @QueueIDs;
+
+            if ($QueueID) {
+                push @QueueIDs, $QueueID;
+            }
+            else {
+                my @TicketIDs = grep {$_} $Self->{ParamObject}->GetArray( Param => 'TicketID' );
+                for my $TicketID (@TicketIDs) {
+                    my %Ticket = $Self->{TicketObject}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 0,
+                    );
+                    push @QueueIDs, $Ticket{QueueID};
+                }
+            }
+
+            for my $QueueID (@QueueIDs) {
+                my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $QueueID );
+                my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+                    GroupID => $GroupID,
+                    Type    => 'rw',
+                    Result  => 'HASH',
+                );
+                USER_ID:
+                for my $UserID ( sort keys %GroupMember ) {
+                    next USER_ID if !$AllGroupsMembers{$UserID};
+                    $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
+                }
+                %AllGroupsMembers = %AllGroupsMembersNew;
+            }
+        }
+
+        my @JSONData = (
+            {
+                Name         => 'OwnerID',
+                Data         => \%AllGroupsMembers,
+                PossibleNone => 1,
+            }
+        );
+
+        if (
+            $Self->{ConfigObject}->Get('Ticket::Responsible')
+            && $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}")->{Responsible}
+            )
+        {
+            push @JSONData, {
+                Name         => 'ResponsibleID',
+                Data         => \%AllGroupsMembers,
+                PossibleNone => 1,
+            };
+        }
+
+        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON( [@JSONData] );
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     # check if bulk feature is enabled
     if ( !$Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -224,8 +298,7 @@ sub Run {
         # check some stuff
         if (
             $GetParam{Subject}
-            &&
-            $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
             && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
             && $GetParam{TimeUnits} eq ''
             )
@@ -235,8 +308,7 @@ sub Run {
 
         if (
             $GetParam{EmailSubject}
-            &&
-            $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
             && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
             && $GetParam{EmailTimeUnits} eq ''
             )
