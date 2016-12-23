@@ -18,8 +18,21 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        # Enable TimeZoneUser feature.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'TimeZoneUser',
+            Value => 1,
+        );
+
+        # Disable TimeZoneUserBrowserAutoOffset feature.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'TimeZoneUserBrowserAutoOffset',
+            Value => 0,
+        );
 
         # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -38,22 +51,37 @@ $Selenium->RunTest(
         # go to agent preferences
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
-        # wait until form has loaded, if neccessary
+        # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
-        # get current time stamp
-        my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
-        my $CurrentYear = substr( $TimeStamp, 0, 4 );
+        # Change test user time zone preference to -5 hours. Displayed out of office date values
+        #   should not be converted to local time zone, see bug#12471.
+        $Selenium->execute_script("\$('#UserTimeZone').val('-5').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#UserTimeZone", 'css' )->VerifiedSubmit();
 
-        # change test user out of office preference
-        my $EndYear = $CurrentYear + 1;
+        # Wait until form has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
+        # Get current date and time components.
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        my %Date;
+        ( $Date{Sec}, $Date{Min}, $Date{Hour}, $Date{Day}, $Date{Month}, $Date{Year}, $Date{WeekDay} )
+            = $TimeObject->SystemTime2Date(
+            SystemTime => $TimeObject->SystemTime(),
+            );
+
+        # Change test user out of office preference to current date.
         $Selenium->find_element( "#OutOfOfficeOn", 'css' )->VerifiedClick();
-        $Selenium->execute_script(
-            "\$('#OutOfOfficeEndYear').val('$EndYear').trigger('redraw.InputField').trigger('change');"
-        );
+        for my $FieldGroup (qw(Start End)) {
+            for my $FieldType (qw(Year Month Day)) {
+                $Selenium->execute_script(
+                    "\$('#OutOfOffice$FieldGroup$FieldType').val('$Date{$FieldType}').trigger('change');"
+                );
+            }
+        }
         $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
 
-        # wait until form has loaded, if neccessary
+        # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for update preference message on screen
@@ -63,14 +91,25 @@ $Selenium->RunTest(
             'Agent preference out of office time - updated'
         );
 
+        # Check displayed date and time values.
+        for my $FieldGroup (qw(Start End)) {
+            for my $FieldType (qw(Year Month Day)) {
+                $Self->Is(
+                    $Selenium->find_element( "#OutOfOffice$FieldGroup$FieldType", 'css' )->get_value(),
+                    $Date{$FieldType},
+                    "Shown OutOfOffice$FieldGroup$FieldType field value"
+                );
+            }
+        }
+
         # set start time after end time, see bug #8220
-        my $StartYear = $CurrentYear + 2;
+        my $StartYear = $Date{Year} + 2;
         $Selenium->execute_script(
-            "\$('#OutOfOfficeStartYear').val('$StartYear').trigger('redraw.InputField').trigger('change');"
+            "\$('#OutOfOfficeStartYear').val('$StartYear').trigger('change');"
         );
         $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
 
-        # wait until form has loaded, if neccessary
+        # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for error message on screen
