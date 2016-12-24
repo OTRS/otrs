@@ -25,7 +25,7 @@ $Selenium->RunTest(
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # do not check email addresses
-        $Helper->ConfigSettingChange(
+        $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
@@ -502,7 +502,7 @@ $Selenium->RunTest(
         # Delete test created users.
         for my $UserID (@UserIDs) {
             $Success = $DBObject->Do(
-                SQL  => "DELETE FROM user_preferences WHERE user_id",
+                SQL  => "DELETE FROM user_preferences WHERE user_id = ?",
                 Bind => [ \$UserID ],
             );
             $Self->True(
