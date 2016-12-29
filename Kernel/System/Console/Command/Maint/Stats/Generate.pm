@@ -384,9 +384,9 @@ sub Run {
     if ( $Self->{TargetDirectory} ) {
 
         my $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-            Location   => "$Self->{TargetDirectory}/$Attachment{Filename}",
-            Content    => \$Attachment{Content},
-            Mode       => 'binmode',
+            Location => "$Self->{TargetDirectory}/$Attachment{Filename}",
+            Content  => \$Attachment{Content},
+            Mode     => 'binmode',
         );
 
         if ($Success) {
