@@ -193,7 +193,7 @@ sub Collect {
 
     # Cache the result only, if the support data were collected in a web request,
     #   to have all support data in the admin view.
-    if ($ENV{GATEWAY_INTERFACE}) {
+    if ( $ENV{GATEWAY_INTERFACE} ) {
 
         $Kernel::OM->Get('Kernel::System::Cache')->Set(
             Type  => 'SupportDataCollector',

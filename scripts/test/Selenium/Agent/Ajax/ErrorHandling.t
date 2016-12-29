@@ -45,7 +45,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
         # Provoke an ajax error caused by unexpected result (404), should show no dialog, but an regular alert.
-        $Selenium->execute_script("Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle') + ':12345', null, function () {});");
+        $Selenium->execute_script(
+            "Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle') + ':12345', null, function () {});");
 
         $Selenium->WaitFor( AlertPresent => 1 );
 
@@ -72,7 +73,7 @@ $Selenium->RunTest(
 
         # There should be no error dialog yet.
         $Self->Is(
-            $Selenium->execute_script( "return \$('#AjaxErrorDialogInner .NoConnection:visible').length" ),
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
             0,
             "Error dialog not visible yet"
         );
@@ -95,10 +96,9 @@ JAVASCRIPT
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-
         # Now check if we see a connection error popup.
         $Self->Is(
-            $Selenium->execute_script( "return \$('#AjaxErrorDialogInner .NoConnection:visible').length" ),
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
             1,
             "Error dialog visible"
         );
@@ -118,7 +118,7 @@ JAVASCRIPT
 
         # The dialog should show the re-established message now.
         $Self->Is(
-            $Selenium->execute_script( "return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length" ),
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length"),
             1,
             "ConnectionReEstablished dialog visible"
         );
@@ -137,7 +137,7 @@ JAVASCRIPT
 
         # Now check if we see a connection error popup.
         $Self->Is(
-            $Selenium->execute_script( "return \$('#AjaxErrorDialogInner .NoConnection:visible').length" ),
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
             1,
             "Error dialog visible"
         );
@@ -149,7 +149,7 @@ JAVASCRIPT
 
         # The dialog should be gone.
         $Self->Is(
-            $Selenium->execute_script( "return \$('#AjaxErrorDialogInner .NoConnection:visible').length" ),
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
             0,
             "Error dialog closed"
         );
@@ -163,7 +163,7 @@ JAVASCRIPT
 
         # The dialog should show the re-established message now.
         $Self->Is(
-            $Selenium->execute_script( "return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length" ),
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length"),
             1,
             "ConnectionReEstablished dialog visible"
         );
@@ -220,7 +220,7 @@ JAVASCRIPT
 
         # Now check if we see a connection error popup.
         $Self->Is(
-            $Selenium->execute_script( "return \$('#AjaxErrorDialogInner .NoConnection:visible').length" ),
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
             1,
             "Error dialog visible"
         );
@@ -234,7 +234,7 @@ JAVASCRIPT
 
         # The dialog should show the re-established message now.
         $Self->Is(
-            $Selenium->execute_script( "return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length" ),
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length"),
             1,
             "ConnectionReEstablished dialog visible"
         );
