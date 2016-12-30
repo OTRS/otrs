@@ -28,7 +28,7 @@ $Selenium->RunTest(
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
             Language => $Language,
-            Groups   => ['admin'],
+            Groups   => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
         my $TestUserID = $UserObject->UserLookup(
