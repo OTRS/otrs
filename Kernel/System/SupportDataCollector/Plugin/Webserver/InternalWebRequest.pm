@@ -15,12 +15,10 @@ use Kernel::System::ObjectManager;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
-use Kernel::Language qw(Translatable);
-
 our @ObjectDependencies = ();
 
 sub GetDisplayPath {
-    return Translatable('Webserver');
+    return 'Webserver';
 }
 
 sub Run {
@@ -30,9 +28,9 @@ sub Run {
     return $Self->GetResults() if $ENV{GATEWAY_INTERFACE};
 
     $Self->AddResultWarning(
-        Label   => Translatable('Support Data Collection'),
+        Label   => 'Support Data Collection',
         Value   => 0,
-        Message => Translatable('Support data could not be collected from the web server.'),
+        Message => 'Support data could not be collected from the web server.',
     );
 
     return $Self->GetResults();
