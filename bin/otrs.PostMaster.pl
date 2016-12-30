@@ -117,9 +117,10 @@ if ($@) {
     # it; see sysexits.h. Most mail programs will retry an
     # EX_TEMPFAIL delivery for about four days, then bounce the
     # message.)
+    my $Message = $@;
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'error',
-        Message  => $@,
+        Message  => $Message,
     );
     exit 75;
 }
