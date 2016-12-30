@@ -46,7 +46,8 @@ $Selenium->RunTest(
 
         # Provoke an ajax error caused by unexpected result (404), should show no dialog, but an regular alert.
         $Selenium->execute_script(
-            "Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle') + ':12345', null, function () {});");
+            "Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle') + ':12345', null, function () {});"
+        );
 
         $Selenium->WaitFor( AlertPresent => 1 );
 
