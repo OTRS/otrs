@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # Copyright (C) 2011 Edgaras Lukoševičius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
