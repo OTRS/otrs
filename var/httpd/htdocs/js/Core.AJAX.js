@@ -59,10 +59,17 @@ Core.AJAX = (function (TargetNS) {
     function HandleAJAXError(XHRObject, Status, Error) {
         var ErrorMessage = Core.Language.Translate('Error during AJAX communication. Status: %s, Error: %s', Status, Error);
 
+        // Check for expired sessions.
         if (RedirectAfterSessionTimeOut(XHRObject)) {
             return;
         }
 
+        // Ignore aborted AJAX calls.
+        if (Status === 'abort') {
+            return;
+        }
+
+        // Collect debug information if configured.
         if (Core.Config.Get('AjaxDebug') && typeof XHRObject === 'object') {
             ErrorMessage += "\n\nResponse status: " + XHRObject.status + " (" + XHRObject.statusText + ")\n";
             ErrorMessage += "Response headers: " + XHRObject.getAllResponseHeaders() + "\n";
@@ -71,14 +78,13 @@ Core.AJAX = (function (TargetNS) {
 
         if (!XHRObject.status) {
 
-            // if we didn't receive a status, the request didn't get any result, which is most likely a connection issue
+            // If we didn't receive a status, the request didn't get any result, which is most likely a connection issue.
             Core.Exception.HandleFinalError(new Core.Exception.ApplicationError(ErrorMessage, 'ConnectionError'));
+            return;
         }
-        else if (Status !== 'abort') {
 
-            // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
-            Core.Exception.HandleFinalError(new Core.Exception.ApplicationError(ErrorMessage, 'CommunicationError'));
-        }
+        // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
+        Core.Exception.HandleFinalError(new Core.Exception.ApplicationError(ErrorMessage, 'CommunicationError'));
     }
 
     /**
