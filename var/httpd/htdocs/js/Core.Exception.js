@@ -120,19 +120,20 @@ Core.Exception = (function (TargetNS) {
      *      This function handles the given error object (used as last possibility to catch the error).
      */
     TargetNS.HandleFinalError = function (ErrorObject, Trace) {
-        var UserErrorMessage = 'An error occurred! Do you want to see the complete error message?';
+        var UserErrorMessage = 'An error occurred! Do you want to see the complete error message?',
+            ErrorType = ErrorObject.GetType();
 
         if (ErrorObject instanceof TargetNS.ApplicationError) {
             // Suppress AJAX errors which were raised by leaving the page while the AJAX call was still running.
-            if (TargetNS.AboutToLeave && ErrorObject.GetType() === 'CommunicationError') {
+            if (TargetNS.AboutToLeave && (ErrorType === 'CommunicationError' || ErrorType === 'ConnectionError')) {
                 return false;
             }
 
-            if (ErrorObject.GetType() === 'ConnectionError') {
+            if (ErrorType === 'ConnectionError') {
                 Core.App.Publish('Core.App.AjaxError');
             }
             else {
-                TargetNS.ShowError(ErrorObject.GetMessage(), ErrorObject.GetType(), Trace);
+                TargetNS.ShowError(ErrorObject.GetMessage(), ErrorType, Trace);
                 if (window.confirm(UserErrorMessage)) {
                     alert(ErrorObject.GetMessage() + (Trace ? ('\n\n' + Trace) : ''));
                 }
