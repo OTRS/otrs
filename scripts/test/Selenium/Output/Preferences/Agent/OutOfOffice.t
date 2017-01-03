@@ -68,7 +68,7 @@ $Selenium->RunTest(
         for my $FieldGroup (qw(Start End)) {
             for my $FieldType (qw(Year Month Day)) {
                 $Selenium->execute_script(
-                    "\$('#OutOfOffice$FieldGroup$FieldType').val('$Date->{$FieldType}').trigger('change');"
+                    "\$('#OutOfOffice$FieldGroup$FieldType').val($Date->{$FieldType}).trigger('change');"
                 );
             }
         }
@@ -88,8 +88,8 @@ $Selenium->RunTest(
         for my $FieldGroup (qw(Start End)) {
             for my $FieldType (qw(Year Month Day)) {
                 $Self->Is(
-                    $Selenium->find_element( "#OutOfOffice$FieldGroup$FieldType", 'css' )->get_value(),
-                    $Date->{$FieldType},
+                    int $Selenium->find_element( "#OutOfOffice$FieldGroup$FieldType", 'css' )->get_value(),
+                    int $Date->{$FieldType},
                     "Shown OutOfOffice$FieldGroup$FieldType field value"
                 );
             }
