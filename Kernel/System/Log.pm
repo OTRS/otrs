@@ -299,17 +299,7 @@ sub CleanUp {
 
     return 1 if !$Self->{IPC};
 
-    # remove the shm
-    if ( !shmctl( $Self->{Key}, 0, 0 ) ) {
-        $Self->Log(
-            Priority => 'notice',
-            Message  => "Can't remove shm for log: $!",
-        );
-        return;
-    }
-
-    # Re-initialize SHM segment.
-    $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) );
+    shmwrite( $Self->{Key}, '', 0, $Self->{IPCSize} ) || die $!;
 
     return 1;
 }
