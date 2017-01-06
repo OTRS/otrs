@@ -11,6 +11,7 @@ package Kernel::Output::HTML::Dashboard::RSS;
 use strict;
 use warnings;
 
+use LWP::UserAgent;
 use XML::FeedPP;
 
 our $ObjectManagerDisabled = 1;
@@ -71,11 +72,24 @@ sub Run {
         }
     }
 
-    # set proxy settings can't use Kernel::System::WebAgent because of used
-    # XML::FeedPP to get RSS files
-    my $Proxy = $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::Proxy');
+    # Configure a local instance of LWP::UserAgent for passing to XML::FeedPP.
+    my $UserAgent = LWP::UserAgent->new();
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # In some scenarios like transparent HTTPS proxies, it can be necessary to turn off
+    #   SSL certificate validation.
+    if ( $ConfigObject->Get('WebUserAgent::DisableSSLVerification') ) {
+        $UserAgent->ssl_opts(
+            verify_hostname => 0,
+        );
+    }
+
+    # Set proxy settings if configured, and make sure to allow all supported protocols
+    #   (please see bug#12512 for more information).
+    my $Proxy = $ConfigObject->Get('WebUserAgent::Proxy');
     if ($Proxy) {
-        $ENV{CGI_HTTP_PROXY} = $Proxy;    ## no critic
+        $UserAgent->proxy( [ 'http', 'https', 'ftp' ], $Proxy );
     }
 
     # get content
@@ -86,8 +100,9 @@ sub Run {
         $Feed = eval {
             XML::FeedPP->new(
                 $FeedURL,
-                'xml_deref' => 1,
-                'utf8_flag' => 1,
+                'xml_deref'     => 1,
+                'utf8_flag'     => 1,
+                'lwp_useragent' => $UserAgent,
             );
         };
         last TRY if $Feed;
