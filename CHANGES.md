@@ -1,4 +1,5 @@
 #4.0.21 2017-??-??
+ - 2017-01-06 Fixed bug#[12516](https://bugs.otrs.org/show_bug.cgi?id=12516) - Error when next state is not set and state is disabled in AgentTicketPhoneCommon.
  - 2017-01-06 Fixed bug#[12512](https://bugs.otrs.org/show_bug.cgi?id=12512) - https RSS feeds don't use the proxy.
  - 2016-12-23 Fixed bug#[12471](https://bugs.otrs.org/show_bug.cgi?id=12471) - out of office time calculation wrong if user time zone differs from OTRS default.
  - 2016-12-23 Fixed bug#[12480](https://bugs.otrs.org/show_bug.cgi?id=12480) - Bulk function ignores queues <-> agent/role permissions. Thanks to S7 (PR#1590).
