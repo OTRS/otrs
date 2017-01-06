@@ -178,6 +178,13 @@
                         [% Data.MoveQueuesStrg %]
                     </div>
                     <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#QueueID').on('change', function () {
+    Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'QueueID', ['OwnerID', 'ResponsibleID']);
+});
+//]]></script>
+[% END %]
 
 [% RenderBlockStart("Owner") %]
                     <label for="OwnerID">[% Translate("Owner") | html %]:</label>
