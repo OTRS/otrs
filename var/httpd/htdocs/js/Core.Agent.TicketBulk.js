@@ -38,6 +38,11 @@ Core.Agent.TicketBulk = (function (TargetNS) {
             }
         });
 
+        // Update owner and responsible fields on queue change.
+        $('#QueueID').on('change', function () {
+            Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'QueueID', ['OwnerID', 'ResponsibleID']);
+        });
+
         // execute function in the parent window
         Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
             WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: TicketBulkURL }, false);
