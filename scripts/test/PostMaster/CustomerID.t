@@ -123,12 +123,12 @@ for my $Test (@Tests) {
     );
 
     $Self->Is(
-        $Ticket{CustomerID},
+        $Ticket{CustomerID} // '',
         $Test->{Result}->{CustomerID},
         "Ticket customer ID is expected",
     );
     $Self->Is(
-        $Ticket{CustomerUserID},
+        $Ticket{CustomerUserID} // '',
         $Test->{Result}->{CustomerUserID},
         "Ticket customer user ID is expected",
     );
