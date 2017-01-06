@@ -296,7 +296,7 @@ sub DynamicFieldGet {
     my %Data;
     while ( my @Data = $DBObject->FetchrowArray() ) {
 
-        my $Config = $YAMLObject->Load( Data => $Data[7] ) || {};
+        my $Config = $YAMLObject->Load( Data => $Data[7] );
 
         %Data = (
             ID            => $Data[0],
