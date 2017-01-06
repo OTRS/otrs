@@ -51,6 +51,13 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
+        Name => 'submit-result-as-exit-code',
+        Description =>
+            "Specify if command return code should not indicate if tests were ok/not ok, but if submission was successful instead.",
+        Required => 0,
+        HasValue => 0,
+    );
+    $Self->AddOption(
         Name        => 'product',
         Description => "Specify a different product name.",
         Required    => 0,
@@ -65,6 +72,15 @@ sub Configure {
     );
 }
 
+sub PreRun {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Self->GetOption('submit-result-as-exit-code') && !$Self->GetOption('submit-url') ) {
+        die "Please specify a valid 'submit-url'.";
+    }
+    return;
+}
+
 sub Run {
     my ( $Self, %Param ) = @_;
 
@@ -76,11 +92,12 @@ sub Run {
     );
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
-        Name      => $Self->GetOption('test')       || '',
-        Directory => $Self->GetOption('directory')  || '',
-        Product   => $Self->GetOption('product')    || '',
-        SubmitURL => $Self->GetOption('submit-url') || '',
-        Verbose   => $Self->GetOption('verbose')    || '',
+        Name                   => $Self->GetOption('test')                       || '',
+        Directory              => $Self->GetOption('directory')                  || '',
+        Product                => $Self->GetOption('product')                    || '',
+        SubmitURL              => $Self->GetOption('submit-url')                 || '',
+        SubmitResultAsExitCode => $Self->GetOption('submit-result-as-exit-code') || '',
+        Verbose                => $Self->GetOption('verbose')                    || '',
     );
 
     if ($FunctionResult) {
