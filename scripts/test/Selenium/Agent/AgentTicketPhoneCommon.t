@@ -91,6 +91,7 @@ $Selenium->RunTest(
             {
                 Name        => 'AgentTicketPhoneInbound',
                 HistoryText => 'PhoneCallCustomer',
+                EmptyState  => 1,
             },
         );
 
@@ -118,7 +119,20 @@ $Selenium->RunTest(
             my $ActionText = $Action->{Name} . " Selenium Test";
             $Selenium->find_element( "#Subject",  'css' )->send_keys($ActionText);
             $Selenium->find_element( "#RichText", 'css' )->send_keys($ActionText);
-            $Selenium->execute_script("\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');");
+
+            # Either clear next state field value or explicitly set it in order to test if ticket
+            #   state will remain open (see bug#12516 for more information).
+            if ( $Action->{EmptyState} ) {
+                $Selenium->execute_script(
+                    "\$('#NextStateID').val('').trigger('redraw.InputField').trigger('change');"
+                );
+            }
+            else {
+                $Selenium->execute_script(
+                    "\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');"
+                );
+            }
+
             $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
             # navigate to AgentTicketHistory screen
@@ -128,6 +142,12 @@ $Selenium->RunTest(
             $Self->True(
                 index( $Selenium->get_page_source(), $Action->{HistoryText} ) > -1,
                 "Action $Action->{Name} executed correctly",
+            );
+
+            # Verify ticket state has not been changed.
+            $Self->False(
+                index( $Selenium->get_page_source(), 'StateUpdate' ) > -1,
+                'Ticket state remained open',
             );
         }
 
