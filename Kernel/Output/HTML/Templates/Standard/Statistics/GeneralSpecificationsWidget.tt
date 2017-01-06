@@ -111,16 +111,18 @@
     </div>
     <div class="Clear"></div>
 
+[% IF Data.StatID %]
     <label for="Cache">
         [% Translate("Cache results") | html %]:
     </label>
     <div class="Value">
         [% Data.SelectCache %]
         <p class="FieldExplanation">
-            [% Translate("Stores statistics result data in a cache to be used in subsequent views with the same configuration.") | html %]
+            [% Translate("Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.") | html %]
         </p>
     </div>
     <div class="Clear"></div>
+[% END %]
 
 [% IF Data.StatID %]
     <label for="ShowAsDashboardWidget">

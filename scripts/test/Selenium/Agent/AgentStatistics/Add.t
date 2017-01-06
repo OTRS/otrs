@@ -163,6 +163,16 @@ $Selenium->RunTest(
                 Restrictionvalue => 3,
             },
             {
+                Title             => 'Statistic DynamicMatrix' . $Helper->GetRandomID(),
+                Object            => 'Kernel::System::Stats::Dynamic::Ticket',
+                Type              => 'DynamicMatrix',
+                XAxis             => 'XAxisCreateTime',
+                YAxis             => 'YAxisSLAIDs',
+                RestrictionID     => 'RestrictionsQueueIDs',
+                Restrictionvalue  => 3,
+                SelectedTimeField => 1,
+            },
+            {
                 Title            => 'Statistic - TicketAccountedTime' . $Helper->GetRandomID(),
                 Object           => 'Kernel::System::Stats::Dynamic::TicketAccountedTime',
                 Type             => 'DynamicList',
@@ -189,7 +199,6 @@ $Selenium->RunTest(
                 RestrictionID    => 'RestrictionsServiceIDs',
                 Restrictionvalue => $ServiceIDs[0],
             },
-
         );
 
         my @StatsFormatDynamicMatrix = (
@@ -307,6 +316,22 @@ $Selenium->RunTest(
                 $Self->True(
                     $Selenium->execute_script("return \$('#$StatsFormat->{PreviewContent}').css('display')") eq 'block',
                     "StackedArea format is displayed",
+                );
+            }
+
+            # Check the options for the cache field in the general section.
+            if ( $StatsData->{SelectedTimeField} ) {
+
+                $Self->True(
+                    $Selenium->execute_script("return \$('#Cache option[value=\"1\"]').val() == 1 && \$('#Cache option[value=\"1\"]')[0].innerHTML == 'Yes'"),
+                    'Found element "Yes" in Cache the select field.',
+                );
+            }
+            else {
+
+                $Self->False(
+                    $Selenium->execute_script("return \$('#Cache option[value=\"1\"]').val() == 1"),
+                    'Found no element "Yes" in the Cache select field.',
                 );
             }
 
