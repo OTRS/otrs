@@ -30,8 +30,8 @@ my $UserID   = 1;
 
 my @Tests = (
     {
-        Name          => 'Test1',
-        Add           => {
+        Name => 'Test1',
+        Add  => {
             Config => {
                 Name        => 'AnyName',
                 Description => 'Description for Dynamic Field.',
@@ -44,13 +44,13 @@ my @Tests = (
             UserID     => $UserID,
         },
         UpdateDBIncorrectYAML => "-\nDefaultValue: ''\nPossibleValues: ~\n",
-        UpdateDBCorrectYAML => "---\nDefaultValue: ''\nPossibleValues: ~\n",
-        ReferenceUpdate => {
+        UpdateDBCorrectYAML   => "---\nDefaultValue: ''\nPossibleValues: ~\n",
+        ReferenceUpdate       => {
             Config => {
-                DefaultValue => '',
+                DefaultValue   => '',
                 PossibleValues => undef,
             },
-        }
+            }
     },
 );
 
@@ -90,7 +90,7 @@ for my $Test (@Tests) {
     # Update the dynamic field directly in the database, because at the moment we have no idea, in
     #   which case the yaml strings which make problems can be insert with the normal backend functionality.
     return if !$DBObject->Do(
-        SQL => 'UPDATE dynamic_field SET config = ? WHERE id = ?',
+        SQL  => 'UPDATE dynamic_field SET config = ? WHERE id = ?',
         Bind => [
             \$Test->{UpdateDBIncorrectYAML},
             \$DynamicFieldID,
@@ -119,7 +119,7 @@ for my $Test (@Tests) {
     );
 
     return if !$DBObject->Do(
-        SQL => 'UPDATE dynamic_field SET config = ? WHERE id = ?',
+        SQL  => 'UPDATE dynamic_field SET config = ? WHERE id = ?',
         Bind => [
             \$Test->{UpdateDBCorrectYAML},
             \$DynamicFieldID,
