@@ -101,7 +101,7 @@ JAVASCRIPT
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
             1,
-            "Error dialog visible"
+            "Error dialog visible - first try"
         );
 
         # Now act as if the connection had been re-established.
@@ -140,7 +140,7 @@ JAVASCRIPT
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
             1,
-            "Error dialog visible"
+            "Error dialog visible - second try"
         );
 
         # Now we close the dialog manually.
@@ -212,6 +212,9 @@ JAVASCRIPT
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
+        # In some cases, we need a little bit more time to get the page up and running correctly
+        sleep(1);
+
         # Trigger faked ajax request again.
         $Selenium->execute_script($AjaxOverloadJSError);
         $Selenium->execute_script('return $.ajax();');
@@ -223,7 +226,7 @@ JAVASCRIPT
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
             1,
-            "Error dialog visible"
+            "Error dialog visible -  in popup"
         );
 
         # Now act as if the connection had been re-established.
