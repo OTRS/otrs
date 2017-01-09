@@ -323,7 +323,9 @@ $Selenium->RunTest(
             if ( $StatsData->{SelectedTimeField} ) {
 
                 $Self->True(
-                    $Selenium->execute_script("return \$('#Cache option[value=\"1\"]').val() == 1 && \$('#Cache option[value=\"1\"]')[0].innerHTML == 'Yes'"),
+                    $Selenium->execute_script(
+                        "return \$('#Cache option[value=\"1\"]').val() == 1 && \$('#Cache option[value=\"1\"]')[0].innerHTML == 'Yes'"
+                    ),
                     'Found element "Yes" in Cache the select field.',
                 );
             }
