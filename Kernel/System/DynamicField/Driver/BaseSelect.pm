@@ -115,7 +115,13 @@ sub SearchSQLGet {
             return " $Param{TableAlias}.value_text IS NULL OR $Param{TableAlias}.value_text = '' ";
         }
         else {
-            return " $Param{TableAlias}.value_text <> '' ";
+            my $DatabaseType = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'};
+            if ($DatabaseType eq 'oracle') {
+                return " $Param{TableAlias}.value_text IS NOT NULL ";
+            }
+            else {
+                return " $Param{TableAlias}.value_text <> '' ";
+            }
         }
     }
     elsif ( !$Operators{ $Param{Operator} } ) {
