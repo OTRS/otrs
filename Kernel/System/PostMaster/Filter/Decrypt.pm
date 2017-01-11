@@ -52,7 +52,7 @@ sub Run {
     # Try to get message & encryption method.
     my $Message;
     my $ContentType;
-    my $EncryptionMethod;
+    my $EncryptionMethod = '';
 
     if ( $Param{GetParam}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP MESSAGE-----/m ) {
         $Message          = $Param{GetParam}->{Body};
@@ -109,7 +109,7 @@ sub Run {
         $Param{GetParam}->{'X-OTRS-BodyDecrypted'} = '';
     }
 
-    return;
+    return 1;
 }
 
 sub _DecryptPGP {
