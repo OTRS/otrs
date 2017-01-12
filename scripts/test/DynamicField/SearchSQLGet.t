@@ -20,6 +20,9 @@ my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 my $UserID = 1;
 
+my $DBType = $DBObject->{'DB::Type'};
+my $IsOracle = $DBType eq 'oracle';
+
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
 my %DynamicFieldConfigs = (
@@ -267,7 +270,7 @@ my @Tests = (
             },
         },
         ExpectedResult => {
-            Empty => " dfv.value_text <> '' ",
+            Empty => $IsOracle ? " dfv.value_text IS NOT NULL " : " dfv.value_text <> '' ",
         },
     },
     {
@@ -368,7 +371,7 @@ my @Tests = (
             },
         },
         ExpectedResult => {
-            Empty => " dfv.value_text <> '' ",
+            Empty => $IsOracle ? " dfv.value_text IS NOT NULL " : " dfv.value_text <> '' ",
         },
     },
     {
@@ -408,7 +411,7 @@ my @Tests = (
             },
         },
         ExpectedResult => {
-            Empty => " dfv.value_text <> '' ",
+            Empty => $IsOracle ? " dfv.value_text IS NOT NULL " : " dfv.value_text <> '' ",
         },
     },
     {
