@@ -11,6 +11,8 @@ use warnings;
 use vars (qw($Self));
 use utf8;
 
+use File::Path();
+
 use Kernel::System::Crypt;
 
 use vars qw($Self);
@@ -26,8 +28,23 @@ use Kernel::System::HTMLUtils;
 # create local objects
 my $ConfigObject = Kernel::Config->new();
 my $HomeDir      = $ConfigObject->Get('Home');
-my $CertPath     = $ConfigObject->Get('SMIME::CertPath');
-my $PrivatePath  = $ConfigObject->Get('SMIME::PrivatePath');
+
+my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
+my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
+$CertPath =~ s{/{2,}}{/}smxg;
+$PrivatePath =~ s{/{2,}}{/}smxg;
+File::Path::rmtree($CertPath);
+File::Path::rmtree($PrivatePath);
+File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic
+File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic
+$ConfigObject->Set(
+    Key   => 'SMIME::CertPath',
+    Value => $CertPath
+);
+$ConfigObject->Set(
+    Key   => 'SMIME::PrivatePath',
+    Value => $PrivatePath
+);
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
 
@@ -648,5 +665,9 @@ for my $Certificate (@Certificates) {
         "$Certificate->{CertificateName} CertificateRemove()",
     );
 }
+
+File::Path::rmtree($CertPath);
+File::Path::rmtree($PrivatePath);
+
 
 1;

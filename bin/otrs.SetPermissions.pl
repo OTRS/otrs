@@ -173,6 +173,7 @@ print "Setting permissions on $DestDir/var\n";
 
 # set the var directory to OTRS and webserver user
 my @Dirs = (
+    "$DestDir/Kernel/Config/Files",
     "$DestDir/var/article",
     "$DestDir/var/log",
     "$DestDir/var/tmp",
