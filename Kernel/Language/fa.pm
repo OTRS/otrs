@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.307471264367816;
+    $Self->{Completeness}        = 0.31981981981982;
 
     # csv separator
     $Self->{Separator} = '';
@@ -246,7 +246,7 @@ sub Data {
         'This e-mail address already exists. Please log in or reset your password.' =>
             '',
         'Logout' => 'خروج ',
-        'Logout successful. Thank you for using %s!' => '',
+        'Logout successful. Thank you for using %s!' => 'خروج موفقیت آمیز. تشکر از شما برای استفاده از%s!',
         'Feature not active!' => 'این ویژگی فعال نیست.',
         'Agent updated!' => 'کارشناس به روز شد!',
         'Database Selection' => 'انتخاب پایگاه داده',
@@ -282,9 +282,9 @@ sub Data {
         'Dispatching by email To: field.' => 'ارسال با پست الکترونیکی به:فیلد',
         'Dispatching by selected Queue.' => 'ارسال بوسیله لیست انتخاب شده',
         'No entry found!' => 'موردی پیدا نشد!',
-        'Session invalid. Please log in again.' => '',
+        'Session invalid. Please log in again.' => 'جلسه نامعتبر است. لطفا مجددا وارد شوید.',
         'Session has timed out. Please log in again.' => 'مهلت Session شما به اتمام رسید . لطفا مجددا وارد سیستم شوید..',
-        'Session limit reached! Please try again later.' => '',
+        'Session limit reached! Please try again later.' => 'محدودیت در ورود! لطفا بعدا دوباره امتحان کنید.',
         'No Permission!' => 'دسترسی به این قسمت امکانپذیر نیست!',
         '(Click here to add)' => '(برای افزودن کلیک کنید)',
         'Preview' => 'پیش نمایش',
@@ -312,11 +312,11 @@ sub Data {
         'Type added!' => 'نوع افزوده شد!',
         'Type updated!' => 'نوع به روزرسانی شد!',
         'Customer updated!' => 'مشترک به روزرسانی شد!',
-        'Customer company added!' => '',
-        'Customer company updated!' => '',
-        'Note: Company is invalid!' => '',
-        'Mail account added!' => '',
-        'Mail account updated!' => '',
+        'Customer company added!' => 'شرکت مشترک افزوده شد.',
+        'Customer company updated!' => 'شرکت مشترک به روز شد.',
+        'Note: Company is invalid!' => 'یادداشت: شرکت نامعتبر است.',
+        'Mail account added!' => 'حساب ایمیل افزوده شد.',
+        'Mail account updated!' => 'حساب ایمیل به روز شد.',
         'System e-mail address added!' => '',
         'System e-mail address updated!' => '',
         'Contract' => 'قرارداد',
@@ -483,7 +483,7 @@ sub Data {
         'User Profile' => 'مشخصات کاربر',
         'Email Settings' => 'تنظیمات پست الکترونیک',
         'Other Settings' => 'تنظیمات دیگر',
-        'Notification Settings' => '',
+        'Notification Settings' => 'تنظیمات اطلاع رسانی',
         'Change Password' => 'تغیر رمز عبور',
         'Current password' => 'رمز عبور کنونی',
         'New password' => 'رمز عبور جدید',
@@ -510,7 +510,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'نمای وضعیت',
-        'Service View' => '',
+        'Service View' => 'نمای سرویس',
         'Bulk' => 'دسته جمعی',
         'Lock' => 'تحویل گرفتن',
         'Unlock' => 'تحویل دادن',
@@ -585,11 +585,11 @@ sub Data {
         'All tickets' => 'همه درخواست‌ها',
         'Available tickets' => '',
         'Escalation' => '',
-        'last-search' => '',
+        'last-search' => 'آخرین جستجو',
         'QueueView' => 'نمای صف درخواست',
         'Ticket Escalation View' => 'نمای درخواست‌های خیلی مهم',
-        'Message from' => '',
-        'End message' => '',
+        'Message from' => 'فرم پیام',
+        'End message' => 'پایان پیام',
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'Bounce Article to a different mail address' => '',
@@ -597,10 +597,10 @@ sub Data {
         'new' => 'جدید',
         'open' => 'باز',
         'Open' => 'باز',
-        'Open tickets' => '',
+        'Open tickets' => 'تیکت های باز',
         'closed' => 'بسته شده',
         'Closed' => 'بسته شده',
-        'Closed tickets' => '',
+        'Closed tickets' => 'تیکت های بسته شده',
         'removed' => 'حذف شده',
         'pending reminder' => 'یادآوری حالت معلق',
         'pending auto' => 'حالت خودکار معلق',
@@ -626,13 +626,13 @@ sub Data {
         '3 normal' => '۳ عادی',
         '4 high' => '۴ بالا',
         '5 very high' => '۵ خیلی بالا',
-        'auto follow up' => '',
+        'auto follow up' => 'پیگیری خودکار',
         'auto reject' => '',
-        'auto remove' => '',
-        'auto reply' => '',
-        'auto reply/new ticket' => '',
+        'auto remove' => 'حذف خودکار',
+        'auto reply' => 'پاسخ خودکار',
+        'auto reply/new ticket' => 'پاسخ خودکار/تیکت جدید',
         'Create' => 'ایجاد',
-        'Answer' => '',
+        'Answer' => 'پاسخ',
         'Phone call' => 'تماس تلفنی',
         'Ticket "%s" created!' => 'درخواست %s ایجاد شد !',
         'Ticket Number' => 'شماره درخواست',
@@ -642,9 +642,9 @@ sub Data {
         'Sorry, you need to be the ticket owner to perform this action.' =>
             '',
         'Please change the owner first.' => '',
-        'Ticket selected.' => '',
+        'Ticket selected.' => 'تیکت انتخاب شد.',
         'Ticket is locked by another agent.' => '',
-        'Ticket locked.' => '',
+        'Ticket locked.' => 'تیکت قفل شده است.',
         'Don\'t show closed Tickets' => 'درخواست‌های بسته شده را نمایش نده',
         'Show closed Tickets' => 'نمایش درخواست‌های بسته',
         'New Article' => 'نوشته جدید',
@@ -805,7 +805,7 @@ sub Data {
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
         'ACL name' => '',
-        'Validity' => '',
+        'Validity' => 'اعتبار',
         'Copy' => '',
         'No data found.' => 'داده‌ای یافت نشد',
 
@@ -913,7 +913,7 @@ sub Data {
         'Add customer' => 'افزودن مشترک',
         'Select' => 'انتخاب',
         'List (only %s shown - more available)' => '',
-        'List (%s total)' => '',
+        'List (%s total)' => 'فهرست ( تعداد %s)',
         'Please enter a search term to look for customers.' => 'لطفا عبارت جستجو را وارد نمایید تا مشترکین را جستجو نمایید.',
         'Add Customer' => 'افزودن مشترک',
 
@@ -1213,16 +1213,16 @@ sub Data {
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
         'You are here' => '',
-        'Web Services' => '',
+        'Web Services' => 'وب سرویس',
         'Debugger' => '',
-        'Go back to web service' => '',
+        'Go back to web service' => 'برگشت به وب سرویس',
         'Clear' => '',
         'Do you really want to clear the debug log of this web service?' =>
             '',
-        'Request List' => '',
+        'Request List' => 'لیست درخواست',
         'Time' => 'زمان',
         'Remote IP' => '',
-        'Loading' => '',
+        'Loading' => 'در حال اجرا',
         'Select a single request to see its details.' => '',
         'Filter by type' => '',
         'Filter from' => '',
@@ -1453,7 +1453,7 @@ sub Data {
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '',
-        'Web Service List' => '',
+        'Web Service List' => 'فهرست وب سرویس',
         'Remote system' => '',
         'Provider transport' => '',
         'Requester transport' => '',
@@ -1483,7 +1483,7 @@ sub Data {
         'Go back to Web Service' => '',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
             '',
-        'Configuration History List' => '',
+        'Configuration History List' => 'فهرست تاریخچه پیکربندی',
         'Version' => 'نسخه',
         'Create time' => '',
         'Select a single configuration version to see its details.' => '',
@@ -1833,19 +1833,19 @@ sub Data {
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
-        'Processes' => '',
-        'Process name' => '',
+        'Processes' => 'فرایند ها',
+        'Process name' => 'نام فرایند',
         'Print' => 'چاپ',
-        'Export Process Configuration' => '',
+        'Export Process Configuration' => 'استخراج پیکربندی فرایند',
         'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => '',
-        'Go Back' => '',
+        'Cancel & close' => 'لغو کنید و ببندید',
+        'Go Back' => 'بازگشت',
         'Please note, that changing this activity will affect the following processes' =>
             '',
-        'Activity' => '',
-        'Activity Name' => '',
+        'Activity' => 'فعالیت',
+        'Activity Name' => 'نام فعالیت',
         'Activity Dialogs' => '',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             '',
@@ -1921,7 +1921,7 @@ sub Data {
             '',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             '',
-        'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
+        'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
             '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
@@ -2425,11 +2425,11 @@ sub Data {
             '',
         'Don\'t forget to add new templates to queues.' => '',
         'Do you really want to delete this template?' => 'آیا واقعا مایل به حذف این قالب هستید؟',
-        'Add Template' => '',
-        'Edit Template' => '',
+        'Add Template' => 'افزودن قالب',
+        'Edit Template' => 'ویرایش قالب',
         'A standard template with this name already exists!' => '',
         'Create type templates only supports this smart tags' => '',
-        'Example template' => '',
+        'Example template' => 'نمونه قالب',
         'The current ticket state is' => 'وضعیت فعلی درخواست',
         'Your email address is' => 'آدرس ایمیل شما:',
 
@@ -2459,8 +2459,8 @@ sub Data {
         'Title or salutation' => '',
         'Firstname' => 'نام',
         'Lastname' => 'نام خانوادگی',
-        'A user with this username already exists!' => '',
-        'Will be auto-generated if left empty.' => '',
+        'A user with this username already exists!' => 'کاربری با این نام کاربری وجو دارد!',
+        'Will be auto-generated if left empty.' => ' اگر خالی بماند، به صورت خودکار تولید میشود.',
         'Start' => 'شروع',
         'End' => 'پایان',
 
@@ -2478,21 +2478,21 @@ sub Data {
         'Apply' => 'اعمال',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => '',
+        'Customer Information Center' => 'مرکز اطلاعات مشترکین',
 
         # Template: AgentCustomerInformationCenterSearch
         'Customer User' => 'مشترک',
 
         # Template: AgentCustomerSearch
-        'Duplicated entry' => '',
-        'This address already exists on the address list.' => '',
+        'Duplicated entry' => 'ورود تکراری',
+        'This address already exists on the address list.' => 'این آدرس در لیست آدرس ها موجود است.',
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
-        'Note: Customer is invalid!' => '',
-        'Start chat' => '',
-        'Video call' => '',
-        'Audio call' => '',
+        'Note: Customer is invalid!' => 'یادداشت: مشترک نامعتبر است!',
+        'Start chat' => 'شروع گپ',
+        'Video call' => 'تماس تصویری',
+        'Audio call' => 'تماس صوتی',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2519,13 +2519,13 @@ sub Data {
         'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerIDStatus
-        'Escalated tickets' => '',
+        'Escalated tickets' => 'تیکت های خیلی مهم',
 
         # Template: AgentDashboardCustomerUserList
         'Customer login' => 'ورود مشترک',
-        'Customer information' => '',
-        'Phone ticket' => '',
-        'Email ticket' => '',
+        'Customer information' => 'اطلاعات مشترک',
+        'Phone ticket' => 'تیکت تلفنی',
+        'Email ticket' => 'تیکت ایمیلی',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket from %s' => '',
@@ -2572,14 +2572,14 @@ sub Data {
         'Totals' => 'مجموع',
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'زمان بیرون بودن از محل کار',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => '',
+        'until' => 'تا',
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'درخواست تحویل گرفته شده است',
-        'Undo & close' => '',
+        'Undo & close' => 'عملیات را برگردان و پنجره را ببند',
 
         # Template: AgentInfo
         'Info' => 'اطلاعات',
@@ -2600,7 +2600,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'تنظیمات شخصی خودتان را ویرایش نمایید',
-        'Did you know? You can help translating OTRS at %s.' => '',
+        'Did you know? You can help translating OTRS at %s.' => 'آیا میدانستید ؟ شما میتوانید در ترجمه OTRS در %s به ما کمک کنید.',
 
         # Template: AgentSpelling
         'Spell Checker' => 'غلط یاب',
@@ -2613,7 +2613,7 @@ sub Data {
         'Dynamic Matrix' => '',
         'Tabular reporting data where each cell contains a singular data point (e. g. the number of tickets).' =>
             '',
-        'Dynamic List' => '',
+        'Dynamic List' => 'لیست پویا',
         'Tabular reporting data where each row contains data of one entity (e. g. a ticket).' =>
             '',
         'Static' => '',
@@ -2761,7 +2761,7 @@ sub Data {
         'Select all' => 'انتخاب همه',
         'No ticket data found.' => 'اطلاعات درخواست یافت نشد.',
         'Open / Close ticket action menu' => '',
-        'Select this ticket' => '',
+        'Select this ticket' => 'انتخاب این تیکت',
         'First Response Time' => 'زمان اولین پاسخ',
         'Update Time' => 'زمان بروز رسانی',
         'Solution Time' => 'زمان ارائه راهکار',
@@ -2941,6 +2941,12 @@ sub Data {
         'Accept' => '',
         'Decline' => '',
         'An internal error occurred.' => '',
+        'Connection error' => '',
+        'Reload page' => '',
+        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
+            '',
+        'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'جاوااسکریپت در دسترس نیست',
@@ -3261,7 +3267,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '',
@@ -3490,6 +3496,7 @@ sub Data {
         'No such file %s in package!' => '',
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
+        'File is OK' => '',
         'Package has locally modified files.' => '',
         'No packages or no new packages found in selected repository.' =>
             '',
@@ -4037,6 +4044,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+        'File is not installed!' => '',
+        'File is different!' => '',
+        'Can\'t read file!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'غیر فعال',
@@ -4273,7 +4283,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
-        'Package List' => '',
+        'Package List' => 'فهرست پکیج ها',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
         'Spooled Emails' => '',
@@ -4354,6 +4364,10 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+        'Support Data Collection' => '',
+        'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => '',
@@ -4519,7 +4533,7 @@ Thanks for your help!
         'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ماژول ACL فقط زمانی که تمام درخواست‌های فرزند بسته شده باشد، اجازه بستن درخواست‌های والد را می‌دهد. ("وضعیت" نان می‌دهد که کدام وضعیت‌ها برای درخواست والدتا زمانی که تمام درخواست‌های فرزند بسته شده است، در دسترس می‌باشد.)',
-        'Access Control Lists (ACL)' => '',
+        'Access Control Lists (ACL)' => 'فهرست سطخ دسترسی (ACL)',
         'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'مکانیزم چشمک زدن را برای صف درخواستی که شامل قدیمی‌ترین درخواست می‌باشد فعال می‌کند.',
@@ -4753,6 +4767,7 @@ Thanks for your help!
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '',
+        'Controls if CustomerID is editable in the agent interface.' => '',
         'Controls if CutomerID is editable in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -5899,7 +5914,7 @@ Thanks for your help!
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '',
-        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
@@ -5907,7 +5922,9 @@ Thanks for your help!
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
-        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
+        'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
+            '',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
@@ -6081,7 +6098,7 @@ Thanks for your help!
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => '',
-        'My Services' => '',
+        'My Services' => 'خدمات من',
         'My Tickets.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
@@ -6315,7 +6332,7 @@ Thanks for your help!
             '',
         'Serbian Cyrillic' => '',
         'Serbian Latin' => '',
-        'Service view' => '',
+        'Service view' => 'نمای سرویس',
         'ServiceView' => '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
@@ -6882,7 +6899,7 @@ Thanks for your help!
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'سابقه::انتقال',
-        'Ticket notifications' => '',
+        'Ticket notifications' => 'اطلاع رسانی تیکت',
         'Ticket overview' => 'نمای کلی درخواست',
         'Ticket plain view of an email.' => '',
         'Ticket title' => '',

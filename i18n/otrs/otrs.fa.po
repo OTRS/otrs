@@ -1,12 +1,13 @@
 # 
 # Translators:
+# Hossein Hejazi <hejazi@gmail.com>, 2016
 # saeedi <mohsen.saeedi@gmail.com>, 2016
 # MReza Javan <mreza.javan@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-12-07 16:14+0000\n"
-"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"POT-Creation-Date: 2017-01-12 22:57+0000\n"
+"PO-Revision-Date: 2017-01-13 04:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Persian (http://www.transifex.com/otrs/OTRS/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -840,7 +841,7 @@ msgstr "خروج "
 
 #. Template: AAABase
 msgid "Logout successful. Thank you for using %s!"
-msgstr ""
+msgstr "خروج موفقیت آمیز. تشکر از شما برای استفاده از%s!"
 
 #. Template: AAABase
 msgid "Feature not active!"
@@ -977,7 +978,7 @@ msgstr "موردی پیدا نشد!"
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
-msgstr ""
+msgstr "جلسه نامعتبر است. لطفا مجددا وارد شوید."
 
 #. Template: AAABase
 msgid "Session has timed out. Please log in again."
@@ -985,7 +986,7 @@ msgstr "مهلت Session شما به اتمام رسید . لطفا مجددا �
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
-msgstr ""
+msgstr "محدودیت در ورود! لطفا بعدا دوباره امتحان کنید."
 
 #. Template: AAABase
 msgid "No Permission!"
@@ -1089,23 +1090,23 @@ msgstr "مشترک به روزرسانی شد!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr ""
+msgstr "شرکت مشترک افزوده شد."
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr ""
+msgstr "شرکت مشترک به روز شد."
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "یادداشت: شرکت نامعتبر است."
 
 #. Template: AAABase
 msgid "Mail account added!"
-msgstr ""
+msgstr "حساب ایمیل افزوده شد."
 
 #. Template: AAABase
 msgid "Mail account updated!"
-msgstr ""
+msgstr "حساب ایمیل به روز شد."
 
 #. Template: AAABase
 msgid "System e-mail address added!"
@@ -1714,7 +1715,7 @@ msgstr "تنظیمات دیگر"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "تنظیمات اطلاع رسانی"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -1798,7 +1799,7 @@ msgstr "نمای وضعیت"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "نمای سرویس"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2094,7 +2095,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "last-search"
-msgstr ""
+msgstr "آخرین جستجو"
 
 #. Template: AAATicket
 msgid "QueueView"
@@ -2106,11 +2107,11 @@ msgstr "نمای درخواست‌های خیلی مهم"
 
 #. Template: AAATicket
 msgid "Message from"
-msgstr ""
+msgstr "فرم پیام"
 
 #. Template: AAATicket
 msgid "End message"
-msgstr ""
+msgstr "پایان پیام"
 
 #. Template: AAATicket
 msgid "Forwarded message from"
@@ -2142,7 +2143,7 @@ msgstr "باز"
 
 #. Template: AAATicket
 msgid "Open tickets"
-msgstr ""
+msgstr "تیکت های باز"
 
 #. Template: AAATicket
 msgid "closed"
@@ -2154,7 +2155,7 @@ msgstr "بسته شده"
 
 #. Template: AAATicket
 msgid "Closed tickets"
-msgstr ""
+msgstr "تیکت های بسته شده"
 
 #. Template: AAATicket
 msgid "removed"
@@ -2258,7 +2259,7 @@ msgstr "۵ خیلی بالا"
 
 #. Template: AAATicket
 msgid "auto follow up"
-msgstr ""
+msgstr "پیگیری خودکار"
 
 #. Template: AAATicket
 msgid "auto reject"
@@ -2266,15 +2267,15 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "auto remove"
-msgstr ""
+msgstr "حذف خودکار"
 
 #. Template: AAATicket
 msgid "auto reply"
-msgstr ""
+msgstr "پاسخ خودکار"
 
 #. Template: AAATicket
 msgid "auto reply/new ticket"
-msgstr ""
+msgstr "پاسخ خودکار/تیکت جدید"
 
 #. Template: AAATicket
 msgid "Create"
@@ -2282,7 +2283,7 @@ msgstr "ایجاد"
 
 #. Template: AAATicket
 msgid "Answer"
-msgstr ""
+msgstr "پاسخ"
 
 #. Template: AAATicket
 msgid "Phone call"
@@ -2318,7 +2319,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Ticket selected."
-msgstr ""
+msgstr "تیکت انتخاب شد."
 
 #. Template: AAATicket
 msgid "Ticket is locked by another agent."
@@ -2326,7 +2327,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Ticket locked."
-msgstr ""
+msgstr "تیکت قفل شده است."
 
 #. Template: AAATicket
 msgid "Don't show closed Tickets"
@@ -2921,7 +2922,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Validity"
-msgstr ""
+msgstr "اعتبار"
 
 #. Template: AdminACL
 msgid "Copy"
@@ -3275,7 +3276,7 @@ msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
-msgstr ""
+msgstr "فهرست ( تعداد %s)"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -4294,7 +4295,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
-msgstr ""
+msgstr "وب سرویس"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -4302,7 +4303,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Go back to web service"
-msgstr ""
+msgstr "برگشت به وب سرویس"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear"
@@ -4314,7 +4315,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
-msgstr ""
+msgstr "لیست درخواست"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Time"
@@ -4326,7 +4327,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Loading"
-msgstr ""
+msgstr "در حال اجرا"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
@@ -5101,7 +5102,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Web Service List"
-msgstr ""
+msgstr "فهرست وب سرویس"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
@@ -5197,7 +5198,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
-msgstr ""
+msgstr "فهرست تاریخچه پیکربندی"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Version"
@@ -6353,11 +6354,11 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Processes"
-msgstr ""
+msgstr "فرایند ها"
 
 #. Template: AdminProcessManagement
 msgid "Process name"
-msgstr ""
+msgstr "نام فرایند"
 
 #. Template: AdminProcessManagement
 msgid "Print"
@@ -6365,7 +6366,7 @@ msgstr "چاپ"
 
 #. Template: AdminProcessManagement
 msgid "Export Process Configuration"
-msgstr ""
+msgstr "استخراج پیکربندی فرایند"
 
 #. Template: AdminProcessManagement
 msgid "Copy Process"
@@ -6373,11 +6374,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "لغو کنید و ببندید"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
-msgstr ""
+msgstr "بازگشت"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
@@ -6386,11 +6387,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
-msgstr ""
+msgstr "فعالیت"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
-msgstr ""
+msgstr "نام فعالیت"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Dialogs"
@@ -6638,8 +6639,8 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
-"You can start a connection between to Activities by dropping the Transition "
-"element over the Start Activity of the connection. After that you can move "
+"You can start a connection between two Activities by dropping the Transition"
+" element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
 msgstr ""
 
@@ -8266,11 +8267,11 @@ msgstr "آیا واقعا مایل به حذف این قالب هستید؟"
 
 #. Template: AdminTemplate
 msgid "Add Template"
-msgstr ""
+msgstr "افزودن قالب"
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
+msgstr "ویرایش قالب"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
@@ -8282,7 +8283,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Example template"
-msgstr ""
+msgstr "نمونه قالب"
 
 #. Template: AdminTemplate
 msgid "The current ticket state is"
@@ -8378,11 +8379,11 @@ msgstr "نام خانوادگی"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "کاربری با این نام کاربری وجو دارد!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
-msgstr ""
+msgstr " اگر خالی بماند، به صورت خودکار تولید میشود."
 
 #. Template: AdminUser
 msgid "Start"
@@ -8430,7 +8431,7 @@ msgstr "اعمال"
 
 #. Template: AgentCustomerInformationCenter
 msgid "Customer Information Center"
-msgstr ""
+msgstr "مرکز اطلاعات مشترکین"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
@@ -8438,11 +8439,11 @@ msgstr "مشترک"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
-msgstr ""
+msgstr "ورود تکراری"
 
 #. Template: AgentCustomerSearch
 msgid "This address already exists on the address list."
-msgstr ""
+msgstr "این آدرس در لیست آدرس ها موجود است."
 
 #. Template: AgentCustomerSearch
 msgid "It is going to be deleted from the field, please try again."
@@ -8450,19 +8451,19 @@ msgstr ""
 
 #. Template: AgentCustomerTableView
 msgid "Note: Customer is invalid!"
-msgstr ""
+msgstr "یادداشت: مشترک نامعتبر است!"
 
 #. Template: AgentCustomerTableView
 msgid "Start chat"
-msgstr ""
+msgstr "شروع گپ"
 
 #. Template: AgentCustomerTableView
 msgid "Video call"
-msgstr ""
+msgstr "تماس تصویری"
 
 #. Template: AgentCustomerTableView
 msgid "Audio call"
-msgstr ""
+msgstr "تماس صوتی"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -8518,7 +8519,7 @@ msgstr ""
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
-msgstr ""
+msgstr "تیکت های خیلی مهم"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer login"
@@ -8526,15 +8527,15 @@ msgstr "ورود مشترک"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer information"
-msgstr ""
+msgstr "اطلاعات مشترک"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Phone ticket"
-msgstr ""
+msgstr "تیکت تلفنی"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Email ticket"
-msgstr ""
+msgstr "تیکت ایمیلی"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8665,11 +8666,11 @@ msgstr "مجموع"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr ""
+msgstr "زمان بیرون بودن از محل کار"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
-msgstr ""
+msgstr "تا"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "The ticket has been locked"
@@ -8677,7 +8678,7 @@ msgstr "درخواست تحویل گرفته شده است"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close"
-msgstr ""
+msgstr "عملیات را برگردان و پنجره را ببند"
 
 #. Template: AgentInfo
 msgid "Info"
@@ -8727,7 +8728,7 @@ msgstr "تنظیمات شخصی خودتان را ویرایش نمایید"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr ""
+msgstr "آیا میدانستید ؟ شما میتوانید در ترجمه OTRS در %s به ما کمک کنید."
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -8761,7 +8762,7 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic List"
-msgstr ""
+msgstr "لیست پویا"
 
 #. Template: AgentStatisticsAdd
 msgid ""
@@ -9196,7 +9197,7 @@ msgstr ""
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select this ticket"
-msgstr ""
+msgstr "انتخاب این تیکت"
 
 #. Template: AgentTicketOverviewMedium
 msgid "First Response Time"
@@ -9761,6 +9762,30 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "An internal error occurred."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Connection error"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Reload page"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"Your browser was not able to communicate with OTRS properly, there seems to "
+"be something wrong with your network connection. You could either try "
+"reloading this page manually or wait until your browser has re-established "
+"the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"The connection has been re-established after a temporary connection loss. "
+"Due to this, elements on this page could have stopped to work correctly. In "
+"order to be able to use all elements correctly again, it is strongly "
+"recommended to reload this page."
 msgstr ""
 
 #. Template: CustomerLogin
@@ -10700,7 +10725,8 @@ msgstr ""
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration."
+" the same configuration, but the caching works only with an selected time "
+"field."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -11318,6 +11344,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "File is OK"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -12831,6 +12861,18 @@ msgstr ""
 msgid "not installed"
 msgstr ""
 
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is not installed!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is different!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Can't read file!"
+msgstr ""
+
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
 msgstr "غیر فعال"
@@ -13487,7 +13529,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
 msgid "Package List"
-msgstr ""
+msgstr "فهرست پکیج ها"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "Spooled Emails"
@@ -13704,6 +13746,16 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support Data Collection"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support data could not be collected from the web server."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
@@ -14213,7 +14265,7 @@ msgstr "ماژول ACL فقط زمانی که تمام درخواست‌های �
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
-msgstr ""
+msgstr "فهرست سطخ دسترسی (ACL)"
 
 #. SysConfig
 msgid "AccountedTime"
@@ -14989,6 +15041,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -18758,7 +18814,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
-"HTTP headers and the X-Headers of outgoing mails."
+"HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
+"option, please make sure to delete the cache."
 msgstr ""
 
 #. SysConfig
@@ -18781,9 +18838,16 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
+"possible to use the email's from address instead of an empty envelope sender"
+" (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
-"empty."
+"empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
 
 #. SysConfig
@@ -19365,7 +19429,7 @@ msgstr ""
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "خدمات من"
 
 #. SysConfig
 msgid "My Tickets."
@@ -20218,7 +20282,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Service view"
-msgstr ""
+msgstr "نمای سرویس"
 
 #. SysConfig
 msgid "ServiceView"
@@ -22066,7 +22130,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr ""
+msgstr "اطلاع رسانی تیکت"
 
 #. SysConfig
 msgid "Ticket overview"

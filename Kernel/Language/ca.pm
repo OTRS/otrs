@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.327791461412151;
+    $Self->{Completeness}        = 0.331490581490581;
 
     # csv separator
     $Self->{Separator} = '';
@@ -49,8 +49,8 @@ sub Data {
         'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'Created within the last' => 'Creat els últims',
+        'Created more than ... ago' => 'Creat fa més de ...',
         'Today' => 'Avui',
         'Tomorrow' => 'Demà',
         'Next week' => 'Pròxima setmana',
@@ -73,10 +73,10 @@ sub Data {
         'month(s)' => 'mes(os)',
         'week' => 'setmana',
         'week(s)' => 'setmana(es)',
-        'quarter' => '',
-        'quarter(s)' => '',
-        'half-year' => '',
-        'half-year(s)' => '',
+        'quarter' => 'un quart',
+        'quarter(s)' => 'quart(s)',
+        'half-year' => 'mig any',
+        'half-year(s)' => 'mig-any(s)',
         'year' => 'any',
         'years' => 'anys',
         'year(s)' => 'any(s)',
@@ -84,7 +84,7 @@ sub Data {
         'seconds' => 'segons',
         'second' => 'segon',
         's' => 's',
-        'Time unit' => '',
+        'Time unit' => 'Unitat de temps',
         'wrote' => 'va escriure',
         'Message' => 'Missatje',
         'Error' => 'Error',
@@ -189,7 +189,7 @@ sub Data {
         'Search' => 'Cercar',
         'and' => 'i',
         'between' => 'entre',
-        'before/after' => '',
+        'before/after' => 'abans/desprès',
         'Fulltext Search' => 'Recerca de text complet',
         'Data' => 'Dades',
         'Options' => 'Opcions',
@@ -214,10 +214,10 @@ sub Data {
         'Medium' => 'Mitjà',
         'Large' => 'Gran',
         'Date picker' => 'Seleccionador de data',
-        'Show Tree Selection' => '',
-        'The field content is too long!' => '',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'Show Tree Selection' => 'Veure arbre selecció',
+        'The field content is too long!' => 'El contingut del camp és massa llarg!',
+        'Maximum size is %s characters.' => 'Màx. %s caràcters.',
+        'This field is required or' => 'Aquest camp és obligatori o ',
         'New message' => 'Nou missatge',
         'New message!' => 'Nou missatge!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -239,12 +239,12 @@ sub Data {
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             '',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            '',
+            'Aquesta adreça de correu ja existeix. Si us plau, entra o demana canvi de contrasenya.',
         'Logout' => 'Desconnectar-se',
-        'Logout successful. Thank you for using %s!' => '',
+        'Logout successful. Thank you for using %s!' => 'Desconnectat. Gràcies per utilitzar %s!',
         'Feature not active!' => 'Característica no activa',
         'Agent updated!' => 'Agent actualitzat!',
-        'Database Selection' => '',
+        'Database Selection' => 'Triar base de dades',
         'Create Database' => 'Crear Base de dades',
         'System Settings' => 'Configuració del sistema',
         'Mail Configuration' => 'Configuració de correu.',
@@ -255,7 +255,7 @@ sub Data {
         'Database' => 'Base de dades',
         'Configure Mail' => 'Configurar el correu',
         'Database deleted.' => 'Base de dades esborrada.',
-        'Enter the password for the administrative database user.' => '',
+        'Enter the password for the administrative database user.' => 'Escriu la contrasenya de l\'administrador de base de dades.',
         'Enter the password for the database user.' => '',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
@@ -277,7 +277,7 @@ sub Data {
         'Dispatching by email To: field.' => 'Despatxar pel camp To: del correu',
         'Dispatching by selected Queue.' => 'Despatxar per la cua seleccionada',
         'No entry found!' => 'No es va trobar!',
-        'Session invalid. Please log in again.' => '',
+        'Session invalid. Please log in again.' => 'Sessió invàlida. Si us plau, torna a entrar.',
         'Session has timed out. Please log in again.' => 'La sessió ha expirat. Per favor iniciï una sessió novament.',
         'Session limit reached! Please try again later.' => '',
         'No Permission!' => 'No té Permís!',
@@ -290,8 +290,8 @@ sub Data {
         'Check to activate this date' => 'Marcar per activar aquesta data',
         'You have Out of Office enabled, would you like to disable it?' =>
             'Vostè té Fora de l\'Oficina habilitat, vol desactivar-ho?',
-        'News about OTRS releases!' => '',
-        'Go to dashboard!' => '',
+        'News about OTRS releases!' => 'Noves versions d\'OTRS publicades!',
+        'Go to dashboard!' => 'Ves al panell principal!',
         'Customer %s added' => 'Client %s afegit',
         'Role added!' => 'Rol afegit!',
         'Role updated!' => 'Rol actualitzat',
@@ -309,7 +309,7 @@ sub Data {
         'Customer updated!' => 'Client actualitzat!',
         'Customer company added!' => 'Empresa del client afegida!',
         'Customer company updated!' => 'Empresa del client actualitzada!',
-        'Note: Company is invalid!' => '',
+        'Note: Company is invalid!' => 'Nota: empresa invàlida!',
         'Mail account added!' => 'Compte de correu afegida!',
         'Mail account updated!' => 'Compte de correu actualitzada!',
         'System e-mail address added!' => 'Adreça de correu electrònic de sistema afegida!',
@@ -386,8 +386,8 @@ sub Data {
             '',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
+        'Mark' => 'Marcar',
+        'Unmark' => 'Desmarcar',
         'Bold' => 'Negreta',
         'Italic' => 'Cursiva',
         'Underline' => 'Subratllat',
@@ -1916,7 +1916,7 @@ sub Data {
             '',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             '',
-        'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
+        'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
             '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
@@ -2936,6 +2936,12 @@ sub Data {
         'Accept' => '',
         'Decline' => '',
         'An internal error occurred.' => '',
+        'Connection error' => '',
+        'Reload page' => '',
+        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
+            '',
+        'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'Javascript no està disponible',
@@ -3256,7 +3262,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '',
@@ -3485,6 +3491,7 @@ sub Data {
         'No such file %s in package!' => '',
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
+        'File is OK' => '',
         'Package has locally modified files.' => '',
         'No packages or no new packages found in selected repository.' =>
             '',
@@ -4032,6 +4039,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+        'File is not installed!' => '',
+        'File is different!' => '',
+        'Can\'t read file!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => '',
@@ -4349,6 +4359,10 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+        'Support Data Collection' => '',
+        'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => '',
@@ -4748,6 +4762,7 @@ Thanks for your help!
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '',
+        'Controls if CustomerID is editable in the agent interface.' => '',
         'Controls if CutomerID is editable in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -5894,7 +5909,7 @@ Thanks for your help!
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '',
-        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
@@ -5902,7 +5917,9 @@ Thanks for your help!
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
-        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
+        'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
+            '',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',

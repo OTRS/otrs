@@ -16,6 +16,7 @@
 # Glauber Caires <glaubercaires@gmail.com>, 2016
 # João Paulo Avelar de Araújo Pontes <meunomejoaopaulo@gmail.com>, 2016
 # José Ribeiro <joserribeiro26@gmail.com>, 2014-2015
+# José Ribeiro <joserribeiro26@gmail.com>, 2016
 # José Tempesta <zetempesta@gmail.com>, 2016
 # Leandro “Lê Corſetti van Utrecht” Guimarães Faria Corcete DUTRA <l@dutras.org>, 2015
 # Leandro “Lê Corſetti van Utrecht” Guimarães Faria Corcete DUTRA <l@dutras.org>, 2016
@@ -29,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-12-07 16:14+0000\n"
-"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"POT-Creation-Date: 2017-01-12 22:57+0000\n"
+"PO-Revision-Date: 2017-01-13 04:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -6662,10 +6663,10 @@ msgstr "Para atribuir uma Janela de Atividade à uma Atividade arraste o element
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
-"You can start a connection between to Activities by dropping the Transition "
-"element over the Start Activity of the connection. After that you can move "
+"You can start a connection between two Activities by dropping the Transition"
+" element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr "Você pode iniciar uma ligação entre Atividades arrastando o elemento de Transição sobre o Início da Atividade da conexão. Após isso, você pode mover a ponta solta da seta para o Final da Atividade."
+msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -9787,6 +9788,30 @@ msgstr "Rejeitar"
 msgid "An internal error occurred."
 msgstr "Um erro interno ocorreu"
 
+#. Template: CustomerFooterJS
+msgid "Connection error"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Reload page"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"Your browser was not able to communicate with OTRS properly, there seems to "
+"be something wrong with your network connection. You could either try "
+"reloading this page manually or wait until your browser has re-established "
+"the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"The connection has been re-established after a temporary connection loss. "
+"Due to this, elements on this page could have stopped to work correctly. In "
+"order to be able to use all elements correctly again, it is strongly "
+"recommended to reload this page."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript não habilitado ou não é suportado."
@@ -10703,7 +10728,7 @@ msgstr "O período selecionado na estatística é neutro quanto ao fuso horário
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr "Criar coluna de somatório"
+msgstr "Criar linha de somatória"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
@@ -10711,7 +10736,7 @@ msgstr "Gerar uma linha adicional contendo somas para todas as linhas de dados."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr "Criar coluna de somatório"
+msgstr "Criar coluna de somatória"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
@@ -10724,8 +10749,9 @@ msgstr "Resultado em cache"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration."
-msgstr "Armazena em cache os dados de resultados das estatísticas para serem utilizados em visualizações subsequentes com a mesma configuração."
+" the same configuration, but the caching works only with an selected time "
+"field."
+msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -11343,6 +11369,10 @@ msgstr "Arquivo inexistente %s no sistema de arquivos local!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
 msgstr "Não pôde ser lido %s!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "File is OK"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
@@ -12855,6 +12885,18 @@ msgstr ""
 msgid "not installed"
 msgstr ""
 
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is not installed!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is different!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Can't read file!"
+msgstr ""
+
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
 msgstr "Inativo"
@@ -13729,6 +13771,16 @@ msgstr ""
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
 msgstr "Variáveis de ambiente"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support Data Collection"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support data could not be collected from the web server."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -15013,6 +15065,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -18782,7 +18838,8 @@ msgstr "Se ativo, chamados por fone  e chamados por e-mail serão abertos em uma
 #. SysConfig
 msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
-"HTTP headers and the X-Headers of outgoing mails."
+"HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
+"option, please make sure to delete the cache."
 msgstr ""
 
 #. SysConfig
@@ -18805,9 +18862,16 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
+"possible to use the email's from address instead of an empty envelope sender"
+" (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
-"empty."
+"empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
 
 #. SysConfig

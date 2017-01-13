@@ -24,6 +24,7 @@
 # nilsleideck <nils.leideck@leidex.net>, 2015-2016
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # Patrik Z., 2016
+# Ralf Hildebrandt (hildeb) <ralf.hildebrandt@gmail.com>, 2016
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
 # Rudy R <rudy.rohde@googlemail.com>, 2015
 # ru_otrs <robert.ullrich@otrs.com>, 2014
@@ -32,8 +33,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-12-07 16:14+0000\n"
-"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"POT-Creation-Date: 2017-01-12 22:57+0000\n"
+"PO-Revision-Date: 2017-01-13 04:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -6665,10 +6666,10 @@ msgstr "Aktivitäts-Dialoge können Sie einer Aktivität zuweisen, indem Sie die
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
-"You can start a connection between to Activities by dropping the Transition "
-"element over the Start Activity of the connection. After that you can move "
+"You can start a connection between two Activities by dropping the Transition"
+" element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr "Eine Verbindung zwischen Aktivitäten können sie erstellen, indem Sie ein Übergangselement auf die Start-Aktivität der Verbindung ziehen. Anschließend können Sie das freie Ende des Pfeils zur Ziel-Aktivität ziehen."
+msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -9790,6 +9791,30 @@ msgstr "Ablehnen"
 msgid "An internal error occurred."
 msgstr "Ein interner Fehler ist aufgetreten."
 
+#. Template: CustomerFooterJS
+msgid "Connection error"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Reload page"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"Your browser was not able to communicate with OTRS properly, there seems to "
+"be something wrong with your network connection. You could either try "
+"reloading this page manually or wait until your browser has re-established "
+"the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"The connection has been re-established after a temporary connection loss. "
+"Due to this, elements on this page could have stopped to work correctly. In "
+"order to be able to use all elements correctly again, it is strongly "
+"recommended to reload this page."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript nicht aktiviert oder nicht unterstützt."
@@ -10727,8 +10752,9 @@ msgstr "Ergebnisse cachen"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration."
-msgstr "Speichert Statistikergebnisse in einem Cache, der in weiteren Aufrufen mit derselben Konfiguration verwendet wird."
+" the same configuration, but the caching works only with an selected time "
+"field."
+msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -11346,6 +11372,10 @@ msgstr "Datei %s existiert nicht im Dateisystem!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
 msgstr "Kann %s nicht lesen!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "File is OK"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
@@ -12447,7 +12477,7 @@ msgstr "Benutzer ist aktuell nicht verfügbar."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "User is currently active."
-msgstr ""
+msgstr "Benutzer ist gerade aktiv."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Away"
@@ -12857,6 +12887,18 @@ msgstr "Diese Einstellung kann nicht deaktiviert werden."
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr "nicht installiert"
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is not installed!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is different!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Can't read file!"
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -13522,7 +13564,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "There are emails in var/spool that OTRS could not process."
-msgstr ""
+msgstr "In var/spool befinden sich Emails, die OTRS nicht verarbeiten konnte."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -13732,6 +13774,16 @@ msgstr "Nutzen Sie Apache2::DBI, um eine höhere Leistung im Zusammenhang mit pe
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
 msgstr "Umgebungsvariablen"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support Data Collection"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support data could not be collected from the web server."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -15017,6 +15069,10 @@ msgstr "Konfiguriert eine Standardeinstellung für ein dynamisches Ticketfeld. \
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Kontrolliert wie die Ticket-Historie in lesbaren Werten dargestellt wird."
+
+#. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
@@ -16810,7 +16866,7 @@ msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. "
 "syslogd."
-msgstr "Definiert das Log Module für das System. \"Datei\" schreibt alle Meldungen in das angegebene Logfile, \"SysLog\" nutzt den Syslog Deamon des Systems, z.B. syslogd."
+msgstr "Definiert das Log Module für das System. \"Datei\" schreibt alle Meldungen in das angegebene Logfile, \"SysLog\" nutzt den Syslog Daemon des Systems, z.B. syslogd."
 
 #. SysConfig
 msgid ""
@@ -18785,8 +18841,9 @@ msgstr "Wenn aktiviert, werden TicketPhone und TicketEmail in neuen Fenstern ge�
 #. SysConfig
 msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
-"HTTP headers and the X-Headers of outgoing mails."
-msgstr "Wenn aktiviert, werden OTRS-Versionsinformationen aus der Oberfläche und HTTP-Headern und X-Headern entfernt."
+"HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
+"option, please make sure to delete the cache."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18808,10 +18865,17 @@ msgstr "Wenn aktiviert, öffnet sich die erste Ebene des Hauptmenüs beim schon 
 
 #. SysConfig
 msgid ""
+"If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
+"possible to use the email's from address instead of an empty envelope sender"
+" (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
-"empty."
-msgstr "Wenn gesetzt, wird diese Adresse als Envelope-Sender-Header in ausgehenden Benachrichtigungen genutzt. Ist keine Adresse angegeben, bleibt der Header leer."
+"empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21937,7 +22001,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This is the default orange - black skin."
-msgstr ""
+msgstr "Dies ist die Standard orange-schwarze Farbgebung.  "
 
 #. SysConfig
 msgid ""
@@ -21948,7 +22012,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This module is part of the admin area of OTRS."
-msgstr ""
+msgstr "Dieses Modul ist ein teil des Admin-Bereiches von OTRS."
 
 #. SysConfig
 msgid ""
@@ -22351,7 +22415,7 @@ msgstr "Ihre E-Mail mit Ticket-Nummer \"<OTRS_TICKET>\" wurde an \"<OTRS_BOUNCE_
 msgid ""
 "Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr ""
+msgstr "Die Auswahl ihrer bevorzugten (abbonnierten) Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist."
 
 #. SysConfig
 msgid ""

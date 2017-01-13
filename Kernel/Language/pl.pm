@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.698275862068966;
+    $Self->{Completeness}        = 0.697993447993448;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -276,7 +276,7 @@ sub Data {
         'Time Zone' => 'Strefa czasowa',
         'Pending till' => 'Oczekuje do',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            'Nie używaj konta superużytkownika do pracy w OTRS! Utwórz nowych Agentów i korzystaj z nich podaczas pracy!',
+            'Nie używaj konta superużytkownika do pracy w OTRS! Utwórz nowych agentów i korzystaj z nich podczas pracy!',
         'Dispatching by email To: field.' => 'Przydzielaj na podstawie pola DO:',
         'Dispatching by selected Queue.' => 'Przydzielaj na podstawie wybranej kolejki.',
         'No entry found!' => 'Nic nie znaleziono!',
@@ -825,7 +825,7 @@ sub Data {
         'Stop after match' => 'Zatrzymaj po dopasowaniu',
         'Edit ACL structure' => 'Edytuj strukturę ACL',
         'Save settings' => 'Zapisz ustawienia',
-        'Save ACL' => '',
+        'Save ACL' => 'Zapisz ACL',
         'Save' => 'Zapisz',
         'or' => 'lub',
         'Save and finish' => 'Zapisz i zakończ',
@@ -846,7 +846,7 @@ sub Data {
         'List' => 'Lista',
         'Download file' => 'Pobierz plik',
         'Delete this attachment' => 'Usuń ten załącznik',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Czy na pewno usunąć załącznik?',
         'Add Attachment' => 'Dodaj załącznik',
         'Edit Attachment' => 'Edytuj załącznik',
 
@@ -861,7 +861,7 @@ sub Data {
         'You can use the following tags' => 'Możesz używać następujących znaczników',
         'To get the first 20 character of the subject.' => 'Pokaż pierwsze 20 znaków tematu.',
         'To get the first 5 lines of the email.' => 'Pokaż 5 linii wiadomości e-mail.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Pokaż nazwę klienta ze zgłoszenia (jeśli jest podana).',
         'To get the article attribute' => 'Pokaż właściwości wiadomości',
         ' e. g.' => 'np.',
         'Options of the current customer user data' => 'Opcje danych obecnego użytkownika',
@@ -1093,7 +1093,7 @@ sub Data {
         'Run Now!' => 'Uruchom teraz',
         'Delete this task' => 'Usuń to zadanie',
         'Run this task' => 'Uruchom to zadanie',
-        'Do you really want to delete this task?' => '',
+        'Do you really want to delete this task?' => 'Czy na pewno usunąć zadanie?',
         'Job Settings' => 'Ustawienia zadania',
         'Job name' => 'Nazwa zadania',
         'The name you entered already exists.' => 'Podana nazwa już istnieje.',
@@ -1141,7 +1141,7 @@ sub Data {
         'No last changed time settings.' => 'Nie ustawiono czasu ostatniej zmiany.',
         'Ticket last changed' => 'Ostatnia modyfikacja zgłoszenia',
         'Ticket last changed between' => 'Ostatnia modyfikacja zgłoszenia między',
-        'Change times' => 'Zmień czasy',
+        'Change times' => 'Czasy zmiany',
         'No change time settings.' => 'Brak zmiany ustawień czasu',
         'Ticket changed' => 'Zgłoszenie zmieniono',
         'Ticket changed between' => 'Zgłoszenie zmieniono pomiędzy',
@@ -1317,12 +1317,12 @@ sub Data {
         'Delete this Operation' => 'Usuń tę operację',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
-        'GenericInterface Transport HTTP::REST for Web Service %s' => '',
+        'GenericInterface Transport HTTP::REST for Web Service %s' => 'GenericInterface Transport HTTP::REST dla Web Service %s',
         'Network transport' => 'Transport sieciowy',
         'Properties' => 'Właściwości',
         'Route mapping for Operation' => '',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
-            '',
+            'Określ trasę, która powinna zostać odwzorowana dla tej operacji. Zmienne określone przez \':\' zostaną odwzorowane we wprowadzonej nazwie i przekazane dalej razem z innymi do odwzorowań (np. /Ticket/:TicketID).',
         'Valid request methods for Operation' => 'Poprawne metody wywołania dla tej operacji',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
             'Ogranicz tą operację do określonych metod wywołania. Jeżeli żadna metoda nie zostanie wybrana, wszystkie dostępne metody będą akceptowane',
@@ -1420,7 +1420,7 @@ sub Data {
         'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'np. /opt/otrs/var/certificates/SOAP/CA',
         'Sort options' => 'Opcje sortowania',
         'Add new first level element' => '',
-        'Element' => '',
+        'Element' => 'Element',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             '',
 
@@ -1536,7 +1536,7 @@ sub Data {
         'Queue Settings' => 'Ustawienia kolejki',
         'Ticket Settings' => 'Ustawienia zgłoszenia',
         'System Administration' => 'Administracja systemem',
-        'Online Admin Manual' => '',
+        'Online Admin Manual' => 'Dokumentacja Administratora Online',
 
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => 'Zarządzanie powiadomieniami ',
@@ -1919,8 +1919,8 @@ sub Data {
             'Możes umieszczać działania na obszarze projektu aby przypisywać te działania do procesu.',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             'Aby przypisać okno działania do działania, upuść element okna działania z paska bocznego na działanie znajdujące się w obszarze projektu.',
-        'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            'Możesz uruchomić połączenie między działaniami poprzez upuszczenie elementu przejścia na działanie początkowe połączenia. Następnie możesz przenieść luźny koniec strzałki do działania końcowego.',
+        'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
+            '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             'Akcje mogą być przypisywane do przejść poprzez upuszczanie elementu akcji na etykietę przejścia.',
         'Edit Process Information' => 'Edytuj informacje o procesie',
@@ -2939,6 +2939,12 @@ sub Data {
         'Accept' => '',
         'Decline' => '',
         'An internal error occurred.' => '',
+        'Connection error' => '',
+        'Reload page' => '',
+        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
+            '',
+        'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nie jest dostęny',
@@ -3259,7 +3265,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => 'Buforuj wyniki',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Udostępnij statystyki jako widget który agenci mogą aktywowac na swoim pulpicie.',
@@ -3283,9 +3289,9 @@ sub Data {
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
             'Wybierz jeden element lub odznacz przycisk \'Stały\'.',
-        'Absolute period' => '',
+        'Absolute period' => 'Okres bezwzględny',
         'Between' => 'Pomiędzy',
-        'Relative period' => '',
+        'Relative period' => 'Okres względny',
         'The past complete %s and the current+upcoming complete %s %s' =>
             '',
         'Do not allow changes to this element when the statistic is generated.' =>
@@ -3488,6 +3494,7 @@ sub Data {
         'No such file %s in package!' => '',
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
+        'File is OK' => '',
         'Package has locally modified files.' => '',
         'No packages or no new packages found in selected repository.' =>
             '',
@@ -4035,6 +4042,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+        'File is not installed!' => '',
+        'File is different!' => '',
+        'Can\'t read file!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Nieaktywny',
@@ -4352,6 +4362,10 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => 'Zmienne środowiskowe',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+        'Support Data Collection' => '',
+        'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Wersja serwera WWW',
@@ -4751,6 +4765,7 @@ Thanks for your help!
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '',
+        'Controls if CustomerID is editable in the agent interface.' => '',
         'Controls if CutomerID is editable in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontroluje czy klienci mają możliwość sortowania swoimi zgłoszeniami.',
@@ -5897,16 +5912,18 @@ Thanks for your help!
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Jeśli włączone to zgłoszneia telefoniczne i e-mail będą otwierane w nowych oknach.',
-        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
-            'Jeśli włączone to tag z wersją OTRS zostanie usunięty z interfejsu sieciowego, nagłówków HTTP oraz X-Headera wychodzącej poczty.',
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
+            '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Gdy włączone, przeglądy takie jak Pulpit, Zablokowane, Widok kolejek będą automatycznie odświeżane co zadany czas.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Jeśli właczone to pierwszy poziom głównego menu otworzone zostanie przez przesunięcie myszy nad nie (zamiast jedynie poprzez kliknięcie).',
-        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
-            'Jeśli ustawiony, ten adres jest używany w nagłówku \'envelope sender\' wychodzących powiadomień. Jeżeli nie jest podany żaden adres, nagłówek \'envelope sender\' jest pusty.',
+        'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
+            '',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
+            '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'Jeśli ustawiony, ten adres jest używany w nagłówku \'envelope sender\' wychodzących wiadomości (nie powiadomień - patrz niżej). Jeżeli nie jest podany żaden adres, nagłówek \'envelope sender\' jest uzupełniany adresem e-mail kolejki.',
         'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>

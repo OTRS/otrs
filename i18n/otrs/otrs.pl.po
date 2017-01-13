@@ -1,12 +1,13 @@
 # 
 # Translators:
+# Adam <reedu@wp.pl>, 2016
 # Bartosz Huczek <bhuczek@sas24.pl>, 2016
 # icetafax <tomasz.matejunas@cortlandplus.pl>, 2015
 # Jerzy Ruszczak <orcio6@o2.pl>, 2015-2016
 # Mateusz Małek <transifex@mkwm.eu.org>, 2015
 # Michał Kiełkowski <michal.kielkowski@lhsystems.com>, 2015
 # OTRS365 <info@otrs365.com>, 2015
-# Patryk Zera <sanchez@atlasnet.pl>, 2015-2016
+# Patryk Zera <sanchez@atlasnet.pl>, 2015-2017
 # Paweł Bogusławski <pawel.boguslawski@ib.pl>, 2016
 # Przemyslaw Kolba <pkolba@tk.energostal.pl>, 2015
 # Thomas Szteliga <github@websafe.pl>, 2014
@@ -15,8 +16,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-12-07 16:14+0000\n"
-"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"POT-Creation-Date: 2017-01-12 22:57+0000\n"
+"PO-Revision-Date: 2017-01-13 04:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -971,7 +972,7 @@ msgstr "Oczekuje do"
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr "Nie używaj konta superużytkownika do pracy w OTRS! Utwórz nowych Agentów i korzystaj z nich podaczas pracy!"
+msgstr "Nie używaj konta superużytkownika do pracy w OTRS! Utwórz nowych agentów i korzystaj z nich podczas pracy!"
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
@@ -3008,7 +3009,7 @@ msgstr "Zapisz ustawienia"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Zapisz ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -3072,7 +3073,7 @@ msgstr "Usuń ten załącznik"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "Czy na pewno usunąć załącznik?"
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
@@ -3124,7 +3125,7 @@ msgstr "Pokaż 5 linii wiadomości e-mail."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Pokaż nazwę klienta ze zgłoszenia (jeśli jest podana)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3866,7 +3867,7 @@ msgstr "Uruchom to zadanie"
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this task?"
-msgstr ""
+msgstr "Czy na pewno usunąć zadanie?"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -4042,7 +4043,7 @@ msgstr "Ostatnia modyfikacja zgłoszenia między"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
-msgstr "Zmień czasy"
+msgstr "Czasy zmiany"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
@@ -4663,7 +4664,7 @@ msgstr "Usuń tę operację"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
-msgstr ""
+msgstr "GenericInterface Transport HTTP::REST dla Web Service %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network transport"
@@ -4682,7 +4683,7 @@ msgid ""
 "Define the route that should get mapped to this operation. Variables marked "
 "by a ':' will get mapped to the entered name and passed along with the "
 "others to the mapping. (e.g. /Ticket/:TicketID)."
-msgstr ""
+msgstr "Określ trasę, która powinna zostać odwzorowana dla tej operacji. Zmienne określone przez ':' zostaną odwzorowane we wprowadzonej nazwie i przekazane dalej razem z innymi do odwzorowań (np. /Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
@@ -5010,7 +5011,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Element"
-msgstr ""
+msgstr "Element"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -5383,7 +5384,7 @@ msgstr "Administracja systemem"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "Dokumentacja Administratora Online"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
@@ -6648,10 +6649,10 @@ msgstr "Aby przypisać okno działania do działania, upuść element okna dzia�
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
-"You can start a connection between to Activities by dropping the Transition "
-"element over the Start Activity of the connection. After that you can move "
+"You can start a connection between two Activities by dropping the Transition"
+" element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr "Możesz uruchomić połączenie między działaniami poprzez upuszczenie elementu przejścia na działanie początkowe połączenia. Następnie możesz przenieść luźny koniec strzałki do działania końcowego."
+msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -9773,6 +9774,30 @@ msgstr ""
 msgid "An internal error occurred."
 msgstr ""
 
+#. Template: CustomerFooterJS
+msgid "Connection error"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Reload page"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"Your browser was not able to communicate with OTRS properly, there seems to "
+"be something wrong with your network connection. You could either try "
+"reloading this page manually or wait until your browser has re-established "
+"the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"The connection has been re-established after a temporary connection loss. "
+"Due to this, elements on this page could have stopped to work correctly. In "
+"order to be able to use all elements correctly again, it is strongly "
+"recommended to reload this page."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript nie jest dostęny"
@@ -10710,7 +10735,8 @@ msgstr "Buforuj wyniki"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration."
+" the same configuration, but the caching works only with an selected time "
+"field."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -10777,7 +10803,7 @@ msgstr "Wybierz jeden element lub odznacz przycisk 'Stały'."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
-msgstr ""
+msgstr "Okres bezwzględny"
 
 #. Template: RestrictionsWidget
 msgid "Between"
@@ -10785,7 +10811,7 @@ msgstr "Pomiędzy"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
-msgstr ""
+msgstr "Okres względny"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
@@ -11328,6 +11354,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "File is OK"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -12841,6 +12871,18 @@ msgstr ""
 msgid "not installed"
 msgstr ""
 
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is not installed!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is different!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Can't read file!"
+msgstr ""
+
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
 msgstr "Nieaktywny"
@@ -13715,6 +13757,16 @@ msgstr ""
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
 msgstr "Zmienne środowiskowe"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support Data Collection"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support data could not be collected from the web server."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -14999,6 +15051,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -18768,8 +18824,9 @@ msgstr "Jeśli włączone to zgłoszneia telefoniczne i e-mail będą otwierane 
 #. SysConfig
 msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
-"HTTP headers and the X-Headers of outgoing mails."
-msgstr "Jeśli włączone to tag z wersją OTRS zostanie usunięty z interfejsu sieciowego, nagłówków HTTP oraz X-Headera wychodzącej poczty."
+"HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
+"option, please make sure to delete the cache."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18791,10 +18848,17 @@ msgstr "Jeśli właczone to pierwszy poziom głównego menu otworzone zostanie p
 
 #. SysConfig
 msgid ""
+"If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
+"possible to use the email's from address instead of an empty envelope sender"
+" (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
-"empty."
-msgstr "Jeśli ustawiony, ten adres jest używany w nagłówku 'envelope sender' wychodzących powiadomień. Jeżeli nie jest podany żaden adres, nagłówek 'envelope sender' jest pusty."
+"empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
+msgstr ""
 
 #. SysConfig
 msgid ""

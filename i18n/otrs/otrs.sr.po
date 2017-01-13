@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-12-07 16:14+0000\n"
-"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"POT-Creation-Date: 2017-01-12 22:57+0000\n"
+"PO-Revision-Date: 2017-01-13 04:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -6641,10 +6641,10 @@ msgstr "За додељивање Дијалога Активности неко
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
-"You can start a connection between to Activities by dropping the Transition "
-"element over the Start Activity of the connection. After that you can move "
+"You can start a connection between two Activities by dropping the Transition"
+" element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr "Везу између активности можете започети превлачењем елемента транзиције преко почетка активности везе. Након тога можете да преместите слободан крај стрелице до краја активности"
+msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -9766,6 +9766,30 @@ msgstr "Одбаци"
 msgid "An internal error occurred."
 msgstr "Догодила се интерна грешка."
 
+#. Template: CustomerFooterJS
+msgid "Connection error"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Reload page"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"Your browser was not able to communicate with OTRS properly, there seems to "
+"be something wrong with your network connection. You could either try "
+"reloading this page manually or wait until your browser has re-established "
+"the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"The connection has been re-established after a temporary connection loss. "
+"Due to this, elements on this page could have stopped to work correctly. In "
+"order to be able to use all elements correctly again, it is strongly "
+"recommended to reload this page."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript није доступан."
@@ -10703,8 +10727,9 @@ msgstr "Кеширај резултате"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration."
-msgstr "Чува резултате статистика у кешу за касније коришћење у прегледима са истим подешавањима."
+" the same configuration, but the caching works only with an selected time "
+"field."
+msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -11322,6 +11347,10 @@ msgstr "Нема такве датотеке %s у локалном систем
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
 msgstr "Немогуће читање %s!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "File is OK"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
@@ -12834,6 +12863,18 @@ msgstr "Ово подешавање се не може деактивирати.
 msgid "not installed"
 msgstr "није инсталирано"
 
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is not installed!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is different!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Can't read file!"
+msgstr ""
+
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
 msgstr "Неактивно"
@@ -13708,6 +13749,16 @@ msgstr "Apache2::DBI би требало користити за боље пер
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
 msgstr "Променљиве за окружење"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support Data Collection"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support data could not be collected from the web server."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -14993,6 +15044,10 @@ msgstr "Конфигурише подразумевана подешавања �
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Контролише начин приказа историјских уноса тикета као читљивих вредности. "
+
+#. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
@@ -18506,7 +18561,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Уколико је „HTTPBasicAuth„ изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као example_domain\\\\user у user)."
 
 #. SysConfig
 msgid ""
@@ -18761,8 +18816,9 @@ msgstr "Ако је активирано, телефонски и имејл т�
 #. SysConfig
 msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
-"HTTP headers and the X-Headers of outgoing mails."
-msgstr "Ако је активирано, „OTRS” верзија ће бити уклоњена из интерфејса, HTTP заглавља и X-Headers у одлазним имејл порукама."
+"HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
+"option, please make sure to delete the cache."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18784,10 +18840,17 @@ msgstr "Ако је активирано, први ниво главног ме�
 
 #. SysConfig
 msgid ""
+"If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
+"possible to use the email's from address instead of an empty envelope sender"
+" (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
-"empty."
-msgstr "Ако је подешено ова адреса се користи као оквир заглавља пошиљаоца у одлазним обавештењима. Ако адреса није унета, оквир заглавља пошиљаоца је празан."
+"empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -2,7 +2,7 @@
 # Translators:
 # Arnold Mátyási <arn@webma.hu>, 2009
 # Áron Ujvári <ujvari@hungary.com>, 2007
-# Balázs Úr <urbalazs@gmail.com>, 2014-2016
+# Balázs Úr <urbalazs@gmail.com>, 2014-2017
 # Csaba Németh <csaba@sopron.hu>, 2013
 # Flóra Szabó <szaboflora@magicnet.hu>, 2006
 # Gábor Gáncs <gg@magicnet.hu>, 2006
@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-12-07 16:14+0000\n"
-"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"POT-Creation-Date: 2017-01-12 22:57+0000\n"
+"PO-Revision-Date: 2017-01-13 04:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -389,7 +389,7 @@ msgstr "Kapcsolat hozzáadása"
 
 #. Template: AAABase
 msgid "Link"
-msgstr "Hivatkozás"
+msgstr "Összekapcsolás"
 
 #. Template: AAABase
 msgid "Unlink"
@@ -2166,7 +2166,7 @@ msgstr "Lezárt jegyek"
 
 #. Template: AAATicket
 msgid "removed"
-msgstr "törölt"
+msgstr "eltávolított"
 
 #. Template: AAATicket
 msgid "pending reminder"
@@ -2791,7 +2791,7 @@ msgstr "Minden eszkalált jegy"
 #. Template: AAATicket
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Minden emlékeztetővel beállított jegy, ahol az emlékeztető dátuma elérve"
+msgstr "Minden emlékeztetővel beállított jegy, ahol az emlékeztető dátuma lejárt"
 
 #. Template: AAATicket
 msgid "Archived tickets"
@@ -6213,7 +6213,7 @@ msgstr "Ha csak az e-mail cím egyezését szeretné vizsgálni, használja az E
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
-msgstr "Ha reguláris kifejezéseket használ, akkor a () belsejében lévő egyező értéket is használhatja [***] formában a „Set” műveletben."
+msgstr "Ha reguláris kifejezéseket használ, akkor a () belsejében lévő egyező értéket is használhatja [***] formában a „Beállítás” műveletben."
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
@@ -6445,7 +6445,7 @@ msgstr "Amint ezt a gombot vagy hivatkozást használja, el fogja hagyni ezt a k
 msgid ""
 "Please note that changing this activity dialog will affect the following "
 "activities"
-msgstr "Ne feledje, hogy a tevékenység párbeszéd módosítása érinteni fogja a következő folyamatokat"
+msgstr "Ne feledje, hogy a tevékenység párbeszéd módosítása érinteni fogja a következő tevékenységeket"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
@@ -6484,11 +6484,11 @@ msgstr "A kijelölt jogosultság nem létezik."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Required Lock"
-msgstr "Szükséges zár"
+msgstr "Zárolás szükséges"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected required lock does not exist."
-msgstr "A kijelölt szükséges zár nem létezik."
+msgstr "A kijelölt szükséges zárolás nem létezik."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
@@ -6646,10 +6646,10 @@ msgstr "Egy tevékenység párbeszéd hozzárendeléséhez egy folyamathoz húzz
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
-"You can start a connection between to Activities by dropping the Transition "
-"element over the Start Activity of the connection. After that you can move "
+"You can start a connection between two Activities by dropping the Transition"
+" element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr "Kapcsolatot létesíthet a tevékenységek között, ha az átmenet elemet a kapcsolat kezdő tevékenysége fölé ejti. Ezután viheti a nyíl szabad végét a befejező tevékenységre."
+msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -8098,7 +8098,7 @@ msgstr "Blokk"
 
 #. Template: AdminSysConfigEdit
 msgid "AccessKey"
-msgstr "HozzáférésiKulcs"
+msgstr "Hívóbetű"
 
 #. Template: AdminSysConfigEdit
 msgid "Add NavBar entry"
@@ -9771,6 +9771,30 @@ msgstr "Elutasítás"
 msgid "An internal error occurred."
 msgstr "Belső hiba történt."
 
+#. Template: CustomerFooterJS
+msgid "Connection error"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Reload page"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"Your browser was not able to communicate with OTRS properly, there seems to "
+"be something wrong with your network connection. You could either try "
+"reloading this page manually or wait until your browser has re-established "
+"the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"The connection has been re-established after a temporary connection loss. "
+"Due to this, elements on this page could have stopped to work correctly. In "
+"order to be able to use all elements correctly again, it is strongly "
+"recommended to reload this page."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript nem érhető el"
@@ -10708,8 +10732,9 @@ msgstr "Eredmények gyorstárazása"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration."
-msgstr "Eltárolja a statisztikák eredményadatait egy gyorsítótárban az azonos beállítással rendelkező későbbi nézetek használatához."
+" the same configuration, but the caching works only with an selected time "
+"field."
+msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -11327,6 +11352,10 @@ msgstr "Nincs ilyen %s fájl a helyi fájlrendszeren!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
 msgstr "Nem olvasható: %s!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "File is OK"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
@@ -12839,6 +12868,18 @@ msgstr "Ez a beállítás nem kapcsolható ki."
 msgid "not installed"
 msgstr "nincs telepítve"
 
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is not installed!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is different!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Can't read file!"
+msgstr ""
+
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
 msgstr "Inaktív"
@@ -13713,6 +13754,16 @@ msgstr "Az Apache2::DBI használata kellene az előre kiépített adatbázis-kap
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
 msgstr "Környezeti változók"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support Data Collection"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support data could not be collected from the web server."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -14998,6 +15049,10 @@ msgstr "Beállítja az alapértelmezett jegy dinamikus mező beállítást. A �
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Azt szabályozza, hogy hogyan jelenjenek meg a jegy előzmény bejegyzések olvasható értékként."
+
+#. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
@@ -18766,8 +18821,9 @@ msgstr "Ha engedélyezve van, akkor a TicketPhone és TicketEmail új ablakokban
 #. SysConfig
 msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
-"HTTP headers and the X-Headers of outgoing mails."
-msgstr "Ha engedélyezve van, akkor az OTRS verziócímke el lesz távolítva a webes felületről, a HTTP fejlécekből és a kimenő levelek X-Headers bejegyzéseiből."
+"HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
+"option, please make sure to delete the cache."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18789,10 +18845,17 @@ msgstr "Ha engedélyezve van, akkor a főmenü első szintje megnyílik az egér
 
 #. SysConfig
 msgid ""
+"If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
+"possible to use the email's from address instead of an empty envelope sender"
+" (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
-"empty."
-msgstr "Ha be van állítva, akkor ez a cím lesz használva a kimenő értesítések boríték küldő fejléceként. Ha nincs cím beállítva, a boríték küldő fejléc üres."
+"empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
+msgstr ""
 
 #. SysConfig
 msgid ""

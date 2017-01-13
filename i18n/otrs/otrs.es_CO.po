@@ -2,11 +2,12 @@
 # Translators:
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Emmanuel <emmanuel.arias@ya.ru>, 2015
+# Hugo Andres Gomez <sureno755@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-12-07 16:14+0000\n"
-"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"POT-Creation-Date: 2017-01-12 22:57+0000\n"
+"PO-Revision-Date: 2017-01-13 04:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/otrs/OTRS/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -181,11 +182,11 @@ msgstr "semana(s)"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "cuarto"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "cuarto(s)"
 
 #. Template: AAABase
 msgid "half-year"
@@ -225,7 +226,7 @@ msgstr "s"
 
 #. Template: AAABase
 msgid "Time unit"
-msgstr ""
+msgstr "Unidad de tiempo"
 
 #. Template: AAABase
 msgid "wrote"
@@ -645,7 +646,7 @@ msgstr "entre"
 
 #. Template: AAABase
 msgid "before/after"
-msgstr ""
+msgstr "antes/después"
 
 #. Template: AAABase
 msgid "Fulltext Search"
@@ -749,15 +750,15 @@ msgstr ""
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "El contenido del campo es muy largo!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "El tamaño máximo de caracteres es %s"
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "Este campo es obligatorio o"
 
 #. Template: AAABase
 msgid "New message"
@@ -827,12 +828,12 @@ msgstr "Favor de contactar a su administrador"
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr ""
+msgstr "Autenticación exitosa, pero no se encontró ningún cliente en la base de datos. Por favor contacte con su administrador."
 
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Esta dirección de correo electrónico ya existe. Por favor inicie sesión o reestablezca su contraseña. "
 
 #. Template: AAABase
 msgid "Logout"
@@ -840,7 +841,7 @@ msgstr "Cerrar Sesión"
 
 #. Template: AAABase
 msgid "Logout successful. Thank you for using %s!"
-msgstr ""
+msgstr "Cierre de sesión exitoso. Gracias por usar %s!"
 
 #. Template: AAABase
 msgid "Feature not active!"
@@ -852,7 +853,7 @@ msgstr "¡Agente actualizado!"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Selección de Base de Datos"
 
 #. Template: AAABase
 msgid "Create Database"
@@ -896,11 +897,11 @@ msgstr "Base de Datos eliminada."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr ""
+msgstr "Ingrese la contraseña para el usuario administrativo de la base de datos"
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr ""
+msgstr "Ingrese la contraseña para el usuario de la base de datos"
 
 #. Template: AAABase
 msgid ""
@@ -910,7 +911,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr ""
+msgstr "La base de datos ya contiene información - debería estar vacía!"
 
 #. Template: AAABase
 msgid "Login is needed!"
@@ -919,7 +920,7 @@ msgstr "Inicio de sesión requerido."
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "No es posible iniciar sesión debido a un mantenimiento del sistema programado"
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -977,7 +978,7 @@ msgstr "No se encontró entrada alguna."
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
-msgstr ""
+msgstr "Sesión inválida. Por favor inicie sesión nuevamente."
 
 #. Template: AAABase
 msgid "Session has timed out. Please log in again."
@@ -985,7 +986,7 @@ msgstr "La sesión ha caducado. Por favor, conéctese nuevamente."
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
-msgstr ""
+msgstr "El límite de la sesión ha sido alcanzado! Por favor intente nuevamente más tarde."
 
 #. Template: AAABase
 msgid "No Permission!"
@@ -1021,11 +1022,11 @@ msgstr "Usted configuró su cuenta como \"Fuera de la Oficina\", ¿desea deshabi
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "Noticias de lo nuevo en OTRS!"
 
 #. Template: AAABase
 msgid "Go to dashboard!"
-msgstr ""
+msgstr "Ir al tablero!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1097,7 +1098,7 @@ msgstr "¡Compañía cliente actualizada!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "Nota: Compañía es inválida!"
 
 #. Template: AAABase
 msgid "Mail account added!"
@@ -1296,7 +1297,7 @@ msgstr "Hola %s,"
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Esta dirección de correo electrónico no está permitida para el registro. Por favor contacte al personal de soporte."
 
 #. Template: AAABase
 msgid ""
@@ -1373,7 +1374,7 @@ msgstr ""
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr ""
+msgstr "Paquete no verificado por el grupo OTRS! No es recomendable usarlo."
 
 #. Template: AAABase
 msgid ""
@@ -1382,15 +1383,15 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr ""
+msgstr "Si continúa con la instalación de este paquete, pueden ocurrir problemas de seguridad, estabilidad y rendimiento en el sistema.<br><br>Por favor tener en cuenta que estos problemas no están cubiertos por los contratos de servicio de OTRS!"
 
 #. Template: AAABase
 msgid "Mark"
-msgstr ""
+msgstr "Marcar"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "Desmarcar"
 
 #. Template: AAABase
 msgid "Bold"
@@ -1482,15 +1483,15 @@ msgstr "Rehacer"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "El vigilante de"
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "No es posible contactar con el servidor de registro. Por favor intente de nuevo más tarde."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "No se recibió información del servidor de registro. Por favor intente de nuevo más tarde."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
@@ -1498,19 +1499,19 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
-msgstr ""
+msgstr "Usuario y contrasela no coinciden. Por favor intente de nuevo."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr ""
+msgstr "El proceso seleccionado es inválido!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "Actualice a %s ahora!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Ir al centro de mejora %s"
 
 #. Template: AAABase
 msgid ""
@@ -1526,23 +1527,23 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "Su sistema ha sido mejorado exitosamente a %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Ha ocurrido un problema durante la mejora a %s."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s fue instalado correctamente."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Ha ocurrido un problema reinstalando %s."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Su %s fue actualizado correctamente."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
@@ -1550,11 +1551,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s ha sido removido correctamente."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Ha ocurrido un problema removiendo %s."
 
 #. Template: AAABase
 msgid "Enable cloud services to unleash all OTRS features!"
@@ -1714,7 +1715,7 @@ msgstr "Otras Configuraciones"
 
 #. Template: AAAPreferences
 msgid "Notification Settings"
-msgstr ""
+msgstr "Ajustes de Notificación"
 
 #. Template: AAAPreferences
 msgid "Change Password"
@@ -1798,7 +1799,7 @@ msgstr "Vista de Estados"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Vista de Servicio"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2314,7 +2315,7 @@ msgstr "Lo siento, usted debe ser el dueño del ticket para realizar esta acció
 
 #. Template: AAATicket
 msgid "Please change the owner first."
-msgstr ""
+msgstr "Por favor cambie el propietario primero"
 
 #. Template: AAATicket
 msgid "Ticket selected."
@@ -2370,11 +2371,11 @@ msgstr "Buscar Tickets"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Nombre real del cliente"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "Historia del cliente"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -2410,7 +2411,7 @@ msgstr "Dirección %s es reeplazado por la dirección registrada por el cliente.
 
 #. Template: AAATicket
 msgid "Customer user automatically added in Cc."
-msgstr ""
+msgstr "Usuario del cliente añadido automáticamente en CC"
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
@@ -2538,7 +2539,7 @@ msgstr "Tickets Mostrados"
 
 #. Template: AAATicket
 msgid "Shown Columns"
-msgstr ""
+msgstr "Mostrar columnas"
 
 #. Template: AAATicket
 msgid ""
@@ -2799,11 +2800,11 @@ msgstr "Información del Ticket"
 
 #. Template: AAATicket
 msgid "including subqueues"
-msgstr ""
+msgstr "incluyendo sublistas"
 
 #. Template: AAATicket
 msgid "excluding subqueues"
-msgstr ""
+msgstr "excluyendo sublistas"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -2835,11 +2836,11 @@ msgstr "Sáb"
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Administración de ACL"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Filtro para ACLs"
 
 #. Template: AdminACL
 msgid "Filter"
@@ -2847,7 +2848,7 @@ msgstr "Filtro"
 
 #. Template: AdminACL
 msgid "ACL Name"
-msgstr ""
+msgstr "Nombre de ACL"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -2855,15 +2856,15 @@ msgstr "Acciones"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Crear nueva ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Desplegar"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Exportar ACLs"
 
 #. Template: AdminACL
 msgid "Configuration import"
@@ -2881,15 +2882,15 @@ msgstr "Este es un campo obligatorio."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Reemplazar ACLs existentes?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "Cargar configuración de ACL"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "Importar configuración(es) de ACL"
 
 #. Template: AdminACL
 msgid ""
@@ -2925,7 +2926,7 @@ msgstr "Validez"
 
 #. Template: AdminACL
 msgid "Copy"
-msgstr ""
+msgstr "Copiar"
 
 #. Template: AdminACL
 msgid "No data found."
@@ -2933,7 +2934,7 @@ msgstr "No se encontraron datos."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Editar ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -2941,11 +2942,11 @@ msgstr "Ir la vista de resumen"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Borrar ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Borrar ACL inválida"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
@@ -6638,8 +6639,8 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
-"You can start a connection between to Activities by dropping the Transition "
-"element over the Start Activity of the connection. After that you can move "
+"You can start a connection between two Activities by dropping the Transition"
+" element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
 msgstr ""
 
@@ -9763,6 +9764,30 @@ msgstr ""
 msgid "An internal error occurred."
 msgstr ""
 
+#. Template: CustomerFooterJS
+msgid "Connection error"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Reload page"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"Your browser was not able to communicate with OTRS properly, there seems to "
+"be something wrong with your network connection. You could either try "
+"reloading this page manually or wait until your browser has re-established "
+"the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"The connection has been re-established after a temporary connection loss. "
+"Due to this, elements on this page could have stopped to work correctly. In "
+"order to be able to use all elements correctly again, it is strongly "
+"recommended to reload this page."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "JavaScript No Disponible"
@@ -10700,7 +10725,8 @@ msgstr ""
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration."
+" the same configuration, but the caching works only with an selected time "
+"field."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -11318,6 +11344,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "File is OK"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -12831,6 +12861,18 @@ msgstr ""
 msgid "not installed"
 msgstr ""
 
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is not installed!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is different!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Can't read file!"
+msgstr ""
+
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
 msgstr ""
@@ -13704,6 +13746,16 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support Data Collection"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support data could not be collected from the web server."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
@@ -14989,6 +15041,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -18758,7 +18814,8 @@ msgstr "Si se habilita, los módulos de tickets telefónico y de correo electró
 #. SysConfig
 msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
-"HTTP headers and the X-Headers of outgoing mails."
+"HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
+"option, please make sure to delete the cache."
 msgstr ""
 
 #. SysConfig
@@ -18781,9 +18838,16 @@ msgstr "Si se habilita, el primer nivel del menú principal se abre al posiciona
 
 #. SysConfig
 msgid ""
+"If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
+"possible to use the email's from address instead of an empty envelope sender"
+" (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
-"empty."
+"empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
 
 #. SysConfig

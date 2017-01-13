@@ -2,11 +2,12 @@
 # Translators:
 # Ann Li <dn.annli@gmail.com>, 2016
 # Sam Chen <silent198214@gmail.com>, 2016
+# 育彰 楊 <yuchang.yang@grandfortunetech.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2016-12-07 16:14+0000\n"
-"PO-Revision-Date: 2016-12-07 22:21+0000\n"
+"POT-Creation-Date: 2017-01-12 22:57+0000\n"
+"PO-Revision-Date: 2017-01-13 04:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/otrs/OTRS/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -29,31 +30,31 @@ msgstr "是"
 
 #. Template: AAABase
 msgid "no"
-msgstr "未設置"
+msgstr "否"
 
 #. Template: AAABase
 msgid "Off"
-msgstr "關"
+msgstr "關閉"
 
 #. Template: AAABase
 msgid "off"
-msgstr "關"
+msgstr "關閉"
 
 #. Template: AAABase
 msgid "On"
-msgstr "開"
+msgstr "開啟"
 
 #. Template: AAABase
 msgid "on"
-msgstr "開"
+msgstr "開啟"
 
 #. Template: AAABase
 msgid "top"
-msgstr "頂端"
+msgstr "頂部"
 
 #. Template: AAABase
 msgid "end"
-msgstr "底部"
+msgstr "結束"
 
 #. Template: AAABase
 msgid "Done"
@@ -173,19 +174,19 @@ msgstr "月"
 
 #. Template: AAABase
 msgid "week"
-msgstr "星期"
+msgstr "週"
 
 #. Template: AAABase
 msgid "week(s)"
-msgstr "星期"
+msgstr "週"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr ""
+msgstr "季"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr ""
+msgstr "季"
 
 #. Template: AAABase
 msgid "half-year"
@@ -193,7 +194,7 @@ msgstr "半年"
 
 #. Template: AAABase
 msgid "half-year(s)"
-msgstr ""
+msgstr "半年"
 
 #. Template: AAABase
 msgid "year"
@@ -433,7 +434,7 @@ msgstr "標準"
 
 #. Template: AAABase
 msgid "Lite"
-msgstr "簡潔"
+msgstr "精簡"
 
 #. Template: AAABase
 msgid "User"
@@ -457,7 +458,7 @@ msgstr "密碼"
 
 #. Template: AAABase
 msgid "Preferences"
-msgstr "首選項"
+msgstr "個人設置"
 
 #. Template: AAABase
 msgid "Salutation"
@@ -477,15 +478,15 @@ msgstr "回復簽名"
 
 #. Template: AAABase
 msgid "Customer"
-msgstr "用戶單位"
+msgstr "客戶"
 
 #. Template: AAABase
 msgid "CustomerID"
-msgstr "單位編號"
+msgstr "客戶編號"
 
 #. Template: AAABase
 msgid "CustomerIDs"
-msgstr "單位編號"
+msgstr "客戶編號"
 
 #. Template: AAABase
 msgid "customer"
@@ -501,19 +502,19 @@ msgstr "系統"
 
 #. Template: AAABase
 msgid "Customer Info"
-msgstr "用戶信息"
+msgstr "客戶訊息"
 
 #. Template: AAABase
 msgid "Customer Information"
-msgstr "用戶信息"
+msgstr "客戶訊息"
 
 #. Template: AAABase
 msgid "Customer Companies"
-msgstr "用戶單位"
+msgstr "公司名稱"
 
 #. Template: AAABase
 msgid "Company"
-msgstr "單位"
+msgstr "公司"
 
 #. Template: AAABase
 msgid "go!"
@@ -533,7 +534,7 @@ msgstr "全部"
 
 #. Template: AAABase
 msgid "Sorry"
-msgstr "對不起"
+msgstr "抱歉"
 
 #. Template: AAABase
 msgid "update!"
@@ -641,7 +642,7 @@ msgstr "及"
 
 #. Template: AAABase
 msgid "between"
-msgstr "絕對"
+msgstr "之間"
 
 #. Template: AAABase
 msgid "before/after"
@@ -677,7 +678,7 @@ msgstr "編輯"
 
 #. Template: AAABase
 msgid "View"
-msgstr "查看"
+msgstr "瀏覽"
 
 #. Template: AAABase
 msgid "Number"
@@ -1021,11 +1022,11 @@ msgstr "您已設置為不在辦公室，是否取消它?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "關於OTRS發布的新聞！"
 
 #. Template: AAABase
 msgid "Go to dashboard!"
-msgstr ""
+msgstr "轉到儀表板"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1482,15 +1483,15 @@ msgstr "重做"
 
 #. Template: AAABase
 msgid "OTRS Daemon is not running."
-msgstr ""
+msgstr "OTRS Daemon未在運行"
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "無法聯繫註冊伺服器。 請稍後再試。"
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "未從註冊伺服器收到回應。 請稍後再試。"
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
@@ -1502,7 +1503,7 @@ msgstr "帳號密碼錯誤，請重新輸入。"
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr ""
+msgstr "所選處理無效！"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
@@ -1510,19 +1511,19 @@ msgstr "即時升級至 %s！"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s 轉到升級中心 %s"
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "您的％s的許可即將到期。 請與％s聯繫以續訂您的合約！"
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "您％S有可用的更新，但與你的框架版本衝突！ 請先更新您的框架！"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
@@ -1530,15 +1531,15 @@ msgstr "您的系統成功升級至 %s。"
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "在升級到％s期間出現問題。"
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s 已正確重新安裝。"
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "重新安裝％s時出現問題。"
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
@@ -1546,19 +1547,19 @@ msgstr "您的 %s 已成功更新。 "
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "在％S的升級過程中出現問題。"
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "成功解除安裝了％s。"
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "解除安裝“％s”時出現問題。"
 
 #. Template: AAABase
 msgid "Enable cloud services to unleash all OTRS features!"
-msgstr ""
+msgstr "啟用雲端服務釋放所有OTRS功能！"
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -2106,19 +2107,19 @@ msgstr "工單升級視圖"
 
 #. Template: AAATicket
 msgid "Message from"
-msgstr ""
+msgstr "來自的訊息"
 
 #. Template: AAATicket
 msgid "End message"
-msgstr ""
+msgstr "結束訊息"
 
 #. Template: AAATicket
 msgid "Forwarded message from"
-msgstr ""
+msgstr "從轉發的郵件"
 
 #. Template: AAATicket
 msgid "End forwarded message"
-msgstr ""
+msgstr "結束轉發消息"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
@@ -2568,7 +2569,7 @@ msgstr "工單%s: 解決時間已超過(%s)!"
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time will be over in %s!"
-msgstr ""
+msgstr "工單％s：處理時間將在％s結束！"
 
 #. Template: AAATicket
 msgid "There are more escalated tickets!"
@@ -6638,10 +6639,10 @@ msgstr "為了給環節指派環節操作，需要將左側的環節操作拖放
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
-"You can start a connection between to Activities by dropping the Transition "
-"element over the Start Activity of the connection. After that you can move "
+"You can start a connection between two Activities by dropping the Transition"
+" element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr "為了實現環節之間的轉向，需要將左側的轉向拖放至畫布中並將它放至在開始環節上，然後再將轉向箭頭拖放至結束環節上。"
+msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -9763,6 +9764,30 @@ msgstr "拒絕"
 msgid "An internal error occurred."
 msgstr ""
 
+#. Template: CustomerFooterJS
+msgid "Connection error"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Reload page"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"Your browser was not able to communicate with OTRS properly, there seems to "
+"be something wrong with your network connection. You could either try "
+"reloading this page manually or wait until your browser has re-established "
+"the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"The connection has been re-established after a temporary connection loss. "
+"Due to this, elements on this page could have stopped to work correctly. In "
+"order to be able to use all elements correctly again, it is strongly "
+"recommended to reload this page."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr "沒有啟用 JavaScript"
@@ -10700,7 +10725,8 @@ msgstr "緩存結果"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration."
+" the same configuration, but the caching works only with an selected time "
+"field."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -11318,6 +11344,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "File is OK"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -12831,6 +12861,18 @@ msgstr ""
 msgid "not installed"
 msgstr "沒有安裝"
 
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is not installed!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "File is different!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Can't read file!"
+msgstr ""
+
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
 msgstr "非活動的"
@@ -13704,6 +13746,16 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support Data Collection"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+msgid "Support data could not be collected from the web server."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
@@ -14989,6 +15041,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -18758,7 +18814,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
-"HTTP headers and the X-Headers of outgoing mails."
+"HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
+"option, please make sure to delete the cache."
 msgstr ""
 
 #. SysConfig
@@ -18781,9 +18838,16 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
+"possible to use the email's from address instead of an empty envelope sender"
+" (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
-"empty."
+"empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
 
 #. SysConfig

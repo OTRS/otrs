@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.975574712643678;
+    $Self->{Completeness}        = 0.972358722358722;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1917,8 +1917,8 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
             'Anda dapat menempatkan aktivitas dikanvas untuk menetapkan kegiatan ini kedalam proses.',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             'Untuk menetapkan sebuah Kegiatan Dialog, sebuah Kegiatan menjatuhkan elemen Kegiatan Dialog dari sidebar ini lebih tempat kegiatan di daerah kanvas.',
-        'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            'Anda dapat memulai koneksi antara dua Aktivitas dengan menjatuhkan unsur Transisi selama Aktivitas Start terhubung. Setelah itu Anda dapat memindahkan panah ke Kegiatan Akhir.',
+        'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
+            '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             'Tindakan dapat ditugaskan ke sebuah Transisi dengan menjatuhkan Action Elemen ke label Transisi a.',
         'Edit Process Information' => 'Mengubah proses informasi',
@@ -2938,6 +2938,12 @@ bin/otrs.Daemon.pl status\').',
         'Accept' => 'Menerima',
         'Decline' => 'Menolak',
         'An internal error occurred.' => 'Terjadi kesalahan internal.',
+        'Connection error' => '',
+        'Reload page' => '',
+        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
+            '',
+        'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript tidak tersedia',
@@ -3258,8 +3264,8 @@ bin/otrs.Daemon.pl status\').',
         'Generate an additional column containing sums for all data columns.' =>
             'Menghasilkan kolom yang berisi tambahan jumlah untuk semua kolom data.',
         'Cache results' => 'Hasil cache',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
-            'Statistik yang tersimpan menghasilkan data dalam cache untuk digunakan dalam tampilan berikutnya dengan konfigurasi yang sama.',
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+            '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Menyediakan statistik sebagai widget bahwa agen dapat mengaktifkan di dashboard mereka.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
@@ -3487,6 +3493,7 @@ bin/otrs.Daemon.pl status\').',
         'No such file %s in package!' => 'Tidak ada file seperti %s dalam paket',
         'No such file %s in local file system!' => 'Tidak ada jenis file %s di dalam file sistem lokal!',
         'Can\'t read %s!' => 'Tidak bisa dibaca %s!',
+        'File is OK' => '',
         'Package has locally modified files.' => 'Paket telah diubah secara lokal',
         'No packages or no new packages found in selected repository.' =>
             'Tidak ada paket atau tidak ada paket baru ditemukan dalam repositori yang dipilih.',
@@ -4034,6 +4041,9 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'Tidak diinstall',
+        'File is not installed!' => '',
+        'File is different!' => '',
+        'Can\'t read file!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Tidak aktif',
@@ -4351,6 +4361,10 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+        'Support Data Collection' => '',
+        'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Versi Webserver',
@@ -4758,6 +4772,7 @@ Helpdesk Team Anda
             'Mengkonfigurasi TicketDynamicField pengaturan default. "Nama" mendefinisikan bidang yang dinamis yang harus digunakan, "Value" adalah data yang akan ditetapkan, dan "Event" mendefinisikan acara pemicu. Silakan periksa pengembang user (http://otrs.github.io/doc/), bab "Ticket acara Modul".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontrol bagaimana menampilkan entri sejarah tiket sebagai nilai-nilai yang dapat dibaca.',
+        'Controls if CustomerID is editable in the agent interface.' => '',
         'Controls if CutomerID is editable in the agent interface.' => 'Kontrol jika Pelanggan dapat diedit di antarmuka agen.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontrol jika pelanggan memiliki kemampuan untuk memilah tiket mereka.',
@@ -5905,16 +5920,18 @@ Helpdesk Team Anda
             'Jika diaktifkan, OTRS akan memberikan semua file JavaScript dalam bentuk minified.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Jika diaktifkan, Telepon Tiket dan Ticket Email akan terbuka di jendela baru.',
-        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
-            'Jika diaktifkan, tag versi OTRS akan dihapus dari Web Interface, header HTTP dan X-Header mail keluar.',
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
+            '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'Jika diaktifkan, pelanggan dapat mencari tiket di semua layanan (layanan terlepas apa yang ditugaskan kepada pelanggan).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Jika diaktifkan, ikhtisar yang berbeda (Dashboard, Lockview, QueueView) akan secara otomatis me-refresh setelah waktu yang ditentukan.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Jika diaktifkan, tingkat pertama dari menu utama terbuka pada mouse hover (bukan klik saja).',
-        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
-            'Jika diatur, alamat ini digunakan sebagai header pengirim amplop di notifikasi keluar. Jika tidak ada alamat yang ditentukan, header pengirim amplop kosong.',
+        'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
+            '',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
+            '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'Jika diatur, alamat ini digunakan sebagai pengirim amplop di pesan keluar (tidak pemberitahuan - lihat di bawah). Jika tidak ada alamat yang ditentukan, pengirim amplop sama dengan antrian alamat e-mail.',
         'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>

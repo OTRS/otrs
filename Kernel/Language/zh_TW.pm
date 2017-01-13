@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.477422003284072;
+    $Self->{Completeness}        = 0.480753480753481;
 
     # csv separator
     $Self->{Separator} = '';
@@ -37,13 +37,13 @@ sub Data {
         'Yes' => '是',
         'No' => '否',
         'yes' => '是',
-        'no' => '未設置',
-        'Off' => '關',
-        'off' => '關',
-        'On' => '開',
-        'on' => '開',
-        'top' => '頂端',
-        'end' => '底部',
+        'no' => '否',
+        'Off' => '關閉',
+        'off' => '關閉',
+        'On' => '開啟',
+        'on' => '開啟',
+        'top' => '頂部',
+        'end' => '結束',
         'Done' => '確認',
         'Cancel' => '取消',
         'Reset' => '重置',
@@ -73,12 +73,12 @@ sub Data {
         'month' => '月',
         'months' => '月',
         'month(s)' => '月',
-        'week' => '星期',
-        'week(s)' => '星期',
-        'quarter' => '',
-        'quarter(s)' => '',
+        'week' => '週',
+        'week(s)' => '週',
+        'quarter' => '季',
+        'quarter(s)' => '季',
         'half-year' => '半年',
-        'half-year(s)' => '',
+        'half-year(s)' => '半年',
         'year' => '年',
         'years' => '年',
         'year(s)' => '年',
@@ -138,32 +138,32 @@ sub Data {
         'Hits' => '點擊數',
         'Text' => '正文',
         'Standard' => '標準',
-        'Lite' => '簡潔',
+        'Lite' => '精簡',
         'User' => '用戶',
         'Username' => '用戶名',
         'Language' => '語言',
         'Languages' => '語言',
         'Password' => '密碼',
-        'Preferences' => '首選項',
+        'Preferences' => '個人設置',
         'Salutation' => '回復抬頭',
         'Salutations' => '回復抬頭',
         'Signature' => '回復簽名',
         'Signatures' => '回復簽名',
-        'Customer' => '用戶單位',
-        'CustomerID' => '單位編號',
-        'CustomerIDs' => '單位編號',
+        'Customer' => '客戶',
+        'CustomerID' => '客戶編號',
+        'CustomerIDs' => '客戶編號',
         'customer' => '用戶單位',
         'agent' => '服務人員',
         'system' => '系統',
-        'Customer Info' => '用戶信息',
-        'Customer Information' => '用戶信息',
-        'Customer Companies' => '用戶單位',
-        'Company' => '單位',
+        'Customer Info' => '客戶訊息',
+        'Customer Information' => '客戶訊息',
+        'Customer Companies' => '公司名稱',
+        'Company' => '公司',
         'go!' => '開始!',
         'go' => '開始',
         'All' => '全部',
         'all' => '全部',
-        'Sorry' => '對不起',
+        'Sorry' => '抱歉',
         'update!' => '更新!',
         'update' => '更新',
         'Update' => '更新',
@@ -190,7 +190,7 @@ sub Data {
         'Changed by' => '修改人',
         'Search' => '搜索',
         'and' => '及',
-        'between' => '絕對',
+        'between' => '之間',
         'before/after' => '相對',
         'Fulltext Search' => '全文檢索',
         'Data' => '日期',
@@ -199,7 +199,7 @@ sub Data {
         'Item' => '條目',
         'Delete' => '刪除',
         'Edit' => '編輯',
-        'View' => '查看',
+        'View' => '瀏覽',
         'Number' => '編號',
         'System' => '系統',
         'Contact' => '聯系人',
@@ -292,8 +292,8 @@ sub Data {
         'Check to activate this date' => '選中它，以便設置這個日期',
         'You have Out of Office enabled, would you like to disable it?' =>
             '您已設置為不在辦公室，是否取消它?',
-        'News about OTRS releases!' => '',
-        'Go to dashboard!' => '',
+        'News about OTRS releases!' => '關於OTRS發布的新聞！',
+        'Go to dashboard!' => '轉到儀表板',
         'Customer %s added' => '用戶%s已添加',
         'Role added!' => '角色已添加！',
         'Role updated!' => '角色已更新！',
@@ -412,28 +412,28 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => '復原',
         'Redo' => '重做',
-        'OTRS Daemon is not running.' => '',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'OTRS Daemon is not running.' => 'OTRS Daemon未在運行',
+        'Can\'t contact registration server. Please try again later.' => '無法聯繫註冊伺服器。 請稍後再試。',
         'No content received from registration server. Please try again later.' =>
-            '',
+            '未從註冊伺服器收到回應。 請稍後再試。',
         'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => '帳號密碼錯誤，請重新輸入。',
-        'The selected process is invalid!' => '',
+        'The selected process is invalid!' => '所選處理無效！',
         'Upgrade to %s now!' => '即時升級至 %s！',
-        '%s Go to the upgrade center %s' => '',
+        '%s Go to the upgrade center %s' => '%s 轉到升級中心 %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            '您的％s的許可即將到期。 請與％s聯繫以續訂您的合約！',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
+            '您％S有可用的更新，但與你的框架版本衝突！ 請先更新您的框架！',
         'Your system was successfully upgraded to %s.' => '您的系統成功升級至 %s。',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
+        'There was a problem during the upgrade to %s.' => '在升級到％s期間出現問題。',
+        '%s was correctly reinstalled.' => '%s 已正確重新安裝。',
+        'There was a problem reinstalling %s.' => '重新安裝％s時出現問題。',
         'Your %s was successfully updated.' => '您的 %s 已成功更新。 ',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
-        'Enable cloud services to unleash all OTRS features!' => '',
+        'There was a problem during the upgrade of %s.' => '在％S的升級過程中出現問題。',
+        '%s was correctly uninstalled.' => '成功解除安裝了％s。',
+        'There was a problem uninstalling %s.' => '解除安裝“％s”時出現問題。',
+        'Enable cloud services to unleash all OTRS features!' => '啟用雲端服務釋放所有OTRS功能！',
 
         # Template: AAACalendar
         'New Year\'s Day' => '元旦',
@@ -585,10 +585,10 @@ sub Data {
         'last-search' => '上次搜索',
         'QueueView' => '隊列視圖',
         'Ticket Escalation View' => '工單升級視圖',
-        'Message from' => '',
-        'End message' => '',
-        'Forwarded message from' => '',
-        'End forwarded message' => '',
+        'Message from' => '來自的訊息',
+        'End message' => '結束訊息',
+        'Forwarded message from' => '從轉發的郵件',
+        'End forwarded message' => '結束轉發消息',
         'Bounce Article to a different mail address' => '',
         'Reply to note' => '',
         'new' => '新建',
@@ -702,7 +702,7 @@ sub Data {
         'Ticket %s: update time is over (%s)!' => '工單%s: 更新時間已超過(%s)!',
         'Ticket %s: update time will be over in %s!' => '工單%s: 更新時間將在(%s)内超時!',
         'Ticket %s: solution time is over (%s)!' => '工單%s: 解決時間已超過(%s)!',
-        'Ticket %s: solution time will be over in %s!' => '解決時間將在(%s)内超時!',
+        'Ticket %s: solution time will be over in %s!' => '工單％s：處理時間將在％s結束！',
         'There are more escalated tickets!' => '有更多升級的工單',
         'Plain Format' => '純文本格式',
         'Reply All' => '回復所有',
@@ -1918,8 +1918,8 @@ sub Data {
             '可能將環節拖放至畫布中，以便為流程指派環節。',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             '為了給環節指派環節操作，需要將左側的環節操作拖放至畫布中的環節上。',
-        'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            '為了實現環節之間的轉向，需要將左側的轉向拖放至畫布中並將它放至在開始環節上，然後再將轉向箭頭拖放至結束環節上。',
+        'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
+            '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '為了給轉向指派轉向動作，需要將左側轉向動作拖放至轉向標簽上。',
         'Edit Process Information' => '編輯流程信息',
@@ -2938,6 +2938,12 @@ sub Data {
         'Accept' => '',
         'Decline' => '拒絕',
         'An internal error occurred.' => '',
+        'Connection error' => '',
+        'Reload page' => '',
+        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
+            '',
+        'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => '沒有啟用 JavaScript',
@@ -3258,7 +3264,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '緩存結果',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '將該統計作為部件顯示在儀表板中.',
@@ -3487,6 +3493,7 @@ sub Data {
         'No such file %s in package!' => '',
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
+        'File is OK' => '',
         'Package has locally modified files.' => '',
         'No packages or no new packages found in selected repository.' =>
             '',
@@ -4034,6 +4041,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '沒有安裝',
+        'File is not installed!' => '',
+        'File is different!' => '',
+        'Can\'t read file!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => '非活動的',
@@ -4351,6 +4361,10 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+        'Support Data Collection' => '',
+        'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => '',
@@ -4750,6 +4764,7 @@ Thanks for your help!
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '',
+        'Controls if CustomerID is editable in the agent interface.' => '',
         'Controls if CutomerID is editable in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -5896,7 +5911,7 @@ Thanks for your help!
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '',
-        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
@@ -5904,7 +5919,9 @@ Thanks for your help!
             '如果啟用，所有概況(儀表板、鎖定概況、隊列概況)將在指定的間隔時間進行顯示刷新。',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
-        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
+        'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
+            '',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',

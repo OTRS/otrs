@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.457717569786535;
+    $Self->{Completeness}        = 0.469082719082719;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -73,8 +73,8 @@ sub Data {
         'month(s)' => 'mes(es)',
         'week' => 'semana',
         'week(s)' => 'semana(s)',
-        'quarter' => '',
-        'quarter(s)' => '',
+        'quarter' => 'cuarto',
+        'quarter(s)' => 'cuarto(s)',
         'half-year' => '',
         'half-year(s)' => '',
         'year' => 'año',
@@ -84,7 +84,7 @@ sub Data {
         'seconds' => 'segundos',
         'second' => 'segundo',
         's' => 's',
-        'Time unit' => '',
+        'Time unit' => 'Unidad de tiempo',
         'wrote' => 'escribió',
         'Message' => 'Mensaje',
         'Error' => 'Error',
@@ -189,7 +189,7 @@ sub Data {
         'Search' => 'Buscar',
         'and' => 'y',
         'between' => 'entre',
-        'before/after' => '',
+        'before/after' => 'antes/después',
         'Fulltext Search' => 'Búsqueda de texto completo',
         'Data' => 'Datos',
         'Options' => 'Opciones',
@@ -215,9 +215,9 @@ sub Data {
         'Large' => 'Grande',
         'Date picker' => 'Selector de fecha',
         'Show Tree Selection' => '',
-        'The field content is too long!' => '',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'The field content is too long!' => 'El contenido del campo es muy largo!',
+        'Maximum size is %s characters.' => 'El tamaño máximo de caracteres es %s',
+        'This field is required or' => 'Este campo es obligatorio o',
         'New message' => 'Mensaje nuevo',
         'New message!' => '¡Mensaje nuevo!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -237,14 +237,14 @@ sub Data {
         'There is no acount with that user name.' => 'No existe una cuenta para ese nombre de usuario',
         'Please contact your administrator' => 'Favor de contactar a su administrador',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            '',
+            'Autenticación exitosa, pero no se encontró ningún cliente en la base de datos. Por favor contacte con su administrador.',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            '',
+            'Esta dirección de correo electrónico ya existe. Por favor inicie sesión o reestablezca su contraseña. ',
         'Logout' => 'Cerrar Sesión',
-        'Logout successful. Thank you for using %s!' => '',
+        'Logout successful. Thank you for using %s!' => 'Cierre de sesión exitoso. Gracias por usar %s!',
         'Feature not active!' => 'Funcionalidad inactiva.',
         'Agent updated!' => '¡Agente actualizado!',
-        'Database Selection' => '',
+        'Database Selection' => 'Selección de Base de Datos',
         'Create Database' => 'Crear Base de Datos',
         'System Settings' => 'Configuración del sistema',
         'Mail Configuration' => 'Configuración de Correo',
@@ -255,14 +255,14 @@ sub Data {
         'Database' => 'Base de Datos',
         'Configure Mail' => 'Configurar Correo',
         'Database deleted.' => 'Base de Datos eliminada.',
-        'Enter the password for the administrative database user.' => '',
-        'Enter the password for the database user.' => '',
+        'Enter the password for the administrative database user.' => 'Ingrese la contraseña para el usuario administrativo de la base de datos',
+        'Enter the password for the database user.' => 'Ingrese la contraseña para el usuario de la base de datos',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
-        'Database already contains data - it should be empty!' => '',
+        'Database already contains data - it should be empty!' => 'La base de datos ya contiene información - debería estar vacía!',
         'Login is needed!' => 'Inicio de sesión requerido.',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            'No es posible iniciar sesión debido a un mantenimiento del sistema programado',
         'Password is needed!' => 'Contraseña requerida.',
         'Take this Customer' => 'Utilizar este cliente',
         'Take this User' => 'Utilizar este usuario',
@@ -277,9 +277,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Despachar por el campo Para: del correo electrónico.',
         'Dispatching by selected Queue.' => 'Despachar por la fila seleccionada.',
         'No entry found!' => 'No se encontró entrada alguna.',
-        'Session invalid. Please log in again.' => '',
+        'Session invalid. Please log in again.' => 'Sesión inválida. Por favor inicie sesión nuevamente.',
         'Session has timed out. Please log in again.' => 'La sesión ha caducado. Por favor, conéctese nuevamente.',
-        'Session limit reached! Please try again later.' => '',
+        'Session limit reached! Please try again later.' => 'El límite de la sesión ha sido alcanzado! Por favor intente nuevamente más tarde.',
         'No Permission!' => 'No tiene Permiso.',
         '(Click here to add)' => '(Haga click aquí para añadir)',
         'Preview' => 'Vista Previa',
@@ -290,8 +290,8 @@ sub Data {
         'Check to activate this date' => 'Chequear para activar esta fecha',
         'You have Out of Office enabled, would you like to disable it?' =>
             'Usted configuró su cuenta como "Fuera de la Oficina", ¿desea deshabilitarlo?',
-        'News about OTRS releases!' => '',
-        'Go to dashboard!' => '',
+        'News about OTRS releases!' => 'Noticias de lo nuevo en OTRS!',
+        'Go to dashboard!' => 'Ir al tablero!',
         'Customer %s added' => 'Cliente %s añadido',
         'Role added!' => '¡Rol añadido!',
         'Role updated!' => '¡Rol actualizado!',
@@ -309,7 +309,7 @@ sub Data {
         'Customer updated!' => '¡Cliente actualizado!',
         'Customer company added!' => '¡Compañía cliente agregada!',
         'Customer company updated!' => '¡Compañía cliente actualizada!',
-        'Note: Company is invalid!' => '',
+        'Note: Company is invalid!' => 'Nota: Compañía es inválida!',
         'Mail account added!' => '¡Cuenta de correo agregada!',
         'Mail account updated!' => '¡Cuenta de correo actualizada!',
         'System e-mail address added!' => '¡Dirección de correo del sistema agregada!',
@@ -362,7 +362,7 @@ sub Data {
         'Dear %s,' => 'Apreciable %s,',
         'Hello %s,' => 'Hola %s,',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            'Esta dirección de correo electrónico no está permitida para el registro. Por favor contacte al personal de soporte.',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Cuenta nueva creada. Información de inicio de sesión enviada a %s. Por favor, revise su correo electrónico.',
         'Please press Back and try again.' => 'Por favor, presione Atrás e inténtelo de nuevo.',
@@ -383,11 +383,11 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             '',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
+            'Paquete no verificado por el grupo OTRS! No es recomendable usarlo.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '',
-        'Mark' => '',
-        'Unmark' => '',
+            'Si continúa con la instalación de este paquete, pueden ocurrir problemas de seguridad, estabilidad y rendimiento en el sistema.<br><br>Por favor tener en cuenta que estos problemas no están cubiertos por los contratos de servicio de OTRS!',
+        'Mark' => 'Marcar',
+        'Unmark' => 'Desmarcar',
         'Bold' => 'Negritas',
         'Italic' => 'Cursiva',
         'Underline' => 'Subrallado',
@@ -410,27 +410,27 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Deshacer',
         'Redo' => 'Rehacer',
-        'OTRS Daemon is not running.' => '',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'OTRS Daemon is not running.' => 'El vigilante de',
+        'Can\'t contact registration server. Please try again later.' => 'No es posible contactar con el servidor de registro. Por favor intente de nuevo más tarde.',
         'No content received from registration server. Please try again later.' =>
-            '',
+            'No se recibió información del servidor de registro. Por favor intente de nuevo más tarde.',
         'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
-        'The selected process is invalid!' => '',
-        'Upgrade to %s now!' => '',
-        '%s Go to the upgrade center %s' => '',
+        'Username and password do not match. Please try again.' => 'Usuario y contrasela no coinciden. Por favor intente de nuevo.',
+        'The selected process is invalid!' => 'El proceso seleccionado es inválido!',
+        'Upgrade to %s now!' => 'Actualice a %s ahora!',
+        '%s Go to the upgrade center %s' => '%s Ir al centro de mejora %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             '',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
+        'Your system was successfully upgraded to %s.' => 'Su sistema ha sido mejorado exitosamente a %s.',
+        'There was a problem during the upgrade to %s.' => 'Ha ocurrido un problema durante la mejora a %s.',
+        '%s was correctly reinstalled.' => '%s fue instalado correctamente.',
+        'There was a problem reinstalling %s.' => 'Ha ocurrido un problema reinstalando %s.',
+        'Your %s was successfully updated.' => 'Su %s fue actualizado correctamente.',
         'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        '%s was correctly uninstalled.' => '%s ha sido removido correctamente.',
+        'There was a problem uninstalling %s.' => 'Ha ocurrido un problema removiendo %s.',
         'Enable cloud services to unleash all OTRS features!' => '',
 
         # Template: AAACalendar
@@ -478,7 +478,7 @@ sub Data {
         'User Profile' => 'Perfil de Usuario',
         'Email Settings' => 'Configuración del Correo Electrónico',
         'Other Settings' => 'Otras Configuraciones',
-        'Notification Settings' => '',
+        'Notification Settings' => 'Ajustes de Notificación',
         'Change Password' => 'Cambiar Contraseña',
         'Current password' => 'Contraseña actual',
         'New password' => 'Nueva contraseña',
@@ -505,7 +505,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Vista de Estados',
-        'Service View' => '',
+        'Service View' => 'Vista de Servicio',
         'Bulk' => 'Acciones simultáneas en los tickets seleccionados',
         'Lock' => 'Bloquear',
         'Unlock' => 'Desbloquear',
@@ -636,7 +636,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'Usted no tiene acceso de escritura a este ticket.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Lo siento, usted debe ser el dueño del ticket para realizar esta acción',
-        'Please change the owner first.' => '',
+        'Please change the owner first.' => 'Por favor cambie el propietario primero',
         'Ticket selected.' => 'Ticket seleccionado',
         'Ticket is locked by another agent.' => 'El ticket se encuentra bloqueado por otro Agente.',
         'Ticket locked.' => 'Ticket bloqueado',
@@ -650,8 +650,8 @@ sub Data {
         'Create new Email Ticket' => 'Crea nuevo Ticket de Email',
         'Phone-Ticket' => 'Ticket Telefónico',
         'Search Tickets' => 'Buscar Tickets',
-        'Customer Realname' => '',
-        'Customer History' => '',
+        'Customer Realname' => 'Nombre real del cliente',
+        'Customer History' => 'Historia del cliente',
         'Edit Customer Users' => 'Editar Clientes',
         'Edit Customer' => 'Modificar Cliente',
         'Bulk Action' => 'Acción Múltiple',
@@ -660,7 +660,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Crea nuevo Ticket de Email y descartar este (saliente)',
         'Create new Phone Ticket (Inbound)' => 'Crea nuevo Ticket Telefónico (entrante)',
         'Address %s replaced with registered customer address.' => 'Dirección %s es reeplazado por la dirección registrada por el cliente.',
-        'Customer user automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => 'Usuario del cliente añadido automáticamente en CC',
         'Overview of all open Tickets' => 'Resumen de todos los tickets abiertos',
         'Locked Tickets' => 'Tickets Bloqueados',
         'My Locked Tickets' => 'Mis Tickets Bloqueados',
@@ -692,7 +692,7 @@ sub Data {
         'Mark as Spam!' => 'Marcar como correo no deseado',
         'My Queues' => 'Mis Filas',
         'Shown Tickets' => 'Tickets Mostrados',
-        'Shown Columns' => '',
+        'Shown Columns' => 'Mostrar columnas',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Su correo con número de ticket "<OTRS_TICKET>" se unió a "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ticket %s: Tiempo para primera respuesta ha vencido (%s)',
@@ -764,8 +764,8 @@ sub Data {
         'Archived tickets' => 'Tickets archivados',
         'Unarchived tickets' => 'Tickets si archivar',
         'Ticket Information' => 'Información del Ticket',
-        'including subqueues' => '',
-        'excluding subqueues' => '',
+        'including subqueues' => 'incluyendo sublistas',
+        'excluding subqueues' => 'excluyendo sublistas',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
@@ -777,21 +777,21 @@ sub Data {
         'Sat' => 'Sáb',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'Administración de ACL',
+        'Filter for ACLs' => 'Filtro para ACLs',
         'Filter' => 'Filtro',
-        'ACL Name' => '',
+        'ACL Name' => 'Nombre de ACL',
         'Actions' => 'Acciones',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Crear nueva ACL',
+        'Deploy ACLs' => 'Desplegar',
+        'Export ACLs' => 'Exportar ACLs',
         'Configuration import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Este es un campo obligatorio.',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Reemplazar ACLs existentes?',
+        'Upload ACL configuration' => 'Cargar configuración de ACL',
+        'Import ACL configuration(s)' => 'Importar configuración(es) de ACL',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             '',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
@@ -801,14 +801,14 @@ sub Data {
             '',
         'ACL name' => '',
         'Validity' => 'Validez',
-        'Copy' => '',
+        'Copy' => 'Copiar',
         'No data found.' => 'No se encontraron datos.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Editar ACL %s',
         'Go to overview' => 'Ir la vista de resumen',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Delete ACL' => 'Borrar ACL',
+        'Delete Invalid ACL' => 'Borrar ACL inválida',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
@@ -1916,7 +1916,7 @@ sub Data {
             '',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             '',
-        'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
+        'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
             '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
@@ -2936,6 +2936,12 @@ sub Data {
         'Accept' => '',
         'Decline' => '',
         'An internal error occurred.' => '',
+        'Connection error' => '',
+        'Reload page' => '',
+        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
+            '',
+        'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript No Disponible',
@@ -3256,7 +3262,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '',
@@ -3485,6 +3491,7 @@ sub Data {
         'No such file %s in package!' => '',
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
+        'File is OK' => '',
         'Package has locally modified files.' => '',
         'No packages or no new packages found in selected repository.' =>
             '',
@@ -4032,6 +4039,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
+        'File is not installed!' => '',
+        'File is different!' => '',
+        'Can\'t read file!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => '',
@@ -4349,6 +4359,10 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
+        'Support Data Collection' => '',
+        'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => '',
@@ -4748,6 +4762,7 @@ Thanks for your help!
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '',
+        'Controls if CustomerID is editable in the agent interface.' => '',
         'Controls if CutomerID is editable in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Define es posible que los clientes ordenen sus tickets.',
@@ -5894,7 +5909,7 @@ Thanks for your help!
             'Si se habilita, OTRS entregará todos los archivos JavaScript en forma reducida (minified).',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Si se habilita, los módulos de tickets telefónico y de correo electrónico, se abrirán en una ventana nueva.',
-        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
@@ -5902,7 +5917,9 @@ Thanks for your help!
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Si se habilita, el primer nivel del menú principal se abre al posicionar el cursor sobre él (en lugar de hacer click).',
-        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
+        'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
+            '',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
