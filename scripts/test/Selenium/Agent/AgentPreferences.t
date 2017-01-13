@@ -181,7 +181,7 @@ JAVASCRIPT
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->VerifiedClick();
+            $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->VerifiedSubmit();
 
             # check edited language value
             $Self->Is(
