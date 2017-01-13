@@ -258,8 +258,13 @@ sub AgentCustomerViewTable {
                         UserID => $Param{Data}->{UserID},
                     );
 
-                    my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+                    my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
                         User => $Param{Data}->{UserID},
+                    );
+                    $CustomerUser{UserFullname} = $CustomerUserObject->CustomerName(
+                        UserLogin => $Param{Data}->{UserID},
                     );
                     $VideoChatSupport = 1 if $CustomerUser{VideoChatHasWebRTC};
 
@@ -288,6 +293,7 @@ sub AgentCustomerViewTable {
                         $Self->Block(
                             Name => 'CustomerRowChatIcons',
                             Data => {
+                                %{ $Param{Data} },
                                 %CustomerUser,
                                 VideoChatEnabled   => $VideoChatEnabled,
                                 VideoChatAvailable => $VideoChatAvailable,
