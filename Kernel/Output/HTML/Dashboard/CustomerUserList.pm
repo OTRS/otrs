@@ -288,8 +288,13 @@ sub Run {
                     UserID => $CustomerKey,
                 );
 
-                my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+                my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
                     User => $CustomerKey,
+                );
+                $CustomerUser{UserFullname} = $CustomerUserObject->CustomerName(
+                    UserLogin => $CustomerKey,
                 );
                 $VideoChatSupport = 1 if $CustomerUser{VideoChatHasWebRTC};
 
