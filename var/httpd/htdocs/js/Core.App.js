@@ -232,14 +232,13 @@ Core.App = (function (TargetNS) {
                     Buttons: [
                         {
                             Label: Core.Config.Get('ConnectionErrorReloadButton'),
-                            Class: 'CallForAction Primary',
+                            Class: 'Primary',
                             Function: function () {
                                 location.reload();
                             }
                         },
                         {
                             Label: Core.Config.Get('DialogCloseMsg'),
-                            Class: 'CallForAction',
                             Function: function () {
                                 if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                                     $('body').addClass('ConnectionErrorDialogClosed');
@@ -302,14 +301,13 @@ Core.App = (function (TargetNS) {
                 Buttons: [
                     {
                         Label: Core.Config.Get('ConnectionErrorReloadButton'),
-                        Class: 'CallForAction Primary',
+                        Class: 'Primary',
                         Function: function () {
                             location.reload();
                         }
                     },
                     {
                         Label: Core.Config.Get('DialogCloseMsg'),
-                        Class: 'CallForAction',
                         Function: function () {
                             if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                                 $('body').addClass('ConnectionErrorDialogClosed');

@@ -214,7 +214,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
                                 Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                                 Core.Form.EnableForm($('#RichText').closest('form'));
                             },
-                            Class: 'Primary CallForAction'
+                            Class: 'Primary'
                         }
                     ]);
                     return false;

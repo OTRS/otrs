@@ -1125,7 +1125,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                      },
                      {
                          Label: TargetNS.Localization.CancelMsg,
-                         Class: 'CallForAction',
                          Function: function () {
                              Core.UI.Dialog.CloseDialog($('.Dialog'));
                          }
