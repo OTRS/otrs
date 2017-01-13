@@ -257,7 +257,6 @@ $Email = $MainObject->FileRead(
     Result   => 'ARRAY',
 );
 
-
 # Part where StoreDecryptedBody is disabled
 $PostMasterObject = Kernel::System::PostMaster->new(
     Email   => $Email,
