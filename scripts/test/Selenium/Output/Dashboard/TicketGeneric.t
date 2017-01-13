@@ -335,6 +335,8 @@ $Selenium->RunTest(
             # submit
             $Selenium->execute_script( "\$('#Dashboard$DashboardName" . "_submit').trigger('click');" );
 
+            sleep 2;
+
             # wait until block shows
             $Self->True(
                 $Selenium->WaitFor(
