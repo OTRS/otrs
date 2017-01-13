@@ -128,13 +128,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             [
                {
                    Label:Core.Language.Translate('Cancel'),
-                   Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('.Dialog'));
                    }
                },
                {
                    Label: Core.Language.Translate('Delete'),
+                   Class: 'Primary',
                    Function: function () {
                        if (typeof Callback !== 'undefined') {
                            Callback();

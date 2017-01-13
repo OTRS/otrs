@@ -77,7 +77,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                 true,
                 [
                     {
-                        Class: 'CallForAction Primary',
+                        Class: 'Primary',
                         Label: Core.Language.Translate("Confirm"),
                         Function: function() {
                             $('.Dialog .InnerContent .Center').text(Core.Language.Translate("Deleting the postmaster filter and its data. This may take a while..."));
@@ -95,7 +95,6 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                         }
                     },
                     {
-                        Class: 'CallForAction',
                         Label: Core.Language.Translate("Cancel"),
                         Function: function () {
                             Core.UI.Dialog.CloseDialog($('#DeletePostMasterFilterDialog'));

@@ -43,8 +43,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
                         Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                         Core.Form.EnableForm($('form#GroupUpdate'));
                         $('#GroupName').focus();
-                    },
-                    Class: 'CallForAction'
+                    }
                 },
                 {
                     Label: Core.Language.Translate('Confirm'),
@@ -52,7 +51,7 @@ Core.Agent.Admin.Group = (function (TargetNS) {
                         Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                         Form.submit();
                     },
-                    Class: 'Primary CallForAction'
+                    Class: 'Primary'
                 }
             ]);
         });

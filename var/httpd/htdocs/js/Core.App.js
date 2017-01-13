@@ -232,14 +232,13 @@ Core.App = (function (TargetNS) {
                     Buttons: [
                         {
                             Label: Core.Language.Translate("Reload page"),
-                            Class: 'CallForAction Primary',
+                            Class: 'Primary',
                             Function: function () {
                                 location.reload();
                             }
                         },
                         {
                             Label: Core.Language.Translate("Close this dialog"),
-                            Class: 'CallForAction',
                             Function: function () {
                                 if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                                     $('body').addClass('ConnectionErrorDialogClosed');
@@ -302,14 +301,13 @@ Core.App = (function (TargetNS) {
                 Buttons: [
                     {
                         Label: Core.Language.Translate("Reload page"),
-                        Class: 'CallForAction Primary',
+                        Class: 'Primary',
                         Function: function () {
                             location.reload();
                         }
                     },
                     {
                         Label: Core.Language.Translate("Close this dialog"),
-                        Class: 'CallForAction',
                         Function: function () {
                             if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                                 $('body').addClass('ConnectionErrorDialogClosed');
