@@ -13,7 +13,7 @@
             <span class="Time">[[% Line.CreateTime | Localize('TimeLong') | html %]]</span>
             <span>
                 <span class="Name">[% IF Line.SystemGenerated != 1 %][% Line.ChatterName | html %][% END %]</span>
-                <span class="Text">[% Line.MessageText | html %]</span>
+                <span class="Text">[% Line.MessageText %]</span>
             </span>
         </div>
     </div>
