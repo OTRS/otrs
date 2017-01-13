@@ -1,4 +1,5 @@
-#6.0.0.beta1 2016-??-??
+#6.0.0.beta1 2017-??-??
+ - 2017-01-13 Blinking mechanism for queues is now disabled by default (can be enabled using Ticket::Frontend::AgentTicketQueue###Blink).
  - 2016-12-19 Added the posibility to filter content of the CCI Dashboard Widget.
  - 2016-12-08 Updated CPAN module YAML to version 1.20.
  - 2016-11-25 (PR#1124) Added new SysConfig setting 'Daemon::Log::RotationType' to use internal or external log file rotation mechanism, thanks to Pawel Boguslawski.
