@@ -116,7 +116,7 @@ sub SearchSQLGet {
         }
         else {
             my $DatabaseType = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'};
-            if ($DatabaseType eq 'oracle') {
+            if ( $DatabaseType eq 'oracle' ) {
                 return " $Param{TableAlias}.value_text IS NOT NULL ";
             }
             else {
