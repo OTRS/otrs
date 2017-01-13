@@ -10,6 +10,17 @@
  * @subsection  AgentTicketQueue
  */
 
+@keyframes blinking {
+    to {
+        color: transparent;
+    }
+}
+@-webkit-keyframes blinking {
+    to {
+        color: transparent;
+    }
+}
+
 @media screen,projection,tv,handheld {
 
 /**
@@ -147,20 +158,8 @@
 
 .QueueOverview .Oldest {
     color: red;
-    font-weight: bold;
-    animation: blinking 1s steps(5, start) infinite;
-    -webkit-animation: blinking 1s steps(5, start) infinite;
-}
-
-@keyframes blinking {
-  to {
-    visibility: hidden;
-  }
-}
-@-webkit-keyframes blinking {
-  to {
-    visibility: hidden;
-  }
+    animation: blinking 1s steps(10, start) infinite;
+    -webkit-animation: blinking 1s steps(10, start) infinite;
 }
 
 .QueueOverview .Active {
