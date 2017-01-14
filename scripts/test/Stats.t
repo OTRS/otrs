@@ -458,7 +458,7 @@ $Self->True(
     'StatsDelete() delete import stat',
 );
 
-return 1 if !$MainObject->Require('GD::Graph', Silent => 1);
+return 1 if !$MainObject->Require( 'GD::Graph', Silent => 1 );
 
 # check the graph GD functionality
 my $HeadArrayRef = [ 'State', 'Administration', 'Alarm', 'Sum' ];

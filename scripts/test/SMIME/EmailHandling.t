@@ -669,5 +669,4 @@ for my $Certificate (@Certificates) {
 File::Path::rmtree($CertPath);
 File::Path::rmtree($PrivatePath);
 
-
 1;
