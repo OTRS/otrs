@@ -3264,7 +3264,7 @@ bin/otrs.Daemon.pl status\').',
         'Generate an additional column containing sums for all data columns.' =>
             'Menghasilkan kolom yang berisi tambahan jumlah untuk semua kolom data.',
         'Cache results' => 'Hasil cache',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Menyediakan statistik sebagai widget bahwa agen dapat mengaktifkan di dashboard mereka.',
@@ -4511,10 +4511,14 @@ Thanks for your help!
  Your Helpdesk Team
 ' => '
 Pelanggan yang terhormat,
+
 Sayangnya kami tidak bisa mendeteksi number tiket yang sah
 dalam subjek Anda, sehingga email ini tidak dapat processed.
+
 Harap membuat tiket baru melalui panel pelanggan
+
 Terima kasih atas bantuan Anda!
+
 Helpdesk Team Anda
 
 ',

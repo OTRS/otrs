@@ -3264,7 +3264,7 @@ Opdater venligst dit framework først!',
         'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => 'Gem resultater i cache',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Tilbyd rapporten som en widget, agenter kan aktivere på deres dashboard.',

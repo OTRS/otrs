@@ -3267,7 +3267,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             'Gerar uma coluna adicional contendo somas para todas as colunas de dados.',
         'Cache results' => 'Resultado em cache',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Prover a estatística como um componente que agentes podem ativar no painel.',

@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.327190827190827;
+    $Self->{Completeness}        = 0.328214578214578;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -817,13 +817,13 @@ sub Data {
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => 'Verificar a documentação oficial',
-        'documentation' => '',
+        'documentation' => 'documentação',
         'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
         'Edit ACL information' => 'Editar informação de ACL',
         'Stop after match' => 'Parar após encontrar',
         'Edit ACL structure' => 'Editar estrutura de ACL',
-        'Save settings' => '',
-        'Save ACL' => '',
+        'Save settings' => 'Guardar definições',
+        'Save ACL' => 'Guardar ACL',
         'Save' => 'Guardar',
         'or' => 'ou',
         'Save and finish' => 'Grava e termina',
@@ -844,7 +844,7 @@ sub Data {
         'List' => 'Listar',
         'Download file' => 'Descarregar ficheiro',
         'Delete this attachment' => 'Remover anexo',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Deseja realmente eliminar este anexo?',
         'Add Attachment' => 'Adicionar anexo',
         'Edit Attachment' => 'Editar anexo',
 
@@ -859,7 +859,7 @@ sub Data {
         'You can use the following tags' => 'Pode utilizar as seguintes tags',
         'To get the first 20 character of the subject.' => 'Para obter os primeiros 20 Caracteres do assunto',
         'To get the first 5 lines of the email.' => 'Para obter as primeiras 5 linhas do email',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Para obter o nome do utilizador cliente dos tickets (se fornecido).',
         'To get the article attribute' => 'Para obter os atributos do artigo',
         ' e. g.' => 'ex:',
         'Options of the current customer user data' => 'Opções disponíveis para o cliente atual',
@@ -3263,7 +3263,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             '',
         'Cache results' => '',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '',

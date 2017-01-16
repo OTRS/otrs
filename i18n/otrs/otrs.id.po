@@ -1,6 +1,7 @@
 # 
 # Translators:
 # OTRS SDN BHD <otrssdnbhd@gmail.com>, 2016
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2017
 # OTRS SDN BHD <otrssdnbhd@gmail.com>, 2016
 # Martin Gruner <martin.gruner@otrs.com>, 2016
 # OTRS SDN BHD <otrssdnbhd@gmail.com>, 2016
@@ -8,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-01-12 22:57+0000\n"
-"PO-Revision-Date: 2017-01-13 04:59+0000\n"
+"POT-Creation-Date: 2017-01-16 17:40+0000\n"
+"PO-Revision-Date: 2017-01-16 23:50+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/otrs/OTRS/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -10727,8 +10728,7 @@ msgstr "Hasil cache"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration, but the caching works only with an selected time "
-"field."
+" the same configuration (requires at least one selected time field)."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -14189,7 +14189,7 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr "\nPelanggan yang terhormat, \nSayangnya kami tidak bisa mendeteksi number tiket yang sah\ndalam subjek Anda, sehingga email ini tidak dapat processed.\nHarap membuat tiket baru melalui panel pelanggan\nTerima kasih atas bantuan Anda! \nHelpdesk Team Anda\n\n"
+msgstr "\nPelanggan yang terhormat,\n \nSayangnya kami tidak bisa mendeteksi number tiket yang sah\ndalam subjek Anda, sehingga email ini tidak dapat processed.\n\nHarap membuat tiket baru melalui panel pelanggan\n\nTerima kasih atas bantuan Anda! \n\nHelpdesk Team Anda\n\n"
 
 #. SysConfig
 msgid " (work units)"

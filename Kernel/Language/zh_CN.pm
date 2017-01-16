@@ -3268,7 +3268,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             '生成一个额外的列来包含所有数据列的汇总。',
         'Cache results' => '缓存结果',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '将该统计变为小部件，以便服务人员能够在仪表板中激活使用。',

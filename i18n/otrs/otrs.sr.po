@@ -4,12 +4,12 @@
 # Dusan Vuckovic, 2016
 # Dusan Vuckovic, 2015
 # S7 Design d.o.o. <otrs@s7designcreative.com>, 2015
-# Милорад Јовановић <j.milorad@gmail.com>, 2014-2016
+# Милорад Јовановић <j.milorad@gmail.com>, 2014-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-01-12 22:57+0000\n"
-"PO-Revision-Date: 2017-01-13 04:59+0000\n"
+"POT-Creation-Date: 2017-01-16 17:40+0000\n"
+"PO-Revision-Date: 2017-01-16 23:41+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -6644,7 +6644,7 @@ msgid ""
 "You can start a connection between two Activities by dropping the Transition"
 " element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr ""
+msgstr "Везу између две активности можете започети превлачењем елемента транзиције преко почетка активности везе. Након тога можете да преместите слободан крај стрелице до краја активности"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -9768,11 +9768,11 @@ msgstr "Догодила се интерна грешка."
 
 #. Template: CustomerFooterJS
 msgid "Connection error"
-msgstr ""
+msgstr "Грешка у повезивању"
 
 #. Template: CustomerFooterJS
 msgid "Reload page"
-msgstr ""
+msgstr "Освежи страницу"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9780,7 +9780,7 @@ msgid ""
 "be something wrong with your network connection. You could either try "
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
-msgstr ""
+msgstr "Ваш интернет прегледач није у могућности да коректно комуницира са „OTRS”, па изгледа на нешто није у реду са вашом мрежном везом. Можете да покушате да ручно освежите ову страницу или да сачекате да ваш прегледач сам поново успостави везу."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9788,7 +9788,7 @@ msgid ""
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
 "recommended to reload this page."
-msgstr ""
+msgstr "Веза је поново успостављена након привременог прекида. Због тога, елементи на овој страници су могли да престану да коректно функционишу. Да би све елементе могли поново нормално да користите, препоручујемо обавезно освежавање ове странице. "
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -10727,8 +10727,7 @@ msgstr "Кеширај резултате"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration, but the caching works only with an selected time "
-"field."
+" the same configuration (requires at least one selected time field)."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
@@ -11350,7 +11349,7 @@ msgstr "Немогуће читање %s!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "File is OK"
-msgstr ""
+msgstr "Датотека је у реду"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
@@ -12865,15 +12864,15 @@ msgstr "није инсталирано"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
-msgstr ""
+msgstr "Датотека није инсталирана!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is different!"
-msgstr ""
+msgstr "Датотека је различита!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
-msgstr ""
+msgstr "Немогуће читање датотеке!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -13753,12 +13752,12 @@ msgstr "Променљиве за окружење"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support Data Collection"
-msgstr ""
+msgstr "Сакупљање података подршке"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support data could not be collected from the web server."
-msgstr ""
+msgstr "Подаци подршке не могу бити прикупљени са веб сервера."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -15047,7 +15046,7 @@ msgstr "Контролише начин приказа историјских у
 
 #. SysConfig
 msgid "Controls if CustomerID is editable in the agent interface."
-msgstr ""
+msgstr "Контролише да ли је ИД клијента изменљив у интерфејсу оператера."
 
 #. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
@@ -18818,7 +18817,7 @@ msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
-msgstr ""
+msgstr "Ако је активирано, ознака „OTRS” верзије ће бити уклоњена из веб интерфејса, HTTP заглавља и „X-Headers” у одлазним имејл порукама. НАПОМЕНА: ако мењате ову опцију, молимо да осигурате брисање кеша."
 
 #. SysConfig
 msgid ""
@@ -18843,14 +18842,14 @@ msgid ""
 "If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
 "possible to use the email's from address instead of an empty envelope sender"
 " (required in certain mail server configurations)."
-msgstr ""
+msgstr "Ако „SendmailNotificationEnvelopeFrom” није наведен, ова поставка омогућава коришћење адересе пошињаоца имејлова  уместо празног оквира заглавља (обавезно у поставкама неких имејл сервера)."
 
 #. SysConfig
 msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
 "empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
-msgstr ""
+msgstr "Ако је подешено ова адреса се користи као оквир заглавља пошиљаоца у одлазним обавештењима. Ако адреса није унета, оквир заглавља пошиљаоца је празан (осим ако је „SendmailNotificationEnvelopeFrom::FallbackToEmailFrom” подешен)."
 
 #. SysConfig
 msgid ""

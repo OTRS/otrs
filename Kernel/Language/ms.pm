@@ -3261,7 +3261,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             'Menghasilkan lajur tambahan yang mengandungi hasil tambah bagi semua lajuran data.',
         'Cache results' => 'Keputusan cache',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Sediakan statistik sebagai widget yang ejen boleh aktifkan pada papan pemuka mereka.',

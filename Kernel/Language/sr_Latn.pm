@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996723996723997;
+    $Self->{Completeness}        = 0.99979524979525;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1923,7 +1923,7 @@ sub Data {
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             'Za dodeljivanje Dijaloga Aktivnosti nekoj aktivnosti, prevucite element dijaloga aktivnosti iz izdvojenog dela, preko aktivnosti smeštene na površini.',
         'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            '',
+            'Vezu između dve aktivnosti možete započeti prevlačenjem elementa tranzicije preko početka aktivnosti veze. Nakon toga možete da premestite slobodan kraj strelice do kraja aktivnosti',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             'Aktivnost može biti dodeljena tranziciji prevlačenjem elementa aktivnosti na oznaku tranzicije.',
         'Edit Process Information' => 'Uredi informacije o procesu',
@@ -2942,12 +2942,12 @@ sub Data {
         'Accept' => 'Prihvati',
         'Decline' => 'Odbaci',
         'An internal error occurred.' => 'Dogodila se interna greška.',
-        'Connection error' => '',
-        'Reload page' => '',
+        'Connection error' => 'Greška u povezivanju',
+        'Reload page' => 'Osveži stranicu',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
-            '',
+            'Vaš internet pregledač nije u mogućnosti da korektno komunicira sa „OTRS”, pa izgleda na nešto nije u redu sa vašom mrežnom vezom. Možete da pokušate da ručno osvežite ovu stranicu ili da sačekate da vaš pregledač sam ponovo uspostavi vezu.',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
-            '',
+            'Veza je ponovo uspostavljena nakon privremenog prekida. Zbog toga, elementi na ovoj stranici su mogli da prestanu da korektno funkcionišu. Da bi sve elemente mogli ponovo normalno da koristite, preporučujemo obavezno osvežavanje ove stranice. ',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nije dostupan.',
@@ -3268,7 +3268,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             'Generiši dodatnu kolonu koja sadrži sume za sve kolone sa podacima.',
         'Cache results' => 'Keširaj rezultate',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Obezbedi statistiku kao aplikativni dodatak (widget), koji opertateri mogu aktivirati putem svoje kontrolne table.',
@@ -3498,7 +3498,7 @@ sub Data {
         'No such file %s in package!' => 'Nema takve datoteke %s u paketu!',
         'No such file %s in local file system!' => 'Nema takve datoteke %s u lokalnom sistemu!',
         'Can\'t read %s!' => 'Nemoguće čitanje %s!',
-        'File is OK' => '',
+        'File is OK' => 'Datoteka je u redu',
         'Package has locally modified files.' => 'Paket sadrži lokalno izmenjene datoteke.',
         'No packages or no new packages found in selected repository.' =>
             'U izabranom spremištu nema paketa ili nema novih paketa.',
@@ -4046,9 +4046,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nije instalirano',
-        'File is not installed!' => '',
-        'File is different!' => '',
-        'Can\'t read file!' => '',
+        'File is not installed!' => 'Datoteka nije instalirana!',
+        'File is different!' => 'Datoteka je različita!',
+        'Can\'t read file!' => 'Nemoguće čitanje datoteke!',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Neaktivno',
@@ -4368,8 +4368,8 @@ sub Data {
         'Environment Variables' => 'Promenljive za okruženje',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
-        'Support Data Collection' => '',
-        'Support data could not be collected from the web server.' => '',
+        'Support Data Collection' => 'Sakupljanje podataka podrške',
+        'Support data could not be collected from the web server.' => 'Podaci podrške ne mogu biti prikupljeni sa veb servera.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Veb server verzija',
@@ -4780,7 +4780,7 @@ Vaša tehnička podrška
             'Konfiguriše podrazumevana podešavanja dinamičkog polja tiketa. „Name” definiše dinamičko polje koje će biti korišćeno, „Value” je podatak koji će biti podešen, a „Event” definiše okidač događaja. Molimo konsultujte uputstvo za programere (http://otrs.github.io/doc/), poglavlje "Modul događaja tiketa".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontroliše način prikaza istorijskih unosa tiketa kao čitljivih vrednosti. ',
-        'Controls if CustomerID is editable in the agent interface.' => '',
+        'Controls if CustomerID is editable in the agent interface.' => 'Kontroliše da li je ID klijenta izmenljiv u interfejsu operatera.',
         'Controls if CutomerID is editable in the agent interface.' => 'Kontroliše da li je ID klijenta u interfejsu operatera izmenljiv.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontroliše da li klijenti imaju mogućnost da sortiraju svoje tikete.',
@@ -5928,7 +5928,7 @@ Vaša tehnička podrška
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Ako je aktivirano, telefonski i imejl tiketi će biti otvoreni u novom prozoru.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
-            '',
+            'Ako je aktivirano, oznaka „OTRS” verzije će biti uklonjena iz veb interfejsa, HTTP zaglavlja i „X-Headers” u odlaznim imejl porukama. NAPOMENA: ako menjate ovu opciju, molimo da osigurate brisanje keša.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'Ako je aktivirano, klijent može pretraživati tikete u svim servisima (bez obzira na to koji servisi su dodeljeni klijentu).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
@@ -5936,9 +5936,9 @@ Vaša tehnička podrška
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Ako je aktivirano, prvi nivo glavnog menija se otvara na prelaz miša (umesto samo na klik).',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
-            '',
+            'Ako „SendmailNotificationEnvelopeFrom” nije naveden, ova postavka omogućava korišćenje aderese pošinjaoca imejlova  umesto praznog okvira zaglavlja (obavezno u postavkama nekih imejl servera).',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
-            '',
+            'Ako je podešeno ova adresa se koristi kao okvir zaglavlja pošiljaoca u odlaznim obaveštenjima. Ako adresa nije uneta, okvir zaglavlja pošiljaoca je prazan (osim ako je „SendmailNotificationEnvelopeFrom::FallbackToEmailFrom” podešen).',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'Ako je podešeno ova adresa se koristi kao okvir zaglavlja pošiljaoca u odlaznim porukama (ne za obaveštenja - vidi niže). Ako adresa nije uneta, okvir zaglavlja pošiljaoca je jednak imejl adresi reda.',
         'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>

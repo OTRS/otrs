@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996723996723997;
+    $Self->{Completeness}        = 0.99979524979525;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1917,7 +1917,7 @@ sub Data {
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             'За додељивање Дијалога Активности некој активности, превуците елемент дијалога активности из издвојеног дела, преко активности смештене на површини.',
         'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            '',
+            'Везу између две активности можете започети превлачењем елемента транзиције преко почетка активности везе. Након тога можете да преместите слободан крај стрелице до краја активности',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             'Активност може бити додељена транзицији превлачењем елемента активности на ознаку транзиције.',
         'Edit Process Information' => 'Уреди информације о процесу',
@@ -2936,12 +2936,12 @@ sub Data {
         'Accept' => 'Прихвати',
         'Decline' => 'Одбаци',
         'An internal error occurred.' => 'Догодила се интерна грешка.',
-        'Connection error' => '',
-        'Reload page' => '',
+        'Connection error' => 'Грешка у повезивању',
+        'Reload page' => 'Освежи страницу',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
-            '',
+            'Ваш интернет прегледач није у могућности да коректно комуницира са „OTRS”, па изгледа на нешто није у реду са вашом мрежном везом. Можете да покушате да ручно освежите ову страницу или да сачекате да ваш прегледач сам поново успостави везу.',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
-            '',
+            'Веза је поново успостављена након привременог прекида. Због тога, елементи на овој страници су могли да престану да коректно функционишу. Да би све елементе могли поново нормално да користите, препоручујемо обавезно освежавање ове странице. ',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript није доступан.',
@@ -3262,7 +3262,7 @@ sub Data {
         'Generate an additional column containing sums for all data columns.' =>
             'Генериши додатну колону која садржи суме за све колоне са подацима.',
         'Cache results' => 'Кеширај резултате',
-        'Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field.' =>
+        'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Обезбеди статистику као апликативни додатак (widget), који опертатери могу активирати путем своје контролне табле.',
@@ -3492,7 +3492,7 @@ sub Data {
         'No such file %s in package!' => 'Нема такве датотеке %s у пакету!',
         'No such file %s in local file system!' => 'Нема такве датотеке %s у локалном систему!',
         'Can\'t read %s!' => 'Немогуће читање %s!',
-        'File is OK' => '',
+        'File is OK' => 'Датотека је у реду',
         'Package has locally modified files.' => 'Пакет садржи локално измењене датотеке.',
         'No packages or no new packages found in selected repository.' =>
             'У изабраном спремишту нема пакета или нема нових пакета.',
@@ -4040,9 +4040,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'није инсталирано',
-        'File is not installed!' => '',
-        'File is different!' => '',
-        'Can\'t read file!' => '',
+        'File is not installed!' => 'Датотека није инсталирана!',
+        'File is different!' => 'Датотека је различита!',
+        'Can\'t read file!' => 'Немогуће читање датотеке!',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Неактивно',
@@ -4362,8 +4362,8 @@ sub Data {
         'Environment Variables' => 'Променљиве за окружење',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
-        'Support Data Collection' => '',
-        'Support data could not be collected from the web server.' => '',
+        'Support Data Collection' => 'Сакупљање података подршке',
+        'Support data could not be collected from the web server.' => 'Подаци подршке не могу бити прикупљени са веб сервера.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Веб сервер верзија',
@@ -4774,7 +4774,7 @@ Thanks for your help!
             'Конфигурише подразумевана подешавања динамичког поља тикета. „Name” дефинише динамичко поље које ће бити коришћено, „Value” је податак који ће бити подешен, а „Event” дефинише окидач догађаја. Молимо консултујте упутство за програмере (http://otrs.github.io/doc/), поглавље "Модул догађаја тикета".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Контролише начин приказа историјских уноса тикета као читљивих вредности. ',
-        'Controls if CustomerID is editable in the agent interface.' => '',
+        'Controls if CustomerID is editable in the agent interface.' => 'Контролише да ли је ИД клијента изменљив у интерфејсу оператера.',
         'Controls if CutomerID is editable in the agent interface.' => 'Контролише да ли је ИД клијента у интерфејсу оператера изменљив.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Контролише да ли клијенти имају могућност да сортирају своје тикете.',
@@ -5922,7 +5922,7 @@ Thanks for your help!
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Ако је активирано, телефонски и имејл тикети ће бити отворени у новом прозору.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
-            '',
+            'Ако је активирано, ознака „OTRS” верзије ће бити уклоњена из веб интерфејса, HTTP заглавља и „X-Headers” у одлазним имејл порукама. НАПОМЕНА: ако мењате ову опцију, молимо да осигурате брисање кеша.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'Ако је активирано, клијент може претраживати тикете у свим сервисима (без обзира на то који сервиси су додељени клијенту).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
@@ -5930,9 +5930,9 @@ Thanks for your help!
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Ако је активирано, први ниво главног менија се отвара на прелаз миша (уместо само на клик).',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
-            '',
+            'Ако „SendmailNotificationEnvelopeFrom” није наведен, ова поставка омогућава коришћење адересе пошињаоца имејлова  уместо празног оквира заглавља (обавезно у поставкама неких имејл сервера).',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
-            '',
+            'Ако је подешено ова адреса се користи као оквир заглавља пошиљаоца у одлазним обавештењима. Ако адреса није унета, оквир заглавља пошиљаоца је празан (осим ако је „SendmailNotificationEnvelopeFrom::FallbackToEmailFrom” подешен).',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'Ако је подешено ова адреса се користи као оквир заглавља пошиљаоца у одлазним порукама (не за обавештења - види ниже). Ако адреса није унета, оквир заглавља пошиљаоца је једнак имејл адреси реда.',
         'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>

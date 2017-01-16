@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-01-12 23:02+0000\n"
+"POT-Creation-Date: 2017-01-16 17:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10231,7 +10231,7 @@ msgid "Cache results"
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
-msgid "Stores statistics result data in a cache to be used in subsequent views with the same configuration, but the caching works only with an selected time field."
+msgid "Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field)."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget

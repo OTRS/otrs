@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-01-12 22:57+0000\n"
-"PO-Revision-Date: 2017-01-13 04:59+0000\n"
+"POT-Creation-Date: 2017-01-16 17:40+0000\n"
+"PO-Revision-Date: 2017-01-16 23:41+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -10739,8 +10739,7 @@ msgstr "Almacenar resultados temporalmente"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
-" the same configuration, but the caching works only with an selected time "
-"field."
+" the same configuration (requires at least one selected time field)."
 msgstr ""
 
 #. Template: GeneralSpecificationsWidget
