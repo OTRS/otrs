@@ -17,7 +17,6 @@ use Time::HiRes ();
 
 use Kernel::System::SupportDataCollector::PluginBase;
 
-# get needed objects
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreSystemConfiguration => 1,
@@ -29,7 +28,6 @@ my $CacheObject                = $Kernel::OM->Get('Kernel::System::Cache');
 my $MainObject                 = $Kernel::OM->Get('Kernel::System::Main');
 my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
 
-# test the support data collect asynchronous function
 $SysConfigObject->ConfigItemUpdate(
     Valid => 1,
     Key   => 'SupportDataCollector::DisablePlugins',

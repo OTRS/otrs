@@ -15,8 +15,13 @@ use vars (qw($Self));
 use Archive::Tar;
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+    },
+);
 my $ConfigObject                 = $Kernel::OM->Get('Kernel::Config');
+my $SysConfigObject              = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $Helper                       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject                   = $Kernel::OM->Get('Kernel::System::Main');
 my $SupportBundleGeneratorObject = $Kernel::OM->Get('Kernel::System::SupportBundleGenerator');
@@ -26,6 +31,15 @@ my $JSONObject                   = $Kernel::OM->Get('Kernel::System::JSON');
 my $RegistrationObject           = $Kernel::OM->Get('Kernel::System::Registration');
 my $SupportDataCollectorObject   = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
 my $TempObject                   = $Kernel::OM->Get('Kernel::System::FileTemp');
+
+# Disabled the package deployment plugins, to avoid timeout issues in the test.
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'SupportDataCollector::DisablePlugins',
+    Value => [
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment',
+    ],
+);
 
 # cleanup the Home variable (remove tailing "/")
 my $Home = $ConfigObject->Get('Home');
