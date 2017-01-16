@@ -85,10 +85,12 @@ sub GetObjectAttributes {
         $ValidAgent = 1;
     }
 
-    # get user list
+    # Get user list without the out of office message, because of the caching in the statistics
+    #   and not meaningful with a date selection.
     my %UserList = $UserObject->UserList(
-        Type  => 'Long',
-        Valid => $ValidAgent,
+        Type          => 'Long',
+        Valid         => $ValidAgent,
+        NoOutOfOffice => 1,
     );
 
     # get state list
