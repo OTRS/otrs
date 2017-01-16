@@ -17,6 +17,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject                 = $Kernel::OM->Get('Kernel::Config');
+my $SysConfigObject              = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $MainObject                   = $Kernel::OM->Get('Kernel::System::Main');
 my $SupportBundleGeneratorObject = $Kernel::OM->Get('Kernel::System::SupportBundleGenerator');
 my $PackageObject                = $Kernel::OM->Get('Kernel::System::Package');
@@ -29,10 +30,20 @@ my $TempObject                   = $Kernel::OM->Get('Kernel::System::FileTemp');
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
+        RestoreDatabase            => 1,
+        RestoreSystemConfiguration => 1,
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# Disabled the package deployment plugins, to avoid timeout issues in the test.
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'SupportDataCollector::DisablePlugins',
+    Value => [
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment',
+    ],
+);
 
 # cleanup the Home variable (remove tailing "/")
 my $Home = $ConfigObject->Get('Home');
