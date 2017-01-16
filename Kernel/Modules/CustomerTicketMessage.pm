@@ -440,13 +440,6 @@ sub Run {
             my @ChatMessages = $Kernel::OM->Get('Kernel::System::Chat')->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );
-
-            for my $Message (@ChatMessages) {
-                $Message->{MessageText} = $LayoutObject->Ascii2Html(
-                    Text        => $Message->{MessageText},
-                    LinkFeature => 1,
-                );
-            }
         }
 
         # check queue
@@ -1380,14 +1373,6 @@ sub _MaskNew {
         my @ChatMessages = $Kernel::OM->Get('Kernel::System::Chat')->ChatMessageList(
             ChatID => $Param{FromChatID},
         );
-
-        for my $Message (@ChatMessages) {
-            $Message->{MessageText} = $LayoutObject->Ascii2Html(
-                Text        => $Message->{MessageText},
-                LinkFeature => 1,
-            );
-        }
-
         $LayoutObject->Block(
             Name => 'ChatArticlePreview',
             Data => {
