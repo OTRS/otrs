@@ -1,5 +1,4 @@
 #6.0.0.beta1 2017-??-??
- - 2017-01-16 Updated translations, thanks to all translators.
  - 2017-01-13 Blinking mechanism for queues is now disabled by default (can be enabled using Ticket::Frontend::AgentTicketQueue###Blink).
  - 2016-12-19 Added the posibility to filter content of the CCI Dashboard Widget.
  - 2016-12-08 Updated CPAN module YAML to version 1.20.
@@ -70,7 +69,10 @@
  - 2015-11-27 Improved Generic Agent performance at deleting old execution times. Thanks to Moritz Lenz @ noris networks.
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
-#5.0.16 2017-??-??
+#5.0.17 2017-??-??
+
+#5.0.16 2017-01-24
+ - 2017-01-16 Updated translations, thanks to all translators.
  - 2017-01-13 Fixed bug#[12494](https://bugs.otrs.org/show_bug.cgi?id=12494) - Not able to start chat at AgentTicketZoom and CIC with customer.
  - 2017-01-13 Fixed bug#[12481](https://bugs.otrs.org/show_bug.cgi?id=12481) - URLs in Chat are not converted to clickable links.
  - 2017-01-12 Updated translations, thanks to all translators.
