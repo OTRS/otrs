@@ -1,4 +1,6 @@
-#5.0.16 2017-??-??
+#5.0.17 2017-??-??
+
+#5.0.16 2017-01-24
  - 2017-01-16 Updated translations, thanks to all translators.
  - 2017-01-13 Fixed bug#[12494](https://bugs.otrs.org/show_bug.cgi?id=12494) - Not able to start chat at AgentTicketZoom and CIC with customer.
  - 2017-01-12 Updated translations, thanks to all translators.
