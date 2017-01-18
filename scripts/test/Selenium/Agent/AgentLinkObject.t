@@ -129,6 +129,9 @@ $Selenium->RunTest(
         $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Wait for reload to kick in.
+        sleep 0.5;
+
         # refresh agent ticket zoom
         $Selenium->VerifiedRefresh();
 
@@ -136,11 +139,11 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), 'Child' ) > -1,
             "Child - found",
-        );
+        ) || die;
         $Self->True(
             index( $Selenium->get_page_source(), "T:" . $TicketNumbers[1] ) > -1,
             "TicketNumber $TicketNumbers[1] - found",
-        );
+        ) || die;
 
         # click on child ticket
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom;TicketID=$TicketIDs[1]' )]")
@@ -150,11 +153,11 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), 'Parent' ) > -1,
             "Parent - found",
-        );
+        ) || die;
         $Self->True(
             index( $Selenium->get_page_source(), "T:" . $TicketNumbers[0] ) > -1,
             "TicketNumber $TicketNumbers[0] - found",
-        );
+        ) || die;
 
         # test ticket title length in complex view for linked tickets, see bug #11511
         # set link object view mode to complex
@@ -186,7 +189,7 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $LongTicketTitle ) > -1,
             "$LongTicketTitle - found in AgentTicketZoom complex view mode",
-        );
+        ) || die;
 
         # check for "default" visible columns in the Linked Ticket widget
         $Self->Is(
@@ -409,13 +412,13 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), "title=\"$LongTicketTitle\"" ) > -1,
             "\"title=$LongTicketTitle\" - found in LinkDelete screen - which is displayed on hover",
-        );
+        ) || die;
 
         # check for short ticket title in LinkDelete screen
         $Self->True(
             index( $Selenium->get_page_source(), $ShortTitle ) > -1,
             "$ShortTitle - found in LinkDelete screen",
-        );
+        ) || die;
 
         # select all links
         $Selenium->find_element( "#SelectAllLinks0", "css" )->VerifiedClick();
@@ -461,18 +464,8 @@ $Selenium->RunTest(
         );
 
         # click on the Archive search drop-down
-        $Selenium->find_element(".//*[\@id='SEARCH::ArchiveID_Search']")->VerifiedClick();
-
-        $Self->True(
-            $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $(\'li[data-id="ArchivedTickets"]\').length'
-            ),
-            "Wait for ArchivedTickets option to appear."
-        );
-
-        # select Search archived
         $Selenium->execute_script(
-            "\$('li[data-id=\"ArchivedTickets\"] a').click();"
+            "\$('#SEARCH\\\\:\\\\:ArchiveID').val('ArchivedTickets').trigger('redraw.InputField').trigger('change');"
         );
 
         $Selenium->find_element( "#SubmitSearch", "css" )->VerifiedClick();
