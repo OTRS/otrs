@@ -360,7 +360,7 @@ elsif ( $Opts{a} eq 'install' ) {
     }
 
     # install
-    $CommonObject{PackageObject}->PackageInstall(
+    my $Success = $CommonObject{PackageObject}->PackageInstall(
         String => $FileString,
         Force  => $Opts{f},
     );
@@ -374,7 +374,11 @@ elsif ( $Opts{a} eq 'install' ) {
         print "$Data{Description}";
         print "+----------------------------------------------------------------------------+\n";
     }
-    exit;
+
+    # Set the correct exit code.
+    my $ExitCode = $Success ? 0 : 1;
+
+    exit $ExitCode;
 }
 elsif ( $Opts{a} eq 'reinstall' ) {
 
