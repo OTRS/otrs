@@ -137,7 +137,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Wait for reload to kick in.
-        sleep 0.5;
+        sleep 1;
 
         # refresh agent ticket zoom
         $Selenium->VerifiedRefresh();

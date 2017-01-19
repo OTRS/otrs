@@ -14,6 +14,7 @@ use warnings;
 
 use MIME::Base64();
 use File::Temp();
+use Time::HiRes();
 
 use Kernel::Config;
 use Kernel::System::User;
@@ -358,7 +359,7 @@ sub WaitFor {
         elsif ( $Param{Callback} ) {
             return 1 if $Param{Callback}->();
         }
-        sleep $Interval;
+        Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
         $Interval += 0.1;
     }
