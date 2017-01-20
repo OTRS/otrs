@@ -69,16 +69,132 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Email::Test',
         );
 
+        my $RandomID = $Helper->GetRandomID();
+
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+        my %DynamicFields = (
+            Text => {
+                Name          => 'TestText' . $RandomID,
+                Label         => 'TestText' . $RandomID,
+                FieldOrder    => 9990,
+                FieldType     => 'Text',
+                ObjectType    => 'Ticket',
+                Config        => {
+                    DefaultValue => '',
+                    Link         => '',
+                },
+                Reorder => 1,
+                ValidID => 1,
+                UserID  => 1,
+            },
+            Dropdown => {
+                Name          => 'TestDropdown' . $RandomID,
+                Label          => 'TestDropdown' . $RandomID,
+                FieldOrder    => 9990,
+                FieldType     => 'Dropdown',
+                ObjectType    => 'Ticket',
+                Config        => {
+                    DefaultValue   => '',
+                    Link           => '',
+                    PossibleNone   => 0,
+                    PossibleValues  => {
+                        0 => 'No',
+                        1 => 'Yes',
+                    },
+                    TranslatableValues => 1,
+                },
+                Reorder => 1,
+                ValidID => 1,
+                UserID  => 1,
+            },
+            Multiselect => {
+                Name          => 'TestMultiselect' . $RandomID,
+                Label         => 'TestMultiselect' . $RandomID,
+                FieldOrder    => 9990,
+                FieldType     => 'Multiselect',
+                ObjectType    => 'Ticket',
+                Config        => {
+                    DefaultValue   => '',
+                    Link           => '',
+                    PossibleNone   => 0,
+                    PossibleValues  => {
+                        year  => 'year',
+                        month => 'month',
+                        week  => 'week',
+                    },
+                    TranslatableValues => 1,
+                },
+                Reorder => 1,
+                ValidID => 1,
+                UserID  => 1,
+            },
+            Date => {
+                Name       => 'TestDate' . $RandomID,
+                Label       => 'TestDate' . $RandomID,
+                FieldOrder => 9990,
+                FieldType  => 'Date',
+                ObjectType => 'Ticket',
+                Config     => {
+                    DefaultValue    => 0,
+                    YearsInFuture   => 0,
+                    YearsInPast     => 0,
+                    YearsPeriod     => 0,
+                },
+                Reorder => 1,
+                ValidID => 1,
+                UserID  => 1,
+            },
+            DateTime => {
+                Name       => 'TestDateTime' . $RandomID,
+                Label       => 'TestDateTime' . $RandomID,
+                FieldOrder => 9990,
+                FieldType  => 'DateTime',
+                ObjectType => 'Ticket',
+                Config     => {
+                    DefaultValue    => 0,
+                    YearsInFuture   => 0,
+                    YearsInPast     => 0,
+                    YearsPeriod     => 0,
+                },
+                Reorder => 1,
+                ValidID => 1,
+                UserID  => 1,
+            },
+        );
+
+        my @DynamicFieldIDs;
+
+        # Create test dynamic field of type date
+        for my $DynamicFieldType ( sort keys %DynamicFields ) {
+
+            my $DynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
+                %{ $DynamicFields{$DynamicFieldType} },
+            );
+
+            $Self->True(
+                $DynamicFieldID,
+                "Dynamic field $DynamicFields{$DynamicFieldType}->{Name} - ID $DynamicFieldID - created",
+            );
+
+            push @DynamicFieldIDs, $DynamicFieldID;
+        }
+
         # get standard template object
         my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
         # create a new template
         my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
-            Name     => 'New Standard Template' . $Helper->GetRandomID(),
+            Name     => 'New Standard Template' . $RandomID,
             Template => "Thank you for your email.
                              Ticket state: <OTRS_TICKET_State>.\n
                              Ticket lock: <OTRS_TICKET_Lock>.\n
                              Ticket priority: <OTRS_TICKET_Priority>.\n
+                             DynamicField Text: <OTRS_TICKET_DynamicField_" . $DynamicFields{Text}->{Name} . "_Value>
+                             DynamicField Dropdown: <OTRS_TICKET_DynamicField_" . $DynamicFields{Dropdown}->{Name} . "_Value>
+                             DynamicField Multiselect: <OTRS_TICKET_DynamicField_" . $DynamicFields{Multiselect}->{Name} . "_Value>
+                             DynamicField Date: <OTRS_TICKET_DynamicField_" . $DynamicFields{Date}->{Name} . "_Value>
+                             DynamicField DateTime: <OTRS_TICKET_DynamicField_" . $DynamicFields{DateTime}->{Name} . "_Value>
                             ",
             ContentType  => 'text/plain; charset=utf-8',
             TemplateType => 'Answer',
@@ -106,7 +222,7 @@ $Selenium->RunTest(
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
         # add test customer for testing
-        my $TestCustomer       = 'Customer' . $Helper->GetRandomID();
+        my $TestCustomer       = 'Customer' . $RandomID;
         my $CustomerEmail      = "$TestCustomer\@localhost.com";
         my $TestCustomerUserID = $CustomerUserObject->CustomerUserAdd(
             Source         => 'CustomerUser',
@@ -144,6 +260,18 @@ $Selenium->RunTest(
             Priority => '4 high',
             Lock     => 'unlock',
         );
+
+        my %DynamicFieldValues = (
+            Text        => "Test Text $RandomID",
+            Dropdown    => '1',
+            Multiselect => 'year',
+        );
+
+        my %DynamicFieldDateValues = (
+            Date     => '2016-04-13 00:00:00',
+            DateTime => '2016-04-13 14:20:00',
+        );
+
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Selenium ticket',
             QueueID      => 1,
@@ -159,6 +287,24 @@ $Selenium->RunTest(
             $TicketID,
             "Ticket is created - ID $TicketID",
         );
+
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+        for my $DynamicFieldType ( sort keys %DynamicFieldValues, sort keys %DynamicFieldDateValues ) {
+
+            # Set the value from the dynamic field.
+            my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                Name => $DynamicFields{$DynamicFieldType}->{Name},
+            );
+
+            $DynamicFieldBackendObject->ValueSet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $TicketID,
+                Value              => $DynamicFieldValues{$DynamicFieldType} || $DynamicFieldDateValues{$DynamicFieldType},
+                UserID             => 1,
+            );
+        }
+
 
         # create test email article
         my $ArticleID = $TicketObject->ArticleCreate(
@@ -234,12 +380,42 @@ $Selenium->RunTest(
         my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
         for my $Item ( sort keys %TicketData ) {
-            my $TransletedStateValue = $LanguageObject->Translate( $TicketData{$Item} );
+            my $TransletedTicketValue = $LanguageObject->Translate( $TicketData{$Item} );
 
             # check translated value
             $Self->True(
-                index( $Selenium->get_page_source(), $TransletedStateValue ) > -1,
+                index( $Selenium->get_page_source(), $TransletedTicketValue ) > -1,
                 "Translated \'$Item\' value is found - $TicketData{$Item} .",
+            );
+        }
+
+        for my $DynamicFieldType ( sort keys %DynamicFieldValues ) {
+
+            my $Value = $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues} ? $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues}->{ $DynamicFieldValues{$DynamicFieldType} } : $DynamicFieldValues{$DynamicFieldType};
+
+            my $TransletedDynamicFieldValue = $LanguageObject->Translate( $Value );
+
+            # check dynamic field date format
+            $Self->True(
+                index( $Selenium->get_page_source(), $TransletedDynamicFieldValue ) > -1,
+                "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $TransletedDynamicFieldValue.",
+            );
+        }
+
+        for my $DynamicFieldType ( sort keys %DynamicFieldDateValues ) {
+
+            my $DateFormat = $DynamicFieldType eq 'Date' ? 'DateFormatShort' : 'DateFormat';
+
+            my $LanguageFormatDateValue = $LanguageObject->FormatTimeString(
+                $DynamicFieldDateValues{$DynamicFieldType},
+                $DateFormat,
+                'NoSeconds',
+            );
+
+            # check dynamic field date format
+            $Self->True(
+                index( $Selenium->get_page_source(), $LanguageFormatDateValue ) > -1,
+                "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $LanguageFormatDateValue.",
             );
         }
 
@@ -306,6 +482,20 @@ $Selenium->RunTest(
             $Success,
             "Delete customer user - $TestCustomer",
         );
+
+        for my $DynamicFieldID (@DynamicFieldIDs) {
+
+            # delete created test dynamic field
+            $Success = $DynamicFieldObject->DynamicFieldDelete(
+                ID     => $DynamicFieldID,
+                UserID => 1,
+            );
+            $Self->True(
+                $Success,
+                "Dynamic field - ID $DynamicFieldID - deleted",
+            );
+        }
+
 
         # make sure the cache is correct
         for my $Cache (

@@ -1345,6 +1345,24 @@ sub RandomValueSet {
     };
 }
 
+sub ValueLookup {
+    my ( $Self, %Param ) = @_;
+
+    my $Value = defined $Param{Key} ? $Param{Key} : '';
+
+    # check if a translation is possible
+    if ( defined $Param{LanguageObject} ) {
+
+        # translate value
+        $Value = $Param{LanguageObject}->FormatTimeString(
+            $Value,
+            'DateFormatShort',
+        );
+    }
+
+    return $Value;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
