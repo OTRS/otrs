@@ -1,5 +1,6 @@
 #5.0.17 2017-??-??
  - 2017-01-17 Fixed bug#[12481](https://bugs.otrs.org/show_bug.cgi?id=12481) - URLs in Chat are not converted to clickable links.
+ - 2017-01-20 Fixed bug#[12536](https://bugs.otrs.org/show_bug.cgi?id=12536) - It's possible for an GenericAgent task to be submitted multiple times and depending on the jobs configuration, lead to a Denial of Service.
 
 #5.0.16 2017-01-24
  - 2017-01-16 Updated translations, thanks to all translators.

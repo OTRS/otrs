@@ -1784,6 +1784,7 @@ sub TicketQueueID {
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
         UserID        => 1,
+        Silent        => 1,
     );
 
     return if !%Ticket;
