@@ -155,7 +155,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             //   check if element is indeed disabled, because the dash value might be allowed.
             //   See bug#10055 and bug#12528 for more information.
             if (ElementDisabled && ElementID === '-') {
-                ElementID = Core.UI.GetID($('</>'));
+                ElementID = Core.UI.GetID();
             }
 
             // Collect data of current service and add it to elements array
