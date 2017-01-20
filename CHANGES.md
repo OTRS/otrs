@@ -1,4 +1,5 @@
 #4.0.22 2017-??-??
+ - 2017-01-20 Fixed bug#[4512](https://bugs.otrs.org/show_bug.cgi?id=4512) - HTMLUtils ToAscii forces line breake on fixed line-length 78.
  - 2017-01-20 Fixed bug#[12536](https://bugs.otrs.org/show_bug.cgi?id=12536) - It's possible for an GenericAgent task to be submitted multiple times and depending on the jobs configuration, lead to a Denial of Service.
 
 #4.0.21 2017-01-24
