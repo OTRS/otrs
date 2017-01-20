@@ -151,8 +151,12 @@ Core.UI.TreeSelection = (function (TargetNS) {
             }
 
             // In case of disabled elements, the ID is always "-", which causes duplications.
-            // Therefore, we assign a random ID to avoid conflicts.
-            ElementID = (ElementID === '-') ? Math.floor((Math.random() * 100000) + 1) : ElementID;
+            //   Therefore, we assign a random ID to avoid conflicts. But make sure to check if
+            //   element is indeed disabled, because the dash value might be allowed. See bug#10055
+            //   and bug#12528 for more information.
+            if (ElementDisabled && ElementID === '-') {
+                ElementID = Math.floor((Math.random() * 100000) + 1);
+            }
 
             // Collect data of current service and add it to elements array
             /*eslint-disable camelcase */
