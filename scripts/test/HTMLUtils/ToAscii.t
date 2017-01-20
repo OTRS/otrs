@@ -12,10 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get HTMLUtils object
-my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-
-# ToAscii tests
 my @Tests = (
     {
         Input  => 'Some Text',
@@ -240,10 +236,29 @@ Fifth Line',
         Result => 'ü',
         Name   => 'Correctly encoded LATIN SMALL LETTER U WITH DIAERESIS (named)',
     },
+    {
+        Input  => 'just a simple string',
+        Result => "just\na simple\nstring\n",
+        Name   => 'Consider Ticket::Frontend::TextAreaNote',
+        Config => {
+            'Ticket::Frontend::TextAreaNote' => 5,
+        },
+
+    },
 );
 
 for my $Test (@Tests) {
-    my $Ascii = $HTMLUtilsObject->ToAscii(
+
+    $Kernel::OM->ObjectsDiscard();
+
+    for my $ConfigSetting (sort keys %{ $Test->{Config} // {} }) {
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => $ConfigSetting,
+            Value => $Test->{Config}->{$ConfigSetting},
+        );
+    }
+
+    my $Ascii = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
         String => $Test->{Input},
     );
 
