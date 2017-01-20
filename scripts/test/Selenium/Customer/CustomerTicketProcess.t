@@ -105,11 +105,30 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
 
-        my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
-        my $ContentRandom = 'Content' . $Helper->GetRandomID();
+        my $SubjectRandom      = 'Subject' . $Helper->GetRandomID();
+        my $ContentRandom      = 'Content' . $Helper->GetRandomID();
+        my $AttachmentName     = "StdAttachment-Test1.txt";
+        my $AttachmentLocation = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
+
         $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($AttachmentLocation);
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("[id^=\'AttachmentDelete\']").length' );
+
+        # Check if the header is visible on the page (bug#12543).
+        my $Element = $Selenium->find_element(
+            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets' )]"
+        );
+        $Element->is_enabled();
+        $Element->is_displayed();
+
+        my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
+        $Self->True(
+            index( $Selenium->get_page_source(), $FooterMessage ) > -1,
+            "$FooterMessage found in footer on page (after attachment upload)",
+        );
+
         $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
 
         sleep 1;

@@ -71,6 +71,7 @@
 
 #5.0.17 2017-??-??
  - 2017-01-20 Fixed bug#[4512](https://bugs.otrs.org/show_bug.cgi?id=4512) - HTMLUtils ToAscii forces line breake on fixed line-length 78.
+ - 2017-01-20 Fixed bug#[12543](https://bugs.otrs.org/show_bug.cgi?id=12543) - Missing header and footer after file upload in CustomerTicketProcess.
  - 2017-01-20 Fixed bug#[12536](https://bugs.otrs.org/show_bug.cgi?id=12536) - It's possible for an GenericAgent task to be submitted multiple times and depending on the jobs configuration, lead to a Denial of Service.
  - 2017-01-17 Fixed bug#[12481](https://bugs.otrs.org/show_bug.cgi?id=12481) - URLs in Chat are not converted to clickable links.
 

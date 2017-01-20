@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+[% IF Data.ProcessList %]
 <div id="MainBox" class="TicketProcess ARIARoleMain">
     <div class="Content">
         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="compose" id="NewProcessTicket" class="Validate PreventMultipleSubmits">
@@ -30,3 +31,4 @@
         <div id="ActivityDialogContent"></div>
     </div>
 </div>
+[% END %]
