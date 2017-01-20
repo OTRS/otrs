@@ -16,6 +16,7 @@
             <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
             <input type="hidden" name="Expand" id="Expand" value=""/>
             <input type="hidden" name="AJAXDialog" id="AJAXDialog" value="[% Data.AJAXDialog | html %]"/>
+            <input type="hidden" name="IsMainWindow" id="IsMainWindow" value="[% IF !Data.TicketID %]1[% END %]"/>
             <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
             <div class="LayoutPopup">
 [% RenderBlockStart("Header") %]
