@@ -75,12 +75,12 @@ $Selenium->RunTest(
 
         my %DynamicFields = (
             Text => {
-                Name          => 'TestText' . $RandomID,
-                Label         => 'TestText' . $RandomID,
-                FieldOrder    => 9990,
-                FieldType     => 'Text',
-                ObjectType    => 'Ticket',
-                Config        => {
+                Name       => 'TestText' . $RandomID,
+                Label      => 'TestText' . $RandomID,
+                FieldOrder => 9990,
+                FieldType  => 'Text',
+                ObjectType => 'Ticket',
+                Config     => {
                     DefaultValue => '',
                     Link         => '',
                 },
@@ -89,16 +89,16 @@ $Selenium->RunTest(
                 UserID  => 1,
             },
             Dropdown => {
-                Name          => 'TestDropdown' . $RandomID,
-                Label          => 'TestDropdown' . $RandomID,
-                FieldOrder    => 9990,
-                FieldType     => 'Dropdown',
-                ObjectType    => 'Ticket',
-                Config        => {
+                Name       => 'TestDropdown' . $RandomID,
+                Label      => 'TestDropdown' . $RandomID,
+                FieldOrder => 9990,
+                FieldType  => 'Dropdown',
+                ObjectType => 'Ticket',
+                Config     => {
                     DefaultValue   => '',
                     Link           => '',
                     PossibleNone   => 0,
-                    PossibleValues  => {
+                    PossibleValues => {
                         0 => 'No',
                         1 => 'Yes',
                     },
@@ -109,16 +109,16 @@ $Selenium->RunTest(
                 UserID  => 1,
             },
             Multiselect => {
-                Name          => 'TestMultiselect' . $RandomID,
-                Label         => 'TestMultiselect' . $RandomID,
-                FieldOrder    => 9990,
-                FieldType     => 'Multiselect',
-                ObjectType    => 'Ticket',
-                Config        => {
+                Name       => 'TestMultiselect' . $RandomID,
+                Label      => 'TestMultiselect' . $RandomID,
+                FieldOrder => 9990,
+                FieldType  => 'Multiselect',
+                ObjectType => 'Ticket',
+                Config     => {
                     DefaultValue   => '',
                     Link           => '',
                     PossibleNone   => 0,
-                    PossibleValues  => {
+                    PossibleValues => {
                         year  => 'year',
                         month => 'month',
                         week  => 'week',
@@ -131,15 +131,15 @@ $Selenium->RunTest(
             },
             Date => {
                 Name       => 'TestDate' . $RandomID,
-                Label       => 'TestDate' . $RandomID,
+                Label      => 'TestDate' . $RandomID,
                 FieldOrder => 9990,
                 FieldType  => 'Date',
                 ObjectType => 'Ticket',
                 Config     => {
-                    DefaultValue    => 0,
-                    YearsInFuture   => 0,
-                    YearsInPast     => 0,
-                    YearsPeriod     => 0,
+                    DefaultValue  => 0,
+                    YearsInFuture => 0,
+                    YearsInPast   => 0,
+                    YearsPeriod   => 0,
                 },
                 Reorder => 1,
                 ValidID => 1,
@@ -147,15 +147,15 @@ $Selenium->RunTest(
             },
             DateTime => {
                 Name       => 'TestDateTime' . $RandomID,
-                Label       => 'TestDateTime' . $RandomID,
+                Label      => 'TestDateTime' . $RandomID,
                 FieldOrder => 9990,
                 FieldType  => 'DateTime',
                 ObjectType => 'Ticket',
                 Config     => {
-                    DefaultValue    => 0,
-                    YearsInFuture   => 0,
-                    YearsInPast     => 0,
-                    YearsPeriod     => 0,
+                    DefaultValue  => 0,
+                    YearsInFuture => 0,
+                    YearsInPast   => 0,
+                    YearsPeriod   => 0,
                 },
                 Reorder => 1,
                 ValidID => 1,
@@ -168,7 +168,7 @@ $Selenium->RunTest(
         # Create test dynamic field of type date
         for my $DynamicFieldType ( sort keys %DynamicFields ) {
 
-            my $DynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
+            my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
                 %{ $DynamicFields{$DynamicFieldType} },
             );
 
@@ -191,10 +191,16 @@ $Selenium->RunTest(
                              Ticket lock: <OTRS_TICKET_Lock>.\n
                              Ticket priority: <OTRS_TICKET_Priority>.\n
                              DynamicField Text: <OTRS_TICKET_DynamicField_" . $DynamicFields{Text}->{Name} . "_Value>
-                             DynamicField Dropdown: <OTRS_TICKET_DynamicField_" . $DynamicFields{Dropdown}->{Name} . "_Value>
-                             DynamicField Multiselect: <OTRS_TICKET_DynamicField_" . $DynamicFields{Multiselect}->{Name} . "_Value>
+                             DynamicField Dropdown: <OTRS_TICKET_DynamicField_"
+                . $DynamicFields{Dropdown}->{Name}
+                . "_Value>
+                             DynamicField Multiselect: <OTRS_TICKET_DynamicField_"
+                . $DynamicFields{Multiselect}->{Name}
+                . "_Value>
                              DynamicField Date: <OTRS_TICKET_DynamicField_" . $DynamicFields{Date}->{Name} . "_Value>
-                             DynamicField DateTime: <OTRS_TICKET_DynamicField_" . $DynamicFields{DateTime}->{Name} . "_Value>
+                             DynamicField DateTime: <OTRS_TICKET_DynamicField_"
+                . $DynamicFields{DateTime}->{Name}
+                . "_Value>
                             ",
             ContentType  => 'text/plain; charset=utf-8',
             TemplateType => 'Answer',
@@ -300,11 +306,10 @@ $Selenium->RunTest(
             $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $TicketID,
-                Value              => $DynamicFieldValues{$DynamicFieldType} || $DynamicFieldDateValues{$DynamicFieldType},
-                UserID             => 1,
+                Value  => $DynamicFieldValues{$DynamicFieldType} || $DynamicFieldDateValues{$DynamicFieldType},
+                UserID => 1,
             );
         }
-
 
         # create test email article
         my $ArticleID = $TicketObject->ArticleCreate(
@@ -391,9 +396,13 @@ $Selenium->RunTest(
 
         for my $DynamicFieldType ( sort keys %DynamicFieldValues ) {
 
-            my $Value = $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues} ? $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues}->{ $DynamicFieldValues{$DynamicFieldType} } : $DynamicFieldValues{$DynamicFieldType};
+            my $Value
+                = $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues}
+                ? $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues}
+                ->{ $DynamicFieldValues{$DynamicFieldType} }
+                : $DynamicFieldValues{$DynamicFieldType};
 
-            my $TransletedDynamicFieldValue = $LanguageObject->Translate( $Value );
+            my $TransletedDynamicFieldValue = $LanguageObject->Translate($Value);
 
             # check dynamic field date format
             $Self->True(
@@ -495,7 +504,6 @@ $Selenium->RunTest(
                 "Dynamic field - ID $DynamicFieldID - deleted",
             );
         }
-
 
         # make sure the cache is correct
         for my $Cache (

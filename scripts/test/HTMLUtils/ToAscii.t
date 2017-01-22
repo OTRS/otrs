@@ -251,7 +251,7 @@ for my $Test (@Tests) {
 
     $Kernel::OM->ObjectsDiscard();
 
-    for my $ConfigSetting (sort keys %{ $Test->{Config} // {} }) {
+    for my $ConfigSetting ( sort keys %{ $Test->{Config} // {} } ) {
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => $ConfigSetting,
             Value => $Test->{Config}->{$ConfigSetting},
