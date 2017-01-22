@@ -391,8 +391,7 @@ $Selenium->RunTest(
 
         for my $DynamicFieldType ( sort keys %DynamicFieldValues ) {
 
-            my $Value
-                = $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues}
+            my $Value = $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues}
                 ? $DynamicFields{$DynamicFieldType}->{Config}->{PossibleValues}
                 ->{ $DynamicFieldValues{$DynamicFieldType} }
                 : $DynamicFieldValues{$DynamicFieldType};
