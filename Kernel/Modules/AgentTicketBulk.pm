@@ -471,6 +471,9 @@ sub Run {
         }
     }
 
+    my @TicketsWithError;
+    my @TicketsWithLockNotice;
+
     TICKET_ID:
     for my $TicketID (@TicketIDs) {
         my %Ticket = $TicketObject->TicketGet(
@@ -485,32 +488,15 @@ sub Run {
             UserID   => $Self->{UserID}
         );
         if ( !$Access ) {
-
             # error screen, don't show ticket
-            $Output .= $LayoutObject->Notify(
-                Data => "$Ticket{TicketNumber}: "
-                    . $LayoutObject->{LanguageObject}->Translate("You don't have write access to this ticket."),
-            );
+            push @TicketsWithError, $Ticket{TicketNumber};
             next TICKET_ID;
         }
 
         # check if it's already locked by somebody else
-        if ( !$Config->{RequiredLock} ) {
-            $Output .= $LayoutObject->Notify(
-                Priority => 'Info',
-                Data     => "$Ticket{TicketNumber}: "
-                    . $LayoutObject->{LanguageObject}->Translate("Ticket selected."),
-            );
-        }
-        else {
+        if ( $Config->{RequiredLock} ) {
             if ( grep ( { $_ eq $TicketID } @IgnoreLockedTicketIDs ) ) {
-                $Output .= $LayoutObject->Notify(
-                    Priority => 'Error',
-                    Data     => "$Ticket{TicketNumber}: "
-                        . $LayoutObject->{LanguageObject}->Translate(
-                        "Ticket is locked by another agent and will be ignored!"
-                        ),
-                );
+                push @TicketsWithError, $Ticket{TicketNumber};
                 next TICKET_ID;
             }
             elsif ( $Ticket{Lock} eq 'unlock' ) {
@@ -530,19 +516,9 @@ sub Run {
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
                 );
-                $Output .= $LayoutObject->Notify(
-                    Data => "$Ticket{TicketNumber}: "
-                        . $LayoutObject->{LanguageObject}->Translate("Ticket locked."),
-                );
-            }
-            else {
-                $Output .= $LayoutObject->Notify(
-                    Priority => 'Info',
-                    Data     => "$Ticket{TicketNumber}: "
-                        . $LayoutObject->{LanguageObject}->Translate("Ticket selected."),
-                );
-            }
 
+                push @TicketsWithLockNotice, $Ticket{TicketNumber};
+            }
         }
 
         # remember selected ticket ids
@@ -904,6 +880,32 @@ sub Run {
             $ActionFlag = 1;
         }
         $Counter++;
+    }
+
+    # notify user about actions (errors)
+    if (@TicketsWithError) {
+        my $NotificationError = $LayoutObject->{LanguageObject}->Translate(
+            "The following tickets were ignored because they are locked by another agent or you don't have write access to these tickets: %s.",
+            join(", ", @TicketsWithError),
+        );
+
+        $Output .= $LayoutObject->Notify(
+            Priority => 'Error',
+            Data     => $NotificationError,
+        );
+    }
+
+    # notify user about actions (notices)
+    if (@TicketsWithLockNotice) {
+        my $NotificationNotice = $LayoutObject->{LanguageObject}->Translate(
+            "The following tickets were locked: %s.",
+            join(", ", @TicketsWithLockNotice),
+        );
+
+        $Output .= $LayoutObject->Notify(
+            Priority => 'Notice',
+            Data     => $NotificationNotice,
+        );
     }
 
     # redirect
