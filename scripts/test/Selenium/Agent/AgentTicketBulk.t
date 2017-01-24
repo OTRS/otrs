@@ -193,7 +193,7 @@ $Selenium->RunTest(
                 UserID      => $TestUserID,
             },
             {
-                # ticket locked by another agent
+                # ticket locked by another agent #1
                 TicketTitle => 'TestTicket-Three',
                 Lock        => 'lock',
                 QueueID     => $QueueRawID,
@@ -220,6 +220,14 @@ $Selenium->RunTest(
                 QueueID     => $QueueIDs[1],
                 OwnerID     => 1,
                 UserID      => $TestUserID,
+            },
+            {
+                # ticket locked by another agent #2
+                TicketTitle => 'TestTicket-Seven',
+                Lock        => 'lock',
+                QueueID     => $QueueRawID,
+                OwnerID     => 1,
+                UserID      => 1,
             },
         );
 
@@ -324,6 +332,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$Tickets[0]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[1]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[2]->{TicketID}']")->click();
+        $Selenium->find_element("//input[\@value='$Tickets[6]->{TicketID}']")->click();
+
         $Selenium->find_element( "Bulk", 'link_text' )->click();
 
         # switch to bulk window
@@ -339,9 +349,9 @@ $Selenium->RunTest(
 
         # check data
         my @ExpectedMessages = (
-            $Tickets[0]->{TicketNumber} . ': Ticket selected.',
-            $Tickets[1]->{TicketNumber} . ': Ticket locked.',
-            $Tickets[2]->{TicketNumber} . ': Ticket is locked by another agent and will be ignored!',
+            "The following tickets were locked by another agent or you don't have write access to these tickets: "
+            . $Tickets[6]->{TicketNumber} . ", " . $Tickets[2]->{TicketNumber},
+            "The following tickets were locked: " . $Tickets[1]->{TicketNumber},
         );
         for my $ExpectedMessage (@ExpectedMessages) {
             $Self->True(
