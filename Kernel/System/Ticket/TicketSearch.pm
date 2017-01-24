@@ -2083,9 +2083,6 @@ sub TicketSearch {
             return;
         }
 
-        # don't execute queries if newer date is after current date
-        return if $TimeStamp > $CurrentSystemTime;
-
         # don't execute queries if older/newer date restriction show now valid timeframe
         return
             if $ComparePendingTimeOlderNewerDate && $TimeStamp > $ComparePendingTimeOlderNewerDate;
