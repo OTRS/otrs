@@ -349,9 +349,8 @@ $Selenium->RunTest(
 
         # check data
         my @ExpectedMessages = (
-            "The following tickets were locked by another agent or you don't have write access to these tickets: "
-            . $Tickets[6]->{TicketNumber} . ", " . $Tickets[2]->{TicketNumber},
-            "The following tickets were locked: " . $Tickets[1]->{TicketNumber},
+            "The following tickets were ignored because they are locked by another agent or you don't have write access to these tickets: " . $Tickets[2]->{TicketNumber} . ", " . $Tickets[6]->{TicketNumber} . ".",
+            "The following tickets were locked: " . $Tickets[1]->{TicketNumber} . ".",
         );
         for my $ExpectedMessage (@ExpectedMessages) {
             $Self->True(

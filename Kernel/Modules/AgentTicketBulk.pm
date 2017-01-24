@@ -175,7 +175,7 @@ sub Run {
     # get involved tickets, filtering empty TicketIDs
     my @ValidTicketIDs;
     my @IgnoreLockedTicketIDs;
-    my @TicketIDs = grep {$_}
+    my @TicketIDs = sort grep {$_}
         $ParamObject->GetArray( Param => 'TicketID' );
 
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
