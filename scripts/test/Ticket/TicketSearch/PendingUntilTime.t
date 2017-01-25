@@ -49,16 +49,17 @@ for my $Counter ( 1 .. 4 ) {
 
 my @Tests = (
     {
-        Description => "Test search param 'TicketPendingTimeNewerDate' without a ticket with a set pending time",
-        TicketUpdate => {},
+        Description        => "Test search param 'TicketPendingTimeNewerDate' without a ticket with a set pending time",
+        TicketUpdate       => {},
         TicketSearchConfig => {
             TicketPendingTimeNewerDate => '2016-12-01 12:00:00',
         },
         ExpectedResultTicketIDs => [],
     },
     {
-        Description => "Test search param 'TicketPendingTimeNewerDate' with tickets which have a pending time, but wrong state",
-        TimeStamp  => '2015-11-30 08:00:00',
+        Description =>
+            "Test search param 'TicketPendingTimeNewerDate' with tickets which have a pending time, but wrong state",
+        TimeStamp    => '2015-11-30 08:00:00',
         TicketUpdate => {
             $TicketIDs[0] => {
                 PendingTime => '2015-12-01 13:00:00',
@@ -73,8 +74,9 @@ my @Tests = (
         ExpectedResultTicketIDs => [],
     },
     {
-        Description => "Test search param 'TicketPendingTimeNewerDate' with tickets which have a pending time and correct state",
-        TimeStamp  => '2015-11-30 08:00:00',
+        Description =>
+            "Test search param 'TicketPendingTimeNewerDate' with tickets which have a pending time and correct state",
+        TimeStamp    => '2015-11-30 08:00:00',
         TicketUpdate => {
             $TicketIDs[0] => {
                 PendingTime => '2015-12-01 13:00:00',
@@ -91,8 +93,9 @@ my @Tests = (
         ExpectedResultTicketIDs => [ $TicketIDs[3], ],
     },
     {
-        Description => "Test search param 'TicketPendingTimeOlderDate' with tickets which have a pending time, but wrong state",
-        TimeStamp  => '2015-11-20 08:00:00',
+        Description =>
+            "Test search param 'TicketPendingTimeOlderDate' with tickets which have a pending time, but wrong state",
+        TimeStamp    => '2015-11-20 08:00:00',
         TicketUpdate => {
             $TicketIDs[1] => {
                 PendingTime => '2015-11-10 13:00:00',
@@ -107,8 +110,9 @@ my @Tests = (
         ExpectedResultTicketIDs => [],
     },
     {
-        Description => "Test search param 'TicketPendingTimeOlderDate' with tickets which have a pending time and correct state",
-        TimeStamp  => '2015-11-20 08:00:00',
+        Description =>
+            "Test search param 'TicketPendingTimeOlderDate' with tickets which have a pending time and correct state",
+        TimeStamp    => '2015-11-20 08:00:00',
         TicketUpdate => {
             $TicketIDs[1] => {
                 PendingTime => '2015-11-10 13:00:00',
@@ -125,8 +129,9 @@ my @Tests = (
         ExpectedResultTicketIDs => [ $TicketIDs[1], $TicketIDs[2], ],
     },
     {
-        Description => "Test search param 'TicketPendingTimeOlderDate' and 'TicketPendingTimeNewerDate' together, but newer date is greater then older date",
-        TimeStamp  => '2015-11-20 08:00:00',
+        Description =>
+            "Test search param 'TicketPendingTimeOlderDate' and 'TicketPendingTimeNewerDate' together, but newer date is greater then older date",
+        TimeStamp          => '2015-11-20 08:00:00',
         TicketSearchConfig => {
             TicketPendingTimeNewerDate => '2015-12-01 14:00:00',
             TicketPendingTimeOlderDate => '2015-11-15 14:00:00',
@@ -135,7 +140,7 @@ my @Tests = (
     },
     {
         Description => "Test search param 'TicketPendingTimeOlderDate' and 'TicketPendingTimeNewerDate' together",
-        TimeStamp  => '2015-11-20 08:00:00',
+        TimeStamp   => '2015-11-20 08:00:00',
         TicketSearchConfig => {
             TicketPendingTimeNewerDate => '2015-12-01 00:00:00',
             TicketPendingTimeOlderDate => '2015-12-05 00:00:00',
@@ -143,7 +148,8 @@ my @Tests = (
         ExpectedResultTicketIDs => [ $TicketIDs[0], $TicketIDs[3], ],
     },
     {
-        Description  => "Test search param 'TicketPendingTimeOlderMinutes' with tickets which have a pending time and correct state",
+        Description =>
+            "Test search param 'TicketPendingTimeOlderMinutes' with tickets which have a pending time and correct state",
         TimeStamp    => '2016-04-13 12:00:00',
         TicketUpdate => {
             $TicketIDs[0] => {
@@ -169,7 +175,8 @@ my @Tests = (
         ExpectedResultTicketIDs => [ $TicketIDs[0] ],
     },
     {
-        Description        => "Test search param 'TicketPendingTimeNewerMinutes' with tickets which have a pending time and correct state",
+        Description =>
+            "Test search param 'TicketPendingTimeNewerMinutes' with tickets which have a pending time and correct state",
         TimeStamp          => '2016-04-14 19:30:00',
         TicketSearchConfig => {
             TicketPendingTimeNewerMinutes => '60',
@@ -178,7 +185,7 @@ my @Tests = (
     },
     {
         Description => "Test search param 'TicketPendingTimeNewerMinutes' and 'TicketPendingTimeOlderMinutes' together",
-        TimeStamp  => '2016-04-14 19:00:00',
+        TimeStamp   => '2016-04-14 19:00:00',
         TicketSearchConfig => {
             TicketPendingTimeNewerMinutes => '2160',
             TicketPendingTimeOlderMinutes => '120',
@@ -239,9 +246,9 @@ for my $Test (@Tests) {
             if ( $Test->{TicketUpdate}->{$TicketID}->{State} ) {
 
                 $Success = $TicketObject->TicketStateSet(
-                    State     => $Test->{TicketUpdate}->{$TicketID}->{State},
-                    TicketID  => $TicketID,
-                    UserID    => 1,
+                    State    => $Test->{TicketUpdate}->{$TicketID}->{State},
+                    TicketID => $TicketID,
+                    UserID   => 1,
                 );
 
                 $Self->True(
