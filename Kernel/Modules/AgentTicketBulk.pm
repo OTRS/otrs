@@ -488,6 +488,7 @@ sub Run {
             UserID   => $Self->{UserID}
         );
         if ( !$Access ) {
+
             # error screen, don't show ticket
             push @TicketsWithError, $Ticket{TicketNumber};
             next TICKET_ID;
@@ -886,7 +887,7 @@ sub Run {
     if (@TicketsWithError) {
         my $NotificationError = $LayoutObject->{LanguageObject}->Translate(
             "The following tickets were ignored because they are locked by another agent or you don't have write access to these tickets: %s.",
-            join(", ", @TicketsWithError),
+            join( ", ", @TicketsWithError ),
         );
 
         $Output .= $LayoutObject->Notify(
@@ -899,7 +900,7 @@ sub Run {
     if (@TicketsWithLockNotice) {
         my $NotificationNotice = $LayoutObject->{LanguageObject}->Translate(
             "The following tickets were locked: %s.",
-            join(", ", @TicketsWithLockNotice),
+            join( ", ", @TicketsWithLockNotice ),
         );
 
         $Output .= $LayoutObject->Notify(
