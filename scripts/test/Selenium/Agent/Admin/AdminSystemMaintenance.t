@@ -39,6 +39,15 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        # get SystemMaintenance object
+        my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
@@ -95,9 +104,6 @@ $Selenium->RunTest(
             '1',
             'Client side validation correctly detected missing input value',
         );
-
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
         # create error test SystemMaintenance scenario
         # get test end time - 1 hour of current time
@@ -166,9 +172,6 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $SysMainComment ) > -1,
             "$SysMainComment found on page",
         );
-
-        # get DB object
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # get test SystemMaintenanceID
         my $SysMainCommentQuoted = $DBObject->Quote($SysMainComment);
@@ -262,6 +265,137 @@ $Selenium->RunTest(
             $Selenium->accept_alert(),
             "Delete - $SysMainComment"
         );
+
+        # define test SystemMaintenance scenarios
+        my @Tests = (
+            {
+                # now, duration 2 hours
+                StartDate => $TimeObject->SystemTime(),
+                StopDate  => $TimeObject->SystemTime() + 2 * 60 * 60,
+                Comment   => 'test maintenance period #1',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # 1 day later, duration 2 hours
+                StartDate => $TimeObject->SystemTime() + 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() + 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #2',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # 2 days later, duration 2 hours
+                StartDate => $TimeObject->SystemTime() + 2 * 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() + 2 * 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #3',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # 3 days later, duration 2 hours
+                StartDate => $TimeObject->SystemTime() + 3 * 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() + 3 * 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #4',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # 4 days later, duration 2 hours
+                StartDate => $TimeObject->SystemTime() + 4 * 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() + 4 * 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #5',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # 5 days later, duration 2 hours
+                StartDate => $TimeObject->SystemTime() + 5 * 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() + 5 * 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #6',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # 6 days later, duration 2 hours
+                StartDate => $TimeObject->SystemTime() + 6 * 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() + 6 * 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #7',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # 7 days later, duration 2 hours
+                StartDate => $TimeObject->SystemTime() + 7 * 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() + 7 * 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #8',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # 8 days later, duration 2 hours
+                StartDate => $TimeObject->SystemTime() + 8 * 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() + 8 * 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #9',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+            {
+                # one week earlier, duration 2 hours
+                StartDate => $TimeObject->SystemTime() - 7 * 24 * 60 * 60,
+                StopDate  => $TimeObject->SystemTime() - 7 * 24 * 60 * 60 + 2 * 60 * 60,
+                Comment   => 'test maintenance period #10',
+                ValidID   => 1,
+                UserID    => 1,
+            },
+        );
+
+        # create test SystemMaintenances
+        my @SystemMaintenanceIDs;
+        for my $Test (@Tests) {
+            my $SystemMaintenanceID = $SystemMaintenanceObject->SystemMaintenanceAdd(
+                StartDate => $Test->{StartDate},
+                StopDate  => $Test->{StopDate},
+                Comment   => $Test->{Comment},
+                ValidID   => $Test->{ValidID},
+                UserID    => $Test->{UserID},
+            );
+
+            push @SystemMaintenanceIDs, $SystemMaintenanceID;
+        }
+
+        # navigate to AdminSystemMaintenance screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance");
+
+        # check created SystemMaintenances
+        for my $Test (@Tests) {
+            $Self->True(
+                index( $Selenium->get_page_source(), $Test->{Comment} ) > -1,
+                "Created system maintenance with comment '$Test->{Comment}' is found on page.",
+            );
+        }
+
+        # check order of displayed SystemMaintenances by comments and lines
+        for my $i ( 1 .. 10 ) {
+
+            # set the correct index for the @Tests array (line 1 contains last test comment)
+            my $Index = $i;
+            $Index = ( $Index eq 1 ) ? $Index = 9 : $Index = $Index - 2;
+
+            $Self->Is(
+                $Selenium->execute_script("return \$('tr:nth-child($i) > td:nth-child(3)').text()"),
+                $Tests[$Index]->{Comment},
+                "Found system maintenance with comment '$Tests[$Index]->{Comment}' in line $i."
+            );
+        }
+
+        # delete created SystemMaintenances
+        for my $SystemMaintenanceID (@SystemMaintenanceIDs) {
+            my $Success = $SystemMaintenanceObject->SystemMaintenanceDelete(
+                ID     => $SystemMaintenanceID,
+                UserID => 1,
+            );
+        }
     }
 
 );

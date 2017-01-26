@@ -58,8 +58,8 @@ add new SystemMaintenance
 returns the id of the created SystemMaintenance if success or undef otherwise
 
     my $ID = $SystemMaintenance->SystemMaintenanceAdd(
-        StartDate        => '2014-05-02 14:55:00'    # mandatory
-        StopDate         => '2014-05-02 16:01:00'    # mandatory
+        StartDate        => 1485346000               # mandatory
+        StopDate         => 1485349600               # mandatory
         Comment          => 'Comment',               # mandatory
         LoginMessage     => 'A login message.',      # optional
         ShowLoginMessage => 1,                       # optional
@@ -130,7 +130,7 @@ sub SystemMaintenanceAdd {
 
 =head2 SystemMaintenanceDelete()
 
-delete an SystemMaintenance
+delete a SystemMaintenance
 
 returns 1 if success or undef otherwise
 
@@ -180,7 +180,7 @@ sub SystemMaintenanceDelete {
 get SystemMaintenance attributes
 
     my $SystemMaintenance = $SystemMaintenanceObject->SystemMaintenanceGet(
-        ID     => 123,          # ID or name is needed
+        ID     => 123,          # mandatory
         UserID => 123,          # mandatory
     );
 
@@ -188,15 +188,15 @@ Returns:
 
     $SystemMaintenance = {
         ID             => 123,
-        StartDate        => '2014-05-02 14:55:00',
-        StopDate         => '2014-05-02 16:01:00',
+        StartDate        => 1485346000,
+        StopDate         => 1485349600,
         Comment          => 'Comment',
         LoginMessage     => 'A login message.',
         ShowLoginMessage => 1,
         NotifyMessage    => 'Notification message.',
         ValidID          => 1,
-        CreateTime       => '2012-07-04 15:08:00',
-        ChangeTime       => '2012-07-04 15:08:00',
+        CreateTime       => 1485346000,
+        ChangeTime       => 1485347300,
         CreateBy         => 'user_login',
         ChangeBy         => 'user_login',
     };
@@ -232,9 +232,6 @@ sub SystemMaintenanceGet {
         Limit => 1,
     );
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
     my %Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
@@ -267,8 +264,8 @@ returns 1 if success or undef otherwise
 
     my $Success = $SystemMaintenanceObject->SystemMaintenanceUpdate(
         ID               => 123,                        # mandatory
-        StartData        => 'NameOfSystemMaintenance',  # mandatory
-        StopDate         => 'NameOfSystemMaintenance',  # mandatory
+        StartDate        => 1485346000,                 # mandatory
+        StopDate         => 1485349600,                 # mandatory
         Comment          => 'Comment',                  # mandatory
         LoginMessage     => 'Description',              # optional
         ShowLoginMessage => 1,                          # optional
@@ -325,10 +322,11 @@ get an SystemMaintenance list
         UserID   => 1,
     );
 
-    Returns:
+Returns a hash with the SystemMaintenance IDs as keys:
 
     $List = {
-        1 => 'NameOfSystemMaintenance',
+        42 => 1,
+        24 => 1,
     }
 
 =cut
@@ -394,27 +392,27 @@ Returns:
     $List = [
         {
             ID               => 123,
-            StartDate        => '2013-07-04 15:08:00',
-            StopDate         => '2013-07-06 16:08:00',
+            StartDate        => 1485346000,
+            StopDate         => 1485349600,
             Comment          => 'Comment',
             LoginMessage     => 'The message',
             ShowLoginMessage => 1,
             NotifyMessage    => 'The notification',
             ValidID          => 1,
-            CreateTime       => '2012-07-04 15:08:00',
-            ChangeTime       => '2012-07-04 15:08:00',
+            CreateTime       => 1485342400,
+            ChangeTime       => 1485343700,
         },
         {
             ID               => 123,
-            StartDate        => '2013-07-04 15:08:00',
-            StopDate         => '2013-07-06 16:08:00',
+            StartDate        => 1485346000,
+            StopDate         => 1485349600,
             Comment          => 'Other Comment',
             LoginMessage     => 'To be shown on the login screen.',
             ShowLoginMessage => 0,
             NotifyMessage    => 'A different notification',
             ValidID          => 1,
-            CreateTime       => '2012-07-04 15:08:00',
-            ChangeTime       => '2012-07-04 15:08:00',
+            CreateTime       => 1485342400,
+            ChangeTime       => 1485343700,
         },
     ];
 
@@ -448,6 +446,9 @@ sub SystemMaintenanceListGet {
         push @Data, $SystemMaintenanceData;
     }
 
+    # sort list by start date
+    @Data = sort { $a->{StartDate} <=> $b->{StartDate} } @Data;
+
     return \@Data;
 }
 
@@ -457,7 +458,7 @@ get a SystemMaintenance active flag
 
     my $ActiveMaintenance = $SystemMaintenanceObject->SystemMaintenanceIsActive();
 
-    Returns:
+Returns:
 
     $ActiveMaintenance = 7 # a System Maintenance ID
 
@@ -506,7 +507,7 @@ get a SystemMaintenance flag
 
     my $SystemMaintenanceIsComming = $SystemMaintenanceObject->SystemMaintenanceIsComming();
 
-    Returns:
+Returns:
 
     $SystemMaintenanceIsComming = 1 # 1 or 0
 
