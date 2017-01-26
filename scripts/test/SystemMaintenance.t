@@ -507,7 +507,7 @@ for my $Test (@Tests) {
         $TimeObject->TimeStamp2SystemTime( String => $Test->{FixedTimeSet} ),
     );
 
-    my $IsComming = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsComming();
+    my $IsComming = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsComing();
 
     if ( $Test->{IsComming} ) {
 

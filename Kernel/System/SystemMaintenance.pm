@@ -501,19 +501,19 @@ sub SystemMaintenanceIsActive {
     return $Result;
 }
 
-=head2 SystemMaintenanceIsComming()
+=head2 SystemMaintenanceIsComing()
 
 get a SystemMaintenance flag
 
-    my $SystemMaintenanceIsComming = $SystemMaintenanceObject->SystemMaintenanceIsComming();
+    my $SystemMaintenanceIsComing = $SystemMaintenanceObject->SystemMaintenanceIsComing();
 
 Returns:
 
-    $SystemMaintenanceIsComming = 1 # 1 or 0
+    $SystemMaintenanceIsComing = 1 # 1 or 0
 
 =cut
 
-sub SystemMaintenanceIsComming {
+sub SystemMaintenanceIsComing {
     my ( $Self, %Param ) = @_;
 
     my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
