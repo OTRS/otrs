@@ -575,8 +575,8 @@ sub HandleBusinessPermissionCloudServiceResult {
         LastUpdateTime     => $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
             SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
         ),
-        AgentSessionLimit             => $OperationResult->{Data}->{AgentSessionLimit},
-        AgentSessionLimitPriorWarning => $OperationResult->{Data}->{AgentSessionLimitPriorWarning},
+        AgentSessionLimit             => $OperationResult->{Data}->{AgentSessionLimit} // 0,
+        AgentSessionLimitPriorWarning => $OperationResult->{Data}->{AgentSessionLimitPriorWarning} // 0,
     );
 
     my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
