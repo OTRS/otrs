@@ -101,6 +101,7 @@ my @Tests = (
 
 );
 
+TEST:
 for my $Test (@Tests) {
 
     # configure spell checker bin
@@ -139,12 +140,12 @@ for my $Test (@Tests) {
 
     # not value for spelling result means a possible not installed language issue
     if ( !%SpellCheck && $Test->{Replace} ) {
-        $Self->True(
+        $Self->False(
             0,
             "$Test->{Name} - Spelling -Seems like language file was not found," .
                 " you must install the English dictionary for the spell checker!",
         );
-        next;
+        next TEST;
     }
 
     if ( $Test->{Replace} ) {
