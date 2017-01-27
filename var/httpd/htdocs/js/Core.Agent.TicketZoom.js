@@ -795,7 +795,9 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // event on change queue
         $('#DestQueueID').on('change', function () {
-            $(this).closest('form').submit();
+            if ($('#DestQueueID option:selected').val()) {
+                $(this).closest('form').submit();
+            }
         });
 
         // initialize article filter events

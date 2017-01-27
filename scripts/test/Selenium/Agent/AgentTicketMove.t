@@ -237,6 +237,48 @@ $Selenium->RunTest(
             "ACL restriction error message found for 'Spam' menu",
         );
 
+        # Test for bug#12559 that nothing shpuld happen, if the user click on a disabled queue (only for move type 'form').
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::MoveType',
+            Value => 'form'
+        );
+
+        # Reload the page, to get the new sys config option.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
+
+        # Check that nothing happens, after the queue selection in the dropdown.
+        $Self->True(
+            index( $Selenium->get_current_url(), "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID" ) > -1,
+            'The current url is the same (no reload happens).',
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('p.Value[title=\"Misc\"]').text()"
+            ),
+            'Misc',
+            'The Queue was not changed.',
+        );
+
+        $Selenium->execute_script("\$('#DestQueueID').val('2').trigger('redraw.InputField').trigger('change');");
+
+        # Wait for reload to kick in.
+        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('p.Value[title=\"Raw\"]').text()"
+            ),
+            'Raw',
+            'The Queue was changed.',
+        );
+
         # delete test ACL
         my $Success = $ACLObject->ACLDelete(
             ID     => $ACLID,
