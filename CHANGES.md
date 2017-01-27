@@ -1,4 +1,5 @@
 #5.0.17 2017-??-??
+ - 2017-01-27 Fixed bug#[12559](https://bugs.otrs.org/show_bug.cgi?id=12559) - Moving ticket to disabled queue causes corrupted layout.
  - 2017-01-26 Fixed bug#[12547](https://bugs.otrs.org/show_bug.cgi?id=12547) - System maintenance arranges notes in time order.
  - 2017-01-24 Fixed bug#[12529](https://bugs.otrs.org/show_bug.cgi?id=12529) - Notifications break AgentTicketBulk.
  - 2017-01-20 Fixed bug#[12528](https://bugs.otrs.org/show_bug.cgi?id=12528) - Problem with dash as value in a modernized form field.

@@ -470,7 +470,9 @@ $('#[% Data.FormID | html %] select[name=[% Data.PhoneElementID | html %]]').bin
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#DestQueueID').bind('change', function (Event) {
-        $(this).closest('form').submit();
+        if ($('#DestQueueID option:selected').val()) {
+            $(this).closest('form').submit();
+        }
     });
 //]]></script>
 [% END %]
