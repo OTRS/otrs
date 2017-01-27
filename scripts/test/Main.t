@@ -14,6 +14,7 @@ use vars (qw($Self));
 
 use File::Path;
 use Unicode::Normalize;
+use JSON::PP;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -595,6 +596,50 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
         Source           => "Antonín Dvořák",
         ResultDumpBinary => "\$VAR1 = 'Antonín Dvořák';\n",
         ResultDumpAscii  => '$VAR1 = "Anton\x{ed}n Dvo\x{159}\x{e1}k";' . "\n",
+    },
+    {
+        Name             => 'Scalar Reference',
+        Source           => \1,
+        ResultDumpBinary => "\$VAR1 = \\1;\n",
+        ResultDumpAscii  => "\$VAR1 = \\1;\n",
+    },
+    {
+        Name             => 'Array Reference',
+        Source           => [ 1, 2 ],
+        ResultDumpBinary => "\$VAR1 = [
+  1,
+  2
+];\n",
+        ResultDumpAscii => "\$VAR1 = [
+  1,
+  2
+];\n",
+    },
+    {
+        Name             => 'Hash Reference',
+        Source           => { 1 => 2 },
+        ResultDumpBinary => "\$VAR1 = {
+  '1' => 2
+};\n",
+        ResultDumpAscii => "\$VAR1 = {
+  '1' => 2
+};\n",
+    },
+    {
+        Name             => 'JSON::PP::Boolean true Reference',
+        Source           => JSON::PP::true(),
+        ResultDumpBinary => q|$VAR1 = bless( do{\(my $o = 1)}, 'JSON::PP::Boolean' );
+|,
+        ResultDumpAscii => q|$VAR1 = bless( do{\(my $o = 1)}, 'JSON::PP::Boolean' );
+|,
+    },
+    {
+        Name             => 'JSON::PP::Boolean false Reference',
+        Source           => JSON::PP::false(),
+        ResultDumpBinary => q|$VAR1 = bless( do{\(my $o = 0)}, 'JSON::PP::Boolean' );
+|,
+        ResultDumpAscii => q|$VAR1 = bless( do{\(my $o = 0)}, 'JSON::PP::Boolean' );
+|,
     },
 );
 
