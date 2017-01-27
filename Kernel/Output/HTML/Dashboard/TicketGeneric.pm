@@ -377,6 +377,7 @@ sub Preferences {
                 15 => '15',
                 20 => '20',
                 25 => '25',
+                50 => '50',
             },
             SelectedID  => $Self->{PageShown},
             Translation => 0,
