@@ -262,6 +262,23 @@ $Selenium->RunTest(
             'The Queue was not changed.',
         );
 
+        $Selenium->execute_script("\$('#DestQueueID').val('2').trigger('redraw.InputField').trigger('change');");
+
+        # Wait for reload to kick in.
+        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('p.Value[title=\"Raw\"]').text()"
+            ),
+            'Raw',
+            'The Queue was changed.',
+        );
+
         # delete test ACL
         my $Success = $ACLObject->ACLDelete(
             ID     => $ACLID,
