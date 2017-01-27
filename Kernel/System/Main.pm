@@ -1090,6 +1090,15 @@ sub _Dump {
         return;
     }
 
+    # data is a JSON::PP::Boolean
+    if ( ref ${$Data} eq 'JSON::PP::Boolean' ) {
+
+        # start recursion
+        $Self->_Dump( ${$Data} );
+
+        return;
+    }
+
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'error',
         Message  => "Unknown ref '" . ref( ${$Data} ) . "'!",
