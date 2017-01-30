@@ -237,7 +237,7 @@ $Selenium->RunTest(
             "ACL restriction error message found for 'Spam' menu",
         );
 
-        # Test for bug#12559 that nothing shpuld happen, if the user click on a disabled queue (only for move type 'form').
+     # Test for bug#12559 that nothing shpuld happen, if the user click on a disabled queue (only for move type 'form').
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::MoveType',
@@ -250,7 +250,8 @@ $Selenium->RunTest(
 
         # Check that nothing happens, after the queue selection in the dropdown.
         $Self->True(
-            index( $Selenium->get_current_url(), "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID" ) > -1,
+            index( $Selenium->get_current_url(), "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID" )
+                > -1,
             'The current url is the same (no reload happens).',
         );
 
