@@ -45,6 +45,13 @@ $Selenium->RunTest(
             Value => \%RSSConfig,
         );
 
+        # Avoid SSL errors on old test platforms.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'WebUserAgent::DisableSSLVerification',
+            Value => 1,
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
