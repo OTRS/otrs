@@ -116,19 +116,20 @@ Core.Exception = (function (TargetNS) {
      * @function
      * @returns {Boolean} If the error could be handled, returns if it was shown to the user or not.
      * @param {Object} ErrorObject - The error object
-     * @param {String} [Trace] - A string containing the stacktrace
      * @description
      *      This function handles the given error object (used as last possibility to catch the error).
      */
-    TargetNS.HandleFinalError = function (ErrorObject, Trace) {
-        var UserErrorMessage = 'An error occurred! Do you want to see the complete error message?',
-            ErrorType = ErrorObject.GetType();
+    TargetNS.HandleFinalError = function (ErrorObject) {
+        var UserErrorMessage = 'An error occurred! Please check the browser error log for more details!',
+            ErrorType;
 
         if (typeof Core.Language !== 'undefined') {
-            UserErrorMessage = Core.Language.Translate('An error occurred! Do you want to see the complete error message?')
+            UserErrorMessage = Core.Language.Translate('An error occurred! Please check the browser error log for more details!')
         }
 
         if (ErrorObject instanceof TargetNS.ApplicationError) {
+            ErrorType = ErrorObject.GetType();
+
             // Suppress AJAX errors which were raised by leaving the page while the AJAX call was still running.
             if (TargetNS.AboutToLeave && (ErrorType === 'CommunicationError' || ErrorType === 'ConnectionError')) {
                 return false;
@@ -138,27 +139,20 @@ Core.Exception = (function (TargetNS) {
                 Core.App.Publish('Core.App.AjaxError');
             }
             else {
-                TargetNS.ShowError(ErrorObject.GetMessage(), ErrorType, Trace);
-                if (window.confirm(UserErrorMessage)) {
-                    alert(ErrorObject.GetMessage() + (Trace ? ('\n\n' + Trace) : ''));
-                }
+                TargetNS.ShowError(ErrorObject.GetMessage(), ErrorType);
+                alert(UserErrorMessage);
             }
 
             return true;
         }
         else if (ErrorObject instanceof Error) {
-
-            TargetNS.ShowError(ErrorObject.message, 'JavaScriptError', Trace);
-            if (window.confirm(UserErrorMessage)) {
-                alert(ErrorObject.message + (Trace ? ('\n\n' + Trace) : ''));
-            }
+            TargetNS.ShowError(ErrorObject.message, 'JavaScriptError');
+            alert(UserErrorMessage);
             throw ErrorObject; // rethrow
         }
         else {
-            TargetNS.ShowError(ErrorObject, 'UndefinedError', Trace);
-            if (window.confirm(UserErrorMessage)) {
-                alert(ErrorObject + (Trace ? ('\n\n' + Trace) : ''));
-            }
+            TargetNS.ShowError(ErrorObject, 'UndefinedError');
+            alert(UserErrorMessage);
             throw ErrorObject; // rethrow
         }
     };
@@ -169,15 +163,11 @@ Core.Exception = (function (TargetNS) {
      * @function
      * @param {String} ErrorMessage - The error message.
      * @param {String} ErrorType - The error type.
-     * @param {String} [Trace] - The stacktrace.
      * @description
      *      This function shows an error message in the log.
      */
-    TargetNS.ShowError = function (ErrorMessage, ErrorType, Trace) {
+    TargetNS.ShowError = function (ErrorMessage, ErrorType) {
         Core.Debug.Log('[ERROR] ' + ErrorType + ': ' + ErrorMessage);
-        if (typeof Trace !== 'undefined') {
-            Core.Debug.Log('[STACKTRACE] ' + Trace);
-        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'DOCUMENT_READY');

@@ -487,8 +487,8 @@ Core.AJAX = (function (Namespace) {
 
             Core.Exception.AboutToLeave = true;
 
-            Core.Exception.HandleFinalError = function (ErrorObject, Trace) {
-                var ErrorShownToUser = HandleFinalErrorOriginal(ErrorObject, Trace);
+            Core.Exception.HandleFinalError = function (ErrorObject) {
+                var ErrorShownToUser = HandleFinalErrorOriginal(ErrorObject);
 
                 Assert.equal(ErrorShownToUser, false, 'AJAX errors should be suppressed when leaving the page (custom error handler called)');
                 Done();
