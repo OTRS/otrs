@@ -9122,7 +9122,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###2-AdminFavourites" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration (show personal favourites as sub navigation items of 'Admin').</Description>
+        <Description Translatable="1">Frontend module registration (show personal favorites as sub navigation items of 'Admin').</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
