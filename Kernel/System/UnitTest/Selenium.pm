@@ -7,7 +7,6 @@
 # --
 
 package Kernel::System::UnitTest::Selenium;
-## nofilter(TidyAll::Plugin::OTRS::Perl::Goto)
 
 use strict;
 use warnings;
@@ -26,6 +25,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Time',
     'Kernel::System::UnitTest',
+    'Kernel::System::UnitTest::Helper',
 );
 
 =head1 NAME
@@ -458,18 +458,18 @@ sub HandleError {
     return if !$Data;
     $Data = MIME::Base64::decode_base64($Data);
 
-    my $TmpDir = -d '/var/otrs-unittest/' ? '/var/otrs-unittest/' : '/tmp/';
-    $TmpDir .= 'SeleniumScreenshots/';
-    mkdir $TmpDir || return $Self->False( 1, "Could not create $TmpDir." );
-
-    my $Product = $Self->{UnitTestObject}->{Product};
-    $Product =~ s{[^a-z0-9_.\-]+}{_}smxig;
-    $TmpDir .= $Product;
+    my $TmpDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
     mkdir $TmpDir || return $Self->False( 1, "Could not create $TmpDir." );
 
     my $Filename = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
     $Filename .= '-' . ( int rand 100_000_000 ) . '.png';
     $Filename =~ s{[ :]}{-}smxg;
+
+    my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
+    my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
+    my $URL      = "$HttpType://$Hostname/"
+        . $Kernel::OM->Get('Kernel::Config')->Get('Frontend::WebPath')
+        . "SeleniumScreenshots/$Filename";
 
     $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Directory => $TmpDir,
@@ -477,9 +477,10 @@ sub HandleError {
         Content   => \$Data,
     ) || return $Self->False( 1, "Could not write file $TmpDir/$Filename" );
 
-    $Self->{UnitTestObject}->False(
-        1,
-        "Saved screenshot in file://$TmpDir/$Filename",
+    $Self->{UnitTestObject}->False( 1, "Saved screenshot in $URL" );
+    $Self->{UnitTestObject}->AttachSeleniumScreenshot(
+        Filename => $Filename,
+        Content  => $Data
     );
 }
 
