@@ -567,7 +567,18 @@ sub SecurityOptionsGet {
 
     # Get private and public keys for the given backend (PGP or SMIME)
     if ( $SignEncryptNotification =~ /^PGP/i ) {
-        @SignKeys = $Kernel::OM->Get('Kernel::System::Crypt::PGP')->PrivateKeySearch(
+
+        my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
+
+        if ( !$PGPObject ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "No PGP support!",
+            );
+            return;
+        }
+
+        @SignKeys = $PGPObject->PrivateKeySearch(
             Search => $NotificationSenderEmail,
         );
 
@@ -575,7 +586,7 @@ sub SecurityOptionsGet {
         @SignKeys = grep { $_->{Status} eq 'good' } @SignKeys;
 
         # get public keys
-        @EncryptKeys = $Kernel::OM->Get('Kernel::System::Crypt::PGP')->PublicKeySearch(
+        @EncryptKeys = $PGPObject->PublicKeySearch(
             Search => $Param{Recipient}->{UserEmail},
         );
 
@@ -588,6 +599,17 @@ sub SecurityOptionsGet {
         $KeyField = 'Key';
     }
     elsif ( $SignEncryptNotification =~ /^SMIME/i ) {
+
+        my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
+        if ( !$SMIMEObject ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "No SMIME support!",
+            );
+            return;
+        }
+
         @SignKeys = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->PrivateSearch(
             Search => $NotificationSenderEmail,
         );
