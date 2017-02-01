@@ -408,7 +408,7 @@ elsif ( $Opts{a} eq 'install' ) {
     }
 
     # install
-    $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
+    my $Success = $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
         String => $FileString,
         Force  => $Opts{f},
     );
@@ -422,7 +422,11 @@ elsif ( $Opts{a} eq 'install' ) {
         print "$Data{Description}";
         print "+----------------------------------------------------------------------------+\n";
     }
-    exit;
+
+    # Set the correct exit code.
+    my $ExitCode = $Success ? 0 : 1;
+
+    exit $ExitCode;
 }
 elsif ( $Opts{a} eq 'reinstall' ) {
 

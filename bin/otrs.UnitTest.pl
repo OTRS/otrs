@@ -33,17 +33,22 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'dnops', \%Opts );
+getopt( 'ndsajcf', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.UnitTest.pl - Run OTRS unit tests\n";
     print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     print <<EOF;
 Usage: otrs.UnitTest.pl
-    [-n Name]           # Single Tests to run, e.g. 'Ticket', 'Queue', or 'Ticket:Queue'
-    [-d Directory]      # Test directory to process
-    [-o ASCII|HTML|XML]
-    [-p PRODUCT]
-    [-s URL]            # Submit test results to unit test server
+    [-n Name]          # Single Tests to run, e.g. 'Ticket', 'Queue', or 'Ticket:Queue'
+    [-d Directory]     # Test directory to process
+    [-s URL]           # Submit test results to unit test server
+    [-a Auth]          # Authentication string for unit test server
+    [-j JobID]         # Job ID for unit test submission to server
+    [-c Scenario]      # Scenario identifier for unit test submission to server
+    [-f Attachment]    # Send an additional file(s) to the server, e.g. '/path/to/UnitTest.log'
+    [-v]               # Show details for all tests, not just failing
+    [-e]               # Specify if command return code should not indicate if tests were ok/not ok,
+                       # but if submission was successful instead
 EOF
     exit 1;
 }
@@ -53,16 +58,23 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.UnitTest',
     },
-    'Kernel::System::UnitTest' => {
-        Output => $Opts{o} || '',
-    },
 );
 
-$Kernel::OM->Get('Kernel::System::UnitTest')->Run(
-    Name      => $Opts{n} || '',
-    Directory => $Opts{d} || '',
-    Product   => $Opts{p} || '',
-    SubmitURL => $Opts{s} || '',
+my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
+    Tests                  => $Opts{n} || '',
+    Directory              => $Opts{d} || '',
+    Verbose                => $Opts{v} || '',
+    Product                => $Opts{p} || '',
+    SubmitURL              => $Opts{s} || '',
+    SubmitAuth             => $Opts{a} || '',
+    SubmitResultAsExitCode => $Opts{e} || '',
+    JobID                  => $Opts{j} || '',
+    Scenario               => $Opts{c} || '',
+    AttachmentPath         => $Opts{f} || '',
 );
+
+if ( !$FunctionResult ) {
+    exit 1;
+}
 
 exit 0;
