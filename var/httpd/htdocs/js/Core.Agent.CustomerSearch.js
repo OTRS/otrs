@@ -111,6 +111,76 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         /**
          * @private
+         * @name CustomerHistoryEvents
+         * @memberof Core.Agent.CustomerSearch.GetCustomerTickets
+         * @function
+         * @description
+         *      This function creates events for Customer History overview table.
+         */
+        function CustomerHistoryEvents() {
+            $('select[name=ResponseID]').on('change', function () {
+                var URL;
+                if ($(this).val() > 0) {
+                    URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+                    Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+
+                    // Reset the select box so that it can be used again from the same window.
+                    $(this).val('0');
+                }
+            });
+            $('select[name=ResponseID]').on('click', function (Event) {
+                Event.stopPropagation();
+                return false;
+            });
+
+            $('#CustomerTickets .MasterAction').on('click', function () {
+                var $MasterActionLink = $(this).find('a.MasterActionLink');
+
+                // Event must be done in the parent window because AgentTicketCustomer is in popup.
+                if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
+                    Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
+                        WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: $MasterActionLink.attr('href') });
+                    });
+                    Core.UI.Popup.ClosePopup();
+                    return false;
+                }
+                else {
+
+                    // Only act if the link was not clicked directly.
+                    if (Event.target !== $MasterActionLink.get(0)) {
+                        window.location = $MasterActionLink.attr('href');
+                        return false;
+                    }
+                }
+            });
+
+            $("#SortBy").off('change').on('change', function () {
+                var SortedData,
+                    Selection = $(this).val().split('|');
+
+                if (Selection.length === 2) {
+
+                    // Show sorted customer tickets.
+                    SortedData = {
+                        Action: 'AgentCustomerSearch',
+                        Subaction: 'CustomerTickets',
+                        CustomerUserID: CustomerUserID,
+                        CustomerID: CustomerID,
+                        SortBy: Selection[0],
+                        OrderBy: Selection[1]
+                    };
+                    Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), SortedData, function (Response) {
+                        if ($('#CustomerTickets').length) {
+                            $('#CustomerTickets').html(Response.CustomerTicketsHTMLString);
+                            ReplaceCustomerTicketLinks();
+                        }
+                    });
+                }
+            });
+        }
+
+        /**
+         * @private
          * @name ReplaceCustomerTicketLinks
          * @memberof Core.Agent.CustomerSearch.GetCustomerTickets
          * @function
@@ -142,16 +212,16 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             // Init accordion of overview article preview
             Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
 
-            if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
-                $('a.MasterActionLink').on('click', function () {
-                    var that = this;
-                    Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
-                        WindowObject.Core.UI.Popup.FirePopupEvent('URL', { URL: that.href });
-                    });
-                    Core.UI.Popup.ClosePopup();
-                    return false;
-                });
+            // Events for Customer History table - AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer screens.
+            if (
+                Core.Config.Get('Action') === 'AgentTicketPhone' ||
+                Core.Config.Get('Action') === 'AgentTicketEmail' ||
+                Core.Config.Get('Action') === 'AgentTicketCustomer'
+                )
+            {
+                CustomerHistoryEvents();
             }
+
             return false;
         }
 
