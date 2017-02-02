@@ -160,8 +160,12 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'View=Preview;Subaction=CustomerTickets;')]")->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TicketOverviewLarge").length' );
 
+            # wait for JavaScript to be executed completely (event bindings etc.)
+            sleep 1;
+
             # Check sorting by title, ascending.
-            $Selenium->execute_script("\$('#SortBy').val('Title|Up').trigger('redraw.InputField').trigger('change');");
+            $Selenium->execute_script("\$('#SortBy').val('Title|Up').trigger('change');");
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SortBy").val() === "Title|Up"' );
 
             # Get first and last ticket ID.
             my $FirstTicketID = $Tickets[0]->{TicketID};
@@ -172,6 +176,9 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('#TicketOverviewLarge > li:eq(0)').attr('id') === 'TicketID_$FirstTicketID'"
             );
+
+            # wait for JavaScript to be executed completely (event bindings etc.)
+            sleep 1;
 
             my $Count = 0;
             for my $Ticket (@Tickets) {
@@ -186,8 +193,9 @@ $Selenium->RunTest(
 
             # Check sorting by title, descending and Reply action.
             $Selenium->execute_script(
-                "\$('#SortBy').val('Title|Down').trigger('redraw.InputField').trigger('change');"
+                "\$('#SortBy').val('Title|Down').trigger('change');"
             );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SortBy").val() === "Title|Down"' );
 
             # Wait until sorting is finished.
             $Selenium->WaitFor(
