@@ -444,7 +444,7 @@ use this method to handle any Selenium exceptions.
     $SeleniumObject->HandleError($@);
 
 It will create a failing test result and store a screenshot of the page
-for analysis (in folder /var/otrs-unittest if it exists, in /tmp otherwise).
+for analysis (in folder /var/otrs-unittest if it exists, in $Home/var/httpd/htdocs otherwise).
 
 =cut
 
@@ -458,8 +458,11 @@ sub HandleError {
     return if !$Data;
     $Data = MIME::Base64::decode_base64($Data);
 
-    my $TmpDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
-    mkdir $TmpDir || return $Self->False( 1, "Could not create $TmpDir." );
+    #
+    # Store screenshots in a local folder from where they can be opened directly in the browser.
+    #
+    my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
+    mkdir $LocalScreenshotDir || return $Self->False( 1, "Could not create $LocalScreenshotDir." );
 
     my $Filename = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
     $Filename .= '-' . ( int rand 100_000_000 ) . '.png';
@@ -472,10 +475,25 @@ sub HandleError {
         . "SeleniumScreenshots/$Filename";
 
     $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Directory => $TmpDir,
+        Directory => $LocalScreenshotDir,
         Filename  => $Filename,
         Content   => \$Data,
-    ) || return $Self->False( 1, "Could not write file $TmpDir/$Filename" );
+    ) || return $Self->False( 1, "Could not write file $LocalScreenshotDir/$Filename" );
+
+    #
+    # If a shared screenshot folder is present, then we also store the screenshot there for external use.
+    #
+    if (-d '/var/otrs-unittest/') {
+
+        my $SharedScreenshotDir = '/var/otrs-unittest/SeleniumScreenshots';
+        mkdir $SharedScreenshotDir || return $Self->False( 1, "Could not create $SharedScreenshotDir." );
+
+        $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+            Directory => $SharedScreenshotDir,
+            Filename  => $Filename,
+            Content   => \$Data,
+        ) || return $Self->False( 1, "Could not write file $SharedScreenshotDir/$Filename" );
+    }
 
     $Self->{UnitTestObject}->False( 1, "Saved screenshot in $URL" );
     $Self->{UnitTestObject}->AttachSeleniumScreenshot(
