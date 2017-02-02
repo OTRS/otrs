@@ -964,14 +964,17 @@ $ConfigObject->Set(
     Value => 0,
 );
 
+my $RandomID1 = $HelperObject->GetRandomID();
+my $RandomID2 = $HelperObject->GetRandomID();
+
 # create 2 customer users
 my $CustomerUser1 = $CustomerUserObject->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => 'John 1',
     UserLastname   => 'Doe',
-    UserCustomerID => 'jdoe1',
-    UserLogin      => 'jdoe1',
-    UserEmail      => 'jdoe1@example.com',
+    UserCustomerID => 'jdoe1' . $RandomID1,
+    UserLogin      => 'jdoe1' . $RandomID1,
+    UserEmail      => 'jdoe1' . $RandomID1 . '@example.com',
     ValidID        => 1,
     UserID         => 1,
 );
@@ -983,9 +986,9 @@ my $CustomerUser2 = $CustomerUserObject->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => 'John 2',
     UserLastname   => 'Doe',
-    UserCustomerID => 'jdoe2',
-    UserLogin      => 'jdoe2',
-    UserEmail      => 'jdoe2@example.com',
+    UserCustomerID => 'jdoe2' . $RandomID2,
+    UserLogin      => 'jdoe2' . $RandomID2,
+    UserEmail      => 'jdoe2' . $RandomID2 . '@example.com',
     ValidID        => 1,
     UserID         => 1,
 );
@@ -1049,8 +1052,8 @@ my @Members1 = $CustomerGroupObject->GroupMemberList(
 $Self->IsDeeply(
     \@Members1,
     [
-        'jdoe1',
-        'jdoe2'
+        'jdoe1' . $RandomID1,
+        'jdoe2' . $RandomID2,
     ],
     "GroupMemberList() - 2 Customer users."
 );
@@ -1060,10 +1063,10 @@ my $CustomerUserInvalid = $CustomerUserObject->CustomerUserUpdate(
     Source         => 'CustomerUser',
     ID             => $CustomerUser2,
     UserCustomerID => $CustomerUser2,
-    UserLogin      => 'jdoe2',               # new user login
+    UserLogin      => 'jdoe2' . $RandomID2,               # new user login
     UserFirstname  => 'John 2',
     UserLastname   => 'Doe',
-    UserEmail      => 'jdoe2@example.com',
+    UserEmail      => 'jdoe2' . $RandomID2 . '@example.com',
     ValidID        => 2,
     UserID         => 1,
 );
@@ -1072,7 +1075,7 @@ $Self->True(
     "Set 2nd Customer user to invalid",
 );
 
-# Get group members again
+# get group members again
 my @Members2 = $CustomerGroupObject->GroupMemberList(
     GroupID => $GroupID2,
     Result  => 'ID',
@@ -1082,10 +1085,22 @@ my @Members2 = $CustomerGroupObject->GroupMemberList(
 $Self->IsDeeply(
     \@Members2,
     [
-        'jdoe1',
+        'jdoe1' . $RandomID1,
     ],
     "GroupMemberList() - 2 Customer users."
 );
 
-# cleanup is done by RestoreDatabase
+# set 1nd user to invalid state
+$CustomerUserObject->CustomerUserUpdate(
+    Source         => 'CustomerUser',
+    ID             => $CustomerUser1,
+    UserCustomerID => $CustomerUser1,
+    UserLogin      => 'jdoe1' . $RandomID1,
+    UserFirstname  => 'John 1',
+    UserLastname   => 'Doe',
+    UserEmail      => 'jdoe1' . $RandomID1 . '@example.com',
+    ValidID        => 2,
+    UserID         => 1,
+);
+
 1;
