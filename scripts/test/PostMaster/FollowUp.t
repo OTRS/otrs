@@ -23,21 +23,17 @@ $ConfigObject->Set(
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$Helper->FixedTimeSet();
+$HelperObject->FixedTimeSet();
+
+my $RandomID = $HelperObject->GetRandomID();
 
 my $AgentAddress    = 'agent@example.com';
 my $CustomerAddress = 'external@example.com';
 
 my $QueueID = $QueueObject->QueueAdd(
-    Name            => 'NewTestQueue',
+    Name            => 'NewTestQueue' . $RandomID,
     ValidID         => 1,
     GroupID         => 1,
     UnlockTimeout   => 480,
@@ -169,7 +165,7 @@ my @Tests = (
 # create a new ticket
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'My ticket created by Agent',
-    Queue        => 'NewTestQueue',
+    Queue        => 'NewTestQueue' . $RandomID,
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'removed',
@@ -198,7 +194,7 @@ for my $Test (@Tests) {
     # update Queue (FollowUpID)
     my $QueueUpdated = $QueueObject->QueueUpdate(
         QueueID         => $QueueID,
-        Name            => 'NewTestQueue',
+        Name            => 'NewTestQueue' . $RandomID,
         ValidID         => 1,
         GroupID         => 1,
         UnlockTimeout   => 480,
