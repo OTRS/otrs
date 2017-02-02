@@ -4361,27 +4361,27 @@ $Self->True(
 );
 
 # clean roles
-my $Success = $GroupObject->GroupUpdate(
+my $Success = $GroupObject->RoleUpdate(
     ID      => $RoleID1,
     Name    => "unittest1-$RandomID",
-    Comment => 'comment describing the group',
+    Comment => 'comment describing the role',
     ValidID => 2,
     UserID  => 1,
 );
 $Self->True(
     $TicketDeleteSuccess,
-    "GroupUpdate ID ($RoleID1) invalidated successfully"
+    "RoleUpdate ID ($RoleID1) invalidated successfully",
 );
-$Success = $GroupObject->GroupUpdate(
+$Success = $GroupObject->RoleUpdate(
     ID      => $RoleID2,
     Name    => "unittest2-$RandomID",
-    Comment => 'comment describing the group',
+    Comment => 'comment describing the role',
     ValidID => 2,
     UserID  => 1,
 );
 $Self->True(
     $TicketDeleteSuccess,
-    "GroupUpdate ID ($RoleID2) invalidated successfully"
+    "RoleUpdate ID ($RoleID2) invalidated successfully",
 );
 
 1;
