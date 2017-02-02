@@ -966,6 +966,7 @@ $ConfigObject->Set(
 
 my $RandomID1 = $HelperObject->GetRandomID();
 my $RandomID2 = $HelperObject->GetRandomID();
+my $RandomID3 = $HelperObject->GetRandomID();
 
 # create 2 customer users
 my $CustomerUser1 = $CustomerUserObject->CustomerUserAdd(
@@ -997,7 +998,7 @@ $Self->True(
     "Customer user #2 created."
 );
 my $GroupID2 = $GroupObject->GroupAdd(
-    Name    => 'Test_customer_group_#1',
+    Name    => 'Test_customer_group_' . $RandomID3,
     ValidID => 1,
     UserID  => 1,
 );
