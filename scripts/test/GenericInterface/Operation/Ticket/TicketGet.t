@@ -803,6 +803,9 @@ $Self->True(
     "TicketCreate() successful for Ticket Five ID $TicketID5",
 );
 
+# add ticket id
+push @TicketIDs, $TicketID5;
+
 # get the Ticket entry
 my %TicketEntryFive = $TicketObject->TicketGet(
     TicketID      => $TicketID5,
