@@ -31,6 +31,8 @@ Core.Agent.Admin = (function (TargetNS) {
 
         var Favourites = Core.Config.Get('Favourites');
 
+        $('.SidebarColumn #Filter').focus();
+
         $('.AddAsFavourite').on('click', function(Event) {
             var $TriggerObj = $(this),
                 Module = $(this).data('module');
