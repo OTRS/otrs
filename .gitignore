@@ -27,6 +27,7 @@ var/log/Daemon/*.log
 var/OPM
 var/Stats
 var/tmp/*
+var/httpd/htdocs/SeleniumScreenshots/
 var/httpd/htdocs/js/thirdparty/jslint
 var/httpd/htdocs/js/js-cache
 var/httpd/htdocs/js/js-cache/*
