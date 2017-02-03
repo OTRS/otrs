@@ -190,6 +190,7 @@ Core.UI.ActionRow = (function (TargetNS) {
         $(TicketElementSelectors[TicketView]).on('click', function (Event) {
             Event.stopPropagation();
             Core.UI.ActionRow.UpdateActionRow($(this), $(TicketElementSelectors[TicketView]), $('div.OverviewActions ul.Actions'));
+            Core.Form.SelectAllCheckboxes($(this), $('#SelectAllTickets'));
         });
 
         $('#BulkAction a').on('click', function () {
