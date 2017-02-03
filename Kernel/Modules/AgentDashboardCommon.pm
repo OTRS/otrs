@@ -709,6 +709,12 @@ sub Run {
             elsif ( $Column eq 'PendingTime' ) {
                 $TranslatedWord = Translatable('Pending till');
             }
+            elsif ( $Column eq 'CustomerCompanyName' ) {
+                $TranslatedWord = Translatable('Customer Company Name');
+            }
+            elsif ( $Column eq 'CustomerUserID' ) {
+                $TranslatedWord = Translatable('Customer User ID');
+            }
 
             # send data to JS
             $LayoutObject->AddJSData(

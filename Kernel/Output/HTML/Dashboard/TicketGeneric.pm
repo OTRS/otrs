@@ -940,6 +940,12 @@ sub Run {
             elsif ( $HeaderColumn eq 'PendingTime' ) {
                 $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Pending till');
             }
+            elsif ( $HeaderColumn eq 'CustomerCompanyName' ) {
+                $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Customer Company Name');
+            }
+            elsif ( $HeaderColumn eq 'CustomerUserID' ) {
+                $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Customer User ID');
+            }
             else {
                 $TranslatedWord = $LayoutObject->{LanguageObject}->Translate($HeaderColumn);
             }
