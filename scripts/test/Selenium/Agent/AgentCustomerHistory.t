@@ -231,7 +231,9 @@ $Selenium->RunTest(
                 my $Handles = $Selenium->get_window_handles();
                 $Selenium->switch_to_window( $Handles->[1] );
 
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div.Header p.AsteriskExplanation").length' );
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("div.Header p.AsteriskExplanation").length'
+                );
 
                 $Self->True(
                     $Selenium->execute_script("return \$('h1:contains(\"$Ticket->{Title}\")').length;"),
