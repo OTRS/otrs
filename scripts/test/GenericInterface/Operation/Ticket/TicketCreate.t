@@ -40,28 +40,15 @@ my $RandomID = $Helper->GetRandomID();
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Ticket::Type',
-    Value => '1',
-);
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'Ticket::Type',
     Value => 1,
 );
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'Ticket::Frontend::AccountTime',
-    Value => '1',
-);
+
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Ticket::Frontend::AccountTime',
     Value => 1,
 );
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'Ticket::Frontend::NeedAccountedTime',
-    Value => '1',
-);
+
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Ticket::Frontend::NeedAccountedTime',
@@ -72,18 +59,9 @@ $Helper->ConfigSettingChange(
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'CheckMXRecord',
-    Value => '0',
-);
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'CheckMXRecord',
     Value => 0,
 );
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'CheckEmailAddresses',
-    Value => '1',
-);
+
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'CheckEmailAddresses',
