@@ -496,7 +496,8 @@ sub _RenderAjax {
     DYNAMICFIELD:
     for my $DynamicFieldItem ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicFieldItem;
-        next DYNAMICFIELD if !$DynamicFieldValues{$DynamicFieldItem};
+        next DYNAMICFIELD if !defined $DynamicFieldValues{$DynamicFieldItem};
+        next DYNAMICFIELD if !length $DynamicFieldValues{$DynamicFieldItem};
 
         $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
     }
@@ -1000,7 +1001,7 @@ sub _GetParam {
             # If we had neighter submitted nor ticket param get the ActivityDialog's default Value
             # next out if it was successful
             $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
-            if ($Value) {
+            if ( defined $Value ) {
                 $GetParam{$CurrentField} = $Value;
                 next DIALOGFIELD;
             }
@@ -1008,7 +1009,7 @@ sub _GetParam {
             # If we had no submitted, ticket or ActivityDialog default value
             # use the DynamicField's default value and next out
             $Value = $DynamicFieldConfig->{Config}{DefaultValue};
-            if ($Value) {
+            if ( defined $Value ) {
                 $GetParam{$CurrentField} = $Value;
                 next DIALOGFIELD;
             }
@@ -4352,7 +4353,7 @@ sub _StoreActivityDialog {
                 # if we have an invisible field, use config's default value
                 if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
                     $TicketParam{$CurrentField} = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
-                        || '';
+                        // '';
                 }
 
                 # only validate visible fields

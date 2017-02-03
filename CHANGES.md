@@ -71,6 +71,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.17 2017-??-??
+ - 2017-02-03 Fixed bug#[12533](https://bugs.otrs.org/show_bug.cgi?id=12533) - Setting a Dynamic Field to = 0  in a activity dialogue does  not set the value but deletes it.
  - 2017-02-03 Fixed bug#[12577](https://bugs.otrs.org/show_bug.cgi?id=12577)(PR#1606) - Select All Checkboxes in Ticket Overview screens. Thanks to S7!
  - 2017-02-01 Fixed bug#[12458](https://bugs.otrs.org/show_bug.cgi?id=12458) - JavaScript events do not work when Customer History is loaded.
  - 2017-01-27 Fixed bug#[12559](https://bugs.otrs.org/show_bug.cgi?id=12559) - Moving ticket to disabled queue causes corrupted layout.
