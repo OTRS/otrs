@@ -23,6 +23,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase            => 1,
+        UseTmpArticleDir           => 1,
         RestoreSystemConfiguration => 1,
     },
 );

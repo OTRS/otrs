@@ -24,6 +24,7 @@ my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase            => 1,
+        UseTmpArticleDir           => 1,
         RestoreSystemConfiguration => 1,
     },
 );
