@@ -1,4 +1,5 @@
 #5.0.17 2017-??-??
+ - 2017-02-03 Fixed bug#[12549](https://bugs.otrs.org/show_bug.cgi?id=12549) - Columns not translated in several widgets and views.
  - 2017-02-03 Fixed bug#[12533](https://bugs.otrs.org/show_bug.cgi?id=12533) - Setting a Dynamic Field to = 0  in a activity dialogue does  not set the value but deletes it.
  - 2017-02-03 Fixed bug#[12577](https://bugs.otrs.org/show_bug.cgi?id=12577)(PR#1606) - Select All Checkboxes in Ticket Overview screens. Thanks to S7!
  - 2017-02-01 Fixed bug#[12458](https://bugs.otrs.org/show_bug.cgi?id=12458) - JavaScript events do not work when Customer History is loaded.
