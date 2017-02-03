@@ -26,7 +26,7 @@ my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
+        RestoreDatabase  => 1,
         UseTmpArticleDir => 1,
     },
 );
