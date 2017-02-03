@@ -18,7 +18,8 @@ my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    RestoreDatabase => 1,
+    RestoreDatabase  => 1,
+    UseTmpArticleDir => 1,
 );
 
 my $RandomID = $HelperObject->GetRandomID();

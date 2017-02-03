@@ -19,7 +19,8 @@ my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    RestoreDatabase => 1,
+    RestoreDatabase  => 1,
+    UseTmpArticleDir => 1,
 );
 
 my $RandomID = $HelperObject->GetRandomID();
