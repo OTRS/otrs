@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver;
-$Selenium::Remote::Driver::VERSION = '0.26';
+$Selenium::Remote::Driver::VERSION = '1.11';
 # ABSTRACT: Perl Client for Selenium Remote Driver
 
 use Moo;
@@ -104,12 +104,13 @@ has 'session_id' => (
 has 'remote_conn' => (
     is      => 'lazy',
     builder => sub {
-            my $self = shift;
-            return Selenium::Remote::RemoteConnection->new(
-                remote_server_addr => $self->remote_server_addr,
-                port               => $self->port,
-                ua                 => $self->ua
-            );
+        my $self = shift;
+        return Selenium::Remote::RemoteConnection->new(
+            remote_server_addr => $self->remote_server_addr,
+            port               => $self->port,
+            ua                 => $self->ua,
+            wd_context_prefix  => $self->wd_context_prefix
+        );
     },
 );
 
@@ -168,12 +169,22 @@ has 'proxy' => (
     is     => 'rw',
     coerce => sub {
         my $proxy = $_[0];
-        if ( $proxy->{proxyType} eq 'pac' ) {
+        if ( $proxy->{proxyType} =~ /^pac$/i ) {
             if ( not defined $proxy->{proxyAutoconfigUrl} ) {
                 croak "proxyAutoconfigUrl not provided\n";
             }
-            elsif ( not( $proxy->{proxyAutoconfigUrl} =~ /^http/g ) ) {
-                croak "proxyAutoconfigUrl should be of format http://";
+            elsif ( not( $proxy->{proxyAutoconfigUrl} =~ /^(http|file)/g ) ) {
+                croak "proxyAutoconfigUrl should be of format http:// or file://";
+            }
+
+            if ( $proxy->{proxyAutoconfigUrl} =~ /^file/ ) {
+                my $pac_url = $proxy->{proxyAutoconfigUrl};
+                my $file = $pac_url;
+                $file =~ s{^file://}{};
+
+                if (! -e $file) {
+                    warn "proxyAutoConfigUrl file does not exist: '$pac_url'";
+                }
             }
         }
         $proxy;
@@ -196,7 +207,8 @@ has 'firefox_profile' => (
 
         return $profile;
     },
-    predicate => 'has_firefox_profile'
+    predicate => 'has_firefox_profile',
+    clearer => 1
 );
 
 has 'desired_capabilities' => (
@@ -224,6 +236,7 @@ has 'inner_window_size' => (
 );
 
 with 'Selenium::Remote::Finders';
+with 'Selenium::Remote::Driver::CanSetWebdriverContext';
 
 sub BUILD {
     my $self = shift;
@@ -365,7 +378,7 @@ sub new_session {
     }
 
     if ($args->{desiredCapabilities}->{browserName} =~ /firefox/i
-          && $self->has_firefox_profile) {
+        && $self->has_firefox_profile) {
         $args->{desiredCapabilities}->{firefox_profile} = $self->firefox_profile->_encode;
     }
 
@@ -382,7 +395,12 @@ sub new_desired_session {
 
 sub _request_new_session {
     my ( $self, $args ) = @_;
-    $self->remote_conn->check_status();
+
+    # geckodriver has not yet implemented the GET /status endpoint
+    # https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver/status
+    if (! $self->isa('Selenium::Firefox')) {
+        $self->remote_conn->check_status();
+    }
     # command => 'newSession' to fool the tests of commands implemented
     # TODO: rewrite the testing better, this is so fragile.
     my $resource_new_session = {
@@ -504,9 +522,11 @@ sub get_capabilities {
 
 sub set_timeout {
     my ( $self, $type, $ms ) = @_;
-    if ( not defined $type or not defined $ms ) {
-        croak "Expecting type & timeout in ms";
+    if ( not defined $type  ) {
+        croak "Expecting type";
     }
+    $ms = _coerce_timeout_ms( $ms );
+
     my $res = { 'command' => 'setTimeout' };
     my $params = { 'type' => $type, 'ms' => $ms };
     return $self->_execute_command( $res, $params );
@@ -515,9 +535,8 @@ sub set_timeout {
 
 sub set_async_script_timeout {
     my ( $self, $ms ) = @_;
-    if ( not defined $ms ) {
-        croak "Expecting timeout in ms";
-    }
+    $ms = _coerce_timeout_ms( $ms );
+
     my $res    = { 'command' => 'setAsyncScriptTimeout' };
     my $params = { 'ms'      => $ms };
     return $self->_execute_command( $res, $params );
@@ -526,6 +545,8 @@ sub set_async_script_timeout {
 
 sub set_implicit_wait_timeout {
     my ( $self, $ms ) = @_;
+    $ms = _coerce_timeout_ms( $ms );
+
     my $res    = { 'command' => 'setImplicitWaitTimeout' };
     my $params = { 'ms'      => $ms };
     return $self->_execute_command( $res, $params );
@@ -657,7 +678,7 @@ sub execute_async_script {
         # JSON representation
         for ( my $i = 0; $i < @args; $i++ ) {
             if ( Scalar::Util::blessed( $args[$i] )
-                and $args[$i]->isa('Selenium::Remote::WebElement') )
+                 and $args[$i]->isa('Selenium::Remote::WebElement') )
             {
                 $args[$i] = { 'ELEMENT' => ( $args[$i] )->{id} };
             }
@@ -667,12 +688,14 @@ sub execute_async_script {
         my $ret = $self->_execute_command( $res, $params );
 
         # replace any ELEMENTS with WebElement
-        if (    ref($ret)
-            and ( ref($ret) eq 'HASH' )
-            and exists $ret->{'ELEMENT'} )
+        if ( ref($ret)
+             and ( ref($ret) eq 'HASH' )
+             and $self->_looks_like_element($ret) )
         {
-            $ret = $self->webelement_class->new( id => $ret->{ELEMENT},
-                driver => $self );
+            $ret = $self->webelement_class->new(
+                id => $ret,
+                driver => $self
+            );
         }
         return $ret;
     }
@@ -710,6 +733,16 @@ sub execute_script {
     }
 }
 
+# _looks_like_element
+# An internal method to check if a return value might be an element
+
+sub _looks_like_element {
+    my ($self, $maybe_element) = @_;
+
+    return (exists $maybe_element->{ELEMENT}
+      or exists $maybe_element->{'element-6066-11e4-a52e-4f735466cecf'});
+}
+
 # _convert_to_webelement
 # An internal method used to traverse a data structure
 # and convert any ELEMENTS with WebElements
@@ -718,11 +751,12 @@ sub _convert_to_webelement {
     my ( $self, $ret ) = @_;
 
     if ( ref($ret) and ( ref($ret) eq 'HASH' ) ) {
-        if ( ( keys %$ret == 1 ) and exists $ret->{'ELEMENT'} ) {
-
+        if ( $self->_looks_like_element($ret) ) {
             # replace an ELEMENT with WebElement
-            return $self->webelement_class->new( id => $ret->{ELEMENT},
-                driver => $self );
+            return $self->webelement_class->new(
+                id => $ret,
+                driver => $self
+            );
         }
 
         my %hash;
@@ -791,18 +825,8 @@ sub switch_to_window {
         return 'Window name not provided';
     }
     my $res    = { 'command' => 'switchToWindow' };
-    my $params = { 'name'    => $name };
+    my $params = { 'handle'  => $name };
     return $self->_execute_command( $res, $params );
-}
-
-
-sub get_speed {
-    carp 'get_speed is deprecated and will be removed in the upcoming version of this module';
-}
-
-
-sub set_speed {
-    carp 'set_speed is deprecated and will be removed in the upcoming version of this module';
 }
 
 
@@ -930,8 +954,10 @@ sub find_element {
                 die $@;
             }
         }
-        return $self->webelement_class->new( id => $ret_data->{ELEMENT},
-            driver => $self );
+        return $self->webelement_class->new(
+            id => $ret_data,
+            driver => $self
+        );
     }
     else {
         croak "Bad method, expected: " . join(', ', keys %{ $self->FINDERS });
@@ -972,7 +998,8 @@ sub find_elements {
             push(
                 @$elem_obj_arr,
                 $self->webelement_class->new(
-                    id => $_->{ELEMENT}, driver => $self
+                    id => $_,
+                    driver => $self
                 )
             );
         }
@@ -989,10 +1016,11 @@ sub find_child_element {
     if ( ( not defined $elem ) || ( not defined $query ) ) {
         croak "Missing parameters";
     }
-    my $using = ( defined $method ) ? $method : $self->default_finder;
-    if ( exists $self->FINDERS->{$using} ) {
+    my $using =
+      ( defined $method ) ? $self->FINDERS->{$method} : $self->default_finder;
+    if ( defined $using ) {
         my $res = { 'command' => 'findChildElement', 'id' => $elem->{id} };
-        my $params = { 'using' => $self->FINDERS->{$using}, 'value' => $query };
+        my $params = { 'using' => $using, 'value' => $query };
         my $ret_data = eval { $self->_execute_command( $res, $params ); };
         if ($@) {
             if ( $@
@@ -1009,7 +1037,7 @@ sub find_child_element {
                 die $@;
             }
         }
-        return $self->webelement_class->new( id => $ret_data->{ELEMENT},
+        return $self->webelement_class->new( id => $ret_data,
             driver => $self );
     }
     else {
@@ -1023,10 +1051,11 @@ sub find_child_elements {
     if ( ( not defined $elem ) || ( not defined $query ) ) {
         croak "Missing parameters";
     }
-    my $using = ( defined $method ) ? $method : $self->default_finder;
-    if ( exists $self->FINDERS->{$using} ) {
+    my $using =
+      ( defined $method ) ? $self->FINDERS->{$method} : $self->default_finder;
+    if ( defined $using ) {
         my $res = { 'command' => 'findChildElements', 'id' => $elem->{id} };
-        my $params = { 'using' => $self->FINDERS->{$using}, 'value' => $query };
+        my $params = { 'using' => $using, 'value' => $query };
         my $ret_data = eval { $self->_execute_command( $res, $params ); };
         if ($@) {
             if ( $@
@@ -1047,8 +1076,10 @@ sub find_child_elements {
         my $i = 0;
         foreach (@$ret_data) {
             $elem_obj_arr->[$i] =
-              $self->webelement_class->new( id => $_->{ELEMENT},
-                driver => $self );
+              $self->webelement_class->new(
+                  id => $_,
+                  driver => $self
+              );
             $i++;
         }
         return wantarray ? @{$elem_obj_arr} : $elem_obj_arr;
@@ -1067,8 +1098,10 @@ sub get_active_element {
         croak $@;
     }
     else {
-        return $self->webelement_class->new( id => $ret_data->{ELEMENT},
-            driver => $self );
+        return $self->webelement_class->new(
+            id => $ret_data,
+            driver => $self
+        );
     }
 }
 
@@ -1214,7 +1247,7 @@ sub upload_file {
 sub _prepare_file {
     my ($self,$filename) = @_;
 
-    if ( not -r $filename ) { die "upload_file: no such file: $filename"; }
+    if ( not -r $filename ) { croak "upload_file: no such file: $filename"; }
     my $string = "";    # buffer
     my $zip = Archive::Zip->new();
     $zip->addFile($filename, basename($filename));
@@ -1223,7 +1256,7 @@ sub _prepare_file {
     }
 
     return {
-        file => MIME::Base64::encode_base64($string)          # base64-encoded string
+        file => MIME::Base64::encode_base64($string, '')
     };
 }
 
@@ -1293,6 +1326,28 @@ sub delete_local_storage_item {
     return $self->_execute_command($res, $params);
 }
 
+sub _coerce_timeout_ms {
+    my ($ms) = @_;
+
+    if ( defined $ms ) {
+        return _coerce_number( $ms );
+    }
+    else {
+        croak 'Expecting a timeout in ms';
+    }
+}
+
+sub _coerce_number {
+    my ($maybe_number) = @_;
+
+    if ( Scalar::Util::looks_like_number( $maybe_number )) {
+        return $maybe_number + 0;
+    }
+    else {
+        croak "Expecting a number, not: $maybe_number";
+    }
+}
+
 
 1;
 
@@ -1308,7 +1363,7 @@ Selenium::Remote::Driver - Perl Client for Selenium Remote Driver
 
 =head1 VERSION
 
-version 0.26
+version 1.11
 
 =head1 SYNOPSIS
 
@@ -1347,12 +1402,16 @@ L<Github|https://github.com/gempesaw/Selenium-Remote-Driver/issues>.
 
 =head2 Remote Driver Response
 
-Selenium::Remote::Driver uses the L<JsonWireProtocol|http://code.google.com/p/selenium/wiki/JsonWireProtocol> to communicate with the
-Selenium Server. If an error occurs while executing the command then the server
-sends back an HTTP error code with a JSON encoded reponse that indicates the
-precise L<Response Error Code|http://code.google.com/p/selenium/wiki/JsonWireProtocol#Response_Status_Codes>. The module will then croak with the error message
-associated with this code. If no error occurred, then the subroutine called will
-return the value sent back from the server (if a return value was sent).
+Selenium::Remote::Driver uses the
+L<JsonWireProtocol|http://code.google.com/p/selenium/wiki/JsonWireProtocol>
+to communicate with the Selenium Server. If an error occurs while
+executing the command then the server sends back an HTTP error code
+with a JSON encoded reponse that indicates the precise L<Response
+Error
+Code|http://code.google.com/p/selenium/wiki/JsonWireProtocol#Response_Status_Codes>. The
+module will then croak with the error message associated with this
+code. If no error occurred, then the subroutine called will return the
+value sent back from the server (if a return value was sent).
 
 So a rule of thumb while invoking methods on the driver is if the method did not
 croak when called, then you can safely assume the command was successful even if
@@ -1379,6 +1438,44 @@ by providing that class name as an option the constructor:
    my $driver = Selenium::Remote::Driver->new( webelement_class => ... );
 
 For example, a testing-subclass may extend the web-element object with testing methods.
+
+=head2 LWP Read Timeout errors
+
+It's possible to make Selenium calls that take longer than the default
+L<LWP::UserAgent> timeout. For example, setting the asynchronous
+script timeout greater than the LWP::UserAgent timeout and then
+executing a long running asynchronous snippet of javascript will
+immediately trigger an error like:
+
+    Error while executing command: executeAsyncScript: Server returned
+    error message read timeout at...
+
+You can get around this by configuring LWP's timeout value, either by
+constructing your own LWP and passing it in to ::Driver during
+instantiation
+
+    my $timeout_ua = LWP::UserAgent->new;
+    $timeout_ua->timeout(360); # this value is in seconds!
+    my $d = Selenium::Remote::Driver->new( ua => $timeout_ua );
+
+or by configuring the timeout on the fly as necessary:
+
+    use feature qw/say/;
+    use Selenium::Remote::Driver;
+
+    my $d = Selenium::Remote::Driver->new;
+    say $d->ua->timeout; # 180 seconds is the default
+
+    $d->ua->timeout(2); # LWP wants seconds, not milliseconds!
+    $d->set_timeout('script', 1000); # S::R::D wants milliseconds!
+
+    # Async scripts only return when the callback is invoked. Since there
+    # is no callback here, Selenium will block for the entire duration of
+    # the async timeout script. This will hit Selenium's async script
+    # timeout before hitting LWP::UserAgent's read timeout
+    $d->execute_async_script('return "hello"');
+
+    $d->quit;
 
 =head1 TESTING
 
@@ -1417,7 +1514,7 @@ you please.
                 pac        - Proxy autoconfiguration from a URL,
                 autodetect - proxy autodetection, probably with WPAD,
                 system     - Use system settings
-            'proxyAutoconfigUrl' - <string> - REQUIRED if proxyType is 'pac', ignored otherwise. Expected format: http://hostname.com:1234/pacfile.
+            'proxyAutoconfigUrl' - <string> - REQUIRED if proxyType is 'pac', ignored otherwise. Expected format: http://hostname.com:1234/pacfile or file:///path/to/pacfile
             'ftpProxy'           - <string> - OPTIONAL, ignored if proxyType is not 'manual'. Expected format: hostname.com:1234
             'httpProxy'          - <string> - OPTIONAL, ignored if proxyType is not 'manual'. Expected format: hostname.com:1234
             'sslProxy'           - <string> - OPTIONAL, ignored if proxyType is not 'manual'. Expected format: hostname.com:1234
@@ -1458,7 +1555,7 @@ you please.
                                                'port'               => '2222',
                                                'auto_close'         => 0);
     or
-    my $driver = Selenium::Remote::Driver->new('browser_name' =>'chrome'
+    my $driver = Selenium::Remote::Driver->new('browser_name' =>'chrome',
                                                'extra_capabilities' => {
                                                    'chromeOptions' => {
                                                        'args'  => [
@@ -1782,6 +1879,9 @@ Synonymous with mouse_move_to_location
     will return an empty list. If this method is never called, the driver will
     default to an implicit wait of 0ms.
 
+    This is exactly equivalent to calling L</set_timeout> with a type
+    arg of C<"implicit">.
+
  Input:
     Time in milliseconds.
 
@@ -1817,12 +1917,16 @@ Synonymous with mouse_move_to_location
 =head2 quit
 
  Description:
-    Delete the session & close open browsers. We will try to call this
-    on our down when we get DEMOLISHed, but in the event that we are
-    only demolished during global destruction, we will not be able to
-    close the browser. For your own unattended and/or complicated tests,
-    we recommend explicitly calling quit to make sure you're not leaving
-    orphan browsers around.
+    DELETE the session, closing open browsers. We will try to call
+    this on our down when we get destroyed, but in the event that we
+    are demolished during global destruction, we will not be able to
+    close the browser. For your own unattended and/or complicated
+    tests, we recommend explicitly calling quit to make sure you're
+    not leaving orphan browsers around.
+
+    Note that as a Moo class, we use a subroutine called DEMOLISH that
+    takes the place of DESTROY; for more information, see
+    https://metacpan.org/pod/Moo#DEMOLISH.
 
  Usage:
     $driver->quit();
@@ -2036,7 +2140,7 @@ To conveniently write the screenshot to a file, see L<capture_screenshot()>.
 
  Description:
     Capture a screenshot and save as a PNG to provided file name.
-    (The method is compatible with the WWW::Selenium method fo the same name)
+    (The method is compatible with the WWW::Selenium method of the same name)
 
  Output:
     TRUE - (Screenshot is written to file)
@@ -2102,24 +2206,6 @@ To conveniently write the screenshot to a file, see L<capture_screenshot()>.
     $driver->switch_to_window($handles->[1]);
     $driver->close;
     $driver->switch_to_window($handles->[0]);
-
-=head2 get_speed
-
- Description:
-    DEPRECATED - this function is a no-op in Webdriver, and will be
-    removed in the upcoming version of this module. See
-    https://groups.google.com/d/topic/selenium-users/oX0ZnYFPuSA/discussion
-    and
-    http://code.google.com/p/selenium/source/browse/trunk/java/client/src/org/openqa/selenium/WebDriverCommandProcessor.java
-
-=head2 set_speed
-
- Description:
-    DEPRECATED - this function is a no-op in Webdriver, and will be
-    removed in the upcoming version of this module. See
-    https://groups.google.com/d/topic/selenium-users/oX0ZnYFPuSA/discussion
-    and
-    http://code.google.com/p/selenium/source/browse/trunk/java/client/src/org/openqa/selenium/WebDriverCommandProcessor.java
 
 =head2 set_window_position
 
@@ -2348,7 +2434,8 @@ To conveniently write the screenshot to a file, see L<capture_screenshot()>.
 
  Usage:
     my $elem1 = $driver->find_element("//select[\@name='ned']");
-    my $child = $driver->find_child_elements($elem1, "//option");
+    # note the usage of ./ when searching for a child element instead of //
+    my $child = $driver->find_child_elements($elem1, "./option");
 
 =head2 find_element_by_class
 
@@ -2767,13 +2854,25 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 =head1 CONTRIBUTORS
 
-=for stopwords Allen Lew Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson Phil Kania Mitchell Robert Utter Bas Bloemsaat Tom Hukins Vishwanath Janmanchi amacleay jamadam Brian Horakh Charles Howes Daniel Fackrell Dave Rolsky Dmitry Karasik Eric Johnson Gabor Szabo George S. Baugh
+=for stopwords A.MacLeay Eric Johnson Gabor Szabo George S. Baugh Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson Allen Lew Phil Kania Mitchell Richard Sailer Robert Utter Tetsuya Tatsumi Tom Hukins Vangelis Katsikaros Vishwanath Janmanchi amacleay Andy Jack jamadam lembark richi235 rouzier Bas Bloemsaat Brian Horakh Charles Howes Chris Davies Daniel Fackrell Dave Rolsky Dmitry Karasik
 
 =over 4
 
 =item *
 
-Allen Lew <allen@alew.org>
+A.MacLeay <a.macleay@gmail.com>
+
+=item *
+
+Eric Johnson <eric.git@iijo.org>
+
+=item *
+
+Gabor Szabo <gabor@szabgab.com>
+
+=item *
+
+George S. Baugh <george@troglodyne.net>
 
 =item *
 
@@ -2805,6 +2904,10 @@ Ken Swanson <kswanson@genome.wustl.edu>
 
 =item *
 
+Allen Lew <allen@alew.org>
+
+=item *
+
 Phil Kania <phil@vivox.com>
 
 =item *
@@ -2813,15 +2916,27 @@ Phil Mitchell <phil.mitchell@pobox.com>
 
 =item *
 
+Richard Sailer <richard@weltraumpflege.org>
+
+=item *
+
 Robert Utter <utter.robert@gmail.com>
 
 =item *
 
-Bas Bloemsaat <bas@bloemsaat.com>
+Tetsuya Tatsumi <ttatsumi@ra2.so-net.ne.jp>
 
 =item *
 
 Tom Hukins <tom@eborcom.com>
+
+=item *
+
+Vangelis Katsikaros <vangelis@adzuna.com>
+
+=item *
+
+Vangelis Katsikaros <vkatsikaros@gmail.com>
 
 =item *
 
@@ -2833,7 +2948,27 @@ amacleay <a.macleay@gmail.com>
 
 =item *
 
+Andy Jack <andyjack@users.noreply.github.com>
+
+=item *
+
 jamadam <sugama@jamadam.com>
+
+=item *
+
+lembark <lembark@wrkhors.com>
+
+=item *
+
+richi235 <richard@weltraumpflege.org>
+
+=item *
+
+rouzier <rouzier@gmail.com>
+
+=item *
+
+Bas Bloemsaat <bas@bloemsaat.com>
 
 =item *
 
@@ -2842,6 +2977,10 @@ Brian Horakh <brianh@zoovy.com>
 =item *
 
 Charles Howes <charles.howes@globalrelay.net>
+
+=item *
+
+Chris Davies <FMQA@users.noreply.github.com>
 
 =item *
 
@@ -2855,25 +2994,13 @@ Dave Rolsky <autarch@urth.org>
 
 Dmitry Karasik <dmitry@karasik.eu.org>
 
-=item *
-
-Eric Johnson <eric.git@iijo.org>
-
-=item *
-
-Gabor Szabo <gabor@szabgab.com>
-
-=item *
-
-George S. Baugh <george@troglodyne.net>
-
 =back
 
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
 
-Copyright (c) 2014-2015 Daniel Gempesaw
+Copyright (c) 2014-2016 Daniel Gempesaw
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

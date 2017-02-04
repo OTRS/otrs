@@ -1,5 +1,5 @@
 package Selenium::Remote::RemoteConnection;
-$Selenium::Remote::RemoteConnection::VERSION = '0.26';
+$Selenium::Remote::RemoteConnection::VERSION = '1.11';
 #ABSTRACT: Connect to a selenium server
 
 use Moo;
@@ -7,7 +7,6 @@ use Try::Tiny;
 use LWP::UserAgent;
 use HTTP::Headers;
 use HTTP::Request;
-use Net::Ping;
 use Carp qw(croak);
 use JSON;
 use Data::Dumper;
@@ -36,11 +35,12 @@ has 'error_handler' => (
     builder => sub { return Selenium::Remote::ErrorHandler->new; }
 );
 
-
+with 'Selenium::Remote::Driver::CanSetWebdriverContext';
 
 sub check_status {
     my $self = shift;
     my $status;
+
     try {
         $status = $self->request({method => 'GET', url => 'status'});
     }
@@ -59,9 +59,6 @@ sub check_status {
     }
 }
 
-
-
-# This request method is tailored for Selenium RC server
 sub request {
     my ($self,$resource,$params,$dont_process_response) = @_;
     my $method =        $resource->{method};
@@ -87,7 +84,8 @@ sub request {
             "http://"
           . $self->remote_server_addr . ":"
           . $self->port
-          . "/wd/hub/$url";
+          . $self->wd_context_prefix
+          . "/$url";
     }
 
     if ((defined $params) && $params ne '') {
@@ -96,7 +94,7 @@ sub request {
         $content = $json->allow_nonref->utf8->encode($params);
     }
 
-    print "REQ: $method, $url, $content\n" if $self->debug;
+    print "REQ: $method, $fullurl, $content\n" if $self->debug;
 
     # HTTP request
     my $header =
@@ -185,7 +183,7 @@ Selenium::Remote::RemoteConnection - Connect to a selenium server
 
 =head1 VERSION
 
-version 0.26
+version 1.11
 
 =head1 SEE ALSO
 
@@ -252,7 +250,7 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
 
-Copyright (c) 2014-2015 Daniel Gempesaw
+Copyright (c) 2014-2016 Daniel Gempesaw
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
