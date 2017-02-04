@@ -1,5 +1,5 @@
 package Selenium::Remote::RemoteConnection;
-$Selenium::Remote::RemoteConnection::VERSION = '0.2701';
+$Selenium::Remote::RemoteConnection::VERSION = '1.11';
 #ABSTRACT: Connect to a selenium server
 
 use Moo;
@@ -7,7 +7,6 @@ use Try::Tiny;
 use LWP::UserAgent;
 use HTTP::Headers;
 use HTTP::Request;
-use Net::Ping;
 use Carp qw(croak);
 use JSON;
 use Data::Dumper;
@@ -95,7 +94,7 @@ sub request {
         $content = $json->allow_nonref->utf8->encode($params);
     }
 
-    print "REQ: $method, $url, $content\n" if $self->debug;
+    print "REQ: $method, $fullurl, $content\n" if $self->debug;
 
     # HTTP request
     my $header =
@@ -184,7 +183,7 @@ Selenium::Remote::RemoteConnection - Connect to a selenium server
 
 =head1 VERSION
 
-version 0.2701
+version 1.11
 
 =head1 SEE ALSO
 
@@ -251,7 +250,7 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
 
-Copyright (c) 2014-2015 Daniel Gempesaw
+Copyright (c) 2014-2016 Daniel Gempesaw
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
