@@ -1,5 +1,5 @@
 package Selenium::Remote::Commands;
-$Selenium::Remote::Commands::VERSION = '0.2701';
+$Selenium::Remote::Commands::VERSION = '1.11';
 # ABSTRACT: Implement commands for Selenium::Remote::Driver
 
 use Moo;
@@ -394,6 +394,17 @@ has '_cmds' => (
                 'url'                => 'session/:sessionId/orientation',
                 'no_content_success' => 0
             },
+            # firefox extension
+            'setContext' => {
+                'method'             => 'POST',
+                'url'                => 'session/:sessionId/moz/context',
+                'no_content_success' => 1
+            },
+            'getContext' => {
+                'method'             => 'GET',
+                'url'                => 'session/:sessionId/moz/context',
+                'no_content_success' => 0
+            },
 
             # /session/:sessionId/local_storage
             # /session/:sessionId/local_storage/key/:key
@@ -461,7 +472,7 @@ Selenium::Remote::Commands - Implement commands for Selenium::Remote::Driver
 
 =head1 VERSION
 
-version 0.2701
+version 1.11
 
 =head1 SEE ALSO
 
@@ -528,7 +539,7 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
 
-Copyright (c) 2014-2015 Daniel Gempesaw
+Copyright (c) 2014-2016 Daniel Gempesaw
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

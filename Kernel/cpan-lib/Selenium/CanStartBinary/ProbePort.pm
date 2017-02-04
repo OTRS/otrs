@@ -1,40 +1,44 @@
-package Selenium::Remote::Mock::Commands;
-$Selenium::Remote::Mock::Commands::VERSION = '1.11';
-# ABSTRACT: utility class to mock Selenium::Remote::Commands
-#
-use Moo;
-extends 'Selenium::Remote::Commands';
+package Selenium::CanStartBinary::ProbePort;
+$Selenium::CanStartBinary::ProbePort::VERSION = '1.11';
+# ABSTRACT: Utility functions for finding open ports to eventually bind to
+use IO::Socket::INET;
+use Selenium::Waiter qw/wait_until/;
 
+require Exporter;
+our @ISA = qw/Exporter/;
+our @EXPORT_OK = qw/find_open_port_above find_open_port probe_port/;
 
-# override get_params so we do not rewrite the parameters
+sub find_open_port_above {
+    my ($port) = @_;
 
-sub get_params {
-    my $self = shift;
-    my $args = shift;
-    my $data = {};
-    my $command = delete $args->{command};
-    $data->{'url'} = $self->get_url($command);
-    $data->{'method'} = $self->get_method($command);
-    $data->{'no_content_success'} = $self->get_no_content_success($command);
-    $data->{'url_params'}  = $args;
-    return $data;
-}
-
-sub get_method_name_from_parameters {
-    my $self = shift;
-    my $params = shift;
-    my $method_name = '';
-    my $cmds = $self->get_cmds();
-    foreach my $cmd (keys %{$cmds}) {
-        if (($cmds->{$cmd}->{method} eq $params->{method}) && ($cmds->{$cmd}->{url} eq $params->{url})) {
-            $method_name = $cmd;
-            last;
+    my $free_port = wait_until {
+        if ( probe_port($port) ) {
+            $port++;
+            return 0;
         }
-    }
-    return $method_name;
+        else {
+            return $port;
+        }
+    };
+
+    return $free_port;
 }
 
-1;
+sub find_open_port {
+    my ($port) = @_;
+
+    probe_port($port) ? return 0 : return $port;
+}
+
+sub probe_port {
+    my ($port) = @_;
+
+    return IO::Socket::INET->new(
+        PeerAddr => '127.0.0.1',
+        PeerPort => $port,
+        Timeout => 3
+    );
+}
 
 __END__
 
@@ -44,15 +48,11 @@ __END__
 
 =head1 NAME
 
-Selenium::Remote::Mock::Commands - utility class to mock Selenium::Remote::Commands
+Selenium::CanStartBinary::ProbePort - Utility functions for finding open ports to eventually bind to
 
 =head1 VERSION
 
 version 1.11
-
-=head1 DESCRIPTION
-
-Utility class to be for testing purposes, with L<Selenium::Remote::Mock::RemoteConnection> only.
 
 =head1 SEE ALSO
 
