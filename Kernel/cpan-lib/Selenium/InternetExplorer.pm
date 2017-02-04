@@ -1,38 +1,20 @@
-package Selenium::Remote::Mock::Commands;
-$Selenium::Remote::Mock::Commands::VERSION = '1.11';
-# ABSTRACT: utility class to mock Selenium::Remote::Commands
-#
+package Selenium::InternetExplorer;
+$Selenium::InternetExplorer::VERSION = '1.11';
+# ABSTRACT: A convenience package for creating a IE instance
 use Moo;
-extends 'Selenium::Remote::Commands';
+extends 'Selenium::Remote::Driver';
 
 
-# override get_params so we do not rewrite the parameters
+has '+browser_name' => (
+    is => 'ro',
+    default => sub { 'internet_explorer' }
+);
 
-sub get_params {
-    my $self = shift;
-    my $args = shift;
-    my $data = {};
-    my $command = delete $args->{command};
-    $data->{'url'} = $self->get_url($command);
-    $data->{'method'} = $self->get_method($command);
-    $data->{'no_content_success'} = $self->get_no_content_success($command);
-    $data->{'url_params'}  = $args;
-    return $data;
-}
+has '+platform' => (
+    is => 'ro',
+    default => sub { 'WINDOWS' }
+);
 
-sub get_method_name_from_parameters {
-    my $self = shift;
-    my $params = shift;
-    my $method_name = '';
-    my $cmds = $self->get_cmds();
-    foreach my $cmd (keys %{$cmds}) {
-        if (($cmds->{$cmd}->{method} eq $params->{method}) && ($cmds->{$cmd}->{url} eq $params->{url})) {
-            $method_name = $cmd;
-            last;
-        }
-    }
-    return $method_name;
-}
 
 1;
 
@@ -44,15 +26,36 @@ __END__
 
 =head1 NAME
 
-Selenium::Remote::Mock::Commands - utility class to mock Selenium::Remote::Commands
+Selenium::InternetExplorer - A convenience package for creating a IE instance
 
 =head1 VERSION
 
 version 1.11
 
-=head1 DESCRIPTION
+=head1 SYNOPSIS
 
-Utility class to be for testing purposes, with L<Selenium::Remote::Mock::RemoteConnection> only.
+    my $driver = Selenium::InternetExplorer->new;
+    # when you're done
+    $driver->shutdown_binary;
+
+=head1 METHODS
+
+=head2 shutdown_binary
+
+Call this method instead of L<Selenium::Remote::Driver/quit> to ensure
+that the binary executable is also closed, instead of simply closing
+the browser itself. If the browser is still around, it will call
+C<quit> for you. After that, it will try to shutdown the browser
+binary by making a GET to /shutdown and on Windows, it will attempt to
+do a C<taskkill> on the binary CMD window.
+
+    $self->shutdown_binary;
+
+It doesn't take any arguments, and it doesn't return anything.
+
+We do our best to call this when the C<$driver> option goes out of
+scope, but if that happens during global destruction, there's nothing
+we can do.
 
 =head1 SEE ALSO
 
