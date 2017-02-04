@@ -7644,28 +7644,26 @@ sub _TicketGetFirstLock {
         }
     }
 
-    # get database object
+    my $LockHistoryTypeID = $Self->HistoryTypeLookup( Type => 'Lock' );
+
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # first lock
+    # get first lock
     return if !$DBObject->Prepare(
-        SQL => 'SELECT th.name, tht.name, th.create_time '
-            . 'FROM ticket_history th, ticket_history_type tht '
-            . 'WHERE th.history_type_id = tht.id AND th.ticket_id = ? '
-            . 'AND tht.name = \'Lock\' ORDER BY th.create_time, th.id ASC',
-        Bind  => [ \$Param{TicketID} ],
-        Limit => 100,
+        SQL => 'SELECT create_time '
+            . 'FROM ticket_history '
+            . 'WHERE ticket_id = ? AND history_type_id = ? '
+            . 'ORDER BY create_time ASC, id ASC',
+        Bind  => [ \$Param{TicketID}, \$LockHistoryTypeID, ],
+        Limit => 1,
     );
 
     my %Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        if ( !$Data{FirstLock} ) {
-            $Data{FirstLock} = $Row[2];
+        $Data{FirstLock} = $Row[0];
 
-            # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-            # and 0000-00-00 00:00:00 time stamps)
-            $Data{FirstLock} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
-        }
+        # cleanup time stamp (some databases are using e. g. '2008-02-25 22:03:00.000000' time stamps)
+        $Data{FirstLock} =~ s{ \A ( \d{4} - \d{2} - \d{2} [ ] \d{2} : \d{2} : \d{2} ) .* \z }{$1}xms;
     }
 
     return %Data;
