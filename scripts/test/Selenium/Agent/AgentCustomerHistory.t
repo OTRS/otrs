@@ -196,7 +196,8 @@ $Selenium->RunTest(
                 "\$('#SortBy').val('Title|Down').trigger('change');"
             );
             $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $("#SortBy").val() === "Title|Down"' );
+                JavaScript => 'return typeof($) === "function" && $("#SortBy").val() === "Title|Down"'
+            );
 
             # Wait until sorting is finished.
             $Selenium->WaitFor(
