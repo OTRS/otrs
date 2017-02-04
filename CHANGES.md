@@ -71,6 +71,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.17 2017-??-??
+ - 2017-02-04 Fixed bug#[12591](https://bugs.otrs.org/show_bug.cgi?id=12591) - Statistic preview for ticket list statistic is very slow in systems with many ticket.
  - 2017-02-03 Fixed bug#[12287](https://bugs.otrs.org/show_bug.cgi?id=12287) - Missing date validation for ITSM date and datetime fields.
  - 2017-02-03 Fixed bug#[12549](https://bugs.otrs.org/show_bug.cgi?id=12549) - Columns not translated in several widgets and views.
  - 2017-02-03 Fixed bug#[12533](https://bugs.otrs.org/show_bug.cgi?id=12533) - Setting a Dynamic Field to = 0  in a activity dialogue does  not set the value but deletes it.
