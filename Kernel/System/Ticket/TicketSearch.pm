@@ -444,7 +444,7 @@ sub TicketSearch {
     }
 
     # check sort/order by options
-    my @SortByArray  = ( ref $SortBy eq 'ARRAY'  ? @{$SortBy}  : ($SortBy) );
+    my @SortByArray = ( ref $SortBy eq 'ARRAY' ? @{$SortBy} : ($SortBy) );
     my %LookupSortByArray = map { $_ => 1 } @SortByArray;
     my @OrderByArray = ( ref $OrderBy eq 'ARRAY' ? @{$OrderBy} : ($OrderBy) );
 
