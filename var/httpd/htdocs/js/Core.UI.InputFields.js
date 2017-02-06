@@ -225,11 +225,10 @@ Core.UI.InputFields = (function (TargetNS) {
         // Restore select fields
         $('select.Modernize', $Context).each(function (Index, SelectObj) {
             var $SelectObj = $(SelectObj),
-                $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized'))),
                 $ShowTreeObj = $SelectObj.next('.ShowTreeSelection');
 
             if ($SelectObj.data('modernized')) {
-                $SearchObj.parents('.InputField_Container')
+                 $('#' + Core.App.EscapeSelector($SelectObj.data('modernized'))).parents('.InputField_Container')
                     .blur()
                     .remove();
                 $SelectObj.show()
