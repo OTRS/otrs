@@ -522,7 +522,7 @@ sub DEMOLISH {
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
-        $Self->SUPER::DEMOLISH();
+        $Self->SUPER::DEMOLISH(@_);
     }
 
     # Cleanup possibly leftover zombie firefox profiles.
