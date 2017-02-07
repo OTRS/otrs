@@ -57,6 +57,9 @@ Specify the connection details in Config.pm, like this:
         platform            => 'ANY',
         window_height       => 1200,    # optional, default 1000
         window_width        => 1600,    # optional, default 1200
+        extra_capabilities => {
+            marionette     => \0,   # Required to run FF 47 or older on Selenium 3+.
+        },
     };
 
 Then you can use the full API of Selenium::Remote::Driver on this object.
