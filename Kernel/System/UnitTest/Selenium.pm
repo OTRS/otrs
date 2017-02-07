@@ -503,13 +503,14 @@ sub HandleError {
     );
 }
 
-=head2 DESTROY()
+=head2 DEMOLISH()
 
-cleanup. Adds a unit test result to indicate the shutdown.
+override DEMOLISH from L<Selenium::Remote::Driver> (required because this class is managed by L<Moo>).
+Adds a unit test result to indicate the shutdown, and performs some cleanups.
 
 =cut
 
-sub DESTROY {
+sub DEMOLISH {
     my $Self = shift;
 
     # Could be missing on early die.
@@ -518,7 +519,7 @@ sub DESTROY {
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
-        $Self->SUPER::DESTROY();
+        $Self->SUPER::DEMOLISH();
     }
 
     # Cleanup possibly leftover zombie firefox profiles.
