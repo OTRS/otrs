@@ -519,6 +519,18 @@ sub DESTROY {
     if ( $Self->{SeleniumTestsActive} ) {
         $Self->SUPER::DESTROY();
     }
+
+    # Cleanup possibly leftover zombie firefox profiles.
+    my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => '/tmp/',
+        Filter    => 'anonymous*webdriver-profile',
+    );
+
+    for my $LeftoverFirefoxProfile (@LeftoverFirefoxProfiles) {
+        if (-d $LeftoverFirefoxProfile) {
+            File::Path::remove_tree($LeftoverFirefoxProfile);
+        }
+    }
 }
 
 1;
