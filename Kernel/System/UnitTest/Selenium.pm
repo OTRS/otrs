@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use MIME::Base64();
+use File::Path();
 use File::Temp();
 
 use Kernel::Config;
