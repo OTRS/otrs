@@ -76,19 +76,35 @@ $Self->True(
     "CustomerUser '$CustomerUserLogin' is created",
 );
 
-my $UknownEmailAddress = 'Unknown' . $CustomerUserEmailAddress;
+my $UnknownEmailAddress = 'Unknown' . $CustomerUserEmailAddress;
 
 my @Tests = (
     {
-        EmailAddress => $UknownEmailAddress,
-        Result       => {
-            CustomerUserID => $UknownEmailAddress,
+        EmailAddress => $UnknownEmailAddress,
+        Config       => {
+            'PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers' => 0,
+        },
+        Result => {
+            CustomerUserID => $UnknownEmailAddress,
             CustomerID     => '',
         },
     },
     {
+        EmailAddress => $UnknownEmailAddress,
+        Config       => {
+            'PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers' => 1,
+        },
+        Result => {
+            CustomerUserID => $UnknownEmailAddress,
+            CustomerID     => $UnknownEmailAddress,
+        },
+    },
+    {
         EmailAddress => $CustomerUserEmailAddress,
-        Result       => {
+        Config       => {
+            'PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers' => 0,
+        },
+        Result => {
             CustomerUserID => $CustomerUserLogin,
             CustomerID     => $CustomerID,
         },
@@ -96,6 +112,13 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+
+    for my $Setting ( sort keys %{ $Test->{Config} } ) {
+        $ConfigObject->Set(
+            Key   => $Setting,
+            Value => $Test->{Config}->{$Setting}
+        );
+    }
 
     my $Email = "From: $Test->{EmailAddress}\nTo: you\@home.com\nSubject: Test\nContent in Body.\n";
     my @Return;
