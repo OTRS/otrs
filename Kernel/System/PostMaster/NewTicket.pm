@@ -206,6 +206,13 @@ sub Run {
         }
     }
 
+    # if there is no customer id found!
+    if (  !$GetParam{'X-OTRS-CustomerNo'}
+        && $ConfigObject->Get('PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers') )
+    {
+        $GetParam{'X-OTRS-CustomerNo'} = $GetParam{SenderEmailAddress};
+    }
+
     # if there is no customer user found!
     if ( !$GetParam{'X-OTRS-CustomerUser'} ) {
         $GetParam{'X-OTRS-CustomerUser'} = $GetParam{SenderEmailAddress};
