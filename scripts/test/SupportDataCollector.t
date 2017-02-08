@@ -22,6 +22,21 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 0,
 );
 
+my $ConfigObject = Kernel::Config->new();
+
+my $SysConfigObject = Kernel::System::SysConfig->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'SupportDataCollector::DisablePlugins',
+    Value => [
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment',
+    ],
+);
+
 my $SupportDataCollectorObject = Kernel::System::SupportDataCollector->new( %{$Self} );
 
 $SupportDataCollectorObject->{CacheObject}->CleanUp(
@@ -29,7 +44,9 @@ $SupportDataCollectorObject->{CacheObject}->CleanUp(
 );
 
 my $TimeStart   = [ Time::HiRes::gettimeofday() ];
-my %Result      = $SupportDataCollectorObject->Collect();
+my %Result      = $SupportDataCollectorObject->Collect(
+    WebTimeout => 40,
+);
 my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
 $Self->Is(

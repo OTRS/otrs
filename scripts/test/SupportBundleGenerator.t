@@ -22,7 +22,20 @@ use Kernel::System::SupportDataCollector;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
-my $ConfigObject = Kernel::Config->new( %{$Self} );
+my $ConfigObject = Kernel::Config->new();
+
+my $SysConfigObject = Kernel::System::SysConfig->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'SupportDataCollector::DisablePlugins',
+    Value => [
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment',
+    ],
+);
 
 my $SupportBundleGeneratorObject = Kernel::System::SupportBundleGenerator->new(
     %{$Self},
@@ -473,7 +486,9 @@ if (%RegistrationInfo) {
 }
 
 # GenerateSupportData tests
-my %OriginalResult = $SupportDataCollectorObject->Collect();
+my %OriginalResult = $SupportDataCollectorObject->Collect(
+    WebTimeout => 40,
+);
 
 # for this test we will just check that both results has the same identifiers
 my %OriginalIdentifiers;
