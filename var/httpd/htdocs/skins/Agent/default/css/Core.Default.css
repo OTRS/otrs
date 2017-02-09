@@ -468,7 +468,8 @@ dd {
     position: relative;
     padding-left: 0px;
     padding-right: 15px;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: auto;
     white-space: nowrap;
 }
 
@@ -489,10 +490,7 @@ dd {
 
 .BreadCrumb li > a,
 .BreadCrumb li > span {
-    max-width: 200px;
     line-height: 14px;
-    text-overflow: ellipsis;
-    overflow: hidden;
     display: inline-block;
     padding: 0px 2px 3px 2px;
 }
@@ -1204,7 +1202,7 @@ body > div.MetaFloater {
     border-top: 30px solid #eee;
 }
 
-body > div.MetaFloater:after, 
+body > div.MetaFloater:after,
 body > div.MetaFloater:before {
     bottom: 399px;
     left: 50%;
@@ -1216,19 +1214,19 @@ body > div.MetaFloater:before {
     pointer-events: none;
 }
 
-body > div.MetaFloater.Left:after, 
+body > div.MetaFloater.Left:after,
 body > div.MetaFloater.Left:before {
     left: 15px;
     margin-top: -1px;
 }
 
-body > div.MetaFloater.Right:after, 
+body > div.MetaFloater.Right:after,
 body > div.MetaFloater.Right:before {
     left: auto;
     right: 15px;
 }
 
-body > div.MetaFloater.Bottom:after, 
+body > div.MetaFloater.Bottom:after,
 body > div.MetaFloater.Bottom:before {
     bottom: auto;
     top: 100%;
