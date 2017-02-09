@@ -471,6 +471,7 @@ dd {
 .BreadCrumb a {
     color: #000;
     padding: 0px 2px;
+    word-break: break-word;
 }
 
 .BreadCrumb a:hover {
@@ -1152,7 +1153,7 @@ body > div.MetaFloater {
     border-top: 30px solid #eee;
 }
 
-body > div.MetaFloater:after, 
+body > div.MetaFloater:after,
 body > div.MetaFloater:before {
     bottom: 399px;
     left: 50%;
@@ -1164,19 +1165,19 @@ body > div.MetaFloater:before {
     pointer-events: none;
 }
 
-body > div.MetaFloater.Left:after, 
+body > div.MetaFloater.Left:after,
 body > div.MetaFloater.Left:before {
     left: 15px;
     margin-top: -1px;
 }
 
-body > div.MetaFloater.Right:after, 
+body > div.MetaFloater.Right:after,
 body > div.MetaFloater.Right:before {
     left: auto;
     right: 15px;
 }
 
-body > div.MetaFloater.Bottom:after, 
+body > div.MetaFloater.Bottom:after,
 body > div.MetaFloater.Bottom:before {
     bottom: auto;
     top: 100%;
