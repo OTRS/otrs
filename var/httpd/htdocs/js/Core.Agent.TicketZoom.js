@@ -351,47 +351,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
     /**
      * @private
-     * @name CreateChatRequest
-     * @memberof Core.Agent.TicketZoom
-     * @function
-     * @description
-     *      This function has click event for chat request creating.
-     */
-    function CreateChatRequest() {
-        var $Dialog;
-
-        $('a.CreateChatRequest').on('click', function() {
-            $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
-
-            $Dialog.find('input[name=ChatStartUserID]').val($(this).data('customer-user-id'));
-            $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
-            $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
-            $Dialog.find('input[name=TicketID]').val($(this).data('ticket-id'));
-            $Dialog.find('input[name=ChannelID]').val($(this).data('channel-id'));
-
-            Core.UI.Dialog.ShowContentDialog($Dialog.html(), Core.Language.Translate('Start chat'), '100px', 'Center', true);
-
-            // Only enable button if there is a message
-            $('.Dialog textarea[name="ChatStartFirstMessage"]').on('keyup', function(){
-                $('.Dialog button').prop('disabled', $(this).val().length ? false : true);
-            });
-
-            $('.Dialog form').on('submit', function(){
-                if (!$('.Dialog textarea[name=ChatStartFirstMessage]').val().length) {
-                    return false;
-                }
-                // Close after submit
-                window.setTimeout(function(){
-                    Core.UI.Dialog.CloseDialog($('.Dialog'));
-                }, 1);
-            });
-
-            return false;
-        });
-    }
-
-    /**
-     * @private
      * @name ArticleFilterEvents
      * @memberof Core.Agent.TicketZoom
      * @function
@@ -789,9 +748,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         for (Count in ArticleIDs) {
             TargetNS.MarkAsSeen(TicketID, ArticleIDs[Count]);
         }
-
-        // initialize chat request creating
-        CreateChatRequest();
 
         // event on change queue
         $('#DestQueueID').on('change', function () {

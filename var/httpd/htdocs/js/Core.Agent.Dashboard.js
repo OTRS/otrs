@@ -494,34 +494,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
     function InitCustomerUserList () {
         var CustomerUserRefresh;
 
-        // Bind event on create chat request button
-        $('a.CreateChatRequest').on('click', function() {
-            var $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
-
-            $Dialog.find('input[name=ChatStartUserID]').val($(this).data('user-id'));
-            $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
-            $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
-
-            Core.UI.Dialog.ShowContentDialog($Dialog.html(), Core.Language.Translate('Start chat'), '100px', 'Center', true);
-
-            // Only enable button if there is a message
-            $('.Dialog textarea[name="ChatStartFirstMessage"]').on('keyup', function(){
-                $('.Dialog button').prop('disabled', $(this).val().length ? false : true);
-            });
-
-            $('.Dialog form').on('submit', function(){
-                if (!$('.Dialog textarea[name=ChatStartFirstMessage]').val().length) {
-                    return false;
-                }
-                // Close after submit
-                window.setTimeout(function(){
-                    Core.UI.Dialog.CloseDialog($('.Dialog'));
-                }, 1);
-            });
-
-            return false;
-        });
-
         if (typeof Core.Config.Get('CustomerUserListRefresh') !== 'undefined') {
             CustomerUserRefresh = Core.Config.Get('CustomerUserListRefresh');
 
@@ -609,59 +581,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
         $('#Dashboard' + Core.App.EscapeSelector(UserOnline.Name) + 'Customer').off('click').on('click', function(){
             Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(UserOnline.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + UserOnline.Name + ';Filter=Customer', function () {
             });
-            return false;
-        });
-
-        // Bind event on chat start
-        $('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
-            var UserID = $(this).data('user-id'),
-                UserType = $(this).data('user-type'),
-                UserFullname = $(this).data('user-fullname'),
-                $Dialog = $('#DashboardUserOnlineChatStartDialog').clone(),
-                Data;
-
-            $Dialog.find('input[name=ChatStartUserID]').val(UserID);
-            $Dialog.find('input[name=ChatStartUserType]').val(UserType);
-            $Dialog.find('input[name=ChatStartUserFullname]').val(UserFullname);
-
-            // Get Availability
-            Data = {
-                Action: 'AgentChat',
-                Subaction: 'GetAvailability',
-                UserType: UserType,
-                UserID: UserID
-            };
-
-            Core.AJAX.FunctionCall(
-                Core.Config.Get('Baselink'),
-                Data,
-                function(Response) {
-                    if (Response < 1) {
-                        window.alert(Core.Language.Translate("Selected user is not available for chat"));
-
-                        // Reload page
-                        document.location.reload(true);
-                        return false;
-                    }
-
-                    Core.UI.Dialog.ShowContentDialog($Dialog.html(), Core.Language.Translate('Start chat'), '100px', 'Center', true);
-
-                    // Only enable button if there is a message
-                    $('.Dialog textarea[name="ChatStartFirstMessage"]').on('keyup', function(){
-                        $('.Dialog button').prop('disabled', $(this).val().length ? false : true);
-                    });
-
-                    $('.Dialog form').on('submit', function(){
-                        if (!$('.Dialog textarea[name=ChatStartFirstMessage]').val().length) {
-                            return false;
-                        }
-                        // Close after submit
-                        window.setTimeout(function(){
-                            Core.UI.Dialog.CloseDialog($('.Dialog'));
-                        }, 1);
-                    });
-                });
-
             return false;
         });
 
