@@ -11,8 +11,8 @@
     <a href="[% IF !Data.IsLoginPage %]https://www.otrs.com[% ELSE %]https://www.otrs.com/otrs-business-solution-managed/[% END %]" title="[% Config("Product") | html %][% IF !Data.IsLoginPage %] [% Config("Version") | html %][% END %]" target="_blank">
         [% Translate("Powered by") | html %] [% Config("Product") | html %]
     </a>
-[% RenderBlockEnd("Banner") %]
 </div>
+[% END %]
 
 [% InsertTemplate("FooterJS.tt") %]
 

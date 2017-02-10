@@ -1,4 +1,5 @@
 #4.0.22 2017-??-??
+ - 2017-02-10 Fixed bug#[12583](https://bugs.otrs.org/show_bug.cgi?id=12583) - Superfluous block end directive in footer template.
  - 2017-02-10 Fixed bug#[12588](https://bugs.otrs.org/show_bug.cgi?id=12588) - Unicode characters crash Postmaster with HTMLUtil.pm error.
  - 2017-02-10 Fixed bug#[10918](https://bugs.otrs.org/show_bug.cgi?id=10918) - Reducing available processes by ACLs not possible.
  - 2017-02-03 Fixed bug#[12533](https://bugs.otrs.org/show_bug.cgi?id=12533) - Setting a Dynamic Field to = 0  in a activity dialogue does  not set the value but deletes it.
