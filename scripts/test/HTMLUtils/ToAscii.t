@@ -203,13 +203,13 @@ Fifth Line',
     },
     {
         Input  => '&#55357;&#56833;',
-        Result => '��',
+        Result => '&#55357;&#56833;',
         Name   => 'Incorrectly encoded GRINNING FACE WITH SMILING EYES (decimal)'
     },
     {
         Input  => '&#xD83D;&#xDE01;',
-        Result => '��',
-        Name   => 'Invalid encoded GRINNING FACE WITH SMILING EYES (hex)'
+        Result => '&#xD83D;&#xDE01;',
+        Name   => 'Incorrectly encoded GRINNING FACE WITH SMILING EYES (hex)'
     },
     {
         Input  => '&#128512;',
