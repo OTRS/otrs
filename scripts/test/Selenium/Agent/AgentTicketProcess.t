@@ -64,6 +64,20 @@ $Selenium->RunTest(
                 ValidID => 1,
                 UserID  => 1,
             },
+            {
+                Name       => 'TestTextZeroProcess',
+                Label      => 'TestTextZeroProcess',
+                FieldOrder => 9991,
+                FieldType  => 'Text',
+                ObjectType => 'Ticket',
+                Config     => {
+                    DefaultValue => '',
+                    Link         => '',
+                },
+                Reorder => 1,
+                ValidID => 1,
+                UserID  => 1,
+            },
         );
 
         my @DynamicFieldIDs;
@@ -105,7 +119,7 @@ $Selenium->RunTest(
                         },
                     },
                 },
-                ConfigChange   => {
+                ConfigChange => {
                     Possible => {
                         'Ticket' => {
                             'DynamicField_TestDropdownACLProcess' => [ 'a', 'b', 'c' ],
@@ -134,10 +148,10 @@ $Selenium->RunTest(
                         },
                     },
                 },
-                ConfigChange   => {
+                ConfigChange => {
                     Possible => {
                         'Ticket' => {
-                            'DynamicField_TestDropdownACLProcess' => [ 'd' ],
+                            'DynamicField_TestDropdownACLProcess' => ['d'],
                         },
                     },
                 },
@@ -229,7 +243,7 @@ $Selenium->RunTest(
             "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');"
         );
 
-        # wait until form has loaded, if neccessary
+        # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         # Check some ACLs before the normal process tests.
@@ -272,7 +286,7 @@ $Selenium->RunTest(
             "Ticket open state found on page",
         );
 
-        # Remeber created ticket, to delete the ticket at the end of the test.
+        # Remember created ticket, to delete the ticket at the end of the test.
         my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
         push @DeleteTicketIDs, $TicketID[1];
 
@@ -283,7 +297,7 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until form has loaded, if neccessary
+        # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
@@ -310,16 +324,24 @@ $Selenium->RunTest(
             "$EndProcessMessage message found on page",
         );
 
-        # create second scenarion for test agent ticket process
+        # Verify in ticket history that invisible dynamic field has been set to correct value in
+        #   previous process step.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID[1]");
+        $Self->True(
+            index( $Selenium->get_page_source(), 'FieldName=TestTextZeroProcess;Value=0;' ) > -1,
+            'Dynamic field set to correct value by process',
+        );
+
+        # Create second scenario for test agent ticket process.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
         $Selenium->execute_script(
             "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');"
         );
 
-        # wait until form has loaded, if neccessary
+        # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
-        # in this scenarion we just set ticket queue to junk to finish test
+        # In this scenario we just set ticket queue to junk to finish test.
         $Selenium->execute_script("\$('#QueueID').val('3').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
 
@@ -333,7 +355,7 @@ $Selenium->RunTest(
             "$EndProcessMessage message found on page",
         );
 
-        # Remeber created ticket, to delete the ticket at the end of the test.
+        # Remember created ticket, to delete the ticket at the end of the test.
         @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
         push @DeleteTicketIDs, $TicketID[1];
 
@@ -494,8 +516,7 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-
-    }
+    },
 );
 
 1;
