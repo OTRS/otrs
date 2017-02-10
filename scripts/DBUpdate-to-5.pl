@@ -2343,7 +2343,7 @@ sub _NewAgentNotificationsLanguageGet {
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde in der Queue <OTRS_TICKET_Queue> erstellt.
+das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde in der Queue <OTRS_TICKET_Queue> erstellt.
 
 <OTRS_CUSTOMER_REALNAME> schrieb:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2357,7 +2357,7 @@ das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde in der Q
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been created in queue <OTRS_TICKET_Queue>.
+ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has been created in queue <OTRS_TICKET_Queue>.
 
 <OTRS_CUSTOMER_REALNAME> wrote:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2371,7 +2371,7 @@ ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been created i
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha creado en la fila <OTRS_TICKET_Queue>.
+el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se ha creado en la fila <OTRS_TICKET_Queue>.
 
 <OTRS_CUSTOMER_REALNAME> escribió:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2382,10 +2382,24 @@ el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha creado en
                 'ContentType' => 'text/plain',
                 'Subject'     => 'Se ha creado un ticket: <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy létrejött a következő várólistában: <OTRS_TICKET_Queue>.
+
+<OTRS_CUSTOMER_REALNAME> ezt írta:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Jegy létrehozva: <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi criado na fila <OTRS_TICKET_Queue>.
+o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi criado na fila <OTRS_TICKET_Queue>.
 
 <OTRS_CUSTOMER_REALNAME> escreveu:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2399,7 +2413,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi criado na fi
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已在等待队列 已在队列<OTRS_TICKET_Queue> 中被编制完成。中被创建完成
+票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已在等待队列 已在队列<OTRS_TICKET_Queue> 中被编制完成。中被创建完成
 
 <OTRS_CUSTOMER_REALNAME> 写道：
 <OTRS_CUSTOMER_BODY[30]>
@@ -2415,7 +2429,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi criado na fi
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] ist eskaliert!
+das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] ist eskaliert!
 
 Eskaliert am: <OTRS_TICKET_EscalationDestinationDate>
 Eskaliert seit: <OTRS_TICKET_EscalationDestinationIn>
@@ -2429,7 +2443,7 @@ Eskaliert seit: <OTRS_TICKET_EscalationDestinationIn>
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] is escalated!
+ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] is escalated!
 
 Escalated at: <OTRS_TICKET_EscalationDestinationDate>
 Escalated since: <OTRS_TICKET_EscalationDestinationIn>
@@ -2443,7 +2457,7 @@ Escalated since: <OTRS_TICKET_EscalationDestinationIn>
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha escalado!
+el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se ha escalado!
 
 Escaló: <OTRS_TICKET_EscalationDestinationDate>
 Escalado desde: <OTRS_TICKET_EscalationDestinationIn>
@@ -2454,10 +2468,24 @@ Escalado desde: <OTRS_TICKET_EscalationDestinationIn>
                 'ContentType' => 'text/plain',
                 'Subject'     => '¡Escalación de ticket! <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy eszkalálódott!
+
+Eszkaláció időpontja: <OTRS_TICKET_EscalationDestinationDate>
+Eszkaláció óta eltelt idő: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Jegyeszkaláció! <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi escalonado!
+o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi escalonado!
 
 Escalonado em: <OTRS_TICKET_EscalationDestinationDate>
 Escalonado desde: <OTRS_TICKET_EscalationDestinationIn>
@@ -2471,7 +2499,7 @@ Escalonado desde: <OTRS_TICKET_EscalationDestinationIn>
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已被升级！
+票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已被升级！
 
 升级地点升级开始时间：<OTRS_TICKET_EscalationDestinationDate>
 升级开始时间升级在：<OTRS_TICKET_EscalationDestinationIn>内
@@ -2487,7 +2515,7 @@ Escalonado desde: <OTRS_TICKET_EscalationDestinationIn>
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wird bald eskalieren!
+das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wird bald eskalieren!
 
 Eskalation um: <OTRS_TICKET_EscalationDestinationDate>
 Eskalation in: <OTRS_TICKET_EscalationDestinationIn>
@@ -2502,7 +2530,7 @@ Eskalation in: <OTRS_TICKET_EscalationDestinationIn>
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] will escalate!
+ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] will escalate!
 
 Escalation at: <OTRS_TICKET_EscalationDestinationDate>
 Escalation in: <OTRS_TICKET_EscalationDestinationIn>
@@ -2517,7 +2545,7 @@ Escalation in: <OTRS_TICKET_EscalationDestinationIn>
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se encuentra proximo a escalar!
+el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se encuentra proximo a escalar!
 
 Escalará: <OTRS_TICKET_EscalationDestinationDate>
 Escalará en: <OTRS_TICKET_EscalationDestinationIn>
@@ -2529,10 +2557,24 @@ Escalará en: <OTRS_TICKET_EscalationDestinationIn>
                 'ContentType' => 'text/plain',
                 'Subject'     => 'Aviso de escalación de ticket! <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy eszkalálódni fog!
+
+Eszkaláció időpontja: <OTRS_TICKET_EscalationDestinationDate>
+Eszkalációig fennmaradó idő: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Jegyeszkaláció figyelmeztetés! <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] será escalonado!
+o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] será escalonado!
 
 Escalonamento em: <OTRS_TICKET_EscalationDestinationDate>
 Escalonamento em: <OTRS_TICKET_EscalationDestinationIn>
@@ -2547,7 +2589,7 @@ Escalonamento em: <OTRS_TICKET_EscalationDestinationIn>
             'zh_CN' => {
                 'Body' => '您好  <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 将升级！
+票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 将升级！
 
 升级地点升级开始时间：<OTRS_TICKET_EscalationDestinationDate>
 升级开始时间升级在：<OTRS_TICKET_EscalationDestinationIn>内
@@ -2564,7 +2606,7 @@ Escalonamento em: <OTRS_TICKET_EscalationDestinationIn>
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-zum gesperrten Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
+zum gesperrten Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
 
 <OTRS_CUSTOMER_REALNAME> schrieb:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2578,7 +2620,7 @@ zum gesperrten Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] gib
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the locked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] received a follow-up.
+the locked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] received a follow-up.
 
 <OTRS_CUSTOMER_REALNAME> wrote:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2592,7 +2634,7 @@ the locked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] receive
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recibió un seguimiento.
+el ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] recibió un seguimiento.
 
 <OTRS_CUSTOMER_REALNAME> escribió:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2603,10 +2645,24 @@ el ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recib
                 'ContentType' => 'text/plain',
                 'Subject'     => 'Seguimiento a ticket bloqueado: <OTRS_CUSTOMER_SUBJECT[24]>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A zárolt [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy egy követő üzenetet kapott.
+
+<OTRS_CUSTOMER_REALNAME> ezt írta:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Zárolt jegy követése: <OTRS_CUSTOMER_SUBJECT[24]>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recebeu uma resposta.
+o ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] recebeu uma resposta.
 
 <OTRS_CUSTOMER_REALNAME> escreveu:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2620,7 +2676,7 @@ o ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recebe
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-加锁票据锁定工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已获得一项后续作业。
+加锁票据锁定工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已获得一项后续作业。
 
 <OTRS_CUSTOMER_REALNAME> 写道：
 <OTRS_CUSTOMER_BODY[30]>
@@ -2636,7 +2692,7 @@ o ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recebe
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-zum freigegebenen Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
+zum freigegebenen Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] gibt es eine Nachfrage.
 
 <OTRS_CUSTOMER_REALNAME> schrieb:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2650,7 +2706,7 @@ zum freigegebenen Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the unlocked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] received a follow-up.
+the unlocked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] received a follow-up.
 
 <OTRS_CUSTOMER_REALNAME> wrote:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2664,7 +2720,7 @@ the unlocked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recei
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recibió un seguimiento.
+el ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] recibió un seguimiento.
 
 <OTRS_CUSTOMER_REALNAME> escribió:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2675,10 +2731,24 @@ el ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] re
                 'ContentType' => 'text/plain',
                 'Subject'     => 'Seguimiento a ticket desbloqueado: <OTRS_CUSTOMER_SUBJECT[24]>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A feloldott [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy egy követő üzenetet kapott.
+
+<OTRS_CUSTOMER_REALNAME> ezt írta:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Feloldott jegy követése: <OTRS_CUSTOMER_SUBJECT[24]>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] recebeu uma resposta.
+o ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] recebeu uma resposta.
 
 <OTRS_CUSTOMER_REALNAME> escreveu:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2692,7 +2762,7 @@ o ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] rec
             'zh_CN' => {
                 'Body' => '您好<OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-解锁票据解锁工单[<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已获得一项后续作业。
+解锁票据解锁工单[<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已获得一项后续作业。
 
 <OTRS_CUSTOMER_REALNAME> 写道:
 <OTRS_CUSTOMER_BODY[30]>
@@ -2708,7 +2778,7 @@ o ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] rec
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-die Sperrzeit des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] ist abgelaufen. Es ist jetzt freigegeben.
+die Sperrzeit des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] ist abgelaufen. Es ist jetzt freigegeben.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2719,7 +2789,7 @@ die Sperrzeit des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>]
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has reached its lock timeout period and is now unlocked.
+ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has reached its lock timeout period and is now unlocked.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2730,7 +2800,7 @@ ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has reached its lo
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>]  ha alcanzado su tiempo de espera como bloqueado y ahora se encuentra desbloqueado.
+el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>]  ha alcanzado su tiempo de espera como bloqueado y ahora se encuentra desbloqueado.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2738,10 +2808,21 @@ el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>]  ha alcanzado s
                 'ContentType' => 'text/plain',
                 'Subject'     => 'Terminó tiempo de bloqueo: <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy elérte a zárolás időkorlátjának időtartamát, és most feloldásra került.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Jegyzár időkorlát: <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] atingiu o seu período de tempo limite de bloqueio e agora está desbloqueado.
+o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] atingiu o seu período de tempo limite de bloqueio e agora está desbloqueado.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2752,7 +2833,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] atingiu o seu pe
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已达到其锁定时限，现在解锁。
+票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已达到其锁定时限，现在解锁。
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2798,6 +2879,18 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] atingiu o seu pe
                 'ContentType' => 'text/plain',
                 'Subject'     => 'Nota de ticket: <OTRS_AGENT_SUBJECT[24]>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+<OTRS_CURRENT_UserLastname> <OTRS_CURRENT_UserFirstname> ezt írta:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Új jegyzet: <OTRS_AGENT_SUBJECT[24]>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
@@ -2827,7 +2920,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] atingiu o seu pe
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Besitzer des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde von <OTRS_CURRENT_UserFullname> geändert auf <OTRS_TICKET_OWNER_UserFullname>.
+der Besitzer des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde von <OTRS_CURRENT_UserFullname> geändert auf <OTRS_TICKET_OWNER_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2838,7 +2931,7 @@ der Besitzer des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the owner of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_OWNER_UserFullname> by <OTRS_CURRENT_UserFullname>.
+the owner of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_OWNER_UserFullname> by <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2849,7 +2942,7 @@ the owner of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has b
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el propietario del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha modificado  a <OTRS_TICKET_OWNER_UserFullname> por <OTRS_CURRENT_UserFullname>.
+el propietario del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se ha modificado  a <OTRS_TICKET_OWNER_UserFullname> por <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2857,10 +2950,21 @@ el propietario del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>]
                 'ContentType' => 'text/plain',
                 'Subject' => 'Actualización del propietario de ticket a <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy tulajdonosát <OTRS_CURRENT_UserLastname> <OTRS_CURRENT_UserFirstname> frissítette <OTRS_OWNER_UserLastname> <OTRS_OWNER_UserFirstname> ügyintézőre.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Jegytulajdonos frissítés <OTRS_OWNER_UserLastname> <OTRS_OWNER_UserFirstname> ügyintézőre: <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o proprietário do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_OWNER_UserFullname> por <OTRS_CURRENT_UserFullname>.
+o proprietário do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_OWNER_UserFullname> por <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2872,7 +2976,7 @@ o proprietário do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>]
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据的所有人工单的所有者 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已被该信为 <OTRS_TICKET_OWNER_UserFullname> 的 <OTRS_CURRENT_UserFullname>。
+票据的所有人工单的所有者 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已被该信为 <OTRS_TICKET_OWNER_UserFullname> 的 <OTRS_CURRENT_UserFullname>。
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2886,7 +2990,7 @@ o proprietário do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>]
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde erreicht.
+die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde erreicht.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2897,7 +3001,7 @@ die Erinnerungszeit für das gesperrte Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_T
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the pending reminder time of the locked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been reached.
+the pending reminder time of the locked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has been reached.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2908,7 +3012,7 @@ the pending reminder time of the locked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el tiempo del recordatorio pendiente para el ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha alcanzado.
+el tiempo del recordatorio pendiente para el ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se ha alcanzado.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2916,10 +3020,21 @@ el tiempo del recordatorio pendiente para el ticket bloqueado [<OTRS_CONFIG_Tick
                 'ContentType' => 'text/plain',
                 'Subject'     => 'Recordatorio pendiente en ticket bloqueado se ha alcanzado: <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A zárolt [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy elérte az „emlékeztető függőben” idejét.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Zárolt jegy „emlékeztető függőben” ideje elérve: <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o tempo de lembrete pendente do ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atingido.
+o tempo de lembrete pendente do ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi atingido.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2930,7 +3045,7 @@ o tempo de lembrete pendente do ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTR
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-锁定票据即将到期的提醒时间锁定工单挂起提醒时间 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已到达。
+锁定票据即将到期的提醒时间锁定工单挂起提醒时间 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已到达。
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2944,7 +3059,7 @@ o tempo de lembrete pendente do ticket bloqueado [<OTRS_CONFIG_Ticket::Hook><OTR
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde erreicht.
+die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde erreicht.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2955,7 +3070,7 @@ die Erinnerungszeit für das freigegebene Ticket [<OTRS_CONFIG_Ticket::Hook><OTR
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the pending reminder time of the unlocked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been reached.
+the pending reminder time of the unlocked ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has been reached.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2966,7 +3081,7 @@ the pending reminder time of the unlocked ticket [<OTRS_CONFIG_Ticket::Hook><OTR
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el tiempo del recordatorio pendiente para el ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha alcanzado.
+el tiempo del recordatorio pendiente para el ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se ha alcanzado.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2974,10 +3089,21 @@ el tiempo del recordatorio pendiente para el ticket desbloqueado [<OTRS_CONFIG_T
                 'ContentType' => 'text/plain',
                 'Subject'     => 'Recordatorio pendiente en ticket desbloqueado se ha alcanzado: <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A feloldott [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy elérte az „emlékeztető függőben” idejét.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Feloldott jegy „emlékeztető függőben” ideje elérve: <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o tempo de lembrete pendente do ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atingido.
+o tempo de lembrete pendente do ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi atingido.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -2988,7 +3114,7 @@ o tempo de lembrete pendente do ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-未锁定票据即将到期的提醒时间未锁定工单的挂起提醒时间 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已到已到达。
+未锁定票据即将到期的提醒时间未锁定工单的挂起提醒时间 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已到已到达。
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3002,7 +3128,7 @@ o tempo de lembrete pendente do ticket desbloqueado [<OTRS_CONFIG_Ticket::Hook><
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde in die Queue <OTRS_TICKET_Queue> verschoben.
+das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde in die Queue <OTRS_TICKET_Queue> verschoben.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3013,7 +3139,7 @@ das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde in die Q
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been updated to queue <OTRS_TICKET_Queue>.
+ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has been updated to queue <OTRS_TICKET_Queue>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3024,7 +3150,7 @@ ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been updated t
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] ha cambiado de fila a <OTRS_TICKET_Queue>.
+el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] ha cambiado de fila a <OTRS_TICKET_Queue>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3032,10 +3158,21 @@ el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] ha cambiado de 
                 'ContentType' => 'text/plain',
                 'Subject'     => 'La fila del ticket ha cambiado a <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegyet áthelyezték a következő várólistába: <OTRS_TICKET_Queue>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Jegy várólista frissítés <OTRS_TICKET_Queue> várólistára: <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atualizado na fila <OTRS_TICKET_Queue>.
+o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi atualizado na fila <OTRS_TICKET_Queue>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3046,7 +3183,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atualizado n
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已被升级为序列已被更新为队列 <OTRS_TICKET_Queue>。
+票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已被升级为序列已被更新为队列 <OTRS_TICKET_Queue>。
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3059,7 +3196,7 @@ o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atualizado n
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Verantwortliche für das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde von <OTRS_CURRENT_UserFullname> geändert auf <OTRS_TICKET_RESPONSIBLE_UserFullname>.
+der Verantwortliche für das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde von <OTRS_CURRENT_UserFullname> geändert auf <OTRS_TICKET_RESPONSIBLE_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3071,7 +3208,7 @@ der Verantwortliche für das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_Tick
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the responsible agent of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_RESPONSIBLE_UserFullname> by <OTRS_CURRENT_UserFullname>.
+the responsible agent of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_RESPONSIBLE_UserFullname> by <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3082,7 +3219,7 @@ the responsible agent of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNu
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el agente responsable del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha modificado a <OTRS_TICKET_RESPONSIBLE_UserFullname> por <OTRS_CURRENT_UserFullname>.
+el agente responsable del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se ha modificado a <OTRS_TICKET_RESPONSIBLE_UserFullname> por <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3091,10 +3228,21 @@ el agente responsable del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketN
                 'Subject' =>
                     'Actualización del responsable de ticket a <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy felelős ügyintézőjét <OTRS_CURRENT_UserLastname> <OTRS_CURRENT_UserFirstname> frissítette <OTRS_RESPONSIBLE_UserLastname> <OTRS_RESPONSIBLE_UserFirstname> ügyintézőre.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Jegyfelelős frissítés <OTRS_RESPONSIBLE_UserLastname> <OTRS_RESPONSIBLE_UserFirstname> ügyintézőre: <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o agente responsável do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_RESPONSIBLE_UserFullname> por <OTRS_CURRENT_UserFullname>.
+o agente responsável do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_RESPONSIBLE_UserFullname> por <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3106,7 +3254,7 @@ o agente responsável do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNu
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-工单的负责人 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已被升级为 已被更新为 <OTRS_TICKET_RESPONSIBLE_UserFullname> 的 <OTRS_CURRENT_UserFullname>.
+工单的负责人 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已被升级为 已被更新为 <OTRS_TICKET_RESPONSIBLE_UserFullname> 的 <OTRS_CURRENT_UserFullname>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3120,7 +3268,7 @@ o agente responsável do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNu
             'de' => {
                 'Body' => 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
-der Service des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] wurde geändert zu <OTRS_TICKET_Service>.
+der Service des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde geändert zu <OTRS_TICKET_Service>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3131,7 +3279,7 @@ der Service des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] w
             'en' => {
                 'Body' => 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-the service of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_Service>.
+the service of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has been updated to <OTRS_TICKET_Service>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3142,7 +3290,7 @@ the service of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] has
             'es_MX' => {
                 'Body' => 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-el servicio del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se ha cambiado a <OTRS_TICKET_Service>.
+el servicio del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se ha cambiado a <OTRS_TICKET_Service>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3150,10 +3298,21 @@ el servicio del ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] se
                 'ContentType' => 'text/plain',
                 'Subject'     => 'El servicio del ticket ha cambiado a <OTRS_TICKET_Service>: <OTRS_TICKET_Title>'
             },
+            'hu' => {
+                'Body' => 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy szolgáltatása frissítve lett a következőre: <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>',
+                'ContentType' => 'text/plain',
+                'Subject'     => 'Jegyszolgáltatás frissítve <OTRS_TICKET_Service> szolgáltatásra: <OTRS_TICKET_Title>'
+            },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-o serviço do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_Service>.
+o serviço do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi atualizado para <OTRS_TICKET_Service>.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
@@ -3164,7 +3323,7 @@ o serviço do ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] foi 
             'zh_CN' => {
                 'Body' => '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
 
-票据服务工单服务 [<OTRS_CONFIG_Ticket::Hook><OTRS_TICKET_TicketNumber>] 已被升级为已被更新为 <OTRS_TICKET_Service>。
+票据服务工单服务 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已被升级为已被更新为 <OTRS_TICKET_Service>。
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
