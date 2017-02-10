@@ -239,7 +239,7 @@ Core.AJAX = (function (Namespace) {
                  Name: 'Core.AJAX.FunctionCall() simple select',
                  URL: 'sample/Core.AJAX.FunctionCall1.html',
                  Callback: function(Result, Assert, Done) {
-                     Assert.equal(Result, "1\n2\n3\n-", 'Function call with simple data');
+                     Assert.equal(Result, "1\n2\n3\n-\n", 'Function call with simple data');
                      Done();
                  }
              }
