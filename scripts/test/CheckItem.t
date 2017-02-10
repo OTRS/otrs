@@ -144,6 +144,7 @@ my @Tests = (
             'modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen=otrs.com@perl.apache.org',
         Valid => 0,
     },
+
     # Complex addresses
     {
         Email => 'test@home.com (Test)',
@@ -168,6 +169,18 @@ my @Tests = (
     {
         Email => 'test@home.com>',
         Valid => 0,
+    },
+    {
+        Email => 'test@home.com(Test)',
+        Valid => 1,
+    },
+    {
+        Email => 'test@home.com>(Test)',
+        Valid => 0,
+    },
+    {
+        Email => 'Test <test@home.com> (Test)',
+        Valid => 1,
     },
 
 );
@@ -329,12 +342,12 @@ for my $Test (@Tests) {
         Result => 'aäöüß€z',
     },
     {
-        String => eval{ my $String = "a\372z"; Encode::_utf8_on($String); $String },    # iso-8859 string
+        String => eval { my $String = "a\372z"; Encode::_utf8_on($String); $String },    # iso-8859 string
         Params => {},
         Result => undef,
     },
     {
-        String => eval {'aúz'},    # utf-8 string
+        String => eval {'aúz'},                                                         # utf-8 string
         Params => {},
         Result => 'aúz',
     },
