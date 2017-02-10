@@ -42,7 +42,7 @@ my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex, $OtrsUserID, $WebGroupID, $Adm
 sub PrintUsage {
     print <<EOF;
 bin/otrs.SetPermissions.pl - set OTRS file permissions
-Copyright (C) 2001-2014 OTRS AG, http://otrs.com
+Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 
 Usage: otrs.SetPermissions.pl
     --web-group=<WEB_GROUP>         # web server group ('www', 'www-data' or similar)
