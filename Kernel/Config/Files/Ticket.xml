@@ -3246,7 +3246,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone::CustomerIDReadOnly" Required="1" Valid="1">
-        <Description Translatable="1">Controls if CustomerID is editable in the agent interface.</Description>
+        <Description Translatable="1">Controls if CustomerID is read-only in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -3383,7 +3383,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly" Required="1" Valid="1">
-        <Description Translatable="1">Controls if CutomerID is editable in the agent interface.</Description>
+        <Description Translatable="1">Controls if CustomerID is read-only in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -5606,7 +5606,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly" Required="1" Valid="1">
-        <Description Translatable="1">Controls if CutomerID is editable in the agent interface.</Description>
+        <Description Translatable="1">Controls if CustomerID is read-only in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCustomer</SubGroup>
         <Setting>
