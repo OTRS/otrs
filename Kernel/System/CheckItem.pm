@@ -116,8 +116,9 @@ sub CheckEmail {
     }
     my $Error = '';
 
-    # Workaround for https://github.com/Perl-Email-Project/Email-Valid/issues/36: remove comment from address when checking.
-    $Param{Address} =~ s{ \s+ \( [^()]* \) \s* $ }{}smxg;
+    # Workaround for https://github.com/Perl-Email-Project/Email-Valid/issues/36:
+    # remove comment from address when checking.
+    $Param{Address} =~ s{ \s* \( [^()]* \) \s* $ }{}smxg;
 
     # email address syntax check
     if ( !Email::Valid->address( $Param{Address} ) ) {
