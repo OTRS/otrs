@@ -2809,7 +2809,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###State" Required="0" Valid="1">
-        <Description Translatable="1">If a note is added by an agent, sets the state of a ticket in the ticket free text screen of the agent interface.</Description>
+        <Description Translatable="1">Sets the state of a ticket in the ticket free text screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
@@ -3581,7 +3581,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###State" Required="0" Valid="1">
-        <Description Translatable="1">If a note is added by an agent, sets the state of a ticket in the close ticket screen of the agent interface.</Description>
+        <Description Translatable="1">Sets the state of a ticket in the close ticket screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
@@ -3848,7 +3848,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###State" Required="0" Valid="1">
-        <Description Translatable="1">If a note is added by an agent, sets the state of a ticket in the ticket note screen of the agent interface.</Description>
+        <Description Translatable="1">Sets the state of a ticket in the ticket note screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -4118,7 +4118,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###State" Required="0" Valid="1">
-        <Description Translatable="1">If a note is added by an agent, sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
+        <Description Translatable="1">Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
@@ -4386,7 +4386,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###State" Required="0" Valid="1">
-        <Description Translatable="1">If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
+        <Description Translatable="1">Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -4654,7 +4654,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###State" Required="0" Valid="1">
-        <Description Translatable="1">If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
+        <Description Translatable="1">Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
@@ -4923,7 +4923,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###State" Required="0" Valid="1">
-        <Description Translatable="1">If a note is added by an agent, sets the state of a ticket in the ticket responsible screen of the agent interface.</Description>
+        <Description Translatable="1">Sets the state of a ticket in the ticket responsible screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
@@ -5126,7 +5126,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###State" Required="0" Valid="1">
-        <Description Translatable="1">If a note is added by an agent, sets the state of a ticket in the ticket bulk screen of the agent interface.</Description>
+        <Description Translatable="1">Sets the state of a ticket in the ticket bulk screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
         <Setting>
