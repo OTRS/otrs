@@ -212,6 +212,7 @@ sub Run {
                 TicketID               => $TicketID,
                 ReturnType             => 'ActivityDialog',
                 ReturnSubType          => '-',
+                Action                 => $Self->{Action},
                 CustomerUserID         => $Self->{UserID},
             );
 
@@ -271,6 +272,7 @@ sub Run {
         ReturnType     => 'Process',
         ReturnSubType  => '-',
         Data           => \%ProcessListACL,
+        Action         => $Self->{Action},
         CustomerUserID => $Self->{UserID},
     );
 
@@ -515,6 +517,7 @@ sub _RenderAjax {
                 ReturnType     => 'Ticket',
                 ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data           => \%AclData,
+                Action         => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
             );
 

@@ -1,4 +1,5 @@
 #4.0.22 2017-??-??
+ - 2017-02-10 Fixed bug#[10918](https://bugs.otrs.org/show_bug.cgi?id=10918) - Reducing available processes by ACLs not possible.
  - 2017-02-03 Fixed bug#[12533](https://bugs.otrs.org/show_bug.cgi?id=12533) - Setting a Dynamic Field to = 0  in a activity dialogue does  not set the value but deletes it.
  - 2017-02-03 Fixed bug#[12577](https://bugs.otrs.org/show_bug.cgi?id=12577)(PR#1606) - Select All Checkboxes in Ticket Overview screens. Thanks to S7!
  - 2017-01-26 Fixed bug#[12547](https://bugs.otrs.org/show_bug.cgi?id=12547) - System maintenance arranges notes in time order.
