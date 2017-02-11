@@ -177,7 +177,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # import test selenium scenario
-        my $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/ProcessManagement/AgentTicketProcess.yml";
+        my $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/ProcessManagement/CustomerTicketProcess.yml";
         $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
         $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->VerifiedClick();
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
@@ -296,7 +296,7 @@ $Selenium->RunTest(
             "Ticket open state found on page",
         ) || die;
 
-        # Remeber created ticket, to delete the ticket at the end of the test.
+        # Remember created ticket, to delete the ticket at the end of the test.
         my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
         push @DeleteTicketIDs, $TicketID[1];
 
@@ -357,7 +357,7 @@ $Selenium->RunTest(
             "$EndProcessMessage message found on page",
         );
 
-        # Remeber created ticket, to delete the ticket at the end of the test.
+        # Remember created ticket, to delete the ticket at the end of the test.
         @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
         push @DeleteTicketIDs, $TicketID[1];
 
