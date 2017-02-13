@@ -5073,6 +5073,11 @@ sub _BuildSelectionDataRefCreate {
             my @Fragment = split '::', $Row->{Value};
             $Row->{Value} = pop @Fragment;
 
+            # translate the individual tree options
+            if ( $OptionRef->{Translation} ) {
+                $Row->{Value} = $Self->{LanguageObject}->Translate($Row->{Value});
+            }
+
             # TODO: Here we are combining Max with HTMLQuote, check below for the REMARK:
             # Max and HTMLQuote needs to be done before spaces insert but after the split of the
             # parents, then it is not possible to do it outside
