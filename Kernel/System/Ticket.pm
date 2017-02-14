@@ -189,10 +189,6 @@ Delete the ticket
         UserID   => 1,
     );
 
-=head1 DESCRIPTION
-
-All ticket functions.
-
 =head1 PUBLIC INTERFACE
 
 =head2 new()
