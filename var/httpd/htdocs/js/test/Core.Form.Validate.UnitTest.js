@@ -110,6 +110,20 @@ Core.Form.Validate = (function (Namespace) {
                     Desc2: 'mail address'
                 },
                 {
+                    Method: 'Validate_Email_Optional',
+                    Content1: 'abcde',
+                    Content2: 'abc@defg.xy',
+                    Desc1: 'no mails',
+                    Desc2: 'mail address'
+                },
+                {
+                    Method: 'Validate_Email_Optional',
+                    Content1: 'abcde',
+                    Content2: '',
+                    Desc1: 'no mails',
+                    Desc2: 'empty field is also allowed instead of mail address'
+                },
+                {
                     Method: 'Validate_DateYear',
                     Content1: '19988',
                     Content2: '2011',

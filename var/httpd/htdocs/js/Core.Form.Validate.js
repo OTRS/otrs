@@ -283,6 +283,17 @@ Core.Form.Validate = (function (TargetNS) {
     // If email address should be validated, this function is overwritten in Init method
     $.validator.addMethod("Validate_Email", ValidatorMethodRequired, "");
 
+
+    // Validates e-mail address in a field, but does not return an error if field is empty
+    $.validator.addMethod("Validate_Email_Optional", function (Value, Element) {
+        if (!Value.length) {
+            return true;
+        }
+        else {
+            return $.validator.methods.email.call(this, Value, Element);
+        }
+    }, "");
+
     // Use the maxlength attribute to have a dynamic validation
     // Textarea fields will need JS code to set the maxlength attribute since is not supported by
     // XHTML
@@ -584,6 +595,10 @@ Core.Form.Validate = (function (TargetNS) {
 
     $.validator.addClassRules("Validate_Email", {
         Validate_Email: true
+    });
+
+    $.validator.addClassRules("Validate_Email_Optional", {
+        Validate_Email_Optional: true
     });
 
     $.validator.addClassRules("Validate_MaxLength", {
