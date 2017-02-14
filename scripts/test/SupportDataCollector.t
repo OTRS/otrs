@@ -43,8 +43,8 @@ $SupportDataCollectorObject->{CacheObject}->CleanUp(
     Type => 'SupportDataCollector',
 );
 
-my $TimeStart   = [ Time::HiRes::gettimeofday() ];
-my %Result      = $SupportDataCollectorObject->Collect(
+my $TimeStart = [ Time::HiRes::gettimeofday() ];
+my %Result    = $SupportDataCollectorObject->Collect(
     WebTimeout => 40,
 );
 my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
