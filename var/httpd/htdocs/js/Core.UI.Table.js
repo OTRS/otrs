@@ -31,21 +31,23 @@ Core.UI.Table = (function (TargetNS) {
      *      dynamically filter a table or a list with the class TableLike (e.g. in the admin area overviews).
      */
     TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber) {
-        var Timeout,
-            $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)'),
-            $Elements = $Rows.closest('tr, li');
+        var Timeout;
 
-        // Only search in one special column of the table
-        if (typeof ColumnNumber === 'string' || typeof ColumnNumber === 'number') {
-            $Rows = $Rows.find('td:eq(' + ColumnNumber + ')');
-        }
-
-        $FilterInput.unbind('keydown.FilterInput').bind('keydown.FilterInput', function () {
+        $FilterInput.off('keydown.FilterInput').on('keydown.FilterInput', function () {
 
             window.clearTimeout(Timeout);
             Timeout = window.setTimeout(function () {
 
-                var FilterText = ($FilterInput.val() || '').toLowerCase();
+                var FilterText = ($FilterInput.val() || '').toLowerCase(),
+
+                // Get table rows again in case something has changed since page has loaded.
+                $Rows = $Container.find('tbody tr:not(.FilterMessage), li:not(.Header):not(.FilterMessage)'),
+                $Elements = $Rows.closest('tr, li');
+
+                 // Only search in one special column of the table.
+                if (typeof ColumnNumber === 'string' || typeof ColumnNumber === 'number') {
+                    $Rows = $Rows.find('td:eq(' + ColumnNumber + ')');
+                }
 
                 /**
                  * @private
@@ -109,7 +111,7 @@ Core.UI.Table = (function (TargetNS) {
         });
 
         // Prevent submit when the Return key was pressed
-        $FilterInput.unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
+        $FilterInput.off('keypress.FilterInput').on('keypress.FilterInput', function (Event) {
             if ((Event.charCode || Event.keyCode) === 13) {
                 Event.preventDefault();
             }
