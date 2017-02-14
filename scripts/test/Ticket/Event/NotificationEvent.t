@@ -301,7 +301,7 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Reorder => 0,
 );
 $Self->True(
-    $Success,
+    $FieldID,
     "DynamicFieldAdd - Added checkbox field ($FieldID)",
 );
 
@@ -319,6 +319,76 @@ $Success = $DynamicFieldValueObject->ValueSet(
 $Self->True(
     $Success,
     'ValueSet - Checkbox value set to unchecked',
+);
+
+# Create test ticket dynamic field of type text.
+$FieldID = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT2$RandomID",
+    Label      => 'Additional Email',
+    FieldOrder => 9992,
+    FieldType  => 'Text',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => '',
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+$Self->True(
+    $FieldID,
+    "DynamicFieldAdd - Added text field ($FieldID)",
+);
+
+# Set ticket dynamic field checkbox value to unchecked.
+$Success = $DynamicFieldValueObject->ValueSet(
+    FieldID  => $FieldID,
+    ObjectID => $TicketID,
+    Value    => [
+        {
+            ValueText => 'foo@bar.com',
+        },
+    ],
+    UserID => 1,
+);
+$Self->True(
+    $Success,
+    'ValueSet - Text value set to foo@bar.com',
+);
+
+# Create test ticket dynamic field of type text.
+$FieldID = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT3$RandomID",
+    Label      => 'Additional Email #2',
+    FieldOrder => 9993,
+    FieldType  => 'Text',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => '',
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+$Self->True(
+    $FieldID,
+    "DynamicFieldAdd - Added text field ($FieldID)",
+);
+
+# Set ticket dynamic field checkbox value to unchecked.
+$Success = $DynamicFieldValueObject->ValueSet(
+    FieldID  => $FieldID,
+    ObjectID => $TicketID,
+    Value    => [
+        {
+            ValueText => 'bar@foo.com',
+        },
+    ],
+    UserID => 1,
+);
+$Self->True(
+    $Success,
+    'ValueSet - Text value set to bar@foo.com',
 );
 
 my $SuccessWatcher = $TicketObject->TicketWatchSubscribe(
@@ -915,6 +985,96 @@ my @Tests = (
         ExpectedResults => [
             {
                 ToArray => ['test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'RecipientEmail additional recipient by dynamic field',
+        Data => {
+            Events         => [ 'TicketDynamicFieldUpdate_DFT2' . $RandomID . 'Update' ],
+            RecipientEmail => ["<OTRS_TICKET_DynamicField_DFT2${RandomID}>"],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT2' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => ['foo@bar.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'RecipientEmail additional recipient by dynamic field (first position)',
+        Data => {
+            Events         => [ 'TicketDynamicFieldUpdate_DFT2' . $RandomID . 'Update' ],
+            RecipientEmail => ["<OTRS_TICKET_DynamicField_DFT2${RandomID}>, test\@otrsexample.com"],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT2' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ 'foo@bar.com', 'test@otrsexample.com' ],
+                Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'RecipientEmail additional recipient by dynamic field (last position)',
+        Data => {
+            Events         => [ 'TicketDynamicFieldUpdate_DFT2' . $RandomID . 'Update' ],
+            RecipientEmail => ["test\@otrsexample.com, <OTRS_TICKET_DynamicField_DFT2${RandomID}>"],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT2' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ 'test@otrsexample.com', 'foo@bar.com' ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'RecipientEmail additional recipient by dynamic field (two fields)',
+        Data => {
+            Events         => [ 'TicketDynamicFieldUpdate_DFT3' . $RandomID . 'Update' ],
+            RecipientEmail => [
+                "<OTRS_TICKET_DynamicField_DFT3${RandomID}>, <OTRS_TICKET_DynamicField_DFT2${RandomID}>"
+            ],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT3' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ 'bar@foo.com', 'foo@bar.com' ],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],

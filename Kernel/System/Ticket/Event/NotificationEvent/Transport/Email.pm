@@ -318,10 +318,18 @@ sub GetTransportRecipients {
     # get recipients by RecipientEmail
     if ( $Param{Notification}->{Data}->{RecipientEmail} ) {
         if ( $Param{Notification}->{Data}->{RecipientEmail}->[0] ) {
+            my $RecipientEmail = $Param{Notification}->{Data}->{RecipientEmail}->[0];
+
+            # replace OTRSish attributes in recipient email
+            $RecipientEmail = $Self->_ReplaceTicketAttributes(
+                Ticket => $Param{Ticket},
+                Field  => $RecipientEmail,
+            );
+
             my %Recipient;
             $Recipient{Realname}  = '';
             $Recipient{Type}      = 'Customer';
-            $Recipient{UserEmail} = $Param{Notification}->{Data}->{RecipientEmail}->[0];
+            $Recipient{UserEmail} = $RecipientEmail;
 
             # check if we have a specified article type
             if ( $Param{Notification}->{Data}->{NotificationArticleTypeID} ) {

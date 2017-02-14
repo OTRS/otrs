@@ -71,6 +71,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.17 2017-??-??
+ - 2017-02-14 Added the possibility to configure ticket notification recipients by OTRS-tags (replaced with values from current ticket).
  - 2017-02-14 Fixed bug#[12558](https://bugs.otrs.org/show_bug.cgi?id=12558)(PR#1603) - Filtering of "Available Columns" in Allocation List is not working well when columns are changed. Thanks to S7!
  - 2017-02-13 Fixed bug#[12606](https://bugs.otrs.org/show_bug.cgi?id=12606) - In LinkObject module the class names are not translated even if they are translated in the language file.
  - 2017-02-10 Fixed bug#[12588](https://bugs.otrs.org/show_bug.cgi?id=12588) - Unicode characters crash Postmaster with HTMLUtil.pm error.
