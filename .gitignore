@@ -241,3 +241,8 @@ var/webservices/examples/JIRAConnector_pre.pm
 var/webservices/examples/OTRSConnector.yml
 var/webservices/examples/OTRSConnector_post.pm
 var/webservices/examples/OTRSConnector_pre.pm
+
+# OTRSContinuousIntegrationProvisioner (vagrant VMs)
+.cache
+.ssh
+.viminfo
