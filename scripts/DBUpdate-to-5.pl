@@ -2959,7 +2959,8 @@ A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_Ti
 
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
-                'Subject'     => 'Jegytulajdonos frissítés <OTRS_OWNER_UserLastname> <OTRS_OWNER_UserFirstname> ügyintézőre: <OTRS_TICKET_Title>'
+                'Subject' =>
+                    'Jegytulajdonos frissítés <OTRS_OWNER_UserLastname> <OTRS_OWNER_UserFirstname> ügyintézőre: <OTRS_TICKET_Title>'
             },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
@@ -3237,7 +3238,8 @@ A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_Ti
 
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
-                'Subject'     => 'Jegyfelelős frissítés <OTRS_RESPONSIBLE_UserLastname> <OTRS_RESPONSIBLE_UserFirstname> ügyintézőre: <OTRS_TICKET_Title>'
+                'Subject' =>
+                    'Jegyfelelős frissítés <OTRS_RESPONSIBLE_UserLastname> <OTRS_RESPONSIBLE_UserFirstname> ügyintézőre: <OTRS_TICKET_Title>'
             },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
@@ -3307,7 +3309,7 @@ A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_Ti
 
 -- <OTRS_CONFIG_NotificationSenderName>',
                 'ContentType' => 'text/plain',
-                'Subject'     => 'Jegyszolgáltatás frissítve <OTRS_TICKET_Service> szolgáltatásra: <OTRS_TICKET_Title>'
+                'Subject' => 'Jegyszolgáltatás frissítve <OTRS_TICKET_Service> szolgáltatásra: <OTRS_TICKET_Title>'
             },
             'pt_BR' => {
                 'Body' => 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,

@@ -95,7 +95,7 @@ $Selenium->RunTest(
                         },
                     },
                 },
-                ConfigChange   => {
+                ConfigChange => {
                     Possible => {
                         'Ticket' => {
                             'DynamicField_TestDropdownACLProcess' => [ 'a', 'b', 'c' ],
@@ -124,10 +124,10 @@ $Selenium->RunTest(
                         },
                     },
                 },
-                ConfigChange   => {
+                ConfigChange => {
                     Possible => {
                         'Ticket' => {
-                            'DynamicField_TestDropdownACLProcess' => [ 'd' ],
+                            'DynamicField_TestDropdownACLProcess' => ['d'],
                         },
                     },
                 },
