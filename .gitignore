@@ -245,3 +245,8 @@ OTRSBusinessSeleniumTesting.sopm
 # OTRSApointmentCalendar
 Kernel/System/Calendar/
 scripts/test/Calendar/
+
+# OTRSContinuousIntegrationProvisioner (vagrant VMs)
+.cache
+.ssh
+.viminfo
