@@ -319,6 +319,7 @@ sub Run {
             # get special recipients specific for each transport
             my @TransportRecipients = $TransportObject->GetTransportRecipients(
                 Notification => \%Notification,
+                Ticket       => \%Ticket,
             );
 
             next TRANSPORT if !@TransportRecipients;

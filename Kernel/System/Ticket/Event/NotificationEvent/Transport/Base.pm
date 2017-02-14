@@ -67,9 +67,9 @@ returns:
 
     @TransportRecipents = (
         {
-            UserEmail    => 'some email',       # optional
-            UserFisrname => 'some name',        # optional
-            # ...                               # optional
+            UserEmail     => 'some email',       # optional
+            UserFirstname => 'some name',        # optional
+            # ...                                # optional
         }
     );
 
