@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.995290745290745;
+    $Self->{Completeness}        = 0.992024539877301;
 
     # csv separator
     $Self->{Separator} = '';
@@ -2817,8 +2817,10 @@ sub Data {
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             '只搜索From、To、Cc、主题和信件正文，不管其它属性。',
         'CustomerID (complex search)' => 'CustomerID(复合搜索)',
+        '(e. g. 234*)' => '',
         'CustomerID (exact match)' => 'CustomerID(精确匹配)',
         'Customer User Login (complex search)' => '客户联系人登录名(复合搜索)',
+        '(e. g. U51*)' => '',
         'Customer User Login (exact match)' => '客户联系人登录名(精确匹配)',
         'Attachment Name' => '附件名',
         '(e. g. m*file or myfi*)' => '（例如：m*file或myfi*）',
@@ -3659,6 +3661,8 @@ sub Data {
         'No preferences for %s!' => '没有%s的偏好设置！',
         'Can\'t get element data of %s!' => '不能获得%s 的元素数据！',
         'Can\'t get filter content data of %s!' => '不能获得%s 的过滤器内容数据！',
+        'Customer Company Name' => '',
+        'Customer User ID' => '',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '需要SourceObject（源对象）和SourceKey（源键）！',
@@ -3707,7 +3711,9 @@ sub Data {
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             '你要么没有选择工单，要么只选择了已被其他服务人员锁定的工单。',
         'You need to select at least one ticket.' => '你需要选择至少一个工单。',
-        'Ticket is locked by another agent and will be ignored!' => '工单已被其他服务人员锁定，将被忽略！',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
+            '',
+        'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Can not determine the ArticleType!' => '不能确定信件类型！',
@@ -4286,6 +4292,9 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
         'Package List' => '软件包列表',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
+        'Session Config Settings' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
         'Spooled Emails' => '假脱机邮件',
         'There are emails in var/spool that OTRS could not process.' => 'var/spool目录下有一些OTRS无法处理的邮件。',
@@ -4777,8 +4786,9 @@ Thanks for your help!
             '配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查开发手册（http://otrs.github.io/doc/）的“Ticket Event Module（工单事件模块）”章节。',
         'Controls how to display the ticket history entries as readable values.' =>
             '控制如何显示工单历史条目为可读值。',
-        'Controls if CustomerID is editable in the agent interface.' => '',
-        'Controls if CutomerID is editable in the agent interface.' => '控制在服务人员界面中客户ID能否编辑。',
+        'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
+            '',
+        'Controls if CustomerID is read-only in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             '控制客户能否对他们的工单排序。',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -5884,22 +5894,6 @@ Thanks for your help!
             '如果日志模块选用了“SysLog”，可以指定记录日志的字符集。',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '如果日志模块选用了“文件”，必须指定日志文件名。如果文件不存在，系统会创建它。',
-        'If a note is added by an agent, sets the state of a ticket in the close ticket screen of the agent interface.' =>
-            '在服务人员界面工单关闭窗口，如果服务人员添加了一个备注，设置工单的状态。',
-        'If a note is added by an agent, sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
-            '在服务人员界面工单批量操作窗口，如果服务人员添加了一个备注，设置工单的状态。',
-        'If a note is added by an agent, sets the state of a ticket in the ticket free text screen of the agent interface.' =>
-            '在服务人员界面工单自定义字段窗口，如果服务人员添加了一个备注，设置工单的状态。',
-        'If a note is added by an agent, sets the state of a ticket in the ticket note screen of the agent interface.' =>
-            '在服务人员界面工单备注窗口，如果服务人员添加了一个备注，设置工单的状态。',
-        'If a note is added by an agent, sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
-            '在服务人员界面工单负责人窗口，如果服务人员添加了一个备注，设置工单的状态。',
-        'If a note is added by an agent, sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '在服务人员界面工单所有者窗口，如果服务人员添加了一个备注，设置工单的状态。',
-        'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '在服务人员界面工单挂起窗口，如果服务人员添加了一个备注，设置工单的状态。',
-        'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '在服务人员界面工单优先级窗口，如果服务人员添加了一个备注，设置工单的状态。',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             '如果激活此选项，没有正则表达式能够匹配允许用户注册的邮件地址。',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -6504,6 +6498,22 @@ Thanks for your help!
             '设置服务人员界面工单优先级窗口的服务（需要激活工单::服务）。',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
             '设置服务人员界面工单负责人窗口的服务（需要激活工单::服务）。',
+        'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket free text screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket note screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
         'Sets the stats hook.' => '设置统计挂钩。',
         'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
             '设置系统时区（需要系统采用UTC时间，否则与本地时间会有时间差）。',

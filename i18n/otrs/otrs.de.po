@@ -1,14 +1,17 @@
 # 
 # Translators:
+# Christian Mikschik, 2017
 # christopher.kuhn <christopher.kuhn@otrs.com>, 2016
 # Daniel Schliemann <daniel.schliemann@googlemail.com>, 2016
 # Dominik <dominik@reichardt-online.it>, 2015
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2016
 # Florian Edlhuber <florian.edlhuber@otrs.com>, 2015-2016
+# Florian Liebe <trash@irthen.com>, 2017
 # Gunther Müller <anonym50000@gmail.com>, 2016
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # jb_otrs <jens.bothe@otrs.com>, 2014,2016
 # Jonas Kohls <Jonas.kohls@outlook.de>, 2016
+# Lukas, 2017
 # Marc A. Bonsels, 2014
 # Mainboarder, 2014
 # Mainboarder, 2014-2015
@@ -25,6 +28,7 @@
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # Patrik Z., 2016
 # Ralf Hildebrandt (hildeb) <ralf.hildebrandt@gmail.com>, 2016
+# Rik sof <khan.jonas@riksof.com>, 2017
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
 # Rudy R <rudy.rohde@googlemail.com>, 2015
 # ru_otrs <robert.ullrich@otrs.com>, 2014
@@ -34,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-01-16 17:40+0000\n"
-"PO-Revision-Date: 2017-01-16 23:41+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-02-14 12:56+0000\n"
+"Last-Translator: Florian Liebe <trash@irthen.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3142,7 +3146,7 @@ msgstr "Die ersten fünf Zeilen der Nachricht"
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Um den Namen des Kunden-Benutzer (falls vorhanden) eines Tickets zu erhalten."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -6348,23 +6352,23 @@ msgstr "Prozesskonfiguration importieren"
 
 #. Template: AdminProcessManagement
 msgid "Ready-to-run Processes"
-msgstr ""
+msgstr "Lauffähige Prozesse"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can activate ready-to-run processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr ""
+msgstr "Hier können Sie von uns erstellte lauffähige Prozesse zur Demonstration aktivieren. Bitte beachten Sie, dass eventuell weitere Einstellungen erforderlich sind."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Would you like to benefit from processes created by experts? Upgrade to %s "
 "to import some sophisticated ready-to-run processes."
-msgstr ""
+msgstr "Möchten Sie von Prozessen profitieren, die von Experten erstellt wurden? Dann wechseln Sie auf die %s, um ausgefeilte Prozesse zur sofortigen Nutzung importieren zu können."
 
 #. Template: AdminProcessManagement
 msgid "Import ready-to-run process"
-msgstr ""
+msgstr "Prozess zur sofortigen Nutzung importieren"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -9793,11 +9797,11 @@ msgstr "Ein interner Fehler ist aufgetreten."
 
 #. Template: CustomerFooterJS
 msgid "Connection error"
-msgstr ""
+msgstr "Verbindungsfehler"
 
 #. Template: CustomerFooterJS
 msgid "Reload page"
-msgstr ""
+msgstr "Seite aktualisieren"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9805,7 +9809,7 @@ msgid ""
 "be something wrong with your network connection. You could either try "
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
-msgstr ""
+msgstr "Ihr Browser konnte keine Verbunding mit OTRS herstellen, es scheint an ihrere Netzwerk Verbindung zu liegen. Sie könnten versuchen die Seite manuell neu zu Laden oder warten bis ihr Browser die Verbindung wieder herstellt."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9813,7 +9817,7 @@ msgid ""
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
 "recommended to reload this page."
-msgstr ""
+msgstr "Die Verbindungen wurde nach einer kurzen Unterbrechung wiederhergestellt. Aus diesem Grund könnte es sein das einige Elemente der Seite nicht korrekt funktionieren. Um alle Elemente erneut korrekt nutzen zu können sollten Sie ihre Seite neue laden."
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -11374,7 +11378,7 @@ msgstr "Kann %s nicht lesen!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "File is OK"
-msgstr ""
+msgstr "Datei ist OK"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
@@ -12378,7 +12382,7 @@ msgstr "Weitergeleitete Nachricht"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Removed User Subscription"
-msgstr ""
+msgstr "Benutzer-Abonnement entfernt"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
@@ -12402,7 +12406,7 @@ msgstr "Automatische Antwort gesendet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Reject Sent"
-msgstr ""
+msgstr "Automatische Ablehnung gesendet"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time In Effect"
@@ -12889,15 +12893,15 @@ msgstr "nicht installiert"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
-msgstr ""
+msgstr "Datei ist nicht installiert!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is different!"
-msgstr ""
+msgstr "Datei unterschiedlich!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
-msgstr ""
+msgstr "Datei kann nicht gelesen werden!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -20290,13 +20294,13 @@ msgstr "Übermitteln der Registrierungsinformationen an die OTRS Group."
 msgid ""
 "Sends reminder notifications of unlocked ticket after reaching the reminder "
 "date (only sent to ticket owner)."
-msgstr ""
+msgstr "Sendet eine Erinnerung eines Entsperrten Tickets nachdem das Erinnerungsdatum erreicht wurde. (Nur zum Besitzer des Tickets gesendet)."
 
 #. SysConfig
 msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Notfication (Event)\"."
-msgstr ""
+msgstr "Sendet eine Benachrichtigung welche im Admin Menü unter \"Benachrichtig (Event)\" eingestellt werden kann."
 
 #. SysConfig
 msgid "Serbian Cyrillic"
@@ -22186,7 +22190,7 @@ msgstr "Tickets."
 msgid ""
 "Time in seconds that gets added to the actual time if setting a pending-"
 "state (default: 86400 = 1 day)."
-msgstr ""
+msgstr "Zeit in Sekunden wird der aktuellen Zeit hinzugefügt wenn ein unerledigter-zustand gesetzt wird (Standard: 86400 = 1 Tag)."
 
 #. SysConfig
 msgid "Title updated: Old: \"%s\", New: \"%s\""
@@ -22331,13 +22335,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
-msgstr ""
+msgstr "Nutzt richtext zum betrachten und bearbeiten von Ticket-Benachrichtigungen."
 
 #. SysConfig
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
-msgstr ""
+msgstr "Nutzt richtext zum betrachten und bearbeiten von: Artikeln, Begrüßungen, Signaturen, Standard Vorlagen, Automatische Antworten und Benachrichtigungen."
 
 #. SysConfig
 msgid "Vietnam"
@@ -22420,7 +22424,7 @@ msgstr "Die Auswahl ihrer bevorzugten (abbonnierten) Queues. Sie werden auch per
 msgid ""
 "Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr ""
+msgstr "Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diesen ausgewählten Services versendet, falls aktiviert."
 
 #. SysConfig
 msgid "attachment"

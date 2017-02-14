@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.99979524979525;
+    $Self->{Completeness}        = 0.996319018404908;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2817,8 +2817,10 @@ sub Data {
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Pretrage u atributima Od, Do, Cc, Predmet i telu članka, redefinišu druge atribute sa istim imenom.',
         'CustomerID (complex search)' => 'ID klijenta (složena pretraga)',
+        '(e. g. 234*)' => '',
         'CustomerID (exact match)' => 'ID klijenta (tačno poklapanje)',
         'Customer User Login (complex search)' => 'Prijava klijenta korisnika (složena pretraga)',
+        '(e. g. U51*)' => '',
         'Customer User Login (exact match)' => 'Prijava klijenta korisnika (tačno poklapanje)',
         'Attachment Name' => 'Naziv priloga',
         '(e. g. m*file or myfi*)' => '(npr m*file ili myfi*)',
@@ -3660,6 +3662,8 @@ sub Data {
         'No preferences for %s!' => 'Nema postavki za %s!',
         'Can\'t get element data of %s!' => 'Ne mogu pribaviti podatke elementa za „%s”!',
         'Can\'t get filter content data of %s!' => 'Ne mogu pribaviti podatke sardžaja filtera za „%s”!',
+        'Customer Company Name' => '',
+        'Customer User ID' => '',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Neophodan izvorni objekt i izvorni ključ!',
@@ -3708,7 +3712,9 @@ sub Data {
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             'Niste selektovali ni jedan tiket ili samo tikete koje su zaključali drugi operateri.',
         'You need to select at least one ticket.' => 'Neophodno je da izaberete bar jedan tiket.',
-        'Ticket is locked by another agent and will be ignored!' => 'Tiket je zaključan od strane drugog operatera i biće ignorisan!',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
+            '',
+        'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Can not determine the ArticleType!' => 'Nije moguće utvrditi Tip članka.',
@@ -4287,6 +4293,9 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
         'Package List' => 'Lista paketa',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
+        'Session Config Settings' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
         'Spooled Emails' => 'Imejlovi u redu čekanja',
         'There are emails in var/spool that OTRS could not process.' => 'Postoje imejlovi u var/spool koje OTRS ne može da obradi.',
@@ -4780,8 +4789,9 @@ Vaša tehnička podrška
             'Konfiguriše podrazumevana podešavanja dinamičkog polja tiketa. „Name” definiše dinamičko polje koje će biti korišćeno, „Value” je podatak koji će biti podešen, a „Event” definiše okidač događaja. Molimo konsultujte uputstvo za programere (http://otrs.github.io/doc/), poglavlje "Modul događaja tiketa".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontroliše način prikaza istorijskih unosa tiketa kao čitljivih vrednosti. ',
-        'Controls if CustomerID is editable in the agent interface.' => 'Kontroliše da li je ID klijenta izmenljiv u interfejsu operatera.',
-        'Controls if CutomerID is editable in the agent interface.' => 'Kontroliše da li je ID klijenta u interfejsu operatera izmenljiv.',
+        'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
+            '',
+        'Controls if CustomerID is read-only in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontroliše da li klijenti imaju mogućnost da sortiraju svoje tikete.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -5887,22 +5897,6 @@ Vaša tehnička podrška
             'Ukoliko je podešen SysLog za LogModule, može biti definisan karakterset za logovanje.',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'Ukoliko je podešen File za LogModule, mora biti definisana lokacija log datoteke. Ukoliko datoteka ne postoji, biće kreirana od strane sistema.',
-        'If a note is added by an agent, sets the state of a ticket in the close ticket screen of the agent interface.' =>
-            'Ako je operater dodao napomenu, podešava status tiketa u prikazu ekrana zatvaranja tiketa interfejsa operatera.',
-        'If a note is added by an agent, sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
-            'Ako je operater dodao napomenu, podešava status tiketa na ekranu masovne akcije tiketa interfejsa operatera.',
-        'If a note is added by an agent, sets the state of a ticket in the ticket free text screen of the agent interface.' =>
-            'Ako je operater dodao napomenu, podešava status tiketa na ekranu slobodnog teksta tiketa interfejsa operatera.',
-        'If a note is added by an agent, sets the state of a ticket in the ticket note screen of the agent interface.' =>
-            'Ako je operater dodao napomenu, podešava status tiketa na ekranu napomene tiketa interfejsa operatera.',
-        'If a note is added by an agent, sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
-            'Ako je operater dodao napomenu, podešava status tiketa na ekranu odgovornog za tiket interfejsa operatera.',
-        'If a note is added by an agent, sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'Ako je operater dodao napomenu, podešava status tiketa na ekranu vlasnika tiketa u detaljnom prikazu tiketa interfejsa operatera.',
-        'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            'Ako je operater dodao napomenu, podešava status tiketa na ekranu tiketa na čekanju u detaljnom prikazu tiketa interfejsa operatera.',
-        'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'Ako je operater dodao napomenu, podešava status tiketa na ekranu prioriteta tiketa u detaljnom prikazu tiketa interfejsa operatera.',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             'Ako je aktivno, ni jedan regularni izraz se ne može poklopiti sa korisnikovom imejl adresom da bi dozvolio registraciju.',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -6507,6 +6501,22 @@ Vaša tehnička podrška
             'Podešava servis na ekranu prioriteta tiketa na detaljnom pregledu tiketa u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
             'Podešava servis na ekranu odgovornog za tiket u interfejsu operatera (neophodno je aktivirati Ticket::Service).',
+        'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket free text screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket note screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
         'Sets the stats hook.' => 'Definiše oznaku za statistike.',
         'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
             'Podešava sistemsku vremensku zonu (neophodan je sistem sa „UTC” kao sistemskim vremenom). Inače ovo je vremenska razlika u odnosu na lokalno vreme.',

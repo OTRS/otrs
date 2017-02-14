@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.76023751023751;
+    $Self->{Completeness}        = 0.757464212678937;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2811,8 +2811,10 @@ sub Data {
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Buscas nos atributos De, A, Cc, Tema e o corpo do artigo,  outros atributos primordiais co mesmo nome.',
         'CustomerID (complex search)' => '',
+        '(e. g. 234*)' => '',
         'CustomerID (exact match)' => '',
         'Customer User Login (complex search)' => '',
+        '(e. g. U51*)' => '',
         'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Nome do anexo',
         '(e. g. m*file or myfi*)' => '(p.ex. ome*fichiero ou omeufich*)',
@@ -3653,6 +3655,8 @@ sub Data {
         'No preferences for %s!' => '',
         'Can\'t get element data of %s!' => '',
         'Can\'t get filter content data of %s!' => '',
+        'Customer Company Name' => '',
+        'Customer User ID' => '',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
@@ -3701,7 +3705,9 @@ sub Data {
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             '',
         'You need to select at least one ticket.' => '',
-        'Ticket is locked by another agent and will be ignored!' => 'Ticket está bloqueado por outro axente e vai ser ignorado!',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
+            '',
+        'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Can not determine the ArticleType!' => '',
@@ -4280,6 +4286,9 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
         'Package List' => 'Lista de paquetes',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
+        'Session Config Settings' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
         'Spooled Emails' => '',
         'There are emails in var/spool that OTRS could not process.' => '',
@@ -4762,8 +4771,9 @@ Thanks for your help!
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Controla cómo mostrar o historial do ticket coma valores lexibles.',
-        'Controls if CustomerID is editable in the agent interface.' => '',
-        'Controls if CutomerID is editable in the agent interface.' => '',
+        'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
+            '',
+        'Controls if CustomerID is read-only in the agent interface.' => '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Controla se os clientes teñen a capacidade de ordenar os seus tíckets.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -5869,22 +5879,6 @@ Thanks for your help!
             'Se "SysLog" foi seleccionado para LogModulo, o conxunto de carácteres que debe ser usado para logearse pode ser especificado.',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'Se "Arquivo" foi seleccionado para LogModulo, un arquivo log debe ser especificado. Se o arquivo non existe, será creado polo sistema.',
-        'If a note is added by an agent, sets the state of a ticket in the close ticket screen of the agent interface.' =>
-            'Se unha nota é engadida por un axente, establece o estado dun ticket na pantalla ticket pechado da interface de axente.',
-        'If a note is added by an agent, sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
-            'Se unha nota é engadida por un axente, establece o estado dun ticket na pantalla ticket masivo da interface de axente.',
-        'If a note is added by an agent, sets the state of a ticket in the ticket free text screen of the agent interface.' =>
-            'Se unha nota é engadida por un axente, establece o estado dun ticket na pantalla texto libre de ticket da interface de axente.',
-        'If a note is added by an agent, sets the state of a ticket in the ticket note screen of the agent interface.' =>
-            'Se unha nota é engadida por un axente, establece o estado dun ticket na pantalla nota de ticket da interface de axente.',
-        'If a note is added by an agent, sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
-            'Se unha nota é engadida por un axente, establece o estado dun ticket na pantalla responsable do ticket da interface de axente.',
-        'If a note is added by an agent, sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'Se unha nota é engadida por un axente, establece o estado dun ticket na pantalla propietario do ticket dun ticket zoom da interface de axente.',
-        'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            'Se unha nota é engadida por un axente, establece o estado dun ticket na pantalla ticket pendente dun ticket zoom da interface de axente.',
-        'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'Se unha nota é engadida por un axente, establece o estado dun ticket na pantalla prioridade do ticket dun ticket zoom da interface de axente.',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             'Se activo, ninguna das expresións regulares poden coincidir  co enderezo de correo electrónico do usuario para permitir o rexistro.',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -6489,6 +6483,22 @@ Thanks for your help!
             'Establece o servizo na pantalla prioridade de ticketdun ticket zoom na interface de axente (Ticket::Service necesita ser activado).',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
             'Establece o servizo na pantalla responsable de ticket da interface de axente (Ticket::Service necesita ser activado).',
+        'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket free text screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket note screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
         'Sets the stats hook.' => 'Establece o enganche as estatísticas.',
         'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
             'Establece a zona de tempo de sistema (necesario un sistema con UTC como tempo de sistema). Doutra maneira isto é un tempo diferente ao tempo local.',
