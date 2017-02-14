@@ -5263,7 +5263,7 @@ sub _BuildSelectionDataRefCreate {
 
             # translate the individual tree options
             if ( $OptionRef->{Translation} ) {
-                $Row->{Value} = $Self->{LanguageObject}->Translate($Row->{Value});
+                $Row->{Value} = $Self->{LanguageObject}->Translate( $Row->{Value} );
             }
 
             # TODO: Here we are combining Max with HTMLQuote, check below for the REMARK:

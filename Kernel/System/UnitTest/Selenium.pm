@@ -532,7 +532,7 @@ sub DEMOLISH {
     );
 
     for my $LeftoverFirefoxProfile (@LeftoverFirefoxProfiles) {
-        if (-d $LeftoverFirefoxProfile) {
+        if ( -d $LeftoverFirefoxProfile ) {
             File::Path::remove_tree($LeftoverFirefoxProfile);
         }
     }
