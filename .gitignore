@@ -140,3 +140,4 @@ var/httpd/htdocs/skins/Customer/default/css/DynamicFieldDatabase.css
 .cache
 .ssh
 .viminfo
+.bash*
