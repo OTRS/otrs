@@ -250,3 +250,4 @@ scripts/test/Calendar/
 .cache
 .ssh
 .viminfo
+.bash*
