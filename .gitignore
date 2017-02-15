@@ -246,3 +246,4 @@ var/webservices/examples/OTRSConnector_pre.pm
 .cache
 .ssh
 .viminfo
+.bash*
