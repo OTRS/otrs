@@ -206,7 +206,7 @@ sub ProviderProcessRequest {
 
     # convert charset if necessary
     my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A ( .+ ) ;charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
+    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A ( .+ ) (;|;\s) charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
 
         # remember content type for the response
         $Self->{ContentType} = $1;
@@ -881,7 +881,7 @@ sub _Output {
     $Param{HTTPCode} ||= 500;
     my $ContentType;
     if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'application/soap+xml';
+        $ContentType = 'text/plain';
         if ( $Self->{ContentType} ) {
             $ContentType = $Self->{ContentType};
         }
