@@ -24,11 +24,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::LinkObject - to link objects like tickets, faqs, ...
+Kernel::System::LinkObject - to link objects like tickets, faq entries, ...
 
 =head1 DESCRIPTION
 
-All functions to link objects like tickets, faqs, ...
+All functions to link objects like tickets, faq entries, ...
 
 =head1 PUBLIC INTERFACE
 
@@ -2306,9 +2306,10 @@ sub ObjectDescriptionGet {
 
 =head2 ObjectSearch()
 
-return a hash reference of the search results
+return a hash reference of the search results.
 
-Return
+Returns:
+
     $ObjectList = {
         Ticket => {
             NOTLINKED => {

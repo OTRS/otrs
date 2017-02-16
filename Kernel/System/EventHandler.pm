@@ -34,8 +34,8 @@ for the given event, or queue them for later execution (so-called
 'Transaction' events).
 
 In the destructor, you should add a call to L</EventHandlerTransaction()>
-to make sure that also 'Transaction' events will be executed correctly.
-This is only neccessary if you use 'Transaction' events in your class.
+to make sure that also C<Transaction> events will be executed correctly.
+This is only necessary if you use C<Transaction> events in your class.
 
 =head1 PUBLIC INTERFACE
 

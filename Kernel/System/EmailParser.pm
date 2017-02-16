@@ -221,7 +221,7 @@ sub GetEmailAddress {
 
 =head2 GetRealname()
 
-To get the senders realname back.
+to get the sender's C<RealName>.
 
     my $Realname = $ParserObject->GetRealname(
         Email => 'Juergen Weber <juergen.qeber@air.com>',
@@ -280,7 +280,7 @@ Returns the message body (or from the first attachment) "ContentType" header.
 
     my $ContentType = $ParserObject->GetContentType();
 
-(e. g. 'text/plain; charset="iso-8859-1"')
+    (e. g. 'text/plain; charset="iso-8859-1"')
 
 =cut
 
@@ -298,7 +298,7 @@ Returns the message body (or from the first attachment) "charset".
 
     my $Charset = $ParserObject->GetCharset();
 
-(e. g. iso-8859-1, utf-8, ...)
+    (e. g. iso-8859-1, utf-8, ...)
 
 =cut
 

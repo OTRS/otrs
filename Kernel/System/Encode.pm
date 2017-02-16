@@ -292,7 +292,7 @@ sub EncodeInput {
 
 =head2 EncodeOutput()
 
-Convert utf-8 to a sequence of octets. All possible characters have
+Convert utf-8 to a sequence of bytes. All possible characters have
 a UTF-8 representation so this function cannot fail.
 
 This should be used in for output of utf-8 chars.

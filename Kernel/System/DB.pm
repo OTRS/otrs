@@ -1121,8 +1121,8 @@ generate SQL condition query based on a search expression
     )
 
 Note that the comparisons are usually performed case insensitively.
-Only VARCHAR colums with a size less or equal 3998 are supported,
-as for locator objects the functioning of SQL function LOWER() can't
+Only C<VARCHAR> columns with a size less or equal 3998 are supported,
+as for locator objects the functioning of SQL function C<LOWER()> can't
 be guaranteed.
 
 =cut

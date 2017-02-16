@@ -340,10 +340,10 @@ get list of customer companies.
 
 Returns:
 
-%List = {
-          'example.com' => 'example.com Customer Inc.',
-          'acme.com'    => 'acme.com Acme, Inc.'
-        };
+    %List = {
+        'example.com' => 'example.com Customer Inc.',
+        'acme.com'    => 'acme.com Acme, Inc.'
+    };
 
 =cut
 

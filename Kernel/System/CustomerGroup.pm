@@ -145,7 +145,7 @@ if GroupID is passed:
 returns a list of users of a group with ro/move_into/create/owner/priority/rw permissions
 
 if UserID is passed:
-returns a list of groups for userID with ro/move_into/create/owner/priority/rw permissions
+returns a list of groups for C<UserID> with ro/move_into/create/owner/priority/rw permissions
     UserID: user id
     GroupID: group id
     Type: ro|move_into|priority|create|rw
