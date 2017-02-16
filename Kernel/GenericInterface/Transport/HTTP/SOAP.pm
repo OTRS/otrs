@@ -881,7 +881,7 @@ sub _Output {
     $Param{HTTPCode} ||= 500;
     my $ContentType;
     if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'text/plain';
+        $ContentType = 'text/xml';
         if ( $Self->{ContentType} ) {
             $ContentType = $Self->{ContentType};
         }
