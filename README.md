@@ -50,13 +50,13 @@ Perl
 - Perl 5.16.0 or higher
 
 Webserver
-- Webserver with CGI support (CGI is not recommended)
 - Apache2 + mod_perl2 or higher (recommended)
+- Webserver with CGI support (CGI is not recommended)
 
 Databases
 - MySQL 5.0 or higher
 - MariaDB
-- PostgreSQL 8.4 or higher
+- PostgreSQL 9.0 or higher
 - Oracle 10g or higher
 
 Browsers
