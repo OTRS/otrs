@@ -164,7 +164,7 @@ indicate which arguments it can process.
 Please note that required arguments have to be specified before any optional ones.
 
 The information about known arguments and options (see below) will be used to generate
-usage help and also to automatically verify the data provided by the user on the commandline.
+usage help and also to automatically verify the data provided by the user on the command line.
 
 =cut
 
@@ -201,7 +201,7 @@ sub AddArgument {
 
 =head2 GetArgument()
 
-fetch an argument value as provided by the user on the commandline.
+fetch an argument value as provided by the user on the command line.
 
     my $Filename = $CommandObject->GetArgument('filename');
 
@@ -292,7 +292,7 @@ sub AddOption {
 
 =head2 GetOption()
 
-fetch an option as provided by the user on the commandline.
+fetch an option as provided by the user on the command line.
 
     my $Iterations = $CommandObject->GetOption('iterations');
 
@@ -363,7 +363,7 @@ sub PostRun {
 
 =head2 Execute()
 
-this method will parse/validate the commandline arguments supplied by the user.
+this method will parse/validate the command line arguments supplied by the user.
 If that was ok, the Run() method of the command will be called.
 
 =cut
@@ -477,7 +477,7 @@ sub Execute {
 =head2 ExitCodeError()
 
 returns an exit code to signal something went wrong (mostly for better
-code readabiliby).
+code readability).
 
     return $CommandObject->ExitCodeError();
 
@@ -661,7 +661,7 @@ sub _ParseGlobalOptions {
 
 =head2 _ParseCommandlineArguments()
 
-parses and validates the commandline arguments provided by the user according to
+parses and validates the command line arguments provided by the user according to
 the configured arguments and options of the command.
 
 Returns a hash with argument and option values if all needed values were supplied

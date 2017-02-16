@@ -20,11 +20,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::StandardTemplate - std template lib
+Kernel::System::StandardTemplate - standard template lib
 
 =head1 DESCRIPTION
 
-All std template functions. E. g. to add std template or other functions.
+All standard template functions. E. g. to add standard template or other functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -48,7 +48,7 @@ sub new {
 
 =head2 StandardTemplateAdd()
 
-add new std template
+add new standard template
 
     my $ID = $StandardTemplateObject->StandardTemplateAdd(
         Name         => 'New Standard Template',
@@ -119,7 +119,7 @@ sub StandardTemplateAdd {
 
 =head2 StandardTemplateGet()
 
-get std template attributes
+get standard template attributes
 
     my %StandardTemplate = $StandardTemplateObject->StandardTemplateGet(
         ID => 123,
@@ -241,7 +241,7 @@ sub StandardTemplateDelete {
 
 =head2 StandardTemplateUpdate()
 
-update std template attributes
+update standard template attributes
 
     $StandardTemplateObject->StandardTemplateUpdate(
         ID           => 123,
@@ -307,7 +307,7 @@ sub StandardTemplateUpdate {
 
 =head2 StandardTemplateLookup()
 
-return the name or the std template id
+return the name or the standard template id
 
     my $StandardTemplateName = $StandardTemplateObject->StandardTemplateLookup(
         StandardTemplateID => 123,
@@ -385,7 +385,7 @@ sub StandardTemplateLookup {
 
 =head2 StandardTemplateList()
 
-get all valid std templatess
+get all valid standard templates
 
     my %StandardTemplates = $StandardTemplatesObject->StandardTemplateList();
 
@@ -396,7 +396,7 @@ Returns:
         3 => 'Some Name3',
     );
 
-get all std templates
+get all standard templates
 
     my %StandardTemplates = $StandardTemplateObject->StandardTemplateList(
         Valid => 0,
@@ -408,7 +408,7 @@ Returns:
         2 => 'Some Name2',
     );
 
-get std templates from a certain type
+get standard templates from a certain type
     my %StandardTemplates = $StandardTemplateObject->StandardTemplateList(
         Valid => 0,
         Type  => 'Answer',

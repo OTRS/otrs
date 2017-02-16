@@ -20,11 +20,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::VirtualFS - virtual fs lib
+Kernel::System::VirtualFS - virtual filesystem lib
 
 =head1 DESCRIPTION
 
-All virtual fs functions.
+All virtual filesystem functions.
 
 =head1 PUBLIC INTERFACE
 

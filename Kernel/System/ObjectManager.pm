@@ -40,7 +40,7 @@ Kernel::System::ObjectManager - Central singleton manager and object instance ge
 
 =head1 SYNOPSIS
 
-    # In toplevel scripts only!
+    # In top level scripts only!
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     # Everywhere: get a singleton instance (and create it, if needed).
@@ -63,7 +63,7 @@ are destroyed in the correct order, based on their dependencies (see below).
 
 =head2 How to use it?
 
-The ObjectManager must always be provided to OTRS by the toplevel script like this:
+The ObjectManager must always be provided to OTRS by the top level script like this:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
@@ -132,7 +132,7 @@ flag (this will not work with C<L</Get()>>).
 
 Creates a new instance of Kernel::System::ObjectManager.
 
-This is typically B<only> needed in toplevel (bin/) scripts! All parts of the OTRS API assume
+This is typically B<only> needed in top level (C<bin/>) scripts! All parts of the OTRS API assume
 the ObjectManager to be present in C<$Kernel::OM> and use it.
 
 Sometimes objects need parameters to be sent to their constructors,

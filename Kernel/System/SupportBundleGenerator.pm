@@ -64,8 +64,8 @@ sub new {
 
 =head2 Generate()
 
-Generates a support bundle tar or tar.gz with the following contents: Registration Information,
-Support Data, Installed Packages, and another tar or tar.gz with all changed or new files in the
+Generates a support bundle C<.tar> or C<.tar.gz> with the following contents: Registration Information,
+Support Data, Installed Packages, and another C<.tar> or C<.tar.gz> with all changed or new files in the
 OTRS installation directory.
 
     my $Result = $SupportBundleGeneratorObject->Generate();
@@ -270,12 +270,12 @@ sub Generate {
 
 =head2 GenerateCustomFilesArchive()
 
-Generates a .tar or tar.gz file with all eligible changed or added files taking the ARCHIVE file as
-a reference
+Generates a C<.tar> or C<.tar.gz> file with all eligible changed or added files taking the ARCHIVE file as a reference
 
     my ( $Content, $Filename ) = $SupportBundleGeneratorObject->GenerateCustomFilesArchive();
 
 Returns:
+
     $Content  = $FileContentsRef;
     $Filename = 'application.tar';      # or 'application.tar.gz'
 
@@ -439,11 +439,12 @@ sub GeneratePackageList {
 
 =head2 GenerateRegistrationInfo()
 
-Generates a .json file with the otrs system registration information
+Generates a C<.json> file with the otrs system registration information
 
     my ( $Content, $Filename ) = $SupportBundleGeneratorObject->GenerateRegistrationInfo();
 
 Returns:
+
     $Content  = $FileContentsRef;
     $Filename = 'RegistrationInfo.json';
 
@@ -488,11 +489,12 @@ sub GenerateRegistrationInfo {
 
 =head2 GenerateSupportData()
 
-Generates a .json file with the support data
+Generates a C<.json> file with the support data
 
     my ( $Content, $Filename ) = $SupportBundleGeneratorObject->GenerateSupportData();
 
 Returns:
+
     $Content  = $FileContentsRef;
     $Filename = 'GenerateSupportData.json';
 

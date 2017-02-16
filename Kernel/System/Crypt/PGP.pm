@@ -636,7 +636,7 @@ sub Verify {
 
 =head2 KeySearch()
 
-returns a array with serach result (private and public keys)
+returns a array with search result (private and public keys)
 
     my @Keys = $CryptObject->KeySearch(
         Search => 'something to search'

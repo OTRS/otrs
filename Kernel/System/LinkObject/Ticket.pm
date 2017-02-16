@@ -231,7 +231,8 @@ sub ObjectDescriptionGet {
 
 return a hash list of the search results
 
-Return
+Returns:
+
     $SearchList = {
         NOTLINKED => {
             Source => {

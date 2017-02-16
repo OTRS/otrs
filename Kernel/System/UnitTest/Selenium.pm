@@ -31,7 +31,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::UnitTest::Selenium - run frontend tests
+Kernel::System::UnitTest::Selenium - run front end tests
 
 This class inherits from Selenium::Remote::Driver. You can use
 its full API (see
@@ -40,15 +40,15 @@ L<http://search.cpan.org/~aivaturi/Selenium-Remote-Driver-0.15/lib/Selenium/Remo
 Every successful Selenium command will be logged as a successful unit test.
 In case of an error, an exception will be thrown that you can catch in your
 unit test file and handle with C<HandleError()> in this class. It will output
-a failing test result and generate a screenshot for analysis.
+a failing test result and generate a screen shot for analysis.
 
 =head2 new()
 
-create a selenium object to run fontend tests.
+create a selenium object to run front end tests.
 
-To do this, you need a running selenium or phantomjs server.
+To do this, you need a running C<selenium> or C<phantomjs> server.
 
-Specify the connection details in Config.pm, like this:
+Specify the connection details in C<Config.pm>, like this:
 
     $Self->{'SeleniumTestsConfig'} = {
         remote_server_addr  => 'localhost',
@@ -62,7 +62,7 @@ Specify the connection details in Config.pm, like this:
         },
     };
 
-Then you can use the full API of Selenium::Remote::Driver on this object.
+Then you can use the full API of L<Selenium::Remote::Driver> on this object.
 
 =cut
 
@@ -447,7 +447,7 @@ use this method to handle any Selenium exceptions.
 
     $SeleniumObject->HandleError($@);
 
-It will create a failing test result and store a screenshot of the page
+It will create a failing test result and store a screen shot of the page
 for analysis (in folder /var/otrs-unittest if it exists, in $Home/var/httpd/htdocs otherwise).
 
 =cut

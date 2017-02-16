@@ -23,11 +23,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::StdAttachment - std. attachment lib
+Kernel::System::StdAttachment - standard attachment lib
 
 =head1 DESCRIPTION
 
-All std. attachment functions.
+All standard attachment functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -54,7 +54,7 @@ sub new {
 
 =head2 StdAttachmentAdd()
 
-create a new std. attachment
+create a new standard attachment
 
     my $ID = $StdAttachmentObject->StdAttachmentAdd(
         Name        => 'Some Name',
@@ -119,7 +119,7 @@ sub StdAttachmentAdd {
 
 =head2 StdAttachmentGet()
 
-get a std. attachment
+get a standard attachment
 
     my %Data = $StdAttachmentObject->StdAttachmentGet(
         ID => $ID,
@@ -178,7 +178,7 @@ sub StdAttachmentGet {
 
 =head2 StdAttachmentUpdate()
 
-update a new std. attachment
+update a new standard attachment
 
     my $ID = $StdAttachmentObject->StdAttachmentUpdate(
         ID          => $ID,
@@ -263,7 +263,7 @@ sub StdAttachmentUpdate {
 
 =head2 StdAttachmentDelete()
 
-delete a std. attachment
+delete a standard attachment
 
     $StdAttachmentObject->StdAttachmentDelete(
         ID => $ID,
@@ -319,7 +319,7 @@ sub StdAttachmentDelete {
 
 =head2 StdAttachmentLookup()
 
-lookup for a std. attachment
+lookup for a standard attachment
 
     my $ID = $StdAttachmentObject->StdAttachmentLookup(
         StdAttachment => 'Some Name',
@@ -416,7 +416,7 @@ sub StdAttachmentLookup {
 
 =head2 StdAttachmentList()
 
-get list of std. attachment - return a hash (ID => Name (Filname))
+get list of standard attachment - return a hash (ID => Name (Filname))
 
     my %List = $StdAttachmentObject->StdAttachmentList(
         Valid => 0,  # optional, defaults to 1

@@ -51,7 +51,7 @@ sub new {
 
 =head2 SystemDataAdd()
 
-add new systemdata value
+add a new C<SystemData> value.
 
 Result is true if adding was OK, and false if it failed, for instance because
 the key already existed.
@@ -267,7 +267,7 @@ sub SystemDataGroupGet {
 
 update system data
 
-Returns true if update was succesful or false if otherwise - for instance
+Returns true if update was successful or false if otherwise - for instance
 if key did not exist.
 
     my $Result = $SystemDataObject->SystemDataUpdate(
@@ -334,7 +334,7 @@ sub SystemDataUpdate {
 
 update system data
 
-Returns true if delete was succesful or false if otherwise - for instance
+Returns true if delete was successful or false if otherwise - for instance
 if key did not exist.
 
     $SystemDataObject->SystemDataDelete(

@@ -1051,7 +1051,7 @@ sub Table {
 
 =head2 Text()
 
-Output a textline
+Output a text line
 
     Return
         $Return{State}

@@ -37,7 +37,7 @@ Kernel::System::Web::InterfaceAgent - the agent web interface
 
 =head1 DESCRIPTION
 
-the global agent web interface (incl. auth, session, ...)
+the global agent web interface (authentication, session handling, ...)
 
 =head1 PUBLIC INTERFACE
 
