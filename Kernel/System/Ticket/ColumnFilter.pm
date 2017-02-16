@@ -740,7 +740,7 @@ sub OwnerFilterValuesGet {
 
 =item ResponsibleFilterValuesGet()
 
-get a list of ticket responsibles within the given ticket is list
+get a list of agents responsible for the tickets within the given ticket list
 
     my $Values = $ColumnFilterObject->ResponsibleFilterValuesGet(
         TicketIDs => [23, 1, 56, 74],                    # array ref list of ticket IDs

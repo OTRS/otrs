@@ -61,7 +61,7 @@ sub new {
 
 =item ToAscii()
 
-convert a html string to an ascii string
+convert an HTML string to an ASCII string
 
     my $Ascii = $HTMLUtilsObject->ToAscii( String => $String );
 
@@ -591,7 +591,7 @@ sub ToAscii {
 
 =item ToHTML()
 
-convert an ascii string to a html string
+convert an ASCII string to an HTML string
 
     my $HTMLString = $HTMLUtilsObject->ToHTML( String => $String );
 
@@ -769,7 +769,7 @@ sub DocumentCleanup {
 
 =item LinkQuote()
 
-URL link detections in HTML code, add "<a href" if missing
+URL link detections in HTML code, add C<a href> if missing
 
     my $HTMLWithLinks = $HTMLUtilsObject->LinkQuote(
         String    => $HTMLString,
@@ -937,7 +937,7 @@ sub LinkQuote {
 
 =item Safety()
 
-To remove/strip active html tags/addons (javascript, applets, embeds and objects)
+To remove/strip active html tags/addons (javascript, C<applet>s, C<embed>s and C<object>s)
 from html strings.
 
     my %Safe = $HTMLUtilsObject->Safety(
@@ -1206,7 +1206,7 @@ extracts embedded images with data-URLs from an HTML document.
 
 Returns nothing. If embedded images were found, these will be appended
 to the attachments list, and the image data URL will be replaced with a
-cid: URL in the document.
+C<cid:> URL in the document.
 
 =cut
 

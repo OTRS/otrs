@@ -414,8 +414,8 @@ to write data to file system
         Permission => '644',     # optional - unix file permissions
     );
 
-Platform note: MacOS (HFS+) stores filenames as Unicode NFD internally,
-and DirectoryRead() will also report them as NFD.
+Platform note: MacOS (HFS+) stores filenames as Unicode C<NFD> internally,
+and DirectoryRead() will also report them as C<NFD>.
 
 =cut
 
@@ -646,7 +646,7 @@ sub FileGetMTime {
 
 =item MD5sum()
 
-get a md5 sum of a file or a string
+get an C<MD5> sum of a file or a string
 
     my $MD5Sum = $MainObject->MD5sum(
         Filename => '/path/to/me_to_alal.xml',
@@ -848,8 +848,8 @@ does not have to exist:
         Silent    => 1,     # will not log errors if the directory does not exist
     );
 
-Platform note: MacOS (HFS+) stores filenames as Unicode NFD internally,
-and DirectoryRead() will also report them as NFD.
+Platform note: MacOS (HFS+) stores filenames as Unicode C<NFD> internally,
+and DirectoryRead() will also report them as C<NFD>.
 
 =cut
 
