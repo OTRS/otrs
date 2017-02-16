@@ -2583,7 +2583,7 @@ sub Attachment {
 
 =head2 PageNavBar()
 
-generates a page nav bar
+generates a page navigation bar
 
     my %PageNavBar = $LayoutObject->PageNavBar(
         Limit       => 100,         # marks result of TotalHits red if Limit is gerater then AllHits
@@ -4485,10 +4485,10 @@ sub _RichTextReplaceLinkOfInlineContent {
 
 =head2 RichTextDocumentServe()
 
-serve a rich text (HTML) document for local view inside of an iframe in correct charset and with correct
+serve a rich text (HTML) document for local view inside of an C<iframe> in correct charset and with correct
 links for inline documents.
 
-By default, all inline/active content (such as script, object, applet or embed tags)
+By default, all inline/active content (such as C<script>, C<object>, C<applet> or C<embed> tags)
 will be stripped. If there are external images, they will be stripped too,
 but a message will be shown allowing the user to reload the page showing the external images.
 

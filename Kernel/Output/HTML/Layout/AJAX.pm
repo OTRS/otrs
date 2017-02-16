@@ -27,7 +27,7 @@ All AJAX-related HTML functions
 
 =head2 BuildSelectionJSON()
 
-build a JSON output js witch can be used for e. g. data for pull downs
+build a JSON output which can be used for e. g. data for pull downs
 
     my $JSON = $LayoutObject->BuildSelectionJSON(
         [

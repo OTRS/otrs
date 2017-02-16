@@ -39,7 +39,7 @@ Kernel::Output::Template::Provider - Template Toolkit custom provider
 
 =head2 OTRSInit()
 
-performs some post-initialization and creates a bridget between Template::Toolkit
+performs some post-initialization and creates a bridge between Template::Toolkit
 and OTRS by adding the OTRS objects to the Provider object. This method must be
 called after instantiating the Provider object.
 
@@ -380,11 +380,11 @@ sub _PreProcessTemplateContent {
 
 =head2 MigrateDTLtoTT()
 
-translates old DTL template content to Template::Toolkit syntax.
+translates old C<DTL> template content to L<Template::Toolkit> syntax.
 
     my $TTCode = $ProviderObject->MigrateDTLtoTT( Content => $DTLCode );
 
-If an error was found, this method will die(), so please use eval around it.
+If an error was found, this method will C<die()>, so please use eval around it.
 
 =cut
 

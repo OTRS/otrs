@@ -17,7 +17,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Mapping::XSLT - GenericInterface XSLT data mapping backend
+Kernel::GenericInterface::Mapping::XSLT - GenericInterface C<XSLT> data mapping backend
 
 =head1 PUBLIC INTERFACE
 
@@ -69,7 +69,7 @@ sub new {
 
 =head2 Map()
 
-provides mapping based on XSLT stylesheets
+provides mapping based on C<XSLT> style sheets
 
     my $ReturnData = $MappingObject->Map(
         Data => {

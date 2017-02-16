@@ -50,7 +50,7 @@ sub new {
 
 =head2 PrepareRequest()
 
-prepare the invocation of the configured remote webservice.
+prepare the invocation of the configured remote web service.
 This will just return the data that was passed to the function.
 
     my $Result = $InvokerObject->PrepareRequest(
@@ -80,7 +80,7 @@ sub PrepareRequest {
 
 =head2 HandleResponse()
 
-handle response data of the configured remote webservice.
+handle response data of the configured remote web service.
 This will just return the data that was passed to the function.
 
     my $Result = $InvokerObject->HandleResponse(

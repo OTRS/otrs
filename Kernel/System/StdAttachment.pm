@@ -416,7 +416,7 @@ sub StdAttachmentLookup {
 
 =head2 StdAttachmentList()
 
-get list of standard attachment - return a hash (ID => Name (Filname))
+get list of standard attachments - return a hash (ID => Name (Filename))
 
     my %List = $StdAttachmentObject->StdAttachmentList(
         Valid => 0,  # optional, defaults to 1
