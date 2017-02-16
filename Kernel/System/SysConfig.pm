@@ -26,11 +26,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::SysConfig - to manage sys config settings
+Kernel::System::SysConfig - to manage system configuration settings
 
 =head1 SYNOPSIS
 
-All functions to manage sys config settings.
+All functions to manage system configuration settings.
 
 =head1 PUBLIC INTERFACE
 

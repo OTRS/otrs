@@ -37,7 +37,7 @@ Kernel::System::Web::InterfaceCustomer - the customer web interface
 
 =head1 SYNOPSIS
 
-the global customer web interface (incl. auth, session, ...)
+the global customer web interface (authentication, session handling, ...)
 
 =head1 PUBLIC INTERFACE
 

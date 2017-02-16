@@ -239,7 +239,7 @@ sub QueueStandardTemplateMemberAdd {
 
 =item QueueStandardTemplateMemberList()
 
-get std responses of a queue
+get standard responses of a queue
 
     my %Templates = $QueueObject->QueueStandardTemplateMemberList( QueueID => 123 );
 
@@ -384,7 +384,7 @@ get all valid system queues
 
     my %Queues = $QueueObject->GetAllQueues();
 
-get all system queues of a user with permission type (e. g. ro, move_into, rw, ...)
+get all system queues of a user with permission type (e. g. C<ro>, C<move_into>, C<rw>, ...)
 
     my %Queues = $QueueObject->GetAllQueues( UserID => 123, Type => 'ro' );
 

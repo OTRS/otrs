@@ -125,7 +125,7 @@ sub OTRSBusinessIsInstalled {
 
 =item OTRSBusinessIsAvailable()
 
-checks with cloud.otrs.com if OTRSBusiness is available for the current framework.
+checks with C<cloud.otrs.com> if OTRSBusiness is available for the current framework.
 
 =cut
 
@@ -253,7 +253,7 @@ sub OTRSBusinessIsReinstallable {
 
 =item OTRSBusinessIsUpdateable()
 
-checks with cloud.otrs.com if the OTRSBusiness package is available in a newer version
+checks with C<cloud.otrs.com> if the OTRSBusiness package is available in a newer version
 than the one currently installed. The result of this check will be stored in the
 system_data table for offline usage.
 
@@ -388,7 +388,7 @@ sub OTRSBusinessGetDependencies {
 
 =item OTRSBusinessEntitlementCheck()
 
-determines the OTRSBusiness entitlement status of this system as reported by cloud.otrs.com
+determines the OTRSBusiness entitlement status of this system as reported by C<cloud.otrs.com>
 and stores it in the system_data cache.
 
 Returns 1 if the cloud call was successful.

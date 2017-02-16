@@ -566,7 +566,7 @@ sub Verify {
 
 =item Search()
 
-search a certifcate or an private key
+search a certificate or an private key
 
     my @Result = $CryptObject->Search(
         Search => 'some text to search',
@@ -584,7 +584,7 @@ sub Search {
 
 =item CertificateSearch()
 
-search a local certifcate
+search a local certificate
 
     my @Result = $CryptObject->CertificateSearch(
         Search => 'some text to search',
@@ -749,7 +749,7 @@ sub FetchFromCustomer {
 
 =item ConvertCertFormat()
 
-Convert certificate strings into importable PEM format.
+Convert certificate strings into importable C<PEM> format.
 
     my $Result = $CryptObject->ConvertCertFormat(
         String     => $CertificationString,
@@ -757,6 +757,7 @@ Convert certificate strings into importable PEM format.
     );
 
 Returns:
+
     $Result =
     "-----BEGIN CERTIFICATE-----
     MIIEXjCCA0agAwIBAgIJAPIBQyBe/HbpMA0GCSqGSIb3DQEBBQUAMHwxCzAJBgNV
@@ -1576,7 +1577,7 @@ sub PrivateRemove {
 
 =item PrivateList()
 
-returns a list of private key hashs
+returns a list of private key hashes
 
     my @PrivateList = $CryptObject->PrivateList();
 
@@ -1686,9 +1687,8 @@ sub PrivateAttributes {
 =item SignerCertRelationAdd ()
 
 add a relation between signer certificate and CA certificate to attach to the signature
-returns 1 if success
 
-    my $RelationID = $CryptObject->SignerCertRelationAdd(
+    my $Success = $CryptObject->SignerCertRelationAdd(
         CertFingerprint => $CertFingerprint,
         CAFingerprint => $CAFingerprint,
         UserID => 1,

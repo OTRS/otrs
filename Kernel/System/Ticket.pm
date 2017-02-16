@@ -771,7 +771,7 @@ sub TicketNumberLookup {
 
 rebuild a new ticket subject
 
-This will generate a subject like "RE: [Ticket# 2004040510440485] Some subject"
+This will generate a subject like C<RE: [Ticket# 2004040510440485] Some subject>
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
@@ -779,7 +779,7 @@ This will generate a subject like "RE: [Ticket# 2004040510440485] Some subject"
         Action       => 'Reply',
     );
 
-This will generate a subject like  "[Ticket# 2004040510440485] Some subject"
+This will generate a subject like C<[Ticket# 2004040510440485] Some subject>
 (so without RE: )
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
@@ -789,7 +789,7 @@ This will generate a subject like  "[Ticket# 2004040510440485] Some subject"
         Action       => 'Reply',
     );
 
-This will generate a subject like "FWD: [Ticket# 2004040510440485] Some subject"
+This will generate a subject like C<FWD: [Ticket# 2004040510440485] Some subject>
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(
         TicketNumber => '2004040510440485',
@@ -797,7 +797,7 @@ This will generate a subject like "FWD: [Ticket# 2004040510440485] Some subject"
         Action       => 'Forward', # Possible values are Reply and Forward, Reply is default.
     );
 
-This will generate a subject like "[Ticket# 2004040510440485] Re: Some subject"
+This will generate a subject like C<[Ticket# 2004040510440485] Re: Some subject>
 (so without clean-up of subject)
 
     my $NewSubject = $TicketObject->TicketSubjectBuild(

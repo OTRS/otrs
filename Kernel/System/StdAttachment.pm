@@ -23,11 +23,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::StdAttachment - std. attachment lib
+Kernel::System::StdAttachment - standard attachment lib
 
 =head1 SYNOPSIS
 
-All std. attachment functions.
+All standard attachment functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -62,7 +62,7 @@ sub new {
 
 =item StdAttachmentAdd()
 
-create a new std. attachment
+create a new standard attachment
 
     my $ID = $StdAttachmentObject->StdAttachmentAdd(
         Name        => 'Some Name',
@@ -120,7 +120,7 @@ sub StdAttachmentAdd {
 
 =item StdAttachmentGet()
 
-get a std. attachment
+get a standard attachment
 
     my %Data = $StdAttachmentObject->StdAttachmentGet(
         ID => $ID,
@@ -175,7 +175,7 @@ sub StdAttachmentGet {
 
 =item StdAttachmentUpdate()
 
-update a new std. attachment
+update a new standard attachment
 
     my $ID = $StdAttachmentObject->StdAttachmentUpdate(
         ID          => $ID,
@@ -255,7 +255,7 @@ sub StdAttachmentUpdate {
 
 =item StdAttachmentDelete()
 
-delete a std. attachment
+delete a standard attachment
 
     $StdAttachmentObject->StdAttachmentDelete(
         ID => $ID,
@@ -307,7 +307,7 @@ sub StdAttachmentDelete {
 
 =item StdAttachmentLookup()
 
-lookup for a std. attachment
+lookup for a standard attachment
 
     my $ID = $StdAttachmentObject->StdAttachmentLookup(
         StdAttachment => 'Some Name',
@@ -404,7 +404,7 @@ sub StdAttachmentLookup {
 
 DEPRECATED: This function will be removed in further versions of OTRS
 
-return a hash (ID => Name) of std. attachment by response id
+get list of standard attachments - return a hash (ID => Name (Filename))
 
     my %StdAttachment = $StdAttachmentObject->StdAttachmentsByResponseID(
         ID => 4711,

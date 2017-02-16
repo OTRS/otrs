@@ -135,13 +135,12 @@ sub new {
 =item RepositoryList()
 
 returns a list of repository packages
-using Result => 'short' will only return name, version, install_status md5sum and vendor
-instead of the structure
 
     my @List = $PackageObject->RepositoryList();
 
     my @List = $PackageObject->RepositoryList(
-        Result => 'short',
+        Result => 'short',  # will only return name, version, install_status md5sum and vendor
+        instead of the structure
     );
 
 =cut
@@ -2673,6 +2672,7 @@ generates a MD5 Sum for all files in a given package
     );
 
 returns:
+
     $MD5SumLookup = {
         'Direcoty/File1' => 'f3f30bd59afadf542770d43edb280489'
         'Direcoty/File2' => 'ccb8a0b86adf125a36392e388eb96778'
