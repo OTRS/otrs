@@ -6824,7 +6824,7 @@ New style:
  - 2007-01-26 fixed bug in agent- and customer-ticket print feature
 
 #2.1.5 2006-01-25
- - 2007-01-25 fixed ignored ticket responible in phone ticket
+ - 2007-01-25 fixed ignored ticket responsible in phone ticket
  - 2007-01-18 fixed DestinationTime() if calendar feature is used
  - 2007-01-17 fixed not working freetime fields
  - 2007-01-11 fixed not working time selection if time zone feature is used
@@ -6928,7 +6928,7 @@ New style:
  - 2006-10-13 switched to md5 check sum for password in user\_preference table
  - 2006-10-12 fixed #1373 - RH RPM requires sendmail, but works with other MTAs
  - 2006-10-12 fixed double agent notifications on follow up if agent is
-    owner and responible
+    owner and responsible
  - 2006-10-12 fixed bug#[1311](http://bugs.otrs.org/show_bug.cgi?id=1311) - Apostrophes are incorrectly displayed under
     IE 6 & IE7 but correctly displayed under Firefox 1.5.0.6  -=\>
     moved from $Text{} to $JSText{} for text translations in Java Script parts

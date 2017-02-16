@@ -67,7 +67,7 @@ sub Run {
         DynamicFields => 0,
     );
 
-    # check responible update
+    # check responsible update
     if ( $Ticket{ResponsibleID} == 1 && $Param{UserID} != 1 ) {
         $TicketObject->TicketResponsibleSet(
             TicketID           => $Param{Data}->{TicketID},
