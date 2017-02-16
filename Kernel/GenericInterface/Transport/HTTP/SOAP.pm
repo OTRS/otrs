@@ -65,7 +65,7 @@ from from the web server process.
 
 Based on the request the Operation to be used is determined.
 
-No outbound communication is done here, except from continue requests.
+No out-bound communication is done here, except from continue requests.
 
 In case of an error, the resulting http error code and message are remembered for the response.
 

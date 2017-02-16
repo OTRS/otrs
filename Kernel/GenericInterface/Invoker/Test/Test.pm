@@ -59,7 +59,7 @@ sub new {
 
 =item PrepareRequest()
 
-prepare the invocation of the configured remote webservice.
+prepare the invocation of the configured remote web service.
 
     my $Result = $InvokerObject->PrepareRequest(
         Data => {                               # data payload
@@ -107,7 +107,7 @@ sub PrepareRequest {
 
 =item HandleResponse()
 
-handle response data of the configured remote webservice.
+handle response data of the configured remote web service.
 
     my $Result = $InvokerObject->HandleResponse(
         ResponseSuccess      => 1,              # success status of the remote webservice

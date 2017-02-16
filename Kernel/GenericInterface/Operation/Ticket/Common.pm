@@ -32,7 +32,7 @@ Kernel::GenericInterface::Operation::Ticket::Common - Base class for all Ticket 
 
 =item Init()
 
-initialize the operation by checking the webservice configuration and gather of the dynamic fields
+initialize the operation by checking the web service configuration and gather of the dynamic fields
 
     my $Return = $CommonObject->Init(
         WebserviceID => 1,
@@ -56,7 +56,7 @@ sub Init {
         };
     }
 
-    # get webservice configuration
+    # get web service configuration
     my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
         ID => $Param{WebserviceID},
     );
@@ -1281,7 +1281,7 @@ sub SetDynamicFieldValue {
 
 =item CreateAttachment()
 
-cretes a new attachment for the given article.
+creates a new attachment for the given article.
 
     my $Result = $CommonObject->CreateAttachment(
         Content     => $Data,                   # file content (Base64 encoded)

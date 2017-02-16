@@ -604,7 +604,7 @@ sub LinkObjectTableCreateSimple {
 
 =item LinkObjectSelectableObjectList()
 
-return a selection list of linkable objects
+return a selection list of link-able objects
 
     my $String = $LayoutObject->LinkObjectSelectableObjectList(
         Object   => 'Ticket',

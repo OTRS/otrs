@@ -175,7 +175,7 @@ sub LoaderCreateAgentCSSCalls {
 
 =item LoaderCreateAgentJSCalls()
 
-Generate the minified JS files and the tags referencing them,
+Generate the minified JavaScript files and the tags referencing them,
 taking a list from the Loader::Agent::CommonJS config item.
 
     $LayoutObject->LoaderCreateAgentJSCalls();
@@ -220,7 +220,7 @@ sub LoaderCreateAgentJSCalls {
 
     }
 
-    # now handle module specific JS
+    # now handle module specific JavaScript
     {
         my $LoaderAction = $Self->{Action} || 'Login';
         $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
@@ -348,7 +348,7 @@ sub LoaderCreateCustomerCSSCalls {
 
 =item LoaderCreateCustomerJSCalls()
 
-Generate the minified JS files and the tags referencing them,
+Generate the minified JavaScript files and the tags referencing them,
 taking a list from the Loader::Customer::CommonJS config item.
 
     $LayoutObject->LoaderCreateCustomerJSCalls();

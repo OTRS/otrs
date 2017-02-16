@@ -29,7 +29,7 @@ All valid functions.
 
 =item PopupClose()
 
-Generate a small HTML page which closes the popup window and
+Generate a small HTML page which closes the pop-up window and
 executes an action in the main window.
 
     # load specific URL in main window
