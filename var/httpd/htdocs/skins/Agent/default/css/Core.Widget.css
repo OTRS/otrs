@@ -478,6 +478,11 @@ ul.WidgetTooltip li a:hover i {
     transition: all ease-in 0.2s;
 }
 
+.CallForAction.Inline {
+    position: relative;
+    top: -1px;
+}
+
 .CallForAction:disabled {
     cursor: default;
 }
@@ -543,6 +548,10 @@ ul.WidgetTooltip li a:hover i {
     text-shadow: 0 1px 0 #FFF;
     cursor: pointer;
     position: relative;
+}
+
+.CallForAction.Inline span {
+    padding: 2px 7px 4px 7px;
 }
 
 .CallForAction.Fullsize span {

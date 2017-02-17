@@ -212,7 +212,7 @@ Core.UI.RegisterToggleTwoContainer($('#linkobject-' + Core.App.EscapeSelector('[
 [% RenderBlockStart("TableComplexBlockFooterAdd") %]
         <div class="SpacingTopSmall">
             [% Data.LinkTypeStrg %]
-            <button class="Primary" id="AddLinks" name="AddLinks" type="submit" title="[% Translate("Add links") | html %]">[% Translate("Add links") | html %]</button>
+            <button class="Primary CallForAction Inline" id="AddLinks" name="AddLinks" type="submit" title="[% Translate("Add links") | html %]"><span>[% Translate("Add links") | html %]</span></button>
         </div>
         <input type="hidden" name="SubmitLink" value="[% Translate("Link") | html %]" />
 [% RenderBlockEnd("TableComplexBlockFooterAdd") %]
