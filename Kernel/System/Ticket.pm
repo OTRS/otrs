@@ -6109,6 +6109,13 @@ sub TicketMerge {
         Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
+    # transfer all linked objects to new ticket
+    $Self->TicketMergeLinkedObjects(
+        MergeTicketID => $Param{MergeTicketID},
+        MainTicketID  => $Param{MainTicketID},
+        UserID        => $Param{UserID},
+    );
+
     # link tickets
     $Kernel::OM->Get('Kernel::System::LinkObject')->LinkAdd(
         SourceObject => 'Ticket',
@@ -6150,7 +6157,7 @@ sub TicketMerge {
     );
 
     # remove seen flag for all users on the main ticket
-    my $Success = $Self->TicketFlagDelete(
+    $Self->TicketFlagDelete(
         TicketID => $Param{MainTicketID},
         Key      => 'Seen',
         AllUsers => 1,
@@ -6264,6 +6271,68 @@ sub TicketMergeDynamicFields {
             );
         }
     }
+
+    return 1;
+}
+
+=item TicketMergeLinkedObjects()
+
+merge linked objects from one ticket into another, that is, copy
+them from the merge ticket to the main ticket in the link_relation table.
+
+    my $Success = $TicketObject->TicketMergeLinkedObjects(
+        MainTicketID  => 123,
+        MergeTicketID => 42,
+        UserID        => 1,
+    );
+
+=cut
+
+sub TicketMergeLinkedObjects {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(MainTicketID MergeTicketID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # lookup the object id of a ticket
+    my $TicketObjectID = $Kernel::OM->Get('Kernel::System::LinkObject')->ObjectLookup(
+        Name => 'Ticket',
+    );
+
+    # update links from old ticket to new ticket where the old ticket is the source
+    $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => '
+            UPDATE link_relation
+            SET source_key = ?
+            WHERE source_object_id = ?
+              AND source_key = ?',
+        Bind => [
+            \$Param{MainTicketID},
+            \$TicketObjectID,
+            \$Param{MergeTicketID},
+        ],
+    );
+
+    # update links from old ticket to new ticket where the old ticket is the target
+    $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => '
+            UPDATE link_relation
+            SET target_key = ?
+            WHERE target_object_id = ?
+              AND target_key = ?',
+        Bind => [
+            \$Param{MainTicketID},
+            \$TicketObjectID,
+            \$Param{MergeTicketID},
+        ],
+    );
 
     return 1;
 }
