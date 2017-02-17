@@ -10011,7 +10011,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
             <Array>
-                <Item>stats</Item>
+                <Item Translatable="1">stats</Item>
             </Array>
         </Setting>
     </ConfigItem>
