@@ -8,7 +8,7 @@ Group:        Applications/Mail
 Provides:     otrs
 Requires:     [%
     Requires = [
-        'cronie',
+        #'cronie', # unavailable in SLES 11
         'apache2',
         'apache2-mod_perl',
         'perl',
