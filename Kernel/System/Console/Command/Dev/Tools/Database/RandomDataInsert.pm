@@ -26,6 +26,7 @@ our @ObjectDependencies = (
     'Kernel::System::Queue',
     'Kernel::System::Ticket',
     'Kernel::System::User',
+    'Kernel::System::Priority',
 );
 
 sub Configure {
@@ -168,7 +169,7 @@ sub Run {
             Title        => RandomSubject(),
             QueueID      => $QueueIDs[ int( rand($#QueueIDs) ) ],
             Lock         => 'unlock',
-            Priority     => '3 normal',
+            Priority     => PriorityGet(),
             State        => 'new',
             CustomerNo   => int( rand(1000) ),
             CustomerUser => RandomAddress(),
@@ -376,6 +377,18 @@ sub RandomBody {
         $Body .= $Text[ int( rand( $#Text + 1 ) ) ] . "\n";
     }
     return $Body;
+}
+
+sub PriorityGet {
+    my %PriorityList = $Kernel::OM->Get('Kernel::System::Priority')->PriorityList(
+        Valid => 1,
+    );
+
+    # possible not make this one sorted - for more variation in ticket-priority.
+    for my $Prio ( sort keys %PriorityList ) {
+        return $PriorityList{$Prio};
+    }
+    return '3 normal';
 }
 
 sub QueueGet {
