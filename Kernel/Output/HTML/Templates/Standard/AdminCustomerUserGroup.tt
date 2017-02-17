@@ -197,7 +197,7 @@
 [% RenderBlockStart("ChangeHeader") %]
                                 <th class="Center [% Data.Mark | html %]">
                                     <input type="checkbox" name="[% Data.Type | html %]" id="SelectAll[% Data.Type | html %]" title="[% Translate("Toggle %s Permission for all", Data.Type) | html %]" value="" />
-                                    [% Data.Type | html %]
+                                    [% Translate(Data.Type) | html %]
                                 </th>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
