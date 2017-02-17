@@ -10447,6 +10447,10 @@
                 <Item>X-OTRS-CustomerUser</Item>
                 <Item>X-OTRS-SenderType</Item>
                 <Item>X-OTRS-ArticleType</Item>
+                <Item>X-OTRS-FollowUp-Owner</Item>
+                <Item>X-OTRS-FollowUp-OwnerID</Item>
+                <Item>X-OTRS-FollowUp-Responsible</Item>
+                <Item>X-OTRS-FollowUp-ResponsibleID</Item>
                 <Item>X-OTRS-FollowUp-Priority</Item>
                 <Item>X-OTRS-FollowUp-Queue</Item>
                 <Item>X-OTRS-FollowUp-Lock</Item>

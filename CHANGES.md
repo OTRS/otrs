@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-02-17 Add support for setting owner and responsible via filter also for follow-ups, thanks to Renée Bäcker.
  - 2017-01-20 Added command to list configured queues, thanks to Martin Burggraf.
  - 2017-01-13 Blinking mechanism for queues is now disabled by default (can be enabled using Ticket::Frontend::AgentTicketQueue###Blink).
  - 2016-12-19 Added the posibility to filter content of the CCI Dashboard Widget.

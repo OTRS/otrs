@@ -54,6 +54,42 @@ sub Run {
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+    my $OwnerID = $GetParam{'X-OTRS-FollowUp-OwnerID'};
+    if ( $GetParam{'X-OTRS-FollowUp-Owner'} ) {
+
+        my $TmpOwnerID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $GetParam{'X-OTRS-FollowUp-Owner'},
+        );
+
+        $OwnerID = $TmpOwnerID || $OwnerID;
+    }
+
+    if ( $OwnerID ) {
+        my $Success = $TicketObject->TicketOwnerSet(
+            TicketID  => $Param{TicketID},
+            NewUserID => $OwnerID,
+            UserID    => $Param{InmailUserID},
+        );
+    }
+
+    my $ResponsibleID = $GetParam{'X-OTRS-FollowUp-ResponsibleID'};
+    if ( $GetParam{'X-OTRS-FollowUp-Responsible'} ) {
+
+        my $TmpResponsibleID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $GetParam{'X-OTRS-FollowUp-Responsible'},
+        );
+
+        $ResponsibleID = $TmpResponsibleID || $ResponsibleID;
+    }
+
+    if ( $ResponsibleID ) {
+        my $Success = $TicketObject->TicketResponsibleSet(
+            TicketID  => $Param{TicketID},
+            NewUserID => $ResponsibleID,
+            UserID    => $Param{InmailUserID},
+        );
+    }
+
     # get ticket data
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{TicketID},
