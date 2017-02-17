@@ -109,8 +109,8 @@ $('#SysConfigGroup').bind('change', function(){
                             <input name="file_upload" type="file" />
                         </div>
                         <div class="Field">
-                            <button title="[% Translate("Load SysConfig settings from file") | html %]" class="Primary" type="submit" value="[% Translate("Import") | html %]">
-                                [% Translate("Import") | html %]
+                            <button title="[% Translate("Load SysConfig settings from file") | html %]" class="CallForAction Primary" type="submit" value="[% Translate("Import") | html %]">
+                                <span>[% Translate("Import") | html %]</span>
                             </button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
