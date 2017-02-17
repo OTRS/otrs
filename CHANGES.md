@@ -1,6 +1,7 @@
 #3.3.17 ????-??-??
-- 2016-11-04 Fixed bug#[12391](http://bugs.otrs.org/show_bug.cgi?id=12391) - Base64 encoded image does not display in article.
-- 2016-11-25 Fixed bug#[12461](https://bugs.otrs.org/show_bug.cgi?id=12461) - Chrome can not display attached PDF files since 5.0.14.
+ - 2017-02-17 Fixed bug#[7961](https://bugs.otrs.org/show_bug.cgi?id=7961) - customer search should not return results for internal articles.
+ - 2016-11-04 Fixed bug#[12391](http://bugs.otrs.org/show_bug.cgi?id=12391) - Base64 encoded image does not display in article.
+ - 2016-11-25 Fixed bug#[12461](https://bugs.otrs.org/show_bug.cgi?id=12461) - Chrome can not display attached PDF files since 5.0.14.
 
 #3.3.16 2016-11-01
  - 2016-10-06 Improved sandboxing of displayed attachments.

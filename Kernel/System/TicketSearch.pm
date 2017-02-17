@@ -1002,6 +1002,23 @@ sub TicketSearch {
     my $ArticleIndexSQLExt = $Self->_ArticleIndexQuerySQLExt( Data => \%Param );
     $SQLExt .= $ArticleIndexSQLExt;
 
+    my @CustomerArticleTypeIDs;
+    if ( $Param{CustomerUserID} ) {
+        my %CustomerArticleTypes = $Self->ArticleTypeList(
+            Result => 'HASH',
+            Type   => 'Customer',
+        );
+        @CustomerArticleTypeIDs = keys %CustomerArticleTypes;
+    }
+
+    # restrict search from customers to only customer articles
+    if ( $Param{CustomerUserID} && $ArticleIndexSQLExt ) {
+        $SQLExt .= $Self->_InConditionGet(
+            TableColumn => 'art.article_type_id',
+            IDRef       => \@CustomerArticleTypeIDs,
+        );
+    }
+
     # Remember already joined tables for sorting.
     my %DynamicFieldJoinTables;
     my $DynamicFieldJoinCounter = 1;
