@@ -823,6 +823,12 @@ sub GetStatTable {
         'Title'      => 1,
     );
 
+    # Map the CustomerID search parameter to CustomerIDRaw search parameter for the
+    #   exact search match, if the 'Stats::CustomerIDAsMultiSelect' is active.
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Stats::CustomerIDAsMultiSelect') ) {
+        $Param{Restrictions}->{CustomerIDRaw} = $Param{Restrictions}->{CustomerID};
+    }
+
     ATTRIBUTE:
     for my $Key ( sort keys %{ $Param{Restrictions} } ) {
 
@@ -986,12 +992,6 @@ sub GetStatTable {
         $UnixTimeEnd = $TimeObject->TimeStamp2SystemTime(
             String => $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate}
         );
-    }
-
-    # Map the CustomerID search parameter to CustomerIDRaw search parameter for the
-    #   exact search match, if the 'Stats::CustomerIDAsMultiSelect' is active.
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('Stats::CustomerIDAsMultiSelect') ) {
-        $Param{Restrictions}->{CustomerIDRaw} = $Param{Restrictions}->{CustomerID};
     }
 
     # get the involved tickets
