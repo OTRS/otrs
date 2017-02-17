@@ -2546,6 +2546,7 @@ sub _GetSLAs {
         %SLA = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSLAList(
             %Param,
             Action => $Self->{Action},
+            UserID => $Self->{UserID},
         );
     }
     return \%SLA;
