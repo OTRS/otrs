@@ -9,6 +9,7 @@ Provides:     otrs
 Requires:     [%
     Requires = [
         #'cronie', # unavailable in SLES 11
+        'cron', # replacement for cronie in SLES 11
         'apache2',
         'apache2-mod_perl',
         'perl',
