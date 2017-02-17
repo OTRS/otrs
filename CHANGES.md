@@ -71,6 +71,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.17 2017-??-??
+ - 2017-02-17 Fixed bug#[12564](https://bugs.otrs.org/show_bug.cgi?id=12564) - Values that belong to the checkbox, appear in English in the statistics settings.
  - 2017-02-17 Fixed bug#[12620](https://bugs.otrs.org/show_bug.cgi?id=12620) - bug with spec file for SLES 11.
  - 2017-02-16 Fixed bug#[12546](https://bugs.otrs.org/show_bug.cgi?id=12546) - SOAP:1007 SRT: Unsupported xstream found: ("HTTP Code 200  : OK").
  - 2017-02-14 Added the possibility to configure ticket notification recipients by OTRS-tags (replaced with values from current ticket).
