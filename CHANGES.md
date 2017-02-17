@@ -1,4 +1,5 @@
 #4.0.22 2017-??-??
+ - 2017-02-17 Fixed bug#[8853](https://bugs.otrs.org/show_bug.cgi?id=8853) - Hardcoded Priority and State in bin/otrs.FillDB.pl.
  - 2017-02-17 Fixed bug#[12555](https://bugs.otrs.org/show_bug.cgi?id=12555) - Deleting tickets via GenericAgent does not remove tickets completely (immediately?).
  - 2017-02-17 Fixed bug#[12564](https://bugs.otrs.org/show_bug.cgi?id=12564) - Values that belong to the checkbox, appear in English in the statistics settings.
  - 2017-02-14 Fixed bug#[12558](https://bugs.otrs.org/show_bug.cgi?id=12558)(PR#1603) - Filtering of "Available Columns" in Allocation List is not working well when columns are changed. Thanks to S7!
