@@ -273,8 +273,6 @@ $Self->True(
     "TicketID $MergeLinkObjectTicketIDs[0] is now linked with the new TicketID $MergeLinkObjectTicketIDs[5].",
 );
 
-$Kernel::OM->Get('Kernel::System::Log')->Dumper( '', '%LinkKeyList', \%LinkKeyList );
-
 # get list of linked tickets from new ticket after the merge
 %LinkKeyList = $LinkObject->LinkKeyList(
     Object1   => 'Ticket',
@@ -283,8 +281,6 @@ $Kernel::OM->Get('Kernel::System::Log')->Dumper( '', '%LinkKeyList', \%LinkKeyLi
     State     => 'Valid',
     UserID    => 1,
 );
-
-$Kernel::OM->Get('Kernel::System::Log')->Dumper( '', '%LinkKeyList', \%LinkKeyList );
 
 # check that new ticket contains 5 links after the merge
 $Self->Is(
