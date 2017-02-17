@@ -470,7 +470,7 @@ sub Run {
         my $DisableCompanyTickets = $ConfigObject->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
         if ($DisableCompanyTickets) {
-            $GetParam{CustomerUserLogin} = $Self->{UserID};
+            $GetParam{CustomerUserLoginRaw} = $Self->{UserID};
         }
 
         # perform ticket search
