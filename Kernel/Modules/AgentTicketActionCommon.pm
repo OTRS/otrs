@@ -2483,6 +2483,7 @@ sub _GetSLAs {
         %SLA = $Self->{TicketObject}->TicketSLAList(
             %Param,
             Action => $Self->{Action},
+            UserID => $Self->{UserID},
         );
     }
     return \%SLA;
