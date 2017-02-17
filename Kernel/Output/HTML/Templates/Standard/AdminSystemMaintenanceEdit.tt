@@ -32,7 +32,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Edit System Maintenance information") | html %]</h2>
+                    <h2>[% Translate("Edit System Maintenance Information") | html %]</h2>
                 </div>
                 <div class="Content">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
@@ -98,7 +98,7 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>
