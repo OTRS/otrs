@@ -3460,9 +3460,30 @@ sub _StoreActivityDialog {
         };
         if ( !$ActivityEntityID )
         {
-            return $Self->{LayoutObject}->CustomerErrorScreen(
-                Message => "Missing ActivityEntityID in Ticket $Ticket{TicketID}!",
-                Comment => 'Please contact the admin.',
+            return $Self->_ShowDialogError(
+                Message => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                    'Missing ActivityEntityID in Ticket %s!',
+                    $Ticket{TicketID},
+                ),
+                Comment => 'Please contact the administrator.',
+            );
+        }
+
+        # Make sure the activity dialog to save is still the correct activity
+        my $Activity = $Self->{ActivityObject}->ActivityGet(
+            ActivityEntityID => $ActivityEntityID,
+            Interface        => ['AgentInterface'],
+        );
+        my %ActivityDialogs = reverse %{ $Activity->{ActivityDialog} // {} };
+        if ( !$ActivityDialogs{$ActivityDialogEntityID} ) {
+
+            return $Self->_ShowDialogError(
+                Message => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                    'This activity dialog does not belong to current activity in Ticket %s!',
+                    $Ticket{TicketID},
+                ),
+                Comment =>
+                    'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.',
             );
         }
 
@@ -3473,8 +3494,12 @@ sub _StoreActivityDialog {
 
         if ( !$ProcessEntityID )
         {
-            $Self->{LayoutObject}->CustomerFatalError(
-                Message => "Missing ProcessEntityID in Ticket $Ticket{TicketID}!",
+            return $Self->_ShowDialogError(
+                Message => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                    'Missing ProcessEntityID in Ticket %s!',
+                    $Ticket{TicketID},
+                ),
+                Comment => 'Please contact the administrator.',
             );
         }
     }
@@ -4361,6 +4386,15 @@ sub _GetFieldsToUpdateStrg {
         }
     }
     return $FieldsToUpdate;
+}
+
+sub _ShowDialogError {
+    my ( $Self, %Param ) = @_;
+
+    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+    $Output .= $Self->{LayoutObject}->Error(%Param);
+    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+    return $Output;
 }
 
 1;
