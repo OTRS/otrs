@@ -4391,9 +4391,9 @@ sub _GetFieldsToUpdateStrg {
 sub _ShowDialogError {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-    $Output .= $Self->{LayoutObject}->Error(%Param);
-    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+    my $Output = $Self->{LayoutObject}->CustomerHeader( Type => 'Small' );
+    $Output .= $Self->{LayoutObject}->CustomerError(%Param);
+    $Output .= $Self->{LayoutObject}->CustomerFooter( Type => 'Small' );
     return $Output;
 }
 
