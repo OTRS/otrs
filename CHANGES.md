@@ -73,6 +73,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.17 2017-??-??
+ - 2017-02-18 Fixed bug#[12443](https://bugs.otrs.org/show_bug.cgi?id=12443) - Activity dialog doesn't check process status before submit.
  - 2017-02-17 Fixed bug#[12552](https://bugs.otrs.org/show_bug.cgi?id=12552) - Merging Tickets will not move linked objects to target ticket.
  - 2017-02-17 Fixed bug#[12573](https://bugs.otrs.org/show_bug.cgi?id=12573) - Permissions are not completely translated.
  - 2017-02-17 Follow-up fix for bug#12487: Statistic with a  '+' in the  CustomerId doesn't work.
