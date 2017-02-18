@@ -4243,7 +4243,7 @@ sub _RenderType {
 sub _StoreActivityDialog {
     my ( $Self, %Param ) = @_;
 
-    my $TicketID = $Param{GetParam}{TicketID};
+    my $TicketID = $Param{GetParam}->{TicketID};
     my $ProcessStartpoint;
     my %Ticket;
     my $ProcessEntityID;
@@ -4256,7 +4256,7 @@ sub _StoreActivityDialog {
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $ActivityDialogEntityID = $Param{GetParam}{ActivityDialogEntityID};
+    my $ActivityDialogEntityID = $Param{GetParam}->{ActivityDialogEntityID};
     if ( !$ActivityDialogEntityID ) {
         $LayoutObject->FatalError(
             Message => Translatable('ActivityDialogEntityID missing!'),
@@ -4359,9 +4359,8 @@ sub _StoreActivityDialog {
                 my $PossibleValuesFilter;
 
                 # if we have an invisible field, use config's default value
-                if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
-                    $TicketParam{$CurrentField} = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
-                        // '';
+                if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
+                    $TicketParam{$CurrentField} = $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue} // '';
                 }
 
                 # only validate visible fields
@@ -4371,7 +4370,7 @@ sub _StoreActivityDialog {
                         DynamicFieldConfig   => $DynamicFieldConfig,
                         PossibleValuesFilter => $PossibleValuesFilter,
                         ParamObject          => $ParamObject,
-                        Mandatory            => $ActivityDialog->{Fields}{$CurrentField}{Display} == 2,
+                        Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
                     );
 
                     if ( !IsHashRefWithData($ValidationResult) ) {
@@ -4406,11 +4405,11 @@ sub _StoreActivityDialog {
                 )
             {
 
-                next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}{'CustomerID'} };
+                next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{'CustomerID'} };
 
                 # is not possible to a have an invisible field for this particular value
                 # on agent interface
-                if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
+                if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
                     $LayoutObject->FatalError(
                         Message => Translatable('Couldn\'t use CustomerID as an invisible field.'),
                         Comment => Translatable('Please contact the administrator.'),
@@ -4418,7 +4417,7 @@ sub _StoreActivityDialog {
                 }
 
                 # CustomerID should not be mandatory as in other screens
-                $TicketParam{CustomerID} = $Param{GetParam}{CustomerID} || '';
+                $TicketParam{CustomerID} = $Param{GetParam}->{CustomerID} || '';
 
                 # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
                 my $CustomerUserID = $ParamObject->GetParam( Param => 'SelectedCustomerUser' );
@@ -4446,8 +4445,8 @@ sub _StoreActivityDialog {
                 else {
                     $TicketParam{CustomerUser} = $CustomerUserID;
                 }
-                $CheckedFields{ $Self->{NameToID}{'CustomerID'} }     = 1;
-                $CheckedFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
+                $CheckedFields{ $Self->{NameToID}->{'CustomerID'} }     = 1;
+                $CheckedFields{ $Self->{NameToID}->{'CustomerUserID'} } = 1;
 
             }
             elsif ( $CurrentField eq 'PendingTime' ) {
@@ -4455,15 +4454,15 @@ sub _StoreActivityDialog {
 
                 # Make sure we have Values otherwise take an empty string
                 if (
-                    IsHashRefWithData( $Param{GetParam}{PendingTime} )
-                    && defined $Param{GetParam}{PendingTime}{Year}
-                    && defined $Param{GetParam}{PendingTime}{Month}
-                    && defined $Param{GetParam}{PendingTime}{Day}
-                    && defined $Param{GetParam}{PendingTime}{Hour}
-                    && defined $Param{GetParam}{PendingTime}{Minute}
+                    IsHashRefWithData( $Param{GetParam}->{PendingTime} )
+                    && defined $Param{GetParam}->{PendingTime}->{Year}
+                    && defined $Param{GetParam}->{PendingTime}->{Month}
+                    && defined $Param{GetParam}->{PendingTime}->{Day}
+                    && defined $Param{GetParam}->{PendingTime}->{Hour}
+                    && defined $Param{GetParam}->{PendingTime}->{Minute}
                     )
                 {
-                    $TicketParam{$CurrentField} = $Param{GetParam}{PendingTime};
+                    $TicketParam{$CurrentField} = $Param{GetParam}->{PendingTime};
                 }
 
                 # if we have no Pending status we have no time to set
@@ -4483,7 +4482,7 @@ sub _StoreActivityDialog {
                     %{ $ActivityDialog->{Fields}{$CurrentField} },
                 );
 
-                if ( !$Result && $ActivityDialog->{Fields}{$CurrentField}->{Display} == 2 ) {
+                if ( !$Result && $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
 
                     # special case for Article (Subject & Body)
                     if ( $CurrentField eq 'Article' ) {
@@ -4504,13 +4503,13 @@ sub _StoreActivityDialog {
 
                 if (
                     $CurrentField eq 'Article'
-                    && $ActivityDialog->{Fields}{$CurrentField}->{Config}->{TimeUnits}
-                    && $ActivityDialog->{Fields}{$CurrentField}->{Config}->{TimeUnits} == 2
+                    && $ActivityDialog->{Fields}->{$CurrentField}->{Config}->{TimeUnits}
+                    && $ActivityDialog->{Fields}->{$CurrentField}->{Config}->{TimeUnits} == 2
                     )
                 {
                     if ( !$Param{GetParam}->{TimeUnits} ) {
 
-                        # set error for the timeunits (if any)
+                        # set error for the time-units (if any)
                         $Error{'TimeUnits'} = 1;
                     }
                 }
@@ -4540,7 +4539,7 @@ sub _StoreActivityDialog {
     my $NewTicketID;
     if ( !$TicketID ) {
 
-        $ProcessEntityID = $Param{GetParam}{ProcessEntityID};
+        $ProcessEntityID = $Param{GetParam}->{ProcessEntityID};
         if ( !$ProcessEntityID )
         {
             return $LayoutObject->FatalError(
@@ -4575,7 +4574,7 @@ sub _StoreActivityDialog {
 
                 # if a required field has no value call _CheckField as filed is hidden
                 # (No Display param = Display => 0) and no DefaultValue, to use global default as
-                # fallback. One reason for this to happen is that ActivityDialog DefaultValue tried
+                # fall-back. One reason for this to happen is that ActivityDialog DefaultValue tried
                 # to set before, was not valid.
                 my $Result = $Self->_CheckField(
                     Field => $Self->{NameToID}->{$Needed},
@@ -4598,7 +4597,7 @@ sub _StoreActivityDialog {
 
             if ( !$TicketParam{OwnerID} ) {
 
-                $TicketParam{OwnerID} = $Param{GetParam}{OwnerID} || 1;
+                $TicketParam{OwnerID} = $Param{GetParam}->{OwnerID} || 1;
             }
 
             # if StartActivityDialog does not provide a ticket title set a default value
@@ -4811,12 +4810,32 @@ sub _StoreActivityDialog {
         };
         if ( !$ActivityEntityID )
         {
-            return $LayoutObject->ErrorScreen(
+
+            return $Self->_ShowDialogError(
                 Message => $LayoutObject->{LanguageObject}->Translate(
                     'Missing ActivityEntityID in Ticket %s!',
                     $Ticket{TicketID},
                 ),
                 Comment => Translatable('Please contact the administrator.'),
+            );
+        }
+
+        # Make sure the activity dialog to save is still the correct activity
+        my $Activity = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
+            ActivityEntityID => $ActivityEntityID,
+            Interface        => ['AgentInterface'],
+        );
+        my %ActivityDialogs = reverse %{ $Activity->{ActivityDialog} // {} };
+        if ( !$ActivityDialogs{$ActivityDialogEntityID} ) {
+
+            return $Self->_ShowDialogError(
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'This activity dialog does not belong to current activity in Ticket %s!',
+                    $Ticket{TicketID},
+                ),
+                Comment => Translatable(
+                    'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.'
+                ),
             );
         }
 
@@ -4827,11 +4846,12 @@ sub _StoreActivityDialog {
 
         if ( !$ProcessEntityID )
         {
-            $LayoutObject->FatalError(
+            return $Self->_ShowDialogError(
                 Message => $LayoutObject->{LanguageObject}->Translate(
                     'Missing ProcessEntityID in Ticket %s!',
                     $Ticket{TicketID},
                 ),
+                Comment => Translatable('Please contact the administrator.'),
             );
         }
     }
@@ -4850,9 +4870,9 @@ sub _StoreActivityDialog {
     }
 
     # Check if we deal with a Ticket Update
-    my $UpdateTicketID = $Param{GetParam}{TicketID};
+    my $UpdateTicketID = $Param{GetParam}->{TicketID};
 
-    # We save only once, no matter if one or more configs are set for the same param
+    # We save only once, no matter if one or more configurations are set for the same param
     my %StoredFields;
 
     # Save loop for storing Ticket Values that were not required on the initial TicketCreate
@@ -4997,10 +5017,10 @@ sub _StoreActivityDialog {
 
                         # workaround for link encode of rich text editor, see bug#5053
                         my $ContentIDLinkEncode = $LayoutObject->LinkEncode($ContentID);
-                        $Param{GetParam}{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
+                        $Param{GetParam}->{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
 
                         # ignore attachment if not linked in body
-                        if ( $Param{GetParam}{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i )
+                        if ( $Param{GetParam}->{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i )
                         {
                             next ATTACHMENT;
                         }
@@ -5018,7 +5038,7 @@ sub _StoreActivityDialog {
                 $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
                 # time accounting
-                if ( $Param{GetParam}{TimeUnits} ) {
+                if ( $Param{GetParam}->{TimeUnits} ) {
                     $TicketObject->TicketAccountTime(
                         TicketID  => $TicketID,
                         ArticleID => $ArticleID,
@@ -5033,7 +5053,7 @@ sub _StoreActivityDialog {
         elsif ($UpdateTicketID) {
 
             my $Success;
-            if ( $Self->{NameToID}{$CurrentField} eq 'Title' ) {
+            if ( $Self->{NameToID}->{$CurrentField} eq 'Title' ) {
 
                 # if there is no title, nothing is needed to be done
                 if (
@@ -5055,14 +5075,14 @@ sub _StoreActivityDialog {
             }
             elsif (
                 (
-                    $Self->{NameToID}{$CurrentField} eq 'CustomerID'
-                    || $Self->{NameToID}{$CurrentField} eq 'CustomerUserID'
+                    $Self->{NameToID}->{$CurrentField} eq 'CustomerID'
+                    || $Self->{NameToID}->{$CurrentField} eq 'CustomerUserID'
                 )
                 )
             {
-                next DIALOGFIELD if $StoredFields{ $Self->{NameToID}{$CurrentField} };
+                next DIALOGFIELD if $StoredFields{ $Self->{NameToID}->{$CurrentField} };
 
-                if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 1 ) {
+                if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 1 ) {
                     $LayoutObject->FatalError(
                         Message => $LayoutObject->{LanguageObject}->Translate(
                             'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!',
@@ -5081,8 +5101,8 @@ sub _StoreActivityDialog {
                     # In this case we don't want to call any additional stores
                     # on Customer, CustomerNo, CustomerID or CustomerUserID
                     # so make sure both fields are set to "Stored" ;)
-                    $StoredFields{ $Self->{NameToID}{'CustomerID'} }     = 1;
-                    $StoredFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
+                    $StoredFields{ $Self->{NameToID}->{'CustomerID'} }     = 1;
+                    $StoredFields{ $Self->{NameToID}->{'CustomerUserID'} } = 1;
                     next DIALOGFIELD;
                 }
 
@@ -5100,11 +5120,11 @@ sub _StoreActivityDialog {
                 # In this case we don't want to call any additional stores
                 # on Customer, CustomerNo, CustomerID or CustomerUserID
                 # so make sure both fields are set to "Stored" ;)
-                $StoredFields{ $Self->{NameToID}{'CustomerID'} }     = 1;
-                $StoredFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
+                $StoredFields{ $Self->{NameToID}->{'CustomerID'} }     = 1;
+                $StoredFields{ $Self->{NameToID}->{'CustomerUserID'} } = 1;
             }
             else {
-                next DIALOGFIELD if $StoredFields{ $Self->{NameToID}{$CurrentField} };
+                next DIALOGFIELD if $StoredFields{ $Self->{NameToID}->{$CurrentField} };
 
                 my $TicketFieldSetSub = $CurrentField;
                 $TicketFieldSetSub =~ s{ID$}{}xms;
@@ -5117,14 +5137,14 @@ sub _StoreActivityDialog {
                     # sadly we need an exception for Owner(ID) and Responsible(ID), because the
                     # Ticket*Set subs need NewUserID as param
                     if (
-                        scalar grep { $Self->{NameToID}{$CurrentField} eq $_ }
+                        scalar grep { $Self->{NameToID}->{$CurrentField} eq $_ }
                         qw( OwnerID ResponsibleID )
                         )
                     {
                         $UpdateFieldName = 'NewUserID';
                     }
                     else {
-                        $UpdateFieldName = $Self->{NameToID}{$CurrentField};
+                        $UpdateFieldName = $Self->{NameToID}->{$CurrentField};
                     }
 
                     # to store if the field needs to be updated
@@ -5135,10 +5155,10 @@ sub _StoreActivityDialog {
                     # value
                     if (
                         ( $UpdateFieldName eq 'ServiceID' || $UpdateFieldName eq 'SLAID' )
-                        && !defined $TicketParam{ $Self->{NameToID}{$CurrentField} }
+                        && !defined $TicketParam{ $Self->{NameToID}->{$CurrentField} }
                         )
                     {
-                        $TicketParam{ $Self->{NameToID}{$CurrentField} } = '';
+                        $TicketParam{ $Self->{NameToID}->{$CurrentField} } = '';
                         $FieldUpdate = 1;
                     }
 
@@ -5152,8 +5172,8 @@ sub _StoreActivityDialog {
                     elsif (
                         $UpdateFieldName ne 'ServiceID'
                         && $UpdateFieldName ne 'SLAID'
-                        && defined $TicketParam{ $Self->{NameToID}{$CurrentField} }
-                        && $TicketParam{ $Self->{NameToID}{$CurrentField} } ne ''
+                        && defined $TicketParam{ $Self->{NameToID}->{$CurrentField} }
+                        && $TicketParam{ $Self->{NameToID}->{$CurrentField} } ne ''
                         )
                     {
                         $FieldUpdate = 1;
@@ -5164,7 +5184,7 @@ sub _StoreActivityDialog {
                     # check if field needs to be updated
                     if ($FieldUpdate) {
                         $Success = $TicketObject->$TicketFieldSetSub(
-                            $UpdateFieldName => $TicketParam{ $Self->{NameToID}{$CurrentField} },
+                            $UpdateFieldName => $TicketParam{ $Self->{NameToID}->{$CurrentField} },
                             TicketID         => $TicketID,
                             UserID           => $Self->{UserID},
                         );
@@ -5188,7 +5208,7 @@ sub _StoreActivityDialog {
                             # service
                             if ( IsPositiveInteger( $Ticket{SLAID} ) ) {
                                 my %SLAList = $Kernel::OM->Get('Kernel::System::SLA')->SLAList(
-                                    ServiceID => $TicketParam{ $Self->{NameToID}{$CurrentField} },
+                                    ServiceID => $TicketParam{ $Self->{NameToID}->{$CurrentField} },
                                     UserID    => $Self->{UserID},
                                 );
 
@@ -6070,6 +6090,17 @@ sub _GetFieldsToUpdateStrg {
         }
     }
     return $FieldsToUpdate;
+}
+
+sub _ShowDialogError {
+    my ( $Self, %Param ) = @_;
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $Output = $LayoutObject->Header( Type => 'Small' );
+    $Output .= $LayoutObject->Error(%Param);
+    $Output .= $LayoutObject->Footer( Type => 'Small' );
+    return $Output;
 }
 
 1;
