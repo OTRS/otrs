@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-02-17 Fixed bug#[8853](https://bugs.otrs.org/show_bug.cgi?id=8853) - Hardcoded Priority and State in bin/otrs.FillDB.pl.
  - 2017-02-17 Unified the search from text and textarea dynamic fields (bug#12118).
  - 2017-02-17 Add support for setting owner and responsible via filter also for follow-ups, thanks to Renée Bäcker.
  - 2017-01-20 Added command to list configured queues, thanks to Martin Burggraf.
