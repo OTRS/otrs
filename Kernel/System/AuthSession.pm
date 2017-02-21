@@ -431,7 +431,7 @@ sub GetActiveSessions {
 
 =item CleanUp()
 
-cleanup of sessions in your system
+clean-up of sessions in your system
 
     $SessionObject->CleanUp();
 

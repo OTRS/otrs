@@ -1981,7 +1981,7 @@ sub ValueLookup {
 
 =item HasBehavior()
 
-checks if the dynamic field as an specified behavior
+checks if the dynamic field as an specified behaviour
 
     my $Success = $BackendObject->HasBehavior(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
@@ -1999,7 +1999,7 @@ checks if the dynamic field as an specified behavior
                                                          #     interface
     );
 
-    Returns:
+Returns:
 
     $Success = 1;                # or undefined (if the dynamic field does not have that behavior)
 
@@ -2061,10 +2061,10 @@ sub HasBehavior {
 
 =cut
 
-=head2 Functions For IsACLReducible Behavior
+=head2 Functions For IsACLReducible Behaviour
 
 The following functions should be only used if the dynamic field has
-IsACLReducible behavior
+IsACLReducible behaviour
 
 =over 4
 
@@ -2248,9 +2248,9 @@ sub BuildSelectionDataGet {
 
 =cut
 
-=head2 Functions For IsStatsCondition Behavior
+=head2 Functions For IsStatsCondition Behaviour
 
-The following functions should be only used if the dynamic field has IsStatsCondition behavior
+The following functions should be only used if the dynamic field has IsStatsCondition behaviour
 
 =over 4
 
@@ -2410,10 +2410,10 @@ sub StatsSearchFieldParameterBuild {
 
 =cut
 
-=head2 Functions For IsNotificationEventCondition Behavior
+=head2 Functions For IsNotificationEventCondition Behaviour
 
 The following functions should be only used if the dynamic field has IsNotificationEventCondition
-behavior
+behaviour
 
 =over 4
 
@@ -2501,9 +2501,9 @@ sub ObjectMatch {
 
 =cut
 
-=head2 Functions For IsFiltrable Behavior
+=head2 Functions For IsFiltrable Behaviour
 
-The following functions should be only used if the dynamic field has IsFiltrable behavior
+The following functions should be only used if the dynamic field has IsFiltrable behaviour
 
 =over 4
 

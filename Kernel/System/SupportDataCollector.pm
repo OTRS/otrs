@@ -414,7 +414,7 @@ sub CollectAsynchronous {
 
 =item CleanupAsynchronous()
 
-cleanup asynchronous data (the asynchronous plug-in decide for themselves)
+clean-up asynchronous data (the asynchronous plug-in decide for themselves)
 
     my $Success = $SupportDataCollectorObject->CleanupAsynchronous();
 

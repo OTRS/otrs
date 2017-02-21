@@ -63,7 +63,7 @@ sub Run {
 
 =item PostRun()
 
-Perform additional cleanups and wait times after Run().
+Perform additional clean-ups and wait times after Run().
 
 Override this method in your daemons.
 

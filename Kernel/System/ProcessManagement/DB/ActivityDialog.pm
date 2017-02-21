@@ -68,7 +68,7 @@ sub new {
 
 add new ActivityDialog
 
-returns the id of the created activity dialog if success or undef otherwise
+returns the id of the created activity dialogue if success or undef otherwise
 
     my $ID = $ActivityDialogObject->ActivityDialogAdd(
         EntityID    => 'AD1'                   # mandatory, exportable unique identifier
@@ -247,7 +247,7 @@ sub ActivityDialogDelete {
 
 =item ActivityDialogGet()
 
-get Activity Dialog attributes
+get ActivityDialog attributes
 
     my $ActivityDialog = $ActivityDialogObject->ActivityDialogGet(
         ID            => 123,            # ID or EntityID is needed
@@ -592,7 +592,7 @@ sub ActivityDialogList {
 
 =item ActivityDialogListGet()
 
-get an Activity Dialog list with all activity dialog details
+get an ActivityDialog list with all activity dialogue details
 
     my $List = $ActivityDialogObject->ActivityDialogListGet(
         UserID      => 1,

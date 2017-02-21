@@ -196,7 +196,7 @@ sub PossibleObjectsList {
 
 =item PossibleLinkList()
 
-return a 2d hash list of all possible links
+return a 2 dimensional hash list of all possible links
 
 Return
     %PossibleLinkList = (
@@ -1853,7 +1853,7 @@ sub TypeGet {
 
 =item TypeList()
 
-return a 2d hash list of all valid link types
+return a 2 dimensional hash list of all valid link types
 
 Return
     $TypeList{
@@ -1913,7 +1913,7 @@ sub TypeList {
 
 =item TypeGroupList()
 
-return a 2d hash list of all type groups
+return a 2 dimensional hash list of all type groups
 
 Return
     %TypeGroupList = (
