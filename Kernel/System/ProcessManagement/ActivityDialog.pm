@@ -20,11 +20,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::ActivityDialog - activity dialog lib
+Kernel::System::ProcessManagement::ActivityDialog - activity dialogue lib
 
 =head1 DESCRIPTION
 
-All Process Management Activity Dialog functions.
+All Process Management ActivityDialog functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -48,7 +48,7 @@ sub new {
 
 =head2 ActivityDialogGet()
 
-    Get activity dialog info
+Get activity dialogue info
 
     my $ActivityDialog = $ActivityDialogObject->ActivityDialogGet(
         ActivityDialogEntityID => 'AD1',
@@ -56,7 +56,7 @@ sub new {
         Silent                 => 1,    # 1 or 0, default 0, if set to 1, will not log errors about not matching interfaces
     );
 
-    Returns:
+Returns:
 
     $ActivityDialog = {
         Name             => 'UnitTestActivity',
@@ -182,7 +182,7 @@ sub ActivityDialogGet {
 
 =head2 ActivityDialogCompletedCheck()
 
-    Checks if an activity dialog is completed
+Checks if an activity dialogue is completed
 
     my $Completed = $ActivityDialogObject->ActivityDialogCompletedCheck(
         ActivityDialogEntityID => 'AD1',
@@ -194,7 +194,7 @@ sub ActivityDialogGet {
         },
     );
 
-    Returns:
+Returns:
 
     $Completed = 1; # 0
 

@@ -509,7 +509,7 @@ sub HandleError {
 =head2 DEMOLISH()
 
 override DEMOLISH from L<Selenium::Remote::Driver> (required because this class is managed by L<Moo>).
-Adds a unit test result to indicate the shutdown, and performs some cleanups.
+Adds a unit test result to indicate the shutdown, and performs some clean-ups.
 
 =cut
 

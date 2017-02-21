@@ -876,19 +876,20 @@ sub SelectAll {
 =head2 GetDatabaseFunction()
 
 to get database functions like
-    o Limit
-    o DirectBlob
-    o QuoteSingle
-    o QuoteBack
-    o QuoteSemicolon
-    o NoLikeInLargeText
-    o CurrentTimestamp
-    o Encode
-    o Comment
-    o ShellCommit
-    o ShellConnect
-    o Connect
-    o LikeEscapeString
+
+    - Limit
+    - DirectBlob
+    - QuoteSingle
+    - QuoteBack
+    - QuoteSemicolon
+    - NoLikeInLargeText
+    - CurrentTimestamp
+    - Encode
+    - Comment
+    - ShellCommit
+    - ShellConnect
+    - Connect
+    - LikeEscapeString
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 

@@ -136,7 +136,7 @@ sub Description {
 
 get/set additional help text for the current command. Call this in your Configure() method.
 
-You can use color tags (see L</Print()>) in your help tags.
+You can use colour tags (see L</Print()>) in your help tags.
 
 =cut
 
@@ -347,7 +347,7 @@ sub Run {
 
 =head2 PostRun()
 
-perform additional cleanups after Run(). Override this method in your commands.
+perform additional clean-ups after Run(). Override this method in your commands.
 
 The return value of this method will be ignored. It will be called after Run(), even
 if Run() caused an exception or returned an error exit code.
@@ -578,7 +578,7 @@ sub GetUsageHelp {
 
 =head2 ANSI()
 
-get/set support for colored text.
+get/set support for coloured text.
 
 =cut
 
@@ -593,7 +593,7 @@ sub ANSI {
 
 shorthand method to print an error message to STDERR.
 
-It will be prefixed with 'Error: ' and colored in red,
+It will be prefixed with 'Error: ' and coloured in red,
 if the terminal supports it (see L</ANSI()>).
 
 =cut
@@ -610,7 +610,7 @@ sub PrintError {
 
 this method will print the given text to STDOUT.
 
-You can add color tags (C<< <green>...</green>, <yellow>...</yellow>, <red>...</red> >>)
+You can add colour tags (C<< <green>...</green>, <yellow>...</yellow>, <red>...</red> >>)
 to your text, and they will be replaced with the corresponding terminal escape sequences
 if the terminal supports it (see L</ANSI()>).
 
@@ -784,7 +784,7 @@ sub _ParseCommandlineArguments {
 
 =head2 _Color()
 
-this will color the given text (see Term::ANSIColor::color()) if
+this will colour the given text (see L<Term::ANSIColor::color()>) if
 ANSI output is available and active, otherwise the text stays unchanged.
 
     my $PossiblyColoredText = $CommandObject->_Color('green', $Text);

@@ -292,9 +292,9 @@ In case of an error, error code and message are taken from environment
 (previously set on request processing).
 
 The HTTP code is set accordingly
-- 200 for (syntactically) correct messages
-- 4xx for http errors
-- 500 for content syntax errors
+- C<200> for (syntactically) correct messages
+- C<4xx> for http errors
+- C<500> for content syntax errors
 
     my $Result = $TransportObject->ProviderGenerateResponse(
         Success => 1

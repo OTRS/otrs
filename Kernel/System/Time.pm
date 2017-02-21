@@ -375,7 +375,7 @@ sub Date2SystemTime {
 =head2 ServerLocalTimeOffsetSeconds()
 
 All framework code that calls this method only uses it to check if the server runs in UTC
-and therefore user time zones are allowed. It's not needed anymore in the future and is only
+and therefore user time zones are allowed. It's not needed any more in the future and is only
 in here to don't break code that hasn't been ported yet. It returns 0 to tell its callers
 that the server runs in UTC and so user time zones are allowed/active.
 

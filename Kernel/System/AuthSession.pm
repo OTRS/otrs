@@ -425,7 +425,7 @@ sub GetActiveSessions {
 
 =head2 CleanUp()
 
-cleanup of sessions in your system
+clean-up of sessions in your system
 
     $SessionObject->CleanUp();
 
