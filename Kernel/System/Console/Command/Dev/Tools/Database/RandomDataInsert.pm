@@ -384,11 +384,11 @@ sub PriorityGet {
         Valid => 1,
     );
 
-    # possible not make this one sorted - for more variation in ticket-priority.
-    for my $Prio ( sort keys %PriorityList ) {
-        return $PriorityList{$Prio};
+    my @Priorities;
+    for my $PriorityID ( sort keys %PriorityList ) {
+        push @Priorities, $PriorityList{$PriorityID};
     }
-    return '3 normal';
+    return $Priorities[ int( rand( $#Priorities + 1 ) ) ];
 }
 
 sub QueueGet {
