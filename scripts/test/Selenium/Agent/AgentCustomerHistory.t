@@ -146,20 +146,24 @@ $Selenium->RunTest(
         for my $Test (@Tests) {
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Test->{Screen}");
 
-            # Choose customer user and wait until customer history table appears.
-            $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->clear();
-            $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->send_keys($CustomerUserLogin);
-            $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
-            );
-            $Selenium->find_element("//li[contains(text(), '$TestUser')]")->VerifiedClick();
+            if ( $Test->{FieldID} ne 'CustomerAutoComplete' ) {
+
+                # Choose customer user and wait until customer history table appears.
+                $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->clear();
+                $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->send_keys($CustomerUserLogin);
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                );
+                $Selenium->find_element("//li[contains(text(), '$TestUser')]")->click();
+            }
+
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("a[href*=\'View=Preview;Subaction=CustomerTickets;\']").length'
+                    'return typeof($) === "function" && $("a[name=OverviewControl][href*=\'View=Preview\']:visible").length'
             );
 
             # Go to 'Large' view because all of events could be checked there.
-            $Selenium->find_element("//a[contains(\@href, \'View=Preview;Subaction=CustomerTickets;')]")->click();
+            $Selenium->find_element("//a[\@name='OverviewControl'][contains(\@href, \'View=Preview')]")->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TicketOverviewLarge").length' );
 
             # wait for JS event to load
