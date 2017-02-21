@@ -376,7 +376,7 @@ sub Date2SystemTime {
 
 All framework code that calls this method only uses it to check if the server runs in UTC
 and therefore user time zones are allowed. It's not needed any more in the future and is only
-in here to don't break code that hasn't been ported yet. It returns 0 to tell its callers
+in here to don't break code that has not been ported yet. It returns 0 to tell its callers
 that the server runs in UTC and so user time zones are allowed/active.
 
 ( originally returned the computed difference in seconds between UTC time and local time. )
@@ -552,7 +552,7 @@ sub DestinationTime {
 
 =head2 VacationCheck()
 
-check if the selected day is a vacation (it doesn't matter if you
+check if the selected day is a vacation (it does not matter if you
 insert 01 or 1 for month or day in the function or in the SysConfig)
 
 returns (true) vacation day if exists, returns false if date is no

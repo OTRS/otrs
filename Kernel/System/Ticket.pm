@@ -1716,7 +1716,7 @@ sub TicketMoveList {
 
 =head2 TicketQueueSet()
 
-to move a ticket (sends notification to agents of selected my queues, if ticket isn't closed)
+to move a ticket (sends notification to agents of selected my queues, if ticket is not closed)
 
     my $Success = $TicketObject->TicketQueueSet(
         QueueID  => 123,

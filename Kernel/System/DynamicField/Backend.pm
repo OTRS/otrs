@@ -2057,7 +2057,7 @@ sub ValueLookup {
 
 =head2 HasBehavior()
 
-checks if the dynamic field as an specified behaviour
+checks if the dynamic field as an specified behavior
 
     my $Success = $BackendObject->HasBehavior(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
@@ -2075,7 +2075,7 @@ checks if the dynamic field as an specified behaviour
                                                          #     interface
     );
 
-Returns:
+    Returns:
 
     $Success = 1;                # or undefined (if the dynamic field does not have that behavior)
 
@@ -2133,10 +2133,10 @@ sub HasBehavior {
     return $Self->{$DynamicFieldBackend}->HasBehavior(%Param);
 }
 
-=head2 Functions For IsACLReducible Behaviour
+=head2 Functions For IsACLReducible Behavior
 
 The following functions should be only used if the dynamic field has
-IsACLReducible behaviour
+IsACLReducible behavior
 
 
 =head2 PossibleValuesGet()
@@ -2313,9 +2313,9 @@ sub BuildSelectionDataGet {
     return $Self->{$DynamicFieldBackend}->BuildSelectionDataGet(%Param);
 }
 
-=head2 Functions For IsStatsCondition Behaviour
+=head2 Functions For IsStatsCondition Behavior
 
-The following functions should be only used if the dynamic field has IsStatsCondition behaviour
+The following functions should be only used if the dynamic field has IsStatsCondition behavior
 
 
 =head2 StatsFieldParameterBuild()
@@ -2468,10 +2468,10 @@ sub StatsSearchFieldParameterBuild {
 
 }
 
-=head2 Functions For IsNotificationEventCondition Behaviour
+=head2 Functions For IsNotificationEventCondition Behavior
 
 The following functions should be only used if the dynamic field has IsNotificationEventCondition
-behaviour
+behavior
 
 =head2 ObjectMatch()
 
@@ -2551,9 +2551,9 @@ sub ObjectMatch {
     return $Self->{$DynamicFieldBackend}->ObjectMatch(%Param);
 }
 
-=head2 Functions For IsFiltrable Behaviour
+=head2 Functions For IsFiltrable Behavior
 
-The following functions should be only used if the dynamic field has IsFiltrable behaviour
+The following functions should be only used if the dynamic field has IsFiltrable behavior
 
 
 =head2 ColumnFilterValuesGet()

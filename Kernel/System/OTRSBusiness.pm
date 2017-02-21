@@ -704,7 +704,7 @@ sub OTRSBusinessInstall {
 
 =head2 OTRSBusinessReinstall()
 
-reinstalls OTRSBusiness from local repository.
+re-installs OTRSBusiness from local repository.
 
 =cut
 

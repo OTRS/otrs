@@ -74,7 +74,7 @@ sub new {
 =head2 Map()
 
 provides 1:1 and regex mapping for keys and values
-also the use of a default for unmapped keys and values is possible
+also the use of a default for keys and values that were not mapped is possible
 
 we need the config to be in the following format
 

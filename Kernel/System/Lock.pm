@@ -58,7 +58,7 @@ sub new {
 
 =head2 LockViewableLock()
 
-get list of viewable lock types (used to show available tickets)
+get list of view-able lock types (used to show available tickets)
 
     my @List = $LockObject->LockViewableLock(
         Type => 'Name', # ID|Name
