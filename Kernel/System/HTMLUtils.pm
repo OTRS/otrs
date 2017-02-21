@@ -769,7 +769,7 @@ sub DocumentCleanup {
 
 =item LinkQuote()
 
-URL link detections in HTML code, add C<a href> if missing
+detect links in HTML code, add C<a href> if missing
 
     my $HTMLWithLinks = $HTMLUtilsObject->LinkQuote(
         String    => $HTMLString,

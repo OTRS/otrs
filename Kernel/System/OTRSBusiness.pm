@@ -710,7 +710,7 @@ sub OTRSBusinessInstall {
 
 =item OTRSBusinessReinstall()
 
-reinstalls OTRSBusiness from local repository.
+re-installs OTRSBusiness from local repository.
 
 =cut
 

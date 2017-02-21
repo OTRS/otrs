@@ -782,7 +782,7 @@ sub DestinationTime {
 
 =item VacationCheck()
 
-check if the selected day is a vacation (it doesn't matter if you
+check if the selected day is a vacation (it does not matter if you
 insert 01 or 1 for month or day in the function or in the SysConfig)
 
 returns (true) vacation day if exists, returns false if date is no

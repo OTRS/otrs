@@ -109,8 +109,8 @@ usually this will represent the OTRS object that is supposed to be cached, like 
 
 The Key identifies the entry (together with the type) for retrieval and deletion of this value.
 
-The TTL controls when the cache will expire. Please note that the in-memory cache is not persistent
-and thus has no TTL/expiry mechanism.
+The C<TTL> controls when the cache will expire. Please note that the in-memory cache is not persistent
+and thus has no C<TTL>/expiry mechanism.
 
 Please note that if you store complex data, you have to make sure that the data is not modified
 in other parts of the code as the in-memory cache only refers to it. Otherwise also the cache would

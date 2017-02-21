@@ -772,7 +772,7 @@ sub ACLListGet {
 
 =item ACLsNeedSync()
 
-Check if there are unsynchronized ACLs
+Check if there are ACLs that are not yet deployed
 
     my $SyncCount = $ACLObject->ACLsNeedSync();
 

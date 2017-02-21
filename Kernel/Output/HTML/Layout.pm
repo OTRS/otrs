@@ -1815,7 +1815,7 @@ sub Ascii2Html {
 
 =item LinkQuote()
 
-so some URL link detections
+detect links in text
 
     my $HTMLWithLinks = $LayoutObject->LinkQuote(
         Text => $HTMLWithOutLinks,
@@ -1924,7 +1924,7 @@ sub LinkQuote {
 
 =item HTMLLinkQuote()
 
-so some URL link detections in HTML code
+detect links in HTML code
 
     my $HTMLWithLinks = $LayoutObject->HTMLLinkQuote(
         String => $HTMLString,

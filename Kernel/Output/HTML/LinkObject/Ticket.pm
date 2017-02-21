@@ -644,7 +644,7 @@ sub ContentStringCreate {
 
 =item SelectableObjectList()
 
-return an array hash with selectable objects
+return an array hash with select-able objects
 
 Return
 
