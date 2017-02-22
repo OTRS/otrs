@@ -262,9 +262,16 @@ $Selenium->RunTest(
         $Selenium->WaitFor( AlertPresent => 1 );
 
         # accept delete confirmation dialog
+        $Selenium->accept_alert();
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
         $Self->True(
-            $Selenium->accept_alert(),
-            "Delete - $SysMainComment"
+            index( $Selenium->get_page_source(), $SysMainComment ) == -1,
+            "Deleted - $SysMainComment"
         );
 
         # define test SystemMaintenance scenarios
