@@ -60,8 +60,10 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
+        my $RandomID = $Helper->GetRandomID();
+
         # create test queue
-        my $QueueName = 'Queue' . $Helper->GetRandomID();
+        my $QueueName = 'Queue' . $RandomID;
         my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name            => $QueueName,
             ValidID         => 1,
@@ -81,7 +83,7 @@ $Selenium->RunTest(
 
         # create auto response
         my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(
-            Name        => 'TestOTRSAutoResponse',
+            Name        => 'AutoResponse' . $RandomID,
             ValidID     => 1,
             Subject     => 'Some Subject..',
             Response    => 'Auto Response Test....',
@@ -188,27 +190,6 @@ $Selenium->RunTest(
                     "Second article created for ticket# $Index",
                 );
             }
-
-            if ( $Index > 0 ) {
-
-                # mark articles seen
-                my @ArticleIDs = $TicketObject->ArticleIndex(
-                    TicketID => $TicketIDs[$Index],
-                );
-
-                for my $ArticleID (@ArticleIDs) {
-                    my $SeenSuccess = $TicketObject->ArticleFlagSet(
-                        ArticleID => $ArticleID,
-                        Key       => 'Seen',
-                        Value     => 1,
-                        UserID    => $TestUserID,
-                    );
-                    $Self->True(
-                        $SeenSuccess,
-                        "Article $ArticleID marked as seen",
-                    );
-                }
-            }
         }
 
         # go to queue ticket overview
@@ -283,7 +264,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $SelectedArticle2,
-            0,
+            1,
             "Selected article for Second ticket is OK.",
         );
 
@@ -292,7 +273,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $SelectedArticle3,
-            0,
+            2,
             "Selected article for Third ticket is OK.",
         );
 
@@ -341,7 +322,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $SelectedArticle3,
-            0,
+            2,
             "Selected article for Third ticket is OK(Ticket::NewArticleIgnoreSystemSender enabled).",
         );
 

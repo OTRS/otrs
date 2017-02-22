@@ -1012,25 +1012,15 @@ sub _Show {
 
         # otherwise display the last article in the list as expanded (default)
         else {
-            # find latest not seen article
+
             my $ArticleSelected;
             my $IgnoreSystemSender = $ConfigObject->Get('Ticket::NewArticleIgnoreSystemSender');
 
             ARTICLE:
             for my $ArticleItem (@ArticleBody) {
 
-                my %ArticleFlags = $TicketObject->ArticleFlagGet(
-                    ArticleID => $ArticleItem->{ArticleID},
-                    UserID    => $Self->{UserID},
-                );
-
                 # ignore system sender type
-                next ARTICLE
-                    if $IgnoreSystemSender
-                    && $ArticleItem->{SenderType} eq 'system';
-
-                # ignore already seen articles
-                next ARTICLE if $ArticleFlags{Seen};
+                next ARTICLE if $IgnoreSystemSender && $ArticleItem->{SenderType} eq 'system';
 
                 $ArticleItem->{Class} = 'Active';
                 $ArticleSelected = 1;
@@ -1039,19 +1029,7 @@ sub _Show {
 
             # set selected article
             if ( !$ArticleSelected ) {
-
-                # set last customer article as selected article
-                ARTICLETMP:
-                for my $ArticleTmp (@ArticleBody) {
-                    if ( $ArticleTmp->{SenderType} eq 'customer' ) {
-                        $ArticleTmp->{Class} = 'Active';
-                        $ArticleSelected = 1;
-                        last ARTICLETMP;
-                    }
-                }
-                if ( !$ArticleSelected ) {
-                    $ArticleBody[0]->{Class} = 'Active';
-                }
+                $ArticleBody[0]->{Class} = 'Active';
             }
         }
 
