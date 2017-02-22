@@ -7,7 +7,7 @@
 # --
 
 package Kernel::System::DB;
-## nofilter(TidyAll::Plugin::OTRS::Perl::PODSpelling)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Pod::FunctionPod)
 
 use strict;
 use warnings;
