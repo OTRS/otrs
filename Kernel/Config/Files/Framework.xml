@@ -6939,8 +6939,8 @@ via the Preferences button after logging in.
         <SubGroup>Core::OTRSBusiness</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Development</Item>
-                <Item Key="1">Stable</Item>
+                <Item Key="0" Translatable="1">Development</Item>
+                <Item Key="1" Translatable="1">Stable</Item>
             </Option>
         </Setting>
     </ConfigItem>
