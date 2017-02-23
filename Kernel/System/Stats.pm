@@ -3317,7 +3317,8 @@ sub _GenerateDynamicStats {
     # so you don't need this function
     if ( $StatObject->can('GetHeaderLine') ) {
         my $HeaderRef = $StatObject->GetHeaderLine(
-            XValue => $Xvalue,
+            XValue       => $Xvalue,
+            Restrictions => \%RestrictionAttribute,
         );
 
         if ($HeaderRef) {
