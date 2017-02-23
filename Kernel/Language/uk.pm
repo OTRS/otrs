@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.297955010224949;
+    $Self->{Completeness}        = 0.312997347480106;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -907,7 +907,7 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Підстановочні символи як-то «*» є дозволеними.',
         'Add customer' => 'Додати клієнта',
         'Select' => 'Вибір',
-        'List (only %s shown - more available)' => '',
+        'List (only %s shown - more available)' => 'тільки %s показано - більше варіантів',
         'List (%s total)' => 'Список (%s всього)',
         'Please enter a search term to look for customers.' => ' Будь ласка, уведіть пошукове вираження для пошуку клієнтів.',
         'Add Customer' => 'Додати Клієнта',
@@ -952,12 +952,12 @@ sub Data {
         'Customers' => 'Клієнти',
         'No matches found.' => 'Збігів не знайдено.',
         'Groups' => 'Групи',
-        'Change Group Relations for Customer' => '',
-        'Change Customer Relations for Group' => '',
-        'Toggle %s Permission for all' => '',
-        'Toggle %s permission for %s' => '',
+        'Change Group Relations for Customer' => 'Зміна привязки групи до Клієнта',
+        'Change Customer Relations for Group' => 'Зміна привязки Клієнта до групи ',
+        'Toggle %s Permission for all' => 'Застосувати %s для всіх',
+        'Toggle %s permission for %s' => 'Застосувати %s повноваження для %s',
         'Customer Default Groups:' => 'Клієнтська група по-умовчанню:',
-        'No changes can be made to these groups.' => '',
+        'No changes can be made to these groups.' => 'Не можливо зробити зміни для цих груп',
         'ro' => 'Тільки читання',
         'Read only access to the ticket in this group/queue.' => 'Права тільки на читання заявки в даній групі/черги',
         'rw' => 'Читання/запис',
@@ -965,79 +965,79 @@ sub Data {
             'Повні права на заявки в даній групі/черги',
 
         # Template: AdminCustomerUserService
-        'Manage Customer-Services Relations' => '',
-        'Edit default services' => '',
-        'Filter for Services' => '',
-        'Allocate Services to Customer' => '',
-        'Allocate Customers to Service' => '',
-        'Toggle active state for all' => '',
+        'Manage Customer-Services Relations' => 'Керувати звязками Клієнт-Сервіс',
+        'Edit default services' => 'Редагувати сервіси по замовчуванню',
+        'Filter for Services' => 'Фільтр для сервісів',
+        'Allocate Services to Customer' => 'Привязати сервіси  до клієнта',
+        'Allocate Customers to Service' => 'Привязати Клієнта до сервісу',
+        'Toggle active state for all' => 'Встановити активний стан для всіх',
         'Active' => 'Активний',
-        'Toggle active state for %s' => '',
+        'Toggle active state for %s' => 'Встановити активний стан для %s',
 
         # Template: AdminDynamicField
-        'Dynamic Fields Management' => '',
-        'Add new field for object' => '',
+        'Dynamic Fields Management' => 'Керування динамічними полями',
+        'Add new field for object' => 'Додати нове полк для обєкту',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
-        'Dynamic Fields List' => '',
-        'Dynamic fields per page' => '',
-        'Label' => '',
+        'Dynamic Fields List' => 'Список динамічних полів',
+        'Dynamic fields per page' => 'Кількість динамічних полів на сторінку',
+        'Label' => 'Мітка',
         'Order' => 'Порядок',
         'Object' => 'Об\'єкт',
-        'Delete this field' => '',
+        'Delete this field' => 'Видалити це поле',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             '',
-        'Delete field' => '',
+        'Delete field' => 'Видалити поле',
         'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => '',
-        'Field' => '',
-        'Go back to overview' => '',
-        'General' => '',
+        'Dynamic Fields' => 'Динамічні поля',
+        'Field' => 'Поле',
+        'Go back to overview' => 'Повернутись до перегляду',
+        'General' => 'Загалом',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
-            '',
+            'Це поле є обовязкове, значення повинні бути лише літери чи цифри',
         'Must be unique and only accept alphabetic and numeric characters.' =>
-            '',
+            'Повинне бути ункальним, значення повинні бути лише літери чи цифри',
         'Changing this value will require manual changes in the system.' =>
-            '',
+            'Зміна цього значення вимагає ручних змін в системі',
         'This is the name to be shown on the screens where the field is active.' =>
-            '',
-        'Field order' => '',
-        'This field is required and must be numeric.' => '',
+            'Імя, що буде відображатись на екрані, коли поле активне',
+        'Field order' => 'Порядок поля',
+        'This field is required and must be numeric.' => 'Це поле є обовязковим і повинне складатись з цифр',
         'This is the order in which this field will be shown on the screens where is active.' =>
-            '',
-        'Field type' => '',
-        'Object type' => '',
-        'Internal field' => '',
+            'Порядок в якому поля будуть відображатись на екрані коли активні',
+        'Field type' => 'Тип поля',
+        'Object type' => 'Тип обєкту',
+        'Internal field' => 'Внутрішнє поле',
         'This field is protected and can\'t be deleted.' => '',
-        'Field Settings' => '',
-        'Default value' => '',
-        'This is the default value for this field.' => '',
+        'Field Settings' => 'Налаштування поля',
+        'Default value' => 'Значення за замовчуванням',
+        'This is the default value for this field.' => 'Це значення за замовчуванням для цього поля',
 
         # Template: AdminDynamicFieldDateTime
-        'Default date difference' => '',
-        'This field must be numeric.' => '',
+        'Default date difference' => 'Різниця дати за замовчуванням',
+        'This field must be numeric.' => 'Це поле повинно бути цифровим',
         'The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60).' =>
-            '',
-        'Define years period' => '',
+            'Час для прорахунку (від зараз) значення поля за замовчуванням (приклад 3600 або -60)',
+        'Define years period' => 'Визначіть рік',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
-            '',
-        'Years in the past' => '',
-        'Years in the past to display (default: 5 years).' => '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
-        'Show link' => '',
+            'Активація цієї опції визначає сталий перелік років (в майбутньому і минулому) для відображення в полі рік',
+        'Years in the past' => 'Років тому',
+        'Years in the past to display (default: 5 years).' => 'показувати років назад (за замовчуванням: 5 років)',
+        'Years in the future' => 'Років в майбутньому',
+        'Years in the future to display (default: 5 years).' => 'показувати років в майбутньому (за замовчуванням: 5 років)',
+        'Show link' => 'Показати посилання',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            '',
-        'Link for preview' => '',
+            'Тут Ви можете визначити додатковий HTTP лінк для значення поля перегляд і розширений перегляд',
+        'Link for preview' => 'Посилання для перегляду',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            '',
-        'Restrict entering of dates' => '',
-        'Here you can restrict the entering of dates of tickets.' => '',
+            'Якщо заповнені, це посилання буде використовуватися для попереднього перегляду у розширеному перегляді тікету.Зверніть увагу, що для цієї дії, регулярне поле посилання вище повинно бути заповнене також',
+        'Restrict entering of dates' => 'Обмежеити введення дати',
+        'Here you can restrict the entering of dates of tickets.' => 'Тут Ви можете обмежити введення дати тікету',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => '',
+        'Possible values' => 'Можливі значення',
         'Key' => 'Ключ',
         'Value' => 'Значення',
         'Remove value' => 'Вилучити значення',
@@ -1090,7 +1090,7 @@ sub Data {
         'Run Now!' => 'Виконати зараз!',
         'Delete this task' => 'Вилучити завдання',
         'Run this task' => 'Запустити завдання',
-        'Do you really want to delete this task?' => '',
+        'Do you really want to delete this task?' => 'Ви справді хочете видалити це завдання',
         'Job Settings' => 'Настроювання завдання',
         'Job name' => 'Ім\'я завдання',
         'The name you entered already exists.' => 'Ім\'я, що Ви ввели, вже існує.',
@@ -1134,11 +1134,11 @@ sub Data {
         'No create time settings.' => ' Без обліку часу створення',
         'Ticket created' => 'Заявка створена',
         'Ticket created between' => 'Заявка створена між ',
-        'Last changed times' => '',
-        'No last changed time settings.' => '',
-        'Ticket last changed' => '',
-        'Ticket last changed between' => '',
-        'Change times' => '',
+        'Last changed times' => 'Час останньої зміни',
+        'No last changed time settings.' => 'Не має часу змін налаштувань',
+        'Ticket last changed' => 'Заявка змінена',
+        'Ticket last changed between' => 'Заявка змінена між',
+        'Change times' => 'Час зміни',
         'No change time settings.' => 'Не змінювати параметри часу',
         'Ticket changed' => 'Заявка змінена',
         'Ticket changed between' => 'Заявка змінена в період',
@@ -1150,7 +1150,7 @@ sub Data {
         'No pending time settings.' => ' Без обліку часу, коли запит був відкладений',
         'Ticket pending time reached' => 'Заявка була відкладена',
         'Ticket pending time reached between' => 'Заявка була відкладена між',
-        'Escalation times' => '',
+        'Escalation times' => 'час ротермінування',
         'No escalation time settings.' => ' Без обліку часу ескалації',
         'Ticket escalation time reached' => 'Заявка була ескальована',
         'Ticket escalation time reached between' => 'Заявка була ескальована між',
@@ -1175,7 +1175,7 @@ sub Data {
         'new owner' => 'новий власник',
         'new responsible' => 'нова відповідь',
         'Set new ticket lock' => 'Встановити нове блокування заявки',
-        'New customer user' => '',
+        'New customer user' => 'Новий користувас клієнта',
         'New customer ID' => 'ID нового клієнта',
         'New title' => 'Новий заголовок',
         'New type' => 'Новий тип',
@@ -1191,7 +1191,7 @@ sub Data {
         'Delete tickets' => 'Вилучити заявки',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             'Попередження: Усі обрані заявки будуть вилучені з бази даних без можливості відновлення!',
-        'Execute Custom Module' => '',
+        'Execute Custom Module' => 'Виконати модуль користувача',
         'Param %s key' => 'Ключ параметра ',
         'Param %s value' => 'Значення параметра ',
         'Save Changes' => 'Зберегти зміни',
@@ -1207,14 +1207,14 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
-        'You are here' => '',
-        'Web Services' => '',
-        'Debugger' => '',
-        'Go back to web service' => '',
-        'Clear' => '',
+        'You are here' => 'Ви тут',
+        'Web Services' => 'Веб сервіси',
+        'Debugger' => 'Відладчик',
+        'Go back to web service' => 'Повернутись до веб серівісів',
+        'Clear' => 'Очистити',
         'Do you really want to clear the debug log of this web service?' =>
-            '',
-        'Request List' => '',
+            'Ви дійсно бажаєте очистити лог відладки цього веб сервісу?',
+        'Request List' => 'Необхідний перелік',
         'Time' => 'Час',
         'Remote IP' => 'Віддалений IP',
         'Loading' => 'Завантаження',
@@ -1225,10 +1225,10 @@ sub Data {
         'Filter by remote IP' => 'Фільтрувати за віддаленим IP',
         'Limit' => 'Обмеження',
         'Refresh' => 'Обновити',
-        'Request Details' => '',
-        'An error occurred during communication.' => '',
-        'Show or hide the content.' => '',
-        'Clear debug log' => '',
+        'Request Details' => 'Деталі запиту',
+        'An error occurred during communication.' => 'Виникла помилка під час звязку',
+        'Show or hide the content.' => 'Відобразити чи приховати контент',
+        'Clear debug log' => 'Очистити лог відладки',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '',
@@ -1245,13 +1245,13 @@ sub Data {
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
         'Mapping for outgoing request data' => '',
-        'Configure' => '',
+        'Configure' => 'Налаштувати',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
         'Mapping for incoming response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
             '',
-        'Asynchronous' => '',
+        'Asynchronous' => 'Асинхронний',
         'This invoker will be triggered by the configured events.' => '',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
             '',
@@ -1262,7 +1262,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => '',
-        'Go back to' => '',
+        'Go back to' => 'Повернутися до',
         'Mapping Simple' => '',
         'Default rule for unmapped keys' => '',
         'This rule will apply for all keys with no mapping rule.' => '',
@@ -1288,7 +1288,7 @@ sub Data {
         # Template: AdminGenericInterfaceMappingXSLT
         'GenericInterface Mapping XSLT for Web Service %s' => '',
         'Mapping XML' => '',
-        'Template' => '',
+        'Template' => 'Зразок',
         'The entered data is not a valid XSLT stylesheet.' => '',
         'Insert XSLT stylesheet.' => '',
 
@@ -1618,6 +1618,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => '',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
@@ -2402,7 +2404,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => '',
-        'Edit System Maintenance information' => '',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => '',
         'Login message' => '',
         'Show login message' => '',
@@ -3797,6 +3799,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '',
@@ -4645,9 +4651,9 @@ Thanks for your help!
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
@@ -5553,6 +5559,7 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6793,6 +6800,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6984,11 +6992,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
+        'bounce' => '',
+        'compose' => '',
         'debug' => '',
         'error' => '',
+        'forward' => '',
         'info' => '',
         'inline' => '',
         'notice' => '',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

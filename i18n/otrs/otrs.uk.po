@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-01-16 17:40+0000\n"
-"PO-Revision-Date: 2017-01-16 23:41+0000\n"
+"POT-Creation-Date: 2017-02-22 20:57+0000\n"
+"PO-Revision-Date: 2017-02-23 03:10+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -3274,7 +3274,7 @@ msgstr "Вибір"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "тільки %s показано - більше варіантів"
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
@@ -3417,19 +3417,19 @@ msgstr "Групи"
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Group Relations for Customer"
-msgstr ""
+msgstr "Зміна привязки групи до Клієнта"
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Customer Relations for Group"
-msgstr ""
+msgstr "Зміна привязки Клієнта до групи "
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s Permission for all"
-msgstr ""
+msgstr "Застосувати %s для всіх"
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s permission for %s"
-msgstr ""
+msgstr "Застосувати %s повноваження для %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer Default Groups:"
@@ -3437,7 +3437,7 @@ msgstr "Клієнтська група по-умовчанню:"
 
 #. Template: AdminCustomerUserGroup
 msgid "No changes can be made to these groups."
-msgstr ""
+msgstr "Не можливо зробити зміни для цих груп"
 
 #. Template: AdminCustomerUserGroup
 msgid "ro"
@@ -3457,27 +3457,27 @@ msgstr "Повні права на заявки в даній групі/чер�
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer-Services Relations"
-msgstr ""
+msgstr "Керувати звязками Клієнт-Сервіс"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
-msgstr ""
+msgstr "Редагувати сервіси по замовчуванню"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
-msgstr ""
+msgstr "Фільтр для сервісів"
 
 #. Template: AdminCustomerUserService
 msgid "Allocate Services to Customer"
-msgstr ""
+msgstr "Привязати сервіси  до клієнта"
 
 #. Template: AdminCustomerUserService
 msgid "Allocate Customers to Service"
-msgstr ""
+msgstr "Привязати Клієнта до сервісу"
 
 #. Template: AdminCustomerUserService
 msgid "Toggle active state for all"
-msgstr ""
+msgstr "Встановити активний стан для всіх"
 
 #. Template: AdminCustomerUserService
 msgid "Active"
@@ -3485,15 +3485,15 @@ msgstr "Активний"
 
 #. Template: AdminCustomerUserService
 msgid "Toggle active state for %s"
-msgstr ""
+msgstr "Встановити активний стан для %s"
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields Management"
-msgstr ""
+msgstr "Керування динамічними полями"
 
 #. Template: AdminDynamicField
 msgid "Add new field for object"
-msgstr ""
+msgstr "Додати нове полк для обєкту"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -3504,15 +3504,15 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
-msgstr ""
+msgstr "Список динамічних полів"
 
 #. Template: AdminDynamicField
 msgid "Dynamic fields per page"
-msgstr ""
+msgstr "Кількість динамічних полів на сторінку"
 
 #. Template: AdminDynamicField
 msgid "Label"
-msgstr ""
+msgstr "Мітка"
 
 #. Template: AdminDynamicField
 msgid "Order"
@@ -3524,7 +3524,7 @@ msgstr "Об'єкт"
 
 #. Template: AdminDynamicField
 msgid "Delete this field"
-msgstr ""
+msgstr "Видалити це поле"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -3534,7 +3534,7 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Delete field"
-msgstr ""
+msgstr "Видалити поле"
 
 #. Template: AdminDynamicField
 msgid "Deleting the field and its data. This may take a while..."
@@ -3542,63 +3542,63 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
-msgstr ""
+msgstr "Динамічні поля"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field"
-msgstr ""
+msgstr "Поле"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
-msgstr ""
+msgstr "Повернутись до перегляду"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "General"
-msgstr ""
+msgstr "Загалом"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
 "This field is required, and the value should be alphabetic and numeric "
 "characters only."
-msgstr ""
+msgstr "Це поле є обовязкове, значення повинні бути лише літери чи цифри"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Must be unique and only accept alphabetic and numeric characters."
-msgstr ""
+msgstr "Повинне бути ункальним, значення повинні бути лише літери чи цифри"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Changing this value will require manual changes in the system."
-msgstr ""
+msgstr "Зміна цього значення вимагає ручних змін в системі"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the name to be shown on the screens where the field is active."
-msgstr ""
+msgstr "Імя, що буде відображатись на екрані, коли поле активне"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
-msgstr ""
+msgstr "Порядок поля"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is required and must be numeric."
-msgstr ""
+msgstr "Це поле є обовязковим і повинне складатись з цифр"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
 "This is the order in which this field will be shown on the screens where is "
 "active."
-msgstr ""
+msgstr "Порядок в якому поля будуть відображатись на екрані коли активні"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
-msgstr ""
+msgstr "Тип поля"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Object type"
-msgstr ""
+msgstr "Тип обєкту"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Internal field"
-msgstr ""
+msgstr "Внутрішнє поле"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is protected and can't be deleted."
@@ -3606,88 +3606,88 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
-msgstr ""
+msgstr "Налаштування поля"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Default value"
-msgstr ""
+msgstr "Значення за замовчуванням"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the default value for this field."
-msgstr ""
+msgstr "Це значення за замовчуванням для цього поля"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
-msgstr ""
+msgstr "Різниця дати за замовчуванням"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "This field must be numeric."
-msgstr ""
+msgstr "Це поле повинно бути цифровим"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "The difference from NOW (in seconds) to calculate the field default value "
 "(e.g. 3600 or -60)."
-msgstr ""
+msgstr "Час для прорахунку (від зараз) значення поля за замовчуванням (приклад 3600 або -60)"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
-msgstr ""
+msgstr "Визначіть рік"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "Activate this feature to define a fixed range of years (in the future and in"
 " the past) to be displayed on the year part of the field."
-msgstr ""
+msgstr "Активація цієї опції визначає сталий перелік років (в майбутньому і минулому) для відображення в полі рік"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past"
-msgstr ""
+msgstr "Років тому"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past to display (default: 5 years)."
-msgstr ""
+msgstr "показувати років назад (за замовчуванням: 5 років)"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future"
-msgstr ""
+msgstr "Років в майбутньому"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future to display (default: 5 years)."
-msgstr ""
+msgstr "показувати років в майбутньому (за замовчуванням: 5 років)"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Show link"
-msgstr ""
+msgstr "Показати посилання"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
-msgstr ""
+msgstr "Тут Ви можете визначити додатковий HTTP лінк для значення поля перегляд і розширений перегляд"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Link for preview"
-msgstr ""
+msgstr "Посилання для перегляду"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "If filled in, this URL will be used for a preview which is shown when this "
 "link is hovered in ticket zoom. Please note that for this to work, the "
 "regular URL field above needs to be filled in, too."
-msgstr ""
+msgstr "Якщо заповнені, це посилання буде використовуватися для попереднього перегляду у розширеному перегляді тікету.Зверніть увагу, що для цієї дії, регулярне поле посилання вище повинно бути заповнене також"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
-msgstr ""
+msgstr "Обмежеити введення дати"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Here you can restrict the entering of dates of tickets."
-msgstr ""
+msgstr "Тут Ви можете обмежити введення дати тікету"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Possible values"
-msgstr ""
+msgstr "Можливі значення"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Key"
@@ -3859,7 +3859,7 @@ msgstr "Запустити завдання"
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this task?"
-msgstr ""
+msgstr "Ви справді хочете видалити це завдання"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -4019,23 +4019,23 @@ msgstr "Заявка створена між "
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Час останньої зміни"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr ""
+msgstr "Не має часу змін налаштувань"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Заявка змінена"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "Заявка змінена між"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
-msgstr ""
+msgstr "Час зміни"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
@@ -4083,7 +4083,7 @@ msgstr "Заявка була відкладена між"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
-msgstr ""
+msgstr "час ротермінування"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
@@ -4183,7 +4183,7 @@ msgstr "Встановити нове блокування заявки"
 
 #. Template: AdminGenericAgent
 msgid "New customer user"
-msgstr ""
+msgstr "Новий користувас клієнта"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -4243,7 +4243,7 @@ msgstr "Попередження: Усі обрані заявки будуть 
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
-msgstr ""
+msgstr "Виконати модуль користувача"
 
 #. Template: AdminGenericAgent
 msgid "Param %s key"
@@ -4293,31 +4293,31 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
-msgstr ""
+msgstr "Ви тут"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
-msgstr ""
+msgstr "Веб сервіси"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
-msgstr ""
+msgstr "Відладчик"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Go back to web service"
-msgstr ""
+msgstr "Повернутись до веб серівісів"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear"
-msgstr ""
+msgstr "Очистити"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Do you really want to clear the debug log of this web service?"
-msgstr ""
+msgstr "Ви дійсно бажаєте очистити лог відладки цього веб сервісу?"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
-msgstr ""
+msgstr "Необхідний перелік"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Time"
@@ -4361,19 +4361,19 @@ msgstr "Обновити"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request Details"
-msgstr ""
+msgstr "Деталі запиту"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "An error occurred during communication."
-msgstr ""
+msgstr "Виникла помилка під час звязку"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Show or hide the content."
-msgstr ""
+msgstr "Відобразити чи приховати контент"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear debug log"
-msgstr ""
+msgstr "Очистити лог відладки"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new Invoker to Web Service %s"
@@ -4428,7 +4428,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
-msgstr ""
+msgstr "Налаштувати"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4448,7 +4448,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
-msgstr ""
+msgstr "Асинхронний"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -4480,7 +4480,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Go back to"
-msgstr ""
+msgstr "Повернутися до"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
@@ -4576,7 +4576,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Template"
-msgstr ""
+msgstr "Зразок"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT stylesheet."
@@ -5665,6 +5665,12 @@ msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid ""
+"You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
+"from the current ticket."
 msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
@@ -8206,7 +8212,7 @@ msgid "Edit System Maintenance %s"
 msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
-msgid "Edit System Maintenance information"
+msgid "Edit System Maintenance Information"
 msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
@@ -9352,11 +9358,19 @@ msgid "CustomerID (complex search)"
 msgstr ""
 
 #. Template: AgentTicketSearch
+msgid "(e. g. 234*)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
 msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "(e. g. U51*)"
 msgstr ""
 
 #. Template: AgentTicketSearch
@@ -11809,6 +11823,14 @@ msgstr ""
 msgid "Can't get filter content data of %s!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
+msgid "Customer Company Name"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
+msgid "Customer User ID"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
 msgstr ""
@@ -11952,7 +11974,13 @@ msgid "You need to select at least one ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "Ticket is locked by another agent and will be ignored!"
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to these tickets: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "The following tickets were locked: %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -12176,6 +12204,16 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid "This activity dialog does not belong to current activity in Ticket %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid ""
+"It might be possible that the ticket was updated by another user in the mean"
+" time, please close this window and reload ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -13532,6 +13570,11 @@ msgstr ""
 msgid "Package List"
 msgstr ""
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
+msgid "Session Config Settings"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "Spooled Emails"
 msgstr ""
@@ -14612,15 +14655,15 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
-"With this feature you can search e. g. with this kind of conditions like "
-"\"(key1&&key2)\" or \"(key1||key2)\"."
+"With this feature you can search e. g. ticket title with this kind of "
+"conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the customer "
-"interface. With this feature you can search e. g. with this kind of "
-"conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
+"interface. With this feature you can search e. g. ticket title with this "
+"kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
 
 #. SysConfig
@@ -15045,11 +15088,13 @@ msgid "Controls how to display the ticket history entries as readable values."
 msgstr ""
 
 #. SysConfig
-msgid "Controls if CustomerID is editable in the agent interface."
+msgid ""
+"Controls if CustomerID is automatically copied from the sender address for "
+"unknown customers."
 msgstr ""
 
 #. SysConfig
-msgid "Controls if CutomerID is editable in the agent interface."
+msgid "Controls if CustomerID is read-only in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -17599,6 +17644,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Development"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18691,54 +18740,6 @@ msgstr ""
 msgid ""
 "If \"file\" was selected for LogModule, a logfile must be specified. If the "
 "file doesn't exist, it will be created by the system."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the close "
-"ticket screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"bulk screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"free text screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"note screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"responsible screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"owner screen of a zoomed ticket in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"pending screen of a zoomed ticket in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"priority screen of a zoomed ticket in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -20768,6 +20769,52 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Sets the state of a ticket in the close ticket screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket bulk screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket free text screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket note screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket responsible screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket owner screen of a zoomed ticket "
+"in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket pending screen of a zoomed ticket"
+" in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket priority screen of a zoomed "
+"ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the stats hook."
 msgstr ""
 
@@ -21758,6 +21805,10 @@ msgid "Spell checker."
 msgstr ""
 
 #. SysConfig
+msgid "Stable"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Standard available permissions for agents within the application. If more "
 "permissions are needed, they can be entered here. Permissions must be "
@@ -22402,11 +22453,23 @@ msgid "attachment"
 msgstr ""
 
 #. SysConfig
+msgid "bounce"
+msgstr ""
+
+#. SysConfig
+msgid "compose"
+msgstr ""
+
+#. SysConfig
 msgid "debug"
 msgstr ""
 
 #. SysConfig
 msgid "error"
+msgstr ""
+
+#. SysConfig
+msgid "forward"
 msgstr ""
 
 #. SysConfig
@@ -22419,4 +22482,16 @@ msgstr ""
 
 #. SysConfig
 msgid "notice"
+msgstr ""
+
+#. SysConfig
+msgid "pending"
+msgstr ""
+
+#. SysConfig
+msgid "responsible"
+msgstr ""
+
+#. SysConfig
+msgid "stats"
 msgstr ""

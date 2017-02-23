@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.654192229038855;
+    $Self->{Completeness}        = 0.652519893899204;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1624,6 +1624,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Aanvullende ontvanger e-mailadres',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'Interactiesoort voor melding',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Wanneer de notificatie wordt verstuurd naar de klant of een extra email adres, wordt een artikel aangemaakt.',
@@ -2408,7 +2410,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Bewerk onderhoudsvenster %s',
-        'Edit System Maintenance information' => 'Bewerk systeem onderhoudstijdsvak informatie',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Ongeldige datum.',
         'Login message' => 'Login bericht',
         'Show login message' => 'Toon login bericht',
@@ -3449,7 +3451,7 @@ sub Data {
         'Web service "%s" created!' => 'Webservice "%s" aangemaakt!',
         'Need Name!' => 'Heb Naam nodig!',
         'Need ExampleWebService!' => '',
-        'Could not read %s!' => '',
+        'Could not read %s!' => 'Kan %s niet lezen!',
         'Need a file to import!' => 'Heb een bestand nodig om te importeren!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'Het geïmporteerde bestand is geen geldig YAML bestand! Kijk in het logbestand voor details',
@@ -3803,6 +3805,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '',
@@ -4662,9 +4668,9 @@ Het Helpdesk Team
             'Staat het toe om nieuwe types te definieren voor tickets (als ticket type feature aan staat).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Staat het toe om services en SLA\'s voor tickets te specificeren (e.g. email, desktop, netwerk, ...), en escalatie attributen voor SLA\'s (als ticket service/SLA feature is ingeschakeld).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Staat het toe om uitgebreide zoekcondities in het zoekscherm van tickets te gebruiken in de agent interface. Met deze feature kun je zoeken met condities zoals "(key1&&key2)" of "(key1||key2)".',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
@@ -5570,6 +5576,7 @@ Het Helpdesk Team
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6810,6 +6817,7 @@ Het Helpdesk Team
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -7001,11 +7009,17 @@ Het Helpdesk Team
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
+        'bounce' => '',
+        'compose' => '',
         'debug' => '',
         'error' => '',
+        'forward' => '',
         'info' => '',
         'inline' => '',
         'notice' => '',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

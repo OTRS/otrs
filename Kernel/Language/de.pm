@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.96359918200409;
+    $Self->{Completeness}        = 0.961640481534381;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1618,6 +1618,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Zusätzliche Empfänger-E-Mail-Adressen',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'Artikeltyp der Benachrichtigung',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Ein Artikel wird erstellt, wenn die Benachrichtigung an den Kunden oder an eine zusätzliche E-Mail-Adresse versendet wird.',
@@ -2402,7 +2404,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Systemwartung %s bearbeiten',
-        'Edit System Maintenance information' => 'Systemwartungs-Information bearbeiten',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Ungültiges Datum',
         'Login message' => 'Anmeldungs-Nachricht',
         'Show login message' => 'Anmeldungs-Nachricht anzeigen',
@@ -2811,10 +2813,10 @@ sub Data {
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Sucht in den Attributen Von, Cc, Betreff, Artikelinhalt und überschreibt Attribute mit dem selben Namen.',
         'CustomerID (complex search)' => 'Kundennummer (komplexe Suche)',
-        '(e. g. 234*)' => '',
+        '(e. g. 234*)' => '(z. B. 234*)',
         'CustomerID (exact match)' => 'Kundennummer (genaue Übereinstimmung)',
         'Customer User Login (complex search)' => 'Kundenbenutzer (komplexe Suche)',
-        '(e. g. U51*)' => '',
+        '(e. g. U51*)' => '(z. B. U51*)',
         'Customer User Login (exact match)' => 'Kundenbenutzer (genaue Übereinstimmung)',
         'Attachment Name' => 'Name der Anlage',
         '(e. g. m*file or myfi*)' => '(z.B. m*file oder myfi*)',
@@ -3656,7 +3658,7 @@ sub Data {
         'Can\'t get element data of %s!' => 'Konnte Daten zu Element %s nicht ermitteln!',
         'Can\'t get filter content data of %s!' => 'Kann Filter-Daten von %s nicht ermitteln!',
         'Customer Company Name' => '',
-        'Customer User ID' => '',
+        'Customer User ID' => 'Kundenbenutzerkennung',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Benötige SourceObject und SourceKey!',
@@ -3797,6 +3799,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Konnte Aktivitätsdialog nicht speichern, ungültige TicketID: %s!',
         'Invalid TicketID: %s!' => 'Ungültige TicketID: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'ActivityEntityID fehlt für Ticket %s!',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => 'ProcessEntityID fehlt für Ticket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Konnte Wert des dynamischen Feldes %s für TicketID %s im Aktivitätsdialog "%s" nicht speichern!',
@@ -4287,7 +4293,7 @@ sub Data {
         'Package List' => 'Paketliste',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
-        'Session Config Settings' => '',
+        'Session Config Settings' => 'Sitzungskonfigurationseinstellungen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
         'Spooled Emails' => '',
@@ -4655,10 +4661,10 @@ Ihr Helpdesk-Team
             'Ermöglicht die Definition neuer Ticket-Typen  (wenn Ticket-Typ-Funktion aktiviert ist).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Erlaubt die Definition von Services und SLAs für Tickets (zum Beispiel: E-Mail, Desktop, Network, ...) und Eskalationsattributen für SLAs (wenn die Ticket Service/SLA Einstellung aktiviert ist).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Erlaubt erweiterte Suchbedingungen in der Ticket-Suche des Agenten-Bereichs. Mit dieser Funktion können Sie z.B. mit Bedingungen wie "(key1&&key2)" oder "(key1||key2)" suchen.',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Erlaubt erweiterte Suchbedingungen in der Ticketsuche im Kundenbereich. Mit diesem Feature können Sie Suchbedingungen wie "(key1&&key2)" oder "(key1||key2)" festlegen.',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Erlaubt erweiterte Suchbedingungen der generischen Agenten-Schnittstelle. Mit diesem Feature kann man z.B. Ticket-Titel mit Bedingungen wie dieser "(*key1*&&*key2*)" oder "(*key1*||*key2*)" durchsuchen.',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5563,6 +5569,7 @@ Ihr Helpdesk-Team
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6803,6 +6810,7 @@ Ihr Helpdesk-Team
         'Specify the username to authenticate for the first mirror database.' =>
             'Geben Sie den Benutzernamen für die Authentifikation mit der ersten Spiegeldatenbank an.',
         'Spell checker.' => 'Rechtschreibprüfung.',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6994,11 +7002,17 @@ Ihr Helpdesk-Team
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diesen ausgewählten Services versendet, falls aktiviert.',
         'attachment' => 'attachment',
+        'bounce' => '',
+        'compose' => '',
         'debug' => 'debug',
         'error' => 'error',
+        'forward' => '',
         'info' => 'info',
         'inline' => 'inline',
         'notice' => 'notice',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

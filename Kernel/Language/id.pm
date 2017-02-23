@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.969120654396728;
+    $Self->{Completeness}        = 0.966333401346664;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1618,6 +1618,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Penambahan penerima alamat surat',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'Pemberitahuan jenis artikel',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Sebuah artikel akan dibuat jika pemberitahuan tersebut dikirim ke pelanggan atau alamat email tambahan.',
@@ -2403,7 +2405,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Ubah sistem pemeliharaan %s',
-        'Edit System Maintenance information' => 'Ubah sistem informasi pemeliharaan',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Tanggal tidak sah',
         'Login message' => 'Masukkan surat',
         'Show login message' => 'Tampilkan surat',
@@ -3799,6 +3801,10 @@ bin/otrs.Daemon.pl status\').',
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Tidak bisa menyimpan ActivityDialog. TicketID tidak sah: %s!',
         'Invalid TicketID: %s!' => 'TicketID tidak sah : %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'ActivityEntityID hilang di Ticket %s!',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => 'ProcessEntityID hilang di Tiket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Tidak bisa set SynamicField nilai untuk %s dari Ticket dengan ID "%s" di ActivityDialog "%s"!',
@@ -4659,10 +4665,10 @@ Helpdesk Team Anda
             'Memungkinkan mendefinisikan jenis baru untuk tiket (jika fitur jenis tiket diaktifkan).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Memungkinkan mendefinisikan layanan dan SLA tiket (e. G. Email, desktop, jaringan, ...), dan eskalasi atribut untuk SLA (jika layanan tiket / fitur SLA diaktifkan).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Memungkinkan kondisi pencarian diperpanjang mencari tiket dari antarmuka agen. Dengan fitur ini Anda dapat mencari e. g. dengan jenis kondisi seperti "(key1 && key2)" atau "(key1 || key2)".',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Memungkinkan kondisi pencarian diperpanjang mencari tiket dari antarmuka pelanggan. Dengan fitur ini Anda dapat mencari e. g. dengan jenis kondisi seperti "(key1 && key2)" atau "(key1 || key2)"',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Memungkinkan kondisi pencarian diperpanjang mencari tiket dari antarmuka agen generik. Dengan fitur ini Anda dapat mencari e. g. title tiket dengan jenis kondisi seperti "(* key1 * && * key2 *)" atau "(* key1 * || * key2 *)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5568,6 +5574,7 @@ Helpdesk Team Anda
             'Menentukan opsi yang akan berlaku jika penerima (tiket ponsel) dan pengirim (tiket email) dalam antarmuka agen.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Menentukan antrian yang akan berlaku untuk tiket penerima di antarmuka pelanggan.',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6808,6 +6815,7 @@ Helpdesk Team Anda
         'Specify the username to authenticate for the first mirror database.' =>
             'Tentukan username untuk otentikasi untuk database cermin pertama.',
         'Spell checker.' => 'Pemeriksa ejaan.',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'izin tersedia standar untuk agen dalam aplikasi. Jika lebih banyak izin yang diperlukan, mereka dapat dimasukkan di sini. Izin harus didefinisikan untuk menjadi efektif. Beberapa izin yang baik lainnya juga telah tersedia built-in: dicatat, dekat, tertunda, pelanggan, FREETEXT, bergerak, menulis, bertanggung jawab, maju, dan mental. Pastikan bahwa "rw" selalu izin terdaftar terakhir.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6999,11 +7007,17 @@ Helpdesk Team Anda
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => 'Lampiran',
+        'bounce' => '',
+        'compose' => '',
         'debug' => 'Debug',
         'error' => 'eror',
+        'forward' => '',
         'info' => 'Info',
         'inline' => 'Di barisan',
         'notice' => 'Peringatan',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-01-16 17:40+0000\n"
-"PO-Revision-Date: 2017-01-16 23:50+0000\n"
+"POT-Creation-Date: 2017-02-22 20:57+0000\n"
+"PO-Revision-Date: 2017-02-23 03:11+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/otrs/OTRS/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -5669,6 +5669,12 @@ msgid "Additional recipient email addresses"
 msgstr "Penambahan penerima alamat surat"
 
 #. Template: AdminNotificationEventTransportEmailSettings
+msgid ""
+"You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
+"from the current ticket."
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
 msgstr "Pemberitahuan jenis artikel"
 
@@ -8207,8 +8213,8 @@ msgid "Edit System Maintenance %s"
 msgstr "Ubah sistem pemeliharaan %s"
 
 #. Template: AdminSystemMaintenanceEdit
-msgid "Edit System Maintenance information"
-msgstr "Ubah sistem informasi pemeliharaan"
+msgid "Edit System Maintenance Information"
+msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -9353,11 +9359,19 @@ msgid "CustomerID (complex search)"
 msgstr ""
 
 #. Template: AgentTicketSearch
+msgid "(e. g. 234*)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
 msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (complex search)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "(e. g. U51*)"
 msgstr ""
 
 #. Template: AgentTicketSearch
@@ -11810,6 +11824,14 @@ msgstr "Tidak bisa mendapatkan data unsur %s!"
 msgid "Can't get filter content data of %s!"
 msgstr "Tidak bisa mendapatkan data filter konten dari %s!"
 
+#. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
+msgid "Customer Company Name"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
+msgid "Customer User ID"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
 msgstr "Perlu sumber objek dan sumber kunci!"
@@ -11953,8 +11975,14 @@ msgid "You need to select at least one ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "Ticket is locked by another agent and will be ignored!"
-msgstr "Tiket dikunci oleh agen lain dan akan diabaikan!"
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to these tickets: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "The following tickets were locked: %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Can not determine the ArticleType!"
@@ -12178,6 +12206,16 @@ msgstr "TicketID tidak sah : %s!"
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
 msgstr "ActivityEntityID hilang di Ticket %s!"
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid "This activity dialog does not belong to current activity in Ticket %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid ""
+"It might be possible that the ticket was updated by another user in the mean"
+" time, please close this window and reload ticket."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -13533,6 +13571,11 @@ msgstr ""
 msgid "Package List"
 msgstr ""
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
+msgid "Session Config Settings"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "Spooled Emails"
 msgstr ""
@@ -14613,16 +14656,16 @@ msgstr "Memungkinkan mendefinisikan layanan dan SLA tiket (e. G. Email, desktop,
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
-"With this feature you can search e. g. with this kind of conditions like "
-"\"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr "Memungkinkan kondisi pencarian diperpanjang mencari tiket dari antarmuka agen. Dengan fitur ini Anda dapat mencari e. g. dengan jenis kondisi seperti \"(key1 && key2)\" atau \"(key1 || key2)\"."
+"With this feature you can search e. g. ticket title with this kind of "
+"conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the customer "
-"interface. With this feature you can search e. g. with this kind of "
-"conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr "Memungkinkan kondisi pencarian diperpanjang mencari tiket dari antarmuka pelanggan. Dengan fitur ini Anda dapat mencari e. g. dengan jenis kondisi seperti \"(key1 && key2)\" atau \"(key1 || key2)\""
+"interface. With this feature you can search e. g. ticket title with this "
+"kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15046,12 +15089,14 @@ msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Kontrol bagaimana menampilkan entri sejarah tiket sebagai nilai-nilai yang dapat dibaca."
 
 #. SysConfig
-msgid "Controls if CustomerID is editable in the agent interface."
+msgid ""
+"Controls if CustomerID is automatically copied from the sender address for "
+"unknown customers."
 msgstr ""
 
 #. SysConfig
-msgid "Controls if CutomerID is editable in the agent interface."
-msgstr "Kontrol jika Pelanggan dapat diedit di antarmuka agen."
+msgid "Controls if CustomerID is read-only in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -17600,6 +17645,10 @@ msgid ""
 msgstr "Menentukan antrian yang akan berlaku untuk tiket penerima di antarmuka pelanggan."
 
 #. SysConfig
+msgid "Development"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18561,7 +18610,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Jika \"HTTP Basic Auth\" dipilih untuk Pelanggan :: AuthModule, Anda dapat menentukan untuk melucuti bagian terkemuka nama pengguna (e. G. Untuk domain seperti misalnya domain \\ pengguna ke pengguna)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18693,54 +18742,6 @@ msgid ""
 "If \"file\" was selected for LogModule, a logfile must be specified. If the "
 "file doesn't exist, it will be created by the system."
 msgstr "Jika \"file\" dipilih untuk LogModule, file log harus ditentukan. Jika file tidak ada, maka akan dibuat oleh sistem."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the close "
-"ticket screen of the agent interface."
-msgstr "Jika catatan ditambahkan oleh agen, menetapkan keadaan tiket di layar tiket penutupan antarmuka agen."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"bulk screen of the agent interface."
-msgstr "Jika catatan ditambahkan oleh agen, menetapkan keadaan tiket di layar massal tiket dari antarmuka agen."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"free text screen of the agent interface."
-msgstr "Jika catatan ditambahkan oleh agen, menetapkan keadaan tiket di tiket layar teks bebas dari antarmuka agen."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"note screen of the agent interface."
-msgstr "Jika catatan ditambahkan oleh agen, menetapkan keadaan tiket di layar catatan tiket dari antarmuka agen."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"responsible screen of the agent interface."
-msgstr "Jika catatan ditambahkan oleh agen, menetapkan keadaan tiket di tiket layar yang bertanggung jawab dari antarmuka agen."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"owner screen of a zoomed ticket in the agent interface."
-msgstr "Jika catatan ditambahkan oleh agen, menetapkan keadaan tiket di layar pemilik tiket dari tiket yang diperbesar di antarmuka agen."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"pending screen of a zoomed ticket in the agent interface."
-msgstr "JIKA Catatan ditambahkan Oleh agen, menetapkan keadaan Tiket di Layar pemilik Tiket Dari Tiket Yang diperbesar di Antarmuka agen."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"priority screen of a zoomed ticket in the agent interface."
-msgstr "Jika catatan ditambahkan oleh agen, menetapkan keadaan tiket di layar prioritas tiket dari tiket yang diperbesar di antarmuka agen."
 
 #. SysConfig
 msgid ""
@@ -20769,6 +20770,52 @@ msgid ""
 msgstr "Set layanan dalam tiket layar yang bertanggung jawab dari antarmuka agen (Ticket::Layanan harus diaktifkan)."
 
 #. SysConfig
+msgid ""
+"Sets the state of a ticket in the close ticket screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket bulk screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket free text screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket note screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket responsible screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket owner screen of a zoomed ticket "
+"in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket pending screen of a zoomed ticket"
+" in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket priority screen of a zoomed "
+"ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the stats hook."
 msgstr "Mengatur stats hook"
 
@@ -21759,6 +21806,10 @@ msgid "Spell checker."
 msgstr "Pemeriksa ejaan."
 
 #. SysConfig
+msgid "Stable"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Standard available permissions for agents within the application. If more "
 "permissions are needed, they can be entered here. Permissions must be "
@@ -22403,12 +22454,24 @@ msgid "attachment"
 msgstr "Lampiran"
 
 #. SysConfig
+msgid "bounce"
+msgstr ""
+
+#. SysConfig
+msgid "compose"
+msgstr ""
+
+#. SysConfig
 msgid "debug"
 msgstr "Debug"
 
 #. SysConfig
 msgid "error"
 msgstr "eror"
+
+#. SysConfig
+msgid "forward"
+msgstr ""
 
 #. SysConfig
 msgid "info"
@@ -22421,3 +22484,15 @@ msgstr "Di barisan"
 #. SysConfig
 msgid "notice"
 msgstr "Peringatan"
+
+#. SysConfig
+msgid "pending"
+msgstr ""
+
+#. SysConfig
+msgid "responsible"
+msgstr ""
+
+#. SysConfig
+msgid "stats"
+msgstr ""

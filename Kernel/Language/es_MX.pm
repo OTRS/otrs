@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.669120654396728;
+    $Self->{Completeness}        = 0.67088349316466;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -431,7 +431,7 @@ sub Data {
         'There was a problem during the upgrade of %s.' => 'Hubo un problema durante la actualización de %s.',
         '%s was correctly uninstalled.' => '%s fue desinstalado correctamente.',
         'There was a problem uninstalling %s.' => 'Hubo un problema durante la desinstalación de %s.',
-        'Enable cloud services to unleash all OTRS features!' => '',
+        'Enable cloud services to unleash all OTRS features!' => 'Habilite servicios en la nube para desencadenar todas las características de OTRS!',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Año nuevo',
@@ -822,13 +822,13 @@ sub Data {
         'Stop after match' => 'Parar al coincidir',
         'Edit ACL structure' => 'Editar estructura de la ACL',
         'Save settings' => 'Grabar configuración',
-        'Save ACL' => '',
+        'Save ACL' => 'Guardar ACL',
         'Save' => 'Guardar',
         'or' => 'o',
         'Save and finish' => 'Guardar y terminar',
         'Do you really want to delete this ACL?' => '¿Realmente desea eliminar esta ACL?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            '',
+            'Este ítem todavía contiene sub ítems. Está seguro que desea eliminarlo incluyendo sus sub items?',
         'An item with this name is already present.' => 'Ya esta presente un item con el mismo nombre.',
         'Add all' => 'Agregar todo',
         'There was an error reading the ACL data.' => 'Se presentó un error al leer los datos de la ACL.',
@@ -843,7 +843,7 @@ sub Data {
         'List' => 'Listar',
         'Download file' => 'Descargar archivo',
         'Delete this attachment' => 'Eliminar este archivo adjunto',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Está seguro de eliminar este adjunto?',
         'Add Attachment' => 'Adjuntar Archivo',
         'Edit Attachment' => 'Modificar Archivo Adjunto',
 
@@ -988,7 +988,7 @@ sub Data {
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             '¿Seguro que desea eliminar este campo dinámico? ¡Se PERDERÁN TODOS los datos asociados a este campo!',
         'Delete field' => 'Eliminar campo',
-        'Deleting the field and its data. This may take a while...' => '',
+        'Deleting the field and its data. This may take a while...' => 'Eliminando el campo y su información. Esto puede tomar un tiempo...',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinámicos',
@@ -1030,7 +1030,7 @@ sub Data {
         'Show link' => 'Mostrar enlace',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aquí puede indicar un enlace HTTP opcional para el valor del campo en las pantallas de Vista general y Ampliación',
-        'Link for preview' => '',
+        'Link for preview' => 'Enlace para muestra',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Restringir el ingreso de fechas',
@@ -1090,7 +1090,7 @@ sub Data {
         'Run Now!' => 'Ejecutar ahora',
         'Delete this task' => 'Eliminar esta tarea',
         'Run this task' => 'Ejecutar esta tarea',
-        'Do you really want to delete this task?' => '',
+        'Do you really want to delete this task?' => 'Está seguro de eliminar esta tarea?',
         'Job Settings' => 'Configuraciones de la Tarea',
         'Job name' => 'Nombre de la tarea',
         'The name you entered already exists.' => 'El nombre introdujo ya existe.',
@@ -1268,7 +1268,7 @@ sub Data {
         'This rule will apply for all keys with no mapping rule.' => 'Esta regla se aplicara para todas las llaves sin reglas de mapeo.',
         'Default rule for unmapped values' => 'Regla predeterminada para valores sin mapear',
         'This rule will apply for all values with no mapping rule.' => '',
-        'New key map' => '',
+        'New key map' => 'Nueva llave de mapa',
         'Add key mapping' => '',
         'Mapping for Key ' => '',
         'Remove key mapping' => '',
@@ -1289,19 +1289,19 @@ sub Data {
         'GenericInterface Mapping XSLT for Web Service %s' => '',
         'Mapping XML' => '',
         'Template' => 'Plantilla',
-        'The entered data is not a valid XSLT stylesheet.' => '',
-        'Insert XSLT stylesheet.' => '',
+        'The entered data is not a valid XSLT stylesheet.' => 'La información ingresada no es una hoja de estilo XSLT válida.',
+        'Insert XSLT stylesheet.' => 'Ingrese hoja de estilo XSLT.',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add new Operation to Web Service %s' => '',
-        'Change Operation %s of Web Service %s' => '',
+        'Add new Operation to Web Service %s' => 'Agregar nueva Operación al Servicio Web %s',
+        'Change Operation %s of Web Service %s' => 'Cambiar Operación %s del Servicio Web %s',
         'Add new operation' => 'Agregar nueva operación',
-        'Change operation %s' => '',
-        'Do you really want to delete this operation?' => '',
+        'Change operation %s' => 'Cambiar operación %s',
+        'Do you really want to delete this operation?' => 'Está seguro de eliminar esta operación?',
         'Operation Details' => 'Detalles del a operación',
         'The name is typically used to call up this web service operation from a remote system.' =>
             '',
-        'Please provide a unique name for this web service.' => '',
+        'Please provide a unique name for this web service.' => 'Por favor ingrese un nombre único para este servicio web.',
         'Mapping for incoming request data' => '',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
             '',
@@ -1358,7 +1358,7 @@ sub Data {
         'Certification Authority (CA) File' => 'Archivo de la Autoridad de Certificación (CA)',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
             '',
-        'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => '',
+        'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => 'p.e. /opt/otrs/var/certificates/REST/CA/ca.file',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
@@ -1370,7 +1370,7 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => '',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             '',
-        'Request name scheme' => '',
+        'Request name scheme' => 'Solicitar nombre de esquema',
         'Select how SOAP request function wrapper should be constructed.' =>
             '',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
@@ -1618,6 +1618,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'Tipo de notificaciones de artículo',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
@@ -2402,7 +2404,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Editar el Mantenimiento del Sistema %s',
-        'Edit System Maintenance information' => 'Editar información del Mantenimiento del Sistema',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => '¡Fecha inválida!',
         'Login message' => 'Mensaje de inicio de sesión',
         'Show login message' => 'Mostrar mensaje de inicio de sesión',
@@ -3797,6 +3799,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '',
@@ -4645,9 +4651,9 @@ Thanks for your help!
             'Permite definir nuevos tipos para los tickets (si la funcionalidad de tipo de ticket está habilitada).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Permite definir servicios y SLAs para los tickets (por ejemplo: correo electrónico, escritorio, red, etc.), así mismo como atributos para los SLAs (si la funcionalidad servicio/SLA está habilitada).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
@@ -5553,6 +5559,7 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Determina las filas que serán válidas coom remitentes de los ticket, en la interfaz del cliente.',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6793,6 +6800,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Permisos estándar disponibles para los agentes en la aplicación. Si se requieren más permisos, pueden especificarse aquí, pero para que sean efectivos, es necesario definirlos. Otros permisos útiles también se proporcionaron, incorporados al sistema: nota, cerrar, pendiente, cliente, texto libre, mover, redactar, responsable, reenviar y rebotar. Asegúrese de que "rw" permanezca siempre como el último permiso registrado.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6984,11 +6992,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => 'Adjuntar Archivo',
+        'bounce' => '',
+        'compose' => '',
         'debug' => 'Depuración',
         'error' => 'Error',
+        'forward' => '',
         'info' => 'Información',
         'inline' => 'En Línea',
         'notice' => 'Aviso',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.839468302658487;
+    $Self->{Completeness}        = 0.836972046521118;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1619,6 +1619,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'ที่อยู่อีเมลของผู้รับเพิ่มเติม',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'ประเภทบทความการแจ้งเตือน',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'บทความที่จะถูกสร้างขึ้นหากการแจ้งเตือนถูกส่งให้กับลูกค้าหรือที่อยู่อีเมลเพิ่มเติม',
@@ -2406,7 +2408,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'แก้ไขการบำรุงรักษาระบบ %s',
-        'Edit System Maintenance information' => 'แก้ไขข้อมูลการบำรุงรักษาระบบ',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => 'วันที่ไม่ถูกต้อง!',
         'Login message' => 'ข้อความเข้าสู่ระบบ',
         'Show login message' => 'แสดงข้อความเข้าสู่ระบบ',
@@ -3801,6 +3803,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'ไม่สามารถเก็บ ActivityDialog เพราะ TicketID ไม่ถูกต้อง',
         'Invalid TicketID: %s!' => 'TicketID ไม่ถูกต้อง: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'ActivityEntityID หายไปในตั๋ว %s!',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => 'ProcessEntityID หายไปในตั๋ว %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '๋ไม่สามารถเซ็ตค่า DynamicField สำหรับ  %s ของตั๋วด้วยไอดี "%s" ใน  ActivityDialog "%s"!',
@@ -4660,10 +4666,10 @@ Thanks for your help!
             'อนุญาตให้กำหนดประเภทใหม่สำหรับตั๋ว (ถ้าคุณลักษณะประเภทตั๋วถูกเปิดใช้งาน)',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'อนุญาตให้กำหนดการบริการและ SLAs สำหรับตั๋ว (เช่นอีเมล,เดสก์ทอป, เครือข่าย, ... ) และแอตทริบิวต์การขยายสำหรับ SLAs (ถ้าการบริการตั๋ว / ฟีเจอร์ SLA ถูกเปิดใช้งาน)',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'อนุญาตให้ขยายเงื่อนไขการค้นหาในการค้นหาตั๋วของอินเตอร์เฟซเอเย่นต์ ด้วยคุณสมบัตินี้คุณสามารถค้นหา เช่น ค้นหาด้วยเงื่อนไขดังนี้ "(key1&&key2)" หรือ "(key1||key2)"',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'สามารถขยายเงื่อนไขการค้นหาในการค้นหาตั๋วของอินเตอร์เฟซลูกค้า ด้วยคุณสมบัตินี้คุณสามารถค้นหาเช่น กับชนิดของเงื่อนไขเช่นนี้ "(key1&&key2)" หรือ "(key1||key2)".',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5572,6 +5578,7 @@ Thanks for your help!
             'กำหนดตัวเลือกที่จะใช้งานได้ของผู้รับ (ตั๋วโทรศัพท์) และผู้ส่ง (ตั๋วอีเมล) ในอินเตอร์เฟสเอเย่นต์',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'กำหนดว่าคิวใดจะสามารถใช้งานได้สำหรับผู้รับตั๋วของอินเตอร์เฟสลูกค้า',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6813,6 +6820,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -7004,11 +7012,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
+        'bounce' => '',
+        'compose' => '',
         'debug' => '',
         'error' => '',
+        'forward' => '',
         'info' => '',
         'inline' => '',
         'notice' => '',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

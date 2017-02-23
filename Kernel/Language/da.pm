@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.546830265848671;
+    $Self->{Completeness}        = 0.544990818200367;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1620,6 +1620,8 @@ Opdater venligst dit framework først!',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Yderligere modtageres email adresser',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'Meldingens indlægstype',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
@@ -2404,7 +2406,7 @@ Opdater venligst dit framework først!',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Rediger systemvedligeholdelse %s',
-        'Edit System Maintenance information' => 'Rediger system vedligeholdelses information',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Ugyldig dato',
         'Login message' => 'Login besked',
         'Show login message' => 'Vis login besked',
@@ -3799,6 +3801,10 @@ Opdater venligst dit framework først!',
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '',
@@ -4647,10 +4653,10 @@ Thanks for your help!
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Tillader udvidede søgetermer i sagssøgningen i agent-interfacet. Med denne funktionalitet kan du søge f.eks. "(nøgle1&&nøgle2)" eller "(nøgle1||nøgle2)".',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Tillader udvidede søgetermer i sagssøgningen i kunde-interfacet. Med denne funktionalitet kan du søge f.eks. "(nøgle1&&nøgle2)" eller "(nøgle1||nøgle2)".',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Tillader udvidede søgetermer i sagssøgningen i automatisk agent-interfacet. Med denne funktionalitet kan du søge f.eks. "(nøgle1&&nøgle2)" eller "(nøgle1||nøgle2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5555,6 +5561,7 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6795,6 +6802,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6986,11 +6994,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
+        'bounce' => '',
+        'compose' => '',
         'debug' => '',
         'error' => '',
+        'forward' => '',
         'info' => '',
         'inline' => '',
         'notice' => '',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

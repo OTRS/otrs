@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-01-16 17:40+0000\n"
-"PO-Revision-Date: 2017-01-16 23:41+0000\n"
+"POT-Creation-Date: 2017-02-22 20:57+0000\n"
+"PO-Revision-Date: 2017-02-23 03:11+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -5668,6 +5668,12 @@ msgid "Additional recipient email addresses"
 msgstr "Имејл адреса додатног примаоца"
 
 #. Template: AdminNotificationEventTransportEmailSettings
+msgid ""
+"You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
+"from the current ticket."
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
 msgstr "Тип чланка обавештења"
 
@@ -8206,8 +8212,8 @@ msgid "Edit System Maintenance %s"
 msgstr "Уреди одржавање система %s"
 
 #. Template: AdminSystemMaintenanceEdit
-msgid "Edit System Maintenance information"
-msgstr "Уреди информације о одржавању система"
+msgid "Edit System Maintenance Information"
+msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -9352,12 +9358,20 @@ msgid "CustomerID (complex search)"
 msgstr "ИД клијента (сложена претрага)"
 
 #. Template: AgentTicketSearch
+msgid "(e. g. 234*)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
 msgstr "ИД клијента (тачно поклапање)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (complex search)"
 msgstr "Пријава клијента корисника (сложена претрага)"
+
+#. Template: AgentTicketSearch
+msgid "(e. g. U51*)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (exact match)"
@@ -10728,7 +10742,7 @@ msgstr "Кеширај резултате"
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration (requires at least one selected time field)."
-msgstr ""
+msgstr "Чува резултате статистика у кешу за коришћење у следећим прегледима са истим подешавањима (захтева изабрано бар једно временско поље)."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -11809,6 +11823,14 @@ msgstr "Не могу прибавити податке елемента за �
 msgid "Can't get filter content data of %s!"
 msgstr "Не могу прибавити податке сарджаја филтера за „%s”!"
 
+#. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
+msgid "Customer Company Name"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
+msgid "Customer User ID"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
 msgstr "Неопходан изворни објект и изворни кључ!"
@@ -11952,8 +11974,14 @@ msgid "You need to select at least one ticket."
 msgstr "Неопходно је да изаберете бар један тикет."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "Ticket is locked by another agent and will be ignored!"
-msgstr "Тикет је закључан од стране другог оператера и биће игнорисан!"
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to these tickets: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "The following tickets were locked: %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Can not determine the ArticleType!"
@@ -12177,6 +12205,16 @@ msgstr "Неважећи ИД тикета: %s!"
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
 msgstr "Недостаје ИД ентитета активности на тикету %s!"
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid "This activity dialog does not belong to current activity in Ticket %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid ""
+"It might be possible that the ticket was updated by another user in the mean"
+" time, please close this window and reload ticket."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -13532,6 +13570,11 @@ msgstr "Неки пакети нису дозвољени за верзију в
 msgid "Package List"
 msgstr "Листа пакета"
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
+msgid "Session Config Settings"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "Spooled Emails"
 msgstr "Имејлови у реду чекања"
@@ -14612,16 +14655,16 @@ msgstr "Дозвољава дефинисање услуге и СЛА за ти
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
-"With this feature you can search e. g. with this kind of conditions like "
-"\"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr "Дозвољава проширене услове претраге у тикету на интерфејсу оператера. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”."
+"With this feature you can search e. g. ticket title with this kind of "
+"conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the customer "
-"interface. With this feature you can search e. g. with this kind of "
-"conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr "Дозвољава проширене услове претраге у претрази тикета на клијентском интерфејсу. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”."
+"interface. With this feature you can search e. g. ticket title with this "
+"kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15045,12 +15088,14 @@ msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Контролише начин приказа историјских уноса тикета као читљивих вредности. "
 
 #. SysConfig
-msgid "Controls if CustomerID is editable in the agent interface."
-msgstr "Контролише да ли је ИД клијента изменљив у интерфејсу оператера."
+msgid ""
+"Controls if CustomerID is automatically copied from the sender address for "
+"unknown customers."
+msgstr ""
 
 #. SysConfig
-msgid "Controls if CutomerID is editable in the agent interface."
-msgstr "Контролише да ли је ИД клијента у интерфејсу оператера изменљив."
+msgid "Controls if CustomerID is read-only in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -17599,6 +17644,10 @@ msgid ""
 msgstr "Одређује који ће редови бити важећи за тикете примаоца у интерфејсу клијента."
 
 #. SysConfig
+msgid "Development"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18560,7 +18609,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Уколико је „HTTPBasicAuth„ изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као example_domain\\\\user у user)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18692,54 +18741,6 @@ msgid ""
 "If \"file\" was selected for LogModule, a logfile must be specified. If the "
 "file doesn't exist, it will be created by the system."
 msgstr "Уколико је подешен File за LogModule, мора бити дефинисана локација лог датотеке. Уколико датотека не постоји, биће креирана од стране система."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the close "
-"ticket screen of the agent interface."
-msgstr "Ако је оператер додао напомену, подешава статус тикета у приказу екрана затварања тикета интерфејса оператера."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"bulk screen of the agent interface."
-msgstr "Ако је оператер додао напомену, подешава статус тикета на екрану масовне акције тикета интерфејса оператера."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"free text screen of the agent interface."
-msgstr "Ако је оператер додао напомену, подешава статус тикета на екрану слободног текста тикета интерфејса оператера."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"note screen of the agent interface."
-msgstr "Ако је оператер додао напомену, подешава статус тикета на екрану напомене тикета интерфејса оператера."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of a ticket in the ticket "
-"responsible screen of the agent interface."
-msgstr "Ако је оператер додао напомену, подешава статус тикета на екрану одговорног за тикет интерфејса оператера."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"owner screen of a zoomed ticket in the agent interface."
-msgstr "Ако је оператер додао напомену, подешава статус тикета на екрану власника тикета у детаљном приказу тикета интерфејса оператера."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"pending screen of a zoomed ticket in the agent interface."
-msgstr "Ако је оператер додао напомену, подешава статус тикета на екрану тикета на чекању у детаљном приказу тикета интерфејса оператера."
-
-#. SysConfig
-msgid ""
-"If a note is added by an agent, sets the state of the ticket in the ticket "
-"priority screen of a zoomed ticket in the agent interface."
-msgstr "Ако је оператер додао напомену, подешава статус тикета на екрану приоритета тикета у детаљном приказу тикета интерфејса оператера."
 
 #. SysConfig
 msgid ""
@@ -20768,6 +20769,52 @@ msgid ""
 msgstr "Подешава сервис на екрану одговорног за тикет у интерфејсу оператера (неопходно је активирати Ticket::Service)."
 
 #. SysConfig
+msgid ""
+"Sets the state of a ticket in the close ticket screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket bulk screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket free text screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket note screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of a ticket in the ticket responsible screen of the agent "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket owner screen of a zoomed ticket "
+"in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket pending screen of a zoomed ticket"
+" in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Sets the state of the ticket in the ticket priority screen of a zoomed "
+"ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the stats hook."
 msgstr "Дефинише ознаку за статистике."
 
@@ -21758,6 +21805,10 @@ msgid "Spell checker."
 msgstr "Провера правописа."
 
 #. SysConfig
+msgid "Stable"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Standard available permissions for agents within the application. If more "
 "permissions are needed, they can be entered here. Permissions must be "
@@ -22402,12 +22453,24 @@ msgid "attachment"
 msgstr "прилог"
 
 #. SysConfig
+msgid "bounce"
+msgstr ""
+
+#. SysConfig
+msgid "compose"
+msgstr ""
+
+#. SysConfig
 msgid "debug"
 msgstr "отклањање неисправности"
 
 #. SysConfig
 msgid "error"
 msgstr "грешка"
+
+#. SysConfig
+msgid "forward"
+msgstr ""
 
 #. SysConfig
 msgid "info"
@@ -22420,3 +22483,15 @@ msgstr "у истом реду"
 #. SysConfig
 msgid "notice"
 msgstr "напомена"
+
+#. SysConfig
+msgid "pending"
+msgstr ""
+
+#. SysConfig
+msgid "responsible"
+msgstr ""
+
+#. SysConfig
+msgid "stats"
+msgstr ""

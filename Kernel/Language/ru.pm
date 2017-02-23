@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.971165644171779;
+    $Self->{Completeness}        = 0.968577841256886;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -854,7 +854,7 @@ sub Data {
         'List' => 'Список',
         'Download file' => 'Скачать файл',
         'Delete this attachment' => 'Удалить это вложение',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Вы действительно хотите удалить это вложение?',
         'Add Attachment' => 'Добавить вложение',
         'Edit Attachment' => 'Редактировать вложение',
 
@@ -1629,6 +1629,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Дополнительный адрес получателя',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'Тип сообщения с уведомлением',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Сообщение/Заметка будет создана, если уведомление отправляется клиенту или на дополнительный адрес почты.',
@@ -2413,7 +2415,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Редактировать график техобслуживания %s',
-        'Edit System Maintenance information' => 'Редактировать информацию о технической поддержке',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Некорректная дата!',
         'Login message' => 'Сообщение при входе',
         'Show login message' => 'Показать сообщение при входе',
@@ -3808,6 +3810,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Не удалось сохранить ActivityDialog, не верный TicketID: %s!',
         'Invalid TicketID: %s!' => 'Неверный TicketID: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Отсутствует ActivityEntityID в Ticket %s!',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => 'Отсутствует ProcessEntityID в Ticket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Невозможно установить значение динамического поля %s для заявки с ID "%s" in ActivityDialog "%s"!',
@@ -4667,10 +4673,10 @@ Thanks for your help!
             'Позволяет определить новые Типы для заявок (если включено использование Типа).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Позволяет определить Сервисы и SLA для заявок (напр. Почта, ПК, Сеть, ...), и параметры эскалации для SLA (при условии, что поддержка Сервисов и SLA включена).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Позволяет задать расширенные возможности поиска в интерфейсе агента. При включении его, появится возможность поска с использованием конструкций типа "(key1&&key2)" или "(key1||key2)".',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Позволяет задать расширенные возможности поиска в интерфейсе клиента. При включении его, появится возможность поиска с использованием конструкций типа "(key1&&key2)" или "(key1||key2)".',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Позволяет задать расширенные возможности поиска в интерфейсе агента в заданиях Планировщика. При включении его, появится возможность поиска с использованием конструкций типа "(key1&&key2)" или "(key1||key2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5575,6 +5581,7 @@ Thanks for your help!
             'Задает какие варианты будут доступны для поля Получатель (в телефонной) или Отправитель (в почтовой заявке) в интерфейсе агента.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Задает список доступных очередей для новой заяаки в интерфейсе клиента.',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Отключите HTTP заголовок "Content-Security-Policy", чтобы разрешить загрузку содержимого внешних скриптов. Отключение этого HTTP заголовка снижает уровень безопасности! Отключайте только, если вы точно знаете, что делаете!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6815,6 +6822,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             'Задайте имя пользователя для аутентификации в первой зеркальной БД.',
         'Spell checker.' => 'Проверка правописания.',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Задает набор доступных прав агентов в системе. Если требуются дополнительные права, они могут быть заданы здесь. Права должны быть определены, чтобы использоваться в системе. Некоторые другие полезные права, также встроены в систему: note, close, pending, customer, freetext, move, compose, responsible, forward, и bounce. Последней строкой в таблице всегда дорлжна быть строка с "rw".',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -7006,11 +7014,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Выбор сервисов, которые вас интересуют. Вы также будете уведомляться по электронной почте об этих сервисах, если эта функция включена.',
         'attachment' => 'Вложение',
+        'bounce' => '',
+        'compose' => '',
         'debug' => 'Отладка',
         'error' => 'Ошибка',
+        'forward' => '',
         'info' => 'Информация',
         'inline' => 'в очереди',
         'notice' => 'Уведомление',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

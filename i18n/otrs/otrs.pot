@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-02-14 14:58+0000\n"
+"POT-Creation-Date: 2017-02-22 21:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5419,6 +5419,10 @@ msgid "Additional recipient email addresses"
 msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
+msgid "You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket."
+msgstr ""
+
+#. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
 msgstr ""
 
@@ -7791,7 +7795,7 @@ msgid "Edit System Maintenance %s"
 msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
-msgid "Edit System Maintenance information"
+msgid "Edit System Maintenance Information"
 msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
@@ -11651,6 +11655,14 @@ msgid "Missing ActivityEntityID in Ticket %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid "This activity dialog does not belong to current activity in Ticket %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+msgid "It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
 msgstr ""
 
@@ -13798,11 +13810,11 @@ msgid "Allows defining services and SLAs for tickets (e. g. email, desktop, netw
 msgstr ""
 
 #. SysConfig
-msgid "Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
+msgid "Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
 
 #. SysConfig
-msgid "Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
+msgid "Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
 
 #. SysConfig
@@ -15946,6 +15958,10 @@ msgid "Determines which queues will be valid for ticket's recepients in the cust
 msgstr ""
 
 #. SysConfig
+msgid "Development"
+msgstr ""
+
+#. SysConfig
 msgid "Disable HTTP header \"Content-Security-Policy\" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!"
 msgstr ""
 
@@ -16710,7 +16726,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -19022,6 +19038,10 @@ msgid "Spell checker."
 msgstr ""
 
 #. SysConfig
+msgid "Stable"
+msgstr ""
+
+#. SysConfig
 msgid "Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that \"rw\" is always the last registered permission."
 msgstr ""
 
@@ -19562,11 +19582,23 @@ msgid "attachment"
 msgstr ""
 
 #. SysConfig
+msgid "bounce"
+msgstr ""
+
+#. SysConfig
+msgid "compose"
+msgstr ""
+
+#. SysConfig
 msgid "debug"
 msgstr ""
 
 #. SysConfig
 msgid "error"
+msgstr ""
+
+#. SysConfig
+msgid "forward"
 msgstr ""
 
 #. SysConfig
@@ -19579,5 +19611,17 @@ msgstr ""
 
 #. SysConfig
 msgid "notice"
+msgstr ""
+
+#. SysConfig
+msgid "pending"
+msgstr ""
+
+#. SysConfig
+msgid "responsible"
+msgstr ""
+
+#. SysConfig
+msgid "stats"
 msgstr ""
 

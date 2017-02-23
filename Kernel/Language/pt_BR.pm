@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.689775051124744;
+    $Self->{Completeness}        = 0.688634972454601;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -827,7 +827,7 @@ sub Data {
         'Stop after match' => 'Parar Após Encontrar',
         'Edit ACL structure' => 'Editar estrutura da ACL',
         'Save settings' => 'Salvar configurações',
-        'Save ACL' => '',
+        'Save ACL' => 'Salvar ACL',
         'Save' => 'Salvar',
         'or' => 'ou',
         'Save and finish' => 'Salvar e Finalizar',
@@ -848,7 +848,7 @@ sub Data {
         'List' => 'Lista',
         'Download file' => 'Baixar arquivo',
         'Delete this attachment' => 'Deletar este anexo',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Deseja realmente excluir este anexo?',
         'Add Attachment' => 'Adicionar Anexo',
         'Edit Attachment' => 'Alterar Anexo',
 
@@ -1623,6 +1623,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Caixa de endereço de e-mail adicional',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'Tipo de Artigo de Notificação',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Um artigo será criado se as notificações são enviadas para o usuário ou para um endereço de e-mail adicional.',
@@ -2407,7 +2409,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Editar Manutenção do Sistema  %s',
-        'Edit System Maintenance information' => 'Editar informação de Manutenção do sistema',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Data inválida!',
         'Login message' => 'Mensagem de autenticação',
         'Show login message' => 'Mostrar mensagem de autenticação',
@@ -2943,8 +2945,8 @@ sub Data {
         'Accept' => 'Aceitar',
         'Decline' => 'Rejeitar',
         'An internal error occurred.' => 'Um erro interno ocorreu',
-        'Connection error' => '',
-        'Reload page' => '',
+        'Connection error' => 'Erro de Conexão',
+        'Reload page' => 'Atualizar página',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
@@ -3802,6 +3804,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '',
@@ -4650,9 +4656,9 @@ Thanks for your help!
             'Permite definir novos tipos de chamado (caso a funcionalidade tipo do chamado esteja habilitada).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Permite definir serviços e SLAs para chamados (ex.: e-mail, área de trabalho, rede, ...), e atributos de escalação para SLAs (se o recurso serviço/SLA estiver habilitado).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Permite estender condições de pesquisa na tela de busca de chamados da interface de atendente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
@@ -5558,6 +5564,7 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6798,6 +6805,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Define as permissões padrão disponíveis para atendentes dentro da aplicação. Se mais permissões são necessárias, elas podem ser adicionadas aqui. Permissões devem ser definidas para serem efetivas. Algumas outras permissões úteis foram definidas internamente: nota, fechar, lembrete de pendente, cliente, campos livres, mover, compor chamado, responsável, encaminhar e devolver. Assegure-se que a permissão "rw" é a última permissão registrada.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6989,11 +6997,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => 'anexo',
+        'bounce' => '',
+        'compose' => '',
         'debug' => 'debug',
         'error' => 'erro',
+        'forward' => '',
         'info' => 'informação',
         'inline' => 'inline',
         'notice' => 'aviso',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996319018404908;
+    $Self->{Completeness}        = 0.99367476025301;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1618,6 +1618,8 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Имејл адреса додатног примаоца',
+        'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
+            '',
         'Notification article type' => 'Тип чланка обавештења',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Чланак је креиран и обавештење послато клијенту или на другу имејл адресу.',
@@ -2402,7 +2404,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Уреди одржавање система %s',
-        'Edit System Maintenance information' => 'Уреди информације о одржавању система',
+        'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Неисправан датум',
         'Login message' => 'Порука пријаве',
         'Show login message' => 'Покажи поруку пријаве',
@@ -3265,7 +3267,7 @@ sub Data {
             'Генериши додатну колону која садржи суме за све колоне са подацима.',
         'Cache results' => 'Кеширај резултате',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
-            '',
+            'Чува резултате статистика у кешу за коришћење у следећим прегледима са истим подешавањима (захтева изабрано бар једно временско поље).',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Обезбеди статистику као апликативни додатак (widget), који опертатери могу активирати путем своје контролне табле.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
@@ -3798,6 +3800,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Не могу снимити дијалог активности, неважећи ИД тикета: %s!',
         'Invalid TicketID: %s!' => 'Неважећи ИД тикета: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Недостаје ИД ентитета активности на тикету %s!',
+        'This activity dialog does not belong to current activity in Ticket %s!' =>
+            '',
+        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => 'Недостаје ИД ентитета процеса на тикету %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Не могу поставити вредност динамичког поља за %s за ИД тикета „%s” у дијалогу активности „%s”!',
@@ -4657,10 +4663,10 @@ Thanks for your help!
             'Дозвољава дефинисање новог типа тикета (ако је опција типа тикета активирана).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Дозвољава дефинисање услуге и СЛА за тикете (нпр. имејл, радна површина, мрежа, ...), и ескалационе атрибуте за СЛА (ако је активирана функција услуга/СЛА за тикет).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Дозвољава проширене услове претраге у тикету на интерфејсу оператера. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”.',
-        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Дозвољава проширене услове претраге у претрази тикета на клијентском интерфејсу. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”.',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Дозвољава проширене услове претраге у претрази тикета на интерфејсу општег оператера. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”.',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5565,6 +5571,7 @@ Thanks for your help!
             'Одређује које опције ће бити важеће за примаоца (телефонски тикет) и пошиљаоца (имејл тикет) у интерфејсу оператера.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Одређује који ће редови бити важећи за тикете примаоца у интерфејсу клијента.',
+        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Онемогућава HTTP заглавље „Content-Security-Policy” ради учитавања екстерних скриптова. Онемогућавање овог HTTP заглавља сноси сигурносни ризик! Искључите га само ако знате шта радите!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6805,6 +6812,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             'Наведи корисничко име за ауторизацију на прву пресликану базу података.',
         'Spell checker.' => 'Провера правописа.',
+        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Стандардне расположиве дозволе за оператере унутар апликације. Уколико је потребно више дозвола они могу унети овде. Дозволе морају бити дефинисане да буду ефективне. Неке друге дозволе су такође обезбеђене уграђивањем у: напомену, затвори, на чекању, клијент, слободан текст, помери, отвори, одговоран, проследи и поврати. Обезбеди да „rw” увек буде последња регистрована дозвола.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6996,11 +7004,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Ваш избор из ваших пожељних услуга. Ако је активирано, добићете и обавештења о овим сервисима путем имејла.',
         'attachment' => 'прилог',
+        'bounce' => '',
+        'compose' => '',
         'debug' => 'отклањање неисправности',
         'error' => 'грешка',
+        'forward' => '',
         'info' => 'инфо',
         'inline' => 'у истом реду',
         'notice' => 'напомена',
+        'pending' => '',
+        'responsible' => '',
+        'stats' => '',
 
     };
     # $$STOP$$
