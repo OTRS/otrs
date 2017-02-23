@@ -193,11 +193,11 @@ my @Tests = (
             TaskID   => 123,
             TaskName => 'UnitTest',
             Data     => {
-                Object   => 'Kernel::System::Ticket',
-                Function => 'TicketPriorityList',
+                Object   => 'Kernel::System::Valid',
+                Function => 'ValidList',
             },
         },
-        Result => 0,
+        Result => 1,
     },
 );
 

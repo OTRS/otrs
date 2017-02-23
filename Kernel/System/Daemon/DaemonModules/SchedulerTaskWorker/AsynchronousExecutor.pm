@@ -77,6 +77,8 @@ sub Run {
     # Stop execution if an error in params is detected.
     return if !$CheckResult;
 
+    $Param{Data}->{Params} //= {};
+
     # Stop execution if invalid params ref is detected.
     return if !ref $Param{Data}->{Params};
 
