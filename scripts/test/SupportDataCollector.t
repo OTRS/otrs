@@ -99,8 +99,8 @@ $Self->IsDeeply(
 );
 
 $Self->True(
-    $TimeElapsed < 10,
-    "Collect() - Should take less than 10 seconds, it took $TimeElapsed"
+    $TimeElapsed < 30,
+    "Collect() - Should take less than 30 seconds, it took $TimeElapsed"
 );
 
 my $TimeStartCache = [ Time::HiRes::gettimeofday() ];
