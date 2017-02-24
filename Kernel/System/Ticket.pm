@@ -6277,7 +6277,7 @@ sub TicketMergeDynamicFields {
 
 =item TicketMergeLinkedObjects()
 
-merge linked objects from one ticket into another, that is, copy
+merge linked objects from one ticket into another, that is, move
 them from the merge ticket to the main ticket in the link_relation table.
 
     my $Success = $TicketObject->TicketMergeLinkedObjects(
