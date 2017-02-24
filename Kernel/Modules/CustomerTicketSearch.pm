@@ -524,7 +524,7 @@ sub Run {
 
         # disable output of company tickets if configured
         if ( $Self->{DisableCompanyTickets} ) {
-            $GetParam{CustomerUserLogin} = $Self->{UserID};
+            $GetParam{CustomerUserLoginRaw} = $Self->{UserID};
         }
 
         # perform ticket search
