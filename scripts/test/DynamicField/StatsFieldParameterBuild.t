@@ -246,7 +246,7 @@ my @Tests = (
     {
         Name   => 'Dropdown DynamicField with PossibleValuesFilter (e.g. from ACL)',
         Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig   => $DynamicFieldConfigs{Dropdown},
             PossibleValuesFilter => {
                 1 => 'A',
             },
@@ -254,7 +254,7 @@ my @Tests = (
         ExpectedResults => {
             Values => {
                 1 => 'A',
-            },,
+            },
             Name               => $DynamicFieldConfigs{Dropdown}->{Label},
             Element            => 'DynamicField_' . $DynamicFieldConfigs{Dropdown}->{Name},
             TranslatableValues => $DynamicFieldConfigs{Dropdown}->{Config}->{TranslatableValues},
@@ -264,7 +264,7 @@ my @Tests = (
     {
         Name   => 'Multiselect DynamicField with PossibleValuesFilter (e.g. from ACL)',
         Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
+            DynamicFieldConfig   => $DynamicFieldConfigs{Multiselect},
             PossibleValuesFilter => {
                 1 => 'A',
             },
@@ -272,7 +272,7 @@ my @Tests = (
         ExpectedResults => {
             Values => {
                 1 => 'A',
-            },,
+            },
             Name               => $DynamicFieldConfigs{Multiselect}->{Label},
             Element            => 'DynamicField_' . $DynamicFieldConfigs{Multiselect}->{Name},
             TranslatableValues => $DynamicFieldConfigs{Multiselect}->{Config}->{TranslatableValues},

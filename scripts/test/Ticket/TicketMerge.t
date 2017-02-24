@@ -239,7 +239,6 @@ $Self->True(
     "Link added between TicketID $MergeLinkObjectTicketIDs[4] and TicketID $MergeLinkObjectTicketIDs[0] with LinkType $LinkType.",
 );
 
-
 # merge $MergeLinkObjectTicketIDs[0] into $MergeLinkObjectTicketIDs[5]
 my $MergeSuccess = $TicketObject->TicketMerge(
     MainTicketID  => $MergeLinkObjectTicketIDs[5],
@@ -254,11 +253,11 @@ $Self->True(
 
 # get list of linked tickets from original ticket after the merge
 my %LinkKeyList = $LinkObject->LinkKeyList(
-    Object1   => 'Ticket',
-    Key1      => $MergeLinkObjectTicketIDs[0],
-    Object2   => 'Ticket',
-    State     => 'Valid',
-    UserID    => 1,
+    Object1 => 'Ticket',
+    Key1    => $MergeLinkObjectTicketIDs[0],
+    Object2 => 'Ticket',
+    State   => 'Valid',
+    UserID  => 1,
 );
 
 # check that old ticket contains only one link after the merge (to the new ticket)
@@ -276,11 +275,11 @@ $Self->True(
 
 # get list of linked tickets from new ticket after the merge
 %LinkKeyList = $LinkObject->LinkKeyList(
-    Object1   => 'Ticket',
-    Key1      => $MergeLinkObjectTicketIDs[5],
-    Object2   => 'Ticket',
-    State     => 'Valid',
-    UserID    => 1,
+    Object1 => 'Ticket',
+    Key1    => $MergeLinkObjectTicketIDs[5],
+    Object2 => 'Ticket',
+    State   => 'Valid',
+    UserID  => 1,
 );
 
 # check that new ticket contains 5 links after the merge
@@ -293,11 +292,11 @@ $Self->Is(
 # get the last TicketID (the ID of the new ticket) and remove it from the array
 my $NewTicketID = pop @MergeLinkObjectTicketIDs;
 
-for my $TicketID ( @MergeLinkObjectTicketIDs) {
+for my $TicketID (@MergeLinkObjectTicketIDs) {
 
     # check that ticket is linked to the new ticket
     $Self->True(
-        $LinkKeyList{ $TicketID },
+        $LinkKeyList{$TicketID},
         "TicketID $TicketID is now linked with the new TicketID $NewTicketID.",
     );
 }

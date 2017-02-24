@@ -132,7 +132,7 @@ if ( $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
-my $ExitCode = 0; # success
+my $ExitCode = 0;    # success
 
 # config
 my @NeededModules = (
@@ -587,7 +587,7 @@ sub _Check {
             else {
                 print color('red') . 'FAILED!' . color('reset') . " $ErrorMessage\n";
             }
-            $ExitCode = 1; # error
+            $ExitCode = 1;    # error
         }
         else {
             my $OutputVersion = $Version;
@@ -626,7 +626,7 @@ sub _Check {
         if ($Required) {
             $Required = 'required';
             $Color    = 'red';
-            $ExitCode = 1; # error
+            $ExitCode = 1;            # error
         }
         else {
             $Required = 'optional';
