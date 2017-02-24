@@ -663,12 +663,19 @@ sub GetStatElement {
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $DBObject                  = $Kernel::OM->Get('Kernel::System::DB');
+    my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
 
     # escape search attributes for ticket search
     my %AttributesToEscape = (
         'CustomerID' => 1,
         'Title'      => 1,
     );
+
+    # Map the CustomerID search parameter to CustomerIDRaw search parameter for the
+    #   exact search match, if the 'Stats::CustomerIDAsMultiSelect' is active.
+    if ( $ConfigObject->Get('Stats::CustomerIDAsMultiSelect') ) {
+        $Param{CustomerIDRaw} = $Param{CustomerID};
+    }
 
     for my $ParameterName ( sort keys %Param ) {
         if (
@@ -733,7 +740,7 @@ sub GetStatElement {
         }
     }
 
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
+    if ( $ConfigObject->Get('Ticket::ArchiveSystem') ) {
         $Param{SearchInArchive} ||= '';
         if ( $Param{SearchInArchive} eq 'AllTickets' ) {
             $Param{ArchiveFlags} = [ 'y', 'n' ];
