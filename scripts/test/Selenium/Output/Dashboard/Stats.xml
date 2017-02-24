@@ -17,8 +17,9 @@ Monat in das System gelangt sind.</Description>
 <Title>Neue Tickets</Title>
 <UseAsValueSeries Element="QueueIDs" Fixed="1">
 </UseAsValueSeries>
-<UseAsXvalue Element="CreateTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUpcomingCount="0" TimeRelativeUnit="Month" TimeScaleCount="1">
-<SelectedValues>Day</SelectedValues>
+<UseAsXvalue Element="StateIDs" Fixed="1">
+<SelectedValues>new</SelectedValues>
+<SelectedValues>open</SelectedValues>
 </UseAsXvalue>
 <Valid>1</Valid>
 </otrs_stats>

@@ -16,6 +16,7 @@ use MIME::Base64;
 use POSIX qw(ceil);
 use Storable qw();
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Output::HTML::Statistics::View;
 
@@ -836,7 +837,7 @@ sub SumBuild {
     # add sum y
     if ( $Param{SumCol} ) {
 
-        push @{ $Data[1] }, 'Sum';
+        push @{ $Data[1] }, Translatable('Sum');
 
         for my $Index1 ( 2 .. $#Data ) {
 
@@ -897,7 +898,7 @@ sub SumBuild {
 
         push @Data, \@SumRow;
     }
-    return \@Data;
+    return @Data;
 }
 
 =head2 GetStatsObjectAttributes()
@@ -1616,14 +1617,37 @@ sub StatsRun {
         );
     }
 
-    # build sum in row or col
+    # Build sum in row or col.
     if ( @Result && ( $Stat->{SumRow} || $Stat->{SumCol} ) && $Stat->{Format} !~ m{^GD::Graph\.*}x ) {
-        return $Self->SumBuild(
+        @Result = $Self->SumBuild(
             Array  => \@Result,
             SumRow => $Stat->{SumRow},
             SumCol => $Stat->{SumCol},
         );
     }
+
+    # Exchange axis if selected.
+    if ( $GetParam{ExchangeAxis} ) {
+        my @NewStatArray;
+        my $Title = $Result[0]->[0];
+
+        shift(@Result);
+        for my $Key1 ( 0 .. $#Result ) {
+            for my $Key2 ( 0 .. $#{ $Result[0] } ) {
+                $NewStatArray[$Key2]->[$Key1] = $Result[$Key1]->[$Key2];
+            }
+        }
+        $NewStatArray[0]->[0] = '';
+        unshift( @NewStatArray, [$Title] );
+        @Result = @NewStatArray;
+    }
+
+    # Translate the column and row description.
+    $Self->_ColumnAndRowTranslation(
+        StatArrayRef => \@Result,
+        StatRef      => $Stat,
+        ExchangeAxis => $GetParam{ExchangeAxis},
+    );
 
     return \@Result;
 }
@@ -3357,6 +3381,173 @@ sub _GenerateDynamicStats {
         Result   => \@StatArray,
     );
     return @StatArray;
+}
+
+=head2 _ColumnAndRowTranslation()
+
+Translate the column and row name if needed.
+
+    $StatsObject->_ColumnAndRowTranslation(
+        StatArrayRef => $StatArrayRef,
+        StatRef      => $StatRef,
+        ExchangeAxis => 1 | 0,
+    );
+
+=cut
+
+sub _ColumnAndRowTranslation {
+    my ( $Self, %Param ) = @_;
+
+    # check if need params are available
+    for my $NeededParam (qw(StatArrayRef StatRef)) {
+        if ( !$Param{$NeededParam} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "_ColumnAndRowTranslation: Need $NeededParam!"
+            );
+        }
+    }
+
+    # Cut the statistic array in the three pieces, to handle the diffrent values for the translation.
+    my $TitleArrayRef = shift @{ $Param{StatArrayRef} };
+    my $HeadArrayRef  = shift @{ $Param{StatArrayRef} };
+    my $StatArrayRef  = $Param{StatArrayRef};
+
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+    # Find out, if the column or row names should be translated.
+    my %Translation;
+    my %Sort;
+
+    for my $Use (qw( UseAsXvalue UseAsValueSeries )) {
+        if ( $Param{StatRef}->{StatType} eq 'dynamic' && $Param{StatRef}->{$Use} && ref( $Param{StatRef}->{$Use} ) eq 'ARRAY' ) {
+
+            my @Array = @{ $Param{StatRef}->{$Use} };
+
+            ELEMENT:
+            for my $Element (@Array) {
+                next ELEMENT if !$Element->{Selected};
+
+
+                if ( $Element->{Translation} && $Element->{Block} eq 'Time' ) {
+                    $Translation{$Use} = 'Time';
+                }
+                elsif ( $Element->{Translation} ) {
+                    $Translation{$Use} = 'Common';
+                }
+                else {
+                    $Translation{$Use} = '';
+                }
+
+                if ( $Element->{Translation} && $Element->{Block} ne 'Time' && !$Element->{SortIndividual} ) {
+                    $Sort{$Use} = 1;
+                }
+
+                last ELEMENT;
+            }
+        }
+    }
+
+    # Check if the axis are changed.
+    if ( $Param{ExchangeAxis} ) {
+        my $UseAsXvalueOld = $Translation{UseAsXvalue};
+        $Translation{UseAsXvalue}      = $Translation{UseAsValueSeries};
+        $Translation{UseAsValueSeries} = $UseAsXvalueOld;
+
+        my $SortUseAsXvalueOld = $Sort{UseAsXvalue};
+        $Sort{UseAsXvalue}      = $Sort{UseAsValueSeries};
+        $Sort{UseAsValueSeries} = $SortUseAsXvalueOld;
+    }
+
+    # Translate the headline array, if all values must be translated and
+    #   otherwise translate only the first value of the header.
+    if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} ne 'Time' ) {
+        for my $Word ( @{ $HeadArrayRef } ) {
+            $Word = $LanguageObject->Translate($Word);
+        }
+    }
+    else {
+        $HeadArrayRef->[0] = $LanguageObject->Translate( $HeadArrayRef->[0] );
+    }
+
+    # Sort the headline array after translation.
+    if ( $Sort{UseAsXvalue} ) {
+        my @HeadOld = @{ $HeadArrayRef };
+
+        # Because the first value is no sortable column name
+        shift @HeadOld;
+
+        # Special handling if the sumfunction is used.
+        my $SumColRef;
+        if ( $Param{StatRef}->{SumRow} ) {
+            $SumColRef = pop @HeadOld;
+        }
+
+        my @SortedHead = sort { $a cmp $b } @HeadOld;
+
+        # Special handling if the sumfunction is used.
+        if ( $Param{StatRef}->{SumCol} ) {
+            push @SortedHead, $SumColRef;
+            push @HeadOld,    $SumColRef;
+        }
+
+        # Add the row names to the new StatArray.
+        my @StatArrayNew;
+        for my $Row ( @{ $StatArrayRef } ) {
+            push @StatArrayNew, [ $Row->[0] ];
+        }
+
+        for my $ColumnName (@SortedHead) {
+            my $Counter = 0;
+            COLUMNNAMEOLD:
+            for my $ColumnNameOld (@HeadOld) {
+                $Counter++;
+                next COLUMNNAMEOLD if $ColumnNameOld ne $ColumnName;
+
+                for my $RowLine ( 0 .. $#StatArrayNew ) {
+                    push @{ $StatArrayNew[$RowLine] }, $StatArrayRef->[$RowLine]->[$Counter];
+                }
+                last COLUMNNAMEOLD;
+            }
+        }
+
+        # Bring the data back to the diffrent references.
+        unshift @SortedHead, $HeadArrayRef->[0];
+        @{ $HeadArrayRef } = @SortedHead;
+        @{ $StatArrayRef } = @StatArrayNew;
+    }
+
+    # Translate the row description.
+    if ( $Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} ne 'Time' ) {
+        for my $Word ( @{ $StatArrayRef } ) {
+            $Word->[0] = $LanguageObject->Translate( $Word->[0] );
+        }
+    }
+
+    # Sort the row description.
+    if ( $Sort{UseAsValueSeries} ) {
+
+        # Special handling if the sumfunction is used.
+        my $SumRowArrayRef;
+        if ( $Param{StatRef}->{SumRow} ) {
+            $SumRowArrayRef = pop @{ $StatArrayRef };
+        }
+
+        my $DisableDefaultResultSort = grep { $_->{DisableDefaultResultSort} && $_->{DisableDefaultResultSort} == 1 } @{ $Param{StatRef}->{UseAsXvalue} };
+
+        if ( !$DisableDefaultResultSort ) {
+            @{ $StatArrayRef } = sort { $a->[0] cmp $b->[0] } @{ $StatArrayRef };
+        }
+
+        # Special handling if the sumfunction is used.
+        if ( $Param{StatRef}->{SumRow} ) {
+            push @{ $StatArrayRef }, $SumRowArrayRef;
+        }
+    }
+
+    unshift( @{ $StatArrayRef }, $TitleArrayRef, $HeadArrayRef );
+
+    return 1;
 }
 
 sub _WriteResultCache {

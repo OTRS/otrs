@@ -913,9 +913,8 @@ sub RunAction {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # get params
-    for (qw(Format StatID ExchangeAxis Name Cached)) {
-        $Param{$_} = $ParamObject->GetParam( Param => $_ );
+    for my $Name (qw(Format StatID Name Cached)) {
+        $Param{$Name} = $ParamObject->GetParam( Param => $Name );
     }
     my @RequiredParams = (qw(Format StatID));
     if ( $Param{Cached} ) {
@@ -995,34 +994,18 @@ sub RunAction {
                 UserGetParam => $StatsSettings,
                 UserID       => $Self->{UserID},
             );
-            }
+        };
     }
 
     # called normally within the stats area - generate stats now and use provided configuraton
     else {
         @StatArray = @{
             $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
-                StatID   => $Param{StatID},
-                GetParam => \%GetParam,
-                UserID   => $Self->{UserID},
+                StatID       => $Param{StatID},
+                GetParam     => \%GetParam,
+                UserID       => $Self->{UserID},
             );
         };
-    }
-
-    # exchange axis if selected
-    if ( $Param{ExchangeAxis} ) {
-        my @NewStatArray;
-        my $Title = $StatArray[0][0];
-
-        shift(@StatArray);
-        for my $Key1 ( 0 .. $#StatArray ) {
-            for my $Key2 ( 0 .. $#{ $StatArray[0] } ) {
-                $NewStatArray[$Key2][$Key1] = $StatArray[$Key1][$Key2];
-            }
-        }
-        $NewStatArray[0][0] = '';
-        unshift( @NewStatArray, [$Title] );
-        @StatArray = @NewStatArray;
     }
 
     return $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsResultRender(

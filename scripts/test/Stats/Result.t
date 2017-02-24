@@ -120,7 +120,7 @@ my @Tickets = (
             Queue        => $QueueNames[0],
             Lock         => 'unlock',
             Priority     => '3 normal',
-            State        => 'new',
+            State        => 'open',
             CustomerID   => 'example + test',
             CustomerUser => 'customer@example.com',
             OwnerID      => 1,
@@ -222,7 +222,7 @@ my @Tickets = (
             Queue         => $QueueNames[2],
             Lock          => 'unlock',
             Priority      => '3 normal',
-            State         => 'new',
+            State         => 'open',
             CustomerID    => '123465',
             CustomerUser  => 'customer@example.com',
             OwnerID       => 1,
@@ -345,6 +345,11 @@ for my $Ticket (@Tickets) {
 continue {
     $Helper->FixedTimeUnset();
 }
+
+my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
+    UserID => 1,
+);
+my %LookupStateList = map { $StateList{$_} => $_ } sort keys %StateList;
 
 # set the language to 'en' before the StatsRun
 $Kernel::OM->ObjectParamAdd(
@@ -1589,6 +1594,73 @@ my @Tests = (
                 0,
                 0,
                 0,
+            ],
+        ],
+    },
+
+    # Test with StateIDs on the X-Axis to test some translations:
+    #   Fixed TimeStamp: '2015-12-31 20:00:00'
+    #   TimeZone: -
+    #   X-Axis: 'StateIDs' with 'new' and 'open'.
+    #   Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    #   Language: es
+    {
+        Description => 'Test with StateIDs on the X-Axis to test some translations',
+        TimeStamp   => '2015-12-31 20:00:00',
+        Language    => 'es',
+        StatsUpdate => {
+            StatID => $DynamicMatrixStatID,
+            Hash   => {
+                SumRow      => 0,
+                SumCol      => 0,
+                UseAsXvalue => [
+                    {
+                        'Element'        => 'StateIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                           $LookupStateList{'new'},
+                           $LookupStateList{'open'},
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests',
+            ],
+            [
+                'Cola',
+                'abierto',
+                'nuevo',
+            ],
+            [
+                $QueueNames[0],
+                1,
+                5,
+            ],
+            [
+                $QueueNames[1],
+                0,
+                2,
+            ],
+            [
+                $QueueNames[2],
+                1,
+                1,
             ],
         ],
     },
@@ -3232,6 +3304,135 @@ my @Tests = (
             ],
         ],
     },
+
+    # Test the ExchangeAxis functionality.
+    # Fixed TimeStamp: '2015-12-31 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'StateIDs' with 'new' and 'open'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Language: en
+    {
+        Description => 'Test the ExchangeAxis functionality',
+        TimeStamp   => '2015-12-31 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $DynamicMatrixStatID,
+            Hash   => {
+                ExchangeAxis => 1,
+                UseAsXvalue => [
+                    {
+                        'Element'        => 'StateIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                           $LookupStateList{'new'},
+                           $LookupStateList{'open'},
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests',
+            ],
+            [
+                '',
+                $QueueNames[0],
+                $QueueNames[1],
+                $QueueNames[2],
+            ],
+            [
+                'new',
+                5,
+                2,
+                1,
+            ],
+            [
+                'open',
+                1,
+                0,
+                1,
+            ],
+        ],
+    },
+
+    # Test the ExchangeAxis functionality with diffrent language 'de'.
+    # Fixed TimeStamp: '2015-12-31 20:00:00'
+    # TimeZone: -
+    # X-Axis: 'StateIDs' with 'new' and 'open'.
+    # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
+    # Language: de
+    {
+        Description => "Test the ExchangeAxis functionality with diffrent language 'de'",
+        TimeStamp   => '2015-12-31 20:00:00',
+        Language    => 'de',
+        StatsUpdate => {
+            StatID => $DynamicMatrixStatID,
+            Hash   => {
+                ExchangeAxis => 1,
+                UseAsXvalue => [
+                    {
+                        'Element'        => 'StateIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                           $LookupStateList{'new'},
+                           $LookupStateList{'open'},
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+                UseAsRestriction => [],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests',
+            ],
+            [
+                '',
+                $QueueNames[0],
+                $QueueNames[1],
+                $QueueNames[2],
+            ],
+            [
+                'neu',
+                5,
+                2,
+                1,
+            ],
+            [
+                'offen',
+                1,
+                0,
+                1,
+            ],
+        ],
+    },
+
 );
 
 # ------------------------------------------------------------ #
@@ -3293,6 +3494,9 @@ for my $Test (@Tests) {
     );
 
     my $Stat = $StatsObject->StatsGet( StatID => $Test->{StatsUpdate}->{StatID} );
+
+    # Add the ExchangeAxis param to the stat hash, because this can only be changed at runtime.
+    $Stat->{ExchangeAxis} = $Test->{StatsUpdate}->{Hash}->{ExchangeAxis};
 
     $Self->True(
         $Stat->{Title},
