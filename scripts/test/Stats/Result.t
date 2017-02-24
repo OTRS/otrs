@@ -1333,6 +1333,7 @@ my @Tests = (
             ],
         ],
     },
+
     # Test with a relative time period and a restriction (special CustomerID value with '+')
     # Fixed TimeStamp: '2014-10-12 20:00:00'
     # TimeZone: -
@@ -1340,7 +1341,8 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: 'CustomerID' => 'example + test' (exact match),
     {
-        Description => 'Test stat with a restriction for a special customer id with a "+" (last complete 7 days and scale 1 day)',
+        Description =>
+            'Test stat with a restriction for a special customer id with a "+" (last complete 7 days and scale 1 day)',
         TimeStamp   => '2014-10-12 20:00:00',
         Language    => 'en',
         StatsUpdate => {
@@ -1440,7 +1442,8 @@ my @Tests = (
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: 'CustomerID' => 'test & example' (exact match),
     {
-        Description => 'Test stat with a restriction for a special customer id with a "&" (last complete 7 days and scale 1 day)',
+        Description =>
+            'Test stat with a restriction for a special customer id with a "&" (last complete 7 days and scale 1 day)',
         TimeStamp   => '2014-12-11 20:00:00',
         Language    => 'en',
         StatsUpdate => {
