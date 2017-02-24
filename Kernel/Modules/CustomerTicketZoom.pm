@@ -1527,7 +1527,7 @@ sub _Mask {
         RECIPIENT:
         for my $Key (qw(From To Cc)) {
             next RECIPIENT if !$Article{$Key};
-            my $DisplayType = $Key         eq 'From'     ? $SenderDisplayType : $RecipientDisplayType;
+            my $DisplayType = $Key eq 'From'             ? $SenderDisplayType : $RecipientDisplayType;
             my $HiddenType  = $DisplayType eq 'Realname' ? 'Value'            : 'Realname';
             $LayoutObject->Block(
                 Name => 'ArticleRow',

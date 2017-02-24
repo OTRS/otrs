@@ -205,7 +205,7 @@ $Selenium->RunTest(
             "CustomerUser $TestCustomerUserLogin is deleted",
         );
 
-        for my $Cache ( qw (Ticket CustomerUser) ) {
+        for my $Cache (qw (Ticket CustomerUser)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                 Type => $Cache,
             );

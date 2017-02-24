@@ -94,12 +94,12 @@ sub RunAsynchronous {
     # Get the time values and use only the full hour.
     my $DateTimeValues = $DateTimeObject->Get();
     $DateTimeObject->Set(
-            Year     => $DateTimeValues->{Year},
-            Month    => $DateTimeValues->{Month},
-            Day      => $DateTimeValues->{Day},
-            Hour     => $DateTimeValues->{Hour},
-            Minute   => 0,
-            Second   => 0,
+        Year   => $DateTimeValues->{Year},
+        Month  => $DateTimeValues->{Month},
+        Day    => $DateTimeValues->{Day},
+        Hour   => $DateTimeValues->{Hour},
+        Minute => 0,
+        Second => 0,
     );
     my $TimeStamp = $DateTimeObject->ToString();
 

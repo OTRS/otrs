@@ -64,7 +64,7 @@ sub Run {
         $OwnerID = $TmpOwnerID || $OwnerID;
     }
 
-    if ( $OwnerID ) {
+    if ($OwnerID) {
         my $Success = $TicketObject->TicketOwnerSet(
             TicketID  => $Param{TicketID},
             NewUserID => $OwnerID,
@@ -82,7 +82,7 @@ sub Run {
         $ResponsibleID = $TmpResponsibleID || $ResponsibleID;
     }
 
-    if ( $ResponsibleID ) {
+    if ($ResponsibleID) {
         my $Success = $TicketObject->TicketResponsibleSet(
             TicketID  => $Param{TicketID},
             NewUserID => $ResponsibleID,

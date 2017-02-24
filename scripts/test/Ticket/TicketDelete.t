@@ -64,7 +64,6 @@ $Self->Is(
     "TicketGet() after TicketDelete()",
 );
 
-
 # cleanup is done by RestoreDatabase.
 
 1;
