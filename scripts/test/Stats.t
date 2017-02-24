@@ -238,19 +238,17 @@ $Self->True(
 );
 
 # check the sumbuild function
-my @StatArray = @{
-    $StatsObject->SumBuild(
-        Array => [
-            ['Title'],
-            [ 'SomeText', 'Column1', 'Column2', 'Column3', 'Column4', 'Column5', 'Column6', ],
-            [ 'Row1',     1,         1,         1,         0,         1,         undef, ],
-            [ 'Row2',     2,         2,         2,         0,         2,         undef, ],
-            [ 'Row3',     3,         undef,     3,         0,         3,         undef, ],
-        ],
-        SumRow => 1,
-        SumCol => 1,
-    ),
-};
+my @StatArray = $StatsObject->SumBuild(
+    Array => [
+        ['Title'],
+        [ 'SomeText', 'Column1', 'Column2', 'Column3', 'Column4', 'Column5', 'Column6', ],
+        [ 'Row1',     1,         1,         1,         0,         1,         undef, ],
+        [ 'Row2',     2,         2,         2,         0,         2,         undef, ],
+        [ 'Row3',     3,         undef,     3,         0,         3,         undef, ],
+    ],
+    SumRow => 1,
+    SumCol => 1,
+);
 
 my @SubStatArray = @{ $StatArray[-1] };
 $Counter = $SubStatArray[-1];

@@ -1412,14 +1412,9 @@ sub StatsParamsGet {
 
         # check if the timeperiod is too big or the time scale too small
         if (
-            $GetParam{UseAsXvalue}[0]{Block} eq 'Time'
-            && (
-                !$GetParam{UseAsValueSeries}[0]
-                || (
-                    $GetParam{UseAsValueSeries}[0]
-                    && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time'
-                )
-            )
+            ( $GetParam{UseAsXvalue}[0]{Block} && $GetParam{UseAsXvalue}[0]{Block} eq 'Time' )
+            && ( !$GetParam{UseAsValueSeries}[0]
+                || ( $GetParam{UseAsValueSeries}[0] && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time' ) )
             )
         {
 
@@ -1477,14 +1472,6 @@ sub StatsResultRender {
     my $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
         String   => $Stat->{Title} . ' Created',
         TimeZone => $Param{TimeZone},
-    );
-
-    # Translate the column and row description
-    $Self->_ColumnAndRowTranslation(
-        StatArrayRef => \@StatArray,
-        HeadArrayRef => $HeadArrayRef,
-        StatRef      => $Stat,
-        ExchangeAxis => $Param{ExchangeAxis},
     );
 
     # get CSV object
@@ -2271,179 +2258,6 @@ sub _TimeZoneBuildSelection {
     );
 
     return %TimeZoneBuildSelection;
-}
-
-=item _ColumnAndRowTranslation()
-
-translate the column and row name if needed
-
-    $StatsViewObject->_ColumnAndRowTranslation(
-        StatArrayRef => $StatArrayRef,
-        HeadArrayRef => $HeadArrayRef,
-        StatRef      => $StatRef,
-        ExchangeAxis => 1 | 0,
-    );
-
-=cut
-
-sub _ColumnAndRowTranslation {
-    my ( $Self, %Param ) = @_;
-
-    # check if need params are available
-    for my $NeededParam (qw(StatArrayRef HeadArrayRef StatRef)) {
-        if ( !$Param{$NeededParam} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => "error",
-                Message  => "_ColumnAndRowTranslation: Need $NeededParam!"
-            );
-        }
-    }
-
-    # get language object
-    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
-
-    # find out, if the column or row names should be translated
-    my %Translation;
-    my %Sort;
-
-    for my $Use (qw( UseAsXvalue UseAsValueSeries )) {
-        if (
-            $Param{StatRef}->{StatType} eq 'dynamic'
-            && $Param{StatRef}->{$Use}
-            && ref( $Param{StatRef}->{$Use} ) eq 'ARRAY'
-            )
-        {
-            my @Array = @{ $Param{StatRef}->{$Use} };
-
-            ELEMENT:
-            for my $Element (@Array) {
-                next ELEMENT if !$Element->{SelectedValues};
-
-                if ( $Element->{Translation} && $Element->{Block} eq 'Time' ) {
-                    $Translation{$Use} = 'Time';
-                }
-                elsif ( $Element->{Translation} ) {
-                    $Translation{$Use} = 'Common';
-                }
-                else {
-                    $Translation{$Use} = '';
-                }
-
-                if (
-                    $Element->{Translation}
-                    && $Element->{Block} ne 'Time'
-                    && !$Element->{SortIndividual}
-                    )
-                {
-                    $Sort{$Use} = 1;
-                }
-                last ELEMENT;
-            }
-        }
-    }
-
-    # check if the axis are changed
-    if ( $Param{ExchangeAxis} ) {
-        my $UseAsXvalueOld = $Translation{UseAsXvalue};
-        $Translation{UseAsXvalue}      = $Translation{UseAsValueSeries};
-        $Translation{UseAsValueSeries} = $UseAsXvalueOld;
-
-        my $SortUseAsXvalueOld = $Sort{UseAsXvalue};
-        $Sort{UseAsXvalue}      = $Sort{UseAsValueSeries};
-        $Sort{UseAsValueSeries} = $SortUseAsXvalueOld;
-    }
-
-    # translate the headline
-    $Param{HeadArrayRef}->[0] = $LanguageObject->Translate( $Param{HeadArrayRef}->[0] );
-
-    if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} ne 'Time' ) {
-        for my $Word ( @{ $Param{HeadArrayRef} } ) {
-            $Word = $LanguageObject->Translate($Word);
-        }
-    }
-
-    # sort the headline
-    if ( $Sort{UseAsXvalue} ) {
-        my @HeadOld = @{ $Param{HeadArrayRef} };
-        shift @HeadOld;    # because the first value is no sortable column name
-
-        # special handling if the sumfunction is used
-        my $SumColRef;
-        if ( $Param{StatRef}->{SumRow} ) {
-            $SumColRef = pop @HeadOld;
-        }
-
-        # sort
-        my @SortedHead = sort { $a cmp $b } @HeadOld;
-
-        # special handling if the sumfunction is used
-        if ( $Param{StatRef}->{SumCol} ) {
-            push @SortedHead, $SumColRef;
-            push @HeadOld,    $SumColRef;
-        }
-
-        # add the row names to the new StatArray
-        my @StatArrayNew;
-        for my $Row ( @{ $Param{StatArrayRef} } ) {
-            push @StatArrayNew, [ $Row->[0] ];
-        }
-
-        # sort the values
-        for my $ColumnName (@SortedHead) {
-            my $Counter = 0;
-            COLUMNNAMEOLD:
-            for my $ColumnNameOld (@HeadOld) {
-                $Counter++;
-                next COLUMNNAMEOLD if $ColumnNameOld ne $ColumnName;
-
-                for my $RowLine ( 0 .. $#StatArrayNew ) {
-                    push @{ $StatArrayNew[$RowLine] }, $Param{StatArrayRef}->[$RowLine]->[$Counter];
-                }
-                last COLUMNNAMEOLD;
-            }
-        }
-
-        # bring the data back to the references
-        unshift @SortedHead, $Param{HeadArrayRef}->[0];
-        @{ $Param{HeadArrayRef} } = @SortedHead;
-        @{ $Param{StatArrayRef} } = @StatArrayNew;
-    }
-
-    # translate the row description
-    if ( $Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} ne 'Time' ) {
-
-        # translate
-        for my $Word ( @{ $Param{StatArrayRef} } ) {
-            $Word->[0] = $LanguageObject->Translate( $Word->[0] );
-        }
-    }
-
-    # sort the row description
-    if ( $Sort{UseAsValueSeries} ) {
-
-        # special handling if the sumfunction is used
-        my $SumRowArrayRef;
-        if ( $Param{StatRef}->{SumRow} ) {
-            $SumRowArrayRef = pop @{ $Param{StatArrayRef} };
-        }
-
-        # sort
-        my $DisableDefaultResultSort = grep {
-            $_->{DisableDefaultResultSort}
-                && $_->{DisableDefaultResultSort} == 1
-        } @{ $Param{StatRef}->{UseAsXvalue} };
-
-        if ( !$DisableDefaultResultSort ) {
-            @{ $Param{StatArrayRef} } = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef} };
-        }
-
-        # special handling if the sumfunction is used
-        if ( $Param{StatRef}->{SumRow} ) {
-            push @{ $Param{StatArrayRef} }, $SumRowArrayRef;
-        }
-    }
-
-    return 1;
 }
 
 # ATTENTION: this function delivers only approximations!!!

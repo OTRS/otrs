@@ -14,6 +14,7 @@ use warnings;
 use base qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::PID',
     'Kernel::System::User',
     'Kernel::System::JSON',
@@ -78,6 +79,8 @@ sub Run {
         UserID => 1,
     );
 
+    my $DefaultLanguage = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+
     STATID:
     for my $StatID ( sort keys %{ $Stats || {} } ) {
 
@@ -125,10 +128,24 @@ sub Run {
                 print STDERR $Kernel::OM->Get('Kernel::System::Main')->Dump($UserGetParam);
             }
 
-            # now run the stat to fill the cache with the current parameters
+            $Kernel::OM->ObjectsDiscard(
+                Objects => ['Kernel::Language'],
+            );
+
+            $Kernel::OM->ObjectParamAdd(
+                'Kernel::Language' => {
+                    UserLanguage => $UserData{UserLanguage} || $DefaultLanguage,
+                },
+            );
+
+            # Now run the stat to fill the cache with the current parameters (passing the
+            #   user language for the correct caching).
             my $Result = $Kernel::OM->Get('Kernel::System::Stats')->StatsResultCacheCompute(
                 StatID       => $StatID,
-                UserGetParam => $UserGetParam,
+                UserGetParam => {
+                    %{$UserGetParam},
+                    UserLanguage => $UserData{UserLanguage} || $DefaultLanguage,
+                },
                 UserID       => $UserID
             );
 
