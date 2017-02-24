@@ -1,5 +1,5 @@
 #5.0.17 2017-??-??
- - 2017-02-17 Unified the search from text and textarea dynamic fields (bug#12118).
+ - 2017-02-24 Unified the search from text and textarea dynamic fields (bug#12118).
  - 2017-02-22 Updated translations, thanks to all translators.
  - 2017-02-22 Fixed bug#[12596](https://bugs.otrs.org/show_bug.cgi?id=12596)(PR#1625) - AgentTicketQueue articles are not displayed properly. Thanks to S7!
  - 2017-02-18 Fixed bug#[12443](https://bugs.otrs.org/show_bug.cgi?id=12443) - Activity dialog doesn't check process status before submit.
