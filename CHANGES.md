@@ -1,4 +1,5 @@
 #4.0.22 2017-??-??
+ - 2017-02-24 Fixed bug#[12628](https://bugs.otrs.org/show_bug.cgi?id=12628)(PR#1623) - Sorting of columns in Dashboard-Ticket-Widgets is toggling with every refresh of the widget. Thanks to S7!
  - 2017-02-24 Fixed bug#[12487](https://bugs.otrs.org/show_bug.cgi?id=12487) - Statistic with a  '+' in the  CustomerId doesn't work.
  - 2017-02-24 Fixed bug#[12595](https://bugs.otrs.org/show_bug.cgi?id=12595) - Not able to search for tickets at customer portal with brackets within login name.
  - 2017-02-24 Unified the search from text and textarea dynamic fields (bug#12118).

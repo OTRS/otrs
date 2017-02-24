@@ -44,7 +44,7 @@
 [% RenderBlockStart("GeneralOverviewHeader") %]
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderMeta") %]
-                <th class="DashboardHeader [% Data.CSS | html %]">
+                <th class="DashboardHeader [% Data.CSS | html %]" data-column="[% Data.HeaderColumnName | html %]">
 [% RenderBlockStart("ContentLargeTicketGenericHeaderMetaLink") %]
                     <a id="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" ></a>
 
@@ -584,10 +584,10 @@ if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
             OrderBy     = '';
 
         if ($OrderByObj && $OrderByObj.hasClass('SortDescendingLarge')) {
-            OrderBy = 'Up';
+            OrderBy = 'Down';
         }
         else if ($OrderByObj && $OrderByObj.hasClass('SortAscendingLarge')) {
-            OrderBy = 'Down';
+            OrderBy = 'Up';
         }
 
         $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
