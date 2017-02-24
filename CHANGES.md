@@ -1,6 +1,5 @@
 #6.0.0.beta1 2017-??-??
  - 2017-02-17 Fixed bug#[8853](https://bugs.otrs.org/show_bug.cgi?id=8853) - Hardcoded Priority and State in bin/otrs.FillDB.pl.
- - 2017-02-17 Unified the search from text and textarea dynamic fields (bug#12118).
  - 2017-02-17 Add support for setting owner and responsible via filter also for follow-ups, thanks to Renée Bäcker.
  - 2017-01-20 Added command to list configured queues, thanks to Martin Burggraf.
  - 2017-01-13 Blinking mechanism for queues is now disabled by default (can be enabled using Ticket::Frontend::AgentTicketQueue###Blink).
@@ -74,7 +73,8 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.17 2017-??-??
- - 2017-02-22s Updated translations, thanks to all translators.
+ - 2017-02-24 Unified the search from text and textarea dynamic fields (bug#12118).
+ - 2017-02-22 Updated translations, thanks to all translators.
  - 2017-02-22 Fixed bug#[12596](https://bugs.otrs.org/show_bug.cgi?id=12596)(PR#1625) - AgentTicketQueue articles are not displayed properly. Thanks to S7!
  - 2017-02-18 Fixed bug#[12443](https://bugs.otrs.org/show_bug.cgi?id=12443) - Activity dialog doesn't check process status before submit.
  - 2017-02-17 Fixed bug#[12552](https://bugs.otrs.org/show_bug.cgi?id=12552) - Merging Tickets will not move linked objects to target ticket.
