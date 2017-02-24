@@ -1255,10 +1255,10 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     OrderBy     = '';
 
                 if ($OrderByObj && $OrderByObj.hasClass('SortDescendingLarge')) {
-                    OrderBy = 'Up';
+                    OrderBy = 'Down';
                 }
                 else if ($OrderByObj && $OrderByObj.hasClass('SortAscendingLarge')) {
-                    OrderBy = 'Down';
+                    OrderBy = 'Up';
                 }
 
                 $('#Dashboard' + Core.App.EscapeSelector(WidgetRefreshData.Name) + '-box').addClass('Loading');

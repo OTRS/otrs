@@ -844,7 +844,8 @@ sub Run {
         $LayoutObject->Block(
             Name => 'ContentLargeTicketGenericHeaderMeta',
             Data => {
-                CSS => $CSS,
+                CSS              => $CSS,
+                HeaderColumnName => $Item,
             },
         );
 

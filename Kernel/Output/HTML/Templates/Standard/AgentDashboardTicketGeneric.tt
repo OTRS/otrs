@@ -46,7 +46,7 @@
 [% RenderBlockStart("GeneralOverviewHeader") %]
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderMeta") %]
-                <th class="DashboardHeader [% Data.CSS | html %]">
+                <th class="DashboardHeader [% Data.CSS | html %]" data-column="[% Data.HeaderColumnName | html %]">
 [% RenderBlockStart("ContentLargeTicketGenericHeaderMetaLink") %]
                     <a id="[% Data.HeaderColumnName | html %]FlagOverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" ></a>
 
