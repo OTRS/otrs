@@ -280,9 +280,9 @@ my @Tests = (
             CGIParam           => {}
         },
         ExpectedResults => {
-            Display   => '',
+            Display   => undef,
             Parameter => {
-                Like => '',
+                Equals => undef,
             },
         },
         Success => 1,
@@ -301,7 +301,7 @@ my @Tests = (
         ExpectedResults => {
             Display   => '',
             Parameter => {
-                Like => '',
+                Equals => '',
             },
         },
         Success => 1,
@@ -322,7 +322,7 @@ my @Tests = (
         ExpectedResults => {
             Display   => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             Parameter => {
-                Like => '*äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
+                Equals => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             },
         },
         Success => 1,
@@ -343,7 +343,7 @@ my @Tests = (
         ExpectedResults => {
             Display   => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
             Parameter => {
-                Like => '*äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß**',
+                Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
             },
         },
         Success => 1,
