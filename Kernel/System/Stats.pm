@@ -3424,9 +3424,11 @@ sub _ColumnAndRowTranslation {
     my %Sort;
 
     for my $Use (qw( UseAsXvalue UseAsValueSeries )) {
-        if (   $Param{StatRef}->{StatType} eq 'dynamic'
+        if (
+            $Param{StatRef}->{StatType} eq 'dynamic'
             && $Param{StatRef}->{$Use}
-            && ref( $Param{StatRef}->{$Use} ) eq 'ARRAY' )
+            && ref( $Param{StatRef}->{$Use} ) eq 'ARRAY'
+            )
         {
 
             my @Array = @{ $Param{StatRef}->{$Use} };
