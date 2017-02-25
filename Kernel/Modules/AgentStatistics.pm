@@ -1001,9 +1001,9 @@ sub RunAction {
     else {
         @StatArray = @{
             $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
-                StatID       => $Param{StatID},
-                GetParam     => \%GetParam,
-                UserID       => $Self->{UserID},
+                StatID   => $Param{StatID},
+                GetParam => \%GetParam,
+                UserID   => $Self->{UserID},
             );
         };
     }

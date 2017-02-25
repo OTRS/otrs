@@ -1461,8 +1461,10 @@ sub StatsParamsGet {
         # check if the timeperiod is too big or the time scale too small
         if (
             ( $GetParam{UseAsXvalue}[0]{Block} && $GetParam{UseAsXvalue}[0]{Block} eq 'Time' )
-            && ( !$GetParam{UseAsValueSeries}[0]
-                || ( $GetParam{UseAsValueSeries}[0] && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time' ) )
+            && (
+                !$GetParam{UseAsValueSeries}[0]
+                || ( $GetParam{UseAsValueSeries}[0] && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time' )
+            )
             )
         {
 

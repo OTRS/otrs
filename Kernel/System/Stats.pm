@@ -3420,14 +3420,16 @@ sub _ColumnAndRowTranslation {
     my %Sort;
 
     for my $Use (qw( UseAsXvalue UseAsValueSeries )) {
-        if ( $Param{StatRef}->{StatType} eq 'dynamic' && $Param{StatRef}->{$Use} && ref( $Param{StatRef}->{$Use} ) eq 'ARRAY' ) {
+        if (   $Param{StatRef}->{StatType} eq 'dynamic'
+            && $Param{StatRef}->{$Use}
+            && ref( $Param{StatRef}->{$Use} ) eq 'ARRAY' )
+        {
 
             my @Array = @{ $Param{StatRef}->{$Use} };
 
             ELEMENT:
             for my $Element (@Array) {
                 next ELEMENT if !$Element->{Selected};
-
 
                 if ( $Element->{Translation} && $Element->{Block} eq 'Time' ) {
                     $Translation{$Use} = 'Time';
@@ -3462,7 +3464,7 @@ sub _ColumnAndRowTranslation {
     # Translate the headline array, if all values must be translated and
     #   otherwise translate only the first value of the header.
     if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} ne 'Time' ) {
-        for my $Word ( @{ $HeadArrayRef } ) {
+        for my $Word ( @{$HeadArrayRef} ) {
             $Word = $LanguageObject->Translate($Word);
         }
     }
@@ -3472,7 +3474,7 @@ sub _ColumnAndRowTranslation {
 
     # Sort the headline array after translation.
     if ( $Sort{UseAsXvalue} ) {
-        my @HeadOld = @{ $HeadArrayRef };
+        my @HeadOld = @{$HeadArrayRef};
 
         # Because the first value is no sortable column name
         shift @HeadOld;
@@ -3493,7 +3495,7 @@ sub _ColumnAndRowTranslation {
 
         # Add the row names to the new StatArray.
         my @StatArrayNew;
-        for my $Row ( @{ $StatArrayRef } ) {
+        for my $Row ( @{$StatArrayRef} ) {
             push @StatArrayNew, [ $Row->[0] ];
         }
 
@@ -3513,13 +3515,13 @@ sub _ColumnAndRowTranslation {
 
         # Bring the data back to the diffrent references.
         unshift @SortedHead, $HeadArrayRef->[0];
-        @{ $HeadArrayRef } = @SortedHead;
-        @{ $StatArrayRef } = @StatArrayNew;
+        @{$HeadArrayRef} = @SortedHead;
+        @{$StatArrayRef} = @StatArrayNew;
     }
 
     # Translate the row description.
     if ( $Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} ne 'Time' ) {
-        for my $Word ( @{ $StatArrayRef } ) {
+        for my $Word ( @{$StatArrayRef} ) {
             $Word->[0] = $LanguageObject->Translate( $Word->[0] );
         }
     }
@@ -3530,22 +3532,23 @@ sub _ColumnAndRowTranslation {
         # Special handling if the sumfunction is used.
         my $SumRowArrayRef;
         if ( $Param{StatRef}->{SumRow} ) {
-            $SumRowArrayRef = pop @{ $StatArrayRef };
+            $SumRowArrayRef = pop @{$StatArrayRef};
         }
 
-        my $DisableDefaultResultSort = grep { $_->{DisableDefaultResultSort} && $_->{DisableDefaultResultSort} == 1 } @{ $Param{StatRef}->{UseAsXvalue} };
+        my $DisableDefaultResultSort = grep { $_->{DisableDefaultResultSort} && $_->{DisableDefaultResultSort} == 1 }
+            @{ $Param{StatRef}->{UseAsXvalue} };
 
         if ( !$DisableDefaultResultSort ) {
-            @{ $StatArrayRef } = sort { $a->[0] cmp $b->[0] } @{ $StatArrayRef };
+            @{$StatArrayRef} = sort { $a->[0] cmp $b->[0] } @{$StatArrayRef};
         }
 
         # Special handling if the sumfunction is used.
         if ( $Param{StatRef}->{SumRow} ) {
-            push @{ $StatArrayRef }, $SumRowArrayRef;
+            push @{$StatArrayRef}, $SumRowArrayRef;
         }
     }
 
-    unshift( @{ $StatArrayRef }, $TitleArrayRef, $HeadArrayRef );
+    unshift( @{$StatArrayRef}, $TitleArrayRef, $HeadArrayRef );
 
     return 1;
 }
