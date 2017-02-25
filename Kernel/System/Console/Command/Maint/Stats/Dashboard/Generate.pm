@@ -146,7 +146,7 @@ sub Run {
                     %{$UserGetParam},
                     UserLanguage => $UserData{UserLanguage} || $DefaultLanguage,
                 },
-                UserID       => $UserID
+                UserID => $UserID
             );
 
             if ( !$Result ) {

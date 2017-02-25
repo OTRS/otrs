@@ -1627,8 +1627,8 @@ my @Tests = (
                         'Selected'       => 1,
                         'Fixed'          => 1,
                         'SelectedValues' => [
-                           $LookupStateList{'new'},
-                           $LookupStateList{'open'},
+                            $LookupStateList{'new'},
+                            $LookupStateList{'open'},
                         ],
                     },
                 ],
@@ -3326,15 +3326,15 @@ my @Tests = (
             StatID => $DynamicMatrixStatID,
             Hash   => {
                 ExchangeAxis => 1,
-                UseAsXvalue => [
+                UseAsXvalue  => [
                     {
                         'Element'        => 'StateIDs',
                         'Block'          => 'MultiSelectField',
                         'Selected'       => 1,
                         'Fixed'          => 1,
                         'SelectedValues' => [
-                           $LookupStateList{'new'},
-                           $LookupStateList{'open'},
+                            $LookupStateList{'new'},
+                            $LookupStateList{'open'},
                         ],
                     },
                 ],
@@ -3390,15 +3390,15 @@ my @Tests = (
             StatID => $DynamicMatrixStatID,
             Hash   => {
                 ExchangeAxis => 1,
-                UseAsXvalue => [
+                UseAsXvalue  => [
                     {
                         'Element'        => 'StateIDs',
                         'Block'          => 'MultiSelectField',
                         'Selected'       => 1,
                         'Fixed'          => 1,
                         'SelectedValues' => [
-                           $LookupStateList{'new'},
-                           $LookupStateList{'open'},
+                            $LookupStateList{'new'},
+                            $LookupStateList{'open'},
                         ],
                     },
                 ],
