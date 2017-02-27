@@ -26,8 +26,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-22 20:57+0000\n"
-"PO-Revision-Date: 2017-02-23 03:11+0000\n"
+"POT-Creation-Date: 2017-02-27 17:38+0000\n"
+"PO-Revision-Date: 2017-02-27 23:40+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -12942,6 +12942,10 @@ msgstr "Исчезающий"
 msgid "Can't get Token from sever"
 msgstr "Не удается получить токен от сервера"
 
+#. Perl Module: Kernel/System/Stats.pm
+msgid "Sum"
+msgstr "Сумма"
+
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
 msgstr "Тип состояния"
@@ -17663,7 +17667,7 @@ msgstr "Задает список доступных очередей для н�
 
 #. SysConfig
 msgid "Development"
-msgstr ""
+msgstr "Разработка"
 
 #. SysConfig
 msgid ""
@@ -18627,7 +18631,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
 
 #. SysConfig
 msgid ""
@@ -18902,9 +18906,10 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Ignore article with system sender type for new article feature (e. g. auto "
-"responses or email notifications)."
-msgstr "Игнорировать системные сообщения для новых сообщений (например автоответы или почтовые уведомления)."
+"Ignore system sender article types (e. g. auto responses or email "
+"notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
+"expanded automatically in Large view screens."
+msgstr ""
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
@@ -22472,11 +22477,11 @@ msgstr "Вложение"
 
 #. SysConfig
 msgid "bounce"
-msgstr ""
+msgstr "Перенаправить"
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "Создать"
 
 #. SysConfig
 msgid "debug"
@@ -22488,7 +22493,7 @@ msgstr "Ошибка"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "Переслать"
 
 #. SysConfig
 msgid "info"
@@ -22504,12 +22509,12 @@ msgstr "Уведомление"
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "в ожидании"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "ответственный"
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "отчеты"

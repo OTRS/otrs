@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.296266068149357;
+    $Self->{Completeness}        = 0.29640962872297;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4069,6 +4069,9 @@ sub Data {
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Součet',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
         'Created Priority' => 'Nastavená Priorita',
@@ -5939,7 +5942,7 @@ Thanks for your help!
             '',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',

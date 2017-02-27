@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.67088349316466;
+    $Self->{Completeness}        = 0.671154630762954;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4062,6 +4062,9 @@ sub Data {
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Suma',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Tipo de Estado',
         'Created Priority' => 'Prioridad de Creación',
@@ -5559,7 +5562,7 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Determina las filas que serán válidas coom remitentes de los ticket, en la interfaz del cliente.',
-        'Development' => '',
+        'Development' => 'Desarrollo',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5932,7 +5935,7 @@ Thanks for your help!
             'Si esta expresión regular coincide, ningún mensaje se mandará por el contestador automático.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',

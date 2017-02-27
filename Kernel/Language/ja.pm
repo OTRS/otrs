@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.746582330136707;
+    $Self->{Completeness}        = 0.747858017135863;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2458,7 +2458,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Switch to agent' => '担当者を切り替え',
         'Add Agent' => '担当者の追加',
         'Edit Agent' => '担当者の編集',
-        'Title or salutation' => '',
+        'Title or salutation' => 'タイトルまたは挨拶文',
         'Firstname' => '姓',
         'Lastname' => '名',
         'A user with this username already exists!' => '',
@@ -4067,6 +4067,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'サーバーからトークンを取得できませんでした',
+
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => '合計',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -5967,8 +5970,8 @@ Contentはダイナミックフィールドの形式によって設定内容が�
             'ここで指定した文言（正規表現）にマッチした場合、オート・レスポンダーによりメッセージは送られません。',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            '新規項目機能のシステム・センダー・タイプを持つ項目を、無視します（例：自動返答またはEメール通知など）。',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',
         'Include unknown customers in ticket filter.' => '',
@@ -7028,17 +7031,17 @@ Contentはダイナミックフィールドの形式によって設定内容が�
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '添付ファイル',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => 'bounce（返送）',
+        'compose' => 'compose（作成）',
         'debug' => 'デバッグ',
         'error' => 'エラー',
-        'forward' => '',
+        'forward' => '転送',
         'info' => '情報',
         'inline' => '',
         'notice' => '通知',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => 'pending （保留）',
+        'responsible' => 'responsible （責任者）',
+        'stats' => 'stats',
 
     };
    # $$STOP$$

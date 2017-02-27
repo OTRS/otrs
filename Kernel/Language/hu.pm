@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.997143440114262;
+    $Self->{Completeness}        = 0.999796001631987;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -545,7 +545,7 @@ sub Data {
         'Statuses' => 'Állapotok',
         'Ticket Type' => 'Jegytípus',
         'Ticket Types' => 'Jegytípusok',
-        'Compose' => 'Összeállítás',
+        'Compose' => 'Válasz',
         'Pending' => 'Függőben',
         'Owner' => 'Tulajdonos',
         'Owner Update' => 'Tulajdonos frissítése',
@@ -1624,7 +1624,7 @@ sub Data {
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'További címzett e-mail címek',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
-            '',
+            'Használhatja az OTRS címkéket (mint például <OTRS_TICKET_DynamicField_...>) értékek beszúrásához a jelenlegi jegyből.',
         'Notification article type' => 'Értesítési bejegyzés típusa',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Egy bejegyzés lesz létrehozva, ha az értesítés elküldésre került az ügyfélnek vagy egy további e-mail címre.',
@@ -2409,7 +2409,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Rendszerkarbantartás szerkesztése: %s',
-        'Edit System Maintenance Information' => '',
+        'Edit System Maintenance Information' => 'Rendszerkarbantartás információk szerkesztése',
         'Date invalid!' => 'Érvénytelen dátum!',
         'Login message' => 'Bejelentkező üzenet',
         'Show login message' => 'Bejelentkező üzenet megjelenítése',
@@ -2704,7 +2704,7 @@ sub Data {
         'Execute Bulk Action' => 'Tömeges művelet végrehajtása',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s%s' => 'Válasz írása ehhez: %s%s%s',
+        'Compose Answer for %s%s%s' => 'Válasz írása erre: %s%s%s',
         'This address is registered as system address and cannot be used: %s' =>
             'Ez a cím rendszercímként van regisztrálva és nem használható: %s',
         'Please include at least one recipient' => 'Vegyen fel legalább egy címzettet',
@@ -3805,9 +3805,9 @@ sub Data {
         'Invalid TicketID: %s!' => 'Érvénytelen jegyazonosító: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Hiányzó tevékenységegyed-azonosító a következő jegyben: %s!',
         'This activity dialog does not belong to current activity in Ticket %s!' =>
-            '',
+            'Ez a tevékenység párbeszéd nem tartozik a jelenlegi tevékenységhez a(z) %s jegyben!',
         'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
-            '',
+            'Lehetséges, hogy egy másik felhasználó nemrég frissítette a jegyet. Zárja be ezt az ablakot, és töltse újra a jegyet.',
         'Missing ProcessEntityID in Ticket %s!' => 'Hiányzó folyamategyed-azonosító a következő jegyben: %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Nem sikerült beállítani a(z) %s dinamikus mező értékét, amely a(z) „%s” azonosítójú jegyhez tartozik a(z) „%s” tevékenység párbeszédben!',
@@ -4066,6 +4066,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'Nem lehet lekérni a tokent a kiszolgálóról',
+
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Összesen',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Állapot típusa',
@@ -4587,7 +4590,7 @@ Az Ön segélyszolgálat csapata
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Az aktuális évet és hónapot tartalmazó előtagot ad az OTRS naplófájlhoz. Minden hónapban új naplófájl lesz létrehozva.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
-            'Hozzáadja az ügyfelek e-mail címeit a címzettekhez az ügyintézői felület jegykészítés képernyőjén. Az ügyfelek e-mail címei nem lesznek hozzáadva, ha a bejegyzés típusa belső e-mail.',
+            'Hozzáadja az ügyfelek e-mail címeit a címzettekhez az ügyintézői felület jegyválasz képernyőjén. Az ügyfelek e-mail címei nem lesznek hozzáadva, ha a bejegyzés típusa belső e-mail.',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Hozzáadja az egyszeri munkaszüneti napokat a jelzett naptárhoz. Egy számjegyből álló mintát használjon a számoknál 1-től 9-ig (01 - 09 helyett).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4668,9 +4671,9 @@ Az Ön segélyszolgálat csapata
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Lehetővé teszi szolgáltatások és SLA-k meghatározását a jegyekhez (például e-mail, asztali, hálózat, …), és eszkalációs jellemzőket az SLA-khoz (ha a jegy szolgáltatás/SLA funkció engedélyezve van).',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            'Lehetővé teszi a kiterjesztett keresési feltételeket az ügyintézői felület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”.',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            'Lehetővé teszi a kiterjesztett keresési feltételeket az ügyfélfelület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”.',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Lehetővé teszi a kiterjesztett keresési feltételeket az általános ügyintézői felület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”.',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4978,7 +4981,7 @@ Az Ön segélyszolgálat csapata
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegyátirányítás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegyírás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
+            'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegyválasz képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket forward screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegytovábbítás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket free text screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -5103,7 +5106,7 @@ Az Ön segélyszolgálat csapata
         'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
             'Meghatározza egy jegy alapértelmezett következő állapotát az üzenet elküldése után az ügyintézői felület e-mail kimenő képernyőjén.',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
-            'Meghatározza egy jegy alapértelmezett következő állapotát, ha azt megírták / megválaszolták az ügyintézői felület jegyírás képernyőjén.',
+            'Meghatározza egy jegy alapértelmezett következő állapotát, ha azt megírták / megválaszolták az ügyintézői felület jegyválasz képernyőjén.',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
             'Meghatározza a telefonos jegyek alapértelmezett jegyzet törzsét az ügyintézői felület jegy telefon bejövő képernyőjén.',
         'Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.' =>
@@ -5254,7 +5257,7 @@ Az Ön segélyszolgálat csapata
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
             'Meghatározza azokat a szűrőket, amelyek feldolgozzák a bejegyzésekben lévő szöveget az URL-ek kiemelése érdekében.',
         'Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).' =>
-            'Meghatározza a válaszok formátumát az ügyintézői felület jegyírás képernyőjén ([% Data.OrigFrom | html %] = feladó 1:1, [% Data.OrigFromName | html %] csak a feladó valódi neve).',
+            'Meghatározza a válaszok formátumát az ügyintézői felület jegyválasz képernyőjén ([% Data.OrigFrom | html %] = feladó 1:1, [% Data.OrigFromName | html %] csak a feladó valódi neve).',
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             'Meghatározza a rendszer teljes képzésű tartománynevét. Ezt a beállítást az OTRS_CONFIG_FQDN változójaként használják, amely az alkalmazás által használt üzenetküldés összes űrlapján megtalálható a jegyekre mutató hivatkozások készítéséhez a rendszeren belül.',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
@@ -5394,7 +5397,7 @@ Az Ön segélyszolgálat csapata
         'Defines the name of the table where the user preferences are stored.' =>
             'Meghatározza annak a táblának a nevét, ahol a felhasználói beállítások vannak tárolva.',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
-            'Meghatározza egy jegy írása / megválaszolása utáni következő lehetséges állapotokat az ügyintézői felület jegyírás képernyőjén.',
+            'Meghatározza egy jegy írása / megválaszolása utáni következő lehetséges állapotokat az ügyintézői felület jegyválasz képernyőjén.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             'Meghatározza egy jegy továbbítása utáni következő lehetséges állapotokat az ügyintézői felület jegytovábbítás képernyőjén.',
         'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
@@ -5508,7 +5511,7 @@ Az Ön segélyszolgálat csapata
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             'Meghatározza a webkiszolgáló által használt protokoll típusát az alkalmazás kiszolgálásához. Ha https protokollt fognak használni az egyszerű http helyett, akkor azt itt kell megadni. Mivel ez nem befolyásolja a webkiszolgáló beállításait vagy viselkedését, ezért nem fogja megváltoztatni az alkalmazáshoz való hozzáférés módját, és ha rossz, nem fogja megakadályozni az alkalmazásba való belépést. Ezt a beállítást csak az OTRS_CONFIG_HttpType változójaként használják, amely az alkalmazás által használt üzenetküldés összes űrlapján megtalálható a jegyekre mutató hivatkozások készítéséhez a rendszeren belül.',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
-            'Meghatározza az egyszerű szöveges e-mail idézetekhez használt karaktert az ügyintézői felület jegyírás képernyőjén. Ha ez üres vagy inaktív, akkor az eredeti levelek nem lesznek idézve, viszont hozzáfűzésre kerülnek a válaszhoz.',
+            'Meghatározza az egyszerű szöveges e-mail idézetekhez használt karaktert az ügyintézői felület jegyválasz képernyőjén. Ha ez üres vagy inaktív, akkor az eredeti levelek nem lesznek idézve, viszont hozzáfűzésre kerülnek a válaszhoz.',
         'Defines the user identifier for the customer panel.' => 'Meghatározza a felhasználói azonosítót az ügyfélpanelhez.',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Meghatározza a SOAP leíróhoz való hozzáférés felhasználónevét (bin/cgi-bin/rpc.pl).',
@@ -5575,7 +5578,7 @@ Az Ön segélyszolgálat csapata
             'Meghatározza, hogy mely lehetőségek lesznek érvényesek a címzettnél (telefonos jegy) és a küldőnél (e-mail jegy) az ügyintézői felületen.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Meghatározza, hogy mely várólisták lesznek érvényesek a jegy címzettjeinél az ügyfélfelületen.',
-        'Development' => '',
+        'Development' => 'Fejlesztői',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'A „Content-Security-Policy” HTTP-fejléc letiltása a külső parancsfájltartalmak betöltésének engedélyezéséhez. Ezen HTTP-fejléc letiltása biztonsági probléma lehet! Csak akkor tiltsa le, ha tudja, hogy mit csinál!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5621,7 +5624,7 @@ Az Ön segélyszolgálat csapata
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             'Az ügyintézői felület jegylezárás képernyőjén megjelenített dinamikus mezők. Lehetséges beállítások: 0 = Letiltva, 1 = Engedélyezve, 2 = Engedélyezve és kötelező.',
         'Dynamic fields shown in the ticket compose screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
-            'Az ügyintézői felület jegyírás képernyőjén megjelenített dinamikus mezők. Lehetséges beállítások: 0 = Letiltva, 1 = Engedélyezve, 2 = Engedélyezve és kötelező.',
+            'Az ügyintézői felület jegyválasz képernyőjén megjelenített dinamikus mezők. Lehetséges beállítások: 0 = Letiltva, 1 = Engedélyezve, 2 = Engedélyezve és kötelező.',
         'Dynamic fields shown in the ticket email screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             'Az ügyintézői felület jegy e-mail képernyőjén megjelenített dinamikus mezők. Lehetséges beállítások: 0 = Letiltva, 1 = Engedélyezve, 2 = Engedélyezve és kötelező.',
         'Dynamic fields shown in the ticket forward screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
@@ -5948,8 +5951,8 @@ Az Ön segélyszolgálat csapata
             'Ha ez a reguláris kifejezés illeszkedik, akkor az automatikus válaszadó nem fog üzenetet küldeni.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Ha ez a beállítás be van kapcsolva, akkor a helyi módosítások nem lesznek hibaként kiemelve a csomagkezelőben és támogatási adatgyűjtőben.',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            'A rendszer küldő típussal rendelkező bejegyzés mellőzése az új bejegyzés szolgáltatásnál (például automatikus válaszok vagy e-mail értesítők).',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Az alvárólisták jegyeinek felvétele alapértelmezetten egy várólista kijelölésekor.',
         'Include unknown customers in ticket filter.' => 'Ismeretlen ügyfelek felvétele a jegyszűrőben.',
@@ -6043,7 +6046,7 @@ Az Ön segélyszolgálat csapata
         'Manage tasks triggered by event or time based execution.' => 'Esemény vagy időalapú végrehajtás által aktivált feladatok kezelése.',
         'Mark this ticket as junk!' => 'Jegy megjelölése szemétként!',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
-            'Az ügyfél-információs tábla (telefon vagy e-mail) legnagyobb mérete (karakterben) a jegyírás képernyőn.',
+            'Az ügyfél-információs tábla (telefon vagy e-mail) legnagyobb mérete (karakterben) a jegyválasz képernyőn.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
             'A tájékoztatott ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
@@ -6252,7 +6255,7 @@ Az Ön segélyszolgálat csapata
         'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             'Meglévő S/MIME tanúsítványok megújítása az ügyfél háttérprogramból. Megjegyzés: az SMIME és SMIME::FetchFromCustomer beállításoknak bekapcsolva kell lenniük a rendszerbeállításokban, és az ügyfél háttérprogramnak beállítva kell lennie a UserSMIMECertificate attribútum lekéréséhez.',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
-            'Kicseréli az eredeti küldőt az aktuális ügyfél e-mail címére a válasz írásakor az ügyintézői felület jegyírás képernyőjén.',
+            'Kicseréli az eredeti küldőt az aktuális ügyfél e-mail címére a válasz írásakor az ügyintézői felület jegyválasz képernyőjén.',
         'Reports' => 'Jelentések',
         'Reports (OTRS Business Solution™)' => 'Jelentések (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -6266,7 +6269,7 @@ Az Ön segélyszolgálat csapata
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             'A jegyátirányítás képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
-            'A jegyírás képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
+            'A jegyválasz képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket forward screen in the agent interface.' =>
             'A jegytovábbítás képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket free text screen in the agent interface.' =>
@@ -6699,7 +6702,7 @@ Az Ön segélyszolgálat csapata
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             'Megjeleníti a bejegyzéseket normálisan vagy fordítottan rendezve a jegynagyítás alatt az ügyintézői felületen.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
-            'Megjeleníti az ügyfél-felhasználó információit (telefon vagy e-mail) az írás képernyőn.',
+            'Megjeleníti az ügyfél-felhasználó információit (telefon vagy e-mail) a válasz képernyőn.',
         'Shows the customer user\'s info in the ticket zoom view.' => 'Megjeleníti az ügyfél-felhasználó információit a jegynagyítás nézetben.',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually.' =>
             'Megjeleníti a nap üzenetét (MOTD) az ügyintézői vezérlőpulton. A „Group” használható a hozzáférés korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „Default” jelzi, ha a bővítmény alapértelmezetten engedélyezve van, vagy ha a felhasználónak kézzel kell engedélyeznie azt.',
@@ -6771,7 +6774,7 @@ Az Ön segélyszolgálat csapata
         'Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.' =>
             'Megadja az elérhető jegyzettípusokat ehhez a jegymaszkhoz. Ha a lehetőség nincs kiválasztva, az ArticleTypeDefault lesz használva, és a lehetőség el lesz távolítva a maszkból.',
         'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
-            'Megadja az alapértelmezett bejegyzéstípust az ügyintézői felület jegyírás képernyőjén, ha a bejegyzéstípus nem ismerhető fel automatikusan.',
+            'Megadja az alapértelmezett bejegyzéstípust az ügyintézői felület jegyválasz képernyőjén, ha a bejegyzéstípus nem ismerhető fel automatikusan.',
         'Specifies the different article types that will be used in the system.' =>
             'Megadja a különböző bejegyzéstípusokat, amelyek a rendszeren használva lesznek.',
         'Specifies the different note types that will be used in the system.' =>
@@ -6816,9 +6819,9 @@ Az Ön segélyszolgálat csapata
         'Specify the username to authenticate for the first mirror database.' =>
             'A felhasználónév megadása az első tükör adatbázisnál történő hitelesítéshez.',
         'Spell checker.' => 'Helyesírás-ellenőrző.',
-        'Stable' => '',
+        'Stable' => 'Stabil',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'Szabványos elérhető jogosultságok az alkalmazáson belüli ügyintézőknél. Ha több jogosultság szükséges, akkor azok itt adhatók meg. A jogosultságokat meg kell határozni, hogy hatásosak legyenek. Néhány egyéb jó jogosultság beépítetten is biztosítva van: jegyzet, lezárás, függőben, ügyfél, szabad szöveg, áthelyezés, írás, felelős, továbbítás és átirányítás. Győződjön meg arról, hogy az „rw” mindig az utolsó regisztrált jogosultság legyen.',
+            'Szabványos elérhető jogosultságok az alkalmazáson belüli ügyintézőknél. Ha több jogosultság szükséges, akkor azok itt adhatók meg. A jogosultságokat meg kell határozni, hogy hatásosak legyenek. Néhány egyéb jó jogosultság beépítetten is biztosítva van: jegyzet, lezárás, függőben, ügyfél, szabad szöveg, áthelyezés, válasz írása, felelős, továbbítás és átirányítás. Győződjön meg arról, hogy az „rw” mindig az utolsó regisztrált jogosultság legyen.',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'Kezdőszám a statisztika számláláshoz. Minden új statisztika növeli ezt a számot.',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
@@ -6904,8 +6907,8 @@ Az Ön segélyszolgálat csapata
             'Ez a beállítás lehetővé teszi a beépített országlista felülbírálását a saját országlistájával. Ez különösen hasznos, ha az országoknak csak egy kiválasztott kis csoportját szeretné használni.',
         'This will allow the system to send text messages via SMS.' => 'Ez lehetővé fogja tenni a rendszernek a szöveges üzenetek küldését SMS-ben.',
         'Ticket Close.' => 'Jegylezárás.',
-        'Ticket Compose Bounce Email.' => 'Jegyátirányító e-mail létrehozás.',
-        'Ticket Compose email Answer.' => 'Jegy e-mail válasz létrehozás.',
+        'Ticket Compose Bounce Email.' => 'E-mail átirányító jegyválasz.',
+        'Ticket Compose email Answer.' => 'E-mailre történő jegyválasz.',
         'Ticket Customer.' => 'Jegyügyfél.',
         'Ticket Forward Email.' => 'Jegy e-mail továbbítás.',
         'Ticket FreeText.' => 'Jegy szabad szöveg.',
@@ -6978,7 +6981,7 @@ Az Ön segélyszolgálat csapata
         'UserFirstname' => 'UserFirstname',
         'UserLastname' => 'UserLastname',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
-            'Másolati címzetteket használ a válaszlistán egy e-mailre történő válasz írásakor az ügyintézői felület jegyírás képernyőjén.',
+            'Másolati címzetteket használ a válaszlistán egy e-mailre történő válasz írásakor az ügyintézői felület jegyválasz képernyőjén.',
         'Uses richtext for viewing and editing ticket notification.' => 'RichText szöveget használ a jegyértesítések megtekintésénél és szerkesztésénél.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'RichText szöveget használ a megtekintésnél és szerkesztésnél: bejegyzések, megszólítások, aláírások, szabványos sablonok, automatikus válaszok és értesítések.',
@@ -7008,17 +7011,17 @@ Az Ön segélyszolgálat csapata
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Az előnyben részesített szolgáltatásoknak a szolgáltatás kiválasztása. Értesítést is kaphat azokról a szolgáltatásokról e-mailben, ha engedélyezve van.',
         'attachment' => 'melléklet',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => 'átirányítás',
+        'compose' => 'válasz',
         'debug' => 'hibakeresés',
         'error' => 'hiba',
-        'forward' => '',
+        'forward' => 'továbbítás',
         'info' => 'információ',
         'inline' => 'beágyazott',
         'notice' => 'értesítés',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => 'függőben',
+        'responsible' => 'felelős',
+        'stats' => 'statisztikák',
 
     };
     # $$STOP$$

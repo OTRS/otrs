@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.968577841256886;
+    $Self->{Completeness}        = 0.969808241534068;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4073,6 +4073,9 @@ sub Data {
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'Не удается получить токен от сервера',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Сумма',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Тип состояния',
         'Created Priority' => 'Созданный Приоритет',
@@ -5581,7 +5584,7 @@ Thanks for your help!
             'Задает какие варианты будут доступны для поля Получатель (в телефонной) или Отправитель (в почтовой заявке) в интерфейсе агента.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Задает список доступных очередей для новой заяаки в интерфейсе клиента.',
-        'Development' => '',
+        'Development' => 'Разработка',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Отключите HTTP заголовок "Content-Security-Policy", чтобы разрешить загрузку содержимого внешних скриптов. Отключение этого HTTP заголовка снижает уровень безопасности! Отключайте только, если вы точно знаете, что делаете!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5954,8 +5957,8 @@ Thanks for your help!
             'Если это регулярное выражение верно, автоответ не будет посылаться.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            'Игнорировать системные сообщения для новых сообщений (например автоответы или почтовые уведомления).',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Включает заявки подочередей по умолчанию при выборе очереди.',
         'Include unknown customers in ticket filter.' => 'Включать неизвестных клиентов в фильтр заявок.',
@@ -7014,17 +7017,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Выбор сервисов, которые вас интересуют. Вы также будете уведомляться по электронной почте об этих сервисах, если эта функция включена.',
         'attachment' => 'Вложение',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => 'Перенаправить',
+        'compose' => 'Создать',
         'debug' => 'Отладка',
         'error' => 'Ошибка',
-        'forward' => '',
+        'forward' => 'Переслать',
         'info' => 'Информация',
         'inline' => 'в очереди',
         'notice' => 'Уведомление',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => 'в ожидании',
+        'responsible' => 'ответственный',
+        'stats' => 'отчеты',
 
     };
     # $$STOP$$

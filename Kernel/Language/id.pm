@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.966333401346664;
+    $Self->{Completeness}        = 0.96593227254182;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -4064,6 +4064,9 @@ bin/otrs.Daemon.pl status\').',
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'Tidak bisa mendapatkan Token dari server',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => '',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Jenis stat',
         'Created Priority' => 'dibuat Prioritas',
@@ -5947,8 +5950,8 @@ Helpdesk Team Anda
             'Jika regex ini cocok, tidak ada pesan akan dikirim oleh autoresponder.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Jika pengaturan ini aktif, modifikasi lokal tidak akan disorot sebagai kesalahan dalam paket manager dan data dukungan kolektor.',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            'Abaikan artikel dengan jenis sensor sistem untuk fitur artikel baru (Contoh: tanggapan auto untuk pemberitahuan email).',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Termasuk tiket dari subqueues per default ketika memilih antrian.',
         'Include unknown customers in ticket filter.' => 'Termasuk pelanggan yang tidak diketahui dalam filter tiket.',

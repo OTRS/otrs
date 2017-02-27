@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.473984901040604;
+    $Self->{Completeness}        = 0.474704202366381;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3429,7 +3429,7 @@ sub Data {
         'Keep (leave unchanged)' => '',
         'Ignore (drop key/value pair)' => '',
         'Map to (use provided value as default)' => '',
-        'Exact value(s)' => '',
+        'Exact value(s)' => 'Valeur(s) exacte',
         'Ignore (drop Value/value pair)' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
@@ -4069,6 +4069,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
+
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Somme',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -5940,7 +5943,7 @@ Thanks for your help!
             '',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',
@@ -6061,7 +6064,7 @@ Thanks for your help!
             '',
         'Merge this ticket and all articles into a another ticket' => '',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Fusionner le ticket <OTRS_TICKET> avec <OTRS_MERGE_TO_TICKET>.',
-        'Miscellaneous' => '',
+        'Miscellaneous' => 'Divers',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
@@ -6205,7 +6208,7 @@ Thanks for your help!
         'ParentChild' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
-        'People' => '',
+        'People' => 'Personne',
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             '',
         'Permitted width for compose email windows.' => '',

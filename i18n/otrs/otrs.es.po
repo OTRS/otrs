@@ -1,7 +1,9 @@
 # 
 # Translators:
 # Alvaro Gajardo, 2016
+# Alvaro Gajardo, 2016
 # Anatoli F. Peña Castillo <anatoli1993@yahoo.com>, 2017
+# Антон Протченко :3 <a_protchenko@hotmail.com>, 2017
 # Arturo Mondelo <arturo.mondelo@hotmail.es>, 2015
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # David B <link.bigpoint@outlook.com>, 2017
@@ -13,8 +15,11 @@
 # Emmanuel <emmanuel.arias@ya.ru>, 2015
 # Galo Izquierdo <gizquier@hotmail.com>, 2015
 # Gonzalo Moreu, 2016
+# Gonzalo Moreu, 2016
 # Juan Clavero <juanm.clavero@ibsalut.es>, 2016
 # juanman <juanma@gnutn.org.ar>, 2015
+# juanman <juanma@gnutn.org.ar>, 2015
+# Luigy, 2016
 # Luigy, 2016
 # Luis Medina <luis.medina@sacc.com.mx>, 2016
 # Nuño López Ansótegui <nuno.lopez@exevi.com>, 2015
@@ -24,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-22 20:57+0000\n"
-"PO-Revision-Date: 2017-02-23 03:11+0000\n"
+"POT-Creation-Date: 2017-02-27 17:38+0000\n"
+"PO-Revision-Date: 2017-02-27 23:40+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -5687,7 +5692,7 @@ msgstr "Direcciones adicionales del destinatario de correo electrónico."
 msgid ""
 "You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
-msgstr ""
+msgstr "Puedes usar los OTRS-tags como <OTRS_TICKET_DynamicField_...> para ingresar los valores desde su boleta corriente."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -8229,7 +8234,7 @@ msgstr "Editar mantenimiento del sistema  %s"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance Information"
-msgstr ""
+msgstr "Edite la Información de Mantenimiento de Sistema"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -11400,11 +11405,11 @@ msgstr "No se pudo conectarse con el servidor de la lista de Funciones de los Co
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr ""
+msgstr "No se puede obtener la lista de los Complementos de las Funciones de OTRS desde el servidor!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on from server!"
-msgstr ""
+msgstr "No se puede obtener el Comlimento de los Funciones de OTRS desde el servidor."
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -11416,7 +11421,7 @@ msgstr "Se requiere un Ejemplo de Procesos!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
-msgstr ""
+msgstr "Se requiere el ID de Processo!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
@@ -11424,32 +11429,32 @@ msgstr "Si (Obligatorio)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
-msgstr ""
+msgstr "El Processo Desconocido %s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error generating a new EntityID for this Process"
-msgstr ""
+msgstr "Se produjo un error al generar un nuevo ID de Entidad para este Processo."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The StateEntityID for state Inactive does not exists"
-msgstr ""
+msgstr "El ID del Estado de Entidad para el estado Inactivo no existe."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
-msgstr ""
+msgstr "Se produjo un error al crear el Processo."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "There was an error setting the entity sync status for Process entity: %s"
-msgstr ""
+msgstr "Se produjo un error al establecer el estatus de sincronización de entidad para la entidad del Processo: %s "
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get data for ProcessID %s"
-msgstr ""
+msgstr "No se pudieron obtener los datos para el ID del Processo %s."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
-msgstr ""
+msgstr "Se produjo un error al actualizar el Proceso."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s could not be deleted"
@@ -11461,11 +11466,11 @@ msgstr "Se produjo un error al sincronizar los procesos."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
-msgstr ""
+msgstr "El %s:%s esta siendo utilizado."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s has a different EntityID"
-msgstr ""
+msgstr "El %s:%s tiene diferente ID de Entidad."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
@@ -11489,32 +11494,32 @@ msgstr "El proceso %s no está Inactivo"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
-msgstr ""
+msgstr "Se produjo un error al generar un nuevo ID de Entidad para esta Actividad"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error creating the Activity"
-msgstr ""
+msgstr "Se produjo un error al crear la Actividad"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "There was an error setting the entity sync status for Activity entity: %s"
-msgstr ""
+msgstr "Se produjo un error al establecer el estatus de sincronización de la entidad para la entidad de Actividad: %s "
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Need ActivityID!"
-msgstr ""
+msgstr "Se requiere ID de Actividad!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
-msgstr ""
+msgstr "No se pudieron obtener los datos para ID de Actividad %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
-msgstr ""
+msgstr "Se produjo un error al atualizar Actividad"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
-msgstr ""
+msgstr "Se falta el Parámetro: Se quiere Actividad y Diálogo de Actividad!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Activity not found!"
@@ -11528,11 +11533,11 @@ msgstr "¡Diálogo de Actividad no encontrado!"
 msgid ""
 "ActivityDialog already assigned to Activity. You cannot add an "
 "ActivityDialog twice!"
-msgstr ""
+msgstr "Diálogo de Actividad ya está asignada a Actividad. No puedes agregar Diálogo de Actividad dos veces!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Error while saving the Activity to the database!"
-msgstr ""
+msgstr "Se produjo un error al guardar la Actividad a la base de datos!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "This subaction is not valid"
@@ -11540,37 +11545,37 @@ msgstr "Esta subacción no es válida"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Edit Activity \"%s\""
-msgstr ""
+msgstr "Edite Actividad \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error generating a new EntityID for this ActivityDialog"
-msgstr ""
+msgstr "Se produjo un error al generar un nuevo ID de Entidad para este Diálogo de Actividad"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error creating the ActivityDialog"
-msgstr ""
+msgstr "Se produjo un error al crear este Diálogo de Actividad"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid ""
 "There was an error setting the entity sync status for ActivityDialog entity:"
 " %s"
-msgstr ""
+msgstr "Se produjo un error al establecer el estatus de sincronización del Diálogo de Actividad de la entidad: %s "
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Need ActivityDialogID!"
-msgstr ""
+msgstr "Se requiere ID del Diálogo de Actividad!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
-msgstr ""
+msgstr "No se pudieron obtener los datos para ID del Diálogo de Actividad %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
-msgstr ""
+msgstr "Se produjo un error al actualizar el Diálogo de Actividad"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Edit Activity Dialog \"%s\""
-msgstr ""
+msgstr "Edite Diálogo de Actividad \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
@@ -11606,36 +11611,36 @@ msgstr "Editar Ruta"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
-msgstr ""
+msgstr "Se produjo un error al generar un nuevo ID de Entidad para esta Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error creating the Transition"
-msgstr ""
+msgstr "Se produjo un error al crear la Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
 "There was an error setting the entity sync status for Transition entity: %s"
-msgstr ""
+msgstr "Se produjo un error al establecer el estatus de sincronización de la entidad para la entidad de Transición: %s "
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Need TransitionID!"
-msgstr ""
+msgstr "Se requiere ID de Transición!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Could not get data for TransitionID %s"
-msgstr ""
+msgstr "No se pudieron obtener los datos para ID de Transición %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
-msgstr ""
+msgstr "Se produjo un error al actualizar la Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
-msgstr ""
+msgstr "Edite Transición \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "xor"
-msgstr ""
+msgstr "xor"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "String"
@@ -11651,37 +11656,37 @@ msgstr "Se requiere por lo menos un parámetro de configuración valido."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error generating a new EntityID for this TransitionAction"
-msgstr ""
+msgstr "Se produjo un error al generar un nuevo ID de Entidad para esta Acción de Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error creating the TransitionAction"
-msgstr ""
+msgstr "Se produjo un error al crear la Acción de Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid ""
 "There was an error setting the entity sync status for TransitionAction "
 "entity: %s"
-msgstr ""
+msgstr "Se produjo un error al establecer el estatus de sincronización de la entidad para la entidad de Acción de Transición: %s "
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Need TransitionActionID!"
-msgstr ""
+msgstr "Se requiere ID de Acción de Transición!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Could not get data for TransitionActionID %s"
-msgstr ""
+msgstr "No se pudieron obtener los datos para ID de Acción de Transición %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
-msgstr ""
+msgstr "Se produjo un error al actualizar la Acción de Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Edit Transition Action \"%s\""
-msgstr ""
+msgstr "Edite Acción de Transición \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Error: Not all keys seem to have values or vice versa."
-msgstr ""
+msgstr "Error: No todos claves paracen tener valores ó al revés."
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
@@ -11689,7 +11694,7 @@ msgstr "¡No uses :: al nombrar una cola!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
-msgstr ""
+msgstr "Pulse atrás y cámbiala!"
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
@@ -11697,23 +11702,23 @@ msgstr "Colas (sin respuestas automáticas)"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
-msgstr ""
+msgstr "El entorno de S/MINE no funciona. Favor compruebe los registros para más nformación!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Need param Filename to delete!"
-msgstr ""
+msgstr "Se requiere el Nombre de Archivo de parámetros para borrar!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Need param Filename to download!"
-msgstr ""
+msgstr "Se requiere el Nombre de Archivo de parámetros para descargar!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Needed CertFingerprint and CAFingerprint!"
-msgstr ""
+msgstr "Se requiería CertFingerprint and CAFingerprint!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "CAFingerprint must be different than CertFingerprint"
-msgstr ""
+msgstr "CAFingerprint debe ser diferente de CertFingerprint"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation exists!"
@@ -11769,7 +11774,7 @@ msgstr "Se necesita el Archivo!"
 
 #. Perl Module: Kernel/Modules/AdminSysConfig.pm
 msgid "Can't write ConfigItem!"
-msgstr ""
+msgstr "No se puede crear Unidad de Configuración."
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
@@ -11777,19 +11782,19 @@ msgstr "Fecha de Inicio no debería ser definida después de Fecha de finalizaci
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error creating the System Maintenance"
-msgstr ""
+msgstr "Se produjo un error al crear el Mantenimiento de Sistema"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Need SystemMaintenanceID!"
-msgstr ""
+msgstr "Se requiere ID de Mantenimiento de Sistema "
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Could not get data for SystemMaintenanceID %s"
-msgstr ""
+msgstr "No se pudieron obtener los datos de ID de Mantenimiento del Sistema %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "System Maintenance was saved successfully!"
-msgstr ""
+msgstr "el Mantenimiento del Sistema se guardó exitosamente!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Session has been killed!"
@@ -11801,11 +11806,11 @@ msgstr "Todas las sesiones se han cerrado, excepto la suya propia."
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error updating the System Maintenance"
-msgstr ""
+msgstr "Se produjo un error al actualizar el Mantenimiento del Sistema"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Was not possible to delete the SystemMaintenance entry: %s!"
-msgstr ""
+msgstr "No se pudo borrar la entrada del Mantenimiento del Sistema: %s!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template updated!"
@@ -11817,7 +11822,7 @@ msgstr "¡Plantilla añadida!"
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Need Type!"
-msgstr ""
+msgstr "Se requiere Tipo!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No such config for %s"
@@ -12939,6 +12944,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
 msgstr "No se puede obtener el Token desde el servidor"
+
+#. Perl Module: Kernel/System/Stats.pm
+msgid "Sum"
+msgstr "Suma"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -18900,8 +18909,9 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Ignore article with system sender type for new article feature (e. g. auto "
-"responses or email notifications)."
+"Ignore system sender article types (e. g. auto responses or email "
+"notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
+"expanded automatically in Large view screens."
 msgstr ""
 
 #. SysConfig

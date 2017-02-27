@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.763313609467456;
+    $Self->{Completeness}        = 0.775805793553652;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1624,7 +1624,7 @@ sub Data {
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Direcciones adicionales del destinatario de correo electrónico.',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
-            '',
+            'Puedes usar los OTRS-tags como <OTRS_TICKET_DynamicField_...> para ingresar los valores desde su boleta corriente.',
         'Notification article type' => 'Notificación de tipo',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Un artículo será creado si la notificación es enviada al cliente o a una dirección de correo adicional.',
@@ -2409,7 +2409,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Editar mantenimiento del sistema  %s',
-        'Edit System Maintenance Information' => '',
+        'Edit System Maintenance Information' => 'Edite la Información de Mantenimiento de Sistema',
         'Date invalid!' => '¡Fecha no válida!',
         'Login message' => 'Mensaje de login',
         'Show login message' => 'Mostrar mensaje de login',
@@ -3507,29 +3507,29 @@ sub Data {
         'Package not verified due a communication issue with verification server!' =>
             'Paquete no verificado debido a problema en la comunicación con el servidor de verificación!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'No se pudo conectarse con el servidor de la lista de Funciones de los Complementos  de OTRS!',
-        'Can\'t get OTRS Feature Add-on list from server!' => '',
-        'Can\'t get OTRS Feature Add-on from server!' => '',
+        'Can\'t get OTRS Feature Add-on list from server!' => 'No se puede obtener la lista de los Complementos de las Funciones de OTRS desde el servidor!',
+        'Can\'t get OTRS Feature Add-on from server!' => 'No se puede obtener el Comlimento de los Funciones de OTRS desde el servidor.',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
         'No such filter: %s' => 'No existe el filtro: %s',
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Need ExampleProcesses!' => 'Se requiere un Ejemplo de Procesos!',
-        'Need ProcessID!' => '',
+        'Need ProcessID!' => 'Se requiere el ID de Processo!',
         'Yes (mandatory)' => 'Si (Obligatorio)',
-        'Unknown Process %s!' => '',
+        'Unknown Process %s!' => 'El Processo Desconocido %s!',
         'There was an error generating a new EntityID for this Process' =>
-            '',
-        'The StateEntityID for state Inactive does not exists' => '',
-        'There was an error creating the Process' => '',
+            'Se produjo un error al generar un nuevo ID de Entidad para este Processo.',
+        'The StateEntityID for state Inactive does not exists' => 'El ID del Estado de Entidad para el estado Inactivo no existe.',
+        'There was an error creating the Process' => 'Se produjo un error al crear el Processo.',
         'There was an error setting the entity sync status for Process entity: %s' =>
-            '',
-        'Could not get data for ProcessID %s' => '',
-        'There was an error updating the Process' => '',
+            'Se produjo un error al establecer el estatus de sincronización de entidad para la entidad del Processo: %s ',
+        'Could not get data for ProcessID %s' => 'No se pudieron obtener los datos para el ID del Processo %s.',
+        'There was an error updating the Process' => 'Se produjo un error al actualizar el Proceso.',
         'Process: %s could not be deleted' => 'El Proceso: %s no se pudo eliminar',
         'There was an error synchronizing the processes.' => 'Se produjo un error al sincronizar los procesos.',
-        'The %s:%s is still in use' => '',
-        'The %s:%s has a different EntityID' => '',
+        'The %s:%s is still in use' => 'El %s:%s esta siendo utilizado.',
+        'The %s:%s has a different EntityID' => 'El %s:%s tiene diferente ID de Entidad.',
         'Could not delete %s:%s' => 'No se pudo borrar el %s:%s',
         'There was an error setting the entity sync status for %s entity: %s' =>
             'Se produjo un error al establecer el estado de sincronización de la entidad de %s entidad: %s ',
@@ -3539,32 +3539,32 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
         'There was an error generating a new EntityID for this Activity' =>
-            '',
-        'There was an error creating the Activity' => '',
+            'Se produjo un error al generar un nuevo ID de Entidad para esta Actividad',
+        'There was an error creating the Activity' => 'Se produjo un error al crear la Actividad',
         'There was an error setting the entity sync status for Activity entity: %s' =>
-            '',
-        'Need ActivityID!' => '',
-        'Could not get data for ActivityID %s' => '',
-        'There was an error updating the Activity' => '',
-        'Missing Parameter: Need Activity and ActivityDialog!' => '',
+            'Se produjo un error al establecer el estatus de sincronización de la entidad para la entidad de Actividad: %s ',
+        'Need ActivityID!' => 'Se requiere ID de Actividad!',
+        'Could not get data for ActivityID %s' => 'No se pudieron obtener los datos para ID de Actividad %s',
+        'There was an error updating the Activity' => 'Se produjo un error al atualizar Actividad',
+        'Missing Parameter: Need Activity and ActivityDialog!' => 'Se falta el Parámetro: Se quiere Actividad y Diálogo de Actividad!',
         'Activity not found!' => '¡Actividad no encontrada!',
         'ActivityDialog not found!' => '¡Diálogo de Actividad no encontrado!',
         'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
-            '',
-        'Error while saving the Activity to the database!' => '',
+            'Diálogo de Actividad ya está asignada a Actividad. No puedes agregar Diálogo de Actividad dos veces!',
+        'Error while saving the Activity to the database!' => 'Se produjo un error al guardar la Actividad a la base de datos!',
         'This subaction is not valid' => 'Esta subacción no es válida',
-        'Edit Activity "%s"' => '',
+        'Edit Activity "%s"' => 'Edite Actividad "%s"',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
         'There was an error generating a new EntityID for this ActivityDialog' =>
-            '',
-        'There was an error creating the ActivityDialog' => '',
+            'Se produjo un error al generar un nuevo ID de Entidad para este Diálogo de Actividad',
+        'There was an error creating the ActivityDialog' => 'Se produjo un error al crear este Diálogo de Actividad',
         'There was an error setting the entity sync status for ActivityDialog entity: %s' =>
-            '',
-        'Need ActivityDialogID!' => '',
-        'Could not get data for ActivityDialogID %s' => '',
-        'There was an error updating the ActivityDialog' => '',
-        'Edit Activity Dialog "%s"' => '',
+            'Se produjo un error al establecer el estatus de sincronización del Diálogo de Actividad de la entidad: %s ',
+        'Need ActivityDialogID!' => 'Se requiere ID del Diálogo de Actividad!',
+        'Could not get data for ActivityDialogID %s' => 'No se pudieron obtener los datos para ID del Diálogo de Actividad %s',
+        'There was an error updating the ActivityDialog' => 'Se produjo un error al actualizar el Diálogo de Actividad',
+        'Edit Activity Dialog "%s"' => 'Edite Diálogo de Actividad "%s"',
         'Agent Interface' => 'Interfaz del agente',
         'Customer Interface' => 'Interfaz del cliente',
         'Agent and Customer Interface' => 'Interfaz del agente y del cliente',
@@ -3578,45 +3578,45 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
         'There was an error generating a new EntityID for this Transition' =>
-            '',
-        'There was an error creating the Transition' => '',
+            'Se produjo un error al generar un nuevo ID de Entidad para esta Transición',
+        'There was an error creating the Transition' => 'Se produjo un error al crear la Transición',
         'There was an error setting the entity sync status for Transition entity: %s' =>
-            '',
-        'Need TransitionID!' => '',
-        'Could not get data for TransitionID %s' => '',
-        'There was an error updating the Transition' => '',
-        'Edit Transition "%s"' => '',
-        'xor' => '',
+            'Se produjo un error al establecer el estatus de sincronización de la entidad para la entidad de Transición: %s ',
+        'Need TransitionID!' => 'Se requiere ID de Transición!',
+        'Could not get data for TransitionID %s' => 'No se pudieron obtener los datos para ID de Transición %s',
+        'There was an error updating the Transition' => 'Se produjo un error al actualizar la Transición',
+        'Edit Transition "%s"' => 'Edite Transición "%s"',
+        'xor' => 'xor',
         'String' => 'Cadena',
         'Transition validation module' => 'Módulo Validación de Transición',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
         'At least one valid config parameter is required.' => 'Se requiere por lo menos un parámetro de configuración valido.',
         'There was an error generating a new EntityID for this TransitionAction' =>
-            '',
-        'There was an error creating the TransitionAction' => '',
+            'Se produjo un error al generar un nuevo ID de Entidad para esta Acción de Transición',
+        'There was an error creating the TransitionAction' => 'Se produjo un error al crear la Acción de Transición',
         'There was an error setting the entity sync status for TransitionAction entity: %s' =>
-            '',
-        'Need TransitionActionID!' => '',
-        'Could not get data for TransitionActionID %s' => '',
-        'There was an error updating the TransitionAction' => '',
-        'Edit Transition Action "%s"' => '',
-        'Error: Not all keys seem to have values or vice versa.' => '',
+            'Se produjo un error al establecer el estatus de sincronización de la entidad para la entidad de Acción de Transición: %s ',
+        'Need TransitionActionID!' => 'Se requiere ID de Acción de Transición!',
+        'Could not get data for TransitionActionID %s' => 'No se pudieron obtener los datos para ID de Acción de Transición %s',
+        'There was an error updating the TransitionAction' => 'Se produjo un error al actualizar la Acción de Transición',
+        'Edit Transition Action "%s"' => 'Edite Acción de Transición "%s"',
+        'Error: Not all keys seem to have values or vice versa.' => 'Error: No todos claves paracen tener valores ó al revés.',
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
         'Don\'t use :: in queue name!' => '¡No uses :: al nombrar una cola!',
-        'Click back and change it!' => '',
+        'Click back and change it!' => 'Pulse atrás y cámbiala!',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Colas (sin respuestas automáticas)',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
-            '',
-        'Need param Filename to delete!' => '',
-        'Need param Filename to download!' => '',
-        'Needed CertFingerprint and CAFingerprint!' => '',
-        'CAFingerprint must be different than CertFingerprint' => '',
+            'El entorno de S/MINE no funciona. Favor compruebe los registros para más nformación!',
+        'Need param Filename to delete!' => 'Se requiere el Nombre de Archivo de parámetros para borrar!',
+        'Need param Filename to download!' => 'Se requiere el Nombre de Archivo de parámetros para descargar!',
+        'Needed CertFingerprint and CAFingerprint!' => 'Se requiería CertFingerprint and CAFingerprint!',
+        'CAFingerprint must be different than CertFingerprint' => 'CAFingerprint debe ser diferente de CertFingerprint',
         'Relation exists!' => 'La Relación existe!',
         'Relation added!' => '¡Relación añadida!',
         'Impossible to add relation!' => '¡Imposible añadir relación!',
@@ -3636,25 +3636,25 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminSysConfig.pm
         'Import not allowed!' => 'No se permite Importar!',
         'Need File!' => 'Se necesita el Archivo!',
-        'Can\'t write ConfigItem!' => '',
+        'Can\'t write ConfigItem!' => 'No se puede crear Unidad de Configuración.',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'Fecha de Inicio no debería ser definida después de Fecha de finalización!',
-        'There was an error creating the System Maintenance' => '',
-        'Need SystemMaintenanceID!' => '',
-        'Could not get data for SystemMaintenanceID %s' => '',
-        'System Maintenance was saved successfully!' => '',
+        'There was an error creating the System Maintenance' => 'Se produjo un error al crear el Mantenimiento de Sistema',
+        'Need SystemMaintenanceID!' => 'Se requiere ID de Mantenimiento de Sistema ',
+        'Could not get data for SystemMaintenanceID %s' => 'No se pudieron obtener los datos de ID de Mantenimiento del Sistema %s',
+        'System Maintenance was saved successfully!' => 'el Mantenimiento del Sistema se guardó exitosamente!',
         'Session has been killed!' => 'La sesión ha sido finalizada!',
         'All sessions have been killed, except for your own.' => 'Todas las sesiones se han cerrado, excepto la suya propia.',
-        'There was an error updating the System Maintenance' => '',
-        'Was not possible to delete the SystemMaintenance entry: %s!' => '',
+        'There was an error updating the System Maintenance' => 'Se produjo un error al actualizar el Mantenimiento del Sistema',
+        'Was not possible to delete the SystemMaintenance entry: %s!' => 'No se pudo borrar la entrada del Mantenimiento del Sistema: %s!',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
         'Template updated!' => '¡Plantilla actualizada!',
         'Template added!' => '¡Plantilla añadida!',
 
         # Perl Module: Kernel/Modules/AdminType.pm
-        'Need Type!' => '',
+        'Need Type!' => 'Se requiere Tipo!',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'No such config for %s' => '',
@@ -4066,6 +4066,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'No se puede obtener el Token desde el servidor',
+
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Suma',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Tipo de Estado',
@@ -5948,7 +5951,7 @@ Tu Equipo de Soporte
             '',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Incluya los tickets de subcolas por defecto al seleccionar una cola.',

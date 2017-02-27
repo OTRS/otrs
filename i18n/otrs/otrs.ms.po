@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-22 20:57+0000\n"
-"PO-Revision-Date: 2017-02-23 03:11+0000\n"
+"POT-Creation-Date: 2017-02-27 17:38+0000\n"
+"PO-Revision-Date: 2017-02-27 23:40+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
@@ -12921,6 +12921,10 @@ msgstr ""
 msgid "Can't get Token from sever"
 msgstr ""
 
+#. Perl Module: Kernel/System/Stats.pm
+msgid "Sum"
+msgstr "Jumlah"
+
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
 msgstr "Jenis Keadaan"
@@ -18606,7 +18610,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh tentukan untuk lucutkan bahagian termuka dari nama pengguna (cth: untuk domain seperti example_domain\\user kepada user)."
 
 #. SysConfig
 msgid ""
@@ -18881,9 +18885,10 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Ignore article with system sender type for new article feature (e. g. auto "
-"responses or email notifications)."
-msgstr "Hiraukan artikel dengan sistem jenis penghantar untuk ciri artikel baru (cth: tindak balas auto atau notifikasi emel)."
+"Ignore system sender article types (e. g. auto responses or email "
+"notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
+"expanded automatically in Large view screens."
+msgstr ""
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
@@ -22467,7 +22472,7 @@ msgstr "ralat"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "Kemuka"
 
 #. SysConfig
 msgid "info"
@@ -22483,11 +22488,11 @@ msgstr "notis"
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "Tangguh"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "bertanggungjawab"
 
 #. SysConfig
 msgid "stats"

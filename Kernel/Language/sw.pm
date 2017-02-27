@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.708222811671088;
+    $Self->{Completeness}        = 0.709302325581395;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -4066,6 +4066,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Jumla',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
         'Created Priority' => 'Kipaumbele kilichotengenezwa',
@@ -5939,8 +5942,8 @@ Mfano:
             'Kama regex inafanana, hakuna ujumbe utakaotumwa na kiitiko cha ototmatiki.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            'Inapuuzia makala yenye aina ya mtumaji wa mfumo kwa ajili ya kipengele cha makala mpya (mfano majibu ya otomatiki au taarifa za barua pepe ).',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',
         'Include unknown customers in ticket filter.' => '',
@@ -7000,17 +7003,17 @@ Mfano:
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => '',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => 'dunda',
+        'compose' => 'tunga',
         'debug' => '',
         'error' => '',
-        'forward' => '',
+        'forward' => 'tuma mbele',
         'info' => '',
         'inline' => '',
         'notice' => '',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => 'inasubiri',
+        'responsible' => 'wajibika',
+        'stats' => 'takwimu',
 
     };
     # $$STOP$$

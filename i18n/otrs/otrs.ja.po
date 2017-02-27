@@ -6,15 +6,15 @@
 # Kozo Sakurai <sakurai@io-architect.com>, 2014,2017
 # Makoto Miida, 2014
 # Makoto Miida, 2014
-# Norihiro Tanaka <noritnk@kcn.ne.jp>, 2014-2016
+# Norihiro Tanaka <noritnk@kcn.ne.jp>, 2014-2017
 # Takayuki MINATO <turbo@minato.tv>, 2016
 # Tomohisa Hirami <hirami@io-architect.com>, 2016
 # Toshihiro Takehara aka nouphet <nouphet.ratanavong@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-22 20:57+0000\n"
-"PO-Revision-Date: 2017-02-23 03:11+0000\n"
+"POT-Creation-Date: 2017-02-27 17:38+0000\n"
+"PO-Revision-Date: 2017-02-27 23:40+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -8380,7 +8380,7 @@ msgstr "担当者の編集"
 
 #. Template: AdminUser
 msgid "Title or salutation"
-msgstr ""
+msgstr "タイトルまたは挨拶文"
 
 #. Template: AdminUser
 msgid "Firstname"
@@ -12928,6 +12928,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
 msgstr "サーバーからトークンを取得できませんでした"
+
+#. Perl Module: Kernel/System/Stats.pm
+msgid "Sum"
+msgstr "合計"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -18614,7 +18618,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\\userをuserに変える）。"
 
 #. SysConfig
 msgid ""
@@ -18889,9 +18893,10 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Ignore article with system sender type for new article feature (e. g. auto "
-"responses or email notifications)."
-msgstr "新規項目機能のシステム・センダー・タイプを持つ項目を、無視します（例：自動返答またはEメール通知など）。"
+"Ignore system sender article types (e. g. auto responses or email "
+"notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
+"expanded automatically in Large view screens."
+msgstr ""
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
@@ -22459,11 +22464,11 @@ msgstr "添付ファイル"
 
 #. SysConfig
 msgid "bounce"
-msgstr ""
+msgstr "bounce（返送）"
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "compose（作成）"
 
 #. SysConfig
 msgid "debug"
@@ -22475,7 +22480,7 @@ msgstr "エラー"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "転送"
 
 #. SysConfig
 msgid "info"
@@ -22491,12 +22496,12 @@ msgstr "通知"
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "pending （保留）"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "responsible （責任者）"
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "stats"

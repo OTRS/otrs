@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.712099571516017;
+    $Self->{Completeness}        = 0.723378212974296;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2819,7 +2819,7 @@ sub Data {
         '(e. g. 234*)' => '',
         'CustomerID (exact match)' => '',
         'Customer User Login (complex search)' => '',
-        '(e. g. U51*)' => '',
+        '(e. g. U51*)' => '(np. U51*)',
         'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Nazwa załącznika',
         '(e. g. m*file or myfi*)' => '(np. m*jplik lub mójpl*)',
@@ -2982,7 +2982,7 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Podziel cytując',
-        'Open link' => '',
+        'Open link' => 'Otwórz odnośnik',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'SLA',
@@ -3463,8 +3463,8 @@ sub Data {
         'Notification added!' => '',
         'There was an error getting data for Notification with ID:%s!' =>
             '',
-        'Unknown Notification %s!' => '',
-        'There was an error creating the Notification' => '',
+        'Unknown Notification %s!' => 'Nieznane Powiadomienie %s!',
+        'There was an error creating the Notification' => 'Wystąpił błąd podczas tworzenia powiadomienia',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '',
         'The following Notifications have been added successfully: %s' =>
@@ -3473,9 +3473,9 @@ sub Data {
             '',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
             '',
-        'Agent who owns the ticket' => '',
-        'Agent who is responsible for the ticket' => '',
-        'All agents watching the ticket' => '',
+        'Agent who owns the ticket' => 'Agent który jest właścicielem zgłoszenia',
+        'Agent who is responsible for the ticket' => 'Agent który jest odpowiedzialny za zgłoszenie',
+        'All agents watching the ticket' => 'Wszyscy Agenci którzy obserwują zgłoszenie',
         'All agents with write permission for the ticket' => 'Wszyscy agenci z prawami do zapisu w zgłoszeniu',
         'All agents subscribed to the ticket\'s queue' => '',
         'All agents subscribed to the ticket\'s service' => '',
@@ -3488,7 +3488,7 @@ sub Data {
         'PGP environment is not working. Please check log for more info!' =>
             '',
         'Need param Key to delete!' => '',
-        'Key %s deleted!' => '',
+        'Key %s deleted!' => 'Klucz %s usunięty!',
         'Need param Key to download!' => '',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -3497,8 +3497,8 @@ sub Data {
         'No such package!' => '',
         'No such file %s in package!' => '',
         'No such file %s in local file system!' => '',
-        'Can\'t read %s!' => '',
-        'File is OK' => '',
+        'Can\'t read %s!' => 'Nie można odczytać %s!',
+        'File is OK' => 'Plik jest OK',
         'Package has locally modified files.' => '',
         'No packages or no new packages found in selected repository.' =>
             '',
@@ -3514,8 +3514,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Need ExampleProcesses!' => '',
         'Need ProcessID!' => '',
-        'Yes (mandatory)' => '',
-        'Unknown Process %s!' => '',
+        'Yes (mandatory)' => 'Tak (obowiązkowo)',
+        'Unknown Process %s!' => 'Nieznany Proces %s!',
         'There was an error generating a new EntityID for this Process' =>
             '',
         'The StateEntityID for state Inactive does not exists' => 'Nie istnieje identyfikator stanu "nieaktywny"',
@@ -3526,14 +3526,14 @@ sub Data {
         'There was an error updating the Process' => '',
         'Process: %s could not be deleted' => '',
         'There was an error synchronizing the processes.' => '',
-        'The %s:%s is still in use' => '',
+        'The %s:%s is still in use' => '%s:%s jest cały czas w użyciu',
         'The %s:%s has a different EntityID' => '',
-        'Could not delete %s:%s' => '',
+        'Could not delete %s:%s' => 'Nie można usunąć %s:%s',
         'There was an error setting the entity sync status for %s entity: %s' =>
             '',
         'Could not get %s' => '',
-        'Need %s!' => '',
-        'Process: %s is not Inactive' => '',
+        'Need %s!' => 'Potrzebny %s!',
+        'Process: %s is not Inactive' => 'Proces: %s jest nie aktywny',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
         'There was an error generating a new EntityID for this Activity' =>
@@ -3563,11 +3563,11 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => '',
-        'Customer Interface' => '',
-        'Agent and Customer Interface' => '',
-        'Do not show Field' => '',
-        'Show Field' => '',
+        'Agent Interface' => 'Interfejs Agenta',
+        'Customer Interface' => 'Interfejs klienta',
+        'Agent and Customer Interface' => 'Interfejs Klienta i Agenta',
+        'Do not show Field' => 'Nie pokazuj pola',
+        'Show Field' => 'Pokaż pole.',
         'Show Field As Mandatory' => '',
         'fax' => '',
 
@@ -3603,7 +3603,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
         'Don\'t use :: in queue name!' => '',
-        'Click back and change it!' => '',
+        'Click back and change it!' => 'Naciśnij powrót i zmień to!',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Kolejki (bez automatycznych odpowiedzi)',
@@ -3615,11 +3615,11 @@ sub Data {
         'Need param Filename to download!' => '',
         'Needed CertFingerprint and CAFingerprint!' => '',
         'CAFingerprint must be different than CertFingerprint' => '',
-        'Relation exists!' => '',
-        'Relation added!' => '',
+        'Relation exists!' => 'Relacja istnieje!',
+        'Relation added!' => 'Relacja dodana!',
         'Impossible to add relation!' => '',
-        'Relation doesn\'t exists' => '',
-        'Relation deleted!' => '',
+        'Relation doesn\'t exists' => 'Relacja nie istnieje',
+        'Relation deleted!' => 'Relacja usunięta!',
         'Impossible to delete relation!' => '',
         'Certificate %s could not be read!' => '',
         'Needed Fingerprint' => '',
@@ -3633,7 +3633,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminSysConfig.pm
         'Import not allowed!' => '',
-        'Need File!' => '',
+        'Need File!' => 'Potrzebny plik!',
         'Can\'t write ConfigItem!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
@@ -3695,11 +3695,11 @@ sub Data {
         'Previous Owner' => 'Poprzedni właściciel',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
-        '%s is needed!' => '',
+        '%s is needed!' => '%s jest potrzebny!',
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
-        'Can\'t bounce email!' => '',
-        'Can\'t send email!' => '',
+        'Can\'t bounce email!' => 'Nie można odbić email\'a!',
+        'Can\'t send email!' => 'Nie można wysłać email\'a!',
         'Wrong Subaction!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
@@ -3735,7 +3735,7 @@ sub Data {
         'Sorry, the current owner is %s!' => 'Przykro mi, aktualnym właścicielem jest %s!',
         'Please become the owner first.' => '',
         'Ticket (ID=%s) is locked by %s!' => '',
-        'Change the owner!' => '',
+        'Change the owner!' => 'Zmień właściciela!',
 
         # Perl Module: Kernel/Modules/AgentTicketMerge.pm
         'Can\'t merge ticket with itself!' => '',
@@ -3820,8 +3820,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
-        'Customer Name' => '',
-        'Invalid Users' => '',
+        'Customer Name' => 'Nazwa klienta',
+        'Invalid Users' => 'Nieprawidłowi użytkownicy',
         'CSV' => 'CSV',
         'Excel' => '',
 
@@ -3886,7 +3886,7 @@ sub Data {
         'Offline' => '',
         'User is currently offline.' => '',
         'User is currently active.' => '',
-        'Away' => '',
+        'Away' => 'Poza',
         'User was inactive for a while.' => '',
         'Unavailable' => '',
         'User set their status to unavailable.' => '',
@@ -3914,7 +3914,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
         'Can\'t reopen ticket, not possible in this queue!' => '',
-        'Create a new ticket!' => '',
+        'Create a new ticket!' => 'Stwórz nowe zgłoszenie!',
 
         # Perl Module: Kernel/Modules/Installer.pm
         'Directory "%s" doesn\'t exist!' => '',
@@ -3926,12 +3926,12 @@ sub Data {
             '',
         'Unknown Check!' => '',
         'The check "%s" doesn\'t exist!' => '',
-        'Database %s' => '',
-        'Unknown database type "%s".' => '',
+        'Database %s' => 'Baza danych %s',
+        'Unknown database type "%s".' => 'Nieznany typ bazy danych "%s".',
         'Please go back.' => '',
         'Install OTRS - Error' => '',
         'File "%s/%s.xml" not found!' => '',
-        'Contact your Admin!' => '',
+        'Contact your Admin!' => 'Skontaktuj się ze swoim Administratorem',
         'Can\'t write Config file!' => '',
         'Unknown Subaction %s!' => '',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -4053,10 +4053,10 @@ sub Data {
         'This setting can not be deactivated.' => '',
 
         # Perl Module: Kernel/System/Package.pm
-        'not installed' => '',
-        'File is not installed!' => '',
-        'File is different!' => '',
-        'Can\'t read file!' => '',
+        'not installed' => 'nie zainstalowane',
+        'File is not installed!' => 'Plik nie jest zainstalowany!',
+        'File is different!' => 'Plik jest inny!',
+        'Can\'t read file!' => 'Nie można czytać pliku!',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Nieaktywny',
@@ -4064,6 +4064,9 @@ sub Data {
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
+
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Suma',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
@@ -4227,7 +4230,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Dostępna przestrzeń stronicowania (%)',
-        'No swap enabled.' => '',
+        'No swap enabled.' => 'Nie włączona partycja SWAP.',
         'Used Swap Space (MB)' => 'Używana przestrzeń wymiany (MB)',
         'There should be more than 60% free swap space.' => ' Co najmniej 60% przestrzeni wymiany powinno być wolne.',
         'There should be no more than 200 MB swap space used.' => 'Co najmniej 200 MB przestrzeni wymiany powinno być używane.',
@@ -4339,8 +4342,8 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'Time Settings' => '',
-        'Server time zone' => '',
+        'Time Settings' => 'Ustawienia czasu',
+        'Server time zone' => 'Ustawienia strefy czasowej serwera',
         'Computed server time offset' => 'Wyliczony offset czasu serwera',
         'OTRS TimeZone setting (global time offset)' => '',
         'TimeZone may only be activated for systems running in UTC.' => '',
@@ -4414,7 +4417,7 @@ sub Data {
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
         'Can`t remove SessionID.' => '',
-        'Logout successful.' => '',
+        'Logout successful.' => 'Wylogowanie zakończone pomyślnie.',
         'Panic! Invalid Session!!!' => '',
         'No Permission to use this frontend module!' => 'Brak uprawnień do użycia tego modułu!',
 
@@ -4447,8 +4450,8 @@ sub Data {
         'New ticket created by customer.' => '',
         'Ticket is closed successful.' => 'Zgłoszenie zamknięte z powodzeniem.',
         'Ticket is closed unsuccessful.' => 'Zgłoszenie zamknięte bez powodzenia.',
-        'Open tickets.' => '',
-        'Customer removed ticket.' => '',
+        'Open tickets.' => 'Otwarte zgłoszenia.',
+        'Customer removed ticket.' => 'Usunięte zgłoszenia klienta.',
         'Ticket is pending for agent reminder.' => '',
         'Ticket is pending for automatic close.' => '',
         'State for merged tickets.' => '',
@@ -4461,12 +4464,12 @@ sub Data {
             '',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
             '',
-        'new ticket' => '',
+        'new ticket' => 'nowe zgłoszenie',
         'Follow-ups for closed tickets are not possible. A new ticket will be created..' =>
             '',
         'Postmaster queue.' => 'Kolejka poczty przychodzącej.',
         'All default incoming tickets.' => '',
-        'All junk tickets.' => '',
+        'All junk tickets.' => 'Wszystkie śmieciowe wiadomości.',
         'All misc tickets.' => 'Inne zgłoszenia.',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
             '',
@@ -4478,7 +4481,7 @@ sub Data {
             '',
         'Auto remove will be sent out after a customer removed the request.' =>
             '',
-        'default reply (after new ticket has been created)' => '',
+        'default reply (after new ticket has been created)' => 'automatyczna odpowiedź (jak już zostanie stworzone nowe zgłoszenie)',
         'default reject (after follow-up and rejected of a closed ticket)' =>
             '',
         'default follow-up (after a ticket follow-up has been added)' => '',
@@ -4584,10 +4587,10 @@ Thanks for your help!
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Admin Area.' => '',
-        'After' => '',
-        'Agent Name' => '',
-        'Agent Name + FromSeparator + System Address Display Name' => '',
-        'Agent Preferences.' => '',
+        'After' => 'Po',
+        'Agent Name' => 'Imię i nazwisko Agenta',
+        'Agent Name + FromSeparator + System Address Display Name' => 'Imię i nazwisko agenta + Separator + Systemowy adres ',
+        'Agent Preferences.' => 'Preferencje Agenta',
         'Agent called customer.' => 'Agent telefonował do klienta.',
         'Agent interface article notification module to check PGP.' => 'Interfejs agenta w module powiadomień PGP',
         'Agent interface article notification module to check S/MIME.' =>
@@ -5935,7 +5938,7 @@ Thanks for your help!
             '',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.99367476025301;
+    $Self->{Completeness}        = 0.999796001631987;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1625,7 +1625,7 @@ sub Data {
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '额外的收件人邮件地址',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
-            '',
+            '你可以使用诸如<OTRS_TICKET_DynamicField_...>之类的OTRS标签来插入当前工单中的值。',
         'Notification article type' => '信件类型',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '如果通知发送给客户或额外的邮件地址时创建一封信件。',
@@ -2410,7 +2410,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => '编辑系统维护%s',
-        'Edit System Maintenance Information' => '',
+        'Edit System Maintenance Information' => '编辑系统维护信息',
         'Date invalid!' => '日期无效!',
         'Login message' => '登录消息',
         'Show login message' => '显示登录消息',
@@ -2819,10 +2819,10 @@ sub Data {
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             '只搜索From、To、Cc、主题和信件正文，不管其它属性。',
         'CustomerID (complex search)' => 'CustomerID(复合搜索)',
-        '(e. g. 234*)' => '',
+        '(e. g. 234*)' => '(例如： 234*)',
         'CustomerID (exact match)' => 'CustomerID(精确匹配)',
         'Customer User Login (complex search)' => '客户联系人登录名(复合搜索)',
-        '(e. g. U51*)' => '',
+        '(e. g. U51*)' => '(例如：U51*)',
         'Customer User Login (exact match)' => '客户联系人登录名(精确匹配)',
         'Attachment Name' => '附件名',
         '(e. g. m*file or myfi*)' => '（例如：m*file或myfi*）',
@@ -3663,8 +3663,8 @@ sub Data {
         'No preferences for %s!' => '没有%s的偏好设置！',
         'Can\'t get element data of %s!' => '不能获得%s 的元素数据！',
         'Can\'t get filter content data of %s!' => '不能获得%s 的过滤器内容数据！',
-        'Customer Company Name' => '',
-        'Customer User ID' => '',
+        'Customer Company Name' => '客户单位名称',
+        'Customer User ID' => '客户联系人ID',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '需要SourceObject（源对象）和SourceKey（源键）！',
@@ -3714,8 +3714,8 @@ sub Data {
             '你要么没有选择工单，要么只选择了已被其他服务人员锁定的工单。',
         'You need to select at least one ticket.' => '你需要选择至少一个工单。',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
-            '',
-        'The following tickets were locked: %s.' => '',
+            '由于被其它服务人员锁定或者你没有其写入权限，下列工单将被忽略：%s。',
+        'The following tickets were locked: %s.' => '下列工单已被锁定：%s。',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Can not determine the ArticleType!' => '不能确定信件类型！',
@@ -3806,9 +3806,9 @@ sub Data {
         'Invalid TicketID: %s!' => '无效的工单ID： “%s”！',
         'Missing ActivityEntityID in Ticket %s!' => '在工单 “%s”中缺少活动实体ID！',
         'This activity dialog does not belong to current activity in Ticket %s!' =>
-            '',
+            '这个活动对话框不属于工单%s中的当前活动！',
         'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
-            '',
+            '可能是这个工单同时被另一用户更新，请关闭此窗口，再重新载入该工单。',
         'Missing ProcessEntityID in Ticket %s!' => '在工单 “%s”中缺少流程实体ID！',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '不能设置动态字段“%s”的值，工单ID为“%s”，活动对话框 “%s”！',
@@ -4068,6 +4068,9 @@ sub Data {
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '不能从服务器获取令牌',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => '总和',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '工单状态类型',
         'Created Priority' => '创建的优先级',
@@ -4299,7 +4302,7 @@ sub Data {
         'Package List' => '软件包列表',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
-        'Session Config Settings' => '',
+        'Session Config Settings' => '会话配置设置',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
         'Spooled Emails' => '假脱机邮件',
@@ -4667,9 +4670,9 @@ Thanks for your help!
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '允许定义工单的服务和SLA（例如：邮件、桌面、网络等等），以及SLA的升级属性（如果启用了工单服务/SLA功能）。',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            '允许在服务人员界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：带“(*key1*&&*key2*)”或“(*key1*||*key2*)”条件的工单标题。',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            '允许在客户界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：带“(*key1*&&*key2*)”或“(*key1*||*key2*)”条件的工单标题。',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '允许在自动任务界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4793,8 +4796,8 @@ Thanks for your help!
         'Controls how to display the ticket history entries as readable values.' =>
             '控制如何显示工单历史条目为可读值。',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
-            '',
-        'Controls if CustomerID is read-only in the agent interface.' => '',
+            '控制是否自动将未知客户的发件人地址复制为CustomerID 。',
+        'Controls if CustomerID is read-only in the agent interface.' => '控制在服务人员界面中CustomerID 是否为只读。',
         'Controls if customers have the ability to sort their tickets.' =>
             '控制客户能否对他们的工单排序。',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -5574,7 +5577,7 @@ Thanks for your help!
             '确定服务人员界面收件人（电话工单）和发件人（邮件工单）哪些选项有效。',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '确定客户界面哪些队列可以作为工单的有效收件人。',
-        'Development' => '',
+        'Development' => '开发',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '禁用HHTP头"Content-Security-Policy"以便允许载入扩展的脚本内容。禁用这个HTTP头可能引起安全问题！仅在您知道您在干什么时才禁用它！',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5947,8 +5950,8 @@ Thanks for your help!
             '如果这个正则表达式匹配了，自动响应不会发送任何消息。',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '如果激活这个设置，本地修改内容不会在软件包管理器和支持数据收集工具中高亮显示为错误。',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            '创建信件功能忽略系统发件人的信件（例如：自动响应或邮件通知）。',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '选择队列的时候默认包括子队列的工单',
         'Include unknown customers in ticket filter.' => '在工单过滤器中包括未知客户联系人。',
@@ -6506,21 +6509,21 @@ Thanks for your help!
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
             '设置服务人员界面工单负责人窗口的服务（需要激活工单::服务）。',
         'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
-            '',
+            '设置服务人员界面关闭工单窗口的工单状态。',
         'Sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
-            '',
+            '设置服务人员界面工单批量处理窗口的工单状态。',
         'Sets the state of a ticket in the ticket free text screen of the agent interface.' =>
-            '',
+            '设置服务人员界面工单自定义字段窗口的工单状态。',
         'Sets the state of a ticket in the ticket note screen of the agent interface.' =>
-            '',
+            '设置服务人员界面工单备注窗口的工单状态。',
         'Sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
-            '',
+            '设置服务人员界面工单负责人窗口的工单状态。',
         'Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '设置服务人员界面工单详情的所有者窗口的工单状态。',
         'Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '设置服务人员界面工单详情的挂起窗口的工单状态。',
         'Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '设置服务人员界面工单详情的优先级窗口的工单状态。',
         'Sets the stats hook.' => '设置统计挂钩。',
         'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
             '设置系统时区（需要系统采用UTC时间，否则与本地时间会有时间差）。',
@@ -6815,7 +6818,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             '指定第一个镜像数据库的认证用户名。',
         'Spell checker.' => '拼写检查器。',
-        'Stable' => '',
+        'Stable' => '稳定的',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '系统中服务人员可用的标准权限，如果需要更多的权限，可以在这里输入。权限必须已定义好且有效，一些好的权限已经内置：备注、关闭、挂起、客户、自定义字段、转移、编写、负责人、转发和退回。请确保“rw（读写）始终是注册权限的最后一条。',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -7007,17 +7010,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '你的优先服务中选择的服务，如果启用了，你还会得到有关这些队列的电子邮件通知。',
         'attachment' => '附件',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => '退回',
+        'compose' => '编写',
         'debug' => '调试',
         'error' => '错误',
-        'forward' => '',
+        'forward' => '转发',
         'info' => '信息',
         'inline' => '内联',
         'notice' => '注意',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => '挂起',
+        'responsible' => '负责人',
+        'stats' => 'stats',
 
     };
     # $$STOP$$

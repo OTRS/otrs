@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.510712099571516;
+    $Self->{Completeness}        = 0.510811913504692;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4064,6 +4064,9 @@ sub Data {
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Summa',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
         'Created Priority' => 'Skapad Prioritet',
@@ -5934,7 +5937,7 @@ Thanks for your help!
             'Om det här reguljära uttrycket matchar skickas inget autosvar. ',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Inkludera ärenden från underköer som standard när du väljer en kö',

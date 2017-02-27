@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.875331564986737;
+    $Self->{Completeness}        = 0.875764993880049;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4061,6 +4061,9 @@ sub Data {
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Jumlah',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Jenis Keadaan',
         'Created Priority' => 'Keutamaan dicipta',
@@ -5945,8 +5948,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Jika regex ini padan, tiada mesej akan dihantar oleh tindak balas auto.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            'Hiraukan artikel dengan sistem jenis penghantar untuk ciri artikel baru (cth: tindak balas auto atau notifikasi emel).',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Termasuk tiket daripada sub-barisan secara default apabila memilih barisan.',
         'Include unknown customers in ticket filter.' => '',
@@ -7009,12 +7012,12 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'compose' => '',
         'debug' => 'nyahpepijat',
         'error' => 'ralat',
-        'forward' => '',
+        'forward' => 'Kemuka',
         'info' => 'info',
         'inline' => 'sebaris',
         'notice' => 'notis',
-        'pending' => '',
-        'responsible' => '',
+        'pending' => 'Tangguh',
+        'responsible' => 'bertanggungjawab',
         'stats' => '',
 
     };

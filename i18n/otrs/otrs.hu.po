@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-22 20:57+0000\n"
-"PO-Revision-Date: 2017-02-23 03:11+0000\n"
+"POT-Creation-Date: 2017-02-27 17:38+0000\n"
+"PO-Revision-Date: 2017-02-27 23:40+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1946,7 +1946,7 @@ msgstr "Jegytípusok"
 
 #. Template: AAATicket
 msgid "Compose"
-msgstr "Összeállítás"
+msgstr "Válasz"
 
 #. Template: AAATicket
 msgid "Pending"
@@ -5676,7 +5676,7 @@ msgstr "További címzett e-mail címek"
 msgid ""
 "You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
-msgstr ""
+msgstr "Használhatja az OTRS címkéket (mint például <OTRS_TICKET_DynamicField_...>) értékek beszúrásához a jelenlegi jegyből."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -8218,7 +8218,7 @@ msgstr "Rendszerkarbantartás szerkesztése: %s"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance Information"
-msgstr ""
+msgstr "Rendszerkarbantartás információk szerkesztése"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -9054,7 +9054,7 @@ msgstr "Tömeges művelet végrehajtása"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
-msgstr "Válasz írása ehhez: %s%s%s"
+msgstr "Válasz írása erre: %s%s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
@@ -12213,13 +12213,13 @@ msgstr "Hiányzó tevékenységegyed-azonosító a következő jegyben: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "This activity dialog does not belong to current activity in Ticket %s!"
-msgstr ""
+msgstr "Ez a tevékenység párbeszéd nem tartozik a jelenlegi tevékenységhez a(z) %s jegyben!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "It might be possible that the ticket was updated by another user in the mean"
 " time, please close this window and reload ticket."
-msgstr ""
+msgstr "Lehetséges, hogy egy másik felhasználó nemrég frissítette a jegyet. Zárja be ezt az ablakot, és töltse újra a jegyet."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -12928,6 +12928,10 @@ msgstr "Kivezetve"
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
 msgstr "Nem lehet lekérni a tokent a kiszolgálóról"
+
+#. Perl Module: Kernel/System/Stats.pm
+msgid "Sum"
+msgstr "Összesen"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -14407,7 +14411,7 @@ msgid ""
 "Adds customers email addresses to recipients in the ticket compose screen of"
 " the agent interface. The customers email address won't be added if the "
 "article type is email-internal."
-msgstr "Hozzáadja az ügyfelek e-mail címeit a címzettekhez az ügyintézői felület jegykészítés képernyőjén. Az ügyfelek e-mail címei nem lesznek hozzáadva, ha a bejegyzés típusa belső e-mail."
+msgstr "Hozzáadja az ügyfelek e-mail címeit a címzettekhez az ügyintézői felület jegyválasz képernyőjén. Az ügyfelek e-mail címei nem lesznek hozzáadva, ha a bejegyzés típusa belső e-mail."
 
 #. SysConfig
 msgid ""
@@ -14662,14 +14666,14 @@ msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
 "With this feature you can search e. g. ticket title with this kind of "
 "conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "Lehetővé teszi a kiterjesztett keresési feltételeket az ügyintézői felület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”."
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the customer "
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "Lehetővé teszi a kiterjesztett keresési feltételeket az ügyfélfelület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”."
 
 #. SysConfig
 msgid ""
@@ -15754,7 +15758,7 @@ msgid ""
 "Defines if a ticket lock is required in the ticket compose screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
-msgstr "Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegyírás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként)."
+msgstr "Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegyválasz képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként)."
 
 #. SysConfig
 msgid ""
@@ -16163,7 +16167,7 @@ msgstr "Meghatározza egy jegy alapértelmezett következő állapotát az üzen
 msgid ""
 "Defines the default next state of a ticket if it is composed / answered in "
 "the ticket compose screen of the agent interface."
-msgstr "Meghatározza egy jegy alapértelmezett következő állapotát, ha azt megírták / megválaszolták az ügyintézői felület jegyírás képernyőjén."
+msgstr "Meghatározza egy jegy alapértelmezett következő állapotát, ha azt megírták / megválaszolták az ügyintézői felület jegyválasz képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -16634,7 +16638,7 @@ msgid ""
 "Defines the format of responses in the ticket compose screen of the agent "
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
 "html %] is only realname of From)."
-msgstr "Meghatározza a válaszok formátumát az ügyintézői felület jegyírás képernyőjén ([% Data.OrigFrom | html %] = feladó 1:1, [% Data.OrigFromName | html %] csak a feladó valódi neve)."
+msgstr "Meghatározza a válaszok formátumát az ügyintézői felület jegyválasz képernyőjén ([% Data.OrigFrom | html %] = feladó 1:1, [% Data.OrigFromName | html %] csak a feladó valódi neve)."
 
 #. SysConfig
 msgid ""
@@ -17061,7 +17065,7 @@ msgstr "Meghatározza annak a táblának a nevét, ahol a felhasználói beáll�
 msgid ""
 "Defines the next possible states after composing / answering a ticket in the"
 " ticket compose screen of the agent interface."
-msgstr "Meghatározza egy jegy írása / megválaszolása utáni következő lehetséges állapotokat az ügyintézői felület jegyírás képernyőjén."
+msgstr "Meghatározza egy jegy írása / megválaszolása utáni következő lehetséges állapotokat az ügyintézői felület jegyválasz képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -17441,7 +17445,7 @@ msgid ""
 "Defines the used character for plaintext email quotes in the ticket compose "
 "screen of the agent interface. If this is empty or inactive, original emails"
 " will not be quoted but appended to the response."
-msgstr "Meghatározza az egyszerű szöveges e-mail idézetekhez használt karaktert az ügyintézői felület jegyírás képernyőjén. Ha ez üres vagy inaktív, akkor az eredeti levelek nem lesznek idézve, viszont hozzáfűzésre kerülnek a válaszhoz."
+msgstr "Meghatározza az egyszerű szöveges e-mail idézetekhez használt karaktert az ügyintézői felület jegyválasz képernyőjén. Ha ez üres vagy inaktív, akkor az eredeti levelek nem lesznek idézve, viszont hozzáfűzésre kerülnek a válaszhoz."
 
 #. SysConfig
 msgid "Defines the user identifier for the customer panel."
@@ -17650,7 +17654,7 @@ msgstr "Meghatározza, hogy mely várólisták lesznek érvényesek a jegy címz
 
 #. SysConfig
 msgid "Development"
-msgstr ""
+msgstr "Fejlesztői"
 
 #. SysConfig
 msgid ""
@@ -17807,7 +17811,7 @@ msgstr "Az ügyintézői felület jegylezárás képernyőjén megjelenített di
 msgid ""
 "Dynamic fields shown in the ticket compose screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
-msgstr "Az ügyintézői felület jegyírás képernyőjén megjelenített dinamikus mezők. Lehetséges beállítások: 0 = Letiltva, 1 = Engedélyezve, 2 = Engedélyezve és kötelező."
+msgstr "Az ügyintézői felület jegyválasz képernyőjén megjelenített dinamikus mezők. Lehetséges beállítások: 0 = Letiltva, 1 = Engedélyezve, 2 = Engedélyezve és kötelező."
 
 #. SysConfig
 msgid ""
@@ -18614,7 +18618,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -18889,9 +18893,10 @@ msgstr "Ha ez a beállítás be van kapcsolva, akkor a helyi módosítások nem 
 
 #. SysConfig
 msgid ""
-"Ignore article with system sender type for new article feature (e. g. auto "
-"responses or email notifications)."
-msgstr "A rendszer küldő típussal rendelkező bejegyzés mellőzése az új bejegyzés szolgáltatásnál (például automatikus válaszok vagy e-mail értesítők)."
+"Ignore system sender article types (e. g. auto responses or email "
+"notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
+"expanded automatically in Large view screens."
+msgstr ""
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
@@ -19234,7 +19239,7 @@ msgstr "Jegy megjelölése szemétként!"
 msgid ""
 "Max size (in characters) of the customer information table (phone and email)"
 " in the compose screen."
-msgstr "Az ügyfél-információs tábla (telefon vagy e-mail) legnagyobb mérete (karakterben) a jegyírás képernyőn."
+msgstr "Az ügyfél-információs tábla (telefon vagy e-mail) legnagyobb mérete (karakterben) a jegyválasz képernyőn."
 
 #. SysConfig
 msgid "Max size (in rows) of the informed agents box in the agent interface."
@@ -19969,7 +19974,7 @@ msgstr "Meglévő S/MIME tanúsítványok megújítása az ügyfél háttérprog
 msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
-msgstr "Kicseréli az eredeti küldőt az aktuális ügyfél e-mail címére a válasz írásakor az ügyintézői felület jegyírás képernyőjén."
+msgstr "Kicseréli az eredeti küldőt az aktuális ügyfél e-mail címére a válasz írásakor az ügyintézői felület jegyválasz képernyőjén."
 
 #. SysConfig
 msgid "Reports"
@@ -20011,7 +20016,7 @@ msgstr "A jegyátirányítás képernyő használatához szükséges jogosultsá
 msgid ""
 "Required permissions to use the ticket compose screen in the agent "
 "interface."
-msgstr "A jegyírás képernyő használatához szükséges jogosultságok az ügyintézői felületen."
+msgstr "A jegyválasz képernyő használatához szükséges jogosultságok az ügyintézői felületen."
 
 #. SysConfig
 msgid ""
@@ -21446,7 +21451,7 @@ msgstr "Megjeleníti a bejegyzéseket normálisan vagy fordítottan rendezve a j
 #. SysConfig
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
-msgstr "Megjeleníti az ügyfél-felhasználó információit (telefon vagy e-mail) az írás képernyőn."
+msgstr "Megjeleníti az ügyfél-felhasználó információit (telefon vagy e-mail) a válasz képernyőn."
 
 #. SysConfig
 msgid "Shows the customer user's info in the ticket zoom view."
@@ -21673,7 +21678,7 @@ msgstr "Megadja az elérhető jegyzettípusokat ehhez a jegymaszkhoz. Ha a lehet
 msgid ""
 "Specifies the default article type for the ticket compose screen in the "
 "agent interface if the article type cannot be automatically detected."
-msgstr "Megadja az alapértelmezett bejegyzéstípust az ügyintézői felület jegyírás képernyőjén, ha a bejegyzéstípus nem ismerhető fel automatikusan."
+msgstr "Megadja az alapértelmezett bejegyzéstípust az ügyintézői felület jegyválasz képernyőjén, ha a bejegyzéstípus nem ismerhető fel automatikusan."
 
 #. SysConfig
 msgid "Specifies the different article types that will be used in the system."
@@ -21811,7 +21816,7 @@ msgstr "Helyesírás-ellenőrző."
 
 #. SysConfig
 msgid "Stable"
-msgstr ""
+msgstr "Stabil"
 
 #. SysConfig
 msgid ""
@@ -21821,7 +21826,7 @@ msgid ""
 " built-in: note, close, pending, customer, freetext, move, compose, "
 "responsible, forward, and bounce. Make sure that \"rw\" is always the last "
 "registered permission."
-msgstr "Szabványos elérhető jogosultságok az alkalmazáson belüli ügyintézőknél. Ha több jogosultság szükséges, akkor azok itt adhatók meg. A jogosultságokat meg kell határozni, hogy hatásosak legyenek. Néhány egyéb jó jogosultság beépítetten is biztosítva van: jegyzet, lezárás, függőben, ügyfél, szabad szöveg, áthelyezés, írás, felelős, továbbítás és átirányítás. Győződjön meg arról, hogy az „rw” mindig az utolsó regisztrált jogosultság legyen."
+msgstr "Szabványos elérhető jogosultságok az alkalmazáson belüli ügyintézőknél. Ha több jogosultság szükséges, akkor azok itt adhatók meg. A jogosultságokat meg kell határozni, hogy hatásosak legyenek. Néhány egyéb jó jogosultság beépítetten is biztosítva van: jegyzet, lezárás, függőben, ügyfél, szabad szöveg, áthelyezés, válasz írása, felelős, továbbítás és átirányítás. Győződjön meg arról, hogy az „rw” mindig az utolsó regisztrált jogosultság legyen."
 
 #. SysConfig
 msgid ""
@@ -22095,11 +22100,11 @@ msgstr "Jegylezárás."
 
 #. SysConfig
 msgid "Ticket Compose Bounce Email."
-msgstr "Jegyátirányító e-mail létrehozás."
+msgstr "E-mail átirányító jegyválasz."
 
 #. SysConfig
 msgid "Ticket Compose email Answer."
-msgstr "Jegy e-mail válasz létrehozás."
+msgstr "E-mailre történő jegyválasz."
 
 #. SysConfig
 msgid "Ticket Customer."
@@ -22358,7 +22363,7 @@ msgstr "UserLastname"
 msgid ""
 "Uses Cc recipients in reply Cc list on compose an email answer in the ticket"
 " compose screen of the agent interface."
-msgstr "Másolati címzetteket használ a válaszlistán egy e-mailre történő válasz írásakor az ügyintézői felület jegyírás képernyőjén."
+msgstr "Másolati címzetteket használ a válaszlistán egy e-mailre történő válasz írásakor az ügyintézői felület jegyválasz képernyőjén."
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
@@ -22459,11 +22464,11 @@ msgstr "melléklet"
 
 #. SysConfig
 msgid "bounce"
-msgstr ""
+msgstr "átirányítás"
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "válasz"
 
 #. SysConfig
 msgid "debug"
@@ -22475,7 +22480,7 @@ msgstr "hiba"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "továbbítás"
 
 #. SysConfig
 msgid "info"
@@ -22491,12 +22496,12 @@ msgstr "értesítés"
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "függőben"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "felelős"
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "statisztikák"

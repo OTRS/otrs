@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-22 20:57+0000\n"
-"PO-Revision-Date: 2017-02-23 03:10+0000\n"
+"POT-Creation-Date: 2017-02-27 17:38+0000\n"
+"PO-Revision-Date: 2017-02-27 23:40+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: English (Canada) (http://www.transifex.com/otrs/OTRS/language/en_CA/)\n"
 "MIME-Version: 1.0\n"
@@ -12919,6 +12919,10 @@ msgstr ""
 msgid "Can't get Token from sever"
 msgstr ""
 
+#. Perl Module: Kernel/System/Stats.pm
+msgid "Sum"
+msgstr ""
+
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
 msgstr ""
@@ -18879,8 +18883,9 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Ignore article with system sender type for new article feature (e. g. auto "
-"responses or email notifications)."
+"Ignore system sender article types (e. g. auto responses or email "
+"notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
+"expanded automatically in Large view screens."
 msgstr ""
 
 #. SysConfig

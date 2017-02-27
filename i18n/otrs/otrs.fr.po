@@ -5,13 +5,18 @@
 # Egareg JAOUEN <egareg.jaouen@elitt.com>, 2015,2017
 # EricLF44 <E.lefoll@cdg44.fr>, 2016
 # En Feng Wu <wuen320@gmail.com>, 2016
+# EricLF44 <E.lefoll@cdg44.fr>, 2016
 # Gaudin vincent <vincent.gaudin@cprpsncf.fr>, 2015
 # Guillaume MIGNOTTE <accrocom@gmail.com>, 2016
+# laborie stephane <stephane.laborie@gmail.com>, 2017
 # Marc A. Bonsels, 2015
+# Marc A. Bonsels, 2015
+# Matthieu HUTIN, 2015
 # Matthieu HUTIN, 2015
 # osallou <olivier.sallou@irisa.fr>, 2014
 # osallou <olivier.sallou@irisa.fr>, 2014
 # Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>, 2014-2015
+# remidoc <Remi.seguy@gmail.com>, 2015
 # remidoc <Remi.seguy@gmail.com>, 2015
 # Thierry Larmier <tlarmier@free.fr>, 2015
 # v cw <vincentcw@yahoo.fr>, 2017
@@ -19,8 +24,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-22 20:57+0000\n"
-"PO-Revision-Date: 2017-02-23 03:10+0000\n"
+"POT-Creation-Date: 2017-02-27 17:38+0000\n"
+"PO-Revision-Date: 2017-02-27 23:40+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -11169,7 +11174,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
-msgstr ""
+msgstr "Valeur(s) exacte"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
@@ -12934,6 +12939,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
 msgstr ""
+
+#. Perl Module: Kernel/System/Stats.pm
+msgid "Sum"
+msgstr "Somme"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -18895,8 +18904,9 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Ignore article with system sender type for new article feature (e. g. auto "
-"responses or email notifications)."
+"Ignore system sender article types (e. g. auto responses or email "
+"notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
+"expanded automatically in Large view screens."
 msgstr ""
 
 #. SysConfig
@@ -19315,7 +19325,7 @@ msgstr "Fusionner le ticket <OTRS_TICKET> avec <OTRS_MERGE_TO_TICKET>."
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Divers"
 
 #. SysConfig
 msgid ""
@@ -19836,7 +19846,7 @@ msgstr ""
 
 #. SysConfig
 msgid "People"
-msgstr ""
+msgstr "Personne"
 
 #. SysConfig
 msgid ""

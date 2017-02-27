@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.410528463578861;
+    $Self->{Completeness}        = 0.411260709914321;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4063,6 +4063,9 @@ sub Data {
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => '',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Somatório',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Tipo de estado',
         'Created Priority' => 'Prioridade Criada',
@@ -5933,7 +5936,7 @@ Thanks for your help!
             '',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '',
@@ -6994,15 +6997,15 @@ Thanks for your help!
             '',
         'attachment' => '',
         'bounce' => '',
-        'compose' => '',
+        'compose' => 'escrever',
         'debug' => '',
         'error' => '',
         'forward' => '',
         'info' => '',
         'inline' => '',
         'notice' => '',
-        'pending' => '',
-        'responsible' => '',
+        'pending' => 'pendente',
+        'responsible' => 'responsável',
         'stats' => '',
 
     };

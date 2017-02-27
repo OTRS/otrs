@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.961640481534381;
+    $Self->{Completeness}        = 0.962872297021624;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4062,6 +4062,9 @@ sub Data {
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'Kann Token nicht vom Server ermitteln!',
 
+        # Perl Module: Kernel/System/Stats.pm
+        'Sum' => 'Summe',
+
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Statustyp',
         'Created Priority' => 'Erstellt mit der Priorität',
@@ -5569,7 +5572,7 @@ Ihr Helpdesk-Team
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
-        'Development' => '',
+        'Development' => 'Entwicklung',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5942,8 +5945,8 @@ Ihr Helpdesk-Team
             'Wenn dieser reguläre Ausdruck zutrifft, wird durch den Autoresponder keine Nachricht versendet.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Wenn die Einstellung aktiv ist, werden lokale Änderungen nicht als Fehler in der Supportdaten-Analyse angezeigt.',
-        'Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).' =>
-            'Artikel mit Sendertyp "system" für das Erzeugen neuer Artikel ignorieren (z.B. automatische Antworten oder E-Mail-Benachrichtigungen).',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Tickets von Unterqueues automatisch mit einschließen, wenn eine Queue ausgewählt wird.',
         'Include unknown customers in ticket filter.' => 'Unbekannte Kunden in Ticketfiltern mit einschließen.',
@@ -7002,17 +7005,17 @@ Ihr Helpdesk-Team
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diesen ausgewählten Services versendet, falls aktiviert.',
         'attachment' => 'attachment',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => 'Umleiten',
+        'compose' => 'Verfassen',
         'debug' => 'debug',
         'error' => 'error',
-        'forward' => '',
+        'forward' => 'Weiterleiten',
         'info' => 'info',
         'inline' => 'inline',
         'notice' => 'notice',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => 'Warten',
+        'responsible' => 'Verantwortlicher',
+        'stats' => 'stats',
 
     };
     # $$STOP$$
