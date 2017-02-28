@@ -64,6 +64,22 @@ if ( $CurrentDaemonStatus !~ m{Daemon not running}i ) {
     die "Daemon could not be stopped.";
 }
 
+my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+
+# Remove existing scheduled asynchronous tasks from DB, as they may interfere with tests run later.
+my @AsyncTasks = $SchedulerDBObject->TaskList(
+    Type => 'AsynchronousExecutor',
+);
+for my $AsyncTask (@AsyncTasks) {
+    my $Success = $SchedulerDBObject->TaskDelete(
+        TaskID => $AsyncTask->{TaskID},
+    );
+    $Self->True(
+        $Success,
+        "TaskDelete - Removed scheduled asynchronous task $AsyncTask->{TaskID}",
+    );
+}
+
 my @Tests = (
     {
         Name     => 'Synchronous Call',
@@ -84,9 +100,6 @@ my $WorkerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::Sche
 
 # make sure there is no other pending task to be executed
 my $Success = $WorkerObject->Run();
-
-# get scheduler db object
-my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
 # Wait for slow systems
 $SleepTime = 120;
