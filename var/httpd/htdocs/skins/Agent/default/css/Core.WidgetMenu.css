@@ -236,6 +236,14 @@ ul.ContextFunctions li:last-child:hover > a {
     margin: 5px 3px;
 }
 
+.Actions li.Hidden {
+    display: none;
+}
+
+.Actions li.Hidden ~ li#BulkAction {
+    margin-left: 5px;
+}
+
 .Actions li:last-child:after {
     content: "";
     display: none;

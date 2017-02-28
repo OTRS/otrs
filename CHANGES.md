@@ -1,4 +1,5 @@
 #4.0.23 2017-??-??
+ - 2017-02-28 Fixed bug#[12582](https://bugs.otrs.org/show_bug.cgi?id=12582) - Select All Checkbox is shown in Ticket Overview screens when table is empty.
 
 #4.0.22 2017-03-07
  - 2017-02-24 Fixed bug#[12628](https://bugs.otrs.org/show_bug.cgi?id=12628)(PR#1623) - Sorting of columns in Dashboard-Ticket-Widgets is toggling with every refresh of the widget. Thanks to S7!
