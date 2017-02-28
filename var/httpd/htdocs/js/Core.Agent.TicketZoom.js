@@ -452,7 +452,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             ListObject = {
                 orientation   : TimelineView.Data.Items[Index].Orientation,
                 order         : TimelineView.Data.Items[Index].Counter,
-                id            : (typeof ArticleID !== 'undefined') ? ('ArticleID_' + ArticleID) : '',
+                id            : (typeof ArticleID !== 'undefined' && ArticleID !== '') ? ('ArticleID_' + ArticleID) : '',
                 class         : TimelineView.Data.Items[Index].Class,
                 time          : TimelineView.Data.Items[Index].CreateTime,
                 time_long     : TimelineView.Data.Items[Index].TimeLong,
@@ -464,7 +464,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 article_data  : {}
             };
 
-            if (typeof ArticleID !== 'undefined') {
+            if (typeof ArticleID !== 'undefined' && ArticleID !== '') {
                 ListObject.article_data = {
                     sender_type   : TimelineView.Data.Items[Index].ArticleData.SenderType,
                     article_type  : TimelineView.Data.Items[Index].ArticleData.ArticleType,
