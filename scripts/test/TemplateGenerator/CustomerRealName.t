@@ -150,12 +150,12 @@ my @Tests = (
             "From: TestFrom\@home.com\nTo: TestTo\@home.com\nSubject: Email without Reply-To tag\nTest Body Email.\n",
         ResultAutoResponse => {
             To   => 'TestFrom@home.com',
-            Body => 'OTRS_CUSTOMER_REALNAME tag: TestTo@home.com',
+            Body => 'OTRS_CUSTOMER_REALNAME tag: TestFrom@home.com',
         },
         ResultNotification => {
             To   => 'TestFrom@home.com',
             Body => 'OTRS_CUSTOMER_REALNAME tag: TestFrom@home.com',
-            }
+        },
     },
     {
         Name => 'Email with Reply-To tag',
@@ -168,7 +168,7 @@ my @Tests = (
         ResultNotification => {
             To   => 'TestFrom@home.com',
             Body => 'OTRS_CUSTOMER_REALNAME tag: TestReplyTo@home.com',
-            }
+        },
     },
     {
         Name => 'Email with CustomerID',
@@ -181,20 +181,20 @@ my @Tests = (
         ResultNotification => {
             To   => "$CustomerUser\@home.com",
             Body => "OTRS_CUSTOMER_REALNAME tag: $CustomerUser $CustomerUser",
-            }
+        },
     },
     {
         Name => 'Email with Customer as Recipient',
         Email =>
-            "From: TestRecipient\@home.com\nTo: TestTo\@home.com\nSubject: Email with Recipient\nTest Body Email.\n",
+            "From: TestRecipient\@home.com\nTo: $CustomerUser\@home.com\nSubject: Email with Recipient\nTest Body Email.\n",
         ResultAutoResponse => {
             To   => 'TestRecipient@home.com',
-            Body => 'OTRS_CUSTOMER_REALNAME tag: TestTo@home.com',
+            Body => 'OTRS_CUSTOMER_REALNAME tag: TestRecipient@home.com',
         },
         ResultNotification => {
             To   => 'TestRecipient@home.com',
             Body => 'OTRS_CUSTOMER_REALNAME tag: TestRecipient@home.com',
-            }
+        },
     },
 );
 

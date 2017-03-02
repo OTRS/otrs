@@ -1572,12 +1572,19 @@ sub _Replace {
 
                 # get real name based on reply-to
                 if ( $Data{ReplyTo} ) {
-                    $From = $Data{ReplyTo} || '';
+                    $From = $Data{ReplyTo};
+
+                    # remove email addresses
+                    $From =~ s/&lt;.*&gt;|<.*>|\(.*\)|\"|&quot;|;|,//g;
+
+                    # remove leading/trailing spaces
+                    $From =~ s/^\s+//g;
+                    $From =~ s/\s+$//g;
                 }
 
                 # generate real name based on sender line
                 if ( !$From ) {
-                    $From = $Data{From} || '';
+                    $From = $Data{To} || '';
 
                     # remove email addresses
                     $From =~ s/&lt;.*&gt;|<.*>|\(.*\)|\"|&quot;|;|,//g;
