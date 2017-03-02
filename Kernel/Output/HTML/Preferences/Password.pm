@@ -144,9 +144,6 @@ sub Run {
     my $AuthObject = $Kernel::OM->Get( 'Kernel::System::' . $AuthModule );
     return 1 if !$AuthObject;
 
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
     # validate current password
     if (
         !$AuthObject->Auth(
@@ -183,7 +180,7 @@ sub Run {
 
     # check min size of password
     if ( $Config->{PasswordMinSize} && length $Pw < $Config->{PasswordMinSize} ) {
-        $Self->{Error} = Translatable(
+        $Self->{Error} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate(
             'Can\'t update password, it must be at least %s characters long!',
             $Config->{PasswordMinSize}
         );

@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-02 Fixed bug#[8657](https://bugs.otrs.org/show_bug.cgi?id=8657)(PR#1634) - PasswordMinSize returns %s instead of minimum size in the AgentPreferences. Thanks to S7!
 
 #5.0.17 2017-03-07
  - 2017-02-27 Updated translations, thanks to all translators.
