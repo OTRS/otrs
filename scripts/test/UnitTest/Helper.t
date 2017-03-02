@@ -116,7 +116,45 @@ $Self->Is(
     "System config updated",
 );
 
-$Helper->ConfigSettingCleanup();
+# Check custom code injection.
+my $RandomNumber   = $Helper->GetRandomNumber();
+my $PackageName    = "Kernel::Config::Files::ZZZZUnitTest$RandomNumber";
+my $SubroutineName = "Sub$RandomNumber";
+my $SubroutinePath = "${PackageName}::$SubroutineName";
+my $ReturnValue    = 'Hello, world!';
+$Self->False(
+    defined &$SubroutinePath,
+    "Subroutine $SubroutinePath() is not defined yet",
+);
+
+my $CustomCode = <<"EOS";
+package $PackageName;
+use strict;
+use warnings;
+## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
+sub $SubroutineName {
+    return '$ReturnValue';
+}
+1;
+EOS
+$Helper->CustomCodeActivate(
+    Code       => $CustomCode,
+    Identifier => $RandomNumber,
+);
+
+# Require custom code file.
+my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require($PackageName);
+$Self->True(
+    $Loaded,
+    "Require - $PackageName",
+);
+
+$Self->True(
+    defined &$SubroutinePath,
+    "Subroutine $SubroutinePath() is now defined",
+);
+
+$Helper->CustomFileCleanup();
 
 $NewConfigObject = Kernel::Config->new();
 $Self->Is(
