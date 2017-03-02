@@ -3174,6 +3174,7 @@ sub ArticleAttachmentIndex {
                 &&
                 $File{Filename} eq 'file-1'
                 && $File{ContentType} =~ /text\/plain/i
+                && $File{Disposition} eq 'inline'
                 )
             {
                 $AttachmentIDPlain = $AttachmentID;
@@ -3187,6 +3188,7 @@ sub ArticleAttachmentIndex {
                 &&
                 ( $File{Filename} =~ /^file-[12]$/ || $File{Filename} eq 'file-1.html' )
                 && $File{ContentType} =~ /text\/html/i
+                && $File{Disposition} eq 'inline'
                 )
             {
                 $AttachmentIDHTML = $AttachmentID;

@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-02 Fixed bug#[9729](https://bugs.otrs.org/show_bug.cgi?id=9729)(PR#1631) - An article body may be replaced with attachments in AgentTicketZoom. Thanks to S7!
  - 2017-03-02 Fixed bug#[4640](https://bugs.otrs.org/show_bug.cgi?id=4640)(PR#1635) - Wrong variable <OTRS_CUSTOMER_REALNAME> in Auto Responses. Thanks to S7!
  - 2017-03-02 Fixed bug#[8657](https://bugs.otrs.org/show_bug.cgi?id=8657)(PR#1634) - PasswordMinSize returns %s instead of minimum size in the AgentPreferences. Thanks to S7!
 
