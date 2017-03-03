@@ -718,7 +718,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             }
         }
 
-        $('#Activities li, #ActivityDialogs li, #Transitions li, #TransitionActions li').draggable({
+        $('#Activities li.OneRow, #ActivityDialogs li.OneRow, #Transitions li.OneRow, #TransitionActions li.OneRow').draggable({
             revert: 'invalid',
             helper: function () {
                 var $Clone = $(this).clone();
@@ -769,7 +769,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
 
         $('#Canvas').droppable({
-            accept: '#Activities li, #ActivityDialogs li, #Transitions li, #TransitionActions li',
+            accept: '#Activities li.OneRow, #ActivityDialogs li.OneRow, #Transitions li.OneRow, #TransitionActions li.OneRow',
             drop: function (Event, UI) {
                 var $Source = $(UI.draggable),
                     SourceID = $Source.closest('ul').attr('id');

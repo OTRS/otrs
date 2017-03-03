@@ -173,6 +173,10 @@ ul#ProcessElements li.AccordionElement div.Content ul {
 ul#ProcessElements li.AccordionElement div.Content ul li {
     padding: 2px 5px 2px 5px;
     position: relative;
+    cursor: default;
+}
+
+ul#ProcessElements li.AccordionElement div.Content ul li.OneRow {
     cursor: move;
 }
 
