@@ -78,8 +78,8 @@ sub new {
         $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration.' );
     }
 
-    # remove any leftover configuration changes from aborted previous runs
-    $Self->ConfigSettingCleanup();
+    # Remove any leftover custom files from aborted previous runs.
+    $Self->CustomFileCleanup();
 
     # set environment variable to skip SSL certificate verification if needed
     if ( $Param{SkipSSLVerify} ) {
@@ -472,8 +472,8 @@ sub DESTROY {
         $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
     }
 
-    # remove any configuration changes
-    $Self->ConfigSettingCleanup();
+    # Remove any custom files.
+    $Self->CustomFileCleanup();
 
     # restore environment variable to skip SSL certificate verification if needed
     if ( $Self->{RestoreSSLVerify} ) {
@@ -635,13 +635,65 @@ EOF
     return 1;
 }
 
-=item ConfigSettingCleanup()
+=head2 CustomCodeActivate()
 
-remove all config setting changes from ConfigSettingChange();
+Temporarily include custom code in the system. For example, you may use this to redefine a
+subroutine from another class. This change will persist for remainder of the test.
+
+All code will be removed when the Helper object is destroyed.
+
+Please note that this will not work correctly in clustered environments.
+
+    $Helper->CustomCodeActivate(
+        Code => q^
+package Kernel::System::WebUserAgent;
+use strict;
+use warnings;
+use Kernel::System::WebUserAgent;
+{
+    no warnings 'redefine';
+    sub Request {
+        my $JSONString = '{"Results":{},"ErrorMessage":"","Success":1}';
+        return (
+            Content => \$JSONString,
+            Status  => '200 OK',
+        );
+    }
+}
+1;^,
+        Identifier => 'News',   # (optional) Code identifier to include in file name
+    );
 
 =cut
 
-sub ConfigSettingCleanup {
+sub CustomCodeActivate {
+    my ( $Self, %Param ) = @_;
+
+    my $Code = $Param{Code};
+    my $Identifier = $Param{Identifier} || $Self->GetRandomNumber();
+
+    die "Need 'Code'" if !defined $Code;
+
+    my $PackageName = "ZZZZUnitTest$Identifier";
+
+    my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $FileName = "$Home/Kernel/Config/Files/$PackageName.pm";
+    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+        Location => $FileName,
+        Mode     => 'utf8',
+        Content  => \$Code,
+    ) || die "Could not write $FileName";
+
+    return 1;
+}
+
+=head2 CustomFileCleanup()
+
+Remove all custom files from C<ConfigSettingChange()> and C<CustomCodeActivate()>.
+
+=cut
+
+sub CustomFileCleanup {
     my ( $Self, %Param ) = @_;
 
     my $Home  = $Kernel::OM->Get('Kernel::Config')->Get('Home');
