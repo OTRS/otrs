@@ -1291,15 +1291,15 @@ sub _KindsOfReporting {
             'Solution Min Working Time (affected by escalation configuration)',
         SolutionMaxWorkingTime =>
             'Solution Max Working Time (affected by escalation configuration)',
-        ResponseAverage => 'Response Average (affected by escalation configuration)',
-        ResponseMinTime => 'Response Min Time (affected by escalation configuration)',
-        ResponseMaxTime => 'Response Max Time (affected by escalation configuration)',
+        ResponseAverage => 'First Response Average (affected by escalation configuration)',
+        ResponseMinTime => 'First Response Min Time (affected by escalation configuration)',
+        ResponseMaxTime => 'First Response Max Time (affected by escalation configuration)',
         ResponseWorkingTimeAverage =>
-            'Response Working Time Average (affected by escalation configuration)',
+            'First Response Working Time Average (affected by escalation configuration)',
         ResponseMinWorkingTime =>
-            'Response Min Working Time (affected by escalation configuration)',
+            'First Response Min Working Time (affected by escalation configuration)',
         ResponseMaxWorkingTime =>
-            'Response Max Working Time (affected by escalation configuration)',
+            'First Response Max Working Time (affected by escalation configuration)',
         NumberOfTickets => 'Number of Tickets (affected by escalation configuration)',
     );
     return \%KindsOfReporting;
