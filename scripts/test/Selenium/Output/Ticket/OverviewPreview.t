@@ -44,6 +44,14 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # Override FirstnameLastnameOrder setting to check if it is taken into account
+        #   (see bug#12554 for more information).
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'FirstnameLastnameOrder',
+            Value => 5,
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -55,9 +63,16 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
+        );
+
+        # Get user data.
+        my %TestUser = $UserObject->GetUserData(
+            UserID => $TestUserID,
         );
 
         my $RandomID = $Helper->GetRandomID();
@@ -196,8 +211,14 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$QueueID;View=");
 
-        # switch to medium view
+        # Switch to large view.
         $Selenium->find_element( "a.Large", 'css' )->VerifiedClick();
+
+        # Check if owner name conforms to current FirstnameLastNameOrder setting.
+        $Self->True(
+            index( $Selenium->get_page_source(), $TestUser{UserFullname} ) > -1,
+            "$TestUser{UserFullname} - found on screen"
+        );
 
         # sort by ticket number
         $Selenium->execute_script(
