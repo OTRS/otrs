@@ -4279,9 +4279,10 @@ sub RichTextDocumentServe {
         # convert charset
         if ($Charset) {
             $Param{Data}->{Content} = $Self->{EncodeObject}->Convert(
-                Text => $Param{Data}->{Content},
-                From => $Charset,
-                To   => 'utf-8',
+                Text  => $Param{Data}->{Content},
+                From  => $Charset,
+                To    => 'utf-8',
+                Check => 1,
             );
 
             # replace charset in content

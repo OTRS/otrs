@@ -1,4 +1,5 @@
 #3.3.17 ????-??-??
+ - 2017-03-03 Fixed bug#[9941](https://bugs.otrs.org/show_bug.cgi?id=9941) - Articles with multi-byte characters that claim to be UTF-8 will not display in the browser.
  - 2017-02-17 Fixed bug#[7961](https://bugs.otrs.org/show_bug.cgi?id=7961) - customer search should not return results for internal articles.
  - 2016-11-04 Fixed bug#[12391](http://bugs.otrs.org/show_bug.cgi?id=12391) - Base64 encoded image does not display in article.
  - 2016-11-25 Fixed bug#[12461](https://bugs.otrs.org/show_bug.cgi?id=12461) - Chrome can not display attached PDF files since 5.0.14.
