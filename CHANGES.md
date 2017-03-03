@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-03 Fixed bug#[12659](https://bugs.otrs.org/show_bug.cgi?id=12659) - Process editor freezes when "No data found" element is dragged on canvas.
  - 2017-03-03 Fixed bug#[12253](https://bugs.otrs.org/show_bug.cgi?id=12253) - Stats per Customer User not possible.
  - 2017-03-03 Fixed bug#[12585](https://bugs.otrs.org/show_bug.cgi?id=12585) - Samples are not translated in the search view of text type dynamic field.
  - 2017-03-03 Fixed bug#[12554](https://bugs.otrs.org/show_bug.cgi?id=12554) - The change of FirstnameLastnameOrder does not affect QueueView.
