@@ -611,6 +611,7 @@ sub Run {
     my %SpecialColumns = (
         TicketNumber => 1,
         Owner        => 1,
+        Responsible  => 1,
         CustomerID   => 1,
         Title        => 1,
     );
@@ -1415,6 +1416,12 @@ sub Run {
             UserID => $Article{OwnerID},
         );
 
+        # Responsible info.
+        my %ResponsibleInfo = $UserObject->GetUserData(
+            UserID => $Article{ResponsibleID},
+        );
+        $UserInfo{ResponsibleInfo} = \%ResponsibleInfo;
+
         $LayoutObject->Block(
             Name => 'Record',
             Data => { %Article, %UserInfo },
@@ -1578,15 +1585,6 @@ sub Run {
                 elsif ( $TicketColumn eq 'Created' || $TicketColumn eq 'Changed' ) {
                     $BlockType = 'Time';
                     $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
-                }
-                elsif ( $TicketColumn eq 'Responsible' ) {
-
-                    # get responsible info
-                    my %ResponsibleInfo = $UserObject->GetUserData(
-                        UserID => $Article{ResponsibleID},
-                    );
-                    $DataValue = $ResponsibleInfo{'UserFirstname'} . ' '
-                        . $ResponsibleInfo{'UserLastname'};
                 }
                 else {
                     $DataValue = $Article{$TicketColumn}

@@ -266,9 +266,14 @@
 [% RenderBlockEnd("RecordEscalationTime") %]
 [% RenderBlockStart("RecordOwner") %]
                     <td>
-                        <div title="[% Data.UserFirstname | html %] [% Data.UserLastname | html %] ([% Data.Owner | html %])">[% Data.UserFirstname _ " " _ Data.UserLastname | truncate(30) | html %]</div>
+                        <div title="[% Data.UserFirstname | html %] [% Data.UserLastname | html %] ([% Data.Owner | html %])">[% Data.UserFullname | truncate(30) | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordOwner") %]
+[% RenderBlockStart("RecordResponsible") %]
+                    <td>
+                        <div title="[% Data.ResponsibleInfo.UserFirstname | html %] [% Data.ResponsibleInfo.UserLastname | html %] ([% Data.Responsible | html %])">[% Data.ResponsibleInfo.UserFullname | truncate(30) | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordResponsible") %]
 [% RenderBlockStart("RecordCustomerID") %]
                     <td>
                         <a href="[% Env("Baselink") %]Action=AgentTicketCustomer;TicketID=[% Data.TicketID | uri %]" class="AsPopup">
