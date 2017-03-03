@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 use base qw(Kernel::System::DynamicField::Driver::Base);
 
@@ -418,7 +419,7 @@ EOF
 
     my $AdditionalText;
     if ( $Param{UseLabelHints} ) {
-        $AdditionalText = 'e.g. Text or Te*t';
+        $AdditionalText = Translatable('e.g. Text or Te*t');
     }
 
     # call EditLabelRender on the common Driver

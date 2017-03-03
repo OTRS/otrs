@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-03 Fixed bug#[12585](https://bugs.otrs.org/show_bug.cgi?id=12585) - Samples are not translated in the search view of text type dynamic field.
  - 2017-03-03 Fixed bug#[12554](https://bugs.otrs.org/show_bug.cgi?id=12554) - The change of FirstnameLastnameOrder does not affect QueueView.
  - 2017-03-03 Fixed bug#[12648](https://bugs.otrs.org/show_bug.cgi?id=12648) - User cache is beeing deleted every time a user logins and LDAP sync causes a user update.
  - 2017-03-02 Fixed bug#[9729](https://bugs.otrs.org/show_bug.cgi?id=9729)(PR#1631) - An article body may be replaced with attachments in AgentTicketZoom. Thanks to S7!
