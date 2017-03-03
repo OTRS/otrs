@@ -4590,11 +4590,11 @@ sub _StoreActivityDialog {
 
             return $Self->_ShowDialogError(
                 Message => $Self->{LayoutObject}->{LanguageObject}->Translate(
-                    'This activity dialog does not belong to current activity in Ticket %s!',
+                    'This step does not belong anymore the current activity in process for Ticket %s!',
                     $Ticket{TicketID},
                 ),
                 Comment =>
-                    'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.',
+                    'Another user changed this ticket in the meantime. Please close this window and reload the ticket.'
             );
         }
 
