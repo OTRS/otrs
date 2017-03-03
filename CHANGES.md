@@ -73,6 +73,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.18 2017-??-??
+ - 2017-03-03 Follow-up for bug#[12443](https://bugs.otrs.org/show_bug.cgi?id=12443) - Activity dialog doesn't check process status before submit.
  - 2017-03-03 Fixed bug#[11880](https://bugs.otrs.org/show_bug.cgi?id=11880) - TicketSolutionResponseTime - No Values when Solution Time it NOT in use.
  - 2017-03-03 Fixed bug#[12659](https://bugs.otrs.org/show_bug.cgi?id=12659) - Process editor freezes when "No data found" element is dragged on canvas.
  - 2017-03-03 Fixed bug#[12253](https://bugs.otrs.org/show_bug.cgi?id=12253) - Stats per Customer User not possible.
