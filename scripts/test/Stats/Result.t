@@ -27,7 +27,7 @@ $ConfigObject->Set(
     Value => 1,
 );
 $ConfigObject->Set(
-    Key   => 'CustomerUserLoginsAsMultiSelect',
+    Key   => 'Stats::CustomerUserLoginsAsMultiSelect',
     Value => 1,
 );
 
