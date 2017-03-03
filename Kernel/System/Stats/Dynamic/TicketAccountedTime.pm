@@ -214,22 +214,6 @@ sub GetObjectAttributes {
             Block            => 'InputField',
         },
         {
-            Name             => Translatable('CustomerUserLogin (complex search)'),
-            UseAsXvalue      => 0,
-            UseAsValueSeries => 0,
-            UseAsRestriction => 1,
-            Element          => 'CustomerUserLogin',
-            Block            => 'InputField',
-        },
-        {
-            Name             => Translatable('CustomerUserLogin (exact match)'),
-            UseAsXvalue      => 0,
-            UseAsValueSeries => 0,
-            UseAsRestriction => 1,
-            Element          => 'CustomerUserLoginRaw',
-            Block            => 'InputField',
-        },
-        {
             Name             => Translatable('From'),
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
@@ -521,8 +505,7 @@ sub GetObjectAttributes {
 
     if ( $ConfigObject->Get('Stats::CustomerIDAsMultiSelect') ) {
 
-        # Get CustomerID
-        # (This way also can be the solution for the CustomerUserID)
+        # Get all CustomerIDs which are related to a ticket.
         $DBObject->Prepare(
             SQL => "SELECT DISTINCT customer_id FROM ticket",
         );
@@ -564,6 +547,57 @@ sub GetObjectAttributes {
                 UseAsValueSeries => 0,
                 UseAsRestriction => 1,
                 Element          => 'CustomerIDRaw',
+                Block            => 'InputField',
+            },
+        );
+
+        push @ObjectAttributes, @CustomerIDAttributes;
+    }
+
+   if ( $ConfigObject->Get('Stats::CustomerUserLoginsAsMultiSelect') ) {
+
+        # Get all CustomerUserLogins which are related to a tiket.
+        $DBObject->Prepare(
+            SQL => "SELECT DISTINCT customer_user_id FROM ticket",
+        );
+
+        # fetch the result
+        my %CustomerUserIDs;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            if ( $Row[0] ) {
+                $CustomerUserIDs{ $Row[0] } = $Row[0];
+            }
+        }
+
+        my %ObjectAttribute = (
+            Name             => Translatable('CustomerUserLogin'),
+            UseAsXvalue      => 1,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 1,
+            Element          => 'CustomerUserLoginRaw',
+            Block            => 'MultiSelectField',
+            Values           => \%CustomerUserIDs,
+        );
+
+        push @ObjectAttributes, \%ObjectAttribute;
+    }
+    else {
+
+        my @CustomerIDAttributes = (
+            {
+                Name             => Translatable('CustomerUserLogin (complex search)'),
+                UseAsXvalue      => 0,
+                UseAsValueSeries => 0,
+                UseAsRestriction => 1,
+                Element          => 'CustomerUserLogin',
+                Block            => 'InputField',
+            },
+            {
+                Name             => Translatable('CustomerUserLogin (exact match)'),
+                UseAsXvalue      => 0,
+                UseAsValueSeries => 0,
+                UseAsRestriction => 1,
+                Element          => 'CustomerUserLoginRaw',
                 Block            => 'InputField',
             },
         );
