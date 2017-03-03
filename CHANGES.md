@@ -1,4 +1,5 @@
 #4.0.23 2017-??-??
+ - 2017-03-03 Fixed bug#[12659](https://bugs.otrs.org/show_bug.cgi?id=12659) - Process editor freezes when "No data found" element is dragged on canvas.
  - 2017-03-02 Fixed bug#[9729](https://bugs.otrs.org/show_bug.cgi?id=9729)(PR#1631) - An article body may be replaced with attachments in AgentTicketZoom. Thanks to S7!
  - 2017-02-28 Fixed bug#[12582](https://bugs.otrs.org/show_bug.cgi?id=12582) - Select All Checkbox is shown in Ticket Overview screens when table is empty.
 
