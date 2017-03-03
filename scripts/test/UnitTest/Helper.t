@@ -121,7 +121,6 @@ my $RandomNumber   = $Helper->GetRandomNumber();
 my $PackageName    = "Kernel::Config::Files::ZZZZUnitTest$RandomNumber";
 my $SubroutineName = "Sub$RandomNumber";
 my $SubroutinePath = "${PackageName}::$SubroutineName";
-my $ReturnValue    = 'Hello, world!';
 $Self->False(
     defined &$SubroutinePath,
     "Subroutine $SubroutinePath() is not defined yet",
@@ -133,7 +132,7 @@ use strict;
 use warnings;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
 sub $SubroutineName {
-    return '$ReturnValue';
+    return 'Hello, world!';
 }
 1;
 EOS

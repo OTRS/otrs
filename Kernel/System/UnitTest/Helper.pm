@@ -657,17 +657,17 @@ Please note that this will not work correctly in clustered environments.
 
     $Helper->CustomCodeActivate(
         Code => q^
+use Kernel::System::WebUserAgent;
 package Kernel::System::WebUserAgent;
 use strict;
 use warnings;
-use Kernel::System::WebUserAgent;
 {
     no warnings 'redefine';
     sub Request {
         my $JSONString = '{"Results":{},"ErrorMessage":"","Success":1}';
         return (
-            'Content' => $JSONString,
-            'Status' => '200 OK'
+            Content => \$JSONString,
+            Status  => '200 OK',
         );
     }
 }

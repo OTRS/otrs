@@ -58,27 +58,20 @@ $Selenium->RunTest(
         #   actual web service calls. This should prevent instability in case cloud services are
         #   unavailable at the exact moment of this test run.
         my $CustomCode = <<"EOS";
+use Kernel::System::WebUserAgent;
 package Kernel::System::WebUserAgent;
-
 use strict;
 use warnings;
-
-use Kernel::System::WebUserAgent;
-
 {
     no warnings 'redefine';
-
     sub Request {
-
         my \$JSONString = '{"Results":{"PublicFeeds":[{"Success":"1","Operation":"NewsFeed","Data":{"News":[{"Title":"$NewsData[0]->{Title}","Link":"$NewsData[0]->{Link}","Time":"2017-01-25T15:05:59+00:00"},{"Title":"$NewsData[1]->{Title}","Link":"$NewsData[1]->{Link}","Time":"2017-01-25T15:05:59+00:00"}]}}]},"ErrorMessage":"","Success":1}';
-
         return (
-            'Content' => \\\$JSONString,
-            'Status' => '200 OK'
+            Content => \\\$JSONString,
+            Status  => '200 OK',
         );
     }
 }
-
 1;
 EOS
         $Helper->CustomCodeActivate(
