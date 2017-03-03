@@ -1104,6 +1104,8 @@ sub _ReportingValues {
     my %SolutionAllOver;
     my %Solution;
     my %SolutionWorkingTime;
+
+    # Response is only the first response and nothing with the update time.
     my %Response;
     my %ResponseWorkingTime;
 
@@ -1334,15 +1336,15 @@ sub _KindsOfReporting {
             Translatable('Solution Min Working Time (affected by escalation configuration)'),
         SolutionMaxWorkingTime =>
             Translatable('Solution Max Working Time (affected by escalation configuration)'),
-        ResponseAverage => Translatable('Response Average (affected by escalation configuration)'),
-        ResponseMinTime => Translatable('Response Min Time (affected by escalation configuration)'),
-        ResponseMaxTime => Translatable('Response Max Time (affected by escalation configuration)'),
+        ResponseAverage => Translatable('First Response Average (affected by escalation configuration)'),
+        ResponseMinTime => Translatable('First Response Min Time (affected by escalation configuration)'),
+        ResponseMaxTime => Translatable('First Response Max Time (affected by escalation configuration)'),
         ResponseWorkingTimeAverage =>
-            Translatable('Response Working Time Average (affected by escalation configuration)'),
+            Translatable('First Response Working Time Average (affected by escalation configuration)'),
         ResponseMinWorkingTime =>
-            Translatable('Response Min Working Time (affected by escalation configuration)'),
+            Translatable('First Response Min Working Time (affected by escalation configuration)'),
         ResponseMaxWorkingTime =>
-            Translatable('Response Max Working Time (affected by escalation configuration)'),
+            Translatable('First Response Max Working Time (affected by escalation configuration)'),
         NumberOfTickets => Translatable('Number of Tickets (affected by escalation configuration)'),
     );
     return \%KindsOfReporting;
