@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -53,10 +52,10 @@ $Selenium->RunTest(
         my $NextVersionFirstNumber = $Parts[0] + 1;
 
         my @ProductFeeds;
-        for ( 0 .. 1 ) {
+        for my $Count ( 1 .. 2 ) {
             my $Number = $Helper->GetRandomNumber();
             push @ProductFeeds, {
-                Version => "$NextVersionFirstNumber.0.$Number",
+                Version => "$NextVersionFirstNumber.0.$Count",
                 Link    => "https://www.otrs.com/release-notes-$Number",
             };
         }
