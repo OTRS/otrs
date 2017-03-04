@@ -12,6 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
+use Linux::Distribution;
+
+# Skip this test on CentOS 6, for now.
+my $OSDist = Linux::Distribution::distribution_name()    || '';
+my $OSVer  = Linux::Distribution::distribution_version() || '';
+if ( $OSDist eq 'centos' && $OSVer =~ /^6/ ) {
+    $Self->True(
+        1,
+        'CentOS 6 detected, skipping test...',
+    );
+    exit;
+}
+
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
