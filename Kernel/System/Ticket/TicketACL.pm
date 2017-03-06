@@ -1152,17 +1152,26 @@ sub _GetChecks {
 
         # check if is a dynamic field with data
         next TICKETATTRIBUTE if $TicketAttribute !~ m{ \A DynamicField_ }smx;
-        next TICKETATTRIBUTE if !$Checks{Ticket}->{$TicketAttribute};
-        next TICKETATTRIBUTE if
+        next TICKETATTRIBUTE if !defined $Checks{Ticket}->{$TicketAttribute};
+        next TICKETATTRIBUTE if !length $Checks{Ticket}->{$TicketAttribute};
+
+        if (
             ref $Checks{Ticket}->{$TicketAttribute} eq 'ARRAY'
-            && !IsArrayRefWithData( $Checks{Ticket}->{$TicketAttribute} );
+            && !IsArrayRefWithData( $Checks{Ticket}->{$TicketAttribute} )
+            )
+        {
+            next TICKETATTRIBUTE;
+        }
 
         # compare if data is different and skip on same data
-        if ( $Checks{DynamicField}->{$TicketAttribute} ) {
-            next TICKETATTRIBUTE if !DataIsDifferent(
+        if (
+            !DataIsDifferent(
                 Data1 => $Checks{Ticket}->{$TicketAttribute},
                 Data2 => $Checks{DynamicField}->{$TicketAttribute},
-            );
+            )
+            )
+        {
+            next TICKETATTRIBUTE;
         }
 
         $Checks{DynamicField}->{$TicketAttribute} = $Checks{Ticket}->{$TicketAttribute};
@@ -1175,10 +1184,16 @@ sub _GetChecks {
 
         # check if is a dynamic field with data
         next TICKETATTRIBUTE if $TicketAttribute !~ m{ \A DynamicField_ }smx;
-        next TICKETATTRIBUTE if !$ChecksDatabase{Ticket}->{$TicketAttribute};
-        next TICKETATTRIBUTE if
+        next TICKETATTRIBUTE if !defined $ChecksDatabase{Ticket}->{$TicketAttribute};
+        next TICKETATTRIBUTE if !length $ChecksDatabase{Ticket}->{$TicketAttribute};
+
+        if (
             ref $ChecksDatabase{Ticket}->{$TicketAttribute} eq 'ARRAY'
-            && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} );
+            && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} )
+            )
+        {
+            next TICKETATTRIBUTE;
+        }
 
         $ChecksDatabase{DynamicField}->{$TicketAttribute} = $ChecksDatabase{Ticket}->{$TicketAttribute};
     }
