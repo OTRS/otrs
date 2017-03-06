@@ -1,0 +1,161 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Appointment Calendar Manage
+ */
+
+@media screen,projection,tv,handheld {
+
+    .WidgetSimple fieldset.Separated {
+        background-color: #E9E9E9;
+        border: 1px solid #CCCCCC;
+        margin: 9px 0;
+        padding: 4px;
+    }
+
+    .InlineButton {
+        background: transparent;
+        cursor: pointer;
+        border: none;
+        padding: 0;
+    }
+
+    tr.Invalid .DownloadLink,
+    tr.Invalid .InlineButton {
+        display: none;
+    }
+
+    .CalendarColor {
+        cursor: default !important;
+        border: 1px solid #BBB;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        box-sizing: border-box;
+    }
+
+    .Invalid .CalendarColor {
+        opacity: 0.3;
+    }
+
+    /**
+     * Spectrum Color picker
+     */
+    .ColorPaletteButton.sp-replacer {
+        background-color: #FFF;
+        box-shadow: 1px 1px 3px #EEE inset, -1px -1px 3px #EEE inset;
+        border-color: #C0C0C0 #C9C9C9 #C9C9C9;
+        padding: 3px 4px !important;
+    }
+
+    .ColorPaletteButton.sp-replacer:hover {
+        border-color: #C0C0C0 #C9C9C9 #C9C9C9;
+    }
+
+    .ColorPaletteButton.sp-replacer:focus,
+    .ColorPaletteButton.sp-replacer.sp-active {
+        border-color: #F92;
+    }
+
+    .ColorPaletteButton .sp-preview {
+        width: 16px;
+        height: 16px;
+        border: none;
+    }
+
+    .ColorPaletteButton .sp-preview-inner,
+    .ColorPaletteContainer .sp-thumb-inner {
+        border: 1px solid #BBB;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+    }
+
+    .ColorPaletteContainer .sp-thumb-inner:hover {
+        border-color: #F92;
+    }
+
+    .ColorPaletteButton .sp-dd {
+        font-size: 9px;
+        height: 8px;
+        line-height: 8px;
+        padding: 4px 0;
+    }
+
+    .ColorPaletteContainer.sp-container,
+    .ColorPaletteContainer.sp-container button,
+    .ColorPaletteContainer.sp-container input {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .ColorPaletteContainer.sp-container {
+        border-color: #C0C0C0 #C9C9C9 #C9C9C9;
+        background-color: #FFF;
+    }
+
+    .ColorPaletteContainer.sp-container button {
+        color: #333;
+        cursor: pointer;
+        font-size: 11px;
+        line-height: 14px;
+        min-height: 12px;
+        padding: 3px;
+        background: #EEE;
+        border-radius: 0;
+        border: 1px solid #CCC;
+        border-bottom: 1px solid #BBB;
+        display: inline-block;
+        cursor: pointer;
+        transition: all ease-in 0.2s;
+        text-shadow: 0 1px 0 #EEE;
+    }
+
+    .ColorPaletteContainer.sp-container button:hover {
+        background-image: none;
+        background-color: #E5E5E5;
+        border-color: #999;
+        color: #000;
+    }
+
+    .ColorPaletteContainer.sp-container input {
+        border-radius: 0;
+    }
+    .ColorPaletteContainer.sp-container .sp-input.sp-validation-error {
+        background: #FFF;
+    }
+
+    .ColorPaletteContainer.sp-container .sp-cancel {
+        color: #F92 !important;
+        font-size: 12px;
+    }
+
+    .ColorPaletteContainer.sp-container .sp-cancel:hover {
+        color: #F72 !important;
+        text-decoration: none;
+    }
+
+    .ColorPaletteContainer .sp-palette-container,
+    .ColorPaletteContainer .sp-picker-container {
+        padding: 5px 5px 295px;
+    }
+
+    .ColorPaletteContainer .sp-palette-toggle {
+        margin-top: 3px;
+    }
+
+    .ColorPaletteContainer .sp-palette {
+        max-width: 240px;
+    }
+
+    .ColorPaletteContainer .sp-palette .sp-thumb-el {
+        border: none;
+        margin: 2px;
+    }
+
+    input[readonly] + .ColorPaletteButton {
+        background-color: #DDD;
+        pointer-events: none;
+    }
+
+} /* end @media */

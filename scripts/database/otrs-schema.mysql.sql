@@ -1446,3 +1446,73 @@ CREATE TABLE cloud_service_config (
     PRIMARY KEY(id),
     UNIQUE INDEX cloud_service_config_name (name)
 );
+# ----------------------------------------------------------
+#  create table calendar
+# ----------------------------------------------------------
+CREATE TABLE calendar (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    group_id INTEGER NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    salt_string VARCHAR (64) NOT NULL,
+    color VARCHAR (7) NOT NULL,
+    ticket_appointments LONGBLOB NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX calendar_name (name)
+);
+# ----------------------------------------------------------
+#  create table calendar_appointment
+# ----------------------------------------------------------
+CREATE TABLE calendar_appointment (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    parent_id BIGINT NULL,
+    calendar_id BIGINT NOT NULL,
+    unique_id VARCHAR (255) NOT NULL,
+    title VARCHAR (255) NOT NULL,
+    description TEXT NULL,
+    location VARCHAR (255) NULL,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME NOT NULL,
+    all_day SMALLINT NULL,
+    notify_time DATETIME NULL,
+    notify_template VARCHAR (255) NULL,
+    notify_custom VARCHAR (255) NULL,
+    notify_custom_unit_count BIGINT NULL,
+    notify_custom_unit VARCHAR (255) NULL,
+    notify_custom_unit_point VARCHAR (255) NULL,
+    notify_custom_date DATETIME NULL,
+    team_id TEXT NULL,
+    resource_id TEXT NULL,
+    recurring SMALLINT NULL,
+    recur_type VARCHAR (20) NULL,
+    recur_freq VARCHAR (255) NULL,
+    recur_count INTEGER NULL,
+    recur_interval INTEGER NULL,
+    recur_until DATETIME NULL,
+    recur_id DATETIME NULL,
+    recur_exclude TEXT NULL,
+    ticket_appointment_rule_id VARCHAR (32) NULL,
+    create_time DATETIME NULL,
+    create_by INTEGER NULL,
+    change_time DATETIME NULL,
+    change_by INTEGER NULL,
+    PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table calendar_appointment_ticket
+# ----------------------------------------------------------
+CREATE TABLE calendar_appointment_ticket (
+    calendar_id BIGINT NOT NULL,
+    ticket_id BIGINT NOT NULL,
+    rule_id VARCHAR (32) NOT NULL,
+    appointment_id BIGINT NOT NULL,
+    UNIQUE INDEX calendar_appointment_ticket_calendar_id_ticket_id_rule_id (calendar_id, ticket_id, rule_id),
+    INDEX calendar_appointment_ticket_appointment_id (appointment_id),
+    INDEX calendar_appointment_ticket_calendar_id (calendar_id),
+    INDEX calendar_appointment_ticket_rule_id (rule_id),
+    INDEX calendar_appointment_ticket_ticket_id (ticket_id)
+);

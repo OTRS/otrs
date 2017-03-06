@@ -1,0 +1,177 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+# nofilter(TidyAll::Plugin::OTRS::TT::ScriptUsage)
+
+<div class="OverviewBox ARIARoleMain [% Data.View | html %]">
+    <h1>[% Translate("Agenda Overview") | html %]</h1>
+
+    <div class="OverviewControl" id="OverviewControl">
+        <div>
+            <div class="ControlRow">
+
+[% RenderBlockStart("OverviewNavBarFilter") %]
+                <ul class="Tabs">
+[% RenderBlockStart("OverviewNavBarFilterItem") %]
+[% RenderBlockStart("OverviewNavBarFilterItemSelected") %]
+                    <li class="Active [% Data.CSS | html %]">
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];Start=[% Data.Start | uri %]">[% Translate(Data.Name) | html %]</a>
+                    </li>
+[% RenderBlockEnd("OverviewNavBarFilterItemSelected") %]
+[% RenderBlockStart("OverviewNavBarFilterItemSelectedNot") %]
+                    <li class="[% Data.CSS | html %]">
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];Start=[% Data.Start | uri %]">[% Translate(Data.Name) | html %]</a>
+                    </li>
+[% RenderBlockEnd("OverviewNavBarFilterItemSelectedNot") %]
+[% RenderBlockEnd("OverviewNavBarFilterItem") %]
+                </ul>
+[% RenderBlockEnd("OverviewNavBarFilter") %]
+
+            </div>
+            <div class="ActionRow">
+                <div class="Buttons HeaderLeft">
+[% IF Data.ModulePermissions.AdminAppointmentCalendarManage %]
+                    <a href="[% Env("Baselink") %]Action=AdminAppointmentCalendarManage;Subaction=Overview" class="CallForAction Inline">
+                        <span><i class="fa fa-calendar-o"></i> [% Translate("Manage Calendars") | html %]</span>
+                    </a>
+[% END %]
+[% RenderBlockStart("AppointmentCreateButton") %]
+                    <a id="AppointmentCreateButton" href="#" class="CallForAction Inline">
+                        <span><i class="fa fa-plus-square"></i> [% Translate("Add Appointment") | html %]</span>
+                    </a>
+[% RenderBlockEnd("AppointmentCreateButton") %]
+                </div>
+                <div class="Buttons HeaderRight">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %]" class="CallForAction Inline">
+                        <span>[% Translate("Today") | html %]</span>
+                    </a>
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];Start=[% Data.Start | uri %];Jump=Prev" class="CallForAction Inline">
+                        <span class="fa fa-chevron-left"></span>
+                    </a>
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];Start=[% Data.Start | uri %];Jump=Next" class="CallForAction Inline">
+                        <span class="fa fa-chevron-right"></span>
+                    </a>
+                </div>
+                <div class="HeaderCenter">
+                    <h2>[% Data.HeaderTitle | html %] <span class="WeekNumber">[% Data.HeaderTitleCW | html %]</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="OverviewBody" class="Overview TicketList">
+    <table class="TableSmall NoCellspacing">
+        <thead>
+            <tr>
+                <th class="OverviewHeader">
+                    <span title="[% Translate("Color") | html %]"></span>
+                </th>
+                <th class="OverviewHeader">
+                    <a>[% Translate("Calendar") | html %]</a>
+                </th>
+                <th class="OverviewHeader">
+                    <a>[% Translate("Title") | html %]</a>
+                </th>
+                <th class="OverviewHeader">
+                    <a>[% Translate("Start date") | html %]</a>
+                </th>
+                <th class="OverviewHeader">
+                    <a>[% Translate("End date") | html %]</a>
+                </th>
+                <th class="OverviewHeader W10pc">
+                    <a>[% Translate("All-day") | html %]</a>
+                </th>
+                <th class="OverviewHeader W10pc">
+                    <a>[% Translate("Repeat") | html %]</a>
+                </th>
+                <th class="OverviewHeader">
+                    <a>[% Translate("Notification") | html %]</a>
+                </th>
+            </tr>
+        </thead>
+[% RenderBlockStart("AppointmentGroup") %]
+        <tbody>
+            <tr class="DateDivider [% Data.Class | html %]">
+                <td colspan="8">[% Data.CurrentDay | html %]</td>
+            </tr>
+        </tbody>
+        <tbody>
+[% RenderBlockStart("AppointmentActionRow") %]
+            <tr id="AppointmentID_[% Data.AppointmentID | html %]" class="MasterAction">
+                <td class="Flags Center">
+                    <div class="Flag Small" title="[% Data.CalendarData.${Data.CalendarID}.CalendarName | html %]">
+                        <span class="CalendarColor" style="background-color: [% Data.CalendarData.${Data.CalendarID}.Color | html %];"></span>
+                    </div>
+                </td>
+                <td>
+                    <div title="[% Data.CalendarData.${Data.CalendarID}.CalendarName | html %]">
+                        [% Data.CalendarData.${Data.CalendarID}.CalendarName | truncate(21) | html %]
+                    </div>
+                </td>
+                <td>
+                    <a class="MasterActionLink" data-appointment-id="[% Data.AppointmentID | html %]" href="#" title="[% Data.Title | html %]">
+                        [% Data.Title | truncate(36) | html %]
+                    </a>
+                </td>
+                <td>
+                    [% Data.StartDate | html %]
+                </td>
+                <td>
+                    [% Data.EndDate | html %]
+                </td>
+                <td>
+                    [% IF Data.AllDay == 1 %]
+                        [% Translate("Yes") | html %]
+                    [% ELSE %]
+                        [% Translate("No") | html %]
+                    [% END %]
+                </td>
+                <td>
+                    [% IF Data.Recurring == 1 %]
+                        [% Translate("Yes") | html %]
+                    [% ELSE %]
+                        [% Translate("No") | html %]
+                    [% END %]
+                </td>
+                <td>
+                    [% IF Data.NotificationDate %]
+                        [% Data.NotificationDate | html %]
+                    [% ELSE %]
+                        [% Translate("No") | html %]
+                    [% END %]
+                </td>
+            </tr>
+[% RenderBlockEnd("AppointmentActionRow") %]
+        </tbody>
+[% RenderBlockEnd("AppointmentGroup") %]
+[% RenderBlockStart("AppointmentNoDataRow") %]
+        <tbody>
+            <tr>
+                <td colspan="7">
+                    [% Translate("No data found.") | html %]
+                </td>
+            </tr>
+        </tbody>
+[% RenderBlockEnd("AppointmentNoDataRow") %]
+[% RenderBlockStart("CalendarsNotFound") %]
+        <tbody>
+            <tr>
+                <td colspan="7">
+                    [% Translate("No calendars found. Please add a calendar first by using Manage Calendars page.") | html %]
+                </td>
+            </tr>
+        </tbody>
+[% RenderBlockEnd("CalendarsNotFound") %]
+    </table>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.AppointmentCalendar.AgentAppointmentAgendaOverview();
+//]]></script>
+[% END %]

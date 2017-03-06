@@ -1,0 +1,82 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Appointment Calendar Agenda Overview
+ */
+
+@media screen,projection,tv,handheld {
+
+    .Color {
+        width: 14px;
+        height: 14px;
+        display: inline-block;
+        border: 1px solid #BBB;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+    }
+
+    .Buttons {
+        margin: 4px 3px 2px;
+    }
+
+    .HeaderLeft,
+    .RTL .HeaderRight {
+        float: left;
+    }
+
+    .HeaderLeft.Buttons a,
+    .RTL .HeaderRight.Buttons a {
+        margin-right: 3px;
+    }
+
+    .HeaderCenter {
+        text-align: center;
+        margin-top: 9px;
+    }
+
+    .HeaderCenter h2 {
+        font-weight: bold;
+    }
+
+    .HeaderRight,
+    .RTL .HeaderLeft {
+        float: right;
+    }
+
+    .HeaderRight.Buttons a,
+    .RTL .HeaderLeft.Buttons a {
+        margin-left: 3px;
+    }
+
+    .DateDivider {
+        cursor: default !important;
+    }
+
+    .DateDivider td {
+        background-color: #EEE;
+        border-top: 1px dotted #CCC;
+        border-bottom: 1px dotted #CCC;
+        line-height: 2em;
+    }
+
+    .DateDivider.First > td {
+        border-top: none;
+    }
+
+    .TableSmall tbody tr.DateDivider:hover td {
+        background-color: #EEE;
+    }
+
+    .OverviewControl.Loading .ControlRow {
+        background: #DDD url("../img/loader.gif") no-repeat right 5px center;
+    }
+
+    .RTL .OverviewControl.Loading .ControlRow {
+        background: #DDD url("../img/loader.gif") no-repeat left 5px center;
+    }
+
+} /* end @media */

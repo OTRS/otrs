@@ -8846,10 +8846,10 @@ via the Preferences button after logging in.
                 <Loader>
                     <CSS>Core.Agent.Dashboard.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
-                    <CSS>thirdparty/fullcalendar-3.1.0/fullcalendar.min.css</CSS>
+                    <CSS>thirdparty/fullcalendar-3.2.0/fullcalendar.min.css</CSS>
                     <CSS>thirdparty/nvd3-1.7.1/nv.d3.css</CSS>
                     <JavaScript>thirdparty/momentjs-2.17.1/moment.min.js</JavaScript>
-                    <JavaScript>thirdparty/fullcalendar-3.1.0/fullcalendar.min.js</JavaScript>
+                    <JavaScript>thirdparty/fullcalendar-3.2.0/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/d3-3.5.6/d3.min.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSLineChart.js</JavaScript>

@@ -577,7 +577,7 @@ sub Run {
 
             # send data to JS
             $LayoutObject->AddJSData(
-                Key   => 'CanRefresh',
+                Key   => 'CanRefresh-' . $Name,
                 Value => {
                     Name     => $Name,
                     NameHTML => $NameHTML,

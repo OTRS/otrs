@@ -1,0 +1,62 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<a href="[% Env("Baselink") %]Action=AgentAppointmentCalendarOverview;Subaction=AppointmentCreate" class="CallForAction Fullsize Center">
+    <span>
+        <i class="fa fa-plus-square"></i>
+        [% Translate("New Appointment") | html %]
+    </span>
+</a>
+
+[% RenderBlockStart("ContentSmallAppointmentFilter") %]
+<div class="DashboardActions">
+    <ul class="AppointmentFilter Tab Actions">
+        <li class="[% Data.item("Today::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Today" class="[% Data.item("Today::Selected") | html %]" title="[% Translate("Today") | html %]">[% Translate("Today") | html %] ([% Data.TodayCount | html %])</a></li>
+        <li class="[% Data.item("Tomorrow::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Tomorrow" class="[% Data.item("Tomorrow::Selected") | html %]" title="[% Translate("Tomorrow") | html %]">[% Translate("Tomorrow") | html %] ([% Data.TomorrowCount | html %])</a></li>
+        <li class="[% Data.item("Soon::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Soon" class="[% Data.item("Soon::Selected") | html %]" title="[% Translate("Soon") | html %] ([% Translate("5 days") | html %])">[% Translate("Soon") | html %] ([% Data.SoonCount | html %])</a></li>
+    </ul>
+</div>
+[% RenderBlockStart("ContentSmallAppointmentFilterNavBar") %]
+<span class="SpacingTop Pagination">
+    [% Data.SiteNavBar %]
+</span>
+[% RenderBlockEnd("ContentSmallAppointmentFilterNavBar") %]
+
+[% RenderBlockEnd("ContentSmallAppointmentFilter") %]
+
+[% RenderBlockStart("ContentSmallTable") %]
+<table class="DataTable DashboardAppointmentCalendar">
+    <thead>
+        <tr>
+            <th style="width: 14px;"></th>
+            <th style="width: 14px;">[% Translate("Start") | html %]</th>
+            <th>[% Translate("Title") | html %]</th>
+        </tr>
+    </thead>
+    <tbody>
+[% RenderBlockStart("ContentSmallAppointmentRow") %]
+        <tr class="MasterAction">
+            <td class="Flags Center">
+                <div class="Flag Small" title="[% Data.CalendarName | html %]">
+                    <span style="background-color: [% Data.Color | html %]; border: 1px solid #BBB; border: 1px solid rgba(0, 0, 0, 0.25); box-sizing: border-box;"></span>
+                </div>
+            </td>
+            <td title="[% Data.StartTimeLong | html %]">[% Data.StartTime | html %]</td>
+            <td><a href="[% Env("Baselink") %]Action=AgentAppointmentCalendarOverview;AppointmentID=[% Data.AppointmentID | url %]" class="MasterActionLink" title="[% Data.Title | html %]">[% Data.Title | html %]</a></td>
+        </tr>
+[% RenderBlockEnd("ContentSmallAppointmentRow") %]
+[% RenderBlockStart("ContentSmallAppointmentNone") %]
+        <tr>
+            <td>
+                [% Translate("none") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallAppointmentNone") %]
+    </tbody>
+</table>
+[% RenderBlockEnd("ContentSmallTable") %]

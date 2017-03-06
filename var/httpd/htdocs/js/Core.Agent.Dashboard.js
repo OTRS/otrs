@@ -95,16 +95,17 @@ Core.Agent.Dashboard = (function (TargetNS) {
         // Initializes events customer user list
         InitCustomerUserList();
 
-        // Initializes preferences for widget containers
+        // Initializes preferences and refresh events for widget containers
         // (if widgets are available)
         if (typeof WidgetContainers !== 'undefined') {
             $.each(WidgetContainers, function (Index, Value) {
                 InitWidgetContainerPref(Value);
+                InitWidgetContainerRefresh(Value.Name);
             });
         }
 
-        // Initializes refresh event for user online widget
-        InitUserOnlineRefresh();
+        // Initializes AppointmentCalendar widget functionality
+        TargetNS.InitAppointmentCalendar();
 
         // Initializes events ticket queue overview
         InitTicketQueueOverview();
@@ -515,24 +516,95 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
     /**
      * @private
-     * @name InitUserOnlineRefresh
+     * @name InitWidgetContainerRefresh
+     * @memberof Core.Agent.Dashboard
+     * @param {String} WidgetName - Name of the widget
+     * @function
+     * @description
+     *      Initializes the event to refresh widget container.
+     */
+    function InitWidgetContainerRefresh (WidgetName) {
+        var WidgetRefresh = Core.Config.Get('CanRefresh-' + WidgetName);
+        if (typeof WidgetRefresh !== 'undefined') {
+            $('#Dashboard' + Core.App.EscapeSelector(WidgetRefresh.Name) + '_toggle').on('click', function() {
+                $('#Dashboard' + Core.App.EscapeSelector(WidgetRefresh.Name) + '-box').addClass('Loading');
+                Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(WidgetRefresh.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') +';Subaction=Element;Name=' + WidgetRefresh.Name, function () {
+                    $('#Dashboard' + Core.App.EscapeSelector(WidgetRefresh.Name) + '-box').removeClass('Loading');
+                });
+                clearTimeout(Core.Config.Get('Timer_' + WidgetRefresh.NameHTML));
+                return false;
+            });
+        }
+    }
+
+    /**
+     * @name InitAppointmentCalendar
      * @memberof Core.Agent.Dashboard
      * @function
      * @description
-     *      Initializes the event to refresh user online widget
+     *      Initializes dashboard widget Appointment Calendar.
      */
-    function InitUserOnlineRefresh () {
-        var UserOnlineRefresh = Core.Config.Get('CanRefresh');
+    TargetNS.InitAppointmentCalendar = function() {
+        var AppointmentCalendar = Core.Config.Get('AppointmentCalendar');
 
-        if (typeof UserOnlineRefresh !== 'undefined') {
-            $('#Dashboard' + Core.App.EscapeSelector(UserOnlineRefresh.Name) + '_toggle').on('click', function() {
-                $('#Dashboard' + Core.App.EscapeSelector(UserOnlineRefresh.Name) + '-box').addClass('Loading');
-                Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(UserOnlineRefresh.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') +';Subaction=Element;Name=' + UserOnlineRefresh.Name, function () {
-                    $('#Dashboard' + Core.App.EscapeSelector(UserOnlineRefresh.Name) + '-box').removeClass('Loading');
-                });
-                clearTimeout(Core.Config.Get('Timer_' + UserOnlineRefresh.NameHTML));
-                return false;
+        // Initializes Appointment Calendar event functionality
+        if (typeof AppointmentCalendar !== 'undefined') {
+            AppointmentCalendarEvent(AppointmentCalendar);
+
+            // Subscribe to ContentUpdate event to initiate events on Appointment Calendar widget update
+            Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function(WidgetHTML) {
+                if (typeof WidgetHTML !== 'undefined' && WidgetHTML.search('DashboardAppointmentCalendar') !== parseInt('-1', 10)) {
+                    AppointmentCalendarEvent(AppointmentCalendar);
+                }
             });
+        }
+    };
+
+    /**
+     * @private
+     * @name AppointmentCalendarEvent
+     * @memberof Core.Agent.Dashboard
+     * @function
+     * @param {Object} AppointmentCalendar - Hash with container name, HTML name and refresh time
+     * @description
+     *      Initializes dashboard widget Appointment Calendar events.
+     */
+    function AppointmentCalendarEvent (AppointmentCalendar) {
+
+        // Load filter for today.
+        $('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name) + 'Today').unbind('click').bind('click', function(){
+            Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + AppointmentCalendar.Name + ';Filter=Today', function () {
+            });
+            return false;
+        });
+
+        // Load filter for tomorrow.
+        $('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name) + 'Tomorrow').unbind('click').bind('click', function(){
+            Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + AppointmentCalendar.Name + ';Filter=Tomorrow', function () {
+            });
+            return false;
+        });
+
+        // Load filter for soon.
+        $('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name) + 'Soon').unbind('click').bind('click', function(){
+            Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + AppointmentCalendar.Name + ';Filter=Soon', function () {
+            });
+            return false;
+        });
+
+        // Initiate refresh event.
+        Core.Config.Set('RefreshSeconds_' + AppointmentCalendar.NameHTML, parseInt(AppointmentCalendar.RefreshTime, 10) || 0);
+        if (Core.Config.Get('RefreshSeconds_' + AppointmentCalendar.NameHTML)) {
+            Core.Config.Set('Timer_' + AppointmentCalendar.NameHTML, window.setTimeout(
+                function() {
+                    $('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name) + '-box').addClass('Loading');
+                    Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + AppointmentCalendar.Name, function () {
+                        $('#Dashboard' + Core.App.EscapeSelector(AppointmentCalendar.Name) + '-box').removeClass('Loading');
+                    });
+                    clearTimeout(Core.Config.Get('Timer_' + AppointmentCalendar.NameHTML));
+                },
+                Core.Config.Get('RefreshSeconds_' + AppointmentCalendar.NameHTML) * 1000)
+            );
         }
     }
 

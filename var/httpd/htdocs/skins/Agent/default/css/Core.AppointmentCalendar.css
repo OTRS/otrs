@@ -1,0 +1,476 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Appointment Calendar
+ */
+
+@media screen,projection,tv,handheld {
+
+    #EditAppointmentForm {
+        width: 560px;
+    }
+
+    .InlineButton {
+        background: transparent;
+        cursor: pointer;
+        border: none;
+        padding: 0;
+    }
+
+    .FilterMessage td {
+        background-color: #FFF !important;
+    }
+
+    .CalendarColor {
+        border: 1px solid #BBB;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        box-sizing: border-box;
+    }
+
+    .fc-content .Icons,
+    .AppointmentTooltip > .Icons {
+        position: absolute;
+        right: 0;
+    }
+
+    .fc-content i {
+        font-size: 13px;
+        line-height: 0.9em;
+        color: inherit;
+        opacity: 0.3;
+        margin-right: 2px;
+    }
+
+    tr:hover td .fc-content i {
+        color: inherit;
+    }
+
+    .fc button {
+        background: #EEE;
+        border: 1px solid #CCC;
+        border-bottom: 1px solid #BBB;
+        display: inline-block;
+        transition: all ease-in 0.2s;
+        margin: 0;
+        padding: 3px 7px 6px;
+        line-height: 14px;
+        vertical-align: middle;
+        color: #333;
+        font-size: 11px;
+        text-shadow: 0 1px 0 #FFF;
+        position: relative;
+    }
+
+    #Datepicker {
+        position: absolute;
+        z-index: 100;
+    }
+
+    #DatepickerOverlay {
+        position: absolute;
+        z-index: 50;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .AppointmentTooltip {
+        position: absolute;
+        z-index: 1000;
+        background-color: #FFF;
+        border: 1px solid #CCC;
+        width: 375px;
+        padding: 5px;
+    }
+
+    .AppointmentTooltip > .Icons i {
+        font-size: 13px;
+        line-height: 0.9em;
+        color: inherit;
+        margin-right: 2px;
+    }
+
+    .AppointmentTooltip > fieldset {
+        margin-bottom: 15px;
+    }
+
+    .AppointmentTooltip > fieldset:last-child {
+        margin-bottom: 5px;
+    }
+
+    .AppointmentTooltip > fieldset > label {
+        line-height: 1.2em;
+        color: #929292;
+        display: block;
+        float: left;
+        min-height: 17px;
+        padding-bottom: 1px;
+        padding-top: 0.3em;
+        text-align: right;
+        width: 30%;
+    }
+
+    .AppointmentTooltip > fieldset > .Value {
+        float: right;
+        line-height: 1.4em;
+        padding-top: 0.2em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 250px;
+        max-height: 5.6em;
+    }
+
+    .AppointmentTooltip .Flag {
+        display: inline-block;
+    }
+
+    .CalendarWidget .ui-datepicker-trigger {
+        margin-top: 10px;
+    }
+
+    .ReadOnlyValue {
+        margin-top: 5px;
+    }
+
+    .ReadOnlyValue#Location {
+        display: inline-block;
+    }
+
+    #RecurrenceCustomTypeStringDiv .FieldExplanation:nth-child(2) {
+        margin-bottom: 0;
+    }
+
+    #RecurrenceCustomWeeklyDiv .FieldExplanation,
+    #RecurrenceCustomMonthlyDiv .FieldExplanation,
+    #RecurrenceCustomYearlyDiv .FieldExplanation {
+        margin-top: 0;
+    }
+
+    .PluginContainer {
+        background-color: #F2F2F2;
+        border: 1px solid #CCC;
+        border-radius: 2px;
+        box-shadow: 1px 1px 5px #CCC inset;
+        padding: 2px 8px 4px;
+        position: relative;
+        margin-top: 5px;
+    }
+
+    .PluginContainer:empty {
+        display: none;
+    }
+
+    .PluginContainer a {
+        line-height: 1em;
+    }
+
+    .PluginContainer a:first-child {
+        vertical-align: middle;
+        display: inline-block;
+        width: 96%;
+    }
+
+    .fc-agenda-view th.fc-resource-cell {
+        color: #4B4B4B;
+        font-size: 11px;
+        text-transform: uppercase;
+        vertical-align: baseline;
+        padding: 3px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .fc-state-default.fc-corner-left {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .fc-state-default.fc-corner-right {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .fc-state-hover,
+    .fc-state-down,
+    .fc-state-active,
+    .fc-state-disabled {
+        background-color: #E5E5E5 !important;
+        border-color: #999 !important;
+    }
+
+    .fc-state-down,
+    .fc-state-active {
+        box-shadow: 1px 1px 3px #B0B0B0 inset, -1px -1px 3px #B0B0B0 inset;
+    }
+
+    .fc-toolbar h2 {
+        font-weight: bold;
+        margin-top: 6px;
+    }
+
+    .fc-view {
+        background-color: #FDFDFD;
+    }
+
+    .fc-view table thead.fc-head {
+        background: #EEEEEE;
+    }
+
+    .fc-view table thead.fc-head th.fc-widget-header {
+        color: #4B4B4B;
+        font-size: 11px;
+        text-transform: uppercase;
+        vertical-align: baseline;
+    }
+
+    .fc-following {
+        padding-top: 2px !important;
+    }
+
+    .fc-widget-header .fc-following {
+        text-transform: uppercase;
+        padding-top: 1px !important;
+    }
+
+    .WeekNumber,
+    .fc-week-number {
+        color: #B0B0B0 !important;
+    }
+
+    .fc-resource-area ~ .fc-time-area .fc-following {
+        padding-top: 1px !important;
+    }
+
+    .fc-month-view th.fc-widget-header,
+    .fc-agenda-view th.fc-widget-header {
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    .fc-ltr .fc-time-grid .fc-event-container {
+        margin-right: 2px;
+    }
+
+    .fc-time-area .fc-event-container {
+        top: 2px;
+    }
+
+    .fc .fc-today {
+        background-color: #FFF1AB;
+    }
+
+    .ui-autocomplete {
+        z-index: 4000 !important;
+    }
+
+    .ButtonTable {
+        display: inline;
+        margin-left: 5px;
+    }
+
+    .ButtonTable button {
+        width: 100%;
+        padding: 4px 6px;
+        vertical-align: baseline;
+        border: none;
+        outline: none;
+    }
+
+    .ButtonTable .fc {
+        border: 1px solid #CCC;
+    }
+
+    .FieldInline {
+        display: inline-block;
+        color: #000;
+        margin-left: 5px;
+    }
+
+    #ContextSettingsDialogResourceOverview {
+        max-height: 600px;
+        width: 950px;
+    }
+
+    #RestoreDefaultSettings {
+        position: absolute;
+        right: 0;
+    }
+
+    tr:hover td a#RestoreDefaultSettings i {
+        color: #999;
+    }
+
+    tr td a#RestoreDefaultSettings:hover i {
+        color: #000;
+    }
+
+    .Field.Info a {
+        color: #fff;
+    }
+
+    .Field a.Button:after {
+        content: "";
+    }
+
+    .Field a.Button {
+        display: inline;
+        padding: 3px 7px;
+    }
+
+    .Field a.Button:hover {
+        text-decoration: none;
+    }
+
+    .Field.Info a.Button {
+        background-color: #3E6C7C;
+    }
+
+    .Field.Info a.Button:hover {
+        background-color: #4B7C8E;
+    }
+
+    .Field.Info a.Button i {
+        color: #89C6D1;
+    }
+
+    /**
+     * Font-Awesome character classes
+     */
+    .fa-char-a:before, .fa-char-b:before, .fa-char-c:before, .fa-char-d:before, .fa-char-e:before,
+    .fa-char-f:before, .fa-char-g:before, .fa-char-h:before, .fa-char-i:before, .fa-char-j:before,
+    .fa-char-k:before, .fa-char-l:before, .fa-char-m:before, .fa-char-n:before, .fa-char-o:before,
+    .fa-char-p:before, .fa-char-q:before, .fa-char-r:before, .fa-char-s:before, .fa-char-t:before,
+    .fa-char-u:before, .fa-char-v:before, .fa-char-w:before, .fa-char-x:before, .fa-char-y:before,
+    .fa-char-z:before, .fa-char-0:before, .fa-char-1:before, .fa-char-2:before, .fa-char-3:before,
+    .fa-char-4:before, .fa-char-5:before, .fa-char-6:before, .fa-char-7:before, .fa-char-8:before,
+    .fa-char-9:before {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: bold;
+    }
+    .fa-char-a:before {
+        content: "A";
+    }
+    .fa-char-b:before {
+        content: "B";
+    }
+    .fa-char-c:before {
+        content: "C";
+    }
+    .fa-char-d:before {
+        content: "D";
+    }
+    .fa-char-e:before {
+        content: "E";
+    }
+    .fa-char-f:before {
+        content: "F";
+    }
+    .fa-char-g:before {
+        content: "G";
+    }
+    .fa-char-h:before {
+        content: "H";
+    }
+    .fa-char-i:before {
+        content: "I";
+    }
+    .fa-char-j:before {
+        content: "J";
+    }
+    .fa-char-k:before {
+        content: "K";
+    }
+    .fa-char-l:before {
+        content: "L";
+    }
+    .fa-char-m:before {
+        content: "M";
+    }
+    .fa-char-n:before {
+        content: "N";
+    }
+    .fa-char-o:before {
+        content: "O";
+    }
+    .fa-char-p:before {
+        content: "P";
+    }
+    .fa-char-q:before {
+        content: "Q";
+    }
+    .fa-char-r:before {
+        content: "R";
+    }
+    .fa-char-s:before {
+        content: "S";
+    }
+    .fa-char-t:before {
+        content: "T";
+    }
+    .fa-char-u:before {
+        content: "U";
+    }
+    .fa-char-v:before {
+        content: "V";
+    }
+    .fa-char-w:before {
+        content: "W";
+    }
+    .fa-char-x:before {
+        content: "X";
+    }
+    .fa-char-y:before {
+        content: "Y";
+    }
+    .fa-char-z:before {
+        content: "Z";
+    }
+    .fa-char-0:before {
+        content: "0";
+    }
+    .fa-char-1:before {
+        content: "1";
+    }
+    .fa-char-2:before {
+        content: "2";
+    }
+    .fa-char-3:before {
+        content: "3";
+    }
+    .fa-char-4:before {
+        content: "4";
+    }
+    .fa-char-5:before {
+        content: "5";
+    }
+    .fa-char-6:before {
+        content: "6";
+    }
+    .fa-char-7:before {
+        content: "7";
+    }
+    .fa-char-8:before {
+        content: "8";
+    }
+    .fa-char-9:before {
+        content: "9";
+    }
+
+} /* end @media */
+
+@media only screen and (min-width: 0px) and (max-width: 1024px) {
+
+    #ContextSettingsDialogResourceOverview,
+    #EditAppointmentForm {
+        width: auto;
+    }
+
+} /* end @media */

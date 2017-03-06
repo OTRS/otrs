@@ -1,0 +1,466 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+
+[% RenderBlockStart("EditMask") %]
+<div class="InnerContent">
+    <form id="EditAppointmentForm" class="Validate">
+        <input type="hidden" id="ChallengeToken" name="ChallengeToken" value="[% Env("UserChallengeToken") | html %]"/>
+        <input type="hidden" id="Action" name="Action" value="[% Env("Action") | html %]"/>
+        <input type="hidden" id="Subaction" name="Subaction" value="EditAppointment"/>
+        <input type="hidden" id="AppointmentID" name="AppointmentID" value="[% Data.AppointmentID | html %]"/>
+        <input type="hidden" id="Recurring" name="Recurring" value="[% Data.Recurring | html %]"/>
+        <input type="hidden" id="RecurrenceDays" name="RecurrenceDays" value="[% Data.RecurrenceDays | html %]"/>
+        <input type="hidden" id="RecurrenceMonths" name="RecurrenceMonths" value="[% Data.RecurrenceMonths | html %]"/>
+        <input type="hidden" id="RecurrenceMonthDays" name="RecurrenceMonthDays" value="[% Data.RecurrenceMonthDays | html %]"/>
+        <fieldset class="TableLike">
+            <legend><span>[% Translate("Basic information") | html %]</span></legend>
+            <label for="Title"[% IF Data.PermissionLevel >= 2 %] class="Mandatory"[% END %]>[% IF Data.PermissionLevel >= 2 %]<span class="Marker">*</span> [% END %][% Translate("Title") | html %]:</label>
+            <div class="Field">
+[% IF Data.TicketAppointmentRuleID %]
+                <p id="Title" class="ReadOnlyValue">
+                    <a target="_blank" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID %]">[% Data.Title | html %]</a>
+                </p>
+[% ELSE %]
+[% IF Data.PermissionLevel < 2 %]
+                <p id="Title" class="ReadOnlyValue">[% Data.Title | html %]</p>
+[% ELSE %]
+                <input type="text" id="Title" name="Title" value="[% Data.Title | html %]" class="W75pc Validate_Required" />
+                <div id="TitleError" class="TooltipErrorMessage">
+                    <p>[% Translate("This field is required.") | html %]</p>
+                </div>
+                <div id="TitleServerError" class="TooltipErrorMessage">
+                    <p>[% Translate("This field is required.") | html %]</p>
+                </div>
+[% END %]
+[% END %]
+            </div>
+            <div class="Clear"></div>
+            <label for="Description">[% Translate("Description") | html %]:</label>
+            <div class="Field">
+[% IF Data.PermissionLevel < 2 %]
+                <p id="Description" class="ReadOnlyValue">[% Data.Description || "-" | html %]</p>
+[% ELSE %]
+                <textarea id="Description" name="Description" class="W75pc" rows="4">[% Data.Description | html %]</textarea>
+[% END %]
+            </div>
+            <div class="Clear"></div>
+            <label for="Location">[% Translate("Location") | html %]:</label>
+            <div class="Field">
+[% IF Data.PermissionLevel < 2 %]
+                <p id="Location" class="ReadOnlyValue">[% Data.Location || "-" | html %]</p>
+[% ELSE %]
+                <input type="text" id="Location" name="Location" value="[% Data.Location | html %]" class="W50pc" />
+[% END %]
+[% RenderBlockStart("LocationLink") %]
+                <a class="LocationLink Hidden [% Data.CSSClass | html %]" href="[% Data.URL | html %][% Data.Location | uri %]" data-base-url="[% Data.URL | html %]" title="[% Translate(Data.Text) | html %]" target="[% Data.Target | html %]">
+                    <i class="fa [% Data.IconName | html %]"></i>
+                </a>
+[% RenderBlockEnd("LocationLink") %]
+            </div>
+            <div class="Clear"></div>
+            <label for="CalendarID"[% IF !Data.TicketAppointmentRuleID && Data.PermissionLevel >= 3 %] class="Mandatory"[% END %]>
+[% IF !Data.TicketAppointmentRuleID && Data.PermissionLevel >= 3 %]
+                <span class="Marker">*</span>
+[% END %]
+                [% Translate("Calendar") | html %]:
+            </label>
+            <div class="Field">
+[% IF Data.TicketAppointmentRuleID || Data.PermissionLevel < 3 %]
+                <p id="CalendarID" class="ReadOnlyValue">[% Data.CalendarName | html %]</p>
+[% ELSE %]
+                [% Data.CalendarIDStrg %]
+                <div id="CalendarIDError" class="TooltipErrorMessage">
+                    <p>[% Translate("This field is required.") | html %]</p>
+                </div>
+                <div id="CalendarIDServerError" class="TooltipErrorMessage">
+                    <p>[% Translate("This field is required.") | html %]</p>
+                </div>
+[% END %]
+            </div>
+        </fieldset>
+        <fieldset class="TableLike">
+            <legend><span>[% Translate("Resource") | html %]</span></legend>
+[% IF Data.TeamIDStrg %]
+            <label for="TeamID">[% Translate("Team") | html %]:</label>
+            <div class="Field">
+[% IF Data.PermissionLevel < 2 %]
+                <p id="TeamID" class="ReadOnlyValue">[% Data.TeamNames %]</p>
+[% ELSE %]
+                [% Data.TeamIDStrg %]
+[% END %]
+            </div>
+            <div class="Clear"></div>
+            <label for="ResourceID">[% Translate("Agent") | html %]:</label>
+            <div class="Field">
+[% IF Data.PermissionLevel < 2 %]
+                <p id="ResourceID" class="ReadOnlyValue">[% Data.ResourceNames %]</p>
+[% ELSE %]
+                [% Data.ResourceIDStrg %]
+[% END %]
+            </div>
+[% ELSE %]
+            <div class="Field">
+                <p class="FieldExplanation">
+                    [% Translate("This feature is currently not available.") | html %]
+                </p>
+            </div>
+            <div class="Field Info">
+                <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</a>
+            </div>
+[% END %]
+        </fieldset>
+        <fieldset class="TableLike">
+            <legend><span>[% Translate("Date/Time") | html %]</span></legend>
+            <label for="StartDay">[% Translate("Start date") | html %]:</label>
+            <div class="Field">
+[% IF ( Data.TicketAppointmentRuleID && Data.ReadOnlyStart ) || Data.PermissionLevel < 2 %]
+                <p id="StartDay" class="ReadOnlyValue">[% Data.StartDate | Localize("TimeLong") %]</p>
+[% ELSE %]
+                <div id="StartDayError" class="TooltipErrorMessage">
+                    <p>[% Translate("Invalid date!") | html %]</p>
+                    <p>[% Translate("Please set this to value before End date.") | html %]</p>
+                </div>
+                [% Data.StartDateString %]
+[% END %]
+            </div>
+            <div class="Clear"></div>
+            <label for="EndDay">[% Translate("End date") | html %]:</label>
+            <div class="Field">
+[% IF ( Data.TicketAppointmentRuleID && Data.ReadOnlyDuration ) || Data.PermissionLevel < 2 %]
+                <p id="EndDay" class="ReadOnlyValue">[% Data.EndDate | Localize("TimeLong") %]</p>
+[% ELSE %]
+                <div id="EndDayError" class="TooltipErrorMessage">
+                    <p>[% Translate("Invalid date!") | html %]</p>
+                    <p>[% Translate("Please set this to value after Start date.") | html %]</p>
+                </div>
+                [% Data.EndDateString %]
+[% END %]
+            </div>
+            <div class="Clear"></div>
+            <label for="AllDay">[% Translate("All-day") | html %]:</label>
+            <div class="Field">
+[% IF Data.TicketAppointmentRuleID || Data.PermissionLevel < 2 %]
+                <p id="AllDay" class="ReadOnlyValue">[% Translate(Data.AllDayString) | html %]</p>
+[% ELSE %]
+                <input type="checkbox" id="AllDay" name="AllDay" [% Data.AllDayChecked %] />
+[% END %]
+            </div>
+            <div class="Clear"></div>
+            <label for="RecurrenceType">[% Translate("Repeat") | html %]:</label>
+[% IF Data.TicketAppointmentRuleID || Data.PermissionLevel < 2 %]
+            <div class="Field">
+[% IF Data.ParentID %]
+                [% Translate("This an occurrence of a repeating appointment.") | html %]<br>
+                <a href="#" id="EditParent">[% Translate("Click here to see the parent appointment.") | html %]</a>
+[% ELSE %]
+                <p id="RecurrenceType" class="ReadOnlyValue">[% Data.RecurrenceValue | html %]</p>
+[% END %]
+            </div>
+[% ELSE %]
+[% IF Data.ParentID %]
+            <div class="Field">
+                [% Translate("This an occurrence of a repeating appointment.") | html %]<br>
+                <a href="#" id="EditParent">[% Translate("Click here to edit the parent appointment.") | html %]</a>
+            </div>
+[% ELSE %]
+            <div class="Field">
+                [% Data.RecurrenceTypeString %]
+            </div>
+
+            <div class="Field" id="RecurrenceCustomTypeStringDiv">
+                <div class="FieldExplanation">
+                    [% Translate("Frequency") | html %]:
+                    <div class="FieldInline">
+                        [% Data.RecurrenceCustomTypeString %]
+                    </div>
+                </div>
+                <div class="FieldExplanation">
+                    [% Translate("Every") | html %]:
+                    <div class="FieldInline">
+                        [% Data.RecurrenceIntervalString %]
+                    </div>
+                    <span id="RecurrenceIntervalText">
+                        <span class="TextDay Hidden">[% Translate("day(s)") | html %]</span>
+                        <span class="TextWeek Hidden">[% Translate("week(s)") | html %]</span>
+                        <span class="TextMonth Hidden">[% Translate("month(s)") | html %]</span>
+                        <span class="TextYear Hidden">[% Translate("year(s)") | html %]</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="Field" id="RecurrenceCustomWeeklyDiv">
+                <div class="FieldExplanation">
+                    [% Translate("On") | html %]:
+                    <input type="hidden" id="Days" name="Days" value="[% Data.Days %]" />
+
+# Weekly table start
+                    <table class="ButtonTable">
+                        <tbody>
+                            <tr>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" value="1" title="[% Translate("Monday") | html %]">
+                                        [% Translate("Mon") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" value="2" title="[% Translate("Tuesday") | html %]">
+                                        [% Translate("Tue") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" value="3" title="[% Translate("Wednesday") | html %]">
+                                        [% Translate("Wed") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" value="4" title="[% Translate("Thursday") | html %]">
+                                        [% Translate("Thu") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" value="5" title="[% Translate("Friday") | html %]">
+                                        [% Translate("Fri") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" value="6" title="[% Translate("Saturday") | html %]">
+                                        [% Translate("Sat") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" value="7" title="[% Translate("Sunday") | html %]">
+                                        [% Translate("Sun") | html %]
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+# Weekly table end
+
+                </div>
+            </div>
+
+            <div class="Field" id="RecurrenceCustomMonthlyDiv">
+                <div class="FieldExplanation">
+                    [% Translate("On") | html %]:
+                    <input type="hidden" id="MonthDays" name="MonthDays" value="[% Data.MonthDays %]" />
+
+# Monthly table start
+                    <table class="ButtonTable">
+                        <tbody>
+[% Count = 1 %]
+[% WHILE Count < 32 %]
+[% IF Count % 7 == 1 %]
+                            <tr>
+[% END %]
+
+# join strings (Monthly1, Monthly2,...)
+[% MonthlyCount = "Monthly" _ Count %]
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" value="[% Count %]" title="[% Count %]">
+                                        [% Count %]
+                                    </button>
+                                </td>
+[% IF Count % 7 == 0 %]
+                            </tr>
+[% END %]
+
+[% Count = Count + 1 %]
+[% END %]
+                        </tbody>
+                    </table>
+# Monthly table end
+
+                </div>
+            </div>
+
+            <div class="Field" id="RecurrenceCustomYearlyDiv">
+                <div class="FieldExplanation">
+                    [% Translate("On") | html %]:
+                    <input type="hidden" id="Months" name="Months" value="[% Data.Months %]" />
+
+# Yearly table start
+                    <table class="ButtonTable">
+                        <tbody>
+                            <tr>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("January") | html %]" value="1" >
+                                        [% Translate("Jan")| html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("February") | html %]" value="2" >
+                                        [% Translate("Feb") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("March") | html %]" value="3" >
+                                        [% Translate("Mar") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("April") | html %]" value="4" >
+                                        [% Translate("Apr") | html %]
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("May_long") | html %]" value="5" >
+                                        [% Translate("May") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("June") | html %]" value="6" >
+                                        [% Translate("Jun") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("July") | html %]" value="7" >
+                                        [% Translate("Jul") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("August") | html %]" value="8" >
+                                        [% Translate("Aug") | html %]
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("September") | html %]" value="9" >
+                                        [% Translate("Sep") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("October") | html %]" value="10" >
+                                        [% Translate("Oct") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("November") | html %]" value="11" >
+                                        [% Translate("Nov") | html %]
+                                    </button>
+                                </td>
+                                <td class="fc">
+                                    <button class="fc-button fc-state-default" type="button" title="[% Translate("December") | html %]" value="12" >
+                                        [% Translate("Dec") | html %]
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+# Yearly table end
+
+                </div>
+            </div>
+
+            <div id="RecurrenceLimitDiv" class="Field Hidden">
+                [% Data.RecurrenceLimitString %]
+            </div>
+            <div id="RecurrenceUntilDiv" class="Field Hidden">
+                <div id="RecurrenceUntilDayError" class="TooltipErrorMessage">
+                    <p>[% Translate("Invalid date!") | html %]</p>
+                    <p>[% Translate("Please set this to value after Start date.") | html %]</p>
+                </div>
+                [% Data.RecurrenceUntilString %]
+            </div>
+            <div id="RecurrenceCountDiv" class="Field Hidden">
+                <input type="text" id="RecurrenceCount" name="RecurrenceCount" value="[% Data.RecurrenceCount | html %]" size="1" maxlength="2" />
+            </div>
+[% END %]
+[% END %]
+        </fieldset>
+
+        <fieldset class="TableLike">
+
+            <legend><span>[% Translate("Notification") | html %]</span></legend>
+
+            <label for="NotificationTemplate">[% Translate("Notification") | html %]:</label>
+            <div class="Field">
+[% IF Data.PermissionLevel < 2 %]
+                <p id="NotificationTemplate" class="ReadOnlyValue">[% Data.NotificationValue | html %]</p>
+[% ELSE %]
+                [% Data.NotificationStrg %]
+[% END %]
+            </div>
+            <div class="Clear"></div>
+
+            <div class="Field" id="NotificationCustomStringDiv">
+
+                <label for="NotificationCustomRelativeInput">[% Translate("Relative point of time") | html %]:</label>
+
+                <div class="FieldExplanation">
+
+                    <input type="radio" name="NotificationCustomRelativeInput" value="" id="NotificationCustomRelativeInput" [% Data.NotificationCustomRelativeInputRadio %]>
+                    <div class="FieldInline">
+                        <div>
+                            <input type="text" id="NotificationCustomRelativeUnitCount" name="NotificationCustomRelativeUnitCount" value="[% Data.NotificationCustomRelativeUnitCount | html %]" size="1" maxlength="2" />
+                        </div>
+                        <div class="SpacingTopSmall">
+                            [% Data.NotificationCustomUnitsStrg %]
+                        </div>
+                        <div class="SpacingTopSmall">
+                            [% Data.NotificationCustomUnitsPointOfTimeStrg %]
+                        </div>
+                    </div>
+
+                </div>
+
+                <label for="NotificationCustomDateTimeInput">[% Translate("Date/Time") | html %]:</label>
+
+                <div class="FieldExplanation">
+                    <input type="radio" name="NotificationCustomDateTimeInput" value="" id="NotificationCustomDateTimeInput" [% Data.NotificationCustomDateTimeInputRadio %]>
+                    [% Data.NotificationCustomDateTimeStrg %]
+                </div>
+            </div>
+            <div class="Clear"></div>
+
+        </fieldset>
+
+[% IF Data.PluginList %]
+        <fieldset class="TableLike">
+            <legend><span>[% Translate("Link") | html %]</span></legend>
+[% FOREACH Key IN Data.PluginList.keys %]
+            <label>[% Translate(Data.PluginList.$Key.PluginName) | html %]:</label>
+            <div class="Field">
+[% IF Data.PermissionLevel >= 2 %]
+                <input type="text" data-plugin-key="[% Key | html %]" data-plugin-url="[% Data.PluginList.$Key.PluginURL | html %]" class="PluginField W75pc" />
+                <input type="hidden" id="Plugin_[% Key | html %]" name="Plugin_[% Key | html %]" value='[% Data.PluginList.$Key.LinkList || "[]" %]' />
+[% ELSE %]
+[% IF Data.PluginData.$Key.size == 0 %]
+                <p class="ReadOnlyValue">-</p>
+[% END %]
+[% END %]
+# keep following block on a single line, so :empty CSS selector would work!
+                <div id="PluginContainer_[% Key | html %]"[% IF Data.PermissionLevel >= 2 %] class="PluginContainer"[% END %]>[% FOREACH Link IN Data.PluginData.$Key %]<div class="Link_[% Link.LinkID | html %]">
+                    <a target="_blank" href="[% Link.LinkURL %]">[% Link.LinkName | html %]</a>[% IF Data.PermissionLevel >= 2 %]<a class="RemoveButton" href="#" data-plugin-key="[% Key | html %]" data-link-id="[% Link.LinkID | html %]" title="[% Translate("Remove entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>[% END %]
+                </div>[% END %]</div>
+            </div>
+            <div class="Clear"></div>
+[% END %]
+        </fieldset>
+[% END %]
+    </form>
+</div>
+
+<div class="ContentFooter Center">
+[% IF !Data.PermissionLevel || Data.PermissionLevel > 1 %]
+    <button id="EditFormSubmit" class="Primary CallForAction" value="[% Translate("Save") | html %]"><span><i class="fa fa-check-square-o"></i> [% Translate("Save") | html %]</span></button>
+[% END %]
+[% IF Data.AppointmentID && !Data.TicketAppointmentRuleID && Data.PermissionLevel > 2 %]
+    <button id="EditFormCopy" class="CallForAction" value="[% Translate("Copy") | html %]"><span><i class="fa fa-files-o"></i> [% Translate("Copy") | html %]</span></button>
+[% END %]
+[% IF Data.AppointmentID && !Data.TicketAppointmentRuleID && Data.PermissionLevel > 2 %]
+    <button id="EditFormDelete" class="CallForAction"><span>[% Translate("Delete") | html %]</span></button>
+[% END %]
+    <button id="EditFormCancel" class="CallForAction"><span>[% Translate("Cancel") | html %]</span></button>
+</div>
+[% RenderBlockEnd("EditMask") %]

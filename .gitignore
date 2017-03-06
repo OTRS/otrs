@@ -139,6 +139,8 @@ Kernel/Output/HTML/Templates/Standard/CustomerChat.tt
 Kernel/Output/HTML/Templates/Standard/CustomerVideoChat.tt
 Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/Business.tt
 Kernel/Output/HTML/Templates/Standard/PublicChat.tt
+Kernel/Output/JavaScript/Templates/Standard/Agent/AppointmentCalendar/ResourceSettingsDialog.html.tmpl
+Kernel/Output/JavaScript/Templates/Standard/Agent/OTRSBusiness/*
 Kernel/Output/HTML/TicketMenu/AttachmentView.pm
 Kernel/Output/HTML/ToolBar/*Chat*
 Kernel/Output/HTML/ToolBar/NotificationView.pm
@@ -168,6 +170,7 @@ scripts/test/Console/Command/Maint/Chat*
 scripts/test/Console/Command/Maint/NotificationView*
 scripts/test/Console/Command/Maint/Stats/Reports*
 scripts/test/NotificationView*
+scripts/test/Selenium/Agent/Admin/AdminChatChannel.t
 scripts/test/Selenium/Agent/Admin/AdminContactWithData.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldContactWithData.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldDatabase.t
@@ -197,6 +200,7 @@ var/httpd/htdocs/js/Core.Agent.Admin.CloudServiceSMS.js
 var/httpd/htdocs/js/Core.Agent.Admin.DynamicFieldDatabase.js
 var/httpd/htdocs/js/Core.Agent.AppointmentTeam.js
 var/httpd/htdocs/js/Core.Agent.DynamicField.ContactWithData.js
+var/httpd/htdocs/js/Core.Agent.DynamicFieldContactWithDataSearch.js
 var/httpd/htdocs/js/Core.Agent.DynamicFieldDatabaseDetailedSearch.js
 var/httpd/htdocs/js/Core.Agent.DynamicFieldDatabaseSearch.js
 var/httpd/htdocs/js/Core.Agent.NotificationView.js

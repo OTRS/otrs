@@ -20,6 +20,7 @@
 
 use strict;
 use warnings;
+use utf8;
 
 # use ../ as lib location
 use File::Basename;
@@ -104,9 +105,25 @@ Please run it as the 'otrs' user or with the help of su:
             Message => 'Migrating time zone configuration',
             Command => \&_MigrateTimeZoneConfiguration,
         },
+        {
+            Message => 'Create appointment calendar tables',
+            Command => \&_CreateAppointmentCalendarTables,
+        },
+        {
+            Message => 'Update calendar appointment future tasks',
+            Command => \&_UpdateAppointmentCalendarFutureTasks,
+        },
+        {
+            Message => 'Add basic appointment notification for reminders',
+            Command => \&_AddAppointmentCalendarNotification,
+        },
 
         # ...
 
+        {
+            Message => 'Uninstall Merged Feature Add-Ons',
+            Command => \&_UninstallMergedFeatureAddOns,
+        },
         {
             Message => 'Clean up the cache',
             Command => sub {
@@ -496,6 +513,513 @@ sub _AskForTimeZone {
     }
 
     return $TimeZone;
+}
+
+=item _CreateAppointmentCalendarTables()
+
+Checks if the appointment calendar tables exist, and if they don't they will be created. Also checks
+if package version is up to date and executes database upgrade statements if needed.
+
+    _CreateAppointmentCalendarTables();
+
+=cut
+
+sub _CreateAppointmentCalendarTables {
+    my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    my $XMLObject     = $Kernel::OM->Get('Kernel::System::XML');
+
+    # Get list of all installed packages.
+    my @RepositoryList = $PackageObject->RepositoryList();
+
+    # Check if the appointment calendar tables already exist, by checking if OTRSAppointmentCalendar
+    #   package is installed. Also check if version is lower than 5.0.2, in order to execute some
+    #   database upgrade statements too.
+    my $PackageVersion;
+    my $DBUpdateNeeded;
+
+    PACKAGE:
+    for my $Package (@RepositoryList) {
+
+        # Package is not the OTRSAppointmentCalendar package.
+        next PACKAGE if $Package->{Name}->{Content} ne 'OTRSAppointmentCalendar';
+
+        $PackageVersion = $Package->{Version}->{Content};
+
+        if ($PackageVersion) {
+            $DBUpdateNeeded = _CheckVersion(
+                Version1 => '5.0.2',
+                Version2 => $PackageVersion,
+                Type     => 'Max',
+            );
+        }
+    }
+
+    if ($PackageVersion) {
+        print "\nFound package OTRSAppointmentCalendar $PackageVersion";
+
+        # Database upgrade is needed, because current version is not the latest.
+        if ($DBUpdateNeeded) {
+            print ", executing database upgrade...\n";
+
+            my @XMLStrings = (
+                '
+                    <TableAlter Name="calendar">
+                        <UniqueDrop Name="calendar_id" />
+                    </TableAlter>
+                ', '
+                    <TableAlter Name="calendar_appointment">
+                        <UniqueDrop Name="calendar_appointment_id" />
+                    </TableAlter>
+                ',
+            );
+
+            # Create database specific SQL.
+            my @SQL;
+            my @SQLPost;
+            for my $XMLString (@XMLStrings) {
+                my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+                # Create database specific SQL.
+                push @SQL, $DBObject->SQLProcessor(
+                    Database => \@XMLARRAY,
+                );
+
+                # Create database specific PostSQL.
+                push @SQLPost, $DBObject->SQLProcessorPost();
+            }
+
+            # Execute SQL.
+            for my $SQL ( @SQL, @SQLPost ) {
+                my $Success = $DBObject->Do( SQL => $SQL );
+                if ( !$Success ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Error during execution of '$SQL'!",
+                    );
+                    return;
+                }
+            }
+
+            return 1;
+        }
+
+        # Appointment calendar tables exist and are up to date, so we do not have to create or
+        #   upgrade them here.
+        print ", skipping database upgrade...\n";
+
+        return 1;
+    }
+
+    # Define the XML data for the appointment calendar tables.
+    my @XMLStrings = (
+        '
+            <TableCreate Name="calendar">
+                <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+                <Column Name="group_id" Required="true" Type="INTEGER" />
+                <Column Name="name" Required="true" Size="200" Type="VARCHAR" />
+                <Column Name="salt_string" Required="true" Size="64" Type="VARCHAR" />
+                <Column Name="color" Required="true" Size="7" Type="VARCHAR" />
+                <Column Name="ticket_appointments" Required="false" Type="LONGBLOB" />
+                <Column Name="valid_id" Required="true" Type="SMALLINT" />
+                <Column Name="create_time" Required="true" Type="DATE" />
+                <Column Name="create_by" Required="true" Type="INTEGER" />
+                <Column Name="change_time" Required="true" Type="DATE" />
+                <Column Name="change_by" Required="true" Type="INTEGER" />
+                <Unique Name="calendar_name">
+                    <UniqueColumn Name="name" />
+                </Unique>
+                <ForeignKey ForeignTable="groups">
+                    <Reference Local="group_id" Foreign="id" />
+                </ForeignKey>
+                <ForeignKey ForeignTable="valid">
+                    <Reference Local="valid_id" Foreign="id" />
+                </ForeignKey>
+                <ForeignKey ForeignTable="users">
+                    <Reference Local="create_by" Foreign="id" />
+                    <Reference Local="change_by" Foreign="id" />
+                </ForeignKey>
+            </TableCreate>
+        ', '
+            <TableCreate Name="calendar_appointment">
+                <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+                <Column Name="parent_id" Type="BIGINT" />
+                <Column Name="calendar_id" Required="true" Type="BIGINT" />
+                <Column Name="unique_id" Required="true" Size="255" Type="VARCHAR" />
+                <Column Name="title" Required="true" Size="255" Type="VARCHAR" />
+                <Column Name="description" Size="3800" Type="VARCHAR" />
+                <Column Name="location" Size="255" Type="VARCHAR" />
+                <Column Name="start_time" Required="true" Type="DATE" />
+                <Column Name="end_time" Required="true" Type="DATE" />
+                <Column Name="all_day" Type="SMALLINT" />
+                <Column Name="notify_time" Type="DATE" />
+                <Column Name="notify_template" Size="255" Type="VARCHAR" />
+                <Column Name="notify_custom" Size="255" Type="VARCHAR" />
+                <Column Name="notify_custom_unit_count" Type="BIGINT" />
+                <Column Name="notify_custom_unit" Size="255" Type="VARCHAR" />
+                <Column Name="notify_custom_unit_point" Size="255" Type="VARCHAR" />
+                <Column Name="notify_custom_date" Type="DATE" />
+                <Column Name="team_id" Size="3800" Type="VARCHAR" />
+                <Column Name="resource_id" Size="3800" Type="VARCHAR" />
+                <Column Name="recurring" Type="SMALLINT" />
+                <Column Name="recur_type" Size="20" Type="VARCHAR" />
+                <Column Name="recur_freq" Size="255" Type="VARCHAR" />
+                <Column Name="recur_count" Type="INTEGER" />
+                <Column Name="recur_interval" Type="INTEGER" />
+                <Column Name="recur_until" Type="DATE" />
+                <Column Name="recur_id" Type="DATE" />
+                <Column Name="recur_exclude" Size="3800" Type="VARCHAR" />
+                <Column Name="ticket_appointment_rule_id" Size="32" Type="VARCHAR" />
+                <Column Name="create_time" Type="DATE" />
+                <Column Name="create_by" Type="INTEGER" />
+                <Column Name="change_time" Type="DATE" />
+                <Column Name="change_by" Type="INTEGER" />
+                <ForeignKey ForeignTable="calendar">
+                    <Reference Local="calendar_id" Foreign="id" />
+                </ForeignKey>
+                <ForeignKey ForeignTable="calendar_appointment">
+                    <Reference Local="parent_id" Foreign="id" />
+                </ForeignKey>
+                <ForeignKey ForeignTable="users">
+                    <Reference Local="create_by" Foreign="id" />
+                    <Reference Local="change_by" Foreign="id" />
+                </ForeignKey>
+            </TableCreate>
+        ', '
+            <TableCreate Name="calendar_appointment_ticket">
+                <Column Name="calendar_id" Required="true" Type="BIGINT" />
+                <Column Name="ticket_id" Required="true" Type="BIGINT" />
+                <Column Name="rule_id" Required="true" Size="32" Type="VARCHAR" />
+                <Column Name="appointment_id" Required="true" Type="BIGINT" />
+                <Unique Name="calendar_appointment_ticket_calendar_id_ticket_id_rule_id">
+                    <UniqueColumn Name="calendar_id" />
+                    <UniqueColumn Name="ticket_id" />
+                    <UniqueColumn Name="rule_id" />
+                </Unique>
+                <Index Name="calendar_appointment_ticket_calendar_id">
+                    <IndexColumn Name="calendar_id" />
+                </Index>
+                <Index Name="calendar_appointment_ticket_ticket_id">
+                    <IndexColumn Name="ticket_id" />
+                </Index>
+                <Index Name="calendar_appointment_ticket_rule_id">
+                    <IndexColumn Name="rule_id" />
+                </Index>
+                <Index Name="calendar_appointment_ticket_appointment_id">
+                    <IndexColumn Name="appointment_id" />
+                </Index>
+                <ForeignKey ForeignTable="calendar">
+                    <Reference Local="calendar_id" Foreign="id" />
+                </ForeignKey>
+                <ForeignKey ForeignTable="ticket">
+                    <Reference Local="ticket_id" Foreign="id" />
+                </ForeignKey>
+                <ForeignKey ForeignTable="calendar_appointment">
+                    <Reference Local="appointment_id" Foreign="id" />
+                </ForeignKey>
+            </TableCreate>
+        ',
+    );
+
+    # Create database specific SQL and PostSQL commands out of XML.
+    my @SQL;
+    my @SQLPost;
+    for my $XMLString (@XMLStrings) {
+        my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+        # Create database specific SQL.
+        push @SQL, $DBObject->SQLProcessor(
+            Database => \@XMLARRAY,
+        );
+
+        # Create database specific PostSQL.
+        push @SQLPost, $DBObject->SQLProcessorPost();
+    }
+
+    # Execute SQL.
+    for my $SQL ( @SQL, @SQLPost ) {
+        my $Success = $DBObject->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+
+    return 1;
+}
+
+=item _CheckVersion()
+
+Compares two version numbers in a specified manner.
+
+    my $Result = _CheckVersion(
+        Version1 => '1.3.1',    # (required)
+        Version2 => '1.2.4',    # (required)
+        Type     => 'Min',      # (required) Type of comparison to test for:
+                                #            Min - Version2 should be same or higher than Version1
+                                #            Max - Version2 should be lower than Version1
+    );
+
+Returns 1 if comparison condition is met (see Type parameter for more info).
+
+=cut
+
+sub _CheckVersion {
+    my (%Param) = @_;
+
+    for (qw(Version1 Version2 Type)) {
+        if ( !defined $Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!",
+            );
+            return;
+        }
+    }
+
+    for my $Type (qw(Version1 Version2)) {
+        my @Parts = split( /\./, $Param{$Type} );
+        $Param{$Type} = 0;
+        for ( 0 .. 4 ) {
+            if ( defined $Parts[$_] ) {
+                $Param{$Type} .= sprintf( "%04d", $Parts[$_] );
+            }
+            else {
+                $Param{$Type} .= '0000';
+            }
+        }
+        $Param{$Type} = int( $Param{$Type} );
+    }
+
+    if ( $Param{Type} eq 'Min' ) {
+        return 1 if ( $Param{Version2} >= $Param{Version1} );
+        return;
+    }
+    elsif ( $Param{Type} eq 'Max' ) {
+        return 1 if ( $Param{Version2} < $Param{Version1} );
+        return;
+    }
+
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'error',
+        Message  => 'Invalid Type!',
+    );
+    return;
+}
+
+=item _UpdateAppointmentCalendarFutureTasks()
+
+Update possible changes on the calendar appointment future tasks.
+
+    _UpdateAppointmentCalendarFutureTasks();
+
+=cut
+
+sub _UpdateAppointmentCalendarFutureTasks {
+
+    # Update the future tasks.
+    my $Success = $Kernel::OM->Get('Kernel::System::Calendar::Appointment')->AppointmentFutureTasksUpdate();
+
+    return $Success;
+}
+
+=item _AddAppointmentCalendarNotification()
+
+Add basic appointment notification for reminders.
+
+    _AddAppointmentCalendarNotification();
+
+=cut
+
+sub _AddAppointmentCalendarNotification {
+    my %AppointmentNotifications = (
+        'Appointment reminder notification' => {
+            Data => {
+                NotificationType       => ['Appointment'],
+                VisibleForAgent        => [1],
+                VisibleForAgentTooltip => [
+                    'You will receive a notification each time a reminder time is reached for one of your appointments.'
+                ],
+                Events                => ['AppointmentNotification'],
+                Recipients            => ['AppointmentAgentReadPermissions'],
+                SendOnOutOfOffice     => [1],
+                Transports            => ['Email'],
+                AgentEnabledByDefault => ['Email'],
+            },
+            Message => {
+                'de' => {
+                    'Body' => 'Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,<br />
+<br />
+Termin &quot;&lt;OTRS_APPOINTMENT_TITLE&gt;&quot; hat seine Benachrichtigungszeit erreicht.<br />
+<br />
+Beschreibung: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Standort: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Kalender: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Startzeitpunkt: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+Endzeitpunkt: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+Ganztägig: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Wiederholung: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;',
+                    'ContentType' => 'text/html',
+                    'Subject'     => 'Erinnerung: <OTRS_APPOINTMENT_TITLE>',
+                },
+                'en' => {
+                    'Body' => 'Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,<br />
+<br />
+appointment &quot;&lt;OTRS_APPOINTMENT_TITLE&gt;&quot; has reached its notification time.<br />
+<br />
+Description: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Location: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Calendar: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Start date: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+End date: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+All-day: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Repeat: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;',
+                    'ContentType' => 'text/html',
+                    'Subject'     => 'Reminder: <OTRS_APPOINTMENT_TITLE>',
+                },
+                'hu' => {
+                    'Body' => 'Kedves &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;!<br />
+<br />
+A következő esemény elérte az értesítési idejét: &lt;OTRS_APPOINTMENT_TITLE&gt;<br />
+<br />
+Leírás: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Hely: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Naptár: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Kezdési dátum: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+Befejezési dátum: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+Egész napos: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Ismétlődés: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;',
+                    'ContentType' => 'text/html',
+                    'Subject'     => 'Emlékeztető: <OTRS_APPOINTMENT_TITLE>',
+                },
+                'sr_Cyrl' => {
+                    'Body' => 'Здраво &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,<br />
+<br />
+време је за обавештење у вези термина &quot;&lt;OTRS_APPOINTMENT_TITLE&gt;&quot;.<br />
+<br />
+Опис: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Локација: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Календар: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Датум почетка: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+Датум краја: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+Целодневно: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Понављање: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;',
+                    'ContentType' => 'text/html',
+                    'Subject'     => 'Подсетник: <OTRS_APPOINTMENT_TITLE>',
+                },
+                'sr_Latn' => {
+                    'Body' => 'Zdravo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,<br />
+<br />
+vreme je za obaveštenje u vezi termina &quot;&lt;OTRS_APPOINTMENT_TITLE&gt;&quot;.<br />
+<br />
+Opis: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Lokacije: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Kalendar: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Datum početka: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+Datum kraja: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+Celodnevno: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Ponavljanje: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;',
+                    'ContentType' => 'text/html',
+                    'Subject'     => 'Podsetnik: <OTRS_APPOINTMENT_TITLE>',
+                },
+            },
+        },
+    );
+
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    my %ValidListReverse = reverse %ValidList;
+
+    my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
+
+    # Get all notifications of appointment type.
+    my %NotificationList = $NotificationEventObject->NotificationList(
+        Type => 'Appointment',
+    );
+    my %NotificationListReverse = reverse %NotificationList;
+
+    NEWNOTIFICATION:
+    for my $NotificationName ( sort keys %AppointmentNotifications ) {
+
+        # Do not add new notification if one with the same name exists.
+        next NEWNOTIFICATION if $NotificationListReverse{$NotificationName};
+
+        # Add new event notification.
+        my $ID = $NotificationEventObject->NotificationAdd(
+            Name    => $NotificationName,
+            Data    => $AppointmentNotifications{$NotificationName}->{Data},
+            Message => $AppointmentNotifications{$NotificationName}->{Message},
+            Comment => '',
+            ValidID => $ValidListReverse{valid},
+            UserID  => 1,
+        );
+
+        return if !$ID;
+    }
+
+    return 1;
+}
+
+=item _UninstallMergedFeatureAddOns()
+
+Safely uninstall packages from the database.
+
+    _UninstallMergedFeatureAddOns();
+
+=cut
+
+sub _UninstallMergedFeatureAddOns {
+    my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+    # Purge relevant caches before uninstalling to avoid errors because of inconsistent states.
+    $CacheObject->CleanUp(
+        Type => 'RepositoryList',
+    );
+    $CacheObject->CleanUp(
+        Type => 'RepositoryGet',
+    );
+    $CacheObject->CleanUp(
+        Type => 'XMLParse',
+    );
+
+    # Uninstall feature add-ons that were merged, keeping the DB structures intact.
+    for my $PackageName (
+        qw( OTRSAppointmentCalendar )
+        )
+    {
+        my $Success = $PackageObject->_PackageUninstallMerged(
+            Name => $PackageName,
+        );
+        if ( !$Success ) {
+            print STDERR "There was an error uninstalling package $PackageName\n";
+            return;
+        }
+    }
+
+    return 1;
 }
 
 1;

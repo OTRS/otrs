@@ -17,7 +17,8 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Valid',
-    'Kernel::System::YAML'
+    'Kernel::System::YAML',
+    'Kernel::System::Cache'
 );
 
 =head1 NAME
@@ -45,6 +46,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    $Self->{CacheType} = 'NotificationEvent';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
     return $Self;
 }
 
@@ -52,35 +55,75 @@ sub new {
 
 returns a hash of all notifications
 
-    my %List = $NotificationEventObject->NotificationList();
+    my %List = $NotificationEventObject->NotificationList(
+        Type    => 'Ticket', # type of notifications; default: 'Ticket'
+        Details => 1,        # include notification detailed data. possible (0|1) # ; default: 0
+        All     => 1,        # optional: if given all notification types will be returned, even if type is given (possible: 0|1)
+    );
 
 =cut
 
 sub NotificationList {
     my ( $Self, %Param ) = @_;
 
+    $Param{Type} ||= 'Ticket';
+    $Param{Details} = $Param{Details} ? 1 : 0;
+    $Param{All}     = $Param{All}     ? 1 : 0;
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheKey    = $Self->{CacheType} . '::' . $Param{Type} . '::' . $Param{Details} . '::' . $Param{All};
+    my $CacheResult = $CacheObject->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+
+    if ( ref $CacheResult eq 'HASH' ) {
+        return %{$CacheResult};
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    $DBObject->Prepare( SQL => 'SELECT id, name FROM notification_event' );
+    $DBObject->Prepare( SQL => 'SELECT id FROM notification_event' );
 
-    my %Data;
+    my @NotificationList;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Data{ $Row[0] } = $Row[1];
+        push @NotificationList, $Row[0];
     }
 
-    return %Data if !$Param{Details};
+    my %Result;
 
-    for my $ItemID ( sort keys %Data ) {
+    ITEMID:
+    for my $ItemID ( sort @NotificationList ) {
 
         my %NotificationData = $Self->NotificationGet(
             ID     => $ItemID,
             UserID => 1,
         );
-        $Data{$ItemID} = \%NotificationData;
+
+        $NotificationData{Data}->{NotificationType} ||= ['Ticket'];
+
+        if ( !$Param{All} ) {
+            next ITEMID if $NotificationData{Data}->{NotificationType}->[0] ne $Param{Type};
+        }
+
+        if ( $Param{Details} ) {
+            $Result{$ItemID} = \%NotificationData;
+        }
+        else {
+            $Result{$ItemID} = $NotificationData{Name};
+        }
     }
 
-    return %Data;
+    $CacheObject->Set(
+        Type  => $Self->{CacheType},
+        Key   => $CacheKey,
+        Value => \%Result,
+        TTL   => $Self->{CacheTTL},
+    );
+
+    return %Result;
 }
 
 =head2 NotificationGet()
@@ -372,6 +415,10 @@ sub NotificationAdd {
         );
     }
 
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
+
     return $ID;
 }
 
@@ -519,6 +566,10 @@ sub NotificationUpdate {
         );
     }
 
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
+
     return 1;
 }
 
@@ -606,6 +657,10 @@ sub NotificationDelete {
         );
         return;
     }
+
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     # success
     $Kernel::OM->Get('Kernel::System::Log')->Log(

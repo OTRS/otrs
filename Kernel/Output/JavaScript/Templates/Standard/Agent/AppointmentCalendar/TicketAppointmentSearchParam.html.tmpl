@@ -1,0 +1,23 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div>
+    <div class="Field SpacingTopSmall">
+        <label for="SearchParam" class="Mandatory">
+            <span class="Marker">*</span>
+        </label>
+        {{ SearchParamUser | safe }}
+        <input id="SearchParam" name="SearchParam" type="text" class="Validate_Required" />
+        <div id="SearchParamError" class="TooltipErrorMessage"><p>{{ 'This field is required.' | Translate }}</p></div>
+        <a class="RemoveButton" title="{{ 'Remove this entry' | Translate }}" href="#">
+            <i class="fa fa-minus-square-o"></i>
+            <span class="InvisibleText">{{ 'Remove' | Translate }}</span>
+        </a>
+    </div>
+    <div class="Clear"></div>
+</div>

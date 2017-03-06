@@ -1,0 +1,58 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div>
+    <fieldset class="TableLike SpacingTop">
+        <legend>
+            <span>
+                {{ 'Rule' | Translate }} <span class="RuleNumber"></span>
+                <a class="RemoveButton" title="{{ 'Remove this entry' | Translate }}" href="#">
+                    <i class="fa fa-minus-square-o"></i>
+                    <span class="InvisibleText">{{ 'Remove' | Translate }}</span>
+                </a>
+            </span>
+        </legend>
+        <label for="StartDate">
+            {{ 'Start date' | Translate }}:
+        </label>
+        <div class="Field">
+            {{ TicketAppointments.StartDateStrg | safe }}
+        </div>
+        <label for="EndDate">
+           {{ 'End date' | Translate }}:
+        </label>
+        <div class="Field">
+            {{ TicketAppointments.EndDateStrg | safe }}
+        </div>
+        <div class="Field SpacingTop">
+            <p class="FieldExplanation">
+                {{ 'Use options below to narrow down for which tickets appointments will be automatically created.' | Translate }}
+            </p>
+        </div>
+        <label for="QueueID" class="Mandatory">
+            <span class="Marker">*</span>
+            {{ 'Queues' | Translate }}:
+        </label>
+        <div class="Field">
+            {{ TicketAppointments.QueueIDStrg | safe }}
+            <div id="QueueIDError" class="TooltipErrorMessage"><p>{{ 'This field is required.' | Translate }}</p></div>
+        </div>
+        <div class="Clear"></div>
+        <label for="SearchParams">
+            {{ 'Search attributes' | Translate }}:
+        </label>
+        <div class="Field SearchParamsContainer">
+            {{ TicketAppointments.SearchParamsStrg | safe }}
+            <a class="AddButton" title="{{ 'Add entry' | Translate }}" href="#">
+                <i class="fa fa-plus-square-o"></i>
+                <span class="InvisibleText">{{ 'Add' | Translate }}</span>
+            </a>
+        </div>
+        <div class="Clear"></div>
+    </fieldset>
+</div>

@@ -2190,4 +2190,110 @@
     </ForeignKey>
 </Table>
 
+<!-- calendar tables -->
+<Table Name="calendar">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="group_id" Required="true" Type="INTEGER" />
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR" />
+    <Column Name="salt_string" Required="true" Size="64" Type="VARCHAR" />
+    <Column Name="color" Required="true" Size="7" Type="VARCHAR" />
+    <Column Name="ticket_appointments" Required="false" Type="LONGBLOB" />
+    <Column Name="valid_id" Required="true" Type="SMALLINT" />
+    <Column Name="create_time" Required="true" Type="DATE" />
+    <Column Name="create_by" Required="true" Type="INTEGER" />
+    <Column Name="change_time" Required="true" Type="DATE" />
+    <Column Name="change_by" Required="true" Type="INTEGER" />
+    <Unique Name="calendar_name">
+        <UniqueColumn Name="name" />
+    </Unique>
+    <ForeignKey ForeignTable="groups">
+        <Reference Local="group_id" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id" />
+        <Reference Local="change_by" Foreign="id" />
+    </ForeignKey>
+</Table>
+
+<Table Name="calendar_appointment">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="parent_id" Type="BIGINT" />
+    <Column Name="calendar_id" Required="true" Type="BIGINT" />
+    <Column Name="unique_id" Required="true" Size="255" Type="VARCHAR" />
+    <Column Name="title" Required="true" Size="255" Type="VARCHAR" />
+    <Column Name="description" Size="3800" Type="VARCHAR" />
+    <Column Name="location" Size="255" Type="VARCHAR" />
+    <Column Name="start_time" Required="true" Type="DATE" />
+    <Column Name="end_time" Required="true" Type="DATE" />
+    <Column Name="all_day" Type="SMALLINT" />
+    <Column Name="notify_time" Type="DATE" />
+    <Column Name="notify_template" Size="255" Type="VARCHAR" />
+    <Column Name="notify_custom" Size="255" Type="VARCHAR" />
+    <Column Name="notify_custom_unit_count" Type="BIGINT" />
+    <Column Name="notify_custom_unit" Size="255" Type="VARCHAR" />
+    <Column Name="notify_custom_unit_point" Size="255" Type="VARCHAR" />
+    <Column Name="notify_custom_date" Type="DATE" />
+    <Column Name="team_id" Size="3800" Type="VARCHAR" />
+    <Column Name="resource_id" Size="3800" Type="VARCHAR" />
+    <Column Name="recurring" Type="SMALLINT" />
+    <Column Name="recur_type" Size="20" Type="VARCHAR" />
+    <Column Name="recur_freq" Size="255" Type="VARCHAR" />
+    <Column Name="recur_count" Type="INTEGER" />
+    <Column Name="recur_interval" Type="INTEGER" />
+    <Column Name="recur_until" Type="DATE" />
+    <Column Name="recur_id" Type="DATE" />
+    <Column Name="recur_exclude" Size="3800" Type="VARCHAR" />
+    <Column Name="ticket_appointment_rule_id" Size="32" Type="VARCHAR" />
+    <Column Name="create_time" Type="DATE" />
+    <Column Name="create_by" Type="INTEGER" />
+    <Column Name="change_time" Type="DATE" />
+    <Column Name="change_by" Type="INTEGER" />
+    <ForeignKey ForeignTable="calendar">
+        <Reference Local="calendar_id" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="calendar_appointment">
+        <Reference Local="parent_id" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id" />
+        <Reference Local="change_by" Foreign="id" />
+    </ForeignKey>
+</Table>
+
+<Table Name="calendar_appointment_ticket">
+    <Column Name="calendar_id" Required="true" Type="BIGINT" />
+    <Column Name="ticket_id" Required="true" Type="BIGINT" />
+    <Column Name="rule_id" Required="true" Size="32" Type="VARCHAR" />
+    <Column Name="appointment_id" Required="true" Type="BIGINT" />
+    <Unique Name="calendar_appointment_ticket_calendar_id_ticket_id_rule_id">
+        <UniqueColumn Name="calendar_id" />
+        <UniqueColumn Name="ticket_id" />
+        <UniqueColumn Name="rule_id" />
+    </Unique>
+    <Index Name="calendar_appointment_ticket_calendar_id">
+        <IndexColumn Name="calendar_id" />
+    </Index>
+    <Index Name="calendar_appointment_ticket_ticket_id">
+        <IndexColumn Name="ticket_id" />
+    </Index>
+    <Index Name="calendar_appointment_ticket_rule_id">
+        <IndexColumn Name="rule_id" />
+    </Index>
+    <Index Name="calendar_appointment_ticket_appointment_id">
+        <IndexColumn Name="appointment_id" />
+    </Index>
+    <ForeignKey ForeignTable="calendar">
+        <Reference Local="calendar_id" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="calendar_appointment">
+        <Reference Local="appointment_id" Foreign="id" />
+    </ForeignKey>
+</Table>
+
 </database>

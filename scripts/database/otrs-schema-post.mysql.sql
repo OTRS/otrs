@@ -223,3 +223,14 @@ ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_change_b
 ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE cloud_service_config ADD CONSTRAINT FK_cloud_service_config_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE calendar ADD CONSTRAINT FK_calendar_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+ALTER TABLE calendar ADD CONSTRAINT FK_calendar_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE calendar ADD CONSTRAINT FK_calendar_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE calendar ADD CONSTRAINT FK_calendar_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE calendar_appointment ADD CONSTRAINT FK_calendar_appointment_calendar_id_id FOREIGN KEY (calendar_id) REFERENCES calendar (id);
+ALTER TABLE calendar_appointment ADD CONSTRAINT FK_calendar_appointment_parent_id_id FOREIGN KEY (parent_id) REFERENCES calendar_appointment (id);
+ALTER TABLE calendar_appointment ADD CONSTRAINT FK_calendar_appointment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE calendar_appointment ADD CONSTRAINT FK_calendar_appointment_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE calendar_appointment_ticket ADD CONSTRAINT FK_calendar_appointment_ticket_calendar_id_id FOREIGN KEY (calendar_id) REFERENCES calendar (id);
+ALTER TABLE calendar_appointment_ticket ADD CONSTRAINT FK_calendar_appointment_ticket_appointment_id_id FOREIGN KEY (appointment_id) REFERENCES calendar_appointment (id);
+ALTER TABLE calendar_appointment_ticket ADD CONSTRAINT FK_calendar_appointment_ticket_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);

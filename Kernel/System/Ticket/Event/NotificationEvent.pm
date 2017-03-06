@@ -417,6 +417,7 @@ sub _NotificationFilter {
         next KEY if $Key eq 'EmailMissingCryptingKeys';
         next KEY if $Key eq 'EmailMissingSigningKeys';
         next KEY if $Key eq 'EmailDefaultSigningKeys';
+        next KEY if $Key eq 'NotificationType';
 
         # check recipient fields from transport methods
         if ( $Key =~ m{\A Recipient}xms ) {

@@ -293,6 +293,43 @@ o Name:    CPAN Lingua::Translit
   Note:    # Copyright (C) 2007-2008 Alex Linke and Rona Linke.
            # Copyright (C) 2009-2015 Lingua-Systems Software GmbH
 
+o Name:    CPAN Class::Accessor
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright 2009 Marty Pauley.
+           # Original author Michael G Schwern.
+
+o Name:    CPAN Class::ReturnValue
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright (c) 2002,2003,2005,2007 Jesse Vincent.
+
+o Name:    CPAN Data::ICal
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright (c) 2005 - 2015, Best Practical Solutions, LLC. All rights reserved.
+
+o Name:    CPAN Date::ICal
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Author Rich Bowen and the Reefknot team.
+
+o Name:    CPAN Devel::StackTrace
+  Web:     n/a
+  License: # Artistic v2 - http://www.opensource.org/licenses/artistic-license-2.0.php
+  Note:    # Copyright (c) 2000 - 2016 by David Rolsky.
+
+o Name:    CPAN Text::vFile::asData
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright 2004, 2010, 2013 Richard Clamp and Nik Clayton. All Rights Reserved.
+
 #
 # JavaScript
 #
@@ -314,6 +351,10 @@ o Name:    D3 Data-Driven Documents
 o Name:    FullCalendar
   Web:     http://fullcalendar.io/
   License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    FullCalendar Scheduler
+  Web:     http://fullcalendar.io/scheduler/
+  License: GPL License - http://www.gnu.org/licenses/gpl-3.0.en.html
 
 o Name:    MomentJS
   Web:     http://momentjs.com/
@@ -362,6 +403,14 @@ o Name:    canvg
 o Name:    StringView
   Web:     https://developer.mozilla.org/en-US/Add-ons/Code_snippets/StringView
   License: GNU Lesser v3 - http://www.gnu.org/licenses/lgpl.html
+
+o Name:    clipboard.js
+  Web:     https://clipboardjs.com/
+  License: MIT License - https://zenorocha.mit-license.org/
+
+o Name:    Spectrum
+  Web:     http://bgrins.github.io/spectrum/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
 #
 # Other

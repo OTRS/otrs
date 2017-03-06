@@ -1447,3 +1447,73 @@ CREATE TABLE cloud_service_config (
     PRIMARY KEY(id),
     CONSTRAINT cloud_service_config_name UNIQUE (name)
 );
+-- ----------------------------------------------------------
+--  create table calendar
+-- ----------------------------------------------------------
+CREATE TABLE calendar (
+    id bigserial NOT NULL,
+    group_id INTEGER NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    salt_string VARCHAR (64) NOT NULL,
+    color VARCHAR (7) NOT NULL,
+    ticket_appointments TEXT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT calendar_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table calendar_appointment
+-- ----------------------------------------------------------
+CREATE TABLE calendar_appointment (
+    id bigserial NOT NULL,
+    parent_id BIGINT NULL,
+    calendar_id BIGINT NOT NULL,
+    unique_id VARCHAR (255) NOT NULL,
+    title VARCHAR (255) NOT NULL,
+    description VARCHAR (3800) NULL,
+    location VARCHAR (255) NULL,
+    start_time timestamp(0) NOT NULL,
+    end_time timestamp(0) NOT NULL,
+    all_day SMALLINT NULL,
+    notify_time timestamp(0) NULL,
+    notify_template VARCHAR (255) NULL,
+    notify_custom VARCHAR (255) NULL,
+    notify_custom_unit_count BIGINT NULL,
+    notify_custom_unit VARCHAR (255) NULL,
+    notify_custom_unit_point VARCHAR (255) NULL,
+    notify_custom_date timestamp(0) NULL,
+    team_id VARCHAR (3800) NULL,
+    resource_id VARCHAR (3800) NULL,
+    recurring SMALLINT NULL,
+    recur_type VARCHAR (20) NULL,
+    recur_freq VARCHAR (255) NULL,
+    recur_count INTEGER NULL,
+    recur_interval INTEGER NULL,
+    recur_until timestamp(0) NULL,
+    recur_id timestamp(0) NULL,
+    recur_exclude VARCHAR (3800) NULL,
+    ticket_appointment_rule_id VARCHAR (32) NULL,
+    create_time timestamp(0) NULL,
+    create_by INTEGER NULL,
+    change_time timestamp(0) NULL,
+    change_by INTEGER NULL,
+    PRIMARY KEY(id)
+);
+-- ----------------------------------------------------------
+--  create table calendar_appointment_ticket
+-- ----------------------------------------------------------
+CREATE TABLE calendar_appointment_ticket (
+    calendar_id BIGINT NOT NULL,
+    ticket_id BIGINT NOT NULL,
+    rule_id VARCHAR (32) NOT NULL,
+    appointment_id BIGINT NOT NULL,
+    CONSTRAINT calendar_appointment_ticket_calendar_id_ticket_id_rule_id UNIQUE (calendar_id, ticket_id, rule_id)
+);
+CREATE INDEX calendar_appointment_ticket_appointment_id ON calendar_appointment_ticket (appointment_id);
+CREATE INDEX calendar_appointment_ticket_calendar_id ON calendar_appointment_ticket (calendar_id);
+CREATE INDEX calendar_appointment_ticket_rule_id ON calendar_appointment_ticket (rule_id);
+CREATE INDEX calendar_appointment_ticket_ticket_id ON calendar_appointment_ticket (ticket_id);

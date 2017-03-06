@@ -3205,3 +3205,133 @@ END;
 CREATE INDEX FK_cloud_service_config_chane1 ON cloud_service_config (change_by);
 CREATE INDEX FK_cloud_service_config_crea30 ON cloud_service_config (create_by);
 CREATE INDEX FK_cloud_service_config_valib2 ON cloud_service_config (valid_id);
+-- ----------------------------------------------------------
+--  create table calendar
+-- ----------------------------------------------------------
+CREATE TABLE calendar (
+    id NUMBER (20, 0) NOT NULL,
+    group_id NUMBER (12, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    salt_string VARCHAR2 (64) NOT NULL,
+    color VARCHAR2 (7) NOT NULL,
+    ticket_appointments CLOB NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT calendar_name UNIQUE (name)
+);
+ALTER TABLE calendar ADD CONSTRAINT PK_calendar PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_calendar';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_calendar
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_calendar_t
+BEFORE INSERT ON calendar
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_calendar.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX FK_calendar_change_by ON calendar (change_by);
+CREATE INDEX FK_calendar_create_by ON calendar (create_by);
+CREATE INDEX FK_calendar_group_id ON calendar (group_id);
+CREATE INDEX FK_calendar_valid_id ON calendar (valid_id);
+-- ----------------------------------------------------------
+--  create table calendar_appointment
+-- ----------------------------------------------------------
+CREATE TABLE calendar_appointment (
+    id NUMBER (20, 0) NOT NULL,
+    parent_id NUMBER (20, 0) NULL,
+    calendar_id NUMBER (20, 0) NOT NULL,
+    unique_id VARCHAR2 (255) NOT NULL,
+    title VARCHAR2 (255) NOT NULL,
+    description VARCHAR2 (3800) NULL,
+    location VARCHAR2 (255) NULL,
+    start_time DATE NOT NULL,
+    end_time DATE NOT NULL,
+    all_day NUMBER (5, 0) NULL,
+    notify_time DATE NULL,
+    notify_template VARCHAR2 (255) NULL,
+    notify_custom VARCHAR2 (255) NULL,
+    notify_custom_unit_count NUMBER (20, 0) NULL,
+    notify_custom_unit VARCHAR2 (255) NULL,
+    notify_custom_unit_point VARCHAR2 (255) NULL,
+    notify_custom_date DATE NULL,
+    team_id VARCHAR2 (3800) NULL,
+    resource_id VARCHAR2 (3800) NULL,
+    recurring NUMBER (5, 0) NULL,
+    recur_type VARCHAR2 (20) NULL,
+    recur_freq VARCHAR2 (255) NULL,
+    recur_count NUMBER (12, 0) NULL,
+    recur_interval NUMBER (12, 0) NULL,
+    recur_until DATE NULL,
+    recur_id DATE NULL,
+    recur_exclude VARCHAR2 (3800) NULL,
+    ticket_appointment_rule_id VARCHAR2 (32) NULL,
+    create_time DATE NULL,
+    create_by NUMBER (12, 0) NULL,
+    change_time DATE NULL,
+    change_by NUMBER (12, 0) NULL
+);
+ALTER TABLE calendar_appointment ADD CONSTRAINT PK_calendar_appointment PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_calendar_appointment';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_calendar_appointment
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_calendar_appointment_t
+BEFORE INSERT ON calendar_appointment
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_calendar_appointment.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX FK_calendar_appointment_cale00 ON calendar_appointment (calendar_id);
+CREATE INDEX FK_calendar_appointment_chanf7 ON calendar_appointment (change_by);
+CREATE INDEX FK_calendar_appointment_creae2 ON calendar_appointment (create_by);
+CREATE INDEX FK_calendar_appointment_pare1b ON calendar_appointment (parent_id);
+-- ----------------------------------------------------------
+--  create table calendar_appointment_ticket
+-- ----------------------------------------------------------
+CREATE TABLE calendar_appointment_ticket (
+    calendar_id NUMBER (20, 0) NOT NULL,
+    ticket_id NUMBER (20, 0) NOT NULL,
+    rule_id VARCHAR2 (32) NOT NULL,
+    appointment_id NUMBER (20, 0) NOT NULL,
+    CONSTRAINT calendar_appointment_ticket_d2 UNIQUE (calendar_id, ticket_id, rule_id)
+);
+CREATE INDEX calendar_appointment_ticket_8c ON calendar_appointment_ticket (appointment_id);
+CREATE INDEX calendar_appointment_ticket_19 ON calendar_appointment_ticket (calendar_id);
+CREATE INDEX calendar_appointment_ticket_50 ON calendar_appointment_ticket (rule_id);
+CREATE INDEX calendar_appointment_ticket_e9 ON calendar_appointment_ticket (ticket_id);

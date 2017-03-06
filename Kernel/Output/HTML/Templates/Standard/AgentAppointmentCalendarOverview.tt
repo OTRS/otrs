@@ -1,0 +1,124 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Calendar Overview") | html %]</h1>
+    <input type="hidden" value="[% Env("UserChallengeToken") %]" name="ChallengeToken" id="ChallengeToken" />
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% IF Data.ModulePermissions.AdminAppointmentCalendarManage %]
+                    <li>
+                        <a href="[% Env("CGIHandle") %]?Action=AdminAppointmentCalendarManage;Subaction=Overview" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-calendar-o"></i>[% Translate("Manage Calendars") | html %]</span>
+                        </a>
+                    </li>
+[% END %]
+[% RenderBlockStart("AppointmentCreateButton") %]
+                    <li>
+                        <a id="AppointmentCreateButton" href="#" class="CallForAction Fullsize Center" title="[% Translate("Add new Appointment") | html %]">
+                            <span><i class="fa fa-plus-square"></i>[% Translate("Add Appointment") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("AppointmentCreateButton") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockStart("CalendarWidget") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Calendars") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterCalendars" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterCalendars" value="" title="[% Translate("Filter for calendars") | html %]">
+                <table class="DataTable SpacingTopSmall" id="Calendars">
+                    <thead>
+                        <tr>
+                            <th class="W10pc"></th>
+                            <th class="W10pc"></th>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th class="Center W10pc">[% Translate("URL") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("CalendarSwitch") %]
+                        <tr class="CalendarSwitch">
+                            <td class="Center">
+                                <input type="checkbox" id="Calendar[% Data.CalendarID | html %]" name="Calendar[% Data.CalendarID | html %]" data-id="[% Data.CalendarID | html %]" [% Data.Checked %]/>
+                            </td>
+                            <td class="Flags Center">
+                                <label for="Calendar[% Data.CalendarID | html %]">
+                                    <div class="Flag Small" title="[% Data.CalendarName | html %]">
+                                        <span class="CalendarColor" style="background-color: [% Data.Color | html %];"></span>
+                                    </div>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="Calendar[% Data.CalendarID | html %]" title="[% Data.CalendarName | html %]">
+                                    [% Data.CalendarName | truncate(21) | html %]
+                                </label>
+                            </td>
+                            <td class="Center">
+                                <span class="CopyToClipboard InlineButton" data-clipboard-text="[% Config("HttpType") %]://[% Config("FQDN") %]/[% Config("ScriptAlias") %]public.pl?Action=PublicCalendar;CalendarID=[% Data.CalendarID | uri %];User=[% Env("UserLogin") | uri %];Token=[% Data.AccessToken | uri %]" title="[% Translate("Copy public calendar URL") | html %]">
+                                    <i class="fa fa-clipboard"></i>
+                                    <span class="InvisibleText">[% Translate("Copy public calendar URL") | html %]</span>
+                                </span>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("CalendarSwitch") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="4">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% RenderBlockEnd("CalendarWidget") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Description") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("This is an overview page for the Appointment Calendar.") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple CalendarWidget">
+            <div class="Header">
+                <div class="ActionMenu">
+                    <div class="WidgetAction Settings">
+                        <a href="#" id="CalendarSettingsButton" title="[% Translate("Settings") | html %]">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+                <h2>[% Translate("Calendar") | html %]</h2>
+            </div>
+            <div class="Content ">
+
+[% RenderBlockStart("NoCalendar") %]
+                <p>[% Translate("No calendars found. Please add a calendar first by using Manage Calendars page.") | html %]</p>
+[% RenderBlockEnd("NoCalendar") %]
+
+[% RenderBlockStart("CalendarDiv") %]
+                <div style="width: [% Data.CalendarWidth | html %]%; margin: 0 auto; z-index: 10;" id="calendar"></div>
+[% RenderBlockEnd("CalendarDiv") %]
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1541,6 +1541,60 @@ INSERT INTO notification_event_item (notification_id, event_key, event_value)
     VALUES
     (13, 'AgentEnabledByDefault', 'Email');
 -- ----------------------------------------------------------
+--  insert into table notification_event
+-- ----------------------------------------------------------
+INSERT INTO notification_event (name, valid_id, comments, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Appointment reminder notification', 1, '', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (14, 'VisibleForAgent', '1');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (14, 'VisibleForAgentTooltip', 'You will receive a notification each time a reminder time is reached for one of your appointments.');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (14, 'Events', 'AppointmentNotification');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (14, 'Recipients', 'AppointmentAgentReadPermissions');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (14, 'SendOnOutOfOffice', '1');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (14, 'Transports', 'Email');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (14, 'AgentEnabledByDefault', 'Email');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (14, 'NotificationType', 'Appointment');
+-- ----------------------------------------------------------
 --  insert into table notification_event_message
 -- ----------------------------------------------------------
 INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
@@ -1718,6 +1772,26 @@ the service of ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivide
 -- ----------------------------------------------------------
 INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
     VALUES
+    (14, 'text/html', 'en', 'Reminder: <OTRS_APPOINTMENT_TITLE>', 'Hi &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,<br />
+<br />
+appointment &quot;&lt;OTRS_APPOINTMENT_TITLE&gt;&quot; has reached its notification time.<br />
+<br />
+Description: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Location: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Calendar: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Start date: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+End date: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+All-day: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Repeat: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
     (1, 'text/plain', 'de', 'Ticket erstellt: <OTRS_TICKET_Title>', 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
 
 das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde in der Queue <OTRS_TICKET_Queue> erstellt.
@@ -1886,6 +1960,26 @@ der Service des Tickets [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivi
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
 -- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (14, 'text/html', 'de', 'Erinnerung: <OTRS_APPOINTMENT_TITLE>', 'Hallo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,<br />
+<br />
+Termin &quot;&lt;OTRS_APPOINTMENT_TITLE&gt;&quot; hat seine Benachrichtigungszeit erreicht.<br />
+<br />
+Beschreibung: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Standort: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Kalender: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Startzeitpunkt: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+Endzeitpunkt: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+Ganztägig: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Wiederholung: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;');
 -- ----------------------------------------------------------
 --  insert into table notification_event_message
 -- ----------------------------------------------------------
@@ -2578,6 +2672,412 @@ A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_Ti
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 
 -- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (14, 'text/html', 'hu', 'Emlékeztető: <OTRS_APPOINTMENT_TITLE>', 'Kedves &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;!<br />
+<br />
+A következő esemény elérte az értesítési idejét: &lt;OTRS_APPOINTMENT_TITLE&gt;<br />
+<br />
+Leírás: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Hely: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Naptár: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Kezdési dátum: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+Befejezési dátum: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+Egész napos: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Ismétlődés: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (1, 'text/plain', 'sr_Cyrl', 'Oтворен тикет: <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+тикет [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је отворен у реду <OTRS_TICKET_Queue>.
+
+<OTRS_CUSTOMER_REALNAME> је написао/ла:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (2, 'text/plain', 'sr_Cyrl', 'Наставак откључаног тикета: <OTRS_CUSTOMER_SUBJECT[24]>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+откључани тикет [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је примио наставак.
+
+<OTRS_CUSTOMER_REALNAME> је написао/ла:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (3, 'text/plain', 'sr_Cyrl', 'Наставак закључаног тикета: <OTRS_CUSTOMER_SUBJECT[24]>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+закључани тикет [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је примио наставак.
+
+<OTRS_CUSTOMER_REALNAME> је написао/ла:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (4, 'text/plain', 'sr_Cyrl', 'Истек закључаног тикета: <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+тикет [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је достигао време откључавања.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (5, 'text/plain', 'sr_Cyrl', 'Промена власника тикета на <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+власник тикета [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је промењен на <OTRS_TICKET_OWNER_UserFullname> од стране <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (6, 'text/plain', 'sr_Cyrl', 'Промена одговорног за тикет на <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+одговорни оператер тикета [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је промењен на <OTRS_TICKET_RESPONSIBLE_UserFullname> од стране <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (7, 'text/plain', 'sr_Cyrl', 'Напомена тикета: <OTRS_AGENT_SUBJECT[24]>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> је написао/ла:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (8, 'text/plain', 'sr_Cyrl', 'Промена реда тикета у <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+тикету [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је промењен ред у <OTRS_TICKET_Queue>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (9, 'text/plain', 'sr_Cyrl', 'Истек закључаног тикета на чекању: <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+време закључаног тикета на чекању [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је достигнуто.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (10, 'text/plain', 'sr_Cyrl', 'Истек откључаног тикета на чекању: <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+време откључаног тикета на чекању [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је достигнуто.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (11, 'text/plain', 'sr_Cyrl', 'Ескалација тикета! <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+тикет [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је ескалирао!
+
+Време ескалације: <OTRS_TICKET_EscalationDestinationDate>
+Ескалиран од: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (12, 'text/plain', 'sr_Cyrl', 'Упозорење на ескалацију тикета! <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+тикет [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] ће ескалирати!
+
+Време ескалације: <OTRS_TICKET_EscalationDestinationDate>
+Ескалира за: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (13, 'text/plain', 'sr_Cyrl', 'Промена сервиса тикета на <OTRS_TICKET_Service>: <OTRS_TICKET_Title>', 'Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+сервис тикета [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је промењен на <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (14, 'text/html', 'sr_Cyrl', 'Подсетник: <OTRS_APPOINTMENT_TITLE>', 'Здраво &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,<br />
+<br />
+време је за обавештење у вези термина &quot;&lt;OTRS_APPOINTMENT_TITLE&gt;&quot;.<br />
+<br />
+Опис: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Локација: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Календар: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Датум почетка: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+Датум краја: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+Целодневно: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Понављање: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (1, 'text/plain', 'sr_Latn', 'Otvoren tiket: <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+tiket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je otvoren u redu <OTRS_TICKET_Queue>.
+
+<OTRS_CUSTOMER_REALNAME> je napisao/la:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (2, 'text/plain', 'sr_Latn', 'Nastavak otključanog tiketa: <OTRS_CUSTOMER_SUBJECT[24]>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+otključani tiket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je primio nastavak.
+
+<OTRS_CUSTOMER_REALNAME> je napisao/la:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (3, 'text/plain', 'sr_Latn', 'Nastavak zaključanog tiketa: <OTRS_CUSTOMER_SUBJECT[24]>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+zaključani tiket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je primio nastavak.
+
+<OTRS_CUSTOMER_REALNAME> je napisao/la:
+<OTRS_CUSTOMER_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (4, 'text/plain', 'sr_Latn', 'Istek zaključanog tiketa: <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+tiket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je dostigao vreme otključavanja.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (5, 'text/plain', 'sr_Latn', 'Promena vlasnika tiketa na <OTRS_OWNER_UserFullname>: <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+vlasnik tiketa [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je promenjen na <OTRS_TICKET_OWNER_UserFullname> by <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (6, 'text/plain', 'sr_Latn', 'Promena odgovornog za tiket na <OTRS_RESPONSIBLE_UserFullname>: <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+odgovorni operater tiketa [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je promenjen na <OTRS_TICKET_RESPONSIBLE_UserFullname> by <OTRS_CURRENT_UserFullname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (7, 'text/plain', 'sr_Latn', 'Napomena tiketa: <OTRS_AGENT_SUBJECT[24]>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+<OTRS_CURRENT_UserFullname> je napisao/la:
+<OTRS_AGENT_BODY[30]>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (8, 'text/plain', 'sr_Latn', 'Promena reda tiketa u <OTRS_TICKET_Queue>: <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+tiketu [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je promenjen red u <OTRS_TICKET_Queue>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (9, 'text/plain', 'sr_Latn', 'Istek zaključanog tiketa na čekanju: <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+vreme zaključanog tiketa na čekanju [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je dostignuto.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (10, 'text/plain', 'sr_Latn', 'Istek otključanog tiketa na čekanju: <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+vreme otključanog tiketa na čekanju [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je dostignuto.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (11, 'text/plain', 'sr_Latn', 'Eskalacija tiketa! <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+tiket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je eskalirao!
+
+Vreme eskalacije: <OTRS_TICKET_EscalationDestinationDate>
+Eskaliran od: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (12, 'text/plain', 'sr_Latn', 'Upozorenje na eskalaciju tiketa! <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+tiket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] će eskalirati!
+
+Vreme eskalacije: <OTRS_TICKET_EscalationDestinationDate>
+Eskalira za: <OTRS_TICKET_EscalationDestinationIn>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (13, 'text/plain', 'sr_Latn', 'Promena servisa tiketa na <OTRS_TICKET_Service>: <OTRS_TICKET_Title>', 'Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+servis tiketa [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je promenjen na <OTRS_TICKET_Service>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (14, 'text/html', 'sr_Latn', 'Podsetnik: <OTRS_APPOINTMENT_TITLE>', 'Zdravo &lt;OTRS_NOTIFICATION_RECIPIENT_UserFirstname&gt;,<br />
+<br />
+vreme je za obaveštenje u vezi termina &quot;&lt;OTRS_APPOINTMENT_TITLE&gt;&quot;.<br />
+<br />
+Opis: &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;<br />
+Lokacije: &lt;OTRS_APPOINTMENT_LOCATION&gt;<br />
+Kalendar: <span style="color: &lt;OTRS_CALENDAR_COLOR&gt;;">■</span> &lt;OTRS_CALENDAR_CALENDARNAME&gt;<br />
+Datum početka: &lt;OTRS_APPOINTMENT_STARTTIME&gt;<br />
+Datum kraja: &lt;OTRS_APPOINTMENT_ENDTIME&gt;<br />
+Celodnevno: &lt;OTRS_APPOINTMENT_ALLDAY&gt;<br />
+Ponavljanje: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
+<br />
+<a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
+<br />
+-- &lt;OTRS_CONFIG_NotificationSenderName&gt;');
 -- ----------------------------------------------------------
 --  insert into table dynamic_field
 -- ----------------------------------------------------------
