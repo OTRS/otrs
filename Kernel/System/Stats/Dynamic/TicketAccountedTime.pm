@@ -554,7 +554,7 @@ sub GetObjectAttributes {
         push @ObjectAttributes, @CustomerIDAttributes;
     }
 
-   if ( $ConfigObject->Get('Stats::CustomerUserLoginsAsMultiSelect') ) {
+    if ( $ConfigObject->Get('Stats::CustomerUserLoginsAsMultiSelect') ) {
 
         # Get all CustomerUserLogins which are related to a tiket.
         $DBObject->Prepare(
