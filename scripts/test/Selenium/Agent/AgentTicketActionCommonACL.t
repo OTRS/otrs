@@ -23,6 +23,12 @@ $Selenium->RunTest(
 
         $Helper->ConfigSettingChange(
             Valid => 1,
+            Key   => 'CheckMXRecord',
+            Value => 0,
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1,
         );
