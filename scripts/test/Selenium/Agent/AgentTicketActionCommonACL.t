@@ -21,6 +21,12 @@ $Selenium->RunTest(
 
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
+            Key   => 'CheckMXRecord',
+            Value => 0,
+        );
+
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1,
         );
