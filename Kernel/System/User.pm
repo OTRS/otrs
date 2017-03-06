@@ -1208,7 +1208,7 @@ sub SetPreferences {
 }
 
 sub _UserCacheClear {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1240,7 +1240,7 @@ sub _UserCacheClear {
         'UserList::Long::0::' . $FirstnameLastNameOrder . '::1',
         'UserList::Long::1::' . $FirstnameLastNameOrder . '::0',
         'UserList::Long::1::' . $FirstnameLastNameOrder . '::1',
-        'UserLookup::ID::'    . $Login,
+        'UserLookup::ID::' . $Login,
         'UserLookup::Login::' . $Param{UserID},
     );
 
