@@ -1,4 +1,5 @@
 #4.0.23 2017-??-??
+ - 2017-03-06 Fixed bug#[8998](https://bugs.otrs.org/show_bug.cgi?id=12400)(PR#1033) - Empty sender name in response, thanks to Pawel Boguslawski.
  - 2017-03-03 Follow-up for bug#[12443](https://bugs.otrs.org/show_bug.cgi?id=12443) - Activity dialog doesn't check process status before submit.
  - 2017-03-03 Fixed bug#[11880](https://bugs.otrs.org/show_bug.cgi?id=11880) - TicketSolutionResponseTime - No Values when Solution Time it NOT in use.
  - 2017-03-03 Fixed bug#[12659](https://bugs.otrs.org/show_bug.cgi?id=12659) - Process editor freezes when "No data found" element is dragged on canvas.
