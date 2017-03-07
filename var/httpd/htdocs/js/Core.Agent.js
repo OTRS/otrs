@@ -554,10 +554,16 @@ Core.Agent = (function (TargetNS) {
                 .addClass('IsResized');
         }
 
+        // we have to do an exact calculation here (with floating point numbers),
+        // otherwise the results will be different across browsers.
         $('#Navigation > li').each(function() {
-            NavigationBarWidth += parseInt($(this).outerWidth(true), 10);
+            NavigationBarWidth += $(this)[0].getBoundingClientRect().width
+                + parseInt($(this).css('margin-left'), 10)
+                + parseInt($(this).css('margin-right'), 10)
+                + parseInt($(this).css('border-left-width'), 10)
+                + parseInt($(this).css('border-right-width'), 10);
         });
-        $('#Navigation').css('width', (NavigationBarWidth + 3) + 'px');
+        $('#Navigation').css('width', NavigationBarWidth);
 
         if (NavigationBarWidth > $('#NavigationContainer').outerWidth()) {
             NavigationBarShowSlideButton('Right', parseInt($('#NavigationContainer').outerWidth(true) - NavigationBarWidth, 10));
