@@ -443,20 +443,17 @@ sub Run {
 
             # Fallback for tickets without articles: get at least basic ticket data
             if ( !%Article ) {
-                %Article = $TicketObject->TicketGet(
-                    TicketID      => $TicketID,
-                    DynamicFields => 0,
-                );
+                %Article = %Ticket;
                 if ( !$Article{Title} ) {
                     $Article{Title} = $LayoutObject->{LanguageObject}->Translate(
                         'This ticket has no title or subject'
                     );
                 }
                 $Article{Subject} = $Article{Title};
-
-                # show ticket create time in small view
-                $Article{Created} = $Ticket{Created};
             }
+
+            # show ticket create time in small view
+            $Article{Created} = $Ticket{Created};
 
             # prepare a "long" version of the subject to show in the title attribute. We don't take
             # the whole string (which could be VERY long) to avoid polluting the DOM and having too
