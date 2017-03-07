@@ -282,9 +282,12 @@ EOF
 
         my $FieldNameUsed0 = $FieldNameUsed . '0';
         my $FieldNameUsed1 = $FieldNameUsed . '1';
+        my $TranslatedDesc = $Param{LayoutObject}->{LanguageObject}->Translate(
+            'Ignore this field.',
+        );
         $HTMLString = <<"EOF";
 <input type="radio" id="$FieldNameUsed0" name="$FieldNameUsed" value="" $FieldUsedChecked0 />
-Ignore this field.
+$TranslatedDesc
 <div class="clear"></div>
 <input type="radio" id="$FieldNameUsed1" name="$FieldNameUsed" value="1" $FieldUsedChecked1 />
 EOF
