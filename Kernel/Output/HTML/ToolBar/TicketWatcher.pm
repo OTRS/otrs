@@ -17,8 +17,9 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Log',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::Group',
+    'Kernel::System::Log',
     'Kernel::System::Ticket',
 );
 
@@ -51,11 +52,16 @@ sub Run {
         @Groups = @{ $ConfigObject->Get('Ticket::WatcherGroup') };
     }
     if (@Groups) {
-        my $Access = 0;
+        my $Access      = 0;
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
         GROUP:
         for my $Group (@Groups) {
-            next GROUP if !$LayoutObject->{"UserIsGroup[$Group]"};
-            if ( $LayoutObject->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $Self->{UserID},
+                GroupName => $Group,
+                Type      => 'rw',
+            );
+            if ($HasPermission) {
                 $Access = 1;
                 last GROUP;
             }

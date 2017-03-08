@@ -204,7 +204,7 @@ for my $Test (@Tests) {
 
     no warnings 'redefine';
 
-    *Kernel::System::OTRSBusiness::OTRSBusinessIsInstalled = sub {
+    local *Kernel::System::OTRSBusiness::OTRSBusinessIsInstalled = sub {
         return $Test->{OTRSBusinessIsInstalled};
     };
 
@@ -220,7 +220,25 @@ for my $Test (@Tests) {
         );
     }
 
-    delete $LayoutObject->{"UserIsGroup[admin]"};
+    $Self->Is(
+        scalar $AgentNotificationObject->Run(
+            Type => 'Admin',
+        ),
+        $Test->{AgentNotificationResultAdmin},
+        "$Test->{Name} - admin notification result",
+    );
+
+    my $OldPermissionCheck = \&Kernel::System::Group::PermissionCheck;
+
+    # Pretend user is not a member of the admin group;
+    use Kernel::System::Group;
+    local *Kernel::System::Group::PermissionCheck = sub {
+        my ( $Self, %Param ) = @_;
+        if ( $Param{GroupName} eq 'admin' ) {
+            return 0;
+        }
+        return $OldPermissionCheck->(@_);
+    };
 
     $Self->Is(
         scalar $AgentNotificationObject->Run(
@@ -228,16 +246,6 @@ for my $Test (@Tests) {
         ),
         $Test->{AgentNotificationResultAgent},
         "$Test->{Name} - agent notification result",
-    );
-
-    $LayoutObject->{"UserIsGroup[admin]"} = 'Yes';
-
-    $Self->Is(
-        scalar $AgentNotificationObject->Run(
-            Type => 'Admin',
-        ),
-        $Test->{AgentNotificationResultAdmin},
-        "$Test->{Name} - admin notification result",
     );
 
     $Self->Is(

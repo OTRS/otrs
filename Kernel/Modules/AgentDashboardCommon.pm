@@ -471,6 +471,8 @@ sub Run {
         Data => \%ContentBlockData,
     );
 
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
     # get shown backends
     my %Backends;
     BACKEND:
@@ -482,8 +484,12 @@ sub Run {
             my @Groups = split /;/, $Config->{$Name}->{Group};
             GROUP:
             for my $Group (@Groups) {
-                my $Permission = 'UserIsGroupRo[' . $Group . ']';
-                if ( defined $Self->{$Permission} && $Self->{$Permission} eq 'Yes' ) {
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $Group,
+                    Type      => 'ro',
+                );
+                if ($HasPermission) {
                     $PermissionOK = 1;
                     last GROUP;
                 }
@@ -772,14 +778,20 @@ sub _Element {
     my $GetColumnFilter       = $Param{GetColumnFilter};
     my $GetColumnFilterSelect = $Param{GetColumnFilterSelect};
 
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
     # check permissions
     if ( $Configs->{$Name}->{Group} ) {
         my $PermissionOK = 0;
         my @Groups = split /;/, $Configs->{$Name}->{Group};
         GROUP:
         for my $Group (@Groups) {
-            my $Permission = 'UserIsGroupRo[' . $Group . ']';
-            if ( defined $Self->{$Permission} && $Self->{$Permission} eq 'Yes' ) {
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $Self->{UserID},
+                GroupName => $Group,
+                Type      => 'ro',
+            );
+            if ($HasPermission) {
                 $PermissionOK = 1;
                 last GROUP;
             }

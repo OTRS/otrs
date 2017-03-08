@@ -24,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerGroup',
     'Kernel::System::CustomerUser',
     'Kernel::System::DB',
+    'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Scheduler',
@@ -319,23 +320,6 @@ sub Run {
                 ),
             );
             return;
-        }
-
-        # get groups rw/ro
-        for my $Type (qw(rw ro)) {
-            my %GroupData = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
-                Result => 'HASH',
-                Type   => $Type,
-                UserID => $UserData{UserID},
-            );
-            for ( sort keys %GroupData ) {
-                if ( $Type eq 'rw' ) {
-                    $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
-                }
-                else {
-                    $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
-                }
-            }
         }
 
         # create new session id
@@ -1311,21 +1295,31 @@ sub _CheckModulePermission {
         my $AccessOk = 0;
         my $Group    = $Param{ModuleReg}->{$Permission};
 
-        my $Key = "UserIs$Permission";
         next PERMISSION if !$Group;
+
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+
         if ( IsArrayRefWithData($Group) ) {
             GROUP:
             for my $Item ( @{$Group} ) {
                 next GROUP if !$Item;
-                next GROUP if !$Param{ $Key . "[$Item]" };
-                next GROUP if $Param{ $Key . "[$Item]" } ne 'Yes';
+                next GROUP if !$GroupObject->PermissionCheck(
+                    UserID    => $Param{UserID},
+                    GroupName => $Item,
+                    Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+                );
+
                 $AccessOk = 1;
                 last GROUP;
             }
         }
         else {
-            if ( $Param{ $Key . "[$Group]" } && $Param{ $Key . "[$Group]" } eq 'Yes' )
-            {
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $Param{UserID},
+                GroupName => $Group,
+                Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+            );
+            if ($HasPermission) {
                 $AccessOk = 1;
             }
         }

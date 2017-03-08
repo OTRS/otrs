@@ -123,13 +123,6 @@ $Selenium->RunTest(
             "CustomerUser $TestCustomerUserLogin added to test group $GroupName with ro and rw rights"
         );
 
-        # login test customer user again
-        $Selenium->Login(
-            Type     => 'Customer',
-            User     => $TestCustomerUserLogin,
-            Password => $TestCustomerUserLogin,
-        );
-
         # navigate to CompanyTickets subaction screen again
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 

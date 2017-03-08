@@ -163,6 +163,7 @@ sub _Overview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 
     # Get user's permissions to associated modules which are displayed as links.
     for my $Module (qw(AdminAppointmentCalendarManage)) {
@@ -172,7 +173,12 @@ sub _Overview {
         if ( IsArrayRefWithData($ModuleGroups) ) {
             MODULE_GROUP:
             for my $ModuleGroup ( @{$ModuleGroups} ) {
-                if ( $LayoutObject->{"UserIsGroup[$ModuleGroup]"} ) {
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $ModuleGroup,
+                    Type      => 'rw',
+                );
+                if ($HasPermission) {
                     $Param{ModulePermissions}->{$Module} = 1;
                     last MODULE_GROUP;
                 }

@@ -85,14 +85,6 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $TestUserLogin ) > -1,
             'UserLogin found on page',
         );
-        $Self->True(
-            index( $Selenium->get_page_source(), 'UserIsGroup[admin]' ) > -1,
-            'UserIsGroup[admin] found on page',
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), 'UserIsGroupRo[admin]' ) > -1,
-            'UserIsGroupRo[admin] found on page',
-        );
 
         $Selenium->find_element( "table", 'css' );
 

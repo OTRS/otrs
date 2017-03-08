@@ -16,6 +16,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::Group',
     'Kernel::System::JSON',
     'Kernel::System::User',
 );
@@ -54,18 +55,20 @@ sub Run {
         {
 
             # check permissions (only show accessable modules)
-            my $Shown = 0;
+            my $Shown       = 0;
+            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
             for my $Permission (qw(GroupRo Group)) {
 
                 # array access restriction
                 if ( $Hash{$Permission} && ref $Hash{$Permission} eq 'ARRAY' ) {
-                    for ( @{ $Hash{$Permission} } ) {
-                        my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
-                        if (
-                            $LayoutObject->{$Key}
-                            && $LayoutObject->{$Key} eq 'Yes'
-                            )
-                        {
+                    for my $Group ( @{ $Hash{$Permission} } ) {
+                        my $HasPermission = $GroupObject->PermissionCheck(
+                            UserID    => $Self->{UserID},
+                            GroupName => $Group,
+                            Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+                        );
+                        if ($HasPermission) {
                             $Shown = 1;
                         }
 
@@ -74,8 +77,12 @@ sub Run {
 
                 # scalar access restriction
                 elsif ( $Hash{$Permission} ) {
-                    my $Key = 'UserIs' . $Permission . '[' . $Hash{$Permission} . ']';
-                    if ( $LayoutObject->{$Key} && $LayoutObject->{$Key} eq 'Yes' ) {
+                    my $HasPermission = $GroupObject->PermissionCheck(
+                        UserID    => $Self->{UserID},
+                        GroupName => $Hash{$Permission},
+                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+                    );
+                    if ($HasPermission) {
                         $Shown = 1;
                     }
                 }

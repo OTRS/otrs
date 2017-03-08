@@ -164,7 +164,7 @@ $Selenium->RunTest(
                 "The ticket type is set as a default ticket type, so it cannot be set to invalid!"
                 ) > -1,
             "$TypeRandomID ticket type is set as a default ticket type, so it cannot be set to invalid!",
-        );
+        ) || die;
 
         # reset default ticket type
         $Helper->ConfigSettingChange(

@@ -211,12 +211,13 @@ sub AgentCustomerViewTable {
                 my $EnableChat = 1;
                 my $ChatStartingAgentsGroup
                     = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
+                my $ChatStartingAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $ChatStartingAgentsGroup,
+                    Type      => 'rw',
+                );
 
-                if (
-                    !defined $Self->{"UserIsGroup[$ChatStartingAgentsGroup]"}
-                    || $Self->{"UserIsGroup[$ChatStartingAgentsGroup]"} ne 'Yes'
-                    )
-                {
+                if ( !$ChatStartingAgentsGroupPermission ) {
                     $EnableChat = 0;
                 }
                 if (
@@ -231,13 +232,14 @@ sub AgentCustomerViewTable {
                     my $VideoChatEnabled = 0;
                     my $VideoChatAgentsGroup
                         = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
+                    my $VideoChatAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
+                        UserID    => $Self->{UserID},
+                        GroupName => $VideoChatAgentsGroup,
+                        Type      => 'rw',
+                    );
 
                     # Enable the video chat feature if system is entitled and agent is a member of configured group.
-                    if (
-                        defined $Self->{"UserIsGroup[$VideoChatAgentsGroup]"}
-                        && $Self->{"UserIsGroup[$VideoChatAgentsGroup]"} eq 'Yes'
-                        )
-                    {
+                    if ($VideoChatAgentsGroupPermission) {
                         if ( $Kernel::OM->Get('Kernel::System::Main')
                             ->Require( 'Kernel::System::VideoChat', Silent => 1 ) )
                         {

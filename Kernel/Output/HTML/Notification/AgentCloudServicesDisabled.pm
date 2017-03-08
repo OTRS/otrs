@@ -15,6 +15,7 @@ use utf8;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::Group',
 );
 
 sub new {
@@ -43,12 +44,14 @@ sub Run {
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    my $HasPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
+        UserID    => $Self->{UserID},
+        GroupName => $Group,
+        Type      => 'rw',
+    );
+
     # notification should only be visible for administrators
-    if (
-        !defined $LayoutObject->{"UserIsGroup[$Group]"}
-        || $LayoutObject->{"UserIsGroup[$Group]"} ne 'Yes'
-        )
-    {
+    if ( !$HasPermission ) {
         return '';
     }
 

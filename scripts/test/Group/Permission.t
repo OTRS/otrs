@@ -338,6 +338,42 @@ for my $PermissionTest (@UserGroupPermissionTests) {
         }
     }
 
+    # check if users are assigned to the groups (PermissionCheck)
+    for my $GroupName ( sort keys %GroupIDByGroupName ) {
+        for my $Permission ( sort keys %{ $PermissionTest->{Permissions} } ) {
+
+            my $GroupID = $GroupIDByGroupName{$GroupName};
+
+            for my $UserLogin ( sort keys %UserIDByUserLogin ) {
+
+                my $UserID = $UserIDByUserLogin{$UserLogin};
+
+                my $PermissionResult = $GroupObject->PermissionCheck(
+                    UserID    => $UserID,
+                    GroupName => $GroupName,
+                    Type      => $Permission,
+                ) // 0;
+
+                my $PermissionSet = $PermissionTest->{Permissions}->{$Permission};
+
+                # If user or group is not part of test, permission is expected to be not set
+                if (
+                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                    )
+                {
+                    $PermissionSet = 0;
+                }
+
+                $Self->Is(
+                    $PermissionResult,
+                    $PermissionSet,
+                    "PermissionCheck() - permission $Permission must be set to $PermissionSet for user ID $UserID and group ID $GroupID"
+                );
+            }
+        }
+    }
+
     # remove permissions for all test groups and test users
     my %PermissionsRemoved;
     for my $Permission ( sort keys %{ $PermissionTest->{Permissions} } ) {

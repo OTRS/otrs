@@ -924,6 +924,36 @@ sub RoleDataList {
     return %RoleDataList;
 }
 
+=head2 PermissionCheck()
+
+Check if a user has a certain permission for a certain group.
+
+    my $HasPermission = $GroupObject->PermissionCheck(
+        UserID    => $UserID,
+        GroupName => $GroupName,
+        Type      => 'move_into',
+    );
+
+=cut
+
+sub PermissionCheck {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(UserID GroupName Type)) {
+        if ( !$Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
+            return;
+        }
+    }
+
+    # PermissionUserGet already has in-memory caching enabled, so don't cache again here.
+    return { reverse $Self->PermissionUserGet(%Param) }->{ $Param{GroupName} } ? 1 : 0;
+}
+
 =head2 PermissionUserInvolvedGet()
 
 returns a list of users with the given permissions

@@ -58,26 +58,6 @@ sub Run {
             NoOutOfOffice => 1,
         );
 
-        # get group object
-        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-
-        # get groups rw
-        my %GroupData = $GroupObject->PermissionUserGet(
-            UserID => $UserData{UserID},
-            Type   => 'rw',
-        );
-        for my $GroupKey ( sort keys %GroupData ) {
-            $UserData{"UserIsGroup[$GroupData{$GroupKey}]"} = 'Yes';
-        }
-
-        # get groups ro
-        %GroupData = $GroupObject->PermissionUserGet(
-            UserID => $UserData{UserID},
-            Type   => 'ro',
-        );
-        for my $GroupKey ( sort keys %GroupData ) {
-            $UserData{"UserIsGroupRo[$GroupData{$GroupKey}]"} = 'Yes';
-        }
         my $NewSessionID = $Kernel::OM->Get('Kernel::System::AuthSession')->CreateSessionID(
             %UserData,
             UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),

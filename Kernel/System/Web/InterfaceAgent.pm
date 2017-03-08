@@ -324,25 +324,6 @@ sub Run {
             return;
         }
 
-        # get groups rw/ro
-        for my $Type (qw(rw ro)) {
-
-            my %GroupData = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
-                UserID => $UserData{UserID},
-                Type   => $Type,
-            );
-
-            for ( sort keys %GroupData ) {
-
-                if ( $Type eq 'rw' ) {
-                    $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
-                }
-                else {
-                    $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
-                }
-            }
-        }
-
         # create new session id
         my $NewSessionID = $SessionObject->CreateSessionID(
             %UserData,
@@ -461,10 +442,17 @@ sub Run {
         if ( $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active') ) {
             my $ChatReceivingAgentsGroup
                 = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
+
+            my $ChatReceivingAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => $ChatReceivingAgentsGroup,
+                Type      => 'rw',
+            );
+
             if (
                 $UserData{UserID} != -1
                 && $ChatReceivingAgentsGroup
-                && $UserData{"UserIsGroup[$ChatReceivingAgentsGroup]"}
+                && $ChatReceivingAgentsGroupPermission
                 && $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Agent::UnavailableForExternalChatsOnLogin')
                 )
             {
@@ -917,25 +905,35 @@ sub Run {
             $Param{AccessRw} = 1;
         }
         else {
+            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
             PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
                 my $AccessOk = 0;
                 my $Group    = $ModuleReg->{$Permission};
-                my $Key      = "UserIs$Permission";
                 next PERMISSION if !$Group;
                 if ( ref $Group eq 'ARRAY' ) {
                     INNER:
-                    for ( @{$Group} ) {
-                        next INNER if !$_;
-                        next INNER if !$UserData{ $Key . "[$_]" };
-                        next INNER if $UserData{ $Key . "[$_]" } ne 'Yes';
+                    for my $GroupName ( @{$Group} ) {
+                        next INNER if !$GroupName;
+                        next INNER if !$GroupObject->PermissionCheck(
+                            UserID    => $UserData{UserID},
+                            GroupName => $GroupName,
+                            Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                        );
                         $AccessOk = 1;
                         last INNER;
                     }
                 }
                 else {
-                    if ( $UserData{ $Key . "[$Group]" } && $UserData{ $Key . "[$Group]" } eq 'Yes' )
-                    {
+                    my $HasPermission = $GroupObject->PermissionCheck(
+                        UserID    => $UserData{UserID},
+                        GroupName => $Group,
+                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                    );
+                    if ($HasPermission) {
                         $AccessOk = 1;
                     }
                 }

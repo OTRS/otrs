@@ -49,11 +49,18 @@ sub Run {
     if ( $ConfigObject->Get('Ticket::WatcherGroup') ) {
         @Groups = @{ $ConfigObject->Get('Ticket::WatcherGroup') };
     }
-    my $Access = 1;
+
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    my $Access      = 1;
     if (@Groups) {
         $Access = 0;
         for my $Group (@Groups) {
-            if ( $LayoutObject->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $Self->{UserID},
+                GroupName => $Group,
+                Type      => 'rw',
+            );
+            if ($HasPermission) {
                 $Access = 1;
             }
         }

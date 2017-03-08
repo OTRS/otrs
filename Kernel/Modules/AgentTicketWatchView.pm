@@ -186,10 +186,15 @@ sub Run {
             $Access = 1;
         }
         else {
+            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
             GROUP:
             for my $Group (@Groups) {
-                next GROUP if !$LayoutObject->{"UserIsGroup[$Group]"};
-                if ( $LayoutObject->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $Group,
+                    Type      => 'rw',
+                );
+                if ($HasPermission) {
                     $Access = 1;
                     last GROUP;
                 }

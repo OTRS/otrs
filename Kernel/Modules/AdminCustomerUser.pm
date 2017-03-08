@@ -105,23 +105,6 @@ sub Run {
             Valid => 1,
         );
 
-        # get groups rw/ro
-        for my $Type (qw(rw ro)) {
-            my %GroupData = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
-                Result => 'HASH',
-                Type   => $Type,
-                UserID => $UserData{UserID},
-            );
-            for my $GroupKey ( sort keys %GroupData ) {
-                if ( $Type eq 'rw' ) {
-                    $UserData{"UserIsGroup[$GroupData{$GroupKey}]"} = 'Yes';
-                }
-                else {
-                    $UserData{"UserIsGroupRo[$GroupData{$GroupKey}]"} = 'Yes';
-                }
-            }
-        }
-
         # create new session id
         my $NewSessionID = $Kernel::OM->Get('Kernel::System::AuthSession')->CreateSessionID(
             %UserData,

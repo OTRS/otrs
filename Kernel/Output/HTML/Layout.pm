@@ -23,6 +23,8 @@ our @ObjectDependencies = (
     'Kernel::Language',
     'Kernel::System::AuthSession',
     'Kernel::System::Chat',
+    'Kernel::System::CustomerGroup',
+    'Kernel::System::Group',
     'Kernel::System::Encode',
     'Kernel::System::HTMLUtils',
     'Kernel::System::JSON',
@@ -34,7 +36,6 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::System::VideoChat',
     'Kernel::System::Web::Request',
-    'Kernel::System::Group',
 );
 
 =head1 NAME
@@ -2361,56 +2362,52 @@ check if access to a frontend module exists
 sub Permission {
     my ( $Self, %Param ) = @_;
 
-    # check needed params
-    for (qw(Action Type)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(Action Type)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Got no $_!",
+                Message  => "Got no $Needed!",
             );
             $Self->FatalError();
         }
     }
 
-    # check if it is ro|rw
-    my %Map = (
-        ro => 'GroupRo',
-        rw => 'Group',
-
-    );
-    my $Permission = $Map{ $Param{Type} };
-    return if !$Permission;
-
-    # get config option for frontend module
+    # Get config option for frontend module.
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{ $Param{Action} };
     return if !$Config;
 
-    my $Item = $Config->{$Permission};
+    my $Item = $Config->{ $Param{Type} eq 'ro' ? 'GroupRo' : 'Group' };
 
-    # array access restriction
-    my $Access = 0;
+    my $GroupObject = $Kernel::OM->Get(
+        $Self->{UserType} eq 'Customer' ? 'Kernel::System::CustomerGroup' : 'Kernel::System::Group'
+    );
+
+    # No access restriction?
+    if ( !$Config->{GroupRo} && !$Config->{Group} ) {
+        return 1;
+    }
+
+    # Array access restriction.
     if ( $Item && ref $Item eq 'ARRAY' ) {
-        for ( @{$Item} ) {
-            my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
-            if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
-                $Access = 1;
-            }
+        for my $GroupName ( @{$Item} ) {
+            return 1 if $GroupObject->PermissionCheck(
+                UserID    => $Self->{UserID},
+                GroupName => $GroupName,
+                Type      => $Param{Type},
+            );
         }
     }
 
-    # scalar access restriction
+    # Scalar access restriction.
     elsif ($Item) {
-        my $Key = 'UserIs' . $Permission . '[' . $Item . ']';
-        if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
-            $Access = 1;
-        }
+        return 1 if $GroupObject->PermissionCheck(
+            UserID    => $Self->{UserID},
+            GroupName => $Item,
+            Type      => $Param{Type},
+        );
     }
 
-    # no access restriction
-    elsif ( !$Config->{GroupRo} && !$Config->{Group} ) {
-        $Access = 1;
-    }
-    return $Access;
+    return 0;
 }
 
 sub CheckMimeType {
@@ -2873,14 +2870,24 @@ sub NavigationBar {
 
             # check shown permission
             my $Shown = 0;
+
+            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
             PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
 
                 # array access restriction
                 if ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
-                    for ( @{ $Item->{$Permission} } ) {
-                        my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
-                        if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                    GROUP:
+                    for my $Group ( @{ $Item->{$Permission} } ) {
+                        next GROUP if !$Group;
+                        my $HasPermission = $GroupObject->PermissionCheck(
+                            UserID    => $Self->{UserID},
+                            GroupName => $Group,
+                            Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                        );
+                        if ($HasPermission) {
                             $Shown = 1;
                             last PERMISSION;
                         }
@@ -2889,8 +2896,13 @@ sub NavigationBar {
 
                 # scalar access restriction
                 elsif ( $Item->{$Permission} ) {
-                    my $Key = 'UserIs' . $Permission . '[' . $Item->{$Permission} . ']';
-                    if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                    my $HasPermission = $GroupObject->PermissionCheck(
+                        UserID    => $Self->{UserID},
+                        GroupName => $Item->{$Permission},
+                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                    );
+                    if ($HasPermission) {
                         $Shown = 1;
                         last PERMISSION;
                     }
@@ -3963,6 +3975,8 @@ sub CustomerNavigationBar {
     my %NavBarModule;
     my $FrontendModuleConfig = $ConfigObject->Get('CustomerFrontend::Module');
 
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+
     MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
@@ -3994,9 +4008,14 @@ sub CustomerNavigationBar {
 
                 # array access restriction
                 if ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
-                    for my $Type ( @{ $Item->{$Permission} } ) {
-                        my $Key = 'UserIs' . $Permission . '[' . $Type . ']';
-                        if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                    for my $Group ( @{ $Item->{$Permission} } ) {
+                        my $HasPermission = $GroupObject->PermissionCheck(
+                            UserID    => $Self->{UserID},
+                            GroupName => $Group,
+                            Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                        );
+                        if ($HasPermission) {
                             $Shown = 1;
                             last PERMISSION;
                         }
@@ -4005,8 +4024,13 @@ sub CustomerNavigationBar {
 
                 # scalar access restriction
                 elsif ( $Item->{$Permission} ) {
-                    my $Key = 'UserIs' . $Permission . '[' . $Item->{$Permission} . ']';
-                    if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
+                    my $HasPermission = $GroupObject->PermissionCheck(
+                        UserID    => $Self->{UserID},
+                        GroupName => $Item->{$Permission},
+                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                    );
+                    if ($HasPermission) {
                         $Shown = 1;
                         last PERMISSION;
                     }

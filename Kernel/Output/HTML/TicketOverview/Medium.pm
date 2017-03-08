@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::Config',
+    'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::User',
@@ -58,10 +59,15 @@ sub ActionRow {
             $BulkFeature = 1;
         }
         else {
+            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
             GROUP:
             for my $Group (@Groups) {
-                next GROUP if !$LayoutObject->{"UserIsGroup[$Group]"};
-                if ( $LayoutObject->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $Group,
+                    Type      => 'rw',
+                );
+                if ($HasPermission) {
                     $BulkFeature = 1;
                     last GROUP;
                 }
@@ -202,10 +208,15 @@ sub Run {
             $BulkFeature = 1;
         }
         else {
+            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
             GROUP:
             for my $Group (@Groups) {
-                next GROUP if !$LayoutObject->{"UserIsGroup[$Group]"};
-                if ( $LayoutObject->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $Group,
+                    Type      => 'rw',
+                );
+                if ($HasPermission) {
                     $BulkFeature = 1;
                     last GROUP;
                 }

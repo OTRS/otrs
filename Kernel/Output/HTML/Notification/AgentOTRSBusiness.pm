@@ -15,8 +15,9 @@ use warnings;
 use utf8;
 
 our @ObjectDependencies = (
-    'Kernel::System::OTRSBusiness',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::Group',
+    'Kernel::System::OTRSBusiness',
 );
 
 sub Run {
@@ -97,12 +98,14 @@ if (!window.location.search.match(/^[?]Action=(AgentOTRSBusiness|Admin.*)/)) {
         );
     }
 
+    my $HasPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
+        UserID    => $Self->{UserID},
+        GroupName => $Group,
+        Type      => 'rw',
+    );
+
     # all following notifications should only be visible for administrators
-    if (
-        !defined $LayoutObject->{"UserIsGroup[$Group]"}
-        || $LayoutObject->{"UserIsGroup[$Group]"} ne 'Yes'
-        )
-    {
+    if ( !$HasPermission ) {
         return '';
     }
 

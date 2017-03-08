@@ -119,6 +119,7 @@ my @Tests = (
             Permission => {
                 ro        => 1,
                 move_into => 1,
+                rw        => 0,
             },
             UserID => $UserID,
         },
@@ -165,7 +166,9 @@ for my $Test (@Tests) {
         PERMISSION:
         for my $Permission ( sort keys %{ $Test->{Config}->{Permission} } ) {
 
-            next PERMISSION if !$Test->{Config}->{Permission}->{$Permission};
+            my @ExpectedResult = ( $Test->{Config}->{GID} );
+
+            @ExpectedResult = () if !$Test->{Config}->{Permission}->{$Permission};
 
             # check results
             my @MemberList = $CustomerGroupObject->GroupMemberList(
@@ -176,8 +179,20 @@ for my $Test (@Tests) {
 
             $Self->IsDeeply(
                 \@MemberList,
-                [$GID1],
-                "GroupMemberList() for GroupMemberAdd() $Test->{Name} - User: $Test->{Config}->{UID}",
+                \@ExpectedResult,
+                "GroupMemberList() for GroupMemberAdd() $Test->{Name} - User: $Test->{Config}->{UID} - Permission: $Permission",
+            );
+
+            my $PermissionResult = $CustomerGroupObject->PermissionCheck(
+                GroupName => $GroupObject->GroupLookup( GroupID => $Test->{Config}->{GID} ),
+                UserID    => $Test->{Config}->{UID},
+                Type      => $Permission,
+            );
+
+            $Self->Is(
+                $PermissionResult,
+                $Test->{Config}->{Permission}->{$Permission},
+                "PermissionCheck() $Test->{Name} - User: $Test->{Config}->{UID} - Permission: $Permission"
             );
         }
     }

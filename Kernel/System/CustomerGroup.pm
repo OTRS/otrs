@@ -417,6 +417,41 @@ sub GroupLookup {
     return $Result;
 }
 
+=head2 PermissionCheck()
+
+Check if a customer user has a certain permission for a certain group.
+
+    my $HasPermission = $GroupObject->PermissionCheck(
+        UserID    => $UserID,
+        GroupName => $GroupName,
+        Type      => 'move_into',
+    );
+
+=cut
+
+sub PermissionCheck {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(UserID GroupName Type)) {
+        if ( !$Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
+            return;
+        }
+    }
+
+    my %GroupMemberList = reverse $Self->GroupMemberList(
+        UserID => $Param{UserID},
+        Type   => $Param{Type},
+        Result => 'HASH',
+    );
+
+    return $GroupMemberList{ $Param{GroupName} } ? 1 : 0;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
