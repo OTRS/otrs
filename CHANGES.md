@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-08 Fixed bug#[12657](https://bugs.otrs.org/show_bug.cgi?id=12657)(PR#1640) - Search result different on DynamicFields if DB is case sensitive. Thanks to S7!
  - 2017-03-07 Fixed bug#[12565](https://bugs.otrs.org/show_bug.cgi?id=12565) - The translation is missing in the setting belonging to dynamic fields on the Generic Agent edit view.
  - 2017-03-07 Fixed bug#[12661](https://bugs.otrs.org/show_bug.cgi?id=12661)(PR#1639) - In overview views wrong dates are displayed in the Created column. Thanks to S7!
  - 2017-03-07 Fixed bug#[12665](https://bugs.otrs.org/show_bug.cgi?id=12665) - The search button in the main navigation is not visible sometimes.
