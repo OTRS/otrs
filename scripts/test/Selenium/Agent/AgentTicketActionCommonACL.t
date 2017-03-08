@@ -17,10 +17,17 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
+        );
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
+        $ConfigObject->Set(
             Key   => 'CheckMXRecord',
             Value => 0,
         );
@@ -30,20 +37,16 @@ $Selenium->RunTest(
             Key   => 'Ticket::Service',
             Value => 1,
         );
+        $ConfigObject->Set(
+            Key   => 'Ticket::Service',
+            Value => 1,
+        );
 
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###Service',
             Value => 1,
         );
-
-        # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 1,
-            },
-        );
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $RandomID = $Helper->GetRandomID();
 
@@ -136,9 +139,6 @@ EOF
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
-
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
