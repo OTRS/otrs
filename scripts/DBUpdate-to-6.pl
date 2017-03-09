@@ -102,18 +102,6 @@ Please run it as the 'otrs' user or with the help of su:
             },
         },
         {
-            Message => 'Create appointment calendar tables',
-            Command => \&_CreateAppointmentCalendarTables,
-        },
-        {
-            Message => 'Update calendar appointment future tasks',
-            Command => \&_UpdateAppointmentCalendarFutureTasks,
-        },
-        {
-            Message => 'Add basic appointment notification for reminders',
-            Command => \&_AddAppointmentCalendarNotification,
-        },
-        {
             Message => 'Drop deprecated table gi_object_lock_state',
             Command => \&_DropObjectLockState,
         },
@@ -124,10 +112,6 @@ Please run it as the 'otrs' user or with the help of su:
         {
             Message => 'Migrating time zone configuration',
             Command => \&_MigrateTimeZoneConfiguration,
-        },
-        {
-            Message => 'Uninstall Merged Feature Add-Ons',
-            Command => \&_UninstallMergedFeatureAddOns,
         },
         {
             Message => 'Create appointment calendar tables',
