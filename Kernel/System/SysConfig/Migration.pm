@@ -112,7 +112,7 @@ sub MigrateXMLStructure {
         $Setting .= "</ConfigItem>";
 
         # Update to preferences group
-        if ( $Setting =~ m{<Item Key="Column">} ) {
+        if ( $Setting =~ m{PreferencesGroups###} && $Setting =~ m{<Item Key="Column">} ) {
             $Setting =~ s{<Item\s+Key="Column">}{<Item Key="PreferenceGroup">}gsmx;
         }
 
