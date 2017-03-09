@@ -1096,9 +1096,11 @@ Core.Agent.Admin = Core.Agent.Admin || {};
      *      This function removes "disabled" attribute in the form items.
      */
     function EnableModification($Object) {
-        $Object.closest(".WidgetSimple").find("form :disabled").each(function(){
-            $(this).removeAttr("disabled");
-        });
+        $Object.closest(".WidgetSimple")
+            .find("form :disabled")
+            .each(function(){
+                $(this).removeAttr("disabled");
+            });
     }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

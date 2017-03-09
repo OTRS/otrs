@@ -774,14 +774,17 @@ sub _SettingRender {
         my $KeyTranslation     = $LanguageObject->Translate('Key');
         my $ContentTranslation = $LanguageObject->Translate('Content');
 
+        my $AddNewEntry = $LanguageObject->Translate("Add new entry");
+        $Result .= "
+    <button data-suffix=\"$Param{IDSuffix}_Hash###\" value=\"$AddNewEntry\" title=\"$AddNewEntry\" type=\"button\" class=\"AddHashKey";
         if ( $Param{RW} ) {
-            my $AddNewEntry = $LanguageObject->Translate("Add new entry");
-            $Result .= "
-    <button data-suffix=\"$Param{IDSuffix}_Hash###\" value=\"$AddNewEntry\" title=\"$AddNewEntry\" type=\"button\" class=\"AddHashKey\">
+            $Result .= " Hidden";
+        }
+        $Result .= "\">
         <i class=\"fa fa-plus-circle\"></i>
         <span class=\"InvisibleText\">$AddNewEntry</span>
     </button>";
-        }
+
         $Result .= "</div>";
     }
 
@@ -969,18 +972,21 @@ sub _SettingRender {
             }
         }
 
+        my $Size = @{ $ModifiedXMLParsed->[0]->{Array}->[0]->{Item} } + 1;
+        $Param{IDSuffix} //= '';
+
+        my $AddNewEntry = $LanguageObject->Translate("Add new entry");
+
+        $Result .= "
+    <button value=\"$AddNewEntry\" title=\"$AddNewEntry\" type=\"button\" data-suffix=\"$Param{IDSuffix}_Array$Size\" class=\"AddArrayItem";
         if ( $Param{RW} ) {
-            my $Size = @{ $ModifiedXMLParsed->[0]->{Array}->[0]->{Item} } + 1;
-            $Param{IDSuffix} //= '';
-
-            my $AddNewEntry = $LanguageObject->Translate("Add new entry");
-
-            $Result .= "
-    <button value=\"$AddNewEntry\" title=\"$AddNewEntry\" type=\"button\" class=\"AddArrayItem\" data-suffix=\"$Param{IDSuffix}_Array$Size\">
+            $Result .= " Hidden";
+        }
+        $Result .= "\">
         <i class=\"fa fa-plus-circle\"></i>
         <span class=\"InvisibleText\">$AddNewEntry</span>
-    </button>";
-        }
+    </button>\n";
+
         $Result .= "</div>";
     }
 
