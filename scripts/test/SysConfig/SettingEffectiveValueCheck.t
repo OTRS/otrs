@@ -4259,6 +4259,7 @@ my @SettingList = $SysConfigDBObject->DefaultSettingListGet();
 my @SkipTests = (
     'Fetchmail::Bin',
     'PGP::Bin',
+    'PhantomJS::Bin',
     'SMIME::CertPath',
     'SMIME::PrivatePath',
     'SMIME::Bin',
@@ -4266,6 +4267,10 @@ my @SkipTests = (
 
 SETTING:
 for my $Setting (@SettingList) {
+
+    # TODO: See if it's possible to improve effective value check by skipping invalid settings,
+    #   instead of blacklisting certain settings.
+    #   I.e.: next SETTING if !$Setting->{IsValid};
     next SETTING if grep { $_ eq $Setting->{Name} } @SkipTests;
 
     my %Result = $SysConfigObject->SettingEffectiveValueCheck(
