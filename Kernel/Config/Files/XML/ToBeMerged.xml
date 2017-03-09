@@ -27,7 +27,7 @@
                     <Hash>
                         <Item Key="Key">NotificationSettings</Item>
                         <Item Key="Name" Translatable="1">Notification Settings</Item>
-                        <Item Key="Description" Translatable="1">Choose which notifications you'd like to receive.</Item>
+                        <Item Key="Description" Translatable="1">Choose which notifications would you like to receive.</Item>
                         <Item Key="Icon">fa-envelope</Item>
                         <Item Key="Priority">1001</Item>
                     </Hash>
