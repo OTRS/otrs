@@ -98,7 +98,7 @@ daten die verwendet werden um das suchergebnis im csv-format zu exportieren.'
             'Category'    => 'OTRSFree',
             'IsInvisible' => 0,
             'Metadata'    => 'ticket::frontend::agentticketphone###splitlinktype---
-direction: ziel
+direction: target
 linktype: parentchild
 bestimmt den standard-linktyp für geteilte tickets im agentenbereich.'
         },
@@ -109,61 +109,62 @@ bestimmt den standard-linktyp für geteilte tickets im agentenbereich.'
             'Category'    => 'OTRSFree',
             'IsInvisible' => 0,
             'Metadata'    => 'ticket::frontend::historytypes###000-framework---
-addnote: notiz hinzugefügt (%s)
-archiveflagupdate: \'archivstatus geändert: "%s"\'
-bounce: bounced an "%s".
-customerupdate: \'aktualisiert: %s\'
-emailagent: e-mail an kunden versandt.
-emailcustomer: e-mail hinzugefügt. %s
-escalationresponsetimenotifybefore: eskalation "antwortzeit" vorgewarnt
-escalationresponsetimestart: eskalation "antwortzeit" aktiv
-escalationresponsetimestop: eskalation "antwortzeit" abgelaufen
-escalationsolutiontimenotifybefore: eskalation "lösungszeit" vorgewarnt
-escalationsolutiontimestart: eskalation "lösungszeit" aktiv
-escalationsolutiontimestop: eskalation "lösungszeit" abgelaufen
-escalationupdatetimenotifybefore: eskalation "aktualisierungszeit" vorgewarnt
-escalationupdatetimestart: eskalation "aktualisierungszeit" aktiv
-escalationupdatetimestop: eskalation "aktualisierungszeit" abgelaufen
-followup: followup für [%s]. %s
-forward: weitergeleitet an "%s".
-lock: ticket gesperrt.
-loopprotection: loop-protection! keine auto-antwort versandt an "%s".
+addnote: added note (%s)
+archiveflagupdate: \'archive state changed: "%s"\'
+bounce: bounced to "%s".
+customerupdate: \'updated: %s\'
+emailagent: email sent to customer.
+emailcustomer: added email. %s
+escalationresponsetimenotifybefore: escalation response time forewarned
+escalationresponsetimestart: escalation response time in effect
+escalationresponsetimestop: escalation response time finished
+escalationsolutiontimenotifybefore: escalation solution time forewarned
+escalationsolutiontimestart: escalation solution time in effect
+escalationsolutiontimestop: escalation solution time finished
+escalationupdatetimenotifybefore: escalation update time forewarned
+escalationupdatetimestart: escalation update time in effect
+escalationupdatetimestop: escalation update time finished
+followup: followup for [%s]. %s
+forward: forwarded to "%s".
+lock: locked ticket.
+loopprotection: loop-protection! no auto-response sent to "%s".
 misc: \'%s\'
-move: ticket verschoben in queue "%s" (%s) von queue "%s" (%s).
-newticket: neues ticket [%s] erstellt (q=%s;p=%s;s=%s).
-ownerupdate: neuer besitzer ist "%s" (id=%s).
-phonecallagent: kunden angerufen.
-phonecallcustomer: kunde hat angerufen.
-priorityupdate: priorität aktualisiert von "%s" (%s) nach "%s" (%s).
+move: ticket moved into queue "%s" (%s) from queue "%s" (%s).
+newticket: new ticket [%s] created (q=%s;p=%s;s=%s).
+ownerupdate: new owner is "%s" (id=%s).
+phonecallagent: agent called customer.
+phonecallcustomer: customer called us.
+priorityupdate: changed priority from "%s" (%s) to "%s" (%s).
 remove: \'%s\'
-responsibleupdate: neuer verantwortlicher ist "%s" (id=%s).
-slaupdate: sla aktualisiert "%s" (id=%s).
-sendagentnotification: \'"%s"-benachrichtigung versandt an "%s" von "%s".\'
-sendanswer: e-mail versandt an "%s".
-sendautofollowup: autofollowup an "%s" versandt.
-sendautoreject: autoreject an "%s" versandt.
-sendautoreply: autoreply an "%s" versandt.
-sendcustomernotification: benachrichtigung versandt an "%s".
-serviceupdate: service aktualisiert "%s" (id=%s).
-setpendingtime: \'aktualisiert: %s\'
-stateupdate: \'alt: "%s" neu: "%s"\'
-subscribe: abo für benutzer "%s" eingetragen.
-systemrequest: systemanfrage (%s).
-ticketdynamicfieldupdate: \'aktualisiert: %s=%s;%s=%s;%s=%s;\'
-ticketlinkadd: verknüpfung zu "%s" hergestellt.
-ticketlinkdelete: verknüpfung zu "%s" gelöscht.
-timeaccounting: \'%s zeiteinheit(en) gezählt. insgesamt %s zeiteinheit(en).\'
-titleupdate: \'titel geändert: alt: "%s", neu: "%s"\'
-typeupdate: typ aktualisiert "%s" (id=%s).
-unlock: ticketsperre aufgehoben.
-unsubscribe: abo für benutzer "%s" ausgetragen.
-webrequestcustomer: kunde stellte anfrage über web.
-kontrolliert wie die ticket-historie in lesbaren werten dargestellt wird.',
+responsibleupdate: new responsible is "%s" (id=%s).
+slaupdate: updated sla to %s (id=%s).
+sendagentnotification: \'"%s" notification was sent to "%s" by "%s".\'
+sendanswer: email sent to "%s".
+sendautofollowup: autofollowup sent to "%s".
+sendautoreject: autoreject sent to "%s".
+sendautoreply: autoreply sent to "%s".
+sendcustomernotification: notification sent to "%s".
+serviceupdate: updated service to %s (id=%s).
+setpendingtime: \'updated: %s\'
+stateupdate: \'old: "%s" new: "%s"\'
+subscribe: added subscription for user "%s".
+systemrequest: system request (%s).
+ticketdynamicfieldupdate: \'updated: %s=%s;%s=%s;%s=%s;\'
+ticketlinkadd: added link to ticket "%s".
+ticketlinkdelete: deleted link to ticket "%s".
+timeaccounting: \'%s time unit(s) accounted. now total %s time unit(s).\'
+titleupdate: \'title updated: old: "%s", new: "%s"\'
+typeupdate: updated type to %s (id=%s).
+unlock: unlocked ticket.
+unsubscribe: removed subscription for user "%s".
+webrequestcustomer: customer request via web.
+kontrolliert wie die ticket-historie in lesbaren werten dargestellt wird.'
         },
     },
 );
 
 for my $Test (@Tests) {
+
     $Self->IsDeeply(
         $Result{ $Test->{Name} },
         $Test->{ExpectedValue},

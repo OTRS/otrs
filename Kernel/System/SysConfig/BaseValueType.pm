@@ -104,7 +104,6 @@ sub SettingEffectiveValueCheck {
 Extracts the effective value from a XML parsed setting.
 
     my $EffectiveValue = $ValueTypeObject->EffectiveValueGet(
-        Translate => 1,                                 # (optional) Translate if translatable. Default 1.
         Value => [
             {
                 ValueRegex => '',                       # (optional)
@@ -141,7 +140,7 @@ sub EffectiveValueGet {
         return '';
     }
 
-    $Param{Translate} //= 1;    # enabled by default
+    $Param{Translate} = 0;    # common ValueTypes are never translated
 
     my $Result = $Param{Value}->[0]->{Content} // '';
 

@@ -174,7 +174,14 @@ sub EffectiveValueGet {
     }
 
     my $EffectiveValue = $Param{Value}->[0]->{SelectedID};
-    if ( $Option && $Option->{Translatable} ) {
+
+    if (
+        $Param{Translate}
+        &&
+        $Option &&
+        $Option->{Translatable}
+        )
+    {
         $EffectiveValue = $Kernel::OM->Get('Kernel::Language')->Translate($EffectiveValue);
     }
 

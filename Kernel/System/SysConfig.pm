@@ -785,7 +785,8 @@ sub SettingEffectiveValueGet {
         );
 
         $Result = $Objects{$ValueType}->EffectiveValueGet(
-            Value => $Value,
+            Value     => $Value,
+            Translate => $Param{Translate},
         );
     }
     elsif ( $Param{Value}->[0]->{Hash} ) {
@@ -895,16 +896,17 @@ sub SettingEffectiveValueGet {
                 # Remove empty space at start and the end (with new lines).
                 $Item->{Content} =~ s{^\n\s*(.*?)\n\s*$}{$1}gsmx;
 
-                if (
-                    $Item->{Content}
-                    && $Param{Translate}
-                    && $Item->{Translatable}
-                    )
-                {
-                    $Item->{Content} = $Kernel::OM->Get('Kernel::Language')->Translate(
-                        $Item->{Content},
-                    );
-                }
+                # Hash values should never be translated.
+                # if (
+                #     $Item->{Content}
+                #     && $Param{Translate}
+                #     && $Item->{Translatable}
+                #     )
+                # {
+                #     $Item->{Content} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                #         $Item->{Content},
+                #     );
+                # }
 
                 $Result->{ $Item->{Key} } = $Item->{Content};
             }
