@@ -513,7 +513,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::AppointmentNotificationEvent</Item>
-                <Item Key="Column">Notification Settings</Item>
+                <Item Key="PreferenceGroup">NotificationSettings</Item>
                 <Item Key="Label" Translatable="1">Appointment notifications</Item>
                 <Item Key="Desc" Translatable="1">Choose for which kind of appointment changes you want to receive notifications.</Item>
                 <Item Key="PrefKey">AdminAppointmentNotifcationEventTransport</Item>
