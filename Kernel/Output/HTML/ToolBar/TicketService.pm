@@ -28,7 +28,6 @@ our @ObjectDependencies = (
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
     if ( !$Param{Config} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -37,33 +36,42 @@ sub Run {
         return;
     }
 
-    # do nothing if Ticket Service feature is not enabled
-    return if !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service');
+    # Do nothing if ticket service feature is not enabled.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    return if !$ConfigObject->Get('Ticket::Service');
 
-    # viewable locks
+    # Get viewable locks.
     my @ViewableLockIDs = $Kernel::OM->Get('Kernel::System::Lock')->LockViewableLock( Type => 'ID' );
 
-    # viewable states
+    # Get viewable states.
     my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         Type   => 'Viewable',
         Result => 'ID',
     );
 
-    # get all queues the agent is allowed to see
+    # Get all queues the agent is allowed to see.
     my %ViewableQueues = $Kernel::OM->Get('Kernel::System::Queue')->GetAllQueues(
         UserID => $Self->{UserID},
         Type   => 'ro',
     );
     my @ViewableQueueIDs = sort keys %ViewableQueues;
 
-    # get the custom services
-    # set the service ids to an array of non existing service ids (0)
+    # Get custom services.
+    #   Set the service IDs to an array of non existing service ids (0).
     my @MyServiceIDs = $Kernel::OM->Get('Kernel::System::Service')->GetAllCustomServices( UserID => $Self->{UserID} );
     if ( !defined $MyServiceIDs[0] ) {
         @MyServiceIDs = (0);
     }
 
-    # get number of tickets in MyServices (which are not locked)
+    # Get config setting 'ViewAllPossibleTickets' for AgentTicketService and set permissions
+    #   accordingly.
+    my $Config     = $ConfigObject->Get('Ticket::Frontend::AgentTicketService');
+    my $Permission = 'rw';
+    if ( $Config->{ViewAllPossibleTickets} ) {
+        $Permission = 'ro';
+    }
+
+    # Get number of tickets in MyServices (which are not locked).
     my $Count = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
         Result     => 'COUNT',
         QueueIDs   => \@ViewableQueueIDs,
@@ -71,7 +79,7 @@ sub Run {
         StateIDs   => \@ViewableStateIDs,
         LockIDs    => \@ViewableLockIDs,
         UserID     => $Self->{UserID},
-        Permission => 'ro',
+        Permission => $Permission,
     ) || 0;
 
     my $Class = $Param{Config}->{CssClass};
