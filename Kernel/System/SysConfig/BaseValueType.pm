@@ -468,4 +468,25 @@ sub DefaultItemAdd {
     return;
 }
 
+=head2 ForbiddenValueTypes()
+
+Return array of value types that are not allowed inside this value type.
+
+    my @ForbiddenValueTypes = $ValueTypeObject->ForbiddenValueTypes();
+
+Returns:
+
+    @ForbiddenValueTypes = (
+        'Option',
+        ...
+    );
+
+=cut
+
+sub ForbiddenValueTypes {
+    my ( $Self, %Param ) = @_;
+
+    return ();
+}
+
 1;

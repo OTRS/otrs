@@ -735,6 +735,8 @@ sub SettingEffectiveValueGet {
         }
     }
 
+    my %ForbiddenValueTypes = $Self->ForbiddenValueTypesGet();
+
     $Param{Translate} //= 0;
 
     my $Result;
@@ -817,10 +819,18 @@ sub SettingEffectiveValueGet {
 
                 if (
                     $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}
-                    && $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}->[0]->{ValueType} ne 'Option'
+                    && $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueType}
                     )
                 {
-                    next ATTRIBUTE;
+                    my $DefaultItemValueType = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueType};
+                    if ( $ForbiddenValueTypes{$DefaultItemValueType} ) {
+                        my $SubValueType
+                            = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}->[0]->{ValueType};
+
+                        if ( !grep { $_ eq $SubValueType } @{ $ForbiddenValueTypes{$DefaultItemValueType} } ) {
+                            next ATTRIBUTE;
+                        }
+                    }
                 }
 
                 $Attributes{$Attribute} = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$Attribute};
@@ -3782,6 +3792,83 @@ sub ConfigurationCategoriesGet {
         Key   => $CacheKey,
         Value => \%Result,
         TTL   => 24 * 3600 * 30,    # 1 month
+    );
+
+    return %Result;
+}
+
+=head2 ForbiddenValueTypesGet()
+
+Returns a hash of forbidden value types.
+
+    my %ForbiddenValueTypes = $SysConfigObject->ForbiddenValueTypesGet();
+
+Returns:
+
+    %ForbiddenValueType = (
+        String => [],
+        Select => ['Option'],
+        ...
+    );
+
+=cut
+
+sub ForbiddenValueTypesGet {
+    my ( $Self, %Param ) = @_;
+
+    my $CacheKey  = 'ForbiddenValueTypesGet';
+    my $CacheType = 'SysConfig';
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # Return cache.
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return %{$Cache} if ref $Cache eq 'HASH';
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    my @Files = $MainObject->DirectoryRead(
+        Directory => $Self->{Home} . "/Kernel/System/SysConfig/ValueType",
+        Filter    => '*.pm',
+    );
+
+    my %Result;
+
+    for my $File (@Files) {
+
+        my $ValueType = $File;
+
+        # Remove folder path.
+        $ValueType =~ s{^.*/}{}sm;
+
+        # Remove extension
+        $ValueType =~ s{\.pm$}{}sm;
+
+        my $Loaded = $MainObject->Require(
+            "Kernel::System::SysConfig::ValueType::$ValueType",
+        );
+
+        if ($Loaded) {
+            my $ValueTypeObject = $Kernel::OM->Get(
+                "Kernel::System::SysConfig::ValueType::$ValueType",
+            );
+
+            my @ForbiddenValueTypes = $ValueTypeObject->ForbiddenValueTypes();
+            if ( scalar @ForbiddenValueTypes ) {
+                $Result{$ValueType} = \@ForbiddenValueTypes;
+            }
+        }
+    }
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \%Result,
+        TTL   => 24 * 3600,    # 1 day
     );
 
     return %Result;

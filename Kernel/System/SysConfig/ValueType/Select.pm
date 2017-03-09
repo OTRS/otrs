@@ -165,9 +165,11 @@ sub EffectiveValueGet {
         @{ $Param{Value}->[0]->{Item} };
 
     if ( !defined $Option ) {
+
+        # TODO: Should this really be logged?
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "'$Option' not found in select!",
+            Message  => "'$Param{Value}->[0]->{SelectedID}' not found in select!",
         );
     }
 
@@ -452,6 +454,27 @@ sub ValueAttributeGet {
     my ( $Self, %Param ) = @_;
 
     return 'SelectedID';
+}
+
+=head2 ForbiddenValueTypes()
+
+Return array of value types that are not allowed inside this value type.
+
+    my @ForbiddenValueTypes = $ValueTypeObject->ForbiddenValueTypes();
+
+Returns:
+
+    @ForbiddenValueTypes = (
+        'Option',
+        ...
+    );
+
+=cut
+
+sub ForbiddenValueTypes {
+    my ( $Self, %Param ) = @_;
+
+    return ("Option");
 }
 
 1;
