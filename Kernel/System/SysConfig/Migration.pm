@@ -111,6 +111,11 @@ sub MigrateXMLStructure {
         $Setting =~ s{^(<otrs_config.*?version)="1.0"}{$1="2.0"}gsmx;
         $Setting .= "</ConfigItem>";
 
+        # Update to preferences group
+        if ( $Setting =~ m{<Item Key="Column">} ) {
+            $Setting =~ s{<Item\s+Key="Column">}{<Item Key="PreferenceGroup">}gsmx;
+        }
+
         # Check if FrontendModuleReg.
         if ( $Setting =~ m{<FrontendModuleReg>} ) {
 
