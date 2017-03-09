@@ -76,7 +76,7 @@ $Selenium->RunTest(
 
         # check if the default groups are present (UserProfile)
         for my $Group (
-            qw(UserProfile NotificationSettings Miscellaneous Advanced)
+            qw(UserProfile NotificationSettings Miscellaneous)
             )
         {
             my $Element = $Selenium->find_element("//a[contains(\@href, \'Group=$Group')]");
