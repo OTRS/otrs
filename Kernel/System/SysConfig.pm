@@ -5,28 +5,37 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 package Kernel::System::SysConfig;
 
 use strict;
 use warnings;
 
 use Storable qw();
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 use Kernel::Config;
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
+    'Kernel::Output::HTML::SysConfig',
     'Kernel::System::Cache',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::XML',
+    'Kernel::System::Package',
+    'Kernel::System::Storable',
+    'Kernel::System::SysConfig::DB',
+    'Kernel::System::SysConfig::Migration',
+    'Kernel::System::SysConfig::XML',
+    'Kernel::System::User',
+    'Kernel::System::YAML',
 );
 
 =head1 NAME
 
-Kernel::System::SysConfig - to manage system configuration settings
+Kernel::System::SysConfig - Functions to manage system configuration settings.
 
 =head1 DESCRIPTION
 
@@ -51,7 +60,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get database object
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
     # get home directory
@@ -64,993 +72,1129 @@ sub new {
     $Self->{ConfigDefaultObject} = Kernel::Config->new( Level => 'Default' );
     $Self->{ConfigObject}        = Kernel::Config->new( Level => 'First' );
     $Self->{ConfigClearObject}   = Kernel::Config->new( Level => 'Clear' );
-    $Self->{ConfigCounter}       = $Self->_Init();
+
+    # Load base files.
+    my $BaseDir = $Self->{Home} . '/Kernel/System/SysConfig/Base/';
+    if ( -e $BaseDir ) {
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+        my @BaseFiles  = $MainObject->DirectoryRead(
+            Directory => $BaseDir,
+            Filter    => '*.pm',
+        );
+        BASEFILE:
+        for my $BaseFile (@BaseFiles) {
+            $BaseFile =~ s{\A.*\/(.+?).pm\z}{$1}xms;
+            my $BaseClassName = "Kernel::System::SysConfig::Base::$BaseFile";
+            if ( !$MainObject->RequireBaseClass($BaseClassName) ) {
+                $Self->FatalDie(
+                    Message => "Could not load class $BaseClassName.",
+                );
+            }
+        }
+    }
 
     return $Self;
 }
 
-=head2 WriteDefault()
+=head2 SettingGet()
 
-writes the default configuration file perl cache
-(Kernel/Config/Files/ZZZAAuto.pm). It is the Perl representation
-of the default XML configuration data (Kernel/Config/Files/*.xml).
+Get SysConfig setting attributes.
 
-=cut
-
-sub WriteDefault {
-    my ( $Self, %Param ) = @_;
-
-    my $File = '';
-    my %UsedKeys;
-
-    # read all config files
-    for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
-        if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
-
-            $UsedKeys{ $ConfigItem->{Name} } = 1;
-
-            my %Config = $Self->ConfigItemGet(
-                Name    => $ConfigItem->{Name},
-                Default => 1,
-            );
-
-            my $Name = $Config{Name};
-            $Name =~ s/\\/\\\\/g;
-            $Name =~ s/'/\'/g;
-            $Name =~ s/###/'}->{'/g;
-
-            if ( $Config{Valid} ) {
-                $File .= "\$Self->{'$Name'} = " . $Self->_XML2Perl( Data => \%Config );
-            }
-            elsif ( eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' ) ) {
-                $File .= "delete \$Self->{'$Name'};\n";
-            }
-        }
-    }
-
-    # write default config file
-    my $Out;
-    $Out .= "# OTRS config file (automatically generated)\n";
-    $Out .= "# VERSION:1.1\n";
-    $Out .= "package Kernel::Config::Files::ZZZAAuto;\n";
-    $Out .= "use strict;\n";
-    $Out .= "use warnings;\n";
-    $Out .= "no warnings 'redefine';\n";
-    if ( $Self->{utf8} ) {
-        $Out .= "use utf8;\n";
-    }
-    $Out .= "sub Load {\n";
-    $Out .= "    my (\$File, \$Self) = \@_;\n";
-    $Out .= $File;
-    $Out .= "}\n";
-    $Out .= "1;\n";
-
-    return $Self->_FileWriteAtomic(
-        Filename => "$Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm",
-        Content  => \$Out,
+    my %Setting = $SysConfigObject->SettingGet(
+        Name            => 'Setting::Name',  # Setting name
+        Default         => 1,                # Returns the default setting attributes only
+        ModifiedID      => '123',            # (optional) Get setting value for given ModifiedID.
+        Deployed        => 1,                # (optional) Get deployed setting value. Default 0.
+        Translate       => 1,                # (optional) Translate translatable strings in EffectiveValue. Default 0.
+        NoLog           => 1,                # (optional) Do not log error if a setting does not exist.
     );
-}
 
-=head2 Download()
+Returns:
 
-download config changes. This will return the content of
-Kernel/Config/Files/ZZZAuto.pm, the file which contains all
-configuration changes that the users made via AdminSysConfig.
-
-    my $ConfigurationData = $SysConfigObject->Download();
-
-If you want to check if it exists (returns true or false),
-call it like this:
-
-    my $ConfigurationExists = $SysConfigObject->Download(
-        Type => 'Check',
+    %Setting = (
+        DefaultID                => 123,
+        ModifiedID               => 456,         # optional
+        Name                     => "ProductName",
+        Description              => "Defines the name of the application ...",
+        Navigation               => "ASimple::Path::Structure",
+        IsInvisible              => 1,           # 1 or 0
+        IsReadonly               => 0,           # 1 or 0
+        IsRequired               => 1,           # 1 or 0
+        IsModified               => 1,           # 1 or 0
+        IsValid                  => 1,           # 1 or 0
+        HasConfigLevel           => 200,
+        UserModificationPossible => 0,           # 1 or 0
+        UserModificationActive   => 0,           # 1 or 0
+        UserPreferencesGroup     => 'Advanced',  # optional
+        XMLContentRaw            => "The XML structure as it is on the config file",
+        XMLContentParsed         => "XML parsed to Perl",
+        XMLFilename              => "Framework.xml",
+        EffectiveValue           => "Product 6",
+        IsDirty                  => 1,           # 1 or 0
+        ExclusiveLockGUID        => 'A32CHARACTERLONGSTRINGFORLOCKING',
+        ExclusiveLockUserID      => 1,
+        ExclusiveLockExpiryTime  => '2016-05-29 11:09:04',
+        CreateTime               => "2016-05-29 11:04:04",
+        CreateBy                 => 1,
+        ChangeTime               => "2016-05-29 11:04:04",
+        ChangeBy                 => 1,
+        DefaultValue             => 'Old default value',
     );
 
 =cut
 
-sub Download {
+sub SettingGet {
     my ( $Self, %Param ) = @_;
 
-    my $Home = $Self->{Home};
-
-    my $In;
-    if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" ) {
-        return '';
-    }
-    ## no critic
-    elsif ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
-        ## use critic
-        return if $Param{Type};
-
+    # Check needed stuff.
+    if ( !$Param{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't open $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
+            Message  => 'Need Name!',
         );
-        return '';
-    }
-
-    # read file
-    my $File = '';
-    while (<$In>) {
-        $File .= $_;
-    }
-    close($In);
-
-    # return true/false on check
-    if ( $Param{Type} ) {
-        my $Length = length($File);
-        if ( $Length > 25 ) {
-            return 1;
-        }
         return;
     }
 
-    return $File;
-}
+    $Param{Translate} //= 0;    # don't translate by default
 
-=head2 Upload()
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-upload of config changes. Pass the contents of
-the file Kernel/Config/Files/ZZZAuto.pm here, as
-read by L</Download()>.
-
-Warning: this will replace the existing user
-configuration changes.
-
-    $SysConfigObject->Upload(
-        Content => $Content,
+    # Get default setting.
+    my %Setting = $SysConfigDBObject->DefaultSettingGet(
+        Name => $Param{Name},
     );
 
-=cut
+    # setting was not found
+    if ( !%Setting ) {
 
-sub Upload {
-    my ( $Self, %Param ) = @_;
-
-    my $Home = $Self->{Home};
-
-    # check needed stuff
-    for (qw(Content)) {
-        if ( !$Param{$_} ) {
+        # do not log an error if parameter NoLog is true
+        if ( !$Param{NoLog} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Setting $Param{Name} is invalid!",
             );
-            return;
         }
-    }
 
-    my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Location => "$Home/Kernel/Config/Files/ZZZAuto.pm",
-        Content  => \$Param{Content},
-        Mode     => 'binmode',
-    );
-
-    return 1;
-}
-
-=head2 CreateConfig()
-
-Submit config settings to application. This function will write
-the internal state of the current SysConfig object to disk, saving
-all changes that were made by the users to Kernel/Config/Files/ZZZAuto.pm.
-Only values which differ from the default configuration are stored in this file.
-
-    $SysConfigObject->CreateConfig();
-
-if you want to create an empty file, for example on initial creation, you can
-use the EmptyFile param.
-
-    $SysConfigObject->CreateConfig( EmptyFile => 1 );
-
-=cut
-
-sub CreateConfig {
-    my ( $Self, %Param ) = @_;
-
-    my $File = '';
-    my %UsedKeys;
-    my $Home = $Self->{Home};
-
-    # remember to update ZZZAAuto.pm and ZZZAuto.pm
-    $Self->{Update} = 1;
-
-    # read all config files and only save the changed config options
-    if ( !$Param{EmptyFile} ) {
-
-        for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
-
-            if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
-
-                my %Config = $Self->ConfigItemGet(
-                    Name => $ConfigItem->{Name}
-                );
-
-                my %ConfigDefault = $Self->ConfigItemGet(
-                    Name    => $ConfigItem->{Name},
-                    Default => 1,
-                );
-                $UsedKeys{ $ConfigItem->{Name} } = 1;
-
-                my $Name = $Config{Name};
-                $Name =~ s/\\/\\\\/g;
-                $Name =~ s/'/\'/g;
-                $Name =~ s/###/'}->{'/g;
-
-                if (
-                    $Config{Valid}
-                    || ( $Config{ReadOnly} && $ConfigDefault{Valid} && $ConfigDefault{Required} )
-                    )
-                {
-
-                    my $C = $Self->_XML2Perl( Data => \%Config );
-                    my $D = $Self->_XML2Perl( Data => \%ConfigDefault );
-                    my ( $A1, $A2 );
-                    eval "\$A1 = $C";
-                    eval "\$A2 = $D";
-
-                    if ( !defined $A1 && !defined $A2 ) {
-
-                        # do nothing
-                    }
-                    elsif ( $Config{ReadOnly} ) {
-
-                        # do nothing (= reset to readonly value)
-                    }
-                    elsif (
-                        ( defined $A1 && !defined $A2 )
-                        || ( !defined $A1 && defined $A2 )
-                        || $Self->_DataDiff(
-                            Data1 => \$A1,
-                            Data2 => \$A2
-                        )
-                        || ( $Config{Valid} && !$ConfigDefault{Valid} )
-                        )
-                    {
-                        $File .= "\$Self->{'$Name'} = $C";
-                    }
-                    else {
-
-                        # do nothing
-                    }
-                }
-                elsif (
-                    !$Config{Valid}
-                    && (
-                        $ConfigDefault{Valid}
-                        || eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' )
-                    )
-                    )
-                {
-                    $File .= "delete \$Self->{'$Name'};\n";
-                }
-            }
-        }
-    }
-
-    # write new config file
-    my $Out;
-    $Out .= "# OTRS config file (automatically generated)\n";
-    $Out .= "# VERSION:1.1\n";
-    $Out .= "package Kernel::Config::Files::ZZZAuto;\n";
-    $Out .= "use strict;\n";
-    $Out .= "use warnings;\n";
-    $Out .= "no warnings 'redefine';\n";
-    if ( $Self->{utf8} ) {
-        $Out .= "use utf8;\n";
-    }
-    $Out .= "sub Load {\n";
-    $Out .= "    my (\$File, \$Self) = \@_;\n";
-    $Out .= $File;
-    $Out .= "}\n";
-    $Out .= "1;\n";
-
-    return $Self->_FileWriteAtomic(
-        Filename => "$Self->{Home}/Kernel/Config/Files/ZZZAuto.pm",
-        Content  => \$Out,
-    );
-}
-
-=head2 ConfigItemUpdate()
-
-submit config settings and save it.
-
-    $SysConfigObject->ConfigItemUpdate(
-        Valid        => 1,
-        Key          => 'WebUploadCacheModule',
-        Value        => 'Kernel::System::Web::UploadCache::DB',
-        NoValidation => 1,    # (optional) no validation or auto-correction will be done, to prevent loops.
-    );
-
-=cut
-
-sub ConfigItemUpdate {
-    my ( $Self, %Param ) = @_;
-
-    my $Home = $Self->{Home};
-
-    # remember to update ZZZAAuto.pm and ZZZAuto.pm
-    $Self->{Update} = 1;
-
-    # check needed stuff
-    for (qw(Valid Key Value)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-
-    # check if we need to create config file
-    if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" && !$Self->CreateConfig( EmptyFile => 1 ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't create empty $Home/Kernel/Config/Files/ZZZAuto.pm!",
-        );
         return;
     }
 
-    # check if config file is writable
-    my $Out;
-    ## no critic
-    if ( !open( $Out, ">>$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
-        ## use critic
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
-        );
-        return;
-    }
-    close($Out);
+    $Setting{DefaultValue} = $Setting{EffectiveValue};
 
-    # only validate and auto correct if param NoValidation is undefined or false
-    if ( !$Param{NoValidation} ) {
-
-        # validate the value, and auto-correct it if neccessary
-        my $ValidateOk = $Self->ConfigItemValidate(
-            Key   => $Param{Key},
-            Value => $Param{Value},
-        );
-
-        # auto correct the value if the validation failed
-        if ( !$ValidateOk ) {
-
-            my $Result = $Self->ConfigItemValidate(
-                Key         => $Param{Key},
-                Value       => $Param{Value},
-                Valid       => $Param{Valid},
-                AutoCorrect => 1,
-            );
-
-            # no need to go further as the update of the config item
-            # is done from within ConfigItemValidate() during auto-correction
-            return 1;
-        }
+    # Return default setting if specified (otherwise continue with modified setting).
+    if ( $Param{Default} ) {
+        return %Setting;
     }
 
-    $Param{Key} =~ s/\\/\\\\/g;
-    $Param{Key} =~ s/'/\'/g;
-    $Param{Key} =~ s/###/'}->{'/g;
+    # Check if modified setting available
+    my %ModifiedSetting;
+    if ( $Param{ModifiedID} ) {
 
-    # get option to store it
-    my $Option = '';
-    if ( !$Param{Valid} ) {
-        $Option = "delete \$Self->{'$Param{Key}'};\n";
+        # Get settings with given ModifiedID.
+        %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
+            ModifiedID => $Param{ModifiedID},
+            IsGlobal   => 1,
+        );
+
+        # prevent using both parameters.
+        $Param{Deployed} = undef;
     }
     else {
-        $Option = $Kernel::OM->Get('Kernel::System::Main')->Dump( $Param{Value} );
-        $Option =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
-    }
-
-    # set option in runtime
-    my $OptionRuntime = $Option;
-    $OptionRuntime =~ s/Self->/Self->\{ConfigObject\}->/;
-    eval $OptionRuntime;
-
-    # get config file and insert it
-    my $In;
-    ## no critic
-    if ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
-        ## use critic
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't read $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
+        # Get latest modified settings.
+        %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
+            Name     => $Param{Name},
+            IsGlobal => 1,
         );
-        return;
     }
 
-    # update content
-    my @FileOld = <$In>;
-    my @FileNew;
-    my $Insert = 0;
-    for my $Line ( reverse @FileOld ) {
-        push( @FileNew, $Line );
-        if ( !$Insert && ( $Line =~ /^}/ || $Line =~ /^\$Self->\{'1'\} = 1;/ ) ) {
-            push( @FileNew, $Option );
-            $Insert = 1;
-        }
-    }
-    close($In);
+    if ( $Param{Deployed} ) {
 
-    my $Content;
-    for my $Line ( reverse @FileNew ) {
-        $Content .= $Line;
-    }
+        # get the previous deployed state of this setting
+        my %SettingDeployed = $SysConfigDBObject->ModifiedSettingVersionGetLast(
+            Name => $Setting{Name},
+        );
 
-    return $Self->_FileWriteAtomic(
-        Filename => "$Self->{Home}/Kernel/Config/Files/ZZZAuto.pm",
-        Content  => \$Content,
-    );
-}
+        if ( !IsHashRefWithData( \%SettingDeployed ) ) {
 
-=head2 ConfigItemGet()
+            # if this setting was never deployed before, get the default state
 
-get a current configuration setting, including changes
-that the users made:
-
-    my %Config = $SysConfigObject->ConfigItemGet(
-        Name => 'Ticket::NumberGenerator',
-    );
-
-To get the default value of a configuration setting, pass
-the Default flag:
-
-    my %Config = $SysConfigObject->ConfigItemGet(
-        Name    => 'Ticket::NumberGenerator',
-        Default => 1,
-    );
-
-=cut
-
-sub ConfigItemGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Name)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
+            # Get default version.
+            %SettingDeployed = $SysConfigDBObject->DefaultSettingGet(
+                DefaultID => $Setting{DefaultID},
             );
-            return;
+        }
+
+        if ( IsHashRefWithData( \%SettingDeployed ) ) {
+            %Setting = (
+                %Setting,
+                %SettingDeployed
+            );
         }
     }
-    my $Level = '';
-    if ( $Param{Default} ) {
-        $Level = 'Default';
-    }
 
-    # return on invalid config item
-    return if !$Self->{Config}->{ $Param{Name} };
+    # default
+    $Setting{IsModified} = 0;
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    if ( IsHashRefWithData( \%ModifiedSetting ) ) {
 
-    # copy config and store it as default
-    my $Dump = $MainObject->Dump( $Self->{Config}->{ $Param{Name} } );
-    $Dump =~ s/\$VAR1 =/\$ConfigItem =/;
+        my $IsModified = DataIsDifferent(
+            Data1 => \$Setting{EffectiveValue},
+            Data2 => \$ModifiedSetting{EffectiveValue},
+        ) || 0;
 
-    # rh as 8 bug fix
-    $Dump =~ s/\$\{\\\$VAR1->\{'.+?'}\[0\]}/\{\}/g;
-    my $ConfigItem;
-    if ( !eval $Dump ) {
-        die "ERROR: $!: $@ in $Dump";
-    }
+        $IsModified ||= $ModifiedSetting{IsValid} != $Setting{IsValid};
+        $IsModified ||= $ModifiedSetting{UserModificationActive} != $Setting{UserModificationActive};
 
-    # add current valid state
-    if ( !$Param{Default} && !defined $Self->_ModGet( ConfigName => $ConfigItem->{Name} ) ) {
-        $ConfigItem->{Valid} = 0;
-    }
-    elsif ( !$Param{Default} ) {
-        $ConfigItem->{Valid} = 1;
-    }
+        $Setting{IsModified} = $IsModified ? 1 : 0;
 
-    # update xml with current config setting
-    if ( $ConfigItem->{Setting}->[1]->{String} ) {
+        if ( !$Param{Deployed} ) {
 
-        # fill default
-        $ConfigItem->{Setting}->[1]->{String}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{String}->[1]->{Content};
-        my $String = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($String) ) {
-            $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $String;
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{TextArea} ) {
+            # Update setting attributes.
+            ATTRIBUTE:
+            for my $Attribute (
+                qw(ModifiedID IsValid UserModificationActive EffectiveValue IsDirty
+                CreateTime CreateBy ChangeTime ChangeBy
+                )
+                )
+            {
+                next ATTRIBUTE if !defined $ModifiedSetting{$Attribute};
 
-        # fill default
-        $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Default}
-            = $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content};
-        my $TextArea = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($TextArea) ) {
-            $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $TextArea;
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{Option} ) {
-
-        # fill default
-        $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default}
-            = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID};
-        my $Option = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($Option) ) {
-            $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Option;
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{Hash} ) {
-        my $HashRef = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($HashRef) ) {
-            my @Array;
-            if ( ref $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} eq 'ARRAY' ) {
-                @Array = @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} };
-            }
-            @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} } = (undef);
-            my %Hash;
-            if ( ref $HashRef eq 'HASH' ) {
-                %Hash = %{$HashRef};
-            }
-            for my $Key ( sort keys %Hash ) {
-                if ( ref $Hash{$Key} eq 'ARRAY' ) {
-                    my @Array = (
-                        undef,
-                        {
-                            Content => '',
-                        }
-                    );
-                    @{ $Array[1]{Item} } = (undef);
-                    for my $Content ( @{ $Hash{$Key} } ) {
-                        push( @{ $Array[1]{Item} }, { Content => $Content } );
-                    }
-                    push(
-                        @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} },
-                        {
-                            Key     => $Key,
-                            Content => '',
-                            Array   => \@Array,
-                        },
-                    );
-                }
-                elsif ( ref $Hash{$Key} eq 'HASH' ) {
-                    my @Array = (
-                        undef,
-                        {
-                            Content => '',
-                        }
-                    );
-                    @{ $Array[1]{Item} } = (undef);
-                    for my $Key2 ( sort keys %{ $Hash{$Key} } ) {
-                        push(
-                            @{ $Array[1]{Item} },
-                            {
-                                Content => $Hash{$Key}{$Key2},
-                                Key     => $Key2
-                            }
-                        );
-                    }
-                    push(
-                        @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} },
-                        {
-                            Key     => $Key,
-                            Content => '',
-                            Hash    => \@Array,
-                        },
-                    );
-                }
-                else {
-                    my $Option = 0;
-                    for my $Index ( 1 .. $#Array ) {
-                        if (
-                            defined( $Array[$Index]{Key} )
-                            && $Array[$Index]{Key} eq $Key
-                            && defined( $Array[$Index]{Option} )
-                            )
-                        {
-                            $Option = 1;
-                            $Array[$Index]{Option}[1]{SelectedID} = $Hash{$Key};
-                            push(
-                                @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} },
-                                {
-                                    Key     => $Key,
-                                    Content => '',
-                                    Option  => $Array[$Index]{Option},
-                                },
-                            );
-                        }
-                    }
-                    if ( $Option == 0 ) {
-                        push(
-                            @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} },
-                            {
-                                Key     => $Key,
-                                Content => $Hash{$Key},
-                            },
-                        );
-                    }
-                }
-            }
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{Array} ) {
-        my $ArrayRef = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($ArrayRef) ) {
-            @{ $ConfigItem->{Setting}->[1]->{Array}->[1]->{Item} } = (undef);
-            my @Array;
-            if ( ref $ArrayRef eq 'ARRAY' ) {
-                @Array = @{$ArrayRef};
-            }
-            for my $Key (@Array) {
-                push(
-                    @{ $ConfigItem->{Setting}->[1]->{Array}->[1]->{Item} },
-                    {
-                        Content => $Key,
-                    },
-                );
-            }
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{FrontendModuleReg} ) {
-        my $HashRef = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($HashRef) ) {
-            @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg} } = (undef);
-            my %Hash;
-            if ( ref $HashRef eq 'HASH' ) {
-                %Hash = %{$HashRef};
-            }
-            for my $Key ( sort keys %Hash ) {
-                @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} } = (undef);
-                if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
-                    my @Array = (undef);
-                    for my $Content ( @{ $Hash{$Key} } ) {
-                        push(
-                            @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} },
-                            { Content => $Content }
-                        );
-                    }
-                }
-                elsif ( $Key eq 'Loader' ) {
-                    my %LoaderFiles;
-                    for my $Key2 ( %{ $Hash{$Key} } ) {
-                        if (
-                            $Key2 eq 'CSS'
-                            || $Key2 eq 'JavaScript'
-                            )
-                        {
-                            if ( ref $Key2 ne 'ARRAY' ) {
-                                my @Files = (undef);
-                                for my $Index ( 0 .. $#{ $Hash{$Key}->{$Key2} } ) {
-                                    my $LoaderFile = $Hash{$Key}->{$Key2}[$Index];
-                                    push(
-                                        @Files,
-                                        { Content => $LoaderFile },
-                                    );
-                                }
-                                $LoaderFiles{$Key2} = \@Files;
-                            }
-                        }
-                    }
-                    push(
-                        @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} },
-                        \%LoaderFiles,
-                    );
-                }
-                elsif ( $Key eq 'NavBar' || $Key eq 'NavBarModule' ) {
-                    if ( ref $Hash{$Key} eq 'ARRAY' ) {
-                        for my $Content ( @{ $Hash{$Key} } ) {
-                            my %NavBar;
-                            for ( sort keys %{$Content} ) {
-                                if ( $_ eq 'Group' || $_ eq 'GroupRo' ) {
-                                    @{ $NavBar{$_} } = (undef);
-                                    for my $Group ( @{ $Content->{$_} } ) {
-                                        push( @{ $NavBar{$_} }, { Content => $Group } );
-                                    }
-                                }
-                                else {
-                                    push(
-                                        @{ $NavBar{$_} },
-                                        ( undef, { Content => $Content->{$_} } )
-                                    );
-                                }
-                            }
-                            push(
-                                @{
-                                    $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
-                                },
-                                \%NavBar
-                            );
-                        }
-                    }
-                    else {
-                        my %NavBar;
-                        my $Content = $Hash{$Key};
-                        for ( sort keys %{$Content} ) {
-                            if ( $_ eq 'Group' || $_ eq 'GroupRo' ) {
-                                @{ $NavBar{$_} } = (undef);
-                                for my $Group ( @{ $Content->{$_} } ) {
-                                    push( @{ $NavBar{$_} }, { Content => $Group } );
-                                }
-                            }
-                            else {
-                                push(
-                                    @{ $NavBar{$_} },
-                                    ( undef, { Content => $Content->{$_} } )
-                                );
-                            }
-                        }
-                        $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} = \%NavBar;
-                    }
-                }
-                else {
-                    push(
-                        @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} },
-                        { Content => $Hash{$Key} }
-                    );
-                }
-            }
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{TimeWorkingHours} ) {
-        my $DaysRef = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($DaysRef) ) {
-            @{ $ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} } = (undef);
-            my %Days;
-            if ( ref $DaysRef eq 'HASH' ) {
-                %Days = %{$DaysRef};
-            }
-            for my $Day ( sort keys %Days ) {
-                my @Array = (undef);
-                for my $Hour ( @{ $Days{$Day} } ) {
-                    push(
-                        @Array,
-                        {
-                            Content => $Hour,
-                        }
-                    );
-                }
-                push(
-                    @{ $ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} },
-                    {
-                        Name => $Day,
-                        Hour => \@Array,
-                    },
-                );
-            }
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{TimeVacationDays} ) {
-        my $HashRef = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($HashRef) ) {
-            @{ $ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item} } = (undef);
-            my %Hash;
-            if ( ref $HashRef eq 'HASH' ) {
-                %Hash = %{$HashRef};
-            }
-            for my $Month ( sort { $a <=> $b } keys %Hash ) {
-
-                if ( $Hash{$Month} ) {
-                    my %Days = %{ $Hash{$Month} };
-                    for my $Day ( sort { $a <=> $b } keys %Days ) {
-                        push(
-                            @{ $ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item} },
-                            {
-                                Month   => $Month,
-                                Day     => $Day,
-                                Content => $Hash{$Month}->{$Day},
-                            },
-                        );
-                    }
-                }
-            }
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime} ) {
-        my $HashRef = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($HashRef) ) {
-            @{ $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item} } = (undef);
-            my %Hash;
-            if ( ref $HashRef eq 'HASH' ) {
-                %Hash = %{$HashRef};
-            }
-            for my $Year ( sort { $a <=> $b } keys %Hash ) {
-                my %Months = %{ $Hash{$Year} };
-                if (%Months) {
-                    for my $Month ( sort { $a <=> $b } keys %Months ) {
-                        for my $Day ( sort { $a <=> $b } keys %{ $Hash{$Year}->{$Month} } ) {
-                            push(
-                                @{
-                                    $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
-                                        ->{Item}
-                                },
-                                {
-                                    Year    => $Year,
-                                    Month   => $Month,
-                                    Day     => $Day,
-                                    Content => $Hash{$Year}->{$Month}->{$Day},
-                                },
-                            );
-                        }
-                    }
-                }
-            }
-        }
-    }
-    if ( $ConfigItem->{Setting}->[1]->{DateTime} ) {
-
-        # get data into a perl Hash
-        my $HashRef = $Self->_ModGet(
-            ConfigName => $ConfigItem->{Name},
-            Level      => $Level
-        );
-        if ( !$Param{Default} && defined($HashRef) ) {
-
-            # set perl hash into the correct XML structure for a DateTime setting
-            # Setting => [
-            #    undef,
-            #    {
-            #        Year => [
-            #            undef,
-            #            {
-            #                Content => '2012',
-            #            },
-            #        ],
-            #        ...
-            #    },
-            # ],
-            for my $Part (qw(Year Month Day Hour Minute)) {
-                $ConfigItem->{Setting}->[1]->{DateTime}->[1]->{$Part}->[1]->{Content} = $HashRef->{$Part};
+                $Setting{$Attribute} = $ModifiedSetting{$Attribute};
             }
         }
     }
 
-    if ( !$Param{Default} ) {
-        my %ConfigItemDefault = $Self->ConfigItemGet(
-            Name    => $Param{Name},
-            Default => 1,
-        );
-        my $C = $Self->_XML2Perl( Data => $ConfigItem );
-        my $D = $Self->_XML2Perl( Data => \%ConfigItemDefault );
-        my ( $A1, $A2 );
-        eval "\$A1 = $C";
-        eval "\$A2 = $D";
-        if ( $ConfigItemDefault{Valid} ne $ConfigItem->{Valid} ) {
-            $ConfigItem->{Diff} = 1;
-        }
-        elsif ( !defined $A1 && !defined $A2 ) {
-            $ConfigItem->{Diff} = 0;
-        }
-        elsif (
-            ( defined $A1 && !defined $A2 )
-            || ( !defined $A1 && defined $A2 )
-            || $Self->_DataDiff(
-                Data1 => \$A1,
-                Data2 => \$A2
-            )
-            )
-        {
-            $ConfigItem->{Diff} = 1;
-        }
-    }
-    if (
-        $ConfigItem->{Setting}->[1]->{Option}
-        && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}
-        )
-    {
-        my $Home = $Self->{Home};
-        my @List = $MainObject->DirectoryRead(
-            Directory => $Home,
-            Filter    => "$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}",
-        );
+    if ( $Param{Translate} ) {
 
-        for my $Item (@List) {
-            $Item =~ s/\Q$Home\E//g;
-            $Item =~ s/^[A-z]://g;
-            $Item =~ s/\\/\//g;
-            $Item =~ s/\/\//\//g;
-            $Item =~ s/^\///g;
-            $Item =~ s/^(.*)\.pm/$1/g;
-            $Item =~ s/\//::/g;
-            $Item =~ s/\//::/g;
-            my $Value = $Item;
-            my $Key   = $Item;
-            $Value =~ s/^.*::(.+?)$/$1/g;
-
-            if ( !$ConfigItem->{Setting}->[1]->{Option}->[1]->{Item} ) {
-                push( @{ $ConfigItem->{Setting}->[1]->{Option}->[1]->{Item} }, undef );
-            }
-            push(
-                @{ $ConfigItem->{Setting}->[1]->{Option}->[1]->{Item} },
-                {
-                    Key     => $Key,
-                    Content => $Value,
+        if (%ModifiedSetting) {
+            $Setting{XMLContentParsed}->{Value} = $Self->SettingModifiedXMLContentParsedGet(
+                ModifiedSetting => {
+                    EffectiveValue => $Setting{EffectiveValue},
+                },
+                DefaultSetting => {
+                    XMLContentParsed => $Setting{XMLContentParsed},
                 },
             );
         }
+
+        # Update EffectiveValue with translated strings
+        $Setting{EffectiveValue} = $Self->SettingEffectiveValueGet(
+            Value     => $Setting{XMLContentParsed}->{Value},
+            Translate => 1,
+        );
+
+        $Setting{Description} = $Kernel::OM->Get('Kernel::Language')->Translate(
+            $Setting{Description},
+        );
     }
-    return %{$ConfigItem};
+
+    # Return updated default.
+    return %Setting;
 }
 
-=head2 ConfigItemReset()
+=head2 SettingUpdate()
 
-reset a configuration setting to its default value.
+Update an existing SysConfig Setting.
 
-    $SysConfigObject->ConfigItemReset(
-        Name => 'Ticket::NumberGenerator',
+    my %Result = $SysConfigObject->SettingUpdate(
+        Name                   => 'Setting::Name',           # (required) setting name
+        IsValid                => 1,                         # (optional) 1 or 0, modified 0
+        EffectiveValue         => $SettingEffectiveValue,    # (optional)
+        UserModificationActive => 0,                         # (optional) 1 or 0, modified 0
+        ExclusiveLockGUID      => $LockingString,            # the GUID used to locking the setting
+        UserID                 => 1,                         # (required) UserID
+        NoValidation           => 1,                         # (optional) no value type validation.
+    );
+
+Returns:
+
+    %Result = (
+        Success => 1,        # or false in case of an error
+        Error   => undef,    # error message
     );
 
 =cut
 
-sub ConfigItemReset {
+sub SettingUpdate {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Name)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(Name ExclusiveLockGUID UserID)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!",
+            );
+
+            return;
+        }
+    }
+
+    my %Result = (
+        Success => 1,
+    );
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    # Get default setting
+    my %Setting = $SysConfigDBObject->DefaultSettingGet(
+        Name => $Param{Name},
+    );
+
+    # Make sure that required settings can't be disabled.
+    if ( $Setting{IsRequired} ) {
+        $Param{IsValid} = 1;
+    }
+
+    # Return if setting does not exists.
+    if ( !%Setting ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Setting $Param{Name} does not exists!",
+        );
+
+        %Result = (
+            Success => 0,
+            Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                "Setting %s does not exists!",
+                $Param{Name},
+            ),
+        );
+        return %Result;
+    }
+
+    # Default should be locked.
+    my $LockedByUser = $SysConfigDBObject->DefaultSettingIsLockedByUser(
+        DefaultID           => $Setting{DefaultID},
+        ExclusiveLockUserID => $Param{UserID},
+        ExclusiveLockGUID   => $Param{ExclusiveLockGUID},
+    );
+
+    if ( !$LockedByUser ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Setting $Param{Name} is not locked to this user!",
+        );
+
+        %Result = (
+            Success => 0,
+            Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                "Setting %s is not locked to this user!",
+                $Param{Name},
+            ),
+        );
+        return %Result;
+    }
+
+    # Effective value must match in structure to the default and individual values should be
+    #   valid according to its value types.
+    my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
+        XMLContentParsed => $Setting{XMLContentParsed},
+        EffectiveValue   => $Param{EffectiveValue},
+        NoValidation     => $Param{NoValidation} //= 0,
+        UserID           => $Param{UserID},
+    );
+
+    if ( !$EffectiveValueCheck{Success} ) {
+        my $Error = $EffectiveValueCheck{Error} || 'Unknown error!';
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "EffectiveValue is invalid! $Error",
+        );
+
+        %Result = (
+            Success => 0,
+            Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                "Setting value is not valid!",
+            ),
+        );
+        return %Result;
+    }
+
+    # Get modified setting (if any).
+    my %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
+        Name     => $Param{Name},
+        IsGlobal => 1,
+    );
+
+    if ( !defined $Param{EffectiveValue} ) {
+
+        # In the case that we want only to enable/disable setting,
+        #    old effective value will be preserved.
+        $Param{EffectiveValue} = $ModifiedSetting{EffectiveValue} // $Setting{EffectiveValue};
+    }
+
+    my $UserModificationActive = $Setting{UserModificationActive};
+
+    # Add new modified setting (if there wasn't).
+    if ( !%ModifiedSetting ) {
+
+        # Check if provided EffectiveValue is same as in Default
+        my $IsDifferent = DataIsDifferent(
+            Data1 => \$Setting{EffectiveValue},
+            Data2 => \$Param{EffectiveValue},
+        ) || 0;
+
+        if ( defined $Param{IsValid} ) {
+            $IsDifferent ||= $Setting{IsValid} != $Param{IsValid};
+        }
+        if ($IsDifferent) {
+
+            my $ModifiedID = $SysConfigDBObject->ModifiedSettingAdd(
+                DefaultID              => $Setting{DefaultID},
+                Name                   => $Setting{Name},
+                IsValid                => $Param{IsValid} //= $Setting{IsValid},
+                EffectiveValue         => $Param{EffectiveValue},
+                UserModificationActive => $UserModificationActive,
+                ExclusiveLockGUID      => $Param{ExclusiveLockGUID},
+                UserID                 => $Param{UserID},
+            );
+            if ( !$ModifiedID ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not add modified setting!",
+                );
+                %Result = (
+                    Success => 0,
+                    Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                        "Could not add modified setting!",
+                    ),
+                );
+                return %Result;
+            }
+        }
+    }
+    else {
+
+        # Check if provided EffectiveValue is same as in last modified EffectiveValue
+        my $IsDifferent = DataIsDifferent(
+            Data1 => \$ModifiedSetting{EffectiveValue},
+            Data2 => \$Param{EffectiveValue},
+        ) || 0;
+
+        if ( defined $Param{IsValid} ) {
+            $IsDifferent ||= $ModifiedSetting{IsValid} != $Param{IsValid};
+        }
+
+        if ($IsDifferent) {
+
+            my %ModifiedSettingVersion = $SysConfigDBObject->ModifiedSettingVersionGetLast(
+                Name => $ModifiedSetting{Name},
+            );
+
+            my $EffectiveValueModifiedSinceDeployment = 1;
+            if ( $ModifiedSettingVersion{ModifiedVersionID} ) {
+
+                my %ModifiedSettingLastDeployed = $SysConfigDBObject->ModifiedSettingVersionGet(
+                    ModifiedVersionID => $ModifiedSettingVersion{ModifiedVersionID},
+                );
+
+                $EffectiveValueModifiedSinceDeployment = DataIsDifferent(
+                    Data1 => \$ModifiedSettingLastDeployed{EffectiveValue},
+                    Data2 => \$Param{EffectiveValue},
+                ) || 0;
+
+                if ( defined $Param{IsValid} ) {
+                    $EffectiveValueModifiedSinceDeployment ||= $ModifiedSettingLastDeployed{IsValid} != $Param{IsValid};
+                }
+
+            }
+            elsif ( !IsHashRefWithData( \%ModifiedSettingVersion ) ) {
+                $EffectiveValueModifiedSinceDeployment = DataIsDifferent(
+                    Data1 => \$Setting{EffectiveValue},
+                    Data2 => \$Param{EffectiveValue},
+                ) || 0;
+
+                if ( defined $Param{IsValid} ) {
+                    $EffectiveValueModifiedSinceDeployment ||= $Setting{IsValid} != $Param{IsValid};
+                }
+            }
+
+            # Update the existing modified setting.
+            my $Success = $SysConfigDBObject->ModifiedSettingUpdate(
+                ModifiedID             => $ModifiedSetting{ModifiedID},
+                DefaultID              => $Setting{DefaultID},
+                Name                   => $Setting{Name},
+                IsValid                => $Param{IsValid} //= $ModifiedSetting{IsValid},
+                EffectiveValue         => $Param{EffectiveValue},
+                UserModificationActive => $UserModificationActive,
+                ExclusiveLockGUID      => $Param{ExclusiveLockGUID},
+                UserID                 => $Param{UserID},
+                IsDirty                => $EffectiveValueModifiedSinceDeployment ? 1 : 0,
+            );
+            if ( !$Success ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not update modified setting!",
+                );
+                %Result = (
+                    Success => 0,
+                    Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                        "Could not update modified setting!",
+                    ),
+                );
+                return %Result;
+            }
+        }
+    }
+
+    # Unlock setting so it can be locked again afterwards.
+    my $Success = $SysConfigDBObject->DefaultSettingUnlock(
+        DefaultID => $Setting{DefaultID},
+    );
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Setting could not be unlocked!",
+        );
+        %Result = (
+            Success => 0,
+            Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                "Setting could not be unlocked!",
+            ),
+        );
+        return %Result;
+    }
+
+    return %Result;
+}
+
+=head2 SettingLock()
+
+Lock setting(s) to the particular user.
+
+    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+        DefaultID => 1,                     # the ID of the setting that needs to be locked
+                                            #    or
+        Name      => 'SettingName',         # the Name of the setting that needs to be locked
+                                            #    or
+        LockAll   => 1,                     # system locks all settings
+        Force     => 1,                     # (optional) Force locking (do not check if it's already locked by another user). Default: 0.
+        UserID    => 1,
+    );
+
+Returns:
+
+    $ExclusiveLockGUID = 'azzHab72wIlAXDrxHexsI5aENsESxAO7';     # Setting locked
+
+    or
+
+    $ExclusiveLockGUID = undef;     # Not locked
+
+=cut
+
+sub SettingLock {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DefaultSettingLock(%Param);
+}
+
+=head2 SettingUnlock()
+
+Unlock particular or all Setting(s).
+
+    my $Success = $SysConfigObject->SettingUnlock(
+        DefaultID => 1,                     # the ID of the setting that needs to be unlocked
+                                            #   or
+        Name      => 'SettingName',         # the name of the setting that needs to be locked
+                                            #   or
+        UnlockAll => 1,                     # unlock all settings
+    );
+
+Returns:
+
+    $Success = 1;
+
+=cut
+
+sub SettingUnlock {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DefaultSettingUnlock(%Param);
+}
+
+=head2 SettingLockCheck()
+
+Check setting lock status.
+
+    my %Result = $SysConfigObject->SettingLockCheck(
+        DefaultID           => 1,                     # the ID of the setting that needs to be checked
+        ExclusiveLockGUID   => 1,                     # lock GUID
+        ExclusiveLockUserID => 1,                     # UserID
+    );
+
+Returns:
+
+    %Result = (
+        Locked => 1,                        # lock status;
+                                            # 0 - unlocked
+                                            # 1 - locked to another user
+                                            # 2 - locked to provided user
+        User   => {                         # User data, provided only if Locked = 1
+            UserLogin => ...,
+            UserFirstname => ...,
+            UserLastname => ...,
+            ...
+        },
+    );
+
+=cut
+
+sub SettingLockCheck {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(DefaultID ExclusiveLockGUID ExclusiveLockUserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
             );
             return;
         }
     }
-    my %ConfigItemDefault = $Self->ConfigItemGet(
-        Name    => $Param{Name},
-        Default => 1,
-    );
-    my $A = $Self->_XML2Perl( Data => \%ConfigItemDefault );
-    my ($B);
-    eval "\$B = $A";
 
-    $Self->ConfigItemUpdate(
-        Key   => $Param{Name},
-        Value => $B,
-        Valid => $ConfigItemDefault{Valid}
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my %Result = (
+        Locked => 0,
     );
-    return 1;
+
+    my $LockedByUser = $SysConfigDBObject->DefaultSettingIsLockedByUser(
+        DefaultID           => $Param{DefaultID},
+        ExclusiveLockUserID => $Param{ExclusiveLockUserID},
+        ExclusiveLockGUID   => $Param{ExclusiveLockGUID},
+    );
+
+    if ($LockedByUser) {
+
+        # setting locked to the provided user
+        $Result{Locked} = 2;
+    }
+    else {
+        # check if setting is locked to another user
+        my $UserID = $SysConfigDBObject->DefaultSettingIsLocked(
+            DefaultID     => $Param{DefaultID},
+            GetLockUserID => 1,
+        );
+
+        if ($UserID) {
+
+            # get user data
+            $Result{Locked} = 1;
+
+            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                UserID => $UserID,
+            );
+
+            $Result{User} = \%User;
+        }
+    }
+
+    return %Result;
 }
 
-=head2 ConfigItemValidityUpdate()
+=head2 SettingEffectiveValueGet()
 
-updates the validity of a configuration setting.
+Calculate effective value for a given parsed XML structure.
 
-    $SysConfigObject->ConfigItemValidityUpdate(
-        Name  => 'Ticket::NumberGenerator',
-        Valid => 1,                             # or 0
+    my $Result = $SysConfigObject->SettingEffectiveValueGet(
+        Translate => 1,                      # (optional) Translate translatable strings. Default 0.
+        Value  => [                          # (required) parsed XML structure
+          {
+            'Item' => [
+                {
+                    'ValueType' => 'String',
+                    'Content' => '3600',
+                    'ValueRegex' => ''
+                },
+            ],
+          },
+        Objects => {
+            Select => { ... },
+            PerlModule => { ... },
+            ...
+        }
+        ];
+    );
+
+Returns:
+
+    $Result = '3600';
+
+=cut
+
+sub SettingEffectiveValueGet {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Value)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    $Param{Translate} //= 0;
+
+    my $Result;
+
+    my %Objects;
+    if ( $Param{Objects} ) {
+        %Objects = %{ $Param{Objects} };
+    }
+
+    # Make sure structure is correct.
+    return $Result if !IsArrayRefWithData( $Param{Value} );
+    return $Result if !IsHashRefWithData( $Param{Value}->[0] );
+
+    my %Attributes;
+
+    if ( $Param{Value}->[0]->{Item} ) {
+
+        # Make sure structure is correct.
+        return $Result if !IsArrayRefWithData( $Param{Value}->[0]->{Item} );
+        return $Result if !IsHashRefWithData( $Param{Value}->[0]->{Item}->[0] );
+
+        # Set default ValueType.
+        my $ValueType = "String";
+
+        if ( $Param{Value}->[0]->{Item}->[0]->{ValueType} ) {
+            $ValueType = $Param{Value}->[0]->{Item}->[0]->{ValueType};
+        }
+
+        if ( !$Objects{$ValueType} ) {
+
+            # Make sure value type backend is available and syntactically correct.
+            my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
+                "Kernel::System::SysConfig::ValueType::$ValueType",
+            );
+
+            return $Result if !$Loaded;
+
+            $Objects{$ValueType} = $Kernel::OM->Get(
+                "Kernel::System::SysConfig::ValueType::$ValueType",
+            );
+        }
+
+        # Create a local clone of the value to prevent any modification.
+        my $Value = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
+            Data => $Param{Value}->[0]->{Item},
+        );
+
+        $Result = $Objects{$ValueType}->EffectiveValueGet(
+            Value => $Value,
+        );
+    }
+    elsif ( $Param{Value}->[0]->{Hash} ) {
+
+        # Make sure structure is correct.
+        return {} if !IsArrayRefWithData( $Param{Value}->[0]->{Hash} );
+        return {} if !IsHashRefWithData( $Param{Value}->[0]->{Hash}->[0] );
+        return {} if !IsArrayRefWithData( $Param{Value}->[0]->{Hash}->[0]->{Item} );
+
+        # Check for additional attributes in the DefaultItem.
+        if (
+            $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}
+            && ref $Param{Value}->[0]->{Hash}->[0]->{DefaultItem} eq 'ARRAY'
+            && scalar $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}
+            && ref $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0] eq 'HASH'
+            )
+        {
+            %Attributes = ();
+
+            ATTRIBUTE:
+            for my $Attribute ( sort keys %{ $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0] } ) {
+                if (
+                    ( grep { $_ eq $Attribute } qw (Array Hash) )
+                    && $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem}
+                    )
+                {
+                    $Attributes{DefaultItem}
+                        = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem};
+                }
+                next ATTRIBUTE if grep { $Attribute eq $_ } qw (Array Hash Content SelectedID);
+
+                if (
+                    $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}
+                    && $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}->[0]->{ValueType} ne 'Option'
+                    )
+                {
+                    next ATTRIBUTE;
+                }
+
+                $Attributes{$Attribute} = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$Attribute};
+            }
+        }
+
+        ITEM:
+        for my $Item ( @{ $Param{Value}->[0]->{Hash}->[0]->{Item} } ) {
+
+            next ITEM if !IsHashRefWithData($Item);
+            next ITEM if !defined $Item->{Key};
+
+            if ( $Item->{Hash} || $Item->{Array} ) {
+
+                my $ItemKey = $Item->{Hash} ? 'Hash' : 'Array';
+
+                ATTRIBUTE:
+                for my $Attribute ( sort keys %Attributes ) {
+                    next ATTRIBUTE if defined $Item->{$Attribute};    # skip redefined values
+
+                    $Item->{$ItemKey}->[0]->{$Attribute} = $Attributes{$Attribute};
+                }
+
+                my $Value = $Self->SettingEffectiveValueGet(
+                    Value     => [$Item],
+                    Objects   => \%Objects,
+                    Translate => $Param{Translate},
+                );
+
+                $Result->{ $Item->{Key} } = $Value;
+            }
+            elsif ( $Attributes{ValueType} || $Item->{ValueType} ) {
+
+                # Create a local clone of the item to prevent any modification.
+                my $Clone = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
+                    Data => $Item,
+                );
+
+                ATTRIBUTE:
+                for my $Attribute ( sort keys %Attributes ) {
+                    next ATTRIBUTE if defined $Clone->{$Attribute};    # skip redefined values
+
+                    $Clone->{$Attribute} = $Attributes{$Attribute};
+                }
+
+                my $Value = $Self->SettingEffectiveValueGet(
+                    Value => [
+                        {
+                            Item => [$Clone],
+                        },
+                    ],
+                    Objects   => \%Objects,
+                    Translate => $Param{Translate},
+                );
+
+                $Result->{ $Item->{Key} } = $Value;
+            }
+            else {
+
+                $Item->{Content} //= '';
+
+                # Remove empty space at start and the end (with new lines).
+                $Item->{Content} =~ s{^\n\s*(.*?)\n\s*$}{$1}gsmx;
+
+                if (
+                    $Item->{Content}
+                    && $Param{Translate}
+                    && $Item->{Translatable}
+                    )
+                {
+                    $Item->{Content} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                        $Item->{Content},
+                    );
+                }
+
+                $Result->{ $Item->{Key} } = $Item->{Content};
+            }
+        }
+    }
+    elsif ( $Param{Value}->[0]->{Array} ) {
+
+        # Make sure structure is correct
+        return [] if !IsArrayRefWithData( $Param{Value}->[0]->{Array} );
+        return [] if !IsHashRefWithData( $Param{Value}->[0]->{Array}->[0] );
+        return [] if !IsArrayRefWithData( $Param{Value}->[0]->{Array}->[0]->{Item} );
+
+        # Check for additional attributes in the DefaultItem.
+        if (
+            $Param{Value}->[0]->{Array}->[0]->{DefaultItem}
+            && ref $Param{Value}->[0]->{Array}->[0]->{DefaultItem} eq 'ARRAY'
+            && scalar $Param{Value}->[0]->{Array}->[0]->{DefaultItem}
+            && ref $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0] eq 'HASH'
+            )
+        {
+            %Attributes = ();
+
+            ATTRIBUTE:
+            for my $Attribute ( sort keys %{ $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0] } ) {
+                if (
+                    ( grep { $_ eq $Attribute } qw (Array Hash) )
+                    && $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem}
+                    )
+                {
+                    $Attributes{DefaultItem}
+                        = $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem};
+                }
+                next ATTRIBUTE if grep { $Attribute eq $_ } qw (Array Hash Content SelectedID);
+
+                $Attributes{$Attribute} = $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{$Attribute};
+            }
+        }
+
+        my @Items;
+
+        ITEM:
+        for my $Item ( @{ $Param{Value}->[0]->{Array}->[0]->{Item} } ) {
+            next ITEM if !IsHashRefWithData($Item);
+
+            if ( $Item->{Hash} || $Item->{Array} ) {
+                my $ItemKey = $Item->{Hash} ? 'Hash' : 'Array';
+
+                ATTRIBUTE:
+                for my $Attribute ( sort keys %Attributes ) {
+                    next ATTRIBUTE if defined $Item->{$Attribute};    # skip redefined values
+
+                    $Item->{$ItemKey}->[0]->{$Attribute} = $Attributes{$Attribute};
+                }
+
+                my $Value = $Self->SettingEffectiveValueGet(
+                    Value     => [$Item],
+                    Objects   => \%Objects,
+                    Translate => $Param{Translate},
+                );
+
+                push @Items, $Value;
+            }
+            elsif ( $Attributes{ValueType} ) {
+
+                # Create a local clone of the item to prevent any modification.
+                my $Clone = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
+                    Data => $Item,
+                );
+
+                ATTRIBUTE:
+                for my $Attribute ( sort keys %Attributes ) {
+                    next ATTRIBUTE if defined $Clone->{$Attribute};    # skip redefined values
+
+                    $Clone->{$Attribute} = $Attributes{$Attribute};
+                }
+
+                my $Value = $Self->SettingEffectiveValueGet(
+                    Value => [
+                        {
+                            Item => [$Clone],
+                        },
+                    ],
+                    Objects   => \%Objects,
+                    Translate => $Param{Translate},
+                );
+
+                push @Items, $Value;
+            }
+            else {
+                $Item->{Content} //= '';
+
+                # Remove empty space at start and the end (with new lines).
+                $Item->{Content} =~ s{^\n\s*(.*?)\n\s*$}{$1}gsmx;
+
+                push @Items, $Item->{Content};
+            }
+        }
+        $Result = \@Items;
+    }
+
+    return $Result;
+}
+
+=head2 SettingRender()
+
+Wrapper for Kernel::Output::HTML::SysConfig::SettingRender() - Returns the specific HTML for the setting.
+
+    my $HTMLStr = $SysConfigObject->SettingRender(
+        Setting   => {
+            Name             => 'Setting Name',
+            XMLContentParsed => $XMLParsedToPerl,
+            EffectiveValue   => "Product 6",        # or a complex structure
+            DefaultValue     => "Product 5",        # or a complex structure
+            IsAjax           => 1,                  # (optional) is ajax request. Default 0.
+            # ...
+        },
+        RW => 1,                                    # (optional) Allow editing. Default 0.
+    );
+
+Returns:
+
+    $HTMLStr = '<div class="Setting"><div class "Field"...</div></div>'        # or false in case of an error
+
+=cut
+
+sub SettingRender {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::Output::HTML::SysConfig')->SettingRender(%Param);
+}
+
+=head2 SettingAddItem()
+
+Wrapper for Kernel::Output::HTML::SysConfig::SettingAddItem() - Returns response that is sent when user adds new array/hash item.
+
+    my %Result = $SysConfigObject->SettingAddItem(
+        SettingStructure  => [],         # (required) array that contains structure
+                                         #  where a new item should be inserted (can be empty)
+        Setting           => {           # (required) Setting hash (from SettingGet())
+            'DefaultID' => '8905',
+            'DefaultValue' => [ 'Item 1', 'Item 2' ],
+            'Description' => 'Simple array item(Min 1, Max 3).',
+            'Name' => 'TestArray',
+            ...
+        },
+        Key               => 'HashKey',  # (optional) hash key
+        IDSuffix          => '_Array3,   # (optional) suffix that will be added to all input/select fields
+                                         #    (it is used in the JS on Update, during EffectiveValue calculation)
+        Value             => [           # (optional) Perl structure
+            {
+                'Array' => [
+                    'Item' => [
+                        {
+                        'Content' => 'Item 1',
+                        },
+                        ...
+                    ],
+                ],
+            },
+        ],
+        AddSettingContent => 0,          # (optional) if enabled, result will be inside of div with class "SettingContent"
+    );
+
+Returns:
+
+    %Result = (
+        'Item' => '<div class=\'SettingContent\'>
+<input type=\'text\' id=\'TestArray_Array4\'
+        value=\'Default value\' name=\'TestArray\' class=\' Entry\'/></div>',
+    );
+
+    or
+
+    %Result = (
+        'Error' => 'Error description',
     );
 
 =cut
 
-sub ConfigItemValidityUpdate {
+sub SettingAddItem {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for my $Needed (qw(Name Valid)) {
-        if ( !defined $Param{$Needed} ) {
+    return $Kernel::OM->Get('Kernel::Output::HTML::SysConfig')->SettingAddItem(%Param);
+}
+
+=head2 SettingsUpdatedList()
+
+Checks which settings has been updated from provided Setting list and returns updated values.
+
+    my @List = $SysConfigObject->SettingsUpdatedList(
+        Settings => [                                               # (required) List of settings that needs to be checked
+            {
+                SettingName           => 'SettingName',
+                ChangeTime            => '2017-01-13 11:23:07',
+                IsLockedByAnotherUser => 0,
+            },
+            ...
+        ],
+        UserID => 1,                                                # (required) Current user id
+    );
+
+Returns:
+
+    @List = [
+        {
+            ChangeTime            => '2017-01-07 11:29:38',
+            IsLockedByAnotherUser => 1,
+            IsModified            => 1,
+            SettingName           => 'SettingName',
+        },
+        ...
+    ];
+
+=cut
+
+sub SettingsUpdatedList {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(Settings UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my @Result;
+
+    SETTING:
+    for my $Setting ( @{ $Param{Settings} } ) {
+        next SETTING if !IsHashRefWithData($Setting);
+
+        my %SettingData = $Self->SettingGet(
+            Name => $Setting->{SettingName},
+        );
+
+        my $LockedUserID = $SysConfigDBObject->DefaultSettingIsLocked(
+            Name          => $Setting->{SettingName},
+            GetLockUserID => 1,
+        );
+
+        my $IsLockedByAnotherUser = $LockedUserID ? 1 : 0;
+
+        # Skip if setting was locked by current user during AJAX call.
+        next SETTING if $LockedUserID == $Param{UserID};
+
+        my $Updated = $SettingData{ChangeTime} ne $Setting->{ChangeTime};
+        $Updated ||= $IsLockedByAnotherUser != $Setting->{IsLockedByAnotherUser};
+
+        $Setting->{IsLockedByAnotherUser} = $IsLockedByAnotherUser;
+
+        next SETTING if !$Updated;
+
+        push @Result, $Setting;
+    }
+
+    return @Result;
+}
+
+=head2 SettingEffectiveValueCheck()
+
+Check if provided EffectiveValue matches structure defined in DefaultSetting. Also returns EffectiveValue that might be changed.
+
+    my %Result = $SysConfigObject->SettingEffectiveValueCheck(
+        EffectiveValue => 'open',     # (optional)
+        XMLContentParsed => {         # (required)
+            Value => [
+                {
+                    'Item' => [
+                        {
+                            'Content' => "Scalar value",
+                        },
+                    ],
+                },
+            ],
+        },
+        NoValidation          => 1,    # (optional) no value type validation.
+        UserID                => 1,    # (required) UserID
+    );
+
+Returns:
+
+    %Result = (
+        EffectiveValue => 'closed',    # Note that resulting effective value can be different
+        Success        => 1,
+        Error          => undef,
+    );
+
+=cut
+
+sub SettingEffectiveValueCheck {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(XMLContentParsed UserID)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!"
@@ -1058,589 +1202,940 @@ sub ConfigItemValidityUpdate {
             return;
         }
     }
-    my %ConfigItemDefault = $Self->ConfigItemGet(
-        Name    => $Param{Name},
-        Default => 1,
+
+    $Param{EffectiveValue} //= '';
+    $Param{NoValidation}   //= 0;
+
+    my %Result = (
+        Success => 0,
     );
 
-    return 1 if $Param{Valid} == $ConfigItemDefault{Valid};
+    my %Parameters = %{ $Param{Parameters} || {} };
+    my $Value = $Param{XMLContentParsed}->{Value};
 
-    my $A = $Self->_XML2Perl( Data => \%ConfigItemDefault );
-    my ($B);
-    eval "\$B = $A";
+    if ( $Value->[0]->{Item} || $Value->[0]->{ValueType} ) {
 
-    $Self->ConfigItemUpdate(
-        Key   => $Param{Name},
-        Value => $B,
-        Valid => $Param{Valid}
-    );
-    return 1;
-}
+        # get ValueType from parent or use default
+        my $ValueType = $Parameters{ValueType} || 'String';
 
-=head2 ConfigGroupList()
+        # ValueType is defined explicitly(override parent definition)
+        if (
+            $Value->[0]->{Item}
+            && $Value->[0]->{Item}->[0]->{ValueType}
+            )
+        {
+            $ValueType = $Value->[0]->{Item}->[0]->{ValueType};
+        }
 
-get the list of all available config groups.
+        if ( $ValueType eq 'Option' || $Param{NoValidation} ) {
+            $Result{Success}        = 1;
+            $Result{EffectiveValue} = $Param{EffectiveValue};
+            return %Result;
+        }
 
-    my %ConfigGroupList = $SysConfigObject->ConfigGroupList();
+        my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
+            "Kernel::System::SysConfig::ValueType::$ValueType",
+        );
 
-=cut
+        if ( !$Loaded ) {
+            $Result{Error} = "Kernel::System::SysConfig::ValueType::$ValueType";
+            return %Result;
+        }
 
-sub ConfigGroupList {
-    my ( $Self, %Param ) = @_;
+        my $BackendObject = $Kernel::OM->Get(
+            "Kernel::System::SysConfig::ValueType::$ValueType",
+        );
 
-    my %List;
-    my %Count;
-    for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
-        if ( $ConfigItem->{Group} && ref $ConfigItem->{Group} eq 'ARRAY' ) {
-            for my $Group ( @{ $ConfigItem->{Group} } ) {
-                if ( $Group->{Content} ) {
-                    $Count{ $Group->{Content} }++;
-                    $List{ $Group->{Content} } = "$Group->{Content} ($Count{$Group->{Content}})";
+        %Result = $BackendObject->SettingEffectiveValueCheck(%Param);
+        $Param{EffectiveValue} = $Result{EffectiveValue} if $Result{Success};
+    }
+    elsif ( $Value->[0]->{Hash} ) {
+
+        if ( ref $Param{EffectiveValue} ne 'HASH' ) {
+            $Result{Error} = 'Its not a hash!';
+            return %Result;
+        }
+
+        PARAMETER:
+        for my $Parameter ( sort keys %{ $Value->[0]->{Hash}->[0] } ) {
+
+            next PARAMETER if !grep { $_ eq $Parameter } qw(MinItems MaxItems);
+
+            $Parameters{$Parameter} = $Value->[0]->{Hash}->[0]->{$Parameter} || '';
+        }
+
+        if ( $Parameters{MinItems} && $Parameters{MinItems} > keys %{ $Param{EffectiveValue} } ) {
+            $Result{Error} = "Number of items in hash is less than MinItems($Parameters{MinItems})!";
+            return %Result;
+        }
+
+        if ( $Parameters{MaxItems} && $Parameters{MaxItems} < keys %{ $Param{EffectiveValue} } ) {
+            $Result{Error} = "Number of items in hash is more than MaxItems($Parameters{MaxItems})!";
+            return %Result;
+        }
+
+        my @Items = ();
+
+        if (
+            scalar @{ $Value->[0]->{Hash} }
+            && $Value->[0]->{Hash}->[0]->{Item}
+            && ref $Value->[0]->{Hash}->[0]->{Item} eq 'ARRAY'
+            )
+        {
+            @Items = @{ $Value->[0]->{Hash}->[0]->{Item} };
+        }
+
+        my $DefaultItem;
+
+        KEY:
+        for my $Key ( sort keys %{ $Param{EffectiveValue} } ) {
+            $DefaultItem = $Value->[0]->{Hash}->[0]->{DefaultItem};
+
+            if ( $Value->[0]->{Hash}->[0]->{Item} ) {
+                my @ItemWithSameKey = grep { $Key eq ( $Value->[0]->{Hash}->[0]->{Item}->[$_]->{Key} || '' ) }
+                    0 .. scalar @{ $Value->[0]->{Hash}->[0]->{Item} };
+                if ( scalar @ItemWithSameKey ) {
+                    $DefaultItem = [
+                        $Value->[0]->{Hash}->[0]->{Item}->[ $ItemWithSameKey[0] ],
+                    ];
+                }
+
+                my $StructureType;
+                if ( $DefaultItem->[0]->{Array} ) {
+                    $StructureType = 'Array';
+                }
+                elsif ( $DefaultItem->[0]->{Hash} ) {
+                    $StructureType = 'Hash';
+                }
+
+                # check if default item is defined in this sub-structure
+                if (
+                    $StructureType
+                    && !$DefaultItem->[0]->{$StructureType}->[0]->{DefaultItem}
+                    && $Value->[0]->{Hash}->[0]->{DefaultItem}
+                    && $Value->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$StructureType}
+                    && $Value->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$StructureType}->[0]->{DefaultItem}
+                    )
+                {
+                    # Default Item is not defined here, but it's defined in previous call.
+                    $DefaultItem->[0]->{$StructureType}->[0]->{DefaultItem} =
+                        $Value->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$StructureType}->[0]->{DefaultItem};
                 }
             }
-        }
-    }
-    return %List;
-}
 
-=head2 ConfigSubGroupList()
+            my $Ref = ref $Param{EffectiveValue}->{$Key};
 
-get the list of all config sub groups of a given group.
+            if ($Ref) {
 
-    my %ConfigGroupList = $SysConfigObject->ConfigSubGroupList(
-        Name => 'Framework',
-    );
+                if ( IsArrayRefWithData($DefaultItem) ) {
 
-=cut
+                    my $KeyNeeded;
 
-sub ConfigSubGroupList {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Name)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-    my %List;
-    for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
-        if ( $ConfigItem->{Group} && ref $ConfigItem->{Group} eq 'ARRAY' ) {
-            my $Hit = 0;
-            for my $Group ( @{ $ConfigItem->{Group} } ) {
-                if ( $Group->{Content} && $Group->{Content} eq $Param{Name} ) {
-                    $Hit = 1;
-                }
-            }
-            if ($Hit) {
-                for my $SubGroup ( @{ $ConfigItem->{SubGroup} } ) {
-                    if ( $SubGroup->{Content} ) {
-
-                        # get sub count
-                        my @List = $Self->ConfigSubGroupConfigItemList(
-                            Group    => $Param{Name},
-                            SubGroup => $SubGroup->{Content},
-                        );
-                        $List{ $SubGroup->{Content} } = ( $#List + 1 );
+                    if ( $Ref eq 'HASH' ) {
+                        $KeyNeeded = 'Hash';
                     }
-                }
-            }
-        }
-    }
-    return %List;
-}
-
-=head2 ConfigSubGroupConfigItemList()
-
-get the list of config items of a config sub group
-
-    my @ConfigItemList = $SysConfigObject->ConfigSubGroupConfigItemList(
-        Group    => 'Framework',
-        SubGroup => 'Web',
-    );
-
-=cut
-
-sub ConfigSubGroupConfigItemList {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Group SubGroup)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-    my %Data;
-    if ( $Self->{'Cache::ConfigSubGroupConfigItemList'} ) {
-        %Data = %{ $Self->{'Cache::ConfigSubGroupConfigItemList'} };
-    }
-    else {
-        my %Used;
-        for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
-            my $Name = $ConfigItem->{Name};
-            if ( $ConfigItem->{Group} && ref $ConfigItem->{Group} eq 'ARRAY' ) {
-                for my $Group ( @{ $ConfigItem->{Group} } ) {
-                    if (
-                        $Group
-                        && $ConfigItem->{SubGroup}
-                        && ref $ConfigItem->{SubGroup} eq 'ARRAY'
-                        )
-                    {
-                        for my $SubGroup ( @{ $ConfigItem->{SubGroup} } ) {
-                            if (
-                                !$Used{ $ConfigItem->{Name} }
-                                && $SubGroup->{Content}
-                                && $Group->{Content}
-                                )
-                            {
-                                $Used{ $ConfigItem->{Name} } = 1;
-                                push(
-                                    @{
-                                        $Data{ $Group->{Content} . '::' . $SubGroup->{Content} }
-                                    },
-                                    $ConfigItem->{Name}
-                                );
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        $Self->{'Cache::ConfigSubGroupConfigItemList'} = \%Data;
-    }
-    if ( $Data{ $Param{Group} . '::' . $Param{SubGroup} } ) {
-        return reverse @{ $Data{ $Param{Group} . '::' . $Param{SubGroup} } };
-    }
-    return ();
-}
-
-=head2 ConfigItemSearch()
-
-search for sub groups of config items. It will return all subgroups
-with settings which contain the search term.
-
-    my @List = $SysConfigObject->ConfigItemSearch(
-        Search => 'some topic',
-    );
-
-=cut
-
-sub ConfigItemSearch {
-    my ( $Self, %Param ) = @_;
-
-    my @List;
-    my %Used;
-
-    # check needed stuff
-    for (qw(Search)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-
-    # get language object
-    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
-
-    $Param{Search} =~ s/\*//;
-    my %Groups = $Self->ConfigGroupList();
-    for my $Group ( sort keys(%Groups) ) {
-        my %SubGroups = $Self->ConfigSubGroupList( Name => $Group );
-        for my $SubGroup ( sort keys %SubGroups ) {
-            my @Items = $Self->ConfigSubGroupConfigItemList(
-                Group    => $Group,
-                SubGroup => $SubGroup,
-            );
-            for my $Item (@Items) {
-                my $Config = $Self->_ModGet( ConfigName => $Item );
-                if ( $Config && !$Used{ $Group . '::' . $SubGroup } ) {
-                    if ( ref $Config eq 'ARRAY' ) {
-                        for ( @{$Config} ) {
-                            if ( !$Used{ $Group . '::' . $SubGroup } ) {
-                                if ( $_ && $_ =~ /\Q$Param{Search}\E/i ) {
-                                    push(
-                                        @List,
-                                        {
-                                            SubGroup      => $SubGroup,
-                                            SubGroupCount => $SubGroups{$SubGroup},
-                                            Group         => $Group,
-                                        },
-                                    );
-                                    $Used{ $Group . '::' . $SubGroup } = 1;
-                                }
-                            }
-                        }
-                    }
-                    elsif ( ref $Config eq 'HASH' ) {
-                        for my $Key ( sort keys %{$Config} ) {
-                            if ( !$Used{ $Group . '::' . $SubGroup } ) {
-                                if ( $Config->{$Key} && $Config->{$Key} =~ /\Q$Param{Search}\E/i ) {
-                                    push(
-                                        @List,
-                                        {
-                                            SubGroup      => $SubGroup,
-                                            SubGroupCount => $SubGroups{$SubGroup},
-                                            Group         => $Group,
-                                        },
-                                    );
-                                    $Used{ $Group . '::' . $SubGroup } = 1;
-                                }
-                            }
-                        }
+                    elsif ( $Ref eq 'ARRAY' ) {
+                        $KeyNeeded = 'Array';
                     }
                     else {
-                        if ( $Config =~ /\Q$Param{Search}\E/i ) {
-                            push(
-                                @List,
-                                {
-                                    SubGroup      => $SubGroup,
-                                    SubGroupCount => $SubGroups{$SubGroup},
-                                    Group         => $Group,
-                                },
-                            );
-                            $Used{ $Group . '::' . $SubGroup } = 1;
+                        $Result{Error} = "Wrong format!";
+                        last KEY;
+                    }
+
+                    if ( $DefaultItem->[0]->{Item} ) {
+
+                        # So far everything is OK, we need to check deeper (recursive).
+                        my %SubResult = $Self->_SettingEffectiveValueCheck(
+                            XMLContentParsed => {
+                                Value => $DefaultItem,
+                            },
+                            EffectiveValue => $Param{EffectiveValue}->{$Key},
+                            NoValidation   => $Param{NoValidation},
+                            UserID         => $Param{UserID},
+                        );
+                        $Param{EffectiveValue}->{$Key} = $SubResult{EffectiveValue} if $SubResult{Success};
+
+                        if ( $SubResult{Error} ) {
+                            %Result = %SubResult;
+                            last KEY;
                         }
                     }
-                }
-                if ( $Item =~ /\Q$Param{Search}\E/i ) {
-                    if ( !$Used{ $Group . '::' . $SubGroup } ) {
-                        push(
-                            @List,
-                            {
-                                SubGroup      => $SubGroup,
-                                SubGroupCount => $SubGroups{$SubGroup},
-                                Group         => $Group,
+                    elsif ( !defined $DefaultItem->[0]->{$KeyNeeded} ) {
+                        my $ExpectedText = '';
+
+                        if ( $DefaultItem->[0]->{Array} ) {
+                            $ExpectedText = "an array reference!";
+                        }
+                        elsif ( $DefaultItem->[0]->{Hash} ) {
+                            $ExpectedText = "a hash reference!";
+                        }
+                        else {
+                            $ExpectedText = "a scalar!";
+                        }
+
+                        $Result{Error} = "Item with key $Key must be $ExpectedText";
+                        last KEY;
+                    }
+                    else {
+
+                        # So far everything is OK, we need to check deeper (recursive).
+                        my %SubResult = $Self->_SettingEffectiveValueCheck(
+                            XMLContentParsed => {
+                                Value => $DefaultItem,
                             },
+                            EffectiveValue => $Param{EffectiveValue}->{$Key},
+                            NoValidation   => $Param{NoValidation},
+                            UserID         => $Param{UserID},
                         );
-                        $Used{ $Group . '::' . $SubGroup } = 1;
+                        $Param{EffectiveValue}->{$Key} = $SubResult{EffectiveValue} if $SubResult{Success};
+
+                        if ( $SubResult{Error} ) {
+                            %Result = %SubResult;
+                            last KEY;
+                        }
                     }
                 }
                 else {
-                    my %ItemHash = $Self->ConfigItemGet( Name => $Item );
-                    for my $Index ( 1 .. $#{ $ItemHash{Description} } ) {
-                        if ( !$Used{ $Group . '::' . $SubGroup } ) {
-                            my $Description = $ItemHash{Description}[$Index]{Content};
+                    # Hash is empty in the Defaults, value should be scalar.
+                    $Result{Error} = "Item with key $Key must be a scalar!";
+                    last KEY;
+                }
+            }
+            else {
 
-                            # compare with the English description and also with the translated sentence
-                            if (
-                                ( $Description =~ /\Q$Param{Search}\E/i )
-                                || (
-                                    $LanguageObject->Translate($Description)
-                                    =~ /\Q$Param{Search}\E/i
-                                )
-                                )
-                            {
-                                push(
-                                    @List,
+                # scalar value
+                if ( IsArrayRefWithData($DefaultItem) ) {
+                    if ( $DefaultItem->[0]->{Item} || $DefaultItem->[0]->{Content} ) {
+
+                        # So far everything is OK, we need to check deeper (recursive).
+                        my %SubResult = $Self->_SettingEffectiveValueCheck(
+                            XMLContentParsed => {
+                                Value => [
                                     {
-                                        SubGroup      => $SubGroup,
-                                        SubGroupCount => $SubGroups{$SubGroup},
-                                        Group         => $Group,
+                                        Item => $DefaultItem,
                                     },
-                                );
-                                $Used{ $Group . '::' . $SubGroup } = 1;
-                            }
+                                ],
+                            },
+                            EffectiveValue => $Param{EffectiveValue}->{$Key},
+                            NoValidation   => $Param{NoValidation},
+                            UserID         => $Param{UserID},
+                        );
+
+                        if ( $SubResult{Error} ) {
+                            %Result = %SubResult;
+                            last KEY;
                         }
+                        else {
+                            $Param{EffectiveValue}->{$Key} = $SubResult{EffectiveValue};
+                        }
+
+                    }
+                    elsif ( $DefaultItem->[0]->{Hash} ) {
+                        $Result{Error} = "Item with key $Key must be a hash reference!";
+                        last KEY;
+                    }
+                    elsif ( $DefaultItem->[0]->{Array} ) {
+                        $Result{Error} = "Item with key $Key must be an array reference!";
+                        last KEY;
                     }
                 }
             }
         }
+
+        # Check which Value type is default
+        my $DefaultValueTypeDefined = 'String';
+        if (
+            $Value->[0]->{Hash}->[0]->{DefaultItem}
+            && $Value->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueType}
+            )
+        {
+            $DefaultValueTypeDefined = $Value->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueType};
+        }
+
+        # Get persistent keys(items with value type different then value type defined in the DefaultItem)
+        my @PersistentKeys;
+        for my $Item ( @{ $Value->[0]->{Hash}->[0]->{Item} } ) {
+            my $ValueType = $DefaultValueTypeDefined;
+
+            if ( $Item->{ValueType} ) {
+                $ValueType = $Item->{ValueType};
+            }
+            elsif (
+                $Item->{Item}
+                && $Item->{Item}->[0]->{ValueType}
+                )
+            {
+                $ValueType = $Item->{Item}->[0]->{ValueType};
+            }
+
+            if ( $ValueType ne $DefaultValueTypeDefined && $Item->{Key} ) {
+                push @PersistentKeys, $Item->{Key};
+            }
+        }
+
+        # Validate if all persistent keys are present
+        PERSISTENT_KEY:
+        for my $Key (@PersistentKeys) {
+            if ( !defined $Param{EffectiveValue}->{$Key} ) {
+                $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate( "Missing key %s!", $Key );
+                last PERSISTENT_KEY;
+            }
+        }
+
+        if ( $Result{Error} ) {
+            return %Result;
+        }
+
+        $Result{Success} = 1;
+    }
+    elsif ( $Value->[0]->{Array} ) {
+
+        if ( ref $Param{EffectiveValue} ne 'ARRAY' ) {
+            $Result{Error} = 'Its not an array!';
+            return %Result;
+        }
+
+        PARAMETER:
+        for my $Parameter ( sort keys %{ $Value->[0]->{Array}->[0] } ) {
+            next PARAMETER if !grep { $_ eq $Parameter } qw(MinItems MaxItems);
+
+            $Parameters{$Parameter} = $Value->[0]->{Array}->[0]->{$Parameter} || '';
+        }
+
+        if ( $Parameters{MinItems} && $Parameters{MinItems} > scalar @{ $Param{EffectiveValue} } ) {
+            $Result{Error} = "Number of items in array is less than MinItems($Parameters{MinItems})!";
+            return %Result;
+        }
+
+        if ( $Parameters{MaxItems} && $Parameters{MaxItems} < scalar @{ $Param{EffectiveValue} } ) {
+            $Result{Error} = "Number of items in array is more than MaxItems($Parameters{MaxItems})!";
+            return %Result;
+        }
+
+        my @Items = ();
+        if (
+            scalar @{ $Value->[0]->{Array} }
+            && $Value->[0]->{Array}->[0]->{Item}
+            && ref $Value->[0]->{Array}->[0]->{Item} eq 'ARRAY'
+            )
+        {
+            @Items = @{ $Value->[0]->{Array}->[0]->{Item} };
+        }
+
+        my $DefaultItem;
+
+        INDEX:
+        for my $Index ( 0 .. scalar @{ $Param{EffectiveValue} } - 1 ) {
+
+            $DefaultItem = $Value->[0]->{Array}->[0]->{DefaultItem};
+
+            my $Ref = ref $Param{EffectiveValue}->[$Index];
+            if ($Ref) {
+                if ($DefaultItem) {
+                    my $KeyNeeded;
+
+                    if ( $Ref eq 'HASH' ) {
+                        $KeyNeeded = 'Hash';
+                    }
+                    elsif ( $Ref eq 'ARRAY' ) {
+                        $KeyNeeded = 'Array';
+                    }
+                    else {
+                        $Result{Error} = "Wrong format!";
+                        last INDEX;
+                    }
+
+                    if ( $DefaultItem->[0]->{Item} ) {
+
+                        # So far everything is OK, we need to check deeper (recursive).
+                        my %SubResult = $Self->_SettingEffectiveValueCheck(
+                            XMLContentParsed => {
+                                Value => [
+                                    {
+                                        Item => $DefaultItem,
+                                    },
+                                ],
+                            },
+                            EffectiveValue => $Param{EffectiveValue}->[$Index],
+                            NoValidation   => $Param{NoValidation},
+                            UserID         => $Param{UserID},
+                        );
+                        $Param{EffectiveValue}->[$Index] = $SubResult{EffectiveValue} if $SubResult{Success};
+
+                        if ( $SubResult{Error} ) {
+                            %Result = %SubResult;
+                            last INDEX;
+                        }
+                    }
+                    elsif ( !defined $DefaultItem->[0]->{$KeyNeeded} ) {
+                        my $ExpectedText = '';
+
+                        if ( $DefaultItem->[0]->{Array} ) {
+                            $ExpectedText = "an array reference!";
+                        }
+                        elsif ( $DefaultItem->[0]->{Hash} ) {
+                            $ExpectedText = "a hash reference!";
+                        }
+                        elsif ( $DefaultItem->[0]->{Content} ) {
+                            $ExpectedText = "a scalar!";
+                        }
+
+                        $Result{Error} = "Item with index $Index must be $ExpectedText";
+                        last INDEX;
+                    }
+                    else {
+
+                        # So far everything is OK, we need to check deeper (recursive).
+                        my %SubResult = $Self->_SettingEffectiveValueCheck(
+                            XMLContentParsed => {
+                                Value => $DefaultItem,
+                            },
+                            EffectiveValue => $Param{EffectiveValue}->[$Index],
+                            NoValidation   => $Param{NoValidation},
+                            UserID         => $Param{UserID},
+                        );
+                        $Param{EffectiveValue}->[$Index] = $SubResult{EffectiveValue} if $SubResult{Success};
+
+                        if ( $SubResult{Error} ) {
+                            %Result = %SubResult;
+                            last INDEX;
+                        }
+                    }
+                }
+                else {
+
+                    # Array is empty in the Defaults, value should be scalar.
+                    $Result{Error} = "Item with index $Index must be a scalar!";
+                    last INDEX;
+                }
+            }
+            else {
+
+                # scalar
+                if ($DefaultItem) {
+
+                    if ( $DefaultItem->[0]->{Item} || $DefaultItem->[0]->{ValueType} ) {
+
+                        # Item with ValueType
+
+                        # So far everything is OK, we need to check deeper (recursive).
+                        my %SubResult = $Self->_SettingEffectiveValueCheck(
+                            XMLContentParsed => {
+                                Value => [
+                                    {
+                                        Item => $DefaultItem,
+                                    },
+                                ],
+                            },
+                            EffectiveValue => $Param{EffectiveValue}->[$Index],
+                            NoValidation   => $Param{NoValidation},
+                            UserID         => $Param{UserID},
+                        );
+                        $Param{EffectiveValue}->[$Index] = $SubResult{EffectiveValue} if $SubResult{Success};
+
+                        if ( $SubResult{Error} ) {
+                            %Result = %SubResult;
+                            last INDEX;
+                        }
+                    }
+                    elsif ( $DefaultItem->[0]->{Hash} ) {
+                        $Result{Error} = "Item with index $Index must be a hash reference!";
+                        last INDEX;
+                    }
+                    elsif ( $DefaultItem->[0]->{Array} ) {
+                        $Result{Error} = "Item with index $Index must be an array reference!";
+                        last INDEX;
+                    }
+                }
+            }
+        }
+        if ( $Result{Error} ) {
+            return %Result;
+        }
+
+        $Result{Success} = 1;
     }
 
-    return @List;
+    if ( $Result{Success} ) {
+        $Result{EffectiveValue} = $Param{EffectiveValue};
+    }
+
+    return %Result;
 }
 
-=head2 ConfigItemTranslatableStrings()
+=head2 SettingReset()
 
-returns a unique list of all translatable strings in the
-XML configuration.
+Reset the modified value to the default value.
+
+    my $Result = $SysConfigObject->SettingReset(
+        Name                  => 'Setting Name',                # (required) Setting name
+        TargetUserID          => 2,                             # (optional) UserID for settings in AgentPreferences
+                                                                # or
+        ExclusiveLockGUID     => $LockingString,                # (optional) the GUID used to locking the setting
+        UserID                => 1,                             # (required) UserID that creates modification
+    );
+
+Returns:
+
+    $Result = 1;        # or false in case of an error
 
 =cut
 
-sub ConfigItemTranslatableStrings {
+sub SettingReset {
     my ( $Self, %Param ) = @_;
 
-    # empty translation list
-    $Self->{ConfigItemTranslatableStrings} = {};
-
-    # get all groups
-    my %ConfigGroupList = $Self->ConfigGroupList();
-    for my $Group ( sort keys %ConfigGroupList ) {
-
-        # get all sub groups
-        my %ConfigSubGroupList = $Self->ConfigSubGroupList(
-            Name => $Group,
-        );
-        for my $SubGroup ( sort keys %ConfigSubGroupList ) {
-
-            # get items
-            my @ConfigItemList = $Self->ConfigSubGroupConfigItemList(
-                Group    => $Group,
-                SubGroup => $SubGroup,
+    for my $Needed (qw(Name ExclusiveLockGUID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
             );
-
-            CONFIGITEM:
-            for my $ConfigItem (@ConfigItemList) {
-
-                # get attributes of each config item
-                my %Config = $Self->ConfigItemGet(
-                    Name    => $ConfigItem,
-                    Default => 1,
-                );
-                next CONFIGITEM if !%Config;
-
-                # get translatable strings
-                $Self->_ConfigItemTranslatableStrings( Data => \%Config );
-            }
+            return;
         }
     }
 
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    # Check if the setting exists.
+    my %DefaultSetting = $SysConfigDBObject->DefaultSettingGet(
+        Name => $Param{Name},
+    );
+
+    return if !%DefaultSetting;
+
+    # Default should be locked.
+    my $LockedByUser = $SysConfigDBObject->DefaultSettingIsLockedByUser(
+        DefaultID           => $DefaultSetting{DefaultID},
+        ExclusiveLockUserID => $Param{UserID},
+        ExclusiveLockGUID   => $Param{ExclusiveLockGUID},
+    );
+
+    if ( !$LockedByUser ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Setting $Param{Name} is not locked to this user!",
+        );
+        return;
+    }
+
+    my %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
+        Name     => $Param{Name},
+        IsGlobal => 1,
+    );
+
+    # Setting already had default value.
+    return 1 if !%ModifiedSetting;
+
+    my %SettingDeployed = $Self->SettingGet(
+        Name     => $Param{Name},
+        Deployed => 1,
+    );
+
+    my $IsModified = DataIsDifferent(
+        Data1 => \$SettingDeployed{EffectiveValue},
+        Data2 => \$DefaultSetting{EffectiveValue},
+    ) || 0;
+
+    $IsModified ||= $ModifiedSetting{IsValid} != $DefaultSetting{IsValid};
+    $IsModified ||= $ModifiedSetting{UserModificationActive} != $DefaultSetting{UserModificationActive};
+    $ModifiedSetting{IsDirty} = $IsModified ? 1 : 0;
+
+    # Copy values from default.
+    for my $Field (qw(IsValid UserModificationActive EffectiveValue)) {
+        $ModifiedSetting{$Field} = $DefaultSetting{$Field};
+    }
+
+    # Set reset flag.
+    $ModifiedSetting{ResetToDefault} = 1;
+
+    # Delete modified setting.
+    my $ResetResult = $SysConfigDBObject->ModifiedSettingUpdate(
+        %ModifiedSetting,
+        ExclusiveLockGUID => $Param{ExclusiveLockGUID},
+        UserID            => $Param{UserID},
+    );
+
+    if ( !$ResetResult ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "System was unable to update Modified setting: $Param{Name}!",
+        );
+    }
+
+    return $ResetResult;
+}
+
+=head2 ConfigurationTranslatedGet()
+
+Returns a hash with all settings and translated metadata.
+
+    my %Result = $SysConfigObject->ConfigurationTranslatedGet();
+
+Returns:
+
+    %Result = (
+       'ACL::CacheTTL' => {
+            'Category' => 'OTRSFree',
+            'IsInvisible' => '0',
+            'Metadata' => "ACL::CacheTTL--- '3600'
+Cache-Zeit in Sekunden f\x{fc}r Datenbank ACL-Backends.",
+        ...
+    );
+
+=cut
+
+sub ConfigurationTranslatedGet {
+    my ( $Self, %Param ) = @_;
+
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheType = 'ConfigurationTranslatedGet';
+
+    my $CacheKey = "ConfigurationTranslatedGet::$LanguageObject->{UserLanguage}";
+
+    # Return cache.
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return %{$Cache} if ref $Cache eq 'HASH';
+
+    my %Settings = $Self->ConfigurationList();
+
+    my %Result;
+
+    for my $DefaultID ( sort keys %Settings ) {
+
+        my %SettingTranslated = $Self->_ConfigurationTranslatedGet(
+            Language => $LanguageObject->{UserLanguage},
+            Name     => $Settings{$DefaultID},
+        );
+
+        # Append to the result.
+        $Result{ $Settings{$DefaultID} } = $SettingTranslated{ $Settings{$DefaultID} };
+    }
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \%Result,
+        TTL   => $Self->{CacheTTL} || 24 * 60 * 60,
+    );
+
+    return %Result;
+}
+
+=head2 SettingNavigationToPath()
+
+Returns path structure for given navigation group.
+
+    my @Path = $SysConfigObject->SettingNavigationToPath(
+        Navigation => 'Frontend::Agent::ToolBarModule',  # (optional)
+    );
+
+Returns:
+
+    @Path = (
+        {
+            'Value' => 'Frontend',
+            'Name' => 'Frontend',
+        },
+        {
+            'Value' => 'Frontend::Agent',
+            'Name' => 'Agent',
+        },
+        ...
+    );
+
+=cut
+
+sub SettingNavigationToPath {
+    my ( $Self, %Param ) = @_;
+
+    my @NavigationNames = split( '::', $Param{Navigation} );
+    my @Path;
+
+    INDEX:
+    for my $Index ( 0 .. $#NavigationNames ) {
+
+        $Path[$Index]->{Name} = $NavigationNames[$Index];
+
+        my @SubArray = @NavigationNames[ 0 .. $Index ];
+        $Path[$Index]->{Value} = join '::', @SubArray;
+    }
+
+    return @Path;
+}
+
+=head2 ConfigurationTranslatableStrings()
+
+Returns a unique list of all translatable strings from the default settings.
+
+    my @TranslatableStrings = $SysConfigObject->ConfigurationTranslatableStrings();
+
+=cut
+
+sub ConfigurationTranslatableStrings {
+    my ( $Self, %Param ) = @_;
+
+    # Reset translation list.
+    $Self->{ConfigurationTranslatableStrings} = {};
+
+    # Get all default settings.
+    my @SettingsList = $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DefaultSettingListGet();
+
+    SETTING:
+    for my $Setting (@SettingsList) {
+
+        next SETTING if !$Setting;
+        next SETTING if !defined $Setting->{XMLContentParsed};
+
+        # Get translatable strings.
+        $Self->_ConfigurationTranslatableStrings( Data => $Setting->{XMLContentParsed} );
+
+    }
+
     my @Strings;
-    for my $Key ( sort keys %{ $Self->{ConfigItemTranslatableStrings} } ) {
+    for my $Key ( sort keys %{ $Self->{ConfigurationTranslatableStrings} } ) {
         push @Strings, $Key;
     }
     return @Strings;
 }
 
-=head2 ConfigItemValidate()
+=head2 ConfigurationEntitiesGet()
 
-Validates if the given value for this config item is correct.
-If no value is given, the current value of the config item will be validated.
-Returns true if it is valid, false otherwise.
+Get all entities that are referred in any enabled Setting in complete SysConfig.
 
-    my $Result = $SysConfigObject->ConfigItemValidate(
-        Key         => 'Ticket::Frontend::AgentTicketOwner###PriorityDefault',
-        Value       => '3 normal',  # (optional)
-        Valid       => 1,           # (optional) only used if AutoCorrect is set
-        AutoCorrect => 1,           # (optional) auto-correct the config item
+    my %Result = $SysConfigObject->ConfigurationEntitiesGet();
+
+Returns:
+
+    %Result = (
+        'Priority' => {
+            '3 normal' => [
+                'Ticket::Frontend::AgentTicketNote###PriorityDefault',
+                'Ticket::Frontend::AgentTicketPhone###Priority',
+                ...
+            ],
+        },
+        'Queue' => {
+            'Postmaster' => [
+                'Ticket::Frontend::CustomerTicketMessage###QueueDefault',
+            ],
+            'Raw' => [
+                'PostmasterDefaultQueue',
+            ],
+        },
+        ...
     );
 
 =cut
 
-sub ConfigItemValidate {
+sub ConfigurationEntitiesGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if ( !$Param{Key} ) {
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheType = "SysConfigEntities";
+    my $CacheKey  = "UsedEntities";
+
+    my $CacheData = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    # Return cached data if available.
+    return %{$CacheData} if $CacheData;
+
+    my %Result = ();
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my @EntitySettings = $SysConfigDBObject->DefaultSettingSearch(
+        Search => 'ValueEntityType',
+        Valid  => 1,
+    );
+
+    SETTING:
+    for my $SettingName (@EntitySettings) {
+        my %Setting = $SysConfigDBObject->DefaultSettingGet(
+            Name => $SettingName,
+        );
+
+        # Check if there is modified value.
+        my %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
+            Name => $SettingName,
+        );
+
+        if (%ModifiedSetting) {
+            my $XMLContentParsed = $Self->SettingModifiedXMLContentParsedGet(
+                ModifiedSetting => \%ModifiedSetting,
+                DefaultSetting  => \%Setting,
+            );
+
+            $Setting{XMLContentParsed}->{Value} = $XMLContentParsed;
+        }
+
+        %Result = $Self->_ConfigurationEntitiesGet(
+            Value  => $Setting{XMLContentParsed}->{Value},
+            Result => \%Result,
+            Name   => $Setting{XMLContentParsed}->{Name},
+        );
+    }
+
+    # Cache the results.
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \%Result,
+        TTL   => 30 * 24 * 60 * 60,
+    );
+
+    return %Result;
+}
+
+=head2 ConfigurationEntityCheck()
+
+Check if there are any enabled settings that refers to the provided Entity.
+
+    my @Result = $SysConfigObject->ConfigurationEntityCheck(
+        EntityType  => 'Priority',
+        EntityName  => '3 normal',
+    );
+
+Returns:
+
+    @Result = (
+        'Ticket::Frontend::AgentTicketNote###PriorityDefault',
+        'Ticket::Frontend::AgentTicketPhone###Priority',
+        'Ticket::Frontend::AgentTicketBulk###PriorityDefault',
+        ...
+    );
+
+=cut
+
+sub ConfigurationEntityCheck {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(EntityType EntityName)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheType = "SysConfigEntities";
+    my $CacheKey  = "ConfigurationEntityCheck$Param{EntityType}-$Param{EntityName}";
+
+    my $CacheData = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    # Return cached data if available.
+    return @{$CacheData} if $CacheData;
+
+    my %EntitySettings = $Self->ConfigurationEntitiesGet();
+
+    my @Result = ();
+
+    for my $EntityType ( sort keys %EntitySettings ) {
+
+        # Check conditions.
+        if (
+            $EntityType eq $Param{EntityType}
+            && $EntitySettings{$EntityType}{ $Param{EntityName} }
+            )
+        {
+            @Result = @{ $EntitySettings{$EntityType}->{ $Param{EntityName} } };
+        }
+    }
+
+    # Cache the results.
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \@Result,
+        TTL   => 30 * 24 * 60 * 60,
+    );
+
+    return @Result;
+}
+
+=head2 ConfigurationXML2DB()
+
+Load Settings defined in XML files to the database.
+
+    my $Success = $SysConfigObject->ConfigurationXML2DB(
+        UserID    => 1,                  # UserID
+        Directory => '/some/folder',     # (optional) Provide directory where XML files are stored (default: Kernel/Config/Files/XML).
+        Force     => 1,                  # (optional) Force Setting update, even if it's locked by another user. Default: 0.
+        CleanUp   => 1,                  # (optional) Remove all settings that are not present in XML files. Default: 0.
+    );
+
+Returns:
+
+    $Success = 1;       # or false in case of an error.
+
+=cut
+
+sub ConfigurationXML2DB {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need Key!",
+            Message  => "Need UserID!"
         );
         return;
     }
 
-    # get the current config item
-    my %ConfigItem = $Self->ConfigItemGet(
-        Name => $Param{Key},
-    );
+    my $Directory = $Param{Directory} || "$Self->{Home}/Kernel/Config/Files/XML/";
 
-    # check if a validate module is defined for this config option
-    return 1 if !$ConfigItem{ValidateModule};
-    return 1 if ref $ConfigItem{ValidateModule} ne 'ARRAY';
-    return 1 if !$ConfigItem{ValidateModule}->[1]->{Content};
-
-    # load the validate module
-    my $ValidateObject = $Kernel::OM->Get( $ConfigItem{ValidateModule}->[1]->{Content} );
-
-    # module could not be loaded
-    return if !$ValidateObject;
-
-    # take the given value
-    my $Value = $Param{Value};
-
-    # if no value is given, take the already stored value
-    if ( !defined $Param{Value} ) {
-
-        # string
-        if ( $ConfigItem{Setting}->[1]->{String}->[1]->{Content} ) {
-            $Value = $ConfigItem{Setting}->[1]->{String}->[1]->{Content};
-        }
-
-        # textarea
-        elsif ( $ConfigItem{Setting}->[1]->{TextArea}->[1]->{Content} ) {
-            $Value = $ConfigItem{Setting}->[1]->{TextArea}->[1]->{Content};
-        }
-
-        # option
-        # (more complex, so give the complete data structure)
-        elsif ( $ConfigItem{Setting}->[1]->{Option}->[1] ) {
-            $Value = $ConfigItem{Setting}->[1]->{Option}->[1];
-        }
-
-        # hash
-        elsif ( $ConfigItem{Setting}->[1]->{Hash}->[1]->{Item} ) {
-            $Value = $ConfigItem{Setting}->[1]->{Hash}->[1]->{Item};
-        }
-
-        # array
-        elsif ( $ConfigItem{Setting}->[1]->{Array}->[1]->{Item} ) {
-            $Value = $ConfigItem{Setting}->[1]->{Array}->[1]->{Item};
-        }
-
-        # FrontendModuleReg
-        # (more complex, so give the complete data structure)
-        elsif ( $ConfigItem{Setting}->[1]->{FrontendModuleReg}->[1] ) {
-            $Value = $ConfigItem{Setting}->[1]->{FrontendModuleReg}->[1];
-        }
-
-        # TimeWorkingHours
-        elsif ( $ConfigItem{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} ) {
-            $Value = $ConfigItem{Setting}->[1]->{TimeWorkingHours}->[1]->{Day};
-        }
-
-        # TimeVacationDays
-        elsif ( $ConfigItem{Setting}->[1]->{TimeVacationDays}->[1]->{Item} ) {
-            $Value = $ConfigItem{Setting}->[1]->{TimeVacationDays}->[1]->{Item};
-        }
-
-        # TimeVacationDaysOneTime
-        elsif ( $ConfigItem{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item} ) {
-            $Value = $ConfigItem{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item};
-        }
-
-        # DateTime
-        elsif ( $ConfigItem{Setting}->[1]->{DateTime}->[1] ) {
-            $Value = $ConfigItem{Setting}->[1]->{DateTime}->[1];
-        }
-
-        # unknown config item can not be validated, so return true
-        else {
-            return 1;
-        }
-    }
-
-    # if auto-correction is requested
-    if ( $Param{AutoCorrect} ) {
-
-        # get the auto-correct value
-        $Value = $ValidateObject->GetAutoCorrectValue(
-            Data => $Value,
+    if ( !-e $Directory ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Directory '$Directory' does not exists",
         );
 
-        # if the valid param is given, use it, otherwise take valid setting from config item
-        my $Valid = defined $Param{Valid} ? $Param{Valid} : $ConfigItem{Valid};
-
-        # skip validation of invalid items
-        return 1 if !$Valid;
-
-        # update the config item with the new value
-        my $UpdateSuccess = $Self->ConfigItemUpdate(
-            Valid        => $Valid,
-            Key          => $Param{Key},
-            Value        => $Value,
-            NoValidation => 1,
-        );
-
-        # return the update result
-        return $UpdateSuccess;
+        return;
     }
 
-    # only validation is needed
-    else {
-
-        # validate the value
-        my $ValidateOk = $ValidateObject->Validate(
-            Data => $Value,
-        );
-
-        # return the validation result
-        return $ValidateOk;
-    }
-}
-
-=head2 ConfigItemCheckAll()
-
-Validates all config items which have a validation module.
-Automatically corrects wrong values.
-
-    my $Result = $SysConfigObject->ConfigItemCheckAll();
-
-=cut
-
-sub ConfigItemCheckAll {
-    my ( $Self, %Param ) = @_;
-
-    # get all config groups
-    my %Groups = $Self->ConfigGroupList();
-
-    for my $Group ( sort keys(%Groups) ) {
-
-        # get all subgroups for this group
-        my %SubGroups = $Self->ConfigSubGroupList( Name => $Group );
-
-        for my $SubGroup ( sort keys %SubGroups ) {
-
-            # get all items for this subgroup
-            my @Items = $Self->ConfigSubGroupConfigItemList(
-                Group    => $Group,
-                SubGroup => $SubGroup,
-            );
-
-            # check each item
-            ITEM:
-            for my $Item (@Items) {
-
-                # validate the value of this item
-                my $ValidateOk = $Self->ConfigItemValidate(
-                    Key => $Item,
-                );
-
-                # validation is ok
-                next ITEM if $ValidateOk;
-
-                # validation is not ok, auto-correct the value
-                my $AutoCorrectOk = $Self->ConfigItemValidate(
-                    Key         => $Item,
-                    AutoCorrect => 1,
-                );
-            }
-        }
-    }
-
-    return 1;
-}
-
-=begin Internal:
-
-=cut
-
-sub _Init {
-    my ( $Self, %Param ) = @_;
-
-    my $Directory = "$Self->{Home}/Kernel/Config/Files/";
-
-    return if !-e $Directory;
-
-    # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # load xml config files
+    # Load xml config files, ordered by file name
     my @Files = $MainObject->DirectoryRead(
         Directory => $Directory,
         Filter    => "*.xml",
     );
 
-    # get the md5 representing the current configuration state
+    # Get the MD5 representing the current configuration state
     my $ConfigChecksum = $Self->{ConfigObject}->ConfigChecksum();
 
-    # get cache object
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
+    my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
+    my $SysConfigDBObject  = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my %SettingsByInit = (
+        Framework   => [],
+        Application => [],
+        Config      => [],
+        Changes     => [],
+    );
 
     my %Data;
     FILE:
     for my $File (@Files) {
 
-        my $CacheKey  = "_Init::${File}::${ConfigChecksum}";
+        my $CacheKey  = "ConfigurationXML2DB::${File}::${ConfigChecksum}";
         my $CacheData = $CacheObject->Get(
             Type => 'SysConfig',
             Key  => $CacheKey,
@@ -1654,12 +2149,12 @@ sub _Init {
             }
         }
 
+        # Read XML file.
         my $ConfigFile = $MainObject->FileRead(
             Location => $File,
-            Mode     => 'binmode',
+            Mode     => 'utf8',
             Result   => 'SCALAR',
         );
-
         if ( !ref $ConfigFile || !${$ConfigFile} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1668,267 +2163,1635 @@ sub _Init {
             next FILE;
         }
 
-        # Ok, cache was not used, parse the config files
-        my @XMLHash = $Kernel::OM->Get('Kernel::System::XML')->XMLParse2XMLHash(
-            String     => $ConfigFile,
-            Sourcename => $File,
+        # Check otrs_config Init attribute.
+        $$ConfigFile =~ m{^<otrs_config.*?init="(.*?)"}gsmx;
+        my $InitValue = $1;
+
+        # Check if InitValue is Valid.
+        if ( !defined $SettingsByInit{$InitValue} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Invalid otrs_config Init value ($InitValue)! Allowed values: Framework, Application, Config, Changes.",
+            );
+            next FILE;
+        }
+
+        # Extract all Settings from XML file.
+        my $SettingList = $SysConfigXMLObject->SettingListGet(
+            XMLInput => $$ConfigFile,
         );
 
-        $Data{$File} = \@XMLHash;
+        my $XMLFilename = $File;
+        $XMLFilename =~ s{$Directory(.*\.xml)\z}{$1}gmsx;
+        $XMLFilename =~ s{\A/}{}gmsx;
 
-        my $Dump = $MainObject->Dump( \@XMLHash );
-        $Dump =~ s/\$VAR1/\$XMLHashRef/;
+        for my $SettingName ( sort keys %{$SettingList} ) {
 
-        my $Out;
-        if ( $Self->{utf8} ) {
-            $Out .= "use utf8;\n";
+            # Convert XML to perl structure.
+            my $Setting = $SysConfigXMLObject->SettingParse(
+                SettingXML => $SettingList->{$SettingName},
+            );
+
+            push @{ $SettingsByInit{$InitValue} }, {
+                XMLContentParsed => $Setting,
+                XMLContentRaw    => $SettingList->{$SettingName},
+                XMLFilename      => $XMLFilename,
+            };
         }
-        $Out .= "use warnings;\n";
-        $Out .= $Dump . "\n1;";
+    }
 
-        $CacheObject->Set(
-            Type  => 'SysConfig',
-            Key   => $CacheKey,
-            Value => \$Out,
-            TTL   => 30 * 24 * 60 * 60,
+    # Combine everything together in the correct order.
+    my %Settings;
+    for my $Init (qw(Framework Application Config Changes)) {
+        SETTING:
+        for my $Setting ( @{ $SettingsByInit{$Init} } ) {
+            my $Name = $Setting->{XMLContentParsed}->{Name};
+            next SETTING if !$Name;
+
+            $Settings{$Name} = $Setting;
+        }
+    }
+
+    # Find and remove all settings that are in DB, but are not defined in XML files.
+    if ( $Param{CleanUp} ) {
+        $Self->_DBCleanUp( Settings => \%Settings );
+    }
+
+    # Create/Update settings in DB.
+    SETTING:
+    for my $SettingName ( sort keys %Settings ) {
+
+        # Check if exists in Default.
+        my %DefaultSetting = $SysConfigDBObject->DefaultSettingGet(
+            Name => $SettingName,
         );
-    }
 
-    # This is the sorted configuration XML entry list that we must
-    #   populate here.
-    $Self->{XMLConfig} = [];
+        # Create a local clone of the value to prevent any modification.
+        my $Value = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
+            Data => $Settings{$SettingName}->{XMLContentParsed}->{Value},
+        );
 
-    # These are the valid "init" values that the config XML may use.
-    #   Settings must be processed in this order, and inside each group alphabetically.
-    my %ValidInit = (
-        Framework   => 1,
-        Application => 1,
-        Config      => 1,
-        Changes     => 1,
-    );
+        my $EffectiveValue = $Self->SettingEffectiveValueGet(
+            Value => $Value,
+        );
 
-    # Temp hash for sorting
-    my %XMLConfigTMP;
+        if (%DefaultSetting) {
 
-    # Loop over the sorted files and assign all configs to the init section
-    for my $File ( sort keys %Data ) {
+            # Compare new Setting XML with the old one (skip if there is no difference).
+            my $Updated = $Settings{$SettingName}->{XMLContentRaw} eq $DefaultSetting{XMLContentRaw} ? 0 : 1;
+            next SETTING if !$Updated;
 
-        my $Init = $Data{$File}->[1]->{otrs_config}->[1]->{init} || '';
-        if ( !$ValidInit{$Init} ) {
-            $Init = 'Unknown';    # Fallback for unknown init values
-        }
-
-        # Just use valid entries.
-        if ( $Data{$File}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
-            push(
-                @{ $XMLConfigTMP{$Init} },
-                @{ $Data{$File}->[1]->{otrs_config}->[1]->{ConfigItem} }
+            # Lock setting to be able to update it.
+            my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
+                UserID    => $Param{UserID},
+                DefaultID => $DefaultSetting{DefaultID},
+                Force     => $Param{Force},
             );
-        }
-    }
+            if ( !$ExclusiveLockGUID ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message =>
+                        "System was unable to lock Default Setting "
+                        . "(DefaultID=$DefaultSetting{DefaultID} UserID=$Param{UserID})!",
+                );
+                next SETTING;
+            }
 
-    # Now process the entries in init order and assign them to the xml entry list.
-    for my $Init (qw(Framework Application Config Changes Unknown)) {
-        for my $ConfigItem ( @{ $XMLConfigTMP{$Init} } ) {
-            push(
-                @{ $Self->{XMLConfig} },
-                $ConfigItem
+            # Update default setting.
+            my $Success = $SysConfigDBObject->DefaultSettingUpdate(
+                DefaultID      => $DefaultSetting{DefaultID},
+                Name           => $Settings{$SettingName}->{XMLContentParsed}->{Name},
+                Description    => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
+                Navigation     => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
+                IsInvisible    => $Settings{$SettingName}->{XMLContentParsed}->{Invisible} || 0,
+                IsReadonly     => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly} || 0,
+                IsRequired     => $Settings{$SettingName}->{XMLContentParsed}->{Required} || 0,
+                IsValid        => $Settings{$SettingName}->{XMLContentParsed}->{Valid} || 0,
+                HasConfigLevel => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel} || 100,
+                UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}
+                    || 0,
+                UserModificationActive => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive} || 0,
+                UserPreferencesGroup   => $Settings{$SettingName}->{XMLContentParsed}->{UserPreferencesGroup},
+                XMLContentRaw          => $Settings{$SettingName}->{XMLContentRaw},
+                XMLContentParsed       => $Settings{$SettingName}->{XMLContentParsed},
+                XMLFilename            => $Settings{$SettingName}->{XMLFilename},
+                EffectiveValue         => $EffectiveValue,
+                UserID                 => $Param{UserID},
+                ExclusiveLockGUID      => $ExclusiveLockGUID,
             );
+            if ( !$Success ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message =>
+                        "DefaultSettingUpdate failed for Config Item: $SettingName!",
+                );
+            }
+
+            # Unlock the setting so it can be locked again afterwards.
+            $SysConfigDBObject->DefaultSettingUnlock(
+                DefaultID => $DefaultSetting{DefaultID},
+            );
+
+            my @ModifiedList = $SysConfigDBObject->ModifiedSettingListGet(
+                Name => $Settings{$SettingName}->{XMLContentParsed}->{Name},
+            );
+
+            for my $ModifiedSetting (@ModifiedList) {
+
+                # So far everything is OK, if the structure or values does
+                # not match anymore, modified values must be deleted.
+                my %ValueCheckResult = $Self->SettingEffectiveValueCheck(
+                    EffectiveValue   => $ModifiedSetting->{EffectiveValue},
+                    XMLContentParsed => $Settings{$SettingName}->{XMLContentParsed},
+                    UserID           => $Param{UserID},
+                );
+
+                if ( !$ValueCheckResult{Success} ) {
+
+                    $SysConfigDBObject->ModifiedSettingDelete(
+                        ModifiedID => $ModifiedSetting->{ModifiedID},
+                    );
+
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => $ValueCheckResult{Error},
+                    );
+                }
+            }
+
+        }
+        else {
+
+            # Create default setting.
+            my $DefaultID = $SysConfigDBObject->DefaultSettingAdd(
+                Name           => $Settings{$SettingName}->{XMLContentParsed}->{Name},
+                Description    => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
+                Navigation     => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
+                IsInvisible    => $Settings{$SettingName}->{XMLContentParsed}->{Invisible} || 0,
+                IsReadonly     => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly} || 0,
+                IsRequired     => $Settings{$SettingName}->{XMLContentParsed}->{Required} || 0,
+                IsValid        => $Settings{$SettingName}->{XMLContentParsed}->{Valid} || 0,
+                HasConfigLevel => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel} || 100,
+                UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}
+                    || 0,
+                UserModificationActive => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive} || 0,
+                UserPreferencesGroup   => $Settings{$SettingName}->{XMLContentParsed}->{UserPreferencesGroup},
+                XMLContentRaw          => $Settings{$SettingName}->{XMLContentRaw},
+                XMLContentParsed       => $Settings{$SettingName}->{XMLContentParsed},
+                XMLFilename            => $Settings{$SettingName}->{XMLFilename},
+                EffectiveValue         => $EffectiveValue,
+                UserID                 => $Param{UserID},
+            );
+            if ( !$DefaultID ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message =>
+                        "DefaultSettingAdd failed for Config Item: $Settings{$SettingName}->{XMLContentParsed}->{Name}!",
+                );
+            }
         }
     }
 
-    # Only the last config XML entry should be used, remove any previous ones.
-    my %Seen;
-    my @XMLConfigTmp;
-
-    CONFIGITEM:
-    for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
-        next CONFIGITEM if !$ConfigItem || !$ConfigItem->{Name} || $Seen{ $ConfigItem->{Name} }++;
-        push @XMLConfigTmp, $ConfigItem;
-    }
-    $Self->{XMLConfig} = \@XMLConfigTmp;
-
-    my $Counter = 0;
-    for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
-
-        $Counter++;
-
-        if ( $ConfigItem->{Name} && !$Self->{Config}->{ $ConfigItem->{Name} } ) {
-            $Self->{Config}->{ $ConfigItem->{Name} } = $ConfigItem;
-        }
-    }
-
-    return $Counter;
+    return 1;
 }
 
-=head2 _DataDiff()
+=head2 ConfigurationNavigationTree()
 
-compares two data structures with each other. Returns 1 if
-they are different, undef otherwise.
+Returns navigation tree in the hash format.
 
-Data parameters need to be passed by reference and can be SCALAR,
-ARRAY or HASH.
+    my %Result = $SysConfigObject->ConfigurationNavigationTree(
+        RootNavigation         => 'Parent',     # (optional) If provided only sub groups of the root navigation are returned.
+        IsValid                => 1,            # (optional) By default, display all settings.
+        Category               => 'OTRSFree'    # (optional)
+    );
 
-    my $DataIsDifferent = $SysConfigObject->_DataDiff(
-        Data1 => \$Data1,
-        Data2 => \$Data2,
+Returns:
+
+    %Result = (
+        'Core' => {
+            'Core::Cache' => {},
+            'Core::CustomerCompany' => {},
+            'Core::CustomerUser' => {},
+            'Core::Daemon' => {
+                'Core::Daemon::ModuleRegistration' => {},
+            },
+            ...
+        'Crypt' =>{
+            ...
+        },
+        ...
     );
 
 =cut
 
-sub _DataDiff {
+sub ConfigurationNavigationTree {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Data1 Data2)) {
-        if ( !defined $Param{$_} ) {
+    $Param{RootNavigation} //= '';
+
+    my $CacheType = 'SysConfigNavigation';
+    my $CacheKey  = "NavigationTree::$Param{RootNavigation}";
+    if ( defined $Param{IsValid} ) {
+        if ( $Param{IsValid} ) {
+            $CacheKey .= '::Valid';
+        }
+        else {
+            $CacheKey .= '::Invalid';
+        }
+    }
+    if ( defined $Param{Category} && $Param{Category} ) {
+        if ( $Param{Category} eq 'All' ) {
+            delete $Param{Category};
+        }
+        else {
+            $CacheKey .= "::Category=$Param{Category}";
+        }
+    }
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return %{$Cache} if ref $Cache eq 'HASH';
+
+    my %CategoryOptions;
+    if ( $Param{Category} ) {
+        my %Categories = $Self->ConfigurationCategoriesGet();
+        if ( $Categories{ $Param{Category} } ) {
+            %CategoryOptions = (
+                Category      => $Param{Category},
+                CategoryFiles => $Categories{ $Param{Category} }->{Files},
+            );
+        }
+    }
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    # Get all default settings
+    my @SettingsRaw = $SysConfigDBObject->DefaultSettingListGet(
+        %CategoryOptions,
+        IsValid => $Param{IsValid},
+    );
+
+    my @Settings;
+
+    # Skip invisible settings from the navigation tree
+    SETTING:
+    for my $Setting (@SettingsRaw) {
+        next SETTING if $Setting->{IsInvisible};
+
+        push @Settings, {
+            Name       => $Setting->{Name},
+            Navigation => $Setting->{Navigation},
+        };
+    }
+
+    my %Result = ();
+
+    my @RootNavigation;
+    if ( $Param{RootNavigation} ) {
+        @RootNavigation = split "::", $Param{RootNavigation};
+    }
+
+    # Remember ancestors.
+    for my $Index ( 1 .. $#RootNavigation ) {
+        $RootNavigation[$Index] = $RootNavigation[ $Index - 1 ] . '::' . $RootNavigation[$Index];
+    }
+
+    SETTING:
+    for my $Setting (@Settings) {
+        next SETTING if !$Setting->{Navigation};
+        my @Path = split "::", $Setting->{Navigation};
+
+        # Remember ancestors.
+        for my $Index ( 1 .. $#Path ) {
+            $Path[$Index] = $Path[ $Index - 1 ] . '::' . $Path[$Index];
+        }
+
+        # Check if RootNavigation matches current setting.
+        for my $Index ( 0 .. $#RootNavigation ) {
+            next SETTING if !$Path[$Index];
+
+            if ( $RootNavigation[$Index] ne $Path[$Index] ) {
+                next SETTING;
+            }
+        }
+
+        # Remove root groups from Path.
+        for my $Index ( 0 .. $#RootNavigation ) {
+            shift @Path;
+        }
+
+        %Result = $Self->_NavigationTree(
+            Tree  => \%Result,
+            Array => \@Path,
+        );
+    }
+
+    # Cache the results.
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \%Result,
+        TTL   => 30 * 24 * 60 * 60,
+    );
+
+    return %Result;
+}
+
+=head2 ConfigurationListGet()
+
+Returns list of settings that matches provided parameters.
+
+    my @List = $SysConfigObject->ConfigurationListGet(
+        Navigation           => 'SomeNavigationGroup',  # (optional) limit to the settings that have provided navigation
+        IsValid              => 1,                      # (optional) by default returns valid and invalid settings.
+        Invisible            => 0,                      # (optional) Include Invisible settings. By default, not included.
+        UserPreferencesGroup => 'Advanced',             # (optional) filter list by group.
+        Translate            => 0,                      # (optional) Translate translatable string in EffectiveValue. Default 0.
+    );
+
+Returns:
+
+    @List = (
+        {
+            DefaultID                => 123,
+            ModifiedID               => 456,     # if modified
+            Name                     => "ProductName",
+            Description              => "Defines the name of the application ...",
+            Navigation               => "ASimple::Path::Structure",
+            IsInvisible              => 1,
+            IsReadonly               => 0,
+            IsRequired               => 1,
+            IsValid                  => 1,
+            HasConfigLevel           => 200,
+            UserModificationPossible => 0,          # 1 or 0
+            UserModificationActive   => 0,          # 1 or 0
+            UserPreferencesGroup     => 'Advanced', # optional
+            XMLContentRaw            => "The XML structure as it is on the config file",
+            XMLContentParsed         => "XML parsed to Perl",
+            EffectiveValue           => "Product 6",
+            DefaultValue             => "Product 5",
+            IsModified               => 1,       # 1 or 0
+            IsDirty                  => 1,       # 1 or 0
+            ExclusiveLockGUID        => 'A32CHARACTERLONGSTRINGFORLOCKING',
+            ExclusiveLockUserID      => 1,
+            ExclusiveLockExpiryTime  => '2016-05-29 11:09:04',
+            CreateTime               => "2016-05-29 11:04:04",
+            ChangeTime               => "2016-05-29 11:04:04",
+        },
+        {
+            DefaultID     => 321,
+            Name          => 'FieldName',
+            # ...
+            CreateTime    => '2010-09-11 10:08:00',
+            ChangeTime    => '2011-01-01 01:01:01',
+        },
+        # ...
+    );
+
+=cut
+
+sub ConfigurationListGet {
+    my ( $Self, %Param ) = @_;
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    $Param{Translate} //= 0;    # don't translate by default
+
+    my %CategoryOptions;
+    if ( $Param{Category} ) {
+        my %Categories = $Self->ConfigurationCategoriesGet();
+        if ( $Categories{ $Param{Category} } ) {
+            %CategoryOptions = (
+                Category      => $Param{Category},
+                CategoryFiles => $Categories{ $Param{Category} }->{Files},
+            );
+        }
+    }
+
+    # Get all default settings for this navigation group.
+    my @ConfigurationList = $SysConfigDBObject->DefaultSettingListGet(
+        Navigation               => $Param{Navigation},
+        UserModificationPossible => $Param{TargetUserID} ? 1 : undef,
+        UserPreferencesGroup => $Param{UserPreferencesGroup} || undef,
+        IsInvisible => $Param{Invisible} ? undef : 0,
+        IsValid => $Param{IsValid} // undef,
+        %CategoryOptions,
+    );
+
+    my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
+
+    # Update setting values with the modified settings.
+    SETTING:
+    for my $Setting (@ConfigurationList) {
+
+        # Remember default value.
+        $Setting->{DefaultValue} = $Setting->{EffectiveValue};
+        if ( ref $Setting->{EffectiveValue} ) {
+            $Setting->{DefaultValue} = $StorableObject->Clone(
+                Data => $Setting->{EffectiveValue},
+            );
+        }
+
+        my %ModifiedSetting = $Self->SettingGet(
+            Name      => $Setting->{Name},
+            Translate => $Param{Translate},
+        );
+
+        # Skip if setting is invalid.
+        next SETTING if !IsHashRefWithData( \%ModifiedSetting );
+        next SETTING if !defined $ModifiedSetting{EffectiveValue};
+
+        # Mark setting as modified.
+        my $IsModified = DataIsDifferent(
+            Data1 => \$Setting->{EffectiveValue},
+            Data2 => \$ModifiedSetting{EffectiveValue},
+        ) || 0;
+
+        $IsModified ||= $ModifiedSetting{IsValid} != $Setting->{IsValid};
+        $IsModified ||= $ModifiedSetting{UserModificationActive} != $Setting->{UserModificationActive};
+
+        $Setting->{IsModified} = $IsModified ? 1 : 0;
+
+        # Update setting attributes.
+        ATTRIBUTE:
+        for my $Attribute (
+            qw(ModifiedID IsValid UserModificationActive UserPreferencesGroup EffectiveValue IsDirty ChangeTime XMLContentParsed)
+            )
+        {
+            next ATTRIBUTE if !defined $ModifiedSetting{$Attribute};
+
+            $Setting->{$Attribute} = $ModifiedSetting{$Attribute};
+        }
+    }
+
+    return @ConfigurationList;
+}
+
+=head2 ConfigurationList()
+
+Wrapper of Kernel::System::SysConfig::DB::DefaultSettingList() - Get list of all settings.
+
+    my %Settings = $SysConfigObject->ConfigurationList();
+
+Returns:
+
+    %Settings = (
+        '123' => 'SettingName1',
+        '124' => 'SettingName2',
+        ...
+    );
+
+=cut
+
+sub ConfigurationList {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DefaultSettingList();
+}
+
+=head2 ConfigurationInvalidList()
+
+Returns list of enabled settings that have invalid effective value.
+
+    my @List = $SysConfigObject->ConfigurationInvalidList();
+
+Returns:
+
+    @List = ( "Setting1", "Setting5", ... );
+
+=cut
+
+sub ConfigurationInvalidList {
+    my ( $Self, %Param ) = @_;
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheType = 'SysConfigInvalid';
+    my $CacheKey  = 'ConfigurationInvalidList';
+
+    # Return cache.
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return @{$Cache} if ref $Cache eq 'ARRAY';
+
+    my @SettingsEnabled = $Self->ConfigurationListGet(
+        IsValid   => 1,
+        Translate => 0,
+    );
+
+    my @InvalidSettings;
+
+    for my $Setting (@SettingsEnabled) {
+        my %SettingDeployed = $Self->SettingGet(
+            Name     => $Setting->{Name},
+            Deployed => 1,
+        );
+
+        my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
+            EffectiveValue   => $SettingDeployed{EffectiveValue},
+            XMLContentParsed => $Setting->{XMLContentParsed},
+            UserID           => 1,
+        );
+
+        if ( $EffectiveValueCheck{Error} ) {
+            push @InvalidSettings, $Setting->{Name};
+        }
+    }
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \@InvalidSettings,
+        TTL   => 60 * 60,             # 1 hour
+    );
+
+    return @InvalidSettings;
+}
+
+=head2 ConfigurationDeploy()
+
+Write configuration items from database into a perl module file.
+
+    my $Success = $SysConfigObject->ConfigurationDeploy(
+        Comments            => "Some comments",     # (optional)
+        NoValidation        => 0,                   # (optional) 1 or 0, default 0, skips settings validation
+        UserID              => 123,                 # if ExclusiveLockGUID is used, UserID must match the user that creates the lock
+        Force               => 1,                   # (optional) proceed even if lock is set to another user
+        NotDirty            => 1,                   # (optional) do not use any values from modified dirty settings
+        AllSettings         => 1,                   # (optional) use dirty modified settings from all users
+        DirtySettings       => [                    # (optional) use only this dirty modified settings from the current user
+            'SettingOne',
+            'SettingTwo',
+        ],
+    );
+
+Returns:
+
+    $Success = 1;    # or false in case of an error
+
+=cut
+
+sub ConfigurationDeploy {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{UserID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need UserID!",
+        );
+
+        return;
+    }
+    if ( !IsPositiveInteger( $Param{UserID} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "UserID is invalid!",
+        );
+        return;
+    }
+
+    if ( $Param{AllSettings} ) {
+        $Param{NotDirty}      = 0;
+        $Param{DirtySettings} = undef;
+    }
+    elsif ( $Param{NotDirty} ) {
+        $Param{AllSettings}   = 0;
+        $Param{DirtySettings} = undef;
+    }
+
+    my $BasePath = 'Kernel/Config/Files/';
+
+    # Parameter 'FileName' is intentionally not documented in the API as it is only used for testing.
+    my $TargetPath = $BasePath . ( $Param{FileName} || "ZZZAAuto.pm" );
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my @UserDirtySettings = $SysConfigDBObject->ModifiedSettingListGet(
+        IsDirty  => 1,
+        ChangeBy => $Param{UserID},
+    );
+    my %UserDirtySettingsLookup = map { $_->{Name} => 1 } @UserDirtySettings;
+
+    # Determine dirty settings to deploy (if not specified get all dirty settings from current user).
+    if ( !$Param{DirtySettings} && !$Param{AllSettings} && !$Param{NotDirty} ) {
+        @{ $Param{DirtySettings} } = keys %UserDirtySettingsLookup;
+    }
+    elsif ( $Param{DirtySettings} && !$Param{AllSettings} && !$Param{NotDirty} ) {
+
+        my @DirtySettings;
+
+        SETTING:
+        for my $Setting ( @{ $Param{DirtySettings} } ) {
+            next SETTING if !$UserDirtySettingsLookup{$Setting};
+            push @DirtySettings, $Setting;
+        }
+
+        $Param{DirtySettings} = \@DirtySettings;
+    }
+
+    my @DirtyDefaultList = $SysConfigDBObject->DefaultSettingListGet(
+        IsDirty => 1,
+    );
+
+    my $AddNewDeployment;
+
+    # Check if deployment is really needed
+    if ( $Param{NotDirty} ) {
+
+        # Check if default settings are to be deployed
+        if (@DirtyDefaultList) {
+            $AddNewDeployment = 1;
+        }
+    }
+    elsif ( $Param{AllSettings} ) {
+
+        my @DirtyModifiedSettings = $SysConfigDBObject->ModifiedSettingListGet(
+            IsDirty => 1,
+        );
+
+        # Check if default settings or modified are to be deployed
+        if ( @DirtyDefaultList || @DirtyModifiedSettings ) {
+            $AddNewDeployment = 1;
+        }
+    }
+    elsif ( $Param{DirtySettings} ) {
+
+        # Check if default settings or user modified settings are to be deployed
+        if ( @DirtyDefaultList || IsArrayRefWithData( $Param{DirtySettings} ) ) {
+            $AddNewDeployment = 1;
+        }
+    }
+
+    # In case none of the previous options applied and there is no deployment in the database,
+    #   a new deployment is needed.
+    my @DeploymentList = $SysConfigDBObject->DeploymentListGet();
+    if ( !@DeploymentList ) {
+        $AddNewDeployment = 1;
+    }
+
+    my $EffectiveValueStrg = '';
+    if ($AddNewDeployment) {
+        my @Settings = $Self->_GetSettingsToDeploy(%Param);
+
+        SETTING:
+        for my $CurrentSetting (@Settings) {
+
+            my %Setting = $Self->SettingGet(
+                Name    => $CurrentSetting->{Name},
+                Default => 1,
+            );
+
+            %Setting = ( %Setting, %{$CurrentSetting} );
+
+            next SETTING if !$Setting{IsValid};
+
+            my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
+                XMLContentParsed => $Setting{XMLContentParsed},
+                EffectiveValue   => $Setting{EffectiveValue},
+                NoValidation     => $Param{NoValidation} //= 0,
+                UserID           => $Param{UserID},
+            );
+
+            next SETTING if $EffectiveValueCheck{Success};
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Setting $Setting{Name} Effective value is not correct: $EffectiveValueCheck{Error}",
             );
+            return;
+        }
+
+        # Combine settings effective values into a perl string
+        if ( IsArrayRefWithData( \@Settings ) ) {
+            $EffectiveValueStrg = $Self->_EffectiveValues2PerlFile(
+                Settings   => \@Settings,
+                TargetPath => $TargetPath,
+            );
+            if ( !defined $EffectiveValueStrg ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not combine settings values into a perl hash",
+                );
+
+                return;
+            }
+        }
+
+        # Lock the deployment to be able add it to the DB.
+        my $ExclusiveLockGUID = $SysConfigDBObject->DeploymentLock(
+            UserID => $Param{UserID},
+            Force  => $Param{Force},
+        );
+        if ( !$ExclusiveLockGUID ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Can not lock the deployment for UserID '$Param{UserID}'!",
+            );
+
+            return;
+        }
+
+        # Get system time stamp (string formated).
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime'
+        );
+        my $TimeStamp = $DateTimeObject->ToString();
+
+        my $HandleSettingsSuccess = $Self->_HandleSettingsToDeploy(
+            %Param,
+            DeploymentTimeStamp => $TimeStamp,
+        );
+
+        my $DeploymentID;
+
+        if ($HandleSettingsSuccess) {
+
+            # Add a new deployment in the DB.
+            $DeploymentID = $SysConfigDBObject->DeploymentAdd(
+                Comments            => $Param{Comments},
+                EffectiveValueStrg  => \$EffectiveValueStrg,
+                ExclusiveLockGUID   => $ExclusiveLockGUID,
+                DeploymentTimeStamp => $TimeStamp,
+                UserID              => $Param{UserID},
+            );
+            if ( !$DeploymentID ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not create the deployment in the DB!",
+                );
+
+            }
+        }
+
+        # Unlock the deployment, so new deployments can be added afterwards.
+        my $Unlock = $SysConfigDBObject->DeploymentUnlock(
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            UserID            => $Param{UserID},
+        );
+        if ( !$Unlock ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not remove deployment lock for UserID '$Param{UserID}'",
+            );
+        }
+
+        # Make sure to return on errors after we unlock the deployment.
+        if ( !$HandleSettingsSuccess || !$DeploymentID ) {
+            return;
+        }
+
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Delete categories cache.
+        $CacheObject->Delete(
+            Type => 'SysConfig',
+            Key  => 'ConfigurationCategoriesGet',
+        );
+
+        $CacheObject->CleanUp(
+            Type => 'SysConfigInvalid',
+        );
+    }
+    else {
+        my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
+
+        if ( !%LastDeployment ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "No deployments found in Database!",
+            );
+            return;
+        }
+
+        $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
+    }
+
+    # Base folder for deployment could be not present.
+    if ( !-d $BasePath ) {
+        mkdir $BasePath;
+    }
+
+    return $Self->_FileWriteAtomic(
+        Filename => "$Self->{Home}/$TargetPath",
+        Content  => \$EffectiveValueStrg,
+    );
+}
+
+=head2 ConfigurationDeployList()
+
+Get deployment list with complete data.
+
+    my @List = $SysConfigObject->ConfigurationDeployList();
+
+Returns:
+
+    @List = (
+        {
+            DeploymentID       => 123,
+            Comments           => 'Some Comments',
+            EffectiveValueStrg => $SettingEffectiveValues,      # String with the value of all settings,
+                                                                #   as seen in the Perl configuration file.
+            CreateTime         => "2016-05-29 11:04:04",
+            CreateBy           => 123,
+        },
+        {
+            DeploymentID       => 456,
+            Comments           => 'Some Comments',
+            EffectiveValueStrg => $SettingEffectiveValues2,     # String with the value of all settings,
+                                                                #   as seen in the Perl configuration file.
+            CreateTime         => "2016-05-29 12:00:01",
+            CreateBy           => 123,
+        },
+        # ...
+    );
+
+=cut
+
+sub ConfigurationDeployList {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DeploymentListGet();
+}
+
+=head2 ConfigurationDeploySync()
+Updates C<ZZZAAuto.pm> to the latest deployment found in the database.
+
+    my $Success = $SysConfigObject->ConfigurationDeploySync();
+
+=cut
+
+sub ConfigurationDeploySync {
+    my ( $Self, %Param ) = @_;
+
+    my $Home       = $Self->{Home};
+    my $TargetPath = "$Home/Kernel/Config/Files/ZZZAAuto.pm";
+    if ( !require $TargetPath ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not load $TargetPath, $1",
+        );
+        return;
+    }
+
+    do $TargetPath;
+
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [ 'Kernel::Config', ],
+    );
+
+    my $CurrentDeploymentID = $Kernel::OM->Get('Kernel::Config')->Get('CurrentDeploymentID') || 0;
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
+
+    if ( !%LastDeployment ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "No deployments found in Database!",
+        );
+        return;
+    }
+
+    if ( $CurrentDeploymentID ne $LastDeployment{DeploymentID} ) {
+
+        # Write latest deployment to ZZZAAuto.pm
+        my $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
+        my $Success            = $Self->_FileWriteAtomic(
+            Filename => $TargetPath,
+            Content  => \$EffectiveValueStrg,
+        );
+
+        return if !$Success;
+    }
+    return 1;
+}
+
+=head2 ConfigurationDeployCleanup()
+
+Cleanup old deployments from the database.
+
+    my $Success = $SysConfigObject->ConfigurationDeployCleanup();
+
+Returns:
+
+    $Success = 1;       # or false in case of an error
+
+=cut
+
+sub ConfigurationDeployCleanup {
+    my ( $Self, %Param ) = @_;
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my @List = $SysConfigDBObject->DeploymentListGet();
+    my @ListIDs = map { $_->{DeploymentID} } @List;
+
+    my $RemainingDeploments = $Kernel::OM->Get('Kernel::Config')->Get('SystemConfiguration::MaximumDeployments') // 20;
+    @ListIDs = splice( @ListIDs, $RemainingDeploments );
+
+    DEPLOYMENT:
+    for my $DeploymentID (@ListIDs) {
+
+        my $Success = $SysConfigDBObject->DeploymentDelete(
+            DeploymentID => $DeploymentID,
+        );
+
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "Was not possible to delete deployment $DeploymentID!",
+            );
+            next DEPLOYMENT;
+        }
+    }
+
+    return 1;
+}
+
+=head2 ConfigurationDeployGet()
+
+Wrapper of Kernel::System::SysConfig::DB::DeploymentGet() - Get deployment information.
+
+    my %Deployment = $SysConfigDBObject->ConfigurationDeployGet(
+        DeploymentID => 123,
+    );
+
+Returns:
+
+    %Deployment = (
+        DeploymentID       => 123,
+        Comments           => 'Some Comments',
+        EffectiveValueStrg => $SettingEffectiveValues,      # String with the value of all settings,
+                                                            #   as seen in the Perl configuration file.
+        CreateTime         => "2016-05-29 11:04:04",
+        CreateBy           => 123,
+    );
+
+=cut
+
+sub ConfigurationDeployGet {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DeploymentGet(%Param);
+}
+
+=head2 ConfigurationDeployGetLast()
+
+Wrapper of Kernel::System::SysConfig::DBDeploymentGetLast() - Get last deployment information.
+
+    my %Deployment = $SysConfigObject->ConfigurationDeployGetLast();
+
+Returns:
+
+    %Deployment = (
+        DeploymentID       => 123,
+        Comments           => 'Some Comments',
+        EffectiveValueStrg => $SettingEffectiveValues,      # String with the value of all settings,
+                                                            #   as seen in the Perl configuration file.
+        CreateTime         => "2016-05-29 11:04:04",
+        CreateBy           => 123,
+    );
+
+=cut
+
+sub ConfigurationDeployGetLast {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DeploymentGetLast();
+}
+
+=head2 ConfigurationDeploySettingsListGet()
+
+Gets full modified settings information contained on a given deployment.
+
+    my @List = $SysConfigObject->ConfigurationDeploySettingsListGet(
+        DeploymentID => 123,
+    );
+
+Returns:
+
+    @List = (
+        {
+            DefaultID                => 123,
+            ModifiedID               => 456,
+            ModifiedVersionID        => 789,
+            Name                     => "ProductName",
+            Description              => "Defines the name of the application ...",
+            Navigation               => "ASimple::Path::Structure",
+            IsInvisible              => 1,
+            IsReadonly               => 0,
+            IsRequired               => 1,
+            IsValid                  => 1,
+            HasConfigLevel           => 200,
+            UserModificationPossible => 0,       # 1 or 0
+            XMLContentRaw            => "The XML structure as it is on the config file",
+            XMLContentParsed         => "XML parsed to Perl",
+            EffectiveValue           => "Product 6",
+            DefaultValue             => "Product 5",
+            IsModified               => 1,       # 1 or 0
+            IsDirty                  => 1,       # 1 or 0
+            ExclusiveLockGUID        => 'A32CHARACTERLONGSTRINGFORLOCKING',
+            ExclusiveLockUserID      => 1,
+            ExclusiveLockExpiryTime  => '2016-05-29 11:09:04',
+            CreateTime               => "2016-05-29 11:04:04",
+            ChangeTime               => "2016-05-29 11:04:04",
+        },
+        {
+            DefaultID         => 321,
+            ModifiedID        => 654,
+            ModifiedVersionID => 987,
+             Name             => 'FieldName',
+            # ...
+            CreateTime => '2010-09-11 10:08:00',
+            ChangeTime => '2011-01-01 01:01:01',
+        },
+        # ...
+    );
+
+=cut
+
+sub ConfigurationDeploySettingsListGet {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{DeploymentID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need DeploymentID",
+        );
+        return;
+    }
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    # get modified version of this deployment
+    my %ModifiedVersionList = $SysConfigDBObject->DeploymentModifiedVersionList(
+        DeploymentID => $Param{DeploymentID},
+    );
+
+    my @ModifiedVersions = sort keys %ModifiedVersionList;
+
+    my @Settings;
+    for my $ModifiedVersionID ( sort @ModifiedVersions ) {
+
+        my %Versions;
+
+        # Get the modified version.
+        my %ModifiedSettingVersion = $SysConfigDBObject->ModifiedSettingVersionGet(
+            ModifiedVersionID => $ModifiedVersionID,
+        );
+
+        # Get default version.
+        my %DefaultSetting = $SysConfigDBObject->DefaultSettingVersionGet(
+            DefaultVersionID => $ModifiedSettingVersion{DefaultVersionID},
+        );
+
+        # Update default setting attributes.
+        for my $Attribute (
+            qw(ModifiedID IsValid EffectiveValue IsDirty CreateTime ChangeTime)
+            )
+        {
+            $DefaultSetting{$Attribute} = $ModifiedSettingVersion{$Attribute};
+        }
+
+        $DefaultSetting{ModifiedVersionID} = $ModifiedVersionID;
+
+        push @Settings, \%DefaultSetting;
+    }
+
+    return @Settings;
+}
+
+=head2 ConfigurationIsDirtyCheck()
+
+Check if there are not deployed changes on system configuration.
+
+    my $Result = $SysConfigObject->ConfigurationIsDirtyCheck();
+
+Returns:
+
+    $Result = 1;    # or 0 if configuration is not dirty.
+
+=cut
+
+sub ConfigurationIsDirtyCheck {
+    my ( $Self, %Param ) = @_;
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    # Get all modified settings that has not been deployed.
+    my @ModifiedSettingsList = $SysConfigDBObject->ModifiedSettingListGet(
+        IsDirty  => 1,
+        IsGlobal => 1,
+    );
+
+    return 1 if @ModifiedSettingsList;
+
+    # Get all default settings that has not been deployed.
+    my @DefaultSettingsList = $SysConfigDBObject->DefaultSettingListGet(
+        IsDirty => 1,
+    );
+
+    return 1 if @DefaultSettingsList;
+
+    return 0;
+}
+
+=head2 ConfigurationDump()
+
+Creates a YAML file with the system configuration settings.
+
+    my $ConfigurationDumpYAML = $SysConfigObject->ConfigurationDump(
+        OnlyValues           => 0,  # optional, default 0, dumps only the setting effective value instead of the whole setting attributes.
+        SkipDefaultSettings  => 0,  # optional, default 0, do not include default settings
+        SkipModifiedSettings => 0,  # optional, default 0, do not include modified settings
+        SkipUserSettings     => 0,  # optional, default 0, do not include user settings
+        DeploymentID         => 123, # optional, if it is provided the modified settings are retrieved from versions
+    );
+
+Returns:
+
+    my $ConfigurationDumpYAML = '---
+Default:
+  Setting1:
+    DefaultID: 23766
+    Name: Setting1
+    # ...
+  Setting2:
+  # ...
+Modified:
+  Setting1
+    DefaultID: 23776
+    ModifiedID: 1250
+    Name: Setting1
+    # ...
+  # ...
+JDoe:
+  Setting2
+    DefaultID: 23777
+    ModifiedID: 1251
+    Name: Setting2
+    # ...
+  # ...
+# ...
+
+or
+
+    my $ConfigurationDumpYAML = $SysConfigObject->ConfigurationDump(
+        OnlyValues => 1,
+    );
+
+Returns:
+
+    my $ConfigurationDumpYAML = '---
+Default:
+  Setting1: Test
+  Setting2: Test
+  # ...
+Modified:
+  Setting1: TestUpdate
+  # ...
+JDoe:
+  Setting2: TestUser
+  # ...
+# ...
+';
+
+=cut
+
+sub ConfigurationDump {
+    my ( $Self, %Param ) = @_;
+
+    my %UserList = $Kernel::OM->Get('Kernel::System::User')->UserList(
+        Valid => 1,
+    );
+
+    my $Result = {};
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    if ( !$Param{SkipDefaultSettings} ) {
+
+        my @SettingsList = $SysConfigDBObject->DefaultSettingListGet();
+
+        SETTING:
+        for my $Setting (@SettingsList) {
+            if ( $Param{OnlyValues} ) {
+                $Result->{Default}->{ $Setting->{Name} } = $Setting->{EffectiveValue};
+                next SETTING;
+            }
+            $Result->{Default}->{ $Setting->{Name} } = $Setting;
+        }
+
+    }
+
+    if ( !$Param{SkipModifiedSettings} || !$Param{SkipUserSettings} ) {
+        my @SettingsList;
+
+        if ( !$Param{DeploymentID} ) {
+            @SettingsList = $SysConfigDBObject->ModifiedSettingListGet();
+        }
+        else {
+            # Get the modified versions involved into the deployment
+            my %ModifiedVersionList = $SysConfigDBObject->DeploymentModifiedVersionList(
+                DeploymentID => $Param{DeploymentID},
+            );
+
+            return if !%ModifiedVersionList;
+
+            my @ModifiedVersions = sort keys %ModifiedVersionList;
+
+            MODIFIEDVERSIONID:
+            for my $ModifiedVersionID (@ModifiedVersions) {
+
+                my %ModifiedSettingVersion = $SysConfigDBObject->ModifiedSettingVersionGet(
+                    ModifiedVersionID => $ModifiedVersionID,
+                );
+                next MODIFIEDVERSIONID if !%ModifiedSettingVersion;
+
+                push @SettingsList, \%ModifiedSettingVersion;
+            }
+        }
+
+        SETTING:
+        for my $Setting (@SettingsList) {
+            next SETTING if $Setting->{TargetUserID};
+            next SETTING if $Param{SkipModifiedSettings} && !$Setting->{TargetUserID};
+
+            if ( $Param{OnlyValues} ) {
+                $Result->{'Modified'}->{ $Setting->{Name} } = $Setting->{EffectiveValue};
+                next SETTING;
+            }
+            $Result->{'Modified'}->{ $Setting->{Name} } = $Setting;
+        }
+    }
+
+    my $YAMLString = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
+        Data => $Result,
+    );
+
+    return $YAMLString;
+}
+
+=head2 ConfigurationLoad()
+
+Takes a YAML file with settings definition and try to import it into the system.
+
+    my $Success = $SysConfigObject->ConfigurationLoad(
+        ConfigurationYAML   => $YAMLString,     # a YAML string in the format of L<ConfigurationDump()>
+        UserID              => 123,
+    );
+
+=cut
+
+sub ConfigurationLoad {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(ConfigurationYAML UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+
             return;
         }
     }
 
-    # ''
-    if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
+    my %ConfigurationRaw
+        = %{ $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => $Param{ConfigurationYAML} ) || {} };
 
-        # do nothing, it's ok
-        return if !defined $Param{Data1} && !defined $Param{Data2};
+    if ( !%ConfigurationRaw ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "ConfigurationYAML is invalid!",
+        );
 
-        # return diff, because its different
-        return 1 if !defined $Param{Data1} || !defined $Param{Data2};
-
-        # return diff, because its different
-        return 1 if $Param{Data1} ne $Param{Data2};
-
-        # return, because its not different
         return;
     }
 
-    # SCALAR
-    if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-        # do nothing, it's ok
-        return if !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} };
+    # Get the configuration sections to import (skip Default and non existing users).
+    my $ValidSections;
+    my %Configuration;
+    SECTION:
+    for my $Section ( sort keys %ConfigurationRaw ) {
 
-        # return diff, because its different
-        return 1 if !defined ${ $Param{Data1} } || !defined ${ $Param{Data2} };
+        next SECTION if $Section eq 'Default';
 
-        # return diff, because its different
-        return 1 if ${ $Param{Data1} } ne ${ $Param{Data2} };
-
-        # return, because its not different
-        return;
-    }
-
-    # ARRAY
-    if ( ref $Param{Data1} eq 'ARRAY' && ref $Param{Data2} eq 'ARRAY' ) {
-        my @A = @{ $Param{Data1} };
-        my @B = @{ $Param{Data2} };
-
-        # check if the count is different
-        return 1 if $#A ne $#B;
-
-        # compare array
-        COUNT:
-        for my $Count ( 0 .. $#A ) {
-
-            # do nothing, it's ok
-            next COUNT if !defined $A[$Count] && !defined $B[$Count];
-
-            # return diff, because its different
-            return 1 if !defined $A[$Count] || !defined $B[$Count];
-
-            if ( $A[$Count] ne $B[$Count] ) {
-                if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    return 1 if $Self->_DataDiff(
-                        Data1 => $A[$Count],
-                        Data2 => $B[$Count]
-                    );
-                    next COUNT;
-                }
-                return 1;
-            }
+        if ( $Section eq 'Modified' ) {
+            $Configuration{$Section} = $ConfigurationRaw{$Section};
+            next SECTION;
         }
-        return;
     }
 
-    # HASH
-    if ( ref $Param{Data1} eq 'HASH' && ref $Param{Data2} eq 'HASH' ) {
-        my %A = %{ $Param{Data1} };
-        my %B = %{ $Param{Data2} };
+    # Early return if there is nothing to update.
+    return 1 if !%Configuration;
 
-        # compare %A with %B and remove it if checked
-        KEY:
-        for my $Key ( sort keys %A ) {
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+    my $Result            = 1;
 
-            # Check if both are undefined
-            if ( !defined $A{$Key} && !defined $B{$Key} ) {
-                delete $A{$Key};
-                delete $B{$Key};
-                next KEY;
+    SECTION:
+    for my $Section ( sort keys %Configuration ) {
+
+        my $UserID      = '';
+        my $ScopeString = '(global)';
+
+        SETTINGNAME:
+        for my $SettingName ( sort keys %{ $Configuration{$Section} } ) {
+
+            my %CurrentSetting = $Self->SettingGet(
+                Name => $SettingName,
+            );
+
+            # Set error in case non existing settings (either default or modified);
+            if ( !%CurrentSetting ) {
+                $Result = '-1';
+                next SETTINGNAME;
             }
 
-            # return diff, because its different
-            return 1 if !defined $A{$Key} || !defined $B{$Key};
+            my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
+                Name   => $SettingName,
+                Force  => 1,
+                UserID => $UserID || $Param{UserID},
+            );
 
-            if ( $A{$Key} eq $B{$Key} ) {
-                delete $A{$Key};
-                delete $B{$Key};
-                next KEY;
-            }
-
-            # return if values are different
-            if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                return 1 if $Self->_DataDiff(
-                    Data1 => $A{$Key},
-                    Data2 => $B{$Key}
+            my %Result = $Self->SettingUpdate(
+                Name              => $SettingName,
+                IsValid           => $CurrentSetting{IsValid},
+                EffectiveValue    => $Configuration{$Section}->{$SettingName}->{EffectiveValue},
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                UserID            => $UserID || $Param{UserID},
+            );
+            if ( !$Result{Success} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Setting $SettingName $ScopeString was not correctly updated!",
                 );
-                delete $A{$Key};
-                delete $B{$Key};
-                next KEY;
-            }
-            return 1;
-        }
 
-        # check rest
-        return 1 if %B;
-        return;
+                $Result = '-1';
+            }
+        }
     }
 
-    if ( ref $Param{Data1} eq 'REF' && ref $Param{Data2} eq 'REF' ) {
-        return 1 if $Self->_DataDiff(
-            Data1 => ${ $Param{Data1} },
-            Data2 => ${ $Param{Data2} }
+    return $Result;
+}
+
+=head2 ConfigurationDirtySettingsList()
+
+Returns a list of setting names that are dirty.
+
+    my @Result = $SysConfigObject->ConfigurationDirtySettingsList(
+        ChangeBy => 123,
+    );
+
+Returns:
+
+    $Result = ['SettingA', 'SettingB', 'SettingC'];
+
+=cut
+
+sub ConfigurationDirtySettingsList {
+    my ( $Self, %Param ) = @_;
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my @DefaultSettingsList = $SysConfigDBObject->DefaultSettingListGet(
+        IsDirty => 1,
+    );
+    @DefaultSettingsList = map { $_->{Name} } @DefaultSettingsList;
+
+    my @ModifiedSettingsList = $SysConfigDBObject->ModifiedSettingListGet(
+        IsDirty  => 1,
+        IsGlobal => 1,
+        ChangeBy => $Param{ChangeBy} || undef,
+    );
+    @ModifiedSettingsList = map { $_->{Name} } @ModifiedSettingsList;
+
+    # Combine Default and Modified dirty settings.
+    my @ListNames = ( @DefaultSettingsList, @ModifiedSettingsList );
+    my %Names = map { $_ => 1 } @ListNames;
+    @ListNames = sort keys %Names;
+
+    return @ListNames;
+}
+
+=head2 ConfigurationLockedSettingsList()
+
+Returns a list of setting names that are locked in general or by user.
+
+    my @Result = $SysConfigObject->ConfigurationLockedSettingsList(
+        ExclusiveLockUserID       => 2, # Optional, ID of the user for which the default setting is locked
+    );
+
+Returns:
+
+    $Result = ['SettingA', 'SettingB', 'SettingC'];
+
+=cut
+
+sub ConfigurationLockedSettingsList {
+    my ( $Self, %Param ) = @_;
+
+    my @DefaultSettingsList = $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DefaultSettingListGet(
+        Locked => 1,
+    );
+
+    return if !IsArrayRefWithData( \@DefaultSettingsList );
+
+    if ( $Param{ExclusiveLockUserID} ) {
+        @DefaultSettingsList
+            = map { $_->{Name} } grep { $_->{ExclusiveLockUserID} eq $Param{ExclusiveLockUserID} } @DefaultSettingsList;
+    }
+    else {
+        @DefaultSettingsList = map { $_->{Name} } @DefaultSettingsList;
+    }
+
+    return @DefaultSettingsList;
+}
+
+=head2 ConfigurationSearch()
+
+Returns a list of setting names.
+
+    my @Result = $SysConfigObject->ConfigurationSearch(
+        Search           => 'The search string', # (optional)
+        Category         => 'OTRSFree'           # (optional)
+        IncludeInvisible => 1,                   # (optional) Default 0.
+    );
+
+Returns:
+
+    $Result = ['SettingA', 'SettingB', 'SettingC'];
+
+=cut
+
+sub ConfigurationSearch {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{Search} && !$Param{Category} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Search or Category is needed",
         );
         return;
     }
 
-    return 1;
+    $Param{Search}   ||= '';
+    $Param{Category} ||= '';
+
+    my $Search = lc $Param{Search};
+
+    my %Settings = $Self->ConfigurationTranslatedGet();
+
+    my @Result;
+
+    SETTING:
+    for my $SettingName ( sort keys %Settings ) {
+
+        # check category
+        if (
+            $Param{Category}                    &&
+            $Param{Category} ne 'All'           &&
+            $Settings{$SettingName}->{Category} &&
+            $Settings{$SettingName}->{Category} ne $Param{Category}
+            )
+        {
+            next SETTING;
+        }
+
+        # check invisible
+        if (
+            !$Param{IncludeInvisible}
+            && $Settings{$SettingName}->{IsInvisible}
+            )
+        {
+            next SETTING;
+        }
+
+        # do not search with the x and/or g modifier as it would produce wrong search results!
+        if ( $Settings{$SettingName}->{Metadata} =~ m{$Search}ms ) {
+            push @Result, $SettingName;
+        }
+    }
+
+    return @Result;
 }
 
-=head2 DESTROY()
+=head2 ConfigurationCategoriesGet()
 
-this destructor will recreate the configuration file after
-changes were detected during module execution.
+Returns a list of categories with their filenames.
+
+    my %Categories = $SysConfigObject->ConfigurationCategoriesGet();
+
+Returns:
+
+    %Categories = (
+        All => {
+            DisplayName => 'All Settings',
+            Files => [],
+        },
+        OTRSFree => {
+            DisplayName => 'OTRS Free',
+            Files       => ['Calendar.xml', CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml', 'ProcessManagement.xml', 'Ticket.xml' ],
+        },
+        # ...
+    );
 
 =cut
 
-sub DESTROY {
+sub ConfigurationCategoriesGet {
     my ( $Self, %Param ) = @_;
 
-    if ( $Self->{Update} ) {
+    my $CacheKey  = 'ConfigurationCategoriesGet';
+    my $CacheType = 'SysConfig';
 
-        # write default file
-        $Self->WriteDefault();
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # Return cache.
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return %{$Cache} if ref $Cache eq 'HASH';
+
+    # Set framework files.
+    my %Result = (
+        All => {
+            DisplayName => 'All Settings',
+            Files       => [],
+        },
+        OTRSFree => {
+            DisplayName => 'OTRS Free',
+            Files       => [
+                'Calendar.xml', 'CloudServices.xml', 'Daemon.xml', 'Framework.xml',
+                'GenericInterface.xml', 'ProcessManagement.xml', 'Ticket.xml',
+            ],
+        },
+    );
+
+    my @PackageList = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList();
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # Get files from installed packages.
+    PACKAGE:
+    for my $Package (@PackageList) {
+
+        next PACKAGE if !$Package->{Name}->{Content};
+        next PACKAGE if !IsArrayRefWithData( $Package->{Filelist} );
+
+        my @XMLFiles;
+        FILE:
+        for my $File ( @{ $Package->{Filelist} } ) {
+            $File->{Location} =~ s/\/\//\//g;
+            my $Search = 'Kernel/Config/Files/XML/';
+
+            if ( substr( $File->{Location}, 0, length $Search ) ne $Search ) {
+                next FILE;
+            }
+
+            my $Filename = $File->{Location};
+            $Filename =~ s{\AKernel/Config/Files/XML/(.+\.xml)\z}{$1}msxi;
+            push @XMLFiles, $Filename;
+        }
+
+        next PACKAGE if !@XMLFiles;
+
+        my $PackageName = $Package->{Name}->{Content};
+        my $DisplayName = $ConfigObject->Get("SystemConfiguration::Category::Name::$PackageName") || $PackageName;
+        $Result{$PackageName} = {
+            DisplayName => $DisplayName,
+            Files       => \@XMLFiles,
+        };
     }
-    return 1;
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \%Result,
+        TTL   => 24 * 3600 * 30,    # 1 month
+    );
+
+    return %Result;
 }
+
+=head1 PRIVATE INTERFACE
 
 =head2 _FileWriteAtomic()
 
-writes a file in an atomic operation. This is achieved by creating
+Writes a file in an atomic operation. This is achieved by creating
 a temporary file, filling and renaming it. This avoids inconsistent states
 when the file is updated.
 
@@ -1942,11 +3805,11 @@ when the file is updated.
 sub _FileWriteAtomic {
     my ( $Self, %Param ) = @_;
 
-    for (qw(Filename Content)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(Filename Content)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
@@ -1980,32 +3843,42 @@ sub _FileWriteAtomic {
     return 1;
 }
 
-sub _ConfigItemTranslatableStrings {
+=head2 _ConfigurationTranslatableStrings()
+
+Gathers strings marked as translatable from a setting XML parsed content and saves it on
+ConfigurationTranslatableStrings global variable.
+
+    $SysConfigObject->_ConfigurationTranslatableStrings(
+        Data => $Data,      # could be SCALAR, ARRAY or HASH
+    );
+
+=cut
+
+sub _ConfigurationTranslatableStrings {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(Data)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
     }
 
-    # ARRAY
+    # Start recursion if its an array.
     if ( ref $Param{Data} eq 'ARRAY' ) {
 
         KEY:
         for my $Key ( @{ $Param{Data} } ) {
             next KEY if !$Key;
-            $Self->_ConfigItemTranslatableStrings( Data => $Key );
+            $Self->_ConfigurationTranslatableStrings( Data => $Key );
         }
         return;
     }
 
-    # HASH
+    # Start recursion if its a Hash.
     if ( ref $Param{Data} eq 'HASH' ) {
         for my $Key ( sort keys %{ $Param{Data} } ) {
             if (
@@ -2016,331 +3889,825 @@ sub _ConfigItemTranslatableStrings {
             {
                 return if !$Param{Data}->{Content};
                 return if $Param{Data}->{Content} =~ /^\d+$/;
-                $Self->{ConfigItemTranslatableStrings}->{ $Param{Data}->{Content} } = 1;
+                $Self->{ConfigurationTranslatableStrings}->{ $Param{Data}->{Content} } = 1;
             }
-            $Self->_ConfigItemTranslatableStrings( Data => $Param{Data}->{$Key} );
+            $Self->_ConfigurationTranslatableStrings( Data => $Param{Data}->{$Key} );
         }
     }
     return;
 }
 
-sub _ModGet {
+=head2 _DBCleanUp();
+
+Removes all settings defined in the database (including default and modified) that are not included
+in the settings parameter
+
+    my $Success = $SysConfigObject->_DBCleanUp(
+        Settings => {
+            'ACL::CacheTTL' => {
+                XMLContentParsed => '
+                    <Setting Name="SettingName" Required="1" Valid="1">
+                        <Description Translatable="1">Test.</Description>
+                        # ...
+                    </Setting>',
+                XMLContentRaw => {
+                    Description => [
+                        {
+                            Content      => 'Test.',
+                            Translatable => '1',
+                        },
+                    ],
+                    Name  => 'Test',
+                    # ...
+                },
+            # ...
+        };
+    );
+
+Returns:
+
+    $Success = 1;       # or false in case of a failure
+
+=cut
+
+sub _DBCleanUp {
     my ( $Self, %Param ) = @_;
 
-    my $Content;
-    my $ConfigObject;
+    for my $Needed (qw(Settings)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+    if ( !IsHashRefWithData( $Param{Settings} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Settings must be an HashRef!"
+        );
+        return;
+    }
 
-    # do not use ZZZ files
-    if ( $Param{Level} && $Param{Level} eq 'Default' ) {
-        $ConfigObject = $Self->{ConfigDefaultObject};
-    }
-    elsif ( $Param{Level} && $Param{Level} eq 'Clear' ) {
-        $ConfigObject = $Self->{ConfigClearObject};
-    }
-    else {
-        $ConfigObject = $Self->{ConfigObject};
-    }
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-    # get config value of HASH->HASH->HASH
-    if ( $Param{ConfigName} =~ /^(.*)###(.*)###(.*)$/ ) {
-        my $Config = $ConfigObject->Get($1);
-        if ( defined $Config && ref $Config eq 'HASH' ) {
-            my $ConfigSub = $Config->{$2};
-            if ( defined $ConfigSub && ref $ConfigSub eq 'HASH' ) {
-                $Content = $ConfigSub->{$3};
+    my @SettingsDB = $SysConfigDBObject->DefaultSettingListGet();
+
+    my ( $DefaultUpdated, $ModifiedUpdated );
+
+    for my $SettingDB (@SettingsDB) {
+
+        # Cleanup database if the setting is not present in the XML files.
+        if ( !$Param{Settings}->{ $SettingDB->{Name} } ) {
+
+            # Get all modified settings.
+            my @ModifiedSettings = $SysConfigDBObject->ModifiedSettingListGet(
+                Name => $SettingDB->{Name},
+            );
+
+            for my $ModifiedSetting (@ModifiedSettings) {
+
+                # Delete from modified table.
+                my $SuccessDeleteModified = $SysConfigDBObject->ModifiedSettingDelete(
+                    ModifiedID => $ModifiedSetting->{ModifiedID},
+                );
+                if ( !$SuccessDeleteModified ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "System couldn't delete $SettingDB->{Name} from DB (sysconfig_modified)!"
+                    );
+                }
+            }
+
+            # Delete from default table.
+            my $SuccessDefaultSetting = $SysConfigDBObject->DefaultSettingDelete(
+                Name => $SettingDB->{Name},
+            );
+            if ( !$SuccessDefaultSetting ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "System couldn't delete $SettingDB->{Name} from DB (sysconfig_default)!"
+                );
             }
         }
     }
-
-    # get config value of HASH->HASH
-    elsif ( $Param{ConfigName} =~ /^(.*)###(.*)$/ ) {
-        my $Config = $ConfigObject->Get($1);
-        if ( defined $Config && ref $Config eq 'HASH' ) {
-            $Content = $Config->{$2};
-        }
-    }
-
-    # get config value
-    else {
-        my $Config = $ConfigObject->Get( $Param{ConfigName} );
-        if ( defined $Config ) {
-            $Content = $Config;
-        }
-    }
-    return $Content;
+    return 1;
 }
 
-sub _XML2Perl {
+=head2 _NavigationTree();
+
+Returns navigation as a tree (in a hash).
+
+    my %Result = $SysConfigObject->_NavigationTree(
+        'Array' => [                            # Array of setting navigation items
+            'Core',
+            'Core::CustomerUser',
+            'Frontend',
+        ],
+        'Tree' => {                             # Result from previous recursive call
+            'Core' => {
+                'Core::CustomerUser' => {},
+            },
+        },
+    );
+
+Returns:
+
+    %Result = (
+        'Core' => {
+            'Core::CustomerUser' => {},
+        },
+        'Frontend' => {},
+    );
+
+=cut
+
+sub _NavigationTree {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(Tree Array)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!",
             );
             return;
         }
     }
 
-    # get main object
+    my %Result = %{ $Param{Tree} };
+
+    return %Result if !IsArrayRefWithData( $Param{Array} );
+
+    # Check if first item exists.
+    if ( !defined $Result{ $Param{Array}->[0] } ) {
+        $Result{ $Param{Array}->[0] } = {};
+    }
+
+    # Check if it's deeper tree.
+    if ( scalar @{ $Param{Array} } > 1 ) {
+        my @SubArray = splice( @{ $Param{Array} }, 1 );
+        my %Hash = $Self->_NavigationTree(
+            Tree  => $Result{ $Param{Array}->[0] },
+            Array => \@SubArray,
+        );
+
+        if (%Hash) {
+            $Result{ $Param{Array}->[0] } = \%Hash;
+        }
+    }
+
+    return %Result;
+}
+
+=head2 _ConfigurationEntitiesGet();
+
+Returns hash of used entities for provided Setting value.
+
+    my %Result = $SysConfigObject->_ConfigurationEntitiesGet(
+        'Name'   => 'Ticket::Frontend::AgentTicketPriority###Entity',   # setting name
+        'Result' => {},                                                 # result from previous recursive call
+        'Value'  => [                                                   # setting Value
+            {
+                'Item' => [
+                    {
+                        'Content'         => '3 medium',
+                        'ValueEntityType' => 'Priority',
+                        'ValueRegex'      => '',
+                        'ValueType'       => 'Entity',
+                    },
+                ],
+            },
+        ],
+    );
+
+Returns:
+
+    %Result = {
+        'Priority' => {
+            '3 medium' => [
+                'Ticket::Frontend::AgentTicketPriority###Entity',
+            ],
+        },
+    };
+
+=cut
+
+sub _ConfigurationEntitiesGet {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Value Result Name)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my %Result = %{ $Param{Result} || {} };
+    my $ValueEntityType = $Param{ValueEntityType} || '';
+
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        for my $Item ( @{ $Param{Value} } ) {
+            %Result = $Self->_ConfigurationEntitiesGet(
+                %Param,
+                Value  => $Item,
+                Result => \%Result,
+            );
+        }
+    }
+    elsif ( ref $Param{Value} eq 'HASH' ) {
+        if ( $Param{Value}->{ValueEntityType} ) {
+            $ValueEntityType = $Param{Value}->{ValueEntityType};
+        }
+
+        if ( $Param{Value}->{Content} ) {
+
+            # If there is no hash item, create new.
+            if ( !defined $Result{$ValueEntityType} ) {
+                $Result{$ValueEntityType} = {};
+            }
+
+            # Extract value (without white space).
+            $Param{Value}->{Content} =~ m{^\s*(.*?)\s*$}gsmx;
+            my $Value = $1 // '';
+
+            # If there is no array, create
+            if ( !IsArrayRefWithData( $Result{$ValueEntityType}->{$Value} ) ) {
+                $Result{$ValueEntityType}->{$Value} = [];
+            }
+
+            # Check if current config is not in the array.
+            if ( !grep { $_ eq $Param{Name} } @{ $Result{$ValueEntityType}->{$Value} } ) {
+                push @{ $Result{$ValueEntityType}->{$Value} }, $Param{Name};
+            }
+        }
+        else {
+            for my $Key (qw(Item Hash Array)) {
+                if ( defined $Param{Value}->{$Key} ) {
+
+                    # Contains children
+                    %Result = $Self->_ConfigurationEntitiesGet(
+                        %Param,
+                        ValueEntityType => $ValueEntityType,
+                        Value           => $Param{Value}->{$Key},
+                        Result          => \%Result,
+                    );
+                }
+            }
+        }
+    }
+
+    return %Result;
+}
+
+=head2 _EffectiveValues2PerlFile()
+
+Converts effective values from settings into a combined perl hash ready to write into a file.
+
+    my $FileString = $SysConfigObject->_EffectiveValues2PerlFile(
+        Settings  => [
+            {
+                Name           => 'SettingName',
+                IsValid        => 1,
+                EffectiveValue => $ValueStructure,
+            },
+            {
+                Name           => 'AnotherSettingName',
+                IsValid        => 0,
+                EffectiveValue => $AnotherValueStructure,
+            },
+            # ...
+        ],
+        TargetPath => 'Kernel/Config/Files/ZZZAAuto.pm',
+    );
+
+=cut
+
+sub _EffectiveValues2PerlFile {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Settings TargetPath)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+
+            return;
+        }
+    }
+    if ( !IsArrayRefWithData( $Param{Settings} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Settings parameter is invalid!",
+        );
+
+        return;
+    }
+
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $ConfigItem = $Param{Data}->{Setting}->[1];
-    my $Data;
-    if ( $ConfigItem->{String} ) {
-        $Data = $ConfigItem->{String}->[1]->{Content};
-        my $D = $Data;
-        $Data = $D;
+    my $PerlHashStrg;
 
-        # store in config
-        my $Dump = $MainObject->Dump($Data);
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{Option} ) {
-        $Data = $ConfigItem->{Option}->[1]->{SelectedID};
-        my $D = $Data;
-        $Data = $D;
+    # Convert all settings from DB format to perl file.
+    for my $Setting ( @{ $Param{Settings} } ) {
 
-        # store in config
-        my $Dump = $MainObject->Dump($Data);
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{TextArea} ) {
-        $Data = $ConfigItem->{TextArea}->[1]->{Content};
-        $Data =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
-        my $D = $Data;
-        $Data = $D;
+        my $Name = $Setting->{Name};
+        $Name =~ s/\\/\\\\/g;
+        $Name =~ s/'/\'/g;
+        $Name =~ s/###/'}->{'/g;
 
-        # store in config
-        my $Dump = $MainObject->Dump($Data);
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{Hash} ) {
-        my %Hash;
-        my @Array;
-        if ( ref $ConfigItem->{Hash}->[1]->{Item} eq 'ARRAY' ) {
-            @Array = @{ $ConfigItem->{Hash}->[1]->{Item} };
+        if ( $Setting->{IsValid} ) {
+
+            my $EffectiveValue = $MainObject->Dump( $Setting->{EffectiveValue} );
+            $EffectiveValue =~ s/\$VAR1 =//;
+
+            $PerlHashStrg .= "\$Self->{'$Name'} = $EffectiveValue";
         }
-        for my $Item ( 1 .. $#Array ) {
-            if ( defined $Array[$Item]->{Hash} ) {
-                my %SubHash;
-                for my $Index (
-                    1 .. $#{ $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item} }
-                    )
+        elsif ( eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' ) ) {
+            $PerlHashStrg .= "delete \$Self->{'$Name'};\n";
+        }
+    }
+
+    chomp $PerlHashStrg;
+
+    # Convert TartgetPath to Package.
+    my $TargetPath = $Param{TargetPath};
+    $TargetPath =~ s{(.*)\.(?:.*)}{$1}msx;
+    $TargetPath =~ s{ / }{::}msxg;
+
+    # Write default config file.
+    my $FileStrg = <<"EOF";
+# OTRS config file (automatically generated)
+# VERSION:2.0
+package $TargetPath;
+use strict;
+use warnings;
+no warnings 'redefine';
+EOF
+
+    if ( $Self->{utf8} ) {
+        $FileStrg .= "use utf8;\n";
+    }
+
+    $FileStrg .= <<"EOF";
+sub Load {
+    my (\$File, \$Self) = \@_;
+$PerlHashStrg
+}
+1;
+EOF
+
+    return $FileStrg;
+}
+
+=head2 _SettingEffectiveValueCheck()
+
+Recursive helper for SettingEffectiveValueCheck().
+
+    my %Result = $SysConfigObject->_SettingEffectiveValueCheck(
+        EffectiveValue => 'open',                           # (optional) The EffectiveValue to be checked,
+                                                            #   (could be also a complex structure).
+        XMLContentParsed => {                               # (required) The XMLContentParsed value from Default Setting.
+            Value => [
                 {
-                    $SubHash{
-                        $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
-                            ->{Key}
-                        } = $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
-                        ->{Content};
-                }
-                $Hash{ $Array[$Item]->{Key} } = \%SubHash;
-            }
-            elsif ( defined $Array[$Item]->{Array} ) {
-                my @SubArray;
-                for my $Index (
-                    1 .. $#{ $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item} }
-                    )
-                {
-                    push(
-                        @SubArray,
-                        $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}->[$Index]
-                            ->{Content}
-                    );
-                }
-                $Hash{ $Array[$Item]->{Key} } = \@SubArray;
-            }
-            else {
-                $Hash{ $Array[$Item]->{Key} } = $Array[$Item]->{Content};
-            }
-        }
+                    'Item' => [
+                        {
+                            'Content' => "Scalar value",
+                        },
+                    ],
+                },
+            ],
+        },
+        NoValidation    => $Param{NoValidation},            # (optional), skip validation
+        UserID          => 1,                               # (required) UserID
+    );
 
-        # store in config
-        my $Dump = $MainObject->Dump( \%Hash );
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{Array} ) {
-        my @ArrayNew;
-        my @Array;
-        if ( ref $ConfigItem->{Array}->[1]->{Item} eq 'ARRAY' ) {
-            @Array = @{ $ConfigItem->{Array}->[1]->{Item} };
-        }
-        for my $Item ( 1 .. $#Array ) {
-            push @ArrayNew, $Array[$Item]->{Content};
-        }
+Returns:
 
-        # store in config
-        my $Dump = $MainObject->Dump( \@ArrayNew );
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{FrontendModuleReg} ) {
-        my %Hash;
-        for my $Key ( sort keys %{ $ConfigItem->{FrontendModuleReg}->[1] } ) {
-            if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
-                my @Array;
-                for my $Index ( 1 .. $#{ $ConfigItem->{FrontendModuleReg}->[1]->{$Key} } ) {
-                    push(
-                        @Array,
-                        $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[$Index]->{Content}
-                    );
-                }
-                $Hash{$Key} = \@Array;
-            }
-            elsif ( $Key eq 'NavBar' || $Key eq 'NavBarModule' ) {
-                if ( ref $ConfigItem->{FrontendModuleReg}->[1]->{$Key} eq 'ARRAY' ) {
-                    for my $Index ( 1 .. $#{ $ConfigItem->{FrontendModuleReg}->[1]->{$Key} } ) {
-                        my $Content = $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[$Index];
-                        my %NavBar;
-                        for my $Key ( sort keys %{$Content} ) {
-                            if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
-                                my @Array;
-                                for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
-                                    push @Array, $Content->{$Key}->[$Index]->{Content};
-                                }
-                                $NavBar{$Key} = \@Array;
-                            }
-                            else {
-                                if ( $Key ne 'Content' ) {
-                                    $NavBar{$Key} = $Content->{$Key}->[1]->{Content};
-                                }
-                            }
-                        }
-                        if ( $Key eq 'NavBar' ) {
-                            push @{ $Hash{$Key} }, \%NavBar;
-                        }
-                        else {
-                            $Hash{$Key} = \%NavBar;
-                        }
-                    }
-                }
-                else {
-                    my $Content = $ConfigItem->{FrontendModuleReg}->[1]->{$Key};
-                    my %NavBar;
-                    for my $Key ( sort keys %{$Content} ) {
-                        if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
-                            my @Array;
-                            for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
-                                push @Array, $Content->{$Key}->[$Index]->{Content};
-                            }
-                            $NavBar{$Key} = \@Array;
-                        }
-                        else {
-                            if ( $Key ne 'Content' ) {
-                                $NavBar{$Key} = $Content->{$Key}->[1]->{Content};
-                            }
-                        }
-                    }
-                    $Hash{$Key} = \%NavBar;
-                }
-            }
-            elsif ( $Key eq 'Loader' ) {
-                my $Content = $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[1];
-                my %Loader;
-                for my $Key ( sort keys %{$Content} ) {
-                    if (
-                        $Key eq 'CSS'
-                        || $Key eq 'JavaScript'
-                        )
-                    {
-                        my @Array;
-                        for my $Index ( 1 .. $#{ $Content->{$Key} } ) {
-                            push @Array, $Content->{$Key}->[$Index]->{Content};
-                        }
-                        $Loader{$Key} = \@Array;
-                    }
-                    else {
-                        if ( $Key ne 'Content' ) {
-                            $Loader{$Key} = $Content->{$Key}->[1]->{Content};
-                        }
-                    }
-                }
-                if (%Loader) {
-                    $Hash{$Key} = \%Loader;
-                }
-            }
-            else {
-                if ( $Key ne 'Content' ) {
-                    $Hash{$Key} = $ConfigItem->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
-                }
-            }
+    %Result = (
+        EffectiveValue => 'closed',    # Note that EffectiveValue can be changed.
+        Success        => 1,           # or false in case of fail
+        Error          => undef,       # or error string
+    );
+
+=cut
+
+sub _SettingEffectiveValueCheck {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(XMLContentParsed UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
         }
-
-        # store in config
-        my $Dump = $MainObject->Dump( \%Hash );
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{TimeWorkingHours} ) {
-        my %Days;
-        my @Array = @{ $ConfigItem->{TimeWorkingHours}->[1]->{Day} };
-        for my $Day ( 1 .. $#Array ) {
-            my @Array2;
-            if ( $Array[$Day]->{Hour} ) {
-                my @Hours = @{ $Array[$Day]->{Hour} };
-                for my $Hour ( 1 .. $#Hours ) {
-                    push @Array2, $Hours[$Hour]->{Content};
-                }
-            }
-            $Days{ $Array[$Day]->{Name} } = \@Array2;
-        }
-
-        # store in config
-        my $Dump = $MainObject->Dump( \%Days );
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{TimeVacationDays} ) {
-        my %Hash;
-        my @Array = @{ $ConfigItem->{TimeVacationDays}->[1]->{Item} };
-        for my $Item ( 1 .. $#Array ) {
-            $Hash{ $Array[$Item]->{Month} }->{ $Array[$Item]->{Day} } = $Array[$Item]->{Content};
-        }
-
-        # store in config
-        my $Dump = $MainObject->Dump( \%Hash );
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{TimeVacationDaysOneTime} ) {
-        my %Hash;
-        my @Array = @{ $ConfigItem->{TimeVacationDaysOneTime}->[1]->{Item} };
-        for my $Item ( 1 .. $#Array ) {
-            $Hash{ $Array[$Item]->{Year} }->{ $Array[$Item]->{Month} }->{ $Array[$Item]->{Day} }
-                = $Array[$Item]->{Content};
-        }
-
-        # store in config
-        my $Dump = $MainObject->Dump( \%Hash );
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
-    }
-    if ( $ConfigItem->{DateTime} ) {
-        my %Hash;
-
-        # gather data from the XML structure and set it to a Perl hash
-        for my $Part (qw(Year Month Day Hour Minute)) {
-            $Hash{$Part} = $ConfigItem->{DateTime}->[1]->{$Part}->[1]->{Content};
-        }
-
-        # store in config
-        my $Dump = $MainObject->Dump( \%Hash );
-        $Dump =~ s/\$VAR1 =//;
-        $Data = $Dump;
     }
 
-    return $Data;
+    # So far everything is OK, we need to check deeper (recursive).
+    my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
+
+    my $Default = $StorableObject->Clone(
+        Data => $Param{XMLContentParsed},
+    );
+
+    my $EffectiveValue = $Param{EffectiveValue};
+
+    if ( ref $Param{EffectiveValue} ) {
+        $EffectiveValue = $StorableObject->Clone(
+            Data => $Param{EffectiveValue},
+        );
+    }
+
+    return $Self->SettingEffectiveValueCheck(
+        XMLContentParsed => $Default,
+        EffectiveValue   => $EffectiveValue,
+        NoValidation     => $Param{NoValidation},
+        UserID           => $Param{UserID},
+    );
+}
+
+=head2 _GetSettingsToDeploy()
+
+Returns the correct list of settings for a deployment taking the settings from different sources:
+
+    NotDirty:      fetch default settings plus already deployed modified settings.
+    AllSettings:   fetch default settings plus all modified settings already deployed or not.
+    DirtySettings: fetch default settings plus already deployed settings plus all not deployed settings in the list.
+
+    my @SettingList = $SysConfigObject->_GetSettingsToDeploy(
+        NotDirty      => 1,                                         # optional - exclusive (1||0)
+        All           => 1,                                         # optional - exclusive (1||0)
+        DirtySettings => [ 'SettingName1', 'SettingName2' ],        # optional - exclusive
+    );
+
+    @SettingList = (
+        {
+            DefaultID                => 123,
+            Name                     => "ProductName",
+            Description              => "Defines the name of the application ...",
+            Navigation               => "ASimple::Path::Structure",
+            IsInvisible              => 1,
+            IsReadonly               => 0,
+            IsRequired               => 1,
+            IsValid                  => 1,
+            HasConfigLevel           => 200,
+            UserModificationPossible => 0,          # 1 or 0
+            UserModificationActive   => 0,          # 1 or 0
+            UserPreferencesGroup     => 'Advanced', # optional
+            XMLContentRaw            => "The XML structure as it is on the config file",
+            XMLContentParsed         => "XML parsed to Perl",
+            EffectiveValue           => "Product 6",
+            DefaultValue             => "Product 5",
+            IsModified               => 1,       # 1 or 0
+            IsDirty                  => 1,       # 1 or 0
+            ExclusiveLockGUID        => 'A32CHARACTERLONGSTRINGFORLOCKING',
+            ExclusiveLockUserID      => 1,
+            ExclusiveLockExpiryTime  => '2016-05-29 11:09:04',
+            CreateTime               => "2016-05-29 11:04:04",
+            ChangeTime               => "2016-05-29 11:04:04",
+        },
+        {
+            DefaultID => 321,
+            Name      => 'FieldName',
+            # ...
+            CreateTime => '2010-09-11 10:08:00',
+            ChangeTime => '2011-01-01 01:01:01',
+        },
+        # ...
+    );
+
+=cut
+
+sub _GetSettingsToDeploy {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{NotDirty} && !$Param{DirtySettings} ) {
+        $Param{AllSettings} = 1;
+    }
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my @DefaultSettingsList = $SysConfigDBObject->DefaultSettingListGet();
+
+    # Create a lookup table for the default settings (for easy adding modified).
+    my %SettingsLookup = map { $_->{Name} => $_ } @DefaultSettingsList;
+
+    my @ModifiedSettingsList;
+
+    # Use if - else statement, as the gathering of the settings could be expensive.
+    if ( $Param{NotDirty} ) {
+        @ModifiedSettingsList = $SysConfigDBObject->ModifiedSettingVersionListGetLast();
+    }
+    else {
+        @ModifiedSettingsList = $SysConfigDBObject->ModifiedSettingListGet(
+            IsGlobal => 1
+        );
+    }
+
+    if ( $Param{AllSettings} || $Param{NotDirty} ) {
+
+        # Create a lookup table for the modified settings (for easy merging with defaults).
+        my %ModifiedSettingsLookup = map { $_->{Name} => $_ } @ModifiedSettingsList;
+
+        # Merge modified into defaults.
+        %SettingsLookup = ( %SettingsLookup, %ModifiedSettingsLookup );
+
+        my @Settings = map { $SettingsLookup{$_} } ( sort keys %SettingsLookup );
+
+        return @Settings;
+    }
+
+    my %DirtySettingsLookup = map { $_ => 1 } @{ $Param{DirtySettings} };
+
+    SETTING:
+    for my $Setting (@ModifiedSettingsList) {
+
+        my $SettingName = $Setting->{Name};
+
+        # Skip invalid settings (all modified needs to have a default).
+        next SETTING if !$SettingsLookup{$SettingName};
+
+        # Remember modified.
+        my %ModifiedSetting = %{$Setting};
+
+        # If setting is not in the given list, then do not use current value but last deployed.
+        if ( $Setting->{IsDirty} && !$DirtySettingsLookup{$SettingName} ) {
+            %ModifiedSetting = $SysConfigDBObject->ModifiedSettingVersionGetLast(
+                Name => $Setting->{Name},
+            );
+
+            # If there is not previous version then skip to keep the default intact.
+            next SETTING if !%ModifiedSetting;
+        }
+
+        $SettingsLookup{$SettingName} = \%ModifiedSetting;
+    }
+
+    my @Settings = map { $SettingsLookup{$_} } ( sort keys %SettingsLookup );
+
+    return @Settings;
+}
+
+=head2 _HandleSettingsToDeploy()
+
+Creates modified versions of dirty settings to deploy and removed the dirty flag.
+
+    NotDirty:      Removes dirty flag just for default settings
+    AllSettings:   Create a version for all dirty settings and removed dirty flags for all default and modified settings
+    DirtySettings: Create a version and remove dirty fag for the modified settings in the list, remove dirty flag for all default settings
+
+    my $Success = $SysConfigObject->_GetSettingsToDeploy(
+        NotDirty      => 1,                                         # optional - exclusive (1||0)
+        AllSettings   => 1,                                         # optional - exclusive (1||0)
+        DirtySettings => [ 'SettingName1', 'SettingName2' ],        # optional - exclusive
+    );
+
+Returns:
+
+    $Success = 1;       # or false in case of a failure
+
+=cut
+
+sub _HandleSettingsToDeploy {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(UserID DeploymentTimeStamp)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed",
+            );
+            return;
+        }
+    }
+
+    if ( !$Param{NotDirty} && !$Param{DirtySettings} ) {
+        $Param{AllSettings} = 1;
+    }
+
+    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    # Remove is dirty flag for default settings.
+    my $DefaultCleanup = $SysConfigDBObject->DefaultSettingDirtyCleanUp();
+    if ( !$DefaultCleanup ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not remove IsDirty flag from default settings",
+        );
+    }
+
+    return 1 if $Param{NotDirty};
+
+    my %DirtySettingsLookup = map { $_ => 1 } @{ $Param{DirtySettings} // [] };
+
+    # Get all dirty modified settings.
+    my @DirtyModifiedList = $SysConfigDBObject->ModifiedSettingListGet(
+        IsGlobal => 1,
+        IsDirty  => 1,
+    );
+
+    my %VersionsAdded;
+    my @ModifiedDeleted;
+    my @ModifiedIDs;
+    my $Error;
+
+    # Create a new version for the modified settings.
+    SETTING:
+    for my $Setting (@DirtyModifiedList) {
+
+        # Skip setting if it is not in the list (and it is not a full deployment)
+        next SETTING if !$Param{AllSettings} && !$DirtySettingsLookup{ $Setting->{Name} };
+
+        my %DefaultSettingVersionGetLast = $SysConfigDBObject->DefaultSettingVersionGetLast(
+            DefaultID => $Setting->{DefaultID},
+        );
+
+        my $ModifiedVersionID = $SysConfigDBObject->ModifiedSettingVersionAdd(
+            %{$Setting},
+            DefaultVersionID    => $DefaultSettingVersionGetLast{DefaultVersionID},
+            DeploymentTimeStamp => $Param{DeploymentTimeStamp},
+            UserID              => $Param{UserID},
+        );
+
+        if ( !$ModifiedVersionID ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not create a modified setting version for $Setting->{Name}! Rolling back.",
+            );
+            $Error = 1;
+            last SETTING;
+        }
+
+        $VersionsAdded{ $Setting->{Name} } = $ModifiedVersionID;
+
+        if ( !$Setting->{ResetToDefault} ) {
+            push @ModifiedIDs, $Setting->{ModifiedID};
+            next SETTING;
+        }
+
+        # In case a setting value reset, delete the modified value.
+        my $ModifiedDelete = $SysConfigDBObject->ModifiedSettingDelete(
+            ModifiedID => $Setting->{ModifiedID},
+        );
+
+        if ( !$ModifiedDelete ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Could not delete the modified setting for $Setting->{Name} on reset action! Rolling back.",
+            );
+            $Error = 1;
+            last SETTING;
+        }
+
+        push @ModifiedDeleted, $Setting;
+    }
+
+    # In case of an error:
+    #   Remove "all" added versions for "all" settings for this deployment.
+    #   Restore "all" deleted modified settings.
+    if ($Error) {
+        for my $SettingName ( sort keys %VersionsAdded ) {
+            my $Success = $SysConfigDBObject->ModifiedSettingVersionDelete(
+                ModifiedVersionID => $VersionsAdded{$SettingName},
+            );
+        }
+
+        for my $Setting (@ModifiedDeleted) {
+            my $Success = $SysConfigDBObject->ModifiedAdd(
+                %{$Setting},
+                UserID => $Setting->{ChangeBy},
+            );
+        }
+
+        return;
+    }
+
+    # Do not clean dirty flag if no setting version was created and it is not a full deployment
+    return 1 if !$Param{AllSettings} && !@ModifiedIDs;
+
+    my %Options;
+    if ( !$Param{AllSettings} ) {
+        $Options{ModifiedIDs} = \@ModifiedIDs;
+    }
+
+    # Remove is dirty flag for modified settings.
+    my $ModifiedCleanup = $SysConfigDBObject->ModifiedSettingDirtyCleanUp(%Options);
+    if ( !$ModifiedCleanup ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not remove IsDirty flag from modified settings",
+        );
+    }
+
+    return 1;
+}
+
+=head2 _ConfigurationTranslatedGet()
+
+Helper method for ConfigurationTranslatedGet().
+
+    my %Result = $SysConfigObject->_ConfigurationTranslatedGet(
+        Language => 'de',               # (required) User language
+        Name     => 'SettingName',      # (required) Setting name
+    );
+
+Returns:
+
+    %Result = (
+       'ACL::CacheTTL' => {
+            'Category' => 'OTRSFree',
+            'IsInvisible' => '0',
+            'Metadata' => "ACL::CacheTTL--- '3600'
+Cache-Zeit in Sekunden f\x{fc}r Datenbank ACL-Backends.",
+    );
+
+=cut
+
+sub _ConfigurationTranslatedGet {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(Language Name)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheType = '_ConfigurationTranslatedGet';
+    my $CacheKey  = "_ConfigurationTranslatedGet::$Param{Language}::$Param{Name}";
+
+    # Return cache.
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return %{$Cache} if ref $Cache eq 'HASH';
+
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+    my %Categories = $Self->ConfigurationCategoriesGet();
+
+    my %SettingTranslated = $Self->SettingGet(
+        Name      => $Param{Name},
+        Translate => 1,
+    );
+
+    my $Metadata = $Param{Name};
+    $Metadata .= $YAMLObject->Dump(
+        Data => $SettingTranslated{EffectiveValue},
+    );
+    $Metadata .= $SettingTranslated{Description};
+
+    my %Result;
+    $Result{ $Param{Name} }->{Metadata} = lc $Metadata;
+
+    # Check setting category.
+    my $SettingCategory;
+
+    CATEGORY:
+    for my $Category ( sort keys %Categories ) {
+        if ( grep { $_ eq $SettingTranslated{XMLFilename} } @{ $Categories{$Category}->{Files} } ) {
+            $SettingCategory = $Category;
+            last CATEGORY;
+        }
+    }
+
+    if ( !$SettingCategory ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Category couldn't be determined for $Param{Name}!",
+        );
+        $SettingCategory = '-Unknown-';
+    }
+    $Result{ $Param{Name} }->{Category}    = $SettingCategory;
+    $Result{ $Param{Name} }->{IsInvisible} = $SettingTranslated{IsInvisible};
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \%Result,
+        TTL   => $Self->{CacheTTL} || 24 * 60 * 60,
+    );
+
+    return %Result;
 }
 
 1;
-
-=end Internal:
 
 =head1 TERMS AND CONDITIONS
 

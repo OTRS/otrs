@@ -1,0 +1,1469 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+/**
+ * @subsection      Getting Started
+ */
+
+.GettingStarted {
+    text-align: center;
+    padding: 40px 0px 5px 0px;
+}
+
+.GettingStarted li {
+    display: inline-block;
+    width: 220px;
+    height: 180px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    position: relative;
+    background: #eee;
+    vertical-align: top;
+}
+
+.GettingStarted li:last-child {
+    margin-right: 0px;
+}
+
+.RTL .GettingStarted li:last-child {
+    margin-right: 10px;
+}
+
+.GettingStarted li i {
+    width: 100%;
+    position: absolute;
+    top: 25px;
+    left: 0px;
+    text-align: center;
+    font-size: 50px;
+    color: #999;
+    text-shadow: 1px 1px 2px #fff;
+}
+
+.GettingStarted li p {
+    font-size: 12px;
+    color: #555;
+    text-shadow: 1px 1px 2px #fff;
+    margin: 95px 10px 0px 10px;
+    position: relative;
+    padding-top: 15px;
+}
+
+.GettingStarted li p a {
+    color: #555;
+    border-bottom: 1px solid #aaa;
+    transition: all ease 0.3s;
+}
+
+.GettingStarted li p a:hover {
+    color: #111;
+    border-bottom-color: #ccc;
+}
+
+.GettingStarted li p:before {
+    content: "";
+    top: 0px;
+    left: 50%;
+    margin-left: -20%;
+    width: 40%;
+    position: absolute;
+    border-top: 1px solid #bbb;
+    box-shadow: 1px 1px 1px #fff;
+}
+
+.GettingStarted + .SearchBox {
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+    margin-bottom: 30px;
+}
+
+.GettingStarted + .SearchBox input[type=text] {
+    width: 90%;
+    max-width: 689px;
+    box-sizing: border-box;
+    padding: 10px 5px 9px 10px;
+    display: inline-block;
+    border-right-width: 1px;
+    height: 35px;
+}
+
+.GettingStarted + .SearchBox button {
+    display: inline-block;
+    width: 32px;
+    margin-left: -32px;
+    height: 35px;
+}
+
+#SearchBoxAutoComplete > span {
+    position: relative;
+}
+
+#SearchBoxAutoComplete #SysConfigSearch + .AJAXLoader {
+    position: absolute;
+    right: 38px;
+    top: -4px;
+}
+
+/**
+ * @subsection      General
+ */
+
+.SearchBox input[type=text] {
+    width: 218px;
+    margin-bottom: 2px;
+}
+
+.SearchBox button {
+    position: relative;
+    top: -2px;
+}
+
+#ConfigTree {
+    padding: 2px 0px 5px 0px;
+    font-size: 12px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+#ConfigTree > p {
+    line-height: 100px;
+}
+
+#ConfigTreeSearch {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+#ConfigTree .jstree-hovered,
+#ConfigTree .jstree-wholerow-hovered {
+    background: #ddd !important;
+}
+
+.UpdateSetting {
+    margin: 3px;
+}
+
+.DefaultValue {
+    margin: 3px;
+}
+
+
+/**
+ * @subsection      Search
+ */
+
+h2.SearchResults {
+    text-align: center;
+    margin: 0px 0px 20px 0px;
+}
+
+/**
+ * @subsection      Settings
+ */
+
+.SettingContent {
+    padding: 3px 10px;
+}
+.HashItem .Key {
+    float: left;
+}
+
+/**
+ * @subsubsection     Dialogs: General
+ */
+
+.HelpDialog {
+    width: 400px;
+    padding: 5px;
+    max-width: 100%;
+}
+
+.DialogComment {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    padding: 5px;
+    width: 100%;
+    min-height: 58px;
+}
+
+.Dialog > p {
+    margin-bottom: 10px;
+}
+
+.Dialog .WidgetSimple {
+    margin: 0px 0px 7px 0px;
+}
+
+.Dialog .WidgetSimple .Header input {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.Dialog .WidgetSimple:last-child {
+    margin-bottom: 0px;
+}
+
+.Dialog .Overlay {
+    display: none;
+    background: #fff;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.Dialog .Overlay.Preparing {
+    display: block;
+}
+
+.Dialog .Overlay span {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    height: 15px;
+}
+
+.Dialog .Overlay em {
+    font-style: normal;
+    line-height: 140%;
+    max-width: 80%;
+    display: block;
+    margin: 0px auto;
+}
+
+.Dialog .Overlay span i {
+    position: absolute;
+    margin-left: -6px;
+    left: 50%;
+    display: none;
+}
+
+.Dialog .Overlay.Preparing span i.Active {
+    display: block;
+}
+
+.Dialog .Overlay span i.Success {
+    color: green;
+}
+
+.Dialog .Overlay span i.Error {
+    color: red;
+}
+
+.Dialog .WidgetSimple .Content .Code {
+    padding: 0px 20px;
+    margin: 0px -8px -10px -8px;
+    white-space: pre-wrap;
+    font-family: monospace;
+    line-height: 150%;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/**
+ * @subsubsection     Deployment
+ */
+
+#DialogDeployment {
+    width: 450px;
+    min-height: 60px;
+    padding-right: 10px;
+}
+
+#DialogDeployment > p {
+    margin-bottom: 10px;
+}
+
+#DialogDeployment + .ContentFooter .ButtonsRegular,
+#DialogDeployment + .ContentFooter .ButtonsFinish,
+#DialogDeployment + .ContentFooter .ButtonsTryAgain {
+    display: none;
+}
+
+.WidgetSimple .Warning {
+    color: red;
+    margin: 3px;
+}
+
+.TableLike.DeploymentData label,
+.TableLike.DeploymentData .Field {
+    min-height: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.TableLike.DeploymentData label {
+    padding-top: 1px;
+    color: #000;
+}
+
+.TableLike.DeploymentData .FieldExplanation {
+    margin-bottom: 0px;
+}
+
+/**
+ * @subsubsection     Widgets
+ */
+
+.WidgetSimple.Setting {
+    position: relative;
+}
+
+.WidgetSimple > .Content {
+    position: relative;
+    overflow: hidden;
+}
+
+.WidgetSimple.Setting input,
+.WidgetSimple.Setting textarea {
+    background: #eee;
+}
+
+.WidgetSimple.Setting input,
+.WidgetSimple.Setting textarea,
+.WidgetSimple.Setting label {
+    color: #777;
+}
+
+.WidgetSimple.Setting .ResetButton {
+    display: none;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .ResetButton {
+    display: inline-block;
+}
+
+.WidgetSimple.Setting.IsModified,
+.Legend span.IsModified {
+    border-left: 5px solid #999;
+}
+
+.RTL .WidgetSimple.Setting.IsModified,
+.RTL .Legend span.IsModified {
+    border-left: 0px;
+    border-right: 5px solid #999;
+}
+
+.WidgetSimple.Setting.IsDirty,
+.Legend span.IsDirty {
+    border-left: 5px solid #5BAD5B;
+}
+
+.RTL .WidgetSimple.Setting.IsDirty,
+.RTL .Legend span.IsDirty {
+    border-left: 0px;
+    border-right: 5px solid #5BAD5B;
+}
+
+.WidgetSimple.Setting.IsLockedByAnotherUser,
+.Legend span.IsLockedByAnotherUser {
+    border-left: 5px solid #b8384e;
+}
+
+.RTL .WidgetSimple.Setting.IsLockedByAnotherUser,
+.RTL .Legend span.IsLockedByAnotherUser {
+    border-left: 0px;
+    border-right: 5px solid #b8384e;
+}
+
+.WidgetSimple.Setting.IsLockedByMe,
+.Legend span.IsLockedByMe {
+    border-left: 5px solid #f92;
+}
+
+.RTL .WidgetSimple.Setting.IsLockedByMe,
+.RTL .Legend span.IsLockedByMe {
+    border-left: 0px;
+    border-right: 5px solid #f92;
+}
+
+.WidgetSimple.Setting.IsLockedByMe input,
+.WidgetSimple.Setting.IsLockedByMe textarea {
+    background-color: #fff;
+}
+
+.WidgetSimple.Setting.IsLockedByMe input,
+.WidgetSimple.Setting.IsLockedByMe textarea,
+.WidgetSimple.Setting.IsLockedByMe label {
+    color: inherit;
+}
+
+.WidgetSimple.Setting.IsLockedByMe {
+    position: relative;
+}
+
+.WidgetSimple.Setting .Header {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.WidgetSimple.Setting .Header .ActionMenu {
+    font-size: 17px;
+}
+
+.WidgetSimple.Setting .Header h2 {
+    float: left;
+    padding-left: 15px;
+}
+
+.RTL .WidgetSimple.Setting .Header h2 {
+    float: right;
+    padding-left: 3px;
+    padding-right: 15px;
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage {
+    font-size: 11px;
+    margin-top: 5px;
+    color: #999;
+    float: right;
+    margin-right: 30px;
+    margin-top: 3px;
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage span {
+    display: inline-block;
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage span + span:before {
+    content: ", ";
+    margin-left: -4px;
+}
+
+.WidgetSimple.Setting .Content .SettingUpdateBox {
+    display: none;
+    position: absolute;
+    top: 1px;
+    width: 88px;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: #f2f2f2;
+    border-left: 1px solid #ddd;
+    box-sizing: border-box;
+    height: 100%;
+    text-align: right;
+    transition: all ease 0.2s;
+    right: 0px;
+    padding-right: 7px;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox {
+    display: block;
+}
+
+.RTL .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox {
+    right: auto;
+    left: 0px;
+}
+
+.WidgetSimple.Setting.IsLockedByMe.MenuExpanded .Content .SettingUpdateBox,
+.WidgetSimple.Setting.IsLockedByMe.HasOverlay .Content .SettingUpdateBox {
+    right: -88px;
+    padding-right: 0px;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Update:hover span {
+    color: #5BAD5B;
+}
+
+.RTL .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Update,
+.RTL .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Cancel,
+.RTL .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Update i,
+.RTL .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Cancel i {
+    margin-left: 0px;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Cancel:hover span {
+    color: #B8384E;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button span {
+    transition: all ease 0.3s;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button {
+    display: inline-block;
+    margin: 7px 0px 0px 3px;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button:first-child {
+    margin-left: 7px;
+}
+
+.WidgetSimple.IsLockedByAnotherUser .SettingEdit,
+.WidgetSimple.IsLockedByMe .SettingEdit,
+.WidgetSimple.Setting.HasOverlay .SettingEdit {
+    display: none !important;
+}
+
+.WidgetSimple.Setting .SettingEdit {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background: #eee;
+    background: repeating-linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5) 10px,
+        rgba(240, 240, 240, 0.5) 10px,
+        rgba(240, 240, 240, 0.5) 20px
+    );
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    text-align: center;
+    line-height: 100%;
+    transition: all ease 0.2s;
+}
+
+.WidgetSimple.Setting > .Content:hover .SettingEdit,
+.WidgetSimple.Setting .SettingEdit:focus {
+    opacity: 1;
+}
+
+.Compare .WidgetSimple.Setting > .Content:hover .SettingWrapper,
+.Compare .WidgetSimple.Setting.HasOverlay .SettingWrapper,
+.WidgetSimple.Setting.IsLockedByMe > .Content:hover .SettingWrapper,
+.WidgetSimple.Setting.IsLockedByAnotherUser > .Content:hover .SettingWrapper {
+    opacity: 1;
+}
+
+.WidgetSimple.Setting > .Content:hover .SettingWrapper,
+.WidgetSimple.Setting.IsLockedByMe.HasOverlay .SettingWrapper,
+.WidgetSimple.Setting.IsLockedByMe.HasOverlay > .Content:hover .SettingWrapper,
+.WidgetSimple.Setting.HasOverlay .SettingWrapper {
+    opacity: 0.3;
+}
+
+.WidgetSimple.Setting .SettingEdit button {
+    top: 50%;
+    height: 26px;
+    margin-top: -13px;
+    position: absolute;
+    margin-left: -20px;
+}
+
+.WidgetSimple.Setting.IsReadonly .SettingEdit,
+.WidgetSimple.Setting.IsReadonly .EditAlias,
+.WidgetSimple.Setting.IsReadonly .SettingEnabled,
+.WidgetSimple.Setting.IsReadonly .SettingDisabled,
+.WidgetSimple.Setting.IsReadonly .ResetSetting {
+    display: none;
+}
+
+.WidgetSimple.Setting > .Content {
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 42px;
+}
+
+.WidgetSimple.Setting .SettingContainer {
+    max-height: 285px;
+    overflow-y: hidden;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .SettingContainer {
+    max-height: none;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .SettingContainer {
+    overflow-y: auto;
+}
+
+.WidgetSimple.Setting .SettingContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.WidgetSimple.Setting .SettingContainer::-webkit-scrollbar-button {
+    width: 8px;
+    height: 5px;
+}
+
+.WidgetSimple.Setting .SettingContainer::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+.WidgetSimple.Setting .SettingContainer::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+
+.WidgetSimple.Setting .SettingContainer::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.WidgetSimple.Setting .SettingWrapper {
+    transition: opacity ease 0.3s;
+    display: table-row;
+}
+
+.WidgetSimple.Setting .SettingWrapper > .SettingDescription,
+.WidgetSimple.Setting .SettingWrapper > form {
+    color: #777;
+    font-size: 11px;
+    display: table-cell;
+    width: 60%;
+    vertical-align: top;
+}
+
+.WidgetSimple.Setting .SettingWrapper > fieldset {
+    color: #777;
+}
+
+.WidgetSimple.Setting .SettingWrapper > form {
+    padding-right: 20px;
+}
+
+.WidgetSimple.Setting .SettingWrapper > .SettingDescription {
+    border-left: 1px solid #ccc;
+    width: 40%;
+    padding-left: 20px;
+    line-height: 150%;
+    padding-top: 4px;
+    word-break: break-word;
+    transition: padding ease 0.2s;
+}
+
+.RTL .WidgetSimple.Setting .SettingWrapper > .SettingDescription {
+    border-left: 0px;
+    border-right: 1px solid #ccc;
+    padding-left: 0px;
+    padding-right: 20px;
+}
+
+.WidgetSimple.Setting.IsLockedByMe .SettingWrapper > .SettingDescription {
+    padding-right: 90px;
+}
+
+.WidgetSimple .WidgetMenu {
+    background: #eee;
+    padding: 7px 10px 7px 18px;
+    display: none;
+}
+
+.WidgetSimple .WidgetMenu > a,
+.WidgetSimple .WidgetMenu > span {
+    display: inline-block;
+    background: #e5e5e5;
+    margin-right: 3px;
+    border: 1px solid #ccc;
+    padding: 3px 5px;
+    font-size: 11px;
+    color: #777;
+    transition: all ease 1s;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.WidgetSimple .WidgetMenu > a:focus,
+.WidgetSimple .WidgetMenu > span:focus {
+    border-color: #000;
+    color: #000;
+}
+
+.WidgetSimple.MenuExpanded .WidgetMenu > a,
+.WidgetSimple.MenuExpanded .WidgetMenu > span {
+    opacity: 1;
+}
+
+.WidgetSimple .WidgetMenu > a.Right,
+.WidgetSimple .WidgetMenu > span.Right {
+    float: right;
+}
+
+.RTL .WidgetSimple .WidgetMenu > a.Right,
+.RTL .WidgetSimple .WidgetMenu > span.Right {
+    float: left;
+}
+
+.WidgetSimple .WidgetMenu > a.Hidden {
+    display: none;
+}
+
+.WidgetSimple .WidgetMenu > a.SaveAlias,
+.WidgetSimple .WidgetMenu > a.CancelAlias,
+.WidgetSimple.IsLockedByMe .WidgetMenu > a.EditAlias {
+    display: none;
+}
+
+.WidgetSimple.IsLockedByMe .WidgetMenu > a.SaveAlias,
+.WidgetSimple.IsLockedByMe .WidgetMenu > a.CancelAlias {
+    display: inline-block;
+}
+
+.WidgetSimple .WidgetMenu > a.SaveAlias i {
+    color: #488b48;
+}
+
+.WidgetSimple .WidgetMenu > a.CancelAlias i {
+    color: #942538;
+}
+
+.WidgetSimple .WidgetMenu > a:hover,
+.WidgetSimple .WidgetMenu > span:hover {
+    background: #eee;
+    border-color: #777;
+}
+
+.WidgetSimple .WidgetMenu > a i,
+.WidgetSimple .WidgetMenu > span i {
+    font-size: 10px;
+}
+
+.RTL .WidgetSimple .WidgetMenu > a i,
+.RTL .WidgetSimple .WidgetMenu > span i {
+    margin-left: 5px;
+}
+
+.WidgetSimple .WidgetMenu > a i.fa-check,
+.WidgetSimple .WidgetMenu > span i.fa-check {
+    color: green;
+}
+
+.WidgetSimple.Setting .WidgetMessage.Bottom {
+    display: none;
+    border: 0px;
+    bottom: 0px;
+    left: 0px;
+    margin: 0px !important;
+    position: absolute;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    z-index: 9;
+    box-sizing: border-box;
+}
+
+.WidgetSimple.Setting .LockedByAnotherUser {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    z-index: 99;
+    background: repeating-linear-gradient(
+        -45deg,
+        rgba(148, 35, 55, 0.5),
+        rgba(148, 35, 55, 0.5) 10px,
+        rgba(184, 56, 76, 0.5) 10px,
+        rgba(184, 56, 76, 0.5) 20px
+    );
+}
+
+.WidgetSimple.Setting .LockedByAnotherUser p {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    color: #777;
+    font-size: 11px;
+    position: relative;
+    top: 50%;
+    margin-top: -12px;
+}
+
+.WidgetSimple input#FilterSettings + .ActionList {
+    margin-top: 8px;
+}
+
+.WidgetSimple p.WidgetInformation {
+    font-size: 11px;
+    margin-top: 8px;
+    color: #333;
+    background: #e4e4e4;
+    padding: 5px 5px 5px 25px;
+    position: relative;
+}
+
+.WidgetSimple p.WidgetInformation i {
+    position: absolute;
+    background: #eee;
+    color: #666;
+    left: 5px;
+    top: 5px;
+    line-height: 14px;
+    width: 14px;
+    text-align: center;
+    box-shadow: 1px 1px 1px #999;
+}
+
+/**
+ * @subsubsection     Setting Types
+ */
+
+.Array,
+.Hash {
+    position: relative;
+    padding: 0px;
+    margin-left: 8px;
+}
+
+.SettingContainer > fieldset > .Setting > .Hash:empty:before,
+.SettingContainer > fieldset > .Setting > .Array:empty:before {
+    content: "-";
+}
+
+.Array > .ArrayItem {
+    display: inline-block;
+}
+
+.IsLockedByMe .Array > .ArrayItem {
+    display: block;
+}
+
+.IsLockedByMe .Array,
+.IsLockedByMe .Hash {
+    margin-left: 0px;
+    min-height: 21px;
+    padding: 0px 22px 0px 0px;
+    border: 1px solid #ddd;
+}
+
+.RTL .IsLockedByMe .Array,
+.RTL .IsLockedByMe .Hash {
+    padding: 0px 0px 0px 22px;
+}
+
+.Array button.AddArrayItem,
+.ArrayItem button.RemoveButton,
+.Hash button.AddHashKey,
+.HashItem button.RemoveButton,
+.HashItem button.AddKey {
+    position: absolute;
+    right: 0px;
+    width: 22px;
+    background: #eee;
+    height: 100%;
+    top: 0px;
+    border: 0px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+    color: #bbb;
+    font-size: 14px;
+}
+
+.HashItem button.AddKey {
+    position: relative;
+    color: #5BAD5B;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    height: 22px;
+    line-height: 14px;
+    text-align: center;
+    border-left: 0px;
+    font-size: 13px;
+    width: 25px;
+}
+
+.Array button.AddArrayItem span.InvisibleText,
+.ArrayItem button.RemoveButton span.InvisibleText,
+.Hash button.AddHashKey span.InvisibleText,
+.HashItem button.RemoveButton span.InvisibleText,
+.HashItem button.AddKey span.InvisibleText {
+    position: fixed !important;
+    left: -9999px;
+    top: -9999px;
+}
+
+.RTL .Array button.AddArrayItem,
+.RTL .ArrayItem button.RemoveButton,
+.RTL .Hash button.AddHashKey,
+.RTL .HashItem button.RemoveButton,
+.RTL .HashItem button.AddKey {
+    right: auto;
+    left: 0px;
+}
+
+.Array button.AddArrayItem:hover,
+.ArrayItem button.RemoveButton:hover,
+.Hash button.AddHashKey:hover,
+.HashItem button.RemoveButton:hover,
+.HashItem button.AddKey:hover,
+.Array button.AddArrayItem:focus,
+.ArrayItem button.RemoveButton:focus,
+.Hash button.AddHashKey:focus,
+.HashItem button.RemoveButton:focus,
+.HashItem button.AddKey:focus {
+    background: #e5e5e5;
+    color: #333;
+    outline: none;
+}
+
+.Array button.AddArrayItem i,
+.Hash button.AddHashKey i {
+    font-size: 15px;
+}
+
+.AddHashKey, .AddArrayItem, .RemoveButton {
+    display: none;
+}
+
+.ArrayItem,
+.HashItem {
+    position: relative;
+    transition: background ease 0.3s;
+    min-height: 10px;
+    overflow: hidden;
+}
+
+.IsLockedByMe .ArrayItem,
+.IsLockedByMe .HashItem {
+    margin-bottom: 5px;
+}
+
+.RTL .HashItem .Key {
+    float: right;
+}
+
+.RTL .HashItem .SettingContent {
+    float: right;
+    margin-right: 30px;
+    position: relative;
+}
+
+.ArrayItem:last-child,
+.HashItem:last-child {
+    margin-bottom: 0px;
+}
+
+.ArrayItem > .SettingContent,
+.HashItem > .SettingContent {
+    white-space: nowrap;
+}
+
+.IsLockedByMe .ArrayItem,
+.IsLockedByMe .HashItem {
+    padding: 8px 30px 8px 8px;
+    border: 1px solid #ddd;
+    border-left: 0px;
+    border-top: 0px;
+    margin-bottom: 0px;
+}
+
+.RTL .IsLockedByMe .ArrayItem,
+.RTL .IsLockedByMe .HashItem {
+    padding: 8px 8px 8px 30px;
+    border-left: 1px solid #ddd;
+    border-right: 0px;
+}
+
+.IsLockedByMe .ArrayItem:last-of-type,
+.IsLockedByMe .HashItem:last-of-type {
+    border-bottom: 0px;
+}
+
+.ArrayItem .SettingContent {
+    padding: 3px;
+}
+
+.ArrayItem .SettingContent textarea {
+    width: 97%;
+}
+
+.HashItem .SettingContent textarea {
+    max-width: 87%;
+}
+
+.ArrayItem + .ArrayItem,
+.HashItem + .HashItem {
+    border-top: 0px;
+}
+
+.SettingContent input[type=text],
+.SettingContent input[type=password],
+.SettingContent .InputField_Search,
+.HashItem .Key {
+    width: 90%;
+}
+
+.SettingContent input[type=text],
+.SettingContent input[type=password],
+.SettingContent .InputField_Search,
+.Setting input.Key {
+    border: none;
+    background: none;
+    box-shadow: none;
+    text-overflow: ellipsis;
+}
+
+.IsLockedByMe .SettingContent input[type=text],
+.IsLockedByMe .SettingContent input[type=password],
+.IsLockedByMe .SettingContent .InputField_Search,
+.IsLockedByMe .Setting input.Key {
+    background-color: #fff;
+    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+    border: 1px solid #C9C9C9;
+    border-top-color: #C0C0C0;
+    text-overflow: inherit;
+}
+
+.Hash .SettingContent input[type=text],
+.Hash .SettingContent input[type=password],
+.Hash .SettingContent .InputField_Search {
+    width: 45%;
+}
+
+.HashItem .HashItem input[type=text].Key,
+.HashItem .Key {
+    width: 100px;
+}
+
+.HashItem .SettingContent input[type=text],
+.HashItem .SettingContent input[type=password],
+.HashItem .SettingContent .InputField_Search {
+    width: 84%;
+}
+
+.Setting > .SettingContent > .Type_String {
+    width: 100%;
+}
+
+.SettingContent textarea {
+    display: block;
+    height: 70px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.SettingContent input.VacationDays {
+    width: 80%;
+    margin-left: 5px;
+}
+
+.SettingContent input.VacationDaysOneTime {
+    width: 60%;
+}
+
+.SettingContent span.TimeZoneText {
+    margin-left: 10px;
+}
+
+.SettingContent .WorkingHoursItem {
+    float:left;
+    display: table;
+}
+.SettingContent .WorkingHoursItem label {
+    display: table-row;
+    text-align: center;
+}
+.SettingContent .WorkingHours {
+    display: table-row;
+    width: 100%;
+    margin: 2px 10px 2px 0px;
+}
+
+.SettingContent .BadEffectiveValue p {
+    color: #f00;
+    margin-left: 5px;
+}
+
+.SettingsList.Compare .BadEffectiveValue {
+    display: none;
+}
+
+.HashItem .SettingContent .BadEffectiveValue {
+    margin-left: 22px;
+}
+
+.HashItem {
+    padding: 3px;
+}
+
+.IsLockedByMe .HashItem {
+    padding: 7px;
+}
+
+.HashItem .Key {
+    float: left;
+}
+
+.HashItem > .SettingContent:before,
+.RTL .HashItem > .SettingContent:after {
+    content: "\f178";
+    color: #bbb;
+    float: left;
+    font-family: FontAwesome;
+    font-size: 12px;
+    line-height: 23px;
+    margin-right: 5px;
+}
+
+.RTL .HashItem > .SettingContent:before {
+    display: none;
+}
+
+.RTL .HashItem > .SettingContent:after {
+    content: "\f177";
+    position: absolute;
+    right: -25px;
+}
+
+.HashItem .SettingContent {
+    padding: 0px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.HashItem .SettingContent > .Array,
+.HashItem .SettingContent > .Hash {
+    margin-left: 17px;
+}
+
+/* Legend & Shortcuts */
+
+.WidgetSimple .Legend,
+.WidgetSimple .ShortCuts {
+    margin: 5px;
+}
+
+.WidgetSimple .Legend {
+    margin-left: 8px;
+}
+
+.WidgetSimple .Legend li,
+.WidgetSimple .ShortCuts li {
+    margin-bottom: 7px;
+    font-size: 11px;
+    position: relative;
+    padding-left: 10px;
+    color: #555;
+}
+
+.RTL .WidgetSimple .Legend li,
+.RTL .WidgetSimple .ShortCuts li {
+    padding-left: 0px;
+    padding-right: 10px;
+}
+
+.WidgetSimple .Legend li:last-child,
+.WidgetSimple .ShortCuts li:last-child {
+    margin-bottom: 0px;
+}
+
+.WidgetSimple .Legend li span {
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    height: 12px;
+    margin-top: -6px;
+    width: 5px;
+}
+
+.RTL .WidgetSimple .Legend li span {
+    left: auto;
+    right: 0px;
+}
+
+.WidgetSimple .ShortCuts {
+    margin-top: 7px;
+    display: table;
+}
+
+.WidgetSimple .ShortCuts li {
+    padding-left: 0px;
+    display: table-row;
+}
+
+.WidgetSimple .ShortCuts li em {
+    display: table-cell;
+    padding-top: 5px;
+    font-style: normal;
+}
+
+.WidgetSimple .ShortCuts li em:first-child {
+    text-align: right;
+}
+
+.WidgetSimple .ShortCuts li span {
+    display: inline-block;
+    border: 1px solid #ccc;
+    text-transform: uppercase;
+    font-size: 9px;
+    font-weight: bold;
+    margin-right: 5px;
+    color: #555;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.RTL .WidgetSimple .ShortCuts li span {
+    margin-right: 0px;
+    margin-left: 5px;
+}
+
+/* Comparison Mode */
+
+.SettingsList.Compare .Setting .WidgetMessage {
+    display: none;
+}
+
+.SettingsList.Compare .Setting .WidgetMessage strong {
+    transition: all ease 2s;
+    padding: 0px 3px;
+}
+
+.SettingsList.Compare .Setting .WidgetMessage strong.Different {
+    display: inline-block;
+    background: yellow;
+    color: #333;
+}
+
+.SettingsList.Compare > li > .SettingContainer {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.SettingsList.Compare h2 > input[type=checkbox] {
+    display: none;
+}
+
+.SettingsList.Compare .Comparing h2 + .HeaderMessage {
+    display: none;
+}
+
+.SettingsList.Compare.Deployment h2 > input[type=checkbox] {
+    display: block;
+    position: absolute;
+    left: 7px;
+    top: 3px;
+}
+
+.SettingsList.Compare.Deployment li > .SettingContainer {
+    transition: opacity ease 0.5s;
+    opacity: 0.5;
+}
+
+.SettingsList.Compare.Deployment li > .SettingContainer.Selected {
+    opacity: 1;
+}
+
+.SettingsList.Compare.Deployment .SettingNew h2 {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.SettingsList.Compare > li > .SettingContainer > div {
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.SettingsList.Compare > li > .SettingContainer > div.SettingOld {
+    width: 0px;
+}
+
+.SettingsList.Compare .SettingOld .WidgetSimple {
+    position: relative;
+}
+
+.SettingsList.Compare .SettingOld .WidgetSimple .SettingContent {
+    white-space: nowrap;
+}
+
+.SettingsList.Compare .Comparing .WidgetSimple .SettingContent {
+    margin-bottom: 25px;
+}
+
+.SettingsList.Compare .WidgetSimple {
+    margin-bottom: 0px;
+    z-index: 1;
+}
+
+.SettingsList.Compare .WidgetSimple h2 .Label {
+    display: none;
+    font-size: 9px;
+    position: relative;
+    top: -1px;
+    color: #555;
+    text-shadow: 0px 0px 2px #fff;
+    text-transform: uppercase;
+    background-color: #ccc;
+    padding: 1px 3px;
+}
+
+.SettingsList.Compare > li > .SettingContainer:after {
+    content: "\f178";
+    color: #bbb;
+    font-family: FontAwesome;
+    font-size: 12px;
+    line-height: 23px;
+    margin-right: -8px;
+    position: absolute;
+    right: 50%;
+    top: 50%;
+}
+
+.Icon {
+    float: left;
+    height: 12px;
+    color: #777;
+}
+
+.RTL .Icon {
+    float: right;
+}
+
+.Icon .fa {
+    margin-left: -10px;
+    margin-right: 5px;
+    cursor: help;
+}
+
+.RTL .Icon .fa {
+    margin-left: 5px;
+    margin-right: -10px;
+}
+
+.fa.fa-ban {
+    color: #b8384e;
+}
+
+.fa.Hidden {
+    display: none;
+}
+
+/* Sidebar */
+
+.ImportExport .CallForAction {
+    margin-top: 8px;
+}
+
+.SidebarColumn .WidgetSimple.SystemConfigurationTree div.InputField_Container,
+.SidebarColumn .WidgetSimple.SystemConfigurationTree div.InputField_InputContainer,
+.SidebarColumn .WidgetSimple.SystemConfigurationTree #Category_Search {
+    box-sizing: border-box;
+    width: 100% !important;
+}
+
+.SidebarColumn .WidgetSimple.SystemConfigurationTree div.InputField_Selection {
+    top: 3px;
+}
+
+.SidebarColumn .WidgetSimple.SystemConfigurationTree div.InputField_InputContainer .InputField_Search {
+    padding-bottom: 4px;
+    position: relative;
+    top: -1px;
+}
+
+.SidebarColumn .WidgetSimple.SystemConfigurationTree .SystemConfigurationCategories {
+    display: inline-block;
+    width: 85%;
+}
+
+.RTL .SidebarColumn .WidgetSimple.SystemConfigurationTree .SystemConfigurationCategories {
+    float: right;
+    margin-left: -1px;
+}
+
+/* Widget Menu */
+
+.MenuExpanded .WidgetAction .fa-bars {
+    color: #333;
+}
+
+/* Responsive */
+
+@media only screen and (min-width: 0px) and (max-width: 750px) {
+
+    .GettingStarted li {
+        margin-right: 0px;
+        width: 95%;
+    }
+}
+
+@media only screen and (min-width: 0px) and (max-width: 1024px) {
+
+    .WidgetSimple .WidgetMenu,
+    .WidgetSimple.Setting .WidgetMessage.Bottom {
+        display: block !important;
+    }
+
+    .WidgetSimple .WidgetMenu {
+        padding-bottom: 0px;
+    }
+
+    .WidgetSimple .WidgetMenu > a,
+    .WidgetSimple .WidgetMenu > span {
+        opacity: 1 !important;
+        zoom: 1.1;
+        margin-bottom: 7px;
+    }
+
+    .WidgetSimple.Setting .Header .ActionMenu {
+        margin-right: 0px;
+        top: 3px;
+    }
+
+    .WidgetSimple.Setting .Header .ActionMenu .Expand {
+        display: none;
+    }
+
+    .WidgetSimple.Setting .Header .ActionMenu a {
+        font-size: 18px;
+    }
+
+    .WidgetSimple.Setting .SettingWrapper > form {
+        padding-right: 0px;
+    }
+
+    .WidgetSimple.Setting .SettingWrapper > .SettingDescription,
+    .WidgetSimple.Setting .SettingWrapper > form {
+        display: block;
+        width: auto;
+        border-left: 0px;
+    }
+
+    .WidgetSimple.Setting .SettingWrapper > .SettingDescription {
+        padding-left: 10px;
+    }
+
+    .WidgetSimple.Setting .Content {
+        padding-bottom: 35px !important;
+    }
+
+    .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox {
+        display: none !important;
+    }
+
+    .WidgetSimple .WidgetMenu > a.Right,
+    .WidgetSimple .WidgetMenu > span.Right {
+        float: none;
+    }
+
+}
+
+} /* end @media */

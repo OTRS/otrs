@@ -18,7 +18,7 @@
                 <h4>[% Translate("Cloud services are currently disabled.") | html %]</h4>
                 <div class="Spacing"></div>
                 <form action="[% Env("CGIHandle") %]" method="post">
-                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
                     <input type="hidden" name="Subaction" value="Edit"/>
                     <input type="hidden" name="SysConfigGroup" value="CloudService"/>
                     <input type="hidden" name="SysConfigSubGroup" value="Core"/>

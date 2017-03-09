@@ -55,7 +55,7 @@
             <div class="Content">
 [% RenderBlockStart("Enabled") %]
                 <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
                     <input type="hidden" name="Subaction" value="Edit"/>
                     <input type="hidden" name="SysConfigGroup" value="Framework"/>
                     <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog"/>
@@ -79,7 +79,7 @@
 [% RenderBlockEnd("Enabled") %]
 [% RenderBlockStart("Disabled") %]
                 <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
                     <input type="hidden" name="Subaction" value="Edit"/>
                     <input type="hidden" name="SysConfigGroup" value="Framework"/>
                     <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog"/>

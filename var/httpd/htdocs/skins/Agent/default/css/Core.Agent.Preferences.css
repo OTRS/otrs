@@ -16,106 +16,40 @@
  * @subsubsection     General
  */
 
-.PreferencesScreen {
-    padding-top: 20px;
+.Preferences .WidgetSimple.Setting.IsLockedByMe {
+    border-left: 0px;
+}
+.Preferences .WidgetSimple.Setting.IsLockedByMe.IsModified {
+    border-left: 5px solid #999;
 }
 
-.PreferencesScreen .Size1of3 > .WidgetSimple > .Header {
-    background: none;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
-    padding: 0px 0px 5px 0px;
-    margin: 0px;
+.DataTable.NotificationList {
+    width: 98%;
 }
 
-.WidgetSimple .WidgetSimple {
-    border: 0px;
-    margin: 0px;
+.Preferences .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox {
+    width: 48px;
 }
 
-.WidgetSimple .WidgetSimple .Header {
-    text-align: center;
-}
-
-.WidgetSimple .WidgetSimple .Content {
-    padding: 5px 10px 10px 10px;
-}
-
-.WidgetSimple .Header .WidgetAction {
+.Preferences .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Cancel {
     display: none;
 }
 
-.PreferencesScreen .Size1of3 > .WidgetSimple {
-    background: none;
-    margin: 0px 10px;
+fieldset.TableLike > .Field.NoMargin {
+    margin-left: 0px;
 }
 
-.PreferencesScreen .Content {
-    padding: 0px;
+.WidgetSimple .WidgetMessage.Top {
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
-.PreferencesScreen .Content form {
-    margin: 10px 0px 15px 0px;
+#ToggleView.Grid .fa:last-child {
+    display: none !important;
 }
 
-.PreferencesScreen .Content form label {
-    width: 30%;
-}
-
-.PreferencesScreen .Content form .Field {
-    margin-left: 30%;
-    padding: 4px 0px 3px 5px;
-}
-
-.PreferencesScreen .Content form .Field.NoMargin select {
-    min-width: inherit;
-    width: 97%;
-}
-
-.PreferencesScreen .Content form .Field.NoMargin select[multiple="multiple"] {
-    height: 100px;
-}
-
-.PreferencesScreen .Content form .Field .ShowTreeSelection {
-    display: none;
-}
-
-.PreferencesScreen .Content form .Field.NoMargin {
-    margin: 0px;
-    padding: 0px;
-}
-
-.PreferencesScreen .Content form .OutOfOffice .Field {
-    margin-left: 30%;
-}
-
-.PreferencesScreen .Content form .Field.ButtonOnly {
-    border-top: 1px solid #ddd;
-    margin: 10px -10px 0px -10px;
-    text-align: center;
-    padding: 10px 0px 0px 0px;
-}
-
-.PreferencesScreen .FieldExplanation {
-    font-size: 11px;
-    line-height: 140%;
-}
-
-.PreferencesScreen .FieldExplanation.Language {
-    width: 70%;
-    margin: 5px auto;
-}
-
-.PreferencesScreen .FieldExplanation:empty {
-    display: none;
-}
-
-.PreferencesScreen .NotificationList td {
-    color: #777;
-}
-
-.PreferencesScreen .NotificationList td span.Mandatory {
-    color: #000;
+#ToggleView.List .fa:first-child {
+    display: none !important;
 }
 
 

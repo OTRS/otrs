@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
-  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="553" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="553"/>
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="553" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="553">
+    <font/>
+  </widgets>
   <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
     <font/>
   </widgets>
   <widgets xsi:type="model:Breadcrumbs" id="74" x="20" y="178" text="Home,Deployment history" measuredWidth="168" measuredHeight="23">
     <font/>
-    <items x="0" y="0" width="34" height="23" text="Home"/>
+    <items link="Home.screen" x="0" y="0" width="34" height="23" text="Home"/>
     <items x="54" y="0" width="111" height="23" text="Deployment history"/>
   </widgets>
   <widgets xsi:type="model:Panel" id="80" x="18" y="212" width="271" height="125" measuredWidth="271" measuredHeight="125"/>
-  <widgets xsi:type="model:Panel" id="81" x="20" y="349" width="271" height="180" measuredWidth="271" measuredHeight="180"/>
-  <widgets xsi:type="model:SearchField" id="82" x="32" y="255" width="247" text="Search" measuredWidth="247" measuredHeight="24">
+  <widgets xsi:type="model:SearchField" id="82" x="32" y="255" width="247" text="Type to filter..." measuredWidth="247" measuredHeight="24">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="83" x="32" y="435" width="247" height="35" text="Deploy settings" measuredWidth="247" measuredHeight="35" icon="direction (small)" textAlignment="Left">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="84" x="32" y="285" width="247" height="35" text="My currently locked settings" measuredWidth="247" measuredHeight="35" icon="secure (small)" textAlignment="Left">
+  <widgets xsi:type="model:Button" id="84" x="32" y="285" width="247" height="35" text="Back to overview" measuredWidth="247" measuredHeight="35" icon="filled-arrow-left (small)" link="Home.screen" textAlignment="Left">
     <font/>
   </widgets>
   <widgets xsi:type="model:HLine" id="85" x="20" y="241" width="269" measuredWidth="269" measuredHeight="6"/>
-  <widgets xsi:type="model:Label" id="86" x="32" y="220" text="General" measuredWidth="51" measuredHeight="23">
+  <widgets xsi:type="model:Label" id="86" x="32" y="220" text="Actions" measuredWidth="48" measuredHeight="23">
     <font bold="false"/>
-  </widgets>
-  <widgets xsi:type="model:HLine" id="87" x="22" y="378" width="269" measuredWidth="269" measuredHeight="6"/>
-  <widgets xsi:type="model:Label" id="88" x="34" y="357" text="Actions" measuredWidth="48" measuredHeight="23">
-    <font bold="false"/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="89" x="34" y="479" width="247" height="35" text="Save all edited settings" measuredWidth="247" measuredHeight="35" icon="check (small)" textAlignment="Left">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:SearchField" id="91" x="34" y="396" width="247" text="Type to filter..." measuredWidth="247" measuredHeight="24">
-    <font/>
   </widgets>
   <widgets xsi:type="model:Table" id="117" x="304" y="212" width="681" height="244" text="Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]&#xA;Deployment Date,User,[View details]" measuredWidth="681" measuredHeight="244" alternative="#eeeeee">
     <font/>
+    <items x="446" y="3" width="69" height="15" text="View details"/>
+    <items x="446" y="24" width="69" height="15" text="View details"/>
+    <items x="446" y="45" width="69" height="15" text="View details"/>
+    <items x="446" y="66" width="69" height="15" text="View details"/>
+    <items x="446" y="87" width="69" height="15" text="View details"/>
+    <items x="446" y="108" width="69" height="15" text="View details"/>
+    <items x="446" y="129" width="69" height="15" text="View details"/>
+    <items x="446" y="150" width="69" height="15" text="View details"/>
+    <items x="446" y="171" width="69" height="15" text="View details"/>
+    <items x="446" y="192" width="69" height="15" text="View details"/>
+    <items x="446" y="213" width="69" height="15" text="View details"/>
   </widgets>
   <widgets xsi:type="model:Arrow" id="118" x="848" y="411" width="121" height="76" measuredWidth="121" measuredHeight="76" annotation="true"/>
-  <widgets xsi:type="model:Note" id="119" x="912" y="435" width="185" height="96" text="Opens an overlay with more information on this deployment (e.g. a list of settings which were deployed in this run)." measuredWidth="185" measuredHeight="96" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Note" id="119" x="800" y="455" width="185" height="96" text="Opens an overlay with more information on this deployment (e.g. a list of settings which were deployed in this run)." measuredWidth="185" measuredHeight="96" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
   <hRuler/>

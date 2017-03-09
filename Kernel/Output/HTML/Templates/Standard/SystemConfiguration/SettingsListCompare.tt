@@ -1,0 +1,69 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<ul class="SettingsList Compare [% IF Env("Subaction") == 'Deployment' %]Deployment[% END %]">
+[% FOREACH Setting IN Data.SettingList %]
+    <li>
+        <div class="SettingContainer Selected">
+            <div class="SettingOld">
+                <div class="WidgetSimple Expanded Setting">
+                    <div class="Header">
+                        <h2>
+                            [% Setting.PreviousName | html %]
+                            <span class="Label">[% Translate("Old") | html %]</span>
+                        </h2>
+                    </div>
+                    <div class="Content">
+                        <div class="WidgetMessage Top">
+                            <p class="UserModification">[% Translate("User modification") %]: <strong>[% IF Setting.PreviousUserModificationActive %][% Translate("enabled") %][% ELSE %][% Translate("disabled") %][% END %]</strong></p>
+                            <p class="SettingState">[% Translate("Setting state") %]: <strong>[% IF Setting.PreviousIsValid %][% Translate("enabled") %][% ELSE %][% Translate("disabled") %][% END %]</strong></p>
+                        </div>
+                        <div class="SettingWrapper">
+                            <div class="SettingContainer">
+                                <fieldset class="TableLike FixedLabel" id="fieldset[% Setting.DefaultID | html %]">
+                                    [% Setting.PreviousHTMLStrg %]
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="SettingNew">
+                <div class="WidgetSimple Expanded Setting">
+                    <div class="Header">
+                        <h2>
+                            <input type="checkbox" checked="checked" value="[% Setting.CurrentName | html %]" />
+                            <a href="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.CurrentName | uri %]" target="_blank">[% Setting.CurrentName | html %]</a>
+                            <span class="Label">[% Translate("New") | html %]</span>
+                        </h2>
+                        <p class="HeaderMessage">[% Setting.Navigation | html %]</p>
+                        <div class="ActionMenu Visible">
+                            <div class="WidgetAction Compare">
+                                <a href=""><i class="fa fa-exchange"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Content">
+                        <div class="WidgetMessage Top">
+                            <p class="UserModification">[% Translate("User modification") %]: <strong>[% IF Setting.CurrentUserModificationActive %][% Translate("enabled") %][% ELSE %][% Translate("disabled") %][% END %]</strong></p>
+                            <p class="SettingState">[% Translate("Setting state") %]: <strong>[% IF Setting.CurrentIsValid %][% Translate("enabled") %][% ELSE %][% Translate("disabled") %][% END %]</strong></p>
+                        </div>
+                        <div class="SettingWrapper">
+                            <div class="SettingContainer">
+                                <fieldset class="TableLike FixedLabel" id="fieldset[% Setting.DefaultID | html %]">
+                                    [% Setting.HTMLStrg %]
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+[% END %]
+</ul>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="537" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="537">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="5" x="18" y="212" width="271" height="77" measuredWidth="271" measuredHeight="77"/>
+  <widgets xsi:type="model:Panel" id="6" x="301" y="212" width="693" height="285" measuredWidth="693" measuredHeight="285"/>
+  <widgets xsi:type="model:Panel" id="77" x="20" y="304" width="271" height="183" measuredWidth="271" measuredHeight="183"/>
+  <widgets xsi:type="model:HLine" id="53" x="301" y="243" width="692" measuredWidth="692" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="54" x="329" y="221" text="Available Configuration Groups" measuredWidth="181" measuredHeight="23">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="55" x="311" y="225" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="filled-arrow-down (large)"/>
+  <widgets xsi:type="model:SearchField" id="68" x="32" y="255" width="247" text="Search" measuredWidth="247" measuredHeight="24">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Tree" id="69" x="320" y="256" width="653" height="217" text="[-] Group (15)&#xA;-[-] Sub group (5)&#xA;--[+] Sub sub group 1 (20)&#xA;--[+] Sub sub group 2&#xA;[-] Group (2)&#xA;-[+] Sub group 1 (30)&#xA;-[+] Sub group 2 (20)&#xA;[+] Group (2)&#xA;[-] Group (5)&#xA;-[+] Sub group (7)&#xA;" measuredWidth="653" measuredHeight="217" border="false">
+    <items x="0" y="5" width="653" height="21" text="[-] Group (15)"/>
+    <items x="0" y="26" width="653" height="21" text="-[-] Sub group (5)"/>
+    <items x="0" y="47" width="653" height="21" text="--[+] Sub sub group 1 (20)"/>
+    <items x="0" y="68" width="653" height="21" text="--[+] Sub sub group 2"/>
+    <items x="0" y="89" width="653" height="21" text="[-] Group (2)"/>
+    <items x="0" y="110" width="653" height="21" text="-[+] Sub group 1 (30)"/>
+    <items x="0" y="131" width="653" height="21" text="-[+] Sub group 2 (20)"/>
+    <items x="0" y="152" width="653" height="21" text="[+] Group (2)"/>
+    <items x="0" y="173" width="653" height="21" text="[-] Group (5)"/>
+    <items x="0" y="194" width="653" height="21" text="-[+] Sub group (7)"/>
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="70" x="32" y="348" width="247" height="35" text="Deploy settings" measuredWidth="247" measuredHeight="35" icon="direction (small)" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="71" x="33" y="393" width="247" height="35" text="My currently locked settings" measuredWidth="247" measuredHeight="35" icon="secure (small)" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="75" x="20" y="241" width="269" measuredWidth="269" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="76" x="32" y="220" text="General" measuredWidth="50" measuredHeight="23">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="78" x="22" y="333" width="269" measuredWidth="269" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="79" x="34" y="312" text="Actions" measuredWidth="49" measuredHeight="23">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="82" x="33" y="437" width="247" height="35" text="My Favorites" measuredWidth="247" measuredHeight="35" icon="favorites (small)" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Breadcrumbs" id="85" x="20" y="178" text="Home,Group,Sub Group,Current Group Name" measuredWidth="315" measuredHeight="23">
+    <font/>
+    <items x="0" y="0" width="35" height="23" text="Home"/>
+    <items x="55" y="0" width="36" height="23" text="Group"/>
+    <items x="111" y="0" width="62" height="23" text="Sub Group"/>
+    <items x="193" y="0" width="119" height="23" text="Current Group Name"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="86" x="8" y="60" width="1001" height="485" measuredWidth="1001" measuredHeight="485" background="#000000" alpha="133"/>
+  <widgets xsi:type="model:Panel" id="87" x="208" y="135" width="575" height="352" measuredWidth="575" measuredHeight="352" verticalScrollbar="true" border="none"/>
+  <widgets xsi:type="model:Panel" id="88" x="208" y="103" width="575" height="33" measuredWidth="575" measuredHeight="33"/>
+  <widgets xsi:type="model:Label" id="89" x="218" y="108" text="Deploy settings" measuredWidth="101" measuredHeight="23">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="90" x="753" y="108" width="21" height="25" measuredWidth="21" measuredHeight="25" icon="delete (large)"/>
+  <widgets xsi:type="model:Label" id="91" x="218" y="145" text="The following settings have been changed and will be deployed with this run:" measuredWidth="441" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="92" x="218" y="178" width="540" height="37" measuredWidth="540" measuredHeight="37"/>
+  <widgets xsi:type="model:Icon" id="93" x="225" y="190" width="10" height="14" measuredWidth="10" measuredHeight="14" icon="play (custom)"/>
+  <widgets xsi:type="model:Label" id="94" x="239" y="185" width="158" text="Setting name" measuredWidth="158" measuredHeight="23">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="95" x="218" y="227" width="540" height="37" measuredWidth="540" measuredHeight="37"/>
+  <widgets xsi:type="model:Icon" id="96" x="225" y="239" width="10" height="14" measuredWidth="10" measuredHeight="14" icon="play (custom)"/>
+  <widgets xsi:type="model:Label" id="97" x="239" y="234" width="158" text="Setting name" measuredWidth="158" measuredHeight="23">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="98" x="218" y="278" width="540" height="116" measuredWidth="540" measuredHeight="116"/>
+  <widgets xsi:type="model:Label" id="99" x="240" y="286" text="Setting name" measuredWidth="81" measuredHeight="23">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="100" x="226" y="293" width="10" height="8" measuredWidth="10" measuredHeight="8" icon="filled-arrow-down (large)"/>
+  <widgets xsi:type="model:HLine" id="101" x="218" y="308" width="536" measuredWidth="536" measuredHeight="6"/>
+  <widgets xsi:type="model:VLine" id="103" x="472" y="312" height="82" measuredWidth="6" measuredHeight="82"/>
+  <widgets xsi:type="model:Text" id="104" x="234" y="325" width="205" height="56" text="This is the dumped old value of the setting (probably showing a diff of that has changed)&#xA;" measuredWidth="205" measuredHeight="56" foreground="#e06666">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Text" id="105" x="496" y="327" width="205" height="56" text="This is the dumped new value of the setting (probably showing a diff of that has changed)&#xA;" measuredWidth="205" measuredHeight="56" foreground="#6aa84f">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="106" x="352" y="451" text="Start deployment" measuredWidth="118" measuredHeight="25" link="Home.screen">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="107" x="496" y="451" text="Cancel" measuredWidth="59" measuredHeight="25" link="Home.screen">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="108" x="477" y="452" text="or" measuredWidth="18" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="109" x="218" y="404" width="540" height="37" measuredWidth="540" measuredHeight="37"/>
+  <widgets xsi:type="model:Icon" id="110" x="225" y="416" width="10" height="14" measuredWidth="10" measuredHeight="14" icon="play (custom)"/>
+  <widgets xsi:type="model:Label" id="111" x="239" y="411" width="158" text="Setting name" measuredWidth="158" measuredHeight="23">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="112" x="578" y="187" text="Changed by Username 1 hour ago" measuredWidth="171" measuredHeight="20" foreground="#999999">
+    <font size="10px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="113" x="578" y="236" text="Changed by Username 1 hour ago" measuredWidth="171" measuredHeight="20" foreground="#999999">
+    <font size="10px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="114" x="578" y="287" text="Changed by Username 1 hour ago" measuredWidth="171" measuredHeight="20">
+    <font size="10px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="115" x="578" y="413" text="Changed by Username 1 hour ago" measuredWidth="171" measuredHeight="20" foreground="#999999">
+    <font size="10px"/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

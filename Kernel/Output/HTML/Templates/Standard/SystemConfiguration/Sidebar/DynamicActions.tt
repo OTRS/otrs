@@ -1,0 +1,35 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<input type="hidden" id="SysConfigFavourites" value="[% Env("UserSystemConfigurationFavourites") | html %]" />
+
+[% IF !Data.Readonly %]
+<div class="Hidden WidgetSimple StickyElement [% IF Env("UserWidgetState_SystemConfiguration_Sticky") == 0 %]Collapsed[% END %]" id="UserWidgetState_SystemConfiguration_Sticky">
+    <div class="Header">
+        <div class="WidgetAction Toggle">
+            <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+        </div>
+        <h2>[% Translate("Dynamic Actions") | html %]</h2>
+    </div>
+    <div class="Content">
+        <input type="text" autocomplete="off" id="FilterSettings" class="FilterBox" placeholder="[% Translate("Filter visible settings...") | html %]" name="FilterSettings" value="" title="[% Translate("Filter for settings") | html %]">
+        <ul class="ActionList">
+            <li>
+                <a href="#" id="EditAll" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Enable edit mode for all settings") | html %]</span></a>
+            </li>
+            <li>
+                <a href="#" id="SaveAll" class="CallForAction Fullsize Center"><span><i class="fa fa-check"></i>[% Translate("Save all edited settings") | html %]</span></a>
+            </li>
+            <li>
+                <a href="#" id="CancelAll" class="CallForAction Fullsize Center"><span><i class="fa fa-times"></i>[% Translate("Cancel editing for all settings") | html %]</span></a>
+            </li>
+        </ul>
+        <p class="WidgetInformation"><i class="fa fa-info"></i> [% Translate("All actions from this widget apply to the visible settings on the right only.") | html %]</p>
+    </div>
+</div>
+[% END %]

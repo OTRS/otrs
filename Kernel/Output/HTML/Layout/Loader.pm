@@ -131,14 +131,16 @@ sub LoaderCreateAgentCSSCalls {
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-    my $FrontendModuleRegistration = $ConfigObject->Get('Frontend::Module')->{$LoaderAction}
-        || {};
-
     {
+        my $Setting = $ConfigObject->Get("Loader::Module::$LoaderAction") || {};
 
-        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS} || [];
+        my @FileList;
 
-        my @FileList = @{$AppCSSList};
+        MODULE:
+        for my $Module ( sort keys %{$Setting} ) {
+            next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+            @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
+        }
 
         $Self->_HandleCSSList(
             List      => \@FileList,
@@ -229,10 +231,15 @@ sub LoaderCreateAgentJSCalls {
         my $LoaderAction = $Self->{Action} || 'Login';
         $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-        my $AppJSList = $ConfigObject->Get('Frontend::Module')->{$LoaderAction}->{Loader}
-            ->{JavaScript} || [];
+        my $Setting = $ConfigObject->Get("Loader::Module::$LoaderAction") || {};
 
-        my @FileList = @{$AppJSList};
+        my @FileList;
+
+        MODULE:
+        for my $Module ( sort keys %{$Setting} ) {
+            next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+            @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
+        }
 
         $Self->_HandleJSList(
             List      => \@FileList,
@@ -375,6 +382,7 @@ sub LoaderCreateJavaScriptTemplateData {
                 Filename    => "${TargetFilenamePrefix}_$TemplateChecksum.js",
             },
         );
+
         return 1;
     }
 
@@ -595,14 +603,16 @@ sub LoaderCreateCustomerCSSCalls {
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-    my $FrontendModuleRegistration = $ConfigObject->Get('CustomerFrontend::Module')->{$LoaderAction}
-        || $ConfigObject->Get('PublicFrontend::Module')->{$LoaderAction}
-        || {};
-
     {
-        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS} || [];
+        my $Setting = $ConfigObject->Get("Loader::Module::$LoaderAction") || {};
 
-        my @FileList = @{$AppCSSList};
+        my @FileList;
+
+        MODULE:
+        for my $Module ( sort keys %{$Setting} ) {
+            next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+            @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
+        }
 
         $Self->_HandleCSSList(
             List      => \@FileList,
@@ -684,13 +694,15 @@ sub LoaderCreateCustomerJSCalls {
         my $LoaderAction = $Self->{Action} || 'CustomerLogin';
         $LoaderAction = 'CustomerLogin' if ( $LoaderAction eq 'Logout' );
 
-        my $AppJSList = $ConfigObject->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
-            ->{JavaScript}
-            || $ConfigObject->Get('PublicFrontend::Module')->{$LoaderAction}->{Loader}
-            ->{JavaScript}
-            || [];
+        my $Setting = $ConfigObject->Get("Loader::Module::$LoaderAction") || {};
 
-        my @FileList = @{$AppJSList};
+        my @FileList;
+
+        MODULE:
+        for my $Module ( sort keys %{$Setting} ) {
+            next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+            @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
+        }
 
         $Self->_HandleJSList(
             List      => \@FileList,
@@ -766,8 +778,13 @@ sub _HandleJSList {
     my $Content = $Param{Content};
     return if !$Param{List} && !$Content;
 
+    my %UsedFiles;
+
     my @FileList;
+    JSFILE:
     for my $JSFile ( @{ $Param{List} // [] } ) {
+        next JSFILE if $UsedFiles{$JSFile};
+
         if ( $Param{DoMinify} ) {
             push @FileList, "$Param{JSHome}/$JSFile";
         }
@@ -780,6 +797,9 @@ sub _HandleJSList {
                 },
             );
         }
+
+        # Save it for checking duplicates.
+        $UsedFiles{$JSFile} = 1;
     }
 
     return 1 if $Param{List} && !@FileList;

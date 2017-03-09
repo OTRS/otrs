@@ -22,19 +22,16 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # make sure that UserOutOfOffice is enabled
-        my %UserOutOfOfficeSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+        my %UserOutOfOfficeSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name    => 'DashboardBackend###0390-UserOutOfOffice',
             Default => 1,
         );
-
-        %UserOutOfOfficeSysConfig = map { $_->{Key} => $_->{Content} }
-            grep { defined $_->{Key} } @{ $UserOutOfOfficeSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
         # enable UserOutOfOffice and set it to load as default plugin
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0390-UserOutOfOffice',
-            Value => \%UserOutOfOfficeSysConfig,
+            Value => $UserOutOfOfficeSysConfig{EffectiveValue},
 
         );
 

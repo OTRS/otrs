@@ -45,7 +45,7 @@ $ConfigObject->Set(
     Value => $PrivatePath,
 );
 
-my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
+my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
 # Get the OpenSSL version string, e.g. OpenSSL 0.9.8e 23 Feb 2007.
 my $OpenSSLVersionString = qx{$OpenSSLBin version};
@@ -91,7 +91,7 @@ $Self->IsDeeply(
 );
 
 # Check if OpenSSL is located there.
-if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
+if ( !-e $OpenSSLBin ) {
 
     # maybe it's a mac with mac ports
     if ( -e '/opt/local/bin/openssl' ) {

@@ -428,12 +428,11 @@ $Selenium->RunTest(
         }
 
         # input required fields and submit compose
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
+        $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Selenium Compose Text');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 

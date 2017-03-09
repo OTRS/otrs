@@ -1,0 +1,123 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+            {
+                Name => Translate('Changes Deployment'),
+                Link => 'AdminSystemConfigurationDeployment;Subaction=Deployment',
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration" class="GoBackButton CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationDeploymentHistory;Subaction=DeploymentHistory" class="CallForAction Fullsize Center OTRSBusinessRequired"><span><i class="fa fa-history"></i>[% Translate("View deployment history") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Help") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right.</p>
+                <p class="FieldExplanation">To exclude certain settings from a deployment, click the checkbox on the header bar of a setting.</p>
+                <p class="FieldExplanation">By default, you will only deploy settings which you changed on your own. If you'd like to deploy settings changed by other users, too, please click the link on top of the screen to enter the advanced deployment mode.</p>
+            </div>
+        </div>
+
+        [% IF Data.DeploymentRestore %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Note") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">[% Translate("A deployment has just been restored, which means that all affected setting have been reverted to the state from the selected deployment.") | html %]<p>
+                <p class="FieldExplanation">[% Translate("Please review the changed settings and deploy afterwards.") | html %]<p>
+                <p class="FieldExplanation">[% Translate("An empty list of changes means that there are no differences between the restored and the current state of the affected settings.") | html %]<p>
+            </div>
+        </div>
+        [% END %]
+
+    </div>
+
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+
+            <div class="Header">
+                <h2>[% Translate("Changes Overview") | html %]</h2>
+                <div class="ActionMenu Visible">
+                [% IF Data.SettingList.size() %]
+                    <div class="WidgetAction CompareAll">
+                        <a href=""><i class="fa fa-exchange"></i></a>
+                    </div>
+                [% END %]
+                </div>
+            </div>
+            <div class="Content">
+
+            [% IF Data.SettingList.size() %]
+                <p class="Center SpacingTopSmall">
+                [% IF Data.AdvancedMode %]
+                    [% Translate("There are %s changed settings which will be deployed in this run.", Data.SettingList.size()) | html %]
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %]">[% Translate("Switch to basic mode to deploy settings only changed by you.") | html %]</a>
+                [% ELSE %]
+                    [% Translate("You have %s changed settings which will be deployed in this run.", Data.SettingList.size()) | html %]
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];AdvancedMode=1">[% Translate("Switch to advanced mode to deploy settings changed by other users, too.") | html %]</a>
+                [% END %]
+                </p>
+                [% INCLUDE "SystemConfiguration/SettingsListCompare.tt" %]
+            [% ELSE %]
+                <p class="Center">
+                    [% Translate("There are no settings to be deployed.") | html %]
+                    [% IF !Data.AdvancedMode %]
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];AdvancedMode=1">[% Translate("Switch to advanced mode to see deployable settings changed by other users.") | html %]</a>
+                    [% END %]
+                </p>
+            [% END %]
+
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Content">
+                <input type="hidden" name="AdvancedMode" id="AdvancedMode" autocomplete="off" value="[% Data.AdvancedMode | html %]" />
+                <input type="hidden" name="SelectedSettings" id="SelectedSettings" autocomplete="off" />
+                <div class="Center">
+                    <button class="CallForAction Primary [% IF !Data.SettingList.size() %]Disabled[% END %]" id="DeploymentStart" type="button" value="[% Translate("Deploy selected changes") | html %]" [% IF !Data.SettingList.size() %]disabled[% END %]><span>[% Translate("Deploy selected changes") | html %]</span></button>
+                    [% Translate("or") | html %]
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="Clear"></div>
+</div>

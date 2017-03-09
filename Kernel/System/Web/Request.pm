@@ -148,7 +148,7 @@ to get names of all parameters passed to the script.
 
 Example:
 
-Called URL: index.pl?Action=AdminSysConfig;Subaction=Save;Name=Config::Option::Valid
+Called URL: index.pl?Action=AdminSystemConfiguration;Subaction=Save;Name=Config::Option::Valid
 
     my @ParamNames = $ParamObject->GetParamNames();
     print join " :: ", @ParamNames;

@@ -30,6 +30,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
      */
     TargetNS.Init = function () {
         Core.UI.Table.InitTableFilter($("#FilterTypes"), $("#Types"));
+
+        Core.Config.Set('EntityType', 'Type');
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

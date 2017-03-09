@@ -45,12 +45,9 @@ $Selenium->RunTest(
         );
 
         # get original config for menu module 'Close'
-        my %MenuModuleCloseSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+        my %MenuModuleCloseSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name => 'Ticket::Frontend::MenuModule###450-Close',
         );
-
-        %MenuModuleCloseSysConfig = map { $_->{Key} => $_->{Content} }
-            grep { defined $_->{Key} } @{ $MenuModuleCloseSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
         # create ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -123,7 +120,7 @@ $Selenium->RunTest(
                 Valid => 1,
                 Key   => 'Ticket::Frontend::MenuModule###450-Close',
                 Value => {
-                    %MenuModuleCloseSysConfig,
+                    %{ $MenuModuleCloseSysConfig{EffectiveValue} },
                     Group => 'rw:' . $Test->{Group},
                 },
             );

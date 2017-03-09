@@ -137,7 +137,7 @@ $Selenium->RunTest(
         }
 
         # To check if _post.pm file is executed properly, compare sysconfig with expected value.
-        delete $INC{ $Home . '/Kernel/Config/Files/ZZZAuto.pm' };
+        delete $INC{ $Home . '/Kernel/Config/Files/ZZZAAuto.pm' };
         my $ConfigObject = Kernel::Config->new();
 
         my $Value = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom");

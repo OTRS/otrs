@@ -29,13 +29,15 @@ sub Run {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get process management configuration
-    my $FrontendModuleConfig = $ConfigObject->Get('Frontend::Module')->{Admin};
+    my $FrontendModuleConfig     = $ConfigObject->Get('Frontend::Module')->{Admin};
+    my $FrontendNavigationConfig = $ConfigObject->Get('Frontend::Navigation')->{Admin};
 
     # check if the registration config is valid
     return if !IsHashRefWithData($FrontendModuleConfig);
-    return if !IsHashRefWithData( $FrontendModuleConfig->{NavBar}->[0] );
+    return if !IsHashRefWithData($FrontendNavigationConfig);
+    return if !IsHashRefWithData( $FrontendNavigationConfig->{1} );
 
-    my $NameForID = $FrontendModuleConfig->{NavBar}->[0]->{Name};
+    my $NameForID = $FrontendNavigationConfig->{1}->{Name};
     $NameForID =~ s/[ &;]//ig;
 
     # check if the module name is valid

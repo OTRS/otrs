@@ -24,7 +24,7 @@
                             [% Translate("Sending support data to OTRS Group is not possible!") | html %]
                         </p>
                         <form action="[% Env("CGIHandle") %]" method="post">
-                            <input type="hidden" name="Action" value="AdminSysConfig"/>
+                            <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
                             <input type="hidden" name="Subaction" value="Edit"/>
                             <input type="hidden" name="SysConfigGroup" value="CloudService"/>
                             <input type="hidden" name="SysConfigSubGroup" value="Core"/>
@@ -235,7 +235,11 @@
 [% RenderBlockStart("SupportDataSubEntryMessage") %]
                                             <a href="#" class="ShowItemMessage"><i class="fa fa-info-sign"></i> [% Translate("Details") | html %]</a>
                                             <div class="Hidden">
+                                                [%  IF Data.Message %]
                                                 <p class="DialogMessage">[% Translate(Data.Message) | html %]</p>
+                                                [% ELSIF Data.MessageFormatted %]
+                                                <pre class="DialogMessage">[% Translate(Data.MessageFormatted) | html %]</pre>
+                                                [% END %]
                                             </div>
 [% RenderBlockEnd("SupportDataSubEntryMessage") %]
                                         </td>

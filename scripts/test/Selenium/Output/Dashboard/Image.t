@@ -22,19 +22,15 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get dashboard Image plugin default sysconfig
-        my %ImageConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+        my %ImageConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name    => 'DashboardBackend###0200-Image',
             Default => 1,
         );
 
-        # set dashboard Image plugin to valid
-        my %ImageUpdate = map { $_->{Key} => $_->{Content} }
-            grep { defined $_->{Key} } @{ $ImageConfig{Setting}->[1]->{Hash}->[1]->{Item} };
-
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0200-Image',
-            Value => \%ImageUpdate,
+            Value => $ImageConfig{EffectiveValue},
         );
 
         # create test user and login
@@ -49,7 +45,7 @@ $Selenium->RunTest(
         );
 
         # test if Image plugin shows correct link
-        my $ImageLink = $ImageConfig{Setting}->[1]->{Hash}->[1]->{Item}->[6]->{Content};
+        my $ImageLink = $ImageConfig{EffectiveValue}->{Link};
         $Self->True(
             index( $Selenium->get_page_source(), $ImageLink ) > -1,
             "Image dashboard plugin link '$ImageLink' - found",

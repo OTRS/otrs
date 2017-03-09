@@ -199,7 +199,7 @@ sub Param {
             %Param,
             Block => 'RawHTML',
             HTML  => $Output,
-            Name  => 'NotificationEventTransport',
+            Name  => 'NotificationEventTransport'
         },
     );
 

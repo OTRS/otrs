@@ -1,0 +1,171 @@
+Basic file structure
+
+- Kernel/Config/Files/CloudServices.xml
+    * Replaced, with a corresponding file in Kernel/Config/Files/XML.
+- Kernel/Config/Files/Daemon.xml
+    * Replaced, with a corresponding file in Kernel/Config/Files/XML.
+- Kernel/Config/Files/Framework.xml
+    * Replaced, with a corresponding file in Kernel/Config/Files/XML.
+- Kernel/Config/Files/GenericInterface.xml
+    * Replaced, with a corresponding file in Kernel/Config/Files/XML.
+- Kernel/Config/Files/ProcessManagement.xml
+    * Replaced, with a corresponding file in Kernel/Config/Files/XML.
+- Kernel/Config/Files/Ticket.xml
+    * Replaced, with a corresponding file in Kernel/Config/Files/XML.
+
+- Kernel/Config/Files/XML/CloudServices.xml
+    * New. SysConfig sources, modified and beautified
+- Kernel/Config/Files/XML/Daemon.xml
+    * New. SysConfig sources, modified and beautified
+- Kernel/Config/Files/XML/Framework.xml
+    * New. SysConfig sources, modified and beautified
+- Kernel/Config/Files/XML/GenericInterface.xml
+    * New. SysConfig sources, modified and beautified
+- Kernel/Config/Files/XML/ProcessManagement.xml
+    * New. SysConfig sources, modified and beautified
+- Kernel/Config/Files/XML/Ticket.xml
+    * New. SysConfig sources, modified and beautified
+
+
+ - Kernel/Modules/AdminQueue.pm
+    * Changed. Include new warning informing agent the current queue is referenced in SysConfig and also preventing invalidated.
+- Kernel/Output/HTML/Templates/Standard/AdminQueue.tt
+    * Changed. Adapt it according changes on AdminQueue.pm
+- scripts/test/Selenium/Agent/Admin/AdminQueue.t
+    * Changed. Adapt it according changes on AdminQueue.pm
+
+- Kernel/Modules/AdminState.pm
+    * Changed. Include new warning informing agent the current state is referenced in SysConfig and also preventing invalidated.
+- Kernel/Output/HTML/Templates/Standard/AdminState.tt
+    * Changed. Adapt it according changes on AdminState.pm
+- scripts/test/Selenium/Agent/Admin/AdminState.t
+    * Changed. Adapt it according changes on AdminState.pm
+
+- Kernel/Output/HTML/Notification/AgentSysConfigDeploymentCheck.pm;
+    *  New. I will check if a deployment is about to happen or if there was an error (5 mins diff).
+
+ - Kernel/Modules/AdminPriority.pm
+    * Changed. Include new warning informing agent the current priority entry is referenced in SysConfig and also preventing invalidated.
+- Kernel/Output/HTML/Templates/Standard/AdminPriority.tt
+    * Changed. Adapt it according changes on AdminPriority.pm
+- scripts/test/Selenium/Agent/Admin/AdminPriority.t
+    * Changed. Adapt it according changes on AdminPriority.pm
+
+
+- Kernel/Modules/AdminSysConfig.pm
+    * Changed. New GUI including UT (might be needed to be split)
+      TODO: Check it with Frontend experts.
+- scripts/test/Selenium/Admin/AdminSysConfig.t
+    * Changed. Adapt it according changes on AdminsysConfig.pm (might be needed to be split)
+
+ - Kernel/Modules/AgentPreferences.pm
+    * Changed. Add possibility to handle user specific changes to SysConfig settings
+- Kernel/Output/HTML/Templates/Standard/AgentPreferences.tt
+    * Changed. Adapt it according changes on AgentPreferences.pm
+- scripts/test/Selenium/Agent/AgentPreferences.t
+    * Changed. Adapt it according changes on AgentPreferences.pm
+ - Kernel/Output/HTML/Preferences/SysConfig.pm
+    * New. SysConfig settings backend on agent preferences screen
+ - Kernel/Output/HTML/Templates/Standard/PreferencesSysconfig.tt
+    * New. Template for SysConfig settings on agent preferences screen
+
+ - Kernel/System/AuthSession.pm
+    * Changed. Include handling for loading user specific configuration, to override the global
+    settings in the ConfigObject
+- scripts/test/AuthSession.t
+    * Changed. Adapt it according changes on AuthSession.pm
+
+
+ - Kernel/System/Console/Command/Maint/Config/Rebuild.pm
+    * Changed. Needs to be extended to synchronize the XML content to the database and deploy the current
+    state to the Perl cache files.
+ - Kernel/System/Console/Command/Maint/Config/Base.pm
+    * New. Base class for rebuild and deploy
+ - Kernel/System/Console/Command/Maint/Config/Deploy.pm
+    * New. Deploys last SysConfig state
+ - Kernel/System/Console/Command/Admin/Config/Read.pm
+    * New. Add new console commands to read config settings, and synchronization
+ - Kernel/System/Console/Command/Admin/Config/Set.pm
+    * New. Add new console commands to set config settings, and synchronization
+
+- Kernel/System/Package.pm
+    * Changed. Include method for call SysConfig synchronization
+ - Kernel/System/SupportBundleGenerator.pm
+    * Changed. Include new method GenerateSysconfigInformation. It will to include current default,
+    global and user settings as well as a limited configuration change history.
+
+ - Kernel/System/SysConfig/PriorityValidate.pm
+    - Replaced. By a different approach on ValidationModules
+ - Kernel/System/SysConfig/QueueValidate.pm
+    - Replaced. By a different approach on ValidationModules
+ - Kernel/System/SysConfig/StateValidate.pm
+    - Replaced. By a different approach on ValidationModules
+
+
+ - Kernel/System/Sysconfig/*
+    * New. Modularize GUI and backend with extensible types. Packages can add new SysConfig types.
+
+ - Kernel/System/Sysconfig/String.pm
+    * New. Modularized GUI backend. Can be checked with a regex attribute
+ - Kernel/System/Sysconfig/File.pm
+    * New. Modularized GUI backend. Text input field that validates existence of a file (e.g. /usr/bin/gpg) (directory could be an extension or even another type).
+ - Kernel/System/Sysconfig/Textarea.pm
+    * New. Modularized GUI backend.
+ - Kernel/System/Sysconfig/Checkbox.pm
+    * New. Modularized GUI backend. All previous 0/1 dropdowns should be converted to become Checkboxes (Yes/No and possibly others).
+ - Kernel/System/Sysconfig/Select.pm
+    * New. Modularized GUI backend. Has <Option> elements
+ - Kernel/System/Sysconfig/Entity.pm
+    * New. Modularized GUI backend.
+        Entity ValueEntityType ="..."
+        DataSource: Database entities
+        Types come from a small module layer (e.g. State, Queue, DynamicField) that returns a list of valid entities with Name
+            (for storage) and Label for Selection
+        Stores the name of the entity (storing IDs would lead to various portability issues)
+ - Kernel/System/Sysconfig/PerlModule.pm
+    * New. Modularized GUI backend. ValueFilter ="..."
+ - Kernel/System/Sysconfig/Date.pm
+    * New. Modularized GUI backend (ISO)
+ - Kernel/System/Sysconfig/DateTime.pm
+    * New. Modularized GUI backend (ISO)
+ - Kernel/System/Sysconfig/TimeZone.pm
+    * New. Modularized GUI backend.
+ - Kernel/System/Sysconfig/TimeVacationDays.pm
+    * New. Modularized GUI backend.
+ - Kernel/System/Sysconfig/TimeVacationDaysOneTime.pm
+    * New. Modularized GUI backend.
+ - Kernel/System/Sysconfig/TimeWorkingHours.pm
+    * New. Modularized GUI backend. (should work like before)
+
+ - Kernel/System/Sysconfig/Entity/Queue.pm
+    * New. Queue entity type list and validation module
+ - Kernel/System/Sysconfig/Entity/State.pm
+    * New. State entity type list and validation module
+ - Kernel/System/Sysconfig/Entity/Priority.pm
+    * New. Priority entity type list and validation module
+
+
+ - Kernel/System/UnitTest/Helper.pm
+    * Changed. Implement changes according new SysConfig logic
+
+- Kernel/System/XMLParser.pm
+    * New (Optional). Used to convert the config XML into an optimized Perl structure, check XML::LibXML
+
+
+ - scripts/DBUpdate-to-6.pl
+    * Changed. Include SysConfig Migration methods
+
+- scripts/database/otrs-schema.xml
+    * Changed. Include new SysConfig tables
+- scripts/database/update/otrs-upgrade-to-6.xml
+    * Changed. Include new SysConfig tables
+
+ - Kernel/Console/Command/Dev/Migrate/XMLStructure.pm
+    * New. Public XML conversion console command to convert old to new XML structure
+ - scripts/Console/Command/Dev/Migrate/XMLStructure.t
+    * New. Test file for XML conversion console command
+
+
+
+
+

@@ -298,22 +298,6 @@ sub TypeUpdate {
         ],
     );
 
-    # check if the name of the default ticket type is updated
-    if (
-        $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type::Default') eq $Type{Name}
-        && $Type{Name} ne $Param{Name}
-        )
-    {
-
-        # update default ticket type SySConfig item
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Ticket::Type::Default',
-            Value => $Param{Name}
-        );
-
-    }
-
     # reset cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},

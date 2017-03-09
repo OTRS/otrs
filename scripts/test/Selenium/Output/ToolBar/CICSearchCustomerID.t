@@ -107,10 +107,9 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # input test user in search CustomerID
-        my $AutoCCSearch = "$TestCustomerID $TestCompanyName";
         $Selenium->find_element( "#ToolBarCICSearchCustomerID", 'css' )->send_keys($TestCustomerID);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$AutoCCSearch']")->VerifiedClick();
+        $Selenium->find_element("//*[text()='$TestCustomerID']")->VerifiedClick();
 
         # verify search
         $Self->True(

@@ -493,6 +493,31 @@ sub _Edit {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionOverview' );
 
+    # check if the current user has the permissions to edit another users preferences
+    if ( $Param{Action} eq 'Change' ) {
+
+        my $GroupObject                      = $Kernel::OM->Get('Kernel::System::Group');
+        my $EditAnotherUsersPreferencesGroup = $GroupObject->GroupLookup(
+            Group => $Kernel::OM->Get('Kernel::Config')->Get('EditAnotherUsersPreferencesGroup'),
+        );
+
+        # get user groups, where the user has the rw privilege
+        my %Groups = $GroupObject->PermissionUserGet(
+            UserID => $Self->{UserID},
+            Type   => 'rw',
+        );
+
+        # if the user is a member in this group he can access the feature
+        if ( $Groups{$EditAnotherUsersPreferencesGroup} ) {
+            $LayoutObject->Block(
+                Name => 'ActionEditPreferences',
+                Data => {
+                    UserID => $Param{UserID},
+                },
+            );
+        }
+    }
+
     # get valid list
     my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
@@ -544,98 +569,6 @@ sub _Edit {
         $LayoutObject->Block( Name => 'UserLoginServerError' );
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my @Groups = @{ $ConfigObject->Get('PreferencesView') };
-    for my $Column (@Groups) {
-        my %Data        = ();
-        my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
-
-        GROUP:
-        for my $Group ( sort keys %Preferences ) {
-            next GROUP if $Preferences{$Group}->{Column} ne $Column;
-
-            if ( $Data{ $Preferences{$Group}->{Prio} } ) {
-                COUNT:
-                for ( 1 .. 151 ) {
-                    $Preferences{$Group}->{Prio}++;
-                    if ( !$Data{ $Preferences{$Group}->{Prio} } ) {
-                        $Data{ $Preferences{$Group}->{Prio} } = $Group;
-                        last COUNT;
-                    }
-                }
-            }
-            $Data{ $Preferences{$Group}->{Prio} } = $Group;
-        }
-
-        # sort
-        for my $Key ( sort keys %Data ) {
-            $Data{ sprintf( "%07d", $Key ) } = $Data{$Key};
-            delete $Data{$Key};
-        }
-
-        # show each preferences setting
-        PRIO:
-        for my $Prio ( sort keys %Data ) {
-            my $Group = $Data{$Prio};
-            if ( !$ConfigObject->{PreferencesGroups}->{$Group} ) {
-                next PRIO;
-            }
-            my %Preference = %{ $ConfigObject->{PreferencesGroups}->{$Group} };
-            if ( $Group eq 'Password' ) {
-                next PRIO;
-            }
-            my $Module = $Preference{Module} || 'Kernel::Output::HTML::Preferences::Generic';
-
-            # load module
-            if ( $Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
-
-                # TODO: This needs to be changed to Object Manager
-                my $Object = $Module->new(
-                    %{$Self},
-                    UserObject => $Kernel::OM->Get('Kernel::System::User'),
-                    ConfigItem => \%Preference,
-                    Debug      => $Self->{Debug},
-                );
-                my @Params = $Object->Param( UserData => \%Param );
-                if (@Params) {
-                    for my $ParamItem (@Params) {
-                        $LayoutObject->Block(
-                            Name => 'Item',
-                            Data => { %Param, },
-                        );
-                        if (
-                            ref( $ParamItem->{Data} ) eq 'HASH'
-                            || ref( $Preference{Data} ) eq 'HASH'
-                            )
-                        {
-                            my %BuildSelectionParams = (
-                                %Preference,
-                                %{$ParamItem},
-                            );
-                            $BuildSelectionParams{Class} = join( ' ', $BuildSelectionParams{Class} // '', 'Modernize' );
-
-                            $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
-                                %BuildSelectionParams,
-                            );
-                        }
-                        $LayoutObject->Block(
-                            Name => $ParamItem->{Block} || $Preference{Block} || 'Option',
-                            Data => {
-                                Group => $Group,
-                                %Preference,
-                                %{$ParamItem},
-                            },
-                        );
-                    }
-                }
-            }
-            else {
-                return $LayoutObject->FatalError();
-            }
-        }
-    }
     return 1;
 }
 

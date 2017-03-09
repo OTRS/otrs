@@ -127,14 +127,12 @@ $Selenium->RunTest(
 
             # Choose both customer users.
             for my $CustomerUserLogin (@CustomerUserLogins) {
-                my $AutoCompleteString
-                    = "\"$CustomerUserLogin $CustomerUserLogin\" <$CustomerUserLogin\@example.com> ($CustomerUserLogin)";
                 $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->clear();
                 $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->send_keys($CustomerUserLogin);
                 $Selenium->WaitFor(
                     JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                 );
-                $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
+                $Selenium->find_element("//*[text()='$CustomerUserLogin']")->VerifiedClick();
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".OverviewBox").length' );
 
                 # we wait a second to make sure the content has been set correctly

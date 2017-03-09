@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * This file is for testing development purpose only!
+-->
+<otrs_config version="2.0" init="Application">
+    <Setting Name="TestString" Required="0" Valid="1">
+        <Description Translatable="1">String item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^Ticket">Ticket#</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestCheckbox1" Required="1" Valid="1">
+        <Description Translatable="1">Checkbox item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestCheckbox2" Required="1" Valid="1">
+        <Description Translatable="1">Checkbox item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestDate" Required="1" Valid="1">
+        <Description Translatable="1">Date item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Date">2016-02-02</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestDateTime" Required="1" Valid="1">
+        <Description Translatable="1">DateTime item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="DateTime">2016-12-08 01:02:03</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestEntityPriority" Required="1" Valid="1">
+        <Description Translatable="1">Entity priority item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Priority">3 normal</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestEntityQueue" Required="1" Valid="1">
+        <Description Translatable="1">Entity queue item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Queue">Junk</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestEntityDynamicField" Required="1" Valid="1">
+        <Description Translatable="1">Entity DynamicField item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="DynamicField">ProcessManagementProcessID</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestEntityDynamicFieldTicket" Required="1" Valid="1">
+        <Description Translatable="1">Entity DynamicField (Ticket) item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="DynamicField" ValueEntitySubType="Ticket">ProcessManagementProcessID</Item>
+        </Value>
+    </Setting>
+    <!-- This setting is normally disabled as there are no default Article DynamicFields and SettingEffectiveValueCheck.t will complaint  -->
+    <!--
+    <Setting Name="TestEntityDynamicFieldArticle" Required="1" Valid="1">
+        <Description Translatable="1">Entity DynamicField (Article) item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="DynamicField" ValueEntitySubType="Article">Test</Item>
+        </Value>
+    </Setting>
+    -->
+    <Setting Name="TestDirectory" Required="1" Valid="1">
+        <Description Translatable="1">Directory item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Directory">/etc</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestFile" Required="1" Valid="1">
+        <Description Translatable="1">File item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="File">/etc/hosts</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestPassword" Required="1" Valid="1">
+        <Description Translatable="1">Password item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Password">Secret</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestPerlModule" Required="1" Valid="1">
+        <Description Translatable="1">PerlModule item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="PerlModule" ValueFilter="Kernel/System/Log/*.pm">Kernel::System::Log::SysLog</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestSelect" Required="1" Valid="1">
+        <Description Translatable="1">Select item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID='option-1'>
+                <Item ValueType="Option" Value="option-1">Option 1</Item>
+                <Item ValueType="Option" Value="option-2">Option 2</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestTextarea" Required="1" Valid="1">
+        <Description Translatable="1">Textarea item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="Textarea" ValueRegex="">Text area
+                testing
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestTimeZone" Required="1" Valid="1">
+        <Description Translatable="1">TimeZone item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="TimeZone">UTC</Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestVacationDays" Required="1" Valid="1">
+        <Description Translatable="1">VacationDays item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="VacationDays">
+                <Item ValueMonth="1" ValueDay="1" Translatable="1">New Year's Day</Item>
+                <Item ValueMonth="5" ValueDay="1" Translatable="1">International Workers' Day</Item>
+                <Item ValueMonth="12" ValueDay="24" Translatable="1">Christmas Eve</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestVacationDaysOneTime" Required="1" Valid="1">
+        <Description Translatable="1">TimeVacationDaysOneTime item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="VacationDaysOneTime">
+                <Item ValueYear="2004" ValueMonth="1" ValueDay="1">test</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestWorkingHours" Required="1" Valid="1">
+        <Description Translatable="1">TimeWorkingHours item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="WorkingHours">
+                <Item ValueType="Day" ValueName="Mon">
+                    <Item ValueType="Hour">8</Item>
+                    <Item ValueType="Hour">9</Item>
+                    <Item ValueType="Hour">10</Item>
+                    <Item ValueType="Hour">11</Item>
+                    <Item ValueType="Hour">12</Item>
+                    <Item ValueType="Hour">13</Item>
+                    <Item ValueType="Hour">14</Item>
+                    <Item ValueType="Hour">15</Item>
+                </Item>
+                <Item ValueType="Day" ValueName="Tue">
+                    <Item ValueType="Hour">8</Item>
+                    <Item ValueType="Hour">9</Item>
+                    <Item ValueType="Hour">10</Item>
+                    <Item ValueType="Hour">11</Item>
+                    <Item ValueType="Hour">12</Item>
+                    <Item ValueType="Hour">13</Item>
+                    <Item ValueType="Hour">14</Item>
+                    <Item ValueType="Hour">15</Item>
+                </Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="TestArray" Required="1" Valid="1">
+        <Description Translatable="1">Simple array item(Min 1, Max 3).</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array MinItems="1" MaxItems="3">
+                <DefaultItem ValueType="String">Default value</DefaultItem>
+                <Item>Item 1</Item>
+                <Item>Item 2</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArraySelect" Required="1" Valid="1">
+        <Description Translatable="1">Array of select items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Select" SelectedID='option-2'>
+                    <Item ValueType="Option" Value="option-1">Option 1</Item>
+                    <Item ValueType="Option" Value="option-2">Option 2</Item>
+                </DefaultItem>
+                <Item SelectedID='option-1'></Item>
+                <Item SelectedID='option-1'></Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayCheckbox" Required="1" Valid="1">
+        <Description Translatable="1">Array of checkbox items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Checkbox">1</DefaultItem>
+                <Item ValueType="Checkbox">0</Item>
+                <Item ValueType="Checkbox">0</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayDate" Required="1" Valid="1">
+        <Description Translatable="1">Array of Date items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Date">2017-01-01</DefaultItem>
+                <Item>2016-02-02</Item>
+                <Item>2016-04-01</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayDateTime" Required="1" Valid="1">
+        <Description Translatable="1">Array of checkbox items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="DateTime">2017-01-01 01:45:00</DefaultItem>
+                <Item>2016-02-02 01:45:55</Item>
+                <Item>2016-04-01 16:00:00</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayEntity" Required="1" Valid="1">
+        <Description Translatable="1">Array of entitiy items(Priority).</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Entity" ValueEntityType="Priority">3 normal</DefaultItem>
+                <Item>3 normal</Item>
+                <Item>2 low</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayEntityDynamicField" Required="1" Valid="1">
+        <Description Translatable="1">Array of entity items(DynamicField).</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Entity" ValueEntityType="DynamicField">ProcessManagementProcessID</DefaultItem>
+                <Item>ProcessManagementProcessID</Item>
+                <Item>ProcessManagementActivityID</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayEntityDynamicFieldTicket" Required="1" Valid="1">
+        <Description Translatable="1">Array of entity items(DynamicField - Ticket).</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Entity" ValueEntityType="DynamicField" ValueEntitySubType="Ticket">ProcessManagementProcessID</DefaultItem>
+                <Item>ProcessManagementProcessID</Item>
+                <Item>ProcessManagementActivityID</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayDirectory" Required="1" Valid="1">
+        <Description Translatable="1">Array of Directory items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Directory">/etc</DefaultItem>
+                <Item>/etc</Item>
+                <Item>/usr</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayFile" Required="1" Valid="1">
+        <Description Translatable="1">Array of file items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="File">/etc/hosts</DefaultItem>
+                <Item>/etc/hosts</Item>
+                <Item>/etc/passwd</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayPassword" Required="1" Valid="1">
+        <Description Translatable="1">Array of Password items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Password">Secret</DefaultItem>
+                <Item>Secret1</Item>
+                <Item>Secret2</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayPerlModule" Required="1" Valid="1">
+        <Description Translatable="1">Array of PerlModule items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="PerlModule" ValueFilter="Kernel/System/Log/*.pm">Kernel::System::Log::SysLog</DefaultItem>
+                <Item>Kernel::System::Log::SysLog</Item>
+                <Item>Kernel::System::Log::SysLog</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayTextarea" Required="1" Valid="1">
+        <Description Translatable="1">Array of Textarea items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="Textarea">Textarea content</DefaultItem>
+                <Item>Content 1</Item>
+                <Item>Content 2</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestArrayTimeZone" Required="1" Valid="1">
+        <Description Translatable="1">Array of TimeZone items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="TimeZone">UTC</DefaultItem>
+                <Item>UTC</Item>
+                <Item>UTC</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestHash" Required="1" Valid="1">
+        <Description Translatable="1">Simple hash item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash MinItems="1" MaxItems="3">
+                <Item Key="First name">John</Item>
+                <Item Key="Last name">Doe</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashSelect1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "Select" key has a select item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="First name">John</Item>
+                <Item Key="Last name">Doe</Item>
+                <Item Key="Select" ValueType="Select" SelectedID='male'>
+                    <Item ValueType="Option" Value="male">Male</Item>
+                    <Item ValueType="Option" Value="female">Female</Item>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashSelect2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is Select and there is a Checkbox key("Available").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Select" SelectedID='male'>
+                    <Item ValueType="Option" Value="male">Male</Item>
+                    <Item ValueType="Option" Value="female">Female</Item>
+                </DefaultItem>
+                <Item Key="ss" SelectedID="female"></Item>
+                <Item Key="Available" ValueType="Checkbox">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashCheckbox1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "Checkbox" key has a Checkbox item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">John Doe</Item>
+                <Item Key="Checkbox" ValueType="Checkbox">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashCheckbox2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is Checkbox and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Checkbox">1</DefaultItem>
+                <Item Key="String" ValueType="String">John Doe</Item>
+                <Item Key="Checkbox">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashDate1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "Date" key has a Date item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">John Doe</Item>
+                <Item Key="Date" ValueType="Date">2016-02-02</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashDate2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is Date and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Date">2016-02-02</DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="DateValue">2016-01-01</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashDateTime1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "DateTime" key has a DateTime item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">John Doe</Item>
+                <Item Key="DateTime" ValueType="DateTime">2016-02-02 01:01:00</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashDateTime2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is DateTime and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="DateTime">2016-02-02 13:15:00</DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="DateValue">2016-01-01 23:55:00</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashEntity1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "Entity" key has a Entity(Priority) item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="First name">John</Item>
+                <Item Key="Entity" ValueType="Entity" ValueEntityType="Priority">3 normal</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashEntity2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is Entity(Priority) and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Entity" ValueEntityType="Priority">3 normal</DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="Prio1">3 normal</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashDirectory1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "Directory" key has a Directory item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="First name">John</Item>
+                <Item Key="File" ValueType="Directory">/etc</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashDirectory2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is Directory and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Directory">/etc</DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="Prio1">/etc</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashFile1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "File" key has a File item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="First name">John</Item>
+                <Item Key="File" ValueType="File">/etc/hosts</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashFile2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is File and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="File">/etc/hosts</DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="Prio1">/etc/hosts</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashPassword1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "Password" key has a Password item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="First name">John</Item>
+                <Item Key="Password" ValueType="Password">Secret</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashPassword2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is Password and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Password">Secret</DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="Password 1">Secret</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashPerlModule1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "PerlModule" key has a PerlModule item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="First name">John</Item>
+                <Item Key="PerlModule" ValueType="PerlModule" ValueFilter="Kernel/System/Log/*.pm">Kernel::System::Log::SysLog</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashPerlModule2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is PerlModule and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="PerlModule" ValueFilter="Kernel/System/Log/*.pm">Kernel::System::Log::SysLog</DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="First">Kernel::System::Log::SysLog</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashTextarea1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "Textarea" key has a Textarea item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="First name">John</Item>
+                <Item Key="Textarea" ValueType="Textarea" ValueRegex="">Text area
+                testing
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashTextarea2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is Textarea and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Textarea" ValueRegex="">Text area
+                testing
+                </DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="Textarea">Text area
+                testing
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashTimeZone1" Required="1" Valid="1">
+        <Description Translatable="1">Hash item - "TimeZone" key has a TimeZone item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="First name">John</Item>
+                <Item Key="TimeZone" ValueType="TimeZone">UTC</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHashTimeZone2" Required="1" Valid="1">
+        <Description Translatable="1">Hash - DefaultItem is TimeZone and there is a String key("String").</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="TimeZone">UTC</DefaultItem>
+                <Item Key="String" ValueType="String">Text</Item>
+                <Item Key="Time">UTC</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ZZZEmptyArray" Required="1" Valid="1">
+        <Description Translatable="1">Empty array.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Array></Array>
+        </Value>
+    </Setting>
+    <Setting Name="ZZZEmptyHash" Required="1" Valid="1">
+        <Description Translatable="1">Empty Hash.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash></Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ZZZTestStringReadonly" ReadOnly="1" Required="0" Valid="1">
+        <Description Translatable="1">String item.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^Ticket">Ticket#</Item>
+        </Value>
+    </Setting>
+    <Setting Name="ZZZDashboardBackend###0130-TicketOpen" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
+                <Item Key="Title" Translatable="1">Open Tickets / Need to be answered</Item>
+                <Item Key="Description" Translatable="1">All open tickets, these tickets have already been worked on, but need a response</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <DefaultItem ValueType="Select">
+                            <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                            <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
+                            <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
+                        </DefaultItem>
+                        <Item Key="Age" SelectedID="2"></Item>
+                        <Item Key="Changed" SelectedID="1"></Item>
+                        <Item Key="Title" SelectedID="0"></Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ZZZTestHash" Required="1" Valid="1">
+        <Description Translatable="1">Translatable hash items.</Description>
+        <Navigation>Test</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Queue">John</Item>
+                <Item Key="Search" Translatable="1">Doe</Item>
+            </Hash>
+        </Value>
+    </Setting>
+</otrs_config>

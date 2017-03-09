@@ -900,7 +900,13 @@ sub Run {
         }
 
         # module permisson check
-        if ( !$ModuleReg->{GroupRo} && !$ModuleReg->{Group} ) {
+        if (
+            ref $ModuleReg->{GroupRo} eq 'ARRAY'
+            && !scalar @{ $ModuleReg->{GroupRo} }
+            && ref $ModuleReg->{Group} eq 'ARRAY'
+            && !scalar @{ $ModuleReg->{Group} }
+            )
+        {
             $Param{AccessRo} = 1;
             $Param{AccessRw} = 1;
         }
@@ -982,6 +988,23 @@ sub Run {
                 Key       => 'UserLastRequest',
                 Value     => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
             );
+        }
+
+        # Override user settings.
+        my $Home = $ConfigObject->Get('Home');
+        my $File = "$Home/Kernel/Config/Files/User/$UserData{UserID}.pm";
+        if ( -e $File ) {
+            if ( !require $File ) {
+                die "ERROR: $!\n";
+            }
+
+            # prepare file
+            $File =~ s/\Q$Home\E//g;
+            $File =~ s/^\///g;
+            $File =~ s/\/\//\//g;
+            $File =~ s/\//::/g;
+            $File =~ s/\.pm$//g;
+            $File->Load($ConfigObject);
         }
 
         # pre application module

@@ -1,0 +1,49 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+        ]
+    %]
+
+[% IF Data.Type and Data.Type == 'CustomList' %]
+    [% BreadcrumbPath.push({ Name => Translate('View a custom List of Settings') }) %]
+[% ELSE %]
+    [% View = Data.View | uri %]
+    [% BreadcrumbPath.push({ Name => Translate('View single Setting: %s', Data.View), Link => 'AdminSystemConfiguration;Subaction=View;Setting=' _ View }) %]
+[% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        [% INCLUDE "SystemConfiguration/SettingsList.tt" %]
+    </div>
+    <div class="Clear"></div>
+</div>

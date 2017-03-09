@@ -28,17 +28,39 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # return to admin screen
+    # Return to admin screen.
     if ( $Self->{Subaction} eq 'Done' ) {
         return $LayoutObject->Redirect( OP => 'Action=Admin' );
     }
 
-    # write default file
-    if ( !$Kernel::OM->Get('Kernel::System::SysConfig')->WriteDefault() ) {
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # Load all XML settings into the DB.
+    if (
+        !$SysConfigObject->ConfigurationXML2DB(
+            UserID  => 1,
+            Force   => 1,
+            CleanUp => 1,
+        )
+        )
+    {
         return $LayoutObject->ErrorScreen();
     }
 
-    # install included packages
+    # Create initial deployment (write ZZZAAuto file).
+    if (
+        !$SysConfigObject->ConfigurationDeploy(
+            Comments    => "Deployed by AdminInit",
+            AllSettings => 1,
+            UserID      => 1,
+            Force       => 1,
+        )
+        )
+    {
+        return $LayoutObject->ErrorScreen();
+    }
+
+    # Install included packages.
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::Package') ) {
         my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
         if ($PackageObject) {
@@ -46,7 +68,7 @@ sub Run {
         }
     }
 
-    return $LayoutObject->Redirect( OP => 'Subaction=Done' );
+    return $LayoutObject->Redirect( OP => 'Action=AdminInit;Subaction=Done' );
 }
 
 1;

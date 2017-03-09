@@ -1,0 +1,108 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+        ]
+    %]
+
+[% IF Env("Subaction") == 'Search' %]
+    [% IF Data.Search %]
+        [% BreadcrumbPath.push({ Name => Translate('Search for') _ ' "' _ Data.Search _ '"', Link => 'AdminSystemConfiguration;Subaction=Search;Search=' _ Data.Search }) %]
+    [%ELSIF Data.Category %]
+        [% BreadcrumbPath.push({ Name => Translate('Search for category') _ ' "' _ Data.Category _ '"', Link => 'AdminSystemConfiguration;Subaction=Search;Category=' _ Data.Category }) %]
+    [% END %]
+[% ELSIF Env("Subaction") == 'SearchLocked' %]
+    [% BreadcrumbPath.push({ Name => Translate('Settings I\'m currently editing'), Link => 'AdminSystemConfiguration;Subaction=SearchLocked' }) %]
+[% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+
+    [% IF Env("Subaction") == 'SearchLocked' %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration" class="GoBackButton CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    [% ELSE %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=SearchDialog" data-term="[% Data.Search | html %]" data-category="[% Data.Category | html %]" id="SystemConfigurationEditSearch" class="CallForAction Fullsize Center"><span><i class="fa fa-search"></i>[% Translate("Edit search") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>[% Translate("Did you know? You can work directly on the search results as on any other screen in the system configuration.") | html %]</p>
+            </div>
+        </div>
+    [% END %]
+
+        [% INCLUDE "SystemConfiguration/Sidebar/Help.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/DynamicActions.tt" %]
+    </div>
+
+    <div class="ContentColumn">
+    [% IF Env("Subaction") == 'Search' %]
+        <div class="WidgetSimple">
+            <div class="Content">
+                <p class="Center">
+        [% Data.SearchTerm = Data.Search %]
+        [% IF !Data.SearchTerm && Data.Category %]
+            [% Data.SearchTerm = Data.Category %]
+        [% END %]
+        [% IF Data.Results == 0 %]
+            [% Translate('Your search for "%s" in category "%s" did not return any results.', Data.SearchTerm, Data.Category) | html %]
+        [% ELSIF Data.Results == 1 %]
+            [% Translate('Your search for "%s" in category "%s" returned one result.', Data.SearchTerm, Data.Category) | html %]
+        [% ELSE %]
+            [% Translate('Your search for "%s" in category "%s" returned %s results.', Data.SearchTerm, Data.Category, Data.Results) | html %]
+        [% END %]
+                </p>
+            </div>
+        </div>
+    [% ELSIF Env("Subaction") == 'SearchLocked' %]
+        <div class="WidgetSimple">
+            <div class="Content">
+            [% IF Data.Results == 0 %]
+                <p class="Center">[% Translate("Your're currently not editing any settings.") | html %]</p>
+            [% ELSE %]
+                <p class="Center">[% Translate("Your're currently editing %s setting(s).", Data.Results) | html %]</p>
+            [% END %]
+            </div>
+        </div>
+    [% END %]
+        [% INCLUDE "SystemConfiguration/SettingsList.tt" %]
+    </div>
+    <div class="Clear"></div>
+</div>

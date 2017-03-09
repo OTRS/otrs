@@ -23,8 +23,8 @@ sub Configure {
     $Self->Description('Rebuild the system configuration of OTRS.');
 
     $Self->AddOption(
-        Name        => 'cleanup-user-config',
-        Description => "Cleanup the user configuration file ZZZAuto.pm, removing duplicate or obsolete values.",
+        Name        => 'cleanup',
+        Description => "Cleanup the database configuration, removing entries not defined in the XML files.",
         Required    => 0,
         HasValue    => 0,
     );
@@ -37,16 +37,32 @@ sub Run {
 
     $Self->Print("<yellow>Rebuilding the system configuration...</yellow>\n");
 
-    if ( !$Kernel::OM->Get('Kernel::System::SysConfig')->WriteDefault() ) {
+    # Get SysConfig object.
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    if (
+        !$SysConfigObject->ConfigurationXML2DB(
+            UserID  => 1,
+            Force   => 1,
+            CleanUp => $Self->GetOption('cleanup'),
+        )
+        )
+    {
+        $Self->PrintError("There was a problem writing XML to DB.");
+        return $Self->ExitCodeError();
+    }
+
+    my $DeploySuccess = $SysConfigObject->ConfigurationDeploy(
+        Comments    => "Configuration Rebuild",
+        AllSettings => 1,
+        UserID      => 1,
+        Force       => 1,
+    );
+    if ( !$DeploySuccess ) {
         $Self->PrintError("There was a problem writing ZZZAAuto.pm.");
         return $Self->ExitCodeError();
     }
-    if ( $Self->GetOption('cleanup-user-config') ) {
-        if ( !$Kernel::OM->Get('Kernel::System::SysConfig')->CreateConfig() ) {
-            $Self->PrintError("There was a problem writing ZZZAuto.pm.");
-            return $Self->ExitCodeError();
-        }
-    }
+
     $Self->Print("<green>Done.</green>\n");
     return $Self->ExitCodeOk();
 }

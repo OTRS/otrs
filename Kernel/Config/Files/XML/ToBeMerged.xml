@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_config version="2.0" init="Framework">
+    <Setting Name="AgentPreferencesGroups" Required="1" Valid="1">
+        <Description Translatable="1">Defines groups for preferences items.</Description>
+        <Navigation>Core::Web</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="Key"></Item>
+                        <Item Key="Name"></Item>
+                        <Item Key="Description"></Item>
+                        <Item Key="Icon"></Item>
+                        <Item Key="Priority"></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Key">UserProfile</Item>
+                        <Item Key="Name" Translatable="1">User Profile</Item>
+                        <Item Key="Description" Translatable="1">Change your password and more.</Item>
+                        <Item Key="Icon">fa-user</Item>
+                        <Item Key="Priority">1000</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Key">NotificationSettings</Item>
+                        <Item Key="Name" Translatable="1">Notification Settings</Item>
+                        <Item Key="Description" Translatable="1">Choose which notifications you'd like to receive.</Item>
+                        <Item Key="Icon">fa-envelope</Item>
+                        <Item Key="Priority">1001</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Key">Miscellaneous</Item>
+                        <Item Key="Name" Translatable="1">Miscellaneous</Item>
+                        <Item Key="Description" Translatable="1">Tweak the system as you wish.</Item>
+                        <Item Key="Icon">fa-cog</Item>
+                        <Item Key="Priority">1002</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="SystemConfiguration::MaximumDeployments" Required="1" Valid="1" Invisible="1">
+        <Description Translatable="1">Defines how many deployments the system should keep.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">20</Item>
+        </Value>
+    </Setting>
+</otrs_config>

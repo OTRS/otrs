@@ -29,14 +29,15 @@ sub Run {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get process management configuration
-    my $FrontendModuleConfig = $ConfigObject->Get('CustomerFrontend::Module')->{CustomerTicketProcess};
+    my $FrontendModuleConfig     = $ConfigObject->Get('CustomerFrontend::Module')->{CustomerTicketProcess};
+    my $FrontendNavigationConfig = $ConfigObject->Get('CustomerFrontend::Navigation')->{CustomerTicketProcess};
 
     # check if the registration config is valid
     return if !IsHashRefWithData($FrontendModuleConfig);
+    return if !IsHashRefWithData($FrontendNavigationConfig);
+    return if !IsHashRefWithData( $FrontendNavigationConfig->{1} );
 
-    return if !IsHashRefWithData( $FrontendModuleConfig->{NavBar}->[0] );
-
-    my $NameForID     = $FrontendModuleConfig->{NavBar}->[0]->{Name};
+    my $NameForID     = $FrontendNavigationConfig->{1}->{Name};
     my $NameForHidden = $NameForID;
     $NameForID =~ s/[ &;]//ig;
 
@@ -126,7 +127,7 @@ sub Run {
 
     # frontend module is enabled but there is no selectable process, then remove the menu entry
     my $NavBarName = $FrontendModuleConfig->{NavBarName};
-    my $Priority = sprintf( "%07d", $FrontendModuleConfig->{NavBar}->[0]->{Prio} );
+    my $Priority = sprintf( "%07d", $FrontendNavigationConfig->{1}->{Prio} );
 
     my %Return = %{ $Param{NavBarModule}->{Sub} };
 

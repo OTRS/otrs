@@ -108,6 +108,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 ElementDisabled = $(this).is(':disabled'),
                 ElementName = Core.App.EscapeHTML($(this).text()),
                 ElementSelected = $(this).is(':selected'),
+                ElementTitle = $(this).attr('title'),
                 ElementNameTrim = ElementName.replace(/(^[\xA0]+)/g, ''),
                 CurrentLevel = (ElementName.length - ElementNameTrim.length) / 2,
                 ChildOf = 0,
@@ -175,6 +176,12 @@ Core.UI.TreeSelection = (function (TargetNS) {
                     'class': (ElementDisabled) ? 'Disabled' : ''
                 }
             };
+
+            // Add option title.
+            if (ElementTitle !== undefined) {
+                CurrentElement["li_attr"]["title"] = ElementTitle;
+            }
+
             /*eslint-enable camelcase */
             Elements.push(CurrentElement);
 

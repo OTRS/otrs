@@ -13,7 +13,7 @@ use warnings;
 
 use Kernel::System::DateTime qw(:all);
 use Kernel::System::Email;
-use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -1066,7 +1066,13 @@ sub Run {
         }
 
         # module permission check for action
-        if ( !$ModuleReg->{GroupRo} && !$ModuleReg->{Group} ) {
+        if (
+            ref $ModuleReg->{GroupRo} eq 'ARRAY'
+            && !scalar @{ $ModuleReg->{GroupRo} }
+            && ref $ModuleReg->{Group} eq 'ARRAY'
+            && !scalar @{ $ModuleReg->{Group} }
+            )
+        {
             $Param{AccessRo} = 1;
             $Param{AccessRw} = 1;
         }
@@ -1093,26 +1099,39 @@ sub Run {
 
         }
 
+        my $NavigationConfig = $ConfigObject->Get('CustomerFrontend::Navigation')->{ $Param{Action} };
+
         # module permission check for submenu item
-        if ( IsArrayRefWithData( $ModuleReg->{NavBar} ) ) {
+        if ( IsHashRefWithData($NavigationConfig) ) {
             LINKCHECK:
-            for my $ModuleReg ( @{ $ModuleReg->{NavBar} } ) {
+            for my $Key ( %{$NavigationConfig} ) {
+                next LINKCHECK if $Key !~ m/^\d+$/i;
                 next LINKCHECK if $Param{RequestedURL} !~ m/Subaction/i;
-                if ( $ModuleReg->{Link} =~ m/Subaction=/i && $ModuleReg->{Link} !~ m/$Param{Subaction}/i ) {
+                if (
+                    $NavigationConfig->{$Key}->{Link} =~ m/Subaction=/i
+                    && $NavigationConfig->{$Key}->{Link} !~ m/$Param{Subaction}/i
+                    )
+                {
                     next LINKCHECK;
                 }
                 $Param{AccessRo} = 0;
                 $Param{AccessRw} = 0;
 
                 # module permission check for submenu item
-                if ( !$ModuleReg->{GroupRo} && !$ModuleReg->{Group} ) {
+                if (
+                    ref $NavigationConfig->{$Key}->{GroupRo} eq 'ARRAY'
+                    && !scalar @{ $NavigationConfig->{$Key}->{GroupRo} }
+                    && ref $NavigationConfig->{$Key}->{Group} eq 'ARRAY'
+                    && !scalar @{ $NavigationConfig->{$Key}->{Group} }
+                    )
+                {
                     $Param{AccessRo} = 1;
                     $Param{AccessRw} = 1;
                 }
                 else {
 
                     ( $Param{AccessRo}, $Param{AccessRw} ) = $Self->_CheckModulePermission(
-                        ModuleReg => $ModuleReg,
+                        ModuleReg => $NavigationConfig->{$Key},
                         %UserData,
                     );
 

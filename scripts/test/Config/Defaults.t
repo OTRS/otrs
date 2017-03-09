@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -26,6 +27,7 @@ and cause wrong test failures.
 =cut
 
 # Get list of installed config XML files
+# TODO: Update $Directory to /Kernel/Config/Files/XML/ when ToBeMerged.xml is merged.
 my $Directory   = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/Kernel/Config/Files/";
 my @ConfigFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
     Directory => $Directory,
@@ -33,6 +35,7 @@ my @ConfigFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
 );
 
 my %AllowedConfigFiles = (
+    'Calendar.xml'          => 1,
     'CloudServices.xml'     => 1,
     'Daemon.xml'            => 1,
     'Framework.xml'         => 1,
@@ -67,6 +70,9 @@ Kernel::Config::Files::ZZZAAuto->Load($ZZZAAutoConfig);
 # These entries are hashes
 my %CheckSubEntries = (
     'Frontend::Module'            => 1,
+    'Frontend::NotifyModule'      => 1,
+    'Frontend::Navigation'        => 1,
+    'Frontend::NavigationModule'  => 1,
     'CustomerFrontend::Module'    => 1,
     'Loader::Agent::CommonJS'     => 1,
     'Loader::Agent::CommonCSS'    => 1,
@@ -75,11 +81,23 @@ my %CheckSubEntries = (
     'PreferencesGroups'           => 1,
 );
 
+# These entries are hashes of hashes
+my %CheckSubEntriesElements = (
+    'Frontend::Navigation###Admin' => 1,
+);
+
 my %IgnoreEntries = (
     'Frontend::CommonParam'         => 1,
     'CustomerFrontend::CommonParam' => 1,
     'PublicFrontend::CommonParam'   => 1,
+
+    # This settings are modified in framework.xml and needs to be excluded from this test.
+    'Loader::Module::Admin'                    => 1,
+    'Loader::Module::AdminLog'                 => 1,
+    'Loader::Module::AdminSystemConfiguration' => 1,
 );
+
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 DEFAULTCONFIGENTRY:
 for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
@@ -95,22 +113,67 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
         for my $DefaultConfigSubEntry ( sort keys %{ $DefaultConfig->{$DefaultConfigEntry} } ) {
 
             # There is a number of settings that are only in Defaults.pm, ignore these
-            next DEFAULTCONFIGSUBENTRY
-                if !exists $ZZZAAutoConfig->{$DefaultConfigEntry}->{$DefaultConfigSubEntry};
+            if ( !exists $ZZZAAutoConfig->{$DefaultConfigEntry}->{$DefaultConfigSubEntry} ) {
+                next DEFAULTCONFIGSUBENTRY;
+            }
 
-            $Self->IsDeeply(
-                \$DefaultConfig->{$DefaultConfigEntry}->{$DefaultConfigSubEntry},
-                \$ZZZAAutoConfig->{$DefaultConfigEntry}->{$DefaultConfigSubEntry},
-                "$DefaultConfigEntry->$DefaultConfigSubEntry must be the same in Defaults.pm and ZZZAAuto.pm",
-            );
+            my $SettingName          = $DefaultConfigEntry . '###' . $DefaultConfigSubEntry;
+            my $DefaultConfigSetting = $DefaultConfig->{$DefaultConfigEntry}->{$DefaultConfigSubEntry};
+
+            # Check for a third level settings
+            if ( $CheckSubEntriesElements{$SettingName} ) {
+
+                DEFAULTCONFIGSUBENTRYELEMENT:
+                for my $DefaultConfigSubEntryElement ( sort keys %{$DefaultConfigSetting} ) {
+
+                    if (
+                        !exists $ZZZAAutoConfig->{$DefaultConfigEntry}->{$DefaultConfigSubEntry}
+                        ->{$DefaultConfigSubEntryElement}
+                        )
+                    {
+                        next DEFAULTCONFIGSUBENTRYELEMENT;
+                    }
+
+                    my %Setting = $SysConfigObject->SettingGet(
+                        Name => $DefaultConfigEntry . '###'
+                            . $DefaultConfigSubEntry . '###'
+                            . $DefaultConfigSubEntryElement,
+                        Default => 1,
+                    );
+
+                    $Self->IsDeeply(
+                        \$DefaultConfigSetting->{$DefaultConfigSubEntryElement},
+                        \$Setting{EffectiveValue},
+                        "$DefaultConfigEntry->$DefaultConfigSubEntry->$DefaultConfigSubEntryElement must be the same in Defaults.pm and setting default value",
+                    );
+                }
+            }
+            else {
+
+                my %Setting = $SysConfigObject->SettingGet(
+                    Name    => $SettingName,
+                    Default => 1,
+                );
+
+                $Self->IsDeeply(
+                    \$DefaultConfigSetting,
+                    \$Setting{EffectiveValue},
+                    "$DefaultConfigEntry->$DefaultConfigSubEntry must be the same in Defaults.pm and setting default value",
+                );
+            }
         }
     }
     else {
 
+        my %Setting = $SysConfigObject->SettingGet(
+            Name    => $DefaultConfigEntry,
+            Default => 1,
+        );
+
         $Self->IsDeeply(
             \$DefaultConfig->{$DefaultConfigEntry},
-            \$ZZZAAutoConfig->{$DefaultConfigEntry},
-            "$DefaultConfigEntry must be the same in Defaults.pm and ZZZAAuto.pm",
+            \$Setting{EffectiveValue},
+            "$DefaultConfigEntry must be the same in Defaults.pm and and setting default value",
         );
     }
 }

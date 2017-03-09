@@ -465,6 +465,14 @@ EOF
         $Self->{ChallengeTokenParam} = "ChallengeToken=$Self->{UserChallengeToken};";
     }
 
+    # load NavigationModule if defined
+    if ( $Self->{ModuleReg} ) {
+        my $NavigationModule = $Kernel::OM->Get('Kernel::Config')->Get("Frontend::NavigationModule");
+        if ( $NavigationModule->{ $Param{Action} } ) {
+            $Self->{NavigationModule} = $NavigationModule->{ $Param{Action} };
+        }
+    }
+
     return $Self;
 }
 
@@ -2383,12 +2391,18 @@ sub Permission {
     );
 
     # No access restriction?
-    if ( !$Config->{GroupRo} && !$Config->{Group} ) {
+    if (
+        ref $Config->{GroupRo} eq 'ARRAY'
+        && @{ $Config->{GroupRo} }
+        && ref $Config->{Group} eq 'ARRAY'
+        && @{ $Config->{Group} }
+        )
+    {
         return 1;
     }
 
     # Array access restriction.
-    if ( $Item && ref $Item eq 'ARRAY' ) {
+    elsif ( $Item && ref $Item eq 'ARRAY' ) {
         for my $GroupName ( @{$Item} ) {
             return 1 if $GroupObject->PermissionCheck(
                 UserID    => $Self->{UserID},
@@ -2396,15 +2410,6 @@ sub Permission {
                 Type      => $Param{Type},
             );
         }
-    }
-
-    # Scalar access restriction.
-    elsif ($Item) {
-        return 1 if $GroupObject->PermissionCheck(
-            UserID    => $Self->{UserID},
-            GroupName => $Item,
-            Type      => $Param{Type},
-        );
     }
 
     return 0;
@@ -2834,18 +2839,24 @@ sub NavigationBar {
 
     # create menu items
     my %NavBar;
-    my $FrontendModuleConfig = $ConfigObject->Get('Frontend::Module');
+
+    my $Config               = $ConfigObject->Get('Frontend::Module');
+    my $FrontendModuleConfig = $ConfigObject->Get('Frontend::Navigation');
 
     MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
-        my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        next MODULE if !$Hash{NavBar};
-        next MODULE if ref $Hash{NavBar} ne 'ARRAY';
 
-        my @Items = @{ $Hash{NavBar} };
+        # skip if module is disabled in Frontend registration
+        next MODULE if !IsHashRefWithData( $Config->{$Module} );
+
+        my %Hash = %{ $FrontendModuleConfig->{$Module} };
 
         ITEM:
-        for my $Item (@Items) {
+        for my $Key ( sort keys %Hash ) {
+            next ITEM if $Key !~ m{^\d+$};
+
+            my $Item = $Hash{$Key};
+
             next ITEM if !$Item->{NavBar};
             $Item->{CSS} = '';
 
@@ -2876,8 +2887,20 @@ sub NavigationBar {
             PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
 
+                # no access restriction
+                if (
+                    ref $Item->{GroupRo} eq 'ARRAY'
+                    && !scalar @{ $Item->{GroupRo} }
+                    && ref $Item->{Group} eq 'ARRAY'
+                    && !scalar @{ $Item->{Group} }
+                    )
+                {
+                    $Shown = 1;
+                    last PERMISSION;
+                }
+
                 # array access restriction
-                if ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
+                elsif ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
                     GROUP:
                     for my $Group ( @{ $Item->{$Permission} } ) {
                         next GROUP if !$Group;
@@ -2893,27 +2916,8 @@ sub NavigationBar {
                         }
                     }
                 }
-
-                # scalar access restriction
-                elsif ( $Item->{$Permission} ) {
-                    my $HasPermission = $GroupObject->PermissionCheck(
-                        UserID    => $Self->{UserID},
-                        GroupName => $Item->{$Permission},
-                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
-
-                    );
-                    if ($HasPermission) {
-                        $Shown = 1;
-                        last PERMISSION;
-                    }
-                }
-
-                # no access restriction
-                elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                    $Shown = 1;
-                    last PERMISSION;
-                }
             }
+
             next ITEM if !$Shown;
 
             # set prio of item
@@ -2978,7 +2982,7 @@ sub NavigationBar {
         my $Sub = $NavBar{Sub}->{ $Item->{NavBar} };
 
         $Self->Block(
-            Name => 'ItemArea',    #$NavBar{$_}->{Block} || 'Item',
+            Name => 'ItemArea',
             Data => {
                 %$Item,
                 AccessKeyReference => $Item->{AccessKey} ? " ($Item->{AccessKey})" : '',
@@ -3077,10 +3081,10 @@ sub NavigationBar {
     }
 
     # run nav bar modules
-    if ( $Self->{ModuleReg}->{NavBarModule} ) {
+    if ( $Self->{NavigationModule} ) {
 
         # run navbar modules
-        my %Jobs = %{ $Self->{ModuleReg}->{NavBarModule} };
+        my %Jobs = %{ $Self->{NavigationModule} };
 
         # load module
         if ( !$MainObject->Require( $Jobs{Module} ) ) {
@@ -3973,41 +3977,43 @@ sub CustomerNavigationBar {
 
     # create menu items
     my %NavBarModule;
-    my $FrontendModuleConfig = $ConfigObject->Get('CustomerFrontend::Module');
+    my $FrontendModule   = $ConfigObject->Get('CustomerFrontend::Module');
+    my $NavigationConfig = $ConfigObject->Get('CustomerFrontend::Navigation');
 
     my $GroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
 
     MODULE:
-    for my $Module ( sort keys %{$FrontendModuleConfig} ) {
-        my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        next MODULE if !$Hash{NavBar};
-        next MODULE if ref $Hash{NavBar} ne 'ARRAY';
+    for my $Module ( sort keys %{$NavigationConfig} ) {
 
-        my @Items = @{ $Hash{NavBar} };
+        my %Hash = %{ $NavigationConfig->{$Module} };
 
         ITEM:
-        for my $Item (@Items) {
+        for my $Key ( sort keys %Hash ) {
+            my $Item = $Hash{$Key};
+
             next ITEM if !$Item;
 
             # check permissions
             my $Shown = 0;
 
-            # get permissions from module if no permissions are defined for the icon
-            if ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                if ( $Hash{GroupRo} ) {
-                    $Item->{GroupRo} = $Hash{GroupRo};
-                }
-                if ( $Hash{Group} ) {
-                    $Item->{Group} = $Hash{Group};
-                }
-            }
-
             # check shown permission
             PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
 
+                # no access restriction
+                if (
+                    ref $Item->{GroupRo} eq 'ARRAY'
+                    && !scalar @{ $Item->{GroupRo} }
+                    && ref $Item->{Group} eq 'ARRAY'
+                    && !scalar @{ $Item->{Group} }
+                    )
+                {
+                    $Shown = 1;
+                    last PERMISSION;
+                }
+
                 # array access restriction
-                if ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
+                elsif ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
                     for my $Group ( @{ $Item->{$Permission} } ) {
                         my $HasPermission = $GroupObject->PermissionCheck(
                             UserID    => $Self->{UserID},
@@ -4021,27 +4027,8 @@ sub CustomerNavigationBar {
                         }
                     }
                 }
-
-                # scalar access restriction
-                elsif ( $Item->{$Permission} ) {
-                    my $HasPermission = $GroupObject->PermissionCheck(
-                        UserID    => $Self->{UserID},
-                        GroupName => $Item->{$Permission},
-                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
-
-                    );
-                    if ($HasPermission) {
-                        $Shown = 1;
-                        last PERMISSION;
-                    }
-                }
-
-                # no access restriction
-                elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                    $Shown = 1;
-                    last PERMISSION;
-                }
             }
+
             next ITEM if !$Shown;
 
             # set prio of item
@@ -4211,7 +4198,7 @@ sub CustomerNavigationBar {
     if ( $Self->{UserID} ) {
 
         # show logout button (if registered)
-        if ( $FrontendModuleConfig->{Logout} ) {
+        if ( $FrontendModule->{Logout} ) {
             $Self->Block(
                 Name => 'Logout',
                 Data => \%Param,
@@ -4219,7 +4206,7 @@ sub CustomerNavigationBar {
         }
 
         # show preferences button (if registered)
-        if ( $FrontendModuleConfig->{CustomerPreferences} ) {
+        if ( $FrontendModule->{CustomerPreferences} ) {
             if ( $Self->{Action} eq 'CustomerPreferences' ) {
                 $Param{Class} = 'Selected';
             }

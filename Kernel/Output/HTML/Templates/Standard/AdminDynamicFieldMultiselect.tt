@@ -51,7 +51,7 @@
     </div>
 
     <div class="ContentColumn">
-        <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+        <form id="EntityUpdate" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="AdminDynamicFieldMultiselect" />
             <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
             <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]" />
@@ -100,6 +100,19 @@
                                 <label for="ValidID">[% Translate("Validity") | html %]:</label>
                                 <div class="Field">
                                     [% Data.ValidityStrg %]
+                                    <div id="ValidIDError" class="TooltipErrorMessage">
+                                        <p>[% Translate("This field is required.") | html %]</p>
+                                    </div>
+                                    <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                        <p>
+[% RenderBlockStart("RequiredValidOptionServerError") %]
+                                            [% Translate("This field is required.") | html %]
+[% RenderBlockEnd("RequiredValidOptionServerError") %]
+[% RenderBlockStart("InSettingValidOptionServerError") %]
+                                            [% Translate("Is not possible to invalidate this entry, all config settings have to be changed beforehand.") | html %]
+[% RenderBlockEnd("InSettingValidOptionServerError") %]
+                                        </p>
+                                    </div>
                                 </div>
                                 <div class="Clear"></div>
 
@@ -129,6 +142,24 @@
                                 </div>
 [% RenderBlockEnd("InternalField") %]
                             </fieldset>
+[% RenderBlockStart("DynamicFieldInSysConfig") %]
+                    <input type="hidden" name="OldName" id="OldName" value="[% Data.OldName | html %]"/>
+                    <input type="hidden" name="UpdateEntity" id="UpdateEntity" value=""/>
+                    <div id="EntityInSetting" class="Hidden">
+                        <div class="TextDialog">
+                            <h1>[% Translate("This dynamic field is used in the following config settings:") | html %]</h1>
+                            <ul>
+                                [% RenderBlockStart("DynamicFieldInSysConfigRow") %]
+                                <li class="InSysConfigSetting">[% Data.SettingName %]</li>
+                                [% RenderBlockEnd("DynamicFieldInSysConfigRow") %]
+                            </ul>
+                            <p class="FieldExplanation"></p>
+                        </div>
+                    </div>
+[% RenderBlockEnd("DynamicFieldInSysConfig") %]
+[% RenderBlockStart("DynamicFieldInSysConfigDirty") %]
+                    <input type="hidden" name="SysConfigDirty" id="SysConfigDirty" value="1"/>
+[% RenderBlockEnd("DynamicFieldInSysConfigDirty") %]
                         </div>
                     </div>
                 </div>

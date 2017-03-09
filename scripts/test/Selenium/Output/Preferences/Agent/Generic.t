@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -25,15 +26,15 @@ $Selenium->RunTest(
         for my $View (qw( Small Medium Preview )) {
 
             my %TicketOverViewPageShown = (
-                Active       => "1",
-                Column       => "Other Settings",
-                DataSelected => "25",
-                Key          => "Ticket limit per page for Ticket Overview \"$View\"",
-                Label        => "Ticket Overview \"$View\" Limit",
-                Module       => "Kernel::Output::HTML::Preferences::Generic",
-                PrefKey      => "UserTicketOverview" . $View . "PageShown",
-                Prio         => "8000",
-                Data         => {
+                Active          => "1",
+                PreferenceGroup => "Miscellaneous",
+                DataSelected    => "25",
+                Key             => "Ticket limit per page for Ticket Overview \"$View\"",
+                Label           => "Ticket Overview \"$View\" Limit",
+                Module          => "Kernel::Output::HTML::Preferences::Generic",
+                PrefKey         => "UserTicketOverview" . $View . "PageShown",
+                Prio            => "8000",
+                Data            => {
                     "10" => "10",
                     "15" => "15",
                     "20" => "20",
@@ -69,42 +70,34 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to agent preferences
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Miscellaneous");
 
         # create test params
         my @Tests = (
             {
-                Name   => 'Overview Refresh Time',
-                ID     => 'UserRefreshTime',
-                Value  => '5',
-                Update => 'UserRefreshTimeUpdate',
+                Name  => 'Overview Refresh Time',
+                ID    => 'UserRefreshTime',
+                Value => '5',
             },
             {
-                Name   => 'Ticket Overview "Small" Limit',
-                ID     => 'UserTicketOverviewSmallPageShown',
-                Value  => '10',
-                Update => 'UserTicketOverviewSmallPageShownUpdate',
+                Name  => 'Ticket Overview "Small" Limit',
+                ID    => 'UserTicketOverviewSmallPageShown',
+                Value => '10',
             },
             {
-                Name   => 'Ticket Overview "Medium" Limit',
-                ID     => 'UserTicketOverviewMediumPageShown',
-                Value  => '10',
-                Update => 'UserTicketOverviewMediumPageShownUpdate',
+                Name  => 'Ticket Overview "Medium" Limit',
+                ID    => 'UserTicketOverviewMediumPageShown',
+                Value => '10',
             },
             {
-                Name   => 'Ticket Overview "Preview" Limit',
-                ID     => 'UserTicketOverviewPreviewPageShown',
-                Value  => '10',
-                Update => 'UserTicketOverviewPreviewPageShownUpdate',
+                Name  => 'Ticket Overview "Preview" Limit',
+                ID    => 'UserTicketOverviewPreviewPageShown',
+                Value => '10',
             },
             {
-                Name   => 'Screen after new ticket',
-                ID     => 'UserCreateNextMask',
-                Value  => 'AgentTicketZoom',
-                Update => 'UserCreateNextMaskUpdate',
+                Name  => 'Screen after new ticket',
+                ID    => 'UserCreateNextMask',
+                Value => 'AgentTicketZoom',
             },
 
         );
@@ -117,15 +110,24 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element( "#$Test->{Update}", 'css' )->VerifiedClick();
 
-            # wait until form has loaded, if neccessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
-
-            $Self->True(
-                index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
-                "Agent preference $Test->{Name} - updated"
+            # save the setting, wait for the ajax call to finish and check if success sign is shown
+            $Selenium->execute_script(
+                "\$('#$Test->{ID}').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
             );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return \$('#$Test->{ID}').closest('.WidgetSimple').hasClass('HasOverlay')"
+            );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return \$('#$Test->{ID}').closest('.WidgetSimple').find('.fa-check').length"
+            );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return !\$('#$Test->{ID}').closest('.WidgetSimple').hasClass('HasOverlay')"
+            );
+
         }
     }
 );

@@ -29,7 +29,10 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     *      This function initializes filter.
     */
     TargetNS.Init = function () {
+
         Core.UI.Table.InitTableFilter($("#FilterQueues"), $("#Queues"));
+
+        Core.Config.Set('EntityType', 'Queue');
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

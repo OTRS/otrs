@@ -7758,7 +7758,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::CustomQueue</Item>
-                <Item Key="Column" Translatable="1">Notification Settings</Item>
+                <Item Key="PreferenceGroup">NotificationSettings</Item>
                 <Item Key="Label" Translatable="1">My Queues</Item>
                 <Item Key="Desc" Translatable="1">Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.</Item>
                 <Item Key="Key" Translatable="1"></Item>
@@ -7775,7 +7775,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::CustomService</Item>
-                <Item Key="Column" Translatable="1">Notification Settings</Item>
+                <Item Key="PreferenceGroup">NotificationSettings</Item>
                 <Item Key="Label" Translatable="1">My Services</Item>
                 <Item Key="Desc" Translatable="1">Your service selection of your preferred services. You also get notified about those services via email if enabled.</Item>
                 <Item Key="Key" Translatable="1"></Item>
@@ -7791,10 +7791,10 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column" Translatable="1">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Overview Refresh Time</Item>
                 <Item Key="Desc" Translatable="1">If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.</Item>
-                <Item Key="Key" Translatable="1">After</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0" Translatable="1">off</Item>
@@ -7819,7 +7819,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column" Translatable="1">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Small" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Small"</Item>
                 <Item Key="Data">
@@ -7846,7 +7846,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::ColumnFilters</Item>
-                <Item Key="Column" Translatable="1">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Enabled filters.</Item>
                 <Item Key="Key" Translatable="1">Column ticket filters for Ticket Overviews type "Small".</Item>
                 <Item Key="PrefKey">UserFilterColumnsEnabled</Item>
@@ -7862,7 +7862,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column" Translatable="1">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Medium" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Medium"</Item>
                 <Item Key="Data">
@@ -7889,7 +7889,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column" Translatable="1">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Preview" Limit</Item>
                 <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Preview"</Item>
                 <Item Key="Data">
@@ -7916,10 +7916,10 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column" Translatable="1">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Screen after new ticket</Item>
                 <Item Key="Desc" Translatable="1">Configure which screen should be shown after a new ticket has been created.</Item>
-                <Item Key="Key" Translatable="1">Screen</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">CreateTicket</Item>
@@ -8411,7 +8411,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Number of displayed tickets</Item>
                 <Item Key="Key" Translatable="1">Tickets per page</Item>
                 <Item Key="Data">
@@ -8436,7 +8436,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Ticket overview</Item>
                 <Item Key="Key" Translatable="1">Refresh interval</Item>
                 <Item Key="Data">
@@ -9274,6 +9274,7 @@
                 </NavBarModule>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.Queue.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9578,6 +9579,7 @@
                 </NavBarModule>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.Type.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9601,6 +9603,7 @@
                 </NavBarModule>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.State.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9624,6 +9627,7 @@
                 </NavBarModule>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.Priority.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9884,16 +9888,15 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::NotificationEvent</Item>
-                <Item Key="Column">Notification Settings</Item>
+                <Item Key="PreferenceGroup">NotificationSettings</Item>
                 <Item Key="Label" Translatable="1">Ticket notifications</Item>
-                <Item Key="Desc" Translatable="1">Choose for which kind of ticket changes you want to receive notifications.</Item>
+                <Item Key="Desc" Translatable="1">Choose for which kind of ticket changes you want to receive notifications. Please note that you can't completely disable notifications marked as mandatory.</Item>
                 <Item Key="PrefKey">AdminNotifcationEventTransport</Item>
                 <Item Key="Prio">8000</Item>
                 <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-
     <ConfigItem Name="Notification::CharactersPerLine" Required="1" Valid="1">
         <Description Translatable="1">Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.</Description>
         <Group>Ticket</Group>
@@ -9902,9 +9905,6 @@
             <String Regex="">80</String><!-- default 1 hour -->
         </Setting>
     </ConfigItem>
-
-
-
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverview" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>
@@ -10960,6 +10960,7 @@ Thanks for your help!
                 <Loader>
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -10971,7 +10972,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Dynamic Fields Overview Limit</Item>
                 <Item Key="Key" Translatable="1">Dynamic fields limit per page for Dynamic Fields Overview</Item>
                 <Item Key="Data">
@@ -11003,6 +11004,7 @@ Thanks for your help!
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.DynamicFieldText.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -11019,6 +11021,7 @@ Thanks for your help!
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.DynamicFieldCheckbox.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -11036,6 +11039,7 @@ Thanks for your help!
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.DynamicFieldDropdown.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -11053,6 +11057,7 @@ Thanks for your help!
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.DynamicFieldDateTime.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -11071,6 +11076,7 @@ Thanks for your help!
                     <CSS>Core.Agent.Admin.DynamicField.css</CSS>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.DynamicFieldMultiselect.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SysConfig.Entity.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

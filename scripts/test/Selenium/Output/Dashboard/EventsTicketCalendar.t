@@ -33,20 +33,17 @@ $Selenium->RunTest(
             Value => \%$Config,
         );
 
-        my %EventsTicketCalendarSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+        my %EventsTicketCalendarSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name    => 'DashboardBackend###0280-DashboardEventsTicketCalendar',
             Default => 1,
         );
-
-        %EventsTicketCalendarSysConfig = map { $_->{Key} => $_->{Content} }
-            grep { defined $_->{Key} } @{ $EventsTicketCalendarSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
         # enable EventsTicketCalendar and set it to load as default plugin
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0280-DashboardEventsTicketCalendar',
             Value => {
-                %EventsTicketCalendarSysConfig,
+                %{ $EventsTicketCalendarSysConfig{EffectiveValue} },
                 Default => 1,
                 }
         );

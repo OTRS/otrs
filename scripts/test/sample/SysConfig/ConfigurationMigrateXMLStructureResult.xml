@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_config version="2.0" init="Framework">
+    <Setting Name="Test1" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - First No, then Yes - SelectedID is 0.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test2" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - empty SelectedID.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test3" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - First No, then Yes - SelectedID is 1.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test4" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - First Yes, then No - SelectedID is 0.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test5" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox(start with Translatable) - First No, then Yes - SelectedID is 0.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test6" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox(start with Translatable) - empty SelectedID.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test7" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox(start with Translatable) - First No, then Yes - SelectedID is 1.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test8" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox(start with Translatable) - First Yes, then No - SelectedID is 0.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test9" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - empty SelectedID.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test10" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - First Yes, then No - SelectedID is 1.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test11" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert other Options to the Items(with Select attribute).</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="1">
+                <Item ValueType="Option" Value="0" Translatable="1">No</Item>
+                <Item ValueType="Option" Value="1" Translatable="1">Yes</Item>
+                <Item ValueType="Option" Value="2" Translatable="1">Yes, but...</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test12" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Rename Regex attribute to the ValueRegex.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">10</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test13" Required="1" Valid="1">
+        <Description Translatable="1">Convert TimeWorkingHours.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="WorkingHours">
+                <Item ValueType="Day" ValueName="Mon">
+                    <Item ValueType="Hour">8</Item>
+                    <Item ValueType="Hour">9</Item>
+                    <Item ValueType="Hour">10</Item>
+                </Item>
+                <Item ValueType="Day" ValueName="Tue">
+                    <Item ValueType="Hour">8</Item>
+                </Item>
+                <Item ValueType="Day" ValueName="Wed">
+                    <Item ValueType="Hour">8</Item>
+                    <Item ValueType="Hour">9</Item>
+                </Item>
+                <Item ValueType="Day" ValueName="Thu">
+                    <Item ValueType="Hour">8</Item>
+                </Item>
+                <Item ValueType="Day" ValueName="Fri">
+                    <Item ValueType="Hour">8</Item>
+                    <Item ValueType="Hour">9</Item>
+                </Item>
+                <Item ValueType="Day" ValueName="Sat">
+                </Item>
+                <Item ValueType="Day" ValueName="Sun">
+                </Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test14" Required="1" Valid="1">
+        <Description Translatable="1">Convert TimeVacationDays.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="VacationDays">
+                <Item ValueMonth="1" ValueDay="1" Translatable="1">New Year's Day</Item>
+                <Item ValueMonth="5" ValueDay="1" Translatable="1">International Workers' Day</Item>
+                <Item ValueMonth="12" ValueDay="24" Translatable="1">Christmas Eve</Item>
+                <Item ValueMonth="12" ValueDay="25" Translatable="1">First Christmas Day</Item>
+                <Item ValueMonth="12" ValueDay="26" Translatable="1">Second Christmas Day</Item>
+                <Item ValueMonth="12" ValueDay="31" Translatable="1">New Year's Eve</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test15" Required="1" Valid="1">
+        <Description Translatable="1">Convert TimeVacationDaysOneTime.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="VacationDaysOneTime">
+                <Item ValueYear="2004" ValueMonth="1" ValueDay="1">test</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test16" Required="0" Valid="0">
+        <Description Translatable="1">Convert String with Check attribute(File) and Regex.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueRegex="[/|\w]+fetchmail$" ValueType="File">/usr/bin/fetchmail</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test17" Required="1" Valid="1">
+        <Description Translatable="1">Convert String with Check attribute(Directory) and Regex.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueRegex="" ValueType="Directory">/etc/ssl/certs</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test18" Required="1" Valid="1">
+        <Description Translatable="1">Convert TextArea to items.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Textarea">Text area
+
+Description
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test19" Required="1" Valid="1">
+        <Description Translatable="1">Convert TextArea to items with Translatable attribute.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Textarea" Translatable="1">Text area
+
+Description
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test20" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert Option tags to Items with Select attribute.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="2">
+                <Item ValueType="Option" Value="1">Option 1</Item>
+                <Item ValueType="Option" Value="2">Option 2</Item>
+                <Item ValueType="Option" Value="3">Option 3</Item>
+                <Item ValueType="Option" Value="4">Option 4</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test21" Required="0" Valid="0">
+        <Description Translatable="1">Convert ValidateModule - State.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test22" Required="0" Valid="0">
+        <Description Translatable="1">Convert ValidateModule - Priority.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test23" Required="0" Valid="0">
+        <Description Translatable="1">Convert ValidateModule - Queue.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Raw</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test24" Required="0" Valid="0">
+        <Description Translatable="1">Convert ValidateModule - Unknown.</Description>
+        <Navigation>SubGroup</Navigation>
+        <ValidateModule>Kernel::System::SysConfig::UnknownValidate</ValidateModule>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Convert Module Registration without NavBar.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">Agents &lt;-&gt; Groups</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Agents &lt;-&gt; Groups</Item>
+                <Item Key="Block">Agent</Item>
+                <Item Key="Description" Translatable="1">Link agents to groups.</Item>
+                <Item Key="IconBig"></Item>
+                <Item Key="IconSmall"></Item>
+                <Item Key="Prio">200</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Convert Module Registration with NavBar.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                            <Item>expert</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                            <Item>users</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">Agents &lt;-&gt; Groups</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###ModuleName###1" Required="0" Valid="1">
+        <Description Translatable="1">Main menu for the agent interface.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                        <Item>expert</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                        <Item>users</Item>
+                    </Array>
+                </Item>
+                <Item Key="Description" Translatable="1"></Item>
+                <Item Key="Name" Translatable="1">Reports</Item>
+                <Item Key="Link">Action=AgentStatistics;Subaction=Overview</Item>
+                <Item Key="LinkOption"></Item>
+                <Item Key="NavBar">Reports</Item>
+                <Item Key="Type">Menu</Item>
+                <Item Key="Block">ItemArea</Item>
+                <Item Key="AccessKey"></Item>
+                <Item Key="Prio">8500</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###ModuleName###2" Required="0" Valid="1">
+        <Description Translatable="1">Main menu for the agent interface.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>expert</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                        <Item>stats</Item>
+                        <Item>another</Item>
+                    </Array>
+                </Item>
+                <Item Key="Description" Translatable="1"></Item>
+                <Item Key="Name" Translatable="1">Reports (OTRS Business Solution™)</Item>
+                <Item Key="Link">Action=AgentStatisticsReports;Subaction=Overview</Item>
+                <Item Key="LinkOption">class="OTRSBusinessRequired"</Item>
+                <Item Key="NavBar">Reports</Item>
+                <Item Key="Type"></Item>
+                <Item Key="Block"></Item>
+                <Item Key="AccessKey"></Item>
+                <Item Key="Prio">100</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###ModuleName###3" Required="0" Valid="1">
+        <Description Translatable="1">Main menu for the agent interface.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                        <Item>expert</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                        <Item>stats</Item>
+                    </Array>
+                </Item>
+                <Item Key="Description" Translatable="1"></Item>
+                <Item Key="Name" Translatable="1">Statistics</Item>
+                <Item Key="Link">Action=AgentStatistics;Subaction=Overview</Item>
+                <Item Key="LinkOption"></Item>
+                <Item Key="NavBar">Reports</Item>
+                <Item Key="Type"></Item>
+                <Item Key="Block"></Item>
+                <Item Key="AccessKey"></Item>
+                <Item Key="Prio">200</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                        <Item>expert</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                        <Item>users</Item>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Agents &lt;-&gt; Groups</Item>
+                <Item Key="Block">Agent</Item>
+                <Item Key="Description" Translatable="1">Link agents to groups.</Item>
+                <Item Key="IconBig"></Item>
+                <Item Key="IconSmall"></Item>
+                <Item Key="Prio">200</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Convert Module Registration with NavBar and Loader.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">Agents &lt;-&gt; Groups</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::ModuleName###001-MigrateXMLStructure" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>thirdparty/nvd3-1.7.1/nv.d3.css</Item>
+                        <Item>Core.Agent.Statistics.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>thirdparty/d3-3.5.6/d3.min.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/nvd3.min.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###ModuleName###1" Required="0" Valid="1">
+        <Description Translatable="1">Main menu for the agent interface.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Description" Translatable="1"></Item>
+                <Item Key="Name" Translatable="1">Reports</Item>
+                <Item Key="Link">Action=AgentStatistics;Subaction=Overview</Item>
+                <Item Key="LinkOption"></Item>
+                <Item Key="NavBar">Reports</Item>
+                <Item Key="Type">Menu</Item>
+                <Item Key="Block">ItemArea</Item>
+                <Item Key="AccessKey"></Item>
+                <Item Key="Prio">8500</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Agents &lt;-&gt; Groups</Item>
+                <Item Key="Block">Agent</Item>
+                <Item Key="Description" Translatable="1">Link agents to groups.</Item>
+                <Item Key="IconBig"></Item>
+                <Item Key="IconSmall"></Item>
+                <Item Key="Prio">200</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###Logout" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Logout</Item>
+                    <Item Key="Title"></Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test25" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert option with Location attribute.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="PerlModule" ValueFilter="Kernel/System/Cache/*.pm">Kernel::System::Cache::FileStorable</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test26" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Convert String with Type="Password".</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Password">SomePassword</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test27" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">String with UTF8.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test28" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Wrong Item.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <String1 Regex="">123</String1>
+        </Value>
+    </Setting>
+    <Setting Name="Test29" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">OTRS Business Solution™, OTRS Verify™ (test utf8).</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <String1 Regex="">123</String1>
+        </Value>
+    </Setting>
+    <Setting Name="Test30" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Convert String with Type="Password" in Hash.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Password" ValueType="Password">some_password</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Test31" Required="1" Valid="1">
+        <Description Translatable="1">Convert Ticket::Type::Default to Entity Type.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Type" Translatable="1">Unclassified</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test32" Required="1" Valid="1">
+        <Description Translatable="1">Replace empty regex with \d+ where value is digit.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">40</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test33" Required="1" Valid="1">
+        <Description Translatable="1">Place regex \d+ where value is digit.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">40</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test34" Required="1" Valid="1">
+        <Description Translatable="1">Replace regex \d+ where value is digit.</Description>
+        <Navigation>SubGroup</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">4000</Item>
+        </Value>
+    </Setting>
+</otrs_config>

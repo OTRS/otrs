@@ -1448,6 +1448,124 @@ CREATE TABLE cloud_service_config (
     CONSTRAINT cloud_service_config_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
+--  create table sysconfig_default
+-- ----------------------------------------------------------
+CREATE TABLE sysconfig_default (
+    id serial NOT NULL,
+    name VARCHAR (250) NOT NULL,
+    description TEXT NOT NULL,
+    navigation VARCHAR (200) NOT NULL,
+    is_invisible SMALLINT NOT NULL,
+    is_readonly SMALLINT NOT NULL,
+    is_required SMALLINT NOT NULL,
+    is_valid SMALLINT NOT NULL,
+    has_configlevel SMALLINT NOT NULL,
+    user_modification_possible SMALLINT NOT NULL,
+    user_modification_active SMALLINT NOT NULL,
+    user_preferences_group VARCHAR (250) NULL,
+    xml_content_raw TEXT NOT NULL,
+    xml_content_parsed TEXT NOT NULL,
+    xml_filename VARCHAR (250) NOT NULL,
+    effective_value TEXT NOT NULL,
+    is_dirty SMALLINT NOT NULL,
+    exclusive_lock_guid VARCHAR (32) NOT NULL,
+    exclusive_lock_user_id INTEGER NULL,
+    exclusive_lock_expiry_time timestamp(0) NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT sysconfig_default_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table sysconfig_default_version
+-- ----------------------------------------------------------
+CREATE TABLE sysconfig_default_version (
+    id serial NOT NULL,
+    sysconfig_default_id INTEGER NULL,
+    name VARCHAR (250) NOT NULL,
+    description TEXT NOT NULL,
+    navigation VARCHAR (200) NOT NULL,
+    is_invisible SMALLINT NOT NULL,
+    is_readonly SMALLINT NOT NULL,
+    is_required SMALLINT NOT NULL,
+    is_valid SMALLINT NOT NULL,
+    has_configlevel SMALLINT NOT NULL,
+    user_modification_possible SMALLINT NOT NULL,
+    user_modification_active SMALLINT NOT NULL,
+    user_preferences_group VARCHAR (250) NULL,
+    xml_content_raw TEXT NOT NULL,
+    xml_content_parsed TEXT NOT NULL,
+    xml_filename VARCHAR (250) NOT NULL,
+    effective_value TEXT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+-- ----------------------------------------------------------
+--  create table sysconfig_modified
+-- ----------------------------------------------------------
+CREATE TABLE sysconfig_modified (
+    id serial NOT NULL,
+    sysconfig_default_id INTEGER NOT NULL,
+    name VARCHAR (250) NOT NULL,
+    user_id INTEGER NULL,
+    is_valid SMALLINT NOT NULL,
+    user_modification_active SMALLINT NOT NULL,
+    effective_value TEXT NOT NULL,
+    is_dirty SMALLINT NOT NULL,
+    reset_to_default SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT sysconfig_modified_per_user UNIQUE (sysconfig_default_id, user_id)
+);
+-- ----------------------------------------------------------
+--  create table sysconfig_modified_version
+-- ----------------------------------------------------------
+CREATE TABLE sysconfig_modified_version (
+    id serial NOT NULL,
+    sysconfig_default_version_id INTEGER NOT NULL,
+    name VARCHAR (250) NOT NULL,
+    user_id INTEGER NULL,
+    is_valid SMALLINT NOT NULL,
+    user_modification_active SMALLINT NOT NULL,
+    effective_value TEXT NOT NULL,
+    reset_to_default SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+-- ----------------------------------------------------------
+--  create table sysconfig_deployment_lock
+-- ----------------------------------------------------------
+CREATE TABLE sysconfig_deployment_lock (
+    id serial NOT NULL,
+    exclusive_lock_guid VARCHAR (32) NULL,
+    exclusive_lock_user_id INTEGER NULL,
+    exclusive_lock_expiry_time timestamp(0) NULL,
+    PRIMARY KEY(id)
+);
+-- ----------------------------------------------------------
+--  create table sysconfig_deployment
+-- ----------------------------------------------------------
+CREATE TABLE sysconfig_deployment (
+    id serial NOT NULL,
+    comments VARCHAR (250) NULL,
+    user_id INTEGER NULL,
+    effective_value TEXT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+-- ----------------------------------------------------------
 --  create table calendar
 -- ----------------------------------------------------------
 CREATE TABLE calendar (

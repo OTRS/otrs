@@ -1,0 +1,29 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="InnerContent">
+    <form action="[% Env("CGIHandle") %]" method="post" class="AdminSystemConfigurationSearchForm" id="SearchForm">
+        <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+        <input type="hidden" name="Subaction" value="Search"/>
+        <fieldset class="TableLike">
+            <label>[% Translate("Text") | html %]:</label>
+            <div class="Field">
+                <input type="text" name="Search" value="[% Data.SearchTerm | html %]" class="W90pc" />
+            </div>
+            <div class="Clear"></div>
+            <label>[% Translate("Category") | html %]:</label>
+            <div class="Field">
+                [% Data.CategoriesStrg %]
+            </div>
+            <div class="Clear"></div>
+        </fieldset>
+    </form>
+</div>
+<div class="ContentFooter Center">
+    <button id="SearchFormSubmit" class="Primary CallForAction" value="[% Translate("Run search") | html %]"><span><i class="fa fa-search"></i> [% Translate("Run search") | html %]</span></button>
+</div>

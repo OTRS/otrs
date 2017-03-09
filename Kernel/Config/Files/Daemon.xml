@@ -776,4 +776,24 @@
             <String Regex="\d+">300</String> <!-- default 60 * 5 (5 mins)-->
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###ConfigurationDeploymentCleanup" Required="1" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Removes old system configuration deployments (Sunday mornings).</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">ConfigurationDeploymentCleanup</Item>
+                <Item Key="Schedule">40 0 * * 0</Item> <!-- default every Sunday at 12:40 AM -->
+                <Item Key="Module">Kernel::System::SysConfig</Item>
+                <Item Key="Function">ConfigurationDeployCleanup</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
 </otrs_config>

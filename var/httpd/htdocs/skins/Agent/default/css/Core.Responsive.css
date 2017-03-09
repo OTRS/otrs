@@ -1189,14 +1189,12 @@
     /* Breadcrumb */
 
     .BreadCrumb {
-        overflow-x: scroll;
-        padding: 7px 0px;
+        overflow-x: auto;
     }
 
     .BreadCrumb li,
     .BreadCrumb a {
         font-size: 12px;
-        line-height: 20px;
         max-width: none;
         white-space: nowrap;
     }

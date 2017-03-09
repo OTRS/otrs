@@ -1,0 +1,101 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% IF Data.SettingList.size %]
+<ul class="SettingsList">
+[% FOREACH Setting IN Data.SettingList %]
+    <li>
+        <div class="WidgetSimple Expanded Setting [% IF Setting.IsReadonly %]IsReadonly[% END %] [% IF Setting.IsModified %]IsModified[% END %] [% IF Setting.IsDirty %]IsDirty[% END %] [% IF Setting.Locked == 1 %]IsLockedByAnotherUser[% END %] [% IF Setting.ExclusiveLockUserID == Env('UserID') %]IsLockedByMe[% END %]" id="Setting[% Setting.DefaultID %]">
+            <div class="Header">
+                <h2>
+                    <div class="Icon">
+                        <i class="fa fa-ban [% IF Setting.IsValid %]Hidden[% END %]" title="[% Translate("This setting is disabled.") %]"></i>
+                    </div>
+
+                    [% IF Env("Subaction") == 'Invalid' %]
+                    <div class="Icon">
+                        <i class="fa fa-check-circle-o [% IF Setting.Invalid %]Hidden[% END %]" title="[% Translate("This setting is fixed but not deployed yet!") %]"></i>
+                    </div>
+                    [% END %]
+
+                    [% Setting.Name | html %]
+                </h2>
+                <p class="HeaderMessage">
+                [% IF Env("Action") != 'AdminSystemConfigurationGroup' %]
+                    <span>[% Setting.Navigation | html %]</span>
+                [% END %]
+                [% IF Setting.Locked == 1 %]
+                    <span>[% Translate("%s (%s) is currently working on this setting.", Setting.User.UserFullname, Setting.User.UserEmail) | html %]</span>
+                [% END %]
+                </p>
+                <div class="ActionMenu Visible">
+                    <div class="WidgetAction Expand">
+                        <a href="#" title="[% Translate("Toggle advanced options for this setting") %]"><i class="fa fa-bars"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="WidgetMenu">
+                [% IF !Setting.IsRequired %]
+                <a href="#" class="Button SettingEnabled [% IF Setting.IsValid == 0 %]Hidden[% END %]" title="[% Translate("Disable this settings, so it is no longer effective") %]"><i class="fa fa-times"></i> [% Translate("Disable") %]</a>
+                <a href="#" class="Button SettingDisabled [% IF Setting.IsValid == 1 %]Hidden[% END %]" title="[% Translate("Enable this setting, so it becomes effective") %]"><i class="fa fa-check"></i> [% Translate("Enable") %]</a>
+                [% END %]
+
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationSettingHistory;Subaction=ShowSettingHistory;SettingName=[% Setting.Name | uri %]" class="OTRSBusinessRequired SettingHistory Button"><i class="fa fa-clock-o"></i> [% Translate("History") %]</a>
+                <a href="#" class="ResetSetting Button" data-user-modification="[% Setting.UserModificationPossible %]" title="[% Translate("Reset this setting to its default state") %]">
+                    <i class="fa fa-undo"></i>
+                    [% Translate("Reset setting") %]
+                </a>
+                <span href="#" class="Button CopyToClipboard" data-clipboard-text="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.Name | uri %]" title="[% Translate("Copy a direct link to this setting to your clip board") %]"><i class="fa fa-link"></i> [% Translate("Copy direct link") %]</span>
+
+            [% IF Setting.IsFavourite %]
+                <a href="#" class="Button RemoveFromFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Remove this from your favorites setting") %]"><i class="fa fa-star"></i> <span>[% Translate("Remove from favourites") %]</span></a>
+            [% ELSE %]
+                <a href="#" class="Button AddToFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Add this setting to your favorites") %]"><i class="fa fa-star-o"></i> <span>[% Translate("Add to favourites") %]</span></a>
+            [% END %]
+
+                <a href="#" class="Button Right CancelAlias" title="[% Translate("Cancel editing this setting") %]"><i class="fa fa-times"></i> [% Translate("Cancel") %]</a>
+                <a href="#" class="Button Right SaveAlias" title="[% Translate("Save changes on this setting") %]"><i class="fa fa-check"></i> [% Translate("Save") %]</a>
+                <a href="#" class="Button Right EditAlias" title="[% Translate("Edit this setting") %]"><i class="fa fa-pencil-square-o"></i> [% Translate("Edit this setting") %]</a>
+
+            </div>
+
+            <div class="Content">
+                [% IF Setting.Locked == 1 %]
+                <div class="LockedByAnotherUser"></div>
+                [% END %]
+
+                <a href="#" title="[% Translate("Edit this setting") | html %]" class="SettingEdit" data-name="[% Setting.Name | html %]" data-id="[% Setting.DefaultID | html %]">
+                    <button class="CallForAction" aria-controls="fieldset[% Setting.DefaultID | html %]"><span><i class="fa fa-pencil-square-o"></i> [% Translate("Edit this setting") | html %]</span></button>
+                </a>
+
+                <div class="SettingWrapper">
+                    <form autocomplete="off">
+                        <div class="SettingContainer">
+                            <input type="hidden" name="SettingName" value="[% Setting.Name | html %]" />
+                            <fieldset class="TableLike FixedLabel" role="region" aria-live="polite" id="fieldset[% Setting.DefaultID | html %]">
+                                [% Setting.HTMLStrg %]
+                            </fieldset>
+                        </div>
+                    </form>
+                    <div class="SettingDescription">
+                        [% Translate(Setting.Description) | html %]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+[% END %]
+</ul>
+[% ELSE %]
+<div class="WidgetSimple">
+    <div class="Content">
+        <p class="Center">[% Translate("This group doesn't contain any settings. Please try navigating to one of its sub groups or another group.") | html %]</p>
+    </div>
+</div>
+[% END %]

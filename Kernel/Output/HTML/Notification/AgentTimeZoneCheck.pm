@@ -45,7 +45,7 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     return $LayoutObject->Notify(
         Priority => 'Notice',
-        Link     => $LayoutObject->{Baselink} . 'Action=AgentPreferences',
+        Link     => $LayoutObject->{Baselink} . 'Action=AgentPreferences;Subaction=Group;Group=UserProfile',
         Info     => Translatable('Please select a time zone in your preferences and confirm it by clicking "Update".'),
     );
 }

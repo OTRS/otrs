@@ -99,6 +99,22 @@ Core.UI.Autocomplete = (function (TargetNS) {
         return Config;
     }
 
+    // Override the autocomplete render function to highlight the part of the match
+    // which matches the search term.
+    $.ui.autocomplete.prototype._renderItem = function(ul, item) {
+
+        var Regex = new RegExp("(" + this.term + ")", "i"),
+            Label = Core.App.EscapeHTML(item.label);
+
+        // Mark matches with strong tag.
+        Label = Label.replace(Regex, "<strong>$1</strong>");
+
+        return $('<li></li>')
+            .data('item.autocomplete', item)
+            .append('<a class="AutocompleteMatch">' + Label + '</a>')
+            .appendTo(ul);
+     };
+
     /**
      * @name GetConfig
      * @memberof Core.UI.Autocomplete

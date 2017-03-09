@@ -6,65 +6,107 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+[% SET global.ClassicPreferenceCounter = 0 %]
+
 [% RenderBlockStart("Body") %]
-<div class="MainBox ARIARoleMain PreferencesScreen">
+<div class="MainBox LayoutFixedSidebar SidebarFirst ARIARoleMain">
 
     <h1 class="InvisibleText">[% Translate("Edit your preferences") | html %]</h1>
 
-    <div class="LayoutGrid ColumnsWithSpacing">
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Personal Preferences'),
+                Link => Env("Action") _ ";EditUserID=" _ Data.CurrentUserID,
+            },
+            {
+                Name => Translate(Data.GroupName),
+                Link => Env("Action") _ ";Subaction=Group;Group=" _ Data.GroupKey _ ";EditUserID=" _ Data.CurrentUserID,
+            },
+        ]
+    %]
+    [% FOREACH Item IN Data.Path %]
+        [% BreadcrumbPath.push({ Name => Item.Name, Link => 'AgentPreferences;Subaction=Group;Group=Advanced;RootNavigation=' _ Item.Value }) %]
+    [% END %]
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = 'Agent' %]
 
-[% RenderBlockStart("Column") %]
-        <div class="Size1of3">
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
-                    </div>
-                    <h2>[% Translate(Data.Header) | html %]</h2>
+    <input type="hidden" id="Group" value="[% Data.GroupKey %]" />
+    <input type="hidden" id="CurrentUserID" value="[% Data.CurrentUserID %]" />
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Preferences") | html %]</h2>
+            </div>
+            <div class="Content">
+                [% IF Data.CurrentUserIDNotice %]
+                <div class="WidgetMessage Top Warning">
+                    <p>[% Translate("Warning! You're currently not editing your own preferences, but those of %s.", Data.CurrentUserFullname) | html %]</p>
                 </div>
-                <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminUser;Subaction=Change;UserID=[% Data.CurrentUserID | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back to editing this agent") | html %]</span></a>
+                    </li>
+                </ul>
+                [% ELSE %]
+                <p class="FieldExplanation">
+                    [% Translate("Set up your personal preferences. Save each setting by clicking the checkmark on the right.") | html %]
+                </p>
+                [% END %]
+            </div>
+        </div>
 
-[% RenderBlockStart("Item") %]
-                    <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" class="Validate">
-                        <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-                        <input type="hidden" name="Subaction" value="Update"/>
-                        <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
+        <div class="WidgetSimple StickyElement [% IF Env("UserWidgetState_SystemConfiguration_Sticky") == 0 %]Collapsed[% END %]" id="UserWidgetState_SystemConfiguration_Sticky">
+            <div class="Header">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                </div>
+                <h2>[% Translate("Dynamic Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="text" autocomplete="off" id="FilterSettings" class="FilterBox" placeholder="[% Translate("Filter settings...") | html %]" name="FilterSettings" value="" title="[% Translate("Filter for settings") | html %]">
+                <ul class="ActionList">
+                    <li>
+                        <a href="#" id="SaveAll" class="CallForAction Fullsize Center"><span><i class="fa fa-check"></i>[% Translate("Save all settings") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-                        <div class="WidgetSimple">
-                            <div class="Header"><h2>[% Translate(Data.Label) | html %]</h2></div>
-                            <div class="Content">
-                            [% IF Data.Desc %]
-                                <p class="FieldExplanation">
-                                    [% Translate(Data.Desc) | html %]
-                                </p>
-                            [% END %]
+    <div class="ContentColumn">
+
+        <ul class="SettingsList Preferences">
+        [% RenderBlockStart("Item") %]
+            [% SET global.ClassicPreferenceCounter = 1 %]
+            <li>
+                <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" class="Validate">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="UpdateAJAXComplex"/>
+                    <input type="hidden" name="EditUserID" value="[% Data.EditUserID | html %]"/>
+                    <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
+
+                    <div class="WidgetSimple Setting PreferenceClassic IsLockedByMe">
+                        <div class="Header"><h2><label for="[% Data.PrefKey | html %]">[% Translate(Data.Label) | html %]</label></h2></div>
+                        <div class="Content">
+
+                            <div class="SettingWrapper">
                                 <fieldset class="TableLike">
-[% RenderBlockStart("Block") %]
-[% RenderBlockStart("InputKey") %]
+    [% RenderBlockStart("Block") %]
+    [% RenderBlockStart("InputKey") %]
                                     <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
                                     <div class="Field">
                                         <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
                                     </div>
                                     <div class="Clear"></div>
-[% RenderBlockStart("InputKeySingleBlock") %]
-                                    <div class="Field ButtonOnly">
-                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
-                                    </div>
-[% RenderBlockEnd("InputKeySingleBlock") %]
-[% RenderBlockEnd("InputKey") %]
-[% RenderBlockStart("Input") %]
+    [% RenderBlockEnd("InputKey") %]
+    [% RenderBlockStart("Input") %]
                                     <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
                                     <div class="Field">
                                         <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
                                     </div>
                                     <div class="Clear"></div>
-[% RenderBlockStart("InputSingleBlock") %]
-                                    <div class="Field ButtonOnly">
-                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
-                                    </div>
-[% RenderBlockEnd("InputSingleBlock") %]
-[% RenderBlockEnd("Input") %]
-[% RenderBlockStart("Option") %]
+    [% RenderBlockEnd("Input") %]
+    [% RenderBlockStart("Option") %]
                                 [% IF Data.Key %]
                                     <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
                                 [% END %]
@@ -72,18 +114,8 @@
                                         [% Data.Option %]
                                     </div>
                                     <div class="Clear"></div>
-                                [% IF Data.Label == 'Language' %]
-                                    <div class="FieldExplanation Language Center">
-                                        [% Translate("Did you know? You can help translating OTRS at %s.", '<a href="https://www.transifex.com/otrs/OTRS/" target="_blank">Transifex</a>') %]
-                                    </div>
-                                [% END %]
-[% RenderBlockStart("OptionSingleBlock") %]
-                                    <div class="Field ButtonOnly">
-                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
-                                    </div>
-[% RenderBlockEnd("OptionSingleBlock") %]
-[% RenderBlockEnd("Option") %]
-[% RenderBlockStart("Upload") %]
+    [% RenderBlockEnd("Option") %]
+    [% RenderBlockStart("Upload") %]
                                     <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
                                     <div class="Field">
                                         <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="file" size="20" class="fixed"/>
@@ -91,25 +123,15 @@
                                         <a href="">[% Data.Filename | html %]</a>
                                     </div>
                                     <div class="Clear"></div>
-[% RenderBlockStart("UploadSingleBlock") %]
-                                    <div class="Field ButtonOnly">
-                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
-                                    </div>
-[% RenderBlockEnd("UploadSingleBlock") %]
-[% RenderBlockEnd("Upload") %]
-[% RenderBlockStart("Password") %]
+    [% RenderBlockEnd("Upload") %]
+    [% RenderBlockStart("Password") %]
                                     <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
                                     <div class="Field">
                                         <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="password" autocomplete="off"/>
                                     </div>
                                     <div class="Clear"></div>
-[% RenderBlockStart("PasswordSingleBlock") %]
-                                    <div class="Field ButtonOnly">
-                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
-                                    </div>
-[% RenderBlockEnd("PasswordSingleBlock") %]
-[% RenderBlockEnd("Password") %]
-[% RenderBlockStart("OutOfOffice") %]
+    [% RenderBlockEnd("Password") %]
+    [% RenderBlockStart("OutOfOffice") %]
                                     <div class="Row OutOfOffice">
                                         <p class="FieldExplanation">[% Translate(Data.Key) | html %]</p>
                                         <label>[% Translate("Active") | html %]:</label>
@@ -131,39 +153,48 @@
                                         </div>
                                         <div class="Clear"></div>
                                     </div>
-[% RenderBlockStart("OutOfOfficeSingleBlock") %]
-                                    <div class="Field ButtonOnly">
-                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
-                                    </div>
-[% RenderBlockEnd("OutOfOfficeSingleBlock") %]
-[% RenderBlockEnd("OutOfOffice") %]
-[% RenderBlockStart("RawHTML") %]
+    [% RenderBlockEnd("OutOfOffice") %]
+    [% RenderBlockStart("RawHTML") %]
                                     <div class="Field NoMargin">
                                         [% Data.HTML %]
                                     </div>
                                     <div class="Clear"></div>
-[% RenderBlockStart("RawHTMLSingleBlock") %]
-                                    <div class="Field ButtonOnly">
-                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
+    [% RenderBlockEnd("RawHTML") %]
+    [% RenderBlockEnd("Block") %]
+
+                                    <div class="SettingUpdateBox">
+                                        <button class="CallForAction Update" type="button" value="[% Translate("Save this setting") | html %]" title="[% Translate("Save this setting") | html %]">
+                                            <span><i class="fa fa-check"></i></span>
+                                        </button>
                                     </div>
-[% RenderBlockEnd("RawHTMLSingleBlock") %]
-[% RenderBlockEnd("RawHTML") %]
-[% RenderBlockEnd("Block") %]
-[% RenderBlockStart("MultipleBlocks") %]
-                                    <div class="Field ButtonOnly">
-                                        <button type="submit" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
-                                    </div>
-[% RenderBlockEnd("MultipleBlocks") %]
+
                                 </fieldset>
+
+                                <div class="SettingDescription">
+                                    [% Translate(Data.Desc) | html %]
+                                [% IF Data.Label == 'Language' %]
+                                    [% Translate("Did you know? You can help translating OTRS at %s.", '<a href="https://www.transifex.com/otrs/OTRS/" target="_blank">Transifex</a>') %]
+                                [% END %]
+                                </div>
                             </div>
                         </div>
-                    </form>
-[% RenderBlockEnd("Item") %]
-                </div>
+                    </div>
+                </form>
+            </li>
+        [% RenderBlockEnd("Item") %]
+            [% IF Data.SettingList.size() %]
+                [% INCLUDE "AgentPreferences/SettingsList.tt" %]
+            [% END %]
+        </ul>
+
+    [% IF !global.ClassicPreferenceCounter && !Data.SettingList.size() %]
+        <div class="WidgetSimple">
+            <div class="Content">
+                <p class="Center">[% Translate("This group doesn't contain any settings. Please try navigating to one of its sub groups.") | html %]</p>
             </div>
         </div>
-[% RenderBlockEnd("Column") %]
-        <div class="Clear"></div>
+    [% END %]
+
     </div>
 </div>
 [% RenderBlockEnd("Body") %]

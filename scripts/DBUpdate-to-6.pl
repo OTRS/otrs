@@ -86,12 +86,32 @@ Please run it as the 'otrs' user or with the help of su:
     # define tasks and their messages
     my @Tasks = (
         {
-            Message => 'Refresh configuration cache',
-            Command => \&RebuildConfig,
-        },
-        {
             Message => 'Check framework version',
             Command => \&_CheckFrameworkVersion,
+        },
+        {
+            Message => 'Migrate configuration',
+            Command => \&_MigrateConfigEffectiveValues,
+        },
+        {
+            Message => 'Refresh configuration cache after migration of OTRS 5 settings.',
+            Command => sub {
+                RebuildConfig(
+                    Comments => 'Configuration Rebuild after migration of OTRS 5 settings',
+                );
+            },
+        },
+        {
+            Message => 'Create appointment calendar tables',
+            Command => \&_CreateAppointmentCalendarTables,
+        },
+        {
+            Message => 'Update calendar appointment future tasks',
+            Command => \&_UpdateAppointmentCalendarFutureTasks,
+        },
+        {
+            Message => 'Add basic appointment notification for reminders',
+            Command => \&_AddAppointmentCalendarNotification,
         },
         {
             Message => 'Drop deprecated table gi_object_lock_state',
@@ -104,6 +124,10 @@ Please run it as the 'otrs' user or with the help of su:
         {
             Message => 'Migrating time zone configuration',
             Command => \&_MigrateTimeZoneConfiguration,
+        },
+        {
+            Message => 'Uninstall Merged Feature Add-Ons',
+            Command => \&_UninstallMergedFeatureAddOns,
         },
         {
             Message => 'Create appointment calendar tables',
@@ -174,11 +198,34 @@ after the upgrade.
 
 sub RebuildConfig {
 
+    my (%Param) = @_;
+
     my $SysConfigObject = Kernel::System::SysConfig->new();
 
+    # Convert XML files to entries in the database
+    if (
+        !$SysConfigObject->ConfigurationXML2DB(
+            CleanUp => 1,
+            Force   => 1,
+            UserID  => 1,
+        )
+        )
+    {
+        die "There was a problem writing XML to DB.";
+    }
+
     # Rebuild ZZZAAuto.pm with current values
-    if ( !$SysConfigObject->WriteDefault() ) {
-        die "Error: Can't write default config files!";
+    if (
+        !$SysConfigObject->ConfigurationDeploy(
+            Comments => $Param{Comments} || "Configuration Rebuild",
+            AllSettings  => 1,
+            Force        => 1,
+            NoValidation => 1,
+            UserID       => 1,
+        )
+        )
+    {
+        die "There was a problem writing ZZZAAuto.pm.";
     }
 
     # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new values
@@ -188,7 +235,6 @@ sub RebuildConfig {
         }
     }
 
-    # reload config object
     print "\nIf you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
 
     # create common objects with new default config
@@ -315,13 +361,14 @@ sub _DropObjectLockState {
 
 =item _MigratePossibleNextActions()
 
-The seetting "PossibleNextActions" was changed in OTRS 6. Make sure that it is adopted also for systems
+The setting "PossibleNextActions" was changed in OTRS 6. Make sure that it is adopted also for systems
   that had this setting locally modified. Basically keys and values have be swapped, but only once.
 
 =cut
 
 sub _MigratePossibleNextActions {
-    my $PossibleNextActions = $Kernel::OM->Get('Kernel::Config')->Get('PossibleNextActions') || {};
+    my $SettingName = 'PossibleNextActions';
+    my $PossibleNextActions = $Kernel::OM->Get('Kernel::Config')->Get($SettingName) || {};
 
     # create a lookup array to no not modify the looping variable
     my @Actions = sort keys %{ $PossibleNextActions // {} };
@@ -350,11 +397,62 @@ sub _MigratePossibleNextActions {
 
     return 1 if !$Updated;
 
-    my $Success = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'PossibleNextActions',
-        Value => $PossibleNextActions,
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+        Name   => $SettingName,
+        Force  => 1,
+        UserID => 1,
     );
+
+    my %Result = $SysConfigObject->SettingUpdate(
+        Name              => $SettingName,
+        IsValid           => 1,
+        EffectiveValue    => $PossibleNextActions,
+        ExclusiveLockGUID => $ExclusiveLockGUID,
+        UserID            => 1,
+    );
+
+    return $Result{Success};
+}
+
+=item _MigrateConfigEffectiveValues()
+
+Migrate the configs effective values to the new format for OTRS 6.
+
+=cut
+
+sub _MigrateConfigEffectiveValues {
+
+    # Move and rename ZZZAuto.pm from OTRS 5 away from Kernel/Config/Files
+    my ( $FileClass, $FilePath ) = _MoveZZZAuto();
+
+    # check error
+    if ( !$FilePath ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not find Kernel/Config/File/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm!",
+        );
+        return;
+    }
+
+    # Rebuild config to read the xml config files from otrs 6 to write them
+    # to the database and deploy them to ZZZAAuto.pm
+    RebuildConfig();
+
+    print "\nIf you see errors about 'Setting ... is invalid', that's fine, no need to worry!\n";
+    print "This could hapen because some config settings are no longer needed for OTRS 6\n";
+    print "or you may have some packages installed, which will be migrated\n";
+    print "in a later step (during the package upgrade).\n";
+
+    print "The configuration migration can take some time, please be patient.\n\n";
+
+    # migrate the effective values from modified settings in OTRS 5 to OTRS 6
+    my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
+        FileClass => $FileClass,
+        FilePath  => $FilePath,
+    );
+
     return $Success;
 }
 
@@ -478,14 +576,23 @@ sub _ConfigureTimeZone {
         TimeZones => $Param{TimeZones},
     );
 
-    # Set OTRSTimeZone
-    my $Success = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
-        Valid => 1,
-        Key   => $Param{ConfigKey},
-        Value => $TimeZone,
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+        Name   => $Param{ConfigKey},
+        Force  => 1,
+        UserID => 1,
     );
 
-    return $Success;
+    my %Result = $SysConfigObject->SettingUpdate(
+        Name              => $Param{ConfigKey},
+        IsValid           => 1,
+        EffectiveValue    => $TimeZone,
+        ExclusiveLockGUID => $ExclusiveLockGUID,
+        UserID            => 1,
+    );
+
+    return $Result{Success};
 }
 
 sub _AskForTimeZone {
@@ -513,6 +620,69 @@ sub _AskForTimeZone {
     }
 
     return $TimeZone;
+}
+
+sub _MoveZZZAuto {
+
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+    # define old location of ZZZAuto.pm and file class name
+    my $OldLocation  = "$Home/Kernel/Config/Files/ZZZAuto.pm";
+    my $OldFileClass = 'Kernel::Config::Files::ZZZAuto';
+
+    # define backup directory, new location of ZZZAuto.pm (renamed to ZZZAutoOTRS5.pm)
+    # and new file class
+    my $BackupDirectory = "$Home/Kernel/Config/Backups";
+    my $NewLocation     = "$BackupDirectory/ZZZAutoOTRS5.pm";
+    my $NewFileClass    = 'Kernel::Config::Backups::ZZZAutoOTRS5';
+
+    # ZZZAuto.pm file does not exist
+    if ( !-e $OldLocation ) {
+
+        # but Kernel/Config/Backups/ZZZAutoOTRS5.pm exists already
+        return ( $NewFileClass, $NewLocation ) if -e $NewLocation;
+
+        # error
+        return;
+    }
+
+    # check if backup directory exists
+    if ( !-d $BackupDirectory ) {
+
+        # we try to create it
+        if ( !mkdir $BackupDirectory ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not create directory $BackupDirectory!",
+            );
+            return;
+        }
+    }
+
+    # move it to new location and rename it
+    system("mv $OldLocation $NewLocation");
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # read the content of the file
+    my $ContentSCALARRef = $MainObject->FileRead(
+        Location => $NewLocation,
+    );
+
+    # rename the package name inside the file
+    ${$ContentSCALARRef} =~ s{^package $OldFileClass;$}{package $NewFileClass;}ms;
+
+    # write content back to file
+    my $FileLocation = $MainObject->FileWrite(
+        Location   => $NewLocation,
+        Content    => $ContentSCALARRef,
+        Mode       => 'utf8',
+        Permission => '644',
+    );
+
+    return ( $NewFileClass, $FileLocation );
+
+    # return 1;
 }
 
 =item _CreateAppointmentCalendarTables()

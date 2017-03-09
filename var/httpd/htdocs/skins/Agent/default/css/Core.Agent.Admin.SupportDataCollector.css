@@ -36,6 +36,8 @@
     padding: 10px;
     width: 350px;
     min-height: 150px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .AdminSupportDataCollector .CheckResults > li h3.Heading {

@@ -43,6 +43,11 @@
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
+[% RenderBlockStart("ActionEditPreferences") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentPreferences;EditUserID=[% Data.UserID %]" class="CallForAction Fullsize Center"><span><i class="fa fa-user"></i>[% Translate("Edit personal preferences for this agent") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionEditPreferences") %]
 [% RenderBlockStart("ActionSearch") %]
                     <li>
                         <form class="SearchBox" action="[% Env("CGIHandle") %]" method="post">
@@ -255,78 +260,6 @@
                         </div>
                         <div class="Clear"></div>
 
-[% RenderBlockStart("Item") %]
-[% RenderBlockStart("InputKey") %]
-                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
-                        <div class="Field">
-                            <input type="text" name="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" class="W50pc"/>
-                        </div>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("InputKey") %]
-[% RenderBlockStart("Input") %]
-                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %]:</label>
-                        <div class="Field">
-                            <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" class="W50pc"/>
-                            <p class="FieldExplanation">
-                                [% Translate(Data.Desc) | html %]
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("Input") %]
-[% RenderBlockStart("Option") %]
-                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %]:</label>
-                        <div class="Field">
-                            [% Data.Option %]
-                            <p class="FieldExplanation">
-                                [% Translate(Data.Key) | html %]
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("Option") %]
-[% RenderBlockStart("Upload") %]
-                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]</label>
-                        <div class="Field">
-                            <input name="[% Data.Name | html %]" type="file" size="30" class="fixed"/><br/>
-                            <a href="">[% Data.Filename | html %]</a>
-                        </div>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("Upload") %]
-[% RenderBlockStart("Password") %]
-                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
-                        <div class="Field">
-                            <input type="password" name="[% Data.Name | html %]" value="" class="W50pc" autocomplete="off" />
-                        </div>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("Password") %]
-[% RenderBlockStart("OutOfOffice") %]
-                        <label>[% Translate(Data.Label) | html %]:</label>
-                        <div class="Field">
-                            <p>
-                                <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" [% Data.OutOfOfficeOn %] />
-                                <label for="OutOfOfficeOn">[% Translate("On") | html %]</label>
-                                <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" [% Data.OutOfOfficeOff %] />
-                                <label for="OutOfOfficeOff">[% Translate("Off") | html %]</label>
-                            </p>
-                            <p class="SpacingTopSmall">
-                                [% Translate("Start") | html %]: [% Data.OptionStart %]
-                            </p>
-                            <p class="SpacingTopSmall">
-                                [% Translate("End") | html %]: [% Data.OptionEnd %]
-                            </p>
-                            <p class="FieldExplanation">
-                                [% Translate(Data.Desc) | html %]
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("OutOfOffice") %]
-[% RenderBlockStart("RawHTML") %]
-                        <label>[% Translate(Data.Label) | html %]:</label>
-                        <div class="Field">
-                            [% Data.HTML %]
-                        </div>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("RawHTML") %]
-[% RenderBlockEnd("Item") %]
                         <div class="Field SpacingTop">
                             [% IF Data.Action == 'Change' %]
                                 <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>

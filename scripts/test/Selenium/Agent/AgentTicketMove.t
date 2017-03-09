@@ -68,13 +68,12 @@ $Selenium->RunTest(
         for my $SysConfigUpdate (@SysConfigData) {
 
             # enable menu module and modify destination link
-            my %MenuModuleConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+            my %MenuModuleConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
                 Name    => $SysConfigUpdate->{MenuModule},
                 Default => 1,
             );
-            my %MenuModuleConfigUpdate = map { $_->{Key} => $_->{Content} }
-                grep { defined $_->{Key} } @{ $MenuModuleConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
+            my %MenuModuleConfigUpdate = %{ $MenuModuleConfig{EffectiveValue} };
             $MenuModuleConfigUpdate{Link} =~ s/$SysConfigUpdate->{OrgQueueLink}/$SysConfigUpdate->{TestQueueLink}/g;
 
             $Helper->ConfigSettingChange(

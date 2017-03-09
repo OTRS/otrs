@@ -1,0 +1,40 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="WidgetSimple [% IF Env("UserWidgetState_SystemConfiguration_Actions") == 0 %]Collapsed[% END %]" id="UserWidgetState_SystemConfiguration_Actions">
+    <div class="Header">
+        <div class="WidgetAction Toggle">
+            <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+        </div>
+        <h2>[% Translate("Actions") | html %]</h2>
+    </div>
+    <div class="Content">
+        <ul class="ActionList">
+[% IF Env("LastEntityType") %]
+            <li>
+                <a href="[% Env("Baselink") %][% Env("LastScreenEntity") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back to admin: ") | html %][% Translate( Env("LastEntityType") ) | html %]</span></a>
+            </li>
+[% END %]
+            <li>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationDeployment;Subaction=Deployment" class="CallForAction Fullsize Center"><span><i class="fa fa-rocket"></i>[% Translate("Deployment") | html %]</span></a>
+            </li>
+            <li>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=SearchLocked" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Settings I'm currently editing") | html %]</span></a>
+            </li>
+            <li>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=Favourites" class="CallForAction Fullsize Center"><span><i class="fa fa-star"></i>[% Translate("My favourite settings") | html %]</span></a>
+            </li>
+            <li>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=Invalid" class="CallForAction Fullsize Center"><span><i class="fa fa-ban"></i>[% Translate("Invalid settings") | html %]</span></a>
+            </li>
+            <li>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=ImportExport" class="CallForAction Fullsize Center"><span><i class="fa fa-exchange"></i>[% Translate("Import & Export") | html %]</span></a>
+            </li>
+        </ul>
+    </div>
+</div>

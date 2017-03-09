@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * This file is for testing development purpose only!
+-->
+<otrs_config version="2.0" init="Application">
+   <Setting Name="TestAoAoA" Required="1" Valid="1">
+        <Description Translatable="1">Test AoAoA.</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem>
+                            <Array>
+                                <Item></Item>
+                            </Array>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item>
+                    <Array>
+                        <Item>
+                            <Array>
+                                <Item>1</Item>
+                                <Item>2</Item>
+                            </Array>
+                        </Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item>
+                            <Array>
+                                <Item>3</Item>
+                                <Item>4</Item>
+                            </Array>
+                        </Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoAoAEntity" Required="1" Valid="1">
+        <Description Translatable="1">Test AoAoA of entities (State).</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem>
+                            <Array>
+                                <DefaultItem ValueType="Entity" ValueEntityType="State"></DefaultItem>
+                            </Array>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item>
+                    <Array>
+                        <Item>
+                            <Array>
+                                <Item>new</Item>
+                                <Item>open</Item>
+                            </Array>
+                        </Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item>
+                            <Array>
+                                <Item>closed successful</Item>
+                                <Item>merged</Item>
+                            </Array>
+                        </Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoAoH" Required="1" Valid="1">
+        <Description Translatable="1">Test AoAoH.</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem>
+                            <Hash>
+                                <Item></Item>
+                            </Hash>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item>
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="One">1</Item>
+                                <Item Key="Two">2</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="Three">3</Item>
+                                <Item Key="Four">4</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoAoHEntity" Required="1" Valid="1">
+        <Description Translatable="1">Test AoAoH of entities (State).</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem>
+                            <Hash>
+                                <DefaultItem ValueType="Entity" ValueEntityType="State"></DefaultItem>
+                            </Hash>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item>
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="One">new</Item>
+                                <Item Key="Two">open</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="Three">closed successful</Item>
+                                <Item Key="Four">merged</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoHoA" Required="1" Valid="1">
+        <Description Translatable="1">Test AoHoA.</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem>
+                            <Array>
+                                <Item></Item>
+                            </Array>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="One">
+                            <Array>
+                                <Item>1</Item>
+                                <Item>2</Item>
+                            </Array>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Two">
+                            <Array>
+                                <Item>3</Item>
+                                <Item>4</Item>
+                            </Array>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoHoAEntity" Required="1" Valid="1">
+        <Description Translatable="1">Test AoHoA of entities (State).</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem>
+                            <Array>
+                                <DefaultItem ValueType="Entity" ValueEntityType="State"></DefaultItem>
+                            </Array>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="One">
+                            <Array>
+                                <Item>new</Item>
+                                <Item>open</Item>
+                            </Array>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Two">
+                            <Array>
+                                <Item>closed successful</Item>
+                                <Item>merged</Item>
+                            </Array>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoHoH" Required="1" Valid="1">
+        <Description Translatable="1">Test AoHoH.</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem>
+                            <Hash>
+                                <Item></Item>
+                            </Hash>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="One">
+                            <Hash>
+                                <Item Key="1st">1</Item>
+                                <Item Key="2nd">2</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Two">
+                            <Hash>
+                                <Item Key="3th">3</Item>
+                                <Item Key="4th">4</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoHoHEntity" Required="1" Valid="1">
+        <Description Translatable="1">Test AoHoH of entities (State).</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem>
+                            <Hash>
+                                <DefaultItem ValueType="Entity" ValueEntityType="State"></DefaultItem>
+                            </Hash>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="One">
+                            <Hash>
+                                <Item Key="1st">new</Item>
+                                <Item Key="2nd">open</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Two">
+                            <Hash>
+                                <Item Key="3th">closed successful</Item>
+                                <Item Key="4th">merged</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoAoA" Required="1" Valid="1">
+        <Description Translatable="1">Test HoAoA.</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem>
+                            <Array>
+                                <Item></Item>
+                            </Array>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item Key="First">
+                    <Array>
+                        <Item>
+                            <Array>
+                                <Item>1</Item>
+                                <Item>2</Item>
+                            </Array>
+                        </Item>
+                    </Array>
+                </Item>
+                <Item Key="Second">
+                    <Array>
+                        <Item>
+                            <Array>
+                                <Item>3</Item>
+                                <Item>4</Item>
+                            </Array>
+                        </Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoAoAEntity" Required="1" Valid="1">
+        <Description Translatable="1">Test HoAoA of entities (State).</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem>
+                            <Array>
+                                <DefaultItem ValueType="Entity" ValueEntityType="State"></DefaultItem>
+                            </Array>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item Key="First">
+                    <Array>
+                        <Item>
+                            <Array>
+                                <Item>new</Item>
+                                <Item>open</Item>
+                            </Array>
+                        </Item>
+                    </Array>
+                </Item>
+                <Item Key="Second">
+                    <Array>
+                        <Item>
+                            <Array>
+                                <Item>closed successful</Item>
+                                <Item>merged</Item>
+                            </Array>
+                        </Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoAoH" Required="1" Valid="1">
+        <Description Translatable="1">Test HoAoH.</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem>
+                            <Hash>
+                                <Item></Item>
+                            </Hash>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item Key="First">
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="1st">1</Item>
+                                <Item Key="2nd">2</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+                <Item Key="Second">
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="3th">3</Item>
+                                <Item Key="4th">4</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoAoHEntity" Required="1" Valid="1">
+        <Description Translatable="1">Test HoAoH of entities (State).</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem>
+                            <Hash>
+                                <DefaultItem ValueType="Entity" ValueEntityType="State"></DefaultItem>
+                            </Hash>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item Key="First">
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="1st">new</Item>
+                                <Item Key="2nd">open</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+                <Item Key="Second">
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="3th">closed successful</Item>
+                                <Item Key="4th">merged</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoHoA" Required="1" Valid="1">
+        <Description Translatable="1">Test HoHoA.</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem>
+                            <Array>
+                                <Item></Item>
+                            </Array>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="First">
+                    <Hash>
+                        <Item Key="1st">
+                            <Array>
+                                <Item>1</Item>
+                                <Item>2</Item>
+                            </Array>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item Key="Second">
+                    <Hash>
+                        <Item Key="2nd">
+                            <Array>
+                                <Item>3</Item>
+                                <Item>4</Item>
+                            </Array>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoHoAEntity" Required="1" Valid="1">
+        <Description Translatable="1">Test HoHoA of entities (State).</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem>
+                            <Array>
+                                <DefaultItem ValueType="Entity" ValueEntityType="State"></DefaultItem>
+                            </Array>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="First">
+                    <Hash>
+                        <Item Key="1st">
+                            <Array>
+                                <Item>new</Item>
+                                <Item>open</Item>
+                            </Array>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item Key="Second">
+                    <Hash>
+                        <Item Key="2nd">
+                            <Array>
+                                <Item>closed successful</Item>
+                                <Item>merged</Item>
+                            </Array>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoHoH" Required="1" Valid="1">
+        <Description Translatable="1">Test HoHoH.</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem>
+                            <Hash>
+                                <Item></Item>
+                            </Hash>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="First">
+                    <Hash>
+                        <Item Key="1st">
+                            <Hash>
+                                <Item Key="1">1</Item>
+                                <Item Key="2">2</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item Key="Second">
+                    <Hash>
+                        <Item Key="2nd">
+                            <Hash>
+                                <Item Key="3">3</Item>
+                                <Item Key="4">4</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoHoHEntity" Required="1" Valid="1">
+        <Description Translatable="1">Test HoHoH of entities (State).</Description>
+        <Navigation>TestComplex3th</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem>
+                            <Hash>
+                                <DefaultItem ValueType="Entity" ValueEntityType="State"></DefaultItem>
+                            </Hash>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="First">
+                    <Hash>
+                        <Item Key="1st">
+                            <Hash>
+                                <Item Key="1">new</Item>
+                                <Item Key="2">open</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item Key="Second">
+                    <Hash>
+                        <Item Key="2nd">
+                            <Hash>
+                                <Item Key="3">closed successful</Item>
+                                <Item Key="4">merged</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+</otrs_config>

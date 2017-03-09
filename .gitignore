@@ -15,6 +15,7 @@
 doc/manual/en
 doc/en/otrs_business_solution_book.pdf
 Kernel/Config/Files/ZZZ*.pm
+Kernel/Config/Files/User/*
 Kernel/Config/GenericAgent.pm
 Kernel/Config.pm
 Kernel/Language/*.old
@@ -56,6 +57,7 @@ Kernel/Output/HTML/Fred/*
 Kernel/Output/HTML/Templates/Standard/DevelFred*
 Kernel/Config/Files/AAAFred.pm
 Kernel/Config/Files/Fred.xml
+Kernel/Config/Files/XML/Fred.xml
 Kernel/Modules/DevelFred.pm
 Kernel/System/Fred
 var/fred
@@ -89,11 +91,14 @@ CHANGES-OTRSBusiness.md
 doc/*/OTRSBusiness.*
 i18n/OTRSBusiness
 Kernel/Config/Files/OTRSBusiness.xml
+Kernel/Config/Files/XML/OTRSBusiness.xml
 Kernel/Language/*OTRSBusiness.pm
 Kernel/Modules/AdminCloudServiceSMS.pm
 Kernel/Modules/*Chat*
 Kernel/Modules/*ContactWithData*
 Kernel/Modules/*DynamicFieldDatabase*
+Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
+Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 Kernel/Modules/AgentAppointmentResourceOverview.pm
 Kernel/Modules/AgentAppointmentTeam.pm
 Kernel/Modules/AgentAppointmentTeamList.pm
@@ -124,6 +129,9 @@ Kernel/Output/HTML/Templates/Standard/AdminChatChannel.tt
 Kernel/Output/HTML/Templates/Standard/AdminChatChannelRole.tt
 Kernel/Output/HTML/Templates/Standard/AdminCloudServiceSMS.tt
 Kernel/Output/HTML/Templates/Standard/AdminNotificationEventTransportSMSSettings.tt
+Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationDeploymentHistory.tt
+Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationDeploymentHistoryDetails.tt
+Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationSettingHistoryDetails.tt
 Kernel/Output/HTML/Templates/Standard/AgentAppointmentResourceOverview.tt
 Kernel/Output/HTML/Templates/Standard/AgentAppointmentTeam.tt
 Kernel/Output/HTML/Templates/Standard/AgentAppointmentTeamUser.tt
@@ -137,6 +145,7 @@ Kernel/Output/HTML/Templates/Standard/AgentTicketAttachmentView.tt
 Kernel/Output/HTML/Templates/Standard/AgentVideoChat.tt
 Kernel/Output/HTML/Templates/Standard/CustomerChat.tt
 Kernel/Output/HTML/Templates/Standard/CustomerVideoChat.tt
+Kernel/Output/HTML/Templates/Standard/SystemConfiguration/SettingHistoryListCompare.tt
 Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/Business.tt
 Kernel/Output/HTML/Templates/Standard/PublicChat.tt
 Kernel/Output/JavaScript/Templates/Standard/Agent/AppointmentCalendar/ResourceSettingsDialog.html.tmpl
@@ -144,6 +153,7 @@ Kernel/Output/JavaScript/Templates/Standard/Agent/OTRSBusiness/*
 Kernel/Output/HTML/TicketMenu/AttachmentView.pm
 Kernel/Output/HTML/ToolBar/*Chat*
 Kernel/Output/HTML/ToolBar/NotificationView.pm
+Kernel/Output/JavaScript/Templates/Standard/Agent/ResourceSettingsDialog.html.tmpl
 Kernel/Output/PDF/StatisticsReports*
 Kernel/System/Calendar/Event/Transport/NotificationView.pm
 Kernel/System/Calendar/Event/Transport/SMS.pm
@@ -159,6 +169,8 @@ Kernel/System/DynamicField/Driver/Database.pm
 Kernel/System/DynamicFieldDatabase.pm
 Kernel/System/NotificationView.pm
 Kernel/System/StatsReport.pm
+Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigLastDeployments.pm
+Kernel/System/SysConfig/Base/OTRSBusiness.pm
 Kernel/System/Ticket/Event/NotificationEvent/Transport/NotificationView.pm
 Kernel/System/Ticket/Event/NotificationEvent/Transport/SMS.pm
 Kernel/System/Ticket/Event/StoreHistoricalData.pm
@@ -190,6 +202,7 @@ scripts/test/Selenium/Public/Chat.t
 scripts/test/Selenium/Output/FilterElementPost/SLASelectionDialog.t
 scripts/test/Selenium/Public/Chat.t
 scripts/test/StatsReport.t
+scripts/test/SysConfig/OTRSBusiness/*
 scripts/test/Ticket/Event/NotificationEvent/Transport/NotificationView.t
 scripts/test/VideoChat/Signalling.t
 var/cron/cleanupchats.dist
@@ -199,6 +212,7 @@ var/httpd/htdocs/js/*StatisticsReports*
 var/httpd/htdocs/js/Core.Agent.Admin.CloudServiceSMS.js
 var/httpd/htdocs/js/Core.Agent.Admin.DynamicFieldDatabase.js
 var/httpd/htdocs/js/Core.Agent.AppointmentTeam.js
+var/httpd/htdocs/js/Core.Agent.DynamicFieldContactWithDataSearch.js
 var/httpd/htdocs/js/Core.Agent.DynamicField.ContactWithData.js
 var/httpd/htdocs/js/Core.Agent.DynamicFieldContactWithDataSearch.js
 var/httpd/htdocs/js/Core.Agent.DynamicFieldDatabaseDetailedSearch.js

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="2.0" init="Application">
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###StateDefault" Required="0" Valid="1">
+        <Description Translatable="1">Entity test.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###StateNext" Required="0" Valid="1">
+        <Description Translatable="1">Another entity test</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">new</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###AnotherOpenEntity" Required="0" Valid="1">
+        <Description Translatable="1">Yet another entity test.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="AnotherEntity" ValueRegex="">open</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###EntityUnicode" Required="0" Valid="1">
+        <Description Translatable="1">Entity test #4.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="StateßČĆ£øπ∂" ValueRegex="">openßČĆ£øπ∂</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###ComplexEntity" Required="0" Valid="1">
+        <Description Translatable="1">Entity test #5.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Array>
+                <Item>
+                    <Hash ValueType="Entity" ValueEntityType="Queue">
+                        <Item Key="1-1" ValueType="Entity" ValueEntityType="State">
+                            Open
+                        </Item>
+                        <Item Key="2-1" ValueType="Entity" ValueEntityType="State">New</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###ComplexEntity2" Required="0" Valid="1">
+        <Description Translatable="1">Entity test #6.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Array>
+                <Item>
+                    <Hash MinItems="0" MaxItems="" ValueType="Entity" ValueCustomParam="..." ValueEntityType="Type">
+                        <Item Key="1" ValueType="Entity" ValueCustomParam="...">DefaultValue</Item>
+                        <Item Key="2">123</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Test">
+                            <Hash MinItems="0" MaxItems="" ValueType="Entity" ValueCustomParam="..." ValueEntityType="AnotherType">
+                                <Item Key="1" ValueType="Entity" ValueCustomParam="...">AnotherDefaultValue</Item>
+                                <Item Key="2">123</Item>
+                                <Item Key="3" ValueEntityType="State">open</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Array ValueType="Entity" ValueCustomParam="..." ValueEntityType="YetAnotherType">
+                        <Item>YetAnotherDefaultValue1</Item>
+                        <Item>YetAnotherDefaultValue2</Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+</otrs_config>

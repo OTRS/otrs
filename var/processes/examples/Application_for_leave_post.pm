@@ -14,6 +14,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Log',
     'Kernel::System::SysConfig',
 );
 
@@ -64,6 +65,8 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
+    my @UpdatedSettings;
+
     for my $Item (@Data) {
         my $ItemName     = ( keys %{$Item} )[0];
         my $CurrentValue = $ConfigObject->Get($ItemName);
@@ -82,18 +85,42 @@ sub Run {
                     $CurrentValue->{$Key}->{$InnerKey} = $Value;
                 }
             }
+
+            my $SettingName = $ItemName . '###' . $Key;
+
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                Name   => $SettingName,
+                Force  => 1,
+                UserID => 1,
+            );
+
+            my %Result = $SysConfigObject->SettingUpdate(
+                Name              => $SettingName,
+                IsValid           => 1,
+                EffectiveValue    => $CurrentValue->{$Key},
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                UserID            => 1,
+            );
+
+            push @UpdatedSettings, $SettingName;
         }
 
         $ConfigObject->Set(
             Key   => $ItemName,
             Value => $CurrentValue,
         );
+    }
 
-        $SysConfigObject->ConfigItemUpdate(
-            Valid        => 1,
-            Key          => $ItemName,
-            Value        => $CurrentValue,
-            NoValidation => 1,
+    my $Success = $SysConfigObject->ConfigurationDeploy(
+        Comments      => "Deployed by 'Application For Leave' process setup",
+        UserID        => 1,
+        Force         => 1,
+        DirtySettings => \@UpdatedSettings,
+    );
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "System was unable to deploy settings needed for 'Application For Leave' process!"
         );
     }
 

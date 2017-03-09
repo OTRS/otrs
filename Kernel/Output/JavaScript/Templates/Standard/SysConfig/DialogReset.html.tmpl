@@ -1,0 +1,23 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div>
+    <div class="InnerContent">
+        <h2>{{ Name }}</h2>
+        <input type="hidden" id="ResetOptions" value="reset-globally"/>
+        <p>{{ "Do you really want to reset this setting to it's default value?" | Translate }}</p>
+    </div>
+    <div class="ContentFooter Center">
+        <button id="ResetConfirm" class="Primary CallForAction">
+            <span>{{ "Confirm" | Translate }}</span>
+        </button>
+        <button class="CallForAction CloseDialog" value="{{ "Cancel" | Translate }}">
+            <span>{{ "Cancel" | Translate }}</span>
+        </button>
+    </div>
+</div>

@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -33,42 +34,52 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to agent preferences
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
         # change test user password preference, input incorrect current password
         my $NewPw = "new" . $TestUserLogin;
         $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#CurPw",  'css' )->VerifiedSubmit();
 
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
-
-        # check for incorrect password update preferences message on screen
-        my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
-        $Self->True(
-            index( $Selenium->get_page_source(), $IncorrectUpdateMessage ) > -1,
-            'Agent incorrect preferences password - update'
+        $Selenium->execute_script(
+            "\$('#NewPw1').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#NewPw1').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
+        );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error').text()"
+            ),
+            "The current password is not correct. Please try again!",
+            'Error message shows up correctly',
         );
 
         # change test user password preference, correct input
         $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#CurPw",  'css' )->VerifiedSubmit();
 
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
-
-        # check for correct password update preferences message on screen
-        my $UpdateMessage = "Preferences updated successfully!";
-        $Self->True(
-            index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
-            'Agent preference password - updated'
+        $Selenium->execute_script(
+            "\$('#NewPw1').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#NewPw1').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#NewPw1').closest('.WidgetSimple').find('.fa-check').length"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#NewPw1').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
     }
 );

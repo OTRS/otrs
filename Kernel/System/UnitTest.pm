@@ -20,6 +20,8 @@ use Kernel::System::ObjectManager;
 # UnitTest helper must be loaded to override the builtin time functions!
 use Kernel::System::UnitTest::Helper;
 
+use Kernel::System::VariableCheck qw(DataIsDifferent);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
@@ -541,7 +543,7 @@ sub IsDeeply {
         return;
     }
 
-    my $Diff = $Self->_DataDiff(
+    my $Diff = DataIsDifferent(
         Data1 => $Test,
         Data2 => $ShouldBe,
     );
@@ -591,7 +593,7 @@ sub IsNotDeeply {
         return;
     }
 
-    my $Diff = $Self->_DataDiff(
+    my $Diff = DataIsDifferent(
         Data1 => $Test,
         Data2 => $ShouldBe,
     );
@@ -626,153 +628,6 @@ sub IsNotDeeply {
 =begin Internal:
 
 =cut
-
-=head2 _DataDiff()
-
-compares two data structures with each other. Returns 1 if
-they are different, undef otherwise.
-
-Data parameters need to be passed by reference and can be SCALAR,
-ARRAY or HASH.
-
-    my $DataIsDifferent = $UnitTestObject->_DataDiff(
-        Data1 => \$Data1,
-        Data2 => \$Data2,
-    );
-
-=cut
-
-sub _DataDiff {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(Data1 Data2)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-
-    # ''
-    if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
-
-        # do nothing, it's ok
-        return if !defined $Param{Data1} && !defined $Param{Data2};
-
-        # return diff, because its different
-        return 1 if !defined $Param{Data1} || !defined $Param{Data2};
-
-        # return diff, because its different
-        return 1 if $Param{Data1} ne $Param{Data2};
-
-        # return, because its not different
-        return;
-    }
-
-    # SCALAR
-    if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
-
-        # do nothing, it's ok
-        return if !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} };
-
-        # return diff, because its different
-        return 1 if !defined ${ $Param{Data1} } || !defined ${ $Param{Data2} };
-
-        # return diff, because its different
-        return 1 if ${ $Param{Data1} } ne ${ $Param{Data2} };
-
-        # return, because its not different
-        return;
-    }
-
-    # ARRAY
-    if ( ref $Param{Data1} eq 'ARRAY' && ref $Param{Data2} eq 'ARRAY' ) {
-        my @A = @{ $Param{Data1} };
-        my @B = @{ $Param{Data2} };
-
-        # check if the count is different
-        return 1 if $#A ne $#B;
-
-        # compare array
-        COUNT:
-        for my $Count ( 0 .. $#A ) {
-
-            # do nothing, it's ok
-            next COUNT if !defined $A[$Count] && !defined $B[$Count];
-
-            # return diff, because its different
-            return 1 if !defined $A[$Count] || !defined $B[$Count];
-
-            if ( $A[$Count] ne $B[$Count] ) {
-                if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    return 1 if $Self->_DataDiff(
-                        Data1 => $A[$Count],
-                        Data2 => $B[$Count]
-                    );
-                    next COUNT;
-                }
-                return 1;
-            }
-        }
-        return;
-    }
-
-    # HASH
-    if ( ref $Param{Data1} eq 'HASH' && ref $Param{Data2} eq 'HASH' ) {
-        my %A = %{ $Param{Data1} };
-        my %B = %{ $Param{Data2} };
-
-        # compare %A with %B and remove it if checked
-        KEY:
-        for my $Key ( sort keys %A ) {
-
-            # Check if both are undefined
-            if ( !defined $A{$Key} && !defined $B{$Key} ) {
-                delete $A{$Key};
-                delete $B{$Key};
-                next KEY;
-            }
-
-            # return diff, because its different
-            return 1 if !defined $A{$Key} || !defined $B{$Key};
-
-            if ( $A{$Key} eq $B{$Key} ) {
-                delete $A{$Key};
-                delete $B{$Key};
-                next KEY;
-            }
-
-            # return if values are different
-            if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                return 1 if $Self->_DataDiff(
-                    Data1 => $A{$Key},
-                    Data2 => $B{$Key}
-                );
-                delete $A{$Key};
-                delete $B{$Key};
-                next KEY;
-            }
-            return 1;
-        }
-
-        # check rest
-        return 1 if %B;
-        return;
-    }
-
-    if ( ref $Param{Data1} eq 'REF' && ref $Param{Data2} eq 'REF' ) {
-        return 1 if $Self->_DataDiff(
-            Data1 => ${ $Param{Data1} },
-            Data2 => ${ $Param{Data2} }
-        );
-        return;
-    }
-
-    return 1;
-}
 
 sub _Print {
     my ( $Self, $ResultOk, $Message ) = @_;

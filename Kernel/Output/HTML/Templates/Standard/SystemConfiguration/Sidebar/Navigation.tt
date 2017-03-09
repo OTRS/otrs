@@ -1,0 +1,23 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="WidgetSimple SystemConfigurationTree [% IF Env("UserWidgetState_SystemConfiguration_Navigation") == 0 %]Collapsed[% END %]" id="UserWidgetState_SystemConfiguration_Navigation">
+    <div class="Header">
+        <div class="WidgetAction Toggle">
+            <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+        </div>
+        <h2>[% Translate("Navigation") | html %]</h2>
+    </div>
+    <div class="Content">
+        <span class="SystemConfigurationCategories">[% Data.CategoriesStrg %]</span> <a href="#" class="CallForAction Inline"><span><i class="fa fa-question"></i></span></a>
+        <input type="hidden" id="SelectedNode" value="[% Data.RootNavigation | html %]"/>
+        <div id="ConfigTree">
+            <p class="Center"><i class="fa fa-spinner fa-spin"></i></p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[%
+    SET DocumentationLinkText  = Translate('online administrator documentation');
+    SET DocumentationLink      = "<a href='http://otrs.github.io/doc/manual/admin/" _ Data.ManualVersion _ ".0/en/html/configuration.html#sysconfig' target='_blank'>" _ DocumentationLinkText.html() _ "</a>";
+%]
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+        ]
+    %]
+
+    [% FOREACH Item IN Data.Path %]
+        [% BreadcrumbPath.push({ Name => Item.Name, Link => 'AdminSystemConfigurationGroup;RootNavigation=' _ Item.Value }) %]
+    [% END %]
+
+    [% FOREACH Item IN Data.Parameters %]
+        [% BreadcrumbPath.push({ Name => Item.Name, Link => 'AdminSystemConfiguration;Subaction=' _ Item.Value }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+    <div class="SidebarColumn">
+        [% INCLUDE "SystemConfiguration/Sidebar/Actions.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/Navigation.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/Help.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/DynamicActions.tt" %]
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Content">
+                <ul class="GettingStarted">
+                    <li>
+                        <i class="fa fa-code-fork"></i>
+                        <p>
+                            [% Translate("Navigate through the available settings by using the tree in the navigation box on the left side.") | html %]
+                        </p>
+                    </li>
+                    <li>
+                        <i class="fa fa-search"></i>
+                        <p>
+                            [% Translate("Find certain settings by using the search field below or from search icon from the top navigation.") | html %]
+                        </p>
+                    </li>
+                    <li>
+                        <i class="fa fa-lightbulb-o"></i>
+                        <p>
+                            [% Translate("Find out how to use the system configuration by reading the %s.", DocumentationLink) %]
+                        </p>
+                    </li>
+                </ul>
+                <form action="[% Env("CGIHandle") %]" method="post" class="SearchBox" id="SearchBoxAutoComplete">
+                    <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
+                    <input type="hidden" name="Subaction" value="Search"/>
+                    <input type="hidden" name="Category" value="All"/>
+                    <span>
+                        <input type="text" autofocus autocomplete="off" placeholder="[% Translate("Search in all settings...") | html %]" name="Search" id="SysConfigSearch" value="[% Data.Search | html %]" title="[% Translate("Search") | html %]" />
+                        <button type="submit" title="[% Translate("Search") | html %]" value="[% Translate("Search") | html %]">
+                            <span><i class="fa fa-search"></i></span>
+                        </button>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

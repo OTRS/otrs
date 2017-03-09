@@ -38,7 +38,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="Action" value="AdminSysConfig"/>
+                        <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
                         <input type="hidden" name="Subaction" value="Edit"/>
                         <input type="hidden" name="SysConfigGroup" value="Framework"/>
                         <input type="hidden" name="SysConfigSubGroup" value="Frontend::Customer"/>
@@ -93,7 +93,7 @@
 [% RenderBlockEnd("Search") %]
 [% RenderBlockStart("AlwaysGroupsConfig") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Customer Default Groups") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Customer Default Groups") | html %]</span></a>
                         <p class="FieldExplanation">
                             [% Translate("These groups are automatically assigned to all customers.") | html %]
                             [% Translate("You can manage these groups via the configuration setting \"CustomerGroupAlwaysGroups\".") | html %]

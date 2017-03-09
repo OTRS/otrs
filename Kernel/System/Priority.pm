@@ -247,7 +247,6 @@ update a existing ticket priority
         PriorityID     => 123,
         Name           => 'New Prio',
         ValidID        => 1,
-        CheckSysConfig => 0,   # (optional) default 1
         UserID         => 1,
     );
 
@@ -267,11 +266,6 @@ sub PriorityUpdate {
         }
     }
 
-    # check CheckSysConfig param
-    if ( !defined $Param{CheckSysConfig} ) {
-        $Param{CheckSysConfig} = 1;
-    }
-
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     return if !$DBObject->Do(
@@ -287,11 +281,7 @@ sub PriorityUpdate {
         Type => $Self->{CacheType},
     );
 
-    # check all sysconfig options
-    return 1 if !$Param{CheckSysConfig};
-
-    # check all sysconfig options and correct them automatically if neccessary
-    $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemCheckAll();
+    return 1;
 }
 
 =head2 PriorityLookup()

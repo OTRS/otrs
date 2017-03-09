@@ -1447,6 +1447,124 @@ CREATE TABLE cloud_service_config (
     UNIQUE INDEX cloud_service_config_name (name)
 );
 # ----------------------------------------------------------
+#  create table sysconfig_default
+# ----------------------------------------------------------
+CREATE TABLE sysconfig_default (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (250) NOT NULL,
+    description LONGBLOB NOT NULL,
+    navigation VARCHAR (200) NOT NULL,
+    is_invisible SMALLINT NOT NULL,
+    is_readonly SMALLINT NOT NULL,
+    is_required SMALLINT NOT NULL,
+    is_valid SMALLINT NOT NULL,
+    has_configlevel SMALLINT NOT NULL,
+    user_modification_possible SMALLINT NOT NULL,
+    user_modification_active SMALLINT NOT NULL,
+    user_preferences_group VARCHAR (250) NULL,
+    xml_content_raw LONGBLOB NOT NULL,
+    xml_content_parsed LONGBLOB NOT NULL,
+    xml_filename VARCHAR (250) NOT NULL,
+    effective_value LONGBLOB NOT NULL,
+    is_dirty SMALLINT NOT NULL,
+    exclusive_lock_guid VARCHAR (32) NOT NULL,
+    exclusive_lock_user_id INTEGER NULL,
+    exclusive_lock_expiry_time DATETIME NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX sysconfig_default_name (name)
+);
+# ----------------------------------------------------------
+#  create table sysconfig_default_version
+# ----------------------------------------------------------
+CREATE TABLE sysconfig_default_version (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    sysconfig_default_id INTEGER NULL,
+    name VARCHAR (250) NOT NULL,
+    description LONGBLOB NOT NULL,
+    navigation VARCHAR (200) NOT NULL,
+    is_invisible SMALLINT NOT NULL,
+    is_readonly SMALLINT NOT NULL,
+    is_required SMALLINT NOT NULL,
+    is_valid SMALLINT NOT NULL,
+    has_configlevel SMALLINT NOT NULL,
+    user_modification_possible SMALLINT NOT NULL,
+    user_modification_active SMALLINT NOT NULL,
+    user_preferences_group VARCHAR (250) NULL,
+    xml_content_raw LONGBLOB NOT NULL,
+    xml_content_parsed LONGBLOB NOT NULL,
+    xml_filename VARCHAR (250) NOT NULL,
+    effective_value LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table sysconfig_modified
+# ----------------------------------------------------------
+CREATE TABLE sysconfig_modified (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    sysconfig_default_id INTEGER NOT NULL,
+    name VARCHAR (250) NOT NULL,
+    user_id INTEGER NULL,
+    is_valid SMALLINT NOT NULL,
+    user_modification_active SMALLINT NOT NULL,
+    effective_value LONGBLOB NOT NULL,
+    is_dirty SMALLINT NOT NULL,
+    reset_to_default SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX sysconfig_modified_per_user (sysconfig_default_id, user_id)
+);
+# ----------------------------------------------------------
+#  create table sysconfig_modified_version
+# ----------------------------------------------------------
+CREATE TABLE sysconfig_modified_version (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    sysconfig_default_version_id INTEGER NOT NULL,
+    name VARCHAR (250) NOT NULL,
+    user_id INTEGER NULL,
+    is_valid SMALLINT NOT NULL,
+    user_modification_active SMALLINT NOT NULL,
+    effective_value LONGBLOB NOT NULL,
+    reset_to_default SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table sysconfig_deployment_lock
+# ----------------------------------------------------------
+CREATE TABLE sysconfig_deployment_lock (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    exclusive_lock_guid VARCHAR (32) NULL,
+    exclusive_lock_user_id INTEGER NULL,
+    exclusive_lock_expiry_time DATETIME NULL,
+    PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table sysconfig_deployment
+# ----------------------------------------------------------
+CREATE TABLE sysconfig_deployment (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    comments VARCHAR (250) NULL,
+    user_id INTEGER NULL,
+    effective_value LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
 #  create table calendar
 # ----------------------------------------------------------
 CREATE TABLE calendar (

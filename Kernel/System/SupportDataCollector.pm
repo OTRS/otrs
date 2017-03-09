@@ -92,6 +92,14 @@ collect system data
                 Value       => '0',
                 Message     => 'Please enable mod_perl to speed up OTRS.',
             },
+            {
+                Identifier       => 'Some::Identifier',
+                DisplayPath      => 'SomePath',
+                Status           => $StatusOK,
+                Label            => 'Some Label'
+                Value            => '0',
+                MessageFormatted => 'Some \n Formatted \n\t Text.',
+            },
         ],
     )
 

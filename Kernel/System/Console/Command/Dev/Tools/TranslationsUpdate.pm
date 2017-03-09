@@ -447,7 +447,7 @@ sub HandleLanguage {
         }
 
         # add translatable strings from SysConfig
-        my @Strings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemTranslatableStrings();
+        my @Strings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationTranslatableStrings();
 
         STRING:
         for my $String ( sort @Strings ) {

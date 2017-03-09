@@ -33,6 +33,13 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # Store last entity screen.
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'LastScreenEntity',
+        Value     => $Self->{RequestedURL},
+    );
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( $Self->{Subaction} eq 'Add' ) {
@@ -481,6 +488,34 @@ sub _ChangeAction {
         }
     }
 
+    # Check if dynamic field is present in SysConfig setting
+    my $UpdateEntity        = $ParamObject->GetParam( Param => 'UpdateEntity' ) || '';
+    my $SysConfigObject     = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my %DynamicFieldOldData = %{$DynamicFieldData};
+    my @IsDynamicFieldInSysConfig;
+    @IsDynamicFieldInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
+        EntityType => 'DynamicField',
+        EntityName => $DynamicFieldData->{Name},
+    );
+    if (@IsDynamicFieldInSysConfig) {
+
+        # An entity present in SysConfig couldn't be invalidated.
+        if (
+            $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $GetParam{ValidID} )
+            ne 'valid'
+            )
+        {
+            $Errors{ValidIDInvalid}         = 'ServerError';
+            $Errors{ValidOptionServerError} = 'InSetting';
+        }
+
+        # In case changing name an authorization (UpdateEntity) should be send
+        elsif ( $DynamicFieldData->{Name} ne $GetParam{Name} && !$UpdateEntity ) {
+            $Errors{NameInvalid}              = 'ServerError';
+            $Errors{InSettingNameServerError} = 1;
+        }
+    }
+
     # return to change screen if errors
     if (%Errors) {
         return $Self->_ShowScreen(
@@ -520,6 +555,44 @@ sub _ChangeAction {
     if ( !$UpdateSuccess ) {
         return $LayoutObject->ErrorScreen(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Could not update the field %s', $GetParam{Name} ),
+        );
+    }
+
+    if (
+        @IsDynamicFieldInSysConfig
+        && $DynamicFieldOldData{Name} ne $GetParam{Name}
+        && $UpdateEntity
+        )
+    {
+        SETTING:
+        for my $SettingName (@IsDynamicFieldInSysConfig) {
+
+            my %Setting = $SysConfigObject->SettingGet(
+                Name => $SettingName,
+            );
+
+            next SETTING if !IsHashRefWithData( \%Setting );
+
+            $Setting{EffectiveValue} =~ s/$DynamicFieldOldData{Name}/$GetParam{Name}/g;
+
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                Name   => $Setting{Name},
+                Force  => 1,
+                UserID => $Self->{UserID}
+            );
+            $Setting{ExclusiveLockGUID} = $ExclusiveLockGUID;
+
+            my %UpdateSuccess = $SysConfigObject->SettingUpdate(
+                %Setting,
+                UserID => $Self->{UserID},
+            );
+        }
+
+        $SysConfigObject->ConfigurationDeploy(
+            Comments      => "DynamicField name change",
+            DirtySettings => \@IsDynamicFieldInSysConfig,
+            UserID        => $Self->{UserID},
+            Force         => 1,
         );
     }
 
@@ -774,6 +847,51 @@ sub _ShowScreen {
             Data => {%Param},
         );
         $ReadonlyInternalField = 'readonly="readonly"';
+    }
+
+    my $DynamicFieldName = $Param{Name};
+
+    # Add warning in case the DynamicField belongs a SysConfig setting.
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # In case dirty setting disable form
+    my $IsDirtyConfig = 0;
+    my @IsDirtyResult = $SysConfigObject->ConfigurationDirtySettingsList();
+    my %IsDirtyList   = map { $_ => 1 } @IsDirtyResult;
+
+    my @IsDynamicFieldInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
+        EntityType => 'DynamicField',
+        EntityName => $DynamicFieldName,
+    );
+
+    if (@IsDynamicFieldInSysConfig) {
+        $LayoutObject->Block(
+            Name => 'DynamicFieldInSysConfig',
+            Data => {
+                OldName => $DynamicFieldName,
+            },
+        );
+        for my $SettingName (@IsDynamicFieldInSysConfig) {
+            $LayoutObject->Block(
+                Name => 'DynamicFieldInSysConfigRow',
+                Data => {
+                    SettingName => $SettingName,
+                },
+            );
+
+            # Verify if dirty setting
+            if ( $IsDirtyList{$SettingName} ) {
+                $IsDirtyConfig = 1;
+            }
+
+        }
+    }
+
+    if ($IsDirtyConfig) {
+        $LayoutObject->Block(
+            Name => 'DynamicFieldInSysConfigDirty',
+            ,
+        );
     }
 
     # generate output

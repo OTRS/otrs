@@ -40,19 +40,16 @@ sub Run {
 
     # get all Frontend::Module
     my %NavBarModule;
-    my $FrontendModuleConfig = $ConfigObject->Get('Frontend::Module');
+
+    my $NavigationModule = $ConfigObject->Get('Frontend::NavigationModule') || {};
+
     MODULE:
-    for my $Module ( sort keys %{$FrontendModuleConfig} ) {
+    for my $Module ( sort keys %{$NavigationModule} ) {
+        my %Hash = %{ $NavigationModule->{$Module} };
 
-        my %Hash = %{ $FrontendModuleConfig->{$Module} };
+        next MODULE if !$Hash{Name};
 
-        next MODULE if !$Hash{NavBarModule}->{Name};
-
-        if (
-            $Hash{NavBarModule}
-            && $Hash{NavBarModule}->{Module} eq 'Kernel::Output::HTML::NavBar::ModuleAdmin'
-            )
-        {
+        if ( $Hash{Module} eq 'Kernel::Output::HTML::NavBar::ModuleAdmin' ) {
 
             # check permissions (only show accessable modules)
             my $Shown       = 0;
@@ -60,8 +57,19 @@ sub Run {
 
             for my $Permission (qw(GroupRo Group)) {
 
+                # no access restriction
+                if (
+                    ref $Hash{GroupRo} eq 'ARRAY'
+                    && !scalar @{ $Hash{GroupRo} }
+                    && ref $Hash{Group} eq 'ARRAY'
+                    && !scalar @{ $Hash{Group} }
+                    )
+                {
+                    $Shown = 1;
+                }
+
                 # array access restriction
-                if ( $Hash{$Permission} && ref $Hash{$Permission} eq 'ARRAY' ) {
+                elsif ( $Hash{$Permission} && ref $Hash{$Permission} eq 'ARRAY' ) {
                     for my $Group ( @{ $Hash{$Permission} } ) {
                         my $HasPermission = $GroupObject->PermissionCheck(
                             UserID    => $Self->{UserID},
@@ -71,27 +79,8 @@ sub Run {
                         if ($HasPermission) {
                             $Shown = 1;
                         }
-
                     }
                 }
-
-                # scalar access restriction
-                elsif ( $Hash{$Permission} ) {
-                    my $HasPermission = $GroupObject->PermissionCheck(
-                        UserID    => $Self->{UserID},
-                        GroupName => $Hash{$Permission},
-                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
-                    );
-                    if ($HasPermission) {
-                        $Shown = 1;
-                    }
-                }
-
-                # no access restriction
-                elsif ( !$Hash{GroupRo} && !$Hash{Group} ) {
-                    $Shown = 1;
-                }
-
             }
             next MODULE if !$Shown;
 

@@ -18,7 +18,7 @@
                     [% Translate("Secure mode will (normally) be set after the initial installation is completed.") | html %]
                 </p>
                 <p class="SpacingTopSmall">
-                    <a href="[% Env("Baselink") %]Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Core">
+                    <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=ViewCustomGroup;Names=SecureMode">
                         [% Translate("If secure mode is not activated, activate it via SysConfig because your application is already running.") | html %]
                     </a>
                 </p>

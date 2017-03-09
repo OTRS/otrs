@@ -120,7 +120,7 @@
             </div>
             <div class="Content">
 
-                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                <form id="EntityUpdate" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
@@ -135,12 +135,17 @@
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
                             <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>
 [% RenderBlockStart("NameServerError") %]
-                                <p>[% Translate("This field is required.") | html %]</p>
+                                [% Translate("This field is required.") | html %]
 [% RenderBlockEnd("NameServerError") %]
 [% RenderBlockStart("ExistNameServerError") %]
-                                <p>[% Translate("A type with this name already exists!") | html %]</p>
-[% RenderBlockEnd("NameServerError") %]
+                                [% Translate("A type with this name already exists!") | html %]
+[% RenderBlockEnd("ExistNameServerError") %]
+[% RenderBlockStart("InSettingNameServerError") %]
+                                    [% Translate("This type is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!") | html %]
+[% RenderBlockEnd("InSettingNameServerError") %]
+                                </p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -152,7 +157,14 @@
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
                             <div id="ValidIDServerError" class="TooltipErrorMessage">
-                                <p>[% Translate("This field is required.") | html %]</p>
+                                <p>
+[% RenderBlockStart("RequiredValidOptionServerError") %]
+                                    [% Translate("This field is required.") | html %]
+[% RenderBlockEnd("RequiredValidOptionServerError") %]
+[% RenderBlockStart("InSettingValidOptionServerError") %]
+                                    [% Translate("Is not possible to invalidate this entry, all config settings have to be changed beforehand.") | html %]
+[% RenderBlockEnd("InSettingValidOptionServerError") %]
+                                </p>
                             </div>
                         </div>
                         <div class="Clear"></div>
@@ -170,6 +182,24 @@
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
+[% RenderBlockStart("TypeInSysConfig") %]
+                    <input type="hidden" name="OldName" id="OldName" value="[% Data.OldName | html %]"/>
+                    <input type="hidden" name="UpdateEntity" id="UpdateEntity" value=""/>
+                    <div id="EntityInSetting" class="Hidden">
+                        <div class="TextDialog">
+                            <h1>[% Translate("This type is used in the following config settings:") | html %]</h1>
+                            <ul>
+[% RenderBlockStart("TypeInSysConfigRow") %]
+                                <li class="InSysConfigSetting">[% Data.SettingName %]</li>
+[% RenderBlockEnd("TypeInSysConfigRow") %]
+                            </ul>
+                            <p class="FieldExplanation"></p>
+                        </div>
+                    </div>
+[% RenderBlockEnd("TypeInSysConfig") %]
+[% RenderBlockStart("TypeInSysConfigDirty") %]
+                    <input type="hidden" name="SysConfigDirty" id="SysConfigDirty" value="1"/>
+[% RenderBlockEnd("TypeInSysConfigDirty") %]
                 </form>
             </div>
 [% RenderBlockEnd("OverviewUpdate") %]

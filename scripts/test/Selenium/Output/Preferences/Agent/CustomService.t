@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -89,7 +90,9 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # go to agent preferences
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=NotificationSettings"
+        );
 
         # verify child service is not shown
         $Self->Is(
@@ -108,7 +111,9 @@ $Selenium->RunTest(
         );
 
         # refresh the page
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=NotificationSettings"
+        );
 
         # verify child service is shown (bug#11816)
         $Self->Is(
@@ -123,13 +128,22 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#ServiceID').val('$ServiceIDs[1]').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#ServiceIDUpdate", 'css' )->VerifiedClick();
 
-        # check for update preference message on screen
-        my $UpdateMessage = "Preferences updated successfully!";
-        $Self->True(
-            index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
-            'Agent preference custom service - updated'
+        # save the setting, wait for the ajax call to finish and check if success sign is shown
+        $Selenium->execute_script(
+            "\$('#ServiceID').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#ServiceID').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#ServiceID').closest('.WidgetSimple').find('.fa-check').length"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#ServiceID').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
 
         # get DB object

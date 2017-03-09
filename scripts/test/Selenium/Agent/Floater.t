@@ -30,10 +30,18 @@ $Selenium->RunTest(
             Value => 1
         );
 
-        # set a filter to valid which has floater preview enabled
-        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemValidityUpdate(
-            Name  => 'Ticket::Frontend::ZoomCollectMetaFilters###CVE-Mitre',
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        my $SettingName = 'Ticket::Frontend::ZoomCollectMetaFilters###CVE-Mitre';
+
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => $SettingName,
+        );
+
+        $Helper->ConfigSettingChange(
             Valid => 1,
+            Key   => $SettingName,
+            Value => $Setting{EffectiveValue},
         );
 
         my $Language      = 'de';

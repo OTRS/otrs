@@ -29,20 +29,16 @@ $Selenium->RunTest(
             Value => $Config,
         );
 
-        # Get dashboard News plugin default sysconfig.
-        my %NewsConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+        # get dashboard News plugin default sysconfig
+        my %NewsConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name    => 'DashboardBackend###0405-News',
             Default => 1,
         );
 
-        # Set dashboard News plugin to valid.
-        %NewsConfig = map { $_->{Key} => $_->{Content} }
-            grep { defined $_->{Key} } @{ $NewsConfig{Setting}->[1]->{Hash}->[1]->{Item} };
-
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0405-News',
-            Value => \%NewsConfig,
+            Value => $NewsConfig{EffectiveValue},
         );
 
         my @NewsData;

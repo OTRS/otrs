@@ -57,7 +57,7 @@ sub Run {
 
     my $Text = '<a href="'
         . $LayoutObject->{Baselink}
-        . 'Action=AdminSysConfig;Subaction=Edit;SysConfigSubGroup=Core;SysConfigGroup=CloudService'
+        . 'Action=AdminSystemConfiguration;Subaction=Edit;SysConfigSubGroup=Core;SysConfigGroup=CloudService'
         . '" class="Button"><i class="fa fa-cloud"></i> ';
     $Text .= $LayoutObject->{LanguageObject}->Translate('Enable cloud services to unleash all OTRS features!');
     $Text .= '</a>';

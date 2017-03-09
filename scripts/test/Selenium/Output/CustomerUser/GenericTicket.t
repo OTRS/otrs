@@ -31,19 +31,15 @@ $Selenium->RunTest(
 
             # get default sysconfig
             my $SysConfigName = 'Frontend::CustomerUser::Item###' . $SysConfigChange;
-            my %Config        = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+            my %Config        = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
                 Name    => $SysConfigName,
                 Default => 1,
             );
 
-            # set CustomerUserGenericTicket modules to valid
-            %Config = map { $_->{Key} => $_->{Content} }
-                grep { defined $_->{Key} } @{ $Config{Setting}->[1]->{Hash}->[1]->{Item} };
-
             $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => $SysConfigName,
-                Value => \%Config,
+                Value => $Config{EffectiveValue},
             );
         }
 

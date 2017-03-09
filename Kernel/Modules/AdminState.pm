@@ -11,6 +11,7 @@ package Kernel::Modules::AdminState;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -27,6 +28,13 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # Store last entity screen.
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'LastScreenEntity',
+        Value     => $Self->{RequestedURL},
+    );
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -71,6 +79,35 @@ sub Run {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
         }
+        my %StateData = $StateObject->StateGet( ID => $GetParam{ID} );
+
+        # Check if state is present in SysConfig setting
+        my $UpdateEntity    = $ParamObject->GetParam( Param => 'UpdateEntity' ) || '';
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my %StateOldData    = %StateData;
+        my @IsStateInSysConfig;
+        @IsStateInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
+            EntityType => 'State',
+            EntityName => $StateData{Name},
+        );
+        if (@IsStateInSysConfig) {
+
+            # An entity present in SysConfig couldn't be invalidated.
+            if (
+                $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $GetParam{ValidID} )
+                ne 'valid'
+                )
+            {
+                $Errors{ValidIDInvalid}         = 'ServerError';
+                $Errors{ValidOptionServerError} = 'InSetting';
+            }
+
+            # In case changing name an authorization (UpdateEntity) should be send
+            elsif ( $StateData{Name} ne $GetParam{Name} && !$UpdateEntity ) {
+                $Errors{NameInvalid}              = 'ServerError';
+                $Errors{InSettingNameServerError} = 'InSetting';
+            }
+        }
 
         # if no errors occurred
         if ( !%Errors ) {
@@ -82,6 +119,44 @@ sub Run {
             );
 
             if ($UpdateSuccess) {
+
+                if (
+                    @IsStateInSysConfig
+                    && $StateOldData{Name} ne $GetParam{Name}
+                    && $UpdateEntity
+                    )
+                {
+                    SETTING:
+                    for my $SettingName (@IsStateInSysConfig) {
+
+                        my %Setting = $SysConfigObject->SettingGet(
+                            Name => $SettingName,
+                        );
+
+                        next SETTING if !IsHashRefWithData( \%Setting );
+
+                        $Setting{EffectiveValue} =~ s/$StateOldData{Name}/$GetParam{Name}/g;
+
+                        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                            Name   => $Setting{Name},
+                            Force  => 1,
+                            UserID => $Self->{UserID}
+                        );
+                        $Setting{ExclusiveLockGUID} = $ExclusiveLockGUID;
+
+                        my %UpdateSuccess = $SysConfigObject->SettingUpdate(
+                            %Setting,
+                            UserID => $Self->{UserID},
+                        );
+                    }
+
+                    $SysConfigObject->ConfigurationDeploy(
+                        Comments      => "State name change",
+                        DirtySettings => \@IsStateInSysConfig,
+                        UserID        => $Self->{UserID},
+                        Force         => 1,
+                    );
+                }
 
                 # if the user would like to continue editing the state, just redirect to the edit screen
                 if (
@@ -250,6 +325,65 @@ sub _Edit {
             %{ $Param{Errors} },
         },
     );
+
+    # Several error messages can be used for Name.
+    $Param{Errors}->{InSettingNameServerError} //= 'Required';
+    $LayoutObject->Block(
+        Name => $Param{Errors}->{InSettingNameServerError} . 'NameServerError',
+    );
+
+    # Several error messages can be used for Valid option.
+    $Param{Errors}->{ValidOptionServerError} //= 'Required';
+    $LayoutObject->Block(
+        Name => $Param{Errors}->{ValidOptionServerError} . 'ValidOptionServerError',
+    );
+
+    if ( $Param{ID} ) {
+
+        my $StateName = $Kernel::OM->Get('Kernel::System::State')->StateLookup(
+            StateID => $Param{ID},
+        );
+
+        # Add warning in case the Type belongs a SysConfig setting.
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # In case dirty setting, disable form.
+        my $IsDirtyConfig = 0;
+        my @IsDirtyResult = $SysConfigObject->ConfigurationDirtySettingsList();
+        my %IsDirtyList   = map { $_ => 1 } @IsDirtyResult;
+
+        my @IsStateInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
+            EntityType => 'State',
+            EntityName => $StateName,
+        );
+        if (@IsStateInSysConfig) {
+            $LayoutObject->Block(
+                Name => 'StateInSysConfig',
+                Data => {
+                    OldName => $StateName,
+                },
+            );
+            for my $SettingName (@IsStateInSysConfig) {
+                $LayoutObject->Block(
+                    Name => 'StateInSysConfigRow',
+                    Data => {
+                        SettingName => $SettingName,
+                    },
+                );
+
+                # Verify if dirty setting.
+                if ( $IsDirtyList{$SettingName} ) {
+                    $IsDirtyConfig = 1;
+                }
+            }
+        }
+
+        if ($IsDirtyConfig) {
+            $LayoutObject->Block(
+                Name => 'StateInSysConfigDirty',
+            );
+        }
+    }
 
     return 1;
 }

@@ -1,0 +1,111 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox LayoutFixedSidebar SidebarFirst ARIARoleMain">
+
+    <h1 class="InvisibleText">[% Translate("Edit your preferences") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Personal Preferences'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = 'Agent' %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Preferences") | html %]</h2>
+            </div>
+            <div class="Content">
+                [% IF Data.CurrentUserIDNotice %]
+                <div class="WidgetMessage Top Warning">
+                    <p>[% Translate("Warning! You're currently not editing your own preferences, but those of %s.", Data.CurrentUserFullname) | html %]</p>
+                </div>
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminUser;Subaction=Change;UserID=[% Data.CurrentUserID | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back to editing this agent") | html %]</span></a>
+                    </li>
+                </ul>
+                [% ELSE %]
+                <p class="FieldExplanation">
+                    [% Translate("Choose from the groups on the right to find the settings you'd wish to change.") | html %]
+                </p>
+                [% END %]
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Preferences") | html %]</h2>
+                <div class="ActionMenu Visible">
+                    <div class="WidgetAction">
+                        <a title="[% Translate("Switch view") | html %]" id="ToggleView" class="[% IF Data.View == 'Grid' %]Grid[% ELSE %]List[% END %]" href="#">
+                            <i class="fa fa-list-ul"></i>
+                            <i class="fa fa-th"></i>
+                        </a>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+            <div class="Content">
+
+                <div class="GridView" [% IF Data.View != 'Grid' %]style="display: none;"[% END %]>
+                    <ul class="ItemListGrid WithIcons Filterable">
+                    [% FOREACH Item IN Data.Items %]
+                        <li>
+                            <a class="AsBlock" href="[% Env("Baselink") %]Action=AgentPreferences;Subaction=Group;Group=[% Item.Key | uri %][% IF Data.CurrentUserIDNotice %];EditUserID=[% Data.CurrentUserID | uri %][% END %]" title="[% Translate(Item.Name) | html %]
+[% Translate(Item.Description) | html %]">
+                                <span class="Icons">
+                                [% IF Item.Icon %]
+                                    <i class="fa [% Item.Icon %]"></i>
+                                [% ELSE %]
+                                    <i class="fa fa-cog"></i>
+                                [% END %]
+                                </span>
+                                <span class="Title">
+                                    [% Translate(Item.Name) | html %]
+                                </span>
+                                <span class="Description">[% Translate(Item.Description) | html %]</span>
+                            </a>
+                        </li>
+                    [% END %]
+                    </ul>
+                </div>
+
+                <div class="ListView" [% IF Data.View != 'List' %]style="display: none;"[% END %]>
+                    <table class="DataTable Filterable">
+                        <thead>
+                            <tr>
+                                <th class="W20pc">[% Translate("Name") %]</th>
+                                <th>[% Translate("Description") %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        [% FOREACH Item IN Data.Items %]
+                            <tr>
+                                <td class="W20pc"><a class="AsBlock ModuleLink" href="[% Env("Baselink") %]Action=AgentPreferences;Subaction=Group;Group=[% Item.Key | uri %]">[% Translate(Item.Name) | html %]</a></td>
+                                <td>[% Translate(Item.Description) | html %]</td>
+                            </tr>
+                        [% END %]
+                            <tr class="FilterMessage Hidden">
+                                <td colspan="3">[% Translate("No matches found.") | html %]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,44 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
-  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="793" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="793"/>
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="793" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="793">
+    <font/>
+  </widgets>
   <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
     <font/>
   </widgets>
   <widgets xsi:type="model:Breadcrumbs" id="74" x="20" y="178" text="Home,Search result" measuredWidth="134" measuredHeight="23">
     <font/>
-    <items x="0" y="0" width="34" height="23" text="Home"/>
+    <items link="Home.screen" x="0" y="0" width="34" height="23" text="Home"/>
     <items x="54" y="0" width="77" height="23" text="Search result"/>
   </widgets>
-  <widgets xsi:type="model:Panel" id="75" x="301" y="383" width="693" height="347" measuredWidth="693" measuredHeight="347"/>
+  <widgets xsi:type="model:Panel" id="75" x="301" y="383" width="693" height="347" measuredWidth="693" measuredHeight="347" link="Setting.screen"/>
   <widgets xsi:type="model:HLine" id="76" x="301" y="414" width="692" measuredWidth="692" measuredHeight="6"/>
   <widgets xsi:type="model:Label" id="77" x="329" y="392" text="Name > of > the > group (2 results)" measuredWidth="203" measuredHeight="23">
     <font bold="false"/>
   </widgets>
   <widgets xsi:type="model:Icon" id="78" x="311" y="396" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="filled-arrow-down (large)"/>
   <widgets xsi:type="model:ScratchOut" id="79" x="544" y="497" width="166" height="141" measuredWidth="166" measuredHeight="141" annotation="true"/>
-  <widgets xsi:type="model:Panel" id="80" x="18" y="212" width="271" height="125" measuredWidth="271" measuredHeight="125"/>
-  <widgets xsi:type="model:Panel" id="81" x="20" y="349" width="271" height="180" measuredWidth="271" measuredHeight="180"/>
-  <widgets xsi:type="model:SearchField" id="82" x="32" y="255" width="247" text="Search" measuredWidth="247" measuredHeight="24">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="83" x="32" y="435" width="247" height="35" text="Deploy settings" measuredWidth="247" measuredHeight="35" icon="direction (small)" textAlignment="Left">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="84" x="32" y="285" width="247" height="35" text="My currently locked settings" measuredWidth="247" measuredHeight="35" icon="secure (small)" textAlignment="Left">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:HLine" id="85" x="20" y="241" width="269" measuredWidth="269" measuredHeight="6"/>
-  <widgets xsi:type="model:Label" id="86" x="32" y="220" text="General" measuredWidth="51" measuredHeight="23">
+  <widgets xsi:type="model:Panel" id="81" x="20" y="212" width="271" height="172" measuredWidth="271" measuredHeight="172"/>
+  <widgets xsi:type="model:HLine" id="87" x="22" y="241" width="269" measuredWidth="269" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="88" x="34" y="220" text="Actions" measuredWidth="48" measuredHeight="23">
     <font bold="false"/>
   </widgets>
-  <widgets xsi:type="model:HLine" id="87" x="22" y="378" width="269" measuredWidth="269" measuredHeight="6"/>
-  <widgets xsi:type="model:Label" id="88" x="34" y="357" text="Actions" measuredWidth="48" measuredHeight="23">
-    <font bold="false"/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="89" x="34" y="479" width="247" height="35" text="Save all edited settings" measuredWidth="247" measuredHeight="35" icon="check (small)" textAlignment="Left">
+  <widgets xsi:type="model:Button" id="89" x="34" y="332" width="247" height="35" text="Save all edited settings" measuredWidth="247" measuredHeight="35" icon="check (small)" textAlignment="Left">
     <font/>
   </widgets>
-  <widgets xsi:type="model:SearchField" id="91" x="34" y="396" width="247" text="Type to filter..." measuredWidth="247" measuredHeight="24">
+  <widgets xsi:type="model:SearchField" id="91" x="34" y="259" width="247" text="Type to filter..." measuredWidth="247" measuredHeight="24">
     <font/>
   </widgets>
   <widgets xsi:type="model:Label" id="96" x="301" y="212" text="Your search of &quot;Search term&quot; showed 13 results  in 5 groups" measuredWidth="371" measuredHeight="23">
@@ -63,18 +51,21 @@
     <font bold="false"/>
   </widgets>
   <widgets xsi:type="model:Icon" id="107" x="911" y="215" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="circled-plus (custom)"/>
-  <widgets xsi:type="model:Icon" id="109" x="968" y="396" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="export (custom)"/>
+  <widgets xsi:type="model:Icon" id="109" x="968" y="396" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="export (custom)" link="Overview.screen"/>
   <widgets xsi:type="model:Panel" id="110" x="301" y="740" width="693" height="37" measuredWidth="693" measuredHeight="37"/>
   <widgets xsi:type="model:Icon" id="111" x="311" y="752" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="play (custom)"/>
   <widgets xsi:type="model:Label" id="112" x="329" y="747" text="Name > of > the > group (3 results)" measuredWidth="203" measuredHeight="23">
     <font bold="false"/>
   </widgets>
-  <widgets xsi:type="model:Arrow" id="114" x="832" y="596" width="121" height="76" measuredWidth="121" measuredHeight="76" annotation="true"/>
-  <widgets xsi:type="model:Note" id="113" x="936" y="640" width="161" height="59" text="Settings can be edited directly from the search result" measuredWidth="161" measuredHeight="59" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Arrow" id="114" x="776" y="584" width="121" height="76" measuredWidth="121" measuredHeight="76" annotation="true"/>
+  <widgets xsi:type="model:Note" id="113" x="821" y="659" width="161" height="59" text="Settings can be edited directly from the search result" measuredWidth="161" measuredHeight="59" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Arrow" id="115" x="976" y="414" width="8" height="73" measuredWidth="8" measuredHeight="73" annotation="true"/>
-  <widgets xsi:type="model:Note" id="116" x="952" y="455" width="161" height="74" text="Jumps to the overview for this group. Overview contains a &quot;back&quot; link then." measuredWidth="161" measuredHeight="74" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Arrow" id="115" x="937" y="414" width="39" height="43" measuredWidth="39" measuredHeight="43" annotation="true" left="false" right="true" direction="bottom"/>
+  <widgets xsi:type="model:Note" id="116" x="792" y="445" width="161" height="74" text="Jumps to the overview for this group. Overview contains a &quot;back&quot; link then." measuredWidth="161" measuredHeight="74" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="117" x="32" y="291" width="247" height="35" text="Back to overview" measuredWidth="247" measuredHeight="35" icon="filled-arrow-left (small)" link="Home.screen" textAlignment="Left">
     <font/>
   </widgets>
   <hRuler/>

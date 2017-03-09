@@ -33,24 +33,18 @@ $Selenium->RunTest(
 
             # get default sysconfig
             my $SysConfigName  = 'Frontend::CustomerUser::Item###' . $SysConfigChange;
-            my %CustomerConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+            my %CustomerConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
                 Name    => $SysConfigName,
                 Default => 1,
             );
 
             # get default link text for each CustomerUserGenericTicket module
-            for my $DefaultText ( $CustomerConfig{Setting}->[1]->{Hash}->[1]->{Item}->[7]->{Content} ) {
-                push @CustomerUserGenericText, $DefaultText;
-            }
-
-            # set CustomerUserGenericTicket modules to valid
-            %CustomerConfig = map { $_->{Key} => $_->{Content} }
-                grep { defined $_->{Key} } @{ $CustomerConfig{Setting}->[1]->{Hash}->[1]->{Item} };
+            push @CustomerUserGenericText, $CustomerConfig{EffectiveValue}->{Text};
 
             $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => $SysConfigName,
-                Value => \%CustomerConfig,
+                Value => $CustomerConfig{EffectiveValue},
             );
         }
 

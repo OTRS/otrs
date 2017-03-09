@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
-  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="537" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="537"/>
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="537" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="537">
+    <font/>
+  </widgets>
   <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
     <font/>
   </widgets>
   <widgets xsi:type="model:Panel" id="5" x="18" y="212" width="271" height="77" measuredWidth="271" measuredHeight="77"/>
   <widgets xsi:type="model:Panel" id="6" x="301" y="212" width="693" height="285" measuredWidth="693" measuredHeight="285"/>
-  <widgets xsi:type="model:Panel" id="77" x="20" y="304" width="271" height="183" measuredWidth="271" measuredHeight="183"/>
+  <widgets xsi:type="model:Panel" id="77" x="20" y="304" width="271" height="225" measuredWidth="271" measuredHeight="225"/>
   <widgets xsi:type="model:HLine" id="53" x="301" y="243" width="692" measuredWidth="692" measuredHeight="6"/>
   <widgets xsi:type="model:Label" id="54" x="329" y="221" text="Available Configuration Groups" measuredWidth="182" measuredHeight="23">
     <font bold="false"/>
   </widgets>
   <widgets xsi:type="model:Icon" id="55" x="311" y="225" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="filled-arrow-down (large)"/>
-  <widgets xsi:type="model:SearchField" id="68" x="32" y="255" width="247" text="Search" measuredWidth="247" measuredHeight="24">
+  <widgets xsi:type="model:SearchField" id="68" x="32" y="255" width="247" text="Search" measuredWidth="247" measuredHeight="24" link="Searchresult.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Tree" id="69" x="320" y="256" width="653" height="217" text="[-] Group (15)&#xA;-[-] Sub group (5)&#xA;--[+] Sub sub group 1 (20)&#xA;--[+] Sub sub group 2&#xA;[-] Group (2)&#xA;-[+] Sub group 1 (30)&#xA;-[+] Sub group 2 (20)&#xA;[+] Group (2)&#xA;[-] Group (5)&#xA;-[+] Sub group (7)&#xA;" measuredWidth="653" measuredHeight="217" border="false">
     <items x="0" y="5" width="653" height="21" text="[-] Group (15)"/>
     <items x="0" y="26" width="653" height="21" text="-[-] Sub group (5)"/>
     <items x="0" y="47" width="653" height="21" text="--[+] Sub sub group 1 (20)"/>
-    <items x="0" y="68" width="653" height="21" text="--[+] Sub sub group 2"/>
+    <items link="Overview.screen" x="0" y="68" width="653" height="21" text="--[+] Sub sub group 2"/>
     <items x="0" y="89" width="653" height="21" text="[-] Group (2)"/>
     <items x="0" y="110" width="653" height="21" text="-[+] Sub group 1 (30)"/>
     <items x="0" y="131" width="653" height="21" text="-[+] Sub group 2 (20)"/>
@@ -28,23 +30,16 @@
     <items x="0" y="194" width="653" height="21" text="-[+] Sub group (7)"/>
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="70" x="32" y="348" width="247" height="35" text="Deploy settings" measuredWidth="247" measuredHeight="35" icon="direction (small)" textAlignment="Left">
+  <widgets xsi:type="model:Button" id="70" x="32" y="353" width="247" height="35" text="Start deployment" measuredWidth="247" measuredHeight="35" icon="direction (small)" link="OverlayDeployment.screen" textAlignment="Left">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="71" x="33" y="393" width="247" height="35" text="My currently locked settings" measuredWidth="247" measuredHeight="35" icon="secure (small)" textAlignment="Left">
+  <widgets xsi:type="model:Button" id="71" x="33" y="437" width="247" height="35" text="My currently locked settings" measuredWidth="247" measuredHeight="35" icon="secure (small)" link="OverlayMyLockedSettings.screen" textAlignment="Left">
     <font/>
   </widgets>
   <widgets xsi:type="model:Note" id="72" x="592" y="422" width="177" height="65" text="Click on a single group to go to overview screen for this group" measuredWidth="177" measuredHeight="65" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
   <widgets xsi:type="model:Arrow" id="73" x="472" y="347" width="121" height="76" measuredWidth="121" measuredHeight="76" annotation="true"/>
-  <widgets xsi:type="model:Breadcrumbs" id="74" x="20" y="178" text="Home,Group,Sub Group,Current Group Name" measuredWidth="313" measuredHeight="23">
-    <font/>
-    <items x="0" y="0" width="34" height="23" text="Home"/>
-    <items x="54" y="0" width="36" height="23" text="Group"/>
-    <items x="110" y="0" width="61" height="23" text="Sub Group"/>
-    <items x="191" y="0" width="119" height="23" text="Current Group Name"/>
-  </widgets>
   <widgets xsi:type="model:HLine" id="75" x="20" y="241" width="269" measuredWidth="269" measuredHeight="6"/>
   <widgets xsi:type="model:Label" id="76" x="32" y="220" text="General" measuredWidth="51" measuredHeight="23">
     <font bold="false"/>
@@ -53,17 +48,27 @@
   <widgets xsi:type="model:Label" id="79" x="34" y="312" text="Actions" measuredWidth="48" measuredHeight="23">
     <font bold="false"/>
   </widgets>
-  <widgets xsi:type="model:Arrow" id="81" x="191" y="360" width="121" height="97" measuredWidth="121" measuredHeight="97" annotation="true"/>
-  <widgets xsi:type="model:Button" id="82" x="33" y="437" width="247" height="35" text="My Favorites" measuredWidth="247" measuredHeight="35" icon="favorites (small)" textAlignment="Left">
+  <widgets xsi:type="model:Button" id="82" x="33" y="481" width="247" height="35" text="My favorite settings" measuredWidth="247" measuredHeight="35" icon="favorites (small)" link="OverlayMyFavouriteSettings.screen" textAlignment="Left">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" id="80" x="288" y="456" width="177" height="65" text="Opens an overlay which allows for deploying the current sysconfig state." measuredWidth="177" measuredHeight="65" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Note" id="80" x="288" y="461" width="177" height="65" text="Opens an overlay which allows for deploying the current sysconfig state." measuredWidth="177" measuredHeight="65" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Arrow" id="83" x="167" y="456" width="121" height="97" measuredWidth="121" measuredHeight="97" annotation="true"/>
-  <widgets xsi:type="model:Note" id="84" x="264" y="552" width="193" height="89" text="Opens a list of settings marked as favorite for the current user. List is similar to the search result screen, but all groups are expanded by default." measuredWidth="193" measuredHeight="89" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Arrow" id="83" x="167" y="500" width="121" height="97" measuredWidth="121" measuredHeight="97" annotation="true"/>
+  <widgets xsi:type="model:Note" id="84" x="264" y="596" width="193" height="89" text="Opens a list of settings marked as favorite for the current user. List is similar to the search result screen, but all groups are expanded by default." measuredWidth="193" measuredHeight="89" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
+  <widgets xsi:type="model:Breadcrumbs" id="85" x="20" y="178" text="Home,Group,Sub Group,Current Group Name" measuredWidth="313" measuredHeight="23">
+    <font/>
+    <items x="0" y="0" width="34" height="23" text="Home"/>
+    <items link="Overview.screen" x="54" y="0" width="36" height="23" text="Group"/>
+    <items x="110" y="0" width="61" height="23" text="Sub Group"/>
+    <items x="191" y="0" width="119" height="23" text="Current Group Name"/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="86" x="32" y="396" width="247" height="35" text="Deployment history" measuredWidth="247" measuredHeight="35" icon="history (small)" link="DeploymentHistory.screen" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="81" x="191" y="365" width="121" height="97" measuredWidth="121" measuredHeight="97" annotation="true"/>
   <hRuler/>
   <vRuler/>
   <font size="12px"/>

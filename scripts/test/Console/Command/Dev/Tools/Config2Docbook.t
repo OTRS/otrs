@@ -6,19 +6,12 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 
 use vars (qw($Self));
-
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Config2Docbook');
@@ -45,8 +38,11 @@ $Self->Is(
     "Dev::Tools::Config2Docbook exit code",
 );
 
-my $Test = '<variablelist id="ConfigReference_Ticket:Frontend::SLA::Preferences">
-    <title>Ticket → Frontend::SLA::Preferences</title>';
+my $Test = '<section id="ConfigReference_Section_Core::Cache">
+        <title>Core::Cache</title>
+        <variablelist>
+            <varlistentry id="ConfigReference_Setting_Core::Cache:Cache::InBackend">
+                <term>Cache::InBackend</term>';
 
 $Self->True(
     index( $Result, $Test ) > -1,
@@ -54,7 +50,5 @@ $Self->True(
 );
 
 print $Result;
-
-# cleanup cache is done by RestoreDatabase
 
 1;

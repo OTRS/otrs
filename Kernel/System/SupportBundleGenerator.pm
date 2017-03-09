@@ -22,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::Package',
     'Kernel::System::Registration',
     'Kernel::System::SupportDataCollector',
+    'Kernel::System::SysConfig',
     'Kernel::System::Time',
 );
 
@@ -157,6 +158,21 @@ sub Generate {
         };
     }
 
+    # get the configuration dump
+    ( $SupportFiles{ConfigurationDumpContent}, $SupportFiles{ConfigurationDumpFilename} )
+        = $Self->GenerateConfigurationDump();
+    if ( !$SupportFiles{ConfigurationDumpFilename} ) {
+        my $Message = 'Can not get the configuration dump!';
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $Message,
+        );
+        return {
+            Success => 0,
+            Message => $Message,
+        };
+    }
+
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -183,7 +199,7 @@ sub Generate {
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     my @List;
-    for my $Key (qw(PackageList RegistrationInfo SupportData CustomFilesArchive)) {
+    for my $Key (qw(PackageList RegistrationInfo SupportData CustomFilesArchive ConfigurationDump)) {
 
         if ( $SupportFiles{ $Key . 'Filename' } && $SupportFiles{ $Key . 'Content' } ) {
 
@@ -325,28 +341,25 @@ sub GenerateCustomFilesArchive {
     my $HomeWithoutSlash = $Self->{Home};
     $HomeWithoutSlash =~ s{\A\/}{};
 
-    # Mask Passwords in Config.pm
-    my $Config = $TarObject->get_content( $HomeWithoutSlash . '/Kernel/Config.pm' );
+    # Mask Passwords in files
+    CONFIGFILE:
+    for my $FilePath (qw(/Kernel/Config.pm /Kernel/Config/Files/ZZZAAuto.pm /Kernel/Config/Files/ZZZAuto.pm)) {
 
-    if ( !$Config ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Kernel/Config.pm was not found in the modified files!",
-        );
-        return;
+        my $FullFilePath = $HomeWithoutSlash . $FilePath;
+        my $FileString   = $TarObject->get_content($FullFilePath);
+
+        if ( !$FileString ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$FilePath was not found in the modified files!",
+            );
+            next CONFIGFILE;
+        }
+
+        $FileString = $Self->_MaskPasswords( StringToMask => $FileString );
+
+        $TarObject->replace_content( $FullFilePath, $FileString );
     }
-
-    # Trim any passswords from Config.pm.
-    # Simple settings like $Self->{'DatabasePw'} or $Self->{'AuthModule::LDAP::SearchUserPw1'}
-    $Config =~ s/(\$Self->\{'[^']+(?:Password|Pw)\d*'\}\s*=\s*)\'.*?\'/$1\'xxx\'/mg;
-
-    # Complex settings like:
-    #     $Self->{CustomerUser1} = {
-    #         Params => {
-    #             UserPw => 'xxx',
-    $Config =~ s/((?:Password|Pw)\d*\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
-
-    $TarObject->replace_content( $HomeWithoutSlash . '/Kernel/Config.pm', $Config );
 
     my $Write = $TarObject->write( $CustomFilesArchive, 0 );
     if ( !$Write ) {
@@ -487,6 +500,33 @@ sub GenerateRegistrationInfo {
     return ( \$JSONContent, 'RegistrationInfo.json' );
 }
 
+=head2 GenerateConfigurationDump()
+
+Generates a <.yml> file with the otrs system registration information
+
+    my ( $Content, $Filename ) = $SupportBundleGeneratorObject->GenerateConfigurationDump();
+
+Returns:
+    $Content  = $FileContentsRef;
+    $Filename = <'ModifiedSettings.yml'>;
+
+=cut
+
+sub GenerateConfigurationDump {
+    my ( $Self, %Param ) = @_;
+
+    my $Export = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationDump(
+        SkipDefaultSettings => 1,
+    );
+
+    $Export = $Self->_MaskPasswords(
+        StringToMask => $Export,
+        YAML         => 1
+    );
+
+    return ( \$Export, 'ModifiedSettings.yml' );
+}
+
 =head2 GenerateSupportData()
 
 Generates a C<.json> file with the support data
@@ -545,7 +585,7 @@ sub _GetMD5SumLookup {
         %PackageMD5SumLookup = ( %PackageMD5SumLookup, %{$PartialMD5Sum} );
     }
 
-    # add MD5Sums from all packages to the list from framwork ARCHIVE
+    # add MD5Sums from all packages to the list from framework ARCHIVE
     # overwritten files by packages will also overwrite the MD5 Sum
     %MD5SumLookup = ( %MD5SumLookup, %PackageMD5SumLookup );
 
@@ -644,6 +684,51 @@ sub _GetCustomFileList {
     }
 
     return @Files;
+}
+
+sub _MaskPasswords {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(StringToMask)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    my $StringToMask = $Param{StringToMask};
+
+    my @TrimAction = qw(
+        DatabasePw
+        SearchUserPw
+        UserPw
+        SendmailModule::AuthPassword
+        AuthModule::Radius::Password
+        PGP::Key::Password
+        Customer::AuthModule::DB::CustomerPassword
+        Customer::AuthModule::Radius::Password
+        PublicFrontend::AuthPassword
+    );
+
+    STRING:
+    for my $String (@TrimAction) {
+        next STRING if !$String;
+        if ( !$Param{YAML} ) {
+            $StringToMask =~ s/(^\s*\$Self.*?$String.*?=.*?)\'.*?\';/$1\'xxx\';/mg;
+        }
+        else {
+            $StringToMask =~ s/($String:.*?EffectiveValue:).*?\n/$1 xxx \n/sxg;
+        }
+    }
+
+    $StringToMask =~ s/(^\s+Password.*?=>.*?)\'.*?\',/$1\'xxx\',/mg;
+
+    return $StringToMask;
+
 }
 
 =head1 TERMS AND CONDITIONS

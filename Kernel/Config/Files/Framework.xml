@@ -930,6 +930,28 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###5000-SettingDeployment-Check" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the agent interface, if there are modified sysconfig settings that are not deployed yet.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::SettingDeploymentCheck</Item>
+                <Item Key="Group">admin</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###5200-SettingsInvalid-Check" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::SettingsInvalidCheck</Item>
+                <Item Key="Group">admin</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###5500-OutofOffice-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.</Description>
         <Group>Framework</Group>
@@ -947,6 +969,17 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::SystemMaintenanceCheck</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###6050-SystemConfiguration-OutofSync-Check" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the agent interface if the system configuration is out of sync.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::SystemConfigurationOutofSyncCheck</Item>
+                <Item Key="AllowedDelayMinutes">5</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -7865,18 +7898,6 @@ You can log in via the following URL:
             <String Regex="">user_id</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PreferencesView" Required="1" Valid="1">
-        <Description Translatable="1">Sets the display order of the different items in the preferences view.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Array>
-                <Item Translatable="1">User Profile</Item>
-                <Item Translatable="1">Notification Settings</Item>
-                <Item Translatable="1">Other Settings</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Password" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached.</Description>
         <Group>Framework</Group>
@@ -7884,10 +7905,11 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Password</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Change password</Item>
                 <Item Key="Prio">0500</Item>
                 <Item Key="Area">Agent</Item>
+                <Item Key="Desc" Translatable="1">Set a new password by filling in your current password and a new one.</Item>
                 <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
                 <Item Key="PasswordRegExp"></Item>
                 <Item Key="PasswordMinSize">0</Item>
@@ -7906,7 +7928,7 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Google Authenticator</Item>
                 <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication.</Item>
                 <Item Key="Key" Translatable="1">Shared Secret</Item>
@@ -7924,7 +7946,7 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Spelling Dictionary</Item>
                 <Item Key="Key" Translatable="1">Default spelling dictionary</Item>
                 <Item Key="Data">
@@ -7947,7 +7969,7 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Comment</Item>
                 <Item Key="Key" Translatable="1">Comment</Item>
                 <Item Key="Block">Input</Item>
@@ -7965,7 +7987,7 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">NameX</Item>
                 <Item Key="Key" Translatable="1">Default value for NameX</Item>
                 <Item Key="Block">Input</Item>
@@ -7983,9 +8005,9 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Language</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Language</Item>
-                <Item Key="Key" Translatable="1">Language</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Active">1</Item>
@@ -7999,9 +8021,10 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Skin</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Skin</Item>
-                <Item Key="Key" Translatable="1">Skin</Item>
+                <Item Key="Desc" Translatable="1">Select your preferred layout for OTRS.</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserSkin</Item>
                 <Item Key="Prio">100</Item>
                 <Item Key="Active">1</Item>
@@ -8015,7 +8038,7 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Theme</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Theme</Item>
                 <Item Key="Key" Translatable="1">Frontend theme</Item>
                 <Item Key="PrefKey">UserTheme</Item>
@@ -8031,9 +8054,10 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::TimeZone</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
+                <Item Key="Desc" Translatable="1">Select your personal time zone. All times will be displayed relative to this time zone.</Item>
                 <Item Key="Label" Translatable="1">Time Zone</Item>
-                <Item Key="Key" Translatable="1">Time Zone</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
                 <Item Key="Prio">3500</Item>
                 <Item Key="Active">1</Item>
@@ -8047,8 +8071,9 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::OutOfOffice</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Block">OutOfOffice</Item>
+                <Item Key="Desc" Translatable="1">If you're going to be out of office, you may wish to let other users know by setting the exact dates of your absence.</Item>
                 <Item Key="Label" Translatable="1">Out Of Office Time</Item>
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserOutOfOffice</Item>
@@ -8064,7 +8089,7 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">CSV Separator</Item>
                 <Item Key="Desc" Translatable="1">Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used.</Item>
                 <Item Key="Key" Translatable="1">CSV Separator</Item>
@@ -8683,17 +8708,6 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPreferencesView" Required="1" Valid="1">
-        <Description Translatable="1">Sets the order of the different items in the customer preferences view.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Customer::Preferences</SubGroup>
-        <Setting>
-            <Array>
-                <Item Translatable="1">User Profile</Item>
-                <Item Translatable="1">Other Settings</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###Password" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this item in the customer preferences. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control).</Description>
         <Group>Framework</Group>
@@ -8701,7 +8715,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Password</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Change password</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Area">Customer</Item>
@@ -8722,7 +8736,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Google Authenticator</Item>
                 <Item Key="Key" Translatable="1">Shared Secret</Item>
                 <Item Key="Block">Input</Item>
@@ -8739,7 +8753,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Language</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Interface language</Item>
                 <Item Key="Key" Translatable="1">Language</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
@@ -8755,7 +8769,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::TimeZone</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Time Zone</Item>
                 <Item Key="Key" Translatable="1">Time Zone</Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
@@ -8763,14 +8777,15 @@ via the Preferences button after logging in.
                 <Item Key="Active">1</Item>
             </Hash>
         </Setting>
-    </ConfigItem>    <ConfigItem Name="CustomerPreferencesGroups###Theme" Required="0" Valid="1">
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferencesGroups###Theme" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Theme</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Theme</Item>
                 <Item Key="Key" Translatable="1">Select your frontend Theme.</Item>
                 <Item Key="PrefKey">UserTheme</Item>
@@ -8786,7 +8801,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::PGP</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">PGP Key</Item>
                 <Item Key="Key" Translatable="1">PGP Key Upload</Item>
                 <Item Key="PrefKey">UserPGPKey</Item>
@@ -8802,7 +8817,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::SMIME</Item>
-                <Item Key="Column">Other Settings</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">S/MIME Certificate</Item>
                 <Item Key="Key" Translatable="1">S/MIME Certificate Upload</Item>
                 <Item Key="PrefKey">UserSMIMEKey</Item>
@@ -8978,7 +8993,12 @@ via the Preferences button after logging in.
                 <NavBarName>Preferences</NavBarName>
                 <Loader>
                     <CSS>Core.Agent.Preferences.css</CSS>
+                    <CSS>Core.Agent.Admin.SystemConfiguration.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                     <JavaScript>Core.Agent.Preferences.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.js</JavaScript>
+                    <JavaScript>Core.SystemConfigurationDate.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9087,6 +9107,26 @@ via the Preferences button after logging in.
             <String>Action=AgentTicketSearch;Subaction=AJAX</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Search###AdminSystemConfiguration" Required="0" Valid="1">
+        <Description Translatable="1">Search backend router.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::SearchRouter</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="^AdminSystemConfiguration">Action=AdminSystemConfiguration;Subaction=SearchDialog</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Search::JavaScript###AdminSystemConfiguration" Required="0" Valid="1">
+        <Description Translatable="1">JavaScript function for the search frontend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::SearchRouter</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="^AdminSystemConfiguration">Core.Agent.Admin.SystemConfiguration.OpenSearchDialog()</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###Admin" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
@@ -9114,7 +9154,6 @@ via the Preferences button after logging in.
                 <Loader>
                     <CSS>Core.Agent.Admin.css</CSS>
                     <JavaScript>Core.Agent.Admin.js</JavaScript>
-                    <JavaScript>Core.Agent.Admin.SysConfig.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                 </Loader>
@@ -11292,6 +11331,93 @@ via the Preferences button after logging in.
         <SubGroup>Core::Fetchmail</SubGroup>
         <Setting>
             <String Regex="[/|\w]+fetchmail$" Check="File">/usr/bin/fetchmail</String>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Frontend::Module###AdminSystemConfigurationDeployment" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <GroupRo></GroupRo>
+                <Group>admin</Group>
+                <Group>users</Group>
+                <Description Translatable="1">Manage System Configuration Deployments.</Description>
+                <Title Translatable="1">System Configuration Deployment</Title>
+                <NavBarName>SystemConfiguration</NavBarName>
+                 <Loader>
+                    <CSS>Core.Agent.Admin.SystemConfiguration.css</CSS>
+                    <JavaScript>thirdparty/clipboardjs-1.5.15/clipboard.min.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SystemConfiguration.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Frontend::Module###AdminSystemConfiguration" Required="1" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <GroupRo></GroupRo>
+                <Group>admin</Group>
+                <Description Translatable="1">Admin.</Description>
+                <Title Translatable="1">System Configuration</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
+                    <Name Translatable="1">System Configuration</Name>
+                    <Description Translatable="1">Edit the system configuration settings.</Description>
+                    <IconBig></IconBig>
+                    <IconSmall></IconSmall>
+                    <Prio>800</Prio>
+                </NavBarModule>
+                 <Loader>
+                    <CSS>Core.Agent.Admin.SystemConfiguration.css</CSS>
+                    <JavaScript>thirdparty/clipboardjs-1.5.15/clipboard.min.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.Date.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SystemConfiguration.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminSystemConfigurationGroup" Required="1" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <GroupRo></GroupRo>
+                <Group>admin</Group>
+                <Description Translatable="1">Admin.</Description>
+                <Title Translatable="1">System Configuration Group</Title>
+                <NavBarName>Admin</NavBarName>
+                 <Loader>
+                    <CSS>Core.Agent.Admin.SystemConfiguration.css</CSS>
+                    <JavaScript>thirdparty/clipboardjs-1.5.15/clipboard.min.js</JavaScript>
+                    <JavaScript>thirdparty/stickyjs-1.0.4/jquery.sticky.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.Date.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.DateTime.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.VacationDays.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.VacationDaysOneTime.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.WorkingHours.js</JavaScript>
+                    <JavaScript>Core.Form.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.SystemConfiguration.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="EditAnotherUsersPreferencesGroup" Required="1" Valid="1">
+        <Description Translatable="1">Specifies the group where the user needs rw permissions so that they can edit other users preferences.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String>admin</String>
         </Setting>
     </ConfigItem>
 </otrs_config>

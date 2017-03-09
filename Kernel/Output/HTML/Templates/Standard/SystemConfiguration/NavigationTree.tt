@@ -1,0 +1,23 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% BLOCK Recurse %]
+<ul style="display: none;">
+    [% FOREACH Item IN RecursionData.keys.sort %]
+        [% Matches = Item.match('[:]*(\w+)$'); %]
+        <li id="[% Item | html %]">
+            [% Matches.0 | html %]
+            [% IF RecursionData.$Item.size %]
+             ([% RecursionData.$Item.size %])
+                [% INCLUDE Recurse RecursionData = RecursionData.$Item %]
+            [% END %]
+        </li>
+    [% END %]
+</ul>
+[% END %]
+[% PROCESS Recurse RecursionData = Data.Tree %]

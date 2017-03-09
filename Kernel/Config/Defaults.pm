@@ -7,7 +7,7 @@
 # --
 
 # Default configuration for OTRS. All changes to this file will be lost after an
-#   update, please use AdminSysConfig to configure your system.
+#   update, please use AdminSystemConfiguration to configure your system.
 
 ## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
@@ -715,11 +715,23 @@ sub LoadDefaults {
         '2500-AgentSessionLimit' => {
           'Module' => 'Kernel::Output::HTML::Notification::AgentSessionLimit',
         },
+        '5000-SettingDeployment-Check' => {
+            Group  => 'admin',
+            Module => 'Kernel::Output::HTML::Notification::SettingDeploymentCheck',
+        },
+        '5200-SettingsInvalid-Check' => {
+            Group  => 'admin',
+            Module => 'Kernel::Output::HTML::Notification::SettingsInvalidCheck',
+        },
         '5500-OutofOffice-Check' => {
             Module => 'Kernel::Output::HTML::Notification::OutofOfficeCheck',
         },
         '6000-SystemMaintenance-Check' => {
             Module => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
+        },
+        '6050-SystemConfiguration-OutofSync-Check' =>  {
+            Module => 'Kernel::Output::HTML::Notification::SystemConfigurationOutofSyncCheck',
+            AllowedDelayMinutes => '5',
         },
         '7000-AgentTimeZone-Check' => {
             Module => 'Kernel::Output::HTML::Notification::AgentTimeZoneCheck',
@@ -1138,7 +1150,7 @@ sub LoadDefaults {
     $Self->{PreferencesGroups}->{Password} = {
         'Active'                            => '1',
         'Area'                              => 'Agent',
-        'Column'                            => 'User Profile',
+        'PreferenceGroup'                   => 'UserProfile',
         'Label'                             => 'Change password',
         'Module'                            => 'Kernel::Output::HTML::Preferences::Password',
         'PasswordMaxLoginFailed'            => '0',
@@ -1148,10 +1160,11 @@ sub LoadDefaults {
         'PasswordNeedDigit'                 => '0',
         'PasswordRegExp'                    => '',
         'Prio'                              => '0500',
+        'Desc'                              => 'Set a new password by filling in your current password and a new one.',
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
         Module => 'Kernel::Output::HTML::Preferences::Generic',
-        Column => 'Other Options',
+        PreferenceGroup => 'Miscellaneous',
         Label  => 'Spelling Dictionary',
         Desc   => 'Select your default spelling dictionary.',
         Data   => {
@@ -1172,7 +1185,7 @@ sub LoadDefaults {
     $Self->{PreferencesGroups}->{Comment} = {
         'Active'  => '0',
         'Block'   => 'Input',
-        'Column'  => 'Other Settings',
+        'PreferenceGroup' => 'Miscellaneous',
         'Data'    => '[% Env("UserComment") %]',
         'Key'     => 'Comment',
         'Label'   => 'Comment',
@@ -1183,8 +1196,8 @@ sub LoadDefaults {
 
     $Self->{PreferencesGroups}->{Language} = {
         'Active'  => '1',
-        'Column'  => 'User Profile',
-        'Key'     => 'Language',
+        'PreferenceGroup'  => 'UserProfile',
+        'Key'     => '',
         'Label'   => 'Language',
         'Module'  => 'Kernel::Output::HTML::Preferences::Language',
         'PrefKey' => 'UserLanguage',
@@ -1192,7 +1205,7 @@ sub LoadDefaults {
     };
     $Self->{PreferencesGroups}->{Theme} = {
         'Active'  => '1',
-        'Column'  => 'User Profile',
+        'PreferenceGroup'  => 'UserProfile',
         'Key'     => 'Frontend theme',
         'Label'   => 'Theme',
         'Module'  => 'Kernel::Output::HTML::Preferences::Theme',
@@ -1725,41 +1738,55 @@ via the Preferences button after logging in.
         Group       => [
             'admin',
         ],
-        Loader => {
-            CSS => [
-                'Core.Agent.Admin.css',
-            ],
-            JavaScript => [
-                'Core.Agent.Admin.js',
-                'Core.Agent.Admin.SysConfig.js',
-                'Core.UI.AllocationList.js',
-                'Core.Agent.TableFilters.js',
-            ],
-        },
-        NavBar => [
-            {
-                AccessKey   => 'a',
-                Block       => 'ItemArea',
-                Description => '',
-                Link        => 'Action=Admin',
-                LinkOption  => '',
-                Name        => 'Admin',
-                NavBar      => 'Admin',
-                Prio        => '10000',
-                Type        => 'Menu',
-            },
-        ],
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-        },
+        GroupRo     => [],
         NavBarName => 'Admin',
         Title      => '',
     };
+    $Self->{'Loader::Module::Admin'}->{'000-Defaults'} = {
+        CSS => [
+            'Core.Agent.Admin.css',
+        ],
+        JavaScript => [
+            'Core.Agent.Admin.js',
+            'Core.UI.AllocationList.js',
+            'Core.Agent.TableFilters.js',
+        ],
+    };
+    $Self->{'Frontend::Navigation'}->{Admin}->{1} = {
+        Group       => [
+            'admin',
+        ],
+        GroupRo     => [],
+        AccessKey   => 'a',
+        Block       => 'ItemArea',
+        Description => '',
+        Link        => 'Action=Admin',
+        LinkOption  => '',
+        Name        => 'Admin',
+        NavBar      => 'Admin',
+        Prio        => '10000',
+        Type        => 'Menu',
+    };
+    $Self->{'Frontend::NavigationModule'}->{Admin} = {
+        Group       => [
+            'admin',
+        ],
+        GroupRo     => [],
+        Module => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+        Description => '',
+        IconBig => '',
+        IconSmall => '',
+        Name => '',
+        Prio => '',
+        Block => '',
+    };
+
     $Self->{'Frontend::Module'}->{AdminInit} = {
         Description => 'Admin',
         Group       => [
             'admin',
         ],
+        GroupRo     => [],
         NavBarName => '',
         Title      => 'Init',
     };
@@ -1768,85 +1795,104 @@ via the Preferences button after logging in.
         Group       => [
             'admin',
         ],
-        Loader => {
-            JavaScript => [
-                'Core.Agent.Admin.Log.js',
-            ],
-        },
-        NavBarModule => {
-            Description => Translatable('View system log messages.'),
-            IconBig     => 'fa-file-text-o',
-            Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            Name        => Translatable('System Log'),
-            Prio        => '600',
-        },
+        GroupRo     => [],
         NavBarName => 'Admin',
         Title      => 'System Log',
     };
-    $Self->{'Frontend::Module'}->{AdminSysConfig} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'SysConfig',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            IconBig     => 'fa-gears',
-            Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            Name        => Translatable('SysConfig'),
-            Description => Translatable('Edit the system configuration settings.'),
-            Block       => 'System',
-            Prio        => 800,
-        },
-        Loader => {
-            CSS => [
-                'Core.Agent.Admin.SysConfig.css',
-            ],
-            JavaScript => [
-                'Core.Agent.Admin.SysConfig.js',
-            ],
-        },
+    $Self->{'Loader::Module::AdminLog'}->{'000-Defaults'} = {
+        JavaScript => [
+          'Core.Agent.Admin.Log.js'
+        ],
     };
+    $Self->{'Frontend::NavigationModule'}->{AdminLog} = {
+        GroupRo     => [],
+        Group       => [
+            'admin',
+        ],
+        Description => Translatable('View system log messages.'),
+        IconBig     => 'fa-file-text-o',
+        IconSmall   => '',
+        Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+        Name        => Translatable('System Log'),
+        Prio        => '600',
+        Block => '',
+    };
+
+    $Self->{'Frontend::Module'}->{AdminSystemConfiguration} = {
+        Group        => ['admin'],
+        GroupRo     => [],
+        Description  => 'Admin.',
+        Title        => 'System Configuration',
+        NavBarName   => 'Admin',
+    };
+    $Self->{'Loader::Module::AdminSystemConfiguration'}->{'000-Defaults'} = {
+        CSS => [
+            'Core.Agent.Admin.SystemConfiguration.css',
+        ],
+        JavaScript => [
+            'thirdparty/clipboardjs-1.5.15/clipboard.min.js',
+            'Core.SystemConfiguration.js',
+            'Core.SystemConfiguration.Date.js',
+            'Core.Agent.Admin.SystemConfiguration.js',
+        ],
+    };
+    $Self->{'Frontend::NavigationModule'}->{AdminSystemConfiguration} = {
+        Group        => ['admin'],
+        GroupRo      => [],
+        Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+        Name        => Translatable('System Configuration'),
+        Description => Translatable('Edit the system configuration settings.'),
+        Block       => 'System',
+        Prio        => 800,
+        IconBig     => '',
+        IconSmall    => '',
+        Block => '',
+    };
+
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
         Description => 'Software Package Manager.',
         Group       => [
             'admin',
         ],
-        NavBarModule => {
-            IconBig     => 'fa-plug',
-            Description => Translatable('Update and extend your system with software packages.'),
-            Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            Name        => Translatable('Package Manager'),
-            Prio        => '1000',
-        },
+        GroupRo     => [],
         NavBarName => 'Admin',
         Title      => 'Package Manager',
     };
+    $Self->{'Frontend::NavigationModule'}->{AdminPackageManager} = {
+        Group       => [
+            'admin',
+        ],
+        GroupRo      => [],
+        IconBig     => 'fa-plug',
+        IconSmall => '',
+        Description => Translatable('Update and extend your system with software packages.'),
+        Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+        Name        => Translatable('Package Manager'),
+        Prio        => '1000',
+        Block => '',
+    };
 
     # specify Loader settings for Login screens
-    $Self->{'Frontend::Module'}->{Login} = {
-        Loader => {
-            JavaScript => [
-                'Core.Agent.Login.js',
-            ],
-        },
+    $Self->{'Loader::Module::Login'}->{'000-Defaults'} = {
+        JavaScript => [
+            'Core.Agent.Login.js',
+        ],
     };
-    $Self->{'CustomerFrontend::Module'}->{CustomerLogin} = {
-        Loader => {
-            JavaScript => [
-                'Core.Customer.Login.js',
-            ],
-        },
+
+    $Self->{'Loader::Module::CustomerLogin'}->{'000-Defaults'} = {
+        JavaScript => [
+            'Core.Customer.Login.js',
+        ],
     };
 
     # specify Loader settings for the installer
-    $Self->{'Frontend::Module'}->{Installer} = {
-        Loader => {
-            JavaScript => [
-                'Core.Installer.js',
-            ],
-            CSS => [
-                'Core.Installer.css',
-            ],
-        },
+    $Self->{'Loader::Module::Installer'}->{'000-Defaults'} = {
+        JavaScript => [
+            'Core.Installer.js',
+        ],
+        CSS => [
+            'Core.Installer.css',
+        ],
     };
 
     return;
@@ -1921,6 +1967,10 @@ sub new {
                         $FileFormat = 1.1;
                         last LINE;
                     }
+                    elsif ($Line =~ /^\Q# VERSION:2.0\E/) {
+                        $FileFormat = 2.0;
+                        last LINE;
+                    }
 
                     $TryCount++;
                     if ( $TryCount >= 8 ) {
@@ -1941,7 +1991,7 @@ sub new {
             }
 
             # use file format of config file
-            if ( $FileFormat == 1.1 ) {
+            if ( $FileFormat == 1.1 || $FileFormat == 2.0 ) {
 
                 # check if mod_perl is used
                 my $Require = 1;

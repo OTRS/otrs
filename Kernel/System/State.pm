@@ -49,8 +49,13 @@ sub new {
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # check needed config options
-    for (qw(Ticket::ViewableStateType Ticket::UnlockStateType)) {
-        $Kernel::OM->Get('Kernel::Config')->Get($_) || die "Need $_ in Kernel/Config.pm!\n";
+    for my $Needed (qw(Ticket::ViewableStateType Ticket::UnlockStateType)) {
+        if ( !$Kernel::OM->Get('Kernel::Config')->Get($Needed) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed is missing in the configuration!",
+            );
+        }
     }
 
     return $Self;
@@ -242,7 +247,6 @@ update state attributes
         Comment        => 'some comment',
         ValidID        => 1,
         TypeID         => 1,
-        CheckSysConfig => 0,   # (optional) default 1
         UserID         => 123,
     );
 
@@ -262,9 +266,6 @@ sub StateUpdate {
         }
     }
 
-    # check CheckSysConfig param
-    $Param{CheckSysConfig} //= 1;
-
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -283,12 +284,6 @@ sub StateUpdate {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
     );
-
-    # check all sysconfig options
-    return 1 if !$Param{CheckSysConfig};
-
-    # check all sysconfig options and correct them automatically if neccessary
-    $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemCheckAll();
 
     return 1;
 }

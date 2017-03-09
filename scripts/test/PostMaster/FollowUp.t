@@ -209,7 +209,6 @@ for my $Test (@Tests) {
         SignatureID     => 1,
         Comment         => 'Some comment',
         UserID          => 1,
-        CheckSysConfig  => 0,
     );
     $Self->True(
         $QueueUpdated,

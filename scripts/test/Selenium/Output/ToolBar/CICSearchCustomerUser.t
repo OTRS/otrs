@@ -105,10 +105,9 @@ $Selenium->RunTest(
         );
 
         # input test user in search Customer user
-        my $AutoCCSearch = "\"$TestCustomerLogin $TestCustomerLogin\" <$TestCustomerEmail>";
         $Selenium->find_element( "#ToolBarCICSearchCustomerUser", 'css' )->send_keys($TestCustomerLogin);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$AutoCCSearch']")->VerifiedClick();
+        $Selenium->find_element("//*[text()='$TestCustomerLogin']")->VerifiedClick();
 
         # verify search
         $Self->True(

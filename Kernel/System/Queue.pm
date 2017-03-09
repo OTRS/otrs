@@ -1086,7 +1086,6 @@ update queue attributes
         UnlockTimeOut       => ''
         FollowUpLock        => 1,
         ParentQueueID       => '',
-        CheckSysConfig      => 0,   # (optional) default 1
     );
 
 =cut
@@ -1106,11 +1105,6 @@ sub QueueUpdate {
             );
             return;
         }
-    }
-
-    # check CheckSysConfig param
-    if ( !defined $Param{CheckSysConfig} ) {
-        $Param{CheckSysConfig} = 1;
     }
 
     # FollowUpLock 0 | 1
@@ -1253,12 +1247,6 @@ sub QueueUpdate {
             }
         }
     }
-
-    # check all SysConfig options
-    return 1 if !$Param{CheckSysConfig};
-
-    # check all SysConfig options and correct them automatically if necessary
-    $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemCheckAll();
 
     return 1;
 }

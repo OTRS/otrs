@@ -614,12 +614,12 @@ Returns:
 sub DynamicFieldList {
     my ( $Self, %Param ) = @_;
 
-    # to store fieldIDs whitelist
+    # to store fieldIDs white-list
     my %AllowedFieldIDs;
 
     if ( defined $Param{FieldFilter} && ref $Param{FieldFilter} eq 'HASH' ) {
 
-        # fill the fieldIDs whitelist
+        # fill the fieldIDs white-list
         FIELDNAME:
         for my $FieldName ( sort keys %{ $Param{FieldFilter} } ) {
             next FIELDNAME if !$Param{FieldFilter}->{$FieldName};
@@ -628,7 +628,7 @@ sub DynamicFieldList {
             next FIELDNAME if !IsHashRefWithData($FieldConfig);
             next FIELDNAME if !$FieldConfig->{ID};
 
-            $AllowedFieldIDs{ $FieldConfig->{ID} } = 1,
+            $AllowedFieldIDs{ $FieldConfig->{ID} } = 1;
         }
     }
 
@@ -734,8 +734,7 @@ sub DynamicFieldList {
                 elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
                     my $ObjectTypeString =
                         join ',',
-                        map "'" . $DBObject->Quote($_) . "'",
-                        @{ $Param{ObjectType} };
+                        map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
                     $SQL .= " AND object_type IN ($ObjectTypeString)";
 
                 }
@@ -751,8 +750,7 @@ sub DynamicFieldList {
                 elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
                     my $ObjectTypeString =
                         join ',',
-                        map "'" . $DBObject->Quote($_) . "'",
-                        @{ $Param{ObjectType} };
+                        map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
                     $SQL .= " WHERE object_type IN ($ObjectTypeString)";
                 }
             }
@@ -983,8 +981,7 @@ sub DynamicFieldListGet {
             elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
                 my $ObjectTypeString =
                     join ',',
-                    map "'" . $DBObject->Quote($_) . "'",
-                    @{ $Param{ObjectType} };
+                    map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
                 $SQL .= " AND object_type IN ($ObjectTypeString)";
 
             }
@@ -999,8 +996,7 @@ sub DynamicFieldListGet {
             elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
                 my $ObjectTypeString =
                     join ',',
-                    map "'" . $DBObject->Quote($_) . "'",
-                    @{ $Param{ObjectType} };
+                    map { "'" . $DBObject->Quote($_) . "'" } @{ $Param{ObjectType} };
                 $SQL .= " WHERE object_type IN ($ObjectTypeString)";
             }
         }

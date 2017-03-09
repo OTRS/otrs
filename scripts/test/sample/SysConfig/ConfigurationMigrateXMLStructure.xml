@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_config version="1.0" init="Framework">
+    <ConfigItem Name="Test1" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - First No, then Yes - SelectedID is 0.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test2" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - empty SelectedID.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test3" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - First No, then Yes - SelectedID is 1.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test4" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - First Yes, then No - SelectedID is 0.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test5" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox(start with Translatable) - First No, then Yes - SelectedID is 0.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Translatable="1" Key="0">No</Item>
+                <Item Translatable="1" Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test6" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox(start with Translatable) - empty SelectedID.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="">
+                <Item Translatable="1" Key="0">No</Item>
+                <Item Translatable="1" Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test7" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox(start with Translatable) - First No, then Yes - SelectedID is 1.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Translatable="1" Key="0">No</Item>
+                <Item Translatable="1" Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test8" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox(start with Translatable) - First Yes, then No - SelectedID is 0.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Translatable="1" Key="1">Yes</Item>
+                <Item Translatable="1" Key="0">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test9" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - empty SelectedID.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="">
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test10" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert to checkbox - First Yes, then No - SelectedID is 1.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test11" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert other Options to the Items(with Select attribute).</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="2" Translatable="1">Yes, but...</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test12" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Rename Regex attribute to the ValueRegex.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String Regex="^\d+$">10</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test13" Required="1" Valid="1">
+        <Description Translatable="1">Convert TimeWorkingHours.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                    <Hour>8</Hour>
+                    <Hour>9</Hour>
+                    <Hour>10</Hour>
+                </Day>
+                <Day Name="Tue">
+                    <Hour>8</Hour>
+                </Day>
+                <Day Name="Wed">
+                    <Hour>8</Hour>
+                    <Hour>9</Hour>
+                </Day>
+                <Day Name="Thu">
+                    <Hour>8</Hour>
+                </Day>
+                <Day Name="Fri">
+                    <Hour>8</Hour>
+                    <Hour>9</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test14" Required="1" Valid="1">
+        <Description Translatable="1">Convert TimeVacationDays.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1" Translatable="1">New Year's Day</Item>
+                <Item Month="5" Day="1" Translatable="1">International Workers' Day</Item>
+                <Item Month="12" Day="24" Translatable="1">Christmas Eve</Item>
+                <Item Month="12" Day="25" Translatable="1">First Christmas Day</Item>
+                <Item Month="12" Day="26" Translatable="1">Second Christmas Day</Item>
+                <Item Month="12" Day="31" Translatable="1">New Year's Eve</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test15" Required="1" Valid="1">
+        <Description Translatable="1">Convert TimeVacationDaysOneTime.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test16" Required="0" Valid="0">
+        <Description Translatable="1">Convert String with Check attribute(File) and Regex.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String Regex="[/|\w]+fetchmail$" Check="File">/usr/bin/fetchmail</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test17" Required="1" Valid="1">
+        <Description Translatable="1">Convert String with Check attribute(Directory) and Regex.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String Regex="" Check="Directory">/etc/ssl/certs</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test18" Required="1" Valid="1">
+        <Description Translatable="1">Convert TextArea to items.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <TextArea>Text area
+
+Description
+            </TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test19" Required="1" Valid="1">
+        <Description Translatable="1">Convert TextArea to items with Translatable attribute.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <TextArea Translatable="1">Text area
+
+Description
+            </TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test20" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert Option tags to Items with Select attribute.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option SelectedID="2">
+                <Item Key="1">Option 1</Item>
+                <Item Key="2">Option 2</Item>
+                <Item Key="3">Option 3</Item>
+                <Item Key="4">Option 4</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test21" Required="0" Valid="0">
+        <Description Translatable="1">Convert ValidateModule - State.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test22" Required="0" Valid="0">
+        <Description Translatable="1">Convert ValidateModule - Priority.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test23" Required="0" Valid="0">
+        <Description Translatable="1">Convert ValidateModule - Queue.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::QueueValidate</ValidateModule>
+        <Setting>
+            <String Regex="">Raw</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test24" Required="0" Valid="0">
+        <Description Translatable="1">Convert ValidateModule - Unknown.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::UnknownValidate</ValidateModule>
+        <Setting>
+            <String Regex="">1</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Convert Module Registration without NavBar.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Agents &lt;-&gt; Groups</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
+                    <Name Translatable="1">Agents &lt;-&gt; Groups</Name>
+                    <Block>Agent</Block>
+                    <Description Translatable="1">Link agents to groups.</Description>
+                    <Prio>200</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Convert Module Registration with NavBar.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Group>expert</Group>
+                <GroupRo>users</GroupRo>
+                <Description>Admin</Description>
+                <Title Translatable="1">Agents &lt;-&gt; Groups</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
+                    <Name Translatable="1">Agents &lt;-&gt; Groups</Name>
+                    <Block>Agent</Block>
+                    <Description Translatable="1">Link agents to groups.</Description>
+                    <Prio>200</Prio>
+                </NavBarModule>
+                <NavBar>
+                    <Name Translatable="1">Reports</Name>
+                    <Link>Action=AgentStatistics;Subaction=Overview</Link>
+                    <LinkOption></LinkOption>
+                    <NavBar>Reports</NavBar>
+                    <Type>Menu</Type>
+                    <Description Translatable="1"></Description>
+                    <Prio>8500</Prio>
+                    <Block>ItemArea</Block>
+                    <AccessKey></AccessKey>
+                </NavBar>
+                <NavBar>
+                    <Group>expert</Group>
+                    <GroupRo>stats</GroupRo>
+                    <GroupRo>another</GroupRo>
+                    <Description Translatable="1"></Description>
+                    <Name Translatable="1">Reports (OTRS Business Solution™)</Name>
+                    <Link>Action=AgentStatisticsReports;Subaction=Overview</Link>
+                    <LinkOption>class="OTRSBusinessRequired"</LinkOption>
+                    <NavBar>Reports</NavBar>
+                    <Prio>100</Prio>
+                    <Type></Type>
+                    <Block></Block>
+                    <AccessKey></AccessKey>
+                </NavBar>
+                <NavBar>
+                    <GroupRo>stats</GroupRo>
+                    <Description Translatable="1"></Description>
+                    <Name Translatable="1">Statistics</Name>
+                    <Link>Action=AgentStatistics;Subaction=Overview</Link>
+                    <LinkOption></LinkOption>
+                    <NavBar>Reports</NavBar>
+                    <Prio>200</Prio>
+                    <Type></Type>
+                    <Block></Block>
+                    <AccessKey></AccessKey>
+                </NavBar>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###ModuleName" Required="0" Valid="1">
+        <Description Translatable="1">Convert Module Registration with NavBar and Loader.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Agents &lt;-&gt; Groups</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
+                    <Name Translatable="1">Agents &lt;-&gt; Groups</Name>
+                    <Block>Agent</Block>
+                    <Description Translatable="1">Link agents to groups.</Description>
+                    <Prio>200</Prio>
+                </NavBarModule>
+                <NavBar>
+                    <Name Translatable="1">Reports</Name>
+                    <Link>Action=AgentStatistics;Subaction=Overview</Link>
+                    <LinkOption></LinkOption>
+                    <NavBar>Reports</NavBar>
+                    <Type>Menu</Type>
+                    <Description Translatable="1"></Description>
+                    <Prio>8500</Prio>
+                    <Block>ItemArea</Block>
+                    <AccessKey></AccessKey>
+                </NavBar>
+                <Loader>
+                    <JavaScript>thirdparty/d3-3.5.6/d3.min.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
+                    <CSS>thirdparty/nvd3-1.7.1/nv.d3.css</CSS>
+                    <CSS>Core.Agent.Statistics.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###Logout" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Logout</Description>
+                <Title></Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test25" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Convert option with Location attribute.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Option Location="Kernel/System/Cache/*.pm" SelectedID="Kernel::System::Cache::FileStorable">
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test26" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Convert String with Type="Password".</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String Regex="" Type="Password">SomePassword</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test27" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">String with UTF8.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String Regex="">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test28" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Wrong Item.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String1 Regex="">123</String1>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test29" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">OTRS Business Solution™, OTRS Verify™ (test utf8).</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String1 Regex="">123</String1>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test30" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Convert String with Type="Password" in Hash.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Password">some_password</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test31" Required="1" Valid="1">
+        <Description Translatable="1">Convert Ticket::Type::Default to Entity Type.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String Regex="" Translatable="1">Unclassified</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test32" Required="1" Valid="1">
+        <Description Translatable="1">Replace empty regex with \d+ where value is digit.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String Regex="">40</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test33" Required="1" Valid="1">
+        <Description Translatable="1">Place regex \d+ where value is digit.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String>40</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Test34" Required="1" Valid="1">
+        <Description Translatable="1">Replace regex \d+ where value is digit.</Description>
+        <Group>TestGroup</Group>
+        <SubGroup>SubGroup</SubGroup>
+        <Setting>
+            <String Regex="\d+">4000</String>
+        </Setting>
+    </ConfigItem>
+</otrs_config>

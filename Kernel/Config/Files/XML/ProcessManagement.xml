@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="2.0" init="Application">
+    <Setting Name="Frontend::Module###AdminProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTRS.</Item>
+                    <Item Key="Title" Translatable="1">Process Management</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminProcessManagement###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.css</Item>
+                        <Item>Core.AllocationList.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>thirdparty/jsplumb-1.6.4/jsplumb.js</Item>
+                        <Item>thirdparty/farahey-0.5/farahey.js</Item>
+                        <Item>thirdparty/jsplumb-labelspacer/label-spacer.js</Item>
+                        <Item>Core.Agent.Admin.ProcessManagement.js</Item>
+                        <Item>Core.Agent.Admin.ProcessManagement.Canvas.js</Item>
+                        <Item>Core.UI.AllocationList.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Process Management</Item>
+                <Item Key="Block">System</Item>
+                <Item Key="Description" Translatable="1">Configure Processes.</Item>
+                <Item Key="IconBig">fa-sitemap</Item>
+                <Item Key="IconSmall"></Item>
+                <Item Key="Prio">750</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminProcessManagementActivity" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTRS.</Item>
+                    <Item Key="Title" Translatable="1">Process Management Activity GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminProcessManagementActivity###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.css</Item>
+                        <Item>Core.AllocationList.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.js</Item>
+                        <Item>Core.UI.AllocationList.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminProcessManagementActivityDialog" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTRS.</Item>
+                    <Item Key="Title" Translatable="1">Process Management Activity Dialog GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminProcessManagementActivityDialog###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.css</Item>
+                        <Item>Core.AllocationList.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.js</Item>
+                        <Item>Core.UI.AllocationList.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminProcessManagementTransition" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTRS.</Item>
+                    <Item Key="Title" Translatable="1">Process Management Transition GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminProcessManagementTransition###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminProcessManagementTransitionAction" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTRS.</Item>
+                    <Item Key="Title" Translatable="1">Process Management Transition Action GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminProcessManagementTransitionAction###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminProcessManagementPath" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTRS.</Item>
+                    <Item Key="Title" Translatable="1">Process Management Path GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminProcessManagementPath###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.css</Item>
+                        <Item>Core.AllocationList.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.ProcessManagement.js</Item>
+                        <Item>Core.UI.AllocationList.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavBarModule###1-TicketProcesses" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration (disable ticket processes screen if no process available).</Description>
+        <Navigation>Frontend::Agent::NavBarModule</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::AgentTicketProcess</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- OTRSTicketProcesses Merged Settings Start -->
+    <Setting Name="Frontend::Module###AgentTicketProcess" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Create new process ticket.</Item>
+                    <Item Key="Title" Translatable="1">New process ticket</Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AgentTicketProcess###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.TicketProcess.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.CustomerSearch.js</Item>
+                        <Item>Core.Agent.CustomerSearchAutoComplete.js</Item>
+                        <Item>Core.Agent.TicketAction.js</Item>
+                        <Item>Core.Agent.TicketProcess.js</Item>
+                        <Item>Core.TicketProcess.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AgentTicketProcess###1" Required="0" Valid="1">
+        <Description Translatable="1">Main menu for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Description" Translatable="1">Create New process ticket.</Item>
+                <Item Key="Name" Translatable="1">New process ticket</Item>
+                <Item Key="Link">Action=AgentTicketProcess</Item>
+                <Item Key="LinkOption"></Item>
+                <Item Key="NavBar">Ticket</Item>
+                <Item Key="Type"></Item>
+                <Item Key="Block"></Item>
+                <Item Key="AccessKey">p</Item>
+                <Item Key="Prio">220</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::EventModulePost###9800-TicketProcessTransitions" Required="0" Valid="1">
+        <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::TicketProcessTransitions</Item>
+                <Item Key="Transaction">1</Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Process::DynamicFieldProcessManagementProcessID" Required="1" Valid="1">
+        <Description Translatable="1">This option defines the dynamic field in which a Process Management process entity id is stored.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">ProcessManagementProcessID</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Process::DynamicFieldProcessManagementActivityID" Required="1" Valid="1">
+        <Description Translatable="1">This option defines the dynamic field in which a Process Management activity entity id is stored.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">ProcessManagementActivityID</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Process::DefaultQueue" Required="1" Valid="1">
+        <Description Translatable="1">This option defines the process tickets default queue.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Raw</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Process::DefaultState" Required="1" Valid="1">
+        <Description Translatable="1">This option defines the process tickets default state.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">new</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Process::DefaultLock" Required="1" Valid="1">
+        <Description Translatable="1">This option defines the process tickets default lock.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">unlock</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Process::DefaultPriority" Required="1" Valid="1">
+        <Description Translatable="1">This option defines the process tickets default priority.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ProcessDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+        <Description Translatable="1">Display settings to override defaults for Process Tickets.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewZoom</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="NavBarName" Translatable="1">Processes</Item>
+                <Item Key="WidgetTitle" Translatable="1">Process Information</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ProcessWidgetDynamicFieldGroups" Required="1" Valid="1">
+        <Description Translatable="1">Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: 'Key =&gt; My Group', 'Content: Name_X, NameY'.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewZoom</Navigation>
+        <Value>
+            <Hash>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ProcessWidgetDynamicField" Required="1" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the process widget in ticket zoom screen of the agent interface.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewZoom</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Select">
+                    <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                    <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
+                </DefaultItem>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::MenuModule###480-Process" Required="0" Valid="1">
+        <Description Translatable="1">Shows a link in the menu to enroll a ticket into a process in the ticket zoom view of the agent interface.</Description>
+        <Navigation>Frontend::Agent::Ticket::MenuModule</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenu::Process</Item>
+                <Item Key="Name">Process</Item>
+                <Item Key="Description" Translatable="1">Enroll process for this ticket</Item>
+                <Item Key="Action">AgentTicketProcess</Item>
+                <Item Key="Link">Action=AgentTicketProcess;IsProcessEnroll=1;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
+                <Item Key="Cluster"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Module###CustomerTicketProcess" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Process Ticket.</Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                    <Item Key="Title" Translatable="1">Process ticket</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::CustomerTicketProcess###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Customer.TicketProcess.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.TicketProcess.js</Item>
+                        <Item>Core.Customer.TicketProcess.js</Item>
+                        <Item>Core.TicketProcess.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Navigation###CustomerTicketProcess###1" Required="0" Valid="1">
+        <Description Translatable="1">Main menu for the agent interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Description" Translatable="1">Create new process ticket.</Item>
+                <Item Key="Name" Translatable="1">New process ticket</Item>
+                <Item Key="Link">Action=CustomerTicketProcess</Item>
+                <Item Key="LinkOption"></Item>
+                <Item Key="NavBar">Ticket</Item>
+                <Item Key="Type">Submenu</Item>
+                <Item Key="Block"></Item>
+                <Item Key="AccessKey">o</Item>
+                <Item Key="Prio">220</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::NavBarModule###10-CustomerTicketProcesses" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration (disable ticket processes screen if no process available) for Customer.</Description>
+        <Navigation>Frontend::Customer::NavBarModule</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::CustomerTicketProcess</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- OTRSTicketProcesses Merged Settings End -->
+    <Setting Name="Process::Entity::Prefix" Required="1" Valid="1">
+        <Description Translatable="1">Default ProcessManagement entity prefixes for entity IDs that are automatically generated.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Process">P</Item>
+                <Item Key="Activity">A</Item>
+                <Item Key="ActivityDialog">AD</Item>
+                <Item Key="Transition">T</Item>
+                <Item Key="TransitionAction">TA</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Process::CacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">3600</Item><!-- default 1 hour -->
+        </Value>
+    </Setting>
+    <Setting Name="Process::NavBarOutput::CacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for the ticket process navigation bar output module.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">900</Item><!-- default 15 minutes -->
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketProcess###StateType" Required="1" Valid="1">
+        <Description Translatable="1">Determines the next possible ticket states, for process tickets in the agent interface.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewProcess</Navigation>
+        <Value>
+            <Array>
+                <Item>new</Item>
+                <Item>open</Item>
+                <Item>pending auto</Item>
+                <Item>pending reminder</Item>
+                <Item>closed</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketProcess###StateType" Required="1" Valid="1">
+        <Description Translatable="1">Determines the next possible ticket states, for process tickets in the customer interface.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewProcess</Navigation>
+        <Value>
+            <Array>
+                <Item>new</Item>
+                <Item>open</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly" Required="1" Valid="1">
+        <Description Translatable="1">Controls if CustomerID is read-only in the agent interface.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewProcess</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="ProcessManagement::Transition::Debug::Enabled" Required="1" Valid="1">
+        <Description Translatable="1">If enabled debugging information for transitions is logged.</Description>
+        <Navigation>Core::Transition</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="ProcessManagement::Transition::Debug::LogPriority" Required="0" Valid="0">
+        <Description Translatable="1">Defines the priority in which the information is logged and presented.</Description>
+        <Navigation>Core::Transition</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="debug">
+                <Item ValueType="Option" Value="debug" Translatable="1">Debug</Item>
+                <Item ValueType="Option" Value="info" Translatable="1">Info</Item>
+                <Item ValueType="Option" Value="notice" Translatable="1">Notice</Item>
+                <Item ValueType="Option" Value="error" Translatable="1">Error</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="ProcessManagement::Transition::Debug::Filter###00-Default" Required="0" Valid="0">
+        <Description Translatable="1">Filter for debugging Transitions. Note: More filters can be added in the format &lt;OTRS_TICKET_Attribute&gt; e.g. &lt;OTRS_TICKET_Priority&gt;.</Description>
+        <Navigation>Core::Transition</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TransitionEntityID"></Item>
+                <Item Key="&lt;OTRS_TICKET_TicketNumber&gt;"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DashboardBackend###0140-RunningTicketProcess" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
+                <Item Key="Title" Translatable="1">Running Process Tickets</Item>
+                <Item Key="Description" Translatable="1">All tickets with a reminder set where the reminder date has been reached</Item>
+                <Item Key="Attributes">StateType=new;StateType=open;StateType=pending reminder;StateType=pending auto</Item>
+                <Item Key="Time">UntilTime</Item>
+                <Item Key="IsProcessWidget">1</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">0</Item>
+                <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <DefaultItem ValueType="Select">
+                            <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                            <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
+                            <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
+                        </DefaultItem>
+                        <Item Key="Age" SelectedID="2"></Item>
+                        <Item Key="DynamicField_ProcessManagementProcessID" SelectedID="2"></Item>
+                        <Item Key="DynamicField_ProcessManagementActivityID" SelectedID="2"></Item>
+                        <Item Key="Changed" SelectedID="1"></Item>
+                        <Item Key="CustomerID" SelectedID="1"></Item>
+                        <Item Key="CustomerName" SelectedID="1"></Item>
+                        <Item Key="CustomerUserID" SelectedID="1"></Item>
+                        <Item Key="EscalationResponseTime" SelectedID="1"></Item>
+                        <Item Key="EscalationSolutionTime" SelectedID="1"></Item>
+                        <Item Key="EscalationTime" SelectedID="1"></Item>
+                        <Item Key="EscalationUpdateTime" SelectedID="1"></Item>
+                        <Item Key="TicketNumber" SelectedID="2"></Item>
+                        <Item Key="Lock" SelectedID="1"></Item>
+                        <Item Key="Owner" SelectedID="1"></Item>
+                        <Item Key="PendingTime" SelectedID="1"></Item>
+                        <Item Key="Queue" SelectedID="1"></Item>
+                        <Item Key="Responsible" SelectedID="1"></Item>
+                        <Item Key="Priority" SelectedID="1"></Item>
+                        <Item Key="Service" SelectedID="1"></Item>
+                        <Item Key="State" SelectedID="1"></Item>
+                        <Item Key="SLA" SelectedID="1"></Item>
+                        <Item Key="Title" SelectedID="2"></Item>
+                        <Item Key="Type" SelectedID="1"></Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###ProcessID" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">ProcessID</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::ProcessManagement::ProcessID</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+                <Item Key="DisabledAdd">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="DynamicFields::Driver###ActivityID" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">ActivityID</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::ProcessManagement::ActivityID</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+                <Item Key="DisabledAdd">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+</otrs_config>

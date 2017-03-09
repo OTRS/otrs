@@ -87,6 +87,12 @@ ul.Tablelike li.Header + li {
     background: #f5f5f5;
 }
 
+.WidgetSimple.WidgetLoading i {
+    display: block;
+    text-align: center;
+    margin: 10px 0px;
+}
+
 .WidgetSimple.MobileNotAvailableWidget {
     display: none;
 }
@@ -328,6 +334,25 @@ ul.Tablelike li.Header + li {
     display: block;
 }
 
+.WidgetAction.WithText {
+    width: auto;
+}
+
+.WidgetAction.WithText a {
+    color: #999;
+    font-size: 11px;
+    white-space: nowrap;
+    line-height: 16px;
+}
+
+.WidgetAction.WithText a i {
+    font-size: 14px;
+    position: relative;
+    top: -2px;
+    display: inline-block !important;
+    margin-left: 5px;
+}
+
 .WidgetAction.Toggle,
 .Expanded.AnimationRunning > .Header > .WidgetAction.Toggle {
     height: 13px;
@@ -344,8 +369,17 @@ ul.Tablelike li.Header + li {
     color: #555 !important;
 }
 
+.RTL .WidgetAction.Toggle i {
+    left: auto;
+    right: 7px;
+}
+
 .Expanded > .Header > .WidgetAction.Toggle i.fa-caret-right {
     display: none !important;
+}
+
+.RTL .WidgetSimple .Header > .WidgetAction.Toggle i.fa-caret-right {
+    transform: rotateY(180deg);
 }
 
 .Collapsed > .Header > .WidgetAction.Toggle i.fa-caret-down {
@@ -382,7 +416,8 @@ ul.Tablelike li.Header + li {
     vertical-align: middle;
 }
 
-.WidgetAction:hover i {
+.WidgetAction:hover i,
+.WidgetAction a:focus i {
     color: #000;
 }
 
@@ -520,7 +555,8 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .CallForAction.Fullsize {
-    width: 248px;
+    width: 100%;
+    box-sizing: border-box;
     text-align: center;
 }
 
@@ -540,7 +576,8 @@ ul.WidgetTooltip li a:hover i {
     padding: 0;
 }
 
-.CallForAction:hover {
+.CallForAction:hover,
+.CallForAction:focus {
     color: #000;
     border-color: #aaa;
 }
@@ -590,6 +627,10 @@ ul.WidgetTooltip li a:hover i {
     text-align: center;
 }
 
+.RTL .CallForAction span i {
+    margin-left: 5px;
+}
+
 .CallForAction.Fullsize.Center span i {
     position: absolute;
     left: 4px;
@@ -597,7 +638,8 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .CallForAction:active,
-.CallForAction:hover {
+.CallForAction:hover,
+.CallForAction:focus {
     background-color: #e5e5e5;
     border-color: #999;
 }
@@ -610,12 +652,13 @@ ul.WidgetTooltip li a:hover i {
 
 .CallForAction.Disabled, .CallForAction.Disabled span {
     color: #999;
-    cursor: default;
+    cursor: no-drop;
 }
 
 input.FilterBox {
     padding: 4px 5px;
-    width: 238px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .SearchBox {
@@ -867,52 +910,112 @@ input.FilterBox {
  * @subsection      Widget messages
  */
 
-.Content .WidgetMessage {
+.WidgetSimple .WidgetMessage {
     background: #eee;
-    margin: 10px -8px;
+    margin: 10px -8px !important;
     padding: 5px 20px;
     font-size: 11px;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    color: #000;
+    color: #555;
+    line-height: 150%;
 }
 
-.SidebarColumn .Content .WidgetMessage {
+.WidgetSimple .WidgetMessage p + p {
+    margin-top: 2px;
+}
+
+.WidgetSimple .WidgetMessage p + p:last-child {
+    margin-bottom: 2px;
+}
+
+.SidebarColumn .WidgetSimple .WidgetMessage {
     margin: 5px -8px;
     padding: 5px 8px;
 }
 
-.Content .WidgetMessage.Bottom {
-    margin-bottom: -10px;
+.WidgetSimple .WidgetMessage.Bottom {
+    margin-bottom: -10px !important;
 }
 
-.Content .WidgetMessage.Top {
-    margin-top: -8px;
+.WidgetSimple .WidgetMessage.Top {
+    margin-top: -8px !important;
 }
 
-.Content .WidgetMessage.Error {
-    background: #F25C5C;
-    color: #fff;
-    border-color: #D14545;
+.WidgetSimple .WidgetMessage.Error {
+    background: #b8384e;
+    color: rgba(255, 255, 255, 0.8);
+    border: 0px;
 }
 
-.Content .WidgetMessage.Warning {
+.WidgetSimple .WidgetMessage.Warning {
     background: #F7AE40;
     border-color: #D18F2B;
+    color: #774a06;
 }
 
-.Content .WidgetMessage.Success {
+.WidgetSimple .WidgetMessage.Warning * {
+}
+
+.WidgetSimple .WidgetMessage.Success {
     background: #6EB22A;
     color: #fff;
     border-color: #52891B;
 }
 
-.Content .WidgetMessage.Notice {
+.WidgetSimple .WidgetMessage.Notice {
     background: #2A61AF;
     color: #fff;
     border-color: #15468C;
 }
 
+.WidgetSimple .WidgetMessage button {
+    background: #eee;
+    border: 1px solid #aaa;
+    display: inline-block;
+    margin-right: 5px;
+    transition: all ease 0.3s;
+}
+
+.WidgetSimple .WidgetMessage button:hover {
+    cursor: pointer;
+    background: #ddd;
+}
+
+/**
+ * @subsection      Overlays
+ */
+
+.WidgetSimple.HasOverlay {
+    position: relative;
+    overflow: hidden;
+}
+
+.WidgetSimple .Overlay {
+    position: absolute;
+    box-sizing: border-box;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-size: 16px;
+    z-index: 2;
+}
+
+.WidgetSimple .Overlay i {
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    left: 50%;
+    color: #777;
+    margin-left: -8px;
+}
+
+.WidgetSimple .Overlay i.fa-check {
+    color: #5BAD5B;
+}
 
 /**
  * @subsection      Icon colors
@@ -977,6 +1080,32 @@ input.FilterBox {
 
 .UserStatusIcon.Away i {
     color: #fb0;
+}
+
+button.HighlightHint {
+    animation: ButtonHint 0.7s infinite alternate;
+}
+
+button.HighlightError {
+    animation: ButtonError 0.7s infinite alternate;
+}
+
+@keyframes ButtonHint {
+    from {
+        box-shadow: none;
+        }
+    to {
+        box-shadow: 0 0 10px green;
+    }
+}
+
+@keyframes ButtonError {
+    from {
+        box-shadow: none;
+        }
+    to {
+        box-shadow: 0 0 10px red;
+    }
 }
 
 } /* end @media */

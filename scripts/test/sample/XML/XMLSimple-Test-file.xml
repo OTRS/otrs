@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MyXML>
+    <Item Type="String">My content</Item>
+    <Item Type="Number">23</Item>
+</MyXML>

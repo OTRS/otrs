@@ -178,8 +178,7 @@ $Selenium->RunTest(
             if ( $AutoCompleteExpected{$AutocompleteInput}{Expected} ) {
 
                 # select customer user
-                $Selenium->find_element("//*[text()='$AutoCompleteExpected{$AutocompleteInput}{AutocompleteInput}']")
-                    ->VerifiedClick();
+                $Selenium->find_element("//*[text()='$AutocompleteInput']")->VerifiedClick();
 
                 # check if customer is selected
                 $Self->Is(

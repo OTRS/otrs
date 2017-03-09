@@ -1,0 +1,52 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+            {
+                Name => Translate('My favourite settings'),
+                Link => 'AdminSystemConfiguration;Subaction=Favourites',
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration" class="GoBackButton CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        [% INCLUDE "SystemConfiguration/Sidebar/Help.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/DynamicActions.tt" %]
+    </div>
+
+    <div class="ContentColumn">
+    [% IF Data.SettingList.size() %]
+        [% INCLUDE "SystemConfiguration/SettingsList.tt" %]
+    [% ELSE %]
+        <h2 class="SearchResults">[% Translate("You currently don't have any favourite settings.") | html %]</h2>
+    [% END %]
+    </div>
+    <div class="Clear"></div>
+</div>

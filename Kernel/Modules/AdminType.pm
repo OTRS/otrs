@@ -11,6 +11,7 @@ package Kernel::Modules::AdminType;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -27,6 +28,13 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # Store last entity screen.
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'LastScreenEntity',
+        Value     => $Self->{RequestedURL},
+    );
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -96,6 +104,34 @@ sub Run {
             $Errors{'NameInvalid'} = 'ServerError';
         }
 
+        # Check if type is present in SysConfig setting
+        my $UpdateEntity    = $ParamObject->GetParam( Param => 'UpdateEntity' ) || '';
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my %TypeOldData     = %Data;
+        my @IsTypeInSysConfig;
+        @IsTypeInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
+            EntityType => 'Type',
+            EntityName => $Data{Name},
+        );
+        if (@IsTypeInSysConfig) {
+
+            # An entity present in SysConfig couldn't be invalidated.
+            if (
+                $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $GetParam{ValidID} )
+                ne 'valid'
+                )
+            {
+                $Errors{ValidIDInvalid}         = 'ServerError';
+                $Errors{ValidOptionServerError} = 'InSetting';
+            }
+
+            # In case changing name an authorization (UpdateEntity) should be send
+            elsif ( $Data{Name} ne $GetParam{Name} && !$UpdateEntity ) {
+                $Errors{NameInvalid}              = 'ServerError';
+                $Errors{InSettingNameServerError} = 'InSetting';
+            }
+        }
+
         # if no errors occurred
         if ( !%Errors ) {
 
@@ -106,6 +142,44 @@ sub Run {
             );
 
             if ($Update) {
+
+                if (
+                    @IsTypeInSysConfig
+                    && $TypeOldData{Name} ne $GetParam{Name}
+                    && $UpdateEntity
+                    )
+                {
+                    SETTING:
+                    for my $SettingName (@IsTypeInSysConfig) {
+
+                        my %Setting = $SysConfigObject->SettingGet(
+                            Name => $SettingName,
+                        );
+
+                        next SETTING if !IsHashRefWithData( \%Setting );
+
+                        $Setting{EffectiveValue} =~ s/$TypeOldData{Name}/$GetParam{Name}/g;
+
+                        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                            Name   => $Setting{Name},
+                            Force  => 1,
+                            UserID => $Self->{UserID}
+                        );
+                        $Setting{ExclusiveLockGUID} = $ExclusiveLockGUID;
+
+                        my %UpdateSuccess = $SysConfigObject->SettingUpdate(
+                            %Setting,
+                            UserID => $Self->{UserID},
+                        );
+                    }
+
+                    $SysConfigObject->ConfigurationDeploy(
+                        Comments      => "Type name change",
+                        DirtySettings => \@IsTypeInSysConfig,
+                        UserID        => $Self->{UserID},
+                        Force         => 1,
+                    );
+                }
 
                 # if the user would like to continue editing the type, just redirect to the edit screen
                 if (
@@ -146,6 +220,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
+
         $GetParam{Name} = $ParamObject->GetParam( Param => 'Name' );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -243,7 +318,7 @@ sub Run {
                 Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "Type" ),
                 Link =>
                     $LayoutObject->{Baselink}
-                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Type',
+                    . 'Action=AdminSystemConfiguration;Subaction=View;Setting=Ticket%3A%3AType',
             );
         }
 
@@ -298,6 +373,64 @@ sub _Edit {
     else {
         $LayoutObject->Block( Name => 'NameServerError' );
     }
+
+    # Several error messages can be used for Name.
+    $Param{Errors}->{InSettingNameServerError} //= 'Required';
+    $LayoutObject->Block(
+        Name => $Param{Errors}->{InSettingNameServerError} . 'NameServerError',
+    );
+
+    # Several error messages can be used for Valid option.
+    $Param{Errors}->{ValidOptionServerError} //= 'Required';
+    $LayoutObject->Block(
+        Name => $Param{Errors}->{ValidOptionServerError} . 'ValidOptionServerError',
+    );
+
+    if ( $Param{ID} ) {
+
+        my $TypeName = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $Param{ID} );
+
+        # Add warning in case the Type belongs a SysConfig setting.
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # In case dirty setting, disable form.
+        my $IsDirtyConfig = 0;
+        my @IsDirtyResult = $SysConfigObject->ConfigurationDirtySettingsList();
+        my %IsDirtyList   = map { $_ => 1 } @IsDirtyResult;
+
+        my @IsTypeInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
+            EntityType => 'Type',
+            EntityName => $TypeName,
+        );
+        if (@IsTypeInSysConfig) {
+            $LayoutObject->Block(
+                Name => 'TypeInSysConfig',
+                Data => {
+                    OldName => $TypeName,
+                },
+            );
+            for my $SettingName (@IsTypeInSysConfig) {
+                $LayoutObject->Block(
+                    Name => 'TypeInSysConfigRow',
+                    Data => {
+                        SettingName => $SettingName,
+                    },
+                );
+
+                # Verify if dirty setting.
+                if ( $IsDirtyList{$SettingName} ) {
+                    $IsDirtyConfig = 1;
+                }
+            }
+        }
+
+        if ($IsDirtyConfig) {
+            $LayoutObject->Block(
+                Name => 'TypeInSysConfigDirty',
+            );
+        }
+    }
+
     return 1;
 }
 

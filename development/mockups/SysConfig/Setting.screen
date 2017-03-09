@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
-  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="769" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="769"/>
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="769" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="769">
+    <font/>
+  </widgets>
   <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
     <font/>
   </widgets>
   <widgets xsi:type="model:Breadcrumbs" id="74" x="20" y="178" text="Home,Group,Sub Group,Current Group Name" measuredWidth="313" measuredHeight="23">
     <font/>
-    <items x="0" y="0" width="34" height="23" text="Home"/>
-    <items x="54" y="0" width="36" height="23" text="Group"/>
+    <items link="Home.screen" x="0" y="0" width="34" height="23" text="Home"/>
+    <items link="Overview.screen" x="54" y="0" width="36" height="23" text="Group"/>
     <items x="110" y="0" width="61" height="23" text="Sub Group"/>
     <items x="191" y="0" width="119" height="23" text="Current Group Name"/>
   </widgets>
@@ -17,29 +19,15 @@
     <font bold="false"/>
   </widgets>
   <widgets xsi:type="model:Icon" id="78" x="311" y="225" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="filled-arrow-down (large)"/>
-  <widgets xsi:type="model:Panel" id="80" x="18" y="212" width="271" height="125" measuredWidth="271" measuredHeight="125"/>
-  <widgets xsi:type="model:Panel" id="81" x="20" y="349" width="271" height="180" measuredWidth="271" measuredHeight="180"/>
-  <widgets xsi:type="model:SearchField" id="82" x="32" y="255" width="247" text="Search" measuredWidth="247" measuredHeight="24">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="83" x="32" y="435" width="247" height="35" text="Deploy settings" measuredWidth="247" measuredHeight="35" icon="direction (small)" textAlignment="Left">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="84" x="32" y="285" width="247" height="35" text="My currently locked settings" measuredWidth="247" measuredHeight="35" icon="secure (small)" textAlignment="Left">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:HLine" id="85" x="20" y="241" width="269" measuredWidth="269" measuredHeight="6"/>
-  <widgets xsi:type="model:Label" id="86" x="32" y="220" text="General" measuredWidth="51" measuredHeight="23">
+  <widgets xsi:type="model:Panel" id="81" x="20" y="212" width="271" height="170" measuredWidth="271" measuredHeight="170"/>
+  <widgets xsi:type="model:HLine" id="87" x="22" y="241" width="269" measuredWidth="269" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="88" x="34" y="220" text="Actions" measuredWidth="48" measuredHeight="23">
     <font bold="false"/>
   </widgets>
-  <widgets xsi:type="model:HLine" id="87" x="22" y="378" width="269" measuredWidth="269" measuredHeight="6"/>
-  <widgets xsi:type="model:Label" id="88" x="34" y="357" text="Actions" measuredWidth="48" measuredHeight="23">
-    <font bold="false"/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="89" x="34" y="479" width="247" height="35" text="Save all edited settings" measuredWidth="247" measuredHeight="35" icon="check (small)" textAlignment="Left">
+  <widgets xsi:type="model:Button" id="89" x="34" y="334" width="247" height="35" text="Save all edited settings" measuredWidth="247" measuredHeight="35" icon="check (small)" textAlignment="Left">
     <font/>
   </widgets>
-  <widgets xsi:type="model:SearchField" id="91" x="34" y="396" width="247" text="Type to filter..." measuredWidth="247" measuredHeight="24">
+  <widgets xsi:type="model:SearchField" id="91" x="34" y="259" width="247" text="Type to filter..." measuredWidth="247" measuredHeight="24">
     <font/>
   </widgets>
   <widgets xsi:type="model:Panel" id="96" x="324" y="272" width="645" height="353" measuredWidth="645" measuredHeight="353"/>
@@ -62,18 +50,14 @@
   <widgets xsi:type="model:Icon" id="107" x="890" y="283" measuredWidth="16" measuredHeight="16" icon="favorites (small)"/>
   <widgets xsi:type="model:Icon" id="108" x="914" y="283" measuredWidth="16" measuredHeight="16" icon="link (small)"/>
   <widgets xsi:type="model:Icon" id="109" x="938" y="283" measuredWidth="16" measuredHeight="16" icon="edit (small)"/>
-  <widgets xsi:type="model:Arrow" id="110" x="946" y="303" width="23" height="34" measuredWidth="23" measuredHeight="34" annotation="true"/>
-  <widgets xsi:type="model:Note" id="111" x="958" y="326" width="172" height="131" text="Switch to edit mode for this setting. Widget is being reloaded and setting is locked to the current user. When a setting is already locked to the user (= in edit mode), this icon shows a save icon instead." measuredWidth="172" measuredHeight="131" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Arrow" id="110" x="890" y="303" width="56" height="322" measuredWidth="56" measuredHeight="322" annotation="true" left="false" right="true" direction="bottom"/>
+  <widgets xsi:type="model:Note" id="111" x="812" y="624" width="172" height="131" text="Switch to edit mode for this setting. Widget is being reloaded and setting is locked to the current user. When a setting is already locked to the user (= in edit mode), this icon shows an unlock icon instead." measuredWidth="172" measuredHeight="131" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Arrow" id="112" x="922" y="303" width="9" height="210" measuredWidth="9" measuredHeight="210" annotation="true"/>
   <widgets xsi:type="model:TextArea" id="127" x="512" y="391" width="403" height="56" text="Text area" measuredWidth="403" measuredHeight="56">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" id="113" x="914" y="469" width="161" height="57" text="Copies a direct link to this widget to the users clip board." measuredWidth="161" measuredHeight="57" annotation="true" textAlignment="Left">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Arrow" id="114" x="843" y="303" width="47" height="145" measuredWidth="47" measuredHeight="145" annotation="true" left="false" right="true" direction="bottom"/>
+  <widgets xsi:type="model:Arrow" id="114" x="776" y="303" width="114" height="117" measuredWidth="114" measuredHeight="117" annotation="true" left="false" right="true" direction="bottom"/>
   <widgets xsi:type="model:Label" id="116" x="438" y="360" text="Item XYZ:" measuredWidth="61" measuredHeight="23">
     <font/>
   </widgets>
@@ -83,13 +67,10 @@
   <widgets xsi:type="model:Text" id="120" x="334" y="314" width="621" height="29" text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." measuredWidth="621" measuredHeight="29" foreground="#666666">
     <font size="11px"/>
   </widgets>
-  <widgets xsi:type="model:Note" id="115" x="745" y="402" width="161" height="68" text="Adds this setting as a favourite for the current user." measuredWidth="161" measuredHeight="68" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Note" id="115" x="695" y="405" width="161" height="68" text="Adds this setting as a favourite for the current user." measuredWidth="161" measuredHeight="68" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
   <widgets xsi:type="model:Arrow" id="122" x="322" y="336" width="47" height="145" measuredWidth="47" measuredHeight="145" annotation="true" left="false" right="true" direction="bottom"/>
-  <widgets xsi:type="model:Note" id="123" x="224" y="435" width="161" height="78" text="First two lines of the description text for this setting (can be expanded on click)." measuredWidth="161" measuredHeight="78" annotation="true" textAlignment="Left">
-    <font/>
-  </widgets>
   <widgets xsi:type="model:Arrow" id="124" x="641" y="224" width="25" height="144" measuredWidth="25" measuredHeight="144" annotation="true" direction="bottom"/>
   <widgets xsi:type="model:Note" id="125" x="568" y="178" width="161" height="78" text="Fields are shown as read-only as long as the setting is not in edit mode/locked to the user." measuredWidth="161" measuredHeight="78" annotation="true" textAlignment="Left">
     <font/>
@@ -124,7 +105,26 @@
   <widgets xsi:type="model:Button" id="136" x="827" y="480" text="Strings" measuredWidth="74" measuredHeight="22" icon="circled-mul (small)">
     <font size="10px"/>
   </widgets>
-  <widgets xsi:type="model:ScratchOut" id="137" x="608" y="528" width="70" height="67" measuredWidth="70" measuredHeight="67" annotation="true"/>
+  <widgets xsi:type="model:ScratchOut" id="137" x="608" y="512" width="70" height="67" measuredWidth="70" measuredHeight="67" annotation="true"/>
+  <widgets xsi:type="model:Arrow" id="112" x="844" y="303" width="78" height="226" measuredWidth="78" measuredHeight="226" annotation="true" left="false" right="true" direction="bottom"/>
+  <widgets xsi:type="model:Button" id="138" x="466" y="590" text="Save this setting" measuredWidth="113" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="139" x="587" y="591" text="or" measuredWidth="18" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="140" x="607" y="590" text="Cancel editing and unlock this setting" measuredWidth="230" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="113" x="720" y="517" width="161" height="57" text="Copies a direct link to this widget to the users clip board." measuredWidth="161" measuredHeight="57" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="141" x="34" y="292" width="247" height="35" text="Back to overview" measuredWidth="247" measuredHeight="35" icon="filled-arrow-left (small)" link="Home.screen" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="123" x="224" y="435" width="161" height="78" text="First two lines of the description text for this setting (can be expanded on click)." measuredWidth="161" measuredHeight="78" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
   <hRuler/>
   <vRuler/>
   <font size="12px"/>

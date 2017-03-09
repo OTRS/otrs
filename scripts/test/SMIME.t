@@ -47,7 +47,7 @@ $ConfigObject->Set(
     Value => $PrivatePath
 );
 
-my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
+my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
 # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
 my $OpenSSLVersionString = qx{$OpenSSLBin version};

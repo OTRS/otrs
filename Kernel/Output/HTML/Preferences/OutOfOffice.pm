@@ -96,7 +96,7 @@ sub Run {
         qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
         )
     {
-        $Param{$Key} = $ParamObject->GetParam( Param => $Key );
+        $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || '';
     }
 
     my $OutOfOfficeStartTime = $TimeObject->TimeStamp2SystemTime(

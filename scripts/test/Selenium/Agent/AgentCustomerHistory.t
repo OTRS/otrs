@@ -154,7 +154,23 @@ $Selenium->RunTest(
                 $Selenium->WaitFor(
                     JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                 );
-                $Selenium->find_element("//*[contains(text(), '$TestUser')]")->click();
+
+                $Self->Is(
+                    $Selenium->execute_script(
+                        'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                    ),
+                    1,
+                    "Check search result count",
+                );
+
+                $Self->Is(
+                    $Selenium->execute_script('return $("li.ui-menu-item:nth-child(1) a").html()'),
+                    "\"<strong>$TestUser</strong> $TestUser\" &lt;$TestUser\@example.com&gt; ($TestUser)",
+                    "Check link html.",
+                );
+
+                $Selenium->find_element( "li.ui-menu-item:nth-child(1) a", 'css' )->VerifiedClick();
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".OverviewBox").length' );
             }
 
             $Selenium->WaitFor(

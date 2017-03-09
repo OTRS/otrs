@@ -1,0 +1,45 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div>
+	<div id="DialogDeployment" class="InnerContent">
+
+		<textarea id="DeploymentComment" class="DialogComment" style="display: none;" placeholder="{{ "Deployment comment..." | Translate }}"></textarea>
+
+		<div class="Overlay Deploying">
+			<span>
+				<i class="Active fa fa-spinner fa-spin"></i>
+				<i class="Success fa fa-check"></i>
+				<i class="Error fa fa-times"></i>
+			</span>
+			<em>{{ "Deploying, please wait..." | Translate }}</em>
+		</div>
+
+		<div class="Overlay Preparing">
+			<span>
+				<i class="Active fa fa-spinner fa-spin"></i>
+				<i class="Error fa fa-times"></i>
+			</span>
+			<em>{{ "Preparing to deploy, please wait..." | Translate }}</em>
+		</div>
+
+	</div>
+	<div class="ContentFooter Center">
+		<div class="ButtonsRegular">
+	    	<button id="Deploy" class="Primary CallForAction" value="{{ "Deploy now" | Translate }}"><span>{{ "Deploy now" | Translate }}</span></button>
+	    	&nbsp;{{ "or" | Translate }}&nbsp;
+	    	<button class="CallForAction CloseDialog" value="{{ "Deploy now" | Translate }}"><span>{{ "Cancel" | Translate }}</span></button>
+    	</div>
+    	<div class="ButtonsFinish">
+	    	<button class="CallForAction CloseDialog" value="{{ "Close" | Translate }}"><span>{{ "Close" | Translate }}</span></button>
+    	</div>
+    	<div class="ButtonsTryAgain">
+	    	<button class="CallForAction" value="{{ "Try again" | Translate }}"><span>{{ "Try again" | Translate }}</span></button>
+    	</div>
+	</div>
+</div>

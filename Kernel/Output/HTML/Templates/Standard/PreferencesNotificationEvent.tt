@@ -6,10 +6,10 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<table class="DataTable NotificationList" style="clear: none">
+<table class="DataTable NotificationList">
     <thead>
         <tr>
-            <th class="Center">[% Translate("Notification") | html %]</th>
+            <th>[% Translate("Notification") | html %]</th>
 [% RenderBlockStart("HeaderRow") %]
             <th class="Center"><i class="[% Data.TransportIcon %]" title="[% Data.TransportName | Translate | html%]"></i></th>
 [% RenderBlockEnd("HeaderRow") %]
@@ -38,7 +38,3 @@
 [% RenderBlockEnd("BodyRow") %]
     </tbody>
 </table>
-<p class="FieldExplanation">
-    [% Translate("Please note that you can't completely disable notifications marked as mandatory.") | html %]
-</p>
-<div class="Clear SpacingTop"></div>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="2.0" init="Application">
+    <Setting Name="CloudServices::Disabled" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NotifyModule###1000-CloudServicesDisabled" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification if cloud services are disabled.</Description>
+        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::AgentCloudServicesDisabled</Item>
+                <Item Key="Group">admin</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+<!-- Register Cloud Services -->
+    <!-- Suppport data -->
+    <Setting Name="CloudService::Admin::Module###100-SupportDataCollector" Required="0" Valid="1">
+        <Description Translatable="1">Cloud service admin module registration for the transport layer.</Description>
+        <Navigation>CloudService::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name" Translatable="1">Support data collector</Item>
+                <Item Key="Description" Translatable="1">Configure sending of support data to OTRS Group for improved support.</Item>
+                <Item Key="ConfigDialog">AdminCloudServiceSupportDataCollector</Item>
+                <Item Key="Icon">fa fa-compass</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminCloudServiceSupportDataCollector" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">Support data collector</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminCloudServiceSupportDataCollector###002-CloudServices" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.CloudService.SupportDataCollector.css</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- SMS -->
+    <Setting Name="CloudService::Admin::Module###200-SMS" Required="0" Valid="1">
+        <Description Translatable="1">Cloud service admin module registration for the transport layer.</Description>
+        <Navigation>CloudService::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name" Translatable="1">SMS</Item>
+                <Item Key="Description" Translatable="1">This will allow the system to send text messages via SMS.</Item>
+                <Item Key="ConfigDialog">AdminCloudServiceSMS</Item>
+                <Item Key="IsOTRSBusiness">1</Item>
+                <Item Key="Icon">fa fa-mobile</Item>
+            </Hash>
+        </Value>
+    </Setting>
+<!-- Register Cloud Services -->
+
+</otrs_config>

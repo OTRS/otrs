@@ -374,6 +374,7 @@ Core.Form.Validate = (function (TargetNS) {
                 MinuteElement = ClassValue.replace(DateMinuteClassPrefix, '');
             }
         });
+
         if (YearElement.length && MonthElement.length && $('#' + Core.App.EscapeSelector(YearElement)).length && $('#' + Core.App.EscapeSelector(MonthElement)).length) {
             DateObject = new Date($('#' + Core.App.EscapeSelector(YearElement)).val(), $('#' + Core.App.EscapeSelector(MonthElement)).val() - 1, Value);
             if (DateObject.getFullYear() === parseInt($('#' + Core.App.EscapeSelector(YearElement)).val(), 10) &&
@@ -725,6 +726,29 @@ Core.Form.Validate = (function (TargetNS) {
         Validate_DependingRequiredOR: true
         /*eslint-enable camelcase */
     });
+
+    $.validator.addMethod("Validate_Regex", ValidatorMethodRegex, "");
+
+    /**
+     * @private
+     * @name ValidatorMethodRegex
+     * @memberof Core.Form.Validate
+     * @function
+     * @returns {Boolean} True, if Value has a length, false otherwise.
+     * @param {String} Value
+     * @param {DOMObject} Element
+     * @description
+     *      Validator method for checking if a value satisfies regex expression.
+     */
+    function ValidatorMethodRegex(Value, Element) {
+        var Regex = $(Element).attr("data-regex");
+
+        if (Value.match(Regex)) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * @name Init

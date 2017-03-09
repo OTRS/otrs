@@ -1,0 +1,41 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% FOREACH Setting IN Data.SettingList %]
+    <li>
+        <div class="WidgetSimple Expanded Setting IsLockedByMe" id="Setting[% Setting.DefaultID %]">
+            <div class="Header">
+                <h2>
+                    [% Setting.Name | html %]
+                </h2>
+
+                <div class="ActionMenu Visible">
+                    <div class="WidgetAction ResetUserSetting [% IF Setting.IsModified != 1 %]Hidden[% END %]">
+                        <a href="#" title="[% Translate("Reset to default") | html %]"><i class="fa fa-undo"></i></a>
+                        [% Setting.IsModified %]
+                    </div>
+                </div>
+            </div>
+            <div class="Content">
+                <div class="SettingWrapper">
+                    <form autocomplete="off">
+                        <div class="SettingContainer">
+                            <input type="hidden" name="SettingName" value="[% Setting.Name | html %]" />
+                            <fieldset class="TableLike FixedLabel" id="fieldset[% Setting.DefaultID | html %]">
+                                [% Setting.HTMLStrg %]
+                            </fieldset>
+                        </div>
+                    </form>
+                    <div class="SettingDescription">
+                        [% Translate(Setting.Description) | html %]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+[% END %]

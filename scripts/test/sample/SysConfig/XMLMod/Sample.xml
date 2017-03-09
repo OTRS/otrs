@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="2.0" init="Application">
+    <Setting Name="Ticket::Hook" Required="1" Valid="1">
+        <Description Translatable="1">The identifier for a ticket.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">Ticket#</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::SubjectFormat" Required="1" Valid="1">
+        <Description Translatable="1">The format of the subject.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="Left">
+                <Item ValueType="Option" Value="Left" Translatable="1">Left</Item>
+                <Item ValueType="Option" Value="Right" Translatable="1">Right</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::EventModulePost###100-ArchiveRestore" Required="0" Valid="1">
+        <Description Translatable="1">Restores a ticket from the archive.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::ArchiveRestore</Item>
+                <Item Key="Event">TicketStateUpdate</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###Body" Required="0" Valid="1">
+        <Description Translatable="1">Sets the default body text for notes.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Item ValueType="Textarea"></Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###InvolvedAgent" Required="1" Valid="1">
+        <Description Translatable="1">Shows a list of all the involved agents.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###ArticleTypes" Required="0" Valid="1">
+        <Description Translatable="1">Specifies the available note types.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
+        <Value>
+            <Array>
+                <Item>note-internal</Item>
+                <Item>note-external</Item>
+                <Item>note-report</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketResponsible###StateType" Required="1" Valid="1">
+        <Description Translatable="1">Defines the next state of a ticket.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewResponsible</Navigation>
+        <Value>
+            <Array>
+                <Item>open</Item>
+                <Item>pending reminder</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="DashboardBackend###0100-TicketPendingReminder" Required="0" Valid="1">
+        <Description Translatable="1">Parameters with UTF8 ∂ç≈ßčćđšžå</Description>
+        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
+                <Item Key="Title" Translatable="1">Reminder Tickets</Item>
+                <Item Key="Description" Translatable="1">All tickets with reminder</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerCompanyName">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AgentTicketService" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Description" Translatable="1">Overview of all open Tickets.</Item>
+                <Item Key="Title" Translatable="1">ServiceView</Item>
+                <Item Key="NavBarName">Ticket</Item>
+                <Item Key="NavBar">
+                    <Array>
+                        <Item>
+                            <Hash>
+                                <Item Key="Description" Translatable="1">Overview of all open Tickets.</Item>
+                                <Item Key="Name" Translatable="1">Service view</Item>
+                                <Item Key="Link">Action=AgentTicketService</Item>
+                                <Item Key="NavBar">Ticket</Item>
+                                <Item Key="Prio">105</Item>
+                            </Hash>
+                        </Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AgentTicketService###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.AgentTicketService.css</Item>
+                        <Item>Core.AllocationList.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.UI.AllocationList.js</Item>
+                        <Item>Core.Agent.TableFilters.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="SettingUTF" Required="0" Valid="1">
+        <Description Translatable="1">Check UTF-8.</Description>
+        <Navigation>Frontend::Agentß∂čćžšđ::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.AgentTicketService.css</Item>
+                        <Item>Core.AllocationList.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.UI.AllocationList.js</Item>
+                        <Item>Core.Agent.TableFilters.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerUser::EventModulePost###100-UpdateDynamicFieldObjectNameTest" Required="0" Valid="1">
+        <Description Translatable="1">Event module that updates customer user object name for dynamic fields.</Description>
+        <Navigation>Core::CustomerUser</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::CustomerUser::Event::DynamicFieldObjectNameUpdate</Item>
+                <Item Key="Event">CustomerUserUpdate</Item>
+                <Item Key="Transaction">0</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestWithLineBreaks" Required="0" Valid="1">
+        <Description>Test.</Description>
+        <Navigation>Core::CustomerUser</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Column">Other Settings</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0">
+                            off
+                        </Item>
+                        <Item Key="2"> 2 minutes</Item>
+                        <Item Key="ItemSeparator">, </Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="EmptyHash" Required="0" Valid="1">
+        <Description>Test.</Description>
+        <Navigation>Core::CustomerUser</Navigation>
+        <Value>
+            <Hash>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="EmptyArray" Required="0" Valid="1">
+        <Description>Test.</Description>
+        <Navigation>Core::CustomerUser</Navigation>
+        <Value>
+            <Array>
+            </Array>
+        </Value>
+    </Setting>
+</otrs_config>

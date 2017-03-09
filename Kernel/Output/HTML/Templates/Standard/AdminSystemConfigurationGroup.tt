@@ -1,0 +1,50 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+        ]
+    %]
+
+    [% FOREACH Item IN Data.Path %]
+        [% BreadcrumbPath.push({ Name => Item.Name, Link => 'AdminSystemConfigurationGroup;RootNavigation=' _ Item.Value }) %]
+    [% END %]
+
+    [% FOREACH Item IN Data.Parameters %]
+        [% BreadcrumbPath.push({ Name => Item.Name, Link => 'AdminSystemConfiguration;Subaction=' _ Item.Value }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        [% INCLUDE "SystemConfiguration/Sidebar/Actions.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/Navigation.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/Help.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/DynamicActions.tt" %]
+    </div>
+
+    <div class="ContentColumn">
+    [% IF Data.SettingList.size() %]
+        [% INCLUDE "SystemConfiguration/SettingsList.tt" %]
+    [% ELSE %]
+        <div class="WidgetSimple">
+            <div class="Content">
+                <p class="Center">[% Translate("This group doesn't contain any settings. Please try navigating to one of its sub groups.") | html %]</p>
+            </div>
+        </div>
+    [% END %]
+    </div>
+    <div class="Clear"></div>
+</div>

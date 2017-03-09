@@ -198,6 +198,9 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
         // Initialize dynamic field filter
         Core.UI.Table.InitTableFilter($('#FilterDynamicFields'), $('#DynamicFieldsTable'));
+
+        Core.Config.Set('EntityType', 'DynamicField');
+
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

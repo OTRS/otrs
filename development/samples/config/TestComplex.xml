@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * This file is for testing development purpose only!
+-->
+<otrs_config version="2.0" init="Application">
+   <Setting Name="TestAoA" Required="1" Valid="1">
+        <Description Translatable="1">Test AoA.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Array>
+                        <Item></Item>
+                    </Array>
+                </DefaultItem>
+                <Item>
+                    <Array>
+                        <Item>1</Item>
+                        <Item>2</Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item>3</Item>
+                        <Item>4</Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoASelect" Required="1" Valid="1">
+        <Description Translatable="1">Test AoA Select.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem ValueType="Select" SelectedID='option-2'>
+                            <Item ValueType="Option" Value="option-1">Option 1</Item>
+                            <Item ValueType="Option" Value="option-2">Option 2</Item>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item>
+                    <Array>
+                        <Item SelectedID="option-1"></Item>
+                        <Item SelectedID="option-2"></Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item SelectedID="option-2"></Item>
+                        <Item SelectedID="option-1"></Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoADate" Required="1" Valid="1">
+        <Description Translatable="1">Test AoA Date.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem ValueType="Date">2017-01-01</DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item>
+                    <Array>
+                        <Item>2017-01-02</Item>
+                        <Item>2017-01-03</Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item>2017-01-04</Item>
+                        <Item>2017-01-05</Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item>2017-01-04</Item>
+                        <Item>2017-01-05</Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoADirectory" Required="1" Valid="1">
+        <Description Translatable="1">Test AoA Directory.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem ValueType="Directory">/etc</DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item>
+                    <Array>
+                        <Item>/usr</Item>
+                        <Item>/home</Item>
+                    </Array>
+                </Item>
+                <Item>
+                    <Array>
+                        <Item>/home</Item>
+                        <Item>/usr</Item>
+                    </Array>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoA" Required="1" Valid="1">
+        <Description Translatable="1">Test HoA.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <Item></Item>
+                    </Array>
+                </DefaultItem>
+                <Item Key="First">
+                    <Array>
+                        <Item>1</Item>
+                        <Item>2</Item>
+                    </Array>
+                </Item>
+                <Item Key="Second">
+                    <Array>
+                        <Item>3</Item>
+                        <Item>4</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoASelect" Required="1" Valid="1">
+        <Description Translatable="1">Test HoA Select.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem ValueType="Select" SelectedID='option-2'>
+                            <Item ValueType="Option" Value="option-1">Option 1</Item>
+                            <Item ValueType="Option" Value="option-2">Option 2</Item>
+                        </DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item Key="First">
+                    <Array>
+                        <Item SelectedID="option-1"></Item>
+                        <Item SelectedID="option-2"></Item>
+                    </Array>
+                </Item>
+                <Item Key="Second">
+                    <Array>
+                        <Item SelectedID="option-2"></Item>
+                        <Item SelectedID="option-1"></Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoADate" Required="1" Valid="1">
+        <Description Translatable="1">Test HoA Date.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem ValueType="Date">2017-01-01</DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item Key="First">
+                    <Array>
+                        <Item>2017-01-01</Item>
+                        <Item>2017-01-02</Item>
+                    </Array>
+                </Item>
+                <Item Key="Second">
+                    <Array>
+                        <Item>2017-01-03</Item>
+                        <Item>2017-01-04</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoADirectory" Required="1" Valid="1">
+        <Description Translatable="1">Test HoA Directory.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <DefaultItem ValueType="Directory">/etc</DefaultItem>
+                    </Array>
+                </DefaultItem>
+                <Item Key="First">
+                    <Array>
+                        <Item>/etc</Item>
+                        <Item>/usr</Item>
+                    </Array>
+                </Item>
+                <Item Key="Second">
+                    <Array>
+                        <Item>/usr</Item>
+                        <Item>/etc</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoH" Required="1" Valid="1">
+        <Description Translatable="1">Test HoH.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <Item></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="First">
+                    <Hash>
+                        <Item Key="One">1</Item>
+                        <Item Key="Two">2</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Second">
+                    <Hash>
+                        <Item Key="Three">3</Item>
+                        <Item Key="Four">4</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoHSelect" Required="1" Valid="1">
+        <Description Translatable="1">Test HoH Select.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem ValueType="Select" SelectedID='option-2'>
+                            <Item ValueType="Option" Value="option-1">Option 1</Item>
+                            <Item ValueType="Option" Value="option-2">Option 2</Item>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="First">
+                    <Hash>
+                        <Item Key="One" SelectedID="option-1"></Item>
+                        <Item Key="Two" SelectedID="option-2"></Item>
+                    </Hash>
+                </Item>
+                <Item Key="Second">
+                    <Hash>
+                        <Item Key="Three" SelectedID="option-2"></Item>
+                        <Item Key="Four" SelectedID="option-1"></Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoHDate" Required="1" Valid="1">
+        <Description Translatable="1">Test HoH Date.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem ValueType="Date">2017-01-01</DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="First">
+                    <Hash>
+                        <Item Key="One">2017-01-01</Item>
+                        <Item Key="Two">2017-01-02</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Second">
+                    <Hash>
+                        <Item Key="Three">2017-01-03</Item>
+                        <Item Key="Four">2017-01-04</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestHoHDirectory" Required="1" Valid="1">
+        <Description Translatable="1">Test HoH Directory.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem ValueType="Directory">/etc</DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="First">
+                    <Hash>
+                        <Item Key="One">/etc</Item>
+                        <Item Key="Two">/usr</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Second">
+                    <Hash>
+                        <Item Key="Three">/usr</Item>
+                        <Item Key="Four">/etc</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoH" Required="1" Valid="1">
+        <Description Translatable="1">Test AoH.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <Item></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="One">1</Item>
+                        <Item Key="Two">2</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Three">3</Item>
+                        <Item Key="Four">4</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoHSelect" Required="1" Valid="1">
+        <Description Translatable="1">Test AoH Select.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem ValueType="Select" SelectedID='option-2'>
+                            <Item ValueType="Option" Value="option-1">Option 1</Item>
+                            <Item ValueType="Option" Value="option-2">Option 2</Item>
+                        </DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="One" SelectedID="option-1"></Item>
+                        <Item Key="Two" SelectedID="option-2"></Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Three" SelectedID="option-2"></Item>
+                        <Item Key="Four" SelectedID="option-1"></Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoHDate" Required="1" Valid="1">
+        <Description Translatable="1">Test AoH Date.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem ValueType="Date">2017-01-01</DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="One">2017-01-01</Item>
+                        <Item Key="Two">2017-01-02</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Three">2017-01-03</Item>
+                        <Item Key="Four">2017-01-04</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="TestAoHDirectory" Required="1" Valid="1">
+        <Description Translatable="1">Test AoH Directory.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <DefaultItem ValueType="Directory">/etc</DefaultItem>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="One">/etc</Item>
+                        <Item Key="Two">/usr</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Three">/usr</Item>
+                        <Item Key="Four">/etc</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="ZZZTicket::Frontend::AgentTicketEmail###DynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the ticket email screen of the agent interface.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash MinItems="2" MaxItems="2">
+                <Item Key="Required">
+                    <Array>
+                        <DefaultItem ValueType="Entity" ValueEntityType="DynamicField"></DefaultItem>
+                    </Array>
+                </Item>
+                <Item Key="Optional">
+                    <Array>
+                        <DefaultItem ValueType="Entity" ValueEntityType="DynamicField"></DefaultItem>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Test_Jas###DynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the ticket email screen of the agent interface.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Select" SelectedID='0'>
+                    <Item ValueType="Option" Value="0" Translatable="1">Disabled</Item>
+                    <Item ValueType="Option" Value="1" Translatable="1">Enabled</Item>
+                    <Item ValueType="Option" Value="2" Translatable="1">Enabled and required</Item>
+                </DefaultItem>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Test_Jas_Values###DefaultColumns" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the ticket email screen of the agent interface.</Description>
+        <Navigation>TestComplex</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem ValueType="Select">
+                    <Item ValueType="Option" Value="0" Translatable="1">Disabled</Item>
+                    <Item ValueType="Option" Value="1" Translatable="1">Enabled</Item>
+                    <Item ValueType="Option" Value="2" Translatable="1">Enabled and required</Item>
+                </DefaultItem>
+                <Item Key="Age" SelectedID="2"></Item>
+                <Item Key="Changed" SelectedID="1"></Item>
+                <Item Key="Whatever" SelectedID="0"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+</otrs_config>

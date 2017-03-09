@@ -513,6 +513,10 @@ dd {
     padding-right: 35px;
 }
 
+.RTL .BreadCrumb li:first-child {
+    padding-right: 20px;
+}
+
 .BreadCrumb li:first-child:after,
 .BreadCrumb li:first-child:before {
     display: none;
@@ -533,7 +537,9 @@ dd {
     transition: all ease 0.3s;
 }
 
-.BreadCrumb a:hover:after {
+.BreadCrumb a:hover:after,
+.BreadCrumb a:focus:after,
+.BreadCrumb a:active:after {
     width: 100%;
 }
 
@@ -655,10 +661,6 @@ dd {
     position: absolute;
     left: 12px;
     top: 12px;
-}
-
-.RTL .MessageBox {
-    margin: -2px 10px 0 18px;
 }
 
 .MessageBox p {
@@ -936,6 +938,20 @@ td.Highlight a.ui-state-default {
     z-index: 4000 !important;
 }
 
+.ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
+    background: transparent;
+    border: 0px;
+    margin: 0px;
+}
+
+.ui-menu-item-wrapper strong {
+
+}
+
+.ui-menu-item:hover {
+    background: #eee;
+}
+
 /**
  * @subsection  Icons
  */
@@ -1099,7 +1115,9 @@ iframe.TextOption.Customer {
 }
 
 .ui-menu .ui-menu-item a {
-    border: 1px solid #fff;
+    display: block;
+    padding: 2px;
+    border: 0px;
 }
 
 .ui-corner-all {

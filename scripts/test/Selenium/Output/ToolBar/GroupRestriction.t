@@ -92,13 +92,12 @@ $Selenium->RunTest(
 
         # set group restriction for each toolbar module
         for my $ConfigUpdate (@Tests) {
-            my %ToolBarConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+            my %ToolBarConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
                 Name    => 'Frontend::ToolBarModule###' . $ConfigUpdate->{ToolBarModule},
                 Default => 1,
             );
 
-            %ToolBarConfig = map { $_->{Key} => $_->{Content} }
-                grep { defined $_->{Key} } @{ $ToolBarConfig{Setting}->[1]->{Hash}->[1]->{Item} };
+            %ToolBarConfig = %{ $ToolBarConfig{EffectiveValue} };
 
             $ToolBarConfig{Group} = "ro:$TestGroup";
 
