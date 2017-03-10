@@ -111,14 +111,9 @@ sub SettingParse {
         return;
     }
 
-    my $SettingXML = $Param{SettingXML};
-
-    # Escape '
-    $SettingXML =~ s{'}{\'}gs;
-
     my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
     my $PerlStructure   = $XMLSimpleObject->XMLIn(
-        XMLInput => $SettingXML,
+        XMLInput => $Param{SettingXML},
         Options  => {
             KeepRoot     => 1,
             ForceArray   => 1,
