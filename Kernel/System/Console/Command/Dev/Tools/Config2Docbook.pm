@@ -94,7 +94,7 @@ EOF
 
         print <<"EOF";
     <section id=\"ConfigReference_Section_$EscapedNavigation\">
-        <title>$Navigation</title>
+        <title>$VisibleNavigation</title>
         <variablelist>
 EOF
         for my $Setting (@SettingsList) {
