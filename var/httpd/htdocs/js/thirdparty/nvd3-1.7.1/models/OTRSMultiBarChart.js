@@ -39,7 +39,12 @@ nv.models.OTRSmultiBarChart = function() {
         , y //can be accessed via chart.yScale()
         , state = nv.utils.state()
         , defaultState = null
-        , noData = "No Data Available."
+// ---
+// OTRS
+// ---
+//       , noData = 'No Data Available.'
+        , noData = Core.Language.Translate('No Data Available.')
+// ---
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd')
         , controlWidth = function() { return showControls ? 180 : 0 }
         , duration = 250

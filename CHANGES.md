@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-03-10 Fixed bug#[12477](https://bugs.otrs.org/show_bug.cgi?id=12477) - Untranslated string in 7 days statistic.
  - 2017-03-09 Implemented new System Configuration mechanism.
  - 2017-03-08 Fixed bug#[12502](https://bugs.otrs.org/show_bug.cgi?id=12502) - Agent gets "Session invalid" if large group names are used.
  - 2017-03-06 Merged FAO OTRSAppointmentCalendar.

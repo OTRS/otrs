@@ -44,7 +44,12 @@ nv.models.OTRSstackedAreaChart = function() {
         , yAxisTickFormat = d3.format(',.2f')
         , state = nv.utils.state()
         , defaultState = null
-        , noData = 'No Data Available.'
+// ---
+// OTRS
+// ---
+//       , noData = 'No Data Available.'
+        , noData = Core.Language.Translate('No Data Available.')
+// ---
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState','renderEnd')
         , controlWidth = 250
 // ---
