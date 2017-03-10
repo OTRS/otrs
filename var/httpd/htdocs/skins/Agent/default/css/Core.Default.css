@@ -937,6 +937,11 @@ iframe.TextOption.Customer {
     padding-right: 20px;
 }
 
+#SearchForm #SearchProfile,
+#AgentCustomerInformationCenterSearchForm #SearchProfile {
+    max-width: 350px;
+}
+
 #ArticleFilterDialogForm {
     width: 480px;
     max-height: 300px;
