@@ -1,4 +1,5 @@
 #4.0.23 2017-??-??
+ - 2017-03-10 Fixed bug#[12678](https://bugs.otrs.org/show_bug.cgi?id=12678) - DynamicField Date and DateTime only have the default values for 10 years in past and 1 year in future for the search.
  - 2017-03-10 Fixed bug#[12624](https://bugs.otrs.org/show_bug.cgi?id=12624) - AgentTicketSearch gets broken with very long search templates.
  - 2017-03-10 Fixed bug#[12677](https://bugs.otrs.org/show_bug.cgi?id=12677) - OTRS breaks with DBD::mysql 4.042.
  - 2017-03-09 Fixed bug#[12669](https://bugs.otrs.org/show_bug.cgi?id=12669)(PR#1641) - ToolBar icon 'Ticket in my Services' is shown without access to tickets. Thanks to S7!

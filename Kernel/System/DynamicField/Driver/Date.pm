@@ -738,6 +738,15 @@ EOF
         return $Data;
     }
 
+    # to set the years range
+    my %YearsPeriodRange;
+    if ( defined $FieldConfig->{YearsPeriod} && $FieldConfig->{YearsPeriod} eq '1' ) {
+        %YearsPeriodRange = (
+            YearPeriodPast   => $FieldConfig->{YearsInPast}   || 0,
+            YearPeriodFuture => $FieldConfig->{YearsInFuture} || 0,
+        );
+    }
+
     # build HTML for start value set
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
         %Param,
@@ -747,6 +756,7 @@ EOF
         DiffTime             => -( ( 60 * 60 * 24 ) * 30 ),
         Validate             => 1,
         %{ $Value->{ValueStart} },
+        %YearsPeriodRange,
     );
 
     # build HTML for "and" separator
@@ -761,6 +771,7 @@ EOF
         DiffTime             => +( ( 60 * 60 * 24 ) * 30 ),
         Validate             => 1,
         %{ $Value->{ValueStop} },
+        %YearsPeriodRange,
     );
 
     my $AdditionalText;
