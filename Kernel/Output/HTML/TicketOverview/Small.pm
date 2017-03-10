@@ -677,6 +677,7 @@ sub Run {
                 Name => 'OverviewNavBarPageFlag',
                 Data => {
                     CSS => $CSS,
+                    Title => $Title,
                 },
             );
 
