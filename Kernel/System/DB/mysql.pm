@@ -11,12 +11,11 @@ package Kernel::System::DB::mysql;
 use strict;
 use warnings;
 
-use DBD::mysql;    # Required for VERSION access, see below.
-
 use Encode ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Time',
@@ -66,13 +65,6 @@ sub LoadPreferences {
         mysql_auto_reconnect => 0,
     };
 
-    if ( $DBD::mysql::VERSION >= 4.042 ) {
-
-        # DBD::mysql 4.042+ requires the flag mysql_enable_utf8 to be set when sending Unicode data.
-        #   See also https://bugs.otrs.org/show_bug.cgi?id=12677.
-        $Self->{'DB::Attribute'}->{mysql_enable_utf8} = 1;
-    }
-
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
 
@@ -104,8 +96,16 @@ sub PreProcessBindData {
 
     my $Size = scalar @{ $BindRef // [] };
 
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
     for ( my $I = 0; $I < $Size; $I++ ) {
+
         $Self->_FixMysqlUTF8( \$BindRef->[$I] );
+
+        # DBD::mysql 4.042+ requires data to be octets or the mysql_enable_utf8 flag set, which
+        #   seems to be buggy at least in 4.042, so we encode the data on our own.
+        #   See also https://bugs.otrs.org/show_bug.cgi?id=12677.
+        $EncodeObject->EncodeOutput( \$BindRef->[$I] );
     }
     return;
 }
