@@ -548,7 +548,7 @@ sub Run {
             if ($CheckActivityDialog) {
                 %Result = (
                     Success => 0,
-                    Message => Translatable(
+                    Message => $LayoutObject->{LanguageObject}->Translate(
                         'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!'
                     ),
                 );
