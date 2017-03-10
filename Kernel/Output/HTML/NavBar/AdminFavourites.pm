@@ -56,11 +56,10 @@ sub Run {
     my @Favourites;
     MODULE:
     for my $Module ( sort @{$PrefFavourites} ) {
-        my $ModuleConfig = $ConfigObject->Get('Frontend::Module')->{$Module};
+        my $ModuleConfig = $ConfigObject->Get('Frontend::NavigationModule')->{$Module};
         next MODULE if !$ModuleConfig;
-        next MODULE if !$ModuleConfig->{NavBarModule};
-        $ModuleConfig->{NavBarModule}->{Link} //= "Action=$Module";
-        push @Favourites, $ModuleConfig->{NavBarModule};
+        $ModuleConfig->{Link} //= "Action=$Module";
+        push @Favourites, $ModuleConfig;
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -70,10 +69,10 @@ sub Run {
     } @Favourites;
 
     if (@Favourites) {
-        my $AdminModuleConfig = $ConfigObject->Get('Frontend::Module')->{Admin};
-        $AdminModuleConfig->{NavBarModule}->{Name} = $LayoutObject->{LanguageObject}->Translate('Overview');
-        $AdminModuleConfig->{NavBarModule}->{Link} //= "Action=Admin";
-        unshift @Favourites, $AdminModuleConfig->{NavBarModule};
+        my $AdminModuleConfig = $ConfigObject->Get('Frontend::NavigationModule')->{Admin};
+        $AdminModuleConfig->{Name} = $LayoutObject->{LanguageObject}->Translate('Overview');
+        $AdminModuleConfig->{Link} //= "Action=Admin";
+        unshift @Favourites, $AdminModuleConfig;
     }
 
     my $Counter = 0;
