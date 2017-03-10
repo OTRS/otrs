@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-10 Fixed bug#[12601](https://bugs.otrs.org/show_bug.cgi?id=12601) - Customer information translation is not consequent in new ticket view.
  - 2017-03-10 Fixed bug#[12569](https://bugs.otrs.org/show_bug.cgi?id=12569) - Missing explanation users (with visual impairments) in the 'Preferences' page.
  - 2017-03-10 Fixed bug#[12602](https://bugs.otrs.org/show_bug.cgi?id=12602) - The error message during editing the process ticket appears in English.
  - 2017-03-10 Fixed bug#[12678](https://bugs.otrs.org/show_bug.cgi?id=12678) - DynamicField Date and DateTime only have the default values for 10 years in past and 1 year in future for the search.

@@ -116,7 +116,7 @@ Core.App.Ready(function () {
         AgentLogoURL: '[% Config("AgentLogo").URL %]',
         OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
         OTRSDaemonDialogTitleMsg: [% Translate('Information about the OTRS Daemon') | JSON %],
-
+        TextNone: [% Translate('none') | JSON %],
         ConnectionErrorTitle: [% Translate('Connection error') | JSON %],
         ConnectionErrorReloadButton: [% Translate('Reload page') | JSON %],
     });
