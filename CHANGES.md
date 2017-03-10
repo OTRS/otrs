@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-10 Fixed bug#[12678](https://bugs.otrs.org/show_bug.cgi?id=12678) - DynamicField Date and DateTime only have the default values for 10 years in past and 1 year in future for the search.
  - 2017-03-10 Fixed bug#[12600](https://bugs.otrs.org/show_bug.cgi?id=12600) - The speech bubble (alternative text) is missing for New Article column on the Dashboard widgets.
  - 2017-03-10 Fixed bug#[12624](https://bugs.otrs.org/show_bug.cgi?id=12624) - AgentTicketSearch gets broken with very long search templates.
  - 2017-03-10 Fixed bug#[12663](https://bugs.otrs.org/show_bug.cgi?id=12663)(PR#1642) - AgentTicketZoom does not jump to first unread article when it's not on the first page. Thanks to S7!

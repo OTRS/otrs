@@ -12,23 +12,20 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # make sure we start with RuntimeDB search
+        # Make sure we start with RuntimeDB search.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::SearchIndexModule',
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
         );
 
-        # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -39,13 +36,72 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create random variable
         my $RandomID = $Helper->GetRandomID();
 
-        # create test ticket
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+        my %DynamicFields = (
+            Date => {
+                Name       => 'TestDate' . $RandomID,
+                Label      => 'TestDate' . $RandomID,
+                FieldOrder => 9990,
+                FieldType  => 'Date',
+                ObjectType => 'Ticket',
+                Config     => {
+                    DefaultValue  => 0,
+                    YearsInFuture => 0,
+                    YearsInPast   => 50,
+                    YearsPeriod   => 1,
+                },
+                Reorder => 1,
+                ValidID => 1,
+                UserID  => 1,
+            },
+            DateTime => {
+                Name       => 'TestDateTime' . $RandomID,
+                Label      => 'TestDateTime' . $RandomID,
+                FieldOrder => 9990,
+                FieldType  => 'DateTime',
+                ObjectType => 'Ticket',
+                Config     => {
+                    DefaultValue  => 0,
+                    YearsInFuture => 0,
+                    YearsInPast   => 50,
+                    YearsPeriod   => 1,
+                },
+                Reorder => 1,
+                ValidID => 1,
+                UserID  => 1,
+            },
+        );
+
+        my @DynamicFieldIDs;
+
+        # Create test dynamic field of type date
+        for my $DynamicFieldType ( sort keys %DynamicFields ) {
+
+            my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
+                %{ $DynamicFields{$DynamicFieldType} },
+            );
+
+            $Self->True(
+                $DynamicFieldID,
+                "Dynamic field $DynamicFields{$DynamicFieldType}->{Name} - ID $DynamicFieldID - created",
+            );
+
+            push @DynamicFieldIDs, $DynamicFieldID;
+        }
+
+        my %LoockupDynamicFieldNames = map { $DynamicFields{$_}->{Name} => 1 } sort keys %DynamicFields;
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketSearch###DynamicField',
+            Value => \%LoockupDynamicFieldNames,
+        );
+
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         my $TitleRandom  = "Title" . $RandomID;
         my $TicketNumber = $TicketObject->TicketCreateNumber();
         my $TicketID     = $TicketObject->TicketCreate(
@@ -64,7 +120,6 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
-        # create test article
         my $MinCharString = 'ct';
         my $MaxCharString = $RandomID . ( 't' x 50 );
         my $Subject       = 'SubjectTitle' . $RandomID;
@@ -86,16 +141,14 @@ $Selenium->RunTest(
             "Article is created - ID $ArticleID",
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AgentTicketSearch screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if neccessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
-        # check ticket search page
+        # Check the general fields for ticket search page.
         for my $ID (
             qw(SearchProfile SearchProfileNew Attribute ResultForm SearchFormSubmit)
             )
@@ -105,64 +158,60 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # add search filter by ticket number and run it
+        # Add search filter by ticket number and run it.
         $Selenium->find_element( ".AddButton",   'css' )->click();
         $Selenium->find_element( "TicketNumber", 'name' )->send_keys($TicketNumber);
         $Selenium->find_element( "TicketNumber", 'name' )->VerifiedSubmit();
 
-        # check for expected result
+        # Check for expected result.
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
             "Ticket $TitleRandom found on page",
         );
 
-        # navigate to AgentTicketSearch screen again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if neccessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
-        # input wrong search parameters, result should be 'No ticket data found'
+        # Input wrong search parameters, result should be 'No ticket data found'.
         $Selenium->find_element( "Fulltext", 'name' )->send_keys("abcdfgh_nonexisting_ticket_text");
         $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
 
-        # check for expected result
         $Self->True(
             index( $Selenium->get_page_source(), "No ticket data found." ) > -1,
             "Ticket is not found on page",
         );
 
-        # navigate to AgentTicketSearch screen again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if neccessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
-        # search for $MaxCharString with RuntimeDB - ticket must be found
+        # Search for $MaxCharString with RuntimeDB - ticket must be found.
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
         $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
 
-        # check for expected result
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
             "Ticket $TitleRandom found on page with RuntimeDB search with string longer then 30 characters",
         );
 
-        # change search index module
+        # Change search index module.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::SearchIndexModule',
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
         );
 
-        # enable warn on stop word usage
+        # Enable warn on stop word usage.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::SearchIndex::WarnOnStopWordUsage',
             Value => 1,
         );
 
-        # Recreate TicketObject and update article index for staticdb
+        # Recreate TicketObject and update article index for staticdb.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
         $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
         $TicketObject->ArticleIndexBuild(
@@ -170,106 +219,130 @@ $Selenium->RunTest(
             UserID    => 1,
         );
 
-        # navigate to AgentTicketSearch screen again
+        # Navigate to AgentTicketSearch screen again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if neccessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
-        # try to search fulltext with string less then 3 characters
+        # Try to search fulltext with string less then 3 characters.
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MinCharString);
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
 
-        # verify alert message
+        # Verify the alert message.
         my $ExpectedAlertText = "Fulltext: $MinCharString";
         $Self->True(
             $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
             'Minimum character string search warning is found',
         );
 
-        # accept alert
+        # Accept the alert to continue with the tests.
         $Selenium->accept_alert();
 
-        # try to search fulltext with string more than 30 characters
+        # Try to search fulltext with string more than 30 characters.
         $Selenium->find_element( "Fulltext", 'name' )->clear();
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
 
-        # verify alert message
+        # Verify the alert message.
         $ExpectedAlertText = "Fulltext: $MaxCharString";
         $Self->True(
             $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
             'Maximum character string search warning is found',
         );
 
-        # accept alert
+        # Accept the alert to continue with the tests.
         $Selenium->accept_alert();
 
-        # try to search fulltext with 'stop word' search
+        # Try to search fulltext with 'stop word' search.
         $Selenium->find_element( "Fulltext", 'name' )->clear();
         $Selenium->find_element( "Fulltext", 'name' )->send_keys('because');
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
-        # verify alert message
+        # Verify the alert message.
         $ExpectedAlertText = "Fulltext: because";
         $Self->True(
             $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
             'Stop word search string warning is found',
         );
 
-        # accept alert
+        # Accept the alert to continue with the tests.
         $Selenium->accept_alert();
 
-        # search fulltext with correct input
+        # Search fulltext with correct input.
         $Selenium->find_element( "Fulltext", 'name' )->clear();
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($Subject);
         $Selenium->find_element("//button[\@id='SearchFormSubmit']")->VerifiedClick();
 
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div.TicketZoom').length" );
 
-        # check for expected result
+        # Check for expected result.
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
             "Ticket $TitleRandom found on page with correct StaticDB search",
         );
 
-        # navigate to AgentTicketSearch screen again
+        # Navigate to AgentTicketSearch screen again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if neccessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
-        # add search filter by priority and run it
+        # Add search filter by priority and run it.
         $Selenium->execute_script(
             "\$('#Attribute').val('PriorityIDs').trigger('redraw.InputField').trigger('change');",
         );
         $Selenium->find_element( '.AddButton',          'css' )->click();
         $Selenium->find_element( '#PriorityIDs_Search', 'css' )->click();
 
-        # wait until drop down list is shown
+        # Wait until drop down list is shown.
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('.InputField_ListContainer').length"
         );
 
-        # click on remove button next to priority field
+        # Click on remove button next to priority field.
         $Selenium->find_element( '#PriorityIDs + .RemoveButton', 'css' )->click();
 
-        # wait until drop down list is hidden
+        # Wait until drop down list is hidden.
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('.InputField_ListContainer').length == 0"
         );
 
-        # verify dropdown list has been hidden (bug#12243)
+        # Verify dropdown list has been hidden (bug#12243).
         $Self->True(
             index( $Selenium->get_page_source(), 'InputField_ListContainer' ) == -1,
             "InputField list not found on page",
         );
+
+        for my $DynamicFieldType (qw(Date DateTime)) {
+
+            # Add the date dynamic field, to check if the correct years are selectable (bug#12678).
+            $Selenium->execute_script(
+                "\$('#Attribute').val('Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot').trigger('redraw.InputField').trigger('change');",
+            );
+            $Selenium->find_element( '.AddButton', 'css' )->click();
+
+            for my $DatePart (qw(StartYear StartMonth StartDay StopYear StopMonth StopDay) ) {
+                my $Element = $Selenium->find_element( "#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart", 'css' );
+                $Element->is_enabled();
+                $Element->is_displayed();
+            }
+
+            # Check if the correct count of options in the year dropdown exists.
+            for my $DatePart (qw(StartYear StopYear) ) {
+                $Self->Is(
+                    $Selenium->execute_script("return \$('#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart:visible > option').length;"),
+                    51,
+                    "DynamicField date $DatePart filtered options count",
+                );
+            }
+        }
 
         # clean up test data from the DB
         my $Success = $TicketObject->TicketDelete(
@@ -280,6 +353,19 @@ $Selenium->RunTest(
             $Success,
             "Ticket with ticket ID $TicketID is deleted",
         );
+
+        for my $DynamicFieldID (@DynamicFieldIDs) {
+
+            # delete created test dynamic field
+            $Success = $DynamicFieldObject->DynamicFieldDelete(
+                ID     => $DynamicFieldID,
+                UserID => 1,
+            );
+            $Self->True(
+                $Success,
+                "Dynamic field - ID $DynamicFieldID - deleted",
+            );
+        }
 
         # make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
