@@ -1275,6 +1275,7 @@ h2.SearchResults {
 
 .SettingsList.Compare > li > .SettingContainer > div {
     display: inline-block;
+    vertical-align: top;
     overflow: hidden;
     width: 100%;
     position: relative;
@@ -1282,6 +1283,7 @@ h2.SearchResults {
 
 .SettingsList.Compare > li > .SettingContainer > div.SettingOld {
     width: 0px;
+    height: 0px;
 }
 
 .SettingsList.Compare .SettingOld .WidgetSimple {
@@ -1294,6 +1296,11 @@ h2.SearchResults {
 
 .SettingsList.Compare .Comparing .WidgetSimple .SettingContent {
     margin-bottom: 25px;
+}
+
+.SettingsList.Compare .Comparing .WidgetSimple .Hash .SettingContent,
+.SettingsList.Compare .Comparing .WidgetSimple .Array .SettingContent {
+    margin-bottom: 0px;
 }
 
 .SettingsList.Compare .WidgetSimple {

@@ -337,6 +337,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                 $(this).closest('li').find('.SettingOld h2 .Label, .SettingNew h2 .Label').fadeOut();
                 $(this).closest('li').find('.SettingOld').animate({
                     'width' : '0px'
+                }, function() {
+                    $(this).css('height', '0px');
                 });
                 $(this).closest('li').find('.SettingNew').animate({
                     'width' : '100%'
@@ -351,7 +353,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                 $(this).closest('li').find('.SettingNew').animate({
                     'width' : '50%'
                 });
-                $(this).closest('li').find('.SettingOld').animate({
+                $(this).closest('li').find('.SettingOld').css('height', 'auto').animate({
                     'width' : '50%'
                 }, function() {
                     $(this).closest('li').find('.SettingOld h2 .Label, .SettingNew h2 .Label').fadeIn();
