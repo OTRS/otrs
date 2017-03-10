@@ -38,10 +38,10 @@ $Self->Is(
     "Dev::Tools::Config2Docbook exit code",
 );
 
-my $Test = '<section id="ConfigReference_Section_Core::Cache">
+my $Test = '<section id="ConfigReference_Section_Core_Cache">
         <title>Core::Cache</title>
         <variablelist>
-            <varlistentry id="ConfigReference_Setting_Core::Cache:Cache::InBackend">
+            <varlistentry id="ConfigReference_Setting_Cache::InBackend">
                 <term>Cache::InBackend</term>';
 
 $Self->True(
