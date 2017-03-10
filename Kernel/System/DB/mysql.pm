@@ -11,6 +11,8 @@ package Kernel::System::DB::mysql;
 use strict;
 use warnings;
 
+use DBD::mysql;    # Required for VERSION access, see below.
+
 use Encode ();
 
 our @ObjectDependencies = (
@@ -61,6 +63,13 @@ sub LoadPreferences {
     $Self->{'DB::Attribute'} = {
         mysql_auto_reconnect => 0,
     };
+
+    if ( $DBD::mysql::VERSION >= 4.042 ) {
+
+        # DBD::mysql requires the flag mysql_enable_utf8 to be set when sending Unicode data.
+        #   See also https://bugs.otrs.org/show_bug.cgi?id=12677.
+        $Self->{'DB::Attribute'}->{mysql_enable_utf8} = 1;
+    }
 
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
