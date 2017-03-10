@@ -729,8 +729,8 @@ sub LoadDefaults {
         '6000-SystemMaintenance-Check' => {
             Module => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
         },
-        '6050-SystemConfiguration-OutofSync-Check' =>  {
-            Module => 'Kernel::Output::HTML::Notification::SystemConfigurationOutofSyncCheck',
+        '6050-SystemConfiguration-OutOfSync-Check' =>  {
+            Module => 'Kernel::Output::HTML::Notification::SystemConfigurationOutOfSyncCheck',
             AllowedDelayMinutes => '5',
         },
         '7000-AgentTimeZone-Check' => {

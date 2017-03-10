@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::Notification::SystemConfigurationOutofSyncCheck;
+package Kernel::Output::HTML::Notification::SystemConfigurationOutOfSyncCheck;
 
 use base 'Kernel::Output::HTML::Base';
 
@@ -15,12 +15,23 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Group',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::SysConfig'
 );
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $Group = $Param{Config}->{Group} || 'admin';
+
+    my $HasPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
+        UserID    => $Self->{UserID},
+        GroupName => $Group,
+        Type      => 'rw',
+    );
+
+    return '' if !$HasPermission;
 
     my $CurrentDeploymentID = $Kernel::OM->Get('Kernel::Config')->Get('CurrentDeploymentID') || 0;
 
@@ -59,8 +70,7 @@ sub Run {
 
     return $LayoutObject->Notify(
         Priority => 'Error',
-        Data     => $LayoutObject->{LanguageObject}
-            ->Translate("There is an error updating the system configuration. Please contact your admin!"),
+        Data     => $LayoutObject->{LanguageObject}->Translate("There is an error updating the system configuration!"),
     );
 }
 
