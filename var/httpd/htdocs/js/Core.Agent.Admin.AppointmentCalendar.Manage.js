@@ -6,6 +6,8 @@
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
+/*global Clipboard */
+
 "use strict";
 
 var Core = Core || {};
@@ -264,7 +266,7 @@ Core.Agent.Admin.AppointmentCalendar.Manage = (function (TargetNS) {
             return;
         }
 
-        ClipboardJS = new Clipboard('.CopyToClipboard'); //eslint-disable-line no-undef
+        ClipboardJS = new Clipboard('.CopyToClipboard');
 
         Core.UI.Table.InitTableFilter($('#FilterCalendars'), $('#Calendars'));
 

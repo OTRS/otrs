@@ -6,6 +6,8 @@
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
+/*global Clipboard */
+
 "use strict";
 
 var Core = Core || {};
@@ -55,7 +57,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
             .addClass('Hidden')
             .insertAfter($CalendarObj),
 
-        ClipboardJS = new Clipboard('.CopyToClipboard'); //eslint-disable-line no-undef
+        ClipboardJS = new Clipboard('.CopyToClipboard');
 
         if (Core.Config.Get('TeamID')) {
             ResourceConfig = {
