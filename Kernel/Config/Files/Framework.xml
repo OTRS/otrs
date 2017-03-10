@@ -11399,7 +11399,6 @@ via the Preferences button after logging in.
                  <Loader>
                     <CSS>Core.Agent.Admin.SystemConfiguration.css</CSS>
                     <JavaScript>thirdparty/clipboardjs-1.5.15/clipboard.min.js</JavaScript>
-                    <JavaScript>thirdparty/stickyjs-1.0.4/jquery.sticky.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.Date.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.DateTime.js</JavaScript>

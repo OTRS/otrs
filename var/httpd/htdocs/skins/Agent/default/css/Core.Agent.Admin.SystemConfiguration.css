@@ -588,11 +588,9 @@ h2.SearchResults {
     overflow-y: hidden;
 }
 
-.WidgetSimple.Setting.IsLockedByMe .SettingContainer {
+.WidgetSimple.Setting.IsLockedByMe .SettingContainer,
+.Compare .WidgetSimple.Setting .SettingContainer {
     max-height: none;
-}
-
-.WidgetSimple.Setting.IsLockedByMe .SettingContainer {
     overflow-y: auto;
 }
 
