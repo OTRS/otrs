@@ -806,6 +806,8 @@ sub SettingEffectiveValueGet {
         {
             %Attributes = ();
 
+            my @ValueAttributeList = $Self->ValueAttributeList();
+
             ATTRIBUTE:
             for my $Attribute ( sort keys %{ $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0] } ) {
                 if (
@@ -816,7 +818,7 @@ sub SettingEffectiveValueGet {
                     $Attributes{DefaultItem}
                         = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem};
                 }
-                next ATTRIBUTE if grep { $Attribute eq $_ } qw (Array Hash Content SelectedID);
+                next ATTRIBUTE if grep { $Attribute eq $_ } ( qw (Array Hash), @ValueAttributeList );
 
                 if (
                     $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}
@@ -3833,22 +3835,11 @@ sub ForbiddenValueTypesGet {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my @Files = $MainObject->DirectoryRead(
-        Directory => $Self->{Home} . "/Kernel/System/SysConfig/ValueType",
-        Filter    => '*.pm',
-    );
+    my @ValueTypes = $Self->_ValueTypesList();
 
     my %Result;
 
-    for my $File (@Files) {
-
-        my $ValueType = $File;
-
-        # Remove folder path.
-        $ValueType =~ s{^.*/}{}sm;
-
-        # Remove extension
-        $ValueType =~ s{\.pm$}{}sm;
+    for my $ValueType (@ValueTypes) {
 
         my $Loaded = $MainObject->Require(
             "Kernel::System::SysConfig::ValueType::$ValueType",
@@ -3874,6 +3865,72 @@ sub ForbiddenValueTypesGet {
     );
 
     return %Result;
+}
+
+=head2 ValueAttributeList()
+
+Returns a hash of forbidden value types.
+
+    my @ValueAttributeList = $SysConfigObject->ValueAttributeList();
+
+Returns:
+
+    @ValueAttributeList = (
+        "Content",
+        "SelectedID",
+    );
+
+=cut
+
+sub ValueAttributeList {
+
+    my ( $Self, %Param ) = @_;
+
+    my $CacheKey  = 'ValueAttributeList';
+    my $CacheType = 'SysConfig';
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # Return cache.
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return @{$Cache} if ref $Cache eq 'ARRAY';
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    my @ValueTypes = $Self->_ValueTypesList();
+
+    my @Result;
+
+    for my $ValueType (@ValueTypes) {
+
+        my $Loaded = $MainObject->Require(
+            "Kernel::System::SysConfig::ValueType::$ValueType",
+        );
+
+        if ($Loaded) {
+            my $ValueTypeObject = $Kernel::OM->Get(
+                "Kernel::System::SysConfig::ValueType::$ValueType",
+            );
+
+            my $ValueAttribute = $ValueTypeObject->ValueAttributeGet();
+            if ( !grep { $_ eq $ValueAttribute } @Result ) {
+                push @Result, $ValueAttribute;
+            }
+        }
+    }
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \@Result,
+        TTL   => 24 * 3600,    # 1 day
+    );
+
+    return @Result;
 }
 
 =head2 ConfigItemGet()
@@ -4847,6 +4904,69 @@ sub _ConfigurationTranslatedGet {
     );
 
     return %Result;
+}
+
+=head2 _ValueTypesList()
+
+Returns a hash of forbidden value types.
+
+    my @ValueTypes = $SysConfigObject->_ValueTypesList();
+
+Returns:
+
+    @ValueTypes = (
+        "Checkbox",
+        "Select",
+        ...
+    );
+
+=cut
+
+sub _ValueTypesList {
+    my ( $Self, %Param ) = @_;
+
+    my $CacheKey  = '_ValueTypesList';
+    my $CacheType = 'SysConfig';
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # Return cache.
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return @{$Cache} if ref $Cache eq 'ARRAY';
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    my @Files = $MainObject->DirectoryRead(
+        Directory => $Self->{Home} . "/Kernel/System/SysConfig/ValueType",
+        Filter    => '*.pm',
+    );
+
+    my @Result;
+    for my $File (@Files) {
+
+        my $ValueType = $File;
+
+        # Remove folder path.
+        $ValueType =~ s{^.*/}{}sm;
+
+        # Remove extension
+        $ValueType =~ s{\.pm$}{}sm;
+
+        push @Result, $ValueType;
+    }
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \@Result,
+        TTL   => 24 * 3600,    # 1 day
+    );
+
+    return @Result;
 }
 
 1;
