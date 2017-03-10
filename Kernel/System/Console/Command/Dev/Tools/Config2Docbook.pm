@@ -98,7 +98,7 @@ EOF
             $Link =~ s/\///g;
 
             print <<EOF;
-            <varlistentry id="ConfigReference_Setting_$Navigation:$Link">
+            <varlistentry id="ConfigReference_Setting_$Link">
                 <term>$Setting->{Name}</term>
                 <listitem>
 EOF

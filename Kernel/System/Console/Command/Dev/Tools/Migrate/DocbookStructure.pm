@@ -249,7 +249,7 @@ sub _MigrateDocBook {
 
             # Set Setting if "ConfigReference_Navigation:Some::More::Stuff"
             $WorkContent
-                =~ s{=\"ConfigReference_$Navi\:(\w[\:\:|\w]*?)\"}{="ConfigReference_Setting_$Navigation{$Navi}:$1"}gsmx;
+                =~ s{=\"ConfigReference_$Navi\:(\w[\:\:|\w]*?)\"}{="ConfigReference_Setting_$1"}gsmx;
         }
     }
     $WorkContent =~ s{MMMM}{::}gsmx;
