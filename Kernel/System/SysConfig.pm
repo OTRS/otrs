@@ -1241,7 +1241,20 @@ sub SettingEffectiveValueCheck {
             $ValueType = $Value->[0]->{Item}->[0]->{ValueType};
         }
 
-        if ( $ValueType eq 'Option' || $Param{NoValidation} ) {
+        my %ForbiddenValueTypes = $Self->ForbiddenValueTypesGet();
+        my @SkipValueTypes;
+
+        for my $Item ( sort keys %ForbiddenValueTypes ) {
+            if ( !grep { $_ eq $ForbiddenValueTypes{$Item} } @SkipValueTypes ) {
+                push @SkipValueTypes, @{ $ForbiddenValueTypes{$Item} };
+            }
+        }
+
+        if (
+            $Param{NoValidation}
+            || grep { $_ eq $ValueType } @SkipValueTypes
+            )
+        {
             $Result{Success}        = 1;
             $Result{EffectiveValue} = $Param{EffectiveValue};
             return %Result;
