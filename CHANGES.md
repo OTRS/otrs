@@ -77,6 +77,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.18 2017-??-??
+ - 2017-03-10 Fixed bug#[12602](https://bugs.otrs.org/show_bug.cgi?id=12602) - The error message during editing the process ticket appears in English.
  - 2017-03-10 Fixed bug#[12678](https://bugs.otrs.org/show_bug.cgi?id=12678) - DynamicField Date and DateTime only have the default values for 10 years in past and 1 year in future for the search.
  - 2017-03-10 Fixed bug#[12600](https://bugs.otrs.org/show_bug.cgi?id=12600) - The speech bubble (alternative text) is missing for New Article column on the Dashboard widgets.
  - 2017-03-10 Fixed bug#[12624](https://bugs.otrs.org/show_bug.cgi?id=12624) - AgentTicketSearch gets broken with very long search templates.
