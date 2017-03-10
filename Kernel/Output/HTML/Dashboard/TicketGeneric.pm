@@ -842,6 +842,7 @@ sub Run {
             Data => {
                 CSS              => $CSS,
                 HeaderColumnName => $Item,
+                Title            => $Title,
             },
         );
 

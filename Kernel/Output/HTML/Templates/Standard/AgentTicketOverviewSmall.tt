@@ -84,7 +84,7 @@
                     </th>
 [% RenderBlockEnd("BulkNavBar") %]
 [% RenderBlockStart("OverviewNavBarPageFlag") %]
-                    <th class="OverviewHeader [% Data.CSS | html %]">
+                    <th class="OverviewHeader [% Data.CSS | html %]" title="[% Translate(Data.Title) | html %]">
 [% RenderBlockStart("OverviewNavBarPageFlagLink") %]
                         <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Data.Name | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Translate(Data.Title) | html %]">
                             <em class="PrintOnly">[% Translate(Data.Title) %]</em>
