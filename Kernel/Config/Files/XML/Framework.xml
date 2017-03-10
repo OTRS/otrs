@@ -8238,6 +8238,7 @@ via the Preferences button after logging in.
                 <Item Key="Label" Translatable="1">Change password</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Area">Customer</Item>
+                <Item Key="Desc" Translatable="1">Set a new password by filling in your current password and a new one.</Item>
                 <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
                 <Item Key="PasswordRegExp"></Item>
                 <Item Key="PasswordMinSize">0</Item>
@@ -8272,6 +8273,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Language</Item>
                 <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Interface language</Item>
+                <Item Key="Desc" Translatable="1">Select the main interface language.</Item>
                 <Item Key="Key" Translatable="1">Language</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">2000</Item>
@@ -8287,6 +8289,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Preferences::TimeZone</Item>
                 <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Time Zone</Item>
+                <Item Key="Desc" Translatable="1">Select your personal time zone. All times will be displayed relative to this time zone.</Item>
                 <Item Key="Key" Translatable="1">Time Zone</Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
                 <Item Key="Prio">2500</Item>
