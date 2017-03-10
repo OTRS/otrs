@@ -777,7 +777,7 @@ sub _SettingRender {
         my $AddNewEntry = $LanguageObject->Translate("Add new entry");
         $Result .= "
     <button data-suffix=\"$Param{IDSuffix}_Hash###\" value=\"$AddNewEntry\" title=\"$AddNewEntry\" type=\"button\" class=\"AddHashKey";
-        if ( $Param{RW} ) {
+        if ( !$Param{RW} ) {
             $Result .= " Hidden";
         }
         $Result .= "\">
@@ -979,7 +979,7 @@ sub _SettingRender {
 
         $Result .= "
     <button value=\"$AddNewEntry\" title=\"$AddNewEntry\" type=\"button\" data-suffix=\"$Param{IDSuffix}_Array$Size\" class=\"AddArrayItem";
-        if ( $Param{RW} ) {
+        if ( !$Param{RW} ) {
             $Result .= " Hidden";
         }
         $Result .= "\">

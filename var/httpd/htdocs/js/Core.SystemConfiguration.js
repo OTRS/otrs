@@ -1474,7 +1474,7 @@ var Core = Core || {};
 
         $Object.find(".Hash:not([data-max-items]), .Array:not([data-max-items])").each(function() {
             $(this)
-                .find("> .AddHashKey, > .AddArrayItem").show();
+                .find("> .AddHashKey:not(.Hidden), > .AddArrayItem:not(.Hidden)").show();
         });
     }
 
