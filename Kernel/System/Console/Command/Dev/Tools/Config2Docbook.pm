@@ -89,6 +89,9 @@ EOF
         my $EscapedNavigation = $Navigation;
         $EscapedNavigation =~ s{::}{_}smxg;
 
+        my $VisibleNavigation = $Navigation;
+        $EscapedNavigation =~ s{::}{ → }smxg;
+
         print <<"EOF";
     <section id=\"ConfigReference_Section_$EscapedNavigation\">
         <title>$Navigation</title>
