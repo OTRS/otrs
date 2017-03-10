@@ -20,6 +20,7 @@
                 <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
                 <fieldset>
                     <h2>[% Translate(Data.Label) | html %]</h2>
+                    <p class="Description">[% Translate(Data.Desc) | html %]</p>
 [% RenderBlockStart("Block") %]
 [% RenderBlockStart("InputKey") %]
                     <div>

@@ -8142,6 +8142,7 @@
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Number of displayed tickets</Item>
                 <Item Key="Key" Translatable="1">Tickets per page</Item>
+                <Item Key="Desc" Translatable="1">Select how many tickets should be shown in overviews by default.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="15">15</Item>
@@ -8166,6 +8167,7 @@
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Ticket overview</Item>
+                <Item Key="Desc" Translatable="1">Select after which period ticket overviews should refresh automatically.</Item>
                 <Item Key="Key" Translatable="1">Refresh interval</Item>
                 <Item Key="Data">
                     <Hash>

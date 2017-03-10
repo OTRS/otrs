@@ -3715,6 +3715,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Password</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Change password</Item>
+                <Item Key="Desc" Translatable="1">Set a new password by filling in your current password and a new one.</Item>
                 <Item Key="Prio">0500</Item>
                 <Item Key="Area">Agent</Item>
                 <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
@@ -3830,6 +3831,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Skin</Item>
                 <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Skin</Item>
+                <Item Key="Desc" Translatable="1">Select your preferred layout for OTRS.</Item>
                 <Item Key="Key" Translatable="1">Skin</Item>
                 <Item Key="PrefKey">UserSkin</Item>
                 <Item Key="Prio">100</Item>
@@ -3863,6 +3865,7 @@ You can log in via the following URL:
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Block">OutOfOffice</Item>
                 <Item Key="Label" Translatable="1">Out Of Office Time</Item>
+                <Item Key="Desc" Translatable="1">If you're going to be out of office, you may wish to let other users know by setting the exact dates of your absence.</Item>
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserOutOfOffice</Item>
                 <Item Key="Prio">4000</Item>
@@ -4524,6 +4527,7 @@ via the Preferences button after logging in.
                 <Item Key="Label" Translatable="1">Change password</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Area">Customer</Item>
+                <Item Key="Desc" Translatable="1">Set a new password by filling in your current password and a new one.</Item>
                 <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
                 <Item Key="PasswordRegExp"></Item>
                 <Item Key="PasswordMinSize">0</Item>
@@ -4560,6 +4564,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Language</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Interface language</Item>
+                <Item Key="Desc" Translatable="1">Select the main interface language.</Item>
                 <Item Key="Key" Translatable="1">Language</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">2000</Item>

@@ -198,6 +198,13 @@ fieldset h2 {
     text-shadow: 0 1px 0 #FFF;
 }
 
+fieldset h2 + p.Description {
+    font-size: 11px;
+    margin-left: 0px;
+    padding: 10px 10px;
+    color: #555;
+}
+
 fieldset h2 + div {
     padding-top: 13px;
     border-top: 1px solid #FFF;
