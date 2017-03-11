@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::Notification::SettingDeploymentCheck;
+package Kernel::Output::HTML::Notification::SystemConfigurationIsDirtyCheck;
 
 use base 'Kernel::Output::HTML::Base';
 
@@ -35,11 +35,11 @@ sub Run {
 
         return '' if !$HasPermission;
 
-        my @DirtySettings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationDirtySettingsList(
-            ChangeBy => $Self->{UserID},
+        my $Result = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationIsDirtyCheck(
+            UserID => $Self->{UserID},
         );
 
-        if ( scalar @DirtySettings ) {
+        if ($Result) {
 
             return $LayoutObject->Notify(
                 Priority => 'Notice',

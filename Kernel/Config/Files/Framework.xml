@@ -930,13 +930,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###5000-SettingDeployment-Check" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::NotifyModule###5000-SystemConfigurationIsDirty-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if there are modified sysconfig settings that are not deployed yet.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Notification::SettingDeploymentCheck</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::SystemConfigurationIsDirtyCheck</Item>
                 <Item Key="Group">admin</Item>
             </Hash>
         </Setting>

@@ -715,9 +715,9 @@ sub LoadDefaults {
         '2500-AgentSessionLimit' => {
           'Module' => 'Kernel::Output::HTML::Notification::AgentSessionLimit',
         },
-        '5000-SettingDeployment-Check' => {
+        '5000-SystemConfigurationIsDirty-Check' => {
             Group  => 'admin',
-            Module => 'Kernel::Output::HTML::Notification::SettingDeploymentCheck',
+            Module => 'Kernel::Output::HTML::Notification::SystemConfigurationIsDirtyCheck',
         },
         '5200-SettingsInvalid-Check' => {
             Group  => 'admin',
