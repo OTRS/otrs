@@ -719,9 +719,9 @@ sub LoadDefaults {
             Group  => 'admin',
             Module => 'Kernel::Output::HTML::Notification::SystemConfigurationIsDirtyCheck',
         },
-        '5200-SettingsInvalid-Check' => {
+        '5200-SystemConfigurationInvalid-Check' => {
             Group  => 'admin',
-            Module => 'Kernel::Output::HTML::Notification::SettingsInvalidCheck',
+            Module => 'Kernel::Output::HTML::Notification::SystemConfigurationInvalidCheck',
         },
         '5500-OutofOffice-Check' => {
             Module => 'Kernel::Output::HTML::Notification::OutofOfficeCheck',

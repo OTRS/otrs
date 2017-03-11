@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::Notification::SettingsInvalidCheck;
+package Kernel::Output::HTML::Notification::SystemConfigurationInvalidCheck;
 
 use base 'Kernel::Output::HTML::Base';
 
