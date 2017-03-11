@@ -39,7 +39,7 @@ $Self->Is(
 );
 
 my $Test = '<section id="ConfigReference_Section_Core_Cache">
-        <title>Core::Cache</title>
+        <title>Core → Cache</title>
         <variablelist>
             <varlistentry id="ConfigReference_Setting_Cache::InBackend">
                 <term>Cache::InBackend</term>';
