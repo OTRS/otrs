@@ -1129,6 +1129,7 @@ sub LoadDefaults {
         'Active' => '1',
         'Area' => 'Agent',
         'Column' => 'User Profile',
+        'Desc' => 'Set a new password by filling in your current password and a new one.',
         'Label' => 'Change password',
         'Module' => 'Kernel::Output::HTML::Preferences::Password',
         'PasswordMaxLoginFailed' => '0',
