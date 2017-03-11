@@ -3313,24 +3313,7 @@ Returns:
 sub ConfigurationIsDirtyCheck {
     my ( $Self, %Param ) = @_;
 
-    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
-
-    # Get all modified settings that has not been deployed.
-    my @ModifiedSettingsList = $SysConfigDBObject->ModifiedSettingListGet(
-        IsDirty  => 1,
-        IsGlobal => 1,
-    );
-
-    return 1 if @ModifiedSettingsList;
-
-    # Get all default settings that has not been deployed.
-    my @DefaultSettingsList = $SysConfigDBObject->DefaultSettingListGet(
-        IsDirty => 1,
-    );
-
-    return 1 if @DefaultSettingsList;
-
-    return 0;
+    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->ConfigurationIsDirty();
 }
 
 =head2 ConfigurationDump()

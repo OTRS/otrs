@@ -202,17 +202,22 @@ sub DefaultSettingAdd {
         ],
     );
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    $CacheObject->CleanUp(
         Type => 'SysConfigDefault',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    $CacheObject->CleanUp(
         Type => 'DefaultSettingListGet',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    $CacheObject->CleanUp(
         Type => 'SysConfigNavigation',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    $CacheObject->CleanUp(
         Type => 'SysConfigEntities',
+    );
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'IsDirty',
     );
 
     # Return if not version inserted.
@@ -439,6 +444,10 @@ sub DefaultSettingDelete {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'IsDirty',
+    );
 
     # Clean cache for _ConfigurationTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
@@ -592,27 +601,6 @@ sub DefaultSettingUpdate {
         ],
     );
 
-    # Add default setting version.
-    my $DefaultVersionID = $Self->DefaultSettingVersionAdd(
-        DefaultID => $Param{DefaultID},
-        %DefaultVersionParams,
-    );
-
-    # Return if not version inserted.
-    return if !$DefaultVersionID;
-
-    # Unlock setting
-    my $IsUnlock = $Self->DefaultSettingUnlock(
-        DefaultID => $Param{DefaultID},
-    );
-    if ( !$IsUnlock ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Default setting with ID: $Param{DefaultID} was not possible to unlock!",
-        );
-        return;
-    }
-
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     $CacheObject->Delete(
@@ -635,6 +623,10 @@ sub DefaultSettingUpdate {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'IsDirty',
+    );
 
     # Clean cache for _ConfigurationTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
@@ -643,6 +635,27 @@ sub DefaultSettingUpdate {
             Type => '_ConfigurationTranslatedGet',
             Key  => "_ConfigurationTranslatedGet::$Language" . "::$DefaultSetting{Name}",
         );
+    }
+
+    # Add default setting version.
+    my $DefaultVersionID = $Self->DefaultSettingVersionAdd(
+        DefaultID => $Param{DefaultID},
+        %DefaultVersionParams,
+    );
+
+    # Return if not version inserted.
+    return if !$DefaultVersionID;
+
+    # Unlock setting
+    my $IsUnlock = $Self->DefaultSettingUnlock(
+        DefaultID => $Param{DefaultID},
+    );
+    if ( !$IsUnlock ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Default setting with ID: $Param{DefaultID} was not possible to unlock!",
+        );
+        return;
     }
 
     return 1;
@@ -1415,11 +1428,17 @@ sub DefaultSettingDirtyCleanUp {
             WHERE is_dirty = 1',
     );
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
         Type => 'SysConfigDefault',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    $CacheObject->CleanUp(
         Type => 'DefaultSettingListGet',
+    );
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'IsDirty',
     );
 
     return 1;
@@ -2163,17 +2182,6 @@ sub ModifiedSettingAdd {
         $ModifiedSettingID = $Row[0];
     }
 
-    # Unlock the setting.
-    my $IsUnlock = $Self->DefaultSettingUnlock(
-        DefaultID => $Param{DefaultID},
-    );
-    if ( !$IsUnlock ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Default setting with ID: $Param{DefaultID} was not possible to unlock!",
-        );
-        return;
-    }
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     $CacheObject->CleanUp(
@@ -2191,6 +2199,10 @@ sub ModifiedSettingAdd {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'IsDirty',
+    );
 
     # Clean cache for _ConfigurationTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
@@ -2199,6 +2211,18 @@ sub ModifiedSettingAdd {
             Type => '_ConfigurationTranslatedGet',
             Key  => "_ConfigurationTranslatedGet::$Language" . "::$Param{Name}",
         );
+    }
+
+    # Unlock the setting.
+    my $IsUnlock = $Self->DefaultSettingUnlock(
+        DefaultID => $Param{DefaultID},
+    );
+    if ( !$IsUnlock ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Default setting with ID: $Param{DefaultID} was not possible to unlock!",
+        );
+        return;
     }
 
     return $ModifiedSettingID;
@@ -2616,6 +2640,10 @@ sub ModifiedSettingDelete {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'IsDirty',
+    );
 
     # Clean cache for _ConfigurationTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
@@ -2798,6 +2826,10 @@ sub ModifiedSettingUpdate {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'IsDirty',
+    );
 
     # Clean cache for _ConfigurationTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
@@ -2891,6 +2923,10 @@ sub ModifiedSettingDirtyCleanUp {
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigModifiedVersion',
+    );
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'IsDirty',
     );
 
     return 1;
@@ -3479,6 +3515,63 @@ sub ModifiedSettingVersionDelete {
     );
 
     return 1;
+}
+
+=head2 ConfigurationIsDirty()
+
+Check if there are not deployed changes on system configuration.
+
+    my $Result = $SysConfigObject->ConfigurationIsDirty();
+
+Returns:
+
+    $Result = 1;    # or 0 if configuration is not dirty.
+
+=cut
+
+sub ConfigurationIsDirty {
+    my ( $Self, %Param ) = @_;
+
+    my $CacheKey  = 'IsDirty';
+    my $CacheType = 'SysConfig';
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # Return cache.
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return ${$Cache} if ref $Cache eq 'SCALAR';
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT sd.id
+            FROM sysconfig_default sd
+            FULL JOIN sysconfig_modified sm ON sm.name = sd.name
+            WHERE
+                sd.is_dirty = 1 OR sm.is_dirty = 1',
+        Limit => 1,
+    );
+
+    my $Result;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Result = 1;
+    }
+
+    $Result //= '0';
+
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \$Result,
+        TTL   => $Self->{CacheTTL},
+    );
+
+    return $Result;
 }
 
 =head2 DeploymentAdd()
