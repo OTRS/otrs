@@ -25,6 +25,14 @@ $Kernel::OM->ObjectParamAdd(
 # Get helper object.
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $TestUserLogin = $HelperObject->TestUserCreate(
+    Groups => [ 'admin', 'users' ],
+    Language => 'en'
+);
+my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+    UserLogin => $TestUserLogin,
+);
+
 # Get SysConfig DB object
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -147,6 +155,23 @@ my $DeployAndCheck = sub {
         0,
         'ConfigurationIsDirtyCheck() after deployment',
     );
+    $Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+        UserID => 1,
+    );
+    $Self->Is(
+        $Result,
+        0,
+        "ConfigurationIsDirtyCheck() after deployment for UserID 1",
+    );
+    $Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+        UserID => $TestUserID,
+    );
+    $Self->Is(
+        $Result,
+        0,
+        "ConfigurationIsDirtyCheck() after deployment for UserID $TestUserID",
+    );
+
 };
 
 $DeployAndCheck->();
@@ -228,6 +253,22 @@ $Self->Is(
     1,
     'ConfigurationIsDirtyCheck() after DefaultSettingUpdate()',
 );
+$Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+    UserID => 1,
+);
+$Self->Is(
+    $Result,
+    1,
+    "ConfigurationIsDirtyCheck() after DefaultSettingUpdate() for UserID 1",
+);
+$Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+    UserID => $TestUserID,
+);
+$Self->Is(
+    $Result,
+    1,
+    "ConfigurationIsDirtyCheck() after DefaultSettingUpdate() for UserID $TestUserID",
+);
 
 $DeployAndCheck->();
 
@@ -266,6 +307,22 @@ $Self->Is(
     $Result,
     1,
     'ConfigurationIsDirtyCheck() after ModifiedSettingAdd()',
+);
+$Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+    UserID => 1,
+);
+$Self->Is(
+    $Result,
+    1,
+    "ConfigurationIsDirtyCheck() after ModifiedSettingAdd() for UserID 1",
+);
+$Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+    UserID => $TestUserID,
+);
+$Self->Is(
+    $Result,
+    0,
+    "ConfigurationIsDirtyCheck() after ModifiedSettingAdd() for UserID $TestUserID",
 );
 
 $DeployAndCheck->();
@@ -319,7 +376,22 @@ $Self->Is(
     1,
     'ConfigurationIsDirtyCheck() after ModifiedSettingUpdate()',
 );
-
+$Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+    UserID => 1,
+);
+$Self->Is(
+    $Result,
+    1,
+    "ConfigurationIsDirtyCheck() after ModifiedSettingUpdate() for UserID 1",
+);
+$Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+    UserID => $TestUserID,
+);
+$Self->Is(
+    $Result,
+    0,
+    "ConfigurationIsDirtyCheck() after ModifiedSettingUpdate() for UserID $TestUserID",
+);
 $DeployAndCheck->();
 
 1;

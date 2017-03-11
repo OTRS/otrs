@@ -215,9 +215,8 @@ sub DefaultSettingAdd {
     $CacheObject->CleanUp(
         Type => 'SysConfigEntities',
     );
-    $CacheObject->Delete(
-        Type => 'SysConfig',
-        Key  => 'IsDirty',
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
     );
 
     # Return if not version inserted.
@@ -444,9 +443,8 @@ sub DefaultSettingDelete {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
-    $CacheObject->Delete(
-        Type => 'SysConfig',
-        Key  => 'IsDirty',
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
     );
 
     # Clean cache for _ConfigurationTranslatedGet.
@@ -623,9 +621,8 @@ sub DefaultSettingUpdate {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
-    $CacheObject->Delete(
-        Type => 'SysConfig',
-        Key  => 'IsDirty',
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
     );
 
     # Clean cache for _ConfigurationTranslatedGet.
@@ -1436,9 +1433,8 @@ sub DefaultSettingDirtyCleanUp {
     $CacheObject->CleanUp(
         Type => 'DefaultSettingListGet',
     );
-    $CacheObject->Delete(
-        Type => 'SysConfig',
-        Key  => 'IsDirty',
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
     );
 
     return 1;
@@ -2199,9 +2195,8 @@ sub ModifiedSettingAdd {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
-    $CacheObject->Delete(
-        Type => 'SysConfig',
-        Key  => 'IsDirty',
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
     );
 
     # Clean cache for _ConfigurationTranslatedGet.
@@ -2640,9 +2635,8 @@ sub ModifiedSettingDelete {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
-    $CacheObject->Delete(
-        Type => 'SysConfig',
-        Key  => 'IsDirty',
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
     );
 
     # Clean cache for _ConfigurationTranslatedGet.
@@ -2826,9 +2820,8 @@ sub ModifiedSettingUpdate {
     $CacheObject->CleanUp(
         Type => 'ConfigurationTranslatedGet',
     );
-    $CacheObject->Delete(
-        Type => 'SysConfig',
-        Key  => 'IsDirty',
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
     );
 
     # Clean cache for _ConfigurationTranslatedGet.
@@ -2924,9 +2917,8 @@ sub ModifiedSettingDirtyCleanUp {
     $CacheObject->CleanUp(
         Type => 'SysConfigModifiedVersion',
     );
-    $CacheObject->Delete(
-        Type => 'SysConfig',
-        Key  => 'IsDirty',
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
     );
 
     return 1;
@@ -3521,7 +3513,9 @@ sub ModifiedSettingVersionDelete {
 
 Check if there are not deployed changes on system configuration.
 
-    my $Result = $SysConfigObject->ConfigurationIsDirty();
+    my $Result = $SysConfigObject->ConfigurationIsDirty(
+        UserID => 123,      # optional, the user that changes a modified setting
+    );
 
 Returns:
 
@@ -3533,7 +3527,11 @@ sub ConfigurationIsDirty {
     my ( $Self, %Param ) = @_;
 
     my $CacheKey  = 'IsDirty';
-    my $CacheType = 'SysConfig';
+    my $CacheType = 'SysConfigIsDirty';
+
+    if ( $Param{UserID} ) {
+        $CacheKey .= "::UserID=$Param{UserID}";
+    }
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -3547,13 +3545,25 @@ sub ConfigurationIsDirty {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    my $SQL = '
+        SELECT sd.id
+        FROM sysconfig_default sd
+        FULL JOIN sysconfig_modified sm ON sm.name = sd.name
+        WHERE ';
+
+    my $SQLWhere = 'sd.is_dirty = 1 OR sm.is_dirty = 1';
+
+    my @Bind;
+    if ( $Param{UserID} ) {
+        $SQLWhere = 'sd.is_dirty = 1 OR ( sm.is_dirty = 1 and sm.change_by = ? )';
+        push @Bind, \$Param{UserID};
+    }
+
+    $SQL .= $SQLWhere;
+
     return if !$DBObject->Prepare(
-        SQL => '
-            SELECT sd.id
-            FROM sysconfig_default sd
-            FULL JOIN sysconfig_modified sm ON sm.name = sd.name
-            WHERE
-                sd.is_dirty = 1 OR sm.is_dirty = 1',
+        SQL   => $SQL,
+        Bind  => \@Bind,
         Limit => 1,
     );
 

@@ -3302,7 +3302,9 @@ sub ConfigurationDeploySettingsListGet {
 
 Check if there are not deployed changes on system configuration.
 
-    my $Result = $SysConfigObject->ConfigurationIsDirtyCheck();
+    my $Result = $SysConfigObject->ConfigurationIsDirtyCheck(
+        UserID => 123,      # optional, the user that changes a modified setting
+    );
 
 Returns:
 
@@ -3313,7 +3315,7 @@ Returns:
 sub ConfigurationIsDirtyCheck {
     my ( $Self, %Param ) = @_;
 
-    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->ConfigurationIsDirty();
+    return $Kernel::OM->Get('Kernel::System::SysConfig::DB')->ConfigurationIsDirty(%Param);
 }
 
 =head2 ConfigurationDump()
