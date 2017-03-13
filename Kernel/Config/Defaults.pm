@@ -1580,7 +1580,7 @@ via the Preferences button after logging in.
 #        CacheTTL => 0,
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
-#            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
+#            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
 #            [ 'UserTitle',      'Title',      'title',           1, 0, 'var', '', 0 ],
 #            [ 'UserFirstname',  'Firstname',  'givenname',       1, 1, 'var', '', 0 ],
 #            [ 'UserLastname',   'Lastname',   'sn',              1, 1, 'var', '', 0 ],

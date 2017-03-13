@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-13 Fixed bug#[12571](https://bugs.otrs.org/show_bug.cgi?id=12571) - Missing column descriptions in External backends.
  - 2017-03-13 Fixed bug#[12679](https://bugs.otrs.org/show_bug.cgi?id=12679)(PR#1644) - Customer Menu can be clicked through in a certain instance. Thanks to S7!
  - 2017-03-13 Fixed bug#[12685](https://bugs.otrs.org/show_bug.cgi?id=12685) - Typos in TicketSearch operation in WSDL.
  - 2017-03-10 Fixed bug#[12601](https://bugs.otrs.org/show_bug.cgi?id=12601) - Customer information translation is not consequent in new ticket view.
