@@ -221,6 +221,7 @@ ul.ContextFunctions li:last-child:hover > a {
     line-height: 18px;
     font-size: 11px;
     display: inline-block;
+    z-index: 19;
 }
 
 .Actions li:after {
