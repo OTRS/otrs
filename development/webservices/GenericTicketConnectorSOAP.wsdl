@@ -1915,7 +1915,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     maxOccurs="1">
                 </xsd:element>
                 <xsd:element
-                    name="ATicketCreateTimeNewerMinutes"
+                    name="TicketCreateTimeNewerMinutes"
                     type="xsd:positiveInteger"
                     minOccurs="0"
                     maxOccurs="1">
@@ -2035,7 +2035,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     maxOccurs="1">
                 </xsd:element>
                 <xsd:element
-                    name="TTicketEscalationTimeNewerMinutes"
+                    name="TicketEscalationTimeNewerMinutes"
                     type="xsd:positiveInteger"
                     minOccurs="0"
                     maxOccurs="1">
