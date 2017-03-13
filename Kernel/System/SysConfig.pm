@@ -898,18 +898,6 @@ sub SettingEffectiveValueGet {
                 # Remove empty space at start and the end (with new lines).
                 $Item->{Content} =~ s{^\n\s*(.*?)\n\s*$}{$1}gsmx;
 
-                # Hash values should never be translated.
-                # if (
-                #     $Item->{Content}
-                #     && $Param{Translate}
-                #     && $Item->{Translatable}
-                #     )
-                # {
-                #     $Item->{Content} = $Kernel::OM->Get('Kernel::Language')->Translate(
-                #         $Item->{Content},
-                #     );
-                # }
-
                 $Result->{ $Item->{Key} } = $Item->{Content};
             }
         }
@@ -1815,12 +1803,10 @@ sub ConfigurationTranslatedGet {
     my ( $Self, %Param ) = @_;
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
-
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $CacheType = 'ConfigurationTranslatedGet';
-
-    my $CacheKey = "ConfigurationTranslatedGet::$LanguageObject->{UserLanguage}";
+    my $CacheKey  = "ConfigurationTranslatedGet::$LanguageObject->{UserLanguage}";
 
     # Return cache.
     my $Cache = $CacheObject->Get(
@@ -1831,7 +1817,6 @@ sub ConfigurationTranslatedGet {
     return %{$Cache} if ref $Cache eq 'HASH';
 
     my %Settings = $Self->ConfigurationList();
-
     my %Result;
 
     for my $DefaultID ( sort keys %Settings ) {
