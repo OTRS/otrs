@@ -3548,7 +3548,7 @@ sub ConfigurationIsDirty {
     my $SQL = '
         SELECT sd.id
         FROM sysconfig_default sd
-            INNER JOIN sysconfig_modified sm ON sm.name = sd.name
+            LEFT OUTER JOIN sysconfig_modified sm ON sm.name = sd.name
         WHERE ';
 
     my $SQLWhere = 'sd.is_dirty = 1 OR sm.is_dirty = 1';
