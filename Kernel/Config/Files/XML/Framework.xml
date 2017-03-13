@@ -7020,6 +7020,17 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
+    <Setting Name="Package::EventModulePost###8000-LinkObjectEventTypes" Required="0" Valid="1">
+        <Description Translatable="1">Package event module to update configuration for link object event types.</Description>
+        <Navigation>Core::Package</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Package::Event::LinkObjectEventTypes</Item>
+                <Item Key="Event">(PackageInstall|PackageReinstall|PackageUpgrade|PackageUninstall)</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Package::EventModulePost###9000-SupportDataSend" Required="0" Valid="1">
         <Description Translatable="1">Package event module file a scheduler task for update registration.</Description>
         <Navigation>Core::Package</Navigation>
