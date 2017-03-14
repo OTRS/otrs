@@ -3651,7 +3651,7 @@ sub ConfigurationSearch {
 
     my %Settings = $Self->ConfigurationTranslatedGet();
 
-    my @Result;
+    my %Result;
 
     SETTING:
     for my $SettingName ( sort keys %Settings ) {
@@ -3676,13 +3676,28 @@ sub ConfigurationSearch {
             next SETTING;
         }
 
-        # do not search with the x and/or g modifier as it would produce wrong search results!
-        if ( $Settings{$SettingName}->{Metadata} =~ m{$Search}ms ) {
-            push @Result, $SettingName;
+        if ( !$Param{Search} ) {
+            $Result{$SettingName} = 1;
+            next SETTING;
+        }
+
+        $Param{Search} =~ s{ +}{ }g;
+        my @SearchTerms = split ' ', $Param{Search};
+
+        SEARCHTERM:
+        for my $SearchTerm (@SearchTerms) {
+
+            # do not search with the x and/or g modifier as it would produce wrong search results!
+            if ( $Settings{$SettingName}->{Metadata} =~ m{$SearchTerm}msi ) {
+
+                next SEARCHTERM if $Result{$SettingName};
+
+                $Result{$SettingName} = 1;
+            }
         }
     }
 
-    return @Result;
+    return ( sort keys %Result );
 }
 
 =head2 ConfigurationCategoriesGet()

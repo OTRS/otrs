@@ -65,6 +65,26 @@ my @Tests = (
         Success => 1,
     },
     {
+        Name   => 'Multiple Term Search',
+        Params => {
+            Search => 'look-up DNS',
+        },
+        ExpectedResult => [
+            'CheckMXRecord::Nameserver',
+        ],
+        Success => 1,
+    },
+    {
+        Name   => 'Multiple Term Search 2',
+        Params => {
+            Search => 'look-up      DNS',
+        },
+        ExpectedResult => [
+            'CheckMXRecord::Nameserver',
+        ],
+        Success => 1,
+    },
+    {
         Name   => 'Empty Result',
         Params => {
             Search => 'WatcherType',
