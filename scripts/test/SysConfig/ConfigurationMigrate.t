@@ -62,6 +62,43 @@ $Self->True(
     "Config was loaded",
 );
 
+# Update before migrate
+my $PreModifiedSettings = [
+    {
+        Name           => 'ProductName',
+        EffectiveValue => 'UnitTestModified',
+    },
+];
+
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+for my $Settings ( @{$PreModifiedSettings} ) {
+    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+        %{$Settings},
+        Force  => 1,
+        UserID => 1,
+    );
+    my %Result = $SysConfigObject->SettingUpdate(
+        %{$Settings},
+        IsValid           => 1,
+        ExclusiveLockGUID => $ExclusiveLockGUID,
+        NoValidation      => 1,
+        UserID            => 1,
+    );
+    $SysConfigObject->SettingUnlock(
+        Name => $Settings->{Name},
+    );
+    my %Setting = $SysConfigObject->SettingGet(
+        Name    => $Settings->{Name},
+        Default => 0,
+    );
+    $Self->Is(
+        $Setting{EffectiveValue},
+        $Settings->{EffectiveValue},
+        'Test Setting ' . $Setting{Name} . ' was modified.',
+    );
+}
+
+# migrate
 my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
     FileClass => $TestFileClass,
     FilePath  => $TestLocation,
