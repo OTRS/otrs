@@ -9013,7 +9013,7 @@ via the Preferences button after logging in.
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                     <JavaScript>Core.Agent.Preferences.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.js</JavaScript>
-                    <JavaScript>Core.SystemConfigurationDate.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.Date.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

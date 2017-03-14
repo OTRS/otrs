@@ -8650,7 +8650,7 @@ via the Preferences button after logging in.
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Preferences.js</Item>
                         <Item>Core.SystemConfiguration.js</Item>
-                        <Item>Core.SystemConfigurationDate.js</Item>
+                        <Item>Core.SystemConfiguration.Date.js</Item>
                     </Array>
                 </Item>
             </Hash>
