@@ -939,16 +939,14 @@ td.Highlight a.ui-state-default {
 }
 
 .ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
-    background: transparent;
     border: 0px;
     margin: 0px;
 }
 
-.ui-menu-item-wrapper strong {
-
-}
-
-.ui-menu-item:hover {
+.ui-menu-item:hover,
+.ui-menu-item:focus,
+.ui-menu-item:active,
+.ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
     background: #eee;
 }
 

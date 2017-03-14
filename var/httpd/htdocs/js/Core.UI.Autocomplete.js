@@ -103,15 +103,15 @@ Core.UI.Autocomplete = (function (TargetNS) {
     // which matches the search term.
     $.ui.autocomplete.prototype._renderItem = function(ul, item) {
 
-        var Regex = new RegExp("(" + this.term + ")", "i"),
+        var Regex = new RegExp("(" + this.term.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&") + ")", "i"),
             Label = Core.App.EscapeHTML(item.label);
 
         // Mark matches with strong tag.
         Label = Label.replace(Regex, "<strong>$1</strong>");
 
-        return $('<li></li>')
+        return $('<li class="ui-menu-item-wrapper"></li>')
             .data('item.autocomplete', item)
-            .append('<a class="AutocompleteMatch">' + Label + '</a>')
+            .append('<a class="ui-menu-item" href="#">' + Label + '</a>')
             .appendTo(ul);
      };
 
