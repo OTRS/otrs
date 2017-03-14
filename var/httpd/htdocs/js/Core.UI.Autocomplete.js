@@ -109,9 +109,9 @@ Core.UI.Autocomplete = (function (TargetNS) {
         // Mark matches with strong tag.
         Label = Label.replace(Regex, "<strong>$1</strong>");
 
-        return $('<li class="ui-menu-item-wrapper"></li>')
+        return $('<li></li>')
             .data('item.autocomplete', item)
-            .append('<a class="ui-menu-item" href="#">' + Label + '</a>')
+            .append('<a href="#">' + Label + '</a>')
             .appendTo(ul);
      };
 
