@@ -128,28 +128,14 @@ sub Run {
 
         for my $SettingName ( sort @ModifiedSettingNames ) {
 
-            # get the current data of the setting
+            my %Versions;
+
+            # Get the current data of the setting.
             my %SettingCurrentState = $SysConfigDBObject->ModifiedSettingGet(
                 Name => $SettingName,
             );
 
-            # get the previous deployed state of this setting
-            my %SettingPreviousState = $SysConfigDBObject->ModifiedSettingVersionGetLast(
-                Name => $SettingCurrentState{Name},
-            );
-
-            # if this setting was never deployed before, get the default state
-            if ( !%SettingPreviousState ) {
-
-                # Get default version.
-                %SettingPreviousState = $SysConfigDBObject->DefaultSettingGet(
-                    DefaultID => $SettingCurrentState{DefaultID},
-                );
-            }
-
-            my %Versions;
-
-            # Get current values
+            # Get current values.
             my %CurrentValues = $SysConfigObject->SettingGet(
                 Name       => $SettingName,
                 ModifiedID => $SettingCurrentState{ModifiedID},
@@ -157,20 +143,20 @@ sub Run {
 
             $Versions{Current} = \%CurrentValues;
 
-            # Get previous version
-            my %PreviousValues;
-            if ( $SettingPreviousState{ModifiedID} ) {
+            # Get default version of this setting.
+            my %PreviousValues = $SysConfigObject->SettingGet(
+                Name    => $SettingName,
+                Default => 1,
+            );
 
-                %PreviousValues = $SysConfigObject->SettingGet(
-                    Name       => $SettingName,
-                    ModifiedID => $SettingPreviousState{ModifiedID},
-                );
-            }
-            else {
-                %PreviousValues = $SysConfigObject->SettingGet(
-                    Name    => $SettingName,
-                    Default => 1,
-                );
+            # Get the previous deployed state of this setting.
+            my %SettingPreviousState = $SysConfigDBObject->ModifiedSettingVersionGetLast(
+                Name => $SettingCurrentState{Name},
+            );
+
+            # Use complementary values from previous deployed version (if any).
+            if (%SettingPreviousState) {
+                %PreviousValues = ( %PreviousValues, %SettingPreviousState );
             }
 
             $Versions{Previous} = \%PreviousValues;
