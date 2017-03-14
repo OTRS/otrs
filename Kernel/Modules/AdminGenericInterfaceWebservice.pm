@@ -758,7 +758,7 @@ sub _ShowOverview {
     $LayoutObject->Block(
         Name => 'WebservicePathElement',
         Data => {
-            Name => 'Web Services',
+            Name => Translatable('Web Services'),
             Link => 'Action=AdminGenericInterfaceWebservice',
             Nav  => '',
         },
@@ -887,7 +887,7 @@ sub _ShowEdit {
     $LayoutObject->Block(
         Name => 'WebservicePathElement',
         Data => {
-            Name => 'Web Services',
+            Name => Translatable('Web Services'),
             Link => 'Action=AdminGenericInterfaceWebservice',
             Nav  => '',
         },
@@ -945,7 +945,7 @@ sub _ShowEdit {
         $LayoutObject->Block(
             Name => 'WebservicePathElementNoLink',
             Data => {
-                Name => 'New Web service',
+                Name => Translatable('New Web service'),
                 Link => 'Action=AdminGenericInterfaceWebservice;Subaction=' . $Param{Action},
                 Nav  => '',
             },
