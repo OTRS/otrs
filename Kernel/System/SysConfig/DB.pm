@@ -3079,11 +3079,12 @@ sub ModifiedSettingVersionGet {
                 smv.name, smv.user_id,
                 smv.is_valid, smv.reset_to_default, smv.user_modification_active, smv.effective_value,
                 smv.create_time, smv.change_time
-            FROM sysconfig_modified_version smv, sysconfig_default_version sdv
+            FROM sysconfig_modified_version smv
+            LEFT JOIN sysconfig_default_version sdv
+                ON smv.sysconfig_default_version_id = sdv.id
             LEFT JOIN sysconfig_modified sm
                 ON sdv.sysconfig_default_id = sm.sysconfig_default_id
-            WHERE smv.sysconfig_default_version_id = sdv.id
-                AND smv.id = ?',
+            WHERE smv.id = ?',
         Bind => [ \$Param{ModifiedVersionID} ],
     );
 
