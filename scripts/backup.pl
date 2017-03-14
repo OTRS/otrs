@@ -153,22 +153,22 @@ if ( !mkdir($Directory) ) {
     die "ERROR: Can't create directory: $Directory: $!\n";
 }
 
-# backup Kernel/Config.pm
-print "Backup $Directory/Config.tar.gz ... ";
-if ( !system("tar -czf $Directory/Config.tar.gz Kernel/Config*") ) {
-    print "done\n";
-}
-else {
-    print "failed\n";
-    RemoveIncompleteBackup($Directory);
-    die "Backup failed\n";
-}
-
 # backup application
 if ($DBOnlyBackup) {
     print "Backup of filesystem data disabled by parameter dbonly ... \n";
 }
 else {
+    # backup Kernel/Config.pm
+    print "Backup $Directory/Config.tar.gz ... ";
+    if ( !system("tar -czf $Directory/Config.tar.gz Kernel/Config*") ) {
+        print "done\n";
+    }
+    else {
+        print "failed\n";
+        RemoveIncompleteBackup($Directory);
+        die "Backup failed\n";
+    }
+
     if ($FullBackup) {
         print "Backup $Directory/Application.tar.gz ... ";
         my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache --exclude=.git";
@@ -211,7 +211,7 @@ else {
 
 # backup database
 if ( $DB =~ m/mysql/i ) {
-    print "Dump $DB rdbms ... ";
+    print "Dump $DB data to $Directory/DatabaseBackup.sql ... ";
     if ($DatabasePw) {
         $DatabasePw = "-p'$DatabasePw'";
     }
@@ -225,7 +225,7 @@ if ( $DB =~ m/mysql/i ) {
     }
 }
 else {
-    print "Dump $DB rdbms ... ";
+    print "Dump $DB data to $Directory/DatabaseBackup.sql ... ";
 
     # set password via environment variable if there is one
     if ($DatabasePw) {
