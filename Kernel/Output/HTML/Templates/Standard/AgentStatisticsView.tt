@@ -104,8 +104,10 @@
                                 <button class="Primary CallForAction" type="submit" id="StartStatistic" name="Start" value="[% Translate("Run now") | html %]">
                                     <span><i class="fa fa-caret-square-o-right"></i> [% Translate("Run now") | html %]</span>
                                 </button>
-                                or
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">Cancel</a>
+                                [% Translate('or') | html %]
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
+                                    [% Translate('Cancel') | html %]
+                                </a>
                             </div>
                         </fieldset>
 
