@@ -199,7 +199,7 @@ Returns:
     %List = (
         1 => 'unlock',
         2 => 'lock',
-        3 => 'lock-tmp',
+        3 => 'tmp_lock',
     );
 
 =cut
