@@ -1350,6 +1350,7 @@ Migrate the configs effective values to the new format for OTRS 6.
             'GeneralCatalogPreferences###Permissions',
             'Loader::Agent::CommonJS###100-GeneralCatalog'
         ],
+        ReturnMigratedSettingsCounts => 1,                          # (optional) returns an array with counts of un/successful migrated settings
     );
 
 Returns:
@@ -1754,6 +1755,14 @@ sub MigrateConfigEffectiveValues {
     }
 
     print "\n\n";
+
+    if ( $Param{ReturnMigratedSettingsCounts} ) {
+        return {
+            AllSettingsCount      => $AllSettingsCount,
+            MissingSettings       => \@MissingSettings,
+            UnsuccessfullSettings => \@UnsuccessfullSettings,
+        };
+    }
 
     return 1;
 }

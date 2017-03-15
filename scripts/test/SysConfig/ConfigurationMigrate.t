@@ -100,13 +100,120 @@ for my $Settings ( @{$PreModifiedSettings} ) {
 
 # migrate
 my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
-    FileClass => $TestFileClass,
-    FilePath  => $TestLocation,
+    FileClass                    => $TestFileClass,
+    FilePath                     => $TestLocation,
+    ReturnMigratedSettingsCounts => 1,
 );
 
 $Self->True(
     $Success,
     "Config was successfully migrated from otrs5 to 6."
 );
+if ( ref $Success eq 'HASH' ) {
+
+    my $AllSettingsCount      = $Success->{AllSettingsCount};
+    my @MissingSettings       = @{ $Success->{MissingSettings} };
+    my @UnsuccessfullSettings = @{ $Success->{UnsuccessfullSettings} };
+
+    my @Tests = (
+        {
+            Name        => 'AllSettingsCount',
+            IsValue     => $AllSettingsCount,
+            ShouldValue => 42,
+        },
+        {
+            Name        => 'MissingSettings',
+            IsValue     => scalar @MissingSettings,
+            ShouldValue => 1,
+        },
+        {
+            Name        => 'UnsuccessfullSettings',
+            IsValue     => scalar @UnsuccessfullSettings,
+            ShouldValue => 0,
+        }
+    );
+
+    for my $TestData (@Tests) {
+        $Self->Is(
+            $TestData->{IsValue},
+            $TestData->{ShouldValue},
+            "$TestData->{Name} has correct count of settings.",
+        );
+    }
+}
+else {
+    $Self->Is(
+        ref $Success,
+        'HASH',
+        "Return Value of Migrate with 'ReturnTestCounts' is not a  HASH!",
+    );
+}
+
+# RebuildConfig
+my $Rebuild = $SysConfigObject->ConfigurationDeploy(
+    Comments => "UnitTest Configuration Rebuild",
+
+    # AllSettings  => 1,
+    # Force        => 1,
+    # NoValidation => 1,
+    UserID => 1,
+);
+
+$Self->True(
+    $Rebuild,
+    "Setting Deploy was successfull."
+);
+
+# TODO - many SettingGet to check correct value
+my @Tests = (
+    {
+        TestType => 'Renaming',
+        Name     => 'Renamed Setting 1',
+        OldName  => 'Ticket::EventModulePost###098-ArticleSearchIndex',
+        NewName  => 'Ticket::EventModulePost###2000-ArticleSearchIndex',
+    },
+    {
+        TestType => 'Renaming',
+        Name     => 'Renamed Setting 2',
+        OldName  => 'Frontend::NotifyModule###800-Daemon-Check',
+        NewName  => 'Frontend::NotifyModule###8000-Daemon-Check',
+    },
+    {
+        TestType      => 'PreChanged',
+        Name          => 'Was changed before 1',
+        Key           => 'ProductName',
+        ChangedValue  => 'UnitTestModified',
+        MigratedValue => 'OTRS 5s',
+    },
+);
+
+TESTS:
+for my $TestData (@Tests) {
+    next TESTS if !$TestData->{TestType};
+
+    if ( $TestData->{TestType} eq 'Renaming' ) {
+        my $ValueOld = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{OldName} );
+        my $ValueNew = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{NewName} );
+
+        $Self->False(
+            $ValueOld,
+            "TEST $TestData->{Name}: $TestData->{OldName} is invalid.",
+        );
+
+        $Self->True(
+            $ValueNew,
+            "TEST $TestData->{Name}: Value for $TestData->{NewName} found.",
+        );
+    }
+    elsif ( $TestData->{TestType} eq 'PreChanged' ) {
+        my %Setting = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{Key} );
+
+        $Self->Is(
+            $Setting{EffectiveValue},
+            $TestData->{ChangedValue},
+            "TEST $TestData->{Name}: Value was changed before migration an not touched."
+        );
+    }
+}
 
 1;

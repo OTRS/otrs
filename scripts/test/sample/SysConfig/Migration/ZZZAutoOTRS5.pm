@@ -471,6 +471,15 @@ $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} =  [
   'Core.Customer.js',
   'Core.Customer.Responsive.js'
 ];
+# renamed to 'Ticket::EventModulePost###2000-ArticleSearchIndex'
+$Self->{'Ticket::EventModulePost'}->{'098-ArticleSearchIndex'} =  {
+  'Event' => '(ArticleCreate|ArticleUpdate)',
+  'Module' => 'Kernel::System::Ticket::Event::ArticleSearchIndex'
+};
+# renamed to 'Frontend::NotifyModule###8000-Daemon-Check'
+$Self->{'Frontend::NotifyModule'}->{'800-Daemon-Check'} =  {
+  'Module' => 'Kernel::Output::HTML::Notification::DaemonCheck'
+};
 # deleted
 delete $Self->{'PreferencesGroups'}->{'SpellDict'};
 # calendar
