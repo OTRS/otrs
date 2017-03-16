@@ -39,17 +39,17 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 
 # get options
-my %Opts = (
+my %Options = (
     Help           => 0,
     NonInteractive => 0,
 );
 Getopt::Long::GetOptions(
-    'help',            \$Opts{Help},
-    'non-interactive', \$Opts{NonInteractive},
+    'help',            \$Options{Help},
+    'non-interactive', \$Options{NonInteractive},
 );
 
 {
-    if ( $Opts{Help} ) {
+    if ( $Options{Help} ) {
         print <<"EOF";
 
 DBUpdate-to-6.pl - Upgrade script for OTRS 5 to 6 migration.
@@ -73,15 +73,9 @@ Please run it as the 'otrs' user or with the help of su:
 ";
     }
 
-    my $DBUpdateTo6Object = $Kernel::OM->Create(
-        'scripts::DBUpdateTo6',
-        ObjectParams => {
-            Opts => \%Opts,
-        },
+    $Kernel::OM->Create('scripts::DBUpdateTo6')->Run(
+        CommandlineOptions => \%Options,
     );
-
-    # Run DB update.
-    $DBUpdateTo6Object->Run();
 
     exit 0;
 }

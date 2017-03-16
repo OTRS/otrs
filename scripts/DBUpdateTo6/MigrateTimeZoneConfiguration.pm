@@ -25,27 +25,7 @@ our @ObjectDependencies = (
 
 scripts::DBUpdateTo6::MigrateTimeZoneConfiguration - Migrate timezone configuration.
 
-=head1 PUBLIC INTERFACE
-
-=head2 new()
-
-Don't use the constructor directly, use the ObjectManager instead:
-
-    my $DBUpdateTo6Object = $Kernel::OM->Get('scripts::DBUpdateTo6::MigrateTimeZoneConfiguration');
-
 =cut
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    $Self->{Opts} = $Param{Opts};    # keep options
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;
@@ -71,7 +51,7 @@ sub Run {
     #
     # Check for interactive mode
     #
-    if ( $Self->{Opts}->{NonInteractive} || !is_interactive() ) {
+    if ( $Param{CommandlineOptions}->{NonInteractive} || !is_interactive() ) {
         print
             "\n\tMigration of time zone settings is being skipped because this script is being executed in non-interactive mode.\n";
         print "\tPlease make sure to set the following SysConfig options after this script has been executed:\n";

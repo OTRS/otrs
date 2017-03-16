@@ -37,8 +37,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{Opts} = $Param{Opts};
-
     return $Self;
 }
 
@@ -68,8 +66,8 @@ sub Run {
                 Opts => $Self->{Opts},
             },
         );
-        my $Object = $Kernel::OM->Get("scripts::DBUpdateTo6::$Task->{Module}");
-        $Success = $Object->Run();
+        my $Object = $Kernel::OM->Create("scripts::DBUpdateTo6::$Task->{Module}");
+        $Success = $Object->Run(%Param);
 
         if ($Success) {
             print "done.\n\n";
