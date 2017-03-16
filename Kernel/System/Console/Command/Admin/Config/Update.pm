@@ -157,16 +157,21 @@ sub Run {
         return $Self->ExitCodeError();
     }
 
+    $Success = $SysConfigObject->SettingUnlock(
+        UserID    => 1,
+        DefaultID => $Setting{DefaultID},
+    );
+
     if ( $Self->GetOption('no-deploy') ) {
         $Self->Print("<green>Done.</green>\n");
         return $Self->ExitCodeOk();
     }
 
     $Success = $SysConfigObject->ConfigurationDeploy(
-        Comments    => "Admin::Config::Update $SettingName",
-        AllSettings => 1,
-        UserID      => 1,
-        Force       => 1,
+        Comments      => "Admin::Config::Update $SettingName",
+        UserID        => 1,
+        Force         => 1,
+        DirtySettings => [$SettingName],
     );
 
     if ( !$Success ) {
