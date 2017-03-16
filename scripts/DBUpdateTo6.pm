@@ -13,6 +13,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
+    'Kernel::System::SysConfig',
 );
 
 =head1 NAME
@@ -113,7 +114,7 @@ Refreshes the configuration to make sure that a ZZZAAuto.pm is present after the
 sub RebuildConfig {
     my ( $Self, %Param ) = @_;
 
-    my $SysConfigObject = Kernel::System::SysConfig->new();
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     # Convert XML files to entries in the database
     if (
