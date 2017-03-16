@@ -81,6 +81,11 @@ Core.Agent.Preferences = (function (TargetNS) {
             }
         });
 
+        $('#SaveAll').on('click', function() {
+            $('button.Update:visible').trigger('click');
+            return false;
+        });
+
         // update classic preferences
         $('.PreferenceClassic button.Update').on('click', function() {
 

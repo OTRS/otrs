@@ -939,7 +939,7 @@ input.FilterBox {
 }
 
 .WidgetSimple .WidgetMessage.Top {
-    margin-top: -8px !important;
+    margin-top: 0px !important;
 }
 
 .WidgetSimple .WidgetMessage.Error {
