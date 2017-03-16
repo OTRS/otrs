@@ -28,6 +28,8 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
+use Kernel::System::ObjectManager;
+
 use Getopt::Long;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
