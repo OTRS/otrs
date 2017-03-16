@@ -5,15 +5,15 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-## nofilter(TidyAll::Plugin::OTRS::Perl::PerlCritic)
-package scripts::DBUpdateTo6::MigrateTimeZoneConfiguration;
+
+package scripts::DBUpdateTo6::MigrateTimeZoneConfiguration;    ## no critic
 
 use strict;
 use warnings;
 
 use IO::Interactive qw(is_interactive);
 
-use base qw(scripts::DBUpdateTo6);
+use base qw(scripts::DBUpdateTo6::Base);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -24,10 +24,6 @@ our @ObjectDependencies = (
 =head1 NAME
 
 scripts::DBUpdateTo6::MigrateTimeZoneConfiguration - Migrate timezone configuration.
-
-=head1 DESCRIPTION
-
-Migrate timezone configuration.
 
 =head1 PUBLIC INTERFACE
 
@@ -46,7 +42,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{Opts} = $Param{Opts};
+    $Self->{Opts} = $Param{Opts};    # keep options
 
     return $Self;
 }

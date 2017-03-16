@@ -5,13 +5,13 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-## nofilter(TidyAll::Plugin::OTRS::Perl::PerlCritic)
-package scripts::DBUpdateTo6::DropObjectLockState;
+
+package scripts::DBUpdateTo6::DropObjectLockState;    ## no critic
 
 use strict;
 use warnings;
 
-use base qw(scripts::DBUpdateTo6);
+use base qw(scripts::DBUpdateTo6::Base);
 
 our @ObjectDependencies = (
     'Kernel::System::DB',
@@ -21,31 +21,9 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo6::DropObjectLockState - Drops object lock state.
-
-=head1 DESCRIPTION
-
-Drops object lock state.
-
-=head1 PUBLIC INTERFACE
-
-=head2 new()
-
-Don't use the constructor directly, use the ObjectManager instead:
-
-    my $DBUpdateTo6Object = $Kernel::OM->Get('scripts::DBUpdateTo6::DropObjectLockState');
+scripts::DBUpdateTo6::DropObjectLockState - Drops object lock state table.
 
 =cut
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;
