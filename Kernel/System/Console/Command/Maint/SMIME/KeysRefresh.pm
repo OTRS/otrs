@@ -56,7 +56,7 @@ sub PreRun {
         die "SMIME is not activated in SysConfig!\n";
     }
 
-    my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
+    my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
     if ( !-e $OpenSSLBin ) {
         die "OpenSSL binary $OpenSSLBin does not exists!\n";
     }
