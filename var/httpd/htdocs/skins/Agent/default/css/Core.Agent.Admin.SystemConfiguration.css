@@ -789,7 +789,8 @@ h2.SearchResults {
     margin-top: -12px;
 }
 
-.WidgetSimple input#FilterSettings + .ActionList {
+.WidgetSimple input#FilterSettings + .ActionList,
+.WidgetSimple .TableFilterContainer + .ActionList {
     margin-top: 8px;
 }
 

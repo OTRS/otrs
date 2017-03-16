@@ -1560,4 +1560,27 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         margin: 0px 0px 20px 0px;
         line-height: 150%;
     }
+
+    /* Filters */
+
+    .TableFilterContainer {
+        position: relative;
+    }
+
+    .TableFilterContainer .FilterRemove {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        font-size: 12px;
+        margin-top: -6px;
+        display: none;
+        color: #aaa;
+        transition: color ease 0.3s;
+    }
+
+    .TableFilterContainer .FilterRemove:focus,
+    .TableFilterContainer .FilterRemove:hover,
+    .TableFilterContainer .FilterRemove:active {
+        color: #000;
+    }
 }
