@@ -36,7 +36,7 @@ sub Run {
     if ( !$FilePath ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Could not find Kernel/Config/File/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm!",
+            Message  => "Could not find Kernel/Config/Files/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm!",
         );
         return;
     }
