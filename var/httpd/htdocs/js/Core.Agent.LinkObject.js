@@ -44,6 +44,8 @@ Core.Agent.LinkObject = (function (TargetNS) {
                 });
             });
         }
+
+        Core.UI.InitWidgetActionToggle();
     };
 
     /**
