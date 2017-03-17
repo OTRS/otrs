@@ -33,7 +33,7 @@ All article functions.
 
 create an article
 
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID         => 123,
         ArticleType      => 'note-internal',                        # email-external|email-internal|phone|fax|...
         SenderType       => 'agent',                                # agent|system|customer
@@ -76,7 +76,7 @@ create an article
 
 example with "Charset & MimeType" and no "ContentType"
 
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID         => 123,
         ArticleType      => 'note-internal',                        # email-external|email-internal|phone|fax|...
         SenderType       => 'agent',                                # agent|system|customer
@@ -580,7 +580,7 @@ sub ArticleCreate {
 
 get ticket id of given message id
 
-    my $TicketID = $TicketObject->ArticleGetTicketIDOfMessageID(
+    my $TicketID = $ArticleObject->ArticleGetTicketIDOfMessageID(
         MessageID => '<13231231.1231231.32131231@example.com>',
     );
 
@@ -635,7 +635,7 @@ sub ArticleGetTicketIDOfMessageID {
 
 get article content path
 
-    my $Path = $TicketObject->ArticleGetContentPath(
+    my $Path = $ArticleObject->ArticleGetContentPath(
         ArticleID => 123,
     );
 
@@ -693,7 +693,7 @@ sub ArticleGetContentPath {
 
 get a article sender type list
 
-    my @ArticleSenderTypeList = $TicketObject->ArticleSenderTypeList(
+    my @ArticleSenderTypeList = $ArticleObject->ArticleSenderTypeList(
         Result => 'ARRAY', # optional, ARRAY|HASH
     );
 
@@ -730,11 +730,11 @@ sub ArticleSenderTypeList {
 
 article sender lookup
 
-    my $SenderTypeID = $TicketObject->ArticleSenderTypeLookup(
+    my $SenderTypeID = $ArticleObject->ArticleSenderTypeLookup(
         SenderType => 'customer', # customer|system|agent
     );
 
-    my $SenderType = $TicketObject->ArticleSenderTypeLookup(
+    my $SenderType = $ArticleObject->ArticleSenderTypeLookup(
         SenderTypeID => 1,
     );
 
@@ -818,11 +818,11 @@ sub ArticleSenderTypeLookup {
 
 article type lookup
 
-    my $ArticleTypeID = $TicketObject->ArticleTypeLookup(
+    my $ArticleTypeID = $ArticleObject->ArticleTypeLookup(
         ArticleType => 'webrequest-customer', # note-internal|...
     );
 
-    my $ArticleType = $TicketObject->ArticleTypeLookup(
+    my $ArticleType = $ArticleObject->ArticleTypeLookup(
         ArticleTypeID => 1,
     );
 
@@ -907,12 +907,12 @@ sub ArticleTypeLookup {
 
 get a article type list
 
-    my @ArticleTypeList = $TicketObject->ArticleTypeList(
+    my @ArticleTypeList = $ArticleObject->ArticleTypeList(
         Result => 'ARRAY', # optional, ARRAY|HASH
     );
 
     # to get only article types visible for customers
-    my @ArticleTypeList = $TicketObject->ArticleTypeList(
+    my @ArticleTypeList = $ArticleObject->ArticleTypeList(
         Result => 'ARRAY',    # optional, ARRAY|HASH
         Type   => 'Customer', # optional to get only customer viewable article types
     );
@@ -959,7 +959,7 @@ sub ArticleTypeList {
 
 get last customer article
 
-    my %Article = $TicketObject->ArticleLastCustomerArticle(
+    my %Article = $ArticleObject->ArticleLastCustomerArticle(
         TicketID      => 123,
         Extended      => 1,      # 0 or 1, see ArticleGet(),
         DynamicFields => 1,      # 0 or 1, see ArticleGet(),
@@ -1022,7 +1022,7 @@ sub ArticleLastCustomerArticle {
 
 get first article
 
-    my %Article = $TicketObject->ArticleFirstArticle(
+    my %Article = $ArticleObject->ArticleFirstArticle(
         TicketID      => 123,
         DynamicFields => 1,     # 0 or 1, see ArticleGet()
     );
@@ -1058,11 +1058,11 @@ sub ArticleFirstArticle {
 
 returns an array with article IDs
 
-    my @ArticleIDs = $TicketObject->ArticleIndex(
+    my @ArticleIDs = $ArticleObject->ArticleIndex(
         TicketID => 123,
     );
 
-    my @ArticleIDs = $TicketObject->ArticleIndex(
+    my @ArticleIDs = $ArticleObject->ArticleIndex(
         SenderType => 'customer',                   # optional, to limit to a certain sender type
         TicketID   => 123,
     );
@@ -1153,7 +1153,7 @@ sub ArticleIndex {
 
 returns an array with hash ref (hash contains result of ArticleGet())
 
-    my @ArticleBox = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $ArticleObject->ArticleContentIndex(
         TicketID      => 123,
         DynamicFields => 1,         # 0 or 1, default 1. To include or not the dynamic field values on the return structure.
         UserID        => 1,
@@ -1163,7 +1163,7 @@ returns an array with hash ref (hash contains result of ArticleGet())
 or with "StripPlainBodyAsAttachment => 1" feature to not include first
 attachment / body and html body as attachment
 
-    my @ArticleBox = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $ArticleObject->ArticleContentIndex(
         TicketID                   => 123,
         UserID                     => 1,
         StripPlainBodyAsAttachment => 1,
@@ -1172,7 +1172,7 @@ attachment / body and html body as attachment
 or with "StripPlainBodyAsAttachment => 2" feature to not include first
 attachment / body as attachment (html body will be shown as attachment)
 
-    my @ArticleBox = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $ArticleObject->ArticleContentIndex(
         TicketID                   => 123,
         UserID                     => 1,
         StripPlainBodyAsAttachment => 2,
@@ -1181,7 +1181,7 @@ attachment / body as attachment (html body will be shown as attachment)
 returns an array with hash ref (hash contains result of ArticleGet())
 only with given article types
 
-    my @ArticleBox = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $ArticleObject->ArticleContentIndex(
         TicketID    => 123,
         UserID      => 1,
         ArticleType => [ $ArticleType1, $ArticleType2 ],
@@ -1204,7 +1204,7 @@ is returned as 'AttachmentIDOfHTMLBody' in hash ref.
 You can limit the list of returned elements with the C<Page> and C<Limit>
 parameters:
 
-    my @ArticleBox = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $ArticleObject->ArticleContentIndex(
         TicketID    => 123,
         UserID      => 1,
         Limit       => 5,
@@ -1259,7 +1259,7 @@ sub ArticleContentIndex {
 
 returns article data
 
-    my %Article = $TicketObject->ArticleGet(
+    my %Article = $ArticleObject->ArticleGet(
         ArticleID     => 123,
         DynamicFields => 1,      # Optional. To include the dynamic field values for this article on the return structure.
         UserID        => 123,
@@ -1293,7 +1293,7 @@ Ticket:
 
 returns articles in array / hash by given ticket id
 
-    my @ArticleIndex = $TicketObject->ArticleGet(
+    my @ArticleIndex = $ArticleObject->ArticleGet(
         TicketID => 123,
         UserID   => 123,
     );
@@ -1301,7 +1301,7 @@ returns articles in array / hash by given ticket id
 returns articles in array / hash by given ticket id but
 only requested article types
 
-    my @ArticleIndex = $TicketObject->ArticleGet(
+    my @ArticleIndex = $ArticleObject->ArticleGet(
         TicketID      => 123,
         ArticleType   => [ $ArticleType1, $ArticleType2 ],
         # or
@@ -1314,7 +1314,7 @@ only requested article sender types (could be useful when
 trying to exclude auto replies sent by system sender from
 certain views)
 
-    my @ArticleIndex = $TicketObject->ArticleGet(
+    my @ArticleIndex = $ArticleObject->ArticleGet(
         TicketID            => 123,
         ArticleSenderType   => [ $ArticleSenderType1, $ArticleSenderType2 ],
         # or
@@ -1324,7 +1324,7 @@ certain views)
 
 to get extended ticket attributes, use param Extended - see TicketGet() for extended attributes -
 
-    my @ArticleIndex = $TicketObject->ArticleGet(
+    my @ArticleIndex = $ArticleObject->ArticleGet(
         TicketID => 123,
         UserID   => 123,
         Extended => 1,
@@ -1332,7 +1332,7 @@ to get extended ticket attributes, use param Extended - see TicketGet() for exte
 
 to get only a dedicated count you can use Limit and Order attributes
 
-    my @ArticleIndex = $TicketObject->ArticleGet(
+    my @ArticleIndex = $ArticleObject->ArticleGet(
         TicketID => 123,
         UserID   => 123,
         Order    => 'DESC', # DESC,ASC - default is ASC
@@ -1342,7 +1342,7 @@ to get only a dedicated count you can use Limit and Order attributes
 You can also provide an offset by passing the C<Page> argument. To get the
 6th to 10th article, you can say
 
-    my @ArticleIndex = $TicketObject->ArticleGet(
+    my @ArticleIndex = $ArticleObject->ArticleGet(
         TicketID => 123,
         UserID   => 123,
         Limit    => 5,
@@ -1951,7 +1951,7 @@ sub ArticleCount {
 
 Get the page number of a given article when pagination is active
 
-    my $Page = $TicketObject->ArticlePage(
+    my $Page = $ArticleObject->ArticlePage(
         TicketID            => 123,
         ArticleID           => 4242,
         RowsPerPage         => 20,
@@ -1992,7 +1992,7 @@ update an article
 
 Note: Keys "Body", "Subject", "From", "To", "Cc", "ReplyTo", "ArticleType" and "SenderType" are implemented.
 
-    my $Success = $TicketObject->ArticleUpdate(
+    my $Success = $ArticleObject->ArticleUpdate(
         ArticleID => 123,
         Key       => 'Body',
         Value     => 'New Body',
@@ -2000,7 +2000,7 @@ Note: Keys "Body", "Subject", "From", "To", "Cc", "ReplyTo", "ArticleType" and "
         TicketID  => 123,
     );
 
-    my $Success = $TicketObject->ArticleUpdate(
+    my $Success = $ArticleObject->ArticleUpdate(
         ArticleID => 123,
         Key       => 'ArticleType',
         Value     => 'email-internal',
@@ -2090,7 +2090,7 @@ sub ArticleUpdate {
 
 send article via email and create article with attachments
 
-    my $ArticleID = $TicketObject->ArticleSend(
+    my $ArticleID = $ArticleObject->ArticleSend(
         TicketID    => 123,
         ArticleType => 'note-internal',                                        # email-external|email-internal|phone|fax|...
         SenderType  => 'agent',                                                # agent|system|customer
@@ -2130,7 +2130,7 @@ send article via email and create article with attachments
     );
 
 
-    my $ArticleID = $TicketObject->ArticleSend(                (Backwards compatibility)
+    my $ArticleID = $ArticleObject->ArticleSend(                (Backwards compatibility)
         TicketID    => 123,
         ArticleType => 'note-internal',                                        # email-external|email-internal|phone|fax|...
         SenderType  => 'agent',                                                # agent|system|customer
@@ -2294,7 +2294,7 @@ sub ArticleSend {
 
 bounce an article
 
-    my $Success = $TicketObject->ArticleBounce(
+    my $Success = $ArticleObject->ArticleBounce(
         From      => 'some@example.com',
         To        => 'webmaster@example.com',
         TicketID  => 123,
@@ -2372,7 +2372,7 @@ sub ArticleBounce {
 
 send an auto response to a customer via email
 
-    my $ArticleID = $TicketObject->SendAutoResponse(
+    my $ArticleID = $ArticleObject->SendAutoResponse(
         TicketID         => 123,
         AutoResponseType => 'auto reply',
         OrigHeader       => {
@@ -2642,7 +2642,7 @@ sub SendAutoResponse {
 
 set article flags
 
-    my $Success = $TicketObject->ArticleFlagSet(
+    my $Success = $ArticleObject->ArticleFlagSet(
         ArticleID => 123,
         Key       => 'Seen',
         Value     => 1,
@@ -2717,13 +2717,13 @@ sub ArticleFlagSet {
 
 delete article flag
 
-    my $Success = $TicketObject->ArticleFlagDelete(
+    my $Success = $ArticleObject->ArticleFlagDelete(
         ArticleID => 123,
         Key       => 'seen',
         UserID    => 123,
     );
 
-    my $Success = $TicketObject->ArticleFlagDelete(
+    my $Success = $ArticleObject->ArticleFlagDelete(
         ArticleID => 123,
         Key       => 'seen',
         AllUsers  => 1,         # delete for all users
@@ -2806,7 +2806,7 @@ sub ArticleFlagDelete {
 
 get article flags
 
-    my %Flags = $TicketObject->ArticleFlagGet(
+    my %Flags = $ArticleObject->ArticleFlagGet(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -2853,7 +2853,7 @@ sub ArticleFlagGet {
 
 get all article flags of a ticket
 
-    my %Flags = $TicketObject->ArticleFlagsOfTicketGet(
+    my %Flags = $ArticleObject->ArticleFlagsOfTicketGet(
         TicketID  => 123,
         UserID    => 123,
     );
@@ -2908,7 +2908,7 @@ sub ArticleFlagsOfTicketGet {
 
 returns the accounted time of a article.
 
-    my $AccountedTime = $TicketObject->ArticleAccountedTimeGet(
+    my $AccountedTime = $ArticleObject->ArticleAccountedTimeGet(
         ArticleID => $ArticleID,
     );
 
@@ -2948,7 +2948,7 @@ sub ArticleAccountedTimeGet {
 
 delete accounted time of article
 
-    my $Success = $TicketObject->ArticleAccountedTimeDelete(
+    my $Success = $ArticleObject->ArticleAccountedTimeDelete(
         ArticleID => $ArticleID,
     );
 
@@ -2983,7 +2983,7 @@ sub ArticleAccountedTimeDelete {
 
 delete an article, its plain message, and all attachments
 
-    my $Success = $TicketObject->ArticleDelete(
+    my $Success = $ArticleObject->ArticleDelete(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -2992,7 +2992,7 @@ delete an article, its plain message, and all attachments
 
 delete a plain article
 
-    my $Success = $TicketObject->ArticleDeletePlain(
+    my $Success = $ArticleObject->ArticleDeletePlain(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -3001,7 +3001,7 @@ delete a plain article
 
 delete all attachments of an article
 
-    my $Success = $TicketObject->ArticleDeleteAttachment(
+    my $Success = $ArticleObject->ArticleDeleteAttachment(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -3010,7 +3010,7 @@ delete all attachments of an article
 
 write a plain email to storage
 
-    my $Success = $TicketObject->ArticleWritePlain(
+    my $Success = $ArticleObject->ArticleWritePlain(
         ArticleID => 123,
         Email     => $EmailAsString,
         UserID    => 123,
@@ -3020,7 +3020,7 @@ write a plain email to storage
 
 get plain article/email
 
-    my $PlainMessage = $TicketObject->ArticlePlain(
+    my $PlainMessage = $ArticleObject->ArticlePlain(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -3029,7 +3029,7 @@ get plain article/email
 
 write an article attachment to storage
 
-    my $Success = $TicketObject->ArticleWriteAttachment(
+    my $Success = $ArticleObject->ArticleWriteAttachment(
         Content            => $ContentAsString,
         ContentType        => 'text/html; charset="iso-8859-15"',
         Filename           => 'lala.html',
@@ -3044,7 +3044,7 @@ write an article attachment to storage
 
 get article attachment (Content, ContentType, Filename and optional ContentID, ContentAlternative)
 
-    my %Attachment = $TicketObject->ArticleAttachment(
+    my %Attachment = $ArticleObject->ArticleAttachment(
         ArticleID => 123,
         FileID    => 1,   # as returned by ArticleAttachmentIndex
         UserID    => 123,
@@ -3069,7 +3069,7 @@ get article attachment index as hash
 
  (ID => hashref (Filename, Filesize, ContentID (if exists), ContentAlternative(if exists) ))
 
-    my %Index = $TicketObject->ArticleAttachmentIndex(
+    my %Index = $ArticleObject->ArticleAttachmentIndex(
         ArticleID => 123,
         UserID    => 123,
     );
@@ -3077,7 +3077,7 @@ get article attachment index as hash
 or with "StripPlainBodyAsAttachment => 1" feature to not include first
 attachment (not include text body, html body as attachment and inline attachments)
 
-    my %Index = $TicketObject->ArticleAttachmentIndex(
+    my %Index = $ArticleObject->ArticleAttachmentIndex(
         ArticleID                  => 123,
         UserID                     => 123,
         Article                    => \%Article,
@@ -3087,7 +3087,7 @@ attachment (not include text body, html body as attachment and inline attachment
 or with "StripPlainBodyAsAttachment => 2" feature to not include first
 attachment (not include text body as attachment)
 
-    my %Index = $TicketObject->ArticleAttachmentIndex(
+    my %Index = $ArticleObject->ArticleAttachmentIndex(
         ArticleID                  => 123,
         UserID                     => 123,
         Article                    => \%Article,
@@ -3097,7 +3097,7 @@ attachment (not include text body as attachment)
 or with "StripPlainBodyAsAttachment => 3" feature to not include first
 attachment (not include text body and html body as attachment)
 
-    my %Index = $TicketObject->ArticleAttachmentIndex(
+    my %Index = $ArticleObject->ArticleAttachmentIndex(
         ArticleID                  => 123,
         UserID                     => 123,
         Article                    => \%Article,
