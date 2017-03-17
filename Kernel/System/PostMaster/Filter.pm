@@ -30,7 +30,7 @@ All postmaster database filters
 
 Don't use the constructor directly, use the ObjectManager instead:
 
-    my $FilterObject = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
+    my $PMFilterObject = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 
 =cut
 
