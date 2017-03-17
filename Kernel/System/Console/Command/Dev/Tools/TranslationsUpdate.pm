@@ -392,7 +392,7 @@ sub HandleLanguage {
         my @JSFileList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $IsSubTranslation ? "$ModuleDirectory/var/httpd/htdocs/js" : "$Home/var/httpd/htdocs/js",
             Filter => '*.js',
-            Recursive => 0,    # to prevent access to thirdparty files and js-cache
+            Recursive => 1,
         );
 
         FILE:
@@ -407,72 +407,17 @@ sub HandleLanguage {
                 die "Can't open $File: $!";
             }
 
-            $File =~ s{^.*/(.+?)\.js}{$1}smx;
+            # skip js cache files
+            next FILE if ($File =~ m{\/js\/js-cache\/}xmsg);
 
             my $Content = ${$ContentRef};
 
-            # Purge all comments
-            $Content =~ s{^ \s* // .*? \n}{\n}xmsg;
-
-            # do translation
-            $Content =~ s{
-                (?:
-                    Core.Language.Translate
-                )
-                \(
-                    \s*
-                    (["'])(.*?)(?<!\\)\1
-            }
-            {
-                my $Word = $2 // '';
-
-                # unescape any \" or \' signs
-                $Word =~ s{\\"}{"}smxg;
-                $Word =~ s{\\'}{'}smxg;
-
-                if ( $Word && !$UsedWords{$Word}++ ) {
-
-                    push @OriginalTranslationStrings, {
-                        Location => "JS File: $File",
-                        Source => $Word,
-                    };
-
-                }
-
-                # also save that this string was used in JS (for later use in Loader)
-                $UsedInJS{$Word} = 1;
-
-                '';
-            }egx;
-        }
-
-        # now go through thirdparty files. Those will be scanned for custom markers first
-        # to reduce the possibility of false positives
-        my @JSThirdPartyFileList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => $IsSubTranslation ? "$ModuleDirectory/var/httpd/htdocs/js/thirdparty" : "$Home/var/httpd/htdocs/js/thirdparty",
-            Filter => '*.js',
-            Recursive => 1,    # we also want to include files from sub directories here
-        );
-
-        THIRDPARTYFILE:
-        for my $File (@JSThirdPartyFileList) {
-
-            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-                Location => $File,
-                Mode     => 'utf8',
-            );
-
-            if ( !ref $ContentRef ) {
-                die "Can't open $File: $!";
+            # skip thirdparty files without custom markers
+            if ($File =~ m{\/js\/thirdparty\/}xmsg) {
+                next FILE if ($Content !~ m{\/\/\s+---\n\/\/\s+OTRS\n\/\/\s+---}xmsg);
             }
 
             $File =~ s{^.*/(.+?)\.js}{$1}smx;
-
-
-            my $Content = ${$ContentRef};
-
-            # skip the file if it doesn't contain a custom marker
-            next THIRDPARTYFILE if ($Content !~ m{\/\/\s+---\n\/\/\s+OTRS\n\/\/\s+---}xmsg);
 
             # Purge all comments
             $Content =~ s{^ \s* // .*? \n}{\n}xmsg;
