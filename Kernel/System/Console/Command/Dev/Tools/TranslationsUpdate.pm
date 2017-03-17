@@ -414,7 +414,7 @@ sub HandleLanguage {
 
             # skip thirdparty files without custom markers
             if ($File =~ m{\/js\/thirdparty\/}xmsg) {
-                next FILE if ($Content !~ m{\/\/\s+---\n\/\/\s+OTRS\n\/\/\s+---}xmsg);
+                next FILE if ($Content !~ m{\/\/\s*OTRS}xmsg);
             }
 
             $File =~ s{^.*/(.+?)\.js}{$1}smx;
