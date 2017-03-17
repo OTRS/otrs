@@ -1,4 +1,5 @@
 #5.0.18 2017-??-??
+ - 2017-03-17 Fixed bug#[12695](https://bugs.otrs.org/show_bug.cgi?id=12695)(PR#1657) - Collapse/Expand event does not work after submit table configuration (e.g. Linked) in AgentTicketZoom. Thanks to S7!
  - 2017-03-17 Fixed bug#[12611](https://bugs.otrs.org/show_bug.cgi?id=12611)(PR#1656) - Dropdown fields in large overview not modernized. Thanks to S7!
  - 2017-03-14 Fixed: Net::SSLGlue issues warnings on modern systems.
  - 2017-03-14 Fixed bug#[12676](https://bugs.otrs.org/show_bug.cgi?id=12676)(PR#1645) - Ticket delete slows exponentially with dynamic fields. Thanks to S7!
