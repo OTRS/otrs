@@ -13,10 +13,9 @@ use base 'Kernel::Output::HTML::Base';
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
-
 our @ObjectDependencies = (
-    'Kernel::Output::HTML::Layout'
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
 );
 
 sub Run {
@@ -25,6 +24,9 @@ sub Run {
     # return if it's not root@localhost
     return '' if $Self->{UserID} != 1;
 
+    # get the product name
+    my $ProductName = $Kernel::OM->Get('Kernel::Config')->Get('ProductName') || 'OTRS';
+
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -32,8 +34,9 @@ sub Run {
     return $LayoutObject->Notify(
         Priority => 'Error',
         Link     => $LayoutObject->{Baselink} . 'Action=AdminUser',
-        Info     => Translatable(
-            'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.'
+        Info     => $LayoutObject->{LanguageObject}->Translate(
+            'Don\'t use the Superuser account to work with %s! Create new Agents and work with these accounts instead.',
+            $ProductName
         ),
     );
 }

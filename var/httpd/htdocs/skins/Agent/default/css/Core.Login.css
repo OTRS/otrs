@@ -21,7 +21,7 @@
     padding: 0px;
 }
 
-.LoginScreen .ErrorBox, 
+.LoginScreen .ErrorBox,
 .LoginScreen .SuccessBox {
     margin-bottom: 10px;
     padding: 10px 25px;
@@ -53,52 +53,53 @@
     width: 100%;
 }
 
-.LoginScreen #Footer a {
+#Footer a {
     color: #999;
+    font-size: 11px;
     display: inline-block;
     position: relative;
     padding-left: 18px;
+    margin-bottom: 5px;
     transition: all ease 0.4s;
 }
 
-.LoginScreen #Footer a span {
-    position: absolute;
-    width: 14px;
-    height: 14px;
+#Footer a span {
+    display: block;
+    width: 20px;
+    height: 20px;
     background: url(../img/signet_small_bw.png);
     background-size: cover;
-    left: 0px;
-    top: -2px;
-    opacity: 0.5;
+    margin: 0px auto 10px auto;
+    opacity: 0.3;
     transition: all ease 0.4s;
 }
 
-.LoginScreen #Footer a:hover {
+#Footer a:hover {
     text-decoration: none;
     color: #555;
 }
 
-.LoginScreen #Footer a:hover span {
+#Footer a:hover span {
     opacity: 1;
 }
 
-#LoginBox,
+.LoginBox,
 #PasswordBox {
     width: 350px;
     margin: 0px auto;
 }
 
-#LoginBox > .WidgetSimple,
+.LoginBox > .WidgetSimple,
 #PasswordBox > .WidgetSimple {
     padding: 15px;
 }
 
-#LoginBox > .WidgetSimple form > fieldset > div,
+.LoginBox > .WidgetSimple form > fieldset > div,
 #PasswordBox > .WidgetSimple form > fieldset > div {
     position: relative;
 }
 
-#LoginBox input,
+.LoginBox input,
 #PasswordBox input {
     display: block;
     width: 100%;
@@ -107,17 +108,17 @@
     margin-bottom: 5px;
 }
 
-#LoginBox .Error.Center.Spacing:empty,
+.LoginBox .Error.Center.Spacing:empty,
 #PasswordBox .Error.Center.Spacing:empty {
     display: none;
 }
 
-#LoginBox .CallForAction.Fullsize,
+.LoginBox .CallForAction.Fullsize,
 #PasswordBox .CallForAction.Fullsize {
     width: 100%;
 }
 
-#LoginBox .CallForAction.Fullsize span,
+.LoginBox .CallForAction.Fullsize span,
 #PasswordBox .CallForAction.Fullsize span {
     padding: 7px 10px;
 }

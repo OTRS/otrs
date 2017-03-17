@@ -88,29 +88,19 @@ X-OTRS-Login: [% Env("Baselink") %]
 [% RenderBlockEnd("LoginLogo") %]
 
         <div>
-            <noscript>
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2 class="Center">[% Translate("JavaScript Not Available") | html %]</h2>
+            <div class="LoginBox">
+                <noscript>
+                <div class="ErrorBox">
+                    <strong>[% Translate("JavaScript Not Available") | html %]</strong>
+                    <span>[% Translate("In order to experience this software, you'll need to enable JavaScript in your browser.") | html %]</span>
                 </div>
-                <div class="Content">
-                    <p class="SpacingTop Center">
-                            [% Translate("In order to experience OTRS, you'll need to enable JavaScript in your browser.") | html %]
-                    </p>
-                </div>
-            </div>
-            </noscript>
-
-            <div class="WidgetSimple Hidden" id="OldBrowser">
-                <div class="Header">
-                    <h2 class="Center">[% Translate("Browser Warning") | html %]</h2>
-                </div>
-                <div class="Content">
-                    <p class="SpacingTop Center">
+                </noscript>
+                <div class="ErrorBox Hidden" id="OldBrowser">
+                    <span>
                         [% Translate("The browser you are using is too old.") | html %]
-                        [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | html %]
+                        [% Translate("This software runs with a huge lists of browsers, please upgrade to one of these.") | html %]
                         [% Translate("Please see the documentation or ask your admin for further information.") | html %]
-                    </p>
+                    </span>
                 </div>
             </div>
 
@@ -124,7 +114,7 @@ X-OTRS-Login: [% Env("Baselink") %]
 [% RenderBlockEnd("SystemMaintenance") %]
 
 [% RenderBlockStart("PreLogin") %]
-            <div id="LoginBox" class="PreLogin">
+            <div id="LoginBox" class="LoginBox PreLogin">
                 <div class="WidgetSimple">
                     <div class="Content">
                         <p class="Center">
@@ -142,7 +132,7 @@ X-OTRS-Login: [% Env("Baselink") %]
 [% RenderBlockEnd("PreLogin") %]
 
 [% RenderBlockStart("LoginBox") %]
-            <div id="LoginBox">
+            <div id="LoginBox" class="LoginBox">
                 <div class="[% IF Data.MessageType == 'Success' %]SuccessBox[% ELSIF Data.MessageType == 'Error' %]ErrorBox[% END %]">
                     <span>[% Translate(Data.Message) | html %]</span>
                 </div>

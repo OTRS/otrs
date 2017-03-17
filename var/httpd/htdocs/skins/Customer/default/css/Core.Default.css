@@ -242,7 +242,7 @@ textarea.cke_dialog_ui_input_textarea:focus {
  */
 #Footer {
     width: 100%;
-    margin-top: 3px;
+    margin-top: 15px;
     color: #CCC;
     overflow: hidden;
     text-align: center;
@@ -267,13 +267,33 @@ textarea.cke_dialog_ui_input_textarea:focus {
 }
 
 #Footer a {
-    margin: 8px 8px 7px;
-    color: #CCC;
+    color: #999;
+    display: inline-block;
+    position: relative;
+    padding-left: 18px;
     font-size: 11px;
+    margin-bottom: 5px;
+    transition: all ease 0.4s;
+}
+
+#Footer a span {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(../img/signet_small_bw.png);
+    background-size: cover;
+    margin: 10px auto 10px auto;
+    opacity: 0.3;
+    transition: all ease 0.4s;
 }
 
 #Footer a:hover {
-    color: #F92;
+    text-decoration: none;
+    color: #555;
+}
+
+#Footer a:hover span {
+    opacity: 1;
 }
 
 /**

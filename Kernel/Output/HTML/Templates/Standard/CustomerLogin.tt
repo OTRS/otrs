@@ -16,7 +16,7 @@
     <div id="NoJavaScript">
         <h2>[% Translate("JavaScript Not Available") | html %]</h2>
         <p>
-            [% Translate("In order to experience OTRS, you'll need to enable JavaScript in your browser.") | html %]
+            [% Translate("In order to experience this software, you'll need to enable JavaScript in your browser.") | html %]
         </p>
     </div>
     </noscript>
@@ -24,7 +24,7 @@
         <h2 class="Center">[% Translate("Browser Warning") | html %]</h2>
         <p>
             [% Translate("The browser you are using is too old.") | html %]
-            [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | html %]
+            [% Translate("This software runs with a huge lists of browsers, please upgrade to one of these.") | html %]
             [% Translate("Please see the documentation or ask your admin for further information.") | html %]
         </p>
     </div>

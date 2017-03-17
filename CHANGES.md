@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-03-17 Use the configured product name in messages and other places instead of hardcoded "OTRS".
  - 2017-03-13 Fixed bug#[12491](https://bugs.otrs.org/show_bug.cgi?id=12491) - TicketSlaveLinkAdd, TicketSlaveLinkDelete, TicketMasterLinkDelete events are not triggered.
  - 2017-03-10 Fixed bug#[12477](https://bugs.otrs.org/show_bug.cgi?id=12477) - Untranslated string in 7 days statistic.
  - 2017-03-09 Implemented new System Configuration mechanism.

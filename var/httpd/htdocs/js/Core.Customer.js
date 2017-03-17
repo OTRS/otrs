@@ -72,7 +72,7 @@ Core.Customer = (function (TargetNS) {
             alert(
                 Core.Language.Translate('The browser you are using is too old.')
                 + ' '
-                + Core.Language.Translate('OTRS runs with a huge lists of browsers, please upgrade to one of these.')
+                + Core.Language.Translate('This software runs with a huge lists of browsers, please upgrade to one of these.')
                 + ' '
                 + Core.Language.Translate('Please see the documentation or ask your admin for further information.')
             );

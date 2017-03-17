@@ -280,6 +280,11 @@ dd {
     cursor: default;
 }
 
+.ErrorBox.Hidden,
+.SuccessBox.Hidden {
+    display: none;
+}
+
 .ErrorBox {
     color: rgba(255, 255, 255, 0.9);
     background: #B83850;
