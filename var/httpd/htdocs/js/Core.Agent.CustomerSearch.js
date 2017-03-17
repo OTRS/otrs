@@ -132,8 +132,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 return false;
             });
 
-            $('#CustomerTickets .MasterAction').on('click', function () {
+            $('#CustomerTickets .MasterAction').on('click', function (Event) {
                 var $MasterActionLink = $(this).find('a.MasterActionLink');
+
+                // Prevent MasterAction on Modernize input fields.
+                if ($(Event.target).hasClass('InputField_Search')) {
+                    return true;
+                }
 
                 // Event must be done in the parent window because AgentTicketCustomer is in popup.
                 if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
@@ -176,6 +181,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     });
                 }
             });
+
+            // Activate Modernize fields.
+            Core.UI.InputFields.Activate();
         }
 
         /**
