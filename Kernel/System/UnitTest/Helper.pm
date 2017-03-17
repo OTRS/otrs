@@ -18,6 +18,7 @@ use File::Path qw(rmtree);
 # Load DateTime so that we can override functions for the FixedTimeSet().
 use DateTime;
 
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::SysConfig;
 
 our @ObjectDependencies = (
@@ -26,9 +27,11 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::CustomerUser',
     'Kernel::System::Group',
+    'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::UnitTest',
     'Kernel::System::User',
+    'Kernel::System::XML',
 );
 
 =head1 NAME
@@ -483,6 +486,9 @@ sub DESTROY {
 
     # FixedDateTimeObjectUnset();
 
+    # Cleanup temporary database if it was set up.
+    $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
+
     # Remove any custom files.
     $Self->CustomFileCleanup();
 
@@ -748,6 +754,284 @@ sub UseTmpArticleDir {
     );
 
     $Self->{TmpArticleDir} = $TmpArticleDir;
+
+    return 1;
+}
+
+=head2 ProvideTestDatabase()
+
+Provide temporary database for the test. Please first define test database settings in C<Config.pm>,
+i.e:
+
+    $Self->{TestDatabase} = {
+        DatabaseDSN  => 'DBI:mysql:database=otrs_test;host=127.0.0.1;',
+        DatabaseUser => 'otrs_test',
+        DatabasePw   => 'otrs_test',
+    };
+
+The method call will override global database configuration for duration of the test, i.e. temporary
+database will receive all calls sent over system C<DBObject>.
+
+All database contents will be automatically dropped when the Helper object is destroyed.
+
+    $Helper->ProvideTestDatabase(
+        DatabaseXMLString => $XML,      # (optional) OTRS database XML schema to execute
+                                        # or
+        DatabaseXMLFiles => [           # (optional) List of XML files to load and execute
+            '/opt/otrs/scripts/database/otrs-schema.xml',
+            '/opt/otrs/scripts/database/otrs-initial_insert.xml',
+        ],
+    );
+
+=cut
+
+sub ProvideTestDatabase {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $TestDatabase = $ConfigObject->Get('TestDatabase');
+    return if !$TestDatabase;
+
+    for (qw(DatabaseDSN DatabaseUser DatabasePw)) {
+        if ( !$TestDatabase->{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_ in TestDatabase!",
+            );
+            return;
+        }
+    }
+
+    # Override database connection settings in memory.
+    for my $Key (qw(DatabaseDSN DatabaseUser DatabasePw)) {
+        $ConfigObject->Set(
+            Key   => $Key,
+            Value => $TestDatabase->{$Key},
+        );
+    }
+
+    # Override database connection settings system wide.
+    my $Identifier  = 'TestDatabase';
+    my $PackageName = "ZZZZUnitTest$Identifier";
+    $Self->CustomCodeActivate(
+        Code => qq^
+# OTRS config file (automatically generated)
+# VERSION:1.1
+package Kernel::Config::Files::$PackageName;
+use strict;
+use warnings;
+no warnings 'redefine';
+use utf8;
+sub Load {
+    my (\$File, \$Self) = \@_;
+    \$Self->{DatabaseDSN} = <<'EOS';
+$TestDatabase->{DatabaseDSN}
+EOS
+    \$Self->{DatabaseUser} = <<'EOS';
+$TestDatabase->{DatabaseUser}
+EOS
+    \$Self->{DatabasePw} = <<'EOS';
+$TestDatabase->{DatabasePw}
+EOS
+}
+1;^,
+        Identifier => $Identifier,
+    );
+
+    # Discard already instanced database object.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::DB'] );
+
+    # Delete cache.
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
+    $Self->{ProvideTestDatabase} = 1;
+
+    # Clear test database.
+    my $Success = $Self->TestDatabaseCleanup();
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Error clearing temporary database!',
+        );
+        return;
+    }
+
+    # Load supplied XML files.
+    if ( IsArrayRefWithData( $Param{DatabaseXMLFiles} ) ) {
+        $Param{DatabaseXMLString} //= '';
+
+        my $Index = 0;
+        my $Count = scalar @{ $Param{DatabaseXMLFiles} };
+
+        XMLFILE:
+        for my $XMLFile ( @{ $Param{DatabaseXMLFiles} } ) {
+            next XMLFILE if !$XMLFile;
+
+            # Load XML contents.
+            my $XML = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location => $XMLFile,
+            );
+            if ( !$XML ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not load '$XMLFile'!",
+                );
+                return;
+            }
+
+            # Concatenate the file contents, but make sure to remove duplicated XML tags first.
+            #   - First file should get only end tag removed.
+            #   - Last file should get only start tags removed.
+            #   - Any other file should get both start and end tags removed.
+            $XML = ${$XML};
+            if ( $Index != 0 ) {
+                $XML =~ s/<\?xml .*? \?>//xm;
+                $XML =~ s/<database .*? >//xm;
+            }
+            if ( $Index != $Count - 1 ) {
+                $XML =~ s/<\/database .*? >//xm;
+            }
+            $Param{DatabaseXMLString} .= $XML;
+
+            $Index++;
+        }
+    }
+
+    # Execute supplied XML.
+    if ( $Param{DatabaseXMLString} ) {
+        my $Success = $Self->DatabaseXMLExecute( XML => $Param{DatabaseXMLString} );
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Error executing supplied XML!',
+            );
+            return;
+        }
+    }
+
+    return 1;
+}
+
+=head2 TestDatabaseCleanup()
+
+Clears temporary database used in the test. Always call C<ProvideTestDatabase()> called first, in
+order to set it up.
+
+Please note that all database contents will be dropped, USE WITH CARE!
+
+    $Helper->TestDatabaseCleanup();
+
+=cut
+
+sub TestDatabaseCleanup {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Self->{ProvideTestDatabase} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Please call ProvideTestDatabase() first!',
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # Get a list of all tables in database.
+    my @Tables = $DBObject->ListTables();
+
+    if ( scalar @Tables ) {
+        my $TableList = join ', ', sort @Tables;
+        my $DBType = $DBObject->{'DB::Type'};
+
+        if ( $DBType eq 'mysql' ) {
+
+            # Turn off checking foreign key constraints temporarily.
+            $DBObject->Do( SQL => 'SET foreign_key_checks = 0' );
+
+            # Drop all found tables in the database in same statement.
+            $DBObject->Do( SQL => "DROP TABLE $TableList" );
+
+            # Turn back on checking foreign key constraints.
+            $DBObject->Do( SQL => 'SET foreign_key_checks = 1' );
+        }
+        elsif ( $DBType eq 'postgresql' ) {
+
+            # Drop all found tables in the database in same statement.
+            $DBObject->Do( SQL => "DROP TABLE $TableList" );
+        }
+        elsif ( $DBType eq 'oracle' ) {
+
+            # Drop each found table in the database in a separate statement.
+            for my $Table (@Tables) {
+                $DBObject->Do( SQL => "DROP TABLE $Table CASCADE CONSTRAINTS" );
+            }
+        }
+
+        # Check if all tables have been dropped.
+        @Tables = $DBObject->ListTables();
+        return if scalar @Tables;
+    }
+
+    return 1;
+}
+
+=head2 DatabaseXMLExecute()
+
+Execute supplied XML against current database. Content of supplied XML parameter must be valid OTRS
+database XML schema.
+
+    $Helper->DatabaseXMLExecute(
+        XML => $XML,     # (required) OTRS database XML schema to execute
+    );
+
+=cut
+
+sub DatabaseXMLExecute {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{XML} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need XML!',
+        );
+        return;
+    }
+
+    my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $Param{XML} );
+    if ( !@XMLArray ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Could not parse XML!',
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my @SQLPre = $DBObject->SQLProcessor(
+        Database => \@XMLArray,
+    );
+    if ( !@SQLPre ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Could not generate SQL!',
+        );
+        return;
+    }
+
+    my @SQLPost = $DBObject->SQLProcessorPost();
+
+    for my $SQL ( @SQLPre, @SQLPost ) {
+        my $Success = $DBObject->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Database action failed: ' . $DBObject->Error(),
+            );
+            return;
+        }
+    }
 
     return 1;
 }
