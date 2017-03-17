@@ -79,6 +79,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.18 2017-??-??
+ - 2017-03-17 Fixed bug#[12683](https://bugs.otrs.org/show_bug.cgi?id=12683)(PR#1651) - There is a difference between key and content display in the Events Ticket Calendar. Thanks to S7!
  - 2017-03-17 Fixed bug#[12695](https://bugs.otrs.org/show_bug.cgi?id=12695)(PR#1657) - Collapse/Expand event does not work after submit table configuration (e.g. Linked) in AgentTicketZoom. Thanks to S7!
  - 2017-03-17 Fixed bug#[12611](https://bugs.otrs.org/show_bug.cgi?id=12611)(PR#1656) - Dropdown fields in large overview not modernized. Thanks to S7!
  - 2017-03-17 Fixed bug#[12382](https://bugs.otrs.org/show_bug.cgi?id=12382) - TicketSolutionResponseTime and TicketAccountedTime do not appear in Dynamic Metric but incorrectly in Dynamic List.

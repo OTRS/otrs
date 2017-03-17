@@ -133,8 +133,11 @@ sub Run {
     my $Limit   = scalar keys %Tickets;
 
     # get needed objects
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TimeObject            = $Kernel::OM->Get('Kernel::System::Time');
+    my $LayoutObject          = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $UserObject            = $Kernel::OM->Get('Kernel::System::User');
+    my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
     my $Content;
 
@@ -254,10 +257,24 @@ sub Run {
                             next TICKETFIELD;
                         }
 
-                        if ( $Key eq 'CustomerUserID' && $TicketDetail{$Key} ) {
-                            $TicketDetail{$Key} = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
-                                UserLogin => $TicketDetail{$Key},
+                        if ( $Key eq 'CustomerName' && $TicketDetail{CustomerUserID} ) {
+                            $TicketDetail{$Key} = $CustomerUserObject->CustomerName(
+                                UserLogin => $TicketDetail{CustomerUserID},
                             );
+                        }
+
+                        if ( $Key eq 'CustomerCompanyName' && $TicketDetail{CustomerID} ) {
+                            my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+                                CustomerID => $TicketDetail{CustomerID},
+                            );
+                            $TicketDetail{$Key} = $CustomerCompany{$Key};
+                        }
+
+                        if ( ( $Key eq 'Owner' || $Key eq 'Responsible' ) && $TicketDetail{$Key} ) {
+                            my %UserData = $UserObject->GetUserData(
+                                User => $TicketDetail{$Key},
+                            );
+                            $TicketDetail{$Key} = $UserData{UserFullname};
                         }
 
                         # translate state and priority name
