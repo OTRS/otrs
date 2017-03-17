@@ -179,7 +179,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'License',
             Data => {
-                Item => 'License',
+                Item => Translatable('License'),
                 Step => $StepCounter,
             },
         );
@@ -229,6 +229,7 @@ sub Run {
         $Param{SelectDBType} = $LayoutObject->BuildSelection(
             Data       => \%Databases,
             Name       => 'DBType',
+            Class      => 'Modernize',
             Size       => scalar keys %Databases,
             SelectedID => 'mysql',
         );
@@ -241,7 +242,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'DatabaseStart',
             Data => {
-                Item         => 'Database Selection',
+                Item         => Translatable('Database Selection'),
                 Step         => $StepCounter,
                 SelectDBType => $Param{SelectDBType},
                 }
@@ -322,7 +323,7 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'DatabaseMySQL',
                 Data => {
-                    Item                => 'Configure MySQL',
+                    Item                => Translatable('Configure MySQL'),
                     Step                => $StepCounter,
                     InstallType         => $DBInstallType,
                     DefaultDBUser       => $DBInstallType eq 'CreateDB' ? 'root' : 'otrs',
@@ -346,7 +347,7 @@ sub Run {
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'Installer',
                 Data         => {
-                    Item => 'Configure MySQL',
+                    Item => Translatable('Configure MySQL'),
                     Step => $StepCounter,
                     }
             );
@@ -409,7 +410,7 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'DatabasePostgreSQL',
                 Data => {
-                    Item          => 'Database',
+                    Item          => Translatable('Database'),
                     Step          => $StepCounter,
                     InstallType   => $DBInstallType,
                     DefaultDBUser => $DBInstallType eq 'CreateDB' ? 'postgres' : 'otrs',
@@ -432,7 +433,7 @@ sub Run {
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'Installer',
                 Data         => {
-                    Item => 'Configure PostgreSQL',
+                    Item => Translatable('Configure PostgreSQL'),
                     Step => $StepCounter,
                     }
             );
@@ -449,7 +450,7 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'DatabaseOracle',
                 Data => {
-                    Item => 'Database',
+                    Item => Translatable('Database'),
                     Step => $StepCounter,
                 },
             );
@@ -457,7 +458,7 @@ sub Run {
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'Installer',
                 Data         => {
-                    Item => 'Configure Oracle',
+                    Item => Translatable('Configure Oracle'),
                     Step => $StepCounter,
                     }
             );
@@ -511,7 +512,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'DatabaseResult',
             Data => {
-                Item => 'Create Database',
+                Item => Translatable('Create Database'),
                 Step => $StepCounter,
             },
         );
@@ -792,11 +793,13 @@ sub Run {
         $Param{SystemIDString} = $LayoutObject->BuildSelection(
             Data       => \@SystemIDs,
             Name       => 'SystemID',
+            Class      => 'Modernize',
             SelectedID => $SystemIDs[ int( rand(100) ) ],    # random system ID
         );
         $Param{LanguageString} = $LayoutObject->BuildSelection(
             Data       => $ConfigObject->Get('DefaultUsedLanguages'),
             Name       => 'DefaultLanguage',
+            Class      => 'Modernize',
             HTMLQuote  => 0,
             SelectedID => $LayoutObject->{UserLanguage},
         );
@@ -808,6 +811,7 @@ sub Run {
                 0 => Translatable('No'),
             },
             Name       => 'CheckMXRecord',
+            Class      => 'Modernize',
             SelectedID => '1',
         );
 
@@ -823,7 +827,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'System',
             Data => {
-                Item => 'System Settings',
+                Item => Translatable('System Settings'),
                 Step => $StepCounter,
                 %Param,
             },
@@ -832,10 +836,11 @@ sub Run {
         if ( !$Self->{Options}->{SkipLog} ) {
             $Param{LogModuleString} = $LayoutObject->BuildSelection(
                 Data => {
-                    'Kernel::System::Log::SysLog' => 'Syslog',
-                    'Kernel::System::Log::File'   => 'File',
+                    'Kernel::System::Log::SysLog' => Translatable('Syslog'),
+                    'Kernel::System::Log::File'   => Translatable('File'),
                 },
                 Name       => 'LogModule',
+                Class      => 'Modernize',
                 HTMLQuote  => 0,
                 SelectedID => $ConfigObject->Get('LogModule'),
             );
@@ -891,7 +896,8 @@ sub Run {
                 smtps    => 'SMTPS',
                 smtptls  => 'SMTPTLS',
             },
-            Name => 'OutboundMailType',
+            Name  => 'OutboundMailType',
+            Class => 'Modernize',
         );
         my $OutboundMailDefaultPorts = $LayoutObject->BuildSelection(
             Class => 'Hidden',
@@ -905,8 +911,9 @@ sub Run {
         );
 
         my $InboundMailTypeSelection = $LayoutObject->BuildSelection(
-            Data => \%MailBackends,
-            Name => 'InboundMailType',
+            Data  => \%MailBackends,
+            Name  => 'InboundMailType',
+            Class => 'Modernize',
         );
 
         my $Output =
@@ -1013,7 +1020,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'Finish',
             Data => {
-                Item       => 'Finished',
+                Item       => Translatable('Finished'),
                 Step       => $StepCounter,
                 Host       => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
                 OTRSHandle => $OTRSHandle,
