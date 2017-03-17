@@ -1,5 +1,4 @@
 #5.0.18 2017-??-??
- - 2017-03-17 Fixed bug#[12382](https://bugs.otrs.org/show_bug.cgi?id=12382) - TicketSolutionResponseTime and TicketAccountedTime do not appear in Dynamic Metric but incorrectly in Dynamic List.
  - 2017-03-14 Fixed: Net::SSLGlue issues warnings on modern systems.
  - 2017-03-14 Fixed bug#[12676](https://bugs.otrs.org/show_bug.cgi?id=12676)(PR#1645) - Ticket delete slows exponentially with dynamic fields. Thanks to S7!
  - 2017-03-14 Improved backpup.pl to really only dump the database if -t dbonly is specified.
