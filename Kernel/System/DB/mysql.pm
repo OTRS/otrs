@@ -86,6 +86,7 @@ sub LoadPreferences {
 sub PreProcessSQL {
     my ( $Self, $SQLRef ) = @_;
     $Self->_FixMysqlUTF8($SQLRef);
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($SQLRef);
     return;
 }
 
