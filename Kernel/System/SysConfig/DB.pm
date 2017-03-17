@@ -1440,6 +1440,46 @@ sub DefaultSettingDirtyCleanUp {
     return 1;
 }
 
+# TODO: Added for workaround deployment issue after deleting settings
+
+=head2 DefaultSettingSetDirty()
+
+Sets the IsDirty flag from default settings.
+
+    my $Success = $SysConfigDBObject->DefaultSettingSetDirty();
+
+Returns:
+
+    $Success = 1;       # or false in case of an error
+
+=cut
+
+sub DefaultSettingSetDirty {
+    my ( $Self, %Param ) = @_;
+
+    # Remove is dirty flag for default settings.
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => '
+            UPDATE sysconfig_default
+            SET is_dirty = 1
+            WHERE is_dirty = 0',
+    );
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
+        Type => 'SysConfigDefault',
+    );
+    $CacheObject->CleanUp(
+        Type => 'DefaultSettingListGet',
+    );
+    $CacheObject->CleanUp(
+        Type => 'SysConfigIsDirty',
+    );
+
+    return 1;
+}
+
 =head2 DefaultSettingVersionAdd()
 
 Add a new SysConfig default version entry.

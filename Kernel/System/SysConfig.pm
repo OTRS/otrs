@@ -4153,6 +4153,8 @@ sub _DBCleanUp {
 
     my ( $DefaultUpdated, $ModifiedUpdated );
 
+    my $SetToDirty;
+
     for my $SettingDB (@SettingsDB) {
 
         # Cleanup database if the setting is not present in the XML files.
@@ -4187,8 +4189,16 @@ sub _DBCleanUp {
                     Message  => "System couldn't delete $SettingDB->{Name} from DB (sysconfig_default)!"
                 );
             }
+
+            $SetToDirty = 1;
         }
     }
+
+    # TODO: Added for workaround deployment issue after deleting settings
+    if ($SetToDirty) {
+        my $Success = $SysConfigDBObject->DefaultSettingSetDirty();
+    }
+
     return 1;
 }
 
