@@ -449,6 +449,11 @@ Core.Agent.Overview = (function (TargetNS) {
                 return true;
             }
 
+            // Prevent MasterAction on Modernize input fields.
+            if ($(Event.target).hasClass('InputField_Search')) {
+                return true;
+            }
+
             // only act if the link was not clicked directly
             if (Event.target !== $MasterActionLink.get(0)) {
                 if (Event.ctrlKey || Event.metaKey) {

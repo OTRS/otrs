@@ -407,8 +407,9 @@ sub _Show {
     );
 
     $Param{StandardResponsesStrg} = $LayoutObject->BuildSelection(
-        Name => 'ResponseID',
-        Data => $StandardTemplates{Answer} || {},
+        Name  => 'ResponseID',
+        Class => 'Modernize',
+        Data  => $StandardTemplates{Answer} || {},
     );
 
     # customer info
@@ -1177,9 +1178,10 @@ sub _Show {
 
                     # build html string
                     my $StandardResponsesStrg = $LayoutObject->BuildSelection(
-                        Name => 'ResponseID',
-                        ID   => 'ResponseID' . $ArticleItem->{ArticleID},
-                        Data => \@StandardResponseArray,
+                        Name  => 'ResponseID',
+                        Class => 'Modernize',
+                        ID    => 'ResponseID' . $ArticleItem->{ArticleID},
+                        Data  => \@StandardResponseArray,
                     );
 
                     $LayoutObject->Block(
