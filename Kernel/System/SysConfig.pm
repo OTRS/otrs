@@ -3688,7 +3688,7 @@ sub ConfigurationSearch {
         for my $SearchTerm (@SearchTerms) {
 
             # do not search with the x and/or g modifier as it would produce wrong search results!
-            if ( $Settings{$SettingName}->{Metadata} =~ m{$SearchTerm}msi ) {
+            if ( $Settings{$SettingName}->{Metadata} =~ m{\Q$SearchTerm\E}msi ) {
 
                 next SEARCHTERM if $Result{$SettingName};
 
