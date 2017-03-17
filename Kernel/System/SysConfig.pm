@@ -4815,6 +4815,7 @@ Helper method for ConfigurationTranslatedGet().
     my %Result = $SysConfigObject->_ConfigurationTranslatedGet(
         Language => 'de',               # (required) User language
         Name     => 'SettingName',      # (required) Setting name
+        Silent   => 1,                  # (optional) Default 1
     );
 
 Returns:
@@ -4876,6 +4877,8 @@ sub _ConfigurationTranslatedGet {
     # Check setting category.
     my $SettingCategory;
 
+    my $Silent = $Param{Silent} // 1;
+
     CATEGORY:
     for my $Category ( sort keys %Categories ) {
         if ( grep { $_ eq $SettingTranslated{XMLFilename} } @{ $Categories{$Category}->{Files} } ) {
@@ -4885,10 +4888,12 @@ sub _ConfigurationTranslatedGet {
     }
 
     if ( !$SettingCategory ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Category couldn't be determined for $Param{Name}!",
-        );
+        if ( !$Silent ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Category couldn't be determined for $Param{Name}!",
+            );
+        }
         $SettingCategory = '-Unknown-';
     }
     $Result{ $Param{Name} }->{Category}    = $SettingCategory;
