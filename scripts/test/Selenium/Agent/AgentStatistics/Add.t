@@ -175,7 +175,7 @@ $Selenium->RunTest(
             {
                 Title            => 'Statistic - TicketAccountedTime' . $Helper->GetRandomID(),
                 Object           => 'Kernel::System::Stats::Dynamic::TicketAccountedTime',
-                Type             => 'DynamicList',
+                Type             => 'DynamicMatrix',
                 XAxis            => 'XAxisServiceIDs',
                 YAxis            => 'YAxisSLAIDs',
                 RestrictionID    => 'RestrictionsKindsOfReporting',
@@ -184,7 +184,7 @@ $Selenium->RunTest(
             {
                 Title            => 'Statistic - TicketSolutionResponseTime' . $Helper->GetRandomID(),
                 Object           => 'Kernel::System::Stats::Dynamic::TicketSolutionResponseTime',
-                Type             => 'DynamicList',
+                Type             => 'DynamicMatrix',
                 XAxis            => 'XAxisServiceIDs',
                 YAxis            => 'YAxisSLAIDs',
                 RestrictionID    => 'RestrictionsKindsOfReporting',
