@@ -655,6 +655,11 @@ my $TicketDynamicFieldList = $DynamicFieldObject->DynamicFieldList(
     ResultType => 'HASH',
 );
 
+my @ArticleBoxAttachmentsWithoutContent = $TicketObject->ArticleGet(
+    TicketID => $TicketID4,
+    UserID   => 1,
+);
+
 # Crate a lookup list for easy search
 my %TicketDynamicFieldLookup = map { 'DynamicField_' . $_ => 1 } values %{$TicketDynamicFieldList};
 
@@ -701,8 +706,64 @@ for my $Article (
 
         next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
+        $Attachment{FileID} = $FileID;
+
         # convert content to base64
         $Attachment{Content}            = encode_base64( $Attachment{Content} );
+        $Attachment{ContentID}          = '';
+        $Attachment{ContentAlternative} = '';
+        push @Attachments, {%Attachment};
+    }
+
+    # set Attachments data
+    $Article->{Attachment} = \@Attachments;
+
+}    # finish article loop
+
+# start article loop
+ARTICLE:
+for my $Article (@ArticleBoxAttachmentsWithoutContent)
+{
+
+    for my $Key ( sort keys %{$Article} ) {
+        if ( !$Article->{$Key} ) {
+            $Article->{$Key} = '';
+        }
+        if ( $SkipFields{$Key} ) {
+            delete $Article->{$Key};
+        }
+        if ( $TicketDynamicFieldLookup{$Key} ) {
+            delete $Article->{$Key};
+        }
+    }
+
+    # get attachment index (without attachments)
+    my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+        ContentPath                => $Article->{ContentPath},
+        ArticleID                  => $Article->{ArticleID},
+        StripPlainBodyAsAttachment => 3,
+        Article                    => $Article,
+        UserID                     => 1,
+    );
+
+    next ARTICLE if !IsHashRefWithData( \%AtmIndex );
+
+    my @Attachments;
+    ATTACHMENT:
+    for my $FileID ( sort keys %AtmIndex ) {
+        next ATTACHMENT if !$FileID;
+        my %Attachment = $TicketObject->ArticleAttachment(
+            ArticleID => $Article->{ArticleID},
+            FileID    => $FileID,
+            UserID    => 1,
+        );
+
+        next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+        $Attachment{FileID} = $FileID;
+
+        # convert content to base64
+        $Attachment{Content}            = '';
         $Attachment{ContentID}          = '';
         $Attachment{ContentAlternative} = '';
         push @Attachments, {%Attachment};
@@ -938,6 +999,8 @@ for my $Article (@ArticleWithHTMLBody) {
         );
 
         next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+        $Attachment{FileID} = $FileID;
 
         # convert content to base64
         $Attachment{Content}            = encode_base64( $Attachment{Content} );
@@ -1338,6 +1401,39 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
+        Name           => 'Test Ticket 4 With All Articles and Attachments (without contents)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID              => $TicketID4,
+            AllArticles           => 1,
+            Attachments           => 1,
+            GetAttachmentContents => 0,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => \@ArticleBoxAttachmentsWithoutContent,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleBoxAttachmentsWithoutContent,
+                            )
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
         Name           => 'Test Ticket 4 With All Articles and Attachments and DynamicFields',
         SuccessRequest => '1',
         RequestData    => {
@@ -1406,6 +1502,43 @@ my @Tests = (
         },
         Operation => 'TicketGet',
     },
+    {
+        Name           => 'Test Ticket 4 With All Articles and Attachments (With sessionID without contents)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID              => $TicketID4,
+            AllArticles           => 1,
+            Attachments           => 1,
+            GetAttachmentContents => 0,
+        },
+        Auth => {
+            SessionID => $NewSessionID,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => \@ArticleBoxAttachmentsWithoutContent,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleBoxAttachmentsWithoutContent,
+                            )
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+
     {
         Name           => 'Test Ticket 4 With All Articles and Attachments (No Permission)',
         SuccessRequest => '1',
