@@ -803,12 +803,18 @@ sub ProvideTestDatabase {
         }
     }
 
-    # Override database connection settings in memory.
+    my %EscapedSettings;
     for my $Key (qw(DatabaseDSN DatabaseUser DatabasePw)) {
+
+        # Override database connection settings in memory.
         $ConfigObject->Set(
             Key   => $Key,
             Value => $TestDatabase->{$Key},
         );
+
+        # Escape quotes in database settings.
+        $EscapedSettings{$Key} = $TestDatabase->{$Key};
+        $EscapedSettings{$Key} =~ s/'/\\'/g;
     }
 
     # Override database connection settings system wide.
@@ -825,15 +831,9 @@ no warnings 'redefine';
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;
-    \$Self->{DatabaseDSN} = <<'EOS';
-$TestDatabase->{DatabaseDSN}
-EOS
-    \$Self->{DatabaseUser} = <<'EOS';
-$TestDatabase->{DatabaseUser}
-EOS
-    \$Self->{DatabasePw} = <<'EOS';
-$TestDatabase->{DatabasePw}
-EOS
+    \$Self->{DatabaseDSN}  = '$EscapedSettings{DatabaseDSN}';
+    \$Self->{DatabaseUser} = '$EscapedSettings{DatabaseUser}';
+    \$Self->{DatabasePw}   = '$EscapedSettings{DatabasePw}';
 }
 1;^,
         Identifier => $Identifier,
