@@ -1163,7 +1163,105 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test DF " . $TestCounter++,
+        Name           => "Test (Hash) DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            DynamicField => {
+                Name   => "DFT1$RandomID",
+                Equals => 'ticket2_field1',
+            },
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test (Hash) DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            DynamicField => {
+                Name => "DFT1$RandomID",
+                Like => '*_field1',
+            },
+            SortBy => 'TicketNumber',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test (Array) DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            DynamicField => [
+                {
+                    Name   => "DFT1$RandomID",
+                    Equals => 'ticket2_field1',
+                },
+            ],
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test (Array) DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            DynamicField => [
+                {
+                    Name => "DFT1$RandomID",
+                    Like => '*_field1',
+                },
+            ],
+            SortBy => 'TicketNumber',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test (Old API) DF " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             "DynamicField_DFT1$RandomID" => {
@@ -1185,7 +1283,7 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test DF " . $TestCounter++,
+        Name           => "Test (Old API) DF " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             "DynamicField_DFT1$RandomID" => {
@@ -1208,7 +1306,7 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test DF " . $TestCounter++,
+        Name           => "Test LastChangeTimeNewerDate +  CreateTimeNewerDate " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             TicketLastChangeTimeNewerDate =>
@@ -1233,7 +1331,7 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test DF " . $TestCounter++,
+        Name           => "Test CreateTimeNewerDatF " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             TicketCreateTimeNewerDate =>
@@ -1384,6 +1482,150 @@ my @Tests = (
         Name           => "Test Operator 'Empty' DFT1 - DF " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
+            TicketID     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
+            DynamicField => {
+                Name  => "DFT1$RandomID",
+                Empty => 1,
+            },
+            OrderBy => 'Up',
+            SortBy  => 'TicketNumber',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test Operator 'Empty' DFT2 - DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketID     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
+            DynamicField => {
+                Name  => "DFT2$RandomID",
+                Empty => 1,
+            },
+            OrderBy => 'Up',
+            SortBy  => 'TicketNumber',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test Operator 'Empty' DFT3 - DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketID     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
+            DynamicField => {
+                Name  => "DFT3$RandomID",
+                Empty => 1,
+            },
+            OrderBy => 'Up',
+            SortBy  => 'TicketNumber',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test Operator 'Empty' DFT4 - DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketID     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
+            DynamicField => {
+                Name  => "DFT4$RandomID",
+                Empty => 1,
+            },
+            OrderBy => 'Up',
+            SortBy  => 'TicketNumber',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test Operator 'Empty' DFT ALL - DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketID     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
+            DynamicField => [
+                {
+                    Name  => "DFT1$RandomID",
+                    Empty => 1,
+                },
+                {
+                    Name  => "DFT2$RandomID",
+                    Empty => 1,
+                },
+                {
+                    Name  => "DFT3$RandomID",
+                    Empty => 1,
+                },
+                {
+                    Name  => "DFT4$RandomID",
+                    Empty => 1,
+                },
+            ],
+            OrderBy => 'Up',
+            SortBy  => 'TicketNumber',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID3, $TicketID4 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test (Old API) Operator 'Empty' DFT1 - DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
             TicketID                     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
             "DynamicField_DFT1$RandomID" => {
                 Empty => 1,
@@ -1406,7 +1648,7 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test Operator 'Empty' DFT2 - DF " . $TestCounter++,
+        Name           => "Test (Old API) Operator 'Empty' DFT2 - DF " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             TicketID                     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
@@ -1431,7 +1673,7 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test Operator 'Empty' DFT3 - DF " . $TestCounter++,
+        Name           => "Test (Old API) Operator 'Empty' DFT3 - DF " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             TicketID                     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
@@ -1456,7 +1698,7 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test Operator 'Empty' DFT4 - DF " . $TestCounter++,
+        Name           => "Test (Old API) Operator 'Empty' DFT4 - DF " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             TicketID                     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
@@ -1481,7 +1723,7 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test Operator 'Empty' DFT ALL - DF " . $TestCounter++,
+        Name           => "Test (Old API) Operator 'Empty' DFT ALL - DF " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             TicketID                     => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],

@@ -1827,7 +1827,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     maxOccurs="unbounded">
                 </xsd:element>
                 <xsd:element
-                    name="DynamicFields"
+                    name="DynamicField"
                     type="tns:OTRS_TicketSearch_DynamicField"
                     minOccurs="0"
                     maxOccurs="unbounded">
@@ -2092,45 +2092,22 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
 
     <xsd:complexType name="OTRS_TicketSearch_DynamicField">
         <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
             <xsd:choice minOccurs="1" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>Empty, Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan or SmallerThanEquals is mandatory</xsd:documentation>
+                    <xsd:documentation>
+                        Empty, Equals, Like, GreaterThan,
+                        GreaterThanEquals, SmallerThan or
+                        SmallerThanEquals is mandatory
+                    </xsd:documentation>
                 </xsd:annotation>
-                <xsd:element
-                    name="Empty"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="Equals"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="Like"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="GreaterThan"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="GreaterThanEquals"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="SmallerThan"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
-                <xsd:element
-                    name="SmallerThanEquals"
-                    type="xsd:string"
-                    minOccurs="0" maxOccurs="1">
-                </xsd:element>
+                <xsd:element name="Empty" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="Equals" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="Like" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="GreaterThan" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="GreaterThanEquals" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="SmallerThan" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="SmallerThanEquals" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
             </xsd:choice>
         </xsd:sequence>
     </xsd:complexType>
