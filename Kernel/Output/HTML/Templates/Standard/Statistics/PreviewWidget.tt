@@ -132,7 +132,7 @@
         <div class="PreviewSettings">
             [% Translate('Preview format:') | html %]
             [% FOREACH Format IN PreviewFormats.sort %]
-            <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% FormatConfig.item(Format) %]</span></button>
+            <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% Translate(FormatConfig.item(Format)) | html %]</span></button>
             [% END %]
             <span class="Warning">
                 [% Translate('Please note that the preview uses random data and does not consider data filters.') | html %]
