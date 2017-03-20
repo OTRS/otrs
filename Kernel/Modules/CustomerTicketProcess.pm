@@ -3766,6 +3766,7 @@ sub _StoreActivityDialog {
             }
         }
         elsif ( $CurrentField eq 'Article' && ( $UpdateTicketID || $NewTicketID ) ) {
+            my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
             my $TicketID = $UpdateTicketID || $NewTicketID;
 
@@ -3784,7 +3785,7 @@ sub _StoreActivityDialog {
                 }
 
                 my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
-                $ArticleID = $TicketObject->ArticleCreate(
+                $ArticleID = $ArticleObject->ArticleCreate(
                     TicketID                  => $TicketID,
                     SenderType                => 'customer',
                     From                      => $From,
@@ -3845,7 +3846,7 @@ sub _StoreActivityDialog {
                     }
 
                     # write existing file to backend
-                    $TicketObject->ArticleWriteAttachment(
+                    $ArticleObject->ArticleWriteAttachment(
                         %{$Attachment},
                         ArticleID => $ArticleID,
                         UserID    => $ConfigObject->Get('CustomerPanelUserID'),

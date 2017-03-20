@@ -16,7 +16,6 @@ use vars (qw($Self));
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -134,7 +133,7 @@ my %TestUser4 = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
     User => $TestUserLogin,
 );
 
-my $TicketID = $TicketObject->TicketCreate(
+my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
     Title         => 'Some Ticket_Title',
     Queue         => 'Raw',
     Lock          => 'unlock',
@@ -174,7 +173,7 @@ $Self->True(
     'DynamicField ValueSet() Dynamic Field Dropdown - with true',
 );
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'note-internal',
     SenderType     => 'agent',

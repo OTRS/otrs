@@ -123,7 +123,7 @@ $Selenium->RunTest(
         my $MinCharString = 'ct';
         my $MaxCharString = $RandomID . ( 't' x 50 );
         my $Subject       = 'Subject' . $RandomID;
-        my $ArticleID     = $TicketObject->ArticleCreate(
+        my $ArticleID     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
             TicketID    => $TicketID,
             ArticleType => 'note-internal',
             SenderType  => 'agent',
@@ -174,7 +174,6 @@ $Selenium->RunTest(
         # Wait until form and overlay has loaded, if neccessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
-
         # Input wrong search parameters, result should be 'No ticket data found'.
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('abcdfgh_nonexisting_ticket_text');",
@@ -214,10 +213,9 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # Recreate TicketObject and update article index for staticdb.
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-        $TicketObject->ArticleIndexBuild(
+        # Recreate article object and update article index for static DB.
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket::Article'] );
+        $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndexBuild(
             ArticleID => $ArticleID,
             UserID    => 1,
         );
@@ -340,16 +338,19 @@ $Selenium->RunTest(
             );
             $Selenium->find_element( '.AddButton', 'css' )->click();
 
-            for my $DatePart (qw(StartYear StartMonth StartDay StopYear StopMonth StopDay) ) {
-                my $Element = $Selenium->find_element( "#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart", 'css' );
+            for my $DatePart (qw(StartYear StartMonth StartDay StopYear StopMonth StopDay)) {
+                my $Element = $Selenium->find_element(
+                    "#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart", 'css' );
                 $Element->is_enabled();
                 $Element->is_displayed();
             }
 
             # Check if the correct count of options in the year dropdown exists.
-            for my $DatePart (qw(StartYear StopYear) ) {
+            for my $DatePart (qw(StartYear StopYear)) {
                 $Self->Is(
-                    $Selenium->execute_script("return \$('#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart:visible > option').length;"),
+                    $Selenium->execute_script(
+                        "return \$('#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart:visible > option').length;"
+                    ),
                     51,
                     "DynamicField date $DatePart filtered options count",
                 );

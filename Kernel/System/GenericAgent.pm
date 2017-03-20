@@ -26,6 +26,7 @@ our @ObjectDependencies = (
     'Kernel::System::Queue',
     'Kernel::System::State',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Time',
     'Kernel::System::TemplateGenerator',
     'Kernel::System::CustomerUser',
@@ -1013,7 +1014,7 @@ sub _JobRunTicket {
             }
         }
 
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
             TicketID    => $Param{TicketID},
             ArticleType => $Param{Config}->{New}->{Note}->{ArticleType}
                 || $Param{Config}->{New}->{ArticleType}

@@ -312,7 +312,7 @@ $Selenium->RunTest(
         }
 
         # create test email article
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'email-external',
             SenderType     => 'customer',

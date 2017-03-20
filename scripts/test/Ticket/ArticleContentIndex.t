@@ -12,9 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get ticket object
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -24,7 +21,7 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $TicketID = $TicketObject->TicketCreate(
+my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
     Title        => 'Some test ticket for ArticleContentIndex',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -40,19 +37,21 @@ $Self->True(
     'TicketCreate()',
 );
 
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
 my @ArticleIDs;
 
-my %ArticleTypes = $TicketObject->ArticleTypeList(
+my %ArticleTypes = $ArticleObject->ArticleTypeList(
     Result => 'HASH',
 );
 my @ArticleTypeIDs     = ( sort keys %ArticleTypes )[ 0 .. 4 ];
-my %ArticleSenderTypes = $TicketObject->ArticleSenderTypeList(
+my %ArticleSenderTypes = $ArticleObject->ArticleSenderTypeList(
     Result => 'HASH',
 );
 my @SenderTypeIDs = ( sort keys %ArticleSenderTypes )[ 0 .. 1 ];
 
 for my $Number ( 1 .. 15 ) {
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID       => $TicketID,
         ArticleTypeID  => $ArticleTypeIDs[ $Number % 5 ],
         SenderTypeID   => $SenderTypeIDs[ $Number % 2 ],
@@ -70,7 +69,7 @@ for my $Number ( 1 .. 15 ) {
     push @ArticleIDs, $ArticleID;
 }
 
-my @ArticleBox = $TicketObject->ArticleContentIndex(
+my @ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID          => $TicketID,
     DynamicFieldields => 0,
     UserID            => 1,
@@ -82,7 +81,7 @@ $Self->Is(
     "ArticleContentIndex by default fetches all articles",
 );
 
-@ArticleBox = $TicketObject->ArticleContentIndex(
+@ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID          => $TicketID,
     DynamicFieldields => 0,
     UserID            => 1,
@@ -101,7 +100,7 @@ $Self->Is(
     "First article on first page",
 );
 
-@ArticleBox = $TicketObject->ArticleContentIndex(
+@ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID          => $TicketID,
     DynamicFieldields => 0,
     UserID            => 1,
@@ -122,13 +121,13 @@ $Self->Is(
 );
 
 $Self->Is(
-    $TicketObject->ArticleCount( TicketID => $TicketID ),
+    $ArticleObject->ArticleCount( TicketID => $TicketID ),
     15,
     'ArticleCount',
 );
 
 $Self->Is(
-    $TicketObject->ArticlePage(
+    $ArticleObject->ArticlePage(
         TicketID    => $TicketID,
         ArticleID   => $ArticleBox[0]{ArticleID},
         RowsPerPage => 10,
@@ -139,7 +138,7 @@ $Self->Is(
 
 # Test filter
 #
-@ArticleBox = $TicketObject->ArticleContentIndex(
+@ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID          => $TicketID,
     DynamicFieldields => 0,
     UserID            => 1,
@@ -153,7 +152,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $TicketObject->ArticleCount(
+    $ArticleObject->ArticleCount(
         TicketID      => $TicketID,
         ArticleTypeID => [ @ArticleTypeIDs[ 0, 1 ] ],
     ),
@@ -161,7 +160,7 @@ $Self->Is(
     'ArticleCount is consistent with ArticleContentIndex (ArticleTypeID)',
 );
 
-@ArticleBox = $TicketObject->ArticleContentIndex(
+@ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID            => $TicketID,
     DynamicFieldields   => 0,
     UserID              => 1,
@@ -175,7 +174,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $TicketObject->ArticleCount(
+    $ArticleObject->ArticleCount(
         TicketID            => $TicketID,
         ArticleSenderTypeID => [ $SenderTypeIDs[0] ],
     ),
@@ -183,7 +182,7 @@ $Self->Is(
     'ArticleCount is consistent with ArticleContentIndex (ArticleSenderTypeID)',
 );
 
-@ArticleBox = $TicketObject->ArticleContentIndex(
+@ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID            => $TicketID,
     DynamicFieldields   => 0,
     UserID              => 1,
@@ -199,7 +198,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $TicketObject->ArticlePage(
+    $ArticleObject->ArticlePage(
         TicketID      => $TicketID,
         ArticleID     => $ArticleIDs[13],
         ArticleTypeID => [ $ArticleTypeIDs[ 13 % 5 ] ],

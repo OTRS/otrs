@@ -30,6 +30,7 @@ our @ObjectDependencies = (
     'Kernel::System::StandardTemplate',
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::User',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::JSON',
@@ -680,7 +681,7 @@ sub AutoResponse {
     return if !%AutoResponse;
 
     # get old article for quoting
-    my %Article = $TicketObject->ArticleLastCustomerArticle(
+    my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleLastCustomerArticle(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
@@ -858,7 +859,6 @@ sub NotificationEvent {
         $Param{CustomerMessageParams} = \%LocalCustomerMessageParams;
     }
 
-    # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get ticket
@@ -867,14 +867,16 @@ sub NotificationEvent {
         DynamicFields => 0,
     );
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # get last article from customer
-    my %Article = $TicketObject->ArticleLastCustomerArticle(
+    my %Article = $ArticleObject->ArticleLastCustomerArticle(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
 
     # get last article from agent
-    my @ArticleBoxAgent = $TicketObject->ArticleGet(
+    my @ArticleBoxAgent = $ArticleObject->ArticleGet(
         TicketID      => $Param{TicketID},
         UserID        => $Param{UserID},
         DynamicFields => 0,
@@ -902,7 +904,7 @@ sub NotificationEvent {
         next ARTICLE if !$ArticleData->{ArticleID};
 
         # get accounted time
-        my $AccountedTime = $TicketObject->ArticleAccountedTimeGet(
+        my $AccountedTime = $ArticleObject->ArticleAccountedTimeGet(
             ArticleID => $ArticleData->{ArticleID},
         );
 

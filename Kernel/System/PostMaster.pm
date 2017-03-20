@@ -31,6 +31,7 @@ our @ObjectDependencies = (
     'Kernel::System::Queue',
     'Kernel::System::State',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
 );
 
 =head1 NAME
@@ -586,8 +587,7 @@ sub GetEmailParams {
         }
     }
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # set sender type if not given
     for my $Key (qw(X-OTRS-SenderType X-OTRS-FollowUp-SenderType)) {
@@ -597,7 +597,7 @@ sub GetEmailParams {
         }
 
         # check if X-OTRS-SenderType exists, if not, set customer
-        if ( !$TicketObject->ArticleSenderTypeLookup( SenderType => $GetParam{$Key} ) ) {
+        if ( !$ArticleObject->ArticleSenderTypeLookup( SenderType => $GetParam{$Key} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't find sender type '$GetParam{$Key}' in db, take 'customer'",
@@ -613,7 +613,7 @@ sub GetEmailParams {
         }
 
         # check if X-OTRS-ArticleType exists, if not, set 'email'
-        if ( !$TicketObject->ArticleTypeLookup( ArticleType => $GetParam{$Key} ) ) {
+        if ( !$ArticleObject->ArticleTypeLookup( ArticleType => $GetParam{$Key} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",

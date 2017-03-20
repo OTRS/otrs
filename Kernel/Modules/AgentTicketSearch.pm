@@ -507,7 +507,8 @@ sub Run {
             }
         }
 
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # Special behavior for the fulltext search toolbar module:
         # - Check full text string to see if contents is a ticket number.
@@ -668,7 +669,7 @@ sub Run {
             for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $TicketObject->ArticleFirstArticle(
+                my %Data = $ArticleObject->ArticleFirstArticle(
                     TicketID      => $TicketID,
                     Extended      => 1,
                     DynamicFields => 1,
@@ -701,7 +702,7 @@ sub Run {
 
                 # get whole article (if configured!)
                 if ( $Config->{SearchArticleCSVTree} ) {
-                    my @Article = $TicketObject->ArticleGet(
+                    my @Article = $ArticleObject->ArticleGet(
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
@@ -856,7 +857,7 @@ sub Run {
             for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $TicketObject->ArticleFirstArticle(
+                my %Data = $ArticleObject->ArticleFirstArticle(
                     TicketID      => $TicketID,
                     DynamicFields => 1,
                 );

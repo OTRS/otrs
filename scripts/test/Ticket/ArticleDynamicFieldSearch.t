@@ -86,18 +86,20 @@ for my $Item ( 1 .. 2 ) {
 for my $Module (qw(StaticDB RuntimeDB)) {
 
     # Make sure that the TicketObject gets recreated for each loop.
-    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+    $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::Ticket', 'Kernel::System::Article' ] );
 
     $ConfigObject->Set(
         Key   => 'Ticket::SearchIndexModule',
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );
 
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    $Self->True(
-        $TicketObject->isa( 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module ),
-        "TicketObject loaded the correct backend",
+    $Self->Is(
+        $ArticleObject->{ArticleSearchIndexModule},
+        'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
+        "ArticleObject loaded the correct backend",
     );
 
     my @TestTicketIDs;
@@ -141,7 +143,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         UserID             => 1,
     );
 
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID       => $TicketIDs[0],
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
@@ -170,7 +172,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         UserID             => 1,
     );
 
-    $ArticleID = $TicketObject->ArticleCreate(
+    $ArticleID = $ArticleObject->ArticleCreate(
         TicketID       => $TicketIDs[0],
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
@@ -199,7 +201,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         UserID             => 1,
     );
 
-    $ArticleID = $TicketObject->ArticleCreate(
+    $ArticleID = $ArticleObject->ArticleCreate(
         TicketID       => $TicketIDs[1],
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
@@ -228,7 +230,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         UserID             => 1,
     );
 
-    $ArticleID = $TicketObject->ArticleCreate(
+    $ArticleID = $ArticleObject->ArticleCreate(
         TicketID       => $TicketIDs[1],
         ArticleType    => 'note-internal',
         SenderType     => 'agent',

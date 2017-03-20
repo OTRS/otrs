@@ -84,7 +84,6 @@ my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
 
 my $UserID = $UserData{UserID};
 
-# get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # create ticket
@@ -106,7 +105,7 @@ $Self->True(
     "TicketCreate() successful for Ticket ID $TicketID",
 );
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'webrequest',
     SenderType     => 'customer',

@@ -1931,7 +1931,7 @@ sub _TicketUpdate {
         my $To = '';
 
         # create article
-        $ArticleID = $TicketObject->ArticleCreate(
+        $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
             NoAgentNotify  => $Article->{NoAgentNotify}  || 0,
             TicketID       => $TicketID,
             ArticleTypeID  => $Article->{ArticleTypeID}  || '',

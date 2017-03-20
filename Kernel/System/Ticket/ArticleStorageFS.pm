@@ -16,27 +16,61 @@ use MIME::Base64 qw();
 use Time::HiRes qw();
 use Unicode::Normalize qw();
 
+use base qw(Kernel::System::Ticket::ArticleStorage::Base);
+
 use Kernel::System::VariableCheck qw(:all);
 
-our $ObjectManagerDisabled = 1;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
+    'Kernel::System::Ticket::ArticleStorageDB',
+    'Kernel::System::Time',
+);
 
-sub ArticleStorageInit {
-    my ( $Self, %Param ) = @_;
+=head1 NAME
+
+Kernel::System::Ticket::ArticleStorageDB - FS based ticket article storage interface
+
+=head1 DESCRIPTION
+
+This class provides functions to work manipulate ticket articles on the file system.
+The methods are currently documented in L<Kernel::System::Ticket::Article>.
+
+Inherits from L<Kernel::System::Ticket::ArticleStorage::Base>.
+
+See also L<Kernel::System::Ticket::ArticleStorageDB>.
+
+=cut
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless( $Self, $Type );
 
     # ArticleDataDir
     $Self->{ArticleDataDir} = $Kernel::OM->Get('Kernel::Config')->Get('ArticleDir')
         || die 'Got no ArticleDir!';
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # do we need to check all backends, or just one?
+    $Self->{CheckAllBackends} = $ConfigObject->Get('Ticket::StorageModule::CheckAllBackends') // 0;
+
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # create ArticleContentPath
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-    $Self->{ArticleContentPath} = $Year . '/' . $Month . '/' . $Day;
-
-    my $ArticleDir = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/";
+    my $ArticleContentPath = $Self->BuildArticleContentPath();
+    my $ArticleDir         = "$Self->{ArticleDataDir}/$ArticleContentPath/";
 
     File::Path::mkpath( $ArticleDir, 0, 0770 );    ## no critic
 
@@ -50,19 +84,16 @@ sub ArticleStorageInit {
         die "Can't write $ArticleDir! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # get activated cache backend configuration
     my $CacheModule = $ConfigObject->Get('Cache::Module') || '';
 
-    return 1 if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
-    return 1 if !$ConfigObject->Get('Cache::ArticleStorageCache');
+    return $Self if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
+    return $Self if !$ConfigObject->Get('Cache::ArticleStorageCache');
 
     $Self->{ArticleStorageCache} = 1;
     $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
 
-    return 1;
+    return $Self;
 }
 
 sub ArticleDelete {
@@ -86,14 +117,16 @@ sub ArticleDelete {
         UserID     => $Param{UserID},
     );
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # delete index
-    $Self->ArticleIndexDelete(
+    $ArticleObject->ArticleIndexDelete(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
 
     # delete time accounting
-    $Self->ArticleAccountedTimeDelete(
+    $ArticleObject->ArticleAccountedTimeDelete(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
@@ -163,7 +196,8 @@ sub ArticleDeletePlain {
     }
 
     # delete from fs
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
     if ( -f $File ) {
         if ( !unlink $File ) {
@@ -187,13 +221,10 @@ sub ArticleDeletePlain {
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    # delete plain from db
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM article_plain WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
+    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticleDeletePlain(
+        %Param,
+        OnlyMyBackend => 1,
     );
-
-    return 1;
 }
 
 sub ArticleDeleteAttachment {
@@ -211,7 +242,8 @@ sub ArticleDeleteAttachment {
     }
 
     # delete from fs
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
 
     if ( -e $Path ) {
@@ -247,13 +279,10 @@ sub ArticleDeleteAttachment {
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    # delete attachments from db
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM article_attachment WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
+    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticleDeleteAttachment(
+        %Param,
+        OnlyMyBackend => 1,
     );
-
-    return 1;
 }
 
 sub ArticleWritePlain {
@@ -275,11 +304,12 @@ sub ArticleWritePlain {
     $Param{ArticleID} =~ s/\0//g;
 
     # define path
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
 
     # debug
-    if ( $Self->{Debug} > 1 ) {
+    if ( defined $Self->{Debug} && $Self->{Debug} > 1 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log( Message => "->WriteArticle: $Path" );
     }
 
@@ -328,7 +358,8 @@ sub ArticleWriteAttachment {
     # prepare/filter ArticleID
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
 
     # define path
     $Param{Path} = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
@@ -492,7 +523,8 @@ sub ArticlePlain {
     }
 
     # get content path
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
 
     # open plain article
     if ( -f "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) {
@@ -528,28 +560,10 @@ sub ArticlePlain {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # can't open article, try database
-    return if !$DBObject->Prepare(
-        SQL  => 'SELECT body FROM article_plain WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
+    my $Data = $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticlePlain(
+        %Param,
+        OnlyMyBackend => 1,
     );
-
-    my $Data;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Data = $Row[0];
-    }
-
-    if ( !$Data ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message =>
-                "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
-        );
-        return;
-    }
 
     # set cache
     if ( $Self->{ArticleStorageCache} ) {
@@ -569,15 +583,6 @@ sub ArticlePlain {
 
 sub ArticleAttachmentIndexRaw {
     my ( $Self, %Param ) = @_;
-
-    # check ArticleContentPath
-    if ( !$Self->{ArticleContentPath} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need ArticleContentPath!',
-        );
-        return;
-    }
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
@@ -604,7 +609,8 @@ sub ArticleAttachmentIndexRaw {
         return %{$Cache} if $Cache;
     }
 
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my %Index;
     my $Counter = 0;
 
@@ -751,68 +757,10 @@ sub ArticleAttachmentIndexRaw {
     # return if only delete in my backend
     return %Index if $Param{OnlyMyBackend};
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # try database (if there is no index in fs)
-    return if !$DBObject->Prepare(
-        SQL => '
-            SELECT filename, content_type, content_size, content_id, content_alternative,
-                disposition
-            FROM article_attachment
-            WHERE article_id = ?
-            ORDER BY filename, id',
-        Bind => [ \$Param{ArticleID} ],
+    %Index = $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticleAttachmentIndexRaw(
+        %Param,
+        OnlyMyBackend => 1,
     );
-
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-
-        # human readable file size
-        my $FileSizeRaw = $Row[2];
-        if ( $Row[2] ) {
-            if ( $Row[2] > ( 1024 * 1024 ) ) {
-                $Row[2] = sprintf "%.1f MBytes", ( $Row[2] / ( 1024 * 1024 ) );
-            }
-            elsif ( $Row[2] > 1024 ) {
-                $Row[2] = sprintf "%.1f KBytes", ( ( $Row[2] / 1024 ) );
-            }
-            else {
-                $Row[2] = $Row[2] . ' Bytes';
-            }
-        }
-
-        my $Disposition = $Row[5];
-        if ( !$Disposition ) {
-
-            # if no content disposition is set images with content id should be inline
-            if ( $Row[3] && $Row[1] =~ m{image}i ) {
-                $Disposition = 'inline';
-            }
-
-            # converted article body should be inline
-            elsif ( $Row[0] =~ m{file-[12]} ) {
-                $Disposition = 'inline';
-            }
-
-            # all others including attachments with content id that are not images
-            #   should NOT be inline
-            else {
-                $Disposition = 'attachment';
-            }
-        }
-
-        # add the info the the hash
-        $Counter++;
-        $Index{$Counter} = {
-            Filename           => $Row[0],
-            Filesize           => $Row[2] || '',
-            FilesizeRaw        => $FileSizeRaw || 0,
-            ContentType        => $Row[1],
-            ContentID          => $Row[3] || '',
-            ContentAlternative => $Row[4] || '',
-            Disposition        => $Disposition,
-        };
-    }
 
     # set cache
     if ( $Self->{ArticleStorageCache} ) {
@@ -871,9 +819,10 @@ sub ArticleAttachment {
     );
 
     # get content path
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my %Data        = %{ $Index{ $Param{FileID} } };
-    my $Counter     = 0;
+    my $ContentPath
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my %Data = %{ $Index{ $Param{FileID} } // {} };
+    my $Counter = 0;
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -1016,77 +965,10 @@ sub ArticleAttachment {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # try database, if no content is found
-    return if !$DBObject->Prepare(
-        SQL => '
-            SELECT id
-            FROM article_attachment
-            WHERE article_id = ?
-            ORDER BY filename, id',
-        Bind  => [ \$Param{ArticleID} ],
-        Limit => $Param{FileID},
+    %Data = $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticleAttachment(
+        %Param,
+        OnlyMyBackend => 1,
     );
-
-    my $AttachmentID;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $AttachmentID = $Row[0];
-    }
-
-    return if !$DBObject->Prepare(
-        SQL => '
-            SELECT content_type, content, content_id, content_alternative, disposition, filename
-            FROM article_attachment
-            WHERE id = ?',
-        Bind   => [ \$AttachmentID ],
-        Encode => [ 1, 0, 0, 0, 1, 1 ],
-    );
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-
-        $Data{ContentType} = $Row[0];
-
-        # decode attachment if it's e. g. a postgresql backend!!!
-        if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
-            $Data{Content} = MIME::Base64::decode_base64( $Row[1] );
-        }
-        else {
-            $Data{Content} = $Row[1];
-        }
-        $Data{ContentID}          = $Row[2] || '';
-        $Data{ContentAlternative} = $Row[3] || '';
-        $Data{Disposition}        = $Row[4];
-        $Data{Filename}           = $Row[5];
-    }
-
-    if ( !$Data{Disposition} ) {
-
-        # if no content disposition is set images with content id should be inline
-        if ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
-            $Data{Disposition} = 'inline';
-        }
-
-        # converted article body should be inline
-        elsif ( $Data{Filename} =~ m{file-[12]} ) {
-            $Data{Disposition} = 'inline'
-        }
-
-        # all others including attachments with content id that are not images
-        #   should NOT be inline
-        else {
-            $Data{Disposition} = 'attachment';
-        }
-    }
-
-    if ( !$Data{Content} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message =>
-                "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}!",
-        );
-        return;
-    }
 
     # set cache
     if ( $Self->{ArticleStorageCache} ) {
@@ -1104,34 +986,14 @@ sub ArticleAttachment {
     return %Data;
 }
 
-sub _ArticleDeleteDirectory {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!",
-            );
-            return;
-        }
-    }
-
-    # delete directory from fs
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
-    if ( -d $Path ) {
-        if ( !rmdir($Path) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't remove: $Path: $!!",
-            );
-            return;
-        }
-    }
-
-    return 1;
-}
-
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut

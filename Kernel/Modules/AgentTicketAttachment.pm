@@ -47,11 +47,11 @@ sub Run {
         return $LayoutObject->ErrorScreen();
     }
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get needed objects
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # check permissions
-    my %Article = $TicketObject->ArticleGet(
+    my %Article = $ArticleObject->ArticleGet(
         ArticleID     => $ArticleID,
         DynamicFields => 0,
         UserID        => $Self->{UserID},
@@ -65,7 +65,7 @@ sub Run {
     }
 
     # check permissions
-    my $Access = $TicketObject->TicketPermission(
+    my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
         Type     => 'ro',
         TicketID => $Article{TicketID},
         UserID   => $Self->{UserID}
@@ -75,7 +75,7 @@ sub Run {
     }
 
     # get a attachment
-    my %Data = $TicketObject->ArticleAttachment(
+    my %Data = $ArticleObject->ArticleAttachment(
         ArticleID => $ArticleID,
         FileID    => $FileID,
         UserID    => $Self->{UserID},
@@ -182,7 +182,7 @@ sub Run {
             . ";ArticleID=$ArticleID;FileID=";
 
         # replace links to inline images in html content
-        my %AtmBox = $TicketObject->ArticleAttachmentIndex(
+        my %AtmBox = $ArticleObject->ArticleAttachmentIndex(
             ArticleID => $ArticleID,
             UserID    => $Self->{UserID},
         );

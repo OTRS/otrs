@@ -16,10 +16,10 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # set download type to inline
         $Helper->ConfigSettingChange(
@@ -81,7 +81,7 @@ $Selenium->RunTest(
             );
             my $Content = ${$ContentRef};
 
-            my $ArticleID = $TicketObject->ArticleCreate(
+            my $ArticleID = $ArticleObject->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
                 SenderType     => 'agent',

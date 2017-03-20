@@ -339,7 +339,6 @@ sub Run {
     TICKET:
     for my $TicketID (@TicketIDs) {
 
-        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # get the Ticket entry
@@ -394,12 +393,14 @@ sub Run {
             next TICKET;
         }
 
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
         my $ArticleTypes;
         if ( $UserType eq 'Customer' ) {
-            $ArticleTypes = [ $TicketObject->ArticleTypeList( Type => 'Customer' ) ];
+            $ArticleTypes = [ $ArticleObject->ArticleTypeList( Type => 'Customer' ) ];
         }
 
-        my @ArticleBoxRaw = $TicketObject->ArticleGet(
+        my @ArticleBoxRaw = $ArticleObject->ArticleGet(
             TicketID          => $TicketID,
             ArticleSenderType => $ArticleSenderType,
             ArticleType       => $ArticleTypes,
@@ -417,7 +418,7 @@ sub Run {
             next ARTICLE if !$Attachments;
 
             # get attachment index (without attachments)
-            my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+            my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
                 ContentPath                => $Article->{ContentPath},
                 ArticleID                  => $Article->{ArticleID},
                 StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
@@ -431,7 +432,7 @@ sub Run {
             ATTACHMENT:
             for my $FileID ( sort keys %AtmIndex ) {
                 next ATTACHMENT if !$FileID;
-                my %Attachment = $TicketObject->ArticleAttachment(
+                my %Attachment = $ArticleObject->ArticleAttachment(
                     ArticleID => $Article->{ArticleID},
                     FileID    => $FileID,                 # as returned by ArticleAttachmentIndex
                     UserID    => $UserID,

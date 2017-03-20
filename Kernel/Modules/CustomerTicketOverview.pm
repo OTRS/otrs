@@ -576,15 +576,16 @@ sub Run {
 sub ShowTicketStatus {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $TicketID     = $Param{TicketID} || return;
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketID      = $Param{TicketID} || return;
 
     # contains last article (non-internal)
     my %Article;
 
     # get whole article index
-    my @ArticleIDs = $TicketObject->ArticleIndex( TicketID => $Param{TicketID} );
+    my @ArticleIDs = $ArticleObject->ArticleIndex( TicketID => $Param{TicketID} );
 
     # get article data
     if (@ArticleIDs) {
@@ -592,7 +593,7 @@ sub ShowTicketStatus {
 
         ARTICLEID:
         for my $ArticleID ( reverse @ArticleIDs ) {
-            my %CurrentArticle = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+            my %CurrentArticle = $ArticleObject->ArticleGet( ArticleID => $ArticleID );
 
             # check for non-internal and non-chat article
             next ARTICLEID if $CurrentArticle{ArticleType} =~ m{internal|chat}smx;

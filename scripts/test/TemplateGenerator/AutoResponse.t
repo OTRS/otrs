@@ -119,8 +119,8 @@ $Self->True(
     "AutoResponseQueue() - assigned auto response - $AutoResonseName to queue - $QueueName",
 );
 
-# get ticket object
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # create a new ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -190,7 +190,7 @@ for my $Test (@Tests) {
     );
 
     # create auto response article (bug#12097)
-    my $ArticleID = $TicketObject->SendAutoResponse(
+    my $ArticleID = $ArticleObject->SendAutoResponse(
         TicketID         => $TicketID,
         AutoResponseType => 'auto reply/new ticket',
         OrigHeader       => {

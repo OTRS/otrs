@@ -18,6 +18,7 @@ my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
 my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
 my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 my $TypeObject    = $Kernel::OM->Get('Kernel::System::Type');
 my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
@@ -193,7 +194,7 @@ $Self->Is(
     'TicketOwnerSet() (ChangeBy - System ID 1 now)',
 );
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID    => $TicketID,
     ArticleType => 'note-internal',
     SenderType  => 'agent',
@@ -238,12 +239,12 @@ $Self->True(
 );
 
 $Self->Is(
-    $TicketObject->ArticleCount( TicketID => $TicketID ),
+    $ArticleObject->ArticleCount( TicketID => $TicketID ),
     1,
     'ArticleCount',
 );
 
-my %Article = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+my %Article = $ArticleObject->ArticleGet( ArticleID => $ArticleID );
 $Self->Is(
     $Article{Title},
     'Some Ticket_Title',
@@ -256,7 +257,7 @@ $Self->True(
 );
 
 for my $Key (qw( Body Subject From To ReplyTo )) {
-    my $Success = $TicketObject->ArticleUpdate(
+    my $Success = $ArticleObject->ArticleUpdate(
         ArticleID => $ArticleID,
         Key       => $Key,
         Value     => "New $Key",
@@ -267,7 +268,7 @@ for my $Key (qw( Body Subject From To ReplyTo )) {
         $Success,
         'ArticleUpdate()',
     );
-    my %Article2 = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+    my %Article2 = $ArticleObject->ArticleGet( ArticleID => $ArticleID );
     $Self->Is(
         $Article2{$Key},
         "New $Key",
@@ -275,7 +276,7 @@ for my $Key (qw( Body Subject From To ReplyTo )) {
     );
 
     # set old value
-    $Success = $TicketObject->ArticleUpdate(
+    $Success = $ArticleObject->ArticleUpdate(
         ArticleID => $ArticleID,
         Key       => $Key,
         Value     => $Article{$Key},
@@ -1337,7 +1338,7 @@ $Self->Is(
     'TicketGet() (Lock)',
 );
 
-%Article = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+%Article = $ArticleObject->ArticleGet( ArticleID => $ArticleID );
 $Self->Is(
     $Article{Title},
     'Very long title 01234567890123456789012345678901234567890123456789'
@@ -1437,7 +1438,7 @@ $Self->Is(
     'TicketAccountedTimeGet()',
 );
 
-my $AccountedTime2 = $TicketObject->ArticleAccountedTimeGet(
+my $AccountedTime2 = $ArticleObject->ArticleAccountedTimeGet(
     ArticleID => $ArticleID,
 );
 

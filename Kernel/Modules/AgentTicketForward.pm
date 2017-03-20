@@ -122,8 +122,9 @@ sub Form {
         );
     }
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get needed objects
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # get ticket data
     my %Ticket = $TicketObject->TicketGet(
@@ -226,7 +227,7 @@ sub Form {
     # get last customer article or selected article
     my %Data;
     if ( $GetParam{ArticleID} ) {
-        %Data = $TicketObject->ArticleGet(
+        %Data = $ArticleObject->ArticleGet(
             ArticleID     => $GetParam{ArticleID},
             DynamicFields => 1,
         );
@@ -240,7 +241,7 @@ sub Form {
         }
     }
     else {
-        %Data = $TicketObject->ArticleLastCustomerArticle(
+        %Data = $ArticleObject->ArticleLastCustomerArticle(
             TicketID      => $Self->{TicketID},
             DynamicFields => 1,
         );
@@ -1038,9 +1039,10 @@ sub SendEmail {
     }
 
     # if there is no ArticleTypeID, use the default value
-    my $ArticleTypeID = $GetParam{ArticleTypeID} // $TicketObject->ArticleTypeLookup(
+    my $ArticleTypeID = $GetParam{ArticleTypeID} //
+        $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleTypeLookup(
         ArticleType => $Config->{ArticleTypeDefault},
-    );
+        );
 
     # error page
     if ( !$ArticleTypeID ) {
@@ -1050,7 +1052,7 @@ sub SendEmail {
         );
     }
 
-    my $ArticleID = $TicketObject->ArticleSend(
+    my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSend(
         ArticleTypeID  => $ArticleTypeID,
         SenderType     => 'agent',
         TicketID       => $Self->{TicketID},
@@ -1421,15 +1423,15 @@ sub _Mask {
     #  get article type
     my %ArticleTypeList;
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get article object
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     if ( IsArrayRefWithData( $Config->{ArticleTypes} ) ) {
 
         my @ArticleTypesPossible = @{ $Config->{ArticleTypes} };
         for my $ArticleType (@ArticleTypesPossible) {
 
-            my $ArticleTypeID = $TicketObject->ArticleTypeLookup(
+            my $ArticleTypeID = $ArticleObject->ArticleTypeLookup(
                 ArticleType => $ArticleType,
             );
 
@@ -1467,7 +1469,7 @@ sub _Mask {
     }
 
     # get used calendar
-    my $Calendar = $TicketObject->TicketCalendarGet(
+    my $Calendar = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCalendarGet(
         QueueID => $Param{QueueID},
         SLAID   => $Param{SLAID},
     );

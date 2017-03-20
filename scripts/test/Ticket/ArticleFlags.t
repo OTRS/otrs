@@ -12,8 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get ticket object
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -43,7 +43,7 @@ $Self->True(
 my @ArticleIDs;
 
 for my $Item ( 0 .. 1 ) {
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID       => $TicketID,
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
@@ -83,12 +83,12 @@ my @Tests = (
 );
 
 # delete pre-existing article flags which are created on TicketCreate
-$TicketObject->ArticleFlagDelete(
+$ArticleObject->ArticleFlagDelete(
     ArticleID => $ArticleIDs[0],
     Key       => 'Seen',
     UserID    => 1,
 );
-$TicketObject->ArticleFlagDelete(
+$ArticleObject->ArticleFlagDelete(
     ArticleID => $ArticleIDs[1],
     Key       => 'Seen',
     UserID    => 1,
@@ -97,7 +97,7 @@ $TicketObject->ArticleFlagDelete(
 for my $Test (@Tests) {
 
     # set for article 1
-    my %Flag = $TicketObject->ArticleFlagGet(
+    my %Flag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[0],
         UserID    => 1,
     );
@@ -105,7 +105,7 @@ for my $Test (@Tests) {
         $Flag{ $Test->{Key} },
         'ArticleFlagGet() article 1',
     );
-    my $Set = $TicketObject->ArticleFlagSet(
+    my $Set = $ArticleObject->ArticleFlagSet(
         ArticleID => $ArticleIDs[0],
         Key       => $Test->{Key},
         Value     => $Test->{Value},
@@ -117,7 +117,7 @@ for my $Test (@Tests) {
     );
 
     # set for article 2
-    %Flag = $TicketObject->ArticleFlagGet(
+    %Flag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[1],
         UserID    => 1,
     );
@@ -125,7 +125,7 @@ for my $Test (@Tests) {
         $Flag{ $Test->{Key} },
         'ArticleFlagGet() article 2',
     );
-    $Set = $TicketObject->ArticleFlagSet(
+    $Set = $ArticleObject->ArticleFlagSet(
         ArticleID => $ArticleIDs[1],
         Key       => $Test->{Key},
         Value     => $Test->{Value},
@@ -135,7 +135,7 @@ for my $Test (@Tests) {
         $Set,
         'ArticleFlagSet() article 2',
     );
-    %Flag = $TicketObject->ArticleFlagGet(
+    %Flag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[1],
         UserID    => 1,
     );
@@ -146,7 +146,7 @@ for my $Test (@Tests) {
     );
 
     # get all flags of ticket
-    %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+    %Flag = $ArticleObject->ArticleFlagsOfTicketGet(
         TicketID => $TicketID,
         UserID   => 1,
     );
@@ -164,7 +164,7 @@ for my $Test (@Tests) {
     );
 
     # delete for article 1
-    my $Delete = $TicketObject->ArticleFlagDelete(
+    my $Delete = $ArticleObject->ArticleFlagDelete(
         ArticleID => $ArticleIDs[0],
         Key       => $Test->{Key},
         UserID    => 1,
@@ -173,7 +173,7 @@ for my $Test (@Tests) {
         $Delete,
         'ArticleFlagDelete() article 1',
     );
-    %Flag = $TicketObject->ArticleFlagGet(
+    %Flag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[0],
         UserID    => 1,
     );
@@ -182,7 +182,7 @@ for my $Test (@Tests) {
         'ArticleFlagGet() article 1',
     );
 
-    %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+    %Flag = $ArticleObject->ArticleFlagsOfTicketGet(
         TicketID => $TicketID,
         UserID   => 1,
     );
@@ -197,7 +197,7 @@ for my $Test (@Tests) {
     );
 
     # delete for article 2
-    $Delete = $TicketObject->ArticleFlagDelete(
+    $Delete = $ArticleObject->ArticleFlagDelete(
         ArticleID => $ArticleIDs[1],
         Key       => $Test->{Key},
         UserID    => 1,
@@ -207,7 +207,7 @@ for my $Test (@Tests) {
         'ArticleFlagDelete() article 2',
     );
 
-    %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+    %Flag = $ArticleObject->ArticleFlagsOfTicketGet(
         TicketID => $TicketID,
         UserID   => 1,
     );
@@ -218,7 +218,7 @@ for my $Test (@Tests) {
     );
 
     # test ArticleFlagsDelete for AllUsers
-    $Set = $TicketObject->ArticleFlagSet(
+    $Set = $ArticleObject->ArticleFlagSet(
         ArticleID => $ArticleIDs[0],
         Key       => $Test->{Key},
         Value     => $Test->{Value},
@@ -228,7 +228,7 @@ for my $Test (@Tests) {
         $Set,
         'ArticleFlagSet() article 1',
     );
-    %Flag = $TicketObject->ArticleFlagGet(
+    %Flag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[0],
         UserID    => 1,
     );
@@ -237,7 +237,7 @@ for my $Test (@Tests) {
         $Test->{Value},
         'ArticleFlagGet() article 1',
     );
-    $Delete = $TicketObject->ArticleFlagDelete(
+    $Delete = $ArticleObject->ArticleFlagDelete(
         ArticleID => $ArticleIDs[0],
         Key       => $Test->{Key},
         AllUsers  => 1,
@@ -246,7 +246,7 @@ for my $Test (@Tests) {
         $Delete,
         'ArticleFlagDelete() article 1 for AllUsers',
     );
-    %Flag = $TicketObject->ArticleFlagGet(
+    %Flag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[0],
         UserID    => 1,
     );
@@ -262,7 +262,7 @@ for my $Test (@Tests) {
 my @SearchTestFlagsSet = qw( f1 f2 f3 );
 
 for my $Flag (@SearchTestFlagsSet) {
-    my $Set = $TicketObject->ArticleFlagSet(
+    my $Set = $ArticleObject->ArticleFlagSet(
         ArticleID => $ArticleIDs[0],
         Key       => $Flag,
         Value     => 42,

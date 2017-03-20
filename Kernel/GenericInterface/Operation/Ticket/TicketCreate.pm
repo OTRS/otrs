@@ -1302,7 +1302,7 @@ sub _TicketCreate {
     }
 
     # create article
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
         NoAgentNotify  => $Article->{NoAgentNotify}  || 0,
         TicketID       => $TicketID,
         ArticleTypeID  => $Article->{ArticleTypeID}  || '',

@@ -18,9 +18,9 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # Get needed objects.
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # Do not check email addresses.
         $Helper->ConfigSettingChange(
@@ -90,7 +90,7 @@ $Selenium->RunTest(
             );
 
             # Create test email article.
-            my $ArticleID = $TicketObject->ArticleCreate(
+            my $ArticleID = $ArticleObject->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'email-external',
                 SenderType     => 'customer',

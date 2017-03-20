@@ -13,7 +13,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
-    'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
 );
 
 sub new {
@@ -51,7 +51,7 @@ sub Run {
 
     return 1 if !$Param{Data}->{ArticleID};
 
-    $Kernel::OM->Get('Kernel::System::Ticket')->ArticleIndexBuild(
+    $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndexBuild(
         ArticleID => $Param{Data}->{ArticleID},
         UserID    => 1,
     );

@@ -14,27 +14,52 @@ use warnings;
 use MIME::Base64;
 use MIME::Words qw(:all);
 
+use base qw(Kernel::System::Ticket::ArticleStorage::Base);
+
 use Kernel::System::VariableCheck qw(:all);
 
-our $ObjectManagerDisabled = 1;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
+    'Kernel::System::Ticket::ArticleStorageFS',
+);
 
-sub ArticleStorageInit {
-    my ( $Self, %Param ) = @_;
+=head1 NAME
+
+Kernel::System::Ticket::ArticleStorageDB - DB based ticket article storage interface
+
+=head1 DESCRIPTION
+
+This class provides functions to work manipulate ticket articles in the database.
+The methods are currently documented in L<Kernel::System::Ticket::Article>.
+
+Inherits from L<Kernel::System::Ticket::ArticleStorage::Base>.
+
+See also L<Kernel::System::Ticket::ArticleStorageFS>.
+
+=cut
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless( $Self, $Type );
 
     # ArticleDataDir
     $Self->{ArticleDataDir} = $Kernel::OM->Get('Kernel::Config')->Get('ArticleDir')
         || die 'Got no ArticleDir!';
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    # do we need to check all backends, or just one?
+    $Self->{CheckAllBackends} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StorageModule::CheckAllBackends') // 0;
 
-    # create ArticleContentPath
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-    $Self->{ArticleContentPath} = $Year . '/' . $Month . '/' . $Day;
-
-    return 1;
+    return $Self;
 }
 
 sub ArticleDelete {
@@ -58,14 +83,16 @@ sub ArticleDelete {
         UserID     => $Param{UserID},
     );
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # delete index
-    $Self->ArticleIndexDelete(
+    $ArticleObject->ArticleIndexDelete(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
 
     # delete time accounting
-    $Self->ArticleAccountedTimeDelete(
+    $ArticleObject->ArticleAccountedTimeDelete(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
@@ -97,7 +124,7 @@ sub ArticleDelete {
         Bind => [ \$Param{ArticleID} ],
     );
 
-    # delete storage directory
+    # Delete storage directory in case there are leftovers in the FS.
     $Self->_ArticleDeleteDirectory(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
@@ -138,19 +165,10 @@ sub ArticleDeletePlain {
     # return of only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    # delete from fs
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
-    if ( -f $File ) {
-        if ( !unlink $File ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't remove: $File: $!!",
-            );
-            return;
-        }
-    }
-    return 1;
+    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticleDeletePlain(
+        %Param,
+        OnlyMyBackend => 1,
+    );
 }
 
 sub ArticleDeleteAttachment {
@@ -179,33 +197,10 @@ sub ArticleDeleteAttachment {
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    # delete from fs
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
-
-    if ( -e $Path ) {
-
-        my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => $Path,
-            Filter    => "*",
-        );
-
-        for my $File (@List) {
-
-            if ( $File !~ /(\/|\\)plain.txt$/ ) {
-
-                if ( !unlink $File ) {
-
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message  => "Can't remove: $File: $!!",
-                    );
-                }
-            }
-        }
-    }
-
-    return 1;
+    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticleDeleteAttachment(
+        %Param,
+        OnlyMyBackend => 1,
+    );
 }
 
 sub ArticleWritePlain {
@@ -369,41 +364,14 @@ sub ArticlePlain {
     # return of only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    # try fs backend
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    if ( -f "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) {
-
-        # read whole article
-        my $Data = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/",
-            Filename  => 'plain.txt',
-            Mode      => 'binmode',
-        );
-
-        return if !$Data;
-
-        return ${$Data};
-    }
-
-    # log info
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'error',
-        Message  => "No plain article (article id $Param{ArticleID}) in database!",
+    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticlePlain(
+        %Param,
+        OnlyMyBackend => 1,
     );
-    return;
 }
 
 sub ArticleAttachmentIndexRaw {
     my ( $Self, %Param ) = @_;
-
-    # check ArticleContentPath
-    if ( !$Self->{ArticleContentPath} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need ArticleContentPath!'
-        );
-        return;
-    }
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
@@ -489,130 +457,10 @@ sub ArticleAttachmentIndexRaw {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    # get ContentPath if not given
-    if ( !$Param{ContentPath} ) {
-        $Param{ContentPath} = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} ) || '';
-    }
-
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    # try fs (if there is no index in fs)
-    my @List = $MainObject->DirectoryRead(
-        Directory => "$Self->{ArticleDataDir}/$Param{ContentPath}/$Param{ArticleID}",
-        Filter    => "*",
-        Silent    => 1,
+    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticleAttachmentIndexRaw(
+        %Param,
+        OnlyMyBackend => 1,
     );
-
-    FILENAME:
-    for my $Filename ( sort @List ) {
-        my $FileSize    = -s $Filename;
-        my $FileSizeRaw = $FileSize;
-
-        # do not use control file
-        next FILENAME if $Filename =~ /\.content_alternative$/;
-        next FILENAME if $Filename =~ /\.content_id$/;
-        next FILENAME if $Filename =~ /\.content_type$/;
-        next FILENAME if $Filename =~ /\.disposition$/;
-        next FILENAME if $Filename =~ /\/plain.txt$/;
-
-        # human readable file size
-        if ($FileSize) {
-            if ( $FileSize > ( 1024 * 1024 ) ) {
-                $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
-            }
-            elsif ( $FileSize > 1024 ) {
-                $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
-            }
-            else {
-                $FileSize = $FileSize . ' Bytes';
-            }
-        }
-
-        # read content type
-        my $ContentType = '';
-        my $ContentID   = '';
-        my $Alternative = '';
-        my $Disposition = '';
-        if ( -e "$Filename.content_type" ) {
-            my $Content = $MainObject->FileRead(
-                Location => "$Filename.content_type",
-            );
-            return if !$Content;
-            $ContentType = ${$Content};
-
-            # content id (optional)
-            if ( -e "$Filename.content_id" ) {
-                my $Content = $MainObject->FileRead(
-                    Location => "$Filename.content_id",
-                );
-                if ($Content) {
-                    $ContentID = ${$Content};
-                }
-            }
-
-            # alternativ (optional)
-            if ( -e "$Filename.content_alternative" ) {
-                my $Content = $MainObject->FileRead(
-                    Location => "$Filename.content_alternative",
-                );
-                if ($Content) {
-                    $Alternative = ${$Content};
-                }
-            }
-
-            # disposition
-            if ( -e "$Filename.disposition" ) {
-                my $Content = $MainObject->FileRead(
-                    Location => "$Filename.disposition",
-                );
-                if ($Content) {
-                    $Disposition = ${$Content};
-                }
-            }
-
-            # if no content disposition is set images with content id should be inline
-            elsif ( $ContentID && $ContentType =~ m{image}i ) {
-                $Disposition = 'inline';
-            }
-
-            # converted article body should be inline
-            elsif ( $Filename =~ m{file-[12]} ) {
-                $Disposition = 'inline'
-            }
-
-            # all others including attachments with content id that are not images
-            #   should NOT be inline
-            else {
-                $Disposition = 'attachment';
-            }
-        }
-
-        # read content type (old style)
-        else {
-            my $Content = $MainObject->FileRead(
-                Location => $Filename,
-                Result   => 'ARRAY',
-            );
-            return if !$Content;
-            $ContentType = $Content->[0];
-        }
-
-        # strip filename
-        $Filename =~ s!^.*/!!;
-
-        # add the info the the hash
-        $Counter++;
-        $Index{$Counter} = {
-            Filename           => $Filename,
-            Filesize           => $FileSize,
-            FilesizeRaw        => $FileSizeRaw,
-            ContentType        => $ContentType,
-            ContentID          => $ContentID,
-            ContentAlternative => $Alternative,
-        };
-    }
-    return %Index;
 }
 
 sub ArticleAttachment {
@@ -714,171 +562,20 @@ sub ArticleAttachment {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    # try fileystem, if no content is found
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Counter = 0;
-
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    my @List = $MainObject->DirectoryRead(
-        Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
-        Filter    => "*",
-        Silent    => 1,
+    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticleAttachment(
+        %Param,
+        OnlyMyBackend => 1,
     );
-
-    if (@List) {
-
-        # get encode object
-        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-        FILENAME:
-        for my $Filename (@List) {
-            next FILENAME if $Filename =~ /\.content_alternative$/;
-            next FILENAME if $Filename =~ /\.content_id$/;
-            next FILENAME if $Filename =~ /\.content_type$/;
-            next FILENAME if $Filename =~ /\.disposition$/;
-            next FILENAME if $Filename =~ /\/plain.txt$/;
-
-            # add the info the the hash
-            $Counter++;
-            if ( $Counter == $Param{FileID} ) {
-
-                if ( -e "$Filename.content_type" ) {
-
-                    # read content type
-                    my $Content = $MainObject->FileRead(
-                        Location => "$Filename.content_type",
-                    );
-                    return if !$Content;
-                    $Data{ContentType} = ${$Content};
-
-                    # read content
-                    $Content = $MainObject->FileRead(
-                        Location => $Filename,
-                        Mode     => 'binmode',
-                    );
-                    return if !$Content;
-                    $Data{Content} = ${$Content};
-
-                    # content id (optional)
-                    if ( -e "$Filename.content_id" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.content_id",
-                        );
-                        if ($Content) {
-                            $Data{ContentID} = ${$Content};
-                        }
-                    }
-
-                    # alternativ (optional)
-                    if ( -e "$Filename.content_alternative" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.content_alternative",
-                        );
-                        if ($Content) {
-                            $Data{Alternative} = ${$Content};
-                        }
-                    }
-
-                    # disposition
-                    if ( -e "$Filename.disposition" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.disposition",
-                        );
-                        if ($Content) {
-                            $Data{Disposition} = ${$Content};
-                        }
-                    }
-
-                    # if no content disposition is set images with content id should be inline
-                    elsif ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
-                        $Data{Disposition} = 'inline';
-                    }
-
-                    # converted article body should be inline
-                    elsif ( $Filename =~ m{file-[12]} ) {
-                        $Data{Disposition} = 'inline'
-                    }
-
-                    # all others including attachments with content id that are not images
-                    #   should NOT be inline
-                    else {
-                        $Data{Disposition} = 'attachment';
-                    }
-                }
-                else {
-
-                    # read content
-                    my $Content = $MainObject->FileRead(
-                        Location => $Filename,
-                        Mode     => 'binmode',
-                        Result   => 'ARRAY',
-                    );
-                    return if !$Content;
-                    $Data{ContentType} = $Content->[0];
-                    my $Counter = 0;
-                    for my $Line ( @{$Content} ) {
-                        if ($Counter) {
-                            $Data{Content} .= $Line;
-                        }
-                        $Counter++;
-                    }
-                }
-                if (
-                    $Data{ContentType} =~ /plain\/text/i
-                    && $Data{ContentType} =~ /(utf\-8|utf8)/i
-                    )
-                {
-                    $EncodeObject->EncodeInput( \$Data{Content} );
-                }
-
-                chomp $Data{ContentType};
-
-                return %Data;
-            }
-        }
-    }
-
-    if ( !$Data{Content} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message =>
-                "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
-        );
-        return;
-    }
-
-    return %Data;
-}
-
-sub _ArticleDeleteDirectory {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-
-    # delete directory from fs
-    my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
-    if ( -d $Path ) {
-        if ( !rmdir $Path ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't remove: $Path: $!!",
-            );
-            return;
-        }
-    }
-    return 1;
 }
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut

@@ -12,11 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
-my $StateObject  = $Kernel::OM->Get('Kernel::System::State');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
+my $TypeObject    = $Kernel::OM->Get('Kernel::System::Type');
+my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -210,7 +210,7 @@ for my $Test (@Tests) {
             }
 
             if ( $CreateData->{ArticleCreate} ) {
-                my $HistoryCreateArticleID = $TicketObject->ArticleCreate(
+                my $HistoryCreateArticleID = $ArticleObject->ArticleCreate(
                     TicketID => $HistoryCreateTicketID,
                     %{ $CreateData->{ArticleCreate} },
                 );

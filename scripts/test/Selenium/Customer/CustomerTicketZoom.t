@@ -57,7 +57,7 @@ $Selenium->RunTest(
         # create test article for test ticket
         my $SubjectRandom = "Subject" . $Helper->GetRandomID();
         my $TextRandom    = "Text" . $Helper->GetRandomID();
-        my $ArticleID     = $TicketObject->ArticleCreate(
+        my $ArticleID     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'phone',
             SenderType     => 'customer',

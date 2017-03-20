@@ -91,8 +91,8 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -112,7 +112,7 @@ $Selenium->RunTest(
 
         # create test articles
         for my $Test (@Tests) {
-            my $ArticleID = $TicketObject->ArticleCreate(
+            my $ArticleID = $ArticleObject->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => $Test->{ArticleType},
                 SenderType     => $Test->{SenderType},
@@ -180,12 +180,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SetArticleFilter", 'css' )->click();
 
         # get phone ArticleTypeID
-        my $PhoneArticleTypeID = $TicketObject->ArticleTypeLookup(
+        my $PhoneArticleTypeID = $ArticleObject->ArticleTypeLookup(
             ArticleType => 'phone',
         );
 
         # get customer ArticleSenderTypeID
-        my $CustomerSenderTypeID = $TicketObject->ArticleSenderTypeLookup(
+        my $CustomerSenderTypeID = $ArticleObject->ArticleSenderTypeLookup(
             SenderType => 'customer',
         );
 

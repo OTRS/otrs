@@ -142,8 +142,9 @@ for my $FieldName ( sort keys %AddDynamicFields ) {
     $NewJob{Data}->{ 'DynamicField_' . $FieldName . $RandomID } = $AddDynamicFields{$FieldName};
 }
 
-my $TicketObject       = Kernel::System::Ticket->new();
-my $GenericAgentObject = Kernel::System::GenericAgent->new();
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 # create the new job
 my $JobAdd = $GenericAgentObject->JobAdd(
@@ -194,7 +195,7 @@ for my $Item ( sort keys %{ $TicketValues{Create} } ) {
     );
 }
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID    => $TicketID,
     ArticleType => 'note-internal',
     SenderType  => 'agent',
@@ -213,8 +214,16 @@ my $ArticleID = $TicketObject->ArticleCreate(
 
 # Destroy the ticket object for triggering the transactional events.
 # Recreate all objects which have references to the old TicketObject too!
-$TicketObject       = Kernel::System::Ticket->new();
-$GenericAgentObject = Kernel::System::GenericAgent->new();
+$Kernel::OM->ObjectsDiscard(
+    Objects => [
+        'Kernel::System::Ticket',
+        'Kernel::System::Ticket::Article',
+        'Kernel::System::Ticket::GenericAgent',
+    ],
+);
+$TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+$ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+$GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 my %TicketMod = $TicketObject->TicketGet(
     TicketID      => $TicketID,
@@ -286,8 +295,16 @@ $Self->True(
     'Update #2',
 );
 
-$TicketObject       = Kernel::System::Ticket->new();
-$GenericAgentObject = Kernel::System::GenericAgent->new();
+$Kernel::OM->ObjectsDiscard(
+    Objects => [
+        'Kernel::System::Ticket',
+        'Kernel::System::Ticket::Article',
+        'Kernel::System::Ticket::GenericAgent',
+    ],
+);
+$TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+$ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+$GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 %Ticket = $TicketObject->TicketGet(
     TicketID      => $TicketID,

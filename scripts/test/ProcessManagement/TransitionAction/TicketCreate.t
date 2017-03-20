@@ -18,6 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 # get needed objects
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $LinkObject         = $Kernel::OM->Get('Kernel::System::LinkObject');
 
 # get helper object
@@ -879,11 +880,11 @@ for my $Test (@Tests) {
             push @AddedTickets, $NewTicketID;
 
             # get last article
-            my @ArticleIDs = $TicketObject->ArticleIndex(
+            my @ArticleIDs = $ArticleObject->ArticleIndex(
                 TicketID => $NewTicketID,
             );
             if ( $Test->{Article} ) {
-                %Article = $TicketObject->ArticleGet(
+                %Article = $ArticleObject->ArticleGet(
                     ArticleID     => $ArticleIDs[-1],
                     DynamicFields => 1,
                     UserID        => 1,
@@ -1087,7 +1088,7 @@ for my $Test (@Tests) {
             );
         }
         if ( $Test->{Config}->{Config}->{TimeUnit} && $Test->{Article} ) {
-            my $AccountedTime = $TicketObject->ArticleAccountedTimeGet(
+            my $AccountedTime = $ArticleObject->ArticleAccountedTimeGet(
                 ArticleID => $Article{ArticleID},
             );
             $Self->Is(

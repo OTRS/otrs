@@ -47,8 +47,8 @@ $Selenium->RunTest(
             Value => 0
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -68,7 +68,7 @@ $Selenium->RunTest(
         );
 
         # create test email article
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $ArticleObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'email-external',
             SenderType     => 'customer',
@@ -85,7 +85,7 @@ $Selenium->RunTest(
             "ArticleCreate - ID $ArticleID",
         );
 
-        my $Success = $TicketObject->ArticleWritePlain(
+        my $Success = $ArticleObject->ArticleWritePlain(
             ArticleID => $ArticleID,
             Email     => 'Test Email string',
             UserID    => 1,

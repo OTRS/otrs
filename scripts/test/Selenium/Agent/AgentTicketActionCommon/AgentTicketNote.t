@@ -45,8 +45,8 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -214,7 +214,7 @@ $Selenium->RunTest(
         my $ContentID = 'inline173020.131906379.1472199795.695365.264540139@localhost';
 
         # create test note with inline attachment
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $ArticleObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'note-internal',
             SenderType     => 'agent',
@@ -275,21 +275,21 @@ $Selenium->RunTest(
         );
 
         # get last article id
-        my @ArticleIDs = $TicketObject->ArticleIndex(
+        my @ArticleIDs = $ArticleObject->ArticleIndex(
             TicketID => $TicketID,
         );
         my $LastArticleID = pop @ArticleIDs;
 
         # get article attachments
         my $HTMLContent     = '';
-        my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+        my %AttachmentIndex = $ArticleObject->ArticleAttachmentIndex(
             ArticleID => $LastArticleID,
             UserID    => 1,
         );
 
         # go through all attachments
         for my $FileID ( sort keys %AttachmentIndex ) {
-            my %Attachment = $TicketObject->ArticleAttachment(
+            my %Attachment = $ArticleObject->ArticleAttachment(
                 ArticleID => $LastArticleID,
                 FileID    => $FileID,
                 UserID    => 1,

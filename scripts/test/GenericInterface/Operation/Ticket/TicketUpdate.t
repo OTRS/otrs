@@ -971,6 +971,14 @@ for my $DynamicFieldID ( sort keys %{$DeleteFieldList} ) {
 
     next DYNAMICFIELD if $DeleteFieldList->{$DynamicFieldID} !~ m{ ^Unittest }xms;
 
+    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+        ID => $DynamicFieldID,
+    );
+    my $ValuesDeleteSuccess = $BackendObject->AllValuesDelete(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        UserID             => $Self->{UserID},
+    );
+
     $DynamicFieldObject->DynamicFieldDelete(
         ID     => $DynamicFieldID,
         UserID => 1,

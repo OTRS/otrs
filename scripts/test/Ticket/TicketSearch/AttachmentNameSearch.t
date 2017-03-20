@@ -23,8 +23,9 @@ $ConfigObject->Set(
     Value => "Kernel::System::Ticket::ArticleStorageDB",
 );
 
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -92,7 +93,7 @@ for my $TicketID (@TicketIDs) {
     # create 2 articles per ticket
     ARTICLE:
     for my $ArticleCounter ( 1 .. 2 ) {
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $ArticleObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'note-external',
             SenderType     => 'agent',
@@ -126,7 +127,7 @@ for my $TicketID (@TicketIDs) {
             Type     => 'Local',
         );
 
-        my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+        my $ArticleWriteAttachment = $ArticleObject->ArticleWriteAttachment(
             Content     => ${$ContentRef},
             Filename    => 'StdAttachment-Test1' . $RandomID . '.txt',
             ContentType => 'txt',
@@ -143,7 +144,7 @@ for my $TicketID (@TicketIDs) {
 }
 
 # add an internal article
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID       => $TicketIDs[1],
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
@@ -174,7 +175,7 @@ my $ContentRef = $MainObject->FileRead(
     Type     => 'Local',
 );
 
-my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+my $ArticleWriteAttachment = $ArticleObject->ArticleWriteAttachment(
     Content     => ${$ContentRef},
     Filename    => 'StdAttachment-Test1' . $RandomID . '.txt',
     ContentType => 'txt',

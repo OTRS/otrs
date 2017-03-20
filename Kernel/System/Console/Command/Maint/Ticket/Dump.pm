@@ -15,6 +15,7 @@ use base qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
 );
 
 sub Configure {
@@ -65,8 +66,10 @@ sub Run {
 
     $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # get article index
-    my @Index = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleIndex(
+    my @Index = $ArticleObject->ArticleIndex(
         TicketID => $Self->GetArgument('ticket-id'),
     );
 
@@ -79,7 +82,7 @@ sub Run {
         next ARTICLEID if !$ArticleID;
 
         # get article data
-        my %Article = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleGet(
+        my %Article = $ArticleObject->ArticleGet(
             ArticleID     => $ArticleID,
             DynamicFields => 0,
         );

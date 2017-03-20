@@ -18,6 +18,7 @@ use vars (qw($Self));
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 # get helper object
@@ -44,7 +45,7 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
@@ -105,7 +106,7 @@ $Self->True(
     'JobRun() Run the UnitTest GenericAgent job',
 );
 
-my @ArticleBox = $TicketObject->ArticleContentIndex(
+my @ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID      => $TicketID,
     DynamicFields => 0,
     UserID        => 1,

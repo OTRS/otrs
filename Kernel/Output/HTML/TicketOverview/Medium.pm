@@ -24,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::System::User',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Main',
     'Kernel::System::Queue'
 );
@@ -328,7 +329,7 @@ sub _Show {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get last customer article
-    my %Article = $TicketObject->ArticleLastCustomerArticle(
+    my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleLastCustomerArticle(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );

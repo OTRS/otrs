@@ -403,8 +403,10 @@ $Self->True(
     "TicketWatchSubscribe() successful for Ticket ID $TicketID",
 );
 
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
 # get article types email-notification-int ID
-my $ArticleTypeIntID = $TicketObject->ArticleTypeLookup(
+my $ArticleTypeIntID = $ArticleObject->ArticleTypeLookup(
     ArticleType => 'email-notification-int',
 );
 
@@ -1324,7 +1326,7 @@ for my $Test (@Tests) {
     # check if there is email-notification-int article type when sending notification
     # to customer see bug#11592
     if ( $Test->{Name} =~ /RecipientCustomer/i ) {
-        my @ArticleBox = $TicketObject->ArticleContentIndex(
+        my @ArticleBox = $ArticleObject->ArticleContentIndex(
             TicketID      => $TicketID,
             UserID        => 1,
             ArticleTypeID => [$ArticleTypeIntID],

@@ -808,10 +808,9 @@ sub ValidateArticleType {
     # check needed stuff
     return if !$Param{ArticleTypeID} && !$Param{ArticleType};
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    my %ArticleTypeList = $TicketObject->ArticleTypeList(
+    my %ArticleTypeList = $ArticleObject->ArticleTypeList(
         Result => 'HASH',
 
         # add type parameter for customer as requester with UserType parameter, if is not set
@@ -826,7 +825,7 @@ sub ValidateArticleType {
         && !$Param{ArticleTypeID}
         )
     {
-        my $ArticleTypeID = $TicketObject->ArticleTypeLookup(
+        my $ArticleTypeID = $ArticleObject->ArticleTypeLookup(
             ArticleType => $Param{ArticleType},
         );
 
@@ -838,7 +837,7 @@ sub ValidateArticleType {
 
     # otherwise use ArticleTypeID
     elsif ( $Param{ArticleTypeID} ) {
-        my $ArticleType = $TicketObject->ArticleTypeLookup(
+        my $ArticleType = $ArticleObject->ArticleTypeLookup(
             ArticleTypeID => $Param{ArticleTypeID},
         );
 
@@ -909,10 +908,9 @@ sub ValidateSenderType {
     # check needed stuff
     return if !$Param{SenderTypeID} && !$Param{SenderType};
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    my %SenderTypeList = $TicketObject->ArticleSenderTypeList(
+    my %SenderTypeList = $ArticleObject->ArticleSenderTypeList(
         Result => 'HASH',
     );
 
@@ -923,7 +921,7 @@ sub ValidateSenderType {
         && !$Param{SenderTypeID}
         )
     {
-        my $SenderTypeID = $TicketObject->ArticleSenderTypeLookup(
+        my $SenderTypeID = $ArticleObject->ArticleSenderTypeLookup(
             SenderType => $Param{SenderType},
         );
 
@@ -935,7 +933,7 @@ sub ValidateSenderType {
 
     # otherwise use SenderTypeID
     elsif ( $Param{SenderTypeID} ) {
-        my $SenderType = $TicketObject->ArticleSenderTypeLookup(
+        my $SenderType = $ArticleObject->ArticleSenderTypeLookup(
             SenderTypeID => $Param{SenderTypeID},
         );
 
@@ -1196,7 +1194,7 @@ sets the value of a dynamic field.
         Value     => 'some value',          # String or Integer or DateTime format
         TicketID  => 123
         ArticleID => 123
-        UserID => 123,
+        UserID    => 123,
     );
 
     my $Result = $CommonObject->SetDynamicFieldValue(
@@ -1311,7 +1309,7 @@ sub CreateAttachment {
     }
 
     # write attachment
-    my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleWriteAttachment(
+    my $Success = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleWriteAttachment(
         %{ $Param{Attachment} },
         Content   => MIME::Base64::decode_base64( $Param{Attachment}->{Content} ),
         ArticleID => $Param{ArticleID},

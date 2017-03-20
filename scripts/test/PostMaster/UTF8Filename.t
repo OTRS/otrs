@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -15,9 +16,9 @@ use vars (qw($Self));
 use Kernel::System::PostMaster;
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -60,13 +61,13 @@ for my $Backend (qw(DB FS)) {
         "$Backend - Ticket created",
     );
 
-    my @ArticleIDs = $TicketObject->ArticleIndex( TicketID => $TicketID );
+    my @ArticleIDs = $ArticleObject->ArticleIndex( TicketID => $TicketID );
     $Self->True(
         $ArticleIDs[0],
         "$Backend - Article created",
     );
 
-    my %Attachments = $TicketObject->ArticleAttachmentIndex(
+    my %Attachments = $ArticleObject->ArticleAttachmentIndex(
         ArticleID => $ArticleIDs[0],
         UserID    => 1,
     );

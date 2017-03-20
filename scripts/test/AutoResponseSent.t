@@ -17,6 +17,7 @@ my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
 my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $TestEmailObject    = $Kernel::OM->Get('Kernel::System::Email::Test');
 
 # get helper object
@@ -166,7 +167,7 @@ for my $Test (@Tests) {
     push @TicketIDs, $TicketIDOne;
 
     # create article for test ticket one
-    my $ArticleIDOne = $TicketObject->ArticleCreate(
+    my $ArticleIDOne = $ArticleObject->ArticleCreate(
         TicketID         => $TicketIDOne,
         ArticleType      => $Test->{ArticleType},
         SenderType       => 'customer',
@@ -216,7 +217,7 @@ for my $Test (@Tests) {
     );
 
     # check auto response suppression with X-OTRS-Loop
-    $ArticleIDOne = $TicketObject->ArticleCreate(
+    $ArticleIDOne = $ArticleObject->ArticleCreate(
         TicketID         => $TicketIDOne,
         ArticleType      => $Test->{ArticleType},
         SenderType       => 'customer',
@@ -267,7 +268,7 @@ for my $Test (@Tests) {
     );
 
     # check auto response re-enabling with X-OTRS-Loop
-    $ArticleIDOne = $TicketObject->ArticleCreate(
+    $ArticleIDOne = $ArticleObject->ArticleCreate(
         TicketID         => $TicketIDOne,
         ArticleType      => $Test->{ArticleType},
         SenderType       => 'customer',
@@ -355,7 +356,7 @@ for my $Test (@Tests) {
     push @TicketIDs, $TicketIDTwo;
 
     # create article two for test ticket two
-    my $ArticleIDTwo = $TicketObject->ArticleCreate(
+    my $ArticleIDTwo = $ArticleObject->ArticleCreate(
         TicketID         => $TicketIDTwo,
         ArticleType      => $Test->{ArticleType},
         SenderType       => 'customer',

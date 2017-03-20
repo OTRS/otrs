@@ -223,8 +223,9 @@ sub Run {
         );
     }
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get needed objects
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # get profil search and template data
     my $SaveProfile    = $ParamObject->GetParam( Param => 'SaveProfile' )    || '';
@@ -542,7 +543,7 @@ sub Run {
             for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $TicketObject->ArticleFirstArticle(
+                my %Data = $ArticleObject->ArticleFirstArticle(
                     TicketID      => $TicketID,
                     Extended      => 1,
                     DynamicFields => 1,
@@ -574,7 +575,7 @@ sub Run {
 
                 # get whole article (if configured!)
                 if ( $Config->{SearchArticleCSVTree} && $GetParam{ResultForm} eq 'CSV' ) {
-                    my @Article = $TicketObject->ArticleGet(
+                    my @Article = $ArticleObject->ArticleGet(
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
@@ -725,7 +726,7 @@ sub Run {
             for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $TicketObject->ArticleLastCustomerArticle(
+                my %Data = $ArticleObject->ArticleLastCustomerArticle(
                     TicketID      => $TicketID,
                     Extended      => 1,
                     DynamicFields => 0,
@@ -1060,7 +1061,7 @@ sub Run {
                 {
 
                     # get first article data
-                    my %Article = $TicketObject->ArticleLastCustomerArticle(
+                    my %Article = $ArticleObject->ArticleLastCustomerArticle(
                         TicketID      => $TicketID,
                         Extended      => 1,
                         DynamicFields => 1,

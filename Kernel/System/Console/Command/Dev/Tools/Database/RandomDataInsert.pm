@@ -25,6 +25,7 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Queue',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::User',
     'Kernel::System::Priority',
 );
@@ -195,7 +196,7 @@ sub Run {
             print "Ticket with ID '$TicketID' created.\n";
 
             for ( 1 .. $Self->GetOption('articles-per-ticket') // 10 ) {
-                my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleCreate(
+                my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
                     TicketID       => $TicketID,
                     ArticleType    => 'note-external',
                     SenderType     => 'customer',

@@ -12,7 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -48,7 +49,7 @@ for my $IDCount ( 0 .. $Limit ) {
         $TicketCount++;
 
         # create the article
-        $TicketObject->ArticleCreate(
+        $ArticleObject->ArticleCreate(
             TicketID       => $TicketIDs[$IDCount],
             ArticleType    => 'note-internal',
             SenderType     => 'agent',
@@ -74,10 +75,10 @@ $Self->Is(
 # merge the tickets
 for my $IDCount ( 0 .. $Limit - 1 ) {
 
-    my $ArticleCountOrg = $TicketObject->ArticleCount(
+    my $ArticleCountOrg = $ArticleObject->ArticleCount(
         TicketID => $TicketIDs[$IDCount],
     );
-    my $ArticleCountMerge = $TicketObject->ArticleCount(
+    my $ArticleCountMerge = $ArticleObject->ArticleCount(
         TicketID => $TicketIDs[ $IDCount + 1 ],
     );
 
@@ -93,10 +94,10 @@ for my $IDCount ( 0 .. $Limit - 1 ) {
         $IDCount . ': Merged Ticket ID ' . $TicketIDs[$IDCount] . ' to ID ' . $TicketIDs[ $IDCount + 1 ],
     );
 
-    my $ArticleCountOrgMerged = $TicketObject->ArticleCount(
+    my $ArticleCountOrgMerged = $ArticleObject->ArticleCount(
         TicketID => $TicketIDs[$IDCount],
     );
-    my $ArticleCountMergeMerged = $TicketObject->ArticleCount(
+    my $ArticleCountMergeMerged = $ArticleObject->ArticleCount(
         TicketID => $TicketIDs[ $IDCount + 1 ],
     );
 

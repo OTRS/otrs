@@ -474,6 +474,8 @@ sub Run {
     my @TicketsWithError;
     my @TicketsWithLockNotice;
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     TICKET_ID:
     for my $TicketID (@TicketIDs) {
         my %Ticket = $TicketObject->TicketGet(
@@ -631,7 +633,7 @@ sub Run {
 
                 # check if we have an address, otherwise deduct it from the articles
                 if ( !$Customer ) {
-                    my %Data = $TicketObject->ArticleLastCustomerArticle(
+                    my %Data = $ArticleObject->ArticleLastCustomerArticle(
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
@@ -671,7 +673,7 @@ sub Run {
                     Subject      => $GetParam{EmailSubject} || '',
                 );
 
-                $EmailArticleID = $TicketObject->ArticleSend(
+                $EmailArticleID = $ArticleObject->ArticleSend(
                     TicketID       => $TicketID,
                     ArticleType    => 'email-external',
                     SenderType     => 'agent',
@@ -704,7 +706,7 @@ sub Run {
                         String => $GetParam{'Body'},
                     );
                 }
-                $ArticleID = $TicketObject->ArticleCreate(
+                $ArticleID = $ArticleObject->ArticleCreate(
                     TicketID       => $TicketID,
                     ArticleTypeID  => $GetParam{'ArticleTypeID'},
                     ArticleType    => $GetParam{'ArticleType'},
@@ -974,7 +976,10 @@ sub _Mask {
 
     # build ArticleTypeID string
     my %DefaultNoteTypes = %{ $Config->{ArticleTypes} };
-    my %NoteTypes = $TicketObject->ArticleTypeList( Result => 'HASH' );
+    my %NoteTypes        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleTypeList(
+        Result => 'HASH',
+    );
+
     for my $KeyNoteType ( sort keys %NoteTypes ) {
         if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
             delete $NoteTypes{$KeyNoteType};

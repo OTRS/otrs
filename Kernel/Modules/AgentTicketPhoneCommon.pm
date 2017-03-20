@@ -625,6 +625,8 @@ sub Run {
         }
         else {
 
+            my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
             # get pre loaded attachment
             my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
                 FormID => $Self->{FormID},
@@ -697,7 +699,7 @@ sub Run {
                 }
                 else {
                     # Use customer data as From, if possible
-                    my %LastCustomerArticle = $TicketObject->ArticleLastCustomerArticle(
+                    my %LastCustomerArticle = $ArticleObject->ArticleLastCustomerArticle(
                         TicketID      => $Self->{TicketID},
                         DynamicFields => 0,
                     );
@@ -714,7 +716,7 @@ sub Run {
                 );
             }
 
-            my $ArticleID = $TicketObject->ArticleCreate(
+            my $ArticleID = $ArticleObject->ArticleCreate(
                 TicketID       => $Self->{TicketID},
                 ArticleType    => $Config->{ArticleType},
                 SenderType     => $Config->{SenderType},
@@ -746,7 +748,7 @@ sub Run {
 
             # write attachments
             for my $Attachment (@AttachmentData) {
-                $TicketObject->ArticleWriteAttachment(
+                $ArticleObject->ArticleWriteAttachment(
                     %{$Attachment},
                     ArticleID => $ArticleID,
                     UserID    => $Self->{UserID},

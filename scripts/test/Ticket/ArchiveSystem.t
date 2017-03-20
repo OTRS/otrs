@@ -34,8 +34,8 @@ $ConfigObject->Set(
     Value => 1,
 );
 
-# get ticket object
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 my @Tests = (
     {
@@ -88,7 +88,7 @@ for my $Test (@Tests) {
         'TicketCreate()',
     );
 
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID       => $TicketID,
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
@@ -108,7 +108,7 @@ for my $Test (@Tests) {
         'ArticleCreate()',
     );
 
-    my $ArticleID2 = $TicketObject->ArticleCreate(
+    my $ArticleID2 = $ArticleObject->ArticleCreate(
         TicketID       => $TicketID,
         ArticleType    => 'note-internal',
         SenderType     => 'agent',
@@ -140,7 +140,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - TicketFlagGet() article 1",
     );
 
-    %Flag = $TicketObject->ArticleFlagGet(
+    %Flag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
@@ -206,7 +206,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - TicketFlagGet() after archiving",
     );
 
-    %Flag = $TicketObject->ArticleFlagGet(
+    %Flag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
@@ -245,12 +245,12 @@ for my $Test (@Tests) {
     );
 
     # delete pre-existing article flags which are created on TicketCreate
-    $TicketObject->ArticleFlagDelete(
+    $ArticleObject->ArticleFlagDelete(
         ArticleID => $ArticleID,
         Key       => 'Seen',
         UserID    => 1,
     );
-    $TicketObject->ArticleFlagDelete(
+    $ArticleObject->ArticleFlagDelete(
         ArticleID => $ArticleID2,
         Key       => 'Seen',
         UserID    => 1,
@@ -259,7 +259,7 @@ for my $Test (@Tests) {
     for my $Test (@Tests) {
 
         # Set for article 1
-        my %Flag = $TicketObject->ArticleFlagGet(
+        my %Flag = $ArticleObject->ArticleFlagGet(
             ArticleID => $ArticleID,
             UserID    => 1,
         );
@@ -267,7 +267,7 @@ for my $Test (@Tests) {
             $Flag{ $Test->{Key} },
             'ArticleFlagGet() article 1',
         );
-        my $Set = $TicketObject->ArticleFlagSet(
+        my $Set = $ArticleObject->ArticleFlagSet(
             ArticleID => $ArticleID,
             Key       => $Test->{Key},
             Value     => $Test->{Value},
@@ -279,7 +279,7 @@ for my $Test (@Tests) {
         );
 
         # Set for article 2
-        %Flag = $TicketObject->ArticleFlagGet(
+        %Flag = $ArticleObject->ArticleFlagGet(
             ArticleID => $ArticleID2,
             UserID    => 1,
         );
@@ -287,7 +287,7 @@ for my $Test (@Tests) {
             $Flag{ $Test->{Key} },
             'ArticleFlagGet() article 2',
         );
-        $Set = $TicketObject->ArticleFlagSet(
+        $Set = $ArticleObject->ArticleFlagSet(
             ArticleID => $ArticleID2,
             Key       => $Test->{Key},
             Value     => $Test->{Value},
@@ -297,7 +297,7 @@ for my $Test (@Tests) {
             $Set,
             'ArticleFlagSet() article 2',
         );
-        %Flag = $TicketObject->ArticleFlagGet(
+        %Flag = $ArticleObject->ArticleFlagGet(
             ArticleID => $ArticleID2,
             UserID    => 1,
         );
@@ -308,7 +308,7 @@ for my $Test (@Tests) {
         );
 
         # Get all flags of ticket
-        %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+        %Flag = $ArticleObject->ArticleFlagsOfTicketGet(
             TicketID => $TicketID,
             UserID   => 1,
         );
@@ -326,7 +326,7 @@ for my $Test (@Tests) {
         );
 
         # Delete for article 1
-        my $Delete = $TicketObject->ArticleFlagDelete(
+        my $Delete = $ArticleObject->ArticleFlagDelete(
             ArticleID => $ArticleID,
             Key       => $Test->{Key},
             UserID    => 1,
@@ -335,7 +335,7 @@ for my $Test (@Tests) {
             $Delete,
             'ArticleFlagDelete() article 1',
         );
-        %Flag = $TicketObject->ArticleFlagGet(
+        %Flag = $ArticleObject->ArticleFlagGet(
             ArticleID => $ArticleID,
             UserID    => 1,
         );
@@ -344,7 +344,7 @@ for my $Test (@Tests) {
             'ArticleFlagGet() article 1',
         );
 
-        %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+        %Flag = $ArticleObject->ArticleFlagsOfTicketGet(
             TicketID => $TicketID,
             UserID   => 1,
         );
@@ -359,7 +359,7 @@ for my $Test (@Tests) {
         );
 
         # Delete for article 2
-        $Delete = $TicketObject->ArticleFlagDelete(
+        $Delete = $ArticleObject->ArticleFlagDelete(
             ArticleID => $ArticleID2,
             Key       => $Test->{Key},
             UserID    => 1,
@@ -369,7 +369,7 @@ for my $Test (@Tests) {
             'ArticleFlagDelete() article 2',
         );
 
-        %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+        %Flag = $ArticleObject->ArticleFlagsOfTicketGet(
             TicketID => $TicketID,
             UserID   => 1,
         );

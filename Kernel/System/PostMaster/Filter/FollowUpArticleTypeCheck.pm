@@ -14,7 +14,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::Log',
-    'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
 );
 
 sub new {
@@ -59,11 +59,8 @@ sub Run {
         return 1;
     }
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
     # Get all articles.
-    my @ArticleIndex = $TicketObject->ArticleGet(
+    my @ArticleIndex = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );

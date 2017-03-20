@@ -18,9 +18,9 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # Get needed objects.
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # Set zoom sort to reverse.
         $Helper->ConfigSettingChange(
@@ -75,7 +75,7 @@ $Selenium->RunTest(
         # Create ticket articles.
         my @ArticleIDs;
         for my $Count ( 1 .. 15 ) {
-            my $ArticleID = $TicketObject->ArticleCreate(
+            my $ArticleID = $ArticleObject->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'email-external',
                 SenderType     => 'customer',
@@ -95,7 +95,7 @@ $Selenium->RunTest(
 
             # Set first page articles to 'seen'.
             if ( $Count > 5 ) {
-                my $Set = $TicketObject->ArticleFlagSet(
+                my $Set = $ArticleObject->ArticleFlagSet(
                     ArticleID => $ArticleID,
                     Key       => 'Seen',
                     Value     => 1,

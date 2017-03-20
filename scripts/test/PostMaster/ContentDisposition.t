@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -137,6 +138,8 @@ my @Tests = (
 
 my @AddedTicketIDs;
 
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
 for my $Test (@Tests) {
 
     for my $Backend (qw(DB FS)) {
@@ -174,13 +177,13 @@ for my $Test (@Tests) {
         # remember added tickets
         push @AddedTicketIDs, $TicketID;
 
-        my @ArticleIDs = $TicketObject->ArticleIndex( TicketID => $TicketID );
+        my @ArticleIDs = $ArticleObject->ArticleIndex( TicketID => $TicketID );
         $Self->True(
             $ArticleIDs[0],
             "$Test->{Name} | $Backend - Article created",
         );
 
-        my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+        my %AttachmentIndex = $ArticleObject->ArticleAttachmentIndex(
             ArticleID => $ArticleIDs[0],
             UserID    => 1,
         );
@@ -191,7 +194,7 @@ for my $Test (@Tests) {
 
             my $AttachmentID = $AttachmentsLookup{$AttachmentFilename};
 
-            # delete zise attributes for easy compare
+            # delete size attributes for easy compare
             delete $AttachmentIndex{$AttachmentID}->{Filesize};
             delete $AttachmentIndex{$AttachmentID}->{FilesizeRaw};
 

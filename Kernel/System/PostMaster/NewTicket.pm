@@ -22,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::Queue',
     'Kernel::System::State',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::User',
@@ -451,8 +452,10 @@ sub Run {
         }
     }
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # do article db insert
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID         => $TicketID,
         ArticleType      => $GetParam{'X-OTRS-ArticleType'},
         SenderType       => $GetParam{'X-OTRS-SenderType'},
@@ -588,7 +591,7 @@ sub Run {
     }
 
     # write plain email to the storage
-    $TicketObject->ArticleWritePlain(
+    $ArticleObject->ArticleWritePlain(
         ArticleID => $ArticleID,
         Email     => $Self->{ParserObject}->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
@@ -596,7 +599,7 @@ sub Run {
 
     # write attachments to the storage
     for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
-        $TicketObject->ArticleWriteAttachment(
+        $ArticleObject->ArticleWriteAttachment(
             Filename           => $Attachment->{Filename},
             Content            => $Attachment->{Content},
             ContentType        => $Attachment->{ContentType},

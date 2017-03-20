@@ -25,12 +25,13 @@ $ConfigObject->Set(
     Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
 );
 
-# get ticket object
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 $Self->True(
-    $TicketObject->isa('Kernel::System::Ticket::ArticleSearchIndex::StaticDB'),
-    "TicketObject loaded the correct backend",
+    $ArticleObject->{ArticleSearchIndexModule},
+    'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
+    "ArticleObject loaded the correct backend",
 );
 
 # get helper object
@@ -59,7 +60,7 @@ $Self->True(
     'TicketCreate()',
 );
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID    => $TicketID,
     ArticleType => 'note-internal',
     SenderType  => 'agent',
@@ -79,7 +80,7 @@ $Self->True(
     'ArticleCreate()',
 );
 
-my $IndexBuilt = $TicketObject->ArticleIndexBuild(
+my $IndexBuilt = $ArticleObject->ArticleIndexBuild(
     ArticleID => $ArticleID,
     UserID    => 1,
 );

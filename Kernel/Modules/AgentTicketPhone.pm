@@ -289,7 +289,7 @@ sub Run {
                 );
             }
 
-            %Article = $TicketObject->ArticleGet(
+            %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGet(
                 ArticleID     => $GetParam{ArticleID},
                 DynamicFields => 0,
             );
@@ -733,6 +733,8 @@ sub Run {
 
     # create new ticket and article
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
+
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         my %Error;
         my %StateData;
@@ -1344,7 +1346,7 @@ sub Run {
         if ( $GetParam{NewUserID} ) {
             $NoAgentNotify = 1;
         }
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $ArticleObject->ArticleCreate(
             NoAgentNotify    => $NoAgentNotify,
             TicketID         => $TicketID,
             ArticleType      => $Config->{ArticleType},
@@ -1422,7 +1424,7 @@ sub Run {
                     $ChatArticleType = 'chat-external';
                 }
 
-                $ChatArticleID = $TicketObject->ArticleCreate(
+                $ChatArticleID = $ArticleObject->ArticleCreate(
                     NoAgentNotify  => $NoAgentNotify,
                     TicketID       => $TicketID,
                     ArticleType    => $ChatArticleType,
@@ -1571,7 +1573,7 @@ sub Run {
 
         # write attachments
         for my $Attachment (@AttachmentData) {
-            $TicketObject->ArticleWriteAttachment(
+            $ArticleObject->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
                 UserID    => $Self->{UserID},

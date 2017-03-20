@@ -64,8 +64,8 @@ my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->Custome
     User => $CustomerUserLogin,
 );
 
-# get ticket object
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # create ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -97,7 +97,7 @@ $Self->True(
     "TicketNumberLookup() successful for Ticket# $TicketNumber",
 );
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'webrequest',
     SenderType     => 'customer',
@@ -166,7 +166,7 @@ $Self->True(
 );
 
 # get ticket article IDs
-my @ArticleIDs = $TicketObject->ArticleIndex(
+my @ArticleIDs = $ArticleObject->ArticleIndex(
     TicketID => $TicketID,
 );
 
@@ -177,7 +177,7 @@ $Self->Is(
 );
 
 # get last article
-my %Article = $TicketObject->ArticleGet(
+my %Article = $ArticleObject->ArticleGet(
     ArticleID => $ArticleIDs[-1],    # last
     UserID    => $UserID,
 );

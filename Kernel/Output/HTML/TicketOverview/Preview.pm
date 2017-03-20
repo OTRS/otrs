@@ -25,6 +25,7 @@ our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::System::User',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Main',
     'Kernel::System::Queue',
 );
@@ -363,7 +364,7 @@ sub _Show {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get last 5 articles
-    my @ArticleBody = $TicketObject->ArticleGet(
+    my @ArticleBody = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGet(
         %ArticleGetParams,
     );
     my %Article = %{ $ArticleBody[0] || {} };

@@ -19,6 +19,7 @@ use Kernel::Output::HTML::ArticleCheck::SMIME;
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject   = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
 # get helper object
@@ -599,7 +600,7 @@ for my $Test (@TestVariations) {
     # make a deep copy as the references gets modified over the tests
     $Test = Storable::dclone($Test);
 
-    my $ArticleID = $TicketObject->ArticleSend(
+    my $ArticleID = $ArticleObject->ArticleSend(
         TicketID       => $TicketID,
         From           => $Test->{ArticleData}->{From},
         To             => $Test->{ArticleData}->{To},
@@ -625,7 +626,7 @@ for my $Test (@TestVariations) {
         "$Test->{Name} - ArticleSend()",
     );
 
-    my %Article = $TicketObject->ArticleGet(
+    my %Article = $ArticleObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
     );
@@ -659,7 +660,7 @@ for my $Test (@TestVariations) {
         );
     }
 
-    my %FinalArticleData = $TicketObject->ArticleGet(
+    my %FinalArticleData = $ArticleObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
     );
@@ -681,7 +682,7 @@ for my $Test (@TestVariations) {
 
     if ( defined $Test->{ArticleData}->{Attachment} ) {
         my $Found;
-        my %Index = $TicketObject->ArticleAttachmentIndex(
+        my %Index = $ArticleObject->ArticleAttachmentIndex(
             ArticleID                  => $ArticleID,
             UserID                     => 1,
             Article                    => \%FinalArticleData,

@@ -59,7 +59,7 @@ $Selenium->RunTest(
 
         # create test article with subject that is link
         my $BodyText  = 'www.seleniumtest.com';
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
             TicketID    => $TicketID,
             ArticleType => 'phone',
             SenderType  => 'agent',

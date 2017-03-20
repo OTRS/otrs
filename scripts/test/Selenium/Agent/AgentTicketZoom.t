@@ -53,8 +53,8 @@ $Selenium->RunTest(
             User => $TestCustomerUser,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # create test ticket
         my $TitleRandom  = "Title" . $Helper->GetRandomID();
@@ -78,7 +78,7 @@ $Selenium->RunTest(
         # create two ticket articles
         my @ArticleIDs;
         for my $ArticleCreate ( 1 .. 2 ) {
-            my $ArticleID = $TicketObject->ArticleCreate(
+            my $ArticleID = $ArticleObject->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
                 SenderType     => 'agent',

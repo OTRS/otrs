@@ -77,7 +77,7 @@ $Selenium->RunTest(
         # create test articles for test ticket
         my @ArticleIDs;
         for my $TestArticle (@TestArticles) {
-            my $ArticleID = $TicketObject->ArticleCreate(
+            my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'email-external',
                 SenderType     => $TestArticle->{SenderType},

@@ -52,9 +52,10 @@ sub Run {
     }
 
     # get needed objects
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
@@ -858,7 +859,7 @@ sub Run {
         }
 
         # if there is no ArticleTypeID, use the default value
-        my $ArticleTypeID = $GetParam{ArticleTypeID} // $TicketObject->ArticleTypeLookup(
+        my $ArticleTypeID = $GetParam{ArticleTypeID} // $ArticleObject->ArticleTypeLookup(
             ArticleType => $Config->{DefaultArticleType},
         );
 
@@ -871,7 +872,7 @@ sub Run {
         }
 
         # send email
-        my $ArticleID = $TicketObject->ArticleSend(
+        my $ArticleID = $ArticleObject->ArticleSend(
             ArticleTypeID  => $ArticleTypeID,
             SenderType     => 'agent',
             TicketID       => $Self->{TicketID},
@@ -1170,13 +1171,13 @@ sub Run {
         # get last customer article or selected article ...
         my %Data;
         if ( $GetParam{ArticleID} ) {
-            %Data = $TicketObject->ArticleGet(
+            %Data = $ArticleObject->ArticleGet(
                 ArticleID     => $GetParam{ArticleID},
                 DynamicFields => 1,
             );
         }
         else {
-            %Data = $TicketObject->ArticleLastCustomerArticle(
+            %Data = $ArticleObject->ArticleLastCustomerArticle(
                 TicketID      => $Self->{TicketID},
                 DynamicFields => 1,
             );
@@ -1365,7 +1366,7 @@ sub Run {
 
         # use customer database email
         # do not add customer email to cc, if article type is email-internal
-        my $DataArticleType = $TicketObject->ArticleTypeLookup( ArticleTypeID => $Data{ArticleTypeID} );
+        my $DataArticleType = $ArticleObject->ArticleTypeLookup( ArticleTypeID => $Data{ArticleTypeID} );
         if (
             $ConfigObject->Get('Ticket::Frontend::ComposeAddCustomerAddress')
             && $DataArticleType !~ m{internal}
@@ -1724,8 +1725,8 @@ sub _Mask {
         Class => 'Modernize',
     );
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get article object
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     #  get article type
     my %ArticleTypeList;
@@ -1734,7 +1735,7 @@ sub _Mask {
 
         my @ArticleTypesPossible = @{ $Config->{ArticleTypes} };
         for my $ArticleTypeID (@ArticleTypesPossible) {
-            my $ArticleType = $TicketObject->ArticleTypeLookup(
+            my $ArticleType = $ArticleObject->ArticleTypeLookup(
                 ArticleType => $ArticleTypeID,
             );
             $ArticleTypeList{$ArticleType} = $ArticleTypeID;
@@ -1771,7 +1772,7 @@ sub _Mask {
     }
 
     # get used calendar
-    my $Calendar = $TicketObject->TicketCalendarGet(
+    my $Calendar = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCalendarGet(
         QueueID => $Param{QueueID},
         SLAID   => $Param{SLAID},
     );

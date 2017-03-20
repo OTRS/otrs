@@ -20,7 +20,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Crypt::PGP',
     'Kernel::System::Log',
-    'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
 );
 
 sub new {
@@ -63,7 +63,7 @@ sub Check {
     my $StoreDecryptedData = $ConfigObject->Get('PGP::StoreDecryptedData');
 
     # get needed objects
-    my $TicketObject = $Param{TicketObject} || $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Param{ArticleObject} || $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
     # check inline pgp crypt
@@ -90,7 +90,7 @@ sub Check {
             if ($StoreDecryptedData) {
 
                 # updated article body
-                $TicketObject->ArticleUpdate(
+                $ArticleObject->ArticleUpdate(
                     TicketID  => $Param{Article}->{TicketID},
                     ArticleID => $Self->{ArticleID},
                     Key       => 'Body',
@@ -99,7 +99,7 @@ sub Check {
                 );
 
                 # get a list of all article attachments
-                my %Index = $TicketObject->ArticleAttachmentIndex(
+                my %Index = $ArticleObject->ArticleAttachmentIndex(
                     ArticleID => $Self->{ArticleID},
                     UserID    => $Self->{UserID},
                 );
@@ -109,7 +109,7 @@ sub Check {
                     for my $FileID ( sort keys %Index ) {
 
                         # get attachment details
-                        my %Attachment = $TicketObject->ArticleAttachment(
+                        my %Attachment = $ArticleObject->ArticleAttachment(
                             ArticleID => $Self->{ArticleID},
                             FileID    => $FileID,
                             UserID    => $Self->{UserID},
@@ -142,14 +142,14 @@ sub Check {
                     }
 
                     # delete crypted attachments
-                    $TicketObject->ArticleDeleteAttachment(
+                    $ArticleObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $Self->{UserID},
                     );
 
                     # write decrypted attachments to the storage
                     for my $Attachment (@Attachments) {
-                        $TicketObject->ArticleWriteAttachment( %{$Attachment} );
+                        $ArticleObject->ArticleWriteAttachment( %{$Attachment} );
                     }
                 }
             }
@@ -180,7 +180,7 @@ sub Check {
     if ( $Param{Article}->{Body} =~ m{ ^\s* -----BEGIN [ ] PGP [ ] SIGNED [ ] MESSAGE----- }xms ) {
 
         # get original message
-        my $Message = $TicketObject->ArticlePlain(
+        my $Message = $ArticleObject->ArticlePlain(
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
@@ -225,7 +225,7 @@ sub Check {
         # remember that it was crypted!
 
         # write email to fs
-        my $Message = $TicketObject->ArticlePlain(
+        my $Message = $ArticleObject->ArticlePlain(
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
@@ -291,7 +291,7 @@ sub Check {
                 if ($StoreDecryptedData) {
 
                     # updated article body
-                    $TicketObject->ArticleUpdate(
+                    $ArticleObject->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},
                         ArticleID => $Self->{ArticleID},
                         Key       => 'Body',
@@ -300,14 +300,14 @@ sub Check {
                     );
 
                     # delete crypted attachments
-                    $TicketObject->ArticleDeleteAttachment(
+                    $ArticleObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $Self->{UserID},
                     );
 
                     # write attachments to the storage
                     for my $Attachment ( $ParserObject->GetAttachments() ) {
-                        $TicketObject->ArticleWriteAttachment(
+                        $ArticleObject->ArticleWriteAttachment(
                             %{$Attachment},
                             ArticleID => $Self->{ArticleID},
                             UserID    => $Self->{UserID},

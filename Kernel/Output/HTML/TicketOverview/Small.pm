@@ -27,6 +27,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::ColumnFilter',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Main',
 );
 
@@ -424,15 +425,17 @@ sub Run {
 
     my $Counter = 0;
     my @ArticleBox;
+
+    # get needed objects
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     for my $TicketID ( @{ $Param{TicketIDs} } ) {
         $Counter++;
         if ( $Counter >= $Param{StartHit} && $Counter < ( $Param{PageShown} + $Param{StartHit} ) ) {
 
-            # get ticket object
-            my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
             # get last customer article
-            my %Article = $TicketObject->ArticleLastCustomerArticle(
+            my %Article = $ArticleObject->ArticleLastCustomerArticle(
                 TicketID      => $TicketID,
                 DynamicFields => 0,
             );
@@ -676,7 +679,7 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'OverviewNavBarPageFlag',
                 Data => {
-                    CSS => $CSS,
+                    CSS   => $CSS,
                     Title => $Title,
                 },
             );

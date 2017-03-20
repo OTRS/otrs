@@ -169,8 +169,8 @@ $Self->IsNot(
 
 my $RandomID = $Helper->GetRandomID();
 
-# Get ticket object.
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # Create tickets.
 my %TicketTemplate = (
@@ -213,7 +213,7 @@ my %ArticleTemplate = (
     HistoryType    => 'AddNote',
     UserID         => 1,
 );
-my $ArticleID1 = $TicketObject->ArticleCreate(
+my $ArticleID1 = $ArticleObject->ArticleCreate(
     %ArticleTemplate,
     TicketID => $TicketID1,
 );
@@ -222,7 +222,7 @@ $Self->IsNot(
     undef,
     "ArticleCrete() for Ticket 1",
 );
-my $ArticleID2 = $TicketObject->ArticleCreate(
+my $ArticleID2 = $ArticleObject->ArticleCreate(
     %ArticleTemplate,
     TicketID => $TicketID1,
 );

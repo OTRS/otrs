@@ -134,9 +134,11 @@ sub Run {
         $StripPlainBodyAsAttachment = 2;
     }
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # get all articles of this ticket
-    my @CustomerArticleTypes = $TicketObject->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox = $TicketObject->ArticleContentIndex(
+    my @CustomerArticleTypes = $ArticleObject->ArticleTypeList( Type => 'Customer' );
+    my @ArticleBox = $ArticleObject->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
@@ -642,7 +644,7 @@ sub Run {
             );
         }
 
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $ArticleObject->ArticleCreate(
             TicketID    => $Self->{TicketID},
             ArticleType => $Config->{ArticleType},
             SenderType  => $Config->{SenderType},
@@ -708,7 +710,7 @@ sub Run {
             }
 
             # write existing file to backend
-            $TicketObject->ArticleWriteAttachment(
+            $ArticleObject->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
                 UserID    => $ConfigObject->Get('CustomerPanelUserID'),
@@ -773,7 +775,7 @@ sub Run {
 
                 my $ChatArticleType = 'chat-external';
 
-                $ChatArticleID = $TicketObject->ArticleCreate(
+                $ChatArticleID = $ArticleObject->ArticleCreate(
                     TicketID       => $Self->{TicketID},
                     ArticleType    => $ChatArticleType,
                     SenderType     => $Config->{SenderType},

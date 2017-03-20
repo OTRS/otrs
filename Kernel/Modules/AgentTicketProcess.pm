@@ -4528,8 +4528,9 @@ sub _StoreActivityDialog {
     );
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get needed objects
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     my $NewTicketID;
     if ( !$TicketID ) {
@@ -4961,7 +4962,7 @@ sub _StoreActivityDialog {
                 }
 
                 my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
-                $ArticleID = $TicketObject->ArticleCreate(
+                $ArticleID = $ArticleObject->ArticleCreate(
                     TicketID                  => $TicketID,
                     SenderType                => 'agent',
                     From                      => $From,
@@ -5022,7 +5023,7 @@ sub _StoreActivityDialog {
                     }
 
                     # write existing file to backend
-                    $TicketObject->ArticleWriteAttachment(
+                    $ArticleObject->ArticleWriteAttachment(
                         %{$Attachment},
                         ArticleID => $ArticleID,
                         UserID    => $Self->{UserID},

@@ -114,7 +114,7 @@ sub Run {
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
     );
-    my @ArticleBox = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         StripPlainBodyAsAttachment => 1,
         UserID                     => $Self->{UserID},
@@ -934,8 +934,9 @@ sub _PDFOutputArticles {
     my %Page = %{ $Param{PageData} };
 
     # get needed objects
-    my $PDFObject    = $Kernel::OM->Get('Kernel::System::PDF');
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $PDFObject     = $Kernel::OM->Get('Kernel::System::PDF');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my @ArticleData  = @{ $Param{ArticleData} };
     my $ArticleCount = scalar @ArticleData;
@@ -969,7 +970,7 @@ sub _PDFOutputArticles {
 
         # show total accounted time if feature is active:
         if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
-            $Article{'Accounted time'} = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleAccountedTimeGet(
+            $Article{'Accounted time'} = $ArticleObject->ArticleAccountedTimeGet(
                 ArticleID => $Article{ArticleID},
             );
         }

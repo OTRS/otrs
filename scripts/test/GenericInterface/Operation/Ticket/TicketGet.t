@@ -477,8 +477,10 @@ $Self->True(
     "TicketCreate() successful for Ticket Four ID $TicketID4",
 );
 
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
 # first article
-my $ArticleID41 = $TicketObject->ArticleCreate(
+my $ArticleID41 = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID4,
     ArticleType    => 'phone',
     SenderType     => 'agent',
@@ -496,7 +498,7 @@ my $ArticleID41 = $TicketObject->ArticleCreate(
 );
 
 # second article
-my $ArticleID42 = $TicketObject->ArticleCreate(
+my $ArticleID42 = $ArticleObject->ArticleCreate(
     TicketID    => $TicketID4,
     ArticleType => 'phone',
     SenderType  => 'customer',
@@ -516,7 +518,7 @@ my $ArticleID42 = $TicketObject->ArticleCreate(
 );
 
 # third article
-my $ArticleID43 = $TicketObject->ArticleCreate(
+my $ArticleID43 = $ArticleObject->ArticleCreate(
     TicketID    => $TicketID4,
     ArticleType => 'note-internal',
     SenderType  => 'customer',
@@ -536,7 +538,7 @@ my $ArticleID43 = $TicketObject->ArticleCreate(
 );
 
 # save articles without attachments
-my @ArticleWithoutAttachments = $TicketObject->ArticleGet(
+my @ArticleWithoutAttachments = $ArticleObject->ArticleGet(
     TicketID => $TicketID4,
     UserID   => 1,
 );
@@ -564,7 +566,7 @@ for my $File (qw(xls txt doc png pdf)) {
         Type     => 'Local',
     );
 
-    my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+    my $ArticleWriteAttachment = $ArticleObject->ArticleWriteAttachment(
         Content     => ${$ContentRef},
         Filename    => "StdAttachment-Test1.$File",
         ContentType => $File,
@@ -618,32 +620,32 @@ push @TestFieldConfig, $DynamicFieldObject->DynamicFieldGet(
 );
 
 # get articles and attachments
-my @ArticleBox = $TicketObject->ArticleGet(
+my @ArticleBox = $ArticleObject->ArticleGet(
     TicketID => $TicketID4,
     UserID   => 1,
 );
 
 # get articles and attachments
-my @ArticleBoxDF = $TicketObject->ArticleGet(
+my @ArticleBoxDF = $ArticleObject->ArticleGet(
     TicketID      => $TicketID4,
     UserID        => 1,
     DynamicFields => 1,
 );
 
-my $CustomerArticleTypes = [ $TicketObject->ArticleTypeList( Type => 'Customer' ) ];
-my @ArticleBoxTypeCustomer = $TicketObject->ArticleGet(
+my $CustomerArticleTypes = [ $ArticleObject->ArticleTypeList( Type => 'Customer' ) ];
+my @ArticleBoxTypeCustomer = $ArticleObject->ArticleGet(
     TicketID    => $TicketID4,
     UserID      => 1,
     ArticleType => $CustomerArticleTypes,
 );
 
-my @ArticleBoxSenderAgent = $TicketObject->ArticleGet(
+my @ArticleBoxSenderAgent = $ArticleObject->ArticleGet(
     TicketID          => $TicketID4,
     ArticleSenderType => ['agent'],
     UserID            => 1,
 );
 
-my @ArticleBoxSenderCustomer = $TicketObject->ArticleGet(
+my @ArticleBoxSenderCustomer = $ArticleObject->ArticleGet(
     TicketID          => $TicketID4,
     ArticleSenderType => ['customer'],
     UserID            => 1,
@@ -655,7 +657,7 @@ my $TicketDynamicFieldList = $DynamicFieldObject->DynamicFieldList(
     ResultType => 'HASH',
 );
 
-my @ArticleBoxAttachmentsWithoutContent = $TicketObject->ArticleGet(
+my @ArticleBoxAttachmentsWithoutContent = $ArticleObject->ArticleGet(
     TicketID => $TicketID4,
     UserID   => 1,
 );
@@ -684,7 +686,7 @@ for my $Article (
     }
 
     # get attachment index (without attachments)
-    my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+    my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
         ContentPath                => $Article->{ContentPath},
         ArticleID                  => $Article->{ArticleID},
         StripPlainBodyAsAttachment => 3,
@@ -698,7 +700,7 @@ for my $Article (
     ATTACHMENT:
     for my $FileID ( sort keys %AtmIndex ) {
         next ATTACHMENT if !$FileID;
-        my %Attachment = $TicketObject->ArticleAttachment(
+        my %Attachment = $ArticleObject->ArticleAttachment(
             ArticleID => $Article->{ArticleID},
             FileID    => $FileID,
             UserID    => 1,
@@ -738,7 +740,7 @@ for my $Article (@ArticleBoxAttachmentsWithoutContent)
     }
 
     # get attachment index (without attachments)
-    my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+    my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
         ContentPath                => $Article->{ContentPath},
         ArticleID                  => $Article->{ArticleID},
         StripPlainBodyAsAttachment => 3,
@@ -752,7 +754,7 @@ for my $Article (@ArticleBoxAttachmentsWithoutContent)
     ATTACHMENT:
     for my $FileID ( sort keys %AtmIndex ) {
         next ATTACHMENT if !$FileID;
-        my %Attachment = $TicketObject->ArticleAttachment(
+        my %Attachment = $ArticleObject->ArticleAttachment(
             ArticleID => $Article->{ArticleID},
             FileID    => $FileID,
             UserID    => 1,
@@ -889,7 +891,7 @@ for my $Key ( sort keys %TicketEntryFive ) {
 }
 
 # first article
-my $ArticleID51 = $TicketObject->ArticleCreate(
+my $ArticleID51 = $ArticleObject->ArticleCreate(
     TicketID    => $TicketID5,
     ArticleType => 'phone',
     SenderType  => 'agent',
@@ -908,7 +910,7 @@ my $ArticleID51 = $TicketObject->ArticleCreate(
     UserID         => 1,
     NoAgentNotify  => 1,
 );
-my $ArticleID52 = $TicketObject->ArticleCreate(
+my $ArticleID52 = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID5,
     ArticleType    => 'phone',
     SenderType     => 'agent',
@@ -935,7 +937,7 @@ for my $File (qw(txt)) {
         Type     => 'Local',
     );
 
-    my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+    my $ArticleWriteAttachment = $ArticleObject->ArticleWriteAttachment(
         Content     => ${$ContentRef},
         Filename    => "StdAttachment-Test1.$File",
         ContentType => $File,
@@ -945,7 +947,7 @@ for my $File (qw(txt)) {
 }
 
 # save articles
-my @ArticleWithHTMLBody = $TicketObject->ArticleGet(
+my @ArticleWithHTMLBody = $ArticleObject->ArticleGet(
     TicketID => $TicketID5,
     UserID   => 1,
 );
@@ -978,7 +980,7 @@ for my $Article (@ArticleWithHTMLBody) {
     }
 
     # get attachment index (without attachments)
-    my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+    my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
         ContentPath                => $Article->{ContentPath},
         ArticleID                  => $Article->{ArticleID},
         StripPlainBodyAsAttachment => 2,
@@ -992,7 +994,7 @@ for my $Article (@ArticleWithHTMLBody) {
     ATTACHMENT:
     for my $FileID ( sort keys %AtmIndex ) {
         next ATTACHMENT if !$FileID;
-        my %Attachment = $TicketObject->ArticleAttachment(
+        my %Attachment = $ArticleObject->ArticleAttachment(
             ArticleID => $Article->{ArticleID},
             FileID    => $FileID,
             UserID    => 1,

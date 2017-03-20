@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -564,6 +565,8 @@ my %ExcludedArtributes = (
     AutoResponseType                => 1,
 );
 
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
 for my $Test (@Tests) {
 
     # make a deep copy to avoid changing the definition
@@ -585,10 +588,10 @@ for my $Test (@Tests) {
         );
 
         # get last article
-        my @ArticleIDs = $TicketObject->ArticleIndex(
+        my @ArticleIDs = $ArticleObject->ArticleIndex(
             TicketID => $TicketID,
         );
-        my %Article = $TicketObject->ArticleGet(
+        my %Article = $ArticleObject->ArticleGet(
             ArticleID => $ArticleIDs[-1],
             UserID    => 1,
         );

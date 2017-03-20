@@ -300,7 +300,7 @@ my %Ticket = $TicketObject->TicketGet(
     TicketID => $Return[1],
 );
 
-my @ArticleIndex = $TicketObject->ArticleGet(
+my @ArticleIndex = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGet(
     TicketID => $Return[1],
     UserID   => 1,
 );

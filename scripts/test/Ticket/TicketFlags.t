@@ -12,8 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get ticket object
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -234,7 +234,7 @@ $Self->True(
 # create article
 my @ArticleIDs;
 for ( 1 .. 2 ) {
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID    => $TicketID,
         ArticleType => 'note-internal',
         SenderType  => 'agent',
@@ -263,7 +263,7 @@ for my $UserID (@UserIDs) {
         "Initial FlagCheck (false) - TicketFlagGet() - TicketID($TicketID) - UserID($UserID)",
     );
     for my $ArticleID (@ArticleIDs) {
-        my %ArticleFlag = $TicketObject->ArticleFlagGet(
+        my %ArticleFlag = $ArticleObject->ArticleFlagGet(
             ArticleID => $ArticleID,
             UserID    => $UserID,
         );
@@ -276,7 +276,7 @@ for my $UserID (@UserIDs) {
 
 # update one article
 for my $UserID (@UserIDs) {
-    my $Success = $TicketObject->ArticleFlagSet(
+    my $Success = $ArticleObject->ArticleFlagSet(
         ArticleID => $ArticleIDs[0],
         Key       => 'Seen',
         Value     => 1,
@@ -294,7 +294,7 @@ for my $UserID (@UserIDs) {
         $TicketFlag{Seen},
         "UpdateOne FlagCheck (false) TicketFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[0]) - UserID($UserID)",
     );
-    my %ArticleFlag = $TicketObject->ArticleFlagGet(
+    my %ArticleFlag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[0],
         UserID    => $UserID,
     );
@@ -302,7 +302,7 @@ for my $UserID (@UserIDs) {
         $ArticleFlag{Seen},
         "UpdateOne FlagCheck (true) ArticleFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[0]) - UserID($UserID)",
     );
-    %ArticleFlag = $TicketObject->ArticleFlagGet(
+    %ArticleFlag = $ArticleObject->ArticleFlagGet(
         ArticleID => $ArticleIDs[1],
         UserID    => $UserID,
     );
@@ -314,7 +314,7 @@ for my $UserID (@UserIDs) {
 
 # update second article
 for my $UserID (@UserIDs) {
-    my $Success = $TicketObject->ArticleFlagSet(
+    my $Success = $ArticleObject->ArticleFlagSet(
         ArticleID => $ArticleIDs[1],
         Key       => 'Seen',
         Value     => 1,
@@ -333,7 +333,7 @@ for my $UserID (@UserIDs) {
         "UpdateTwo FlagCheck (true) TicketFlagGet() - TicketID($TicketID) - ArticleID($ArticleIDs[1]) - UserID($UserID)",
     );
     for my $ArticleID (@ArticleIDs) {
-        my %ArticleFlag = $TicketObject->ArticleFlagGet(
+        my %ArticleFlag = $ArticleObject->ArticleFlagGet(
             ArticleID => $ArticleID,
             UserID    => $UserID,
         );

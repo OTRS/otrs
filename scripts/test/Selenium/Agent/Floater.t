@@ -55,11 +55,8 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
         # create test ticket
-        my $TicketID = $TicketObject->TicketCreate(
+        my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
             Title        => 'Selenium Ticket',
             Queue        => 'Raw',
             Lock         => 'unlock',
@@ -75,9 +72,11 @@ $Selenium->RunTest(
             "TicketCreate - ID $TicketID",
         );
 
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
         my @ArticleIDs;
 
-        my $ArticleIDPlain = $TicketObject->ArticleCreate(
+        my $ArticleIDPlain = $ArticleObject->ArticleCreate(
             TicketID    => $TicketID,
             ArticleType => 'note-internal',
             SenderType  => 'agent',
@@ -98,7 +97,7 @@ $Selenium->RunTest(
 
         push @ArticleIDs, $ArticleIDPlain;
 
-        my $ArticleIDHTML = $TicketObject->ArticleCreate(
+        my $ArticleIDHTML = $ArticleObject->ArticleCreate(
             TicketID    => $TicketID,
             ArticleType => 'note-internal',
             SenderType  => 'agent',

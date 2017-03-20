@@ -15,6 +15,7 @@ use vars (qw($Self %Param));
 # get needed objects
 my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject      = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject     = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
 # get helper object
@@ -57,7 +58,7 @@ Special case from Lotus Notes:
 </body>
 </html>';
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
@@ -72,7 +73,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     NoAgentNotify  => 1,                                        # if you don't want to send agent notifications
 );
 
-$TicketObject->ArticleWriteAttachment(
+$ArticleObject->ArticleWriteAttachment(
     Filename    => 'some.html',
     MimeType    => 'text/html',
     ContentType => 'text/html',
@@ -82,7 +83,7 @@ $TicketObject->ArticleWriteAttachment(
     UserID      => 1,
 );
 
-$TicketObject->ArticleWriteAttachment(
+$ArticleObject->ArticleWriteAttachment(
     Filename    => 'image.png',
     MimeType    => 'image/png',
     ContentType => 'image/png',
@@ -92,7 +93,7 @@ $TicketObject->ArticleWriteAttachment(
     UserID      => 1,
 );
 
-$TicketObject->ArticleWriteAttachment(
+$ArticleObject->ArticleWriteAttachment(
     Filename    => 'image2.png',
     MimeType    => 'image/png',
     ContentType => 'image/png',
@@ -100,7 +101,7 @@ $TicketObject->ArticleWriteAttachment(
     ArticleID   => $ArticleID,
     UserID      => 1,
 );
-$TicketObject->ArticleWriteAttachment(
+$ArticleObject->ArticleWriteAttachment(
     Filename    => 'image3.png',
     MimeType    => 'image/png',
     ContentType => 'image/png',
@@ -108,7 +109,7 @@ $TicketObject->ArticleWriteAttachment(
     ArticleID   => $ArticleID,
     UserID      => 1,
 );
-$TicketObject->ArticleWriteAttachment(
+$ArticleObject->ArticleWriteAttachment(
     Filename    => 'image4.png',
     MimeType    => 'image/png',
     ContentType => 'image/png',
@@ -117,7 +118,7 @@ $TicketObject->ArticleWriteAttachment(
     ArticleID   => $ArticleID,
     UserID      => 1,
 );
-$TicketObject->ArticleWriteAttachment(
+$ArticleObject->ArticleWriteAttachment(
     Filename    => 'image.bmp',
     MimeType    => 'image/bmp',
     ContentType => 'image/bmp',

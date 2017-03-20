@@ -26,6 +26,7 @@ my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
 
 # make use to disable EstalationStopEvents modules
@@ -183,9 +184,15 @@ for my $Hours ( sort keys %WorkingHours ) {
         # wait 1 second to have escalations
         $HelperObject->FixedTimeAddSeconds(1);
 
-        # renew object because of transaction
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        # Renew objects because of transaction.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [
+                'Kernel::System::Ticket',
+                'Kernel::System::Ticket::Article',
+            ],
+        );
+        $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 
@@ -359,7 +366,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         );
 
         # first response
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $ArticleObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'phone',
             SenderType     => 'agent',
@@ -384,9 +391,15 @@ for my $Hours ( sort keys %WorkingHours ) {
             $NumEvents{EscalationUpdateTimeStart}++;
         }
 
-        # renew object because of transaction
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        # Renew objects because of transaction.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [
+                'Kernel::System::Ticket',
+                'Kernel::System::Ticket::Article',
+            ],
+        );
+        $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,
@@ -426,7 +439,7 @@ for my $Hours ( sort keys %WorkingHours ) {
 
         # trigger an update
         # a note internal does not make the update time escalation go away
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $ArticleObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'note-internal',
             SenderType     => 'agent',
@@ -443,9 +456,15 @@ for my $Hours ( sort keys %WorkingHours ) {
             NoAgentNotify => 1,    # if you don't want to send agent notifications
         );
 
-        # renew object because of transaction
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-        $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        # Renew objects because of transaction.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [
+                'Kernel::System::Ticket',
+                'Kernel::System::Ticket::Article',
+            ],
+        );
+        $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         $CheckNumEvents->(
             GenericAgentObject => $GenericAgentObject,

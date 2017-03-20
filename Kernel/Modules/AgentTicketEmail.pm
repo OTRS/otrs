@@ -1358,7 +1358,7 @@ sub Run {
         );
 
         # send email
-        my $ArticleID = $TicketObject->ArticleSend(
+        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSend(
             NoAgentNotify  => $NoAgentNotify,
             Attachment     => \@Attachments,
             TicketID       => $TicketID,

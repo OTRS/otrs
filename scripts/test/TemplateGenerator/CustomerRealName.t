@@ -222,8 +222,7 @@ for my $Test (@Tests) {
         $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::PostMaster', 'Kernel::System::Ticket' ] );
     }
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # get test ticket ID
     my ($TicketID) = $Result =~ m{TicketID:\s+(\d+)};
@@ -233,10 +232,10 @@ for my $Test (@Tests) {
     );
 
     # get auto repsonse article data
-    my @ArticleIDs = $TicketObject->ArticleIndex(
+    my @ArticleIDs = $ArticleObject->ArticleIndex(
         TicketID => $TicketID,
     );
-    my %ArticleAutoResponse = $TicketObject->ArticleGet(
+    my %ArticleAutoResponse = $ArticleObject->ArticleGet(
         ArticleID => $ArticleIDs[1],
         UserID    => 1,
     );
@@ -252,7 +251,7 @@ for my $Test (@Tests) {
     }
 
     # get notification article data
-    my %ArticleNotification = $TicketObject->ArticleGet(
+    my %ArticleNotification = $ArticleObject->ArticleGet(
         ArticleID => $ArticleIDs[2],
         UserID    => 1,
     );

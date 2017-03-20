@@ -210,8 +210,9 @@ sub Run {
         );
     }
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get needed objects
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # check permissions
     my $Access = $TicketObject->TicketPermission(
@@ -310,7 +311,7 @@ sub Run {
         {
 
             # Always use user id 1 because other users also have to see the important flag
-            my %ArticleFlag = $TicketObject->ArticleFlagGet(
+            my %ArticleFlag = $ArticleObject->ArticleFlagGet(
                 ArticleID => $Self->{ArticleID},
                 UserID    => 1,
             );
@@ -319,7 +320,7 @@ sub Run {
             if ($ArticleIsImportant) {
 
                 # Always use user id 1 because other users also have to see the important flag
-                $TicketObject->ArticleFlagDelete(
+                $ArticleObject->ArticleFlagDelete(
                     ArticleID => $Self->{ArticleID},
                     Key       => 'Important',
                     UserID    => 1,
@@ -328,7 +329,7 @@ sub Run {
             else {
 
                 # Always use user id 1 because other users also have to see the important flag
-                $TicketObject->ArticleFlagSet(
+                $ArticleObject->ArticleFlagSet(
                     ArticleID => $Self->{ArticleID},
                     Key       => 'Important',
                     Value     => 1,
@@ -430,14 +431,14 @@ sub Run {
     # article update
     elsif ( $Self->{Subaction} eq 'ArticleUpdate' ) {
         my $Count = $ParamObject->GetParam( Param => 'Count' );
-        my %Article = $TicketObject->ArticleGet(
+        my %Article = $ArticleObject->ArticleGet(
             ArticleID     => $Self->{ArticleID},
             DynamicFields => 0,
         );
         $Article{Count} = $Count;
 
         # get attachment index (without attachments)
-        my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+        my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
             ArticleID                  => $Self->{ArticleID},
             StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
             Article                    => \%Article,
@@ -696,7 +697,7 @@ sub Run {
         }
 
         # get article data
-        my %Article = $TicketObject->ArticleGet(
+        my %Article = $ArticleObject->ArticleGet(
             ArticleID     => $Self->{ArticleID},
             DynamicFields => 0,
         );
@@ -736,8 +737,9 @@ sub MaskAgentZoom {
     my %Ticket    = %{ $Param{Ticket} };
     my %AclAction = %{ $Param{AclAction} };
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get needed objects
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # else show normal ticket zoom view
     # fetch all move queues
@@ -777,16 +779,16 @@ sub MaskAgentZoom {
         Order                      => $Order,
         DynamicFields => 0,    # fetch later only for the article(s) to display
     );
-    my @ArticleBoxAll = $TicketObject->ArticleContentIndex(@ArticleContentArgsAll);
+    my @ArticleBoxAll = $ArticleObject->ArticleContentIndex(@ArticleContentArgsAll);
 
-    my %ArticleFlags = $TicketObject->ArticleFlagsOfTicketGet(
+    my %ArticleFlags = $ArticleObject->ArticleFlagsOfTicketGet(
         TicketID => $Ticket{TicketID},
         UserID   => $Self->{UserID},
     );
     my $ArticleID;
 
     if ( $Self->{ArticleID} ) {
-        $Page = $TicketObject->ArticlePage(
+        $Page = $ArticleObject->ArticlePage(
             TicketID    => $Self->{TicketID},
             ArticleID   => $Self->{ArticleID},
             RowsPerPage => $Limit,
@@ -815,7 +817,7 @@ sub MaskAgentZoom {
             next ARTICLE if $ArticleFlags{ $Article->{ArticleID} }->{Seen};
             $ArticleID = $Article->{ArticleID};
 
-            $Page = $TicketObject->ArticlePage(
+            $Page = $ArticleObject->ArticlePage(
                 TicketID    => $Self->{TicketID},
                 ArticleID   => $ArticleID,
                 RowsPerPage => $Limit,
@@ -853,7 +855,7 @@ sub MaskAgentZoom {
     );
 
     # get content
-    my @ArticleBox = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $ArticleObject->ArticleContentIndex(
         @ArticleContentArgs,
         Page => $Page,
     );
@@ -864,11 +866,11 @@ sub MaskAgentZoom {
         # assume page 1 instead.
         # This can happen when a new article filter was added.
         $Page       = 1;
-        @ArticleBox = $TicketObject->ArticleContentIndex(
+        @ArticleBox = $ArticleObject->ArticleContentIndex(
             @ArticleContentArgs,
             Page => $Page,
         );
-        $ArticleCount = $TicketObject->ArticleCount(
+        $ArticleCount = $ArticleObject->ArticleCount(
             TicketID => $Self->{TicketID},
             %{ $Self->{ArticleFilter} // {} },
         );
@@ -877,7 +879,7 @@ sub MaskAgentZoom {
     elsif ( @ArticleBox > $Limit ) {
         pop @ArticleBox;
         $NeedPagination = 1;
-        $ArticleCount   = $TicketObject->ArticleCount(
+        $ArticleCount   = $ArticleObject->ArticleCount(
             TicketID => $Self->{TicketID},
             %{ $Self->{ArticleFilter} // {} },
         );
@@ -888,7 +890,7 @@ sub MaskAgentZoom {
     }
     else {
         $NeedPagination = 1;
-        $ArticleCount   = $TicketObject->ArticleCount(
+        $ArticleCount   = $ArticleObject->ArticleCount(
             TicketID => $Ticket{TicketID},
             %{ $Self->{ArticleFilter} // {} },
         );
@@ -1694,7 +1696,7 @@ sub MaskAgentZoom {
         else {
 
             # get article types
-            my %ArticleTypes = $TicketObject->ArticleTypeList(
+            my %ArticleTypes = $ArticleObject->ArticleTypeList(
                 Result => 'HASH',
             );
 
@@ -1710,7 +1712,7 @@ sub MaskAgentZoom {
             );
 
             # get sender types
-            my %ArticleSenderTypes = $TicketObject->ArticleSenderTypeList(
+            my %ArticleSenderTypes = $ArticleObject->ArticleSenderTypeList(
                 Result => 'HASH',
             );
 
@@ -1906,8 +1908,9 @@ sub _ArticleTree {
     }
 
     # get needed objects
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 
     # show article tree
     if ( !$Self->{ZoomTimeline} ) {
@@ -2013,7 +2016,7 @@ sub _ArticleTree {
 
             # get article flags
             # Always use user id 1 because other users also have to see the important flag
-            my %ArticleImportantFlags = $TicketObject->ArticleFlagGet(
+            my %ArticleImportantFlags = $ArticleObject->ArticleFlagGet(
                 ArticleID => $Article{ArticleID},
                 UserID    => 1,
             );
@@ -2100,7 +2103,7 @@ sub _ArticleTree {
         );
 
         # get articles for later use
-        my @TimelineArticleBox = $TicketObject->ArticleContentIndex(
+        my @TimelineArticleBox = $ArticleObject->ArticleContentIndex(
             TicketID                   => $Self->{TicketID},
             DynamicFields              => 0,
             UserID                     => $Self->{UserID},
@@ -2111,7 +2114,7 @@ sub _ArticleTree {
         for my $Article ( sort @TimelineArticleBox ) {
 
             # get attachment index (without attachments)
-            my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+            my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
                 ArticleID                  => $Article->{ArticleID},
                 Article                    => $Article,
                 UserID                     => $Self->{UserID},
@@ -2363,12 +2366,12 @@ sub _ArticleTree {
             if ( $Item->{ArticleID} ) {
                 $Item->{ArticleData} = $ArticlesByArticleID->{ $Item->{ArticleID} };
 
-                my %ArticleFlagsAll = $TicketObject->ArticleFlagGet(
+                my %ArticleFlagsAll = $ArticleObject->ArticleFlagGet(
                     ArticleID => $Item->{ArticleID},
                     UserID    => 1,
                 );
 
-                my %ArticleFlagsMe = $TicketObject->ArticleFlagGet(
+                my %ArticleFlagsMe = $ArticleObject->ArticleFlagGet(
                     ArticleID => $Item->{ArticleID},
                     UserID    => $Self->{UserID},
                 );
@@ -2579,7 +2582,7 @@ sub _ArticleTree {
 sub _TicketItemSeen {
     my ( $Self, %Param ) = @_;
 
-    my @ArticleIDs = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleIndex(
+    my @ArticleIDs = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndex(
         TicketID => $Param{TicketID},
     );
 
@@ -2596,7 +2599,7 @@ sub _ArticleItemSeen {
     my ( $Self, %Param ) = @_;
 
     # mark shown article as seen
-    $Kernel::OM->Get('Kernel::System::Ticket')->ArticleFlagSet(
+    $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagSet(
         ArticleID => $Param{ArticleID},
         Key       => 'Seen',
         Value     => 1,
@@ -2614,7 +2617,8 @@ sub _ArticleItem {
     my %AclAction = %{ $Param{AclAction} };
 
     # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # cleanup subject
     $Article{Subject} = $TicketObject->TicketSubjectClean(
@@ -2708,7 +2712,7 @@ sub _ArticleItem {
         && $ConfigObject->Get('Ticket::Frontend::AccountTime')
         )
     {
-        my $ArticleTime = $TicketObject->ArticleAccountedTimeGet(
+        my $ArticleTime = $ArticleObject->ArticleAccountedTimeGet(
             ArticleID => $Article{ArticleID}
         );
         if ($ArticleTime) {
@@ -2894,13 +2898,13 @@ sub _ArticleItem {
         }
     }
 
-    %Article = $TicketObject->ArticleGet(
+    %Article = $ArticleObject->ArticleGet(
         ArticleID     => $Article{ArticleID},
         DynamicFields => 0,
     );
 
     # get attachment index (without attachments)
-    my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+    my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
         ArticleID                  => $Article{ArticleID},
         StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
         Article                    => \%Article,
@@ -3382,7 +3386,7 @@ sub _ArticleMenu {
     {
 
         # Always use user id 1 because other users also have to see the important flag
-        my %ArticleFlags = $TicketObject->ArticleFlagGet(
+        my %ArticleFlags = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagGet(
             ArticleID => $Article{ArticleID},
             UserID    => 1,
         );

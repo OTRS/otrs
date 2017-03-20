@@ -15,8 +15,13 @@ use vars (qw($Self));
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
-    # make sure that the TicketObject gets recreated for each loop.
-    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+    # Make sure that the ticket and article objects get recreated for each loop.
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [
+            'Kernel::System::Ticket',
+            'Kernel::System::Ticket::Article',
+        ],
+    );
 
     # get helper object
     $Kernel::OM->ObjectParamAdd(
@@ -34,8 +39,8 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
     );
 
-    # create test ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     my @TicketIDs;
     my $TicketID = $TicketObject->TicketCreate(
@@ -299,7 +304,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
         for my $Index ( 1 .. 3 ) {
 
-            my $ArticleID = $TicketObject->ArticleCreate(
+            my $ArticleID = $ArticleObject->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
                 SenderType     => 'agent',

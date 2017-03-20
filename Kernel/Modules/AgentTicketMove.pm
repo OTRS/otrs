@@ -990,6 +990,8 @@ sub Run {
     # add note (send no notification)
     my $ArticleID;
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     if (
         $GetParam{CreateArticle}
         && $Config->{Note}
@@ -1043,7 +1045,7 @@ sub Run {
             );
         }
 
-        $ArticleID = $TicketObject->ArticleCreate(
+        $ArticleID = $ArticleObject->ArticleCreate(
             TicketID       => $Self->{TicketID},
             ArticleType    => 'note-internal',
             SenderType     => 'agent',
@@ -1063,7 +1065,7 @@ sub Run {
 
         # write attachments
         for my $Attachment (@AttachmentData) {
-            $TicketObject->ArticleWriteAttachment(
+            $ArticleObject->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
                 UserID    => $Self->{UserID},

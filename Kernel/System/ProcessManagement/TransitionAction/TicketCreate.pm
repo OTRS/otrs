@@ -24,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::State',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Time',
     'Kernel::System::User',
 );
@@ -318,7 +319,7 @@ sub Run {
         if ($ValidArticleType) {
 
             # create article for the new ticket
-            $ArticleID = $TicketObject->ArticleCreate(
+            $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
                 %ArticleParam,
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},

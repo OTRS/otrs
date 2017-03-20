@@ -12,10 +12,9 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -27,7 +26,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # testing ArticleSend, especially for bug#8828 (attachments)
 # create a ticket first
-my $TicketID = $TicketObject->TicketCreate(
+my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
     Title        => 'Some Ticket_Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -130,7 +129,7 @@ TEST:
 for my $Test (@ArticleTests) {
 
     # create article
-    $ArticleID = $TicketObject->ArticleCreate(
+    $ArticleID = $ArticleObject->ArticleCreate(
         TicketID => $TicketID,
         %{ $Test->{ArticleData} },
     );
@@ -140,7 +139,7 @@ for my $Test (@ArticleTests) {
         "$Test->{Name} - ArticleCreate()",
     );
 
-    my %Article = $TicketObject->ArticleGet(
+    my %Article = $ArticleObject->ArticleGet(
         ArticleID => $ArticleID,
         UserID    => 1,
     );

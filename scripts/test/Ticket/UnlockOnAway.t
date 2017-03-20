@@ -12,10 +12,10 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -53,7 +53,7 @@ my $TicketID = $TicketObject->TicketCreate(
 
 $Self->True( $TicketID, 'Could create ticket' );
 
-$TicketObject->ArticleCreate(
+$ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
@@ -122,7 +122,7 @@ $UserObject->SetPreferences(
     Value  => $Day,
 );
 
-$TicketObject->ArticleCreate(
+$ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'note-internal',
     SenderType     => 'agent',

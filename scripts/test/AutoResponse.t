@@ -223,8 +223,8 @@ for my $TypeID ( sort keys %AutoResponseType ) {
 
         # auto-reply
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # create a new ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -244,7 +244,7 @@ for my $TypeID ( sort keys %AutoResponseType ) {
             'TicketCreate() - TicketID should not be undef',
         );
 
-        my $ArticleID1 = $TicketObject->ArticleCreate(
+        my $ArticleID1 = $ArticleObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'email-internal',
             SenderType     => 'agent',
@@ -270,7 +270,7 @@ for my $TypeID ( sort keys %AutoResponseType ) {
             'Cleanup Email backend',
         );
 
-        my $ArticleID2 = $TicketObject->ArticleCreate(
+        my $ArticleID2 = $ArticleObject->ArticleCreate(
             TicketID         => $TicketID,
             ArticleType      => 'email-internal',
             SenderType       => 'customer',

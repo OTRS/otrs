@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -55,7 +56,9 @@ $Self->True(
     "TicketCreate()",
 );
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-external',
     MessageID      => 'message-id-email-external',
@@ -76,7 +79,7 @@ $Self->True(
     "ArticleCreate()",
 );
 
-$ArticleID = $TicketObject->ArticleCreate(
+$ArticleID = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-internal',
     MessageID      => 'message-id-email-internal',
@@ -97,8 +100,8 @@ $Self->True(
     "ArticleCreate()",
 );
 
-# Accidential internal forward to the customer to test that customer replies are still external.
-$ArticleID = $TicketObject->ArticleCreate(
+# Accidental internal forward to the customer to test that customer replies are still external.
+$ArticleID = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-internal',
     MessageID      => 'message-id-email-internal-customer',
@@ -269,7 +272,7 @@ my $RunTest = sub {
     );
 
     # Get current state of articles
-    my @ArticleBoxOriginal = $TicketObject->ArticleGet(
+    my @ArticleBoxOriginal = $ArticleObject->ArticleGet(
         TicketID => $TicketID,
     );
 
@@ -293,7 +296,7 @@ my $RunTest = sub {
     );
 
     # Get state of old articles after update
-    my @ArticleBoxUpdate = $TicketObject->ArticleGet(
+    my @ArticleBoxUpdate = $ArticleObject->ArticleGet(
         TicketID => $TicketID,
         Limit    => scalar @ArticleBoxOriginal,
     );
@@ -305,7 +308,7 @@ my $RunTest = sub {
         "$Test->{Name} - old articles unchanged"
     );
 
-    my @Article = $TicketObject->ArticleGet(
+    my @Article = $ArticleObject->ArticleGet(
         TicketID => $Return[1],
         Order    => 'DESC',
         Limit    => 1,

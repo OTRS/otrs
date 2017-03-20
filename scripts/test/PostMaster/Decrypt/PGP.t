@@ -231,7 +231,9 @@ my %Ticket = $TicketObject->TicketGet(
     TicketID => $Return[1],
 );
 
-my @ArticleIndex = $TicketObject->ArticleGet(
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+my @ArticleIndex = $ArticleObject->ArticleGet(
     TicketID => $Return[1],
     UserID   => 1,
 );
@@ -300,7 +302,7 @@ my %TicketEncrypted = $TicketObject->TicketGet(
     TicketID => $ReturnEncrypted[1],
 );
 
-my @ArticleIndexEncrypted = $TicketObject->ArticleGet(
+my @ArticleIndexEncrypted = $ArticleObject->ArticleGet(
     TicketID => $ReturnEncrypted[1],
     UserID   => 1,
 );

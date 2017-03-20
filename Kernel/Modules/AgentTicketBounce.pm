@@ -158,9 +158,10 @@ sub Run {
     # show screen
     # ------------------------------------------------------------ #
     if ( !$Self->{Subaction} ) {
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # check if plain article exists
-        if ( !$TicketObject->ArticlePlain( ArticleID => $Self->{ArticleID} ) ) {
+        if ( !$ArticleObject->ArticlePlain( ArticleID => $Self->{ArticleID} ) ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate(
                     'Plain article not found for article %s!',
@@ -170,7 +171,7 @@ sub Run {
         }
 
         # get article data
-        my %Article = $TicketObject->ArticleGet(
+        my %Article = $ArticleObject->ArticleGet(
             ArticleID     => $Self->{ArticleID},
             DynamicFields => 0,
         );
@@ -442,7 +443,9 @@ $Param{Signature}";
             return $Output;
         }
 
-        my $Bounce = $TicketObject->ArticleBounce(
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+        my $Bounce = $ArticleObject->ArticleBounce(
             TicketID    => $Self->{TicketID},
             ArticleID   => $Self->{ArticleID},
             UserID      => $Self->{UserID},
@@ -478,7 +481,7 @@ $Param{Signature}";
             $Param{Body} =~ s/(&lt;|<)OTRS_BOUNCE_TO(&gt;|>)/$Param{BounceTo}/g;
 
             # send
-            my $ArticleID = $TicketObject->ArticleSend(
+            my $ArticleID = $ArticleObject->ArticleSend(
                 ArticleType    => 'email-external',
                 SenderType     => 'agent',
                 TicketID       => $Self->{TicketID},

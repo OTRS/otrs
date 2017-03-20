@@ -38,10 +38,12 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         Value => 'Kernel::System::Ticket::' . $SourceBackend,
     );
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    $Self->True(
-        $TicketObject->isa( 'Kernel::System::Ticket::' . $SourceBackend ),
+    $Self->Is(
+        $ArticleObject->{ArticleStorageModule},
+        'Kernel::System::Ticket::' . $SourceBackend,
         "TicketObject loaded the correct backend",
     );
 
@@ -81,7 +83,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         push @TicketIDs, $Return[1];
 
         # remember created article and attachments
-        my @ArticleBox = $TicketObject->ArticleContentIndex(
+        my @ArticleBox = $ArticleObject->ArticleContentIndex(
             TicketID => $Return[1],
             UserID   => 1,
         );
@@ -104,7 +106,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
         # verify
         for my $ArticleID ( sort keys %ArticleIDs ) {
-            my %Index = $TicketObject->ArticleAttachmentIndex(
+            my %Index = $ArticleObject->ArticleAttachmentIndex(
                 ArticleID => $ArticleID,
                 UserID    => 1,
             );
@@ -148,7 +150,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
         # verify
         for my $ArticleID ( sort keys %ArticleIDs ) {
-            my %Index = $TicketObject->ArticleAttachmentIndex(
+            my %Index = $ArticleObject->ArticleAttachmentIndex(
                 ArticleID => $ArticleID,
                 UserID    => 1,
             );

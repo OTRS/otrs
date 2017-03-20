@@ -31,6 +31,7 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::Stats',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::User',
@@ -1279,7 +1280,8 @@ sub GetStatTable {
 
         # add the number of articles if needed
         if ( $TicketAttributes{NumberOfArticles} ) {
-            $Ticket{NumberOfArticles} = $TicketObject->ArticleCount( TicketID => $TicketID );
+            $Ticket{NumberOfArticles}
+                = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCount( TicketID => $TicketID );
         }
 
         $Ticket{Closed}                      ||= '';
@@ -1351,7 +1353,7 @@ sub GetStatTable {
             if (
                 $Param{TimeZone}
                 && $Ticket{$Attribute}
-                && $Ticket{$Attribute} =~ /(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})/
+                && $Ticket{$Attribute} =~ /\A(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})\z/
                 )
             {
 
@@ -1366,7 +1368,7 @@ sub GetStatTable {
         push @StatArray, \@ResultRow;
     }
 
-    # use a individual sort if the sort mechanismn of the TicketSearch is not useable
+    # use a individual sort if the sort mechanism of the TicketSearch is not usable
     if ( !$OrderByIsValueOfTicketSearchSort ) {
         @StatArray = $Self->_IndividualResultOrder(
             StatArray          => \@StatArray,

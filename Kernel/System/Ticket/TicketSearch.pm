@@ -480,7 +480,8 @@ sub TicketSearch {
 
     my $SQLFrom = ' FROM ticket st ';
 
-    my $ArticleJoinSQL = $Self->_ArticleIndexQuerySQL( Data => \%Param ) || '';
+    my $ArticleJoinSQL
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->_ArticleIndexQuerySQL( Data => \%Param ) || '';
 
     # sql, use also article table if needed
     $SQLFrom .= $ArticleJoinSQL;
@@ -1220,14 +1221,16 @@ sub TicketSearch {
         }
     }
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # search article attributes
-    my $ArticleIndexSQLExt = $Self->_ArticleIndexQuerySQLExt( Data => \%Param );
+    my $ArticleIndexSQLExt = $ArticleObject->_ArticleIndexQuerySQLExt( Data => \%Param );
     $SQLExt .= $ArticleIndexSQLExt;
 
     my %CustomerArticleTypes;
     my @CustomerArticleTypeIDs;
     if ( $Param{CustomerUserID} ) {
-        %CustomerArticleTypes = $Self->ArticleTypeList(
+        %CustomerArticleTypes = $ArticleObject->ArticleTypeList(
             Result => 'HASH',
             Type   => 'Customer',
         );

@@ -338,7 +338,7 @@ sub Run {
                 $GetParam{Body} =~ s/(&lt;|<)OTRS_TICKET(&gt;|>)/$Ticket{TicketNumber}/g;
                 $GetParam{Body}
                     =~ s/(&lt;|<)OTRS_MERGE_TO_TICKET(&gt;|>)/$GetParam{'MainTicketNumber'}/g;
-                my $ArticleID = $TicketObject->ArticleSend(
+                my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSend(
                     ArticleType    => 'email-external',
                     SenderType     => 'agent',
                     TicketID       => $Self->{TicketID},
@@ -369,7 +369,7 @@ sub Run {
     else {
 
         # get last article
-        my %Article = $TicketObject->ArticleLastCustomerArticle(
+        my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleLastCustomerArticle(
             TicketID      => $Self->{TicketID},
             DynamicFields => 1,
         );

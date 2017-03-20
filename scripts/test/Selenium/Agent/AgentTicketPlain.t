@@ -46,8 +46,8 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # create test ticket
         my $TicketNumber = $TicketObject->TicketCreateNumber();
@@ -71,7 +71,7 @@ $Selenium->RunTest(
         # create test email article
         my $TicketSubject = "test 1";
         my $TicketBody    = "This is the first test.";
-        my $ArticleID     = $TicketObject->ArticleCreate(
+        my $ArticleID     = $ArticleObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'email-external',
             SenderType     => 'customer',
@@ -98,7 +98,7 @@ $Selenium->RunTest(
             Result   => 'SCALAR',
         );
 
-        my $Success = $TicketObject->ArticleWritePlain(
+        my $Success = $ArticleObject->ArticleWritePlain(
             ArticleID => $ArticleID,
             Email     => ${$ContentRef},
             UserID    => 1,

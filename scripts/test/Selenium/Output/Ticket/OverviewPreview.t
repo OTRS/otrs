@@ -122,8 +122,9 @@ $Selenium->RunTest(
             "Auto response added for created queue.",
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
         $TicketObject->{SendNoNotification} = 0;
 
         # create test tickets
@@ -159,7 +160,7 @@ $Selenium->RunTest(
         for my $Index (qw(0 1 2)) {
 
             # Add articles to the tickets
-            my $ArticleID1 = $TicketObject->ArticleCreate(
+            my $ArticleID1 = $ArticleObject->ArticleCreate(
                 TicketID         => $TicketIDs[$Index],
                 ArticleType      => 'webrequest',
                 SenderType       => 'customer',
@@ -187,7 +188,7 @@ $Selenium->RunTest(
 
             # only for third ticket add agent article
             if ( $Index > 1 ) {
-                my $ArticleID2 = $TicketObject->ArticleCreate(
+                my $ArticleID2 = $ArticleObject->ArticleCreate(
                     TicketID       => $TicketIDs[$Index],
                     ArticleType    => 'email-external',
                     SenderType     => 'agent',

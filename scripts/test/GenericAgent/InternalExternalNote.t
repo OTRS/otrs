@@ -15,6 +15,7 @@ use vars (qw($Self));
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
@@ -37,7 +38,7 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-my $ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
@@ -102,7 +103,7 @@ $Self->True(
     'JobRun() Run the UnitTest GenericAgent job',
 );
 
-my @ArticleBox = $TicketObject->ArticleContentIndex(
+my @ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID      => $TicketID,
     DynamicFields => 0,
     UserID        => 1,
@@ -114,8 +115,8 @@ $Self->Is(
     "TicketNumber found. OTRS Tag used.",
 );
 
-my @CustomerArticleTypes = $TicketObject->ArticleTypeList( Type => 'Customer' );
-my @ArticleBoxCustomer = $TicketObject->ArticleContentIndex(
+my @CustomerArticleTypes = $ArticleObject->ArticleTypeList( Type => 'Customer' );
+my @ArticleBoxCustomer = $ArticleObject->ArticleContentIndex(
     TicketID      => $TicketID,
     UserID        => $ArticleBox[1]->{CustomerUserID},
     DynamicFields => 0,
@@ -162,7 +163,7 @@ $Self->True(
     'JobRun() Run the UnitTest GenericAgent job',
 );
 
-@ArticleBox = $TicketObject->ArticleContentIndex(
+@ArticleBox = $ArticleObject->ArticleContentIndex(
     TicketID      => $TicketID,
     DynamicFields => 0,
     UserID        => 1,
@@ -174,7 +175,7 @@ $Self->Is(
     "TicketNumber found. OTRS Tag used.",
 );
 
-@ArticleBoxCustomer = $TicketObject->ArticleContentIndex(
+@ArticleBoxCustomer = $ArticleObject->ArticleContentIndex(
     TicketID      => $TicketID,
     UserID        => $ArticleBox[1]->{CustomerUserID},
     ArticleType   => \@CustomerArticleTypes,

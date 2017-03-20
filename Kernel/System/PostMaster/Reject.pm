@@ -16,6 +16,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
 );
 
 sub new {
@@ -61,8 +62,10 @@ sub Run {
     my $Lock             = $Param{Lock}             || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # do db insert
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID         => $Param{TicketID},
         ArticleType      => $GetParam{'X-OTRS-ArticleType'},
         SenderType       => $GetParam{'X-OTRS-SenderType'},
@@ -97,7 +100,7 @@ sub Run {
     }
 
     # write plain email to the storage
-    $TicketObject->ArticleWritePlain(
+    $ArticleObject->ArticleWritePlain(
         ArticleID => $ArticleID,
         Email     => $Self->{ParserObject}->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
@@ -105,7 +108,7 @@ sub Run {
 
     # write attachments to the storage
     for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
-        $TicketObject->ArticleWriteAttachment(
+        $ArticleObject->ArticleWriteAttachment(
             Filename           => $Attachment->{Filename},
             Content            => $Attachment->{Content},
             ContentType        => $Attachment->{ContentType},

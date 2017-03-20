@@ -15,14 +15,14 @@ use File::Path;
 use utf8;
 use Encode ();
 
-use Kernel::Language qw(Translatable);
-use Kernel::System::EventHandler;
-use Kernel::System::Ticket::Article;
-use Kernel::System::Ticket::TicketACL;
-use Kernel::System::Ticket::TicketSearch;
-use Kernel::System::VariableCheck qw(:all);
+use base qw(
+    Kernel::System::EventHandler
+    Kernel::System::Ticket::TicketSearch
+    Kernel::System::Ticket::TicketACL
+);
 
-use vars qw(@ISA);
+use Kernel::Language qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -47,6 +47,7 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::TemplateGenerator',
     'Kernel::System::Time',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Type',
     'Kernel::System::User',
     'Kernel::System::Valid',
@@ -213,13 +214,6 @@ sub new {
     $Self->{CacheType} = 'Ticket';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
-    @ISA = qw(
-        Kernel::System::Ticket::Article
-        Kernel::System::Ticket::TicketACL
-        Kernel::System::Ticket::TicketSearch
-        Kernel::System::EventHandler
-    );
-
     # init of event handler
     $Self->EventHandlerInit(
         Config => 'Ticket::EventModulePost',
@@ -228,25 +222,6 @@ sub new {
     # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-
-    # load article storage module
-    my $StorageModule = $ConfigObject->Get('Ticket::StorageModule')
-        || 'Kernel::System::Ticket::ArticleStorageDB';
-    if ( !$MainObject->RequireBaseClass($StorageModule) ) {
-        die "Can't load ticket storage backend module $StorageModule! $@";
-    }
-
-    # do we need to check all backends, or just one?
-    $Self->{CheckAllBackends} =
-        $ConfigObject->Get('Ticket::StorageModule::CheckAllBackends')
-        // 0;
-
-    # load article search index module
-    my $SearchIndexModule = $ConfigObject->Get('Ticket::SearchIndexModule')
-        || 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB';
-    if ( !$MainObject->RequireBaseClass($SearchIndexModule) ) {
-        die "Can't load ticket search index backend module $SearchIndexModule! $@";
-    }
 
     # load ticket extension modules
     my $CustomModule = $ConfigObject->Get('Ticket::CustomModule');
@@ -269,9 +244,6 @@ sub new {
             next MODULEKEY if !$MainObject->RequireBaseClass($Module);
         }
     }
-
-    # init of article backend
-    $Self->ArticleStorageInit();
 
     return $Self;
 }
@@ -744,8 +716,10 @@ sub TicketDelete {
     # update ticket index
     return if !$Self->TicketAcceleratorDelete(%Param);
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # update full text index
-    return if !$Self->ArticleIndexDeleteTicket(%Param);
+    return if !$ArticleObject->ArticleIndexDeleteTicket(%Param);
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -775,9 +749,9 @@ sub TicketDelete {
     );
 
     # delete article, attachments and plain emails
-    my @Articles = $Self->ArticleIndex( TicketID => $Param{TicketID} );
+    my @Articles = $ArticleObject->ArticleIndex( TicketID => $Param{TicketID} );
     for my $ArticleID (@Articles) {
-        return if !$Self->ArticleDelete(
+        return if !$ArticleObject->ArticleDelete(
             ArticleID => $ArticleID,
             %Param,
         );
@@ -2662,16 +2636,18 @@ sub TicketEscalationIndexBuild {
             };
         }
 
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
         # fill up lookups
         for my $Row (@SenderHistory) {
 
             # get sender type
-            $Row->{SenderType} = $Self->ArticleSenderTypeLookup(
+            $Row->{SenderType} = $ArticleObject->ArticleSenderTypeLookup(
                 SenderTypeID => $Row->{SenderTypeID},
             );
 
             # get article type
-            $Row->{ArticleType} = $Self->ArticleTypeLookup(
+            $Row->{ArticleType} = $ArticleObject->ArticleTypeLookup(
                 ArticleTypeID => $Row->{ArticleTypeID},
             );
         }
@@ -3917,8 +3893,11 @@ sub TicketArchiveFlagSet {
                 AllUsers => 1,
             );
 
-            for my $ArticleID ( $Self->ArticleIndex( TicketID => $Param{TicketID} ) ) {
-                $Self->ArticleFlagDelete(
+            my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+            my @Articles = $ArticleObject->ArticleIndex( TicketID => $Param{TicketID} );
+            for my $ArticleID (@Articles) {
+                $ArticleObject->ArticleFlagDelete(
                     ArticleID => $ArticleID,
                     Key       => 'Seen',
                     AllUsers  => 1,
@@ -5891,7 +5870,7 @@ sub TicketMerge {
     $Body =~ s{<OTRS_MERGE_TO_TICKET>}{$MainTicket{TicketNumber}}xms;
 
     # add merge article to merge ticket
-    $Self->ArticleCreate(
+    $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
         TicketID       => $Param{MergeTicketID},
         SenderType     => 'agent',
         ArticleType    => 'note-external',
@@ -6789,7 +6768,7 @@ sub TicketArticleStorageSwitch {
     $Self->{CheckAllBackends} = 1;
 
     # get articles
-    my @ArticleIndex = $Self->ArticleIndex(
+    my @ArticleIndex = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndex(
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
     );
@@ -6800,16 +6779,14 @@ sub TicketArticleStorageSwitch {
     ARTICLEID:
     for my $ArticleID (@ArticleIndex) {
 
-        # create source object
-        # We have to create it for every article because of the way OTRS uses base classes here.
-        # We cannot have two ticket objects with different base classes.
-        $ConfigObject->Set(
-            Key   => 'Ticket::StorageModule',
-            Value => 'Kernel::System::Ticket::' . $Param{Source},
+        my $ArticleObjectSource = Kernel::System::Ticket::Article->new(
+            ArticleStorageModule => 'Kernel::System::Ticket::' . $Param{Source},
         );
-
-        my $TicketObjectSource = Kernel::System::Ticket->new();
-        if ( !$TicketObjectSource || !$TicketObjectSource->isa( 'Kernel::System::Ticket::' . $Param{Source} ) ) {
+        if (
+            !$ArticleObjectSource
+            || $ArticleObjectSource->{ArticleStorageModule} ne "Kernel::System::Ticket::$Param{Source}"
+            )
+        {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => "error",
                 Message  => "Could not create Kernel::System::Ticket::" . $Param{Source},
@@ -6818,14 +6795,14 @@ sub TicketArticleStorageSwitch {
         }
 
         # read source attachments
-        my %Index = $TicketObjectSource->ArticleAttachmentIndex(
+        my %Index = $ArticleObjectSource->ArticleAttachmentIndex(
             ArticleID     => $ArticleID,
             UserID        => $Param{UserID},
             OnlyMyBackend => 1,
         );
 
         # read source plain
-        my $Plain = $TicketObjectSource->ArticlePlain(
+        my $Plain = $ArticleObjectSource->ArticlePlain(
             ArticleID     => $ArticleID,
             OnlyMyBackend => 1,
         );
@@ -6841,7 +6818,7 @@ sub TicketArticleStorageSwitch {
         my @Attachments;
         my %MD5Sums;
         for my $FileID ( sort keys %Index ) {
-            my %Attachment = $TicketObjectSource->ArticleAttachment(
+            my %Attachment = $ArticleObjectSource->ArticleAttachment(
                 ArticleID     => $ArticleID,
                 FileID        => $FileID,
                 UserID        => $Param{UserID},
@@ -6858,16 +6835,12 @@ sub TicketArticleStorageSwitch {
         # nothing to transfer
         next ARTICLEID if !@Attachments && !$Plain;
 
-        # create target object
-        $ConfigObject->Set(
-            Key   => 'Ticket::StorageModule',
-            Value => 'Kernel::System::Ticket::' . $Param{Destination},
+        my $ArticleObjectDestination = Kernel::System::Ticket::Article->new(
+            ArticleStorageModule => 'Kernel::System::Ticket::' . $Param{Destination},
         );
-
-        my $TicketObjectDestination = Kernel::System::Ticket->new();
         if (
-            !$TicketObjectDestination
-            || !$TicketObjectDestination->isa( 'Kernel::System::Ticket::' . $Param{Destination} )
+            !$ArticleObjectDestination
+            || $ArticleObjectDestination->{ArticleStorageModule} ne "Kernel::System::Ticket::$Param{Destination}"
             )
         {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -6878,7 +6851,7 @@ sub TicketArticleStorageSwitch {
         }
 
         # read destination attachments
-        %Index = $TicketObjectDestination->ArticleAttachmentIndex(
+        %Index = $ArticleObjectDestination->ArticleAttachmentIndex(
             ArticleID     => $ArticleID,
             UserID        => $Param{UserID},
             OnlyMyBackend => 1,
@@ -6916,7 +6889,7 @@ sub TicketArticleStorageSwitch {
                     $Attachment->{Filename} =~ s{[\x{FFFD}]}{_}xms;
                 }
 
-                $TicketObjectDestination->ArticleWriteAttachment(
+                $ArticleObjectDestination->ArticleWriteAttachment(
                     %{$Attachment},
                     ArticleID => $ArticleID,
                     UserID    => $Param{UserID},
@@ -6925,7 +6898,7 @@ sub TicketArticleStorageSwitch {
 
             # write destination plain
             if ($Plain) {
-                $TicketObjectDestination->ArticleWritePlain(
+                $ArticleObjectDestination->ArticleWritePlain(
                     Email     => $Plain,
                     ArticleID => $ArticleID,
                     UserID    => $Param{UserID},
@@ -6933,7 +6906,7 @@ sub TicketArticleStorageSwitch {
             }
 
             # verify destination attachments
-            %Index = $TicketObjectDestination->ArticleAttachmentIndex(
+            %Index = $ArticleObjectDestination->ArticleAttachmentIndex(
                 ArticleID     => $ArticleID,
                 UserID        => $Param{UserID},
                 OnlyMyBackend => 1,
@@ -6941,7 +6914,7 @@ sub TicketArticleStorageSwitch {
         }
 
         for my $FileID ( sort keys %Index ) {
-            my %Attachment = $TicketObjectDestination->ArticleAttachment(
+            my %Attachment = $ArticleObjectDestination->ArticleAttachment(
                 ArticleID     => $ArticleID,
                 FileID        => $FileID,
                 UserID        => $Param{UserID},
@@ -6965,7 +6938,7 @@ sub TicketArticleStorageSwitch {
                 );
 
                 # delete corrupt attachments from destination
-                $TicketObjectDestination->ArticleDeleteAttachment(
+                $ArticleObjectDestination->ArticleDeleteAttachment(
                     ArticleID     => $ArticleID,
                     UserID        => 1,
                     OnlyMyBackend => 1,
@@ -6986,7 +6959,7 @@ sub TicketArticleStorageSwitch {
             );
 
             # delete incomplete attachments from destination
-            $TicketObjectDestination->ArticleDeleteAttachment(
+            $ArticleObjectDestination->ArticleDeleteAttachment(
                 ArticleID     => $ArticleID,
                 UserID        => 1,
                 OnlyMyBackend => 1,
@@ -6999,7 +6972,7 @@ sub TicketArticleStorageSwitch {
 
         # verify destination plain if exists in source backend
         if ($Plain) {
-            my $PlainVerify = $TicketObjectDestination->ArticlePlain(
+            my $PlainVerify = $ArticleObjectDestination->ArticlePlain(
                 ArticleID     => $ArticleID,
                 OnlyMyBackend => 1,
             );
@@ -7017,7 +6990,7 @@ sub TicketArticleStorageSwitch {
                 );
 
                 # delete corrupt plain file from destination
-                $TicketObjectDestination->ArticleDeletePlain(
+                $ArticleObjectDestination->ArticleDeletePlain(
                     ArticleID     => $ArticleID,
                     UserID        => 1,
                     OnlyMyBackend => 1,
@@ -7029,36 +7002,21 @@ sub TicketArticleStorageSwitch {
             }
         }
 
-        # remove source attachments
-        $ConfigObject->Set(
-            Key   => 'Ticket::StorageModule',
-            Value => 'Kernel::System::Ticket::' . $Param{Source},
-        );
-
-        $TicketObjectSource = Kernel::System::Ticket->new();
-        if ( !$TicketObjectSource || !$TicketObjectSource->isa( 'Kernel::System::Ticket::' . $Param{Source} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => "error",
-                Message  => "Could not create Kernel::System::Ticket::" . $Param{Source},
-            );
-            die;
-        }
-
-        $TicketObjectSource->ArticleDeleteAttachment(
+        $ArticleObjectSource->ArticleDeleteAttachment(
             ArticleID     => $ArticleID,
             UserID        => 1,
             OnlyMyBackend => 1,
         );
 
         # remove source plain
-        $TicketObjectSource->ArticleDeletePlain(
+        $ArticleObjectSource->ArticleDeletePlain(
             ArticleID     => $ArticleID,
             UserID        => 1,
             OnlyMyBackend => 1,
         );
 
         # read source attachments
-        %Index = $TicketObjectSource->ArticleAttachmentIndex(
+        %Index = $ArticleObjectSource->ArticleAttachmentIndex(
             ArticleID     => $ArticleID,
             UserID        => $Param{UserID},
             OnlyMyBackend => 1,
@@ -7427,23 +7385,7 @@ sub _TicketCacheClear {
         }
     }
 
-    # ArticleIndex()
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => 'ArticleIndex::' . $Param{TicketID} . '::agent'
-    );
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => 'ArticleIndex::' . $Param{TicketID} . '::customer'
-    );
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => 'ArticleIndex::' . $Param{TicketID} . '::system'
-    );
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => 'ArticleIndex::' . $Param{TicketID} . '::ALL'
-    );
+    $Kernel::OM->Get('Kernel::System::Ticket::Article')->_ArticleCacheClear(%Param);
 
     return 1;
 }

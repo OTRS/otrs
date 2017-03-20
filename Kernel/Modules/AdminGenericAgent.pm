@@ -1304,8 +1304,9 @@ sub _MaskRun {
     }
 
     # get needed objects
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 
     # perform ticket search
     my $GenericAgentTicketSearch = $ConfigObject->Get("Ticket::GenericAgentTicketSearch") || {};
@@ -1364,7 +1365,7 @@ sub _MaskRun {
         for my $TicketID (@TicketIDs) {
 
             # get first article data
-            my %Data = $TicketObject->ArticleFirstArticle(
+            my %Data = $ArticleObject->ArticleFirstArticle(
                 TicketID      => $TicketID,
                 DynamicFields => 0,
             );

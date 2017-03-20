@@ -44,8 +44,8 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get needed objects
 my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject           = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $QueueObject             = $Kernel::OM->Get('Kernel::System::Queue');
 my $SignatureObject         = $Kernel::OM->Get('Kernel::System::Signature');
 my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
@@ -157,7 +157,7 @@ for my $Test (@Tests) {
     );
 
     # create test email article
-    my $ArticleID = $TicketObject->ArticleCreate(
+    my $ArticleID = $ArticleObject->ArticleCreate(
         TicketID       => $TicketID,
         ArticleType    => 'email-external',
         SenderType     => 'customer',
@@ -175,7 +175,7 @@ for my $Test (@Tests) {
     );
 
     # get last article
-    my %Article = $TicketObject->ArticleLastCustomerArticle(
+    my %Article = $ArticleObject->ArticleLastCustomerArticle(
         TicketID      => $TicketID,
         DynamicFields => 0,
     );

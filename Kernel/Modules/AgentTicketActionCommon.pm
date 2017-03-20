@@ -31,7 +31,7 @@ sub new {
     my %ReplyToArticleContent;
     my @ReplyToAdresses;
     if ($ReplyToArticle) {
-        %ReplyToArticleContent = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleGet(
+        %ReplyToArticleContent = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGet(
             ArticleID     => $ReplyToArticle,
             DynamicFields => 0,
             UserID        => $Self->{UserID},
@@ -72,10 +72,11 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -901,7 +902,7 @@ sub Run {
                 push @NotifyUserIDs, @UserListWithoutSelection;
             }
 
-            $ArticleID = $TicketObject->ArticleCreate(
+            $ArticleID = $ArticleObject->ArticleCreate(
                 TicketID                        => $Self->{TicketID},
                 SenderType                      => 'agent',
                 From                            => $From,
@@ -1460,8 +1461,9 @@ sub _Mask {
         $TreeView = 1;
     }
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    # get needed objects
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     my %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
 
@@ -2309,7 +2311,7 @@ sub _Mask {
         # get possible notes
         if ( $Config->{ArticleTypes} ) {
             my %DefaultNoteTypes = %{ $Config->{ArticleTypes} };
-            my %NoteTypes = $TicketObject->ArticleTypeList( Result => 'HASH' );
+            my %NoteTypes = $ArticleObject->ArticleTypeList( Result => 'HASH' );
             for my $KeyNoteType ( sort keys %NoteTypes ) {
                 if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
                     delete $NoteTypes{$KeyNoteType};

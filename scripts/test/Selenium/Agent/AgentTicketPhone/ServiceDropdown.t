@@ -105,7 +105,7 @@ $Selenium->RunTest(
         );
 
         # create an article for the test ticket
-        my $ArticleID = $TicketObject->ArticleCreate(
+        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'note-internal',
             SenderType     => 'agent',
