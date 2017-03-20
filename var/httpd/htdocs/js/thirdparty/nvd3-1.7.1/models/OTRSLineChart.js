@@ -36,7 +36,7 @@ nv.models.OTRSlineChart = function() {
         , y
         , state = nv.utils.state()
         , defaultState = null
-        , noData = 'No Data Available.'
+        , noData = Core.Config.Get('NoDataAvailable')
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd')
         , duration = 250
         ;

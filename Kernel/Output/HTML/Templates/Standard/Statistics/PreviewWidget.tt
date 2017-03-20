@@ -132,7 +132,7 @@
         <div class="PreviewSettings">
             [% Translate('Preview format:') | html %]
             [% FOREACH Format IN PreviewFormats.sort %]
-            <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% FormatConfig.item(Format) %]</span></button>
+            <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% Translate(FormatConfig.item(Format)) | html %]</span></button>
             [% END %]
             <span class="Warning">
                 [% Translate('Please note that the preview uses random data and does not consider data filters.') | html %]
@@ -140,6 +140,14 @@
         </div>
         [% WRAPPER JSOnDocumentComplete %]
         <script type="text/javascript">
+
+        // Add translations for statistic previews.
+        Core.Config.Set('Grouped', [% Translate("Grouped") | JSON %]);
+        Core.Config.Set('Stacked', [% Translate("Stacked") | JSON %]);
+        Core.Config.Set('Expanded', [% Translate("Expanded") | JSON %]);
+        Core.Config.Set('Stream', [% Translate("Stream") | JSON %]);
+        Core.Config.Set('NoDataAvailable', [% Translate("No Data Available.") | JSON %]);
+
         $('.SwitchPreviewFormat').on('click', function() {
             var Format = $(this).data('format'),
                 FormatCleaned = Format.replace('::', '');
