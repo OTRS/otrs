@@ -116,7 +116,7 @@ $('#RequestNameScheme').on('change', function(){
                             <div class="RequestNameFreeTextField [% Data.RequestNameFreeTextHidden | html %]">
                                 <fieldset class="TableLike">
 
-                                    <label class="Mandatory" for="RequestNameFreeText"><span class="Marker">*</span>[% Translate("Response name free text") | html %]:</label>
+                                    <label class="Mandatory" for="RequestNameFreeText"><span class="Marker">*</span>[% Translate("Request name free text") | html %]:</label>
                                     <div class="Field">
                                         <input id="RequestNameFreeText" class="W50pc [% Data.RequestNameFreeTextServerError | html %] [% Data.RequestNameFreeTextMandatory | html %]" type="text" maxlength="250" value="[% Data.RequestNameFreeText | html %]" name="RequestNameFreeText"/>
                                         <div id="RequestNameFreeTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
