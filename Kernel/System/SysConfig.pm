@@ -2129,9 +2129,6 @@ sub ConfigurationXML2DB {
         Filter    => "*.xml",
     );
 
-    # Get the MD5 representing the current configuration state
-    my $ConfigChecksum = $Self->{ConfigObject}->ConfigChecksum();
-
     my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
     my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
     my $SysConfigDBObject  = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
@@ -2147,19 +2144,38 @@ sub ConfigurationXML2DB {
     FILE:
     for my $File (@Files) {
 
-        my $CacheKey  = "ConfigurationXML2DB::${File}::${ConfigChecksum}";
-        my $CacheData = $CacheObject->Get(
-            Type => 'SysConfig',
+        my $MD5Sum = $MainObject->MD5sum(
+            Filename => $File,
+        );
+
+        # Cleanup filename for cache type
+        my $Filename = $File;
+        $Filename =~ s{\/\/}{\/}g;
+        $Filename =~ s{\A .+ Kernel/Config/Files/XML/ (.+)\.xml\z}{$1}msx;
+
+        my $CacheKey  = "ConfigurationXML2DB::${Filename}::${MD5Sum}";
+        my $CacheType = "SysConfig_ConfigurationXML2DB_$Filename";
+
+        my $Cache = $CacheObject->Get(
+            Type => $CacheType,
             Key  => $CacheKey,
         );
 
-        if ( ref $CacheData eq 'SCALAR' ) {
-            my $XMLHashRef;
-            if ( eval ${$CacheData} ) {
-                $Data{$File} = $XMLHashRef;
-                next FILE;
-            }
+        if (
+            ref $Cache eq 'HASH'
+            && $Cache->{Init}
+            && ref $Cache->{Settings} eq 'ARRAY'
+            )
+        {
+            @{ $SettingsByInit{ $Cache->{Init} } }
+                = ( @{ $SettingsByInit{ $Cache->{Init} } }, @{ $Cache->{Settings} } );
+            next FILE;
         }
+
+        # Delete any cache with different MD5Sum
+        $CacheObject->CleanUp(
+            Type => $CacheType,
+        );
 
         # Read XML file.
         my $ConfigFile = $MainObject->FileRead(
@@ -2198,6 +2214,8 @@ sub ConfigurationXML2DB {
         $XMLFilename =~ s{$Directory(.*\.xml)\z}{$1}gmsx;
         $XMLFilename =~ s{\A/}{}gmsx;
 
+        my @ParsedSettings;
+
         for my $SettingName ( sort keys %{$SettingList} ) {
 
             # Convert XML to perl structure.
@@ -2205,12 +2223,24 @@ sub ConfigurationXML2DB {
                 SettingXML => $SettingList->{$SettingName},
             );
 
-            push @{ $SettingsByInit{$InitValue} }, {
+            push @ParsedSettings, {
                 XMLContentParsed => $Setting,
                 XMLContentRaw    => $SettingList->{$SettingName},
                 XMLFilename      => $XMLFilename,
             };
         }
+
+        @{ $SettingsByInit{$InitValue} } = ( @{ $SettingsByInit{$InitValue} }, @ParsedSettings );
+
+        $CacheObject->Set(
+            Key   => $CacheKey,
+            Type  => $CacheType,
+            Value => {
+                Init     => $InitValue,
+                Settings => \@ParsedSettings,
+            },
+            TTL => 60 * 60 * 24 * 20,
+        );
     }
 
     # Combine everything together in the correct order.
