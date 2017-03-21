@@ -13,6 +13,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
+    'Kernel::System::Main',
     'Kernel::System::SysConfig',
 );
 
@@ -53,21 +54,35 @@ sub Run {
     # get the number of total steps
     my $Steps = scalar @Tasks;
     my $Step  = 1;
+
+    TASK:
     for my $Task (@Tasks) {
 
-        # show task message
+        next TASK if !$Task;
+        next TASK if !$Task->{Module};
+
+        my $ModuleName = "scripts::DBUpdateTo6::$Task->{Module}";
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName) ) {
+            next TASK;
+        }
+
+        # Show initial task message.
         print "Step $Step of $Steps: $Task->{Message}...";
 
-        my $Success = 0;
-
-        # run module
+        # Run module.
         $Kernel::OM->ObjectParamAdd(
             "scripts::DBUpdateTo6::$Task->{Module}" => {
                 Opts => $Self->{Opts},
             },
         );
-        my $Object = $Kernel::OM->Create("scripts::DBUpdateTo6::$Task->{Module}");
-        $Success = $Object->Run(%Param);
+
+        my $Object = $Kernel::OM->Create($ModuleName);
+        if ( !$Object ) {
+            print "Was not possible to create object for: $ModuleName.";
+            die;
+        }
+
+        my $Success = $Object->Run(%Param);
 
         if ($Success) {
             print "done.\n\n";
