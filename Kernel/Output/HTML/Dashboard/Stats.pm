@@ -248,6 +248,19 @@ sub Run {
         },
     );
 
+    if ( $Self->{UserRefreshTime} ) {
+        my $Refresh = 60 * $Self->{UserRefreshTime};
+
+        $LayoutObject->AddJSData(
+            Key   => 'WidgetRefreshStat' . $StatID,
+            Value => {
+                Name        => $Self->{Name},
+                NameHTML    => $Self->{Name},
+                RefreshTime => $Refresh,
+            },
+        );
+    }
+
     my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardStats',
         Data         => {

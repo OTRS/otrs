@@ -691,7 +691,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 // Subscribe to ContentUpdate event to initiate stats widget event on updated widget
                 Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function($WidgetElement) {
                     StatsData = Core.Config.Get('StatsData' + Value);
-                    if (typeof $WidgetElement !== 'undefined' && $WidgetElement.search('GraphWidget' + StatsData.Name) !== parseInt('-1', 10)) {
+                    if (typeof StatsData !== 'undefined' && typeof $WidgetElement !== 'undefined' && $WidgetElement.search(StatsData.Name) !== parseInt('-1', 10)) {
                         StatsWidget(Value);
                     }
                 });
@@ -709,7 +709,8 @@ Core.Agent.Dashboard = (function (TargetNS) {
      *      Initializes each available stats dashboard widget functionality.
      */
     function StatsWidget (ID) {
-        var StatsData = Core.Config.Get('StatsData' + ID);
+        var StatsData = Core.Config.Get('StatsData' + ID),
+            WidgetRefreshStat = Core.Config.Get('WidgetRefreshStat' + ID);
 
         if (typeof StatsData === 'undefined') {
             return;
@@ -717,6 +718,11 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
         (function(){
             var Timeout = 500;
+
+            if (StatsData.StatResultData === null) {
+                return;
+            }
+
             // check if the container is already expanded, otherwise the graph
             // would have the wrong size after the widget settings have been saved
             // and the content is being reloaded using ajax.
@@ -760,6 +766,26 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
         Core.Config.Set('StatsMaxXaxisAttributes', parseInt(StatsData.MaxXaxisAttributes, 10));
         TargetNS.InitStatsConfiguration($('#StatsSettingsBox' + Core.App.EscapeSelector(StatsData.Name) + ''));
+
+        if (typeof WidgetRefreshStat === 'undefined') {
+            return;
+        }
+
+        // Initiate dashboard stat refresh event.
+        Core.Config.Set('RefreshSeconds_' + WidgetRefreshStat.NameHTML, parseInt(WidgetRefreshStat.RefreshTime, 10) || 0);
+        if (Core.Config.Get('RefreshSeconds_' + WidgetRefreshStat.NameHTML)) {
+            Core.Config.Set('Timer_' + WidgetRefreshStat.NameHTML, window.setTimeout(
+                function() {
+                    $('#Dashboard' + Core.App.EscapeSelector(WidgetRefreshStat.Name) + '-box').addClass('Loading');
+                    Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(WidgetRefreshStat.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + WidgetRefreshStat.Name, function () {
+                        $('#Dashboard' + Core.App.EscapeSelector(WidgetRefreshStat.Name) + '-box').removeClass('Loading');
+                    });
+
+                    clearTimeout(Core.Config.Get('Timer_' + WidgetRefreshStat.NameHTML));
+                },
+                Core.Config.Get('RefreshSeconds_' + WidgetRefreshStat.NameHTML) * 1000)
+            );
+        }
     }
 
     /**

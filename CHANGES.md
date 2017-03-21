@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-03-21 Fixed bug#[12188](https://bugs.otrs.org/show_bug.cgi?id=12188)(PR#1661) - Dashboard stats do not refresh automatically. Thanks to S7!
  - 2017-03-18 (PR#1550) Added possibility to prevent return of attachments content in Generic Interface TicketGet operation and added FileID, thanks to Esteban Marín
  - 2017-03-18 Changed TicketSearch GenericInterface operation dynamic fields API parameters.
  - 2017-03-18 Fixed bug#[12655](https://bugs.otrs.org/show_bug.cgi?id=12655) - Invalid WSDL for TicketSearch operation.
