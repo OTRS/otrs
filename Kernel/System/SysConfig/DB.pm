@@ -4091,6 +4091,8 @@ sub DeploymentGetLast {
         $DeploymentID = $Row[0];
     }
 
+    return if !$DeploymentID;
+
     my %Deployment = $Self->DeploymentGet(
         DeploymentID => $DeploymentID,
     );
