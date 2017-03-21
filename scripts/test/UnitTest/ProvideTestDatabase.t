@@ -54,9 +54,15 @@ $Self->True(
 
 @Tables = $DBObject->ListTables();
 
+# Count number of table elements in OTRS schema for comparison.
+my $XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    Location => $DatabaseXMLFiles[0],
+);
+my $TableCount = () = ( ${$XMLString} =~ /<Table/g );
+
 $Self->Is(
     scalar @Tables,
-    104,
+    $TableCount,
     'OTRS tables found'
 );
 
