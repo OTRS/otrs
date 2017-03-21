@@ -3980,59 +3980,6 @@ sub ValueAttributeList {
     return @Result;
 }
 
-=head2 ConfigItemGet()
-
-(Deprecated and should be removed in further versions of OTRS) Get SysConfig setting attributes.
-
-    my %Setting = $SysConfigObject->ConfigItemGet(
-        Name            => 'Setting::Name',  # Setting name
-        Default         => 1,                # Returns the default setting attributes only
-        ModifiedID      => '123',            # (optional) Get setting value for given ModifiedID.
-        Deployed        => 1,                # (optional) Get deployed setting value. Default 0.
-        Translate       => 1,                # (optional) Translate translatable strings in EffectiveValue. Default 0.
-        NoLog           => 1,                # (optional) Do not log error if a setting does not exist.
-    );
-
-Returns:
-
-    %Setting = (
-        DefaultID                => 123,
-        ModifiedID               => 456,         # optional
-        Name                     => "ProductName",
-        Description              => "Defines the name of the application ...",
-        Navigation               => "ASimple::Path::Structure",
-        IsInvisible              => 1,           # 1 or 0
-        IsReadonly               => 0,           # 1 or 0
-        IsRequired               => 1,           # 1 or 0
-        IsModified               => 1,           # 1 or 0
-        IsValid                  => 1,           # 1 or 0
-        HasConfigLevel           => 200,
-        UserModificationPossible => 0,           # 1 or 0
-        UserModificationActive   => 0,           # 1 or 0
-        UserPreferencesGroup     => 'Advanced',  # optional
-        XMLContentRaw            => "The XML structure as it is on the config file",
-        XMLContentParsed         => "XML parsed to Perl",
-        XMLFilename              => "Framework.xml",
-        EffectiveValue           => "Product 6",
-        IsDirty                  => 1,           # 1 or 0
-        ExclusiveLockGUID        => 'A32CHARACTERLONGSTRINGFORLOCKING',
-        ExclusiveLockUserID      => 1,
-        ExclusiveLockExpiryTime  => '2016-05-29 11:09:04',
-        CreateTime               => "2016-05-29 11:04:04",
-        CreateBy                 => 1,
-        ChangeTime               => "2016-05-29 11:04:04",
-        ChangeBy                 => 1,
-        DefaultValue             => 'Old default value',
-    );
-
-=cut
-
-sub ConfigItemGet {
-    my ( $Self, %Param ) = @_;
-
-    return $Self->SettingGet(%Param);
-}
-
 =head1 PRIVATE INTERFACE
 
 =head2 _FileWriteAtomic()
