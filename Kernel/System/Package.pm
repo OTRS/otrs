@@ -4344,8 +4344,8 @@ sub _ConfigurationDeploy {
         my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
             FileClass       => 'Kernel::Config::Backups::ZZZAutoOTRS5',
             FilePath        => $OTRS5ConfigFile,
-            PackageSettings => \@PackageSettings,                         # only migrate the given package settings
-            NoOutput => 1,    # we do not want to print status output to the screen
+            PackageSettings => \@PackageSettings,   # only migrate the given package settings
+            NoOutput        => 1,                   # we do not want to print status output to the screen
         );
 
         # deploy only the package settings
