@@ -2305,6 +2305,21 @@ sub _GetSelectedXAxisTimeScaleValue {
     return $SelectedXAxisTimeScaleValue;
 }
 
+=item _ColumnAndRowTranslation()
+
+DEPRECATED: This function will be removed in further versions of OTRS.
+The function do nothing at the moment, because the functionality was moved
+in the backend module (Stats.pm) and the statistic results will always be translated in
+the "StatsRun" function.
+
+=cut
+
+sub _ColumnAndRowTranslation {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
+}
+
 sub _StopWordErrorCheck {
     my ( $Self, %Param ) = @_;
 
