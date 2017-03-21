@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+    <Name>TestPackage</Name>
+    <Version>0.0.0</Version>
+    <Vendor>OTRS AG</Vendor>
+    <URL>http://otrs.org/</URL>
+    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <Description Lang="en">Test package.</Description>
+    <Filelist>
+        <File Permission="644" Location="Kernel/Config/Files/XML/TestPackage.xml" />
+    </Filelist>
+</otrs_package>
