@@ -1177,6 +1177,7 @@ sub LoadDefaults {
         'Column' => 'User Profile',
         'Key' => 'Language',
         'Label' => 'Language',
+        'Desc' => 'Select the main interface language.',
         'Module' => 'Kernel::Output::HTML::Preferences::Language',
         'PrefKey' => 'UserLanguage',
         'Prio' => '1000'
