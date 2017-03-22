@@ -29,14 +29,14 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->{Home};
 
-my $TestFile     = 'ZZZAutoOTRS5.pm';
-my $TestPath     = $Home . '/scripts/test/sample/SysConfig/Migration/Package/';
-my $TestLocation = $TestPath . $TestFile;
-
+my $TestFile        = 'ZZZAutoOTRS5.pm';
+my $TestPath        = $Home . '/scripts/test/sample/SysConfig/Migration/Package/';
+my $TestLocation    = $TestPath . $TestFile;
 my $OTRS5ConfigFile = "$Home/Kernel/Config/Backups/ZZZAutoOTRS5.pm";
 
+# create backups directory if not existing
 if ( !-d "$Home/Kernel/Config/Backups" ) {
-    mkdir "$Home/Kernel/Config/Backups"
+    mkdir "$Home/Kernel/Config/Backups";
 }
 
 # copy ZZZAutoOTRS5.pm to backup folder from where it is processed during package upgrade
@@ -118,9 +118,12 @@ $ExitCode      = $CommandObject->Execute();
 # build a 6.0.1 version of the test package
 $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Package::Build');
 $ExitCode      = $CommandObject->Execute(
-    '--version', '6.0.1', '--module-directory',
+    '--version',
+    '6.0.1',
+    '--module-directory',
     'scripts/test/sample/SysConfig/Migration/Package/TestPackage/',
-    'scripts/test/sample/SysConfig/Migration/Package/TestPackage/TestPackage.sopm', 'var/tmp/'
+    'scripts/test/sample/SysConfig/Migration/Package/TestPackage/TestPackage.sopm',
+    'var/tmp/',
 );
 
 $Self->Is(
@@ -207,6 +210,7 @@ for my $Test (@Tests) {
         Name => $Test->{Name},
     );
 
+    # handle string setings
     if ( IsString( $Test->{EffectiveValue} ) ) {
 
         # check effective value
@@ -216,8 +220,10 @@ for my $Test (@Tests) {
             "Check migrated setting for config settting '$Test->{Name}'",
         );
     }
+    # handle complex data structure settings
     else {
 
+        # check effective value
         $Self->IsDeeply(
             $OTRS6Setting{EffectiveValue},
             $Test->{EffectiveValue},
