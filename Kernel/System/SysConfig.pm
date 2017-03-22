@@ -2886,58 +2886,72 @@ sub ConfigurationDeploy {
 
     # In case none of the previous options applied and there is no deployment in the database,
     #   a new deployment is needed.
-    my @DeploymentList = $SysConfigDBObject->DeploymentListGet();
-    if ( !@DeploymentList ) {
+    my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
+    if ( !%LastDeployment ) {
         $AddNewDeployment = 1;
     }
 
     my $EffectiveValueStrg = '';
-    if ($AddNewDeployment) {
-        my @Settings = $Self->_GetSettingsToDeploy(%Param);
 
-        SETTING:
-        for my $CurrentSetting (@Settings) {
+    my @Settings = $Self->_GetSettingsToDeploy(%Param);
 
-            my %Setting = $Self->SettingGet(
-                Name    => $CurrentSetting->{Name},
-                Default => 1,
-            );
+    SETTING:
+    for my $CurrentSetting (@Settings) {
 
-            %Setting = ( %Setting, %{$CurrentSetting} );
+        my %Setting = $Self->SettingGet(
+            Name    => $CurrentSetting->{Name},
+            Default => 1,
+        );
 
-            next SETTING if !$Setting{IsValid};
+        %Setting = ( %Setting, %{$CurrentSetting} );
 
-            my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
-                XMLContentParsed => $Setting{XMLContentParsed},
-                EffectiveValue   => $Setting{EffectiveValue},
-                NoValidation     => $Param{NoValidation} //= 0,
-                UserID           => $Param{UserID},
-            );
+        next SETTING if !$Setting{IsValid};
 
-            next SETTING if $EffectiveValueCheck{Success};
+        my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
+            XMLContentParsed => $Setting{XMLContentParsed},
+            EffectiveValue   => $Setting{EffectiveValue},
+            NoValidation     => $Param{NoValidation} //= 0,
+            UserID           => $Param{UserID},
+        );
 
+        next SETTING if $EffectiveValueCheck{Success};
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Setting $Setting{Name} Effective value is not correct: $EffectiveValueCheck{Error}",
+        );
+        return;
+    }
+
+    # Combine settings effective values into a perl string
+    if ( IsArrayRefWithData( \@Settings ) ) {
+        $EffectiveValueStrg = $Self->_EffectiveValues2PerlFile(
+            Settings   => \@Settings,
+            TargetPath => $TargetPath,
+        );
+        if ( !defined $EffectiveValueStrg ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Setting $Setting{Name} Effective value is not correct: $EffectiveValueCheck{Error}",
+                Message  => "Could not combine settings values into a perl hash",
             );
+
             return;
         }
+    }
 
-        # Combine settings effective values into a perl string
-        if ( IsArrayRefWithData( \@Settings ) ) {
-            $EffectiveValueStrg = $Self->_EffectiveValues2PerlFile(
-                Settings   => \@Settings,
-                TargetPath => $TargetPath,
-            );
-            if ( !defined $EffectiveValueStrg ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Could not combine settings values into a perl hash",
-                );
+    # Force new deployment if current DB settings are different from the last deployment.
+    if ( !$AddNewDeployment ) {
 
-                return;
-            }
+        # Remove CurrentDeploymentID line for easy compare.
+        my $LastDeploymentStrg = $LastDeployment{EffectiveValueStrg};
+        $LastDeploymentStrg =~ s{\$Self->\{'CurrentDeploymentID'\} [ ] = [ ] '\d+';\n}{}msx;
+
+        if ( $EffectiveValueStrg ne $LastDeploymentStrg ) {
+            $AddNewDeployment = 1;
         }
+    }
+
+    if ($AddNewDeployment) {
 
         # Lock the deployment to be able add it to the DB.
         my $ExclusiveLockGUID = $SysConfigDBObject->DeploymentLock(
@@ -3015,16 +3029,6 @@ sub ConfigurationDeploy {
         );
     }
     else {
-        my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
-
-        if ( !%LastDeployment ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "No deployments found in Database!",
-            );
-            return;
-        }
-
         $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
     }
 
@@ -4194,8 +4198,6 @@ sub _DBCleanUp {
 
     my ( $DefaultUpdated, $ModifiedUpdated );
 
-    my $SetToDirty;
-
     for my $SettingDB (@SettingsDB) {
 
         # Cleanup database if the setting is not present in the XML files.
@@ -4230,14 +4232,7 @@ sub _DBCleanUp {
                     Message  => "System couldn't delete $SettingDB->{Name} from DB (sysconfig_default)!"
                 );
             }
-
-            $SetToDirty = 1;
         }
-    }
-
-    # TODO: Added for workaround deployment issue after deleting settings
-    if ($SetToDirty) {
-        my $Success = $SysConfigDBObject->DefaultSettingSetDirty();
     }
 
     return 1;
