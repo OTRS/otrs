@@ -3670,7 +3670,7 @@ sub _StoreActivityDialog {
         # Make sure the activity dialog to save is still the correct activity
         my $Activity = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
             ActivityEntityID => $ActivityEntityID,
-            Interface        => ['AgentInterface'],
+            Interface        => ['CustomerInterface'],
         );
         my %ActivityDialogs = reverse %{ $Activity->{ActivityDialog} // {} };
         if ( !$ActivityDialogs{$ActivityDialogEntityID} ) {
