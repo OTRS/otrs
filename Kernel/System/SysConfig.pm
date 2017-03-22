@@ -4222,6 +4222,24 @@ sub _DBCleanUp {
                 }
             }
 
+            my @ModifiedSettingVersions = $SysConfigDBObject->ModifiedSettingVersionListGet(
+                Name => $SettingDB->{Name},
+            );
+
+            for my $ModifiedSettingVersion (@ModifiedSettingVersions) {
+
+                # Delete from modified table.
+                my $SuccessDeleteModifiedVersion = $SysConfigDBObject->ModifiedSettingVersionDelete(
+                    ModifiedVersionID => $ModifiedSettingVersion->{ModifiedVersionID},
+                );
+                if ( !$SuccessDeleteModifiedVersion ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "System couldn't delete $SettingDB->{Name} from DB (sysconfig_modified_version)!"
+                    );
+                }
+            }
+
             # Delete from default table.
             my $SuccessDefaultSetting = $SysConfigDBObject->DefaultSettingDelete(
                 Name => $SettingDB->{Name},
