@@ -15,7 +15,7 @@ use vars (qw($Self));
 
 use File::Copy;
 use Kernel::Config;
-use Kernel::System::VariableCheck qw(:all);;
+use Kernel::System::VariableCheck qw(:all);
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -29,14 +29,18 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->{Home};
 
-my $TestFile      = 'ZZZAutoOTRS5.pm';
-my $TestPath      = $Home . '/scripts/test/sample/SysConfig/Migration/Package/';
-my $TestLocation  = $TestPath . $TestFile;
+my $TestFile     = 'ZZZAutoOTRS5.pm';
+my $TestPath     = $Home . '/scripts/test/sample/SysConfig/Migration/Package/';
+my $TestLocation = $TestPath . $TestFile;
 
 my $OTRS5ConfigFile = "$Home/Kernel/Config/Backups/ZZZAutoOTRS5.pm";
 
+if ( !-d "$Home/Kernel/Config/Backups" ) {
+    mkdir "$Home/Kernel/Config/Backups"
+}
+
 # copy ZZZAutoOTRS5.pm to backup folder from where it is processed during package upgrade
-copy($TestLocation, $OTRS5ConfigFile);
+copy( $TestLocation, $OTRS5ConfigFile );
 
 $Self->True(
     -e $OTRS5ConfigFile,
@@ -85,7 +89,11 @@ if ( !-e $Home . '/ARCHIVE' ) {
 
 # build a 5.0.1 version of the test package
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Package::Build');
-my $ExitCode = $CommandObject->Execute( '--version', '5.0.1', '--module-directory', 'scripts/test/sample/SysConfig/Migration/Package/TestPackage/', 'scripts/test/sample/SysConfig/Migration/Package/TestPackage/TestPackage.sopm', 'var/tmp/' );
+my $ExitCode      = $CommandObject->Execute(
+    '--version', '5.0.1', '--module-directory',
+    'scripts/test/sample/SysConfig/Migration/Package/TestPackage/',
+    'scripts/test/sample/SysConfig/Migration/Package/TestPackage/TestPackage.sopm', 'var/tmp/'
+);
 
 $Self->Is(
     $ExitCode,
@@ -95,7 +103,7 @@ $Self->Is(
 
 # install the package
 $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::Install');
-$ExitCode = $CommandObject->Execute( 'var/tmp/TestPackage-5.0.1.opm' );
+$ExitCode      = $CommandObject->Execute('var/tmp/TestPackage-5.0.1.opm');
 
 $Self->Is(
     $ExitCode,
@@ -105,11 +113,15 @@ $Self->Is(
 
 # list the installed packages
 $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::List');
-$ExitCode = $CommandObject->Execute();
+$ExitCode      = $CommandObject->Execute();
 
 # build a 6.0.1 version of the test package
 $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Package::Build');
-$ExitCode = $CommandObject->Execute( '--version', '6.0.1', '--module-directory', 'scripts/test/sample/SysConfig/Migration/Package/TestPackage/', 'scripts/test/sample/SysConfig/Migration/Package/TestPackage/TestPackage.sopm', 'var/tmp/' );
+$ExitCode      = $CommandObject->Execute(
+    '--version', '6.0.1', '--module-directory',
+    'scripts/test/sample/SysConfig/Migration/Package/TestPackage/',
+    'scripts/test/sample/SysConfig/Migration/Package/TestPackage/TestPackage.sopm', 'var/tmp/'
+);
 
 $Self->Is(
     $ExitCode,
@@ -119,7 +131,7 @@ $Self->Is(
 
 # upgrade the package
 $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::Upgrade');
-$ExitCode = $CommandObject->Execute( 'var/tmp/TestPackage-6.0.1.opm' );
+$ExitCode      = $CommandObject->Execute('var/tmp/TestPackage-6.0.1.opm');
 
 $Self->Is(
     $ExitCode,
@@ -129,8 +141,7 @@ $Self->Is(
 
 # list the installed packages
 $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::List');
-$ExitCode = $CommandObject->Execute();
-
+$ExitCode      = $CommandObject->Execute();
 
 my @Tests = (
     {
@@ -141,48 +152,48 @@ my @Tests = (
         Name           => 'Frontend::Module###AgentTicketQueue',
         EffectiveValue => {
             'Description' => 'Overview of all open Tickets. Migrated.',
-            'Group' => [
-              'admin'
+            'Group'       => [
+                'admin'
             ],
-            'GroupRo' => [],
+            'GroupRo'    => [],
             'NavBarName' => 'Ticket',
-            'Title' => 'QueueView',
-          },
+            'Title'      => 'QueueView',
+        },
     },
     {
         Name           => 'Frontend::Navigation###AgentTicketQueue###1',
         EffectiveValue => {
-            'AccessKey' => 'o',
-            'Block' => '',
+            'AccessKey'   => 'o',
+            'Block'       => '',
             'Description' => 'Overview of all open Tickets. Migrated.',
-            'Group' => [
+            'Group'       => [
                 'admin',
             ],
-            'GroupRo' => [],
-            'Link' => 'Action=AgentTicketQueue',
+            'GroupRo'    => [],
+            'Link'       => 'Action=AgentTicketQueue',
             'LinkOption' => '',
-            'Name' => 'Queue view',
-            'NavBar' => 'Ticket',
-            'Prio' => '100',
-            'Type' => '',
+            'Name'       => 'Queue view',
+            'NavBar'     => 'Ticket',
+            'Prio'       => '100',
+            'Type'       => '',
         },
     },
     {
         Name           => 'Frontend::Navigation###AgentTicketQueue###2',
         EffectiveValue => {
-            'AccessKey' => 't',
-            'Block' => 'ItemArea',
+            'AccessKey'   => 't',
+            'Block'       => 'ItemArea',
             'Description' => 'Test Migrated',
-            'Group' => [
-              'admin',
+            'Group'       => [
+                'admin',
             ],
-            'GroupRo' => [],
-            'Link' => 'Action=AgentTicketQueue',
+            'GroupRo'    => [],
+            'Link'       => 'Action=AgentTicketQueue',
             'LinkOption' => '',
-            'Name' => 'Tickets',
-            'NavBar' => 'Ticket',
-            'Prio' => '200',
-            'Type' => 'Menu',
+            'Name'       => 'Tickets',
+            'NavBar'     => 'Ticket',
+            'Prio'       => '200',
+            'Type'       => 'Menu',
         },
     },
 );
@@ -196,7 +207,7 @@ for my $Test (@Tests) {
         Name => $Test->{Name},
     );
 
-    if ( IsString($Test->{EffectiveValue}) ) {
+    if ( IsString( $Test->{EffectiveValue} ) ) {
 
         # check effective value
         $Self->Is(
@@ -217,7 +228,7 @@ for my $Test (@Tests) {
 
 # uninstall the package
 $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::Uninstall');
-$ExitCode = $CommandObject->Execute( 'TestPackage' );
+$ExitCode      = $CommandObject->Execute('TestPackage');
 
 $Self->Is(
     $ExitCode,
