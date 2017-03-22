@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.775805793553652;
+    $Self->{Completeness}        = 0.796909941044928;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -706,7 +706,7 @@ sub Data {
         'Ticket %s: update time will be over in %s!' => 'Ticket %s: ¡El tiempo para la actualización vencerá en %s!',
         'Ticket %s: solution time is over (%s)!' => 'Ticket %s: ¡Se ha sobrepasado el tiempo para solucionarlo (%s)!',
         'Ticket %s: solution time will be over in %s!' => 'Ticket %s: ¡El tiempo para solucionarlo vencerá en %s!',
-        'There are more escalated tickets!' => '¡Hay más tickets escalados¡',
+        'There are more escalated tickets!' => '¡Hay más tickets escalados!',
         'Plain Format' => 'Formato plano',
         'Reply All' => 'Responder a todos',
         'Direction' => 'Dirección',
@@ -1037,7 +1037,7 @@ sub Data {
             'Aquí puede indicar un enlace HTTP opcional para el valor del campo en las pantallas de Vista general y Ampliación',
         'Link for preview' => 'Enlace de vista previa',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            'Si se rellena, esta URL será usada para una vista preliminar si se pone el raton encima de detalles del tiquet. Porfavor note que para que esto funcione la URL regular usada arriba debe ser rellenada también.',
+            'Si se rellena, esta URL será usada para una vista preliminar si se pone el ratón encima de detalles del ticket. Por favor note que para que esto funcione, la URL usada arriba debe ser rellenada también.',
         'Restrict entering of dates' => 'Restringir entrada de fechas',
         'Here you can restrict the entering of dates of tickets.' => 'Aquí puede restringir la entrada de fechas para los tickets.',
 
@@ -1382,7 +1382,7 @@ sub Data {
             '\'NombreFuncion\' es utilizado como ejemplo para el actual nombre de invocador/operación.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'TextoLibre\' es utilizado como ejemplo para el valor configurado actualmente.',
-        'Response name free text' => 'Texto libre nombre de respuesta',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Texto para ser usado como un sufijo del nombre del contenedor de la función o remplazo.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1390,6 +1390,7 @@ sub Data {
         'Response name scheme' => 'Nombre esquema respuesta',
         'Select how SOAP response function wrapper should be constructed.' =>
             'Seleccione como el contenedor de la función de respuesta SOAP debe ser construido.',
+        'Response name free text' => 'Texto libre nombre de respuesta',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Aquí puede especificar el tamaño máximo (en bytes) de mensajes SOAP que procesará OTRS.',
         'Encoding' => 'Codificación',
@@ -1624,7 +1625,7 @@ sub Data {
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Direcciones adicionales del destinatario de correo electrónico.',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
-            'Puedes usar los OTRS-tags como <OTRS_TICKET_DynamicField_...> para ingresar los valores desde su boleta corriente.',
+            'Puede usar los OTRS-tags como <OTRS_TICKET_DynamicField_...> para insertar los valores desde su Ticket actual.',
         'Notification article type' => 'Notificación de tipo',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Un artículo será creado si la notificación es enviada al cliente o a una dirección de correo adicional.',
@@ -2554,6 +2555,7 @@ sub Data {
         'Stacked' => 'Apilado',
         'Expanded' => 'Expandido',
         'Stream' => 'Stream',
+        'No Data Available.' => '',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Por favor, seleccione un formato de salida gráfica válida en la configuración de este widget.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -3299,7 +3301,7 @@ sub Data {
         'Between' => 'Entre',
         'Relative period' => 'Periodo relativo',
         'The past complete %s and the current+upcoming complete %s %s' =>
-            'Los %s pasados completos y los %s completos actuales+próximos.',
+            'El pasado completó %s y el actual + próximo completo %s %s',
         'Do not allow changes to this element when the statistic is generated.' =>
             'No permitir cambios en este elemento mientras la estadística es generada.',
 
@@ -3409,7 +3411,7 @@ sub Data {
             'Por favor elimine las siguientes palabras porque ellas no pueden ser usadas para la selección de ticket:',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
-        'Need WebserviceID!' => 'Se requiere ID de ServicioWeb',
+        'Need WebserviceID!' => '¡Se requiere ID de ServicioWeb!',
         'Could not get data for WebserviceID %s' => 'No pudo recibir los datos para el ID de Servicio Web %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
@@ -3417,7 +3419,7 @@ sub Data {
         'Invoker %s is not registered' => 'El invocador %s no está registrado',
         'InvokerType %s is not registered' => 'El Tipo de Invocador %s no esta registrado',
         'Need Invoker' => 'Se requiere el Invocador',
-        'Could not determine config for invoker %s' => 'No se determina la configuración para el invocador &s',
+        'Could not determine config for invoker %s' => 'No se determina la configuración para el invocador %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
         'Could not get registered configuration for action type %s' => 'No pudo registrarse la configuración para el tipo de acción %s',
@@ -3448,13 +3450,14 @@ sub Data {
         'Web service "%s" updated!' => 'Servicio web "%s" actualizado!',
         'There was an error creating the web service.' => 'Se produjo un error creando un servicio web.',
         'Web service "%s" created!' => '¡Servicio web "%s" creado!',
-        'Need Name!' => 'Se requiere el Nombre!',
-        'Need ExampleWebService!' => 'Se requiere un Ejemplo de Servicio Web!',
-        'Could not read %s!' => 'No se pudo leer %s!',
-        'Need a file to import!' => 'Se requiere el archivo para importar!',
+        'Need Name!' => '¡Se requiere el Nombre!',
+        'Need ExampleWebService!' => '¡Se requiere un Ejemplo de Servicio Web!',
+        'Could not read %s!' => '¡No se pudo leer %s!',
+        'Need a file to import!' => '¡Se requiere el archivo para importar!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
-            'El archivo importado no funciona con el contenido YAML! Favor, compruebe los registros de OTRS para más información.',
+            '¡El archivo importado no funciona con el contenido YAML!  Por favor, compruebe los registros de OTRS para más información',
         'Web service "%s" deleted!' => 'Servicio web "%s" borrado!',
+        'New Web service' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'No tiene Historia de ID de Servicio Web!',
@@ -3470,11 +3473,11 @@ sub Data {
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'Los notificaciones no se pudieron importarse debido a un error desconocido, favor, compruebe los registros de OTRS para más información.',
         'The following Notifications have been added successfully: %s' =>
-            'Los siguientes Notificaciones se han agregado exitosamente:%s',
+            'Los siguientes Notificaciones se han agregado exitosamente: %s',
         'The following Notifications have been updated successfully: %s' =>
             'Los siguientes Notificaciones se han actualizado exitosamente:%s',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
-            'Hubo errores al añadir/actualizar los siguientes Notificaciones: %s. Favor, compruebe el archivo de registros para más información.',
+            'Hubo errores al añadir/actualizar las siguientes Notificaciones: %s. Por favor, compruebe el archivo de registros para más información.',
         'Agent who owns the ticket' => 'Agente que es propietario del ticket',
         'Agent who is responsible for the ticket' => 'Agente que es responsable del ticket',
         'All agents watching the ticket' => 'Todos los agentes viendo el ticket',
@@ -3488,17 +3491,17 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
-            'El entorno de PGP no funciona. Favor compruebe los registros para más información!',
-        'Need param Key to delete!' => 'Se requiere el Clave de parámetros para borrar!',
-        'Key %s deleted!' => 'El Clave %s se ha detectado!',
-        'Need param Key to download!' => 'Se requiere el Clave de parámetros para descargar!',
+            'El entorno de PGP no funciona.  ¡Por favor compruebe los registros para más información!',
+        'Need param Key to delete!' => '¡Se requiere la Clave de parámetros para borrar!',
+        'Key %s deleted!' => '¡La Clave %s se ha borrado!',
+        'Need param Key to download!' => '¡Se requiere el Clave de parámetros para descargar!',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otrs.Console.pl to install packages!' =>
             'Perdón, Apache:: Se requiere un reinicio como PerlModule y PerllnitHandler en el archivo de configuración de Apache. También vea los scripts/apache2-httpd.include.conf. Como una alternativa, puedes usar la herramienta de línea de comandos bin/otrs.Console.p para instalar los paquetes!',
         'No such package!' => '¡No existe el paquete!',
-        'No such file %s in package!' => 'No hay tal archivo %s en el paquete!',
-        'No such file %s in local file system!' => 'No hay tal archivo %s en la sistema de los archivos locales!',
+        'No such file %s in package!' => '¡No hay tal archivo %s en el paquete!',
+        'No such file %s in local file system!' => '¡No hay tal archivo %s en la sistema de los archivos locales!',
         'Can\'t read %s!' => '¡No se puede leer %s!',
         'File is OK' => 'El archivo está bien.',
         'Package has locally modified files.' => 'El paquete tiene archivos modificados localmente. ',
@@ -3508,16 +3511,16 @@ sub Data {
             'Paquete no verificado debido a problema en la comunicación con el servidor de verificación!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'No se pudo conectarse con el servidor de la lista de Funciones de los Complementos  de OTRS!',
         'Can\'t get OTRS Feature Add-on list from server!' => 'No se puede obtener la lista de los Complementos de las Funciones de OTRS desde el servidor!',
-        'Can\'t get OTRS Feature Add-on from server!' => 'No se puede obtener el Comlimento de los Funciones de OTRS desde el servidor.',
+        'Can\'t get OTRS Feature Add-on from server!' => '¡No se puede obtener el Complemento de los Funciones de OTRS desde el servidor!',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
         'No such filter: %s' => 'No existe el filtro: %s',
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Need ExampleProcesses!' => 'Se requiere un Ejemplo de Procesos!',
-        'Need ProcessID!' => 'Se requiere el ID de Processo!',
+        'Need ProcessID!' => '¡Se requiere el ID de Processo!',
         'Yes (mandatory)' => 'Si (Obligatorio)',
-        'Unknown Process %s!' => 'El Processo Desconocido %s!',
+        'Unknown Process %s!' => '¡Proceso Desconocido %s!',
         'There was an error generating a new EntityID for this Process' =>
             'Se produjo un error al generar un nuevo ID de Entidad para este Processo.',
         'The StateEntityID for state Inactive does not exists' => 'El ID del Estado de Entidad para el estado Inactivo no existe.',
@@ -3585,7 +3588,7 @@ sub Data {
         'Need TransitionID!' => 'Se requiere ID de Transición!',
         'Could not get data for TransitionID %s' => 'No se pudieron obtener los datos para ID de Transición %s',
         'There was an error updating the Transition' => 'Se produjo un error al actualizar la Transición',
-        'Edit Transition "%s"' => 'Edite Transición "%s"',
+        'Edit Transition "%s"' => 'Editar transición "%s"',
         'xor' => 'xor',
         'String' => 'Cadena',
         'Transition validation module' => 'Módulo Validación de Transición',
@@ -3654,73 +3657,73 @@ sub Data {
         'Template added!' => '¡Plantilla añadida!',
 
         # Perl Module: Kernel/Modules/AdminType.pm
-        'Need Type!' => 'Se requiere Tipo!',
+        'Need Type!' => '¡Se requiere el Tipo!',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'No such config for %s' => '',
+        'No such config for %s' => 'No existe tal configuración para %s',
         'Statistic' => 'Estadística',
         'No preferences for %s!' => '¡No hay preferencias para %s!',
-        'Can\'t get element data of %s!' => '',
-        'Can\'t get filter content data of %s!' => '',
+        'Can\'t get element data of %s!' => 'No se pudieron obtener los datos de elementos de %s!',
+        'Can\'t get filter content data of %s!' => 'No se pudieron obtener los datos de filtro de contenido de %s!',
         'Customer Company Name' => 'Nombre de la Empresa del Cliente',
         'Customer User ID' => 'ID de Usuario Cliente',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
-        'Need SourceObject and SourceKey!' => '',
+        'Need SourceObject and SourceKey!' => 'Se requiere  Objeto de Fuente y Clave de Fuente!',
         'Please contact the administrator.' => 'Por favor contacte el administrador.',
         'You need ro permission!' => 'Necesita permiso ro !',
         'Can not delete link with %s!' => '¡No se puede borrar el enlace con %s!',
         'Can not create link with %s! Object already linked as %s.' => '¡No se puede crear un enlace con % s! El objeto ya esta enlazado con % s.',
         'Can not create link with %s!' => 'No se puede crear enlace con %s!',
-        'The object %s cannot link with other object!' => '',
+        'The object %s cannot link with other object!' => 'El objeto %s no puede vincularse con otro objeto!',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
-        'Param Group is required!' => '',
+        'Param Group is required!' => 'Se requiere Grupo de parámetros!',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
-        'Parameter %s is missing.' => '',
+        'Parameter %s is missing.' => 'Falta el parámetro %s',
         'Invalid Subaction.' => 'Subaccion Invalida.',
         'Statistic could not be imported.' => 'Las estadísticas no pudieron ser importadas.',
         'Please upload a valid statistic file.' => 'Por favor suba un archivo estadístico válido.',
-        'Export: Need StatID!' => '',
-        'Delete: Get no StatID!' => '',
-        'Need StatID!' => '',
-        'Could not load stat.' => '',
+        'Export: Need StatID!' => 'Exportar: se necesita ID de Estadística!',
+        'Delete: Get no StatID!' => 'Borrar: No se pudo obtener ID de Estadística!',
+        'Need StatID!' => 'Se necesita ID de Estadística!',
+        'Could not load stat.' => 'No se pudo cargar la estadística.',
         'Could not create statistic.' => 'No se pudo crear la estadística.',
-        'Run: Get no %s!' => '',
+        'Run: Get no %s!' => 'Ejecución: No se pudo obtener %s!',
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
-        'No TicketID is given!' => '',
+        'No TicketID is given!' => 'Ningún TicketID está dado!',
         'You need %s permissions!' => 'Necesita permisos %s!',
-        'Could not perform validation on field %s!' => '',
+        'Could not perform validation on field %s!' => 'No se pudo realizar validación en campo %s!',
         'No subject' => 'Sin asunto',
         'Previous Owner' => 'Propietario anterior',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '¡%s es necesario!',
-        'Plain article not found for article %s!' => '',
-        'Article does not belong to ticket %s!' => '',
+        'Plain article not found for article %s!' => 'Artículo sencillo no está encontrado para el artículo %s!',
+        'Article does not belong to ticket %s!' => 'El artículo no pertenece al ticket %s!',
         'Can\'t bounce email!' => '¡No se puede rebotar el correo electrónico!',
         'Can\'t send email!' => '¡No se puede enviar el correo!',
         'Wrong Subaction!' => '¡Subacción incorrecta!',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
-        'Can\'t lock Tickets, no TicketIDs are given!' => '',
+        'Can\'t lock Tickets, no TicketIDs are given!' => 'No se puede bloquear los Ticket, ningún TicketID está dado!',
         'Ticket (%s) is not unlocked!' => '¡El ticket (% s) no está desbloqueado!',
-        'Bulk feature is not enabled!' => '',
-        'No selectable TicketID is given!' => '',
+        'Bulk feature is not enabled!' => 'La característica básica no está habilitada!',
+        'No selectable TicketID is given!' => 'Ningún TicketID seleccionable está dado!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
-            '',
+            'No seleccionaste ningún ticket ó solamente seleccionaste los tickets que están bloqueados por otros agentes.',
         'You need to select at least one ticket.' => 'Debe seleccionar al menos un ticket.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
-            '',
+            'Los siguientes tickets fueron ignorados porque están bloqueadas por otro agente o no tiene acceso de escritura a estos tickets: %s.',
         'The following tickets were locked: %s.' => 'Los siguientes tickets fueron bloqueados: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
-        'Can not determine the ArticleType!' => '',
+        'Can not determine the ArticleType!' => 'No se puede determinar el Tipo de Artículo!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'No Subaction!' => '',
+        'No Subaction!' => '¡No hay Subacción!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => '¡No tiene TicketID!',
@@ -3752,9 +3755,9 @@ sub Data {
         'This chat has been closed and will be removed in %s hours.' => 'Esta conversación ha sido cerrada y será removida en %s horas.',
 
         # Perl Module: Kernel/Modules/AgentTicketPlain.pm
-        'No ArticleID!' => '',
+        'No ArticleID!' => '¡No hay ID de Artículo!',
         'Can\'t read plain article! Maybe there is no plain email in backend! Read backend message.' =>
-            '',
+            'No se pudo leer el artículo sencillo! Tal vez no existe ningún correo sencillo en el procesador adicional. Lee el mensaje del procesador adicional.',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
         'Need TicketID!' => '¡Se necesita TicketID!',
@@ -3762,63 +3765,63 @@ sub Data {
         'Ticket Dynamic Fields' => 'Campos dinámicos del ticket',
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
-        'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
-        'No Process configured!' => '',
+        'Couldn\'t get ActivityDialogEntityID "%s"!' => 'No se pudo obtener el ID de la Entidad del Diálogo de Actividad "%s"!',
+        'No Process configured!' => 'Ningún Proceso configurado!',
         'Process %s is invalid!' => '¡El proceso %s no es válido!',
         'Subaction is invalid!' => '¡La subacción no es válida!',
-        'Parameter %s is missing in %s.' => '',
-        'No ActivityDialog configured for %s in _RenderAjax!' => '',
+        'Parameter %s is missing in %s.' => 'Falta el parámetro %s en %s.',
+        'No ActivityDialog configured for %s in _RenderAjax!' => 'Ningún Diálogo de Actividad configurado para %s en _RenderAjax!',
         'Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!' =>
-            '',
-        'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
+            'No se pudo Iniciar ningún ID de la Entidad de Actividad ó Iniciar ID de la Entidad de Diálogo de Actividad para Proceso: %s en _Obtener Parámetros!',
+        'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'No se pudo obtener el Ticket para TicketID: %s en Obtener Parámetros!',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
-            '',
-        'Process::Default%s Config Value missing!' => '',
+            'No se pudo determinar el ID de Entidad de Actividad. Campo Dinámico ó la Configuración no está instalada apropiadamente!',
+        'Process::Default%s Config Value missing!' => 'Proceso: falta el Valor de Configuración Predeterminada%s! ',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
-            '',
+            'No se pudo obtener ningún ID de la Entidad de Proceso ó TicketID y ID de Entidad de Diálogo de la Actividad!',
         'Can\'t get StartActivityDialog and StartActivityDialog for the ProcessEntityID "%s"!' =>
-            '',
+            'No se pudo obtener el Diálogo de Inicio de Actividad y el Diálogo de Inicio de Actividad para  el ID de Entidad de Proceso "%s"!',
         'Can\'t get Ticket "%s"!' => '¡No se puede obtener el Ticket "%s"!',
         'Can\'t get ProcessEntityID or ActivityEntityID for Ticket "%s"!' =>
-            '',
+            'No se pudieron obtener el ID de Entidad de Proceso ó ID de Entidad de Actividad para TicketID "%s"!',
         'Can\'t get Activity configuration for ActivityEntityID "%s"!' =>
-            '',
+            'No se puede obtener la configuración de Actividad para ID de Entidad de Actividad "%s"!',
         'Can\'t get ActivityDialog configuration for ActivityDialogEntityID "%s"!' =>
-            '',
-        'Can\'t get data for Field "%s" of ActivityDialog "%s"!' => '',
+            'No se puede obtener la configuración del Diálogo de Actividad para ID de Entidad del Diálogo de Actividad "%s"!',
+        'Can\'t get data for Field "%s" of ActivityDialog "%s"!' => 'No se pudieron obtener los datos para el Campo "%s" del Diálogo de Actividad "%s"!',
         'PendingTime can just be used if State or StateID is configured for the same ActivityDialog. ActivityDialog: %s!' =>
-            '',
+            'El TiempoPendiente puede usarse sí el Estado ó ID de Estado está configurado para el mismo Diálogo de Actividad. Diálogo de Actividad: %s!',
         'Pending Date' => 'Fecha pendiente',
         'for pending* states' => 'para estados pendiente*',
-        'ActivityDialogEntityID missing!' => '',
-        'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
-        'Couldn\'t use CustomerID as an invisible field.' => '',
+        'ActivityDialogEntityID missing!' => 'Falta el ID de Entidad de Diálogo de Actividad!',
+        'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'No se pudo obtener la Configuración para el ID de Entidad de Diálogo de Actividad "%s"!',
+        'Couldn\'t use CustomerID as an invisible field.' => 'No se pudo usar el ID del Cliente cómo el campo invisible.',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
-            '',
+            'Falta el ID de Entidad del Proceso, revise su ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
-            '',
+            'Ningún Diálogo de Inicio de Actividad ó Diálogo de Inicio de Actividad para el Proceso "%s" está configurado!',
         'Couldn\'t create ticket for Process with ProcessEntityID "%s"!' =>
-            '',
-        'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!' => '',
-        'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!' => '',
-        'Could not store ActivityDialog, invalid TicketID: %s!' => '',
+            'No se pudo crear el ticket para el Proceso con ID de Entidad del Proceso "%s"!',
+        'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!' => 'No se pudo ajustar el ID de Entidad del Proceso "%s" en TicketID "%s"!',
+        'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!' => 'No se pudo establecer el ID de Entidad de Actividad "%s" en TicketID "%s"!',
+        'Could not store ActivityDialog, invalid TicketID: %s!' => 'No se pudo almacenar el Diálogo de Actividad, TicketID inválido: %s!',
         'Invalid TicketID: %s!' => '¡TicketID no valido: %s!',
-        'Missing ActivityEntityID in Ticket %s!' => '',
-        'This activity dialog does not belong to current activity in Ticket %s!' =>
+        'Missing ActivityEntityID in Ticket %s!' => 'Falta ID de Entidad de Actividad en Ticket %s!',
+        'This step does not belong anymore the current activity in process for Ticket %s!' =>
             '',
-        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '',
-        'Missing ProcessEntityID in Ticket %s!' => '',
+        'Missing ProcessEntityID in Ticket %s!' => 'Falta ID de Entidad de Proceso en Ticket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
+            'No se pudo establecer el valor del Campo Dinámico para %s de Ticket con ID "%s" en Diálogo de Actividad "%s"!',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
+            'No se pudo establecer el TiempoPendiente para Ticket con ID "%s" en Diálogo de Actividad "%s"!',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
-            '',
+            'La configuración del Campo de Diálogo de Actividad equivocada: %s no puede ser Mostrar=> 1 /Demostrar el campo (Favor cambie su configuración a Mostrar=> 0 / No demostrar el campo ó Mostrar=> 2 / Demostrar el campo como obligatorio)!',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
-        'Default Config for Process::Default%s missing!' => '',
-        'Default Config for Process::Default%s invalid!' => '',
+            'No se pudo establecer %s para el Ticket con ID "%s" en Diálogo de Actividad "%s"!',
+        'Default Config for Process::Default%s missing!' => 'Configuración Predeterminada para el Proceso: falta Predetermiada%s!',
+        'Default Config for Process::Default%s invalid!' => 'Configuración Predeterminada para el Proceso: Predeterminada%s inválida!',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => 'Sin titulo',
@@ -3836,20 +3839,20 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'Link Deleted' => 'Enlace borrado',
         'Ticket Locked' => 'Ticket Bloqueado',
-        'Pending Time Set' => '',
+        'Pending Time Set' => 'Establecer el Tiempo Pendiente',
         'Dynamic Field Updated' => 'Campo dinámico actualizado',
         'Outgoing Email (internal)' => 'Correo Saliente (Interno)',
         'Ticket Created' => 'Ticket Creado',
-        'Type Updated' => '',
-        'Escalation Update Time In Effect' => '',
-        'Escalation Update Time Stopped' => '',
-        'Escalation First Response Time Stopped' => '',
+        'Type Updated' => 'Tipo Actualizado',
+        'Escalation Update Time In Effect' => 'Tiempo de Actualización en Escalada en Efecto',
+        'Escalation Update Time Stopped' => 'Tiempo de Actualización en Escalada Parado',
+        'Escalation First Response Time Stopped' => 'Tiempo de la Primera Respuesta en Escalada Parado',
         'Customer Updated' => 'Cliente actualizado',
         'Internal Chat' => 'Chat interno',
-        'Automatic Follow-Up Sent' => '',
+        'Automatic Follow-Up Sent' => 'Seguimiento Automático Enviado',
         'Note Added' => 'Nota añadida',
         'Note Added (Customer)' => 'Nota añadida (cliente)',
-        'State Updated' => '',
+        'State Updated' => 'Estado actualizado',
         'Outgoing Answer' => 'Respuesta Saliente',
         'Service Updated' => 'Servicio actualizado',
         'Link Added' => 'Link añadido',
@@ -3869,10 +3872,10 @@ sub Data {
         'Incoming Follow-Up' => 'Seguimiento Entrante',
         'Automatic Reply Sent' => 'Respuesta Automática Enviada',
         'Automatic Reject Sent' => 'Rechazo Automático Enviado',
-        'Escalation Solution Time In Effect' => '',
-        'Escalation Solution Time Stopped' => '',
-        'Escalation Response Time In Effect' => '',
-        'Escalation Response Time Stopped' => '',
+        'Escalation Solution Time In Effect' => 'Tiempo de Solución en Escalada En Efecto',
+        'Escalation Solution Time Stopped' => 'Tiempo de Solución en Escalada Parado',
+        'Escalation Response Time In Effect' => 'Tiempo de Respuesta en Escalada En Efecto',
+        'Escalation Response Time Stopped' => 'Tiempo de Respuesta en Escalada Parado',
         'SLA Updated' => 'SLA actualizado',
         'Queue Updated' => 'Cola actualizada',
         'External Chat' => 'Chat externo',
@@ -3880,11 +3883,11 @@ sub Data {
         'Notification Was Sent' => 'Notificación enviada',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             'Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su estado actual.',
-        'Can\'t get for ArticleID %s!' => '',
-        'Article filter settings were saved.' => '',
-        'Event type filter settings were saved.' => '',
-        'Need ArticleID!' => '',
-        'Invalid ArticleID!' => '',
+        'Can\'t get for ArticleID %s!' => 'No se lo pudo obtener para el ID de Artículo %s!',
+        'Article filter settings were saved.' => 'Los ajustes de filtro de artículos fueron guardados.',
+        'Event type filter settings were saved.' => 'Los ajustes de filtro de tipo de evento fueron guardados.',
+        'Need ArticleID!' => 'Se requiere el ID de Artículo!',
+        'Invalid ArticleID!' => 'El ID de Artículo inválido!',
         'Offline' => 'Desconectado',
         'User is currently offline.' => 'El usuario está desconectado.',
         'User is currently active.' => 'El usuario está conectado.',
@@ -3896,13 +3899,13 @@ sub Data {
         'View the source for this Article' => 'Ver la fuente de este artículo',
 
         # Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
-        'FileID and ArticleID are needed!' => '',
-        'No TicketID for ArticleID (%s)!' => '',
+        'FileID and ArticleID are needed!' => 'Se requieren el ID de Archivo y el ID de Artículo! ',
+        'No TicketID for ArticleID (%s)!' => 'Ningún TicketID para el ID de Artículo (%s)!',
         'No such attachment (%s)!' => '¡No existe el archivo adjunto (%s)!',
 
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
-        'Check SysConfig setting for %s::QueueDefault.' => '',
-        'Check SysConfig setting for %s::TicketTypeDefault.' => '',
+        'Check SysConfig setting for %s::QueueDefault.' => 'Revise los ajustes de la Configuración del Sistema para %s::FilaPredeterminada.',
+        'Check SysConfig setting for %s::TicketTypeDefault.' => 'Revise los ajustes de la Configuración del Sistema para %s::TipodeTicketPredeterminado.',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '¡Se necesita la Identificación del cliente!',
@@ -3920,20 +3923,24 @@ sub Data {
 
         # Perl Module: Kernel/Modules/Installer.pm
         'Directory "%s" doesn\'t exist!' => '¡El directorio "%s" no existe!',
-        'Configure "Home" in Kernel/Config.pm first!' => '',
+        'Configure "Home" in Kernel/Config.pm first!' => 'Configurar "Casa" en Kernel/Config.pm primero!',
         'File "%s/Kernel/Config.pm" not found!' => '¡Archivo "%s/Kernel/Config.pm" no encontrado!',
         'Directory "%s" not found!' => '¡Directorio "%s" no encontrado!',
-        'Kernel/Config.pm isn\'t writable!' => '',
+        'Kernel/Config.pm isn\'t writable!' => 'Kernel/Config.pm no es modificable!',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
-            '',
-        'Unknown Check!' => '',
-        'The check "%s" doesn\'t exist!' => '',
+            'Si quieres usar el instalador, establece el Kernel/Config.pm modificable para el usuario de servicio web.',
+        'Unknown Check!' => 'Cheque Desconocido!',
+        'The check "%s" doesn\'t exist!' => 'El cheque "%s" no existe!',
         'Database %s' => 'Base de datos %s',
+        'Configure MySQL' => '',
+        'Configure PostgreSQL' => '',
+        'Configure Oracle' => '',
         'Unknown database type "%s".' => 'Tipo de base de datos desconocida "%s".',
         'Please go back.' => 'Por favor, vuelve atrás.',
         'Install OTRS - Error' => 'Instalar OTRS - Error',
         'File "%s/%s.xml" not found!' => '¡Archivo "%s/%s.xml" no encontrado!',
         'Contact your Admin!' => '¡Contacta con tu Administrador!',
+        'Syslog' => '',
         'Can\'t write Config file!' => 'No se puede crear el Archivo de Configuración.',
         'Unknown Subaction %s!' => 'Subacción Desconocida %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -3945,8 +3952,8 @@ sub Data {
             'Error: Por favor, establezca el valor de innodb_log_file_size en su base de datos para al menos %s MB ( actual: %s MB, recomendado: %s MB). Para obtener más información, por favor, eche un vistazo a %s.',
 
         # Perl Module: Kernel/Modules/PublicRepository.pm
-        'Need config Package::RepositoryAccessRegExp' => '',
-        'Authentication failed from %s!' => '',
+        'Need config Package::RepositoryAccessRegExp' => 'Se necesita configurar Paquete::Registro de Acceso a Repositorio Expirado ',
+        'Authentication failed from %s!' => 'Autenticación fallida desde %s!',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
         'Sent message crypted to recipient!' => 'Mensaje enviado encriptado al destinatario!',
@@ -4013,7 +4020,8 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'No (not supported)' => 'No (no soportado)',
         'No past complete or the current+upcoming complete relative time value selected.' =>
-            '',
+            'No esta seleccionado el valor de tiempo relativo completo de pasado ó de actual+próximo.
+ ',
         'The selected time period is larger than the allowed time period.' =>
             'El periodo de tiempo seleccionado es mayor que el periodo de tiempo permitido.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
@@ -4054,6 +4062,12 @@ sub Data {
         'This setting is not active by default.' => 'Esta opción no esta activa por omisión.',
         'This setting can not be deactivated.' => 'Este ajuste no puede ser deshabilitado.',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        'e.g. Text or Te*t' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
+        'Ignore this field.' => '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'no instalado',
         'File is not installed!' => '¡El archivo no esta instalado!',
@@ -4062,7 +4076,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Inactivo',
-        'FadeAway' => '',
+        'FadeAway' => 'Agotado',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t get Token from sever' => 'No se puede obtener el Token desde el servidor',
@@ -4074,8 +4088,6 @@ sub Data {
         'State Type' => 'Tipo de Estado',
         'Created Priority' => 'Prioridad de creación',
         'Created State' => 'Estado de creación',
-        'CustomerUserLogin (complex search)' => '',
-        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Fecha de creación',
         'Close Time' => 'Fecha de cierre',
         'Escalation - First Response Time' => 'Escalada - Fecha de la primera respuesta',
@@ -4083,6 +4095,9 @@ sub Data {
         'Escalation - Solution Time' => 'Escalada - Fecha de solución',
         'Agent/Owner' => 'Agente/Propietario',
         'Created by Agent/Owner' => 'Creado por Agente/Propietario',
+        'CustomerUserLogin' => 'Nombre de usuario del cliente',
+        'CustomerUserLogin (complex search)' => 'Login del Usuario Cliente (búsqueda compleja) ',
+        'CustomerUserLogin (exact match)' => 'Login de Usuario Cliente (coincidencia exacta)',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Evaluación por',
@@ -4111,28 +4126,31 @@ sub Data {
         'Historic Time Range' => 'Rango Tiempo Histórico',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-        'Solution Average' => '',
+        'Solution Average' => 'Promedio de la solución',
         'Solution Min Time' => 'Tiempo mínimo de la solución',
         'Solution Max Time' => 'Tiempo máximo de la solución',
-        'Solution Average (affected by escalation configuration)' => '',
-        'Solution Min Time (affected by escalation configuration)' => '',
-        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Average (affected by escalation configuration)' => 'Solución promedia (afectada por la configuración de escalada)',
+        'Solution Min Time (affected by escalation configuration)' => 'Tiempo Mínimo de Solución (afectada por la configuración de escalada)',
+        'Solution Max Time (affected by escalation configuration)' => 'Tiempo Máximo de Solución (afectada por la configuración de escalada)',
         'Solution Working Time Average (affected by escalation configuration)' =>
-            '',
+            'Tiempo de Trabajo Promedio de Solución (afectada por la configuración de escalada)',
         'Solution Min Working Time (affected by escalation configuration)' =>
-            '',
+            'Tiempo de Trabajo Mínimo de Solución (afectada por la configuración de escalada)',
         'Solution Max Working Time (affected by escalation configuration)' =>
+            'Tiempo de Trabajo Máximo de Solución (afectada por la configuración de escalada)',
+        'First Response Average (affected by escalation configuration)' =>
             '',
-        'Response Average (affected by escalation configuration)' => '',
-        'Response Min Time (affected by escalation configuration)' => '',
-        'Response Max Time (affected by escalation configuration)' => '',
-        'Response Working Time Average (affected by escalation configuration)' =>
+        'First Response Min Time (affected by escalation configuration)' =>
             '',
-        'Response Min Working Time (affected by escalation configuration)' =>
+        'First Response Max Time (affected by escalation configuration)' =>
             '',
-        'Response Max Working Time (affected by escalation configuration)' =>
+        'First Response Working Time Average (affected by escalation configuration)' =>
             '',
-        'Number of Tickets (affected by escalation configuration)' => '',
+        'First Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Working Time (affected by escalation configuration)' =>
+            '',
+        'Number of Tickets (affected by escalation configuration)' => 'Número de Tickets (afectados por la configuración de escalada)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Días',
@@ -4304,8 +4322,8 @@ sub Data {
         'Session Config Settings' => 'Ajustes de Configuración de Sesión.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
-        'Spooled Emails' => '',
-        'There are emails in var/spool that OTRS could not process.' => '',
+        'Spooled Emails' => 'Emails están en portapapeles',
+        'There are emails in var/spool that OTRS could not process.' => 'Se encuentran emails en var/spool cuáles no pueden ser procesados por OTRS.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -4314,7 +4332,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
         'Default Ticket Type' => 'Tipo de Ticket predeterminado',
         'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
-            '',
+            'El tipo predeterminado de ticket configurado está inválido ó se falta. Favor, cambie los ajustes Ticket::Type::Default y seleccione el tipo de ticket válido.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
         'Ticket Index Module' => 'Módulo De Índice de Tickets',
@@ -4341,7 +4359,7 @@ sub Data {
             'La tabla ticket_lock_index contiene registros huérfanos. Por favor ejectute bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" para limpiar el índice StaticDB.',
         'Orphaned Records In ticket_index Table' => 'Registros Huerfanos en la Tabla ticket_index',
         'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
-            '',
+            'La tabla ticket_index contiene registros perdidos. Favor inicie bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" para limpiar el StaticDB index.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => 'Ajustes de hora',
@@ -4349,9 +4367,9 @@ sub Data {
         'Computed server time offset' => 'Desfase calculado de hora del servidor',
         'OTRS TimeZone setting (global time offset)' => 'Configuración de la Zona Horaria de OTRS (compensación de hora global) ',
         'TimeZone may only be activated for systems running in UTC.' => 'La Zona Horaria sólo puede ser activada en sistemas que operan en UTC.',
-        'OTRS TimeZoneUser setting (per-user time zone support)' => '',
+        'OTRS TimeZoneUser setting (per-user time zone support)' => 'Los ajustes del Usuario de la Zona Horaria de OTRS (soporte por usuario de la zona horaria)',
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
-            '',
+            'El Usuario de la Zona Horaria solo puede ser activado para los sistemas que operan en  UTC que no tiene la Zona Horaria de OTRS establecida.',
         'OTRS TimeZone setting for calendar ' => 'Ajustes OTRS TimeZone para calendario',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
@@ -4384,7 +4402,7 @@ sub Data {
         'Environment Variables' => 'Variables de entorno',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
-        'Support Data Collection' => '',
+        'Support Data Collection' => 'Colección de Datos de Soporte',
         'Support data could not be collected from the web server.' => 'No se pudo recopilar datos de soporte desde el servidor web.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
@@ -4401,12 +4419,12 @@ sub Data {
         'Problem' => 'Problema',
 
         # Perl Module: Kernel/System/Ticket.pm
-        'Reset of unlock time.' => '',
+        'Reset of unlock time.' => 'Reajuste del tiempo desbloqueado.',
 
         # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
         'PGP sign only' => 'Solo Firma PGP',
         'PGP encrypt only' => 'Solo Cifrado PGP',
-        'PGP sign and encrypt' => '',
+        'PGP sign and encrypt' => 'PGP firma y codificación',
         'SMIME sign only' => '',
         'SMIME encrypt only' => '',
         'SMIME sign and encrypt' => '',
@@ -4551,7 +4569,7 @@ Tu Equipo de Soporte
         '(UserLogin) Firstname Lastname' => '(LoginUsuario) Nombre Apellidos',
         '(UserLogin) Lastname Firstname' => '(LoginUsuario) Apellidos Nombre ',
         '(UserLogin) Lastname, Firstname' => '(LoginUsuario) Apellidos, Nombre ',
-        '*** out of office until %s (%s d left) ***' => '',
+        '*** out of office until %s (%s d left) ***' => '*** fuera de la oficina hasta el  %s (%s dias restantes) ***',
         '100 (Expert)' => '100 (Experto)',
         '200 (Advanced)' => '200 (Avanzado)',
         '300 (Beginner)' => '300 (Principiante)',
@@ -5578,7 +5596,7 @@ Tu Equipo de Soporte
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
-        'Development' => '',
+        'Development' => 'Desarrollo',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5950,6 +5968,8 @@ Tu Equipo de Soporte
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
+        'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
             '',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
@@ -6326,7 +6346,13 @@ Tu Equipo de Soporte
         'Search backend router.' => '',
         'Search.' => 'Buscar.',
         'Second Queue' => 'Cola Secundaria',
+        'Select after which period ticket overviews should refresh automatically.' =>
+            '',
+        'Select how many tickets should be shown in overviews by default.' =>
+            '',
+        'Select the main interface language.' => '',
         'Select your frontend Theme.' => 'Seleccione su tema',
+        'Select your preferred layout for OTRS.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -6348,7 +6374,9 @@ Tu Equipo de Soporte
         'Serbian Cyrillic' => 'Serbio Cirílico',
         'Serbian Latin' => 'Serbio (Latino)',
         'Service view' => 'Vista de servicio',
-        'ServiceView' => '',
+        'ServiceView' => 'Vista del servicio',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
         'Set sender email addresses for this system.' => 'Establecer direcciones de envío de correo electrónico para este sistema.',
@@ -6686,6 +6714,8 @@ Tu Equipo de Soporte
             '',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             '',
+        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '',
         'Shows colors for different article types in the article table.' =>
@@ -6819,7 +6849,7 @@ Tu Equipo de Soporte
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => 'Corrector ortográfico.',
-        'Stable' => '',
+        'Stable' => 'Estable',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6905,7 +6935,7 @@ Tu Equipo de Soporte
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'This will allow the system to send text messages via SMS.' => '',
+        'This will allow the system to send text messages via SMS.' => 'Esto permitirá al sistema enviar mensajes de texto a través de SMS.',
         'Ticket Close.' => '',
         'Ticket Compose Bounce Email.' => '',
         'Ticket Compose email Answer.' => '',
@@ -7011,17 +7041,17 @@ Tu Equipo de Soporte
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Su selección de servicios de sus servicios preferidos. También se notifica sobre esos servicios por correo electrónico si está habilitado.',
         'attachment' => 'archivo adjunto',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => 'rebotar',
+        'compose' => 'componer',
         'debug' => 'depurar',
         'error' => 'error',
-        'forward' => '',
+        'forward' => 'transmitido',
         'info' => 'Información',
         'inline' => 'en línea',
         'notice' => 'Nota',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => 'pendiente',
+        'responsible' => 'responsable',
+        'stats' => 'estadísticas',
 
     };
     # $$STOP$$

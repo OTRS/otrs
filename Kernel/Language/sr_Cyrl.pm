@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999796001631987;
+    $Self->{Completeness}        = 0.995120959544623;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1377,7 +1377,7 @@ sub Data {
             '„НазивФункције” се користи као пример за стварно име позиваоца/операције.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '„Слободан текст” се користи као пример за стварну подешену вредност.',
-        'Response name free text' => 'Слободан текст имена одговора',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Текст који ће бити кориштен као наставак имена или замена омотача функције.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1385,6 +1385,7 @@ sub Data {
         'Response name scheme' => 'Шема имена одговора',
         'Select how SOAP response function wrapper should be constructed.' =>
             'Изаберите како ће бити конструисан омотач функције „SOAP” одговора.',
+        'Response name free text' => 'Слободан текст имена одговора',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Овде можете унети максималну величину (у бајтима) „SOAP” порука које ће „OTRS” да обради.',
         'Encoding' => 'Кодни распоред',
@@ -2549,6 +2550,7 @@ sub Data {
         'Stacked' => 'Наслагано',
         'Expanded' => 'Проширено',
         'Stream' => 'Проток',
+        'No Data Available.' => '',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Молимо да у конфигурацији овог додатка изаберете важећи излазни формат графикона.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -3451,6 +3453,7 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'Увезена датотека нема исправан „YAML” садржај! Молимо проверите „OTRS” дневник за детаље',
         'Web service "%s" deleted!' => 'Веб сервис „%s” је обрисан!',
+        'New Web service' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Нема WebserviceHistoryID!',
@@ -3800,10 +3803,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Не могу снимити дијалог активности, неважећи ИД тикета: %s!',
         'Invalid TicketID: %s!' => 'Неважећи ИД тикета: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Недостаје ИД ентитета активности на тикету %s!',
-        'This activity dialog does not belong to current activity in Ticket %s!' =>
-            'Овај дијалог не припада тренутној активности у тикету %s!',
-        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
-            'Могуће је да је тикет измењен од стране другог оператера у међувремену, молимо затворите овај прозор и поново учитајте тикет.',
+        'This step does not belong anymore the current activity in process for Ticket %s!' =>
+            '',
+        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => 'Недостаје ИД ентитета процеса на тикету %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Не могу поставити вредност динамичког поља за %s за ИД тикета „%s” у дијалогу активности „%s”!',
@@ -3925,11 +3928,15 @@ sub Data {
         'Unknown Check!' => 'Непозната провера!',
         'The check "%s" doesn\'t exist!' => 'Провера „%s” не постоји!',
         'Database %s' => 'База података %s',
+        'Configure MySQL' => '',
+        'Configure PostgreSQL' => '',
+        'Configure Oracle' => '',
         'Unknown database type "%s".' => 'Непознат тип базе података „%s”.',
         'Please go back.' => 'Молимо идите назад.',
         'Install OTRS - Error' => 'Инсталирање „OTRS” - грешка',
         'File "%s/%s.xml" not found!' => 'Датотека „%s/%s.xml” није пронађена!',
         'Contact your Admin!' => 'Контактирајте вашег администратора!',
+        'Syslog' => '',
         'Can\'t write Config file!' => 'Не могу да упишем конфигурациону датотеку!',
         'Unknown Subaction %s!' => 'Непозната субакција %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -4050,6 +4057,12 @@ sub Data {
         'This setting is not active by default.' => 'Ово подешавање није подразумевано активно.',
         'This setting can not be deactivated.' => 'Ово подешавање се не може деактивирати.',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        'e.g. Text or Te*t' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
+        'Ignore this field.' => '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'није инсталирано',
         'File is not installed!' => 'Датотека није инсталирана!',
@@ -4064,14 +4077,12 @@ sub Data {
         'Can\'t get Token from sever' => 'Не могу прибавити токен од сервера',
 
         # Perl Module: Kernel/System/Stats.pm
-        'Sum' => 'Сума',
+        'Sum' => 'Збир',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => 'Тип статуса',
         'Created Priority' => 'Направљени приоритети',
         'Created State' => 'Креирани статус',
-        'CustomerUserLogin (complex search)' => 'Пријава клијента корисника (сложена претрага)',
-        'CustomerUserLogin (exact match)' => 'Пријава клијента корисника (тачно поклапање)',
         'Create Time' => 'Време креирања',
         'Close Time' => 'Време затварања',
         'Escalation - First Response Time' => 'Ескалација - време првог одзива',
@@ -4079,6 +4090,9 @@ sub Data {
         'Escalation - Solution Time' => 'Ескалација - време решавања',
         'Agent/Owner' => 'Оператер/Власник',
         'Created by Agent/Owner' => 'Креирао Оператер/Власник',
+        'CustomerUserLogin' => 'Пријава клијента корисника',
+        'CustomerUserLogin (complex search)' => 'Пријава клијента корисника (сложена претрага)',
+        'CustomerUserLogin (exact match)' => 'Пријава клијента корисника (тачно поклапање)',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Проценио',
@@ -4119,15 +4133,18 @@ sub Data {
             'Минимално радно време решења (под утицајем поставки ескалације)',
         'Solution Max Working Time (affected by escalation configuration)' =>
             'Максимално радно време решења (под утицајем поставки ескалације)',
-        'Response Average (affected by escalation configuration)' => 'Просечно време одговора (под утицајем поставки ескалације)',
-        'Response Min Time (affected by escalation configuration)' => 'Минимално време одговора (под утицајем поставки ескалације)',
-        'Response Max Time (affected by escalation configuration)' => 'Максимално време одговора (под утицајем поставки ескалације)',
-        'Response Working Time Average (affected by escalation configuration)' =>
-            'Просечно радно време одговора (под утицајем поставки ескалације)',
-        'Response Min Working Time (affected by escalation configuration)' =>
-            'Минимално радно време одговора (под утицајем поставки ескалације)',
-        'Response Max Working Time (affected by escalation configuration)' =>
-            'Максимално радно време одговора (под утицајем поставки ескалације)',
+        'First Response Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Time (affected by escalation configuration)' =>
+            '',
+        'First Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Working Time (affected by escalation configuration)' =>
+            '',
         'Number of Tickets (affected by escalation configuration)' => 'Број тикета (под утицајем поставки ескалације)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
@@ -5947,8 +5964,10 @@ Thanks for your help!
             'Ако се овај израз поклапа, аутоматски одговарач неће послати ниједну поруку.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Ако је ова поставка активна, локалне измене неће бити наглашене као грешке у управљачу пакетима и сакупљачу података подршке.',
-        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+        'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
             '',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            'Игнорише врсту пошиљаоца чланака (нпр. аутоматски одговори или имејл обавештења) приликом приказа непрочитаних чланака у детаљном прегледу тикета или аутоматског проширивања у великом екрану прегледа.',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Код избора реда, подразумевано укључи и тикете подредова.',
         'Include unknown customers in ticket filter.' => 'Укључите непознате клијенте у филтер тикета.',
@@ -6322,7 +6341,13 @@ Thanks for your help!
         'Search backend router.' => 'Рутер позадинског модула претраге.',
         'Search.' => 'Претрага.',
         'Second Queue' => 'Други Ред',
+        'Select after which period ticket overviews should refresh automatically.' =>
+            '',
+        'Select how many tickets should be shown in overviews by default.' =>
+            '',
+        'Select the main interface language.' => '',
         'Select your frontend Theme.' => 'Изаберите тему интерфејса.',
+        'Select your preferred layout for OTRS.' => '',
         'Selects the cache backend to use.' => 'Избор кеша који ће користити систем у позадини.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Бира модул за руковање пренешеним датотекама преко веб интерфејса. „DB” складишти све пренешене датотеке у базу података, „FS” користи систем датотека.',
@@ -6345,6 +6370,8 @@ Thanks for your help!
         'Serbian Latin' => 'Српски латиница',
         'Service view' => 'Преглед услуге',
         'ServiceView' => 'ServiceView',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             'Одредите најнижи ниво логовања. Уколико изаберете \'error\', биће логоване само грешке. Са \'debug\' добићете све поруке у логовима.',
         'Set sender email addresses for this system.' => 'Подеси системску адресу пошиљаоца.',
@@ -6682,6 +6709,8 @@ Thanks for your help!
             'Приказује све чланке тикета (детаљно) на детаљном прегледу.',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             'Приказује све клијентске идентификаторе у пољу вишеструког избора (није корисно ако имате много клијентских идентификатора).',
+        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Приказује избор власника за телефонске и имејл тикете у интерфејсу оператера.',
         'Shows colors for different article types in the article table.' =>

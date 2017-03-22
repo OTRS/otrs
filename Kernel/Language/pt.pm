@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.411260709914321;
+    $Self->{Completeness}        = 0.410042691603985;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -226,7 +226,7 @@ sub Data {
         'You have %s new message(s)!' => 'Tem %s mensagem(s) nova(s)!',
         'You have %s reminder ticket(s)!' => 'Tem %s lembrete(s)!',
         'The recommended charset for your language is %s!' => 'O código recomendado para o seu idioma é %s!',
-        'Change your password.' => 'Alterar a sua password',
+        'Change your password.' => 'Alterar a sua palavra-passe',
         'Please activate %s first!' => 'Por favor active %s primeiro!',
         'No suggestions' => 'Sem sugestões',
         'Word' => 'Palavra',
@@ -235,7 +235,7 @@ sub Data {
         'There is no account with that login name.' => 'Não existe nenhuma conta com esse nome de utilizador',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Login falhou! Utilizador ou password errada(s).',
-        'There is no acount with that user name.' => 'Não existe nenhuma conta com esse nome.',
+        'There is no acount with that user name.' => 'Não existe nenhuma conta com esse nome de utilizador.',
         'Please contact your administrator' => 'Por favor contate o administrador',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             'Autenticação efectuada com sucesso, mas não existe registo de cliente no backend de clientes. Por favor, contacte o seu administrador',
@@ -256,8 +256,8 @@ sub Data {
         'Database' => 'Base de dados',
         'Configure Mail' => 'Configurar Mail',
         'Database deleted.' => 'Base de dados apagada.',
-        'Enter the password for the administrative database user.' => 'Insira a password para a base de dados de administrador',
-        'Enter the password for the database user.' => 'Insira a password para a base de dados',
+        'Enter the password for the administrative database user.' => 'Insira a palavra-passe para a base de dados de administrador',
+        'Enter the password for the database user.' => 'Insira a palavra chave para a o utilizador da base de dados',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             'Se criou uma palavra passe para a raiz de Base de Dados tem que a colocar aqui. Se não deixo o campo em branco.',
         'Database already contains data - it should be empty!' => 'A base de dado já contém dados - deveria estar vazia!',
@@ -1378,7 +1378,7 @@ sub Data {
             '',
         '\'FreeText\' is used as example for actual configured value.' =>
             '',
-        'Response name free text' => '',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             '',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1386,6 +1386,7 @@ sub Data {
         'Response name scheme' => '',
         'Select how SOAP response function wrapper should be constructed.' =>
             '',
+        'Response name free text' => '',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             '',
         'Encoding' => '',
@@ -2550,6 +2551,7 @@ sub Data {
         'Stacked' => 'Empilhado',
         'Expanded' => 'Expandido',
         'Stream' => '',
+        'No Data Available.' => '',
         'Please select a valid graph output format in the configuration of this widget.' =>
             '',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -3451,6 +3453,7 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             '',
         'Web service "%s" deleted!' => '',
+        'New Web service' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '',
@@ -3800,9 +3803,9 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
-        'This activity dialog does not belong to current activity in Ticket %s!' =>
+        'This step does not belong anymore the current activity in process for Ticket %s!' =>
             '',
-        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -3925,11 +3928,15 @@ sub Data {
         'Unknown Check!' => '',
         'The check "%s" doesn\'t exist!' => '',
         'Database %s' => '',
+        'Configure MySQL' => '',
+        'Configure PostgreSQL' => '',
+        'Configure Oracle' => '',
         'Unknown database type "%s".' => '',
         'Please go back.' => '',
         'Install OTRS - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => '',
+        'Syslog' => '',
         'Can\'t write Config file!' => '',
         'Unknown Subaction %s!' => '',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -4050,6 +4057,12 @@ sub Data {
         'This setting is not active by default.' => '',
         'This setting can not be deactivated.' => '',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        'e.g. Text or Te*t' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
+        'Ignore this field.' => '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
         'File is not installed!' => '',
@@ -4070,8 +4083,6 @@ sub Data {
         'State Type' => 'Tipo de estado',
         'Created Priority' => 'Prioridade Criada',
         'Created State' => 'Estado de Prioridade',
-        'CustomerUserLogin (complex search)' => '',
-        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Tempo de Prioridade',
         'Close Time' => 'Tempo de Fecho',
         'Escalation - First Response Time' => '',
@@ -4079,6 +4090,9 @@ sub Data {
         'Escalation - Solution Time' => '',
         'Agent/Owner' => 'Agente',
         'Created by Agent/Owner' => 'Criado por Agente',
+        'CustomerUserLogin' => 'Acesso Cliente',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Avaliado por',
@@ -4119,14 +4133,17 @@ sub Data {
             '',
         'Solution Max Working Time (affected by escalation configuration)' =>
             '',
-        'Response Average (affected by escalation configuration)' => '',
-        'Response Min Time (affected by escalation configuration)' => '',
-        'Response Max Time (affected by escalation configuration)' => '',
-        'Response Working Time Average (affected by escalation configuration)' =>
+        'First Response Average (affected by escalation configuration)' =>
             '',
-        'Response Min Working Time (affected by escalation configuration)' =>
+        'First Response Min Time (affected by escalation configuration)' =>
             '',
-        'Response Max Working Time (affected by escalation configuration)' =>
+        'First Response Max Time (affected by escalation configuration)' =>
+            '',
+        'First Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Working Time (affected by escalation configuration)' =>
             '',
         'Number of Tickets (affected by escalation configuration)' => '',
 
@@ -5936,6 +5953,8 @@ Thanks for your help!
             '',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
+        'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
+            '',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6311,7 +6330,13 @@ Thanks for your help!
         'Search backend router.' => '',
         'Search.' => '',
         'Second Queue' => '',
+        'Select after which period ticket overviews should refresh automatically.' =>
+            '',
+        'Select how many tickets should be shown in overviews by default.' =>
+            '',
+        'Select the main interface language.' => '',
         'Select your frontend Theme.' => '',
+        'Select your preferred layout for OTRS.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -6334,6 +6359,8 @@ Thanks for your help!
         'Serbian Latin' => '',
         'Service view' => '',
         'ServiceView' => '',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '',
         'Set sender email addresses for this system.' => '',
@@ -6670,6 +6697,8 @@ Thanks for your help!
         'Shows all the articles of the ticket (expanded) in the zoom view.' =>
             '',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '',

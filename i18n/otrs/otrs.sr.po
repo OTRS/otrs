@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-27 17:38+0000\n"
-"PO-Revision-Date: 2017-02-27 23:40+0000\n"
+"POT-Creation-Date: 2017-03-22 12:37+0000\n"
+"PO-Revision-Date: 2017-03-22 18:44+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -4865,8 +4865,8 @@ msgid "'FreeText' is used as example for actual configured value."
 msgstr "„Слободан текст” се користи као пример за стварну подешену вредност."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "Response name free text"
-msgstr "Слободан текст имена одговора"
+msgid "Request name free text"
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
@@ -4885,6 +4885,10 @@ msgstr "Шема имена одговора"
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
 msgstr "Изаберите како ће бити конструисан омотач функције „SOAP” одговора."
+
+#. Template: AdminGenericInterfaceTransportHTTPSOAP
+msgid "Response name free text"
+msgstr "Слободан текст имена одговора"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -8624,6 +8628,10 @@ msgid "Stream"
 msgstr "Проток"
 
 #. Template: AgentDashboardStats
+msgid "No Data Available."
+msgstr ""
+
+#. Template: AgentDashboardStats
 msgid ""
 "Please select a valid graph output format in the configuration of this "
 "widget."
@@ -11238,6 +11246,10 @@ msgstr "Увезена датотека нема исправан „YAML” с�
 msgid "Web service \"%s\" deleted!"
 msgstr "Веб сервис „%s” је обрисан!"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "New Web service"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "Нема WebserviceHistoryID!"
@@ -12207,14 +12219,16 @@ msgid "Missing ActivityEntityID in Ticket %s!"
 msgstr "Недостаје ИД ентитета активности на тикету %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "This activity dialog does not belong to current activity in Ticket %s!"
-msgstr "Овај дијалог не припада тренутној активности у тикету %s!"
+msgid ""
+"This step does not belong anymore the current activity in process for Ticket"
+" %s!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"It might be possible that the ticket was updated by another user in the mean"
-" time, please close this window and reload ticket."
-msgstr "Могуће је да је тикет измењен од стране другог оператера у међувремену, молимо затворите овај прозор и поново учитајте тикет."
+"Another user changed this ticket in the meantime. Please close this window "
+"and reload the ticket."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -12604,6 +12618,18 @@ msgid "Database %s"
 msgstr "База података %s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "Configure MySQL"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Configure PostgreSQL"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Configure Oracle"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
 msgstr "Непознат тип базе података „%s”."
 
@@ -12622,6 +12648,10 @@ msgstr "Датотека „%s/%s.xml” није пронађена!"
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Contact your Admin!"
 msgstr "Контактирајте вашег администратора!"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Syslog"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't write Config file!"
@@ -12896,6 +12926,14 @@ msgstr "Ово подешавање није подразумевано акти
 msgid "This setting can not be deactivated."
 msgstr "Ово подешавање се не може деактивирати."
 
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+msgid "e.g. Text or Te*t"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
+msgid "Ignore this field."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr "није инсталирано"
@@ -12926,7 +12964,7 @@ msgstr "Не могу прибавити токен од сервера"
 
 #. Perl Module: Kernel/System/Stats.pm
 msgid "Sum"
-msgstr "Сума"
+msgstr "Збир"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "State Type"
@@ -12939,14 +12977,6 @@ msgstr "Направљени приоритети"
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Created State"
 msgstr "Креирани статус"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin (complex search)"
-msgstr "Пријава клијента корисника (сложена претрага)"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin (exact match)"
-msgstr "Пријава клијента корисника (тачно поклапање)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
@@ -12975,6 +13005,18 @@ msgstr "Оператер/Власник"
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Created by Agent/Owner"
 msgstr "Креирао Оператер/Власник"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin"
+msgstr "Пријава клијента корисника"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (complex search)"
+msgstr "Пријава клијента корисника (сложена претрага)"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr "Пријава клијента корисника (тачно поклапање)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Evaluation by"
@@ -13101,28 +13143,29 @@ msgid "Solution Max Working Time (affected by escalation configuration)"
 msgstr "Максимално радно време решења (под утицајем поставки ескалације)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Average (affected by escalation configuration)"
-msgstr "Просечно време одговора (под утицајем поставки ескалације)"
+msgid "First Response Average (affected by escalation configuration)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Min Time (affected by escalation configuration)"
-msgstr "Минимално време одговора (под утицајем поставки ескалације)"
+msgid "First Response Min Time (affected by escalation configuration)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Max Time (affected by escalation configuration)"
-msgstr "Максимално време одговора (под утицајем поставки ескалације)"
+msgid "First Response Max Time (affected by escalation configuration)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Working Time Average (affected by escalation configuration)"
-msgstr "Просечно радно време одговора (под утицајем поставки ескалације)"
+msgid ""
+"First Response Working Time Average (affected by escalation configuration)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Min Working Time (affected by escalation configuration)"
-msgstr "Минимално радно време одговора (под утицајем поставки ескалације)"
+msgid "First Response Min Working Time (affected by escalation configuration)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Max Working Time (affected by escalation configuration)"
-msgstr "Максимално радно време одговора (под утицајем поставки ескалације)"
+msgid "First Response Max Working Time (affected by escalation configuration)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Number of Tickets (affected by escalation configuration)"
@@ -18888,10 +18931,16 @@ msgstr "Ако је ова поставка активна, локалне из�
 
 #. SysConfig
 msgid ""
+"If you're going to be out of office, you may wish to let other users know by"
+" setting the exact dates of your absence."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Ignore system sender article types (e. g. auto responses or email "
 "notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
 "expanded automatically in Large view screens."
-msgstr ""
+msgstr "Игнорише врсту пошиљаоца чланака (нпр. аутоматски одговори или имејл обавештења) приликом приказа непрочитаних чланака у детаљном прегледу тикета или аутоматског проширивања у великом екрану прегледа."
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
@@ -20207,8 +20256,25 @@ msgid "Second Queue"
 msgstr "Други Ред"
 
 #. SysConfig
+msgid ""
+"Select after which period ticket overviews should refresh automatically."
+msgstr ""
+
+#. SysConfig
+msgid "Select how many tickets should be shown in overviews by default."
+msgstr ""
+
+#. SysConfig
+msgid "Select the main interface language."
+msgstr ""
+
+#. SysConfig
 msgid "Select your frontend Theme."
 msgstr "Изаберите тему интерфејса."
+
+#. SysConfig
+msgid "Select your preferred layout for OTRS."
+msgstr ""
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -20294,6 +20360,10 @@ msgstr "Преглед услуге"
 #. SysConfig
 msgid "ServiceView"
 msgstr "ServiceView"
+
+#. SysConfig
+msgid "Set a new password by filling in your current password and a new one."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21399,6 +21469,12 @@ msgid ""
 "Shows all the customer identifiers in a multi-select field (not useful if "
 "you have a lot of customer identifiers)."
 msgstr "Приказује све клијентске идентификаторе у пољу вишеструког избора (није корисно ако имате много клијентских идентификатора)."
+
+#. SysConfig
+msgid ""
+"Shows all the customer user identifiers in a multi-select field (not useful "
+"if you have a lot of customer user identifiers)."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -2,7 +2,7 @@
 # Translators:
 # Ana Rita Dias Martins <anarita_dm@live.com.pt>, 2015
 # Helder Araújo <helderpos@gmail.com>, 2015
-# Joao Ferro <fmthard@gmail.com>, 2016
+# Joao Ferro <fmthard@gmail.com>, 2016-2017
 # Jorge Lima <jlima101@gmail>, 2017
 # José Anjos <jose.anjos@regiaodeaveiro.pt>, 2017
 # Nuno Ricardo Santos Loureiro da Silva Ferreira <nunolf@gmail.com>, 2015
@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-02-27 17:38+0000\n"
-"PO-Revision-Date: 2017-02-27 23:40+0000\n"
+"POT-Creation-Date: 2017-03-22 12:37+0000\n"
+"PO-Revision-Date: 2017-03-22 18:44+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -791,7 +791,7 @@ msgstr "O código recomendado para o seu idioma é %s!"
 
 #. Template: AAABase
 msgid "Change your password."
-msgstr "Alterar a sua password"
+msgstr "Alterar a sua palavra-passe"
 
 #. Template: AAABase
 msgid "Please activate %s first!"
@@ -823,7 +823,7 @@ msgstr "Login falhou! Utilizador ou password errada(s)."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
-msgstr "Não existe nenhuma conta com esse nome."
+msgstr "Não existe nenhuma conta com esse nome de utilizador."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
@@ -902,11 +902,11 @@ msgstr "Base de dados apagada."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr "Insira a password para a base de dados de administrador"
+msgstr "Insira a palavra-passe para a base de dados de administrador"
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr "Insira a password para a base de dados"
+msgstr "Insira a palavra chave para a o utilizador da base de dados"
 
 #. Template: AAABase
 msgid ""
@@ -4868,7 +4868,7 @@ msgid "'FreeText' is used as example for actual configured value."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "Response name free text"
+msgid "Request name free text"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -4887,6 +4887,10 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPSOAP
+msgid "Response name free text"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -8627,6 +8631,10 @@ msgid "Stream"
 msgstr ""
 
 #. Template: AgentDashboardStats
+msgid "No Data Available."
+msgstr ""
+
+#. Template: AgentDashboardStats
 msgid ""
 "Please select a valid graph output format in the configuration of this "
 "widget."
@@ -11241,6 +11249,10 @@ msgstr ""
 msgid "Web service \"%s\" deleted!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "New Web service"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr ""
@@ -12210,13 +12222,15 @@ msgid "Missing ActivityEntityID in Ticket %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid "This activity dialog does not belong to current activity in Ticket %s!"
+msgid ""
+"This step does not belong anymore the current activity in process for Ticket"
+" %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"It might be possible that the ticket was updated by another user in the mean"
-" time, please close this window and reload ticket."
+"Another user changed this ticket in the meantime. Please close this window "
+"and reload the ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12607,6 +12621,18 @@ msgid "Database %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "Configure MySQL"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Configure PostgreSQL"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Configure Oracle"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
 msgstr ""
 
@@ -12624,6 +12650,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Contact your Admin!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Syslog"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
@@ -12899,6 +12929,14 @@ msgstr ""
 msgid "This setting can not be deactivated."
 msgstr ""
 
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+msgid "e.g. Text or Te*t"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
+msgid "Ignore this field."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr ""
@@ -12944,14 +12982,6 @@ msgid "Created State"
 msgstr "Estado de Prioridade"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin (complex search)"
-msgstr ""
-
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-msgid "CustomerUserLogin (exact match)"
-msgstr ""
-
-#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
 msgstr "Tempo de Prioridade"
 
@@ -12978,6 +13008,18 @@ msgstr "Agente"
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Created by Agent/Owner"
 msgstr "Criado por Agente"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin"
+msgstr "Acesso Cliente"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (complex search)"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+msgid "CustomerUserLogin (exact match)"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Evaluation by"
@@ -13104,27 +13146,28 @@ msgid "Solution Max Working Time (affected by escalation configuration)"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Average (affected by escalation configuration)"
+msgid "First Response Average (affected by escalation configuration)"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Min Time (affected by escalation configuration)"
+msgid "First Response Min Time (affected by escalation configuration)"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Max Time (affected by escalation configuration)"
+msgid "First Response Max Time (affected by escalation configuration)"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Working Time Average (affected by escalation configuration)"
+msgid ""
+"First Response Working Time Average (affected by escalation configuration)"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Min Working Time (affected by escalation configuration)"
+msgid "First Response Min Working Time (affected by escalation configuration)"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-msgid "Response Max Working Time (affected by escalation configuration)"
+msgid "First Response Max Working Time (affected by escalation configuration)"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
@@ -18891,6 +18934,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If you're going to be out of office, you may wish to let other users know by"
+" setting the exact dates of your absence."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Ignore system sender article types (e. g. auto responses or email "
 "notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
 "expanded automatically in Large view screens."
@@ -20210,7 +20259,24 @@ msgid "Second Queue"
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Select after which period ticket overviews should refresh automatically."
+msgstr ""
+
+#. SysConfig
+msgid "Select how many tickets should be shown in overviews by default."
+msgstr ""
+
+#. SysConfig
+msgid "Select the main interface language."
+msgstr ""
+
+#. SysConfig
 msgid "Select your frontend Theme."
+msgstr ""
+
+#. SysConfig
+msgid "Select your preferred layout for OTRS."
 msgstr ""
 
 #. SysConfig
@@ -20296,6 +20362,10 @@ msgstr ""
 
 #. SysConfig
 msgid "ServiceView"
+msgstr ""
+
+#. SysConfig
+msgid "Set a new password by filling in your current password and a new one."
 msgstr ""
 
 #. SysConfig
@@ -21401,6 +21471,12 @@ msgstr ""
 msgid ""
 "Shows all the customer identifiers in a multi-select field (not useful if "
 "you have a lot of customer identifiers)."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows all the customer user identifiers in a multi-select field (not useful "
+"if you have a lot of customer user identifiers)."
 msgstr ""
 
 #. SysConfig

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.993268053855569;
+    $Self->{Completeness}        = 0.988818865623094;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1382,7 +1382,7 @@ sub Data {
             '"FunctionName» به عنوان مثال برای نام واقعی invoker / عملیات استفاده می شود.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '"گه از FREETEXT» به عنوان مثال برای ارزش پیکربندی واقعی استفاده می شود.',
-        'Response name free text' => 'نام پاسخ های متنی رایگان',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'متن باید به عنوان نام تابع لفاف بسته بندی پسوند و یا جایگزینی استفاده  شود.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1390,6 +1390,7 @@ sub Data {
         'Response name scheme' => 'درخواست پاسخ به طرح نام',
         'Select how SOAP response function wrapper should be constructed.' =>
             'انتخاب کنید که چگونه تابع پاسخ SOAP لفاف بسته بندی باید ساخته شود.',
+        'Response name free text' => 'نام پاسخ های متنی رایگان',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'اینجا شما می توانید حداکثر اندازه (در بایت) از پیام های SOAP که OTRS پردازش می کند را مشخص کنید.',
         'Encoding' => 'کدگذاری',
@@ -2554,6 +2555,7 @@ sub Data {
         'Stacked' => 'انباشته',
         'Expanded' => 'Expanded',
         'Stream' => 'جریان',
+        'No Data Available.' => '',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'لطفا یک فرمت خروجی نمودار معتبر در پیکربندی این ویجت را انتخاب کنید.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -3455,6 +3457,7 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'فایل وارد شده است محتوای YAML معتبر نیست! لطفا وارد سیستم شوید OTRS برای جزئیات بیشتر',
         'Web service "%s" deleted!' => 'وب سرویس \ " %s " حذف!',
+        'New Web service' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'کردم هیچ WebserviceHistoryID!',
@@ -3804,9 +3807,9 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'نمی تواند ActivityDialog، TicketID نامعتبر ذخیره شود: %s !',
         'Invalid TicketID: %s!' => 'TicketID نامعتبر: %s !',
         'Missing ActivityEntityID in Ticket %s!' => 'ازدست رفته ActivityEntityID در درخواست %s !',
-        'This activity dialog does not belong to current activity in Ticket %s!' =>
+        'This step does not belong anymore the current activity in process for Ticket %s!' =>
             '',
-        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => 'از دست رفته ProcessEntityID دردرخواست %s !',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -3929,11 +3932,15 @@ sub Data {
         'Unknown Check!' => 'بررسی ناشناخته!',
         'The check "%s" doesn\'t exist!' => 'چک \ " %s " وجود ندارد!',
         'Database %s' => 'پایگاه های داده بسیار بزرگ به دست می آید .',
+        'Configure MySQL' => '',
+        'Configure PostgreSQL' => '',
+        'Configure Oracle' => '',
         'Unknown database type "%s".' => 'نامشخص نوع پایگاه داده \ " %s ".',
         'Please go back.' => 'لطفا برگردید.',
         'Install OTRS - Error' => 'نصب OTRS - خطا',
         'File "%s/%s.xml" not found!' => 'فایل \ " %s / %s .XML " یافت نشد!',
         'Contact your Admin!' => 'تماس با مدیریت خود !',
+        'Syslog' => '',
         'Can\'t write Config file!' => 'نمی توانید بنویسید، فایل پیکربندی شده است!',
         'Unknown Subaction %s!' => 'نامشخص Subaction %s !',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -4054,6 +4061,12 @@ sub Data {
         'This setting is not active by default.' => 'این تنظیم به طور پیش فرض فعال است.',
         'This setting can not be deactivated.' => 'این تنظیمات نمی تواند غیر فعال  شود.',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        'e.g. Text or Te*t' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
+        'Ignore this field.' => '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'نصب نشده',
         'File is not installed!' => 'فایل نصب نشده است!',
@@ -4074,8 +4087,6 @@ sub Data {
         'State Type' => 'نوع حالت',
         'Created Priority' => 'اولویت ایجاد',
         'Created State' => 'وضعیت ایجاد',
-        'CustomerUserLogin (complex search)' => 'CustomerUserLogin (جستجوی پیچیده)',
-        'CustomerUserLogin (exact match)' => 'CustomerUserLogin (مطابقت دقیق)',
         'Create Time' => 'زمان ایجاد ',
         'Close Time' => 'زمان بسته شدن',
         'Escalation - First Response Time' => 'تشدید -  زمان اولین پاسخ',
@@ -4083,6 +4094,9 @@ sub Data {
         'Escalation - Solution Time' => 'تشدید - راه حل زمان',
         'Agent/Owner' => 'کارشناس/صاحب',
         'Created by Agent/Owner' => 'ایجاد شده توسط کارشناس/صاحب',
+        'CustomerUserLogin' => 'نام کاربری مشترک',
+        'CustomerUserLogin (complex search)' => 'CustomerUserLogin (جستجوی پیچیده)',
+        'CustomerUserLogin (exact match)' => 'CustomerUserLogin (مطابقت دقیق)',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'ارزیابی شده به وسیله',
@@ -4123,15 +4137,18 @@ sub Data {
             'راه حل حداقل زمان کار (متاثر از پیکربندی تشدید)',
         'Solution Max Working Time (affected by escalation configuration)' =>
             'راه حل حداکثر زمان کار (متاثر از پیکربندی تشدید)',
-        'Response Average (affected by escalation configuration)' => 'پاسخ متوسط ​​(متاثر از پیکربندی تشدید)',
-        'Response Min Time (affected by escalation configuration)' => 'پاسخ حداقل زمان (متاثر از پیکربندی تشدید)',
-        'Response Max Time (affected by escalation configuration)' => 'پاسخ حداکثر زمان (متاثر از پیکربندی تشدید)',
-        'Response Working Time Average (affected by escalation configuration)' =>
-            'پاسخ زمان کار میانگین (متاثر از پیکربندی تشدید)',
-        'Response Min Working Time (affected by escalation configuration)' =>
-            'پاسخ حداقل زمان کار (متاثر از پیکربندی تشدید)',
-        'Response Max Working Time (affected by escalation configuration)' =>
-            'پاسخ حداکثر زمان کار (متاثر از پیکربندی تشدید)',
+        'First Response Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Time (affected by escalation configuration)' =>
+            '',
+        'First Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Working Time (affected by escalation configuration)' =>
+            '',
         'Number of Tickets (affected by escalation configuration)' => 'تعداد درخواست (متاثر از پیکربندی تشدید)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
@@ -5951,6 +5968,8 @@ Thanks for your help!
             'اگر این عبارت منظم مسابقات، هیچ پیام خواهد شد توسط پاسخگوی خودکار ارسال می کند.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'اگر این تنظیم فعال است، تغییرات محلی به عنوان خطا در مدیریت بسته ها و داده های جمع آوری پشتیبانی برجسته است.',
+        'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
+            '',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6326,7 +6345,13 @@ Thanks for your help!
         'Search backend router.' => 'جستجو  باطن روتر.',
         'Search.' => 'جستجو',
         'Second Queue' => 'صف دوم',
+        'Select after which period ticket overviews should refresh automatically.' =>
+            '',
+        'Select how many tickets should be shown in overviews by default.' =>
+            '',
+        'Select the main interface language.' => '',
         'Select your frontend Theme.' => 'الگوی نمایش سیستم را انتخاب نمائید',
+        'Select your preferred layout for OTRS.' => '',
         'Selects the cache backend to use.' => 'باطن کش استفاده انتخاب می کند.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'ماژول که مسئولیت رسیدگی به ارسال از طریق رابط وب انتخاب می کند. \ "DB " فروشگاه های ارسال همه در پایگاه داده، \ "FS " با استفاده از سیستم فایل.',
@@ -6349,6 +6374,8 @@ Thanks for your help!
         'Serbian Latin' => 'صربی لاتین',
         'Service view' => 'نمای سرویس',
         'ServiceView' => 'ServiceView',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             'تنظیم حداقل loglevel. اگر شما \'خطا\' را انتخاب کنید، فقط خطاها وارد سایت شوید. با \'اشکال زدایی "شما همه پیام ورود به سیستم را دریافت کنید.',
         'Set sender email addresses for this system.' => 'تنظیم آدرس ایمیل‌های ارسال‌کننده برای این سیستم',
@@ -6686,6 +6713,8 @@ Thanks for your help!
             'تمام مقالات بلیط (استایرن) در نظر زوم را نشان می دهد.',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             'همه شناسه های مشتری در یک میدان چند را انتخاب کنید (مفید می کنید اگر شما یک مقدار زیادی از شناسه مشتری).',
+        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'انتخاب صاحب در تلفن و ایمیل بلیط در رابط عامل نشان می دهد.',
         'Shows colors for different article types in the article table.' =>

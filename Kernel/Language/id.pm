@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.96593227254182;
+    $Self->{Completeness}        = 0.961577556413905;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1377,7 +1377,7 @@ sub Data {
             '\'Fungsi Nama\' digunakan sebagai contoh untuk nama Invoker/operasi',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'Free Text\' digunakan sebagai contoh untuk nilai konfigurasi yang sebenarnya',
-        'Response name free text' => 'Nama respon teks bebas',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Teks yang digunakan sebagai nama fungsi akhiran atau penggantian.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1385,6 +1385,7 @@ sub Data {
         'Response name scheme' => 'Respon skema nama',
         'Select how SOAP response function wrapper should be constructed.' =>
             'Pilih bagaimana fungsi respon sampul SOAP harus dibangun',
+        'Response name free text' => 'Nama respon teks bebas',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Di sini anda dapat menentukan ukuran maksimum (dalam byte) dari pesanan SOAP bahwa OTRS akan diproses',
         'Encoding' => 'Menyandi',
@@ -2551,6 +2552,7 @@ bin/otrs.Daemon.pl status\').',
         'Stacked' => 'Ditumpuk',
         'Expanded' => 'Diperpanjang',
         'Stream' => 'Aliran',
+        'No Data Available.' => '',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Silakan pilih format output grafik yang valid dalam konfigurasi widget ini.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -3452,6 +3454,7 @@ bin/otrs.Daemon.pl status\').',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'file yang diimpor memiliki konten YAML tidak valid! Silakan periksa rincian log OTRS ',
         'Web service "%s" deleted!' => 'layanan web "menghapus!',
+        'New Web service' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Tidak dapat WebserviceHistoryID!',
@@ -3801,9 +3804,9 @@ bin/otrs.Daemon.pl status\').',
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Tidak bisa menyimpan ActivityDialog. TicketID tidak sah: %s!',
         'Invalid TicketID: %s!' => 'TicketID tidak sah : %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'ActivityEntityID hilang di Ticket %s!',
-        'This activity dialog does not belong to current activity in Ticket %s!' =>
+        'This step does not belong anymore the current activity in process for Ticket %s!' =>
             '',
-        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
+        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => 'ProcessEntityID hilang di Tiket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -3926,11 +3929,15 @@ bin/otrs.Daemon.pl status\').',
         'Unknown Check!' => 'Periksa yang tidak diketahui!',
         'The check "%s" doesn\'t exist!' => 'Cek "%s" tidak ada!',
         'Database %s' => 'Database %s',
+        'Configure MySQL' => '',
+        'Configure PostgreSQL' => '',
+        'Configure Oracle' => '',
         'Unknown database type "%s".' => 'Diketahui tipe database "%s".',
         'Please go back.' => '',
         'Install OTRS - Error' => 'Menginstal OTRS - Kesalahan',
         'File "%s/%s.xml" not found!' => 'File "%s/%s.xml" tidak ditemukan!',
         'Contact your Admin!' => 'Hubungi Admin Anda!',
+        'Syslog' => '',
         'Can\'t write Config file!' => 'tidak bisa menulis file Config!',
         'Unknown Subaction %s!' => 'Diketahui Subaction %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -4051,6 +4058,12 @@ bin/otrs.Daemon.pl status\').',
         'This setting is not active by default.' => 'Pengaturan ini tidak aktif secara default.',
         'This setting can not be deactivated.' => 'Pengaturan ini tidak dapat dinonaktifkan.',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        'e.g. Text or Te*t' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
+        'Ignore this field.' => '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'Tidak diinstall',
         'File is not installed!' => '',
@@ -4071,8 +4084,6 @@ bin/otrs.Daemon.pl status\').',
         'State Type' => 'Jenis stat',
         'Created Priority' => 'dibuat Prioritas',
         'Created State' => 'Menciptakan State',
-        'CustomerUserLogin (complex search)' => '',
-        'CustomerUserLogin (exact match)' => '',
         'Create Time' => 'Buat Waktu',
         'Close Time' => 'Tutup Waktu',
         'Escalation - First Response Time' => 'Eskalasi - Waktu respon pertama',
@@ -4080,6 +4091,9 @@ bin/otrs.Daemon.pl status\').',
         'Escalation - Solution Time' => 'Eskalasi - Waktu Solusi',
         'Agent/Owner' => 'Agen/Pemilik',
         'Created by Agent/Owner' => 'Dibuat oleh Agen/Pemilik',
+        'CustomerUserLogin' => 'PelangganMasuk',
+        'CustomerUserLogin (complex search)' => '',
+        'CustomerUserLogin (exact match)' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Evaluasi oleh',
@@ -4120,15 +4134,18 @@ bin/otrs.Daemon.pl status\').',
             'Solusi waktu minimal bekerja (dipengaruhi oleh konfigurasi eskalasi)',
         'Solution Max Working Time (affected by escalation configuration)' =>
             'Solusi maksimal waktu bekerja (dipengaruhi oleh eskalasi konfigurasi)',
-        'Response Average (affected by escalation configuration)' => 'Rata-rata respond (dipengaruhi oleh eskalasi konfigurasi)',
-        'Response Min Time (affected by escalation configuration)' => 'Minimal waktu respon (dipengaruhi oleh eskalasi konfigurasi)',
-        'Response Max Time (affected by escalation configuration)' => 'Respon waktu maksimal (dipengaruhi oleh eskalasi konfigurasi)',
-        'Response Working Time Average (affected by escalation configuration)' =>
-            'Respon rata-rata waktu bekerja (dipengaruhi oleh eskalasi konfigurasi)',
-        'Response Min Working Time (affected by escalation configuration)' =>
-            'Respon minimal waktu bekerja (dipengaruhi oleh eskalasi konfigurasi)',
-        'Response Max Working Time (affected by escalation configuration)' =>
-            'Respon maksimal waktu bekerja (dipengarhui oleh eskalasi konfigurasi)',
+        'First Response Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Time (affected by escalation configuration)' =>
+            '',
+        'First Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Working Time (affected by escalation configuration)' =>
+            '',
         'Number of Tickets (affected by escalation configuration)' => 'Jumlah tiket (dipengaruhi eskalasi konfigurasi)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
@@ -5950,6 +5967,8 @@ Helpdesk Team Anda
             'Jika regex ini cocok, tidak ada pesan akan dikirim oleh autoresponder.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Jika pengaturan ini aktif, modifikasi lokal tidak akan disorot sebagai kesalahan dalam paket manager dan data dukungan kolektor.',
+        'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
+            '',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6325,7 +6344,13 @@ Helpdesk Team Anda
         'Search backend router.' => 'Cari router backend.',
         'Search.' => 'Mencari',
         'Second Queue' => 'Antrian kedua',
+        'Select after which period ticket overviews should refresh automatically.' =>
+            '',
+        'Select how many tickets should be shown in overviews by default.' =>
+            '',
+        'Select the main interface language.' => '',
         'Select your frontend Theme.' => 'Pilih tema frontend anda',
+        'Select your preferred layout for OTRS.' => '',
         'Selects the cache backend to use.' => 'Memilih backend cache untuk digunakan.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Memilih modul untuk menangani upload melalui antarmuka web. "DB" toko semua upload dalam database, "FS" menggunakan sistem file.',
@@ -6348,6 +6373,8 @@ Helpdesk Team Anda
         'Serbian Latin' => 'Serbia Latin',
         'Service view' => 'lihat layanan',
         'ServiceView' => 'Tampilan servis',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             'Mengatur tingkat log minimum. Jika Anda memilih \'kesalahan\', hanya kesalahan login. Dengan \'men-debug\' Anda mendapatkan semua pesan masuk.',
         'Set sender email addresses for this system.' => 'Mengatur alamat email pengirim untuk sistem ini.',
@@ -6685,6 +6712,8 @@ Helpdesk Team Anda
             'Menunjukkan semua artikel dari tiket (diperluas) dalam tampilan zoom.',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             'Menunjukkan semua pengidentifikasi pelanggan dalam bidang multi-pilih (tidak berguna jika Anda memiliki banyak pengenal pelanggan).',
+        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Menunjukkan pilihan pemilik di telepon dan email tiket di antarmuka agen.',
         'Shows colors for different article types in the article table.' =>

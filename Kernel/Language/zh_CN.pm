@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999796001631987;
+    $Self->{Completeness}        = 0.994917666192315;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1383,7 +1383,7 @@ sub Data {
             '“FunctionName”可用作实际调用程序/操作命名样例。',
         '\'FreeText\' is used as example for actual configured value.' =>
             '“FreeText”可用作实际配置值的样例。',
-        'Response name free text' => '回复名称自由文本',
+        'Request name free text' => '',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             '用于封装器名称后缀或替换的文本。',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1391,6 +1391,7 @@ sub Data {
         'Response name scheme' => '回复名称方案',
         'Select how SOAP response function wrapper should be constructed.' =>
             '选择如何构建SOAP回复函数封装器。',
+        'Response name free text' => '回复名称自由文本',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             '在这里你可以指定OTRS能够处理的SOAP消息的最大长度(以字节为单位)。',
         'Encoding' => '编码',
@@ -2555,6 +2556,7 @@ sub Data {
         'Stacked' => '堆叠的',
         'Expanded' => '展开的',
         'Stream' => '流',
+        'No Data Available.' => '',
         'Please select a valid graph output format in the configuration of this widget.' =>
             '请为统计小部件选择有效的图形输出格式。',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -3456,6 +3458,7 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             '导入的文件没有有效的YAML内容！请检查OTRS日志以获取详细信息',
         'Web service "%s" deleted!' => 'Web服务“%s”已经删除！',
+        'New Web service' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '没有 WebserviceHistoryID ！',
@@ -3805,10 +3808,10 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '不能存储活动对话框，无效的工单ID： %s！',
         'Invalid TicketID: %s!' => '无效的工单ID： “%s”！',
         'Missing ActivityEntityID in Ticket %s!' => '在工单 “%s”中缺少活动实体ID！',
-        'This activity dialog does not belong to current activity in Ticket %s!' =>
-            '这个活动对话框不属于工单%s中的当前活动！',
-        'It might be possible that the ticket was updated by another user in the mean time, please close this window and reload ticket.' =>
-            '可能是这个工单同时被另一用户更新，请关闭此窗口，再重新载入该工单。',
+        'This step does not belong anymore the current activity in process for Ticket %s!' =>
+            '',
+        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => '在工单 “%s”中缺少流程实体ID！',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '不能设置动态字段“%s”的值，工单ID为“%s”，活动对话框 “%s”！',
@@ -3930,11 +3933,15 @@ sub Data {
         'Unknown Check!' => '未知的检查！',
         'The check "%s" doesn\'t exist!' => '检查“%s”不存在！',
         'Database %s' => '数据库%s',
+        'Configure MySQL' => '',
+        'Configure PostgreSQL' => '',
+        'Configure Oracle' => '',
         'Unknown database type "%s".' => '未知的数据库类型“%s”。',
         'Please go back.' => '请返回。',
         'Install OTRS - Error' => '安装OTRS - 错误',
         'File "%s/%s.xml" not found!' => '没有找到文件“%s/%s.xml”！',
         'Contact your Admin!' => '联系你的系统管理员！',
+        'Syslog' => '',
         'Can\'t write Config file!' => '不能写入配置文件！',
         'Unknown Subaction %s!' => '未知的子操作 %s！',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -4055,6 +4062,12 @@ sub Data {
         'This setting is not active by default.' => '这个设置默认没有激活。',
         'This setting can not be deactivated.' => '不能使这个设置失效。',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        'e.g. Text or Te*t' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
+        'Ignore this field.' => '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '没有安装',
         'File is not installed!' => '文件没有安装！',
@@ -4075,8 +4088,6 @@ sub Data {
         'State Type' => '工单状态类型',
         'Created Priority' => '创建的优先级',
         'Created State' => '创建的状态',
-        'CustomerUserLogin (complex search)' => '客户联系人登录名(复合搜索)',
-        'CustomerUserLogin (exact match)' => '客户联系人登录名(精确匹配)',
         'Create Time' => '创建时间',
         'Close Time' => '关闭时间',
         'Escalation - First Response Time' => '升级 - 首次响应时间',
@@ -4084,6 +4095,9 @@ sub Data {
         'Escalation - Solution Time' => '升级 - 解决时间',
         'Agent/Owner' => '服务人员/所有者',
         'Created by Agent/Owner' => '创建人',
+        'CustomerUserLogin' => '客户联系人登录',
+        'CustomerUserLogin (complex search)' => '客户联系人登录名(复合搜索)',
+        'CustomerUserLogin (exact match)' => '客户联系人登录名(精确匹配)',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => '评估方法',
@@ -4124,15 +4138,18 @@ sub Data {
             '最小解决工作时间（受升级配置影响）',
         'Solution Max Working Time (affected by escalation configuration)' =>
             '最大解决工作时间（受升级配置影响）',
-        'Response Average (affected by escalation configuration)' => '平均响应时间（受升级配置影响）',
-        'Response Min Time (affected by escalation configuration)' => '最小响应时间（受升级配置影响）',
-        'Response Max Time (affected by escalation configuration)' => '最大响应时间（受升级配置影响）',
-        'Response Working Time Average (affected by escalation configuration)' =>
-            '平均响应工作时间（受升级配置影响）',
-        'Response Min Working Time (affected by escalation configuration)' =>
-            '最小响应工作时间（受升级配置影响）',
-        'Response Max Working Time (affected by escalation configuration)' =>
-            '最大响应工作时间（受升级配置影响）',
+        'First Response Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Time (affected by escalation configuration)' =>
+            '',
+        'First Response Working Time Average (affected by escalation configuration)' =>
+            '',
+        'First Response Min Working Time (affected by escalation configuration)' =>
+            '',
+        'First Response Max Working Time (affected by escalation configuration)' =>
+            '',
         'Number of Tickets (affected by escalation configuration)' => '工单数量（受升级配置影响）',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
@@ -5950,6 +5967,8 @@ Thanks for your help!
             '如果这个正则表达式匹配了，自动响应不会发送任何消息。',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '如果激活这个设置，本地修改内容不会在软件包管理器和支持数据收集工具中高亮显示为错误。',
+        'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
+            '',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6325,7 +6344,13 @@ Thanks for your help!
         'Search backend router.' => '搜索的后端路由。',
         'Search.' => '搜索。',
         'Second Queue' => '第二队列',
+        'Select after which period ticket overviews should refresh automatically.' =>
+            '',
+        'Select how many tickets should be shown in overviews by default.' =>
+            '',
+        'Select the main interface language.' => '',
         'Select your frontend Theme.' => '选择您的界面主题。',
+        'Select your preferred layout for OTRS.' => '',
         'Selects the cache backend to use.' => '选择使用的缓存后端。',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '选择处理WEB界面上传文件的模块。“数据库”存储所有上传文件到数据库中，“文件系统”存储所有上传文件到文件系统中。',
@@ -6348,6 +6373,8 @@ Thanks for your help!
         'Serbian Latin' => '塞尔维亚拉丁语',
         'Service view' => '服务视图',
         'ServiceView' => '服务视图',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
             '设置最小日志级别。如果您选择\'error\'，只记录错误信息。选择\'debug\'，您将获得所有的记录信息。',
         'Set sender email addresses for this system.' => '为系统设置发件人的邮件地址.',
@@ -6685,6 +6712,8 @@ Thanks for your help!
             '在工单详情视图显示显示这个工单所有展开的信件。',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             '在多选框字段中显示所有的客户ID（如果客户ID过多则不可用）。',
+        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '在服务人员界面电话和邮件工单窗口显示所有者选择器。',
         'Shows colors for different article types in the article table.' =>
