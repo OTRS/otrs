@@ -220,6 +220,7 @@ for my $Test (@Tests) {
             "Check migrated setting for config settting '$Test->{Name}'",
         );
     }
+
     # handle complex data structure settings
     else {
 
