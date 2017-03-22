@@ -88,7 +88,7 @@ for my $Test (@Tests) {
     );
 
     # Update the dynamic field directly in the database, because at the moment we have no idea, in
-    #   which case the yaml strings which make problems can be insert with the normal backend functionality.
+    #   which case the YAML strings which make problems can be insert with the normal backend functionality.
     return if !$DBObject->Do(
         SQL  => 'UPDATE dynamic_field SET config = ? WHERE id = ?',
         Bind => [
@@ -127,7 +127,7 @@ for my $Test (@Tests) {
     );
 
     # After this update we need no cache cleanup, because the
-    #   last DynamicFieldGet should not cache someting.
+    #   last DynamicFieldGet should not cache something.
     $DynamicField = $DynamicFieldObject->DynamicFieldGet(
         ID     => $DynamicFieldID,
         UserID => 1,
