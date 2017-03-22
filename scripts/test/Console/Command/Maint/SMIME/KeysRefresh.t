@@ -27,7 +27,6 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-
 # get configuration
 my $HomeDir = $ConfigObject->Get('Home');
 
@@ -445,7 +444,6 @@ $Self->True(
 
 File::Path::rmtree($CertPath);
 File::Path::rmtree($PrivatePath);
-
 
 # cleanup cache is done by RestoreDatabase
 

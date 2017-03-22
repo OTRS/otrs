@@ -328,16 +328,20 @@ $Selenium->RunTest(
             );
             $Selenium->find_element( '.AddButton', 'css' )->click();
 
-            for my $DatePart (qw(StartYear StartMonth StartDay StopYear StopMonth StopDay) ) {
-                my $Element = $Selenium->find_element( "#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart", 'css' );
+            for my $DatePart (qw(StartYear StartMonth StartDay StopYear StopMonth StopDay)) {
+                my $Element = $Selenium->find_element(
+                    "#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart", 'css'
+                );
                 $Element->is_enabled();
                 $Element->is_displayed();
             }
 
             # Check if the correct count of options in the year dropdown exists.
-            for my $DatePart (qw(StartYear StopYear) ) {
+            for my $DatePart (qw(StartYear StopYear)) {
                 $Self->Is(
-                    $Selenium->execute_script("return \$('#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart:visible > option').length;"),
+                    $Selenium->execute_script(
+                        "return \$('#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart:visible > option').length;"
+                    ),
                     51,
                     "DynamicField date $DatePart filtered options count",
                 );
