@@ -735,7 +735,12 @@ sub SettingEffectiveValueGet {
         }
     }
 
-    my %ForbiddenValueTypes = $Self->ForbiddenValueTypesGet();
+    my %ForbiddenValueTypes = %{ $Self->{ForbiddenValueTypes} || {} };
+
+    if ( !%ForbiddenValueTypes ) {
+        %ForbiddenValueTypes = $Self->ForbiddenValueTypesGet();
+        $Self->{ForbiddenValueTypes} = \%ForbiddenValueTypes;
+    }
 
     $Param{Translate} //= 0;
 
@@ -1229,7 +1234,13 @@ sub SettingEffectiveValueCheck {
             $ValueType = $Value->[0]->{Item}->[0]->{ValueType};
         }
 
-        my %ForbiddenValueTypes = $Self->ForbiddenValueTypesGet();
+        my %ForbiddenValueTypes = %{ $Self->{ForbiddenValueTypes} || {} };
+
+        if ( !%ForbiddenValueTypes ) {
+            %ForbiddenValueTypes = $Self->ForbiddenValueTypesGet();
+            $Self->{ForbiddenValueTypes} = \%ForbiddenValueTypes;
+        }
+
         my @SkipValueTypes;
 
         for my $Item ( sort keys %ForbiddenValueTypes ) {
