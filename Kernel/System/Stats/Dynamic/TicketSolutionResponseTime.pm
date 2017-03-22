@@ -853,8 +853,8 @@ sub GetStatElement {
     }
 
     my $SelectedKindOfReporting = 'SolutionAverageAllOver';
-    if ( IsArrayRefWithData($Param{KindsOfReporting}) ) {
-       $SelectedKindOfReporting = $Param{KindsOfReporting}->[0];
+    if ( IsArrayRefWithData( $Param{KindsOfReporting} ) ) {
+        $SelectedKindOfReporting = $Param{KindsOfReporting}->[0];
     }
 
     my $Reporting = 0;

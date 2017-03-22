@@ -340,7 +340,8 @@ $Selenium->RunTest(
 
             for my $DatePart (qw(StartYear StartMonth StartDay StopYear StopMonth StopDay)) {
                 my $Element = $Selenium->find_element(
-                    "#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart", 'css' );
+                    "#Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot$DatePart", 'css'
+                );
                 $Element->is_enabled();
                 $Element->is_displayed();
             }

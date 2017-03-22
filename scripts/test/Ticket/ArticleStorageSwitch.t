@@ -39,7 +39,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
     );
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 
     $Self->Is(
         $ArticleObject->{ArticleStorageModule},

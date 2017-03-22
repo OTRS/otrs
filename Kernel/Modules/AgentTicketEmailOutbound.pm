@@ -1578,7 +1578,7 @@ sub _Mask {
         $ArticleTypes{
             $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleTypeLookup(
                 ArticleType => $ArticleType,
-            )
+                )
         } = $ArticleType;
     }
 

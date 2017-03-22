@@ -979,8 +979,8 @@ sub GetStatElement {
     }
 
     my $SelectedKindOfReporting = 'TotalTime';
-    if ( IsArrayRefWithData($Param{KindsOfReporting}) ) {
-       $SelectedKindOfReporting = $Param{KindsOfReporting}->[0];
+    if ( IsArrayRefWithData( $Param{KindsOfReporting} ) ) {
+        $SelectedKindOfReporting = $Param{KindsOfReporting}->[0];
     }
 
     my $Reporting = 0;

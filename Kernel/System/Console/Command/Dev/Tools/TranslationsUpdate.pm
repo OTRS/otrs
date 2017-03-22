@@ -391,7 +391,7 @@ sub HandleLanguage {
         # add translatable strings from JavaScript code
         my @JSFileList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $IsSubTranslation ? "$ModuleDirectory/var/httpd/htdocs/js" : "$Home/var/httpd/htdocs/js",
-            Filter => '*.js',
+            Filter    => '*.js',
             Recursive => 1,
         );
 
@@ -408,13 +408,13 @@ sub HandleLanguage {
             }
 
             # skip js cache files
-            next FILE if ($File =~ m{\/js\/js-cache\/}xmsg);
+            next FILE if ( $File =~ m{\/js\/js-cache\/}xmsg );
 
             my $Content = ${$ContentRef};
 
             # skip thirdparty files without custom markers
-            if ($File =~ m{\/js\/thirdparty\/}xmsg) {
-                next FILE if ($Content !~ m{\/\/\s*OTRS}xmsg);
+            if ( $File =~ m{\/js\/thirdparty\/}xmsg ) {
+                next FILE if ( $Content !~ m{\/\/\s*OTRS}xmsg );
             }
 
             $File =~ s{^.*/(.+?)\.js}{$1}smx;
