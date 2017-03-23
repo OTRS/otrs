@@ -84,7 +84,7 @@ sub TicketCreateNumber {
     my $Tn = $Year . $Month . $Day . $SystemID . $Count;
 
     # Check ticket number. If exists generate new one!
-    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketNumberLookup( Tn => $Tn ) ) {
+    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketIDLookup( TicketNumber => $Tn ) ) {
 
         $Self->{LoopProtectionCounter}++;
 
