@@ -37,7 +37,7 @@ sub TicketCreateNumber {
     my $Tn = $SystemID . $Count;
 
     # Check ticket number. If exists generate new one!
-    if ( $Self->TicketNumberLookup( Tn => $Tn ) ) {
+    if ( $Self->TicketIDLookup( TicketNumber => $Tn ) ) {
 
         $Self->{LoopProtectionCounter}++;
 
