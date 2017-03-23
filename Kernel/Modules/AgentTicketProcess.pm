@@ -770,7 +770,7 @@ sub _RenderAjax {
 
 =cut
 
-_GetParam()
+=item _GetParam()
 
 returns the current data state of the submitted information
 
@@ -2128,7 +2128,7 @@ sub _RenderPendingTime {
         if ( !$Param{$Needed} ) {
             return {
                 Success => 0,
-                Message => "Got no $Needed in _RenderResponsible!",
+                Message => "Got no $Needed in _RenderPendingTime!",
             };
         }
     }
@@ -2640,7 +2640,7 @@ sub _RenderCustomer {
         if ( !$Param{$Needed} ) {
             return {
                 Success => 0,
-                Message => "Got no $Needed in _RenderResponsible!",
+                Message => "Got no $Needed in _RenderCustomer!",
             };
         }
     }
@@ -2788,10 +2788,6 @@ sub _RenderResponsible {
 
     my $SelectedValue;
 
-    my $ResponsibleIDParam = $Param{GetParam}{ResponsibleID};
-    $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $ResponsibleIDParam )
-        if $ResponsibleIDParam;
-
     if ( $Param{ActivityDialogField}->{DefaultValue} ) {
 
         if ( $Param{FieldName} eq 'Responsible' ) {
@@ -2799,7 +2795,7 @@ sub _RenderResponsible {
             # Fetch DefaultValue from Config
             if ( !$SelectedValue ) {
                 $SelectedValue = $Self->{UserObject}->UserLookup(
-                    User => $Param{ActivityDialogField}->{DefaultValue} || '',
+                    UserLogin => $Param{ActivityDialogField}->{DefaultValue} || '',
                 );
                 if ($SelectedValue) {
                     $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
@@ -2809,10 +2805,15 @@ sub _RenderResponsible {
         else {
             if ( !$SelectedValue ) {
                 $SelectedValue = $Self->{UserObject}->UserLookup(
-                    UserID => $Param{ActivityDialogField}->{DefaultValue} || ''
+                    UserID => $Param{ActivityDialogField}->{DefaultValue} || '',
                 );
             }
         }
+    }
+
+    my $ResponsibleIDParam = $Param{GetParam}{ResponsibleID};
+    if ( $ResponsibleIDParam && !$SelectedValue ) {
+        $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $ResponsibleIDParam );
     }
 
     # if there is no user from GetParam or default and the field is mandatory get it from the ticket
@@ -2953,13 +2954,6 @@ sub _RenderOwner {
 
     my $SelectedValue;
 
-    my $OwnerIDParam = $Param{GetParam}{OwnerID};
-    if ($OwnerIDParam) {
-        $SelectedValue = $Self->{UserObject}->UserLookup(
-            UserID => $OwnerIDParam,
-        );
-    }
-
     if ( $Param{ActivityDialogField}->{DefaultValue} ) {
 
         if ( $Param{FieldName} eq 'Owner' ) {
@@ -2968,7 +2962,7 @@ sub _RenderOwner {
 
                 # Fetch DefaultValue from Config
                 $SelectedValue = $Self->{UserObject}->UserLookup(
-                    User => $Param{ActivityDialogField}->{DefaultValue},
+                    UserLogin => $Param{ActivityDialogField}->{DefaultValue} || '',
                 );
                 if ($SelectedValue) {
                     $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
@@ -2978,10 +2972,17 @@ sub _RenderOwner {
         else {
             if ( !$SelectedValue ) {
                 $SelectedValue = $Self->{UserObject}->UserLookup(
-                    UserID => $Param{ActivityDialogField}->{DefaultValue},
+                    UserID => $Param{ActivityDialogField}->{DefaultValue} || '',
                 );
             }
         }
+    }
+
+    my $OwnerIDParam = $Param{GetParam}{OwnerID};
+    if ( $OwnerIDParam && !$SelectedValue ) {
+        $SelectedValue = $Self->{UserObject}->UserLookup(
+            UserID => $OwnerIDParam,
+        );
     }
 
     # if there is no user from GetParam or default and the field is mandatory get it from the ticket
@@ -5085,7 +5086,7 @@ sub _DisplayProcessList {
 
 =cut
 
-_CheckField()
+=item _CheckField()
 
 checks all the possible ticket fields and returns the ID (if possible) value of the field, if valid
 and checks are successful
@@ -5369,7 +5370,7 @@ sub _GetResponsibles {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'responsible',
+                Type    => 'owner',
                 Result  => 'HASH',
                 Cached  => 1,
             );
@@ -5411,12 +5412,12 @@ sub _GetResponsibles {
             %ShownUsers = %AllGroupsMembers;
         }
 
-        # show all users who are rw in the queue group
+        # show all subscribed users who have at least Owner permission in the queue group
         elsif ( $Param{QueueID} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'responsible',
+                Type    => 'owner',
                 Result  => 'HASH',
             );
             for my $KeyMember ( sort keys %MemberList ) {
@@ -5500,7 +5501,7 @@ sub _GetOwners {
             %ShownUsers = %AllGroupsMembers;
         }
 
-        # show all users who are rw in the queue group
+        # show all subscribed users who have at least Owner permission in the queue group
         elsif ( $Param{QueueID} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
