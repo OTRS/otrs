@@ -121,7 +121,7 @@ sub TicketCreateNumber {
     $Tn = $Tn . $ChkSum;
 
     # Check ticket number. If exists generate new one!
-    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketCheckNumber( Tn => $Tn ) ) {
+    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketNumberLookup( Tn => $Tn ) ) {
 
         $Self->{LoopProtectionCounter}++;
 
