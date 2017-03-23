@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-03-23 Fixed bug#[12723](https://bugs.otrs.org/show_bug.cgi?id=12723) - TicketNumber generators uses TicketCheckNumber() in a wrong way.
  - 2017-03-23 Fixed bug#[12701](https://bugs.otrs.org/show_bug.cgi?id=12701)(PR#1666) - Default values of "Owner" and "Responsible" fields placed in the activity dialogs in the process tickets cannot be settled. Thanks to S7!
  - 2017-03-23 Fixed bug#[12702](https://bugs.otrs.org/show_bug.cgi?id=12702) - TicketTypeUpdate not seen in Ticket history.
 
