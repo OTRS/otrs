@@ -2194,7 +2194,7 @@ sub _RenderPendingTime {
             return {
                 Success => 0,
                 Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Parameter %s is missing in %s.', $Needed, '_RenderResponsible' ),
+                    ->Translate( 'Parameter %s is missing in %s.', $Needed, '_RenderPendingTime' ),
             };
         }
     }
@@ -2741,7 +2741,7 @@ sub _RenderCustomer {
             return {
                 Success => 0,
                 Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Parameter %s is missing in %s.', $Needed, '_RenderResponsible' ),
+                    ->Translate( 'Parameter %s is missing in %s.', $Needed, '_RenderCustomer' ),
             };
         }
     }
@@ -2892,10 +2892,6 @@ sub _RenderResponsible {
     # get user object
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-    my $ResponsibleIDParam = $Param{GetParam}{ResponsibleID};
-    $SelectedValue = $UserObject->UserLookup( UserID => $ResponsibleIDParam )
-        if $ResponsibleIDParam;
-
     if ( $Param{ActivityDialogField}->{DefaultValue} ) {
 
         if ( $Param{FieldName} eq 'Responsible' ) {
@@ -2903,7 +2899,7 @@ sub _RenderResponsible {
             # Fetch DefaultValue from Config
             if ( !$SelectedValue ) {
                 $SelectedValue = $UserObject->UserLookup(
-                    User => $Param{ActivityDialogField}->{DefaultValue} || '',
+                    UserLogin => $Param{ActivityDialogField}->{DefaultValue} || '',
                 );
                 if ($SelectedValue) {
                     $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
@@ -2913,10 +2909,15 @@ sub _RenderResponsible {
         else {
             if ( !$SelectedValue ) {
                 $SelectedValue = $UserObject->UserLookup(
-                    UserID => $Param{ActivityDialogField}->{DefaultValue} || ''
+                    UserID => $Param{ActivityDialogField}->{DefaultValue} || '',
                 );
             }
         }
+    }
+
+    my $ResponsibleIDParam = $Param{GetParam}{ResponsibleID};
+    if ( $ResponsibleIDParam && !$SelectedValue ) {
+        $SelectedValue = $UserObject->UserLookup( UserID => $ResponsibleIDParam );
     }
 
     # if there is no user from GetParam or default and the field is mandatory get it from the ticket
@@ -3065,13 +3066,6 @@ sub _RenderOwner {
     # get user object
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-    my $OwnerIDParam = $Param{GetParam}{OwnerID};
-    if ($OwnerIDParam) {
-        $SelectedValue = $UserObject->UserLookup(
-            UserID => $OwnerIDParam,
-        );
-    }
-
     if ( $Param{ActivityDialogField}->{DefaultValue} ) {
 
         if ( $Param{FieldName} eq 'Owner' ) {
@@ -3080,7 +3074,7 @@ sub _RenderOwner {
 
                 # Fetch DefaultValue from Config
                 $SelectedValue = $UserObject->UserLookup(
-                    User => $Param{ActivityDialogField}->{DefaultValue},
+                    UserLogin => $Param{ActivityDialogField}->{DefaultValue} || '',
                 );
                 if ($SelectedValue) {
                     $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
@@ -3090,10 +3084,17 @@ sub _RenderOwner {
         else {
             if ( !$SelectedValue ) {
                 $SelectedValue = $UserObject->UserLookup(
-                    UserID => $Param{ActivityDialogField}->{DefaultValue},
+                    UserID => $Param{ActivityDialogField}->{DefaultValue} || '',
                 );
             }
         }
+    }
+
+    my $OwnerIDParam = $Param{GetParam}{OwnerID};
+    if ( $OwnerIDParam && !$SelectedValue ) {
+        $SelectedValue = $UserObject->UserLookup(
+            UserID => $OwnerIDParam,
+        );
     }
 
     # if there is no user from GetParam or default and the field is mandatory get it from the ticket
@@ -5643,7 +5644,7 @@ sub _GetResponsibles {
             my $GID = $QueueObject->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $GroupObject->PermissionGroupGet(
                 GroupID => $GID,
-                Type    => 'responsible',
+                Type    => 'owner',
             );
             for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -5686,12 +5687,12 @@ sub _GetResponsibles {
             %ShownUsers = %AllGroupsMembers;
         }
 
-        # show all users who are rw in the queue group
+        # show all subscribed users who have at least Owner permission in the queue group
         elsif ( $Param{QueueID} ) {
             my $GID = $QueueObject->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $GroupObject->PermissionGroupGet(
                 GroupID => $GID,
-                Type    => 'responsible',
+                Type    => 'owner',
             );
             for my $KeyMember ( sort keys %MemberList ) {
                 if ( $AllGroupsMembers{$KeyMember} ) {
@@ -5780,7 +5781,7 @@ sub _GetOwners {
             %ShownUsers = %AllGroupsMembers;
         }
 
-        # show all users who are rw in the queue group
+        # show all subscribed users who have at least Owner permission in the queue group
         elsif ( $Param{QueueID} ) {
             my $GID = $QueueObject->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $GroupObject->PermissionGroupGet(
