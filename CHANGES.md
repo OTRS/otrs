@@ -1,7 +1,8 @@
-#5.0.18 2017-??-??
+#5.0.19 2017-??-??
+ - 2017-03-23 Fixed bug#[12702](https://bugs.otrs.org/show_bug.cgi?id=12702) - TicketTypeUpdate not seen in Ticket history.
 
 #5.0.18 2017-03-28
- - 2017-02-22 Updated translations, thanks to all translators.
+ - 2017-03-22 Updated translations, thanks to all translators.
  - 2017-03-22 Fixed bug#[12716](https://bugs.otrs.org/show_bug.cgi?id=12716)(PR#1667) - Activity dialog causes an Error in customer interface. Thanks to S7!
  - 2017-03-20 Fixed bug#[12684](https://bugs.otrs.org/show_bug.cgi?id=12684)(PR#1659) - The format buttons are missing from the stacked area chart on the dashboard if the language is not English. Thanks to S7!
  - 2017-03-17 Fixed bug#[12683](https://bugs.otrs.org/show_bug.cgi?id=12683)(PR#1651) - There is a difference between key and content display in the Events Ticket Calendar. Thanks to S7!
