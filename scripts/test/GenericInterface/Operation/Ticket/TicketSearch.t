@@ -1333,7 +1333,7 @@ my @Tests = (
         Operation => 'TicketSearch',
     },
     {
-        Name           => "Test CreateTimeNewerDatF " . $TestCounter++,
+        Name           => "Test CreateTimeNewerDate " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             TicketCreateTimeNewerDate =>
