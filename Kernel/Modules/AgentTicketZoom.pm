@@ -1065,7 +1065,8 @@ sub MaskAgentZoom {
 
                 # check the configured priority for this item. The lowest ClusterPriority
                 # within the same cluster wins.
-                my $Priority = $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Priority};
+                my $Priority = $MenuClusters{ $Menus{$Menu}->{ClusterName} }->{Priority} || 0;
+                $Menus{$Menu}->{ClusterPriority} ||= 0;
                 if ( !$Priority || $Priority !~ /^\d{3}$/ || $Priority > $Menus{$Menu}->{ClusterPriority} ) {
                     $Priority = $Menus{$Menu}->{ClusterPriority};
                 }
