@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-03-24 Fixed bug#[12718](https://bugs.otrs.org/show_bug.cgi?id=12718)(PR#1668) - There is no check for the similar names when creating a mail filter. Thanks to S7!
  - 2017-03-24 Fixed bug#[12724](https://bugs.otrs.org/show_bug.cgi?id=12724) - OTRS generates cron error messages on incoming mails with broken encoding.
  - 2017-03-24 Fixed bug#[12703](https://bugs.otrs.org/show_bug.cgi?id=12703)(PR#1663) - dynamic list and dynamic matrix interpret agent/user Userfirstname. Thanks to S7!
  - 2017-03-23 Fixed bug#[12723](https://bugs.otrs.org/show_bug.cgi?id=12723) - TicketNumber generators uses TicketCheckNumber() in a wrong way.

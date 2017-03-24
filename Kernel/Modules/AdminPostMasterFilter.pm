@@ -143,11 +143,20 @@ sub Run {
             $Errors{"NameInvalid"} = 'ServerError';
         }
 
+        # If it's not edit action, verify there is no filters with same name.
+        if ( $Name ne $OldName ) {
+            my %Data = $Self->{PostMasterFilter}->FilterGet( Name => $Name );
+            if (%Data) {
+                $Errors{"NameInvalid"} = 'ServerError';
+            }
+        }
+
         if (%Errors) {
             return $Self->_MaskUpdate(
                 Name => $Name,
                 Data => {
                     %Errors,
+                    OldName        => $OldName,
                     Name           => $Name,
                     Set            => \%Set,
                     Match          => \%Match,
@@ -303,11 +312,16 @@ sub _MaskUpdate {
         HTMLQuote   => 1,
     );
 
+    my $OldName = $Data{Name};
+    if ( $Param{Data}->{NameInvalid} ) {
+        $OldName = $Data{OldName};
+    }
+
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
         Data => {
             %Param, %Data,
-            OldName => $Data{Name},
+            OldName => $OldName,
         },
     );
 
