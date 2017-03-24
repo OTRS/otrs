@@ -131,13 +131,18 @@ sub Convert {
         if ( $Param{Check} && !eval { Encode::is_utf8( $Param{Text}, 1 ) } ) {
             Encode::_utf8_off( $Param{Text} );
 
-            # truncate text for error messages
-            my $TruncatedText = $Param{Text};
-            if ( length($TruncatedText) > 65 ) {
-                $TruncatedText = substr( $TruncatedText, 0, 65 ) . '[...]';
-            }
+            # We should not output error messages about invalid strings by default, as this happens regularly
+            #   with certain input data from SPAM mails and such.
+            if ( $Self->{Debug} ) {
 
-            print STDERR "No valid '$Param{To}' string: '$TruncatedText'!\n";
+                # truncate text for error messages
+                my $TruncatedText = $Param{Text};
+                if ( length($TruncatedText) > 65 ) {
+                    $TruncatedText = substr( $TruncatedText, 0, 65 ) . '[...]';
+                }
+
+                print STDERR "No valid '$Param{To}' string: '$TruncatedText'!\n";
+            }
 
             # strip invalid chars / 0 = will put a substitution character in
             # place of a malformed character
