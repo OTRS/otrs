@@ -1613,21 +1613,23 @@ via the Preferences button after logging in.
 #        AdminSetPreferences => 0,
 #        # cache time to live in sec. - cache any ldap queries
 #        CacheTTL => 0,
+#        # just a read only source
+#        ReadOnly => 1,
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
 #            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
-#            [ 'UserTitle',      'Title',      'title',           1, 0, 'var', '', 0 ],
-#            [ 'UserFirstname',  'Firstname',  'givenname',       1, 1, 'var', '', 0 ],
-#            [ 'UserLastname',   'Lastname',   'sn',              1, 1, 'var', '', 0 ],
-#            [ 'UserLogin',      'Username',   'uid',             1, 1, 'var', '', 0 ],
-#            [ 'UserEmail',      'Email',      'mail',            1, 1, 'var', '', 0 ],
-#            [ 'UserCustomerID', 'CustomerID', 'mail',            0, 1, 'var', '', 0 ],
-#            # [ 'UserCustomerIDs', 'CustomerIDs', 'second_customer_ids', 1, 0, 'var', '', 0 ],
-#            [ 'UserPhone',      'Phone',      'telephonenumber', 1, 0, 'var', '', 0 ],
-#            [ 'UserAddress',    'Address',    'postaladdress',   1, 0, 'var', '', 0 ],
-#            [ 'UserComment',    'Comment',    'description',     1, 0, 'var', '', 0 ],
+#            [ 'UserTitle',       'Title',       'title',               1, 0, 'var', '', 1 ],
+#            [ 'UserFirstname',   'Firstname',   'givenname',           1, 1, 'var', '', 1 ],
+#            [ 'UserLastname',    'Lastname',    'sn',                  1, 1, 'var', '', 1 ],
+#            [ 'UserLogin',       'Username',    'uid',                 1, 1, 'var', '', 1 ],
+#            [ 'UserEmail',       'Email',       'mail',                1, 1, 'var', '', 1 ],
+#            [ 'UserCustomerID',  'CustomerID',  'mail',                0, 1, 'var', '', 1 ],
+#            # [ 'UserCustomerIDs', 'CustomerIDs', 'second_customer_ids', 1, 0, 'var', '', 1 ],
+#            [ 'UserPhone',       'Phone',       'telephonenumber',     1, 0, 'var', '', 1 ],
+#            [ 'UserAddress',     'Address',     'postaladdress',       1, 0, 'var', '', 1 ],
+#            [ 'UserComment',     'Comment',     'description',         1, 0, 'var', '', 1 ],
 #            # this is needed, if "SMIME::FetchFromCustomer" is active
-#            # [ 'UserSMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate',      0, 1, 'var', '', 0 ],
+#            # [ 'UserSMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate', 0, 1, 'var', '', 1 ],
 #        ],
 #    };
 
