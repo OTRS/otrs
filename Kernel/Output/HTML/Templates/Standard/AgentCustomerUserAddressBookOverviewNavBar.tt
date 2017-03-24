@@ -1,0 +1,34 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("OverviewNavBar") %]
+<div class="OverviewBox ARIARoleMain [% Data.View | html %] CustomerUserAdressBook">
+    <h1>[% Translate(Data.TitleName) | html %] [% Translate(Data.TitleValue) | html %]</h1>
+    <div class="FieldExplanation">[% Translate("Search for recipients and add the results as '%s'.", Data.RecipientField) | html %]</div>
+    <div class="OverviewControl SpacingTop" id="OverviewControl">
+        <div>
+            <div class="ControlRow">
+[% RenderBlockStart("OverviewNavBarPageBack") %]
+                <ul class="Tabs">
+                    <li>
+                        <a id="ChangeSearch" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkBack %]">[% Translate("Change search options") | html %]</a>
+                    </li>
+                </ul>
+[% RenderBlockEnd("OverviewNavBarPageBack") %]
+                <span class="Pagination">
+[% RenderBlockStart("OverviewNavBarPageNavBar") %]
+                    [% Data.ResultLong %]
+                    [% Data.SiteNavBarLong %]
+[% RenderBlockEnd("OverviewNavBarPageNavBar") %]
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+[% RenderBlockEnd("OverviewNavBar") %]

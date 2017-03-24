@@ -996,6 +996,11 @@ iframe.TextOption.Customer {
     width: 800px;
 }
 
+iframe.TextOption.CustomerUserAddressBook {
+    width: 960px;
+    min-height: 600px;
+}
+
 /**
  * @subsection global search
  */

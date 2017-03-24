@@ -11,6 +11,8 @@ package Kernel::System::CustomerCompany;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 use base qw(Kernel::System::EventHandler);
 
 use Kernel::System::VariableCheck qw(:all);
@@ -19,8 +21,11 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::ReferenceData',
+    'Kernel::System::Valid',
 );
 
 =head1 NAME
@@ -453,6 +458,397 @@ sub CustomerCompanyList {
         %Data = ( %Data, %SubData );
     }
     return %Data;
+}
+
+=head2 CustomerCompanySearchDetail()
+
+To find customer companies in the system.
+
+The search criteria are logically AND connected.
+When a list is passed as criteria, the individual members are OR connected.
+When an undef or a reference to an empty array is passed, then the search criteria
+is ignored.
+
+Returns either a list, as an arrayref, or a count of found customer company ids.
+The count of results is returned when the parameter C<Result = 'COUNT'> is passed.
+
+    my $CustomerCompanyIDsRef = $CustomerCompanyObject->CustomerCompanySearchDetail(
+
+        # all search fields possible which are defined in CustomerCompany::EnhancedSearchFields
+        CustomerID          => 'example*',                                  # (optional)
+        CustomerCompanyName => 'Name*',                                     # (optional)
+
+        # array parameters are used with logical OR operator (all values are possible which
+        are defined in the config selection hash for the field)
+        CustomerCompanyCountry => [ 'Austria', 'Germany', ],                # (optional)
+
+        # DynamicFields
+        #   At least one operator must be specified. Operators will be connected with AND,
+        #       values in an operator with OR.
+        #   You can also pass more than one argument to an operator: ['value1', 'value2']
+        DynamicField_FieldNameX => {
+            Equals            => 123,
+            Like              => 'value*',                # "equals" operator with wildcard support
+            GreaterThan       => '2001-01-01 01:01:01',
+            GreaterThanEquals => '2001-01-01 01:01:01',
+            SmallerThan       => '2002-02-02 02:02:02',
+            SmallerThanEquals => '2002-02-02 02:02:02',
+        }
+
+        OrderBy => [ 'CustomerID', 'CustomerCompanyCountry' ],              # (optional)
+        # ignored if the result type is 'COUNT'
+        # default: [ 'CustomerID' ]
+        # (all search fields possible which are defined in
+        CustomerCompany::EnhancedSearchFields)
+
+        # Additional information for OrderBy:
+        # The OrderByDirection can be specified for each OrderBy attribute.
+        # The pairing is made by the array indices.
+
+        OrderByDirection => [ 'Down', 'Up' ],                               # (optional)
+        # ignored if the result type is 'COUNT'
+        # (Down | Up) Default: [ 'Down' ]
+
+        Result => 'ARRAY' || 'COUNT',                                       # (optional)
+        # default: ARRAY, returns an array of change ids
+        # COUNT returns a scalar with the number of found changes
+
+        Limit => 100,                                                       # (optional)
+        # ignored if the result type is 'COUNT'
+    );
+
+Returns:
+
+Result: 'ARRAY'
+
+    @CustomerIDs = ( 1, 2, 3 );
+
+Result: 'COUNT'
+
+    $CustomerIDs = 10;
+
+=cut
+
+sub CustomerCompanySearchDetail {
+    my ( $Self, %Param ) = @_;
+
+     # Get all general search fields (without a restriction to a source).
+    my @AllSearchFields = $Self->CustomerCompanySearchFields();
+
+    # Generate a hash with the customer company sources which must be searched.
+    my %SearchCustomerCompanySources;
+
+    SOURCE:
+    for my $Count ( '', 1 .. 10 ) {
+        next SOURCE if !$Self->{"CustomerCompany$Count"};
+
+        # Get the search fields for the current source.
+        my @SourceSearchFields = $Self->CustomerCompanySearchFields(
+            Source => "CustomerCompany$Count",
+        );
+        my %LookupSourceSearchFields = map { $_->{Name} => 1 } @SourceSearchFields;
+
+        # Check if all search param exists in the search fields from the current source.
+        SEARCHFIELD:
+        for my $SearchField (@AllSearchFields) {
+
+            next SEARCHFIELD if !$Param{ $SearchField->{Name} };
+
+            next SOURCE if !$LookupSourceSearchFields{ $SearchField->{Name} };
+        }
+        $SearchCustomerCompanySources{"CustomerCompany$Count"} = \@SourceSearchFields;
+    }
+
+    # Set the default behaviour for the return type.
+    $Param{Result} ||= 'ARRAY';
+
+    if ( $Param{Result} eq 'COUNT' ) {
+
+        my $IDsCount = 0;
+
+        SOURCE:
+        for my $Source ( sort keys %SearchCustomerCompanySources ) {
+            next SOURCE if !$Self->{$Source};
+
+            my $SubIDsCount = $Self->{$Source}->CustomerCompanySearchDetail(
+                %Param,
+                SearchFields => $SearchCustomerCompanySources{$Source},
+            );
+
+            return if !defined $SubIDsCount;
+
+            $IDsCount += $SubIDsCount || 0;
+        }
+        return $IDsCount;
+    }
+    else {
+
+        my @IDs;
+
+        my $ResultCount = 0;
+
+        SOURCE:
+        for my $Source ( sort keys %SearchCustomerCompanySources ) {
+            next SOURCE if !$Self->{$Source};
+
+            my $SubIDs = $Self->{$Source}->CustomerCompanySearchDetail(
+                %Param,
+                SearchFields => $SearchCustomerCompanySources{$Source},
+            );
+
+            return if !defined $SubIDs;
+
+            next SOURCE if !IsArrayRefWithData($SubIDs);
+
+            push @IDs, @{$SubIDs};
+
+            $ResultCount++;
+        }
+
+        # If we have more then one search results from diffrent sources, we need a resorting
+        #   and splice (for the limit) because of the merged single results.
+        if ( $ResultCount > 1 ) {
+
+            my @CustomerCompanyataList;
+
+            for my $ID (@IDs) {
+
+                my %CustomerCompanyData = $Self->CustomerCompanyGet(
+                    CustomerID => $ID,
+                );
+                push @CustomerCompanyataList, \%CustomerCompanyData;
+            }
+
+            my $OrderBy = 'CustomerID';
+            if ( IsArrayRefWithData($Param{OrderBy} ) ) {
+                $OrderBy = $Param{OrderBy}->[0];
+            }
+
+            if ( IsArrayRefWithData($Param{OrderByDirection}) && $Param{OrderByDirection}->[0] eq 'Up' ) {
+                @CustomerCompanyataList = sort { lc( $a->{$OrderBy} ) cmp lc( $b->{$OrderBy} ) } @CustomerCompanyataList;
+            }
+            else {
+                @CustomerCompanyataList = sort { lc( $b->{$OrderBy} ) cmp lc( $a->{$OrderBy} ) } @CustomerCompanyataList;
+            }
+
+            if ( $Param{Limit} && scalar @CustomerCompanyataList > $Param{Limit} ) {
+                splice @CustomerCompanyataList, $Param{Limit};
+            }
+
+            @IDs = map { $_->{CustomerID} } @CustomerCompanyataList;
+        }
+
+        return \@IDs;
+    }
+}
+
+=head2 CustomerCompanySearchFields()
+
+Get a list of defined search fields (optional only the relevant fields for the given source).
+
+    my @SeachFields = $CustomerCompanyObject->CustomerCompanySearchFields(
+        Source => 'CustomerCompany', # optional, but important in the CustomerCompanySearchDetail to get the right database fields
+    );
+
+Returns an array of hash references.
+
+    @SeachFields = (
+        {
+            Name  => 'CustomerID',
+            Label => 'CustomerID',
+            Type  => 'Input',
+        },
+        {
+            Name           => 'CustomerCompanyCountry',
+            Label          => 'Country',
+            Type           => 'Selection',
+            SelectionsData => {
+                'Germany'        => 'Germany',
+                'United Kingdom' => 'United Kingdom',
+                'United States'  => 'United States',
+                ...
+            },
+        },
+        {
+            Name          => 'DynamicField_Branch',
+            Label         => '',
+            Type          => 'DynamicField',
+            DatabaseField => 'Branch',
+        },
+    );
+
+=cut
+
+sub CustomerCompanySearchFields {
+    my ( $Self, %Param ) = @_;
+
+    # Get the search fields from all customer company maps (merge from all maps together).
+    my @SearchFields;
+
+    my %SearchFieldsExists;
+
+    SOURCE:
+    for my $Count ( '', 1 .. 10 ) {
+        next SOURCE if !$Self->{"CustomerCompany$Count"};
+        next SOURCE if $Param{Source} && $Param{Source} ne "CustomerCompany$Count";
+
+        ENTRY:
+        for my $Entry ( @{ $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Map} } ) {
+
+            my $SearchFieldName = $Entry->[0];
+
+            next ENTRY if $SearchFieldsExists{$SearchFieldName};
+
+            # Remeber the already collected search field name.
+            $SearchFieldsExists{$SearchFieldName} = 1;
+
+            my %FieldConfig = $Self->GetFieldConfig(
+                FieldName => $SearchFieldName,
+                Source    => $Param{Source},     # to get the right database field for the given source
+            );
+
+            next SEARCHFIELDNAME if !%FieldConfig;
+
+            my %SearchFieldData = (
+                %FieldConfig,
+                Name => $SearchFieldName,
+            );
+
+            my %SelectionsData = $Self->GetFieldSelections(
+                FieldName => $SearchFieldName,
+            );
+
+            if ( $SearchFieldData{StorageType} eq 'dynamic_field' ) {
+                $SearchFieldData{Type} = 'DynamicField';
+            }
+            elsif (%SelectionsData) {
+                $SearchFieldData{Type}           = 'Selection';
+                $SearchFieldData{SelectionsData} = \%SelectionsData;
+            }
+            else {
+                $SearchFieldData{Type} = 'Input';
+            }
+
+            push @SearchFields, \%SearchFieldData;
+        }
+    }
+
+    return @SearchFields;
+}
+
+
+=head2 GetFieldConfig()
+
+This function collect some field config information from the customer user map.
+
+    my %FieldConfig = $CustomerCompanyObject->GetFieldConfig(
+        FieldName => 'CustomerCompanyName',
+        Source    => 'CustomerCompany', # optional
+    );
+
+Returns some field config information:
+
+    my %FieldConfig = (
+        Label         => 'Name',
+        DatabaseField => 'name',
+        StorageType   => 'var',
+    );
+
+=cut
+
+sub GetFieldConfig {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{FieldName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need FieldName!"
+        );
+        return;
+    }
+
+    SOURCE:
+    for my $Count ( '', 1 .. 10 ) {
+        next SOURCE if !$Self->{"CustomerCompany$Count"};
+        next SOURCE if $Param{Source} && $Param{Source} ne "CustomerCompany$Count";
+
+        # Search the right field and return the label.
+        ENTRY:
+        for my $Entry ( @{ $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Map} } ) {
+            next ENTRY if $Param{FieldName} ne $Entry->[0];
+
+            my %FieldConfig = (
+                Label         => $Entry->[1],
+                DatabaseField => $Entry->[2],
+                StorageType   => $Entry->[5],
+            );
+
+            return %FieldConfig;
+        }
+    }
+
+    return;
+}
+
+=head2 GetFieldSelections()
+
+This function collect the selections for the given field name, if the field has some selections.
+
+    my %SelectionsData = $CustomerCompanyObject->GetFieldSelections(
+        FieldName => 'CustomerCompanyCountry',
+    );
+
+Returns the selections for the given field name (merged from all sources) or a empty hash:
+
+    my %SelectionData = (
+        'Germany'        => 'Germany',
+        'United Kingdom' => 'United Kingdom',
+        'United States'  => 'United States',
+    );
+
+=cut
+
+sub GetFieldSelections {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{FieldName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need FieldName!"
+        );
+        return;
+    }
+
+    my %SelectionsData;
+
+    SOURCE:
+    for my $Count ( '', 1 .. 10 ) {
+        next SOURCE if !$Self->{"CustomerCompany$Count"};
+        next SOURCE if !$Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Selections}->{ $Param{FieldName} };
+
+        %SelectionsData = (
+            %SelectionsData,
+            %{ $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{Selections}->{ $Param{FieldName} } }
+        );
+    }
+
+    # Make sure the encoding stamp is set.
+    for my $Key ( sort keys %SelectionsData ) {
+        $SelectionsData{$Key} = $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( $SelectionsData{$Key} );
+    }
+
+    # Default handling for field 'CustomerCompanyCountry'.
+    if ( !%SelectionsData && $Param{FieldName} =~ /^CustomerCompanyCountry/i ) {
+        %SelectionsData = %{ $Kernel::OM->Get('Kernel::System::ReferenceData')->CountryList() };
+    }
+
+    # Default handling for field 'ValidID'.
+    elsif ( !%SelectionsData && $Param{FieldName} =~ /^ValidID/i ) {
+        %SelectionsData = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    }
+
+    return %SelectionsData;
 }
 
 sub DESTROY {

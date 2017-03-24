@@ -349,6 +349,10 @@
         display: none;
     }
 
+    .AdditionlFieldIcon span {
+        display: none;
+    }
+
     .MainBox.FormScreen > .AsteriskExplanation {
         margin: -10px 0px 10px 0px;
     }

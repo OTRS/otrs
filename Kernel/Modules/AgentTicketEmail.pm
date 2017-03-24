@@ -2693,32 +2693,9 @@ sub _MaskEmailNew {
         );
     }
 
-    # show address book if the module is registered and java script support is available
-    if (
-        $ConfigObject->Get('Frontend::Module')->{AgentBook}
-        && $LayoutObject->{BrowserJavaScriptSupport}
-        )
-    {
-
-        # check if need to call Options block
-        if ( !$ShownOptionsBlock ) {
-            $LayoutObject->Block(
-                Name => 'TicketOptions',
-                Data => {
-                    %Param,
-                },
-            );
-
-            # set flag to "true" in order to prevent calling the Options block again
-            $ShownOptionsBlock = 1;
-        }
-
-        $LayoutObject->Block(
-            Name => 'AddressBook',
-            Data => {
-                %Param,
-            },
-        );
+    # Show the customer user address book if the module is registered and java script support is available.
+    if ( $ConfigObject->Get('Frontend::Module')->{AgentCustomerUserAddressBook} && $LayoutObject->{BrowserJavaScriptSupport} ) {
+        $Param{OptionCustomerUserAddressBook} = 1;
     }
 
     # show customer edit link

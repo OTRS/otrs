@@ -9058,20 +9058,18 @@ via the Preferences button after logging in.
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentBook" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::Module###AgentCustomerUserAddressBook" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description Translatable="1">Address book of CustomerUser sources.</Description>
-                <Title Translatable="1">Address Book</Title>
-                <NavBarName></NavBarName>
+                <Description>Search Customer User</Description>
+                <Title>Search Customer User</Title>
+                <NavBarName>Ticket</NavBarName>
                 <Loader>
-                    <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
-                    <JavaScript>Core.Agent.CustomerSearchAutoComplete.js</JavaScript>
-                    <JavaScript>Core.Agent.TicketAction.js</JavaScript>
-                    <JavaScript>Core.Agent.Book.js</JavaScript>
+                    <CSS>Core.Agent.CustomerUserAddressBook.css</CSS>
+                    <JavaScript>Core.Agent.CustomerUserAddressBook.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -11349,6 +11347,61 @@ via the Preferences button after logging in.
             <String Regex="[/|\w]+fetchmail$" Check="File">/usr/bin/fetchmail</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CustomerUser::Frontend::Overview###AddressBook" Required="1" Valid="1">
+        <Description Translatable="1">Defines an overview module to show the address book view of a customer user list.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::CustomerUserOverview</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUser::OverviewAddressBook</Item>
+                <Item Key="Name">AddressBook</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###PageShown" Required="1" Valid="1">
+        <Description Translatable="1">Defines the number of entries per page for the AgentCustomerUserAddressBook result screen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ViewCustomerUserSearch</SubGroup>
+        <Setting>
+            <String Regex="">50</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###DefaultFields" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix 'CustomerCompany_' must be added.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ViewCustomerUserSearch</SubGroup>
+        <Setting>
+            <Array>
+                <Item>UserLogin</Item>
+                <Item>UserFirstname</Item>
+                <Item>UserLastname</Item>
+                <Item>UserEmail</Item>
+                <Item>UserCustomerID</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###ShowColumns" Required="1" Valid="1">
+        <Description Translatable="1">Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ViewCustomerUserSearch</SubGroup>
+        <Setting>
+            <Array>
+                <Item>UserFirstname</Item>
+                <Item>UserLastname</Item>
+                <Item>UserLogin</Item>
+                <Item>UserEmail</Item>
+                <Item>UserCustomerID</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###SearchLimit" Required="1" Valid="1">
+        <Description Translatable="1">Defines the search limit for the AgentCustomerUserAddressBook screen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ViewCustomerUserSearch</SubGroup>
+        <Setting>
+            <String Regex="">10000</String>
+        </Setting>
+    </ConfigItem>
 
     <ConfigItem Name="Frontend::Module###AdminSystemConfigurationDeployment" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
@@ -11371,7 +11424,6 @@ via the Preferences button after logging in.
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-
     <ConfigItem Name="Frontend::Module###AdminSystemConfiguration" Required="1" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>

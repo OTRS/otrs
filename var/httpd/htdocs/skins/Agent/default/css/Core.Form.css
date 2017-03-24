@@ -209,6 +209,23 @@ button.Reset:active {
     margin: 0 3px 0 0;
 }
 
+.AdditionlFieldIcon {
+    width: 16px;
+    height: 16px;
+    margin-left: 3px;
+    display: inline-block;
+    color: #333;
+}
+
+.AdditionlFieldIcon span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}
+
+.RTL .AdditionlFieldIcon {
+    margin: 0 3px 0 0;
+}
 
 /**
  * @subsection    GenericAgent ClearSelect

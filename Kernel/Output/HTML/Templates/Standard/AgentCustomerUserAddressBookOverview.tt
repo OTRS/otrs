@@ -1,0 +1,56 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="OverviewBody" class="Overview TicketList CustomerUserAdressBookList">
+    <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="matrix" class="CustomerUserAddressBookForm">
+        <input type="hidden" name="Action" value="[% Env("Action") %]" />
+        <input type="hidden" name="RecipientField" value="[% Data.RecipientField | html %]" id="RecipientField" />
+        <input type="hidden" name="RecipientsJSON" value="[% Data.RecipientsJSON | html %]" id="RecipientSelectedJSON" />
+
+        <table class="TableSmall" summary="A generic customer user table">
+            <thead>
+                <tr>
+                    <th class="Checkbox">
+                        <input class="Checkbox" type="checkbox" title="[% Translate("Select all") | html %]" id="SelectAllCustomerUser" autocomplete="off" />
+                    </th>
+                [% FOR Column IN Data.RecordHeaderColumns %]
+                    <th class="[% Column.Name | html %] [% Column.CSS | html %]">
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Column.Name | uri %];OrderBy=[% Column.OrderBy | uri %]">[% Translate(Column.Label) | html %]</a>
+                    </th>
+                [% END %]
+                </tr>
+            </thead>
+            <tbody>
+        [% IF Data.RecordDataColumns.size %]
+            [% FOR Entry IN Data.RecordDataColumns %]
+                <tr class="MasterAction[% IF Entry.Disabled %] Disabled[% END %]"[% IF Entry.Disabled %] title="[% Translate("The customer user is already selected in the ticket mask.") | html %]"[% END %]>
+                    <td class="Checkbox NonTextContent">
+                        <input class="Checkbox" type="checkbox" [% IF !Entry.Disabled %]name="RecipientUserLogin"[% END %] title="[% Translate("Select this customer user") | html %]" value="[% Entry.UserLogin | html %]"  data-user-mail-string="[% Entry.UserMailString | html %]" autocomplete="off"[% IF Data.Recipients.item(Entry.UserLogin) || Entry.Disabled %] checked="checked"[% END %][% IF Entry.Disabled %] disabled="disabled"[% END %]/>
+                    </td>
+                [% FOR Column IN Data.ShowColumns %]
+                    <td>
+                        <span title="[% Entry.item(Column) | html %]">[% Entry.item(Column) | truncate(24) | html %]</span>
+                    </td>
+                [% END %]
+                </tr>
+            [% END %]
+        [% ELSE %]
+                <tr>
+                    <td colspan="[% Data.ColumnCount | html %]">
+                        [% Translate("No data found.") | html %]
+                    </td>
+                </tr>
+        [% END %]
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="RecipientButton Hidden">
+    <button id="RecipientSelect" class="Primary CallForAction" value="Confirm Selection"><span>[% Translate("Add selected customer user to") | html %]</span></button>
+    <button id="FormCancel" class="CallForAction"><span>[% Translate("Cancel") | html %]</span></button>
+</div>

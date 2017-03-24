@@ -1,0 +1,90 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% IF Data.ShowSearchDialog %]
+<div class="MainBox ARIARoleMain CustomerUserAdressBookSearch">
+    <h1>[% Translate("Customer User Address Book") | html %]</h1>
+    <div class="FieldExplanation">[% Translate("Search for recipients and add the results as '%s'.", Data.RecipientField) | html %]</div>
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" id="SearchForm" class="CustomerUserAddressBookForm">
+            <input type="hidden" name="Action" value="[% Env("Action") %]" id="SearchAction"/>
+            <input type="hidden" name="Subaction" value="Search"/>
+            <input type="hidden" name="EmptySearch" value="[% Data.EmptySearch | html %]" id="EmptySearch"/>
+            <input type="hidden" name="ShownAttributes" value="" id="ShownAttributes">
+            <input type="hidden" name="RecipientField" value="[% Data.RecipientField | html %]" id="RecipientField" />
+            <input type="hidden" name="ExcludeUserLoginsJSON" value="" id="ExcludeUserLogins">
+            <fieldset class="TableLike SpacingTop">
+                <legend><span>[% Translate("Templates") | html %]</span></legend>
+                <label>[% Translate("Search template") | html %]:</label>
+                <div class="Field">
+                    [% Data.ProfilesStrg %]
+                    <div id="SearchProfileAddBlock">
+                        <input type="text" name="Name" id="SearchProfileAddName"/>
+                        <button type="button" title="[% Translate("Create Template") | html %]" id="SearchProfileAddAction">[% Translate("Add") | html %]</button>
+                    </div>
+                </div>
+                <div class="Field">
+                    <button id="SearchProfileNew" value="[% Translate("Create New") | html %]">[% Translate("Create New") | html %]</button>
+                    <button id="SearchProfileDelete" class="Hidden" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
+                </div>
+                <div class="Clear"></div>
+                <label>[% Translate("Save changes in template") | html %]:</label>
+                <div class="Field">
+                    <input type="checkbox" name="SaveProfile" id="SaveProfile" value="1"/>
+                </div>
+            </fieldset>
+            <fieldset class="TableLike SpacingTop" id="SearchInsert">
+                <legend><span>[% Translate("Filters in use") | html %]</span></legend>
+            </fieldset>
+            <fieldset class="TableLike SpacingTop">
+                <legend><span>[% Translate("Additional filters") | html %]</span></legend>
+                <label>[% Translate("Add another attribute") | html %]:</label>
+                <div class="Field">
+                    [% Data.AttributesStrg %]
+                    <a class="AddButton" href="#" title="Add entry"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add") | html %]</span></a>
+                    <div class="FieldExplanation">[% Translate("The attributes with the identifier '(Customer)' are from the customer company.") | html %]</div>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+        </form>
+
+        <fieldset class="TableLike Hidden" id="SearchAttributesHidden">
+
+        [% FOR SearchField IN Data.OutputSearchFields %]
+            <div class="Clear"></div>
+            <label for="[% SearchField.Name | html %]" id="Label[% SearchField.Name | html %]">[% Translate(SearchField.Label) | html %]:</label>
+            <div class="Field">
+            [% IF SearchField.SelectionString %]
+                [% SearchField.SelectionString %]
+            [% ELSE %]
+                <input type="text" name="[% SearchField.Name | html %]" placeholder="[% Translate("(e. g. Term* or *Term*)") | html %]" value="[% SearchField.Value | html %]" class="W50pc"/>
+            [% END %]
+                <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+            </div>
+        [% END %]
+
+    [% RenderBlockStart("DynamicField") %]
+            <div class="Clear"></div>
+            [% Data.Label %]
+            <div class="Field">
+                [% Data.Field %]
+                <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+            </div>
+    [% RenderBlockEnd("DynamicField") %]
+
+            <div class="Clear"></div>
+            [% Data.AttributesOrigStrg %]
+        </fieldset>
+    </div>
+
+    <div class="SearchFormButton Hidden">
+        <button id="SearchFormSubmit" class="Primary CallForAction" value="Run search"><span><i class="fa fa-search"></i> [% Translate("Run search") | html %]</span></button>
+        <button id="FormCancel" class="CallForAction"><span>[% Translate("Cancel") | html %]</span></button>
+    </div>
+</div>
+[% END %]

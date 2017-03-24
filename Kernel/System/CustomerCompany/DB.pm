@@ -294,6 +294,453 @@ sub CustomerCompanyList {
     return %List;
 }
 
+sub CustomerCompanySearchDetail {
+    my ( $Self, %Param ) = @_;
+
+    if ( ref $Param{SearchFields} ne 'ARRAY' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "SearchFields must be an array reference!",
+        );
+        return;
+    }
+
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+
+    $Param{Limit} //= '';
+
+    # Split the search fields in scalar and array fields.
+    my @ScalarSearchFields = grep { 'Input' eq $_->{Type} } @{ $Param{SearchFields} };
+    my @ArraySearchFields  = grep { 'Selection' eq $_->{Type} } @{ $Param{SearchFields} };
+
+    # Verify that all passed array parameters contain an arrayref.
+    ARGUMENT:
+    for my $Argument (@ArraySearchFields) {
+        if ( !defined $Param{ $Argument->{Name} } ) {
+            $Param{ $Argument->{Name} } ||= [];
+
+            next ARGUMENT;
+        }
+
+        if ( ref $Param{ $Argument->{Name} } ne 'ARRAY' ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Argument->{Name} must be an array reference!",
+            );
+            return;
+        }
+    }
+
+    # Set the default behaviour for the return type.
+    my $Result = $Param{Result} || 'ARRAY';
+
+    # Special handling if the result type is 'COUNT'.
+    if ( $Result eq 'COUNT' ) {
+
+        # Ignore the parameter 'Limit' when result type is 'COUNT'.
+        $Param{Limit} = '';
+
+        # Delete the OrderBy parameter when the result type is 'COUNT'.
+        $Param{OrderBy} = [];
+    }
+
+    # Define order table from the search fields.
+    my %OrderByTable = map { $_->{Name} => $_->{DatabaseField} } @{ $Param{SearchFields} };
+
+    for my $Field (@ArraySearchFields) {
+
+        my $SelectionsData = $Field->{SelectionsData};
+
+        for my $SelectedValue ( @{ $Param{ $Field->{Name} } } ) {
+
+            # Check if the selected value for the current field is valid.
+            if ( !$SelectionsData->{$SelectedValue} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "The selected value $Field->{Name} is not valid!",
+                );
+                return;
+            }
+        }
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # Assemble the conditions used in the WHERE clause.
+    my @SQLWhere;
+
+    for my $Field (@ScalarSearchFields) {
+
+        # Search for scalar fields (wildcards are allowed).
+        if ( $Param{ $Field->{Name} } ) {
+
+            # Get like escape string needed for some databases (e.g. oracle).
+            my $LikeEscapeString = $DBObject->GetDatabaseFunction('LikeEscapeString');
+
+            $Param{ $Field->{Name} } = $DBObject->Quote( $Param{ $Field->{Name} }, 'Like' );
+
+            $Param{ $Field->{Name} } =~ s{ \*+ }{%}xmsg;
+
+            # If the field contains more than only '%'.
+            if ( $Param{ $Field->{Name} } !~ m{ \A %* \z }xms ) {
+                push @SQLWhere, "LOWER($Field->{DatabaseField}) LIKE LOWER('$Param{ $Field->{Name} }') $LikeEscapeString";
+            }
+        }
+    }
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # Check all configured change dynamic fields, build lookup hash by name.
+    my %CustomerCompanyDynamicFieldName2Config;
+    my $CustomerCompanyDynamicFields = $DynamicFieldObject->DynamicFieldListGet(
+        ObjectType => 'CustomerCompany',
+    );
+    for my $DynamicField ( @{$CustomerCompanyDynamicFields} ) {
+        $CustomerCompanyDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
+    }
+
+    my $SQLDynamicFieldFrom     = '';
+    my $SQLDynamicFieldWhere    = '';
+    my $DynamicFieldJoinCounter = 1;
+
+    DYNAMICFIELD:
+    for my $DynamicField ( @{$CustomerCompanyDynamicFields} ) {
+
+        my $SearchParam = $Param{ "DynamicField_" . $DynamicField->{Name} };
+
+        next DYNAMICFIELD if ( !$SearchParam );
+        next DYNAMICFIELD if ( ref $SearchParam ne 'HASH' );
+
+        my $NeedJoin;
+
+        for my $Operator ( sort keys %{$SearchParam} ) {
+
+            my @SearchParams
+                = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
+                ? @{ $SearchParam->{$Operator} }
+                : ( $SearchParam->{$Operator} );
+
+            my $SQLDynamicFieldWhereSub = '';
+            if ($SQLDynamicFieldWhere) {
+                $SQLDynamicFieldWhereSub = ' AND (';
+            }
+            else {
+                $SQLDynamicFieldWhereSub = ' (';
+            }
+
+            my $Counter = 0;
+            TEXT:
+            for my $Text (@SearchParams) {
+                next TEXT if ( !defined $Text || $Text eq '' );
+
+                $Text =~ s/\*/%/gi;
+
+                # Check search attribute, we do not need to search for '*'.
+                next TEXT if $Text =~ /^\%{1,3}$/;
+
+                my $ValidateSuccess = $DynamicFieldBackendObject->ValueValidate(
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $Text,
+                    UserID             => $Param{UserID} || 1,
+                );
+                if ( !$ValidateSuccess ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Search not executed due to invalid value '"
+                            . $Text
+                            . "' on field '"
+                            . $DynamicField->{Name} . "'!",
+                    );
+                    return;
+                }
+
+                if ($Counter) {
+                    $SQLDynamicFieldWhereSub .= ' OR ';
+                }
+                $SQLDynamicFieldWhereSub .= $DynamicFieldBackendObject->SearchSQLGet(
+                    DynamicFieldConfig => $DynamicField,
+                    TableAlias         => "dfv$DynamicFieldJoinCounter",
+                    Operator           => $Operator,
+                    SearchTerm         => $Text,
+                );
+
+                $Counter++;
+            }
+            $SQLDynamicFieldWhereSub .= ') ';
+
+            if ($Counter) {
+                $SQLDynamicFieldWhere .= $SQLDynamicFieldWhereSub;
+                $NeedJoin = 1;
+            }
+        }
+
+        if ($NeedJoin) {
+            $SQLDynamicFieldFrom .= "
+                INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                    ON (df_obj_id_name.object_id = dfv$DynamicFieldJoinCounter.object_id
+                        AND dfv$DynamicFieldJoinCounter.field_id = " . $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ")
+            ";
+
+            $DynamicFieldJoinCounter++;
+        }
+    }
+
+    # Execute a dynamic field search, if a dynamic field where statement exists.
+    if ($SQLDynamicFieldFrom && $SQLDynamicFieldWhere) {
+
+        my @DynamicFieldUserLogins;
+
+        # Sql uery for the dynamic fields.
+        my $SQLDynamicField = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name " . $SQLDynamicFieldFrom . " WHERE " . $SQLDynamicFieldWhere;
+
+        my $UsedCache;
+
+        if ( $Self->{CacheObject} ) {
+
+            my $DynamicFieldSearchCacheData = $Self->{CacheObject}->Get(
+                Type => $Self->{CacheType} . '_CustomerSearchDetailDynamicFields',
+                Key  => $SQLDynamicField,
+            );
+
+            if ( defined $DynamicFieldSearchCacheData ) {
+                if ( ref $DynamicFieldSearchCacheData eq 'ARRAY' ) {
+                    @DynamicFieldUserLogins = @{$DynamicFieldSearchCacheData};
+
+                    # Set the used cache flag.
+                    $UsedCache = 1;
+                }
+                else {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => 'Invalid ref ' . ref($DynamicFieldSearchCacheData) . '!'
+                    );
+                    return;
+                }
+            }
+        }
+
+        # Get the data only from database, if no cache entry exists.
+        if (!$UsedCache) {
+
+            return if !$DBObject->Prepare(
+                SQL => $SQLDynamicField,
+            );
+
+            while ( my @Row = $DBObject->FetchrowArray() ) {
+                push @DynamicFieldUserLogins, $Row[0];
+            }
+
+            if ( $Self->{CacheObject} ) {
+                $Self->{CacheObject}->Set(
+                    Type  => $Self->{CacheType} . '_CustomerSearchDetailDynamicFields',
+                    Key   => $SQLDynamicField,
+                    Value => \@DynamicFieldUserLogins,
+                    TTL   => $Self->{CustomerCompanyMap}->{CacheTTL},
+                );
+            }
+        }
+
+        # Add the user logins from the dynamic fields, if a search result exists from the dynamic field search
+        #   or skip the search and return a emptry array ref (or zero for the result 'COUNT', if no user logins exists
+        #   from the dynamic field search.
+        if (@DynamicFieldUserLogins) {
+
+            for my $OneParam (@DynamicFieldUserLogins) {
+                $OneParam = $DBObject->Quote($OneParam);
+            }
+
+            my $InString = join ', ', map {"'$_'"} @DynamicFieldUserLogins;
+
+            push @SQLWhere, "$Self->{CustomerCompanyKey} IN ($InString)";
+        }
+        else {
+            return $Result eq 'COUNT' ? 0 : [];
+        }
+    }
+
+    FIELD:
+    for my $Field (@ArraySearchFields) {
+
+        next FIELD if !@{ $Param{ $Field->{Name} } };
+
+        for my $OneParam ( @{ $Param{ $Field->{Name} } } ) {
+            $OneParam = $DBObject->Quote($OneParam);
+        }
+
+        my $InString = join ', ', map {"'$_'"} @{ $Param{ $Field->{Name} } };
+
+        push @SQLWhere, "$Field->{DatabaseField} IN ($InString)";
+    }
+
+    # Add the valid option if needed.
+    if ( $Self->{CustomerCompanyMap}->{CustomerValid} && $Valid ) {
+
+        my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+
+        push @SQLWhere, "$Self->{CustomerCompanyMap}->{CustomerValid} IN (" . join( ', ', $ValidObject->ValidIDsGet() ) . ") ";
+    }
+
+    # Check if OrderBy contains only unique valid values.
+    my %OrderBySeen;
+    for my $OrderBy ( @{ $Param{OrderBy} } ) {
+
+        if ( !$OrderBy || $OrderBySeen{$OrderBy} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "OrderBy contains invalid value '$OrderBy' "
+                    . 'or the value is used more than once!',
+            );
+            return;
+        }
+
+        # Remember the value to check if it appears more than once.
+        $OrderBySeen{$OrderBy} = 1;
+    }
+
+    # Check if OrderByDirection array contains only 'Up' or 'Down'.
+    DIRECTION:
+    for my $Direction ( @{ $Param{OrderByDirection} } ) {
+
+        # Only 'Up' or 'Down' allowed.
+        next DIRECTION if $Direction eq 'Up';
+        next DIRECTION if $Direction eq 'Down';
+
+        # found an error
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "OrderByDirection can only contain 'Up' or 'Down'!",
+        );
+        return;
+    }
+
+    # Build the sql statement for the search.
+    my $SQL = "SELECT DISTINCT($Self->{CustomerCompanyKey})";
+
+    # Modify SQL when the result type is 'COUNT'.
+    if ( $Result eq 'COUNT' ) {
+        $SQL = "SELECT COUNT(DISTINCT($Self->{CustomerCompanyKey}))";
+    }
+
+    my @SQLOrderBy;
+
+    # The Order by clause is not needed for the result type 'COUNT'.
+    if ( $Result ne 'COUNT' ) {
+
+        my $Count = 0;
+
+        ORDERBY:
+        for my $OrderBy ( @{ $Param{OrderBy} } ) {
+
+            # Set the default order direction.
+            my $Direction = 'DESC';
+
+            # Add the given order direction.
+            if ( $Param{OrderByDirection}->[$Count] ) {
+                if ( $Param{OrderByDirection}->[$Count] eq 'Up' ) {
+                    $Direction = 'ASC';
+                }
+                elsif ( $Param{OrderByDirection}->[$Count] eq 'Down' ) {
+                    $Direction = 'DESC';
+                }
+            }
+
+            $Count++;
+
+            next ORDERBY if !$OrderByTable{$OrderBy};
+
+            push @SQLOrderBy, "$OrderByTable{$OrderBy} $Direction";
+
+            next ORDERBY if $OrderBy eq 'CustomerID';
+
+            $SQL .= ", $OrderByTable{$OrderBy}";
+        }
+
+        # If there is a possibility that the ordering is not determined
+        #   we add an descending ordering by id.
+        if ( !grep { $_ eq 'CustomerID' } ( @{ $Param{OrderBy} } ) ) {
+            push @SQLOrderBy, "$Self->{CustomerCompanyKey} DESC";
+        }
+    }
+
+
+    # Add form to the SQL after the order by creation.
+    $SQL .= " FROM $Self->{CustomerCompanyTable} ";
+
+    if (@SQLWhere) {
+        my $SQLWhereString = join ' AND ', map {"( $_ )"} @SQLWhere;
+        $SQL .= "WHERE $SQLWhereString ";
+    }
+
+    if (@SQLOrderBy) {
+        my $OrderByString = join ', ', @SQLOrderBy;
+        $SQL .= "ORDER BY $OrderByString";
+    }
+
+    # Check if a cache exists before we ask the database.
+    if ( $Self->{CacheObject} ) {
+
+        my $CacheData = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType} . '_CustomerCompanySearchDetail',
+            Key  => $SQL . $Param{Limit},
+        );
+
+        if ( defined $CacheData ) {
+            if ( ref $CacheData eq 'ARRAY' ) {
+                return $CacheData;
+            }
+            elsif ( ref $CacheData eq '' ) {
+                return $CacheData;
+            }
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Invalid ref ' . ref($CacheData) . '!'
+            );
+            return;
+        }
+    }
+
+    return if !$DBObject->Prepare(
+        SQL   => $SQL,
+        Limit => $Param{Limit},
+    );
+
+    my @IDs;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        push @IDs, $Row[0];
+    }
+
+    # Handle the diffrent result types.
+    if ( $Result eq 'COUNT' ) {
+
+        if ( $Self->{CacheObject} ) {
+            $Kernel::OM->Get('Kernel::System::Cache')->Set(
+                Type  => $Self->{CacheType} . '_CustomerCompanySearchDetail',
+                Key   => $SQL . $Param{Limit},
+                Value => $IDs[0],
+                TTL   => $Self->{CacheTTL},
+            );
+        }
+
+        return $IDs[0];
+    }
+
+    else {
+
+        if ( $Self->{CacheObject} ) {
+            $Kernel::OM->Get('Kernel::System::Cache')->Set(
+                Type  => $Self->{CacheType} . '_CustomerCompanySearchDetail',
+                Key   => $SQL . $Param{Limit},
+                Value => \@IDs,
+                TTL   => $Self->{CacheTTL},
+            );
+        }
+
+        return \@IDs;
+    }
+}
+
 sub CustomerCompanyGet {
     my ( $Self, %Param ) = @_;
 

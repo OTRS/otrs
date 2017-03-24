@@ -56,21 +56,21 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
     /**
      * @private
-     * @name OpenAddressBook
+     * @name OpenCustomerUserAddressBook
      * @memberof Core.Agent.TicketAction
      * @function
+     * @param {String} RecipientField - The recipient field name to add the selected recipients in the correct field.
      * @description
-     *      Open the AddressBook screen.
+     *      Open the AgentCustomerUserAddressBook screen.
      */
-    function OpenAddressBook() {
-        var AddressBookIFrameURL, AddressBookIFrame;
-        AddressBookIFrameURL = Core.Config.Get('CGIHandle') +
-            '?Action=AgentBook;ToCustomer=' + encodeURIComponent($('#CustomerAutoComplete, #ToCustomer').val()) +
-            ';CcCustomer=' + encodeURIComponent($('#Cc, #CcCustomer').val()) +
-            ';BccCustomer=' + encodeURIComponent($('#Bcc, #BccCustomer').val());
-        AddressBookIFrameURL += SerializeData(Core.App.GetSessionInformation());
-        AddressBookIFrame = '<iframe class="TextOption" src="' + AddressBookIFrameURL + '"></iframe>';
-        Core.UI.Dialog.ShowContentDialog(AddressBookIFrame, '', '10px', 'Center', true);
+    function OpenCustomerUserAddressBook(RecipientField) {
+        var CustomerUserAddressBookIFrameURL, CustomerUserAddressBookIFrame;
+
+        CustomerUserAddressBookIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentCustomerUserAddressBook;RecipientField=' + RecipientField
+        CustomerUserAddressBookIFrameURL += SerializeData(Core.App.GetSessionInformation());
+
+        CustomerUserAddressBookIFrame = '<iframe class="TextOption CustomerUserAddressBook" src="' + CustomerUserAddressBookIFrameURL + '"></iframe>';
+        Core.UI.Dialog.ShowContentDialog(CustomerUserAddressBookIFrame, '', '10px', 'Center', true);
     }
 
     /**
@@ -89,53 +89,6 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
         CustomerIFrame = '<iframe class="TextOption Customer" src="' + CustomerIFrameURL + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(CustomerIFrame, '', '10px', 'Center', true);
-    }
-
-    /**
-     * @private
-     * @name AddMailAddress
-     * @memberof Core.Agent.TicketAction
-     * @function
-     * @param {Object} $Link - Element link type that will receive the new email adrress in its value attribute
-     * @description
-     *      Add email address.
-     */
-    function AddMailAddress($Link) {
-        var $Element = $('#' + $Link.attr('rel')),
-            NewValue = $Element.val(), NewData, NewDataItem, Length;
-
-        if (NewValue.length) {
-            NewValue = NewValue + ', ';
-        }
-        NewValue = NewValue +
-            Core.Data.Get($Link.closest('tr'), 'Email')
-            .replace(/&quot;/g, '"')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>');
-        $Element.val(NewValue);
-
-        Length = $Element.val().length;
-        $Element.focus();
-        $Element[0].setSelectionRange(Length, Length);
-
-        // set customer data for customer user information (AgentTicketEmail) in the compose screen
-        if ($Link.attr('rel') === 'ToCustomer' && parseInt(Core.Config.Get('CustomerInfoSet'), 10)){
-
-            NewData = $('#CustomerData').val();
-            NewDataItem = Core.Data.Get($Link.closest('a'), 'customerdatajson');
-
-            if(NewData){
-                NewData = Core.JSON.Parse(NewData);
-                $.each(NewDataItem, function(CustomerMail, CustomerKey) {
-                    NewData[CustomerMail] = CustomerKey;
-                });
-                $('#CustomerData').val(Core.JSON.Stringify(NewData));
-            }
-            else
-            {
-                $('#CustomerData').val(Core.JSON.Stringify(NewDataItem));
-            }
-        }
     }
 
     /**
@@ -178,9 +131,8 @@ Core.Agent.TicketAction = (function (TargetNS) {
             return false;
         });
 
-        // Register event for addressbook dialog
-        $('#OptionAddressBook').on('click', function () {
-            OpenAddressBook();
+        $('.OptionCustomerUserAddressBook').on('click', function () {
+            OpenCustomerUserAddressBook($(this).data('recipient-field'));
             return false;
         });
 
@@ -275,84 +227,6 @@ Core.Agent.TicketAction = (function (TargetNS) {
             $Widget.find('div.WidgetAction.Toggle > a').trigger('click');
         });
 
-    };
-
-    /**
-     * @name InitAddressBook
-     * @memberof Core.Agent.TicketAction
-     * @function
-     * @description
-     *      This function initializes the necessary stuff for address book link in TicketAction screens.
-     */
-    TargetNS.InitAddressBook = function () {
-        // Register event for copying mail address to input field
-        $('#SearchResult a').on('click', function () {
-            AddMailAddress($(this));
-            return false;
-        });
-
-        // Register Apply button event
-        $('#Apply').on('click', function () {
-            // Update ticket action popup fields
-            var $To, $Cc, $Bcc, CustomerData;
-
-            // Because we are in an iframe, we need to call the parent frames javascript function
-            // with a jQuery object which is in the parent frames context
-
-            // check if the multi selection feature is present
-            if ($('#CustomerAutoComplete', parent.document).length) {
-                // no multi select (AgentTicketForward)
-                $To = $('#CustomerAutoComplete', parent.document);
-                $Cc = $('#Cc', parent.document);
-                $Bcc = $('#Bcc', parent.document);
-
-                $To.val($('#ToCustomer').val());
-                $Cc.val($('#CcCustomer').val());
-                $Bcc.val($('#BccCustomer').val());
-            }
-            else {
-                // multi select is present
-                $To = $('#ToCustomer', parent.document);
-                $Cc = $('#CcCustomer', parent.document);
-                $Bcc = $('#BccCustomer', parent.document);
-
-                // check is set customer data for customer user information
-                // it will not be set if it is used CustomerAutoComplete ( e.g for forwrad, reply ticket )
-                if ($('#CustomerData').val()) {
-                    CustomerData = Core.JSON.Parse($('#CustomerData').val());
-                    $.each(CustomerData, function(CustomerMail, CustomerKey) {
-                        $To.val(CustomerMail);
-                        parent.Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', CustomerMail, CustomerKey);
-
-                    });
-                }
-                else{
-                    $.each($('#ToCustomer').val().split(/, ?/), function(Index, Value){
-                        $To.val(Value);
-                        parent.Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', Value);
-                    });
-                }
-
-                $.each($('#CcCustomer').val().split(/, ?/), function(Index, Value){
-                    $Cc.val(Value);
-                    parent.Core.Agent.CustomerSearch.AddTicketCustomer('CcCustomer', Value);
-                });
-
-                $.each($('#BccCustomer').val().split(/, ?/), function(Index, Value){
-                    $Bcc.val(Value);
-                    parent.Core.Agent.CustomerSearch.AddTicketCustomer('BccCustomer', Value);
-                });
-            }
-
-            parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
-        });
-
-        // Register Cancel button event
-        $('#Cancel').on('click', function () {
-            // Because we are in an iframe, we need to call the parent frames javascript function
-            // with a jQuery object which is in the parent frames context
-            parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
-        });
     };
 
     /**

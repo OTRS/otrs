@@ -344,11 +344,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 BackupData.CustomerKey = CustomerKey;
                 BackupData.CustomerEmail = CustomerValue;
 
-                if (Core.Config.Get('Action') === 'AgentBook') {
-                    $(Event.target).val(CustomerValue);
-                    return false;
-                }
-
                 $Element.val(CustomerValue);
 
                 if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') {
