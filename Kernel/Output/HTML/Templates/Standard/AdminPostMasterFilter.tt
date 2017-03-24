@@ -126,13 +126,13 @@ $('.FilterDelete').bind('click', function (Event) {
                 <div class="Content">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
-                    <input type="hidden" name="OldName" value="[% Data.Name | html %]"/>
+                    <input type="hidden" name="OldName" value="[% Data.OldName | html %]"/>
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="EditName"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
                         <div class="Field">
                             <input type="text" class="W50pc Validate_Required [% Data.NameInvalid | html %]" name="Name" id="EditName" value="[% Data.Name | html %]"/>
                             <div id="EditNameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="EditNameServerError" class="TooltipErrorMessage"><p>[% Translate("The name is required.") | html %]</p></div>
+                            <div id="EditNameServerError" class="TooltipErrorMessage"><p>[% Translate("A postmaster filter with this name already exists!") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 
