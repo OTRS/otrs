@@ -808,6 +808,39 @@ sub ComplexTablePreferencesGet {
         }
     }
 
+    # Translate all columns and send it to JS.
+    my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+    my %ColumnNames;
+    my @AllColumns = ( @ColumnsAvailable, @ColumnsEnabled );
+    for my $Column (@AllColumns) {
+        my $ColumnName = $Column;
+        if ( $Column eq 'EscalationTime' ) {
+            $ColumnName = Translatable('Service Time');
+        }
+        elsif ( $Column eq 'EscalationResponseTime' ) {
+            $ColumnName = Translatable('First Response Time');
+        }
+        elsif ( $Column eq 'EscalationSolutionTime' ) {
+            $ColumnName = Translatable('Solution Time');
+        }
+        elsif ( $Column eq 'EscalationUpdateTime' ) {
+            $ColumnName = Translatable('Update Time');
+        }
+        elsif ( $Column eq 'PendingTime' ) {
+            $ColumnName = Translatable('Pending till');
+        }
+        elsif ( $Column eq 'CustomerCompanyName' ) {
+            $ColumnName = Translatable('Customer Company Name');
+        }
+        elsif ( $Column eq 'CustomerUserID' ) {
+            $ColumnName = Translatable('Customer User ID');
+        }
+
+        $ColumnNames{$Column} = $ColumnName;
+    }
+
     # check if the user has filter preferences for this widget
     my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
         UserID => $Self->{UserID},
@@ -861,6 +894,7 @@ sub ComplexTablePreferencesGet {
         Columns          => $JSONObject->Encode( Data => \%Columns ),
         ColumnsEnabled   => $JSONObject->Encode( Data => \@ColumnsEnabled ),
         ColumnsAvailable => $JSONObject->Encode( Data => \@ColumnsAvailableNotEnabled ),
+        ColumnNames      => \%ColumnNames,
         Translation      => 1,
     );
 
