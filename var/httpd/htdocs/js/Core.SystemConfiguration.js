@@ -1139,8 +1139,8 @@ var Core = Core || {};
                 TargetNS.Update($(this), 0 , 0);
             });
 
-            $Widget.find("fieldset .Cancel").on("click", function () {
-                Core.Agent.SystemConfiguration.Cancel($(this));
+            $Widget.find("fieldset .Cancel").off("click").on("click", function () {
+                Core.Agent.Admin.SystemConfiguration.Cancel($(this));
                 return false;
             });
 

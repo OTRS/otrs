@@ -384,30 +384,34 @@ sub SettingUpdate {
         return %Result;
     }
 
-    # Effective value must match in structure to the default and individual values should be
-    #   valid according to its value types.
-    my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
-        XMLContentParsed => $Setting{XMLContentParsed},
-        EffectiveValue   => $Param{EffectiveValue},
-        NoValidation     => $Param{NoValidation} //= 0,
-        UserID           => $Param{UserID},
-    );
+    # Do not perform EffectiveValueCheck if user wants to disable the setting.
+    if ( $Param{IsValid} ) {
 
-    if ( !$EffectiveValueCheck{Success} ) {
-        my $Error = $EffectiveValueCheck{Error} || 'Unknown error!';
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "EffectiveValue is invalid! $Error",
+        # Effective value must match in structure to the default and individual values should be
+        #   valid according to its value types.
+        my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
+            XMLContentParsed => $Setting{XMLContentParsed},
+            EffectiveValue   => $Param{EffectiveValue},
+            NoValidation     => $Param{NoValidation} //= 0,
+            UserID           => $Param{UserID},
         );
 
-        %Result = (
-            Success => 0,
-            Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
-                "Setting value is not valid!",
-            ),
-        );
-        return %Result;
+        if ( !$EffectiveValueCheck{Success} ) {
+            my $Error = $EffectiveValueCheck{Error} || 'Unknown error!';
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "EffectiveValue is invalid! $Error",
+            );
+
+            %Result = (
+                Success => 0,
+                Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                    "Setting value is not valid!",
+                ),
+            );
+            return %Result;
+        }
     }
 
     # Get modified setting (if any).
