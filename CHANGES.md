@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-03-24 Fixed bug#[12614](http://bugs.otrs.org/show_bug.cgi?id=12614) - PopUpAction doesn't work on the Create phone Ticket or Create e-mail ticket widgets.
  - 2017-03-24 Fixed bug#[12718](https://bugs.otrs.org/show_bug.cgi?id=12718)(PR#1668) - There is no check for the similar names when creating a mail filter. Thanks to S7!
  - 2017-03-24 Fixed bug#[12724](https://bugs.otrs.org/show_bug.cgi?id=12724) - OTRS generates cron error messages on incoming mails with broken encoding.
  - 2017-03-24 Fixed bug#[12703](https://bugs.otrs.org/show_bug.cgi?id=12703)(PR#1663) - dynamic list and dynamic matrix interpret agent/user Userfirstname. Thanks to S7!
