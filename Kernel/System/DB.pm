@@ -786,10 +786,10 @@ to retrieve the column names of a database statement
 sub GetColumnNames {
     my $Self = shift;
 
-    my $ColumnNames = $Self->{Cursor}->{NAME};
+    my $ColumnNames = $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( $Self->{Cursor}->{NAME} );
 
     my @Result;
-    if ( ref $ColumnNames eq 'ARRAY' ) {
+    if ( IsArrayRefWithData($ColumnNames) ) {
         @Result = @{$ColumnNames};
     }
 

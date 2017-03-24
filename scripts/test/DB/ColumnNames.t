@@ -30,6 +30,11 @@ my @Tests = (
         Data   => 'SELECT * FROM groups',
         Result => [qw(id name comments valid_id create_time create_by change_time change_by)],
     },
+    {
+        Name   => 'SELECT with unicode characters',
+        Data   => 'SELECT name AS äöüüßüöä FROM groups',
+        Result => ['äöüüßüöä'],
+    },
 );
 
 for my $Test (@Tests) {
