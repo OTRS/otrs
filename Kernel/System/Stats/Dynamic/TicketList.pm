@@ -1363,6 +1363,13 @@ sub GetStatTable {
                 );
                 $Ticket{$Attribute} .= " ($Param{TimeZone})";
             }
+
+            if ( $Attribute =~ /Owner|Responsible/ ) {
+                $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::User')->UserName(
+                    User => $Ticket{$Attribute},
+                );
+            }
+
             push @ResultRow, $Ticket{$Attribute};
         }
         push @StatArray, \@ResultRow;
@@ -1603,7 +1610,7 @@ sub _TicketAttributes {
 
         #CreateTimeUnix => 'CreateTimeUnix',
         CustomerUserID => 'Customer User',
-        Lock           => 'lock',
+        Lock           => 'Lock',
 
         #LockID         => 'LockID',
         UnlockTimeout       => 'UnlockTimeout',

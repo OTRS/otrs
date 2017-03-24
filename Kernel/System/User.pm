@@ -991,7 +991,7 @@ sub UserLookup {
 get user name
 
     my $Name = $UserObject->UserName(
-        UserLogin => 'some-login',
+        User => 'some-login',
     );
 
     or
