@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-03-24 Fixed bug#[12719](https://bugs.otrs.org/show_bug.cgi?id=12719)(PR#1671) - The result of SQL box displays the unique column headers not with the right character encoding. Thanks to S7!
  - 2017-03-24 Fixed bug#[12718](https://bugs.otrs.org/show_bug.cgi?id=12718)(PR#1668) - There is no check for the similar names when creating a mail filter. Thanks to S7!
  - 2017-03-24 Fixed bug#[12724](https://bugs.otrs.org/show_bug.cgi?id=12724) - OTRS generates cron error messages on incoming mails with broken encoding.
  - 2017-03-24 Fixed bug#[12703](https://bugs.otrs.org/show_bug.cgi?id=12703)(PR#1663) - dynamic list and dynamic matrix interpret agent/user Userfirstname. Thanks to S7!
