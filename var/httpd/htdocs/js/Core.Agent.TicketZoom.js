@@ -668,6 +668,19 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         for (ElementID in AsyncWidgetActions) {
             if (AsyncWidgetActions.hasOwnProperty(ElementID)) {
                 Core.AJAX.ContentUpdate($('#' + ElementID), Core.Config.Get('Baselink') + AsyncWidgetActions[ElementID], function() {
+                    $('#' + ElementID).find("a.AsPopup").on('click', function () {
+                        var Matches,
+                            PopupType = 'TicketAction';
+
+                        Matches = $(this).attr('class').match(/PopupType_(\w+)/);
+                        if (Matches) {
+                            PopupType = Matches[1];
+                        }
+
+                        Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
+                        return false;
+                    });
+
                     $('#' + ElementID).find('.WidgetSimple').hide().fadeIn();
                     Core.UI.InitWidgetActionToggle();
                 });

@@ -21,6 +21,25 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # Overload CustomerUser => Map setting defined in the Defaults.pm.
+        my $DefaultCustomerUser = $Kernel::OM->Get('Kernel::Config')->Get("CustomerUser");
+        $DefaultCustomerUser->{Map}->[5] = [
+            'UserEmail',
+            'Email',
+            'email',
+            1,
+            1,
+            'var',
+            '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]',
+            0,
+            '',
+            'AsPopup OTRSPopup_TicketAction',
+        ];
+        $Helper->ConfigSettingChange(
+            Key   => 'CustomerUser',
+            Value => $DefaultCustomerUser,
+        );
+
         # make sure we start with RuntimeDB search
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -60,15 +79,16 @@ $Selenium->RunTest(
         my $TitleRandom  = "Title" . $Helper->GetRandomID();
         my $TicketNumber = $TicketObject->TicketCreateNumber();
         my $TicketID     = $TicketObject->TicketCreate(
-            TN         => $TicketNumber,
-            Title      => $TitleRandom,
-            Queue      => 'Raw',
-            Lock       => 'unlock',
-            Priority   => '3 normal',
-            State      => 'open',
-            CustomerID => $TestCustomerUserID{UserCustomerID},
-            OwnerID    => 1,
-            UserID     => 1,
+            TN           => $TicketNumber,
+            Title        => $TitleRandom,
+            Queue        => 'Raw',
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'open',
+            CustomerID   => $TestCustomerUserID{UserCustomerID},
+            CustomerUser => $TestCustomerUser,
+            OwnerID      => 1,
+            UserID       => 1,
         );
         $Self->True(
             $TicketID,
@@ -160,6 +180,24 @@ $Selenium->RunTest(
             'Row2',
             "Second Article in table is second created article - JS success",
         );
+
+        # Try to click on the email (link) that should open a popup window.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".SidebarColumn div:nth-of-type(2) a.AsPopup").length'
+        );
+        $Selenium->find_element( ".SidebarColumn div:nth-of-type(2) a.AsPopup", "css" )->VerifiedClick();
+
+        # Wait for popup and switch.
+        $Selenium->WaitFor( WindowCount => 2 );
+        my $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("a.UndoClosePopup").length' );
+
+        # close note pop-up window
+        $Selenium->close();
 
         # clean up test data from the DB
         my $Success = $TicketObject->TicketDelete(
