@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.961577556413905;
+    $Self->{Completeness}        = 0.961374263061598;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1793,7 +1793,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Tambah penyaring PostMaster',
         'Edit PostMaster Filter' => 'Ubah penyaring PostMaster',
-        'The name is required.' => 'Nama diperlukan.',
+        'A postmaster filter with this name already exists!' => '',
         'Filter Condition' => 'Keadaan penyaringan',
         'AND Condition' => 'kondisi AND',
         'Check email header' => 'Periksa header surat',

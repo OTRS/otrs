@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-03-22 12:37+0000\n"
-"PO-Revision-Date: 2017-03-22 18:44+0000\n"
+"POT-Creation-Date: 2017-03-24 20:43+0000\n"
+"PO-Revision-Date: 2017-03-25 02:45+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -6237,8 +6237,8 @@ msgid "Edit PostMaster Filter"
 msgstr "Уреди PostMaster филтер"
 
 #. Template: AdminPostMasterFilter
-msgid "The name is required."
-msgstr "Име је обавезно."
+msgid "A postmaster filter with this name already exists!"
+msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"

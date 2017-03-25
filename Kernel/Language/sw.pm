@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.707054279325066;
+    $Self->{Completeness}        = 0.706850985972759;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1796,7 +1796,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Ongeza kichuja Mkuu wa kuchapisha ',
         'Edit PostMaster Filter' => 'Hariri Kichuja Mkuu wa kuchapisha',
-        'The name is required.' => 'Jina linahitajika',
+        'A postmaster filter with this name already exists!' => '',
         'Filter Condition' => 'Masharti ya kuchuja',
         'AND Condition' => 'Masharti ya AND',
         'Check email header' => 'Angalia kichwa cha habari cha barua pepe',

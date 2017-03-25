@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-03-22 12:37+0000\n"
-"PO-Revision-Date: 2017-03-22 18:44+0000\n"
+"POT-Creation-Date: 2017-03-24 20:43+0000\n"
+"PO-Revision-Date: 2017-03-25 02:45+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -4871,7 +4871,7 @@ msgstr "A „FreeText” példaként van használva az aktuális beállított é
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr ""
+msgstr "Kérés nevének szabad szövege"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
@@ -6242,8 +6242,8 @@ msgid "Edit PostMaster Filter"
 msgstr "Levelezési szűrő szerkesztése"
 
 #. Template: AdminPostMasterFilter
-msgid "The name is required."
-msgstr "A név kötelező."
+msgid "A postmaster filter with this name already exists!"
+msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -8634,7 +8634,7 @@ msgstr "Folyam"
 
 #. Template: AgentDashboardStats
 msgid "No Data Available."
-msgstr ""
+msgstr "Nem érhető el adat."
 
 #. Template: AgentDashboardStats
 msgid ""
@@ -11253,7 +11253,7 @@ msgstr "A(z) „%s” webszolgáltatás törölve!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "New Web service"
-msgstr ""
+msgstr "Új webszolgáltatás"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -12227,13 +12227,13 @@ msgstr "Hiányzó tevékenységegyed-azonosító a következő jegyben: %s!"
 msgid ""
 "This step does not belong anymore the current activity in process for Ticket"
 " %s!"
-msgstr ""
+msgstr "Ez a lépés többé nem tartozik a jelenlegi tevékenységhez a folyamatban a következő jegynél: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Another user changed this ticket in the meantime. Please close this window "
 "and reload the ticket."
-msgstr ""
+msgstr "Egy másik felhasználó időközben megváltoztatta ezt a jegyet. Zárja be az ablakot, és töltse újra a jegyet."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -12624,15 +12624,15 @@ msgstr "%s adatbázis"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure MySQL"
-msgstr ""
+msgstr "MySQL beállítása"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure PostgreSQL"
-msgstr ""
+msgstr "PostgreSQL beállítása"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Oracle"
-msgstr ""
+msgstr "Oracle beállítása"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
@@ -12656,7 +12656,7 @@ msgstr "Vegye fel a kapcsolatot a rendszergazdával!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Syslog"
-msgstr ""
+msgstr "Rendszernapló"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't write Config file!"
@@ -12933,11 +12933,11 @@ msgstr "Ez a beállítás nem kapcsolható ki."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
-msgstr ""
+msgstr "például Szöveg vagy Sz*eg"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
-msgstr ""
+msgstr "A mező mellőzése."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -13149,28 +13149,28 @@ msgstr "Megoldás legnagyobb munkaideje (az eszkalációs beállítás által é
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Average (affected by escalation configuration)"
-msgstr ""
+msgstr "Első válasz átlaga (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Első válasz legkisebb ideje (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Első válasz legnagyobb ideje (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid ""
 "First Response Working Time Average (affected by escalation configuration)"
-msgstr ""
+msgstr "Első válasz munkaidejének átlaga (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Első válasz legkisebb munkaideje (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Első válasz legnagyobb munkaideje (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Number of Tickets (affected by escalation configuration)"
@@ -18938,7 +18938,7 @@ msgstr "Ha ez a beállítás be van kapcsolva, akkor a helyi módosítások nem 
 msgid ""
 "If you're going to be out of office, you may wish to let other users know by"
 " setting the exact dates of your absence."
-msgstr ""
+msgstr "Ha irodán kívül lesz, akkor érdemes lenne azt a többi felhasználóval tudatni a távollét pontos dátumának beállításával."
 
 #. SysConfig
 msgid ""
@@ -20263,15 +20263,15 @@ msgstr "Második várólista"
 #. SysConfig
 msgid ""
 "Select after which period ticket overviews should refresh automatically."
-msgstr ""
+msgstr "Annak kiválasztása, hogy a jegyáttekintőket milyen időszakonként kell automatikusan frissíteni."
 
 #. SysConfig
 msgid "Select how many tickets should be shown in overviews by default."
-msgstr ""
+msgstr "Annak kiválasztása, hogy alapértelmezetten hány jegyet kell megjeleníteni az áttekintőkben."
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "A felület fő nyelvének kiválasztása."
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -20279,7 +20279,7 @@ msgstr "Válasszon előtétprogram témát."
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
-msgstr ""
+msgstr "Az előnyben részesített elrendezés kiválasztása az OTRS-hez."
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -20368,7 +20368,7 @@ msgstr "Szolgáltatás nézet"
 
 #. SysConfig
 msgid "Set a new password by filling in your current password and a new one."
-msgstr ""
+msgstr "Új jelszó beállítása a jelenlegi jelszó és egy új kitöltésével."
 
 #. SysConfig
 msgid ""
@@ -21479,7 +21479,7 @@ msgstr "Megjeleníti az összes ügyfél-azonosítót egy többválasztós mező
 msgid ""
 "Shows all the customer user identifiers in a multi-select field (not useful "
 "if you have a lot of customer user identifiers)."
-msgstr ""
+msgstr "Megjeleníti az összes ügyfél-felhasználó azonosítót egy többválasztós mezőben (nem hasznos, ha nagyon sok ügyfél-felhasználó azonosítója van)."
 
 #. SysConfig
 msgid ""

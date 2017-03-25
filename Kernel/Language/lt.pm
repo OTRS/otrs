@@ -1792,7 +1792,7 @@ sub Data {
         'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Pridėti PostMaster filtrą',
         'Edit PostMaster Filter' => 'Redaguoti PostMaster filtrą',
-        'The name is required.' => '',
+        'A postmaster filter with this name already exists!' => '',
         'Filter Condition' => 'Filtro sąlyga',
         'AND Condition' => '',
         'Check email header' => '',

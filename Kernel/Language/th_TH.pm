@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.834112624517178;
+    $Self->{Completeness}        = 0.833909331164871;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1794,7 +1794,7 @@ sub Data {
         'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'เพิ่มตัวกรอง PostMaster',
         'Edit PostMaster Filter' => 'แก้ไขตัวกรอง PostMaster',
-        'The name is required.' => 'ต้องระบุชื่อ',
+        'A postmaster filter with this name already exists!' => '',
         'Filter Condition' => 'เงื่อนไขตัวกรอง',
         'AND Condition' => 'เงื่อนไข AND',
         'Check email header' => 'ตรวจสอบหัวข้อของอีเมล',

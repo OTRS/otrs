@@ -1798,7 +1798,7 @@ sub Data {
         'Do you really want to delete this filter?' => 'Da li stvarno želite da obrišete ovaj filter?',
         'Add PostMaster Filter' => 'Dodaj PostMaster filter',
         'Edit PostMaster Filter' => 'Uredi PostMaster filter',
-        'The name is required.' => 'Ime je obavezno.',
+        'A postmaster filter with this name already exists!' => '',
         'Filter Condition' => 'Uslov filtriranja',
         'AND Condition' => 'AND uslov',
         'Check email header' => 'Proveri zaglavlje imejla',
@@ -4096,7 +4096,7 @@ sub Data {
         'Escalation - Solution Time' => 'Eskalacija - vreme rešavanja',
         'Agent/Owner' => 'Operater/Vlasnik',
         'Created by Agent/Owner' => 'Kreirao Operater/Vlasnik',
-        'CustomerUserLogin' => '',
+        'CustomerUserLogin' => 'Prijava klijenta korisnika',
         'CustomerUserLogin (complex search)' => 'Prijava klijenta korisnika (složena pretraga)',
         'CustomerUserLogin (exact match)' => 'Prijava klijenta korisnika (tačno poklapanje)',
 
