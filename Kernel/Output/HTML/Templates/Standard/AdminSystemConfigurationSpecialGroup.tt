@@ -16,8 +16,8 @@
                 Link => 'AdminSystemConfiguration',
             },
             {
-                Name => Translate('My favourite settings'),
-                Link => 'AdminSystemConfiguration;Subaction=Favourites',
+                Name => Data.GroupName,
+                Link => Data.GroupLink,
             },
         ]
     %]
@@ -45,7 +45,7 @@
     [% IF Data.SettingList.size() %]
         [% INCLUDE "SystemConfiguration/SettingsList.tt" %]
     [% ELSE %]
-        <h2 class="SearchResults">[% Translate("You currently don't have any favourite settings.") | html %]</h2>
+        <h2 class="SearchResults">[% Data.GroupEmptyMessage | html %]</h2>
     [% END %]
     </div>
     <div class="Clear"></div>

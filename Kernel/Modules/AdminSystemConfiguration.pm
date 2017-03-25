@@ -204,14 +204,15 @@ sub Run {
         my %Tree = $SysConfigObject->ConfigurationNavigationTree();
 
         $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminSystemConfigurationGroup',
+            TemplateFile => 'AdminSystemConfigurationSpecialGroup',
             Data         => {
-                Tree           => \%Tree,
-                Path           => \@Path,
-                RootNavigation => $RootNavigation,
-                SettingList    => \@SettingList,
-                Parameters     => \@Parameters,
-                CategoriesStrg => $Self->_GetCategoriesStrg(),
+                GroupName => $LayoutObject->{LanguageObject}->Translate('Invalid Settings'),
+                GroupLink => 'AdminSystemConfiguration;Subaction=Invalid',
+                GroupEmptyMessage =>
+                    $LayoutObject->{LanguageObject}->Translate("There are no invalid settings active at this time."),
+                Results     => scalar @SettingList,
+                SettingList => \@SettingList,
+                %OutputData,
             },
         );
         $Output .= $LayoutObject->Footer();
@@ -330,8 +331,12 @@ sub Run {
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminSystemConfigurationFavourites',
+            TemplateFile => 'AdminSystemConfigurationSpecialGroup',
             Data         => {
+                GroupName => $LayoutObject->{LanguageObject}->Translate('My favourite settings'),
+                GroupLink => 'AdminSystemConfiguration;Subaction=Favourites',
+                GroupEmptyMessage =>
+                    $LayoutObject->{LanguageObject}->Translate("You currently don't have any favourite settings."),
                 Results     => scalar @SettingList,
                 SettingList => \@SettingList,
                 %OutputData,
