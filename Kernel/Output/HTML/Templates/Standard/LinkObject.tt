@@ -154,12 +154,6 @@ Core.UI.RegisterToggleTwoContainer($('#linkobject-' + Core.App.EscapeSelector('[
                     <div class="Clear"></div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-Core.Config.AddConfig({
-[% FOREACH Column IN Data.ColumnNames.keys %][% "Column" _ Column | JSON %]: [% Translate(Data.ColumnNames.$Column) | JSON %][% IF !loop.last %], [% END %][% END %]
-});
-
-Core.Agent.TableFilters.SetAllocationList();
-
 // Update preferences and load linked table via AJAX
 Core.Agent.LinkObject.RegisterUpdatePreferences($('#linkobject-' + Core.App.EscapeSelector('[% Data.Name | html %]') + '_submit'),
     "Widget" + Core.App.EscapeSelector('[% Data.Name | html %]'),

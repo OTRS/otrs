@@ -1,6 +1,5 @@
 #5.0.19 2017-??-??
  - 2017-03-24 Updated translations, thanks to all translators.
- - 2017-03-24 Fixed bug#[12720](https://bugs.otrs.org/show_bug.cgi?id=12720)(PR#1672) - Settings window of Complex LinkObject is not translated. Thanks to S7!
  - 2017-03-24 Fixed bug#[12719](https://bugs.otrs.org/show_bug.cgi?id=12719)(PR#1671) - The result of SQL box displays the unique column headers not with the right character encoding. Thanks to S7!
  - 2017-03-24 Fixed bug#[12614](http://bugs.otrs.org/show_bug.cgi?id=12614) - PopUpAction doesn't work on the Create phone Ticket or Create e-mail ticket widgets.
  - 2017-03-24 Fixed bug#[12718](https://bugs.otrs.org/show_bug.cgi?id=12718)(PR#1668) - There is no check for the similar names when creating a mail filter. Thanks to S7!
