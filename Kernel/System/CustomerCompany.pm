@@ -532,7 +532,7 @@ Result: 'COUNT'
 sub CustomerCompanySearchDetail {
     my ( $Self, %Param ) = @_;
 
-     # Get all general search fields (without a restriction to a source).
+    # Get all general search fields (without a restriction to a source).
     my @AllSearchFields = $Self->CustomerCompanySearchFields();
 
     # Generate a hash with the customer company sources which must be searched.
@@ -620,15 +620,17 @@ sub CustomerCompanySearchDetail {
             }
 
             my $OrderBy = 'CustomerID';
-            if ( IsArrayRefWithData($Param{OrderBy} ) ) {
+            if ( IsArrayRefWithData( $Param{OrderBy} ) ) {
                 $OrderBy = $Param{OrderBy}->[0];
             }
 
-            if ( IsArrayRefWithData($Param{OrderByDirection}) && $Param{OrderByDirection}->[0] eq 'Up' ) {
-                @CustomerCompanyataList = sort { lc( $a->{$OrderBy} ) cmp lc( $b->{$OrderBy} ) } @CustomerCompanyataList;
+            if ( IsArrayRefWithData( $Param{OrderByDirection} ) && $Param{OrderByDirection}->[0] eq 'Up' ) {
+                @CustomerCompanyataList
+                    = sort { lc( $a->{$OrderBy} ) cmp lc( $b->{$OrderBy} ) } @CustomerCompanyataList;
             }
             else {
-                @CustomerCompanyataList = sort { lc( $b->{$OrderBy} ) cmp lc( $a->{$OrderBy} ) } @CustomerCompanyataList;
+                @CustomerCompanyataList
+                    = sort { lc( $b->{$OrderBy} ) cmp lc( $a->{$OrderBy} ) } @CustomerCompanyataList;
             }
 
             if ( $Param{Limit} && scalar @CustomerCompanyataList > $Param{Limit} ) {
@@ -735,7 +737,6 @@ sub CustomerCompanySearchFields {
 
     return @SearchFields;
 }
-
 
 =head2 GetFieldConfig()
 

@@ -542,7 +542,6 @@ sub CustomerSearch {
     return %Users;
 }
 
-
 sub CustomerSearchDetail {
     my ( $Self, %Param ) = @_;
 
@@ -559,7 +558,7 @@ sub CustomerSearchDetail {
     $Param{Limit} //= '';
 
     # Split the search fields in scalar and array fields, before the diffrent handling.
-    my @ScalarSearchFields = grep { 'Input'     eq $_->{Type} } @{ $Param{SearchFields} };
+    my @ScalarSearchFields = grep { 'Input' eq $_->{Type} } @{ $Param{SearchFields} };
     my @ArraySearchFields  = grep { 'Selection' eq $_->{Type} } @{ $Param{SearchFields} };
 
     # Verify that all passed array parameters contain an arrayref.
@@ -638,7 +637,7 @@ sub CustomerSearchDetail {
         }
     }
 
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # Check all configured change dynamic fields, build lookup hash by name.
@@ -666,8 +665,7 @@ sub CustomerSearchDetail {
 
         for my $Operator ( sort keys %{$SearchParam} ) {
 
-            my @SearchParams
-                = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
+            my @SearchParams = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
                 ? @{ $SearchParam->{$Operator} }
                 : ( $SearchParam->{$Operator} );
 
@@ -729,7 +727,8 @@ sub CustomerSearchDetail {
             $SQLDynamicFieldFrom .= "
                 INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                     ON (df_obj_id_name.object_id = dfv$DynamicFieldJoinCounter.object_id
-                        AND dfv$DynamicFieldJoinCounter.field_id = " . $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ")
+                        AND dfv$DynamicFieldJoinCounter.field_id = "
+                . $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ")
             ";
 
             $DynamicFieldJoinCounter++;
@@ -741,7 +740,11 @@ sub CustomerSearchDetail {
 
         my @DynamicFieldUserLogins;
 
-        my $SQLDynamicField = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name " . $SQLDynamicFieldFrom . " WHERE " . $SQLDynamicFieldWhere;
+        my $SQLDynamicField
+            = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name "
+            . $SQLDynamicFieldFrom
+            . " WHERE "
+            . $SQLDynamicFieldWhere;
 
         my $UsedCache;
 
@@ -769,7 +772,7 @@ sub CustomerSearchDetail {
         }
 
         # Get the data only from database, if no cache entry exists.
-        if (!$UsedCache) {
+        if ( !$UsedCache ) {
 
             return if !$DBObject->Prepare(
                 SQL => $SQLDynamicField,

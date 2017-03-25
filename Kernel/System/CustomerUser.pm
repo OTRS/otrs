@@ -452,11 +452,11 @@ sub CustomerSearchDetail {
             }
 
             my $OrderBy = 'UserLogin';
-            if ( IsArrayRefWithData($Param{OrderBy} ) ) {
+            if ( IsArrayRefWithData( $Param{OrderBy} ) ) {
                 $OrderBy = $Param{OrderBy}->[0];
             }
 
-            if ( IsArrayRefWithData($Param{OrderByDirection}) && $Param{OrderByDirection}->[0] eq 'Up' ) {
+            if ( IsArrayRefWithData( $Param{OrderByDirection} ) && $Param{OrderByDirection}->[0] eq 'Up' ) {
                 @UserDataList = sort { lc( $a->{$OrderBy} ) cmp lc( $b->{$OrderBy} ) } @UserDataList;
             }
             else {

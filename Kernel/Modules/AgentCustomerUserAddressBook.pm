@@ -24,7 +24,7 @@ sub new {
 
     # Define some customer company values, to use the values later for the output.
     $Self->{CustomerCompanySearchFieldPrefix} = 'CustomerCompany_';
-    $Self->{CustomerCompanyLabelIdentifier} = Translatable('Customer');
+    $Self->{CustomerCompanyLabelIdentifier}   = Translatable('Customer');
 
     return $Self;
 }
@@ -424,6 +424,7 @@ sub Run {
             if ( IsArrayRefWithData( $Self->{Config}->{ShowColumns} ) ) {
                 @ShowColumns = @{ $Self->{Config}->{ShowColumns} };
             }
+
             # Get the already selected recipients, to remember the selected recipients for the diffrent pages.
             my $RecipientsJSONString = $ParamObject->GetParam( Param => 'RecipientsJSON' ) || '';
 
@@ -516,7 +517,8 @@ sub _MaskForm {
     );
 
     # Translate the customer company label identifier to add this to the labels.
-    my $TranslatedCustomerCompanyLabelIdentifier = $LayoutObject->{LanguageObject}->Translate( $Self->{CustomerCompanyLabelIdentifier} );
+    my $TranslatedCustomerCompanyLabelIdentifier
+        = $LayoutObject->{LanguageObject}->Translate( $Self->{CustomerCompanyLabelIdentifier} );
 
     my @Attributes;
 
@@ -585,8 +587,10 @@ sub _MaskForm {
                 $Field->{Label},
             );
 
-            if (   $TranslatedCustomerCompanyLabelIdentifier
-                && $TranslatedFieldLabel ne $TranslatedCustomerCompanyLabelIdentifier )
+            if (
+                $TranslatedCustomerCompanyLabelIdentifier
+                && $TranslatedFieldLabel ne $TranslatedCustomerCompanyLabelIdentifier
+                )
             {
                 $TranslatedFieldLabel .= " ($TranslatedCustomerCompanyLabelIdentifier)";
             }
@@ -631,8 +635,10 @@ sub _MaskForm {
 
                 my $DynamicFieldLabel = $TranslatedDynamicFieldLabel . $TranslatedSuffix;
 
-                if (   $TranslatedCustomerCompanyLabelIdentifier
-                    && $TranslatedDynamicFieldLabel ne $TranslatedCustomerCompanyLabelIdentifier )
+                if (
+                    $TranslatedCustomerCompanyLabelIdentifier
+                    && $TranslatedDynamicFieldLabel ne $TranslatedCustomerCompanyLabelIdentifier
+                    )
                 {
                     $DynamicFieldLabel
                         .= ( $TranslatedSuffix ? " - " : " " ) . "($TranslatedCustomerCompanyLabelIdentifier)";
@@ -733,8 +739,10 @@ sub _MaskForm {
             $Field->{Label},
         );
 
-        if (   $TranslatedCustomerCompanyLabelIdentifier
-            && $TranslatedFieldLabel ne $TranslatedCustomerCompanyLabelIdentifier )
+        if (
+            $TranslatedCustomerCompanyLabelIdentifier
+            && $TranslatedFieldLabel ne $TranslatedCustomerCompanyLabelIdentifier
+            )
         {
             $TranslatedFieldLabel .= " ($TranslatedCustomerCompanyLabelIdentifier)";
         }

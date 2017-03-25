@@ -1710,7 +1710,9 @@ sub _Mask {
     }
 
     # Show the customer user address book if the module is registered and java script support is available.
-    if ( $ConfigObject->Get('Frontend::Module')->{AgentCustomerUserAddressBook} && $LayoutObject->{BrowserJavaScriptSupport} ) {
+    if (   $ConfigObject->Get('Frontend::Module')->{AgentCustomerUserAddressBook}
+        && $LayoutObject->{BrowserJavaScriptSupport} )
+    {
         $Param{OptionCustomerUserAddressBook} = 1;
     }
 

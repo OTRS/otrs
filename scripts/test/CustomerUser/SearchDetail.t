@@ -137,7 +137,7 @@ for my $DynamicField (@DynamicFields) {
         "Dynamic field $DynamicField->{Name} - ID $DynamicFieldID - created",
     );
 
-    push @DynamicFieldIDs, $DynamicFieldID;
+    push @DynamicFieldIDs,                  $DynamicFieldID;
     push @DynamicFieldEnhancedSearchFields, 'DynamicField_' . $DynamicField->{Name};
 
     push @{ $ConfigObject->{CustomerUser}->{Map} }, [
@@ -186,7 +186,7 @@ my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my @CustomerUserSearchFields = $CustomerUserObject->CustomerUserSearchFields();
 my %LookupCustomerUserSearchFields = map { $_->{Name} => $_ } @CustomerUserSearchFields;
 
-for my $FieldName (sort keys %ReferenceCustomerUserSearchFields) {
+for my $FieldName ( sort keys %ReferenceCustomerUserSearchFields ) {
 
     $Self->IsDeeply(
         $LookupCustomerUserSearchFields{$FieldName},
@@ -532,12 +532,12 @@ my @SearchTests = (
         },
     },
 
-    # Nr 16 - search for customer user with the strings 'A Example text' and string 'Example text' in the text dynamic field.
+# Nr 16 - search for customer user with the strings 'A Example text' and string 'Example text' in the text dynamic field.
     {
         Description => "Search for $DynamicFields[0]->{Name} with string 'A Example text' and string 'Example text'",
         SearchData  => {
             $DynamicFieldEnhancedSearchFields[0] => {
-                Equals => ['A Example text', 'Example text'],
+                Equals => [ 'A Example text', 'Example text' ],
             },
         },
         ResultData => {
@@ -646,8 +646,9 @@ my @SearchTests = (
 
     # Nr 24 - search for customer user with the date greater than '2016-09-19' and smaller than '2016-09-21'.
     {
-        Description => "Search for $DynamicFields[3]->{Name} with the date greater than '2016-09-19' and smaller than '2016-09-21'",
-        SearchData  => {
+        Description =>
+            "Search for $DynamicFields[3]->{Name} with the date greater than '2016-09-19' and smaller than '2016-09-21'",
+        SearchData => {
             $DynamicFieldEnhancedSearchFields[3] => {
                 GreaterThan => '2016-09-19 00:00:00',
                 SmallerThan => '2016-09-21 00:00:00',
@@ -690,8 +691,9 @@ my @SearchTests = (
     # Nr 27 - search for customer user with the date greater than equals '2016-10-01 08:01:00'
     #   and smaller than equals '016-09-21 10:00:00'.
     {
-        Description => "Search for $DynamicFields[4]->{Name} with the date greater than equals '2016-10-01 08:01:00' and smaller than equals '2016-09-21 10:00:00'",
-        SearchData  => {
+        Description =>
+            "Search for $DynamicFields[4]->{Name} with the date greater than equals '2016-10-01 08:01:00' and smaller than equals '2016-09-21 10:00:00'",
+        SearchData => {
             $DynamicFieldEnhancedSearchFields[4] => {
                 GreaterThanEquals => '2016-10-01 08:01:00',
                 SmallerThanEquals => '2016-10-01 10:00:00',
@@ -706,8 +708,9 @@ my @SearchTests = (
     # Nr 28 - search for customer user with the date greater than equals '2016-10-01 08:01:00'
     #   and smaller than equals '016-09-21 10:00:00 and vaule '0' in the select field.'.
     {
-        Description => "Search for $DynamicFields[4]->{Name} with the date greater than equals '2016-10-01 08:01:00' and smaller than equals '2016-09-21 10:00:00' and $DynamicFields[1]->{Name} vaule '0' in the select field.",
-        SearchData  => {
+        Description =>
+            "Search for $DynamicFields[4]->{Name} with the date greater than equals '2016-10-01 08:01:00' and smaller than equals '2016-09-21 10:00:00' and $DynamicFields[1]->{Name} vaule '0' in the select field.",
+        SearchData => {
             $DynamicFieldEnhancedSearchFields[1] => {
                 Equals => 0,
             },

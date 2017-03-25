@@ -383,12 +383,13 @@ sub CustomerCompanySearchDetail {
 
             # If the field contains more than only '%'.
             if ( $Param{ $Field->{Name} } !~ m{ \A %* \z }xms ) {
-                push @SQLWhere, "LOWER($Field->{DatabaseField}) LIKE LOWER('$Param{ $Field->{Name} }') $LikeEscapeString";
+                push @SQLWhere,
+                    "LOWER($Field->{DatabaseField}) LIKE LOWER('$Param{ $Field->{Name} }') $LikeEscapeString";
             }
         }
     }
 
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # Check all configured change dynamic fields, build lookup hash by name.
@@ -416,8 +417,7 @@ sub CustomerCompanySearchDetail {
 
         for my $Operator ( sort keys %{$SearchParam} ) {
 
-            my @SearchParams
-                = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
+            my @SearchParams = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
                 ? @{ $SearchParam->{$Operator} }
                 : ( $SearchParam->{$Operator} );
 
@@ -479,7 +479,8 @@ sub CustomerCompanySearchDetail {
             $SQLDynamicFieldFrom .= "
                 INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                     ON (df_obj_id_name.object_id = dfv$DynamicFieldJoinCounter.object_id
-                        AND dfv$DynamicFieldJoinCounter.field_id = " . $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ")
+                        AND dfv$DynamicFieldJoinCounter.field_id = "
+                . $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ")
             ";
 
             $DynamicFieldJoinCounter++;
@@ -487,12 +488,16 @@ sub CustomerCompanySearchDetail {
     }
 
     # Execute a dynamic field search, if a dynamic field where statement exists.
-    if ($SQLDynamicFieldFrom && $SQLDynamicFieldWhere) {
+    if ( $SQLDynamicFieldFrom && $SQLDynamicFieldWhere ) {
 
         my @DynamicFieldUserLogins;
 
         # Sql uery for the dynamic fields.
-        my $SQLDynamicField = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name " . $SQLDynamicFieldFrom . " WHERE " . $SQLDynamicFieldWhere;
+        my $SQLDynamicField
+            = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name "
+            . $SQLDynamicFieldFrom
+            . " WHERE "
+            . $SQLDynamicFieldWhere;
 
         my $UsedCache;
 
@@ -521,7 +526,7 @@ sub CustomerCompanySearchDetail {
         }
 
         # Get the data only from database, if no cache entry exists.
-        if (!$UsedCache) {
+        if ( !$UsedCache ) {
 
             return if !$DBObject->Prepare(
                 SQL => $SQLDynamicField,
@@ -578,7 +583,8 @@ sub CustomerCompanySearchDetail {
 
         my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
-        push @SQLWhere, "$Self->{CustomerCompanyMap}->{CustomerValid} IN (" . join( ', ', $ValidObject->ValidIDsGet() ) . ") ";
+        push @SQLWhere,
+            "$Self->{CustomerCompanyMap}->{CustomerValid} IN (" . join( ', ', $ValidObject->ValidIDsGet() ) . ") ";
     }
 
     # Check if OrderBy contains only unique valid values.
@@ -663,7 +669,6 @@ sub CustomerCompanySearchDetail {
             push @SQLOrderBy, "$Self->{CustomerCompanyKey} DESC";
         }
     }
-
 
     # Add form to the SQL after the order by creation.
     $SQL .= " FROM $Self->{CustomerCompanyTable} ";

@@ -149,7 +149,7 @@ $Selenium->RunTest(
 
         # Get the customer company config and customer user config to add the dynamic fields to the map.
         my $CustomerCompanyConfig = $Kernel::OM->Get('Kernel::Config')->Get('CustomerCompany');
-        my $CustomerUserConfig = $Kernel::OM->Get('Kernel::Config')->Get('CustomerUser');
+        my $CustomerUserConfig    = $Kernel::OM->Get('Kernel::Config')->Get('CustomerUser');
 
         my @DynamicFieldIDs;
         my @DynamicFieldCustomerCompanySearchFields;
@@ -173,14 +173,16 @@ $Selenium->RunTest(
                 push @DynamicFieldCustomerCompanySearchFields, 'DynamicField_' . $DynamicField->{Name};
 
                 push @{ $CustomerCompanyConfig->{Map} }, [
-                    'DynamicField_' . $DynamicField->{Name}, undef, $DynamicField->{Name}, 0, 0, 'dynamic_field', undef, 0,
+                    'DynamicField_' . $DynamicField->{Name}, undef, $DynamicField->{Name}, 0, 0, 'dynamic_field',
+                    undef, 0,
                 ];
             }
             else {
                 push @DynamicFieldCustomerUserSearchFields, 'DynamicField_' . $DynamicField->{Name};
 
                 push @{ $CustomerUserConfig->{Map} }, [
-                    'DynamicField_' . $DynamicField->{Name}, undef, $DynamicField->{Name}, 0, 0, 'dynamic_field', undef, 0,
+                    'DynamicField_' . $DynamicField->{Name}, undef, $DynamicField->{Name}, 0, 0, 'dynamic_field',
+                    undef, 0,
                 ];
             }
         }
@@ -295,7 +297,7 @@ $Selenium->RunTest(
                 DynamicFields  => {
                     $DynamicFieldIDs[0] => 'Example text 1234',
                     $DynamicFieldIDs[1] => 1,
-                    $DynamicFieldIDs[2] => ['a', ],
+                    $DynamicFieldIDs[2] => [ 'a', ],
                 },
             },
             {
@@ -313,7 +315,7 @@ $Selenium->RunTest(
                 DynamicFields  => {
                     $DynamicFieldIDs[0] => 'Example text',
                     $DynamicFieldIDs[1] => 1,
-                    $DynamicFieldIDs[2] => ['a', 'd'],
+                    $DynamicFieldIDs[2] => [ 'a', 'd' ],
                 },
             },
             {
@@ -329,7 +331,7 @@ $Selenium->RunTest(
                 ValidID        => 1,
                 UserID         => 1,
                 DynamicFields  => {
-                    $DynamicFieldIDs[2] => ['a', 'b'],
+                    $DynamicFieldIDs[2] => [ 'a', 'b' ],
                 },
             },
             {
@@ -450,7 +452,7 @@ $Selenium->RunTest(
                         'UserCountry',
                         'UserTitle',
                     ],
-                    SearchParameter    => {
+                    SearchParameter => {
                         Selection => {
                             UserTitle   => 'Mr.',
                             UserCountry => 'Germany',
@@ -466,7 +468,7 @@ $Selenium->RunTest(
                         'Search_' . $DynamicFieldCustomerUserSearchFields[0],
                         'Search_' . $DynamicFieldCustomerUserSearchFields[1],
                     ],
-                    SearchParameter    => {
+                    SearchParameter => {
                         Input => {
                             'Search_' . $DynamicFieldCustomerUserSearchFields[0] => 'Example*',
                         },
@@ -484,7 +486,7 @@ $Selenium->RunTest(
                     SearchFieldsAdd     => [
                         'Search_' . $DynamicFieldCustomerUserSearchFields[2],
                     ],
-                    SearchParameter    => {
+                    SearchParameter => {
                         Selection => {
                             'Search_' . $DynamicFieldCustomerUserSearchFields[2] => 'a',
                         },
@@ -501,7 +503,7 @@ $Selenium->RunTest(
                     SearchFieldsAdd     => [
                         'Search_' . $DynamicFieldCustomerCompanySearchFields[0],
                     ],
-                    SearchParameter    => {
+                    SearchParameter => {
                         Selection => {
                             'Search_' . $DynamicFieldCustomerCompanySearchFields[0] => [ '100', '200', ],
                         },
@@ -513,18 +515,18 @@ $Selenium->RunTest(
             [
                 {
                     RemoveSelectedRecipient => 1,
-                    RecipientField      => 'ToCustomer',
-                    RemoveDefaultFields => 1,
-                    SearchFieldsAdd     => [
+                    RecipientField          => 'ToCustomer',
+                    RemoveDefaultFields     => 1,
+                    SearchFieldsAdd         => [
                         'Search_' . $DynamicFieldCustomerCompanySearchFields[0],
                     ],
-                    SearchParameter    => {
+                    SearchParameter => {
                         Selection => {
                             'Search_' . $DynamicFieldCustomerCompanySearchFields[0] => [ '100', '200', ],
                         },
                     },
                     SearchResultCustomerUser => \@CustomerUserLogins,
-                    SearchFieldsChange    => [
+                    SearchFieldsChange       => [
                         'Search_' . $DynamicFieldCustomerUserSearchFields[2],
                     ],
                     SearchParameterChange => {
@@ -533,16 +535,17 @@ $Selenium->RunTest(
                             'Search_' . $DynamicFieldCustomerUserSearchFields[2]    => 'd',
                         },
                     },
-                    ExcludeSearchResultChangeCustomerUser => [ $CustomerUserLogins[0], $CustomerUserLogins[2], $CustomerUserLogins[3], ],
+                    ExcludeSearchResultChangeCustomerUser =>
+                        [ $CustomerUserLogins[0], $CustomerUserLogins[2], $CustomerUserLogins[3], ],
                     SearchResultChangeCustomerUser => [ $CustomerUserLogins[1], ],
                 },
             ],
             [
                 # Check the alert message, if no search parameter is present.
                 {
-                    RecipientField     => 'ToCustomer',
-                    CheckDefaultFields => 1,
-                    SearchParameter    => {},
+                    RecipientField        => 'ToCustomer',
+                    CheckDefaultFields    => 1,
+                    SearchParameter       => {},
                     SearchParameterChange => {
                         Input => {
                             UserLogin => "$RandomNumber*",
@@ -554,8 +557,8 @@ $Selenium->RunTest(
             [
                 # Add a search profile and use it again.
                 {
-                    RecipientField     => 'ToCustomer',
-                    SearchParameter    => {
+                    RecipientField  => 'ToCustomer',
+                    SearchParameter => {
                         Input => {
                             UserLogin => "$RandomNumber*",
                         },
@@ -572,7 +575,8 @@ $Selenium->RunTest(
             ],
         );
 
-        my $AgentCustomerUserAddressBookConfig = $ConfigObject->Get("CustomerUser::Frontend::AgentCustomerUserAddressBook");
+        my $AgentCustomerUserAddressBookConfig
+            = $ConfigObject->Get("CustomerUser::Frontend::AgentCustomerUserAddressBook");
 
         for my $Test (@Tests) {
 
@@ -581,7 +585,8 @@ $Selenium->RunTest(
 
             for my $SubTest ( @{$Test} ) {
 
-                $Selenium->find_element( "#OptionCustomerUserAddressBook" . $SubTest->{RecipientField} , 'css' )->VerifiedClick();
+                $Selenium->find_element( "#OptionCustomerUserAddressBook" . $SubTest->{RecipientField}, 'css' )
+                    ->VerifiedClick();
                 $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
 
                 $Selenium->WaitFor(
@@ -592,7 +597,7 @@ $Selenium->RunTest(
                 # Check the default fields for the initial address book screen.
                 if ( $SubTest->{CheckDefaultFields} ) {
 
-                    for my $ID ( qw(SearchProfile SearchProfileNew Attribute) ) {
+                    for my $ID (qw(SearchProfile SearchProfileNew Attribute)) {
                         my $Element = $Selenium->find_element( "#$ID", 'css' );
                         $Element->is_enabled();
                         $Element->is_displayed();
@@ -637,7 +642,8 @@ $Selenium->RunTest(
                 if ( IsHashRefWithData( $SubTest->{SearchParameter} ) ) {
 
                     for my $FieldName ( sort keys %{ $SubTest->{SearchParameter}->{Input} } ) {
-                        $Selenium->find_element( $FieldName, 'name' )->send_keys( $SubTest->{SearchParameter}->{Input}->{$FieldName} );
+                        $Selenium->find_element( $FieldName, 'name' )
+                            ->send_keys( $SubTest->{SearchParameter}->{Input}->{$FieldName} );
                     }
 
                     for my $FieldName ( sort keys %{ $SubTest->{SearchParameter}->{Selection} } ) {
@@ -662,12 +668,13 @@ $Selenium->RunTest(
                     # Create a search profile for the search parameters
                     if ( $SubTest->{SearchParameter}->{CreateSearchProfile} ) {
 
-                        $Selenium->find_element( '#SearchProfileNew', 'css' )->click();
-                        $Selenium->find_element( '#SearchProfileAddName', 'css' )->send_keys( $SubTest->{SearchParameter}->{CreateSearchProfile} );
+                        $Selenium->find_element( '#SearchProfileNew',     'css' )->click();
+                        $Selenium->find_element( '#SearchProfileAddName', 'css' )
+                            ->send_keys( $SubTest->{SearchParameter}->{CreateSearchProfile} );
                         $Selenium->find_element( '#SearchProfileAddAction', 'css' )->click();
                     }
 
-                    # Switch to the "main" window to click the search submit button and switch back to the address book frame.
+              # Switch to the "main" window to click the search submit button and switch back to the address book frame.
                     $Selenium->switch_to_frame();
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
                     $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
@@ -686,7 +693,7 @@ $Selenium->RunTest(
                     # wait until form and overlay has loaded, if neccessary
                     $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SaveProfile').length" );
 
-                    # Switch to the "main" window to click the search submit button and switch back to the address book frame.
+              # Switch to the "main" window to click the search submit button and switch back to the address book frame.
                     $Selenium->switch_to_frame();
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
                     $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
@@ -698,7 +705,7 @@ $Selenium->RunTest(
                 }
                 else {
 
-                    # Switch to the "main" window to click the search submit button and switch back to the address book frame.
+              # Switch to the "main" window to click the search submit button and switch back to the address book frame.
                     $Selenium->switch_to_frame();
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
@@ -726,7 +733,7 @@ $Selenium->RunTest(
                     for my $CustomerUserLogin ( @{ $SubTest->{ExcludeSearchResultCustomerUser} } ) {
 
                         $Self->True(
-                            $Selenium->execute_script( "return \$('input[value=\"$CustomerUserLogin\"]:disabled');" ),
+                            $Selenium->execute_script("return \$('input[value=\"$CustomerUserLogin\"]:disabled');"),
                             "CustomerUser $CustomerUserLogin is disabled on result page",
                         );
                     }
@@ -770,7 +777,8 @@ $Selenium->RunTest(
                 if ( IsHashRefWithData( $SubTest->{SearchParameterChange} ) ) {
 
                     for my $FieldName ( sort keys %{ $SubTest->{SearchParameterChange}->{Input} } ) {
-                        $Selenium->find_element( $FieldName, 'name' )->send_keys( $SubTest->{SearchParameterChange}->{Input}->{$FieldName} );
+                        $Selenium->find_element( $FieldName, 'name' )
+                            ->send_keys( $SubTest->{SearchParameterChange}->{Input}->{$FieldName} );
                     }
 
                     for my $FieldName ( sort keys %{ $SubTest->{SearchParameterChange}->{Selection} } ) {
@@ -792,7 +800,7 @@ $Selenium->RunTest(
                         }
                     }
 
-                    # Switch to the "main" window to click the search submit button and switch back to the address book frame.
+              # Switch to the "main" window to click the search submit button and switch back to the address book frame.
                     $Selenium->switch_to_frame();
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
                     $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
@@ -842,11 +850,14 @@ $Selenium->RunTest(
                     # Wait until form is updated with the selected customer user.
                     $Selenium->WaitFor(
                         JavaScript =>
-                            'return typeof($) === "function" && $("#TicketCustomerContent' . $SubTest->{RecipientField} . ':visible").length'
+                            'return typeof($) === "function" && $("#TicketCustomerContent'
+                            . $SubTest->{RecipientField}
+                            . ':visible").length'
                     );
 
                     # Wait for ajax call after customer user selection.
-                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length' );
+                    $Selenium->WaitFor(
+                        JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length' );
 
                     for my $CustomerUserLogin ( @{ $SubTest->{SelectRecipient} } ) {
                         $Self->True(
@@ -857,7 +868,7 @@ $Selenium->RunTest(
                 }
 
                 if ( $SubTest->{SelectAllRecipient} ) {
-                    $Selenium->find_element('#SelectAllCustomerUser', 'css')->click();
+                    $Selenium->find_element( '#SelectAllCustomerUser', 'css' )->click();
 
                     $Selenium->WaitFor(
                         JavaScript => 'return typeof($) === "function" && $("#RecipientSelect", parent.document).length'
@@ -872,11 +883,14 @@ $Selenium->RunTest(
                     # Wait until form is updated with the selected customer user.
                     $Selenium->WaitFor(
                         JavaScript =>
-                            'return typeof($) === "function" && $("#TicketCustomerContent' . $SubTest->{RecipientField} . ':visible").length'
+                            'return typeof($) === "function" && $("#TicketCustomerContent'
+                            . $SubTest->{RecipientField}
+                            . ':visible").length'
                     );
 
                     # Wait for ajax call after customer user selection.
-                    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length' );
+                    $Selenium->WaitFor(
+                        JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length' );
 
                     for my $CustomerUserLogin ( @{ $SubTest->{SearchResultCustomerUser} } ) {
                         $Self->True(
@@ -958,7 +972,7 @@ $Selenium->RunTest(
         }
 
         # Make sure that the cache is correct, because we delete the data directly in the database.
-        for my $Cache ( qw (CustomerUser CustomerCompany) ) {
+        for my $Cache (qw (CustomerUser CustomerCompany)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                 Type => $Cache,
             );
