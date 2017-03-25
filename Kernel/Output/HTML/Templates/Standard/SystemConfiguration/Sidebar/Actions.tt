@@ -29,9 +29,11 @@
             <li>
                 <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=Favourites" class="CallForAction Fullsize Center"><span><i class="fa fa-star"></i>[% Translate("My favourite settings") | html %]</span></a>
             </li>
+[% IF Data.InvalidSettings %]
             <li>
                 <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=Invalid" class="CallForAction Fullsize Center"><span><i class="fa fa-ban"></i>[% Translate("Invalid settings") | html %]</span></a>
             </li>
+[% END %]
             <li>
                 <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=ImportExport" class="CallForAction Fullsize Center"><span><i class="fa fa-exchange"></i>[% Translate("Import & Export") | html %]</span></a>
             </li>

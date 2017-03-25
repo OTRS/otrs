@@ -51,7 +51,8 @@ sub Run {
 
     # collect some data which needs to be passed to several screens
     my %OutputData = (
-        CategoriesStrg => $Self->_GetCategoriesStrg(),
+        CategoriesStrg  => $Self->_GetCategoriesStrg(),
+        InvalidSettings => $Self->_CheckInvalidSettings(),
     );
 
     # Create navigation tree
@@ -603,4 +604,15 @@ sub _GetCategoriesStrg {
 
     return $CategoriesStrg;
 }
+
+sub _CheckInvalidSettings {
+    my ( $Self, %Param ) = @_;
+
+    my @InvalidSettings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationInvalidList();
+
+    return if !@InvalidSettings;
+
+    return 1;
+}
+
 1;

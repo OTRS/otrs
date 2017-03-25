@@ -678,11 +678,12 @@ sub Run {
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminSystemConfigurationGroup',
         Data         => {
-            Tree           => \%Tree,
-            Path           => \@Path,
-            RootNavigation => $RootNavigation,
-            SettingList    => \@SettingList,
-            CategoriesStrg => $Self->_GetCategoriesStrg(),
+            Tree            => \%Tree,
+            Path            => \@Path,
+            RootNavigation  => $RootNavigation,
+            SettingList     => \@SettingList,
+            CategoriesStrg  => $Self->_GetCategoriesStrg(),
+            InvalidSettings => $Self->_CheckInvalidSettings(),
         },
     );
     $Output .= $LayoutObject->Footer();
@@ -744,6 +745,16 @@ sub _ReturnJSON {
         Type        => 'inline',
         NoCache     => 1,
     );
+}
+
+sub _CheckInvalidSettings {
+    my ( $Self, %Param ) = @_;
+
+    my @InvalidSettings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationInvalidList();
+
+    return if !@InvalidSettings;
+
+    return 1;
 }
 
 1;
