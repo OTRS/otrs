@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-03-26 Fixed bug#[12650](https://bugs.otrs.org/show_bug.cgi?id=12650)(PR#1636) - SendCustomerNotification does not respect newly assigned mail address. Thanks to S7!
  - 2017-03-24 Fixed bug#[12720](https://bugs.otrs.org/show_bug.cgi?id=12720)(PR#1672) - Settings window of Complex LinkObject is not translated. Thanks to S7!
  - 2017-03-24 Modernized address book. It is now possible to search for all configured custom user and customer fields.
  - 2017-03-21 Fixed bug#[12188](https://bugs.otrs.org/show_bug.cgi?id=12188)(PR#1661) - Dashboard stats do not refresh automatically. Thanks to S7!
