@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-03-26 Fixed bug#[12650](https://bugs.otrs.org/show_bug.cgi?id=12650)(PR#1636) - SendCustomerNotification does not respect newly assigned mail address. Thanks to S7!
  - 2017-03-24 Updated translations, thanks to all translators.
  - 2017-03-24 Fixed bug#[12719](https://bugs.otrs.org/show_bug.cgi?id=12719)(PR#1671) - The result of SQL box displays the unique column headers not with the right character encoding. Thanks to S7!
  - 2017-03-24 Fixed bug#[12614](http://bugs.otrs.org/show_bug.cgi?id=12614) - PopUpAction doesn't work on the Create phone Ticket or Create e-mail ticket widgets.

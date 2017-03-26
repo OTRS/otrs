@@ -31,6 +31,16 @@ $ConfigObject->Set(
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
 
+# disable dns lookups
+$ConfigObject->Set(
+    Key   => 'CheckMXRecord',
+    Value => 1,
+);
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 1,
+);
+
 # test scenarios
 my @Tests = (
     {
