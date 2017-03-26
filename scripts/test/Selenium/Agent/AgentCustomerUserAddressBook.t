@@ -857,7 +857,8 @@ $Selenium->RunTest(
 
                     # Wait for ajax call after customer user selection.
                     $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length' );
+                        JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                    );
 
                     for my $CustomerUserLogin ( @{ $SubTest->{SelectRecipient} } ) {
                         $Self->True(
@@ -890,7 +891,8 @@ $Selenium->RunTest(
 
                     # Wait for ajax call after customer user selection.
                     $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length' );
+                        JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                    );
 
                     for my $CustomerUserLogin ( @{ $SubTest->{SearchResultCustomerUser} } ) {
                         $Self->True(
