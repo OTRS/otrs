@@ -8,6 +8,7 @@
 
 package Kernel::System::Main;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Dumper)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
 
 use strict;
 use warnings;
@@ -75,29 +76,12 @@ sub Require {
         return;
     }
 
-    # prepare module
-    $Module =~ s/::/\//g;
-    $Module .= '.pm';
+    eval {
+        my $FileName = $Module =~ s{::}{/}smxgr;
+        require $FileName . '.pm';
+    };
 
-    # just return if it's already loaded
-    return 1 if $INC{$Module};
-
-    my $Result;
-    my $File;
-
-    # find full path of module
-    PREFIX:
-    for my $Prefix (@INC) {
-        $File = $Prefix . '/' . $Module;
-
-        next PREFIX if !-f $File;
-
-        $Result = do $File;
-
-        last PREFIX;
-    }
-
-    # if there was an error
+    # Handle errors.
     if ($@) {
 
         if ( !$Param{Silent} ) {
@@ -111,31 +95,6 @@ sub Require {
 
         return;
     }
-
-    # check result value, should be true
-    if ( !$Result ) {
-
-        if ( !$Param{Silent} ) {
-            my $Message = "Module $Module not found/could not be loaded";
-            if ( !-f $File ) {
-                $Message = "Module $Module not in \@INC (@INC)";
-            }
-            elsif ( !-r $File ) {
-                $Message = "Module could not be loaded (no read permissions on $File)";
-            }
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Caller   => 1,
-                Priority => 'error',
-                Message  => $Message,
-            );
-        }
-
-        return;
-    }
-
-    # add module
-    $INC{$Module} = $File;
 
     return 1;
 }

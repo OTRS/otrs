@@ -247,12 +247,10 @@ sub Create {
 sub _ObjectBuild {
     my ( $Self, %Param ) = @_;
 
-    my $Package  = $Param{Package};
-    my $FileName = $Package;
-    $FileName =~ s{::}{/}g;
-    $FileName .= '.pm';
+    my $Package = $Param{Package};
     eval {
-        require $FileName;
+        my $FileName = $Param{Package} =~ s{::}{/}smxgr;
+        require $FileName . '.pm';
     };
     if ($@) {
         if ( $Param{Silent} ) {
