@@ -87,12 +87,6 @@ $Selenium->RunTest(
         # wait for AJAX to finish
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        # go to previous week
-        $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->VerifiedClick();
-
-        # wait for AJAX to finish
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
-
         # click on the timeline view for an appointment dialog
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )
             ->VerifiedClick();
@@ -136,7 +130,7 @@ $Selenium->RunTest(
         );
 
         # go to agenda overview page
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentAgendaOverview;Filter=Week;Jump=Prev");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentAgendaOverview;Filter=Week");
 
         sleep 1;
 
@@ -189,7 +183,7 @@ $Selenium->RunTest(
         );
 
         # go to agenda overview page again
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentAgendaOverview;Filter=Week;Jump=Prev");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentAgendaOverview;Filter=Week");
 
         sleep 1;
 
@@ -218,12 +212,6 @@ $Selenium->RunTest(
 
         # go to calendar overview page again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
-
-        # wait for AJAX to finish
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
-
-        # go to previous week
-        $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->VerifiedClick();
 
         # wait for AJAX to finish
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
