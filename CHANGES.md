@@ -1,8 +1,6 @@
 #6.0.0.beta1 2017-??-??
  - 2017-03-28 Added option to display number of all customer tickets in AgentTicketZoom.
  - 2017-03-28 Fixed bug#[12696](https://bugs.otrs.org/show_bug.cgi?id=12696) - Missing save button from personal preferences in mobile mode.
- - 2017-03-26 Fixed bug#[12650](https://bugs.otrs.org/show_bug.cgi?id=12650)(PR#1636) - SendCustomerNotification does not respect newly assigned mail address. Thanks to S7!
- - 2017-03-24 Fixed bug#[12720](https://bugs.otrs.org/show_bug.cgi?id=12720)(PR#1672) - Settings window of Complex LinkObject is not translated. Thanks to S7!
  - 2017-03-24 Modernized address book. It is now possible to search for all configured custom user and customer fields.
  - 2017-03-21 Fixed bug#[12188](https://bugs.otrs.org/show_bug.cgi?id=12188)(PR#1661) - Dashboard stats do not refresh automatically. Thanks to S7!
  - 2017-03-18 (PR#1550) Added possibility to prevent return of attachments content in Generic Interface TicketGet operation and added FileID, thanks to Esteban Marín
@@ -88,6 +86,8 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.19 2017-??-??
+ - 2017-03-28 Fixed bug#[12720](https://bugs.otrs.org/show_bug.cgi?id=12720)(PR#1676) - Settings window of Complex LinkObject is not translated. Thanks to S7!
+ - 2017-03-26 Fixed bug#[12650](https://bugs.otrs.org/show_bug.cgi?id=12650)(PR#1636) - SendCustomerNotification does not respect newly assigned mail address. Thanks to S7!
  - 2017-03-24 Updated translations, thanks to all translators.
  - 2017-03-24 Fixed bug#[12719](https://bugs.otrs.org/show_bug.cgi?id=12719)(PR#1671) - The result of SQL box displays the unique column headers not with the right character encoding. Thanks to S7!
  - 2017-03-24 Fixed bug#[12614](http://bugs.otrs.org/show_bug.cgi?id=12614) - PopUpAction doesn't work on the Create phone Ticket or Create e-mail ticket widgets.
