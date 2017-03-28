@@ -93,6 +93,12 @@
                                 <div class="Label">[% Translate("Subject") | html %]:</div> <span title="[% Data.Subject | html %]">[% Data.Subject | html %]</span>
                                 <div class="Clear"></div>
                             </div>
+[% RenderBlockStart("ArticleTimeUnits") %]
+                            <div>
+                                <div class="Label">[% Translate("Accounted time") | html %]:</div> <span title="[% Data.ArticleTimeUnits | html %]">[% Data.ArticleTimeUnits | html %]</span>
+                                <div class="Clear"></div>
+                            </div>
+[% RenderBlockEnd("ArticleTimeUnits") %]
 
 # show article dynamic fields
 [% RenderBlockStart("ArticleDynamicField") %]
@@ -213,6 +219,9 @@
 [% RenderBlockStart("Queue") %]
                     <li><span class="Key">[% Translate("Queue") | html %]:</span> <span title="[% Data.Queue | html %]">[% Data.Queue | html | replace('::', '<wbr>::<wbr>') %]</span></li>
 [% RenderBlockEnd("Queue") %]
+[% RenderBlockStart("TicketTimeUnits") %]
+                    <li><span class="Key">[% Translate("Accounted time") | html %]:</span> <span title="[% Data.TicketTimeUnits | html %]">[% Data.TicketTimeUnits %]</span></li>
+[% RenderBlockEnd("TicketTimeUnits") %]
 [% RenderBlockStart("Owner") %]
                     <li><span class="Key">[% Translate("Owner") | html %]:</span> [% Data.OwnerName | html %]</li>
 [% RenderBlockEnd("Owner") %]

@@ -4551,7 +4551,7 @@
         <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::Ticket::ViewCompose</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
@@ -6994,6 +6994,13 @@
                 <Item Key="Owner">0</Item>
                 <Item Key="Responsible">0</Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketZoom###ZoomTimeDisplay" Required="1" Valid="1">
+        <Description Translatable="1">Displays the accounted time for an article in the ticket zoom view.</Description>
+        <Navigation>Frontend::Customer::Ticket::ViewZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::CustomerTicketSearch::SearchLimit" Required="1" Valid="1">

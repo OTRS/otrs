@@ -1022,6 +1022,14 @@ sub _Mask {
 
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
+    # ticket accounted time
+    if ( $Config->{ZoomTimeDisplay} ) {
+        $LayoutObject->Block(
+            Name => 'TicketTimeUnits',
+            Data => \%Param,
+        );
+    }
+
     # ticket priority flag
     if ( $Config->{AttributesView}->{Priority} ) {
         $LayoutObject->Block(
@@ -1541,6 +1549,23 @@ sub _Mask {
                     $HiddenType . Hidden => 'Hidden',
                 },
             );
+        }
+
+        # ticket accounted time
+        if ( $Config->{ZoomTimeDisplay} ) {
+
+            my $ArticleAccountedTime = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID},
+            );
+
+            if ($ArticleAccountedTime) {
+                $LayoutObject->Block(
+                    Name => 'ArticleTimeUnits',
+                    Data => {
+                        ArticleTimeUnits => $ArticleAccountedTime,
+                    },
+                );
+            }
         }
 
         # get the dynamic fields for article object
