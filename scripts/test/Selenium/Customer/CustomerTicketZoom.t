@@ -73,6 +73,18 @@ $Selenium->RunTest(
             "Article is created - $ArticleID",
         );
 
+        # account some time to the ticket
+        my $Success = $TicketObject->TicketAccountTime(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+            TimeUnit  => '7',
+            UserID    => 1,
+        );
+        $Self->True(
+            $Success,
+            "Time accounted to the ticket",
+        );
+
         # login test customer user
         $Selenium->Login(
             Type     => 'Customer',
@@ -139,6 +151,28 @@ $Selenium->RunTest(
             "Queue is Raw",
         );
 
+        # accounted time should not be displayed
+        $Self->False(
+            index( $Selenium->get_page_source(), '<span class="Key">Accounted time:</span>' ) > -1,
+            "Accounted time is not displayed",
+        );
+
+        # enable displaying accounted time
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###ZoomTimeDisplay',
+            Value => 1
+        );
+
+        # reload the page
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
+
+        # accounted time should now be displayed
+        $Self->True(
+            index( $Selenium->get_page_source(), '<span class="Key">Accounted time:</span>' ) > -1,
+            "Accounted time is displayed",
+        );
+
         # check reply button
         $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->VerifiedClick();
         $Selenium->find_element("//button[contains(\@value, \'Submit' )]");
@@ -168,7 +202,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketPrint;' )]")->VerifiedClick();
 
         # clean up test data from the DB
-        my $Success = $TicketObject->TicketDelete(
+        $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );
