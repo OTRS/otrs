@@ -29,10 +29,15 @@
 
 .Preferences .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox {
     width: 48px;
+    display: block !important;
 }
 
 .Preferences .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Cancel {
     display: none;
+}
+
+.WidgetSimple.Setting .SettingWrapper > fieldset {
+    padding-right: 30px;
 }
 
 fieldset.TableLike > .Field.NoMargin {
@@ -51,6 +56,5 @@ fieldset.TableLike > .Field.NoMargin {
 #ToggleView.List .fa:first-child {
     display: none !important;
 }
-
 
 } /* end @media*/
