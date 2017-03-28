@@ -106,7 +106,7 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
                                         <div class="SpacingTop"></div>
                                         <label class="Mandatory" for="ConfigFile"><span class="Marker">*</span>[% Translate("Configuration File") | html %]:</label>
                                         <div class="Field">
-                                            <input id="ConfigFile" class=" W75pc Validate_Required" type="file" maxlength="250" value="" name="ConfigFile"/>
+                                            <input id="ConfigFile" class="Validate_Required" type="file" maxlength="250" value="" name="ConfigFile"/>
                                             <div id="ConfigFileError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                             <div class="FieldExplanation">[% Translate("The file must be a valid web service configuration YAML file.") | html %]</div>
                                         </div>
