@@ -357,6 +357,43 @@ sub LinkObjectTableCreateComplex {
                 PrefKey => "LinkObject::ComplexTable-" . $Block->{Blockname},
             );
 
+            # Add translations for the allocation lists for regular columns.
+            for my $Column ( @{ $Preferences{AllColumns} } ) {
+                my $TranslatedWord = $Column;
+                if ( $Column eq 'EscalationTime' ) {
+                    $TranslatedWord = Translatable('Service Time');
+                }
+                elsif ( $Column eq 'EscalationResponseTime' ) {
+                    $TranslatedWord = Translatable('First Response Time');
+                }
+                elsif ( $Column eq 'EscalationSolutionTime' ) {
+                    $TranslatedWord = Translatable('Solution Time');
+                }
+                elsif ( $Column eq 'EscalationUpdateTime' ) {
+                    $TranslatedWord = Translatable('Update Time');
+                }
+                elsif ( $Column eq 'PendingTime' ) {
+                    $TranslatedWord = Translatable('Pending till');
+                }
+                elsif ( $Column eq 'CustomerCompanyName' ) {
+                    $TranslatedWord = Translatable('Customer Company Name');
+                }
+                elsif ( $Column eq 'CustomerUserID' ) {
+                    $TranslatedWord = Translatable('Customer User ID');
+                }
+
+                $LayoutObject->Block(
+                    Name => 'ColumnTranslation',
+                    Data => {
+                        ColumnName      => $Column,
+                        TranslateString => $TranslatedWord,
+                    },
+                );
+                $LayoutObject->Block(
+                    Name => 'ColumnTranslationSeparator',
+                );
+            }
+
             $LayoutObject->Block(
                 Name => 'ContentLargePreferencesForm',
                 Data => {
@@ -808,6 +845,8 @@ sub ComplexTablePreferencesGet {
         }
     }
 
+    my @AllColumns = ( @ColumnsAvailable, @ColumnsEnabled );
+
     # check if the user has filter preferences for this widget
     my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
         UserID => $Self->{UserID},
@@ -862,6 +901,7 @@ sub ComplexTablePreferencesGet {
         ColumnsEnabled   => $JSONObject->Encode( Data => \@ColumnsEnabled ),
         ColumnsAvailable => $JSONObject->Encode( Data => \@ColumnsAvailableNotEnabled ),
         Translation      => 1,
+        AllColumns       => \@AllColumns,
     );
 
     return %Params;

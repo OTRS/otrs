@@ -46,7 +46,5 @@ Core.Agent.LinkObject = (function (TargetNS) {
         Core.UI.InitWidgetActionToggle();
     };
 
-    Core.Agent.TableFilters.SetAllocationList();
-
     return TargetNS;
 }(Core.Agent.LinkObject || {}));

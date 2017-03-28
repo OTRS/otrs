@@ -441,6 +441,9 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         $('label.Switchable').off('click.Switch').on('click.Switch', function() {
             $(this).next('p.Value').find('.Switch').toggleClass('Hidden');
         });
+
+        // Initialize allocation list for link object table.
+        Core.Agent.TableFilters.SetAllocationList();
     };
 
     return TargetNS;
