@@ -23,6 +23,7 @@ sub Run {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my %Ticket    = %{ $Param{Ticket} };
     my %AclAction = %{ $Param{AclAction} };
@@ -122,9 +123,25 @@ sub Run {
         );
     }
 
+    # show number of tickets with the same customer id if feature is active:
+    if ( $ConfigObject->Get('Ticket::Frontend::ZoomCustomerTickets') ) {
+        if ( $Ticket{CustomerID} ) {
+            $Ticket{CustomerIDTickets} = $TicketObject->TicketSearch(
+                CustomerID => $Ticket{CustomerID},
+                Result     => 'COUNT',
+                Permission => 'ro',
+                UserID     => $Self->{UserID},
+            );
+            $LayoutObject->Block(
+                Name => 'CustomerIDTickets',
+                Data => \%Ticket,
+            );
+        }
+    }
+
     # show total accounted time if feature is active:
     if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
-        $Ticket{TicketTimeUnits} = $Kernel::OM->Get('Kernel::System::Ticket')->TicketAccountedTimeGet(%Ticket);
+        $Ticket{TicketTimeUnits} = $TicketObject->TicketAccountedTimeGet(%Ticket);
         $LayoutObject->Block(
             Name => 'TotalAccountedTime',
             Data => \%Ticket,

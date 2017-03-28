@@ -1761,6 +1761,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::ZoomCustomerTickets" Required="0" Valid="1">
+        <Description Translatable="1">Displays the number of all tickets with the same CustomerID as current ticket in the ticket zoom view.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::HistoryOrder" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket history (reverse ordered) in the agent interface.</Description>
         <Group>Ticket</Group>
