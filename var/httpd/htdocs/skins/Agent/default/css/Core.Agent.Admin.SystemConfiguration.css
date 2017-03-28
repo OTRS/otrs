@@ -445,6 +445,15 @@ h2.SearchResults {
     margin-top: 3px;
 }
 
+.WidgetSimple.Setting .Header .HeaderMessage a {
+    color: #999;
+    transition: all ease 0.2s;
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage a:hover {
+    color: #333;
+}
+
 .WidgetSimple.Setting .Header .HeaderMessage span {
     display: inline-block;
 }

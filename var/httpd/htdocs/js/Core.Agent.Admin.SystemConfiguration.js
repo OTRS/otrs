@@ -397,6 +397,10 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 
         // Expand the actionmenu on click on the header
         $('.WidgetSimple.Setting .Header').on('click', function(Event) {
+            if (Event.originalEvent.target.nodeName.toLowerCase() === 'a') {
+                return true;
+            }
+
             $(this).find('.WidgetAction.Expand').trigger('click');
             Event.stopPropagation();
             Event.preventDefault();

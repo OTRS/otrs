@@ -27,7 +27,7 @@
                 </h2>
                 <p class="HeaderMessage">
                 [% IF Env("Action") != 'AdminSystemConfigurationGroup' %]
-                    <span>[% Setting.Navigation | html %]</span>
+                    <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=[% Setting.Navigation | uri %]">[% Setting.Navigation | html %]</a>
                 [% END %]
                 [% IF Setting.Locked == 1 %]
                     <span>[% Translate("%s (%s) is currently working on this setting.", Setting.User.UserFullname, Setting.User.UserEmail) | html %]</span>
