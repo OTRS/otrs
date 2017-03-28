@@ -4540,6 +4540,20 @@
             <Item ValueType="String" ValueRegex="">email-external</Item>
         </Value>
     </Setting>
+        <Setting Name="Ticket::Frontend::AgentTicketCompose###RichTextWidth" Required="0" Valid="1">
+        <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewCompose</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketCompose###RichTextHeight" Required="0" Valid="1">
+        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewCompose</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
         <Description Translatable="1">Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).</Description>
         <Navigation>Frontend::Agent::Ticket::ViewCompose</Navigation>
