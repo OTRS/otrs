@@ -873,6 +873,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                 if ($Widget.hasClass('MenuExpanded')) {
                     $Widget.find('.WidgetMessage.Bottom').show();
                 }
+                Core.App.Publish('SystemConfiguration.SettingListUpdate');
             }
         );
     }
@@ -988,6 +989,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 
                 // focus the first visible input field
                 $Widget.find('input[type=text]:visible').first().focus();
+
+                Core.App.Publish('SystemConfiguration.SettingListUpdate');
             }
         );
     }

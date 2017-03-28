@@ -119,6 +119,24 @@ var Core = Core || {};
             }
         }
 
+        Core.App.Subscribe('SystemConfiguration.SettingListUpdate', function() {
+
+            // check if we need to disable editAll/SaveAll
+            if (!$('.WidgetSimple.Setting:visible').length) {
+                $('#EditAll, #SaveAll, #CancelAll').prop('disabled', true).addClass('Disabled');
+            }
+            else {
+                $('#EditAll, #SaveAll, #CancelAll').prop('disabled', false).removeClass('Disabled');
+            }
+
+            if (!$('.WidgetSimple.Setting.IsLockedByMe:visible').length) {
+                $('#SaveAll, #CancelAll').prop('disabled', true).addClass('Disabled');
+            }
+            else {
+                $('#SaveAll, #CancelAll').prop('disabled', false).removeClass('Disabled');
+            }
+        });
+
         Core.UI.Table.InitTableFilter($("#FilterUsers"), $("#Users"));
     };
 
@@ -1042,6 +1060,7 @@ var Core = Core || {};
                         );
                     }
                 }
+                Core.App.Publish('SystemConfiguration.SettingListUpdate');
             }
         );
     }
@@ -1563,6 +1582,8 @@ var Core = Core || {};
                     $('#UserWidgetState_SystemConfiguration_Help, #UserWidgetState_SystemConfiguration_Sticky').addClass('Hidden');
                 }
                 Core.UI.InitStickyElement();
+
+                Core.App.Publish('SystemConfiguration.SettingListUpdate');
 
                 Core.UI.InputFields.InitSelect(
                     $(".SettingsList .Modernize")
