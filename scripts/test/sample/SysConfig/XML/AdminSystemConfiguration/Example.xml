@@ -136,22 +136,10 @@
                 <Item ValueType="Day" ValueName="Mon">
                     <Item ValueType="Hour">8</Item>
                     <Item ValueType="Hour">9</Item>
-                    <Item ValueType="Hour">10</Item>
-                    <Item ValueType="Hour">11</Item>
-                    <Item ValueType="Hour">12</Item>
-                    <Item ValueType="Hour">13</Item>
-                    <Item ValueType="Hour">14</Item>
-                    <Item ValueType="Hour">15</Item>
                 </Item>
                 <Item ValueType="Day" ValueName="Tue">
                     <Item ValueType="Hour">8</Item>
                     <Item ValueType="Hour">9</Item>
-                    <Item ValueType="Hour">10</Item>
-                    <Item ValueType="Hour">11</Item>
-                    <Item ValueType="Hour">12</Item>
-                    <Item ValueType="Hour">13</Item>
-                    <Item ValueType="Hour">14</Item>
-                    <Item ValueType="Hour">15</Item>
                 </Item>
             </Item>
         </Value>

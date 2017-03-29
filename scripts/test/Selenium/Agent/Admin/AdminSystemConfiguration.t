@@ -1122,14 +1122,6 @@ my @Tests = (
             {
                 Write => 'Street #, City',
             },
-
-            # Add 3th item and check if add new hash item is visible
-            # {
-            #     Click => '.AddHashKey',
-            # },
-            # {
-            #     ElementMissing => '.AddHashKey:visible',
-            # },
             {
                 Hover => '.Setting',
             },
@@ -2760,6 +2752,308 @@ my @Tests = (
             },
         ],
         ExpectedResult => 'Europe/Berlin',
+    },
+    {
+        Name     => 'ExampleVacationDays',
+        Index    => 50,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                # wait until select is initialized
+                Select => 'select',
+            },
+            {
+                Click => '.ArrayItem:nth-of-type(1) .RemoveButton',
+            },
+            {
+                Click => '.ArrayItem:nth-of-type(1) .RemoveButton',
+            },
+            {
+                Click => '.ArrayItem:nth-of-type(1) .RemoveButton',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                ElementMissing => '.AddArrayItem',
+            },
+        ],
+        ExpectedResult => {},
+    },
+    {
+        Name     => 'ExampleVacationDays',
+        Index    => 50,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                # wait until Add item button is shown
+                Select => '.AddArrayItem',
+            },
+            {
+                Click => '.AddArrayItem',
+            },
+            {
+                # Select month 04
+                JS => "\$('.SettingsList li:nth-of-type(50) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(1) select:nth-of-type(1)').val('04')",
+            },
+            {
+                # Select day 05
+                JS => "\$('.SettingsList li:nth-of-type(50) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(1) select:nth-of-type(2)').val('05')",
+            },
+            {
+                Select => '.ArrayItem:nth-of-type(1) input',
+            },
+            {
+                Write => 'Vacation day 1',
+            },
+            {
+                Click => '.AddArrayItem',
+            },
+            {
+                # Select month 11
+                JS => "\$('.SettingsList li:nth-of-type(50) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(2) select:nth-of-type(1)').val('11')",
+            },
+            {
+                # Select day 22
+                JS => "\$('.SettingsList li:nth-of-type(50) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(2) select:nth-of-type(2)').val('22')",
+            },
+            {
+                Select => '.ArrayItem:nth-of-type(2) input',
+            },
+            {
+                Write => 'Vacation day 2',
+            },
+
+            {
+                Click => '.AddArrayItem',
+            },
+            {
+                # Select month 02
+                JS => "\$('.SettingsList li:nth-of-type(50) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(3) select:nth-of-type(1)').val('02')",
+            },
+            {
+                # Select day 10
+                JS => "\$('.SettingsList li:nth-of-type(50) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(3) select:nth-of-type(2)').val('10')",
+            },
+            {
+                Select => '.ArrayItem:nth-of-type(3) input',
+            },
+            {
+                Write => 'Vacation day 3',
+            },
+
+            {
+                Hover => '.Setting',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                ElementMissing => '.AddArrayItem',
+            },
+        ],
+        ExpectedResult => {
+            '4' => {
+                '5' => 'Vacation day 1'
+            },
+            '11' => {
+                '22' => 'Vacation day 2'
+            },
+            '2' => {
+                '10' => 'Vacation day 3'
+            },
+        },
+    },
+    {
+        Name     => 'ExampleVacationDaysOneTime',
+        Index    => 51,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                # wait until select is initialized
+                Select => 'select',
+            },
+            {
+                Click => '.ArrayItem:nth-of-type(1) .RemoveButton',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                ElementMissing => '.AddArrayItem',
+            },
+        ],
+        ExpectedResult => {},
+    },
+    {
+        Name     => 'ExampleVacationDaysOneTime',
+        Index    => 51,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                # wait until Add item button is shown
+                Select => '.AddArrayItem',
+            },
+            {
+                Click => '.AddArrayItem',
+            },
+
+            #MDY
+            {
+                # Select month 04
+                JS => "\$('.SettingsList li:nth-of-type(51) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(1) select:nth-of-type(1)').val('4')",
+            },
+            {
+                # Select day 05
+                JS => "\$('.SettingsList li:nth-of-type(51) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(1) select:nth-of-type(2)').val('5')",
+            },
+            {
+                # Select year 2017
+                JS => "\$('.SettingsList li:nth-of-type(51) .WidgetSimple "
+                    . " .ArrayItem:nth-of-type(1) select:nth-of-type(3)').val('2017')",
+            },
+            {
+                Select => '.ArrayItem:nth-of-type(1) input.VacationDaysOneTime',
+            },
+            {
+                Write => 'Vacation day 1',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                ElementMissing => '.AddArrayItem',
+            },
+        ],
+        ExpectedResult => {
+            '2017' => {
+                '4' => {
+                    '5' => 'Vacation day 1',
+                },
+            },
+        },
+    },
+    {
+        Name     => 'ExampleWorkingHours',
+        Index    => 52,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                # wait until select is initialized
+                Select => '.Update',
+            },
+            {
+                Click => ' .WorkingHoursItem:nth-of-type(9)',
+            },
+            {
+                Click => ' .WorkingHoursItem:nth-of-type(10)',
+            },
+            {
+                Click => ' .WorkingHoursItem:nth-of-type(34)',
+            },
+            {
+                Click => ' .WorkingHoursItem:nth-of-type(35)',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                ElementMissing => '.Update',
+            },
+        ],
+        ExpectedResult => {},
+    },
+    {
+        Name     => 'ExampleWorkingHours',
+        Index    => 52,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                # wait until select is initialized
+                Select => '.Update',
+            },
+            {
+                Click => ' .WorkingHoursItem:nth-of-type(9)',
+            },
+            {
+                Click => ' .WorkingHoursItem:nth-of-type(10)',
+            },
+            {
+                Click => ' .WorkingHoursItem:nth-of-type(34)',
+            },
+            {
+                Click => ' .WorkingHoursItem:nth-of-type(35)',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                ElementMissing => '.Update',
+            },
+        ],
+        ExpectedResult => {
+            'Mon' => [
+                '8',
+                '9',
+            ],
+            'Tue' => [
+                '8',
+                '9',
+            ],
+        },
     },
 );
 
