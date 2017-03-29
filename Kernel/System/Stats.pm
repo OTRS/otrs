@@ -4267,6 +4267,67 @@ sub _WeekOfYear {
     );
 }
 
+=head2 _CustomerAge()
+
+Copied CustomerAge from Layout.pm since Layout is not accessible in the backend.
+
+TODO: There is no current support for translation of statistics values, it
+will be implemented later on.
+
+    my $CustomerAge = $StatsObject->_CustomerAge(
+        Age   => 360,
+        Space => ' ',
+    );
+
+Returns (converted seconds in human readable format e.g. '1 d 2 h' ):
+
+    $CustomerAge = '6 h',
+
+=cut
+
+sub _CustomerAge {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Space     = $Param{Space} || '<br/>';
+    my $AgeStrg   = '';
+    my $DayDsc    = 'd';
+    my $HourDsc   = 'h';
+    my $MinuteDsc = 'm';
+    if ( $ConfigObject->Get('TimeShowCompleteDescription') ) {
+        $DayDsc    = 'day(s)';
+        $HourDsc   = 'hour(s)';
+        $MinuteDsc = 'minute(s)';
+    }
+    if ( $Age =~ /^-(.*)/ ) {
+        $Age     = $1;
+        $AgeStrg = '-';
+    }
+
+    # get days
+    if ( $Age >= 86400 ) {
+        $AgeStrg .= int( ( $Age / 3600 ) / 24 ) . ' ';
+        $AgeStrg .= $DayDsc;
+        $AgeStrg .= $Space;
+    }
+
+    # get hours
+    if ( $Age >= 3600 ) {
+        $AgeStrg .= int( ( $Age / 3600 ) % 24 ) . ' ';
+        $AgeStrg .= $HourDsc;
+        $AgeStrg .= $Space;
+    }
+
+    # get minutes (just if age < 1 day)
+    if ( $ConfigObject->Get('TimeShowAlwaysLong') || $Age < 86400 ) {
+        $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
+        $AgeStrg .= $MinuteDsc;
+    }
+    return $AgeStrg;
+}
+
 1;
 
 =end Internal:

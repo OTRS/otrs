@@ -1262,6 +1262,8 @@ sub GetStatTable {
         }
     }
 
+    my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
+
     # generate the ticket list
     my @StatArray;
     for my $TicketID (@TicketIDs) {
@@ -1271,6 +1273,12 @@ sub GetStatTable {
             UserID        => 1,
             Extended      => $Extended,
             DynamicFields => $NeedDynamicFields,
+        );
+
+        # Format Ticket 'Age' param into human readable format.
+        $Ticket{Age} = $StatsObject->_CustomerAge(
+            Age   => $Ticket{Age},
+            Space => ' ',
         );
 
         # add the accounted time if needed
@@ -1357,7 +1365,7 @@ sub GetStatTable {
                 )
             {
 
-                $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::Stats')->_FromOTRSTimeZone(
+                $Ticket{$Attribute} = $StatsObject->_FromOTRSTimeZone(
                     String   => $Ticket{$Attribute},
                     TimeZone => $Param{TimeZone},
                 );

@@ -427,6 +427,127 @@ $Self->True(
 
 my @Tests = (
 
+    # Test dynamic list stat with 'Age' column, expecting result in human readable format
+    # Fixed TimeStamp: '2015-09-11 04:35:00'
+    # TimeZone: -
+    # X-Axis: 'TicketAttributes' - Number, TicketNumber, Age
+    # Y-Axis: 'OrderBy' - Age, 'SortSequence' - Up
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test
+    {
+        Description =>
+            "Test dynamic list stat with 'Age' column, expecting result in human readable format",
+        TimeStamp   => '2015-09-11 04:35:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $DynamicListStatID,
+            Hash   => {
+                UseAsXvalue => [
+                    {
+                        'Element'        => 'TicketAttributes',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Number',
+                            'TicketNumber',
+                            'Age',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'OrderBy',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Age',
+                        ],
+                    },
+                    {
+                        'Element'        => 'SortSequence',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Up',
+                        ],
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests',
+            ],
+            [
+                'Number',
+                'Ticket#',
+                'Age',
+            ],
+            [
+                1,
+                $TicketIDs[8]->{TicketNumber},
+                '355 d 16 h ',
+            ],
+            [
+                2,
+                $TicketIDs[0]->{TicketNumber},
+                '335 d 20 h ',
+            ],
+            [
+                3,
+                $TicketIDs[1]->{TicketNumber},
+                '274 d 17 h ',
+            ],
+            [
+                4,
+                $TicketIDs[2]->{TicketNumber},
+                '41 d 7 h ',
+            ],
+            [
+                5,
+                $TicketIDs[3]->{TicketNumber},
+                '32 d 9 h ',
+            ],
+            [
+                6,
+                $TicketIDs[5]->{TicketNumber},
+                '31 d 18 h ',
+            ],
+            [
+                7,
+                $TicketIDs[4]->{TicketNumber},
+                '31 d 8 h ',
+            ],
+            [
+                8,
+                $TicketIDs[6]->{TicketNumber},
+                '30 d 16 h ',
+            ],
+            [
+                9,
+                $TicketIDs[9]->{TicketNumber},
+                '29 d 6 h ',
+            ],
+            [
+                10,
+                $TicketIDs[7]->{TicketNumber},
+                '10 h 35 m',
+            ],
+        ],
+    },
+
     # Test with a relative time period and without a defined time zone
     # Fixed TimeStamp: '2015-08-15 20:00:00'
     # TimeZone: -

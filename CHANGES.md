@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-03-29 Fixed bug#[12704](https://bugs.otrs.org/show_bug.cgi?id=12704)(PR#1664) - Ticket age values in statistic export is in seconds (not human readable). Thanks to S7!
  - 2017-03-28 Added option to display number of all customer tickets in AgentTicketZoom.
  - 2017-03-28 Fixed bug#[12696](https://bugs.otrs.org/show_bug.cgi?id=12696) - Missing save button from personal preferences in mobile mode.
  - 2017-03-24 Modernized address book. It is now possible to search for all configured custom user and customer fields.
