@@ -4267,25 +4267,26 @@ sub _WeekOfYear {
     );
 }
 
-=head2 _CustomerAge()
+=head2 _HumanReadableAgeGet()
 
-Copied CustomerAge from Layout.pm since Layout is not accessible in the backend.
+Re-implementation of L<CustomerAge()|Kernel::Output::HTML::Layout/CustomerAge()> since this object is inaccessible from
+the backend.
 
-TODO: There is no current support for translation of statistics values, it
-will be implemented later on.
+TODO: Currently, there is no support for translation of statistic values, it's planned to be implemented later on. For
+the time being, this method will return a string in English only.
 
-    my $CustomerAge = $StatsObject->_CustomerAge(
+    my $HumanReadableAge = $StatsObject->_HumanReadableAgeGet(
         Age   => 360,
         Space => ' ',
     );
 
-Returns (converted seconds in human readable format e.g. '1 d 2 h' ):
+Returns (converted seconds in human readable format, i.e. '1 d 2 h'):
 
-    $CustomerAge = '6 h',
+    $HumanReadableAge = '6 h',
 
 =cut
 
-sub _CustomerAge {
+sub _HumanReadableAgeGet {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
