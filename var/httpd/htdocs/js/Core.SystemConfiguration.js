@@ -252,11 +252,6 @@ var Core = Core || {};
                 $("#ConfigTreeSearch").on('keyup keydown', function() {
                     $('#ConfigTree').jstree('search', $(this).val());
                 });
-
-                $("#ConfigTree ul li > a").on("click", function() {
-                    SettingList($(this));
-                    return false;
-                });
             }, 'html'
         );
     };
