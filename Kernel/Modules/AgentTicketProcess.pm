@@ -1001,10 +1001,10 @@ sub _GetParam {
                 next DIALOGFIELD;
             }
 
-            # If we had neighter submitted nor ticket param get the ActivityDialog's default Value
+            # If we had neither submitted nor ticket param get the ActivityDialog's default Value
             # next out if it was successful
             $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
-            if ( defined $Value ) {
+            if ( defined $Value && length $Value ) {
                 $GetParam{$CurrentField} = $Value;
                 next DIALOGFIELD;
             }
@@ -1012,7 +1012,7 @@ sub _GetParam {
             # If we had no submitted, ticket or ActivityDialog default value
             # use the DynamicField's default value and next out
             $Value = $DynamicFieldConfig->{Config}{DefaultValue};
-            if ( defined $Value ) {
+            if ( defined $Value && length $Value ) {
                 $GetParam{$CurrentField} = $Value;
                 next DIALOGFIELD;
             }
@@ -4361,7 +4361,16 @@ sub _StoreActivityDialog {
 
                 # if we have an invisible field, use config's default value
                 if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
-                    $TicketParam{$CurrentField} = $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue} // '';
+                    if (
+                        defined $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue}
+                        && length $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue}
+                        )
+                    {
+                        $TicketParam{$CurrentField} = $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue};
+                    }
+                    else {
+                        $TicketParam{$CurrentField} = '';
+                    }
                 }
 
                 # only validate visible fields
