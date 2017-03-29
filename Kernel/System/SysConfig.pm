@@ -3980,6 +3980,83 @@ sub ValueAttributeList {
     return @Result;
 }
 
+=head2 SettingsSet()
+
+This method locks provided settings(by force), updates them and deploys the changes (by force).
+
+    my $Success = $SysConfigObject->SettingsSet(
+        UserID   => 1,                                      # (required) UserID
+        Comments => 'Deployment comment',                   # (optional) Comment
+        Settings => [                                       # (required) List of settings to update.
+            {
+                Name                   => 'Setting::Name',  # (required)
+                EffectiveValue         => 'Value',          # (optional)
+                IsValid                => 1,                # (optional)
+                UserModificationActive => 1,                # (optional)
+            },
+            ...
+        ],
+    );
+
+Returns:
+
+    $Success = 1;
+
+=cut
+
+sub SettingsSet {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{UserID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Needed UserID!"
+        );
+
+        return;
+    }
+
+    if ( !IsArrayRefWithData( $Param{Settings} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Settings must be array with data!"
+        );
+
+        return;
+    }
+
+    my @DeploySettings;
+
+    for my $Setting ( @{ $Param{Settings} } ) {
+
+        my $ExclusiveLockGUID = $Self->SettingLock(
+            Name   => $Setting->{Name},
+            Force  => 1,
+            UserID => $Param{UserID},
+        );
+
+        return if !$ExclusiveLockGUID;
+
+        my %UpdateResult = $Self->SettingUpdate(
+            %{$Setting},
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            UserID            => $Param{UserID},
+        );
+
+        if ( $UpdateResult{Success} ) {
+            push @DeploySettings, $Setting->{Name};
+        }
+    }
+
+    # Deploy successfully updated settings.
+    my $DeploymentSuccess = $Self->ConfigurationDeploy(
+        Comments => $Param{Comments} || '',
+        UserID   => $Param{UserID},
+        Force    => 1,
+        DirtySettings => \@DeploySettings
+    );
+}
+
 =head1 PRIVATE INTERFACE
 
 =head2 _FileWriteAtomic()
