@@ -96,7 +96,7 @@
     </TableAlter>
 
     <!-- notification_event_message -->
-    <TableCreate Name="notification_event_message">
+    <Table Name="notification_event_message">
         <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
         <Column Name="notification_id" Required="true" Type="INTEGER"/>
         <Column Name="subject" Required="true" Size="200" Type="VARCHAR"/>
@@ -116,10 +116,10 @@
             <UniqueColumn Name="notification_id"/>
             <UniqueColumn Name="language"/>
         </Unique>
-    </TableCreate>
+    </Table>
 
     <!-- cloud service config table -->
-    <TableCreate Name="cloud_service_config">
+    <Table Name="cloud_service_config">
         <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
         <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
         <Column Name="config" Required="true" Type="LONGBLOB"/>
@@ -142,6 +142,6 @@
             <Reference Local="create_by" Foreign="id"/>
             <Reference Local="change_by" Foreign="id"/>
         </ForeignKey>
-    </TableCreate>
+    </Table>
 
 </database>
