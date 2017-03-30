@@ -2192,7 +2192,7 @@
 
 <!-- TODO: Remove un-needed comments -->
 
-<TableCreate Name="sysconfig_default">
+<Table Name="sysconfig_default">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="description" Required="true" Type="LONGBLOB"/>
@@ -2238,9 +2238,9 @@
         <Reference Local="exclusive_lock_user_id" Foreign="id"/>
     </ForeignKey>
 
-</TableCreate>
+</Table>
 
-<TableCreate Name="sysconfig_default_version">
+<Table Name="sysconfig_default_version">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="sysconfig_default_id" Type="INTEGER" />
     <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
@@ -2272,9 +2272,9 @@
         <Reference Local="sysconfig_default_id" Foreign="id"/>
     </ForeignKey>
 
-</TableCreate>
+</Table>
 
-<TableCreate Name="sysconfig_modified">
+<Table Name="sysconfig_modified">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="sysconfig_default_id" Required="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
@@ -2310,9 +2310,9 @@
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
 
-</TableCreate>
+</Table>
 
-<TableCreate Name="sysconfig_modified_version">
+<Table Name="sysconfig_modified_version">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="sysconfig_default_version_id" Required="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
@@ -2336,9 +2336,9 @@
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
 
-</TableCreate>
+</Table>
 
-<TableCreate Name="sysconfig_deployment_lock">
+<Table Name="sysconfig_deployment_lock">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="exclusive_lock_guid" Required="false" Size="32" Type="VARCHAR"/>
     <Column Name="exclusive_lock_user_id" Required="false" Type="INTEGER"/>
@@ -2348,9 +2348,9 @@
         <Reference Local="exclusive_lock_user_id" Foreign="id"/>
     </ForeignKey>
 
-</TableCreate>
+</Table>
 
-<TableCreate Name="sysconfig_deployment">
+<Table Name="sysconfig_deployment">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="user_id" Required="false" Type="INTEGER"/>
@@ -2367,7 +2367,7 @@
         <Reference Local="create_by" Foreign="id"/>
     </ForeignKey>
 
-</TableCreate>
+</Table>
 
 <!-- calendar tables -->
 <Table Name="calendar">
