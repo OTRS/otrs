@@ -102,7 +102,7 @@ sub Post {
             $LinkSmall =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
             my $Link = $Self->{LinkHash}->{$Key};
             if ( $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi ) {
-                if ($Link =~ m{^ ftp }smx ) {
+                if ( $Link =~ m{^ ftp }smx ) {
                     $Link = 'ftp://' . $Link;
                 }
                 else {
