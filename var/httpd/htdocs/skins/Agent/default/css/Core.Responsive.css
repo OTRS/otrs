@@ -394,6 +394,8 @@
     }
 
     fieldset.TableLike > .Field > input[type=radio],
+    fieldset.TableLike > .Row > .Field > input[type=radio],
+    fieldset.TableLike > .Field > input[type=radio],
     fieldset.TableLike > .Row > .Field > input[type=checkbox] {
         width: auto;
     }
