@@ -93,9 +93,9 @@ ak@example.com<br/>
 &lt;<a href="http://bugs.example.org/show_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/show_bug.cgi?id=2450">http://bugs.example.org/show_bug.cgi?id=2450</a>&gt;asdf<br/>
 &lt;<a href="http://bugs.example.org/s()how_bug.cgi?id=2450" target="_blank" title="http://bugs.example.org/s()how_bug.cgi?id=2450">http://bugs.example.org/s()how_bug.cgi?id=2450</a>&gt; as<br/>
 <br/>
-<a href="http://wwww.example.net" target="_blank" title="http://wwww.example.net">http://wwww.example.net</a><br/>
+<a href="http://wwww.example.net" target="_blank" title="http://wwww.example.net">wwww.example.net</a><br/>
 <br/>
-<a href="ftp://ftp.example.org" target="_blank" title="ftp://ftp.example.org">ftp://ftp.example.org</a><br/>
+<a href="ftp://ftp.example.org" target="_blank" title="ftp://ftp.example.org">ftp.example.org</a><br/>
 <br/>
 <a href="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/[..]</a><br/>
 <br/>
@@ -155,7 +155,7 @@ my @Tests = (
         Name   => 'Ascii2Html() - #6',
         String => ' www.example.com ',
         Result =>
-            ' <a href="http://www.example.com" target="_blank" title="http://www.example.com">http://www.example.com</a> ',
+            ' <a href="http://www.example.com" target="_blank" title="http://www.example.com">www.example.com</a> ',
     },
     {
         Name   => 'Ascii2Html() - #7',
@@ -277,7 +277,7 @@ my @Tests = (
         Name   => 'Ascii2Html() - #28 ftp-check',
         String => "ftp.example.com",
         Result =>
-            "<a href=\"ftp://ftp.example.com\" target=\"_blank\" title=\"ftp://ftp.example.com\">ftp://ftp.example.com</a>",
+            "<a href=\"ftp://ftp.example.com\" target=\"_blank\" title=\"ftp://ftp.example.com\">ftp.example.com</a>",
     },
     {
         Name   => 'Ascii2Html() - #29 brackets in url',                      # bug#12222
