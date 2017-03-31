@@ -74,6 +74,23 @@ body {
 }
 
 /**
+ * @subsection  Loading Dialog
+ */
+
+.DialogWaiting {
+    text-align: center;
+}
+
+.DialogWaiting i {
+    display: block;
+    margin: 10px 0px;
+}
+
+.DialogWaiting p {
+    padding: 0px 10px 10px 10px;
+}
+
+/**
  * @subsection  Print elements - Only show when page is printed
  */
 .PrintOnly {

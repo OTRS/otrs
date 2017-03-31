@@ -75,6 +75,9 @@ Core.Agent.LinkObject.SearchForm = (function (TargetNS) {
                alert(Core.Language.Translate("Please enter at least one search value or * to find anything."));
                return false;
             }
+            else {
+                Core.UI.Dialog.ShowWaitingDialog(undefined, Core.Language.Translate("Searching for linkable objects. This may take a while..."));
+            }
         });
 
         // Make sure that (only!) from a popup window, links are always opened in a new tab of the main window.

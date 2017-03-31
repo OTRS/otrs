@@ -133,6 +133,23 @@ strong {
 }
 
 /**
+ * @subsection  Loading Dialog
+ */
+
+.DialogWaiting {
+    text-align: center;
+}
+
+.DialogWaiting i {
+    display: block;
+    margin: 10px 0px;
+}
+
+.DialogWaiting p {
+    padding: 0px 10px 10px 10px;
+}
+
+/**
  * @subsection  Header
  */
 

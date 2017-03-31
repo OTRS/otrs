@@ -578,6 +578,33 @@ Core.UI.Dialog = (function (TargetNS) {
     };
 
     /**
+     * @name ShowWaitingDialog
+     * @memberof Core.UI.Dialog
+     * @function
+     * @param {String} Title - The title of the dialog.
+     * @param {String} Text - The text of the dialog.
+     * @description
+     *      Shows a waiting dialog (with spinner icon) and customizable title and text
+     */
+    TargetNS.ShowWaitingDialog = function (Title, Text) {
+
+        var DialogTemplate = Core.Template.Render('Dialog/Waiting', {
+            Text: Text
+        });
+
+        TargetNS.ShowDialog({
+            HTML: DialogTemplate,
+            Title: Title,
+            Modal: true,
+            CloseOnClickOutside: false,
+            CloseOnEscape: false,
+            PositionTop: '20%',
+            PositionLeft: 'Center',
+            AllowAutoGrow: true
+        });
+    };
+
+    /**
      * @name ShowAlert
      * @memberof Core.UI.Dialog
      * @function

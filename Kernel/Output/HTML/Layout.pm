@@ -3587,6 +3587,7 @@ sub CustomerLogin {
     $Self->LoaderCreateCustomerCSSCalls();
     $Self->LoaderCreateCustomerJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
+    $Self->LoaderCreateJavaScriptTemplateData();
 
     $Self->AddJSData(
         Key   => 'Baselink',
@@ -3878,6 +3879,7 @@ sub CustomerFooter {
     # and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
+    $Self->LoaderCreateJavaScriptTemplateData();
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {
