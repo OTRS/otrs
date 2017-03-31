@@ -89,6 +89,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.19 2017-??-??
+ - 2017-03-31 Follow-up fix: Activity dialog doesn't check process status before submit (bug#12443), thanks to Balázs Úr.
  - 2017-03-31 Fixed bug#[12680](https://bugs.otrs.org/show_bug.cgi?id=12680) - Templates are not loaded in several views in mobile browsers.
  - 2017-03-31 Fixed bug#[12603](https://bugs.otrs.org/show_bug.cgi?id=12603) - The notification during the import of a process appears in English.
  - 2017-03-31 Fixed bug#[12604](https://bugs.otrs.org/show_bug.cgi?id=12604) - Creating new Customer-User in case the given user already exists, the error message appears in English.
