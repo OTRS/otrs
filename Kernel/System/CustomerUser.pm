@@ -15,6 +15,7 @@ use base qw(Kernel::System::EventHandler);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Language',
     'Kernel::System::CustomerCompany',
     'Kernel::System::DB',
     'Kernel::System::Log',
@@ -393,7 +394,7 @@ sub CustomerUserAdd {
         if (%User) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "User already exists '$Param{UserLogin}'!",
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate('Customer user "%s" already exists.', $Param{UserLogin}),
             );
             return;
         }
@@ -452,7 +453,7 @@ sub CustomerUserUpdate {
         if (%User) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "User already exists '$Param{UserLogin}'!",
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate('Customer user "%s" already exists.', $Param{UserLogin}),
             );
             return;
         }

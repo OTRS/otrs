@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-03-31 Fixed bug#[12604](https://bugs.otrs.org/show_bug.cgi?id=12604) - Creating new Customer-User in case the given user already exists, the error message appears in English.
  - 2017-03-30 Fixed bug#[11958](https://bugs.otrs.org/show_bug.cgi?id=11958) - "http://" or "ftp://" may be added to hostnames in filtered text.
  - 2017-03-28 Fixed bug#[12720](https://bugs.otrs.org/show_bug.cgi?id=12720)(PR#1676) - Settings window of Complex LinkObject is not translated. Thanks to S7!
  - 2017-03-26 Fixed bug#[12650](https://bugs.otrs.org/show_bug.cgi?id=12650)(PR#1636) - SendCustomerNotification does not respect newly assigned mail address. Thanks to S7!
