@@ -22,6 +22,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Language',
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
@@ -1756,9 +1757,7 @@ sub ProcessImport {
     }
 
     return (
-        Message => 'Process '
-            . $ProcessData->{Process}->{Name}
-            . ' and all its data has been imported successfully.',
+        Message => $Kernel::OM->Get('Kernel::Language')->Translate('The process "%s" and all of its data has been imported successfully.', $ProcessData->{Process}->{Name}),
         Success => 1,
     );
 }
