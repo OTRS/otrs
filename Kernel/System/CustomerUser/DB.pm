@@ -20,6 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Language',
     'Kernel::System::Cache',
     'Kernel::System::CheckItem',
     'Kernel::System::DB',
@@ -1362,7 +1363,7 @@ sub CustomerUserAdd {
         if (%Result) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Email already exists!',
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate('This email address is already in use for another customer user.'),
             );
             return;
         }
@@ -1537,7 +1538,7 @@ sub CustomerUserUpdate {
         if (%Result) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Email already exists!',
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate('This email address is already in use for another customer user.'),
             );
             return;
         }
