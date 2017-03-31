@@ -3674,11 +3674,15 @@ sub _StoreActivityDialog {
         );
         my %ActivityDialogs = reverse %{ $Activity->{ActivityDialog} // {} };
         if ( !$ActivityDialogs{$ActivityDialogEntityID} ) {
+            my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
+            my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
 
             return $Self->_ShowDialogError(
                 Message => $LayoutObject->{LanguageObject}->Translate(
-                    'This step does not belong anymore the current activity in process for Ticket %s!',
-                    $Ticket{TicketID},
+                    'This step does not belong anymore the current activity in process for Ticket %s%s%s!',
+                    $TicketHook,
+                    $TicketHookDivider,
+                    $Ticket{TicketNumber},
                 ),
                 Comment => Translatable(
                     'Another user changed this ticket in the meantime. Please close this window and reload the ticket.'
