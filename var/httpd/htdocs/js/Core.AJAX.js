@@ -251,15 +251,24 @@ Core.AJAX = (function (TargetNS) {
             ParentBody,
             Range,
             StartRange = 0,
-            NewPosition = 0;
+            NewPosition = 0,
+            CKEditorObj = parent.CKEDITOR;
 
         if ($Element.length) {
             $ParentBody = $Element;
             ParentBody = $ParentBody[0];
 
+            // for regular popups, parent is a reference to the popup itself, which is why parent.CKEDITOR is a reference to the CKEDITOR
+            // object of the popup window. But if we're on a mobile environment, the popup would instead open as an iframe, which would cause
+            // parent.CKEDITOR to be the CKEDITOR object of the parent window which contains the iframe. This is why we want to use only
+            // CKEDITOR in this case (see bug#12680).
+            if (Core.App.Responsive.IsSmallerOrEqual(Core.App.Responsive.GetScreenSize(), 'ScreenL') && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+                CKEditorObj = CKEDITOR;
+            }
+
             // add the text to the RichText editor
-            if (parent.CKEDITOR && parent.CKEDITOR.instances.RichText) {
-                parent.CKEDITOR.instances.RichText.focus();
+            if (CKEditorObj && CKEditorObj.instances.RichText) {
+                CKEditorObj.instances.RichText.focus();
                 window.setTimeout(function () {
 
                     // In some circumstances, this command throws an error (although inserting the HTML works)
@@ -267,7 +276,7 @@ Core.AJAX = (function (TargetNS) {
                     try {
 
                         // set new text
-                        parent.CKEDITOR.instances.RichText.setData(Value);
+                        CKEditorObj.instances.RichText.setData(Value);
                     }
                     catch (Error) {
                         $.noop();
