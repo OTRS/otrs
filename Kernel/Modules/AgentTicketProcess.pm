@@ -232,8 +232,10 @@ sub Run {
                     );
 
                     # notify the agent that the ticket was locked
-                    push @{ $Param{Notify} }, "$TicketNumber: "
-                        . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked.");
+                    push @{ $Param{Notify} }, {
+                        Priority => 'Notice',
+                        Data     => "$TicketNumber: " . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked."),
+                    };
                 }
             }
 
@@ -254,7 +256,7 @@ sub Run {
                 %{$PossibleActivityDialogs} = $Self->{TicketObject}->TicketAclData();
             }
 
-            # check if ACL resctictions exist
+            # check if ACL restrictions exist
             if ( !IsHashRefWithData($PossibleActivityDialogs) )
             {
                 return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
@@ -1316,7 +1318,7 @@ sub _OutputActivityDialog {
             && IsHashRefWithData( $Activity->{ActivityDialog}{$_}{Overwrite} )
     } keys %{ $Activity->{ActivityDialog} };
 
-    # let the Overwrites Overwrite the ActivityDialog's Hashvalues
+    # let the Overwrites Overwrite the ActivityDialog's Hash values
     if ( $OverwriteActivityDialogNumber[0] ) {
         %{$ActivityDialog} = (
             %{$ActivityDialog},
@@ -1334,13 +1336,11 @@ sub _OutputActivityDialog {
             Value => $Ticket{Number},
         );
 
-        # display given notify messages if this is not an ajax request
+        # display given notify messages if this is not an AJAX request
         if ( IsArrayRefWithData( $Param{Notify} ) ) {
 
-            for my $NotifyString ( @{ $Param{Notify} } ) {
-                $Output .= $Self->{LayoutObject}->Notify(
-                    Data => $NotifyString,
-                );
+            for my $NotifyData ( @{ $Param{Notify} } ) {
+                $Output .= $Self->{LayoutObject}->Notify( %{$NotifyData} );
             }
         }
 
@@ -1372,7 +1372,7 @@ sub _OutputActivityDialog {
             );
         }
 
-        # display complete header and nav bar in ajax dialogs when there is a server error
+        # display complete header and navigation bar in AJAX dialogs when there is a server error
         #    unless we are in a process enrollment (only when IsMainWindow is active)
         my $Type = $Self->{IsMainWindow} ? '' : 'Small';
         $Output = $Self->{LayoutObject}->Header(
@@ -1414,7 +1414,7 @@ sub _OutputActivityDialog {
             },
         );
 
-        # output activity dilalog short description (if any)
+        # output activity dialog short description (if any)
         if (
             defined $ActivityDialog->{DescriptionShort}
             && $ActivityDialog->{DescriptionShort} ne ''
@@ -1453,7 +1453,7 @@ sub _OutputActivityDialog {
         );
     }
 
-    # show close & cancel link if neccessary
+    # show close & cancel link if necessary
     if ( !$Self->{IsMainWindow} && !$Self->{IsProcessEnroll} ) {
         if ( $Param{RenderLocked} ) {
             $Self->{LayoutObject}->Block(
@@ -4334,6 +4334,8 @@ sub _StoreActivityDialog {
         }
     }
 
+    my @Notify;
+
     my $NewTicketID;
     if ( !$TicketID ) {
 
@@ -4597,14 +4599,19 @@ sub _StoreActivityDialog {
         my %ActivityDialogs = reverse %{ $Activity->{ActivityDialog} // {} };
         if ( !$ActivityDialogs{$ActivityDialogEntityID} ) {
 
-            return $Self->_ShowDialogError(
-                Message => $Self->{LayoutObject}->{LanguageObject}->Translate(
-                    'This step does not belong anymore the current activity in process for Ticket %s!',
-                    $Ticket{TicketID},
+            my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
+            my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+
+            $Error{WrongActivity} = 1;
+            push @Notify, {
+                Priority => 'Error',
+                Data     => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                    'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.',
+                    $TicketHook,
+                    $TicketHookDivider,
+                    $Ticket{TicketNumber},
                 ),
-                Comment =>
-                    'Another user changed this ticket in the meantime. Please close this window and reload the ticket.'
-            );
+            };
         }
 
         $ProcessEntityID = $Ticket{
@@ -4634,6 +4641,7 @@ sub _StoreActivityDialog {
             ErrorMessages          => \%ErrorMessages,
             GetParam               => $Param{GetParam},
             IsUpload               => $IsUpload,
+            Notify                 => \@Notify,
         );
     }
 
