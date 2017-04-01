@@ -1063,7 +1063,7 @@ sub _OutputActivityDialog {
     my %Error        = ();
     my %ErrorMessage = ();
 
-    # If we had Errors, we got an Errorhash
+    # If we had Errors, we got an Error hash
     %Error        = %{ $Param{Error} }        if ( IsHashRefWithData( $Param{Error} ) );
     %ErrorMessage = %{ $Param{ErrorMessage} } if ( IsHashRefWithData( $Param{ErrorMessage} ) );
 
@@ -1181,7 +1181,7 @@ sub _OutputActivityDialog {
             && IsHashRefWithData( $Activity->{ActivityDialog}{$_}{Overwrite} )
     } keys %{ $Activity->{ActivityDialog} };
 
-    # let the Overwrites Overwrite the ActivityDialog's Hashvalues
+    # let the Overwrites Overwrite the ActivityDialog's Hash values
     if ( $OverwriteActivityDialogNumber[0] ) {
         %{$ActivityDialog} = (
             %{$ActivityDialog},
@@ -1199,13 +1199,11 @@ sub _OutputActivityDialog {
             Value => $Ticket{Number},
         );
 
-        # display given notify messages if this is not an ajax request
+        # display given notify messages if this is not an AJAX request
         if ( IsArrayRefWithData( $Param{Notify} ) ) {
 
-            for my $NotifyString ( @{ $Param{Notify} } ) {
-                $Output .= $LayoutObject->Notify(
-                    Data => $NotifyString,
-                );
+            for my $NotifyData ( @{ $Param{Notify} } ) {
+                $Output .= $LayoutObject->Notify( %{$NotifyData} );
             }
         }
 
@@ -1247,7 +1245,7 @@ sub _OutputActivityDialog {
         $MainBoxClass = 'MainBox';
     }
 
-    # display process iformation
+    # display process information
     if ( $Self->{IsMainWindow} ) {
 
         # get process data
@@ -1265,7 +1263,7 @@ sub _OutputActivityDialog {
             },
         );
 
-        # output activity dilalog short description (if any)
+        # output activity dialog short description (if any)
         if (
             defined $ActivityDialog->{DescriptionShort}
             && $ActivityDialog->{DescriptionShort} ne ''
@@ -1304,7 +1302,7 @@ sub _OutputActivityDialog {
         );
     }
 
-    # show close & cancel link if neccessary
+    # show close & cancel link if necessary
     if ( !$Self->{IsMainWindow} ) {
         if ( $Param{RenderLocked} ) {
             $LayoutObject->Block(
@@ -3463,6 +3461,8 @@ sub _StoreActivityDialog {
     my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 
+    my @Notify;
+
     my $NewTicketID;
     if ( !$TicketID ) {
 
@@ -3677,17 +3677,16 @@ sub _StoreActivityDialog {
             my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
             my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
 
-            return $Self->_ShowDialogError(
-                Message => $LayoutObject->{LanguageObject}->Translate(
-                    'This step does not belong anymore the current activity in process for Ticket %s%s%s!',
+            $Error{WrongActivity} = 1;
+            push @Notify, {
+                Priority => 'Error',
+                Data     => $LayoutObject->{LanguageObject}->Translate(
+                    'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.',
                     $TicketHook,
                     $TicketHookDivider,
                     $Ticket{TicketNumber},
                 ),
-                Comment => Translatable(
-                    'Another user changed this ticket in the meantime. Please close this window and reload the ticket.'
-                ),
-            );
+            };
         }
 
         $ProcessEntityID = $Ticket{
@@ -3716,6 +3715,7 @@ sub _StoreActivityDialog {
             Error                  => \%Error,
             ErrorMessage           => \%ErrorMessage,
             GetParam               => $Param{GetParam},
+            Notify                 => \@Notify,
         );
     }
 
