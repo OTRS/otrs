@@ -234,7 +234,8 @@ sub Run {
                     # notify the agent that the ticket was locked
                     push @{ $Param{Notify} }, {
                         Priority => 'Notice',
-                        Data     => "$TicketNumber: " . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked."),
+                        Data     => "$TicketNumber: "
+                            . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked."),
                     };
                 }
             }
