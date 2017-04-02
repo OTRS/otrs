@@ -323,10 +323,10 @@ $Selenium->RunTest(
         );
 
         # add a template
-        my $RandomID = $Helper->GetRandomID();
-        my $TemplateText = 'This is a test template';
+        my $RandomID               = $Helper->GetRandomID();
+        my $TemplateText           = 'This is a test template';
         my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
-        my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
+        my $TemplateID             = $StandardTemplateObject->StandardTemplateAdd(
             Name         => 'UTTemplate_' . $RandomID,
             Template     => $TemplateText,
             ContentType  => 'text/plain; charset=utf-8',
@@ -341,7 +341,7 @@ $Selenium->RunTest(
         );
 
         my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-        my $QueueID     = $QueueObject->QueueLookup( Queue => 'Raw' );
+        my $QueueID = $QueueObject->QueueLookup( Queue => 'Raw' );
 
         # assign the template to our queue
         my $Success = $QueueObject->QueueStandardTemplateMemberAdd(
@@ -364,7 +364,8 @@ $Selenium->RunTest(
         );
 
         # open the note screen (which should be an iframe now)
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
+            ->VerifiedClick();
 
         # wait for the iframe to show up
         $Selenium->WaitFor(

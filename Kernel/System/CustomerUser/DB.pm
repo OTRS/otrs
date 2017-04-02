@@ -1363,7 +1363,8 @@ sub CustomerUserAdd {
         if (%Result) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => $Kernel::OM->Get('Kernel::Language')->Translate('This email address is already in use for another customer user.'),
+                Message  => $Kernel::OM->Get('Kernel::Language')
+                    ->Translate('This email address is already in use for another customer user.'),
             );
             return;
         }
@@ -1538,7 +1539,8 @@ sub CustomerUserUpdate {
         if (%Result) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => $Kernel::OM->Get('Kernel::Language')->Translate('This email address is already in use for another customer user.'),
+                Message  => $Kernel::OM->Get('Kernel::Language')
+                    ->Translate('This email address is already in use for another customer user.'),
             );
             return;
         }
