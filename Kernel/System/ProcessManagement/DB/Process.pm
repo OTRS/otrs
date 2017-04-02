@@ -1763,7 +1763,10 @@ sub ProcessImport {
     }
 
     return (
-        Message => $Kernel::OM->Get('Kernel::Language')->Translate('The process "%s" and all of its data has been imported successfully.', $ProcessData->{Process}->{Name}),
+        Message => $Kernel::OM->Get('Kernel::Language')->Translate(
+            'The process "%s" and all of its data has been imported successfully.',
+            $ProcessData->{Process}->{Name}
+        ),
         Success => 1,
     );
 }
