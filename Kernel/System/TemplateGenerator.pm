@@ -128,7 +128,7 @@ sub Salutation {
     }
 
     # get list unsupported tags for standard template
-    my @ListOfUnSupportedTag = qw/OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT/;
+    my @ListOfUnSupportedTag = qw(OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT);
 
     my $SalutationText = $Self->_RemoveUnSupportedTag(
         Text => $Salutation{Text} || '',
@@ -247,7 +247,7 @@ sub Signature {
     }
 
     # get list unsupported tags for standard template
-    my @ListOfUnSupportedTag = qw/OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT/;
+    my @ListOfUnSupportedTag = qw(OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT);
 
     my $SignatureText = $Self->_RemoveUnSupportedTag(
         Text => $Signature{Text} || '',
@@ -442,7 +442,7 @@ sub Template {
     $Language //= $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
 
     # get list unsupported tags for standard template
-    my @ListOfUnSupportedTag = qw/OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT/;
+    my @ListOfUnSupportedTag = qw(OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT);
 
     my $TemplateText = $Self->_RemoveUnSupportedTag(
         Text => $Template{Template} || '',
