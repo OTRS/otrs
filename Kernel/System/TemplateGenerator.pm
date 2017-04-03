@@ -1561,11 +1561,11 @@ sub _RemoveUnSupportedTag {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Text ListOfUnSupportedTag)) {
-        if ( !defined $Param{$_} ) {
+    for my $Item (qw(Text ListOfUnSupportedTag)) {
+        if ( !defined $Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }
