@@ -6067,7 +6067,7 @@ sub TicketMerge {
         CreateUserID => $Param{UserID},
     );
 
-    # tranfer watchers - only those that were not already watching the main ticket
+    # transfer watchers - only those that were not already watching the main ticket
     # delete all watchers from the merge ticket that are already watching the main ticket
     my %MainWatchers = $Self->TicketWatchGet(
         TicketID => $Param{MainTicketID},
@@ -6323,6 +6323,20 @@ sub TicketMergeLinkedObjects {
             \$Param{MainTicketID},
             \$TicketObjectID,
             \$Param{MergeTicketID},
+        ],
+    );
+
+    # delete all links between tickets where source and target object are the same
+    $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => '
+            DELETE FROM link_relation
+            WHERE source_object_id = ?
+                AND target_object_id = ?
+                AND source_key = target_key
+        ',
+        Bind => [
+            \$TicketObjectID,
+            \$TicketObjectID,
         ],
     );
 
