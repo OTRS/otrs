@@ -335,9 +335,9 @@
                     <ul>
 [% RenderBlockStart("Attachment") %]
                         <li>
-                            [% Data.Filename | html %] ([% Data.Filesize | html %])
-                            <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="SpacingLeft">[% Translate("Delete") | html %]</button>
+                            <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="CallForAction Inline Small SpacingRight"><span>[% Translate("Delete") | html %]</span></button>
                             <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
+                            [% Data.Filename | html %] ([% Data.Filesize | html %])
                         </li>
 [% RenderBlockEnd("Attachment") %]
                         <li>

@@ -602,6 +602,11 @@ ul.WidgetTooltip li a:hover i {
     padding: 2px 7px 4px 7px;
 }
 
+.CallForAction.Small span {
+    padding: 0px 3px 2px 3px;
+    font-size: 10px;
+}
+
 .CallForAction.Fullsize span {
     padding: 3px 20px 5px 20px;
 }

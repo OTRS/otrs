@@ -219,10 +219,10 @@ Core.AJAX = (function (TargetNS) {
         // 2nd: add all files based on the metadata from Value
         $(Value).each(function() {
             FileID = this.FileID;
-            ButtonStrg = '<button type="button" id="AttachmentDeleteButton' + FileID + '" name="AttachmentDeleteButton' + FileID + '" value="Delete" class="SpacingLeft">' + Core.Language.Translate('Delete') + '</button>';
+            ButtonStrg = '<button type="button" id="AttachmentDeleteButton' + FileID + '" name="AttachmentDeleteButton' + FileID + '" value="Delete" class="CallForAction Inline Small SpacingRight"><span>' + Core.Language.Translate('Delete') + '</span></button>';
             InputStrg = '<input type="hidden" id="AttachmentDelete' + this.FileID + '" name="AttachmentDelete' + this.FileID + '" />';
             $('#FileUpload').parent().before(
-                '<li>' + this.Filename + ' (' + this.Filesize + ')' + ButtonStrg + InputStrg + '</li>'
+                '<li>' + ButtonStrg + InputStrg + this.Filename + ' (' + this.Filesize + ')' + '</li>'
             );
 
             //3rd: set form submit and disable validation on attachment delete
