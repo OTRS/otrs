@@ -11,6 +11,7 @@ package Kernel::System::ACL::DB::ACL;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -1013,8 +1014,7 @@ sub ACLImport {
     if ( ref $ACLData ne 'ARRAY' ) {
         return {
             Success => 0,
-            Message =>
-                "Couldn't read ACL configuration file. Please make sure the file is valid.",
+            Message => Translatable("Couldn't read ACL configuration file. Please make sure the file is valid."),
         };
     }
 
