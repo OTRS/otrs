@@ -522,6 +522,25 @@
                     <div class="Clear"></div>
 [% RenderBlockEnd("RowData") %]
 
+# show article options like signed, crypted, ...
+[% RenderBlockStart("ArticleOption") %]
+                    <label>[% Translate(Data.Key) | html %]:</label>
+                    <div title="[% Data.Value | html %]" class="[% Data.Result | html %] Value">[% Translate(Data.Value) | html %]</div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("ArticleOption") %]
+
+#                    <!-- Include the full subject so that it can be copied. The one in the title bar is shortened. -->
+                    <label>[% Translate("Subject") | html %]:</label>
+                    <p class="Value">[% Data.Subject | html %]</p>
+                    <div class="Clear"></div>
+
+# show article accounted time
+[% RenderBlockStart("ArticleAccountedTime") %]
+                    <label>[% Translate(Data.Key) | html %]:</label>
+                    <p class="Value">[% Data.Value | html %]</p>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("ArticleAccountedTime") %]
+
 # show article dynamic fields
 [% RenderBlockStart("ArticleDynamicField") %]
                     <label>[% Translate(Data.Label) | html %]:</label>
@@ -557,25 +576,6 @@
 #[% RenderBlockEnd("ArticleDynamicFieldField2Plain") %]
 #                        <div class="Clear"></div>
 #[% RenderBlockEnd("ArticleDynamicFieldField2") %]
-
-# show article options like signed, crypted, ...
-[% RenderBlockStart("ArticleOption") %]
-                    <label>[% Translate(Data.Key) | html %]:</label>
-                    <div title="[% Data.Value | html %]" class="[% Data.Result | html %] Value">[% Translate(Data.Value) | html %]</div>
-                    <div class="Clear"></div>
-[% RenderBlockEnd("ArticleOption") %]
-
-#                    <!-- Include the full subject so that it can be copied. The one in the title bar is shortened. -->
-                    <label>[% Translate("Subject") | html %]:</label>
-                    <p class="Value">[% Data.Subject | html %]</p>
-                    <div class="Clear"></div>
-
-# show article accounted time
-[% RenderBlockStart("ArticleAccountedTime") %]
-                    <label>[% Translate(Data.Key) | html %]:</label>
-                    <p class="Value">[% Data.Value | html %]</p>
-                    <div class="Clear"></div>
-[% RenderBlockEnd("ArticleAccountedTime") %]
 
 # show attachments
 [% RenderBlockStart("ArticleAttachment") %]
