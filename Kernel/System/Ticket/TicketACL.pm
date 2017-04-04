@@ -1162,7 +1162,8 @@ sub _GetChecks {
 
         # compare if data is different and skip on same data
         if (
-            !DataIsDifferent(
+            $Checks{DynamicField}->{$TicketAttribute}
+            && !DataIsDifferent(
                 Data1 => $Checks{Ticket}->{$TicketAttribute},
                 Data2 => $Checks{DynamicField}->{$TicketAttribute},
             )
