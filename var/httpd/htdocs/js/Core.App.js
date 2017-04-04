@@ -237,7 +237,12 @@ Core.App = (function (TargetNS) {
             '<': '&lt;',
             '>': '&gt;'
         };
-        return StringToEscape.replace(/[&<>]/g, function(Entity) {
+
+        if (!StringToEscape) {
+            return false;
+        }
+
+        return StringToEscape.replace(/[&<>"]/g, function(Entity) {
             return HTMLEntities[Entity] || Entity;
         });
     };

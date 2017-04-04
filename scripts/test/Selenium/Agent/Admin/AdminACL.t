@@ -169,8 +169,19 @@ JAVASCRIPT
         );
 
         # type in some text & confirm by pressing 'enter', which should produce a new field
-        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys('Test');
-        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys("\N{U+E007}");
+        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys( '<Test>', "\N{U+E007}" );
+
+        # check if the text was escaped correctly
+        $Self->Is(
+            $Selenium->execute_script("return \$('.DataItem .DataItem.Editable').data('content');"),
+            '<Test>',
+            'Check for correctly unescaped item content',
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('.DataItem .DataItem.Editable').find('span:not(.Icon)').html();"),
+            '&lt;Test&gt;',
+            'Check for correctly escaped item text',
+        );
 
         # now there should be a two new elements: .ItemPrefix and .NewDataItem
         $Self->Is(
