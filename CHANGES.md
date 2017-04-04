@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-04-04 Fixed bug#[12746](https://bugs.otrs.org/show_bug.cgi?id=12746) - ACL ignores checks on dynamic fields.
  - 2017-04-03 Fixed typo in otrs.Daemon.pl.
  - 2017-04-03 Fixed bug#[12725](https://bugs.otrs.org/show_bug.cgi?id=12725) - Tickets link on themselves.
  - 2017-03-31 Follow-up fix: Activity dialog doesn't check process status before submit (bug#12443), thanks to Balázs Úr.
