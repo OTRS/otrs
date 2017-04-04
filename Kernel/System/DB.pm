@@ -1541,6 +1541,160 @@ sub QueryCondition {
     return $SQL;
 }
 
+=head2 QueryInCondition()
+
+Generate a SQL IN condition query based on the given table key and values.
+
+    my $SQL = $DBObject->QueryInCondition(
+        Key       => 'table.column',
+        Values    => [ 1, 2, 3, 4, 5, 6 ],
+        QuoteType => '(undef|Integer|Number)',
+        BindMode  => (0|1),
+        Negate    => (0|1),
+    );
+
+Returns the SQL string:
+
+    my $SQL = "ticket_id IN (1, 2, 3, 4, 5, 6)"
+
+Return a separated IN condition for more then C<MaxParamCountForInCondition> values:
+
+    my $SQL = "( ticket_id IN ( 1, 2, 3, 4, 5, 6 ... ) OR ticket_id IN ( ... ) )"
+
+Return the SQL String with ?-values and a array with values references in bind mode:
+
+    $BindModeResult = (
+        'SQL'    => 'ticket_id IN (?, ?, ?, ?, ?, ?)',
+        'Values' => [1, 2, 3, 4, 5, 6],
+    );
+
+    or
+
+    $BindModeResult = (
+        'SQL'    => '( ticket_id IN (?, ?, ?, ?, ?, ?) OR ticket_id IN ( ?, ... ) )',
+        'Values' => [1, 2, 3, 4, 5, 6, ... ],
+    );
+
+Returns the SQL string for a negated in condition:
+
+    my $SQL = "ticket_id NOT IN (1, 2, 3, 4, 5, 6)"
+
+    or
+
+    my $SQL = "( ticket_id NOT IN ( 1, 2, 3, 4, 5, 6 ... ) AND ticket_id NOT IN ( ... ) )"
+
+=cut
+
+sub QueryInCondition {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{Key} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Key!",
+        );
+        return;
+    }
+
+    if ( !IsArrayRefWithData($Param{Values} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Values!",
+        );
+        return;
+    }
+
+    if ( $Param{QuoteType} && $Param{QuoteType} eq 'Like' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "QuoteType 'Like' is not allowed for 'IN' conditions!",
+        );
+        return;
+    }
+
+    $Param{Negate}   //= 0;
+    $Param{BindMode} //= 0;
+
+    # Set the flag for string because of the other handling in the sql statement with strings.
+    my $IsString;
+    if (!$Param{QuoteType}) {
+        $IsString = 1;
+    }
+
+    my @Values = @{ $Param{Values} };
+
+    # Perform quoting depending on given quote type (only if not in bind mode)
+    if ( !$Param{BindMode} ) {
+
+        # Sort the values to cache the SQL query.
+        if ($IsString) {
+            @Values = sort { $a cmp $b } @Values;
+        }
+        else {
+            @Values = sort { $a <=> $b } @Values;
+        }
+
+        @Values = map { $Self->Quote( $_, $Param{QuoteType} ) } @Values;
+
+        # Something went wrong during the quoting, if the count is not equal.
+        return if scalar @Values != scalar @{ $Param{Values} };
+    }
+
+    # Set the correct operator and connector (only needed for splitted conditions).
+    my $Operator = 'IN';
+    my $Connector = 'OR';
+
+    if ($Param{Negate}) {
+        $Operator = 'NOT IN';
+        $Connector = 'AND';
+    }
+
+    my @SQLStrings;
+    my @BindValues;
+
+    # Split IN statement with more than 900 elements in more statements combined with OR
+    # because Oracle doesn't support more than 1000 elements for one IN statement.
+    while ( scalar @Values ) {
+
+        my @ValuesPart;
+        if ( $Self->GetDatabaseFunction('MaxParamCountForInCondition') ) {
+            @ValuesPart = splice @Values, 0, $Self->GetDatabaseFunction('MaxParamCountForInCondition');
+        }
+        else {
+            @ValuesPart = splice @Values;
+        }
+
+        my $ValueString;
+        if ($Param{BindMode}) {
+            $ValueString = join ', ', ('?') x scalar @ValuesPart;
+            push @BindValues, @ValuesPart;
+        }
+        elsif ($IsString) {
+            $ValueString = join ', ', map { "'$_'" } @ValuesPart;
+        }
+        else {
+            $ValueString = join ', ', @ValuesPart;
+        }
+
+        push @SQLStrings, "$Param{Key} $Operator ($ValueString)";
+    }
+
+    my $SQL = join " $Connector " , @SQLStrings;
+
+    if ( scalar @SQLStrings > 1 ) {
+       $SQL = '( ' . $SQL . ' )';
+    }
+
+    if ($Param{BindMode}) {
+        my $BindRefList = [ map { \$_ } @BindValues ];
+        return (
+            'SQL'    => $SQL,
+            'Values' => $BindRefList,
+        );
+    }
+    return $SQL;
+}
+
 =head2 QueryStringEscape()
 
 escapes special characters within a query string

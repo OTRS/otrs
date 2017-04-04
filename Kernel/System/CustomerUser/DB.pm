@@ -797,13 +797,13 @@ sub CustomerSearchDetail {
         #   or skip the search and return a emptry array ref, if no user logins exists from the dynamic field search.
         if (@DynamicFieldUserLogins) {
 
-            for my $OneParam (@DynamicFieldUserLogins) {
-                $OneParam = $DBObject->Quote($OneParam);
-            }
+            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+                Key       => $Self->{CustomerKey},
+                Values    => \@DynamicFieldUserLogins,
+                BindMode  => 0,
+            );
 
-            my $InString = join ', ', map {"'$_'"} @DynamicFieldUserLogins;
-
-            push @SQLWhere, "$Self->{CustomerKey} IN ($InString)";
+            push @SQLWhere, $SQLQueryInCondition;
         }
         else {
             return $Result eq 'COUNT' ? 0 : [];
@@ -815,37 +815,38 @@ sub CustomerSearchDetail {
 
         next FIELD if !@{ $Param{ $Field->{Name} } };
 
-        for my $OneParam ( @{ $Param{ $Field->{Name} } } ) {
-            $OneParam = $DBObject->Quote($OneParam);
-        }
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => $Field->{DatabaseField},
+            Values    => $Param{ $Field->{Name} },
+            BindMode  => 0,
+        );
 
-        my $InString = join ', ', map {"'$_'"} @{ $Param{ $Field->{Name} } };
-
-        push @SQLWhere, "$Field->{DatabaseField} IN ($InString)";
+        push @SQLWhere, $SQLQueryInCondition;
     }
 
     # Special parameter for CustomerIDs from a customer company search result.
     if ( IsArrayRefWithData( $Param{CustomerCompanySearchCustomerIDs} ) ) {
 
-        for my $OneParam ( @{ $Param{CustomerCompanySearchCustomerIDs} } ) {
-            $OneParam = $DBObject->Quote($OneParam);
-        }
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => $Self->{CustomerID},
+            Values    => $Param{CustomerCompanySearchCustomerIDs},
+            BindMode  => 0,
+        );
 
-        my $InString = join ', ', map {"'$_'"} @{ $Param{CustomerCompanySearchCustomerIDs} };
-
-        push @SQLWhere, "$Self->{CustomerID} IN ($InString)";
+        push @SQLWhere, $SQLQueryInCondition;
     }
 
     # Special parameter to exclude some user logins from the search result.
     if ( IsArrayRefWithData( $Param{ExcludeUserLogins} ) ) {
 
-        for my $OneParam ( @{ $Param{ExcludeUserLogins} } ) {
-            $OneParam = $DBObject->Quote($OneParam);
-        }
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => $Self->{CustomerKey},
+            Values    => $Param{ExcludeUserLogins},
+            BindMode  => 0,
+            Negate    => 1,
+        );
 
-        my $InString = join ', ', map {"'$_'"} @{ $Param{ExcludeUserLogins} };
-
-        push @SQLWhere, "$Self->{CustomerKey} NOT IN ($InString)";
+        push @SQLWhere, $SQLQueryInCondition;
     }
 
     # Add the valid option if needed.
@@ -853,8 +854,7 @@ sub CustomerSearchDetail {
 
         my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
-        push @SQLWhere,
-            "$Self->{CustomerUserMap}->{CustomerValid} IN (" . join( ', ', $ValidObject->ValidIDsGet() ) . ") ";
+        push @SQLWhere, "$Self->{CustomerUserMap}->{CustomerValid} IN (" . join( ', ', $ValidObject->ValidIDsGet() ) . ") ";
     }
 
     # Check if OrderBy contains only unique valid values.

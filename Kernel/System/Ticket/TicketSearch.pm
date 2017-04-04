@@ -525,12 +525,14 @@ sub TicketSearch {
     # Limit the search to just one (or a list) TicketID (used by the GenericAgent
     #   to filter for events on single tickets with the job's ticket filter).
     if ( $Param{TicketID} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.id',
-            IDRef       => ref( $Param{TicketID} ) && ref( $Param{TicketID} ) eq 'ARRAY'
-            ? $Param{TicketID}
-            : [ $DBObject->Quote( $Param{TicketID}, 'Integer' ) ],
+
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.id',
+            Values    => ref $Param{TicketID} eq 'ARRAY' ? $Param{TicketID} : [ $Param{TicketID} ],
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # add ticket flag table
@@ -587,10 +589,13 @@ sub TicketSearch {
 
     # type ids
     if ( $Param{TypeIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.type_id',
-            IDRef       => $Param{TypeIDs},
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.type_id',
+            Values    => $Param{TypeIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created types lookup
@@ -622,11 +627,14 @@ sub TicketSearch {
 
         if ($HistoryTypeID) {
 
-            # create sql part
-            $SQLExt .= $Self->_InConditionGet(
-                TableColumn => 'th.type_id',
-                IDRef       => $Param{CreatedTypeIDs},
+            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+                Key       => 'th.type_id',
+                Values    => $Param{CreatedTypeIDs},
+                QuoteType => 'Integer',
+                BindMode  => 0,
             );
+            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
@@ -652,10 +660,13 @@ sub TicketSearch {
 
     # state ids
     if ( $Param{StateIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.ticket_state_id',
-            IDRef       => $Param{StateIDs},
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.ticket_state_id',
+            Values    => $Param{StateIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created states lookup
@@ -687,11 +698,14 @@ sub TicketSearch {
 
         if ($HistoryTypeID) {
 
-            # create sql part
-            $SQLExt .= $Self->_InConditionGet(
-                TableColumn => 'th.state_id',
-                IDRef       => $Param{CreatedStateIDs},
+            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+                Key       => 'th.state_id',
+                Values    => $Param{CreatedStateIDs},
+                QuoteType => 'Integer',
+                BindMode  => 0,
             );
+            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
@@ -762,26 +776,35 @@ sub TicketSearch {
 
     # lock ids
     if ( $Param{LockIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.ticket_lock_id',
-            IDRef       => $Param{LockIDs},
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.ticket_lock_id',
+            Values    => $Param{LockIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # current owner user ids
     if ( $Param{OwnerIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.user_id',
-            IDRef       => $Param{OwnerIDs},
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.user_id',
+            Values    => $Param{OwnerIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # current responsible user ids
     if ( $Param{ResponsibleIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.responsible_user_id',
-            IDRef       => $Param{ResponsibleIDs},
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.responsible_user_id',
+            Values    => $Param{ResponsibleIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created user ids
@@ -794,11 +817,14 @@ sub TicketSearch {
 
         if ($HistoryTypeID) {
 
-            # create sql part
-            $SQLExt .= $Self->_InConditionGet(
-                TableColumn => 'th.create_by',
-                IDRef       => $Param{CreatedUserIDs},
+            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+                Key       => 'th.create_by',
+                Values    => $Param{CreatedUserIDs},
+                QuoteType => 'Integer',
+                BindMode  => 0,
             );
+            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
@@ -847,10 +873,14 @@ sub TicketSearch {
 
     # current queue ids
     if ( $Param{QueueIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.queue_id',
-            IDRef       => $Param{QueueIDs},
+
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.queue_id',
+            Values    => $Param{QueueIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created queue lookup
@@ -882,11 +912,14 @@ sub TicketSearch {
 
         if ($HistoryTypeID) {
 
-            # create sql part
-            $SQLExt .= $Self->_InConditionGet(
-                TableColumn => 'th.queue_id',
-                IDRef       => $Param{CreatedQueueIDs},
+            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+                Key       => 'th.queue_id',
+                Values    => $Param{CreatedQueueIDs},
+                QuoteType => 'Integer',
+                BindMode  => 0,
             );
+            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
@@ -981,10 +1014,14 @@ sub TicketSearch {
 
     # priority ids
     if ( $Param{PriorityIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.ticket_priority_id',
-            IDRef       => $Param{PriorityIDs},
+
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.ticket_priority_id',
+            Values    => $Param{PriorityIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created priority lookup
@@ -1016,11 +1053,14 @@ sub TicketSearch {
 
         if ($HistoryTypeID) {
 
-            # create sql part
-            $SQLExt .= $Self->_InConditionGet(
-                TableColumn => 'th.priority_id',
-                IDRef       => $Param{CreatedPriorityIDs},
+            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+                Key       => 'th.priority_id',
+                Values    => $Param{CreatedPriorityIDs},
+                QuoteType => 'Integer',
+                BindMode  => 0,
             );
+            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
@@ -1046,10 +1086,13 @@ sub TicketSearch {
 
     # service ids
     if ( $Param{ServiceIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.service_id',
-            IDRef       => $Param{ServiceIDs},
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.service_id',
+            Values    => $Param{ServiceIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # current sla lookup
@@ -1073,18 +1116,24 @@ sub TicketSearch {
 
     # sla ids
     if ( $Param{SLAIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'st.sla_id',
-            IDRef       => $Param{SLAIDs},
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'st.sla_id',
+            Values    => $Param{SLAIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # watch user ids
     if ( $Param{WatchUserIDs} ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'tw.user_id',
-            IDRef       => $Param{WatchUserIDs},
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'tw.user_id',
+            Values    => $Param{WatchUserIDs},
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # add ticket flag extension
@@ -1239,10 +1288,13 @@ sub TicketSearch {
 
     # restrict search from customers to only customer articles
     if ( $Param{CustomerUserID} && $ArticleIndexSQLExt ) {
-        $SQLExt .= $Self->_InConditionGet(
-            TableColumn => 'art.article_type_id',
-            IDRef       => \@CustomerArticleTypeIDs,
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => 'art.article_type_id',
+            Values    => \@CustomerArticleTypeIDs,
+            QuoteType => 'Integer',
+            BindMode  => 0,
         );
+        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # only search for attachment name if Article Storage is set to DB
@@ -1271,10 +1323,13 @@ sub TicketSearch {
 
         # restrict search from customers to only customer articles
         if ( $Param{CustomerUserID} ) {
-            $SQLExt .= $Self->_InConditionGet(
-                TableColumn => 'art_for_att.article_type_id',
-                IDRef       => \@CustomerArticleTypeIDs,
+            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+                Key       => 'art_for_att.article_type_id',
+                Values    => \@CustomerArticleTypeIDs,
+                QuoteType => 'Integer',
+                BindMode  => 0,
             );
+            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
         }
     }
 
@@ -2436,92 +2491,15 @@ sub SearchStringStopWordsUsageWarningActive {
     my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
     my $SearchIndexModule   = $ConfigObject->Get('Ticket::SearchIndexModule');
     my $WarnOnStopWordUsage = $ConfigObject->Get('Ticket::SearchIndex::WarnOnStopWordUsage') || 0;
-    if (
-        $SearchIndexModule eq 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB'
-        && $WarnOnStopWordUsage
-        )
-    {
+
+    if ( $SearchIndexModule eq 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB' && $WarnOnStopWordUsage ) {
         return 1;
     }
 
     return 0;
 }
 
-=begin Internal:
-
-=cut
-
-=head2 _InConditionGet()
-
-internal function to create an
-
-    AND table.column IN (values)
-
-condition string from an array.
-
-    my $SQLPart = $TicketObject->_InConditionGet(
-        TableColumn => 'table.column',
-        IDRef       => $ArrayRef,
-    );
-
-=cut
-
-sub _InConditionGet {
-    my ( $Self, %Param ) = @_;
-
-    if ( !$Param{TableColumn} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need TableColumn!",
-        );
-        return;
-    }
-
-    if ( !$Param{IDRef} || ref $Param{IDRef} ne 'ARRAY' || !@{ $Param{IDRef} } ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need IDRef!",
-        );
-        return;
-    }
-
-    # sort ids to cache the SQL query
-    my @SortedIDs = sort { $a <=> $b } @{ $Param{IDRef} };
-
-    # Error out if some values were not integers.
-    @SortedIDs = map { $Kernel::OM->Get('Kernel::System::DB')->Quote( $_, 'Integer' ) } @SortedIDs;
-    return if scalar @SortedIDs != scalar @{ $Param{IDRef} };
-
-    # split IN statement with more than 900 elements in more statements combined with OR
-    # because Oracle doesn't support more than 1000 elements for one IN statement.
-    my @SQLStrings;
-    while ( scalar @SortedIDs ) {
-
-        # remove section in the array
-        my @SortedIDsPart = splice @SortedIDs, 0, 900;
-
-        # link together IDs
-        my $IDString = join ', ', @SortedIDsPart;
-
-        # add new statement
-        push @SQLStrings, " $Param{TableColumn} IN ($IDString) ";
-    }
-
-    my $SQL = '';
-    if (@SQLStrings) {
-
-        # combine statements
-        $SQL = join ' OR ', @SQLStrings;
-
-        # encapsulate conditions
-        $SQL = ' AND ( ' . $SQL . ' ) ';
-    }
-    return $SQL;
-}
-
 1;
-
-=end Internal:
 
 =head1 TERMS AND CONDITIONS
 

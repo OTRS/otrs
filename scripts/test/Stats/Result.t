@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
 use Kernel::System::VariableCheck qw(:all);
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -434,8 +433,7 @@ my @Tests = (
     # Y-Axis: 'OrderBy' - Age, 'SortSequence' - Up
     # Restrictions: 'QueueIDs' to select only the created tickets for the test
     {
-        Description =>
-            "Test dynamic list stat with 'Age' column, expecting result in human readable format",
+        Description => "Test dynamic list stat with 'Age' column, expecting result in human readable format",
         TimeStamp   => '2015-09-11 04:35:00',
         Language    => 'en',
         StatsUpdate => {
@@ -544,6 +542,104 @@ my @Tests = (
                 10,
                 $TicketIDs[7]->{TicketNumber},
                 '10 h 35 m',
+            ],
+        ],
+    },
+
+    # Test dynamic list stat with some columns and a restriction for 'StateIDsHistoric' (to test ticket history sql)
+    # Fixed TimeStamp: '2015-09-11 04:35:00'
+    # TimeZone: -
+    # X-Axis: 'TicketAttributes' - Number, TicketNumber, Age
+    # Y-Axis: 'OrderBy' - TicketNumber, 'SortSequence' - Up
+    # Restrictions: 'QueueIDs' to select only the created tickets for the test
+    #               'StateIDsHistoric' => 'open'
+    {
+        Description => "Test dynamic list stat with some columns and a restriction for 'StateIDsHistoric' (to test ticket history sql)",
+        TimeStamp   => '2015-09-11 20:00:00',
+        Language    => 'en',
+        StatsUpdate => {
+            StatID => $DynamicListStatID,
+            Hash   => {
+                UseAsXvalue => [
+                    {
+                        'Element'        => 'TicketAttributes',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Number',
+                            'TicketNumber',
+                            'Title',
+                            'Created',
+                            'Queue',
+                        ],
+                    },
+                ],
+                UseAsValueSeries => [
+                    {
+                        'Element'        => 'OrderBy',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'TicketNumber',
+                        ],
+                    },
+                    {
+                        'Element'        => 'SortSequence',
+                        'Block'          => 'SelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            'Up',
+                        ],
+                    },
+                ],
+                UseAsRestriction => [
+                    {
+                        'Element'        => 'QueueIDs',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => \@QueueIDs,
+                    },
+                    {
+                        'Element'        => 'StateIDsHistoric',
+                        'Block'          => 'MultiSelectField',
+                        'Selected'       => 1,
+                        'Fixed'          => 1,
+                        'SelectedValues' => [
+                            $LookupStateList{'open'},
+                        ],
+                    }
+                ],
+            },
+            UserID => 1,
+        },
+        ReferenceResultData => [
+            [
+                'Title for result tests',
+            ],
+            [
+                'Number',
+                'Ticket#',
+                'Title',
+                'Created',
+                'Queue',
+            ],
+            [
+                1,
+                $TicketIDs[0]->{TicketNumber},
+                $TicketIDs[0]->{Title},
+                $TicketIDs[0]->{Created},
+                $TicketIDs[0]->{Queue},
+            ],
+            [
+                2,
+                $TicketIDs[6]->{TicketNumber},
+                $TicketIDs[6]->{Title},
+                $TicketIDs[6]->{Created},
+                $TicketIDs[6]->{Queue},
             ],
         ],
     },

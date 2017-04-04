@@ -490,7 +490,7 @@ sub CustomerCompanySearchDetail {
     # Execute a dynamic field search, if a dynamic field where statement exists.
     if ( $SQLDynamicFieldFrom && $SQLDynamicFieldWhere ) {
 
-        my @DynamicFieldUserLogins;
+        my @DynamicFieldCustomerIDs;
 
         # Sql uery for the dynamic fields.
         my $SQLDynamicField
@@ -510,7 +510,7 @@ sub CustomerCompanySearchDetail {
 
             if ( defined $DynamicFieldSearchCacheData ) {
                 if ( ref $DynamicFieldSearchCacheData eq 'ARRAY' ) {
-                    @DynamicFieldUserLogins = @{$DynamicFieldSearchCacheData};
+                    @DynamicFieldCustomerIDs = @{$DynamicFieldSearchCacheData};
 
                     # Set the used cache flag.
                     $UsedCache = 1;
@@ -533,14 +533,14 @@ sub CustomerCompanySearchDetail {
             );
 
             while ( my @Row = $DBObject->FetchrowArray() ) {
-                push @DynamicFieldUserLogins, $Row[0];
+                push @DynamicFieldCustomerIDs, $Row[0];
             }
 
             if ( $Self->{CacheObject} ) {
                 $Self->{CacheObject}->Set(
                     Type  => $Self->{CacheType} . '_CustomerSearchDetailDynamicFields',
                     Key   => $SQLDynamicField,
-                    Value => \@DynamicFieldUserLogins,
+                    Value => \@DynamicFieldCustomerIDs,
                     TTL   => $Self->{CustomerCompanyMap}->{CacheTTL},
                 );
             }
@@ -549,15 +549,15 @@ sub CustomerCompanySearchDetail {
         # Add the user logins from the dynamic fields, if a search result exists from the dynamic field search
         #   or skip the search and return a emptry array ref (or zero for the result 'COUNT', if no user logins exists
         #   from the dynamic field search.
-        if (@DynamicFieldUserLogins) {
+        if (@DynamicFieldCustomerIDs) {
 
-            for my $OneParam (@DynamicFieldUserLogins) {
-                $OneParam = $DBObject->Quote($OneParam);
-            }
+            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+                Key       => $Self->{CustomerCompanyKey},
+                Values    => \@DynamicFieldCustomerIDs,
+                BindMode  => 0,
+            );
 
-            my $InString = join ', ', map {"'$_'"} @DynamicFieldUserLogins;
-
-            push @SQLWhere, "$Self->{CustomerCompanyKey} IN ($InString)";
+            push @SQLWhere, $SQLQueryInCondition;
         }
         else {
             return $Result eq 'COUNT' ? 0 : [];
@@ -569,13 +569,13 @@ sub CustomerCompanySearchDetail {
 
         next FIELD if !@{ $Param{ $Field->{Name} } };
 
-        for my $OneParam ( @{ $Param{ $Field->{Name} } } ) {
-            $OneParam = $DBObject->Quote($OneParam);
-        }
+        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            Key       => $Field->{DatabaseField},
+            Values    => $Param{ $Field->{Name} },
+            BindMode  => 0,
+        );
 
-        my $InString = join ', ', map {"'$_'"} @{ $Param{ $Field->{Name} } };
-
-        push @SQLWhere, "$Field->{DatabaseField} IN ($InString)";
+        push @SQLWhere, $SQLQueryInCondition;
     }
 
     # Add the valid option if needed.

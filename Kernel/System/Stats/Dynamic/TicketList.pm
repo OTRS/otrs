@@ -1093,14 +1093,18 @@ sub GetStatTable {
         )
     {
 
+        my $SQLTicketIDInCondition = $DBObject->QueryInCondition(
+            Key       => 'ticket_id',
+            Values    => \@TicketIDs,
+            QuoteType => 'Integer',
+            BindMode  => 0,
+        );
+
         # start building the SQL query from back to front
         # what's fixed is the history_type_id we have to search for
         # 1 is ticketcreate
         # 27 is state update
-        my $SQL = 'history_type_id IN (1,27) ORDER BY ticket_id ASC';
-
-        $SQL = 'ticket_id IN ('
-            . ( join ', ', @TicketIDs ) . ') AND ' . $SQL;
+        my $SQL = $SQLTicketIDInCondition . ' AND history_type_id IN (1,27) ORDER BY ticket_id ASC';
 
         my %StateIDs;
 
