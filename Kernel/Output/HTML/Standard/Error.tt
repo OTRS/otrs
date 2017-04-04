@@ -21,7 +21,7 @@
                     [% Data.Comment | html %].
                 </p>
 
-                <form action="http://bugs.otrs.org/enter_bug.cgi">
+                <form action="https://bugs.otrs.org/enter_bug.cgi">
 
                     <textarea class="Hidden" name="comment" rows="1" cols="1"><![CDATA[
 Message:
