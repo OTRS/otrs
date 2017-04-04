@@ -43,6 +43,9 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# get random id
+my $RandomID = $Helper->GetRandomID();
+
 # get needed objects
 my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject             = $Kernel::OM->Get('Kernel::System::Queue');
@@ -51,8 +54,8 @@ my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerato
 my $CustomerCompanyObject   = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
 # create test company
-my $TestCustomerID    = $Helper->GetRandomID() . "CID";
-my $TestCompanyName   = "Company" . $Helper->GetRandomID();
+my $TestCustomerID    = $RandomID . "CID";
+my $TestCompanyName   = "Company" . $RandomID;
 my $CustomerCompanyID = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
     CustomerID             => $TestCustomerID,
     CustomerCompanyName    => $TestCompanyName,
@@ -71,9 +74,9 @@ $Self->True(
 );
 
 # create test customer user
-my $TestUserLogin      = 'Customer' . $Helper->GetRandomID();
-my $TestUserFirstname  = 'Firstname' . $Helper->GetRandomID();
-my $TestUserLastname   = 'Lastname' . $Helper->GetRandomID();
+my $TestUserLogin      = 'Customer' . $RandomID;
+my $TestUserFirstname  = 'Firstname' . $RandomID;
+my $TestUserLastname   = 'Lastname' . $RandomID;
 my $CustomerEmail      = "$TestUserLogin\@localhost.com";
 my $TestCustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
     Source         => 'CustomerUser',
@@ -92,11 +95,11 @@ $Self->True(
 
 my @Tests = (
     {
-        Name       => 'Test supported tags -<OTRS_CUSTOMER_REALNAME> and <OTRS_CUSTOMER_DATA_UserEmail>',
+        Name       => 'Test supported tags -<OTRS_CUSTOMER_REALNAME> and <OTRS_CUSTOMER_DATA_USEREMAIL>',
         Salutation => "Dear <OTRS_CUSTOMER_REALNAME>,
 
     Thank you for your request. Your email address in our database
-    is \"<OTRS_CUSTOMER_DATA_UserEmail>\".
+    is \"<OTRS_CUSTOMER_DATA_USEREMAIL>\".
     ",
         ExpectedResult => "Dear $TestUserFirstname $TestUserLastname,
 
