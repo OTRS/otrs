@@ -283,6 +283,50 @@ $Self->True(
     "TicketCreate() successful for Ticket ID $TicketID",
 );
 
+# create first article
+my $ArticleID1 = $TicketObject->ArticleCreate(
+    TicketID       => $TicketID,
+    ArticleType    => 'email-external',
+    SenderType     => 'customer',
+    Subject        => 'Article 1',
+    Body           => 'This is the first article',
+    Charset        => 'ISO-8859-15',
+    MimeType       => 'text/plain',
+    HistoryType    => 'EmailCustomer',
+    HistoryComment => 'Some free text!',
+    UserID         => 1,
+    From           => "$CustomerUserLogin\@localunittest.com",
+    To             => 'test1@otrsexample.com',
+    Cc             => 'test2@otrsexample.com',
+);
+
+$Self->True(
+    $ArticleID1,
+    "Article is created - ID $ArticleID1",
+);
+
+# create last article
+my $ArticleID2 = $TicketObject->ArticleCreate(
+    TicketID       => $TicketID,
+    ArticleType    => 'email-external',
+    SenderType     => 'customer',
+    Subject        => 'Article 2',
+    Body           => 'This is the last article',
+    Charset        => 'ISO-8859-15',
+    MimeType       => 'text/plain',
+    HistoryType    => 'EmailCustomer',
+    HistoryComment => 'Some free text!',
+    UserID         => 1,
+    From           => "$CustomerUserLogin\@localunittest.com",
+    To             => 'test3@otrsexample.com',
+    Cc             => 'test4@otrsexample.com',
+);
+
+$Self->True(
+    $ArticleID2,
+    "Article is created - ID $ArticleID2",
+);
+
 my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
@@ -1078,6 +1122,122 @@ my @Tests = (
             {
                 ToArray => [ 'bar@foo.com', 'foo@bar.com' ],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'AllRecipientsFirstArticle',
+        Data => {
+            Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients => ['AllRecipientsFirstArticle'],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray =>
+                    [ "$CustomerUserLogin\@localunittest.com", 'test1@otrsexample.com', 'test2@otrsexample.com' ],
+                Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'AllRecipientsLastArticle',
+        Data => {
+            Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients => ['AllRecipientsLastArticle'],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray =>
+                    [ "$CustomerUserLogin\@localunittest.com", 'test3@otrsexample.com', 'test4@otrsexample.com' ],
+                Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'AllRecipientsFirstArticle + Customer',
+        Data => {
+            Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients => [ 'AllRecipientsFirstArticle', 'Customer' ],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ "$CustomerUserLogin\@localunittest.com", 'test1@otrsexample.com', 'test2@otrsexample.com' ],
+                Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'AllRecipientsLastArticle + Customer',
+        Data => {
+            Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients => [ 'AllRecipientsLastArticle', 'Customer' ],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ "$CustomerUserLogin\@localunittest.com", 'test3@otrsexample.com', 'test4@otrsexample.com' ],
+                Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'AllRecipientsFirstArticle + AllRecipientsLastArticle + Customer',
+        Data => {
+            Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients => [ 'AllRecipientsFirstArticle', 'AllRecipientsLastArticle', 'Customer' ],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ "$CustomerUserLogin\@localunittest.com", 'test1@otrsexample.com', 'test2@otrsexample.com' ],
+                Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => [ 'test3@otrsexample.com', 'test4@otrsexample.com' ],
+                Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
         Success => 1,

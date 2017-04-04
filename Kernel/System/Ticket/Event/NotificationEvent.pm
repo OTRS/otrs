@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use List::Util qw(first);
+use Mail::Address;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -35,6 +36,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::Time',
     'Kernel::System::User',
+    'Kernel::System::CheckItem',
 );
 
 sub new {
@@ -588,6 +590,7 @@ sub _RecipientsGet {
 
     my @RecipientUserIDs;
     my @RecipientUsers;
+    my @RecipientUserEmails;
 
     # add pre-calculated recipient
     if ( IsArrayRefWithData( $Param{Data}->{Recipients} ) ) {
@@ -603,8 +606,11 @@ sub _RecipientsGet {
     if ( $Notification{Data}->{Recipients} ) {
 
         # get needed objects
-        my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
-        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
+        my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my $CheckItemObject     = $Kernel::OM->Get('Kernel::System::CheckItem');
+        my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+        my $UserObject          = $Kernel::OM->Get('Kernel::System::User');
 
         RECIPIENT:
         for my $Recipient ( @{ $Notification{Data}->{Recipients} } ) {
@@ -810,7 +816,136 @@ sub _RecipientsGet {
                     $Recipient{Realname} =~ s/( $)|(  $)//g;
                 }
 
+                # Skip notification if email address is already used by other groups.
+                next RECIPIENT if grep { $_ eq $Recipient{UserEmail} } @RecipientUserEmails;
+
+                # Push Email Addresses into array to prevent multiple notifications.
+                push @RecipientUserEmails, $Recipient{UserEmail};
+
                 push @RecipientUsers, \%Recipient;
+            }
+            elsif ( $Recipient eq 'AllRecipientsFirstArticle' || $Recipient eq 'AllRecipientsLastArticle' ) {
+
+                my %Article;
+                my @ArticleIndex;
+
+                # Get the first or the last article.
+                if ( $Recipient eq 'AllRecipientsFirstArticle' ) {
+                    @ArticleIndex = $TicketObject->ArticleGet(
+                        TicketID          => $Param{Data}->{TicketID},
+                        ArticleSenderType => [ 'agent', 'customer' ],
+                        DynamicFields     => 0,
+                        Order             => 'ASC',
+                        Limit             => 1,
+                    );
+                }
+                elsif ( $Recipient eq 'AllRecipientsLastArticle' ) {
+                    @ArticleIndex = $TicketObject->ArticleGet(
+                        TicketID          => $Param{Data}->{TicketID},
+                        ArticleSenderType => [ 'agent', 'customer' ],
+                        DynamicFields     => 0,
+                        Order             => 'DESC',
+                        Limit             => 1,
+                    );
+                }
+
+                if ( IsHashRefWithData( $ArticleIndex[0] ) ) {
+                    %Article = %{ $ArticleIndex[0] };
+                }
+
+                if ( !%Article ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'info',
+                        Message  => 'Send no notification to the '
+                            . "$Recipient group because no article found!",
+                    );
+                    next RECIPIENT;
+                }
+
+                if ( $Article{ArticleType} eq 'email-internal' || $Article{ArticleType} eq 'email-external' ) {
+
+                    my %Recipient;
+                    my @AllRecipients;
+                    my @TmpRecipients;
+                    my @TmpRecipientAgents;
+                    my @RecipientAgents;
+
+                    # Get recipient agents to prevent multiple notifications
+                    if ( IsArrayRefWithData( $Notification{Data}->{RecipientAgents} ) ) {
+                        @RecipientAgents = @{ $Notification{Data}->{RecipientAgents} };
+                    }
+
+                    if (@RecipientAgents) {
+                        for my $UserID (@RecipientAgents) {
+
+                            my %User = $UserObject->GetUserData(
+                                UserID => $UserID,
+                            );
+
+                            push @TmpRecipientAgents, $User{UserEmail};
+                        }
+                    }
+
+                    # Get all recipients from the article.
+                    ALLRECIPIENTS:
+                    for my $Header (qw(From To Cc)) {
+
+                        next ALLRECIPIENTS if !$Article{$Header};
+
+                        push @TmpRecipients, split ',', $Article{$Header};
+                    }
+
+                    # Loop through recipients.
+                    EMAIL:
+                    for my $Email ( Mail::Address->parse(@TmpRecipients) ) {
+
+                        # Skip notification if email address is already used by other groups.
+                        next EMAIL if grep { $_ eq $Email->address() } @RecipientUserEmails;
+
+                        # Validate email address.
+                        my $Valid = $CheckItemObject->CheckEmail(
+                            Address => $Email->address(),
+                        );
+
+                        # Skip invalid.
+                        next EMAIL if !$Valid;
+
+                        # Check if email address is a local.
+                        my $IsLocal = $SystemAddressObject->SystemAddressIsLocalAddress(
+                            Address => $Email->address(),
+                        );
+
+                        # Skip local email address.
+                        next EMAIL if $IsLocal;
+
+                        # Skip email addresses from agents selected by other groups.
+                        next EMAIL if grep { $_ eq $Email->address() } @TmpRecipientAgents;
+
+                        push @AllRecipients, $Email->address();
+
+                        # Push Email Addresses into array to prevent multiple notifications.
+                        push @RecipientUserEmails, $Email->address();
+                    }
+
+                    # Merge recipients.
+                    $Recipient{UserEmail} = join( ',', @AllRecipients );
+
+                    $Recipient{Type} = 'Customer';
+
+                    # Get user language.
+                    $Recipient{Language} = $ConfigObject->Get('DefaultLanguage') || 'en';
+
+                    push @RecipientUsers, \%Recipient;
+
+                }
+                else {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'info',
+                        Message  => 'Send no notification to the '
+                            . "$Recipient group because due wrong article type!",
+                    );
+                    next RECIPIENT;
+                }
             }
         }
     }
