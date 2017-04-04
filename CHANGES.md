@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-04-04 Follow-up fix for bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
  - 2017-04-04 Fixed bug#[12746](https://bugs.otrs.org/show_bug.cgi?id=12746) - ACL ignores checks on dynamic fields.
  - 2017-04-02 Fixed bug#[10825](https://bugs.otrs.org/show_bug.cgi?id=10825)(PR#936) -  - <OTRS_CUSTOMER_Body> in Reply-Template, thanks to S7.
  - 2017-03-31 Follow-up fix: Activity dialog doesn't check process status before submit (bug#12443), thanks to Balázs Úr.
