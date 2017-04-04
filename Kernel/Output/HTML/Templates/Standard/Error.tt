@@ -32,7 +32,7 @@
                 </div>
                 [% END %]
 
-                <form action="http://bugs.otrs.org/enter_bug.cgi" target="_blank">
+                <form action="https://bugs.otrs.org/enter_bug.cgi" target="_blank">
                     <input type="hidden" name="product" value="OTRS Helpdesk" />
 
                     <textarea class="Hidden" name="comment" rows="1" cols="1">
