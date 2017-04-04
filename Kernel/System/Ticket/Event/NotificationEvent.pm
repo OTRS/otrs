@@ -831,7 +831,7 @@ sub _RecipientsGet {
 
                 # Get the first or the last article.
                 if ( $Recipient eq 'AllRecipientsFirstArticle' ) {
-                    @ArticleIndex = $TicketObject->ArticleGet(
+                    @ArticleIndex = $ArticleObject->ArticleGet(
                         TicketID          => $Param{Data}->{TicketID},
                         ArticleSenderType => [ 'agent', 'customer' ],
                         DynamicFields     => 0,
@@ -840,7 +840,7 @@ sub _RecipientsGet {
                     );
                 }
                 elsif ( $Recipient eq 'AllRecipientsLastArticle' ) {
-                    @ArticleIndex = $TicketObject->ArticleGet(
+                    @ArticleIndex = $ArticleObject->ArticleGet(
                         TicketID          => $Param{Data}->{TicketID},
                         ArticleSenderType => [ 'agent', 'customer' ],
                         DynamicFields     => 0,

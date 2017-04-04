@@ -283,8 +283,11 @@ $Self->True(
     "TicketCreate() successful for Ticket ID $TicketID",
 );
 
+# get article object
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
 # create first article
-my $ArticleID1 = $TicketObject->ArticleCreate(
+my $ArticleID1 = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-external',
     SenderType     => 'customer',
@@ -306,7 +309,7 @@ $Self->True(
 );
 
 # create last article
-my $ArticleID2 = $TicketObject->ArticleCreate(
+my $ArticleID2 = $ArticleObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-external',
     SenderType     => 'customer',
@@ -327,8 +330,9 @@ $Self->True(
     "Article is created - ID $ArticleID2",
 );
 
-my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DynamicFieldValueObject   = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 # Create test ticket dynamic field of type checkbox.
 my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -349,16 +353,16 @@ $Self->True(
     "DynamicFieldAdd - Added checkbox field ($FieldID)",
 );
 
+my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID,
+);
+
 # Set ticket dynamic field checkbox value to unchecked.
-$Success = $DynamicFieldValueObject->ValueSet(
-    FieldID  => $FieldID,
-    ObjectID => $TicketID,
-    Value    => [
-        {
-            ValueInt => 0,
-        },
-    ],
-    UserID => 1,
+$Success = $DynamicFieldBackendObject->ValueSet(
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    Value              => 0,
+    UserID             => 1,
 );
 $Self->True(
     $Success,
@@ -384,16 +388,16 @@ $Self->True(
     "DynamicFieldAdd - Added text field ($FieldID)",
 );
 
-# Set ticket dynamic field checkbox value to unchecked.
-$Success = $DynamicFieldValueObject->ValueSet(
-    FieldID  => $FieldID,
-    ObjectID => $TicketID,
-    Value    => [
-        {
-            ValueText => 'foo@bar.com',
-        },
-    ],
-    UserID => 1,
+$DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID,
+);
+
+# Set ticket dynamic field value to additional email
+$Success = $DynamicFieldBackendObject->ValueSet(
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    Value              => 'foo@bar.com',
+    UserID             => 1,
 );
 $Self->True(
     $Success,
@@ -419,16 +423,16 @@ $Self->True(
     "DynamicFieldAdd - Added text field ($FieldID)",
 );
 
-# Set ticket dynamic field checkbox value to unchecked.
-$Success = $DynamicFieldValueObject->ValueSet(
-    FieldID  => $FieldID,
-    ObjectID => $TicketID,
-    Value    => [
-        {
-            ValueText => 'bar@foo.com',
-        },
-    ],
-    UserID => 1,
+$DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID,
+);
+
+# Set ticket dynamic field value to additional email
+$Success = $DynamicFieldBackendObject->ValueSet(
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    Value              => 'bar@foo.com',
+    UserID             => 1,
 );
 $Self->True(
     $Success,
@@ -446,8 +450,6 @@ $Self->True(
     $SuccessWatcher,
     "TicketWatchSubscribe() successful for Ticket ID $TicketID",
 );
-
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # get article types email-notification-int ID
 my $ArticleTypeIntID = $ArticleObject->ArticleTypeLookup(
@@ -1188,7 +1190,8 @@ my @Tests = (
         },
         ExpectedResults => [
             {
-                ToArray => [ "$CustomerUserLogin\@localunittest.com", 'test1@otrsexample.com', 'test2@otrsexample.com' ],
+                ToArray =>
+                    [ "$CustomerUserLogin\@localunittest.com", 'test1@otrsexample.com', 'test2@otrsexample.com' ],
                 Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
@@ -1210,7 +1213,8 @@ my @Tests = (
         },
         ExpectedResults => [
             {
-                ToArray => [ "$CustomerUserLogin\@localunittest.com", 'test3@otrsexample.com', 'test4@otrsexample.com' ],
+                ToArray =>
+                    [ "$CustomerUserLogin\@localunittest.com", 'test3@otrsexample.com', 'test4@otrsexample.com' ],
                 Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
@@ -1232,7 +1236,8 @@ my @Tests = (
         },
         ExpectedResults => [
             {
-                ToArray => [ "$CustomerUserLogin\@localunittest.com", 'test1@otrsexample.com', 'test2@otrsexample.com' ],
+                ToArray =>
+                    [ "$CustomerUserLogin\@localunittest.com", 'test1@otrsexample.com', 'test2@otrsexample.com' ],
                 Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
             {
