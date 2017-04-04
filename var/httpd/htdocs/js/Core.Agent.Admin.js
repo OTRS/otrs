@@ -33,7 +33,7 @@ Core.Agent.Admin = (function (TargetNS) {
 
         $('.SidebarColumn #Filter').focus();
 
-        $('.AddAsFavourite').on('click', function(Event) {
+        $('.AddAsFavourite').off('click.AddAsFavourite').on('click.AddAsFavourite', function(Event) {
             var $TriggerObj = $(this),
                 Module = $(this).data('module');
 
@@ -49,7 +49,7 @@ Core.Agent.Admin = (function (TargetNS) {
                     // also add the entry to the sidebar favourites list dynamically
                     FavouriteHTML = Core.Template.Render('Agent/Admin/Favourite', {
                         'Link'  : $TriggerObj.closest('a').attr('href'),
-                        'Name'  : $TriggerObj.closest('a').find('span.Title').text(),
+                        'Name'  : $TriggerObj.closest('a').find('span.Title').clone().children().remove().end().text(),
                         'Module': Module
                     });
 
@@ -69,7 +69,7 @@ Core.Agent.Admin = (function (TargetNS) {
                     // also add the entry to the sidebar favourites list dynamically
                     FavouriteHTML = Core.Template.Render('Agent/Admin/Favourite', {
                         'Link'  : $TriggerObj.closest('tr').find('a.ModuleLink').attr('href'),
-                        'Name'  : $TriggerObj.closest('tr').find('a.ModuleLink').text(),
+                        'Name'  : $TriggerObj.closest('tr').find('a.ModuleLink').clone().children().remove().end().text(),
                         'Module': Module
                     });
 
