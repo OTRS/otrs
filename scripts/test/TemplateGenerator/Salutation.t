@@ -38,10 +38,20 @@ $Self->True(
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
+        RestoreConfiguration => 1,
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# use Test email backend
+$ConfigObject->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::Test',
+);
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => '0',
+);
 
 # get random id
 my $RandomID = $Helper->GetRandomID();
@@ -74,10 +84,10 @@ $Self->True(
 );
 
 # create test customer user
-my $TestUserLogin      = 'Customer' . $RandomID;
+my $TestUserLogin      = 'CustomerLogin#' . $RandomID;
 my $TestUserFirstname  = 'Firstname' . $RandomID;
 my $TestUserLastname   = 'Lastname' . $RandomID;
-my $CustomerEmail      = "$TestUserLogin\@localhost.com";
+my $CustomerEmail      = "customer$TestUserLogin\@example.com";
 my $TestCustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => $TestUserFirstname,
@@ -85,6 +95,7 @@ my $TestCustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->Custo
     UserCustomerID => $TestCustomerID,
     UserLogin      => $TestUserLogin,
     UserEmail      => $CustomerEmail,
+    UserPassword   => 'some_pass',
     ValidID        => 1,
     UserID         => 1
 );
