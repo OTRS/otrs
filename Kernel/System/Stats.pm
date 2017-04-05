@@ -4277,7 +4277,6 @@ the time being, this method will return a string in English only.
 
     my $HumanReadableAge = $StatsObject->_HumanReadableAgeGet(
         Age   => 360,
-        Space => ' ',
     );
 
 Returns (converted seconds in human readable format, i.e. '1 d 2 h'):
@@ -4291,8 +4290,7 @@ sub _HumanReadableAgeGet {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
-    my $Space     = $Param{Space} || '<br/>';
+    my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
     my $AgeStrg   = '';
     my $DayDsc    = 'd';
     my $HourDsc   = 'h';
@@ -4310,15 +4308,13 @@ sub _HumanReadableAgeGet {
     # get days
     if ( $Age >= 86400 ) {
         $AgeStrg .= int( ( $Age / 3600 ) / 24 ) . ' ';
-        $AgeStrg .= $DayDsc;
-        $AgeStrg .= $Space;
+        $AgeStrg .= $DayDsc . ' ';
     }
 
     # get hours
     if ( $Age >= 3600 ) {
         $AgeStrg .= int( ( $Age / 3600 ) % 24 ) . ' ';
-        $AgeStrg .= $HourDsc;
-        $AgeStrg .= $Space;
+        $AgeStrg .= $HourDsc . ' ';
     }
 
     # get minutes (just if age < 1 day)

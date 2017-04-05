@@ -1281,8 +1281,7 @@ sub GetStatTable {
 
         # Format Ticket 'Age' param into human readable format.
         $Ticket{Age} = $StatsObject->_HumanReadableAgeGet(
-            Age   => $Ticket{Age},
-            Space => ' ',
+            Age => $Ticket{Age},
         );
 
         # add the accounted time if needed
