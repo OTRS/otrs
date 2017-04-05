@@ -497,6 +497,11 @@ sub Run {
                         $GetParam{ $TimeType . 'TimeNewerMinutes' } = 0;
                         $GetParam{ $TimeType . 'TimeOlderMinutes' } = -$Time;
                     }
+                    elsif ( $GetParam{ $TimeType . 'TimePointStart' } eq 'After' ) {
+
+                        # in more then ...
+                        $GetParam{ $TimeType . 'TimeNewerMinutes' } = -$Time;
+                    }
                     else {
 
                         # within last ...
@@ -1980,9 +1985,10 @@ sub Run {
                 'Last'   => Translatable('within the last ...'),
                 'Next'   => Translatable('within the next ...'),
                 'Before' => Translatable('more than ... ago'),
+                'After'  => Translatable('in more than ...'),
             },
             Name       => 'TicketPendingTimePointStart',
-            SelectedID => $GetParam{TicketPendingTimePointStart} || 'Last',
+            SelectedID => $GetParam{TicketPendingTimePointStart} || 'Next',
         );
         $Param{TicketPendingTimePointFormat} = $LayoutObject->BuildSelection(
             Data => {
