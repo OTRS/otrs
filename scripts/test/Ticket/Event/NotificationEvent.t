@@ -48,6 +48,17 @@ $Self->True(
     "Set Email Test backend with true",
 );
 
+# disable email checks to create new user
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+$ConfigObject->Set(
+    Key   => 'CheckMXRecord',
+    Value => 0,
+);
+
 # set default language to English
 $Success = $ConfigObject->Set(
     Key   => 'DefaultLanguage',
