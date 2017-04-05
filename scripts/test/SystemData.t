@@ -201,6 +201,7 @@ my %Storage = (
     Foo  => 'bar',
     Bar  => 'baz',
     Beef => 'spam',
+    Empty => '',
 );
 
 for my $Key ( sort keys %Storage ) {
