@@ -61,7 +61,7 @@ sub Run {
         From Subject Body NextStateID TimeUnits
         Year Month Day Hour Minute
         NewResponsibleID ResponsibleAll OwnerAll TypeID ServiceID SLAID
-        StandardTemplateID FromChatID
+        StandardTemplateID FromChatID Dest
         )
         )
     {
@@ -644,6 +644,14 @@ sub Run {
             )
         {
             $Self->{QueueID} = $SplitTicketParam{QueueID};
+        }
+
+        # Get predefined QueueID (if no queue from split ticket is set).
+        if ( !$Self->{QueueID} && $GetParam{Dest} ) {
+
+            my @QueueParts = split( /\|\|/, $GetParam{Dest} );
+            $Self->{QueueID} = $QueueParts[0];
+            $SplitTicketParam{ToSelected} = $GetParam{Dest};
         }
 
         # html output

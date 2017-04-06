@@ -134,12 +134,13 @@ Core.Agent.TicketEmail = (function (TargetNS) {
      *      Create on change event handler
      */
     function FieldUpdate (Value, ModifiedFields) {
-        var SignatureURL;
+        var SignatureURL, FieldValue;
         $('#' + Value).on('change', function () {
             Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', Value, ModifiedFields);
 
             if (Value === 'Dest') {
-                SignatureURL = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Signature;Dest=' + $(this).val();
+                FieldValue = $(this).val() || '';
+                SignatureURL = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Signature;Dest=' + FieldValue;
                 if (!Core.Config.Get('SessionIDCookie')) {
                     SignatureURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
                 }
