@@ -263,46 +263,36 @@ sub TableCreate {
                 $Shell = "/\n--";
             }
 
-            push(
-                @Return2,
-                "BEGIN\n"
-                    . "  EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';\n"
-                    . "EXCEPTION\n"
-                    . "  WHEN OTHERS THEN NULL;\n"
-                    . "END;\n"
-                    . "$Shell",
-            );
+            push @Return2, "BEGIN
+                EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
+                EXCEPTION
+                  WHEN OTHERS THEN NULL;
+                END;
+                $Shell";
 
-            push(
-                @Return2,
-                "CREATE SEQUENCE $Sequence\n"
-                    . "INCREMENT BY 1\n"
-                    . "START WITH 1\n"
-                    . "NOMAXVALUE\n"
-                    . "NOCYCLE\n"
-                    . "CACHE 20\n"
-                    . "ORDER",
-            );
+            push @Return2, "CREATE SEQUENCE $Sequence
+                INCREMENT BY 1
+                START WITH 1
+                NOMAXVALUE
+                NOCYCLE
+                CACHE 20
+                ORDER";
 
-            push(
-                @Return2,
-                "CREATE OR REPLACE TRIGGER $Sequence"
-                    . "_t\n"
-                    . "BEFORE INSERT ON $TableName\n"
-                    . "FOR EACH ROW\n"
-                    . "BEGIN\n"
-                    . "  IF :new.$Tag->{Name} IS NULL THEN\n"
-                    . "    SELECT $Sequence.nextval\n"
-                    . "    INTO :new.$Tag->{Name}\n"
-                    . "    FROM DUAL;\n"
-                    . "  END IF;\n"
-                    . "END;\n"
-                    . "$Shell",
-            );
+            push @Return2, "CREATE OR REPLACE TRIGGER $Sequence" . "_t
+                BEFORE INSERT ON $TableName
+                FOR EACH ROW
+                BEGIN
+                  IF :new.$Tag->{Name} IS NULL THEN
+                    SELECT $Sequence.nextval
+                    INTO :new.$Tag->{Name}
+                    FROM DUAL;
+                  END IF;
+                END;
+                $Shell";
         }
     }
 
-    # add uniq
+    # add unique
     for my $Name ( sort keys %Uniq ) {
         my $Unique = $Name;
         if ( length $Unique > 30 ) {
