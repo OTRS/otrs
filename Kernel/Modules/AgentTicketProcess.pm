@@ -1189,6 +1189,17 @@ sub _GetParam {
         }
     }
 
+    my $Dest = $ParamObject->GetParam( Param => 'Dest' ) || '';
+    if ($Dest) {
+
+        my @QueueParts = split( /\|\|/, $Dest );
+
+        $GetParam{QueueID} = $QueueParts[0];
+        $GetParam{Queue}   = $QueueParts[1];
+
+        $ValuesGotten{QueueID} = 1;
+    }
+
     # get also the IDs for the Required files (if they are not present)
     if ( $GetParam{Queue} && !$GetParam{QueueID} ) {
         $GetParam{QueueID} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $GetParam{Queue} );

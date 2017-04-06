@@ -80,7 +80,7 @@ sub Run {
     for my $Key (
         qw(Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
         TypeID ServiceID SLAID OwnerAll ResponsibleAll NewResponsibleID NewUserID
-        NextStateID StandardTemplateID
+        NextStateID StandardTemplateID Dest
         )
         )
     {
@@ -510,6 +510,14 @@ sub Run {
                 );
             }
 
+            my $Dest = '';
+            if ( !$Self->{QueueID} && $GetParam{Dest} ) {
+
+                my @QueueParts = split( /\|\|/, $GetParam{Dest} );
+                $Self->{QueueID} = $QueueParts[0];
+                $Dest = $GetParam{Dest};
+            }
+
             # html output
             my $Services = $Self->_GetServices(
                 QueueID => $Self->{QueueID} || 1,
@@ -559,6 +567,7 @@ sub Run {
                     %ACLCompatGetParam,
                     QueueID => $Self->{QueueID}
                 ),
+                FromSelected      => $Dest,
                 To                => '',
                 Subject           => $Subject,
                 Body              => $Body,
