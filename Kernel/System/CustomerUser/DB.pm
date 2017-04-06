@@ -798,9 +798,9 @@ sub CustomerSearchDetail {
         if (@DynamicFieldUserLogins) {
 
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
-                Key       => $Self->{CustomerKey},
-                Values    => \@DynamicFieldUserLogins,
-                BindMode  => 0,
+                Key      => $Self->{CustomerKey},
+                Values   => \@DynamicFieldUserLogins,
+                BindMode => 0,
             );
 
             push @SQLWhere, $SQLQueryInCondition;
@@ -816,9 +816,9 @@ sub CustomerSearchDetail {
         next FIELD if !@{ $Param{ $Field->{Name} } };
 
         my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
-            Key       => $Field->{DatabaseField},
-            Values    => $Param{ $Field->{Name} },
-            BindMode  => 0,
+            Key      => $Field->{DatabaseField},
+            Values   => $Param{ $Field->{Name} },
+            BindMode => 0,
         );
 
         push @SQLWhere, $SQLQueryInCondition;
@@ -828,9 +828,9 @@ sub CustomerSearchDetail {
     if ( IsArrayRefWithData( $Param{CustomerCompanySearchCustomerIDs} ) ) {
 
         my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
-            Key       => $Self->{CustomerID},
-            Values    => $Param{CustomerCompanySearchCustomerIDs},
-            BindMode  => 0,
+            Key      => $Self->{CustomerID},
+            Values   => $Param{CustomerCompanySearchCustomerIDs},
+            BindMode => 0,
         );
 
         push @SQLWhere, $SQLQueryInCondition;
@@ -840,10 +840,10 @@ sub CustomerSearchDetail {
     if ( IsArrayRefWithData( $Param{ExcludeUserLogins} ) ) {
 
         my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
-            Key       => $Self->{CustomerKey},
-            Values    => $Param{ExcludeUserLogins},
-            BindMode  => 0,
-            Negate    => 1,
+            Key      => $Self->{CustomerKey},
+            Values   => $Param{ExcludeUserLogins},
+            BindMode => 0,
+            Negate   => 1,
         );
 
         push @SQLWhere, $SQLQueryInCondition;
@@ -854,7 +854,8 @@ sub CustomerSearchDetail {
 
         my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
-        push @SQLWhere, "$Self->{CustomerUserMap}->{CustomerValid} IN (" . join( ', ', $ValidObject->ValidIDsGet() ) . ") ";
+        push @SQLWhere,
+            "$Self->{CustomerUserMap}->{CustomerValid} IN (" . join( ', ', $ValidObject->ValidIDsGet() ) . ") ";
     }
 
     # Check if OrderBy contains only unique valid values.

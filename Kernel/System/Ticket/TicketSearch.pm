@@ -532,7 +532,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # add ticket flag table
@@ -595,7 +595,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created types lookup
@@ -633,7 +633,7 @@ sub TicketSearch {
                 QuoteType => 'Integer',
                 BindMode  => 0,
             );
-            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+            $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
 
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
@@ -666,7 +666,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created states lookup
@@ -704,7 +704,7 @@ sub TicketSearch {
                 QuoteType => 'Integer',
                 BindMode  => 0,
             );
-            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+            $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
 
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
@@ -782,7 +782,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # current owner user ids
@@ -793,7 +793,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # current responsible user ids
@@ -804,7 +804,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created user ids
@@ -823,7 +823,7 @@ sub TicketSearch {
                 QuoteType => 'Integer',
                 BindMode  => 0,
             );
-            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+            $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
 
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
@@ -880,7 +880,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created queue lookup
@@ -918,7 +918,7 @@ sub TicketSearch {
                 QuoteType => 'Integer',
                 BindMode  => 0,
             );
-            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+            $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
 
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
@@ -1021,7 +1021,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # created priority lookup
@@ -1059,7 +1059,7 @@ sub TicketSearch {
                 QuoteType => 'Integer',
                 BindMode  => 0,
             );
-            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+            $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
 
             $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
@@ -1092,7 +1092,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # current sla lookup
@@ -1122,7 +1122,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # watch user ids
@@ -1133,7 +1133,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # add ticket flag extension
@@ -1294,7 +1294,7 @@ sub TicketSearch {
             QuoteType => 'Integer',
             BindMode  => 0,
         );
-        $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
     }
 
     # only search for attachment name if Article Storage is set to DB
@@ -1329,7 +1329,7 @@ sub TicketSearch {
                 QuoteType => 'Integer',
                 BindMode  => 0,
             );
-            $SQLExt .=  ' AND ( ' . $SQLQueryInCondition . ' ) ';
+            $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
         }
     }
 

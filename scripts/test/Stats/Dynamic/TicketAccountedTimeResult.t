@@ -31,7 +31,7 @@ my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase  => 1,
+        RestoreDatabase => 1,
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');

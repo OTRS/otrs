@@ -27,7 +27,7 @@ my @Tests = (
         QueryInCondition => {
             Key => 't.id',
         },
-        ReferenceData    => undef,
+        ReferenceData => undef,
     },
     {
         Description      => "Test QueryInCondition with some ids and quote type 'Integer' (BindMode 0)",
@@ -37,7 +37,7 @@ my @Tests = (
             QuoteType => 'Integer',
             BindMode  => 0,
         },
-        ReferenceData    => 't.id IN (1, 2, 3, 4, 6)',
+        ReferenceData => 't.id IN (1, 2, 3, 4, 6)',
     },
     {
         Description      => "Test QueryInCondition with some ids and quote type 'Integer' (BindMode 1)",
@@ -47,14 +47,14 @@ my @Tests = (
             QuoteType => 'Integer',
             BindMode  => 1,
         },
-        ReferenceData    => {
+        ReferenceData => {
             SQL    => 't.id IN (?, ?, ?, ?, ?)',
             Values => [ \1, \2, \3, \4, \6, ],
         },
     },
     {
-        Description      => "Test QueryInCondition with some ids and quote type 'Integer', but one wrong value (BindMode 0)",
-        Fails            => 1,
+        Description => "Test QueryInCondition with some ids and quote type 'Integer', but one wrong value (BindMode 0)",
+        Fails       => 1,
         QueryInCondition => {
             Key       => 't.id',
             Values    => [ 1, 2, 3, 4, 'test' ],
@@ -70,7 +70,7 @@ my @Tests = (
             QuoteType => 'Number',
             BindMode  => 0,
         },
-        ReferenceData    => 'ta.time_unit IN (1.5, 2.75, 3, 6, 444.4)',
+        ReferenceData => 'ta.time_unit IN (1.5, 2.75, 3, 6, 444.4)',
     },
     {
         Description      => "Test QueryInCondition with some numbers and quote type 'Number' (BindMode 1)",
@@ -80,7 +80,7 @@ my @Tests = (
             QuoteType => 'Number',
             BindMode  => 1,
         },
-        ReferenceData    => {
+        ReferenceData => {
             SQL    => 'ta.time_unit IN (?, ?, ?, ?, ?)',
             Values => [ \1.5, \2.75, \3, \6, \444.4, ],
         },
@@ -88,20 +88,20 @@ my @Tests = (
     {
         Description      => "Test QueryInCondition with some strings and quote type 'String' (BindMode 0)",
         QueryInCondition => {
-            Key       => 't.tn',
-            Values    => [ 'aaa', 'bbb', 'ccc', 'zzz', 'test', ],
-            BindMode  => 0,
+            Key      => 't.tn',
+            Values   => [ 'aaa', 'bbb', 'ccc', 'zzz', 'test', ],
+            BindMode => 0,
         },
-        ReferenceData    => "t.tn IN ('aaa', 'bbb', 'ccc', 'test', 'zzz')",
+        ReferenceData => "t.tn IN ('aaa', 'bbb', 'ccc', 'test', 'zzz')",
     },
     {
         Description      => "Test QueryInCondition with some strings and quote type 'String' (BindMode 1)",
         QueryInCondition => {
-            Key       => 't.tn',
-            Values    => [ 'aaa', 'bbb', 'ccc', 'test', 'zzz' ],
-            BindMode  => 1,
+            Key      => 't.tn',
+            Values   => [ 'aaa', 'bbb', 'ccc', 'test', 'zzz' ],
+            BindMode => 1,
         },
-        ReferenceData    => {
+        ReferenceData => {
             SQL    => 't.tn IN (?, ?, ?, ?, ?)',
             Values => [ \'aaa', \'bbb', \'ccc', \'test', \'zzz' ],
         },
@@ -111,7 +111,7 @@ my @Tests = (
         Fails            => 1,
         QueryInCondition => {
             Key       => 't.tn',
-            Values    => [ '*aaa*' ],
+            Values    => ['*aaa*'],
             QuoteType => 'Like',
             BindMode  => 0,
         },
@@ -120,63 +120,71 @@ my @Tests = (
         Description      => "Test QueryInCondition with 1000 ids and quote type 'Integer' (BindMode 0)",
         QueryInCondition => {
             Key       => 't.id',
-            Values    =>  [ 1..1000 ],
+            Values    => [ 1 .. 1000 ],
             QuoteType => 'Integer',
             BindMode  => 0,
         },
-        ReferenceData       => 't.id IN (' . ( join ', ', 1..1000 ) . ')',
+        ReferenceData => 't.id IN (' . ( join ', ', 1 .. 1000 ) . ')',
     },
     {
         Description      => "Test QueryInCondition with 1000 ids and quote type 'Integer' (BindMode 1)",
         QueryInCondition => {
             Key       => 't.id',
-            Values    =>  [ 1..1000 ],
+            Values    => [ 1 .. 1000 ],
             QuoteType => 'Integer',
             BindMode  => 1,
         },
-        ReferenceData    => {
-            SQL    => 't.id IN (' . ( join ', ', ('?') x 1000 ) . ')',
-            Values => [ 1..1000 ],
+        ReferenceData => {
+            SQL => 't.id IN (' . ( join ', ', ('?') x 1000 ) . ')',
+            Values => [ 1 .. 1000 ],
         },
     },
     {
         Description      => "Test QueryInCondition with over 1000 ids and quote type 'Integer' (BindMode 0)",
         QueryInCondition => {
             Key       => 't.id',
-            Values    =>  [ 1..1200 ],
+            Values    => [ 1 .. 1200 ],
             QuoteType => 'Integer',
             BindMode  => 0,
         },
-        ReferenceData       => 't.id IN (' . ( join ', ', 1..1200 ) . ')',
-        ReferenceDataOracle => '( t.id IN (' . ( join ', ', 1..1000 ) . ') OR t.id IN (' . ( join ', ', 1001..1200 ) . ') )',
+        ReferenceData => 't.id IN (' . ( join ', ', 1 .. 1200 ) . ')',
+        ReferenceDataOracle => '( t.id IN ('
+            . ( join ', ', 1 .. 1000 )
+            . ') OR t.id IN ('
+            . ( join ', ', 1001 .. 1200 ) . ') )',
     },
     {
         Description      => "Test QueryInCondition with over 1000 ids and quote type 'Integer' (BindMode 1)",
         QueryInCondition => {
             Key       => 't.id',
-            Values    =>  [ 1..1200 ],
+            Values    => [ 1 .. 1200 ],
             QuoteType => 'Integer',
             BindMode  => 1,
         },
-        ReferenceData    => {
-            SQL    => 't.id IN (' . ( join ', ', ('?') x 1200 ) . ')',
-            Values => [ 1..1200 ],
+        ReferenceData => {
+            SQL => 't.id IN (' . ( join ', ', ('?') x 1200 ) . ')',
+            Values => [ 1 .. 1200 ],
         },
-        ReferenceDataOracle    => {
-            SQL    => '( t.id IN (' . ( join ', ', ('?') x 1000 ) . ') OR t.id IN (' . ( join ', ', ('?') x 200 ) . ') )',
-            Values => [ 1..1200 ],
+        ReferenceDataOracle => {
+            SQL => '( t.id IN (' . ( join ', ', ('?') x 1000 ) . ') OR t.id IN (' . ( join ', ', ('?') x 200 ) . ') )',
+            Values => [ 1 .. 1200 ],
         },
     },
     {
         Description      => "Test QueryInCondition with 2001 ids and quote type 'Integer' (BindMode 0)",
         QueryInCondition => {
             Key       => 't.id',
-            Values    =>  [ 1..2001 ],
+            Values    => [ 1 .. 2001 ],
             QuoteType => 'Integer',
             BindMode  => 0,
         },
-        ReferenceData       => 't.id IN (' . ( join ', ', 1..2001 ) . ')',
-        ReferenceDataOracle => '( t.id IN (' . ( join ', ', 1..1000 ) . ') OR t.id IN (' . ( join ', ', 1001..2000 ) . ') OR t.id IN (' . ( join ', ', 2001..2001 ) . ') )',
+        ReferenceData => 't.id IN (' . ( join ', ', 1 .. 2001 ) . ')',
+        ReferenceDataOracle => '( t.id IN ('
+            . ( join ', ', 1 .. 1000 )
+            . ') OR t.id IN ('
+            . ( join ', ', 1001 .. 2000 )
+            . ') OR t.id IN ('
+            . ( join ', ', 2001 .. 2001 ) . ') )',
     },
 
     # Some tests for the negation.
@@ -189,7 +197,7 @@ my @Tests = (
             BindMode  => 0,
             Negate    => 1,
         },
-        ReferenceData    => 't.id NOT IN (1, 2, 3, 4, 6)',
+        ReferenceData => 't.id NOT IN (1, 2, 3, 4, 6)',
     },
     {
         Description      => "Test QueryInCondition with some ids, quote type 'Integer' and negated (BindMode 1)",
@@ -200,7 +208,7 @@ my @Tests = (
             BindMode  => 1,
             Negate    => 1,
         },
-        ReferenceData    => {
+        ReferenceData => {
             SQL    => 't.id NOT IN (?, ?, ?, ?, ?)',
             Values => [ \1, \2, \3, \4, \6, ],
         },
@@ -209,30 +217,36 @@ my @Tests = (
         Description      => "Test QueryInCondition with over 1000 ids, quote type 'Integer' and negated (BindMode 0)",
         QueryInCondition => {
             Key       => 't.id',
-            Values    =>  [ 1..1200 ],
+            Values    => [ 1 .. 1200 ],
             QuoteType => 'Integer',
             BindMode  => 0,
             Negate    => 1,
         },
-        ReferenceData       => 't.id NOT IN (' . ( join ', ', 1..1200 ) . ')',
-        ReferenceDataOracle => '( t.id NOT IN (' . ( join ', ', 1..1000 ) . ') AND t.id NOT IN (' . ( join ', ', 1001..1200 ) . ') )',
+        ReferenceData => 't.id NOT IN (' . ( join ', ', 1 .. 1200 ) . ')',
+        ReferenceDataOracle => '( t.id NOT IN ('
+            . ( join ', ', 1 .. 1000 )
+            . ') AND t.id NOT IN ('
+            . ( join ', ', 1001 .. 1200 ) . ') )',
     },
     {
         Description      => "Test QueryInCondition with over 1000 ids, quote type 'Integer' and negated (BindMode 1)",
         QueryInCondition => {
             Key       => 't.id',
-            Values    =>  [ 1..1200 ],
+            Values    => [ 1 .. 1200 ],
             QuoteType => 'Integer',
             BindMode  => 1,
             Negate    => 1,
         },
-        ReferenceData    => {
-            SQL    => 't.id NOT IN (' . ( join ', ', ('?') x 1200 ) . ')',
-            Values => [ 1..1200 ],
+        ReferenceData => {
+            SQL => 't.id NOT IN (' . ( join ', ', ('?') x 1200 ) . ')',
+            Values => [ 1 .. 1200 ],
         },
-        ReferenceDataOracle    => {
-            SQL    => '( t.id NOT IN (' . ( join ', ', ('?') x 1000 ) . ') AND t.id NOT IN (' . ( join ', ', ('?') x 200 ) . ') )',
-            Values => [ 1..1200 ],
+        ReferenceDataOracle => {
+            SQL => '( t.id NOT IN ('
+                . ( join ', ', ('?') x 1000 )
+                . ') AND t.id NOT IN ('
+                . ( join ', ', ('?') x 200 ) . ') )',
+            Values => [ 1 .. 1200 ],
         },
     },
 );
@@ -266,7 +280,7 @@ for my $Test (@Tests) {
         );
     }
 
-    if ($Test->{QueryInCondition}->{BindMode}) {
+    if ( $Test->{QueryInCondition}->{BindMode} ) {
 
         my %Result = $DBObject->QueryInCondition(
             %{ $Test->{QueryInCondition} },

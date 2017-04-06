@@ -1596,7 +1596,7 @@ sub QueryInCondition {
         return;
     }
 
-    if ( !IsArrayRefWithData($Param{Values} ) ) {
+    if ( !IsArrayRefWithData( $Param{Values} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need Values!",
@@ -1617,7 +1617,7 @@ sub QueryInCondition {
 
     # Set the flag for string because of the other handling in the sql statement with strings.
     my $IsString;
-    if (!$Param{QuoteType}) {
+    if ( !$Param{QuoteType} ) {
         $IsString = 1;
     }
 
@@ -1641,11 +1641,11 @@ sub QueryInCondition {
     }
 
     # Set the correct operator and connector (only needed for splitted conditions).
-    my $Operator = 'IN';
+    my $Operator  = 'IN';
     my $Connector = 'OR';
 
-    if ($Param{Negate}) {
-        $Operator = 'NOT IN';
+    if ( $Param{Negate} ) {
+        $Operator  = 'NOT IN';
         $Connector = 'AND';
     }
 
@@ -1665,12 +1665,12 @@ sub QueryInCondition {
         }
 
         my $ValueString;
-        if ($Param{BindMode}) {
+        if ( $Param{BindMode} ) {
             $ValueString = join ', ', ('?') x scalar @ValuesPart;
             push @BindValues, @ValuesPart;
         }
         elsif ($IsString) {
-            $ValueString = join ', ', map { "'$_'" } @ValuesPart;
+            $ValueString = join ', ', map {"'$_'"} @ValuesPart;
         }
         else {
             $ValueString = join ', ', @ValuesPart;
@@ -1679,13 +1679,13 @@ sub QueryInCondition {
         push @SQLStrings, "$Param{Key} $Operator ($ValueString)";
     }
 
-    my $SQL = join " $Connector " , @SQLStrings;
+    my $SQL = join " $Connector ", @SQLStrings;
 
     if ( scalar @SQLStrings > 1 ) {
-       $SQL = '( ' . $SQL . ' )';
+        $SQL = '( ' . $SQL . ' )';
     }
 
-    if ($Param{BindMode}) {
+    if ( $Param{BindMode} ) {
         my $BindRefList = [ map { \$_ } @BindValues ];
         return (
             'SQL'    => $SQL,

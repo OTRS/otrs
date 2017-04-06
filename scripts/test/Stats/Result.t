@@ -554,7 +554,8 @@ my @Tests = (
     # Restrictions: 'QueueIDs' to select only the created tickets for the test
     #               'StateIDsHistoric' => 'open'
     {
-        Description => "Test dynamic list stat with some columns and a restriction for 'StateIDsHistoric' (to test ticket history sql)",
+        Description =>
+            "Test dynamic list stat with some columns and a restriction for 'StateIDsHistoric' (to test ticket history sql)",
         TimeStamp   => '2015-09-11 20:00:00',
         Language    => 'en',
         StatsUpdate => {

@@ -552,9 +552,9 @@ sub CustomerCompanySearchDetail {
         if (@DynamicFieldCustomerIDs) {
 
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
-                Key       => $Self->{CustomerCompanyKey},
-                Values    => \@DynamicFieldCustomerIDs,
-                BindMode  => 0,
+                Key      => $Self->{CustomerCompanyKey},
+                Values   => \@DynamicFieldCustomerIDs,
+                BindMode => 0,
             );
 
             push @SQLWhere, $SQLQueryInCondition;
@@ -570,9 +570,9 @@ sub CustomerCompanySearchDetail {
         next FIELD if !@{ $Param{ $Field->{Name} } };
 
         my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
-            Key       => $Field->{DatabaseField},
-            Values    => $Param{ $Field->{Name} },
-            BindMode  => 0,
+            Key      => $Field->{DatabaseField},
+            Values   => $Param{ $Field->{Name} },
+            BindMode => 0,
         );
 
         push @SQLWhere, $SQLQueryInCondition;

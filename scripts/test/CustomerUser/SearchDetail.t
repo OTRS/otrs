@@ -532,7 +532,7 @@ my @SearchTests = (
         },
     },
 
-    # Nr 16 - search for customer user with the strings 'A Example text' and string 'Example text' in the text dynamic field.
+# Nr 16 - search for customer user with the strings 'A Example text' and string 'Example text' in the text dynamic field.
     {
         Description => "Search for $DynamicFields[0]->{Name} with string 'A Example text' and string 'Example text'",
         SearchData  => {
@@ -984,7 +984,7 @@ my $ReferenceCustomerUserLogins = [ $CustomerLogins[0] ];
 
 # get a ref to an array of found ids
 my $CustomerUserLogins = $CustomerUserObject->CustomerSearchDetail(
-    CustomerCompanySearchCustomerIDs => [ $CustomerCompanyID ],
+    CustomerCompanySearchCustomerIDs => [$CustomerCompanyID],
     Result                           => 'ARRAY',
     UserID                           => 1,
 );
