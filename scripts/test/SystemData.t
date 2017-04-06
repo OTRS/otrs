@@ -190,9 +190,9 @@ $Self->True(
 my $SystemDataGroupRand = 'systemdata' . int( rand(1000000) );
 
 my %Storage = (
-    Foo  => 'bar',
-    Bar  => 'baz',
-    Beef => 'spam',
+    Foo   => 'bar',
+    Bar   => 'baz',
+    Beef  => 'spam',
     Empty => '',
 );
 
