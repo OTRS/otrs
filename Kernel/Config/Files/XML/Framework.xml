@@ -915,13 +915,6 @@
             <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">21600</Item>
         </Value>
     </Setting>
-    <Setting Name="SessionActiveTime" Required="1" Valid="1">
-        <Description Translatable="1">Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).</Description>
-        <Navigation>Core::Session</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="^[3-9][0-9]{2,6}|[1-9][0-9]{3,6}$">600</Item>
-        </Value>
-    </Setting>
     <Setting Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
         <Description Translatable="1">Deletes requested sessions if they have timed out.</Description>
         <Navigation>Core::Session</Navigation>
@@ -951,35 +944,35 @@
         </Value>
     </Setting>
     <Setting Name="AgentSessionLimitPriorWarning" Required="0" Valid="0">
-        <Description Translatable="1">Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.</Description>
+        <Description Translatable="1">Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">90</Item>
         </Value>
     </Setting>
     <Setting Name="AgentSessionLimit" Required="0" Valid="1">
-        <Description Translatable="1">Sets the maximum number of active agents within the timespan defined in SessionActiveTime.</Description>
+        <Description Translatable="1">Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">100</Item>
         </Value>
     </Setting>
     <Setting Name="AgentSessionPerUserLimit" Required="0" Valid="1">
-        <Description Translatable="1">Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.</Description>
+        <Description Translatable="1">Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">20</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerSessionLimit" Required="0" Valid="1">
-        <Description Translatable="1">Sets the maximum number of active customers within the timespan defined in SessionActiveTime.</Description>
+        <Description Translatable="1">Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">100</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerSessionPerUserLimit" Required="0" Valid="1">
-        <Description Translatable="1">Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.</Description>
+        <Description Translatable="1">Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">20</Item>
