@@ -251,7 +251,7 @@ sub SystemDataGroupGet {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $Data[0] =~ s/^${Group}:://;
 
-        $Result{ $Data[0] } = $Data[1];
+        $Result{ $Data[0] } = $Data[1] // '';
     }
 
     # set cache
