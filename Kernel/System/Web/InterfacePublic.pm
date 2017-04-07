@@ -234,7 +234,7 @@ sub Run {
                 . "::-::$QueryString\n";
             close $Out;
             $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'notice',
+                Priority => 'debug',
                 Message  => 'Response::Public: '
                     . ( time() - $Self->{PerformanceLogStart} )
                     . "s taken (URL:$QueryString)",

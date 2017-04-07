@@ -1069,7 +1069,7 @@ sub Run {
                 close $Out;
 
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'notice',
+                    Priority => 'debug',
                     Message  => "Response::Agent: "
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "s taken (URL:$QueryString:$UserData{UserLogin})",
