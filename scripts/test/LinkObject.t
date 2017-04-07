@@ -2976,13 +2976,9 @@ for my $Test (@EventTypeConfigUpdate) {
     );
 
     my $LinkObject = $Kernel::OM->Get( $Test->{Backend} );
-    $Success = $LinkObject->EventTypeConfigUpdate(
-        Helper => $Helper,
-    );
-    $Self->True(
-        $Success,
-        "EventTypeConfigUpdate - $Test->{Name} - Event config updated",
-    );
+    $LinkObject->EventTypeConfigUpdate();
+
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Config'] );
 
     my $EventConfig = $ConfigObject->Get('Events')->{ $Test->{Object} };
 

@@ -650,33 +650,25 @@ sub EventTypeConfigUpdate {
     my $TicketEvents = $ConfigObject->Get('Events')->{Ticket} || [];
 
     # Add missing ticket events for all configured link object types.
+    my $TicketEventsAdded;
     for my $LinkType ( sort keys %{$LinkTypes} ) {
         for my $ObjectType (qw(Source Target)) {
             for my $EventType (qw(Add Delete)) {
                 my $Event = "Ticket${ObjectType}Link${EventType}$LinkType";
                 if ( !grep { $_ eq $Event } @{$TicketEvents} ) {
                     push @{$TicketEvents}, $Event;
+                    $TicketEventsAdded = 1;
                 }
             }
         }
     }
-
-    return if !IsArrayRefWithData($TicketEvents);
+    return if !$TicketEventsAdded;
 
     my $SettingName = 'Events###Ticket';
 
-    # If called from a unit test, use passed unit test helper object to change the settings.
-    if ( $Param{Helper} ) {
-        return $Param{Helper}->ConfigSettingChange(
-            Valid => 1,
-            Key   => $SettingName,
-            Value => $TicketEvents,
-        );
-    }
-
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    # Otherwise, retrieve the effective setting value from SysConfig.
+    # Retrieve the effective setting value from SysConfig.
     my %Setting = $SysConfigObject->SettingGet(
         Name     => $SettingName,
         Deployed => 1,
