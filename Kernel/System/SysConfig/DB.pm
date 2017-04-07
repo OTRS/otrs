@@ -60,21 +60,22 @@ sub new {
 Add a new SysConfig default entry.
 
     my $DefaultID = $SysConfigDBObject->DefaultSettingAdd(
-        Name                     => "ProductName",
-        Description              => "Defines the name of the application ...",
-        Navigation               => "ASimple::Path::Structure",
-        IsInvisible              => 1,                             # 1 or 0, optional, default 0
-        IsReadonly               => 0,                             # 1 or 0, optional, default 0
-        IsRequired               => 1,                             # 1 or 0, optional, default 0
-        IsValid                  => 1,                             # 1 or 0, optional, default 0
-        HasConfigLevel           => 200,                           # optional, default 0
-        UserModificationPossible => 0,                             # 1 or 0, optional, default 0
-        UserModificationActive   => 0,                             # 1 or 0, optional, default 0
-        UserPreferencesGroup     => 'Some Group'                   # optional
-        XMLContentRaw            => $XMLString,                    # the setting XML structure as it is on the config file
-        XMLContentParsed         => $XMLParsedToPerl,              # the setting XML structure converted into a Perl structure
-        XMLFilename              => 'Framework.xml'                # the name of the XML file
-        EffectiveValue           => $SettingEffectiveValue,        # the value as will be stored in the Perl configuration file
+        Name                     => "ProductName",                 # (required)
+        Description              => "Setting description",         # (required)
+        Navigation               => "ASimple::Path::Structure",    # (required)
+        IsInvisible              => 1,                             # (optional) 1 or 0, default 0
+        IsReadonly               => 0,                             # (optional) 1 or 0, default 0
+        IsRequired               => 1,                             # (optional) 1 or 0, default 0
+        IsValid                  => 1,                             # (optional) 1 or 0, default 0
+        HasConfigLevel           => 200,                           # (optional) default 0
+        UserModificationPossible => 0,                             # (optional) 1 or 0, default 0
+        UserModificationActive   => 0,                             # (optional) 1 or 0, default 0
+        UserPreferencesGroup     => 'Some Group'                   # (optional)
+        XMLContentRaw            => $XMLString,                    # (required) the setting XML structure as it is on the config file
+        XMLContentParsed         => $XMLParsedToPerl,              # (required) the setting XML structure converted into a Perl structure
+        XMLFilename              => 'Framework.xml'                # (required) the name of the XML file
+        EffectiveValue           => $SettingEffectiveValue,        # (required) the value as will be stored in the Perl configuration file
+        ExclusiveLockExpiryTime  => '2017-02-01 12:23:13',         # (optional) If not provided, method will calculate it.
         UserID                   => 123,
     );
 
@@ -141,12 +142,16 @@ sub DefaultSettingAdd {
     # Set is dirty as enabled due it is a new setting.
     $Param{IsDirty} = 1;
 
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    if ( !$Param{ExclusiveLockExpiryTime} ) {
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+        );
+        $DateTimeObject->Add(
+            Minutes => 5,
+        );
 
-    # Calculate lock expire time set it in 5 minutes.
-    $Param{ExclusiveLockExpiryTime} = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime() + ( 60 * 5 ),
-    );
+        $Param{ExclusiveLockExpiryTime} = $DateTimeObject->ToString();
+    }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 

@@ -2275,6 +2275,16 @@ sub ConfigurationXML2DB {
         $Self->_DBCleanUp( Settings => \%Settings );
     }
 
+    # Get current time + 5 minutes which will be used as ExclusiveLockExpiryTime for all DefaultSettingAdd() calls.
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+    );
+    $DateTimeObject->Add(
+        Minutes => 5,
+    );
+
+    my $ExclusiveLockExpiryTime = $DateTimeObject->ToString();
+
     # Create/Update settings in DB.
     SETTING:
     for my $SettingName ( sort keys %Settings ) {
@@ -2398,7 +2408,8 @@ sub ConfigurationXML2DB {
                 XMLContentParsed       => $Settings{$SettingName}->{XMLContentParsed},
                 XMLFilename            => $Settings{$SettingName}->{XMLFilename},
                 EffectiveValue         => $EffectiveValue,
-                UserID                 => $Param{UserID},
+                ExclusiveLockExpiryTime => $ExclusiveLockExpiryTime,
+                UserID                  => $Param{UserID},
             );
             if ( !$DefaultID ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
