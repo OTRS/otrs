@@ -10,6 +10,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Storable;
+
 use vars (qw($Self));
 
 # get needed objects
@@ -664,6 +666,36 @@ else {
         "XMLParse2XMLHash() - charset test - failed because example file not found",
     );
 }
+
+# test bug#[12761]
+# (https://bugs.otrs.org/show_bug.cgi?id=12761) - Cache values can be modified from the outside in function XMLParse().
+#
+$XML = '<Test Name="test123" />';
+my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
+
+# make a copy of the XMLArray (deep clone it),
+# it will be needed for a later comparison
+my @XMLARRAYCopy = @{ Storable::dclone( \@XMLARRAY ) };
+
+# check that the copy is the same as the original
+$Self->IsDeeply(
+    \@XMLARRAY,
+    \@XMLARRAYCopy,
+    '@XMLARRAY equals @XMLARRAYCopy',
+);
+
+# modify the original, this should not influence the cache of XMLParse()
+$XMLARRAY[0]->{Hello} = 'World';
+
+# create a new xml array from the same xml string than the first
+my @XMLARRAY2 = $XMLObject->XMLParse( String => $XML );
+
+# check that the new array is the same as the original copy
+$Self->IsDeeply(
+    \@XMLARRAY2,
+    \@XMLARRAYCopy,
+    '@XMLARRAY2 equals @XMLARRAYCopy',
+);
 
 # cleanup is done by RestoreDatabase
 
