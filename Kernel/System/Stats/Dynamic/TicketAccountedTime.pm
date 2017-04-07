@@ -1178,89 +1178,23 @@ sub _ReportingValues {
             return %Reporting;
         }
 
-        # get db type
-        my $DBType = $DBObject->{'DB::Type'};
-
-        # here comes a workaround for ORA-01795: maximum number of expressions in a list is 1000
-        # for oracle we make sure, that we don 't get more than 1000 ticket ids in a list
-        # so instead of "ticket_id IN ( 1, 2, 3, ... 2001 )", we are splitting this up to
-        # "ticket_id IN ( 1, 2, 3, ... 1000 ) OR ticket_id IN ( 1001, 1002, ... 2000)"
-        # see bugzilla #9723: http://bugs.otrs.org/show_bug.cgi?id=9723
-        if ( $DBType eq 'oracle' ) {
-
-            # save number of TicketIDs
-            my $TicketAmount = scalar @TicketIDs;
-
-            # init vars
-            my @TicketIDStrings;
-            my $TicktIDString   = '';
-            my $TicketIDCounter = 1;
-
-            # build array of strings with a maximum of 1000 ticket ids
-            for my $TicketID (@TicketIDs) {
-
-                # start building string
-                if ( $TicketIDCounter == 1 ) {
-                    $TicktIDString .= $TicketID;
-                }
-                else {
-                    $TicktIDString .= ', ' . $TicketID;
-                }
-
-                # at 1000 elements push them into array
-                if ( $TicketIDCounter == 1000 ) {
-
-                    # push string with maximum of 1000 values
-                    push @TicketIDStrings, $TicktIDString;
-
-                    # subtract 1000 from remaining ticket amount
-                    # we use this to push the remaining tickets
-                    $TicketAmount = $TicketAmount - 1000;
-
-                    # reset variables
-                    $TicktIDString   = '';
-                    $TicketIDCounter = 0;
-                }
-                $TicketIDCounter++;
-            }
-
-            # check if there are tickets left
-            if ($TicketAmount) {
-
-                # push remaining tickets
-                push @TicketIDStrings, $TicktIDString;
-            }
-
-            # init used vars for the following loop
-            my $TicketStringCounter = 1;
-            my $TicketString        = '';
-
-            # build sql string
-            for my $TicketIDString (@TicketIDStrings) {
-                if ( $TicketStringCounter == 1 ) {
-                    $TicketString .= "ticket_id IN ( $TicketIDString )";
-                }
-                else {
-                    $TicketString .= " OR ticket_id IN ( $TicketIDString )";
-                }
-                $TicketStringCounter++;
-            }
-
-            push @Where, $TicketString;
-        }
-        else {
-
-            # for all other databases, just join all TicketIDs in a string
-            my $TicketString = join ', ', @TicketIDs;
-            push @Where, "ticket_id IN ( $TicketString )";
-        }
+        my $SQLTicketIDInCondition = $Self->_QueryInCondition(
+            Key       => 'ticket_id',
+            Values    => \@TicketIDs,
+            QuoteType => 'Integer',
+            BindMode  => 0,
+        );
+        push @Where, $SQLTicketIDInCondition;
     }
 
     if ( $SearchAttributes->{AccountedByAgent} ) {
-        my @AccountedByAgent = map { $DBObject->Quote( $_, 'Integer' ) }
-            @{ $SearchAttributes->{AccountedByAgent} };
-        my $String = join ', ', @AccountedByAgent;
-        push @Where, "create_by IN ( $String )";
+        my $SQLAccountedByAgentInCondition = $Self->_QueryInCondition(
+            Key       => 'create_by',
+            Values    => $Param{AccountedByAgent},
+            QuoteType => 'Integer',
+            BindMode  => 0,
+        );
+        push @Where, $SQLAccountedByAgentInCondition;
     }
 
     if (
@@ -1462,6 +1396,164 @@ sub _AllowedTicketSearchAttributes {
     }
 
     return \@Attributes;
+}
+
+=item _QueryInCondition()
+
+DEPRECATED: This function will be in the DB.pm in further versions of OTRS.
+
+Generate a SQL IN condition query based on the given table key and values.
+
+    my $SQL = $DBObject->QueryInCondition(
+        Key       => 'table.column',
+        Values    => [ 1, 2, 3, 4, 5, 6 ],
+        QuoteType => '(undef|Integer|Number)',
+        BindMode  => (0|1),
+        Negate    => (0|1),
+    );
+
+Returns the SQL string:
+
+    my $SQL = "ticket_id IN (1, 2, 3, 4, 5, 6)"
+
+Return a separated IN condition for more then C<MaxParamCountForInCondition> values:
+
+    my $SQL = "( ticket_id IN ( 1, 2, 3, 4, 5, 6 ... ) OR ticket_id IN ( ... ) )"
+
+Return the SQL String with ?-values and a array with values references in bind mode:
+
+    $BindModeResult = (
+        'SQL'    => 'ticket_id IN (?, ?, ?, ?, ?, ?)',
+        'Values' => [1, 2, 3, 4, 5, 6],
+    );
+
+    or
+
+    $BindModeResult = (
+        'SQL'    => '( ticket_id IN (?, ?, ?, ?, ?, ?) OR ticket_id IN ( ?, ... ) )',
+        'Values' => [1, 2, 3, 4, 5, 6, ... ],
+    );
+
+Returns the SQL string for a negated in condition:
+
+    my $SQL = "ticket_id NOT IN (1, 2, 3, 4, 5, 6)"
+
+    or
+
+    my $SQL = "( ticket_id NOT IN ( 1, 2, 3, 4, 5, 6 ... ) AND ticket_id NOT IN ( ... ) )"
+
+=cut
+
+sub _QueryInCondition {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{Key} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Key!",
+        );
+        return;
+    }
+
+    if ( !IsArrayRefWithData( $Param{Values} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Values!",
+        );
+        return;
+    }
+
+    if ( $Param{QuoteType} && $Param{QuoteType} eq 'Like' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "QuoteType 'Like' is not allowed for 'IN' conditions!",
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    $Param{Negate}   //= 0;
+    $Param{BindMode} //= 0;
+
+    # Set the flag for string because of the other handling in the sql statement with strings.
+    my $IsString;
+    if ( !$Param{QuoteType} ) {
+        $IsString = 1;
+    }
+
+    my @Values = @{ $Param{Values} };
+
+    # Perform quoting depending on given quote type (only if not in bind mode)
+    if ( !$Param{BindMode} ) {
+
+        # Sort the values to cache the SQL query.
+        if ($IsString) {
+            @Values = sort { $a cmp $b } @Values;
+        }
+        else {
+            @Values = sort { $a <=> $b } @Values;
+        }
+
+        @Values = map { $DBObject->Quote( $_, $Param{QuoteType} ) } @Values;
+
+        # Something went wrong during the quoting, if the count is not equal.
+        return if scalar @Values != scalar @{ $Param{Values} };
+    }
+
+    # Set the correct operator and connector (only needed for splitted conditions).
+    my $Operator  = 'IN';
+    my $Connector = 'OR';
+
+    if ( $Param{Negate} ) {
+        $Operator  = 'NOT IN';
+        $Connector = 'AND';
+    }
+
+    my @SQLStrings;
+    my @BindValues;
+
+    # Split IN statement with more than 1000 elements in more statements combined with OR
+    # because Oracle doesn't support more than 1000 elements for one IN statement.
+    while ( scalar @Values ) {
+
+        my @ValuesPart;
+        if ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
+            @ValuesPart = splice @Values, 0, 1000;
+        }
+        else {
+            @ValuesPart = splice @Values;
+        }
+
+        my $ValueString;
+        if ( $Param{BindMode} ) {
+            $ValueString = join ', ', ('?') x scalar @ValuesPart;
+            push @BindValues, @ValuesPart;
+        }
+        elsif ($IsString) {
+            $ValueString = join ', ', map {"'$_'"} @ValuesPart;
+        }
+        else {
+            $ValueString = join ', ', @ValuesPart;
+        }
+
+        push @SQLStrings, "$Param{Key} $Operator ($ValueString)";
+    }
+
+    my $SQL = join " $Connector ", @SQLStrings;
+
+    if ( scalar @SQLStrings > 1 ) {
+        $SQL = '( ' . $SQL . ' )';
+    }
+
+    if ( $Param{BindMode} ) {
+        my $BindRefList = [ map { \$_ } @BindValues ];
+        return (
+            'SQL'    => $SQL,
+            'Values' => $BindRefList,
+        );
+    }
+    return $SQL;
 }
 
 1;
