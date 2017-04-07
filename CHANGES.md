@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-04-04 Added new db function 'QueryInCondition' (bug#9723).
  - 2017-03-31 Fixed bug#[8811](https://bugs.otrs.org/show_bug.cgi?id=8811) - Link screen doesn't indicate search progress in any way.
  - 2017-03-30 Fixed bug#[12696](https://bugs.otrs.org/show_bug.cgi?id=12696) - Follow-up: radio buttons were partically overlapped in mobile mode.
  - 2017-03-29 Fixed bug#[12704](https://bugs.otrs.org/show_bug.cgi?id=12704)(PR#1664) - Ticket age values in statistic export is in seconds (not human readable). Thanks to S7!
@@ -89,6 +90,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.19 2017-??-??
+ - 2017-04-07 Fixed bug#[9723](https://bugs.otrs.org/show_bug.cgi?id=9723) - TicketAccountedTime stat does not run on Oracle with many tickets.
  - 2017-04-05 Fixed bug#[12753](https://bugs.otrs.org/show_bug.cgi?id=12753) - Function "SystemDataGroupGet" has problems with empty values in oracle.
  - 2017-04-04 Fixed bug#[12627](https://bugs.otrs.org/show_bug.cgi?id=12627) - ACL value with brackets is not shown in ACL Editor.
  - 2017-04-04 Follow-up fix for bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
