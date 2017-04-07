@@ -1652,8 +1652,9 @@ sub QueryInCondition {
     my @SQLStrings;
     my @BindValues;
 
-    # Split IN statement with more than 900 elements in more statements combined with OR
-    # because Oracle doesn't support more than 1000 elements for one IN statement.
+    # Split IN statement with more than the defined 'MaxParamCountForInCondition' elements in more
+    # then one statements combined with OR, because some databases e.g. oracle doesn't support more
+    # than 1000 elements for one IN statement.
     while ( scalar @Values ) {
 
         my @ValuesPart;
