@@ -22,6 +22,7 @@ use Kernel::System::UnitTest::Helper;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::AuthSession',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Time',
@@ -536,6 +537,9 @@ sub DEMOLISH {
             File::Path::remove_tree($LeftoverFirefoxProfile);
         }
     }
+
+    # Cleanup all created sessions.
+    $Kernel::OM->Get('Kernel::System::AuthSession')->CleanUp();
 }
 
 1;
