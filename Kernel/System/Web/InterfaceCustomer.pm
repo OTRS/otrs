@@ -1239,7 +1239,7 @@ sub Run {
                     . "::$UserData{UserLogin}::$QueryString\n";
                 close $Out;
                 $Self->{LogObject}->Log(
-                    Priority => 'notice',
+                    Priority => 'debug',
                     Message  => 'Response::Customer: '
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "s taken (URL:$QueryString:$UserData{UserLogin})",

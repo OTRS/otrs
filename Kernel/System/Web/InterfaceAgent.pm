@@ -1015,7 +1015,7 @@ sub Run {
                 close $Out;
 
                 $Self->{LogObject}->Log(
-                    Priority => 'notice',
+                    Priority => 'debug',
                     Message  => "Response::Agent: "
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "s taken (URL:$QueryString:$UserData{UserLogin})",
