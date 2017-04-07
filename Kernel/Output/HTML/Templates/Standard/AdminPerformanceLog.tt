@@ -64,7 +64,7 @@
                         <p class="FieldExplanation">
                             [% Translate("Just use this feature if you want to log each request.") | html %]
                         </p>
-                        <p class="Error">
+                        <p class="FieldExplanation">
                             [% Translate("Activating this feature might affect your system performance!") | html %]
                         </p>
                         <div class="Field SpacingTop">
@@ -88,7 +88,7 @@
                         <p class="FieldExplanation">
                             [% Translate("Just use this feature if you want to log each request.") | html %]
                         </p>
-                        <p class="Error">
+                        <p class="FieldExplanation">
                             [% Translate("Activating this feature might affect your system performance!") | html %]
                         </p>
                         <div class="Field SpacingTop">
