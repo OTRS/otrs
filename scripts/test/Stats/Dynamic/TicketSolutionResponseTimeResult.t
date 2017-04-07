@@ -251,11 +251,11 @@ my @Tests = (
     # Test with a relative time period and without a defined time zone
     # Fixed TimeStamp: '2014-10-15 12:00:00'
     # TimeZone: -
-    # X-Axis: 'CreateTime' with a relative period 'the last complete 5 days' and 'scale 1 day'.
+    # X-Axis: 'KindsOfReporting' with all values.
     # Y-Axis: 'QueueIDs' to select only the created tickets for the test.
     # Restrictions: -
     {
-        Description => 'Test stat without a time zone (last complete 5 days and scale 1 day)',
+        Description => 'Test stat without a time zone (KindsOfReporting with all values).',
         TimeStamp   => '2014-10-15 12:00:00',
         StatsUpdate => {
             StatID => $TicketSolutionResponseTimeStatID,
