@@ -101,13 +101,13 @@ for my $SQL (@SQL) {
 @SQL = $DBObject->SQLProcessorPost();
 $Self->True(
     $SQL[0],
-    'SQLProcessorPost() ALTER TABLE',
+    'SQLProcessorPost() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
     $Self->True(
         $DBObject->Do( SQL => $SQL ) || 0,
-        "Do() ALTER TABLE ($SQL)",
+        "Do() CREATE TABLE ($SQL)",
     );
 }
 
