@@ -64,22 +64,6 @@ $Self->IsDeeply(
     '@XMLARRAY equals @XMLARRAYCopy',
 );
 
-# drop table
-$XML = '<TableDrop Name="test_a"/>';
-@XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQLARRAY  = $DBObject->SQLProcessor( Database => \@XMLARRAY );
-$Self->True(
-    $SQLARRAY[0],
-    'SQLProcessor() DROP TABLE',
-);
-
-for my $SQL (@SQLARRAY) {
-    $Self->True(
-        $DBObject->Do( SQL => $SQL ) || 0,
-        "Do() DROP TABLE ($SQL)",
-    );
-}
-
 # cleanup cache is done by RestoreDatabase.
 
 1;
