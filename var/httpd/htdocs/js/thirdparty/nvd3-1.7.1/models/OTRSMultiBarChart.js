@@ -34,7 +34,12 @@ nv.models.OTRSmultiBarChart = function() {
         , y //can be accessed via chart.yScale()
         , state = nv.utils.state()
         , defaultState = null
+// ---
+// OTRS
+// ---
+//        , noData = "No Data Available."
         , noData = Core.Config.Get('NoDataAvailable')
+// ---
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd')
 // ---
 // OTRS
@@ -216,8 +221,14 @@ nv.models.OTRSmultiBarChart = function() {
             // Controls
             if (showControls) {
                 var controlsData = [
+// ---
+// OTRS
+// ---
+//                    { key: controlLabels.grouped || 'Grouped', disabled: multibar.stacked() },
+//                    { key: controlLabels.stacked || 'Stacked', disabled: !multibar.stacked() }
                     { key: controlLabels.grouped || Core.Config.Get('Grouped') || 'Grouped', disabled: multibar.stacked() },
                     { key: controlLabels.stacked || Core.Config.Get('Stacked') || 'Stacked', disabled: !multibar.stacked() }
+// ---
                 ];
 
                 controls.width(controlWidth()).color(['#444', '#444', '#444']);
@@ -334,10 +345,20 @@ nv.models.OTRSmultiBarChart = function() {
                 d.disabled = false;
 
                 switch (d.key) {
+// ---
+// OTRS
+// ---
+//                    case 'Grouped':
                     case Core.Config.Get('Grouped') || 'Grouped':
+// ---
                         multibar.stacked(false);
                         break;
-                    case Core.Config.Get('Grouped') || 'Stacked':
+// ---
+// OTRS
+// ---
+//                    case 'Stacked':
+                    case Core.Config.Get('Stacked') || 'Stacked':
+// ---
                         multibar.stacked(true);
                         break;
                 }

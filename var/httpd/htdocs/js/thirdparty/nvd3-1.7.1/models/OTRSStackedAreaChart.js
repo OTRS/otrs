@@ -39,13 +39,18 @@ nv.models.OTRSstackedAreaChart = function() {
         , yAxisTickFormat = d3.format(',.2f')
         , state = nv.utils.state()
         , defaultState = null
+// ---
+// OTRS
+// ---
+//        , noData = "No Data Available."
         , noData = Core.Config.Get('NoDataAvailable')
+// ---
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState','renderEnd')
         , controlWidth = 250
 // ---
 // OTRS
 // ---
-//    , cData = ['Stacked','Stream','Expanded']
+//        , cData = ['Stacked','Stream','Expanded']
         , cData = [ Core.Config.Get('Stacked') || 'Stacked', Core.Config.Get('Stream') || 'Stream', Core.Config.Get('Expanded') || 'Expanded' ]
 // ---
         , controlLabels = {}
@@ -197,20 +202,38 @@ nv.models.OTRSstackedAreaChart = function() {
             if (showControls) {
                 var controlsData = [
                     {
+// ---
+// OTRS
+// ---
+//                        key: controlLabels.stacked || 'Stacked',
+//                        metaKey: 'Stacked',
                         key: controlLabels.stacked || Core.Config.Get('Stacked') || 'Stacked',
                         metaKey: Core.Config.Get('Stacked') || 'Stacked',
+// ---
                         disabled: stacked.style() != 'stack',
                         style: 'stack'
                     },
                     {
+// ---
+// OTRS
+// ---
+//                        key: controlLabels.stream || 'Stream',
+//                        metaKey: 'Stream',
                         key: controlLabels.stream || Core.Config.Get('Stream') || 'Stream',
                         metaKey: Core.Config.Get('Stream') || 'Stream',
+// ---
                         disabled: stacked.style() != 'stream',
                         style: 'stream'
                     },
                     {
+// ---
+// OTRS
+// ---
+//                        key: controlLabels.expanded || 'Expanded',
+//                        metaKey: 'Expanded',
                         key: controlLabels.expanded || Core.Config.Get('Expanded') || 'Expanded',
                         metaKey: Core.Config.Get('Expanded') || 'Expanded',
+// ---
                         disabled: stacked.style() != 'expand',
                         style: 'expand'
                     },
