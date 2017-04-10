@@ -1,0 +1,85 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+use strict;
+use warnings;
+use utf8;
+
+use Storable;
+
+use vars (qw($Self));
+
+# get needed objects
+my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# -------------------------------------------------------------------------------------------- #
+# Test creating a table with a column that needs data type translation in the DB drivers
+# -------------------------------------------------------------------------------------------- #
+my $XML = '
+<Table Name="test_a">
+    <Column Name="time_unit" Required="true" Size="10,2" Type="DECIMAL"/>
+</Table>
+';
+my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
+
+# make a copy of the XMLArray (deep clone it),
+# it will be needed for a later comparison
+my @XMLARRAYCopy = @{ Storable::dclone( \@XMLARRAY ) };
+
+# check that the copy is the same as the original
+$Self->IsDeeply(
+    \@XMLARRAY,
+    \@XMLARRAYCopy,
+    '@XMLARRAY equals @XMLARRAYCopy',
+);
+
+# create the SQL from the XMLArray
+# the function SQLProcessor MUST NOT modify the given array reference
+# see also Bug#12764 - Database function SQLProcessor() modifies given parameter data
+# https://bugs.otrs.org/show_bug.cgi?id=12764
+my @SQLARRAY = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQLARRAY[0],
+    'SQLProcessor() CREATE TABLE',
+);
+
+# check that the copy is STILL the same as the original
+$Self->IsDeeply(
+    \@XMLARRAY,
+    \@XMLARRAYCopy,
+    '@XMLARRAY equals @XMLARRAYCopy',
+);
+
+# drop table
+$XML = '<TableDrop Name="test_a"/>';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQLARRAY  = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQLARRAY[0],
+    'SQLProcessor() DROP TABLE',
+);
+
+for my $SQL (@SQLARRAY) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "Do() DROP TABLE ($SQL)",
+    );
+}
+
+# cleanup cache is done by RestoreDatabase.
+
+1;

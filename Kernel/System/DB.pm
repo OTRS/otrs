@@ -14,6 +14,7 @@ use warnings;
 
 use DBI;
 use List::Util();
+use Storable;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -935,8 +936,13 @@ sub SQLProcessor {
     my @SQL;
     if ( $Param{Database} && ref $Param{Database} eq 'ARRAY' ) {
 
+        # make a deep copy in order to prevent modyfing the input data
+        # see also Bug#12764 - Database function SQLProcessor() modifies given parameter data
+        # https://bugs.otrs.org/show_bug.cgi?id=12764
+        my @Database = @{ Storable::dclone( $Param{Database} ) };
+
         my @Table;
-        for my $Tag ( @{ $Param{Database} } ) {
+        for my $Tag ( @Database ) {
 
             # create table
             if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
