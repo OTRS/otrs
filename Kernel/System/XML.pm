@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use Digest::MD5;
-use Storable;
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -762,12 +761,12 @@ sub XMLParse {
     # check cache
     if ($Checksum) {
         my $Cache = $CacheObject->Get(
-            Type => 'XMLParse',
-            Key  => $Checksum,
+            Type          => 'XMLParse',
+            Key           => $Checksum,
+            CacheInMemory => 0,
         );
 
-        # return a clone of the cache, as the caller should not be able to change the cache
-        return @{ Storable::dclone($Cache) } if $Cache;
+        return @{$Cache} if $Cache;
     }
 
     # cleanup global vars
@@ -850,14 +849,15 @@ sub XMLParse {
     # set cache
     if ($Checksum) {
         $CacheObject->Set(
-            Type  => 'XMLParse',
-            Key   => $Checksum,
-            Value => $Self->{XMLARRAY},
-            TTL   => 30 * 24 * 60 * 60,
+            Type          => 'XMLParse',
+            Key           => $Checksum,
+            Value         => $Self->{XMLARRAY},
+            TTL           => 30 * 24 * 60 * 60,
+            CacheInMemory => 0,
         );
     }
 
-    return @{ Storable::dclone( $Self->{XMLARRAY} ) };
+    return @{ $Self->{XMLARRAY} };
 }
 
 =begin Internal:
